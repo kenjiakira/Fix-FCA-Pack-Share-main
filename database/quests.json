@@ -1,0 +1,28 @@
+{
+  "dailyQuests": {
+    "play_games": {
+      "name": "Chơi game",
+      "description": "Chơi các mini-game 5 lần",
+      "target": 5,
+      "reward": 10000
+    },
+    "win_games": {
+      "name": "Thắng cuộc",
+      "description": "Thắng 3 ván game bất kỳ",
+      "target": 3,
+      "reward": 20000
+    },
+    "play_bctc": {
+      "name": "chơi bầu cua",
+      "description": "Chơi bầu cua 10 lần",
+      "target": 10,
+      "reward": 30000
+    },
+    "win_bctc": {
+      "name": "Thần bầu cua",
+      "description": "Thắng bầu cua 5 lần",
+      "target": 5,
+      "reward": 50000
+    }
+  }
+}

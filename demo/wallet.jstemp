@@ -1,0 +1,19 @@
+const { createWallet, getCoinBalance } = require('../utils/coinSystem.jstemp');
+
+module.exports = {
+    name: "wallet",
+    info: "Tạo ví và xem số dư coin của bạn",
+    dev: "HNT",
+    onPrefix: true,
+    dmUser: false,
+    usages: "!wallet",
+    cooldowns: 10,
+    onLaunch: async function ({ api, event, actions }) {
+        const userID = event.senderID;
+
+        const walletAddress = createWallet(userID);  
+        const balance = getCoinBalance(userID);
+
+        await actions.reply(`Địa chỉ ví của bạn là: ${walletAddress}\nSố dư coin của bạn là: ${balance} coin.`);
+    }
+};

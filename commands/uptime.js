@@ -1,0 +1,184 @@
+const os = require('os');
+const { exec } = require('child_process');
+const util = require('util');
+const fs = require('fs');
+const disk = require('diskusage');
+const execPromise = util.promisify(exec);
+
+const threadsDB = JSON.parse(fs.readFileSync("./database/threads.json", "utf8") || "{}");
+const usersDB = JSON.parse(fs.readFileSync("./database/users.json", "utf8") || "{}");
+
+const botStartTime = Date.now();
+
+module.exports = {
+    name: "uptime",
+    usedby: 0,
+    info: "Xem thời gian bot đã online và thông tin hệ thống.",
+    dev: "HNT",
+    onPrefix: false,
+    dmUser: false,
+    nickName: ["uptime", "upt"],
+    usages: "uptime",
+    cooldowns: 10,
+
+    onLaunch: async function ({ event, actions }) {
+        const { threadID, messageID } = event;
+
+        const userCount = Object.keys(usersDB).length;
+        const threadCount = Object.keys(threadsDB).length;
+
+        const replyMessage = await actions.reply("Đang tải dữ liệu.......");
+        await sleep(3000);
+
+        let currentTime = Date.now();
+        let uptime = currentTime - botStartTime;
+        let seconds = Math.floor((uptime / 1000) % 60);
+        let minutes = Math.floor((uptime / (1000 * 60)) % 60);
+        let hours = Math.floor((uptime / (1000 * 60 * 60)) % 24);
+        let days = Math.floor(uptime / (1000 * 60 * 60 * 24));
+
+        const ping = await getPing();
+        const systemInfo = await getSystemInfo();
+        const nodeVersion = await getNodeVersion();
+        const systemUptime = await getSystemUptime();
+
+        let uptimeMessage = `⚡ BOT SYSTEM MONITOR ⚡\n`;
+        uptimeMessage += `══════════════════\n`;
+        uptimeMessage += `🤖 Bot Status\n`;
+        uptimeMessage += `▸ Online: ${days}d ${hours}h ${minutes}m ${seconds}s\n`;
+        uptimeMessage += `▸ Users: ${userCount} | Groups: ${threadCount}\n`;
+        uptimeMessage += `▸ Ping: ${ping}\n`;
+        uptimeMessage += `══════════════════\n`;
+        uptimeMessage += `💻 System Info\n`;
+        uptimeMessage += `▸ OS: ${systemInfo.platform} ${systemInfo.arch}\n`;
+        uptimeMessage += `▸ Hostname: ${systemInfo.hostname}\n`;
+        uptimeMessage += `▸ Uptime: ${systemUptime}\n`;
+        uptimeMessage += `▸ Load Average: ${systemInfo.loadAverage}\n`;
+        uptimeMessage += `══════════════════\n`;
+        uptimeMessage += `🔧 Resources\n`;
+        uptimeMessage += `▸ CPU: ${systemInfo.cpuUsage}% | ${systemInfo.cpuModel}\n`;
+        uptimeMessage += `▸ RAM: ${systemInfo.usedMemory}/${systemInfo.totalMemory}GB (${systemInfo.memoryUsagePercent}%)\n`;
+        uptimeMessage += `▸ Disk: ${systemInfo.usedDisk}/${systemInfo.totalDisk}GB\n`;
+        uptimeMessage += `══════════════════\n`;
+        uptimeMessage += `📊 Process Info\n`;
+        uptimeMessage += `▸ Node.js: ${nodeVersion}\n`;
+        uptimeMessage += `▸ Heap: ${systemInfo.processMemory.heapUsed}/${systemInfo.processMemory.heapTotal}MB\n`;
+        uptimeMessage += `▸ RSS: ${systemInfo.processMemory.rss}MB\n`;
+        uptimeMessage += `▸ Network: ${systemInfo.networkInfo}\n`;
+
+        await actions.edit(uptimeMessage, replyMessage.messageID);
+    }
+};
+
+async function getPing() {
+    try {
+        const isWindows = os.platform() === 'win32';
+        const pingCommand = isWindows ? 'ping -n 1 google.com' : 'ping -c 1 google.com';
+        const { stdout } = await execPromise(pingCommand);
+        const match = stdout.match(isWindows ? /time=(\d+)ms/ : /time=(\d+\.\d+) ms/);
+        return match ? `${match[1]} ms` : 'N/A';
+    } catch {
+        return 'N/A';
+    }
+}
+
+function sleep(ms) {
+    return new Promise(resolve => setTimeout(resolve, ms));
+}
+
+async function getCPUUsage() {
+    return new Promise((resolve) => {
+        const startMeasure = getCPUTimes();
+        setTimeout(() => {
+            const endMeasure = getCPUTimes();
+            const idleDifference = endMeasure.idle - startMeasure.idle;
+            const totalDifference = endMeasure.total - startMeasure.total;
+            const cpuUsage = (1 - idleDifference / totalDifference) * 100;
+            resolve(cpuUsage.toFixed(2));
+        }, 1000);
+    });
+}
+
+function getCPUTimes() {
+    const cpus = os.cpus();
+    let idle = 0, total = 0;
+
+    for (const cpu of cpus) {
+        for (const type in cpu.times) {
+            total += cpu.times[type];
+        }
+        idle += cpu.times.idle;
+    }
+
+    return { idle, total };
+}
+
+async function getDiskInfo() {
+    try {
+        const { available, total } = await disk.check('/');
+        return {
+            totalDisk: (total / (1024 ** 3)).toFixed(2),
+            freeDisk: (available / (1024 ** 3)).toFixed(2),
+            usedDisk: ((total - available) / (1024 ** 3)).toFixed(2)
+        };
+    } catch {
+        return { totalDisk: 'N/A', freeDisk: 'N/A', usedDisk: 'N/A' };
+    }
+}
+
+async function getSystemInfo() {
+    const platform = os.platform();
+    const release = os.release();
+    const arch = os.arch();
+    const hostname = os.hostname();
+    const cpuModel = os.cpus()[0].model;
+    const coreCount = os.cpus().length;
+    const cpuSpeed = os.cpus()[0].speed;
+    const totalMemory = (os.totalmem() / (1024 * 1024 * 1024)).toFixed(2);
+    const freeMemory = (os.freemem() / (1024 * 1024 * 1024)).toFixed(2);
+    const usedMemory = (totalMemory - freeMemory).toFixed(2);
+    const memoryUsagePercent = ((usedMemory / totalMemory) * 100).toFixed(1);
+    const cpuUsage = await getCPUUsage();
+    const diskInfo = await getDiskInfo();
+    const loadAvg = os.loadavg();
+    const networkInterfaces = os.networkInterfaces();
+    const processMemoryUsage = process.memoryUsage();
+    
+    // Get network info
+    const networkInfo = Object.entries(networkInterfaces)
+        .filter(([_, interfaces]) => interfaces.some(i => !i.internal))
+        .map(([name, interfaces]) => {
+            const interface = interfaces.find(i => !i.internal);
+            return `${name}: ${interface.address}`;
+        }).join(', ');
+
+    return {
+        platform, release, arch, hostname, cpuModel, coreCount, cpuSpeed,
+        totalMemory, freeMemory, usedMemory, cpuUsage, memoryUsagePercent,
+        networkInfo,
+        loadAverage: loadAvg[0].toFixed(2),
+        processMemory: {
+            heapUsed: (processMemoryUsage.heapUsed / 1024 / 1024).toFixed(2),
+            heapTotal: (processMemoryUsage.heapTotal / 1024 / 1024).toFixed(2),
+            rss: (processMemoryUsage.rss / 1024 / 1024).toFixed(2)
+        },
+        ...diskInfo 
+    };
+}
+
+async function getNodeVersion() {
+    try {
+        const { stdout } = await execPromise('node -v');
+        return stdout.trim();
+    } catch {
+        return 'N/A';
+    }
+}
+
+async function getSystemUptime() {
+    const sysUptimeDays = Math.floor(os.uptime() / (60 * 60 * 24));
+    const sysUptimeHours = Math.floor((os.uptime() % (60 * 60 * 24)) / (60 * 60));
+    const sysUptimeMinutes = Math.floor((os.uptime() % (60 * 60)) / 60);
+    const sysUptimeSeconds = Math.floor(os.uptime() % 60);
+    return `${sysUptimeDays} ngày, ${sysUptimeHours} giờ, ${sysUptimeMinutes} phút, ${sysUptimeSeconds} giây`;
+}
