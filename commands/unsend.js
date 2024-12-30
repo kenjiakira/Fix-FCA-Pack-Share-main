@@ -39,7 +39,7 @@
         await api.unsendMessage(event.messageReply.messageID);
   
         const successMsg = await api.sendMessage("✅ Đã xóa tin nhắn thành công!", event.threadID);
-        setTimeout(() => api.unsendMessage(successMsg.messageID), 5000);
+        setTimeout(() => api.unsendMessage(successMsg.messageID), 5000) ;
 
       } catch (error) {
         console.error("Unsend error:", error);

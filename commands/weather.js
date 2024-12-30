@@ -1,6 +1,7 @@
 const axios = require('axios');
 
 const API_KEY = '1230a8fdc6457603234c68ead5f3f967';
+const AQI_TOKEN = '89b684e6ca5fe304f9385518cdcb07807f11fd4a'; 
 
 module.exports = {
     name: "weather",
@@ -10,9 +11,9 @@ module.exports = {
     onPrefix: true,
     dmUser: false,
     nickName: ["weather", "forecast", "timeweather", "thoitiet"],
-    usages: "weather [tên thành phố]\n\n" +
+    usages: "weather [options] [tên thành phố]\n\n" +
             "Hướng dẫn sử dụng:\n" +
-            "- `weather [tên thành phố]`: Xem thời tiết của thành phố cụ thể\n" +
+            "- `weather [tên thành phố]`: Xem thời tiết cơ bản và chất lượng không khí kèm dự báo\n" +
             "- `weather`: Xem thời tiết của vị trí hiện tại\n" +
             "- Ví dụ: weather Hanoi, weather Tokyo",
     cooldowns: 5,
@@ -20,50 +21,43 @@ module.exports = {
     onLaunch: async function ({ api, event, target }) {
         const { threadID, messageID } = event;
         let cityName;
-        
+
         if (!Array.isArray(target) || target.length === 0) {
-            return await api.sendMessage("❎ Vui lòng nhập tên thành phố (VD: weather Hanoi)\n💡 Lưu ý: Có thể dùng tên tiếng Việt hoặc tiếng Anh", threadID, messageID);
+            try {
+                const ipResponse = await axios.get('https://ipapi.co/json/');
+                cityName = ipResponse.data.city;
+            } catch (error) {   
+                return await api.sendMessage("❎ Vui lòng nhập tên thành phố", threadID, messageID);
+            }
         } else {
             cityName = target.join(' ');
         }
 
         try {
-            const response = await axios.get(`https://api.openweathermap.org/data/2.5/weather?q=${cityName}&appid=${API_KEY}&units=metric&lang=vi`);
-            const weatherData = response.data;
+            const weatherResponse = await axios.get(`https://api.openweathermap.org/data/2.5/weather?q=${cityName}&appid=${API_KEY}&units=metric&lang=vi`);
+            const weatherData = weatherResponse.data;
 
             if (weatherData.cod !== 200) {
                 return await api.sendMessage(`⚠️ Lỗi: Không tìm thấy thành phố "${cityName}"`, threadID, messageID);
             }
 
-            const {
-                main: { temp, feels_like, temp_min, temp_max, humidity, pressure },
-                wind: { speed },
-                weather: [{ description }],
-                name: city,
-                sys: { country },
-                coord: { lat, lon },
-                visibility,
-                clouds: { all: clouds }
-            } = weatherData;
+            let messageBody = `🌍 THỜI TIẾT TẠI ${weatherData.name.toUpperCase()}, ${weatherData.sys.country}\n\n`;
+            messageBody += getBasicWeatherInfo(weatherData);
+            
+            const aqiData = await getAQIData(weatherData.coord.lat, weatherData.coord.lon);
+            messageBody += `\n${aqiData}`;
 
-            const messageBody = `🌍 THỜI TIẾT TẠI ${city.toUpperCase()}, ${country}\n\n` +
-                              `🌡️ Nhiệt độ: ${temp}°C\n` +
-                              `↗️ Cao nhất: ${temp_max}°C\n` +
-                              `↘️ Thấp nhất: ${temp_min}°C\n` +
-                              `🤔 Cảm giác như: ${feels_like}°C\n` +
-                              `💧 Độ ẩm: ${humidity}%\n` +
-                              `🌪️ Áp suất: ${pressure} hPa\n` +
-                              `🌬️ Tốc độ gió: ${speed} m/s\n` +
-                              `☁️ Mây che phủ: ${clouds}%\n` +
-                              `👀 Tầm nhìn: ${visibility/1000} km\n` +
-                              `📝 Tình trạng: ${description}\n\n` +
-                              `🗺️ Vị trí: ${lat}°B, ${lon}°Đ`;
+            const forecastData = await getForecastData(cityName);
+            messageBody += `\n${forecastData}`;
+
+            const alerts = await getWeatherAlerts(weatherData.coord.lat, weatherData.coord.lon);
+            if (alerts) messageBody += `\n${alerts}`;
 
             return await api.sendMessage({
                 body: messageBody,
                 location: {
-                    latitude: lat,
-                    longitude: lon,
+                    latitude: weatherData.coord.lat,
+                    longitude: weatherData.coord.lon,
                     current: true
                 }
             }, threadID, messageID);
@@ -77,3 +71,74 @@ module.exports = {
         }
     }
 };
+
+function getBasicWeatherInfo(data) {
+    const windDirection = getWindDirection(data.wind.deg);
+    return `🌡️ Nhiệt độ: ${data.main.temp}°C\n` +
+           `↗️ Cao nhất: ${data.main.temp_max}°C\n` +
+           `↘️ Thấp nhất: ${data.main.temp_min}°C\n` +
+           `🤔 Cảm giác như: ${data.main.feels_like}°C\n` +
+           `💧 Độ ẩm: ${data.main.humidity}%\n` +
+           `🌪️ Áp suất: ${data.main.pressure} hPa\n` +
+           `🌬️ Gió: ${data.wind.speed} m/s - ${windDirection}\n` +
+           `☁️ Mây che phủ: ${data.clouds.all}%\n` +
+           `👀 Tầm nhìn: ${data.visibility/1000} km\n` +
+           `📝 Tình trạng: ${data.weather[0].description}`;
+}
+
+async function getAQIData(lat, lon) {
+    try {
+        const response = await axios.get(`https://api.waqi.info/feed/geo:${lat};${lon}/?token=${AQI_TOKEN}`);
+        const aqi = response.data.data.aqi;
+        return `\n🌫️ Chất lượng không khí (AQI): ${aqi} - ${getAQILevel(aqi)}`;
+    } catch (error) {
+        return '\n⚠️ Không thể lấy thông tin chất lượng không khí';
+    }
+}
+
+async function getForecastData(city) {
+    try {
+        const response = await axios.get(`https://api.openweathermap.org/data/2.5/forecast?q=${city}&appid=${API_KEY}&units=metric&lang=vi`);
+        return formatForecast(response.data.list);
+    } catch (error) {
+        return '\n⚠️ Không thể lấy dự báo thời tiết';
+    }
+}
+
+async function getWeatherAlerts(lat, lon) {
+    try {
+        const response = await axios.get(`https://api.openweathermap.org/data/2.5/onecall?lat=${lat}&lon=${lon}&exclude=current,minutely,hourly,daily&appid=${API_KEY}`);
+        if (response.data.alerts && response.data.alerts.length > 0) {
+            return `\n⚠️ CẢNH BÁO: ${response.data.alerts[0].event}`;
+        }
+        return '';
+    } catch (error) {
+        return '';
+    }
+}
+
+function getWindDirection(degrees) {
+    const directions = ['Bắc', 'Đông Bắc', 'Đông', 'Đông Nam', 'Nam', 'Tây Nam', 'Tây', 'Tây Bắc'];
+    return directions[Math.round(degrees / 45) % 8];
+}
+
+function getAQILevel(aqi) {
+    if (aqi <= 50) return 'Tốt';
+    if (aqi <= 100) return 'Trung bình';
+    if (aqi <= 150) return 'Không tốt cho nhóm nhạy cảm';
+    if (aqi <= 200) return 'Không tốt';
+    if (aqi <= 300) return 'Rất không tốt';
+    return 'Nguy hiểm';
+}
+
+function formatForecast(list) {
+    let forecast = '\n\n📅 DỰ BÁO 5 NGÀY TỚI:';
+    const dailyForecasts = list.filter((item, index) => index % 8 === 0).slice(0, 5);
+    
+    dailyForecasts.forEach(day => {
+        const date = new Date(day.dt * 1000);
+        forecast += `\n${date.toLocaleDateString('vi-VN')}: ${day.main.temp}°C - ${day.weather[0].description}`;
+    });
+    
+    return forecast;
+}

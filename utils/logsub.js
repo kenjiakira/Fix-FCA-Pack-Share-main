@@ -1,6 +1,7 @@
 const fs = require('fs');
 const path = require('path');
 const axios = require('axios');
+const { handleNewMember } = require('../commands/setname');
 
 async function sendWelcomeMessage(api, threadID, userName, threadName, memberNumber) {
     try {
@@ -101,6 +102,11 @@ const handleLogSubscribe = async (api, event, adminConfig) => {
             const memberNumber = participantIDs.length;
 
             await sendWelcomeMessage(api, threadID, userName, threadName, memberNumber);
+
+            await handleNewMember(api, {
+                threadID: threadID,
+                participantIDs: [userID]
+            });
         }
     } catch (error) {
         console.error("Lỗi trong handleLogSubscribe:", error);

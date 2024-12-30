@@ -29,7 +29,7 @@ module.exports = {
         }
 
         try {
-           a
+           
             const anime = await getInfoFromName(query);
             if (!anime) throw new Error("Không tìm thấy thông tin anime này");
 

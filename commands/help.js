@@ -65,6 +65,7 @@ module.exports = {
             helpMessage += `⌬ Trang: ${page}/${totalPages}\n`;
             helpMessage += `⌬ Tổng lệnh: ${totalCommands}\n`;
             helpMessage += `⌬ Hướng dẫn: ${adminConfig.prefix}help <số trang>\n`;
+            helpMessage += `⌬ Xem toàn bộ: ${adminConfig.prefix}help all\n`;
             helpMessage += `⌬ Developer: ${adminConfig.ownerName}`;
             return api.sendMessage(helpMessage, event.threadID, event.messageID);
         }

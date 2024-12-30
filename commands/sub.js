@@ -13,8 +13,18 @@ module.exports = {
 
     onLaunch: async ({ api, event, target, prefix }) => {
         const threadID = event.threadID;
+        const senderID = event.senderID;
         const configPath = path.join(__dirname, '../database/threadSettings.json');
+        const adminConfig = JSON.parse(fs.readFileSync(path.join(__dirname, '../admin.json'), 'utf8'));
+        const isAdmin = adminConfig.adminUIDs.includes(senderID);
         
+        let targetThreadID = threadID;
+        
+        if (isAdmin && target[0] === "thread" && target[1]) {
+            targetThreadID = target[1];
+            target = target.slice(2); 
+        }
+
         let settings = {};
         try {
             if (fs.existsSync(configPath)) {
@@ -24,8 +34,8 @@ module.exports = {
             console.error("Error loading settings:", err);
         }
 
-        if (!settings[threadID]) {
-            settings[threadID] = {
+        if (!settings[targetThreadID]) {
+            settings[targetThreadID] = {
                 notifications: true,
                 welcomeMessage: "🎉 Xin chào {userName}!\nChào mừng bạn đến với nhóm \"{threadName}\"!\nBạn là thành viên thứ {memberNumber} của nhóm này.",
                 leaveMessage: "👋 {userName} {actionType}.\n👥 Thành viên còn lại: {memberCount}"
@@ -37,31 +47,37 @@ module.exports = {
         };
 
         if (!target[0]) {
-            return api.sendMessage(
-                `📝 Hướng dẫn sử dụng:\n` +
+            let helpMessage = `📝 Hướng dẫn sử dụng:\n` +
                 `\n1. Bật/tắt thông báo:` +
                 `\n${prefix}sub on - Bật thông báo` +
                 `\n${prefix}sub off - Tắt thông báo` +
                 `\n\n2. Tùy chỉnh tin nhắn:` +
                 `\n${prefix}sub config welcome [nội dung] - Đổi tin chào` +
-                `\n${prefix}sub config leave [nội dung] - Đổi tin tạm biệt` +
-                `\n\nBiến có sẵn: {userName}, {threadName}, {memberNumber}, {memberCount}, {actionType}`,
-                threadID
-            );
+                `\n${prefix}sub config leave [nội dung] - Đổi tin tạm biệt`;
+
+            if (isAdmin) {
+                helpMessage += `\n\n👑 Lệnh dành cho Admin:` +
+                    `\n${prefix}sub thread [threadID] [lệnh] - Quản lý nhóm khác` +
+                    `\nVí dụ: ${prefix}sub thread 123456789 on`;
+            }
+
+            helpMessage += `\n\nBiến có sẵn: {userName}, {threadName}, {memberNumber}, {memberCount}, {actionType}`;
+            
+            return api.sendMessage(helpMessage, threadID);
         }
 
         const command = target[0].toLowerCase();
         
         switch (command) {
             case "on":
-                settings[threadID].notifications = true;
+                settings[targetThreadID].notifications = true;
                 saveSettings();
-                return api.sendMessage("✅ Đã bật thông báo cho nhóm này!", threadID);
+                return api.sendMessage(`✅ Đã bật thông báo cho nhóm ${targetThreadID === threadID ? "này" : targetThreadID}!`, threadID);
             
             case "off":
-                settings[threadID].notifications = false;
+                settings[targetThreadID].notifications = false;
                 saveSettings();
-                return api.sendMessage("❌ Đã tắt thông báo cho nhóm này!", threadID);
+                return api.sendMessage(`❌ Đã tắt thông báo cho nhóm ${targetThreadID === threadID ? "này" : targetThreadID}!`, threadID);
             
             case "config":
                 if (!target[1] || !target[2]) {
@@ -72,13 +88,13 @@ module.exports = {
                 const message = target.slice(2).join(" ");
                 
                 if (type === "welcome") {
-                    settings[threadID].welcomeMessage = message;
+                    settings[targetThreadID].welcomeMessage = message;
                     saveSettings();
-                    return api.sendMessage("✅ Đã cập nhật tin nhắn chào mừng!", threadID);
+                    return api.sendMessage(`✅ Đã cập nhật tin nhắn chào mừng cho nhóm ${targetThreadID === threadID ? "này" : targetThreadID}!`, threadID);
                 } else if (type === "leave") {
-                    settings[threadID].leaveMessage = message;
+                    settings[targetThreadID].leaveMessage = message;
                     saveSettings();
-                    return api.sendMessage("✅ Đã cập nhật tin nhắn tạm biệt!", threadID);
+                    return api.sendMessage(`✅ Đã cập nhật tin nhắn tạm biệt cho nhóm ${targetThreadID === threadID ? "này" : targetThreadID}!`, threadID);
                 }
                 break;
             

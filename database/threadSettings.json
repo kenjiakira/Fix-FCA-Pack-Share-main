@@ -3,5 +3,10 @@
     "notifications": false,
     "welcomeMessage": "chào con vợ {userName} đã đến với {threadName} của anh",
     "leaveMessage": "👋 {userName} {actionType}.\n👥 Thành viên còn lại: {memberCount}"
+  },
+  "8704938436228026": {
+    "notifications": false,
+    "welcomeMessage": "🎉 Xin chào {userName}!\nChào mừng bạn đến với nhóm \"{threadName}\"!\nBạn là thành viên thứ {memberNumber} của nhóm này.",
+    "leaveMessage": "👋 {userName} {actionType}.\n👥 Thành viên còn lại: {memberCount}"
   }
 }
