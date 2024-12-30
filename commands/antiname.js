@@ -24,8 +24,10 @@ module.exports = {
 
         try {
             const threadInfo = await api.getThreadInfo(threadID);
-            if (!threadInfo.adminIDs.some(e => e.id == senderID)) {
-                return api.sendMessage("⚠️ Chỉ quản trị viên mới có thể sử dụng lệnh này!", threadID);
+            const isAdmin = threadInfo.adminIDs.some(e => e.id == senderID);
+            
+            if (!isAdmin) {
+                return api.sendMessage("⚠️ Chỉ quản trị viên nhóm mới có thể sử dụng lệnh này!", threadID);
             }
 
             if (!target[0] || !["on", "off"].includes(target[0].toLowerCase())) {
@@ -34,8 +36,6 @@ module.exports = {
 
             const isEnable = target[0].toLowerCase() === "on";
             
-            await new Promise(resolve => setTimeout(resolve, 1000));
-
             antinameData[threadID] = {
                 enable: isEnable,
                 name: threadInfo.threadName,

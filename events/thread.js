@@ -261,7 +261,7 @@ module.exports = {
         const antinameData = JSON.parse(fs.readFileSync(antinamePath));
         
         if (antinameData[threadID]?.enable) {
-          // Add admin check
+      
           const threadInfo = await api.getThreadInfo(threadID);
           if (!threadInfo.adminIDs.some(e => e.id == author)) {
             const oldName = antinameData[threadID].name;

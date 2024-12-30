@@ -25,14 +25,9 @@ module.exports = {
         try {
             const threadInfo = await api.getThreadInfo(threadID);
             const isAdmin = threadInfo.adminIDs.some(e => e.id == senderID);
-            const isBotAdmin = threadInfo.adminIDs.some(e => e.id == api.getCurrentUserID());
 
             if (!isAdmin) {
-                return api.sendMessage("⚠️ Chỉ quản trị viên mới có thể sử dụng lệnh này!", threadID);
-            }
-
-            if (!isBotAdmin) {
-                return api.sendMessage("⚠️ Bot cần quyền quản trị viên để thực hiện chức năng này!", threadID);
+                return api.sendMessage("⚠️ Chỉ quản trị viên nhóm mới có thể sử dụng lệnh này!", threadID);
             }
 
             if (!target[0] || !["on", "off"].includes(target[0].toLowerCase())) {

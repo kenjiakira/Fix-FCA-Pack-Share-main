@@ -120,7 +120,7 @@ module.exports = {
     info: "Câu cá kiếm xu",
     usages: "fish",
     usedby: 0,
-    cooldowns: 0, // Change to 0 since we'll handle cooldown manually
+    cooldowns: 0, 
     onPrefix: true,
 
     lastFished: {},
@@ -163,8 +163,8 @@ module.exports = {
 
         if (!data[userID]) {
             data[userID] = {
-                rod: "Cần trúc", // Change default rod name to match fishingItems
-                rodDurability: fishingItems["Cần trúc"].durability, // Add durability tracking
+                rod: "Cần trúc", 
+                rodDurability: fishingItems["Cần trúc"].durability, 
                 inventory: [],
                 collection: {},
                 exp: 0,
@@ -175,7 +175,6 @@ module.exports = {
             this.savePlayerData(data);
         }
 
-        // Ensure rod and durability exist
         if (!data[userID].rodDurability || !fishingItems[data[userID].rod]) {
             data[userID].rod = "Cần trúc";
             data[userID].rodDurability = fishingItems["Cần trúc"].durability;
@@ -195,13 +194,14 @@ module.exports = {
         const reply = global.client.onReply.find(r => r.messageID === event.messageReply.messageID && r.author === senderID);
         if (!reply) return;
 
-        global.client.onReply = global.client.onReply.filter(r => r.messageID !== reply.messageID);
+        // Remove the reply handler only if it's not a menu type
+        if (reply.type !== "menu") {
+            global.client.onReply = global.client.onReply.filter(r => r.messageID !== reply.messageID);
+        }
         
-        // Load both player data and global data
         const allData = this.loadAllPlayers();
         const playerData = this.loadPlayerData(senderID);
 
-        // Check if user is currently fishing
         if (reply.type === "location") {
             if (allData[senderID]?.lastFished && Date.now() - allData[senderID].lastFished < 360000) {
                 const waitTime = Math.ceil((360000 - (Date.now() - allData[senderID].lastFished)) / 1000);
@@ -213,7 +213,6 @@ module.exports = {
             }
         }
 
-        // No cooldown for menu navigation
         switch (reply.type) {
             case "menu":
                 const choice = parseInt(body);
@@ -335,6 +334,7 @@ module.exports = {
                     updateBalance(senderID, -rodInfo.price);
                     playerData.rod = rodName;
                     playerData.rodDurability = rodInfo.durability; 
+                    playerData.inventory.push(rodName); 
                     this.savePlayerData(playerData);
 
                     return api.sendMessage(
@@ -354,6 +354,16 @@ module.exports = {
                 }
                 break;
         }
+
+        if (reply.type === "menu") {
+            global.client.onReply.push({
+                name: this.name,
+                messageID: messageID,
+                author: senderID,
+                type: "menu",
+                playerData
+            });
+        }
     },
 
     handleFishing: async function(api, event, location, playerData) {
@@ -364,8 +374,8 @@ module.exports = {
             allData[event.senderID] = playerData;
         }
 
-        if (allData[event.senderID].lastFished && now - allData[event.senderID].lastFished < 60000) {
-            const waitTime = Math.ceil((60000 - (now - allData[event.senderID].lastFished)) / 1000);
+        if (allData[event.senderID].lastFished && now - allData[event.senderID].lastFished < 360000) {
+            const waitTime = Math.ceil((360000 - (now - allData[event.senderID].lastFished)) / 1000);
             return api.sendMessage(
                 `⏳ Bạn cần đợi ${waitTime} giây nữa mới có thể câu tiếp!\n` +
                 `⌚ Thời gian câu lần cuối: ${new Date(allData[event.senderID].lastFished).toLocaleTimeString()}`,
@@ -389,11 +399,16 @@ module.exports = {
             );
         }
 
-        if (!fishingItems[playerData.rod]) {
-            playerData.rod = "Cần trúc";
-            playerData.rodDurability = fishingItems["Cần trúc"].durability;
-            this.savePlayerData(playerData);
-        }
+        // Automatically select the best rod
+        const bestRod = playerData.inventory.reduce((best, rod) => {
+            if (fishingItems[rod].multiplier > fishingItems[best].multiplier) {
+                return rod;
+            }
+            return best;
+        }, playerData.rod);
+
+        playerData.rod = bestRod;
+        playerData.rodDurability = fishingItems[bestRod].durability;
 
         if (playerData.rodDurability <= 0) {
             return api.sendMessage("⚠️ Cần câu đã hỏng! Hãy mua cần mới.", event.threadID);

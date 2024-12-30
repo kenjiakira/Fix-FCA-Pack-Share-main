@@ -1,13 +1,15 @@
 {
-  "rod": "Cần trúc",
-  "rodDurability": 10,
-  "inventory": [],
+  "rod": "Cần đài",
+  "rodDurability": 30,
+  "inventory": [
+    "Cần đài"
+  ],
   "collection": {},
   "exp": 0,
   "level": 1,
   "activeBuffs": {},
-  "lastFished": 0,
-  "100063719077878": {
+  "lastFished": 1735550152215,
+  "61569008916749": {
     "rod": "Cần trúc",
     "rodDurability": 10,
     "inventory": [],
@@ -15,17 +17,7 @@
     "exp": 0,
     "level": 1,
     "activeBuffs": {},
-    "lastFished": 0
-  },
-  "100068382888605": {
-    "rod": "Cần trúc",
-    "rodDurability": 10,
-    "inventory": [],
-    "collection": {},
-    "exp": 0,
-    "level": 1,
-    "activeBuffs": {},
-    "lastFished": 0
+    "lastFished": 1735557004143
   },
   "100023369384858": {
     "rod": "Cần trúc",
@@ -35,9 +27,9 @@
     "exp": 0,
     "level": 1,
     "activeBuffs": {},
-    "lastFished": 1735545260551
+    "lastFished": 1735561166100
   },
-  "61569008916749": {
+  "61566663098619": {
     "rod": "Cần trúc",
     "rodDurability": 10,
     "inventory": [],
@@ -47,7 +39,7 @@
     "activeBuffs": {},
     "lastFished": 0
   },
-  "100044841742945": {
+  "61570270795701": {
     "rod": "Cần trúc",
     "rodDurability": 10,
     "inventory": [],
@@ -55,6 +47,46 @@
     "exp": 0,
     "level": 1,
     "activeBuffs": {},
-    "lastFished": 1735544972330
+    "lastFished": 1735551581445
+  },
+  "100068382888605": {
+    "rod": "Cần trúc",
+    "rodDurability": 10,
+    "inventory": [],
+    "collection": {},
+    "exp": 0,
+    "level": 1,
+    "activeBuffs": {},
+    "lastFished": 1735561115973
+  },
+  "100053970942155": {
+    "rod": "Cần trúc",
+    "rodDurability": 10,
+    "inventory": [],
+    "collection": {},
+    "exp": 0,
+    "level": 1,
+    "activeBuffs": {},
+    "lastFished": 1735555490781
+  },
+  "100089415987625": {
+    "rod": "Cần trúc",
+    "rodDurability": 10,
+    "inventory": [],
+    "collection": {},
+    "exp": 0,
+    "level": 1,
+    "activeBuffs": {},
+    "lastFished": 1735557408122
+  },
+  "100049109850406": {
+    "rod": "Cần trúc",
+    "rodDurability": 10,
+    "inventory": [],
+    "collection": {},
+    "exp": 0,
+    "level": 1,
+    "activeBuffs": {},
+    "lastFished": 0
   }
 }
