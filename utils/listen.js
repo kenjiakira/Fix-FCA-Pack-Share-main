@@ -29,6 +29,19 @@ try {
     console.error(err);
 }
 
+function getThreadPrefix(threadID) {
+    const prefixPath = './database/threadPrefix.json';
+    try {
+        if (fs.existsSync(prefixPath)) {
+            const threadPrefixes = JSON.parse(fs.readFileSync(prefixPath, 'utf8'));
+            return threadPrefixes[threadID] || global.cc.prefix;
+        }
+    } catch (err) {
+        console.error("Error loading thread prefix:", err);
+    }
+    return global.cc.prefix;
+}
+
 const handleListenEvents = (api, commands, eventCommands, threadsDB, usersDB) => {
     api.setOptions({ listenEvents: true });
 
@@ -95,9 +108,10 @@ const handleListenEvents = (api, commands, eventCommands, threadsDB, usersDB) =>
             const senderID = event.senderID;
             const threadID = event.threadID;
             const message = event.body.trim();
-            const isPrefixed = message.startsWith(adminConfig.prefix);
-            const commandName = (isPrefixed ? message.slice(adminConfig.prefix.length).split(' ')[0] : message.split(' ')[0]).toLowerCase();
-            const commandArgs = isPrefixed ? message.slice(adminConfig.prefix.length).split(' ').slice(1) : message.split(' ').slice(1);
+            const threadPrefix = getThreadPrefix(threadID);
+            const isPrefixed = message.startsWith(threadPrefix);
+            const commandName = (isPrefixed ? message.slice(threadPrefix.length).split(' ')[0] : message.split(' ')[0]).toLowerCase();
+            const commandArgs = isPrefixed ? message.slice(threadPrefix.length).split(' ').slice(1) : message.split(' ').slice(1);
 
             if (!usersDB[senderID]) {
                 usersDB[senderID] = { lastMessage: Date.now() };
@@ -122,7 +136,7 @@ if (isPrefixed) {
                 api,
                 event,
                 commandName: '',
-                prefix: adminConfig.prefix,
+                prefix: threadPrefix,
                 allCommands
             });
         }
@@ -132,7 +146,7 @@ if (isPrefixed) {
                 api,
                 event,
                 commandName,
-                prefix: adminConfig.prefix,
+                prefix: threadPrefix,
                 allCommands
             });
         }
@@ -147,7 +161,7 @@ if (isPrefixed) {
                 }
 
                 if (command.onPrefix && !isPrefixed) {
-                    api.sendMessage(`Lệnh này yêu cầu prefix: ${adminConfig.prefix}${command.name}`, event.threadID);
+                    api.sendMessage(`Lệnh này yêu cầu prefix: ${threadPrefix}${command.name}`, event.threadID);
                     return;
                 } else if (!command.onPrefix && isPrefixed) {
                     api.sendMessage(`Lệnh này không yêu cầu prefix:\n bỏ dấu đi gõ '${command.name}'`, event.threadID);
@@ -174,7 +188,7 @@ if (isPrefixed) {
                     }
                 }
                 if (command['usedby'] === 1 && !adminConfig['adminUIDs'].includes(senderID)) {
-                    api.sendMessage('Lệnh này chỉ dành cho Quản trị viên nhóm Bot.', threadID);
+                    api.sendMessage('Lệnh này chỉ dành cho Quản trị viên nhóm.', threadID);
                     return;
                 } else {
                     if (command['usedby'] === 2 && (!adminConfig['moderatorUIDs'] || !adminConfig['moderatorUIDs'].includes(senderID))) {

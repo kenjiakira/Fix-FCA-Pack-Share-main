@@ -37,12 +37,12 @@ module.exports = {
 
     handleNotFound: async function({ api, event, commandName, prefix, allCommands }) {
         if (!commandName) {
-            let emptyMessage = "╭── [ 𝗟𝗘̣̂𝗡𝗛 𝗧𝗥𝗢̂́𝗡𝗚 ] ────⌈ ❌ ⌋\n";
-            emptyMessage += "│ ➜ Prefix của bot: " + prefix + "\n";
-            emptyMessage += "│ ➜ Vui lòng nhập lệnh cần dùng\n";
-            emptyMessage += "╰─────────────────⌈ 💡 ⌋\n\n";
-            emptyMessage += "『✨』➜ Ví dụ: " + prefix + "help\n";
-            emptyMessage += "『💌』➜ Để xem danh sách lệnh";
+            const emptyMessage = [
+                `[!] Lệnh trống`,
+                `➜ Prefix: ${prefix}`,
+                `➜ Nhập lệnh cần dùng`,
+                `Ví dụ: ${prefix}help để xem danh sách lệnh`
+            ].join('\n');
             
             return api.sendMessage(emptyMessage, event.threadID, (err, info) => {
                 if (!err) setTimeout(() => api.unsendMessage(info.messageID), 20000);
@@ -51,18 +51,16 @@ module.exports = {
 
         const similarCommands = this.findSimilarCommands(commandName, allCommands);
         
-        let notFoundMessage = "╭── [ 𝗦𝗔𝗜 𝗟𝗘̣̂𝗡𝗛 ] ────⌈ ❌ ⌋\n";
-        notFoundMessage += `│ ➜ Lệnh: ${prefix}${commandName}\n`;
+        let notFoundMessage = `[!] Sai lệnh: ${prefix}${commandName}\n`;
         
         if (similarCommands.length > 0) {
-            notFoundMessage += `│ ➜ Có thể bạn muốn dùng:\n`;
+            notFoundMessage += `Có phải bạn muốn dùng:\n`;
             similarCommands.forEach((cmd, index) => {
-                notFoundMessage += `│ ${index + 1}. ${prefix}${cmd}\n`;
+                notFoundMessage += `${index + 1}. ${prefix}${cmd}\n`;
             });
         }
         
-        notFoundMessage += "╰─────────────────⌈ 💡 ⌋\n\n";
-        notFoundMessage += `『✨』➜ Gõ ${prefix}help để xem chi tiết`;
+        notFoundMessage += `\nGõ ${prefix}help để xem chi tiết`;
 
         return api.sendMessage(notFoundMessage, event.threadID, (err, info) => {
             if (!err) setTimeout(() => api.unsendMessage(info.messageID), 20000);

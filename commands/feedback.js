@@ -23,7 +23,8 @@ module.exports = {
             if (!replyInfo) return;
 
             let replyMsg = `━━━ 𝗙𝗘𝗘𝗗𝗕𝗔𝗖𝗞 ━━━\n\n`;
-            replyMsg += `💌 𝗣𝗵𝗮̉𝗻 𝗵𝗼̂̀𝗶 𝘁𝘂̛̀ 𝗔𝗱𝗺𝗶𝗻:\n${body}\n`;
+            replyMsg += `💌 𝗣𝗵𝗮̉𝗻 𝗵𝗼̂̀𝗶 𝘁𝘂̛̀ 𝗔𝗱𝗺𝗶𝗻:\n${body}\n\n`;
+            replyMsg += `↪️ 𝗧𝗿𝗮̉ 𝗹𝗼̛̀𝗶 𝘁𝗶𝗻 𝗻𝗵𝗮̆́𝗻: ${replyInfo.content}\n`;
             replyMsg += `⏰ 𝗧𝗶𝗺𝗲: ${time}\n`;
             replyMsg += `━━━━━━━━━━━━━━━━━━`;
 
@@ -38,7 +39,8 @@ module.exports = {
                 userID: replyInfo.userID,
                 threadID: replyInfo.threadID,
                 type: "user",
-                adminID: senderID
+                adminID: senderID,
+                content: body
             });
         } 
         else {
@@ -50,7 +52,8 @@ module.exports = {
 
             let feedbackMsg = `━━━ 𝗙𝗘𝗘𝗗𝗕𝗔𝗖𝗞 ━━━\n\n`;
             feedbackMsg += `👤 𝗧𝘂̛̀ 𝗻𝗴𝘂̛𝗼̛̀𝗶 𝗱𝘂̀𝗻𝗴: ${senderID}\n`;
-            feedbackMsg += `💬 𝗡𝗼̣̂𝗶 𝗱𝘂𝗻𝗴: ${body}\n`;
+            feedbackMsg += `💬 𝗡𝗼̣̂𝗶 𝗱𝘂𝗻𝗴: ${body}\n\n`;
+            feedbackMsg += `↪️ 𝗧𝗿𝗮̉ 𝗹𝗼̛̀𝗶 𝘁𝗶𝗻 𝗻𝗵𝗮̆́𝗻: ${replyInfo.content}\n`;
             feedbackMsg += `⏰ 𝗧𝗶𝗺𝗲: ${time}\n`;
             feedbackMsg += `━━━━━━━━━━━━━━━━━━`;
 
@@ -71,7 +74,8 @@ module.exports = {
                 userID: senderID,
                 threadID: threadID,
                 type: "admin",
-                adminID: adminID
+                adminID: adminID,
+                content: body
             });
         }
     },
@@ -111,7 +115,8 @@ module.exports = {
             userID: senderID,
             threadID: threadID, 
             type: "admin",
-            adminID: adminID
+            adminID: adminID,
+            content: feedback
         });
     }
 };

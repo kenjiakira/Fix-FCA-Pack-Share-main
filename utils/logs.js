@@ -8,6 +8,7 @@ const moment = require("moment-timezone");
 
 let io = null;
 
+// Add this function to initialize socket.io
 const initializeSocket = (socketIO) => {
     io = socketIO;
 };
@@ -30,23 +31,10 @@ try {
 
 const notifyAdmins = async (api, threadID, action, senderID) => {
     if (adminConfig.notilogs) {  
-        const threadInfo = await api.getThreadInfo(threadID);
-        const groupName = threadInfo.threadName || "Group Chat";
-        const actionUser = senderID === api.getCurrentUserID() 
-            ? adminConfig.botName 
-            : threadInfo.participants?.find(p => p.userFbId === senderID)?.fullName || "Thành viên";
+        const groupName = await getGroupName(api, threadID);
+        const addedOrKickedBy = await getUserName(api, senderID);
 
-        const notificationMessage = [
-            `🔔 𝗧𝗵𝗼̂𝗻𝗴 𝗯𝗮́𝗼 𝗗𝘂̛̃ 𝗟𝗶𝗲̣̂𝘂 𝗕𝗼𝘁`,
-            `━━━━━━━━━━━━━━━━━━`,
-            `📝 Bot đã ${action} khỏi nhóm ${groupName}`,
-            `🆔 ID nhóm: ${threadID}`,
-            `👥 Số thành viên: ${threadInfo.participantIDs.length}`,
-            `👤 Thực hiện bởi: ${actionUser}`,
-            `🪪 ID người thực hiện: ${senderID}`,
-            `🕜 Thời gian: ${time}`,
-            `━━━━━━━━━━━━━━━━━━`
-        ].join('\n');
+        const notificationMessage = `🔔 𝗧𝗵𝗼̂𝗻𝗴 𝗯𝗮́𝗼 𝗗𝘂̛̃ 𝗟𝗶𝗲̣̂𝘂 𝗕𝗼𝘁\n━━━━━━━━━━━━━━━━━━\n📝 Bot đã ${action} khỏi nhóm ${groupName}\n🆔 ID nhóm: ${threadID}\n🕜 Thời gian: ${time}\n━━━━━━━━━━━━━━━━━━`;
 
         if (io) {
             io.emit('botLog', {
@@ -71,11 +59,8 @@ const notifyAdmins = async (api, threadID, action, senderID) => {
 const logChatRecord = async (api, event) => {
     const threadID = event.threadID;
     const senderID = event.senderID;
-    const threadInfo = await api.getThreadInfo(threadID);
-    const userName = event.senderID === api.getCurrentUserID() 
-        ? adminConfig.botName 
-        : event.author || "Thành viên";
-    const groupName = threadInfo.threadName || "Group Chat";
+    const userName = await getUserName(api, senderID);
+    const groupName = await getGroupName(api, threadID);
     const logHeader = gradientText("━━━━━━━━━━[ CHUỖI CSDL NHẬT KÝ BOT ]━━━━━━━━━━");
 
     if (event.body) {
@@ -84,18 +69,15 @@ const logChatRecord = async (api, event) => {
             "┏━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┓",
             `┣➤ 🌐 Nhóm: ${groupName}`,
             `┣➤ 🆔 ID nhóm: ${threadID}`,
-            `┣➤ 👤 Người gửi: ${userName}`,
-            `┣➤ 🪪 ID Người dùng: ${senderID}`,
-            `┣➤ 👥 Số thành viên: ${threadInfo.participantIDs.length}`,
+            `┣➤ 👤 ID Người dùng: ${senderID}`,
             `┣➤ ✉️ Nội dung: ${event.body}`,
-            `┣➤ 📝 Độ dài tin nhắn: ${event.body.length} ký tự`,
             `┣➤ ⏰ Vào lúc: ${time}`,
-            `┣➤ 📊 Loại tin nhắn: ${event.type}`,
             "┗━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┛"
         ].join('\n');
 
         console.log(logMessage);
         
+        // Emit to socket if available
         if (io) {
             io.emit('botLog', { 
                 output: logMessage,
@@ -104,23 +86,20 @@ const logChatRecord = async (api, event) => {
             });
         }
     } else if (event.attachments || event.stickers) {
-        const attachmentType = event.attachments ? event.attachments[0]?.type : 'sticker';
         const logMessage = [
             logHeader,
             "┏━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┓",
             `┣➤ 🌐 Nhóm: ${groupName}`,
             `┣➤ 🆔 ID nhóm: ${threadID}`,
-            `┣➤ 👤 Người gửi: ${userName}`,
-            `┣➤ 🪪 ID Người dùng: ${senderID}`,
-            `┣➤ 👥 Số thành viên: ${threadInfo.participantIDs.length}`,
-            `┣➤ 📎 Loại tệp: ${attachmentType}`,
-            `┣➤ 🖼️ Nội dung: ${userName} đã gửi ${event.attachments ? event.attachments.length : 1} tệp đính kèm`,
+            `┣➤ 👤 ID Người dùng: ${senderID}`,
+            `┣➤ 🖼️ Nội dung: ${userName} gửi một nhãn dán 🟢`,
             `┣➤ ⏰ Vào lúc: ${time}`,
             "┗━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┛"
         ].join('\n');
 
         console.log(logMessage);
         
+        // Emit to socket if available
         if (io) {
             io.emit('commandOutput', { 
                 output: logMessage,
@@ -131,32 +110,14 @@ const logChatRecord = async (api, event) => {
 };
 
 const handleBotAddition = async (api, threadID, senderID) => {
-    const threadInfo = await api.getThreadInfo(threadID);
-    const userName = senderID === api.getCurrentUserID() 
-        ? adminConfig.botName 
-        : threadInfo.participants?.find(p => p.userFbId === senderID)?.fullName || "Thành viên";
-    const groupName = threadInfo.threadName || "Group Chat";
-    
-    const logMessage = [
-        `━━━━━━[ BOT ĐƯỢC THÊM VÀO NHÓM ]━━━━━━`,
-        `👥 Tên nhóm: ${groupName}`,
-        `🆔 ThreadID: ${threadID}`,
-        `👤 Thêm bởi: ${userName}`,
-        `🪪 ID người thêm: ${senderID}`,
-        `👥 Số thành viên: ${threadInfo.participantIDs.length}`,
-        `⏰ Thời gian: ${time}`,
-        `━━━━━━━━━━━━━━━━━━━━━━━━━━━━`
-    ].join('\n');
-    
-    console.log(logMessage);
+    const userName = await getUserName(api, senderID);
+    const groupName = await getGroupName(api, threadID);
+    console.log(`Bot đã được thêm vào nhóm.\ntên nhóm: ${groupName}\nThreadID: ${threadID}\nThêm bởi: ${userName}`);
 };
 
 const handleBotRemoval = async (api, threadID, senderID) => {
-    const threadInfo = await api.getThreadInfo(threadID);
-    const userName = senderID === api.getCurrentUserID() 
-        ? adminConfig.botName 
-        : threadInfo.participants?.find(p => p.userFbId === senderID)?.fullName || "Thành viên";
-    const groupName = threadInfo.threadName || "Group Chat";
+    const userName = await getUserName(api, senderID);
+    const groupName = await getGroupName(api, threadID);
     console.log(`Bot đã bị xóa khỏi nhóm.\ntên nhóm: ${groupName}\nThreadID: ${threadID}\nbị xóa bởi: ${userName}`);
     await removeFromDatabase(threadID, senderID);
 };
@@ -178,10 +139,29 @@ const removeFromDatabase = (threadID, senderID) => {
     return removed;
 };
 
+const getGroupName = async (api, threadID) => {
+    try {
+        const threadInfo = await api.getThreadInfo(threadID);
+        return threadInfo.name || "Group Chat";
+    } catch (error) {
+        console.error(`Thất bại khi lấy tên của threadID: ${threadID}`, error);
+        return "Group Chat";
+    }
+};
+
+const getUserName = async (api, userID) => {
+    try {
+        const userInfo = await api.getUserInfo(userID);
+        return userInfo[userID]?.name || "Unknown User";
+    } catch (error) {
+        console.error(`Thất bại khi lấy tên của userID: ${userID}`, error);
+        return "Unknown User";
+    }
+};
+
 module.exports = { 
     logChatRecord, 
     notifyAdmins, 
     handleBotAddition, 
     handleBotRemoval,
     initializeSocket  
-};

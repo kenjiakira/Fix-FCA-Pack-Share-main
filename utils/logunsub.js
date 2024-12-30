@@ -1,7 +1,26 @@
+const fs = require('fs');
+const path = require('path');
+
 const handleLogUnsubscribe = async (api, event) => {
     if (event.logMessageData.leftParticipantFbId == api.getCurrentUserID()) return;
 
     try {
+        const configPath = path.join(__dirname, '../database/threadSettings.json');
+        let settings = {};
+        
+        try {
+            if (fs.existsSync(configPath)) {
+                settings = JSON.parse(fs.readFileSync(configPath, 'utf8'));
+            }
+        } catch (err) {
+            console.error("Error loading settings:", err);
+        }
+
+        // Check if notifications are enabled
+        if (settings[event.threadID] && !settings[event.threadID].notifications) {
+            return;
+        }
+
         let threadInfo;
         try {
             threadInfo = await api.getThreadInfo(event.threadID);
@@ -21,10 +40,20 @@ const handleLogUnsubscribe = async (api, event) => {
             ? "đã tự rời khỏi nhóm"
             : `đã bị đá bởi ${adminName}`;
 
-        await api.sendMessage(
-            `🚪 ${userName} ${actionType}.\n👥 Thành viên còn lại: ${participantIDs.length}`,
-            event.threadID
-        );
+        // Get custom leave message or use default
+        let leaveMessage = "{userName} {actionType}.\n👥 Thành viên còn lại: {memberCount}";
+        if (settings[event.threadID] && settings[event.threadID].leaveMessage) {
+            leaveMessage = settings[event.threadID].leaveMessage;
+        }
+
+        // Replace variables
+        leaveMessage = leaveMessage
+            .replace(/{userName}/g, userName)
+            .replace(/{actionType}/g, actionType)
+            .replace(/{memberCount}/g, participantIDs.length)
+            .replace(/{threadName}/g, threadName);
+
+        await api.sendMessage(leaveMessage, event.threadID);
 
         if (participantIDs.length < 5) {
             try {

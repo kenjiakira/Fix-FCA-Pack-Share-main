@@ -101,7 +101,67 @@ module.exports = {
 
   onEvents: async function({ api, event, Threads }) {
     const { threadID, author, logMessageType, logMessageData } = event;
-    
+
+    if (logMessageType === "log:unsubscribe") {
+      const antioutPath = path.join(__dirname, '../commands/json/antiout.json');
+      if (!fs.existsSync(antioutPath)) return;
+      
+      const antioutData = JSON.parse(fs.readFileSync(antioutPath));
+      if (!antioutData[threadID]) return;
+
+      const leftParticipantFbId = event.logMessageData.leftParticipantFbId || 
+                                 event.logMessageData.participantFbId;
+      
+      try {
+          if (leftParticipantFbId == api.getCurrentUserID()) return;
+          
+          const isKicked = event.author !== leftParticipantFbId;
+          if (isKicked) return;
+
+          const userName = event.logMessageData.leftParticipantFbId_name || 
+                          event.logMessageData.name ||
+                          "Thành viên";
+          
+          await new Promise(resolve => setTimeout(resolve, 2000));
+
+          let retryCount = 0;
+          const maxRetries = 3;
+          
+          while (retryCount < maxRetries) {
+              try {
+                  await api.addUserToGroup(leftParticipantFbId, threadID);
+                  
+                  await api.sendMessage(
+                      `🔒 Đã thêm ${userName} trở lại nhóm!\n⚠️ Nhóm đang bật chế độ chống rời nhóm.`,
+                      threadID
+                  );
+                  return;
+              } catch (addError) {
+                  retryCount++;
+                  if (retryCount < maxRetries) {
+                      await new Promise(resolve => setTimeout(resolve, 2000 * retryCount));
+                      continue;
+                  }
+                  throw addError;
+              }
+          }
+      } catch (error) {
+          console.error("Anti-out error:", error);
+          let errorMsg = "⚠️ Không thể thêm lại thành viên vào nhóm. ";
+          
+          if (error.error === 6) {
+              errorMsg += "Người dùng đã chặn bot.";
+          } else if (error.error === 3252001) {
+              errorMsg += "Bot đang bị Facebook hạn chế tính năng.";
+          } else {
+              errorMsg += "Có thể bot không phải là quản trị viên.";
+          }
+
+          api.sendMessage(errorMsg, threadID);
+      }
+      return;
+    }
+
     const getAuthorName = async () => {
       const info = await this.getUserInfo(api, author, threadID);
       return info[author]?.name || "Người dùng Facebook";
@@ -116,42 +176,45 @@ module.exports = {
           const antiimgData = JSON.parse(fs.readFileSync(antiimgPath));
           
           if (antiimgData[threadID]?.enable) {
-           
-            await new Promise(resolve => setTimeout(resolve, 1000));
+        
+            const threadInfo = await api.getThreadInfo(threadID);
+            if (!threadInfo.adminIDs.some(e => e.id == author)) {
+              await new Promise(resolve => setTimeout(resolve, 1000));
 
-            if (antiimgData[threadID].localPath && fs.existsSync(antiimgData[threadID].localPath)) {
-              try {
-                const imageStream = fs.createReadStream(antiimgData[threadID].localPath);
-                await api.changeGroupImage(imageStream, threadID);
-              } catch (localError) {
-                console.error('Local image restore error:', localError);
-                
+              if (antiimgData[threadID].localPath && fs.existsSync(antiimgData[threadID].localPath)) {
+                try {
+                  const imageStream = fs.createReadStream(antiimgData[threadID].localPath);
+                  await api.changeGroupImage(imageStream, threadID);
+                } catch (localError) {
+                  console.error('Local image restore error:', localError);
+                  
+                  try {
+                    const axios = require('axios');
+                    const { data } = await axios.get(antiimgData[threadID].imageUrl, { responseType: 'stream' });
+                    await api.changeGroupImage(data, threadID);
+                  } catch (urlError) {
+                    console.error('URL image restore error:', urlError);
+                    return api.sendMessage("❌ Không thể khôi phục ảnh nhóm!", threadID);
+                  }
+                }
+              } else {
                 try {
                   const axios = require('axios');
                   const { data } = await axios.get(antiimgData[threadID].imageUrl, { responseType: 'stream' });
                   await api.changeGroupImage(data, threadID);
-                } catch (urlError) {
-                  console.error('URL image restore error:', urlError);
+                } catch (error) {
+                  console.error('Image restore error:', error);
                   return api.sendMessage("❌ Không thể khôi phục ảnh nhóm!", threadID);
                 }
               }
-            } else {
-              try {
-                const axios = require('axios');
-                const { data } = await axios.get(antiimgData[threadID].imageUrl, { responseType: 'stream' });
-                await api.changeGroupImage(data, threadID);
-              } catch (error) {
-                console.error('Image restore error:', error);
-                return api.sendMessage("❌ Không thể khôi phục ảnh nhóm!", threadID);
-              }
+              
+              api.sendMessage(
+                `⚠️ ${authorName} đã cố gắng đổi ảnh nhóm!\n` +
+                `🚫 Đã khôi phục về ảnh cũ!`,
+                threadID
+              );
+              return;
             }
-            
-            api.sendMessage(
-              `⚠️ ${authorName} đã cố gắng đổi ảnh nhóm!\n` +
-              `🚫 Đã khôi phục về ảnh cũ!`,
-              threadID
-            );
-            return;
           }
         }
 
@@ -198,19 +261,23 @@ module.exports = {
         const antinameData = JSON.parse(fs.readFileSync(antinamePath));
         
         if (antinameData[threadID]?.enable) {
-          const oldName = antinameData[threadID].name;
-          try {
-            await api.setTitle(oldName, threadID);
-            const authorName = await getAuthorName();
-            
-            api.sendMessage(
-              `⚠️ ${authorName} đã cố gắng đổi tên nhóm!\n` +
-              `🚫 Đã khôi phục tên nhóm về: ${oldName}`,
-              threadID
-            );
-            return;
-          } catch (error) {
-            console.error('Anti-name Error:', error);
+          // Add admin check
+          const threadInfo = await api.getThreadInfo(threadID);
+          if (!threadInfo.adminIDs.some(e => e.id == author)) {
+            const oldName = antinameData[threadID].name;
+            try {
+              await api.setTitle(oldName, threadID);
+              const authorName = await getAuthorName();
+              
+              api.sendMessage(
+                `⚠️ ${authorName} đã cố gắng đổi tên nhóm!\n` +
+                `🚫 Đã khôi phục tên nhóm về: ${oldName}`,
+                threadID
+              );
+              return;
+            } catch (error) {
+              console.error('Anti-name Error:', error);
+            }
           }
         }
       }
@@ -226,40 +293,44 @@ module.exports = {
             const anticolorData = JSON.parse(fs.readFileSync(anticolorPath));
             
             if (anticolorData[threadID]?.enable) {
-              await new Promise(resolve => setTimeout(resolve, 2000));
+              // Add admin check
+              const threadInfo = await api.getThreadInfo(threadID);
+              if (!threadInfo.adminIDs.some(e => e.id == author)) {
+                await new Promise(resolve => setTimeout(resolve, 2000));
 
-              let success = false;
-              const colors = anticolorData[threadID].colors;
-              let currentIndex = anticolorData[threadID].currentColorIndex || 0;
+                let success = false;
+                const colors = anticolorData[threadID].colors;
+                let currentIndex = anticolorData[threadID].currentColorIndex || 0;
 
-              // Try each color in the array until one works
-              for (let i = 0; i < colors.length; i++) {
-                  const colorIndex = (currentIndex + i) % colors.length;
-                  const color = colors[colorIndex];
-                  
-                  try {
-                      await this.tryChangeColor(api, color, threadID);
-                      success = true;
-                      anticolorData[threadID].currentColorIndex = colorIndex;
-                      fs.writeFileSync(anticolorPath, JSON.stringify(anticolorData, null, 4));
-                      break;
-                  } catch (err) {
-                      console.log(`Failed to set color ${color}:`, err);
-                      await new Promise(resolve => setTimeout(resolve, 1000));
-                      continue;
-                  }
+                // Try each color in the array until one works
+                for (let i = 0; i < colors.length; i++) {
+                    const colorIndex = (currentIndex + i) % colors.length;
+                    const color = colors[colorIndex];
+                    
+                    try {
+                        await this.tryChangeColor(api, color, threadID);
+                        success = true;
+                        anticolorData[threadID].currentColorIndex = colorIndex;
+                        fs.writeFileSync(anticolorPath, JSON.stringify(anticolorData, null, 4));
+                        break;
+                    } catch (err) {
+                        console.log(`Failed to set color ${color}:`, err);
+                        await new Promise(resolve => setTimeout(resolve, 1000));
+                        continue;
+                    }
+                }
+
+                if (success) {
+                    api.sendMessage(
+                        `⚠️ ${authorName} đã cố gắng đổi màu chat!\n` +
+                        `🚫 Đã khôi phục về màu cũ!`,
+                        threadID
+                    );
+                } else {
+                    throw new Error("All color restoration attempts failed");
+                }
+                return;
               }
-
-              if (success) {
-                  api.sendMessage(
-                      `⚠️ ${authorName} đã cố gắng đổi màu chat!\n` +
-                      `🚫 Đã khôi phục về màu cũ!`,
-                      threadID
-                  );
-              } else {
-                  throw new Error("All color restoration attempts failed");
-              }
-              return;
             }
           }
 

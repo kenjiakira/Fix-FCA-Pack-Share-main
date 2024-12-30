@@ -4,11 +4,34 @@ const axios = require('axios');
 
 async function sendWelcomeMessage(api, threadID, userName, threadName, memberNumber) {
     try {
-      
+        const configPath = path.join(__dirname, '../database/threadSettings.json');
+        let settings = {};
+        
+        try {
+            if (fs.existsSync(configPath)) {
+                settings = JSON.parse(fs.readFileSync(configPath, 'utf8'));
+            }
+        } catch (err) {
+            console.error("Error loading settings:", err);
+        }
+
+        if (settings[threadID] && !settings[threadID].notifications) {
+            return;
+        }
+
+        let welcomeMessage = "🎉 Xin chào {userName}!\nChào mừng bạn đến với nhóm \"{threadName}\"!\nBạn là thành viên thứ {memberNumber} của nhóm này.";
+        if (settings[threadID] && settings[threadID].welcomeMessage) {
+            welcomeMessage = settings[threadID].welcomeMessage;
+        }
+
+        welcomeMessage = welcomeMessage
+            .replace(/{userName}/g, userName)
+            .replace(/{threadName}/g, threadName)
+            .replace(/{memberNumber}/g, memberNumber);
+
         const welcomeGifs = [
             "https://files.catbox.moe/kcbilv.gif",
             "https://files.catbox.moe/szphas.gif",
-
         ];
 
         const randomGif = welcomeGifs[Math.floor(Math.random() * welcomeGifs.length)];
@@ -20,7 +43,7 @@ async function sendWelcomeMessage(api, threadID, userName, threadName, memberNum
 
         await api.sendMessage(
             {
-                body: `🎉 Xin chào ${userName}!\nChào mừng bạn đến với nhóm "${threadName}"!\nBạn là thành viên thứ ${memberNumber} của nhóm này.\n\nChúc bạn vui vẻ khi tham gia nhóm nha! 😊`,
+                body: welcomeMessage,
                 attachment: fs.createReadStream(tempPath)
             },
             threadID
