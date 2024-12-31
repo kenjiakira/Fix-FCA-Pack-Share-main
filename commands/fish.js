@@ -85,7 +85,7 @@ const locations = {
             rare: 12,
             legendary: 3,
             trash: 5,
-            mythical: 0.1
+            mythical: 0.1,
         }
     },
     ocean: {
@@ -112,6 +112,48 @@ const locations = {
             mythical: 4
         }
     }
+};
+
+const expMultipliers = {
+    trash: 1,
+    common: 2,
+    uncommon: 4,
+    rare: 8,
+    legendary: 16,
+    mythical: 32
+};
+
+const levelRewards = {
+    5: { reward: 10000, message: "🎉 Đạt cấp 5! Nhận 10,000 xu" },
+    10: { reward: 50000, message: "🎉 Đạt cấp 10! Nhận 50,000 xu" },
+    20: { reward: 200000, message: "🎉 Đạt cấp 20! Nhận 200,000 xu" },
+    50: { reward: 1000000, message: "🎉 Đạt cấp 50! Nhận 1,000,000 xu" },
+};
+
+const defaultCollection = {
+    byRarity: {
+        trash: {},
+        common: {},
+        uncommon: {},
+        rare: {},
+        legendary: {},
+        mythical: {}
+    },
+    stats: {
+        totalCaught: 0,
+        totalValue: 0,
+        bestCatch: { name: "", value: 0 }
+    }
+};
+
+const messages = {
+    cooldown: (waitTime, lastTime) => 
+        `⏳ Bạn cần đợi ${waitTime} giây nữa mới có thể câu tiếp!\n` +
+        `⌚ Thời gian câu lần cuối: ${lastTime}`,
+    levelUp: level => `🎉 Chúc mừng đạt cấp ${level}!`,
+    rodBroken: rod => `⚠️ Cần câu cũ đã hỏng! Tự động chuyển sang ${rod}!`,
+    insufficientFunds: (cost, location) => 
+        `❌ Bạn cần ${formatNumber(cost)} xu để câu ở ${location}!`
 };
 
 module.exports = {
@@ -165,28 +207,51 @@ module.exports = {
             data[userID] = {
                 rod: "Cần trúc", 
                 rodDurability: fishingItems["Cần trúc"].durability, 
-                inventory: [],
-                collection: {},
+                inventory: ["Cần trúc"],
+                collection: defaultCollection,
                 exp: 0,
                 level: 1,
+                fishingStreak: 0,
+                stats: {
+                    totalExp: 0,
+                    highestStreak: 0,
+                    totalFishes: 0
+                },
                 activeBuffs: {},
-                lastFished: 0
+                lastFished: 0,
+                userID: userID 
             };
-            this.savePlayerData(data);
         }
 
-        if (!data[userID].rodDurability || !fishingItems[data[userID].rod]) {
-            data[userID].rod = "Cần trúc";
-            data[userID].rodDurability = fishingItems["Cần trúc"].durability;
-            this.savePlayerData(data);
-        }
+        if (!data[userID].inventory) data[userID].inventory = ["Cần trúc"];
+        if (!data[userID].collection?.byRarity) data[userID].collection = defaultCollection;
+        if (!data[userID].stats) data[userID].stats = { totalExp: 0, highestStreak: 0, totalFishes: 0 };
 
+        data[userID] = this.validatePlayerStats(data[userID]);
         return data[userID];
     },
 
     savePlayerData: function(data) {
         const dataPath = path.join(__dirname, '../database/fishing.json');
-        fs.writeFileSync(dataPath, JSON.stringify(data, null, 2));
+        try {
+         
+            let existingData = {};
+            if (fs.existsSync(dataPath)) {
+                existingData = JSON.parse(fs.readFileSync(dataPath, 'utf8'));
+            }
+            
+            if (data.rod && data.inventory) { 
+                existingData[data.userID] = data;
+            } else {
+                Object.entries(data).forEach(([userID, userData]) => {
+                    existingData[userID] = userData;
+                });
+            }
+            
+            fs.writeFileSync(dataPath, JSON.stringify(existingData, null, 2));
+        } catch (err) {
+            console.error("Error saving fishing data:", err);
+        }
     },
 
     onReply: async function({ api, event }) {
@@ -194,7 +259,6 @@ module.exports = {
         const reply = global.client.onReply.find(r => r.messageID === event.messageReply.messageID && r.author === senderID);
         if (!reply) return;
 
-        // Remove the reply handler only if it's not a menu type
         if (reply.type !== "menu") {
             global.client.onReply = global.client.onReply.filter(r => r.messageID !== reply.messageID);
         }
@@ -206,8 +270,7 @@ module.exports = {
             if (allData[senderID]?.lastFished && Date.now() - allData[senderID].lastFished < 360000) {
                 const waitTime = Math.ceil((360000 - (Date.now() - allData[senderID].lastFished)) / 1000);
                 return api.sendMessage(
-                    `⏳ Bạn cần đợi ${waitTime} giây nữa mới có thể câu tiếp!\n` +
-                    `⌚ Thời gian câu lần cuối: ${new Date(allData[senderID].lastFished).toLocaleTimeString()}`,
+                    messages.cooldown(waitTime, new Date(allData[senderID].lastFished).toLocaleTimeString()),
                     threadID
                 );
             }
@@ -263,9 +326,13 @@ module.exports = {
                             `📊 Cấp độ: ${playerData.level}\n` +
                             `✨ EXP: ${playerData.exp}/${playerData.level * 1000}\n` +
                             `🏆 Thành tích:\n` +
-                            Object.entries(playerData.collection)
-                                .map(([fish, count]) => `• ${fish}: ${count} lần`)
-                                .join('\n');
+                            Object.entries(fishTypes).map(([rarity, fishes]) => {
+                                const rarityFishes = playerData.collection?.byRarity[rarity] || {};
+                                const caughtFishes = Object.entries(rarityFishes)
+                                    .filter(([_, count]) => count > 0)
+                                    .map(([fish, count]) => `• ${fish}: ${count} lần`);
+                                return caughtFishes.length ? `【${rarity.toUpperCase()}】\n${caughtFishes.join('\n')}` : '';
+                            }).filter(Boolean).join('\n');
                         
                         api.sendMessage(inventory, threadID);
                         break;
@@ -274,31 +341,46 @@ module.exports = {
                         const collection = "📚 BỘ SƯU TẬP CÁ:\n━━━━━━━━━━━━━━━━━━\n\n" +
                             Object.entries(fishTypes).map(([rarity, fishes]) => {
                                 const fishList = fishes.map(f => {
-                                    const caught = playerData.collection[f.name] || 0;
-                                    return `${caught > 0 ? '✅' : '❌'} ${f.name} (${formatNumber(f.value)} Xu)`;
+                                    const caught = playerData.collection?.byRarity[rarity]?.[f.name] || 0;
+                                    return `${caught > 0 ? '✅' : '❌'} ${f.name} (${formatNumber(f.value)} Xu) - Đã bắt: ${caught}`;
                                 }).join('\n');
                                 return `【${rarity.toUpperCase()}】\n${fishList}\n`;
-                            }).join('\n');
+                            }).join('\n') +
+                            `\n📊 Thống kê:\n` +
+                            `Tổng số cá đã bắt: ${playerData.collection?.stats.totalCaught || 0}\n` +
+                            `Tổng giá trị: ${formatNumber(playerData.collection?.stats.totalValue || 0)} Xu\n` +
+                            `Bắt quý giá nhất: ${playerData.collection?.stats.bestCatch?.name || 'Chưa có'} (${formatNumber(playerData.collection?.stats.bestCatch?.value || 0)} Xu)`;
                         
                         api.sendMessage(collection, threadID);
                         break;
 
                     case 5: 
                         const allPlayers = this.loadAllPlayers();
-                        const rankings = Object.entries(allPlayers)
-                            .map(([id, data]) => ({
-                                id,
-                                level: data.level,
-                                exp: data.exp,
-                                totalCaught: Object.values(data.collection || {}).reduce((a, b) => a + b, 0)
-                            }))
-                            .sort((a, b) => b.level - a.level || b.exp - a.exp);
-
+                        const rankings = this.getRankingStats(allPlayers);
                         const top10 = rankings.slice(0, 10);
+                        
+                        const userRank = rankings.findIndex(player => player.id === senderID) + 1;
+                        const userStats = rankings.find(player => player.id === senderID);
+
                         const rankMsg = "🏆 BẢNG XẾP HẠNG CÂU CÁ 🏆\n━━━━━━━━━━━━━━━━━━\n\n" +
                             top10.map((player, index) => 
-                                `${index + 1}. Level ${player.level} - ${player.totalCaught} cá`
-                            ).join('\n');
+                                `${index + 1}. Hạng ${index + 1}\n` +
+                                `👤 ID: ${player.id}\n` +
+                                `📊 Level: ${player.level}\n` +
+                                `🎣 Tổng cá: ${formatNumber(player.totalCaught)}\n` +
+                                `💰 Tổng giá trị: ${formatNumber(player.totalValue)} Xu\n` +
+                                `🏆 Cá quý nhất: ${player.bestCatch.name} (${formatNumber(player.bestCatch.value)} Xu)\n` +
+                                `🔥 Chuỗi hiện tại: ${player.streak}\n` +
+                                `⭐ Chuỗi cao nhất: ${player.highestStreak}\n`
+                            ).join("━━━━━━━━━━━━━━━━━━\n") +
+                            "\n👉 Thứ hạng của bạn:\n" +
+                            (userStats ? 
+                                `Hạng ${userRank}\n` +
+                                `📊 Level: ${userStats.level}\n` +
+                                `🎣 Tổng cá: ${formatNumber(userStats.totalCaught)}\n` +
+                                `💰 Tổng giá trị: ${formatNumber(userStats.totalValue)} Xu\n` +
+                                `🔥 Chuỗi hiện tại: ${userStats.streak}`
+                                : "Chưa có dữ liệu");
                         
                         api.sendMessage(rankMsg, threadID);
                         break;
@@ -325,23 +407,7 @@ module.exports = {
                 const items = Object.entries(fishingItems);
                 if (shopChoice >= 0 && shopChoice < items.length) {
                     const [rodName, rodInfo] = items[shopChoice];
-                    const balance = getBalance(senderID);
-                    
-                    if (balance < rodInfo.price) {
-                        return api.sendMessage(`❌ Bạn không đủ tiền mua ${rodName}!`, threadID);
-                    }
-
-                    updateBalance(senderID, -rodInfo.price);
-                    playerData.rod = rodName;
-                    playerData.rodDurability = rodInfo.durability; 
-                    playerData.inventory.push(rodName); 
-                    this.savePlayerData(playerData);
-
-                    return api.sendMessage(
-                        `✅ Đã mua thành công ${rodName}!\n` +
-                        `💰 Số dư còn lại: ${formatNumber(getBalance(senderID))} Xu`,
-                        threadID
-                    );
+                    await this.handleShopPurchase(api, event, rodName, rodInfo, playerData);
                 }
                 break;
 
@@ -377,8 +443,7 @@ module.exports = {
         if (allData[event.senderID].lastFished && now - allData[event.senderID].lastFished < 360000) {
             const waitTime = Math.ceil((360000 - (now - allData[event.senderID].lastFished)) / 1000);
             return api.sendMessage(
-                `⏳ Bạn cần đợi ${waitTime} giây nữa mới có thể câu tiếp!\n` +
-                `⌚ Thời gian câu lần cuối: ${new Date(allData[event.senderID].lastFished).toLocaleTimeString()}`,
+                messages.cooldown(waitTime, new Date(allData[event.senderID].lastFished).toLocaleTimeString()),
                 event.threadID
             );
         }
@@ -392,31 +457,62 @@ module.exports = {
 
         const locationKey = Object.keys(locations).find(key => locations[key] === location);
         if (levelRequirements[locationKey] > playerData.level) {
-            return api.sendMessage(
+            const locationMenu = "🗺️ CHỌN ĐỊA ĐIỂM CÂU CÁ:\n━━━━━━━━━━━━━━━━━━\n" +
+                Object.entries(locations).map(([key, loc], index) => 
+                    `${index + 1}. ${loc.name}\n💰 Phí: ${formatNumber(loc.cost)} Xu\n`
+                ).join("\n");
+            
+            const errorMsg = await api.sendMessage(
                 `❌ Bạn cần đạt cấp ${levelRequirements[locationKey]} để câu ở ${location.name}!\n` +
-                `📊 Cấp độ hiện tại: ${playerData.level}`,
+                `📊 Cấp độ hiện tại: ${playerData.level}\n\n` +
+                locationMenu,
                 event.threadID
             );
+
+            global.client.onReply.push({
+                name: this.name,
+                messageID: errorMsg.messageID,
+                author: event.senderID,
+                type: "location",
+                playerData
+            });
+            
+            return;
         }
 
-        // Automatically select the best rod
-        const bestRod = playerData.inventory.reduce((best, rod) => {
+        const availableRods = Object.keys(fishingItems).filter(rod => {
+            return playerData.inventory.includes(rod) && fishingItems[rod].durability > 0;
+        });
+
+        if (availableRods.length === 0) {
+            return api.sendMessage("⚠️ Bạn không có cần câu nào khả dụng! Hãy mua cần mới.", event.threadID);
+        }
+
+        const bestRod = availableRods.reduce((best, rod) => {
             if (fishingItems[rod].multiplier > fishingItems[best].multiplier) {
                 return rod;
             }
             return best;
-        }, playerData.rod);
+        });
 
-        playerData.rod = bestRod;
-        playerData.rodDurability = fishingItems[bestRod].durability;
+        if (bestRod !== playerData.rod) {
+            playerData.rod = bestRod;
+            playerData.rodDurability = fishingItems[bestRod].durability;
+            await api.sendMessage(`🎣 Tự động chọn ${bestRod} để có hiệu quả tốt nhất!`, event.threadID);
+        }
 
-        if (playerData.rodDurability <= 0) {
-            return api.sendMessage("⚠️ Cần câu đã hỏng! Hãy mua cần mới.", event.threadID);
+        if (playerData.rodDurability <= 1) {
+            const nextBestRod = availableRods.find(rod => rod !== bestRod && fishingItems[rod].durability > 0);
+            if (nextBestRod) {
+                playerData.rod = nextBestRod;
+                playerData.rodDurability = fishingItems[nextBestRod].durability;
+                await api.sendMessage(messages.rodBroken(nextBestRod), event.threadID);
+            }
         }
 
         const balance = getBalance(event.senderID);
         if (balance < location.cost) {
-            return api.sendMessage(`❌ Bạn cần ${formatNumber(location.cost)} xu để câu ở ${location.name}!`, event.threadID);
+            return api.sendMessage(messages.insufficientFunds(location.cost, location.name), event.threadID);
         }
 
         updateBalance(event.senderID, -location.cost);
@@ -426,36 +522,84 @@ module.exports = {
             try {
                 const result = this.calculateCatch(location, fishingItems[playerData.rod].multiplier, playerData);
                 
-                allData[event.senderID].lastFished = now;
                 playerData.lastFished = now;
-                playerData.rodDurability--; 
+                playerData.rodDurability--;
 
-                playerData.exp += result.exp;
-                if (playerData.exp >= playerData.level * 1000) {
+                const rarity = this.getFishRarity(result.name);
+
+                if (!playerData.collection) {
+                    playerData.collection = JSON.parse(JSON.stringify(defaultCollection));
+                }
+
+                if (!playerData.collection.byRarity[rarity][result.name]) {
+                    playerData.collection.byRarity[rarity][result.name] = 0;
+                }
+
+                playerData.collection.byRarity[rarity][result.name]++;
+                playerData.collection.stats.totalCaught++;
+                playerData.collection.stats.totalValue += result.value;
+
+                if (result.value > (playerData.collection.stats.bestCatch?.value || 0)) {
+                    playerData.collection.stats.bestCatch = {
+                        name: result.name,
+                        value: result.value
+                    };
+                }
+
+                let baseExp = result.exp * (expMultipliers[rarity] || 1);
+                const streakBonus = Math.min((playerData.fishingStreak || 0) * 0.2, 1.0);
+                baseExp = Math.floor(baseExp * (1 + streakBonus));
+
+                if (treasures.some(t => t.name === result.name)) {
+                    baseExp *= 2;
+                }
+
+                playerData.exp = (playerData.exp || 0) + baseExp;
+                const oldLevel = playerData.level;
+
+                while (playerData.exp >= playerData.level * 1000) {
+                    playerData.exp -= playerData.level * 1000;
                     playerData.level++;
-                    await api.sendMessage(`🎉 Chúc mừng đạt cấp ${playerData.level}!`, event.threadID);
+                    
+                    await api.sendMessage(messages.levelUp(playerData.level), event.threadID);
+                    if (levelRewards[playerData.level]) {
+                        const reward = levelRewards[playerData.level];
+                        updateBalance(event.senderID, reward.reward);
+                        await api.sendMessage(reward.message, event.threadID);
+                    }
                 }
 
-                if (!playerData.collection[result.name]) {
-                    playerData.collection[result.name] = 0;
+                if (now - (playerData.lastFished || 0) < 3600000) {
+                    playerData.fishingStreak = (playerData.fishingStreak || 0) + 1;
+                } else {
+                    playerData.fishingStreak = 1;
                 }
-                playerData.collection[result.name]++;
-                
-                this.savePlayerData(playerData);
+
+                playerData.stats.totalExp = (playerData.stats.totalExp || 0) + baseExp;
+                playerData.stats.highestStreak = Math.max(playerData.stats.highestStreak || 0, playerData.fishingStreak);
+                playerData.stats.totalFishes = (playerData.stats.totalFishes || 0) + 1;
+
+                this.savePlayerData({
+                    ...playerData,
+                    userID: event.senderID
+                });
+
                 updateBalance(event.senderID, result.value);
-
-                this.savePlayerData(allData);
 
                 api.unsendMessage(fishingMsg.messageID);
                 await api.sendMessage(
                     `🎣 Bạn đã câu được ${result.name}!\n` +
                     `💰 Giá trị: ${formatNumber(result.value)} Xu\n` +
-                    `📊 EXP: +${result.exp}\n` +
+                    `📊 EXP: +${formatNumber(baseExp)} (${this.getExpBreakdown(baseExp, streakBonus, rarity)})\n` +
+                    `📈 Chuỗi câu: ${playerData.fishingStreak} lần (${Math.floor(streakBonus * 100)}% bonus)\n` +
+                    `🎚️ Level: ${oldLevel}${playerData.level > oldLevel ? ` ➜ ${playerData.level}` : ''}\n` +
+                    `✨ EXP: ${formatNumber(playerData.exp)}/${formatNumber(playerData.level * 1000)}\n` +
                     `🎒 Độ bền cần: ${playerData.rodDurability}/${fishingItems[playerData.rod].durability}\n` +
                     `💵 Số dư: ${formatNumber(getBalance(event.senderID))} Xu\n` +
                     `⏳ Chờ 6 phút để câu tiếp!`,
                     event.threadID
                 );
+
             } catch (err) {
                 console.error("Error in fishing:", err);
                 api.sendMessage("❌ Đã xảy ra lỗi khi câu cá!", event.threadID);
@@ -464,43 +608,68 @@ module.exports = {
     },
 
     calculateCatch: function(location, multiplier, playerData) {
-        const random = Math.random() * 100;
-        let fishPool, type;
-        const chances = location.fish;
+        try {
+            const random = Math.random() * 100;
+            let fishPool, type;
+            const chances = location.fish;
 
-        if (random < chances.trash) {
-            type = 'trash';
-        } else if (random < chances.trash + chances.common) {
-            type = 'common';
-        } else if (random < chances.trash + chances.common + chances.uncommon) {
-            type = 'uncommon';
-        } else if (random < chances.trash + chances.common + chances.uncommon + chances.rare) {
-            type = 'rare';
-        } else if (random < chances.trash + chances.common + chances.uncommon + chances.rare + chances.legendary) {
-            type = 'legendary';
-        } else {
-            type = 'mythical';
-        }
+            if (random < chances.trash) {
+                type = 'trash';
+            } else if (random < chances.trash + chances.common) {
+                type = 'common';
+            } else if (random < chances.trash + chances.common + chances.uncommon) {
+                type = 'uncommon';
+            } else if (random < chances.trash + chances.common + chances.uncommon + chances.rare) {
+                type = 'rare';
+            } else if (random < chances.trash + chances.common + chances.uncommon + chances.rare + chances.legendary) {
+                type = 'legendary';
+            } else {
+                type = 'mythical';
+            }
 
-        if (Math.random() < 0.05) {
-            const treasure = treasures[Math.floor(Math.random() * treasures.length)];
+            if (Math.random() < 0.05) {
+                const treasure = treasures[Math.floor(Math.random() * treasures.length)];
+                return {
+                    name: treasure.name,
+                    value: Math.floor(treasure.value * multiplier),
+                    exp: 50
+                };
+            }
+
+            const fish = fishTypes[type][Math.floor(Math.random() * fishTypes[type].length)];
             return {
-                name: treasure.name,
-                value: Math.floor(treasure.value * multiplier),
-                exp: 50
+                name: fish.name,
+                value: Math.floor(fish.value * multiplier),
+                exp: type === 'trash' ? 1 :
+                    type === 'common' ? 5 :
+                    type === 'uncommon' ? 10 :
+                    type === 'rare' ? 20 :
+                    type === 'legendary' ? 50 : 100
+            };
+        } catch (error) {
+            console.error("Error in calculateCatch:", error);
+            return {
+                name: "Rác",
+                value: 100,
+                exp: 1
             };
         }
+    },
 
-        const fish = fishTypes[type][Math.floor(Math.random() * fishTypes[type].length)];
-        return {
-            name: fish.name,
-            value: Math.floor(fish.value * multiplier),
-            exp: type === 'trash' ? 1 :
-                 type === 'common' ? 5 :
-                 type === 'uncommon' ? 10 :
-                 type === 'rare' ? 20 :
-                 type === 'legendary' ? 50 : 100
-        };
+    getFishRarity: function(fishName) {
+        for (const [rarity, fishes] of Object.entries(fishTypes)) {
+            if (fishes.some(fish => fish.name === fishName)) return rarity;
+        }
+        return 'common';
+    },
+
+    getExpBreakdown: function(totalExp, streakBonus, rarity) {
+        try {
+            const base = Math.floor(totalExp / (1 + streakBonus) / expMultipliers[rarity]);
+            return `Cơ bản: ${formatNumber(base)} × ${expMultipliers[rarity]} (${rarity}) × ${(1 + streakBonus).toFixed(1)} (chuỗi)`;
+        } catch (error) {
+            return `Cơ bản: ${formatNumber(totalExp)}`;
+        }
     },
 
     loadAllPlayers: function() {
@@ -513,5 +682,71 @@ module.exports = {
             console.error("Error loading all players:", err);
         }
         return {};
-    }
+    },
+
+    addToInventory: function(playerData, itemName) {
+        if (!playerData.inventory) playerData.inventory = [];
+        if (!playerData.inventory.includes(itemName)) {
+            playerData.inventory.push(itemName);
+        }
+    },
+
+    handleShopPurchase: async function(api, event, rodName, rodInfo, playerData) {
+        const { senderID, threadID } = event;
+        const balance = getBalance(senderID);
+        
+        if (balance < rodInfo.price) {
+            return api.sendMessage(`❌ Bạn không đủ tiền mua ${rodName}!`, threadID);
+        }
+
+        try {
+            updateBalance(senderID, -rodInfo.price);
+            
+            const userData = {
+                ...playerData,
+                userID: senderID,
+                rod: rodName,
+                rodDurability: rodInfo.durability
+            };
+            
+            if (!userData.inventory.includes(rodName)) {
+                userData.inventory.push(rodName);
+            }
+
+            this.savePlayerData(userData);
+
+            return api.sendMessage(
+                `✅ Đã mua thành công ${rodName}!\n` +
+                `💰 Số dư còn lại: ${formatNumber(getBalance(senderID))} Xu`,
+                threadID
+            );
+        } catch (err) {
+            console.error("Error in shop purchase:", err);
+            return api.sendMessage("❌ Đã xảy ra lỗi khi mua cần câu!", threadID);
+        }
+    },
+
+    validatePlayerStats: function(playerData) {
+        if (!playerData.exp) playerData.exp = 0;
+        if (!playerData.level) playerData.level = 1;
+        if (playerData.exp < 0) playerData.exp = 0;
+        if (playerData.level < 1) playerData.level = 1;
+        return playerData;
+    },
+
+    getRankingStats: function(allPlayers) {
+        return Object.entries(allPlayers)
+            .map(([id, data]) => ({
+                id,
+                level: data.level || 1,
+                exp: data.exp || 0,
+                totalCaught: Object.values(data.collection?.byRarity || {})
+                    .reduce((acc, curr) => acc + Object.values(curr).reduce((a, b) => a + b, 0), 0),
+                totalValue: data.collection?.stats?.totalValue || 0,
+                bestCatch: data.collection?.stats?.bestCatch || { name: "Chưa có", value: 0 },
+                streak: data.fishingStreak || 0,
+                highestStreak: data.stats?.highestStreak || 0
+            }))
+            .sort((a, b) => b.level - a.level || b.exp - a.exp);
+    },
 };

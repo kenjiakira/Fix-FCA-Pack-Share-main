@@ -1,6 +1,5 @@
 const { getBalance, updateBalance } = require('../utils/currencies');
 
-// Add configuration object for messages
 const messages = {
     minBalance: (amount) => `Bạn cần ít nhất ${amount.toLocaleString('vi-VN')} Xu để thực hiện hành động trộm cắp (phí bảo hiểm).`,
     noMoney: "Người này không có xu trong tài khoản.",
@@ -11,7 +10,10 @@ const messages = {
            "2. `stolen Reply`: Trộm tiền từ người mà bạn đang trả lời tin nhắn.\n" +
            "   - Trả lời tin nhắn của người đó và gõ `stolen Reply` để trộm tiền của họ.\n\n" +
            "3. `stolen @Tag`: Trộm tiền từ người được tag trong tin nhắn.\n" +
-           "   - Gõ `@Tên người` để tag và trộm tiền của người đó."
+           "   - Gõ `@Tên người` để tag và trộm tiền của người đó.",
+    cooldownActive: "⏰ Bạn cần đợi thêm {time} giây nữa để có thể trộm tiếp!",
+    protected: "🛡️ Người này đang được bảo vệ! Hãy thử lại sau.",
+    selfSteal: "❌ Bạn không thể trộm tiền của chính mình!"
 };
 
 module.exports = {
@@ -22,7 +24,7 @@ module.exports = {
     dmUser: false,
     usedby: 0,
     usages: "stolen ID, stolen Reply, stolen @Tag",
-    cooldown: 5,
+    cooldown: 0, 
 
     onLaunch: async ({ api, event, target }) => {
         try {
@@ -42,6 +44,10 @@ module.exports = {
                 }
             }
 
+            if (victimID === event.senderID) {
+                return api.sendMessage(messages.selfSteal, event.threadID, event.messageID);
+            }
+
             let victimName;
             try {
                 const victimInfo = await api.getUserInfo(victimID);
@@ -51,8 +57,9 @@ module.exports = {
             }
 
             const userBalance = getBalance(event.senderID);
-            if (userBalance < 1000) {
-                return api.sendMessage(messages.minBalance(1000), event.threadID, event.messageID);
+            const minBalance = 5000;
+            if (userBalance < minBalance) {
+                return api.sendMessage(messages.minBalance(minBalance), event.threadID, event.messageID);
             }
 
             const victimBalance = getBalance(victimID);
@@ -60,46 +67,63 @@ module.exports = {
                 return api.sendMessage(messages.noMoney, event.threadID, event.messageID);
             }
 
+            const protection = Math.random() < 0.3;
+            if (protection) {
+                return api.sendMessage(messages.protected, event.threadID, event.messageID);
+            }
+
             const successRate = Math.random();
-            if (successRate < 0.6) {
-                const maxSteal = Math.min(victimBalance, 50000); 
-                const stolenAmount = Math.min(maxSteal, Math.floor(Math.random() * 10000) + 1000);
+            if (successRate < 0.5) { 
+                const maxStealPercent = 0.3; 
+                const maxStealAmount = Math.min(victimBalance * maxStealPercent, 100000);
+                const stolenAmount = Math.floor(Math.random() * maxStealAmount) + 5000;
+                
                 updateBalance(victimID, -stolenAmount);
                 updateBalance(event.senderID, stolenAmount);
 
                 const successMessages = [
                     `🦹‍♂️ Bạn đã lẻn vào két sắt của ${victimName} và lấy được`,
                     `💻 HACK THÀNH CÔNG!\nBạn đã xâm nhập tài khoản của ${victimName} và chuyển`,
-                    `🎭 Trộm thành công!\nBạn đã đột nhập vào nhà của ${victimName} và lấy được`
+                    `🎭 Trộm thành công!\nBạn đã đột nhập vào nhà của ${victimName} và lấy được`,
+                    `🕵️ Bạn đã thành công đánh lừa ${victimName} và chiếm được`,
+                    `🎯 Phi vụ hoàn hảo! Bạn đã lấy được từ ${victimName}`
                 ];
                 const randomMsg = successMessages[Math.floor(Math.random() * successMessages.length)];
 
+                this.cooldown = 180; 
+
                 return api.sendMessage(
-                    `━━━『 STOLEN RESULT 』━━━\n\n` +
+                    `━━━『 STOLEN SUCCESS 』━━━\n\n` +
                     `${randomMsg} ${stolenAmount.toLocaleString('vi-VN')} Xu 💰\n\n` +
                     `👤 Nạn nhân: ${victimName}\n` +
                     `🆔 ID: ${victimID}\n` +
-                    `💳 Số dư của bạn: ${getBalance(event.senderID).toLocaleString('vi-VN')} Xu\n\n` +
+                    `💳 Số dư của bạn: ${getBalance(event.senderID).toLocaleString('vi-VN')} Xu\n` +
+                    `⏰ Thời gian chờ: ${this.cooldown} giây\n\n` +
                     `━━━━━━━━━━━━━━━━`,
                     event.threadID, event.messageID
                 );
             } else {
-           
-                const penalty = Math.floor(userBalance * 0.2); 
+                const penaltyPercent = Math.random() * (0.3 - 0.1) + 0.1;
+                const penalty = Math.floor(userBalance * penaltyPercent);
                 updateBalance(event.senderID, -penalty);
 
                 const failMessages = [
                     `🚔 Bạn đã bị bảo vệ nhà ${victimName} phát hiện và báo cảnh sát!`,
                     `⚠️ ${victimName} đã bắt quả tang bạn đang trộm tiền!`,
-                    `❌ Thất bại! ${victimName} đã cài đặt camera an ninh!`
+                    `❌ Thất bại! ${victimName} đã cài đặt camera an ninh!`,
+                    `🚨 Hệ thống báo động của ${victimName} đã kích hoạt!`,
+                    `💥 Bạn bị phát hiện và ${victimName} đã gọi cảnh sát!`
                 ];
                 const randomFailMsg = failMessages[Math.floor(Math.random() * failMessages.length)];
+
+                this.cooldown = 420; 
 
                 return api.sendMessage(
                     `━━━『 STOLEN FAILED 』━━━\n\n` +
                     `${randomFailMsg}\n\n` +
                     `📌 Bạn bị phạt: ${penalty.toLocaleString('vi-VN')} Xu\n` +
-                    `💳 Số dư còn lại: ${getBalance(event.senderID).toLocaleString('vi-VN')} Xu\n\n` +
+                    `💳 Số dư còn lại: ${getBalance(event.senderID).toLocaleString('vi-VN')} Xu\n` +
+                    `⏰ Thời gian chờ: ${this.cooldown} giây\n\n` +
                     `━━━━━━━━━━━━━━━━`,
                     event.threadID, event.messageID
                 );

@@ -12,7 +12,7 @@ module.exports = {
     onPrefix: true,
     usedby: 0,
     dmUser: false,
-    nickName: ['crypto', 'btc', 'bitcoin'],
+    nickName: ['crypto', 'bitcoin'],
     usages: 'crypto\n\nHướng dẫn sử dụng:\n' +
         '1. Gõ lệnh `crypto` để xem giá các đồng tiền điện tử phổ biến và biểu đồ.\n' +
         '2. Thông tin được cập nhật theo thời gian thực.',

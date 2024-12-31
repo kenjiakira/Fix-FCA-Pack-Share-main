@@ -314,10 +314,25 @@ async function updateRankApi(senderID, name, currentExp, level, rank) {
 
     return imagePath;
 }
+
+const rankConfigPath = path.join(__dirname, '../database/json/rankConfig.json');
+
+function loadRankConfig() {
+  if (!fs.existsSync(rankConfigPath)) {
+    fs.writeFileSync(rankConfigPath, JSON.stringify({ disabledThreads: [] }, null, 2));
+  }
+  return JSON.parse(fs.readFileSync(rankConfigPath));
+}
+
 async function processQueue(api, event) {
     if (messageQueue.length === 0) return;
 
     const { senderID, name, exp, level, rank } = messageQueue.shift();
+    
+    const config = loadRankConfig();
+    if (config.disabledThreads.includes(event.threadID)) {
+        return;
+    }
 
     const imagePath = await updateRankApi(senderID, name, exp, level, rank);
     const announcement = `⏫ | ${name} đã đạt đến Level ${level} với Xếp hạng ${rank}!`;
@@ -333,6 +348,7 @@ async function processQueue(api, event) {
 
     setTimeout(() => processQueue(api, event), 500);
 }
+
 module.exports = {
     name: 'rankup',
     ver: '2.1',

@@ -21,8 +21,23 @@ function getRandomImgUrl() {
 }
 
 function calculateRequiredXp(level) {
-    if (level === 1) return 0;
-    return Math.floor(10 * Math.pow(1.5, level - 2)); 
+    const baseXp = 50;
+    let growthFactor;
+
+    if (level < 5) {
+        growthFactor = 1.2;
+    } else if (level < 10) {
+        growthFactor = 1.3;
+    } else if (level < 20) {
+        growthFactor = 1.4;
+    } else if (level < 50) {
+        growthFactor = 1.5;
+    } else {
+        growthFactor = 1.6;
+    }
+
+    if (level === 1) return baseXp;
+    return Math.floor(baseXp * Math.pow(growthFactor, level - 1));
 }
 
 function updateUserRank(userData) {
@@ -265,25 +280,23 @@ module.exports = {
             return api.sendMessage("Bạn chưa có dữ liệu xếp hạng. Hãy nhắn tin để kiếm XP!", event.threadID);
         }
 
-        const user = userData[userId];
-        const rank = user.rank || "N/A"; 
-        const currentExp = user.exp || 0;
-        const level = user.level || 1;
+        updateUserRank(userData);
+        fs.writeFileSync(userDataPath, JSON.stringify(userData, null, 2));
 
-        const imagePath = await updateRankApi(userId, user.name || "Người dùng", currentExp, level, rank);
+        const user = userData[userId];
+        const imagePath = await updateRankApi(
+            userId, 
+            user.name || "Người dùng", 
+            user.exp || 0, 
+            user.level || 1, 
+            user.rank || 1
+        );
 
         if (imagePath) {
             api.sendMessage({
-                body: `⏫ | Đây là xếp hạng của bạn:`,
                 attachment: fs.createReadStream(imagePath)
-            }, event.threadID);
-
-            fs.unlink(imagePath, (err) => {
-                if (err) {
-                    console.error('Lỗi khi xóa tệp hình ảnh:', err);
-                } else {
-                    console.log('Tệp hình ảnh đã được xóa thành công:', imagePath);
-                }
+            }, event.threadID, () => {
+                fs.unlinkSync(imagePath);
             });
         } else {
             api.sendMessage("Lỗi khi tạo hình ảnh xếp hạng.", event.threadID);

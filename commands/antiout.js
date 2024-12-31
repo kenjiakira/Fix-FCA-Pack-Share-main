@@ -23,11 +23,15 @@ module.exports = {
         const { threadID, senderID } = event;
 
         try {
+  
+            const adminConfig = JSON.parse(fs.readFileSync('./admin.json', 'utf8'));
+            const isAdminBot = adminConfig.adminUIDs.includes(senderID);
+            
             const threadInfo = await api.getThreadInfo(threadID);
-            const isAdmin = threadInfo.adminIDs.some(e => e.id == senderID);
-
-            if (!isAdmin) {
-                return api.sendMessage("⚠️ Chỉ quản trị viên nhóm mới có thể sử dụng lệnh này!", threadID);
+            const isGroupAdmin = threadInfo.adminIDs.some(e => e.id == senderID);
+            
+            if (!isAdminBot && !isGroupAdmin) {
+                return api.sendMessage("⚠️ Chỉ Admin bot hoặc Quản trị viên nhóm mới có thể sử dụng lệnh này!", threadID);
             }
 
             if (!target[0] || !["on", "off"].includes(target[0].toLowerCase())) {

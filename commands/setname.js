@@ -1,11 +1,9 @@
-const { log } = require("npmlog");
 const fs = require("fs");
 const path = require("path");
 
 const nicknameConfigPath = path.join(__dirname, "../database/nicknames.json");
 const setnameStatusPath = path.join(__dirname, "../database/setnameStatus.json");
 
-// Ensure config files exist
 if (!fs.existsSync(nicknameConfigPath)) {
   fs.writeFileSync(nicknameConfigPath, JSON.stringify({}, null, 2));
 }
@@ -28,7 +26,6 @@ module.exports = {
       const { threadID, messageID, type, messageReply } = event;
       let uid, newNickname;
 
-      // Handle on/off commands
       if (target[0] === "on" || target[0] === "off") {
         let setnameStatus = {};
         try {
@@ -47,7 +44,6 @@ module.exports = {
         );
       }
 
-      // Check if setname is enabled for this thread
       const setnameStatus = JSON.parse(fs.readFileSync(setnameStatusPath));
       if (setnameStatus[threadID] === false) {
         return api.sendMessage(

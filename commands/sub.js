@@ -1,5 +1,6 @@
 const fs = require('fs');
 const path = require('path');
+const { adminRequired } = require('../utils/adminRequired');
 
 module.exports = {
     name: "sub",
@@ -7,22 +8,25 @@ module.exports = {
     info: "Quản lý cài đặt thông báo nhóm",
     onPrefix: true,
     dmUser: false,
-    usedBy: 1,
+    usedBy: 2,
     usages: "sub [on/off] hoặc sub config [welcome/leave] [text]",
     cooldowns: 5,
+    adminRequired: true,
 
     onLaunch: async ({ api, event, target, prefix }) => {
         const threadID = event.threadID;
         const senderID = event.senderID;
 
+        const adminConfig = JSON.parse(fs.readFileSync('./admin.json', 'utf8'));
+        const isAdminBot = adminConfig.adminUIDs.includes(senderID);
+        
+        const isGroupAdmin = await adminRequired(api, event);
+
+        if (!isAdminBot && !isGroupAdmin) {
+            return api.sendMessage("⚠️ Chỉ Admin bot hoặc Quản trị viên nhóm mới có thể sử dụng lệnh này!", threadID);
+        }
+
         try {
-            const threadInfo = await api.getThreadInfo(threadID);
-            const isAdmin = threadInfo.adminIDs.some(e => e.id == senderID);
-
-            if (!isAdmin) {
-                return api.sendMessage("⚠️ Chỉ quản trị viên nhóm mới có thể sử dụng lệnh này!", threadID);
-            }
-
             const configPath = path.join(__dirname, '../database/threadSettings.json');
             
             let settings = {};

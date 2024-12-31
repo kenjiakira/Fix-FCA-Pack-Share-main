@@ -122,9 +122,9 @@ module.exports = {
                 this.winStreak[senderID]++;
                 
                 if (JSON.stringify(result) === JSON.stringify(combinations["chẵn"][1]) && resultType === "chẵn") {
-                    multiplier = 6; 
+                    multiplier = 4; 
                 } else if (JSON.stringify(result) === JSON.stringify(combinations["lẻ"][2]) && resultType === "lẻ") {
-                    multiplier = 6; 
+                    multiplier = 4; 
                 } else {
                     multiplier = 2; 
                 }

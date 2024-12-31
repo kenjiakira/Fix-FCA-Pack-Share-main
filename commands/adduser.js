@@ -6,7 +6,7 @@ module.exports = {
     onPrefix: true,
     usages: "[ID1 ID2...] hoặc [link1 link2...] hoặc mix\nVD: .adduser 123456 fb.com/user2 789012",
     cooldowns: 5,
-    adminRequired: true, // new option
+    adminRequired: true,
 
     onLaunch: async function({ api, event, target }) {
         const { threadID, messageID, senderID } = event;
@@ -43,7 +43,6 @@ module.exports = {
             }
         }
 
-        // Send summary
         const summary = `📊 Kết quả thêm người dùng:\n` +
             `✅ Thành công: ${success}\n` +
             `❌ Thất bại: ${failed}\n\n` +

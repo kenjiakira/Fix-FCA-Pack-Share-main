@@ -18,33 +18,33 @@
   "100068382888605": [
     {
       "type": "in",
+      "amount": 50000,
+      "timestamp": 1735638902872,
+      "description": "Nhận 50000 Xu từ Con Cac Ba Ma"
+    },
+    {
+      "type": "in",
+      "amount": 10000,
+      "timestamp": 1735639019783,
+      "description": "Nhận 10000 Xu từ Duong Kinm"
+    },
+    {
+      "type": "in",
       "amount": 100000,
-      "timestamp": 1735555342906,
-      "description": "Nhận 100000 Xu từ Minh Ngoc"
+      "timestamp": 1735639026740,
+      "description": "Nhận 100000 Xu từ Duong Kinm"
     },
     {
       "type": "in",
-      "amount": 200000,
-      "timestamp": 1735555571186,
-      "description": "Nhận 200000 Xu từ Nhớ Thèm Cứt"
+      "amount": 249000,
+      "timestamp": 1735639168410,
+      "description": "Nhận 249000 Xu từ Duong Kinm"
     },
     {
       "type": "in",
-      "amount": 2000000,
-      "timestamp": 1735556327328,
-      "description": "Nhận 2000000 Xu từ Nhớ Thèm Cứt"
-    },
-    {
-      "type": "in",
-      "amount": 9000000,
-      "timestamp": 1735556535240,
-      "description": "Nhận 9000000 Xu từ Nhớ Thèm Cứt"
-    },
-    {
-      "type": "in",
-      "amount": 60000000,
-      "timestamp": 1735556582760,
-      "description": "Nhận 60000000 Xu từ Nhớ Thèm Cứt"
+      "amount": 345678,
+      "timestamp": 1735639234794,
+      "description": "Nhận 345678 Xu từ Duong Kinm"
     }
   ],
   "100081800629553": [
@@ -71,55 +71,37 @@
   ],
   "61569008916749": [
     {
-      "type": "out",
-      "amount": 51,
-      "timestamp": 1735473768458,
-      "description": "Chuyển 50 Xu cho Duong Kinm"
-    },
-    {
-      "type": "out",
-      "amount": 5050,
-      "timestamp": 1735473824593,
-      "description": "Chuyển 5000 Xu cho Duong Kinm"
-    },
-    {
-      "type": "out",
-      "amount": 202000,
-      "timestamp": 1735473909435,
-      "description": "Chuyển 200000 Xu cho Duong Kinm"
+      "type": "in",
+      "amount": 500000,
+      "timestamp": 1735614445902,
+      "description": "Nhận 500000 Xu từ Pham Minh Dang"
     },
     {
       "type": "in",
-      "amount": 1000,
-      "timestamp": 1735474102153,
-      "description": "Nhận 1000 Xu từ Anh La Phu Dz"
+      "amount": 1000000,
+      "timestamp": 1735614520375,
+      "description": "Nhận 1000000 Xu từ Pham Minh Dang"
     },
     {
       "type": "in",
-      "amount": 20000,
-      "timestamp": 1735551354969,
-      "description": "Nhận 20000 Xu từ Duong Kinm"
+      "amount": 100000,
+      "timestamp": 1735638875905,
+      "description": "Nhận 100000 Xu từ Duong Kinm"
+    },
+    {
+      "type": "out",
+      "amount": 50500,
+      "timestamp": 1735638902872,
+      "description": "Chuyển 50000 Xu cho Pham Minh Dang"
+    },
+    {
+      "type": "in",
+      "amount": 222000,
+      "timestamp": 1735639195386,
+      "description": "Nhận 222000 Xu từ Duong Kinm"
     }
   ],
   "61570532692675": [
-    {
-      "type": "out",
-      "amount": 20200,
-      "timestamp": 1735393860272,
-      "description": "Chuyển 20000 Xu cho Pham Minh Dang"
-    },
-    {
-      "type": "out",
-      "amount": 9090,
-      "timestamp": 1735393995109,
-      "description": "Chuyển 9000 Xu cho Con Cac Ba Ma"
-    },
-    {
-      "type": "in",
-      "amount": 20000,
-      "timestamp": 1735474032790,
-      "description": "Nhận 20000 Xu từ Vu Duc"
-    },
     {
       "type": "out",
       "amount": 2,
@@ -131,38 +113,56 @@
       "amount": 1010,
       "timestamp": 1735474102153,
       "description": "Chuyển 1000 Xu cho Con Cac Ba Ma"
+    },
+    {
+      "type": "out",
+      "amount": 45450,
+      "timestamp": 1735567336404,
+      "description": "Chuyển 45000 Xu cho Huynh Van Nho"
+    },
+    {
+      "type": "out",
+      "amount": 30300,
+      "timestamp": 1735567363894,
+      "description": "Chuyển 30000 Xu cho Duong Kinm"
+    },
+    {
+      "type": "out",
+      "amount": 10100,
+      "timestamp": 1735567387664,
+      "description": "Chuyển 10000 Xu cho Huynh Van Nho"
     }
   ],
   "100023369384858": [
     {
-      "type": "in",
-      "amount": 31000,
-      "timestamp": 1735551135791,
-      "description": "Nhận 31000 Xu từ Minh Ngoc"
+      "type": "out",
+      "amount": 10100,
+      "timestamp": 1735639019783,
+      "description": "Chuyển 10000 Xu cho Pham Minh Dang"
     },
     {
       "type": "out",
-      "amount": 20200,
-      "timestamp": 1735551354969,
-      "description": "Chuyển 20000 Xu cho Con Cac Ba Ma"
-    },
-    {
-      "type": "in",
-      "amount": 10000,
-      "timestamp": 1735551671074,
-      "description": "Nhận 10000 Xu từ minhhuy"
+      "amount": 101000,
+      "timestamp": 1735639026740,
+      "description": "Chuyển 100000 Xu cho Pham Minh Dang"
     },
     {
       "type": "out",
-      "amount": 50500,
-      "timestamp": 1735551842858,
-      "description": "Chuyển 50000 Xu cho Pham Minh Dang"
+      "amount": 251490,
+      "timestamp": 1735639168410,
+      "description": "Chuyển 249000 Xu cho Pham Minh Dang"
     },
     {
-      "type": "in",
-      "amount": 100000,
-      "timestamp": 1735551983238,
-      "description": "Nhận 100000 Xu từ minhhuy"
+      "type": "out",
+      "amount": 224220,
+      "timestamp": 1735639195386,
+      "description": "Chuyển 222000 Xu cho Con Cac Ba Ma"
+    },
+    {
+      "type": "out",
+      "amount": 349135,
+      "timestamp": 1735639234794,
+      "description": "Chuyển 345678 Xu cho Pham Minh Dang"
     }
   ],
   "100063719077878": [
@@ -277,6 +277,24 @@
       "amount": 50000,
       "timestamp": 1735554944648,
       "description": "Nhận 50000 Xu từ 𓂄𓆩𑁍𓆪𓂁Vì Sau Cơn Mưa Đêm Qua 𓅂 Không Ai Nhắc Về Chuyện Đôi Ta 𓃠 Kết Bộ Phim Em Rời Đi Mang Theo Chút Nắng Tàn Phai 𓇽Xoã Làn Tóc Cúi Mặt Khóc Đâu Cần Thiết Biết Chuyện Mai𓂺Đôi Mắt Đen Nhoè Dần Cánh Tay Gạt Vội Nước Mắt Rơi 𓆉 No No No 𓂄𓆩𑁍𓆪𓂁"
+    },
+    {
+      "type": "in",
+      "amount": 45000,
+      "timestamp": 1735567336404,
+      "description": "Nhận 45000 Xu từ Anh La Phu Dz"
+    },
+    {
+      "type": "in",
+      "amount": 10000,
+      "timestamp": 1735567387664,
+      "description": "Nhận 10000 Xu từ Anh La Phu Dz"
+    },
+    {
+      "type": "out",
+      "amount": 2929,
+      "timestamp": 1735569751522,
+      "description": "Chuyển 2900 Xu cho Nhớ Thèm Cứt"
     }
   ],
   "100085191341131": [
@@ -288,12 +306,6 @@
     }
   ],
   "61550049193361": [
-    {
-      "type": "out",
-      "amount": 50500,
-      "timestamp": 1735555157137,
-      "description": "Chuyển 50000 Xu cho Pham Minh Dang"
-    },
     {
       "type": "out",
       "amount": 202000,
@@ -317,6 +329,88 @@
       "amount": 60600000,
       "timestamp": 1735556582760,
       "description": "Chuyển 60000000 Xu cho Pham Minh Dang"
+    },
+    {
+      "type": "in",
+      "amount": 2900,
+      "timestamp": 1735569751522,
+      "description": "Nhận 2900 Xu từ Huynh Van Nho"
+    }
+  ],
+  "100089415987625": [
+    {
+      "type": "in",
+      "amount": 50000,
+      "timestamp": 1735566176558,
+      "description": "Nhận 50000 Xu từ Con Cac Ba Ma"
+    },
+    {
+      "type": "out",
+      "amount": 50500,
+      "timestamp": 1735566349846,
+      "description": "Chuyển 50000 Xu cho Con Cac Ba Ma"
+    }
+  ],
+  "100055417691992": [
+    {
+      "type": "out",
+      "amount": 95950,
+      "timestamp": 1735612537198,
+      "description": "Chuyển 95000 Xu cho Pham Minh Dang"
+    },
+    {
+      "type": "in",
+      "amount": 5000000,
+      "timestamp": 1735614669497,
+      "description": "Nhận 5000000 Xu từ Pham Minh Dang"
+    }
+  ],
+  "61565083133053": [
+    {
+      "type": "out",
+      "amount": 10100,
+      "timestamp": 1735612774824,
+      "description": "Chuyển 10000 Xu cho Pham Minh Dang"
+    },
+    {
+      "type": "out",
+      "amount": 10100,
+      "timestamp": 1735638518353,
+      "description": "Chuyển 10000 Xu cho Pham Minh Dang"
+    },
+    {
+      "type": "out",
+      "amount": 40400,
+      "timestamp": 1735638550930,
+      "description": "Chuyển 40000 Xu cho Pham Minh Dang"
+    },
+    {
+      "type": "in",
+      "amount": 100000,
+      "timestamp": 1735638575514,
+      "description": "Nhận 100000 Xu từ Pham Minh Dang"
+    },
+    {
+      "type": "in",
+      "amount": 50000,
+      "timestamp": 1735638660838,
+      "description": "Nhận 50000 Xu từ Pham Minh Dang"
+    }
+  ],
+  "100024874297909": [
+    {
+      "type": "in",
+      "amount": 100000,
+      "timestamp": 1735613477842,
+      "description": "Nhận 100000 Xu từ Pham Minh Dang"
+    }
+  ],
+  "100044841742945": [
+    {
+      "type": "in",
+      "amount": 100000,
+      "timestamp": 1735613890867,
+      "description": "Nhận 100000 Xu từ Pham Minh Dang"
     }
   ]
 }

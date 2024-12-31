@@ -49,12 +49,18 @@ module.exports = {
         const antiimgPath = path.join(__dirname, 'json', 'antiimage.json');
 
         try {
-            await new Promise(resolve => setTimeout(resolve, 1000));
-
+         
+            const adminConfig = JSON.parse(fs.readFileSync('./admin.json', 'utf8'));
+            const isAdminBot = adminConfig.adminUIDs.includes(senderID);
+            
             const threadInfo = await api.getThreadInfo(threadID);
-            if (!threadInfo.adminIDs.some(e => e.id == senderID)) {
-                return api.sendMessage("⚠️ Chỉ quản trị viên mới có thể sử dụng lệnh này!", threadID);
+            const isGroupAdmin = threadInfo.adminIDs.some(e => e.id == senderID);
+            
+            if (!isAdminBot && !isGroupAdmin) {
+                return api.sendMessage("⚠️ Chỉ Admin bot hoặc Quản trị viên nhóm mới có thể sử dụng lệnh này!", threadID);
             }
+
+            await new Promise(resolve => setTimeout(resolve, 1000));
 
             if (!target[0] || !["on", "off"].includes(target[0].toLowerCase())) {
                 return api.sendMessage("⚠️ Vui lòng sử dụng on hoặc off!", threadID);

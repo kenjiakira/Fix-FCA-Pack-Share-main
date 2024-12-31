@@ -8,11 +8,23 @@ module.exports = {
     usedby: 0,
     info: "Xem top 10 người giàu nhất server.",
     onPrefix: true,
-    usages: ".top: Xem top 10 người chơi giàu nhất.",
+    usages: ".top: Xem top 10 người chơi giàu nhất.\n.top anon: Ẩn danh tên của bạn\n.top unanon: Hiện lại tên của bạn",
     cooldowns: 0,
+
+    anonymousUsers: new Set(),
 
     onLaunch: async function({ api, event = [] }) {
         const { threadID, messageID, senderID } = event;
+        const target = event.body.split(" ").slice(1);
+
+        if (target[0] === "on") {
+            this.anonymousUsers.add(senderID);
+            return api.sendMessage("✅ Đã ẩn danh tên của bạn trong bảng xếp hạng!", threadID, messageID);
+        }
+        if (target[0] === "unon") {
+            this.anonymousUsers.delete(senderID);
+            return api.sendMessage("✅ Đã hiện lại tên của bạn trong bảng xếp hạng!", threadID, messageID);
+        }
 
         let allBalancesData;
         try {
@@ -43,7 +55,10 @@ module.exports = {
         sortedBalances.forEach((entry, index) => {
             const userID = entry[0];
             const balance = entry[1];
-            const userName = userData[userID] ? userData[userID].name : "Người dùng ẩn danh";
+       
+            const userName = this.anonymousUsers.has(userID) ? 
+                "Người dùng ẩn danh #" + userID.substring(0, 4) : 
+                (userData[userID] ? userData[userID].name : "Người dùng ẩn danh");
             const formattedBalance = balance.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
 
             topMessage += `${rankEmoji[index]} ${index + 1}. ${userName}\n💰 ${formattedBalance} Xu\n\n`;

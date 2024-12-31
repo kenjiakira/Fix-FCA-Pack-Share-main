@@ -5,14 +5,16 @@ const { createCanvas, loadImage } = require('canvas');
 
 module.exports = {
   name: "ghep",
-  version: "1.0.0",
-  info: "Ghép đôi ngẫu nhiên với tỉ lệ hợp đôi",
+  info: "Ghép đôi ngẫu nhiên với nhiều tính năng thú vị",
   onPrefix: true,
   usages: "ghep",
-  cooldowns: 200,
+  cooldowns: 30,
   
   onLaunch: async ({ api, event }) => {
     try {
+     
+      const waitingMsg = await api.sendMessage("⏳ Vui lòng chờ một chút, tôi đang tìm người phù hợp để ghép đôi với bạn...", event.threadID);
+      
       const threadInfo = await api.getThreadInfo(event.threadID);
       const members = threadInfo.participantIDs.filter(id => id !== event.senderID && id !== api.getCurrentUserID());
       
@@ -22,6 +24,42 @@ module.exports = {
 
       const partner = members[Math.floor(Math.random() * members.length)];
       const compatibility = Math.floor(Math.random() * 100) + 1;
+      const zodiacSigns = ['Bạch Dương', 'Kim Ngưu', 'Song Tử', 'Cự Giải', 'Sư Tử', 'Xử Nữ', 'Thiên Bình', 'Bọ Cạp', 'Nhân Mã', 'Ma Kết', 'Bảo Bình', 'Song Ngư'];
+      const userZodiac = zodiacSigns[Math.floor(Math.random() * zodiacSigns.length)];
+      const partnerZodiac = zodiacSigns[Math.floor(Math.random() * zodiacSigns.length)];
+      
+      const loveQuotes = [
+        "Yêu là khi hai trái tim cùng đập một nhịp",
+        "Tình yêu không cần lý do, chỉ cần có nhau",
+        "Đời là bể khổ, em là bờ vai",
+        "Anh cứ đi đi để thấy đi xa em là không thể",
+        "Em là món quà vô giá của cuộc đời anh",
+        "Yêu em như gió yêu mây, như hoa yêu nắng, như đắm say yêu đời",
+        "Thanh xuân của anh chỉ cần có em là đủ",
+        "Em là điều tuyệt vời nhất anh từng có",
+        "Có em, anh thấy cả thế giới này đều tươi đẹp",
+        "Một ngày không gặp em như ba thu vắng bóng",
+        "Gặp em là định mệnh, yêu em là sự lựa chọn",
+        "Anh không cần cả thế giới, anh chỉ cần một em thôi",
+        "Em là cả bầu trời của riêng anh"
+      ];
+      
+      const futures = [
+        "Tương lai: Sẽ có một đám cưới đẹp như mơ 💒",
+        "Tương lai: Có 2 con, một trai một gái 👶👶",
+        "Tương lai: Sống hạnh phúc bên nhau tới già 👫",
+        "Tương lai: Cùng nhau đi khắp thế gian ✈️",
+        "Tương lai: Mở một quán café nhỏ xinh cùng nhau ☕",
+        "Tương lai: Có một căn nhà nhỏ ven biển 🏖️",
+        "Tương lai: Cùng nhau nuôi 3 chú mèo cute 🐱",
+        "Tương lai: Trở thành cặp đôi nổi tiếng MXH 📱",
+        "Tương lai: Cùng nhau khởi nghiệp thành công 💼",
+        "Tương lai: Trở thành cặp vợ chồng YouTuber 🎥",
+        "Tương lai: Có một khu vườn nhỏ trồng rau quả 🌱",
+        "Tương lai: Mỗi năm đi du lịch một nước mới 🌎",
+        "Tương lai: Cùng nhau già đi trong hạnh phúc 👴👵",
+        "Tương lai: Trở thành cặp đôi hoàn hảo trong mắt mọi người 💑"
+      ];
 
       const getAvatarUrl = (uid) => [
         `https://graph.facebook.com/${uid}/picture?width=512&height=512&access_token=6628568379%7Cc1e620fa708a1d5696fb991c1bde5662`,
@@ -85,11 +123,19 @@ module.exports = {
 
       await api.sendMessage({
         body: `🎐 Ghép đôi thành công!\n` +
-              `💝 ${userName} 💓 ${partnerName}\n` +
+              `💝 ${userName} (${userZodiac}) 💓 ${partnerName} (${partnerZodiac})\n` +
               `🔒 Tỉ lệ hợp đôi: ${compatibility}%\n` +
-              `${getCompatibilityMessage(compatibility)}`,
+              `${getCompatibilityMessage(compatibility)}\n\n` +
+              `💫 Phân tích chi tiết:\n` +
+              `- Hợp nhau về tính cách: ${Math.floor(Math.random() * 100)}%\n` +
+              `- Hợp nhau về sở thích: ${Math.floor(Math.random() * 100)}%\n` +
+              `- Có cơ hội tiến xa: ${Math.floor(Math.random() * 100)}%\n\n` +
+              `💌 Lời thì thầm: ${loveQuotes[Math.floor(Math.random() * loveQuotes.length)]}\n` +
+              `🔮 ${futures[Math.floor(Math.random() * futures.length)]}`,
         attachment: fs.createReadStream(mergedPath)
       }, event.threadID, event.messageID);
+
+      await api.unsendMessage(waitingMsg.messageID);
 
       fs.unlinkSync(mergedPath);
       fs.unlinkSync(pathUser);
@@ -97,21 +143,15 @@ module.exports = {
 
     } catch (error) {
       console.error(error);
-      return api.sendMessage(
-        `🎐 Ghép đôi thành công!\n` +
-        `💝 ${userName} 💓 ${partnerName}\n` +
-        `🔒 Tỉ lệ hợp đôi: ${compatibility}%\n` +
-        `${getCompatibilityMessage(compatibility)}`,
-        event.threadID, event.messageID
-      );
+      return api.sendMessage("❌ Có lỗi xảy ra khi thực hiện ghép đôi", event.threadID, event.messageID);
     }
   }
 };
 
 function getCompatibilityMessage(rate) {
-  if (rate >= 90) return "💕 Quá hợp với nhau luôn!";
-  if (rate >= 70) return "💖 Một cặp đáng yêu!";
-  if (rate >= 50) return "💫 Cũng khá hợp đấy!";
-  if (rate >= 30) return "🌟 Có thể thử tìm hiểu!";
-  return "💢 Chắc là... friendzone thôi!";
+  if (rate >= 90) return "💕 Định mệnh đã se duyên, quá hợp với nhau luôn!";
+  if (rate >= 70) return "💖 Một cặp trời sinh, đáng yêu không chịu được!";
+  if (rate >= 50) return "💫 Hợp đấy, có triển vọng phát triển lắm!";
+  if (rate >= 30) return "🌟 Cũng có duyên đấy, thử tìm hiểu xem sao!";
+  return "💢 Duyên phận mong manh, nhưng đừng nản lòng!";
 }
