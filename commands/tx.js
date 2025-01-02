@@ -2,7 +2,7 @@ const { randomInt } = require("crypto");
 const path = require("path");
 const fs = require("fs");
 const { createCanvas, loadImage } = require("canvas");
-const { getBalance, updateBalance, loadQuy, saveQuy, updateQuestProgress } = require('../utils/currencies');
+const { getBalance, updateBalance, loadQuy, saveQuy, updateQuestProgress, readData } = require('../utils/currencies');
 
 function formatNumber(number) {
     return number.toLocaleString('vi-VN');  

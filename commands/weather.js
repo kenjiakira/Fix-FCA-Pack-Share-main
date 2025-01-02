@@ -1,7 +1,8 @@
 const axios = require('axios');
+require('dotenv').config();
 
-const API_KEY = '1230a8fdc6457603234c68ead5f3f967';
-const AQI_TOKEN = '89b684e6ca5fe304f9385518cdcb07807f11fd4a'; 
+const API_KEY = process.env.OPENWEATHER_API_KEY;
+const AQI_TOKEN = process.env.AQI_TOKEN;
 
 module.exports = {
     name: "weather",

@@ -165,7 +165,26 @@ function setRewardClaimed(userID) {
     saveQuestProgress();
 }
 
+function readData() {
+    try {
+        if (fs.existsSync(dataFile)) {
+            const data = JSON.parse(fs.readFileSync(dataFile, 'utf8'));
+            return data;
+        }
+        return { balance: {} };
+    } catch (error) {
+        console.error("Lỗi khi đọc tệp dữ liệu:", error);
+        return { balance: {} };
+    }
+}
+
 loadData(); 
 loadQuestProgress();
 
-module.exports = { getBalance, setBalance, saveData, loadData, updateBalance, changeBalance, allBalances, saveQuy, loadQuy, loadQuests, getUserQuests, updateQuestProgress, canClaimRewards, setRewardClaimed, loadQuestProgress, saveQuestProgress, checkDayReset, getVNDate };
+module.exports = { 
+    getBalance, setBalance, saveData, loadData, updateBalance, 
+    changeBalance, allBalances, saveQuy, loadQuy, loadQuests, 
+    getUserQuests, updateQuestProgress, canClaimRewards, setRewardClaimed, 
+    loadQuestProgress, saveQuestProgress, checkDayReset, getVNDate,
+    readData  
+};
