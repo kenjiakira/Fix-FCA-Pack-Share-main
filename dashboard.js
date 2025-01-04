@@ -14,6 +14,8 @@ const PORT = process.env.PORT || 8080;
 const chalk = require("chalk");
 const boldText = (text) => chalk.bold(text)
 const gradient = require("gradient-string");
+const security = require('./utils/security');
+const helmet = require('helmet');
 
 io.on('connect_error', (error) => {
     console.error('Socket connection error:', error);
@@ -23,6 +25,8 @@ app.use('/toolbox', express.static(path.join(__dirname, 'Toolbox')));
 app.use(express.static(path.join(__dirname, 'public')));
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
+app.use(helmet());
+app.use(security.loginLimiter);
 
 const username = adminConfig.loginpanel.user;
 const password = adminConfig.loginpanel.password;
@@ -37,9 +41,9 @@ app.use(session({
 
 function getBotInfo() {
     return {
-        botName: adminConfig.botName || "Aki Bot",
-        prefix: adminConfig.prefix || ".",
-        ownerName: adminConfig.ownerName || "Kenji Akira",
+        botName: adminConfig.botName,
+        prefix: adminConfig.prefix,
+        ownerName: security.maskCredentials(adminConfig.ownerName),
         commandsCount: fs.readdirSync('./commands').length,
         eventsCount: fs.readdirSync('./events').length,
         threadsCount: Object.keys(JSON.parse(fs.readFileSync('./database/threads.json', 'utf8') || "{}")).length,
@@ -197,11 +201,7 @@ app.get('/login', (req, res) => {
 });
 
 app.get('/', (req, res) => {
-    if (req.session.loggedin) {
-        res.redirect('/console');
-    } else {
-        res.redirect('/login');
-    }
+    res.send('Bot Dashboard Running');
 });
 
 server.listen(PORT, () => {

@@ -14,19 +14,56 @@ module.exports = {
 
     onLaunch: async function ({ api, event, target }) {
         const url = target[0];
-        const device = target[1] || 'iphone 16 Pro Max';
+        const device = target[1]?.toLowerCase() || 'iphone14';
+
+        const deviceConfigs = {
+          
+            'iphone14': { width: 390, height: 844, device: 'iPhone 14' },
+            'iphone14pro': { width: 393, height: 852, device: 'iPhone 14 Pro' },
+            'iphone14max': { width: 428, height: 926, device: 'iPhone 14 Pro Max' },
+            'ipad': { width: 820, height: 1180, device: 'iPad' },
+            'ipadpro': { width: 1024, height: 1366, device: 'iPad Pro' },
+            
+            'pixel7': { width: 412, height: 915, device: 'Pixel 7' },
+            'pixel7pro': { width: 412, height: 936, device: 'Pixel 7 Pro' },
+            'galaxys23': { width: 360, height: 780, device: 'Galaxy S23' },
+            'galaxys23ultra': { width: 384, height: 854, device: 'Galaxy S23 Ultra' },
+            
+            'hd': { width: 1280, height: 720, device: 'HD Desktop' },
+            'fhd': { width: 1920, height: 1080, device: 'Full HD Desktop' },
+            '2k': { width: 2560, height: 1440, device: 'QHD Desktop' },
+            '4k': { width: 3840, height: 2160, device: '4K Desktop' }
+        };
 
         if (!url) {
-            return api.sendMessage("⚠️ Vui lòng cung cấp URL.\n📝 Cách dùng: ssl [url] [thiết bị]\n💡 Các thiết bị: iphone, ipad, pixel, galaxy", event.threadID, event.messageID);
+            const deviceList = Object.keys(deviceConfigs)
+                .map(d => `• ${d}`)
+                .join('\n');
+                
+            return api.sendMessage(
+                `⚠️ Vui lòng cung cấp URL.\n` +
+                `📝 Cách dùng: ssl [url] [thiết bị]\n` +
+                `📱 Các thiết bị hỗ trợ:\n${deviceList}`,
+                event.threadID,
+                event.messageID
+            );
         }
 
-        const check = await api.sendMessage("🔄 Đang xử lý yêu cầu của bạn...\n📸 Chụp màn hình\n🔒 Kiểm tra SSL", event.threadID, event.messageID);
+        const selectedDevice = deviceConfigs[device] || deviceConfigs.iphone14;
+        const check = await api.sendMessage(
+            `🔄 Đang xử lý yêu cầu của bạn...\n` +
+            `📱 Thiết bị: ${selectedDevice.device}\n` +
+            `📐 Độ phân giải: ${selectedDevice.width}x${selectedDevice.height}`,
+            event.threadID,
+            event.messageID
+        );
+
         const filePath = path.join(__dirname, 'cache', `screenshot-${Date.now()}.png`);
 
         try {
             const screenshotResponse = await axios({
                 method: 'get',
-                url: `https://render-puppeteer-test-sspb.onrender.com/ss?url=${url}&device=${device}`,
+                url: `https://render-puppeteer-test-sspb.onrender.com/ss?url=${url}&width=${selectedDevice.width}&height=${selectedDevice.height}`,
                 responseType: 'arraybuffer',
             });
 
@@ -74,7 +111,11 @@ module.exports = {
 🔐 Giao thức: ${certResult.details.protocol}` : '';
 
             api.sendMessage({
-                body: `🌐 URL: ${url}\n📱 Thiết bị: ${device}\n📊 Mã trạng thái: ${statusCode}\n🔒 ${certResult.status}${certDetails}`,
+                body: `🌐 URL: ${url}\n` +
+                      `📱 Thiết bị: ${selectedDevice.device}\n` +
+                      `📐 Độ phân giải: ${selectedDevice.width}x${selectedDevice.height}\n` +
+                      `📊 Mã trạng thái: ${statusCode}\n` +
+                      `🔒 ${certResult.status}${certDetails}`,
                 attachment: fs.createReadStream(filePath)
             }, event.threadID, () => {
                 fs.unlinkSync(filePath);
