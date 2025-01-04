@@ -6,7 +6,7 @@ const dataFile = path.join(__dirname, '..', 'database', 'currencies.json');
 const quyFilePath  = path.join(__dirname, '..', 'commands', 'json', 'quy.json');
 global.userQuests = global.userQuests || {};
 const questsFile = path.join(__dirname, '..', 'database', 'quests.json');
-const questProgressFile = path.join(__dirname, '..', 'database', 'questProgress.json');
+const questProgressFile = path.join(__dirname, '..', 'database', 'json' , 'questProgress.json');
 
 async function loadData() {
     try {

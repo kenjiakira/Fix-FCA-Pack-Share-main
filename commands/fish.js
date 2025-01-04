@@ -192,7 +192,7 @@ module.exports = {
     },
 
     loadPlayerData: function(userID) {
-        const dataPath = path.join(__dirname, '../database/fishing.json');
+        const dataPath = path.join(__dirname, '../database/json/fishing.json');
         let data = {};
         
         try {
@@ -232,7 +232,7 @@ module.exports = {
     },
 
     savePlayerData: function(data) {
-        const dataPath = path.join(__dirname, '../database/fishing.json');
+        const dataPath = path.join(__dirname, '../database/json/fishing.json');
         try {
          
             let existingData = {};
@@ -673,7 +673,7 @@ module.exports = {
     },
 
     loadAllPlayers: function() {
-        const dataPath = path.join(__dirname, '../database/fishing.json');
+        const dataPath = path.join(__dirname, '../database/json/fishing.json');
         try {
             if (fs.existsSync(dataPath)) {
                 return JSON.parse(fs.readFileSync(dataPath, 'utf8'));

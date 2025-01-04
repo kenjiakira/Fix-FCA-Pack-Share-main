@@ -1,0 +1,1122 @@
+{
+  "61561753304881": {
+    "rod": "Cần máy",
+    "rodDurability": 18,
+    "inventory": [
+      "Cần trúc",
+      "Cần máy"
+    ],
+    "collection": {
+      "byRarity": {
+        "trash": {},
+        "common": {
+          "Rương vàng": 1,
+          "Cá Tra": 1
+        },
+        "uncommon": {},
+        "rare": {},
+        "legendary": {},
+        "mythical": {}
+      },
+      "stats": {
+        "totalCaught": 2,
+        "totalValue": 77250,
+        "bestCatch": {
+          "name": "Rương vàng",
+          "value": 75000
+        }
+      }
+    },
+    "exp": 212,
+    "level": 1,
+    "fishingStreak": 2,
+    "stats": {
+      "totalExp": 212,
+      "highestStreak": 2,
+      "totalFishes": 2
+    },
+    "activeBuffs": {},
+    "lastFished": 1735611814437,
+    "userID": "61561753304881"
+  },
+  "100068382888605": {
+    "rod": "Cần Lục",
+    "rodDurability": 5,
+    "inventory": [
+      "Cần trúc",
+      "Cần máy",
+      "Cần đài",
+      "Cần Lục"
+    ],
+    "collection": {
+      "byRarity": {
+        "trash": {
+          "Rác": 1,
+          "Rong biển": 4,
+          "Chai nhựa": 1
+        },
+        "common": {
+          "Cá Rô": 15,
+          "Cá Chép": 7,
+          "Cá Mè": 19,
+          "Cá Tra": 9,
+          "Cá Diếc": 11,
+          "Kho báu cổ đại": 2,
+          "Rương bạc": 2,
+          "Rương vàng": 2
+        },
+        "uncommon": {
+          "Cá Thu": 8,
+          "Cá Lóc": 5,
+          "Cá Quả": 9,
+          "Cá Trê": 4
+        },
+        "rare": {
+          "Cá Hồi": 1,
+          "Cá Ngừ": 1
+        },
+        "legendary": {},
+        "mythical": {}
+      },
+      "stats": {
+        "totalCaught": 101,
+        "totalValue": 1931700,
+        "bestCatch": {
+          "name": "Kho báu cổ đại",
+          "value": 300000
+        }
+      }
+    },
+    "exp": 297,
+    "level": 4,
+    "fishingStreak": 101,
+    "stats": {
+      "totalExp": 6297,
+      "highestStreak": 101,
+      "totalFishes": 101
+    },
+    "activeBuffs": {},
+    "lastFished": 1735921009643,
+    "userID": "100068382888605"
+  },
+  "100024874297909": {
+    "rod": "Cần máy",
+    "rodDurability": 15,
+    "inventory": [
+      "Cần trúc",
+      "Cần máy"
+    ],
+    "collection": {
+      "byRarity": {
+        "trash": {
+          "Rong biển": 1
+        },
+        "common": {
+          "Cá Tra": 2,
+          "Cá Rô": 1,
+          "Cá Diếc": 1
+        },
+        "uncommon": {
+          "Cá Thu": 1
+        },
+        "rare": {},
+        "legendary": {},
+        "mythical": {}
+      },
+      "stats": {
+        "totalCaught": 6,
+        "totalValue": 17300,
+        "bestCatch": {
+          "name": "Cá Thu",
+          "value": 8000
+        }
+      }
+    },
+    "exp": 53,
+    "level": 1,
+    "fishingStreak": 5,
+    "stats": {
+      "totalExp": 53,
+      "highestStreak": 5,
+      "totalFishes": 5
+    },
+    "activeBuffs": {},
+    "lastFished": 1735635482961,
+    "userID": "100024874297909"
+  },
+  "61565083133053": {
+    "rod": "Cần trúc",
+    "rodDurability": 5,
+    "inventory": [
+      "Cần trúc"
+    ],
+    "collection": {
+      "byRarity": {
+        "trash": {
+          "Chai nhựa": 1,
+          "Rong biển": 1
+        },
+        "common": {
+          "Cá Tra": 1,
+          "Cá Rô": 1
+        },
+        "uncommon": {
+          "Cá Thu": 2
+        },
+        "rare": {},
+        "legendary": {},
+        "mythical": {}
+      },
+      "stats": {
+        "totalCaught": 6,
+        "totalValue": 19000,
+        "bestCatch": {
+          "name": "Cá Thu",
+          "value": 8000
+        }
+      }
+    },
+    "exp": 84,
+    "level": 1,
+    "fishingStreak": 5,
+    "stats": {
+      "totalExp": 84,
+      "highestStreak": 5,
+      "totalFishes": 5
+    },
+    "activeBuffs": {},
+    "lastFished": 1735737404859,
+    "userID": "61565083133053"
+  },
+  "100044841742945": {
+    "rod": "Cần đài",
+    "rodDurability": 22,
+    "inventory": [
+      "Cần trúc",
+      "Cần đài"
+    ],
+    "collection": {
+      "byRarity": {
+        "trash": {
+          "Chai nhựa": 1
+        },
+        "common": {
+          "Cá Tra": 4,
+          "Cá Diếc": 1,
+          "Cá Mè": 3,
+          "Cá Rô": 1,
+          "Cá Chép": 1,
+          "Kho báu cổ đại": 1
+        },
+        "uncommon": {
+          "Cá Thu": 1,
+          "Cá Trê": 1
+        },
+        "rare": {},
+        "legendary": {},
+        "mythical": {}
+      },
+      "stats": {
+        "totalCaught": 14,
+        "totalValue": 250300,
+        "bestCatch": {
+          "name": "Kho báu cổ đại",
+          "value": 200000
+        }
+      }
+    },
+    "exp": 650,
+    "level": 1,
+    "fishingStreak": 12,
+    "stats": {
+      "totalExp": 650,
+      "highestStreak": 12,
+      "totalFishes": 12
+    },
+    "activeBuffs": {},
+    "lastFished": 1735880544023,
+    "userID": "100044841742945"
+  },
+  "100055417691992": {
+    "rod": "Cần trúc",
+    "rodDurability": -8,
+    "inventory": [
+      "Cần trúc"
+    ],
+    "collection": {
+      "byRarity": {
+        "trash": {
+          "Rác": 1,
+          "Chai nhựa": 1
+        },
+        "common": {
+          "Cá Tra": 4,
+          "Cá Rô": 1,
+          "Cá Diếc": 3,
+          "Rương vàng": 2,
+          "Cá Mè": 1,
+          "Cá Chép": 1,
+          "Rương bạc": 1
+        },
+        "uncommon": {
+          "Cá Quả": 1,
+          "Cá Thu": 1,
+          "Cá Lóc": 1
+        },
+        "rare": {},
+        "legendary": {},
+        "mythical": {}
+      },
+      "stats": {
+        "totalCaught": 18,
+        "totalValue": 159900,
+        "bestCatch": {
+          "name": "Rương vàng",
+          "value": 50000
+        }
+      }
+    },
+    "exp": 615,
+    "level": 2,
+    "fishingStreak": 18,
+    "stats": {
+      "totalExp": 1615,
+      "highestStreak": 18,
+      "totalFishes": 18
+    },
+    "activeBuffs": {},
+    "lastFished": 1735921059782,
+    "userID": "100055417691992"
+  },
+  "61559151106106": {
+    "rod": "Cần trúc",
+    "rodDurability": 9,
+    "inventory": [
+      "Cần trúc"
+    ],
+    "collection": {
+      "byRarity": {
+        "trash": {},
+        "common": {
+          "Cá Tra": 1
+        },
+        "uncommon": {},
+        "rare": {},
+        "legendary": {},
+        "mythical": {}
+      },
+      "stats": {
+        "totalCaught": 1,
+        "totalValue": 1500,
+        "bestCatch": {
+          "name": "Cá Tra",
+          "value": 1500
+        }
+      }
+    },
+    "exp": 10,
+    "level": 1,
+    "fishingStreak": 1,
+    "stats": {
+      "totalExp": 10,
+      "highestStreak": 1,
+      "totalFishes": 1
+    },
+    "activeBuffs": {},
+    "lastFished": 1735612340009,
+    "userID": "61559151106106"
+  },
+  "61570270795701": {
+    "rod": "Cần trúc",
+    "rodDurability": 8,
+    "inventory": [
+      "Cần trúc"
+    ],
+    "collection": {
+      "byRarity": {
+        "trash": {},
+        "common": {
+          "Cá Rô": 1
+        },
+        "uncommon": {
+          "Cá Quả": 1
+        },
+        "rare": {},
+        "legendary": {},
+        "mythical": {}
+      },
+      "stats": {
+        "totalCaught": 2,
+        "totalValue": 7000,
+        "bestCatch": {
+          "name": "Cá Quả",
+          "value": 6000
+        }
+      }
+    },
+    "exp": 52,
+    "level": 1,
+    "fishingStreak": 2,
+    "stats": {
+      "totalExp": 52,
+      "highestStreak": 2,
+      "totalFishes": 2
+    },
+    "activeBuffs": {},
+    "lastFished": 1735788655773,
+    "userID": "61570270795701"
+  },
+  "61569008916749": {
+    "rod": "Cần trúc",
+    "rodDurability": 7,
+    "inventory": [
+      "Cần trúc"
+    ],
+    "collection": {
+      "byRarity": {
+        "trash": {},
+        "common": {
+          "Cá Tra": 1,
+          "Cá Mè": 1
+        },
+        "uncommon": {
+          "Cá Trê": 1
+        },
+        "rare": {},
+        "legendary": {},
+        "mythical": {}
+      },
+      "stats": {
+        "totalCaught": 3,
+        "totalValue": 9000,
+        "bestCatch": {
+          "name": "Cá Trê",
+          "value": 5000
+        }
+      }
+    },
+    "exp": 66,
+    "level": 1,
+    "fishingStreak": 3,
+    "stats": {
+      "totalExp": 66,
+      "highestStreak": 3,
+      "totalFishes": 3
+    },
+    "activeBuffs": {},
+    "lastFished": 1735718153562,
+    "userID": "61569008916749"
+  },
+  "100023369384858": {
+    "rod": "Cần Lục",
+    "rodDurability": 17,
+    "inventory": [
+      "Cần trúc",
+      "Cần đài",
+      "Cần Lục"
+    ],
+    "collection": {
+      "byRarity": {
+        "trash": {
+          "Chai nhựa": 3
+        },
+        "common": {
+          "Cá Tra": 6,
+          "Cá Rô": 7,
+          "Cá Chép": 4,
+          "Rương vàng": 1,
+          "Cá Mè": 3,
+          "Cá Diếc": 7,
+          "Hòm gỗ": 1
+        },
+        "uncommon": {
+          "Cá Lóc": 1,
+          "Cá Thu": 1,
+          "Cá Quả": 2
+        },
+        "rare": {},
+        "legendary": {},
+        "mythical": {}
+      },
+      "stats": {
+        "totalCaught": 36,
+        "totalValue": 386200,
+        "bestCatch": {
+          "name": "Rương vàng",
+          "value": 150000
+        }
+      }
+    },
+    "exp": 636,
+    "level": 2,
+    "fishingStreak": 36,
+    "stats": {
+      "totalExp": 1636,
+      "highestStreak": 36,
+      "totalFishes": 36
+    },
+    "activeBuffs": {},
+    "lastFished": 1735912769917,
+    "userID": "100023369384858"
+  },
+  "100076957299243": {
+    "rod": "Cần trúc",
+    "rodDurability": 3,
+    "inventory": [
+      "Cần trúc"
+    ],
+    "collection": {
+      "byRarity": {
+        "trash": {
+          "Chai nhựa": 1
+        },
+        "common": {
+          "Cá Chép": 1,
+          "Cá Rô": 1,
+          "Cá Tra": 2,
+          "Cá Diếc": 1
+        },
+        "uncommon": {
+          "Cá Trê": 1
+        },
+        "rare": {},
+        "legendary": {},
+        "mythical": {}
+      },
+      "stats": {
+        "totalCaught": 7,
+        "totalValue": 14300,
+        "bestCatch": {
+          "name": "Cá Trê",
+          "value": 5000
+        }
+      }
+    },
+    "exp": 157,
+    "level": 1,
+    "fishingStreak": 7,
+    "stats": {
+      "totalExp": 157,
+      "highestStreak": 7,
+      "totalFishes": 7
+    },
+    "activeBuffs": {},
+    "lastFished": 1735903366637,
+    "userID": "100076957299243"
+  },
+  "61550049193361": {
+    "rod": "Cần trúc",
+    "rodDurability": 8,
+    "inventory": [
+      "Cần trúc"
+    ],
+    "collection": {
+      "byRarity": {
+        "trash": {},
+        "common": {
+          "Cá Rô": 1
+        },
+        "uncommon": {
+          "Cá Lóc": 1
+        },
+        "rare": {},
+        "legendary": {},
+        "mythical": {}
+      },
+      "stats": {
+        "totalCaught": 2,
+        "totalValue": 8000,
+        "bestCatch": {
+          "name": "Cá Lóc",
+          "value": 7000
+        }
+      }
+    },
+    "exp": 58,
+    "level": 1,
+    "fishingStreak": 2,
+    "stats": {
+      "totalExp": 58,
+      "highestStreak": 2,
+      "totalFishes": 2
+    },
+    "activeBuffs": {},
+    "lastFished": 1735899654488,
+    "userID": "61550049193361"
+  },
+  "61565913026622": {
+    "rod": "Cần trúc",
+    "rodDurability": 9,
+    "inventory": [
+      "Cần trúc"
+    ],
+    "collection": {
+      "byRarity": {
+        "trash": {},
+        "common": {
+          "Cá Tra": 1
+        },
+        "uncommon": {},
+        "rare": {},
+        "legendary": {},
+        "mythical": {}
+      },
+      "stats": {
+        "totalCaught": 1,
+        "totalValue": 1500,
+        "bestCatch": {
+          "name": "Cá Tra",
+          "value": 1500
+        }
+      }
+    },
+    "exp": 10,
+    "level": 1,
+    "fishingStreak": 1,
+    "stats": {
+      "totalExp": 10,
+      "highestStreak": 1,
+      "totalFishes": 1
+    },
+    "activeBuffs": {},
+    "lastFished": 1735712041241,
+    "userID": "61565913026622"
+  },
+  "100053970942155": {
+    "rod": "Cần trúc",
+    "rodDurability": 7,
+    "inventory": [
+      "Cần trúc"
+    ],
+    "collection": {
+      "byRarity": {
+        "trash": {},
+        "common": {
+          "Cá Diếc": 2,
+          "Cá Mè": 1
+        },
+        "uncommon": {},
+        "rare": {},
+        "legendary": {},
+        "mythical": {}
+      },
+      "stats": {
+        "totalCaught": 3,
+        "totalValue": 6500,
+        "bestCatch": {
+          "name": "Cá Mè",
+          "value": 2500
+        }
+      }
+    },
+    "exp": 36,
+    "level": 1,
+    "fishingStreak": 3,
+    "stats": {
+      "totalExp": 36,
+      "highestStreak": 3,
+      "totalFishes": 3
+    },
+    "activeBuffs": {},
+    "lastFished": 1735901788911,
+    "userID": "100053970942155"
+  },
+  "61566015353601": {
+    "rod": "Cần đài",
+    "rodDurability": 14,
+    "inventory": [
+      "Cần trúc",
+      "Cần máy",
+      "Cần đài"
+    ],
+    "collection": {
+      "byRarity": {
+        "trash": {
+          "Rác": 2,
+          "Rong biển": 1
+        },
+        "common": {
+          "Cá Diếc": 5,
+          "Cá Tra": 9,
+          "Cá Mè": 5,
+          "Cá Rô": 6,
+          "Rương bạc": 2,
+          "Hòm gỗ": 1
+        },
+        "uncommon": {
+          "Cá Quả": 4,
+          "Cá Trê": 1,
+          "Cá Thu": 1,
+          "Cá Lóc": 1
+        },
+        "rare": {},
+        "legendary": {},
+        "mythical": {}
+      },
+      "stats": {
+        "totalCaught": 38,
+        "totalValue": 222000,
+        "bestCatch": {
+          "name": "Rương bạc",
+          "value": 40000
+        }
+      }
+    },
+    "exp": 1233,
+    "level": 2,
+    "fishingStreak": 38,
+    "stats": {
+      "totalExp": 2233,
+      "highestStreak": 38,
+      "totalFishes": 38
+    },
+    "activeBuffs": {},
+    "lastFished": 1735920964289,
+    "userID": "61566015353601"
+  },
+  "100074888445500": {
+    "rod": "Cần trúc",
+    "rodDurability": 4,
+    "inventory": [
+      "Cần trúc"
+    ],
+    "collection": {
+      "byRarity": {
+        "trash": {},
+        "common": {
+          "Cá Rô": 2,
+          "Hòm gỗ": 1,
+          "Cá Diếc": 1,
+          "Cá Chép": 1
+        },
+        "uncommon": {
+          "Cá Thu": 1
+        },
+        "rare": {},
+        "legendary": {},
+        "mythical": {}
+      },
+      "stats": {
+        "totalCaught": 6,
+        "totalValue": 20000,
+        "bestCatch": {
+          "name": "Cá Thu",
+          "value": 8000
+        }
+      }
+    },
+    "exp": 360,
+    "level": 1,
+    "fishingStreak": 6,
+    "stats": {
+      "totalExp": 360,
+      "highestStreak": 6,
+      "totalFishes": 6
+    },
+    "activeBuffs": {},
+    "lastFished": 1735905395278,
+    "userID": "100074888445500"
+  },
+  "100085191341131": {
+    "rod": "Cần trúc",
+    "rodDurability": 5,
+    "inventory": [
+      "Cần trúc"
+    ],
+    "collection": {
+      "byRarity": {
+        "trash": {},
+        "common": {
+          "Cá Rô": 2,
+          "Cá Tra": 2,
+          "Cá Mè": 1,
+          "Cá Diếc": 1
+        },
+        "uncommon": {},
+        "rare": {},
+        "legendary": {},
+        "mythical": {}
+      },
+      "stats": {
+        "totalCaught": 6,
+        "totalValue": 9500,
+        "bestCatch": {
+          "name": "Cá Mè",
+          "value": 2500
+        }
+      }
+    },
+    "exp": 70,
+    "level": 1,
+    "fishingStreak": 5,
+    "stats": {
+      "totalExp": 70,
+      "highestStreak": 5,
+      "totalFishes": 5
+    },
+    "activeBuffs": {},
+    "lastFished": 1735905450898,
+    "userID": "100085191341131"
+  },
+  "100089415987625": {
+    "rod": "Cần trúc",
+    "rodDurability": 7,
+    "inventory": [
+      "Cần trúc"
+    ],
+    "collection": {
+      "byRarity": {
+        "trash": {
+          "Rong biển": 1,
+          "Rác": 1
+        },
+        "common": {
+          "Rương vàng": 1
+        },
+        "uncommon": {},
+        "rare": {},
+        "legendary": {},
+        "mythical": {}
+      },
+      "stats": {
+        "totalCaught": 3,
+        "totalValue": 50300,
+        "bestCatch": {
+          "name": "Rương vàng",
+          "value": 50000
+        }
+      }
+    },
+    "exp": 202,
+    "level": 1,
+    "fishingStreak": 3,
+    "stats": {
+      "totalExp": 202,
+      "highestStreak": 3,
+      "totalFishes": 3
+    },
+    "activeBuffs": {},
+    "lastFished": 1735735317862,
+    "userID": "100089415987625"
+  },
+  "61561706008732": {
+    "rod": "Cần trúc",
+    "rodDurability": 9,
+    "inventory": [
+      "Cần trúc"
+    ],
+    "collection": {
+      "byRarity": {
+        "trash": {},
+        "common": {
+          "Rương vàng": 1,
+          "Cá Mè": 1
+        },
+        "uncommon": {},
+        "rare": {},
+        "legendary": {},
+        "mythical": {}
+      },
+      "stats": {
+        "totalCaught": 2,
+        "totalValue": 52500,
+        "bestCatch": {
+          "name": "Rương vàng",
+          "value": 50000
+        }
+      }
+    },
+    "exp": 10,
+    "level": 1,
+    "fishingStreak": 1,
+    "stats": {
+      "totalExp": 10,
+      "highestStreak": 1,
+      "totalFishes": 1
+    },
+    "activeBuffs": {},
+    "lastFished": 1735732888246,
+    "userID": "61561706008732"
+  },
+  "100048502504358": {
+    "rod": "Cần trúc",
+    "rodDurability": 7,
+    "inventory": [
+      "Cần trúc"
+    ],
+    "collection": {
+      "byRarity": {
+        "trash": {},
+        "common": {
+          "Rương vàng": 1,
+          "Cá Mè": 2,
+          "Cá Diếc": 1,
+          "Cá Chép": 1
+        },
+        "uncommon": {},
+        "rare": {},
+        "legendary": {},
+        "mythical": {}
+      },
+      "stats": {
+        "totalCaught": 5,
+        "totalValue": 60000,
+        "bestCatch": {
+          "name": "Rương vàng",
+          "value": 50000
+        }
+      }
+    },
+    "exp": 36,
+    "level": 1,
+    "fishingStreak": 3,
+    "stats": {
+      "totalExp": 36,
+      "highestStreak": 3,
+      "totalFishes": 3
+    },
+    "activeBuffs": {},
+    "lastFished": 1735882100965,
+    "userID": "100048502504358"
+  },
+  "61566612873540": {
+    "rod": "Cần trúc",
+    "rodDurability": 9,
+    "inventory": [
+      "Cần trúc"
+    ],
+    "collection": {
+      "byRarity": {
+        "trash": {},
+        "common": {
+          "Cá Chép": 1
+        },
+        "uncommon": {},
+        "rare": {},
+        "legendary": {},
+        "mythical": {}
+      },
+      "stats": {
+        "totalCaught": 1,
+        "totalValue": 3000,
+        "bestCatch": {
+          "name": "Cá Chép",
+          "value": 3000
+        }
+      }
+    },
+    "exp": 10,
+    "level": 1,
+    "fishingStreak": 1,
+    "stats": {
+      "totalExp": 10,
+      "highestStreak": 1,
+      "totalFishes": 1
+    },
+    "activeBuffs": {},
+    "lastFished": 1735744327321,
+    "userID": "61566612873540"
+  },
+  "61566663098619": {
+    "rod": "Cần trúc",
+    "rodDurability": 9,
+    "inventory": [
+      "Cần trúc"
+    ],
+    "collection": {
+      "byRarity": {
+        "trash": {
+          "Chai nhựa": 1
+        },
+        "common": {},
+        "uncommon": {},
+        "rare": {},
+        "legendary": {},
+        "mythical": {}
+      },
+      "stats": {
+        "totalCaught": 1,
+        "totalValue": 300,
+        "bestCatch": {
+          "name": "Chai nhựa",
+          "value": 300
+        }
+      }
+    },
+    "exp": 1,
+    "level": 1,
+    "fishingStreak": 1,
+    "stats": {
+      "totalExp": 1,
+      "highestStreak": 1,
+      "totalFishes": 1
+    },
+    "activeBuffs": {},
+    "lastFished": 1735788929908,
+    "userID": "61566663098619"
+  },
+  "61570532692675": {
+    "rod": "Cần trúc",
+    "rodDurability": 7,
+    "inventory": [
+      "Cần trúc"
+    ],
+    "collection": {
+      "byRarity": {
+        "trash": {},
+        "common": {
+          "Cá Diếc": 1,
+          "Cá Mè": 1
+        },
+        "uncommon": {
+          "Cá Quả": 1
+        },
+        "rare": {},
+        "legendary": {},
+        "mythical": {}
+      },
+      "stats": {
+        "totalCaught": 3,
+        "totalValue": 10500,
+        "bestCatch": {
+          "name": "Cá Quả",
+          "value": 6000
+        }
+      }
+    },
+    "exp": 78,
+    "level": 1,
+    "fishingStreak": 3,
+    "stats": {
+      "totalExp": 78,
+      "highestStreak": 3,
+      "totalFishes": 3
+    },
+    "activeBuffs": {},
+    "lastFished": 1735903532602,
+    "userID": "61570532692675"
+  },
+  "100094538943472": {
+    "rod": "Cần trúc",
+    "rodDurability": 0,
+    "inventory": [
+      "Cần trúc"
+    ],
+    "collection": {
+      "byRarity": {
+        "trash": {},
+        "common": {
+          "Cá Diếc": 3,
+          "Cá Tra": 2,
+          "Kho báu cổ đại": 1,
+          "Cá Rô": 1,
+          "Rương bạc": 1
+        },
+        "uncommon": {
+          "Cá Quả": 1,
+          "Cá Thu": 1
+        },
+        "rare": {},
+        "legendary": {},
+        "mythical": {}
+      },
+      "stats": {
+        "totalCaught": 10,
+        "totalValue": 144000,
+        "bestCatch": {
+          "name": "Kho báu cổ đại",
+          "value": 100000
+        }
+      }
+    },
+    "exp": 918,
+    "level": 1,
+    "fishingStreak": 10,
+    "stats": {
+      "totalExp": 918,
+      "highestStreak": 10,
+      "totalFishes": 10
+    },
+    "activeBuffs": {},
+    "lastFished": 1735917001458,
+    "userID": "100094538943472"
+  },
+  "61561277064921": {
+    "rod": "Cần trúc",
+    "rodDurability": 8,
+    "inventory": [
+      "Cần trúc"
+    ],
+    "collection": {
+      "byRarity": {
+        "trash": {},
+        "common": {
+          "Cá Mè": 1
+        },
+        "uncommon": {
+          "Cá Lóc": 1
+        },
+        "rare": {},
+        "legendary": {},
+        "mythical": {}
+      },
+      "stats": {
+        "totalCaught": 2,
+        "totalValue": 9500,
+        "bestCatch": {
+          "name": "Cá Lóc",
+          "value": 7000
+        }
+      }
+    },
+    "exp": 52,
+    "level": 1,
+    "fishingStreak": 2,
+    "stats": {
+      "totalExp": 52,
+      "highestStreak": 2,
+      "totalFishes": 2
+    },
+    "activeBuffs": {},
+    "lastFished": 1735884998976,
+    "userID": "61561277064921"
+  },
+  "100058320200877": {
+    "rod": "Cần trúc",
+    "rodDurability": 9,
+    "inventory": [
+      "Cần trúc"
+    ],
+    "collection": {
+      "byRarity": {
+        "trash": {},
+        "common": {
+          "Cá Chép": 1
+        },
+        "uncommon": {},
+        "rare": {},
+        "legendary": {},
+        "mythical": {}
+      },
+      "stats": {
+        "totalCaught": 1,
+        "totalValue": 3000,
+        "bestCatch": {
+          "name": "Cá Chép",
+          "value": 3000
+        }
+      }
+    },
+    "exp": 10,
+    "level": 1,
+    "fishingStreak": 1,
+    "stats": {
+      "totalExp": 10,
+      "highestStreak": 1,
+      "totalFishes": 1
+    },
+    "activeBuffs": {},
+    "lastFished": 1735896856120,
+    "userID": "100058320200877"
+  }
+}

@@ -103,13 +103,11 @@ module.exports = {
             return;
         }
 
-        // Handle betting
         if (target.length === 3) {
             const [type, numbers, amount] = target;
-            // Automatically use 27k for lo, otherwise use provided amount
+
             const betAmount = type === 'lo' ? LottoManager.getBetAmount(type) : parseInt(amount);
 
-            // Check daily limit
             if (!await LottoManager.checkDailyLimit(senderID, betAmount)) {
                 return api.sendMessage(
                     "❌ Bạn đã đạt giới hạn cược trong ngày (1,000,000 Xu/ngày)!",
@@ -134,7 +132,6 @@ module.exports = {
                 );
             }
 
-            // General validation for other types
             if (type !== 'lo' && (isNaN(betAmount) || betAmount < LottoManager.BET_AMOUNTS[type])) {
                 return api.sendMessage(
                     `❌ Số tiền cược tối thiểu là ${LottoManager.BET_AMOUNTS[type].toLocaleString('vi-VN')} Xu!`, 
