@@ -95,53 +95,12 @@ function saveName(userID, name) {
 }
 
 async function getUserName(api, senderID, threadID) {
-    
-    if (!nameCache) initNameCache();
-
-    if (nameCache[senderID]) {
-        const cached = nameCache[senderID];
-      
-        if (Date.now() - cached.timestamp < 24 * 60 * 60 * 1000) {
-            return cached.name;
-        }
-    }
-
     try {
-    
-        try {
-            const userInfo = await api.getUserInfo(senderID);
-            if (userInfo[senderID]?.name) {
-                saveName(senderID, userInfo[senderID].name);
-                return userInfo[senderID].name;
-            }
-        } catch (apiError) {
-            console.log('API getUserInfo error:', apiError);
-        }
-
-        try {
-            const threadInfo = await api.getThreadInfo(threadID);
-            const participant = threadInfo.userInfo?.find(user => user.id === senderID);
-            if (participant?.name) {
-                saveName(senderID, participant.name);
-                return participant.name;
-            }
-        } catch (threadError) {
-            console.log('Thread info error:', threadError);
-        }
-
-        const userData = JSON.parse(fs.readFileSync(userDataPath, 'utf8'));
-        if (userData[senderID]?.name) {
-            saveName(senderID, userData[senderID].name);
-            return userData[senderID].name;
-        }
-
-        const fallbackName = `Người dùng ${senderID}`;
-        saveName(senderID, fallbackName);
-        return fallbackName;
-
+        const userInfo = await api.getUserInfo(senderID);
+        return userInfo[senderID]?.name || "Name";
     } catch (error) {
         console.log('getUserName error:', error);
-        return `Người dùng ${senderID}`;
+        return "Name";
     }
 }
 
@@ -355,54 +314,61 @@ module.exports = {
     prog: 'HNT',
 
     onEvents: async function ({ api, event }) {
-        if (event.type === 'message') {
-            const message = event.body.trim();
-
-            let userData = JSON.parse(fs.readFileSync(userDataPath, 'utf8'));
-            const userId = event.senderID;
-            const threadID = event.threadID; 
-
-            if (!userData[userId]) {
-                userData[userId] = { 
-                    exp: 0, 
-                    level: 1, 
-                    name: await getUserName(api, userId, threadID) 
-                };
-            } else {
-                let expGain = 1;
-                if (message.length > 10) expGain = 2;
-                if (message.length > 50) expGain = 3;
-                if (message.length > 100) expGain = 4;
+            if (event.type === 'message') {
+                const message = event.body.trim();
+                let userData;
+                const expGain = 1;
                 
+                try {
+                    userData = JSON.parse(fs.readFileSync(userDataPath, 'utf8'));
+                } catch (err) {
+                    userData = {};
+                }
+
+                if (!userData[event.senderID]) {
+                    userData[event.senderID] = {
+                        exp: 0,
+                        level: 1,
+                        name: event.senderName || "User",
+                        lastMessageTime: 0
+                    };
+                }
+
+                const userId = event.senderID;
+                
+                const config = loadRankConfig();
+                if (config.disabledThreads.includes(event.threadID)) {
+                    return;
+                }
+
                 const now = Date.now();
                 if (!userData[userId].lastMessageTime || now - userData[userId].lastMessageTime >= 10000) {
                     userData[userId].exp += expGain;
                     userData[userId].lastMessageTime = now;
                 }
+
+                const expNeeded = calculateRequiredXp(userData[userId].level);
+
+                if (userData[userId].exp >= expNeeded) {
+                    userData[userId].level += 1;
+                    userData[userId].exp = userData[userId].exp; 
+                    updateUserRank(userData);
+
+                    const rankLevel = userData[userId].level;
+                    const rank = userData[userId].rank;
+
+                    messageQueue.push({
+                        senderID: userId,
+                        name: userData[userId].name,
+                        exp: userData[userId].exp,
+                        level: rankLevel,
+                        rank: rank,
+                    });
+
+                    processQueue(api, event);
+                }
+
+                fs.writeFileSync(userDataPath, JSON.stringify(userData, null, 2));
             }
-
-            const expNeeded = calculateRequiredXp(userData[userId].level);
-
-            if (userData[userId].exp >= expNeeded) {
-                userData[userId].level += 1;
-                userData[userId].exp = userData[userId].exp; 
-                updateUserRank(userData);
-
-                const rankLevel = userData[userId].level;
-                const rank = userData[userId].rank;
-
-                messageQueue.push({
-                    senderID: userId,
-                    name: userData[userId].name,
-                    exp: userData[userId].exp,
-                    level: rankLevel,
-                    rank: rank,
-                });
-
-                processQueue(api, event);
-            }
-
-            fs.writeFileSync(userDataPath, JSON.stringify(userData, null, 2));
         }
-    },
-};
+    };

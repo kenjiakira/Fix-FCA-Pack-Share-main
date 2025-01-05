@@ -3,6 +3,7 @@ const path = require("path");
 const fs = require("fs-extra");
 const NodeCache = require("node-cache");
 const fetch = require('node-fetch');
+const axios = require('axios');
 global.fetch = fetch;
 
 const responseCache = new NodeCache({ stdTTL: 1800 });
@@ -37,9 +38,43 @@ const systemInstruction = `
     Bạn là AI trợ lý ảo có tên là AKI AI. Hãy trò chuyện một cách thân thiện và tự nhiên.
     Trả lời ngắn gọn, súc tích và luôn bằng tiếng Việt.`;
 
-const generateResponse = async (prompt, threadId) => {
+const processImage = async (attachment) => {
+  try {
+    const fileUrl = attachment.url;
+    const cacheDir = path.join(__dirname, 'cache');
+    
+    if (!fs.existsSync(cacheDir)) {
+      fs.mkdirSync(cacheDir, { recursive: true });
+    }
+    
+    const tempFilePath = path.join(cacheDir, `temp_image_${Date.now()}.jpg`);
+    
+    const response = await axios({
+      url: fileUrl,
+      responseType: 'arraybuffer'
+    });
+    
+    await fs.writeFile(tempFilePath, Buffer.from(response.data));
+    const fileData = await fs.readFile(tempFilePath);
+    const base64Image = fileData.toString('base64');
+    
+    await fs.unlink(tempFilePath);
+    
+    return {
+      inlineData: {
+        data: base64Image,
+        mimeType: 'image/jpeg'
+      }
+    };
+  } catch (error) {
+    console.error("Error processing image:", error);
+    throw error;
+  }
+};
+
+const generateResponse = async (prompt, threadId, imagePart = null) => {
     try {
-        const cacheKey = `${prompt}-${threadId}`;
+        const cacheKey = `${prompt}-${threadId}-${imagePart ? 'image' : 'text'}`;
         const cached = responseCache.get(cacheKey);
         if (cached) return cached;
 
@@ -54,9 +89,15 @@ const generateResponse = async (prompt, threadId) => {
                 const context = conversationHistory[threadId] ? 
                     conversationHistory[threadId].join("\n") : "";
                 
+                const promptParts = [];
                 const fullPrompt = `${systemInstruction}\n${context}\nUser: ${prompt}\nBot:`;
+                promptParts.push(fullPrompt);
                 
-                const result = await model.generateContent(fullPrompt);
+                if (imagePart) {
+                    promptParts.push(imagePart);
+                }
+                
+                const result = await model.generateContent(promptParts);
                 const response = await result.response;
                 const text = response.text();
                 
@@ -96,10 +137,20 @@ module.exports = {
     cooldowns: 3,
 
     onReply: async function({ event, api }) {
-        const { threadID, messageID, body } = event;
+        const { threadID, messageID, body, messageReply } = event;
         try {
+            let imagePart = null;
+            if (messageReply && messageReply.attachments && messageReply.attachments.length > 0) {
+                const attachment = messageReply.attachments.find(att => 
+                    att.type === "photo" || att.type === "image"
+                );
+                if (attachment) {
+                    imagePart = await processImage(attachment);
+                }
+            }
+
             updateConversationHistory(threadID, `User: ${body}`);
-            const response = await generateResponse(body, threadID);
+            const response = await generateResponse(body, threadID, imagePart);
             updateConversationHistory(threadID, `Bot: ${response}`);
             
             const msg = await api.sendMessage(response, threadID, messageID);
@@ -115,10 +166,20 @@ module.exports = {
     },
 
     onLaunch: async function ({ event, api }) {
-        const { threadID, messageID, body } = event;
+        const { threadID, messageID, body, messageReply } = event;
         try {
+            let imagePart = null;
+            if (messageReply && messageReply.attachments && messageReply.attachments.length > 0) {
+                const attachment = messageReply.attachments.find(att => 
+                    att.type === "photo" || att.type === "image"
+                );
+                if (attachment) {
+                    imagePart = await processImage(attachment);
+                }
+            }
+
             updateConversationHistory(threadID, `User: ${body}`);
-            const response = await generateResponse(body, threadID);
+            const response = await generateResponse(body, threadID, imagePart);
             updateConversationHistory(threadID, `Bot: ${response}`);
 
             const msg = await api.sendMessage(response, threadID, messageID);

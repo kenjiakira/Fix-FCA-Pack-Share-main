@@ -5,7 +5,7 @@ module.exports = {
     name: "autoseen",
     dev: "HNT",
     cooldowns: 5,
-    usedBy: 2,
+    usebBy: 2,
     info: "Bật/tắt tự động seen tin nhắn",
     usages: "on/off",
     onPrefix: true,

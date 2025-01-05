@@ -23,6 +23,18 @@
       "description": "Thắng bầu cua 5 lần",
       "target": 5,
       "reward": 50000
+    },
+    "play_coinflip": {
+      "name": "Chơi Coinflip",
+      "description": "Chơi coinflip 15 lần",
+      "target": 15,
+      "reward": 25000
+    },
+    "win_coinflip": {
+      "name": "Thần may mắn",
+      "description": "Thắng coinflip 8 lần", 
+      "target": 8,
+      "reward": 40000
     }
   }
 }

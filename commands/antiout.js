@@ -5,7 +5,7 @@ module.exports = {
         name: "antiout",
         dev: "HNT",
         cooldowns: 5,
-        usedBy: 1,
+        usedby: 1,
         info: "Bật/tắt chống rời nhóm",
         usages: "on/off",
         onPrefix: true,

@@ -63,8 +63,8 @@ module.exports = {
             return api.sendMessage("Bạn không đủ số dư để đặt cược số tiền này!", threadID, messageID);
         }
 
-        if (this.lastPlayed[senderID] && currentTime - this.lastPlayed[senderID] < 20000) {
-            const waitTime = Math.ceil((20000 - (currentTime - this.lastPlayed[senderID])) / 1000);
+        if (this.lastPlayed[senderID] && currentTime - this.lastPlayed[senderID] < 50000) {
+            const waitTime = Math.ceil((50000 - (currentTime - this.lastPlayed[senderID])) / 1000);
             return api.sendMessage(`Vui lòng đợi ${waitTime} giây nữa để chơi lại!`, threadID, messageID);
         }
         this.lastPlayed[senderID] = currentTime;

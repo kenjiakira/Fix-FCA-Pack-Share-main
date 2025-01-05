@@ -569,7 +569,7 @@ module.exports = {
                     }
                 }
 
-                if (now - (playerData.lastFished || 0) < 3600000) {
+                if (now - (playerData.lastFished || 0) < 520000) {
                     playerData.fishingStreak = (playerData.fishingStreak || 0) + 1;
                 } else {
                     playerData.fishingStreak = 1;
@@ -596,7 +596,7 @@ module.exports = {
                     `✨ EXP: ${formatNumber(playerData.exp)}/${formatNumber(playerData.level * 1000)}\n` +
                     `🎒 Độ bền cần: ${playerData.rodDurability}/${fishingItems[playerData.rod].durability}\n` +
                     `💵 Số dư: ${formatNumber(getBalance(event.senderID))} Xu\n` +
-                    `⏳ Chờ 6 phút để câu tiếp!`,
+                    `⏳ Chờ 12 phút để câu tiếp!`,
                     event.threadID
                 );
 

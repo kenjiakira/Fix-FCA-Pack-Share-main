@@ -6,7 +6,7 @@ const { createReadStream, unlinkSync } = require('fs');
 module.exports = {
   name: "setavatar",
   dev: "HNT",
-  usedBy: 2,
+  usedby: 2,
   info: "Thay đổi avatar của bot",
   onPrefix: true,
   usages: "[caption] + reply hình ảnh hoặc nhập link",

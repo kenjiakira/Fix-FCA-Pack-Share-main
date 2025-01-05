@@ -2,13 +2,82 @@
   "users": {
     "61561753304881": {
       "balance": 0,
-      "bankBalance": 10000,
-      "lastInterest": 1735898968408
+      "bankBalance": 9000010,
+      "lastInterest": 1736000075249,
+      "lockedCollateral": 300000
     },
     "100068382888605": {
       "bankBalance": 0,
       "lastInterest": 1735900298980
+    },
+    "100051073987266": {
+      "bankBalance": 0,
+      "lastInterest": 1736002938494,
+      "lockedCollateral": 1200000
+    },
+    "61570532692675": {
+      "bankBalance": 0,
+      "lastInterest": 1736002938884
+    },
+    "100053970942155": {
+      "bankBalance": 0,
+      "lastInterest": 1736002946148
+    },
+    "61566378911878": {
+      "bankBalance": 0,
+      "lastInterest": 1736004248369
+    },
+    "@Duong": {
+      "balance": 0,
+      "bankBalance": 100000,
+      "lastInterest": 1736004804626
+    },
+    "@Văn": {
+      "balance": 0,
+      "bankBalance": 100000,
+      "lastInterest": 1736005031524
     }
   },
-  "transactions": {}
+  "transactions": {
+    "@Duong": [
+      {
+        "type": "in",
+        "description": "Nhận từ 100051073987266: 100.000 Xu",
+        "amount": 100000,
+        "timestamp": 1736004804647
+      }
+    ],
+    "@Văn": [
+      {
+        "type": "in",
+        "description": "Nhận từ 100051073987266: 100.000 Xu",
+        "amount": 100000,
+        "timestamp": 1736005031538
+      }
+    ]
+  },
+  "loans": {
+    "61561753304881": {
+      "amount": 1000000,
+      "interest": 85050,
+      "remainingAmount": 1085050,
+      "startDate": 1736004198942,
+      "dueDate": 1736608998942,
+      "status": "active",
+      "collateral": 300000,
+      "interestRate": 0.01215,
+      "creditScore": 76
+    },
+    "100051073987266": {
+      "amount": 4000000,
+      "interest": 336000,
+      "remainingAmount": 4336000,
+      "startDate": 1736004827762,
+      "dueDate": 1736609627762,
+      "status": "active",
+      "collateral": 1200000,
+      "interestRate": 0.012,
+      "creditScore": 85
+    }
+  }
 }

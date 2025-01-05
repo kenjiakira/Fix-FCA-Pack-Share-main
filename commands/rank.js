@@ -65,28 +65,27 @@ async function circleImage(imageBuffer, size) {
 }
 
 async function getUserName(api, senderID) {
-    let userName;
-    const userData = JSON.parse(fs.readFileSync(userDataPath, 'utf8'));
+    try {
 
-    if (userData[senderID] && userData[senderID].name) {
-        userName = userData[senderID].name;
-    } else {
+        const userDataPath = path.join(__dirname, '../events/cache/userData.json');
+        if (fs.existsSync(userDataPath)) {
+            const userData = JSON.parse(fs.readFileSync(userDataPath, 'utf8'));
+            if (userData[senderID]?.name) {
+                return userData[senderID].name;
+            }
+        }
+        
         try {
             const userInfo = await api.getUserInfo(senderID);
-            userName = userInfo[senderID]?.name || "Name";
-
-            if (!userData[senderID]) {
-                userData[senderID] = {};
-            }
-            userData[senderID].name = userName;
-            fs.writeFileSync(userDataPath, JSON.stringify(userData, null, 2));
-        } catch (error) {
-            console.log(error);
-            userName = "Name";
+            return userInfo[senderID]?.name || "Người dùng";
+        } catch (apiError) {
+            console.error('Error getting name from API:', apiError);
+            return "Người dùng";
         }
+    } catch (error) {
+        console.error('Error reading user data:', error);
+        return "Người dùng";
     }
-
-    return userName;
 }
 
 async function createCanvasBackground(ctx, width, height, level) {
@@ -120,7 +119,8 @@ function drawUserInfo(ctx, name, level, currentExp, requiredXp, rank) {
     
     ctx.font = 'bold 45px "Segoe UI", Tahoma, Geneva, Verdana, sans-serif'; 
     ctx.fillStyle = '#ecf0f1'; 
-    ctx.fillText(`${name.toUpperCase()}`, 310, 120); 
+    const displayName = name.length > 15 ? name.substring(0, 15) + '...' : name;
+    ctx.fillText(displayName.toUpperCase(), 310, 120);
 
     ctx.font = 'bold 70px "Segoe UI", Tahoma, Geneva, Verdana, sans-serif';
     ctx.fillStyle = '#ecf0f1'; 
@@ -273,33 +273,51 @@ module.exports = {
     cooldowns: 5, 
 
     onLaunch: async function ({ api, event }) {
-        const userData = JSON.parse(fs.readFileSync(userDataPath, 'utf8'));
-        const userId = event.senderID;
+        try {
+            const { threadID, senderID } = event;
+            
+            let userData;
+            try {
+                userData = JSON.parse(fs.readFileSync(userDataPath, 'utf8'));
+            } catch (err) {
+                console.error("Error reading user data:", err);
+                return api.sendMessage("❌ Chưa có dữ liệu xếp hạng!", threadID);
+            }
 
-        if (!userData[userId]) {
-            return api.sendMessage("Bạn chưa có dữ liệu xếp hạng. Hãy nhắn tin để kiếm XP!", event.threadID);
-        }
+            if (!userData[senderID]) {
+                return api.sendMessage("📝 Bạn chưa có dữ liệu xếp hạng. Hãy tham gia trò chuyện để tích lũy điểm!", threadID);
+            }
 
-        updateUserRank(userData);
-        fs.writeFileSync(userDataPath, JSON.stringify(userData, null, 2));
+            try {
+                const user = userData[senderID];
+                const name = await getUserName(api, senderID);
 
-        const user = userData[userId];
-        const imagePath = await updateRankApi(
-            userId, 
-            user.name || "Người dùng", 
-            user.exp || 0, 
-            user.level || 1, 
-            user.rank || 1
-        );
+                const imagePath = await updateRankApi(
+                    senderID,
+                    name,
+                    user.exp || 0,
+                    user.level || 1,
+                    user.rank || 1
+                );
 
-        if (imagePath) {
-            api.sendMessage({
-                attachment: fs.createReadStream(imagePath)
-            }, event.threadID, () => {
-                fs.unlinkSync(imagePath);
-            });
-        } else {
-            api.sendMessage("Lỗi khi tạo hình ảnh xếp hạng.", event.threadID);
+                if (imagePath) {
+                    await api.sendMessage({ 
+                        attachment: fs.createReadStream(imagePath)
+                    }, threadID, () => {
+                        try {
+                            fs.unlinkSync(imagePath);
+                        } catch (unlinkErr) {
+                            console.error("Error cleaning up image:", unlinkErr);
+                        }
+                    });
+                }
+            } catch (processError) {
+                console.error("Error processing rank:", processError);
+                return api.sendMessage("❌ Có lỗi xảy ra khi xử lý thông tin xếp hạng.", threadID);
+            }
+        } catch (error) {
+            console.error("Rank command error:", error);
+            return api.sendMessage("❌ Đã xảy ra lỗi. Vui lòng thử lại sau.", event.threadID);
         }
     }
 };
