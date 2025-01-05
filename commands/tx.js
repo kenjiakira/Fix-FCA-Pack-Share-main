@@ -124,26 +124,40 @@ module.exports = {
                         }
 
                         if (total === 18 || total === 3) {
-                            const allUsers = Object.keys(readData().balance);
-                            const eligibleUsers = allUsers.filter(userId => getBalance(userId) > 0);
+                            const quy = loadQuy();
+                            console.log(`Debug: Jackpot triggered! Total: ${total}, Quỹ: ${quy}`);
+                            
+                            if (quy > 0) { 
+                                const allUsers = Object.keys(readData().balance);
+                                const eligibleUsers = allUsers.filter(userId => getBalance(userId) > 0);
+                                console.log(`Debug: Found ${eligibleUsers.length} eligible users`);
 
-                            if (eligibleUsers.length > 0) {
-                                let quy = loadQuy();
-                                const shareAmount = Math.floor(quy / eligibleUsers.length);
+                                if (eligibleUsers.length > 0) {
+                                    const shareAmount = Math.floor(quy / eligibleUsers.length);
+                                    console.log(`Debug: Share amount per user: ${shareAmount}`);
 
-                                eligibleUsers.forEach(userId => {
-                                    updateBalance(userId, shareAmount);
-                                });
+                                    if (shareAmount > 0) {
+                                        eligibleUsers.forEach(userId => {
+                                            updateBalance(userId, shareAmount);
+                                        });
 
-                                message += `💸 Quỹ chung được chia đều cho tất cả người chơi có số dư, mỗi người nhận được ${formatNumber(shareAmount)} Xu.\n`;
-                                saveQuy(0);
+                                        message += `\n🎉 JACKPOT! Tổng ${total} điểm!\n`;
+                                        message += `💸 Quỹ ${formatNumber(quy)} Xu được chia đều cho ${eligibleUsers.length} người chơi.\n`;
+                                        message += `💰 Mỗi người nhận: ${formatNumber(shareAmount)} Xu.\n`;
+                                        
+                                        saveQuy(0);
+                                        console.log('Debug: Quỹ has been reset to 0 after distribution');
+                                    }
+                                }
+                            } else {
+                                console.log('Debug: Quỹ is empty or invalid:', quy);
+                                message += `\n🎉 JACKPOT! Tổng ${total} điểm! Nhưng quỹ hiện đang trống.\n`;
                             }
                         }
 
                         const newBalance = getBalance(senderID);
-                        message += `💰 Số dư hiện tại của bạn: ${formatNumber(newBalance)} Xu.\n`;
-
-                        message += `💰 Quỹ hiện tại: ${loadQuy() ? formatNumber(Math.floor(loadQuy())) : 0} Xu.`;
+                        message += `\n💰 Số dư hiện tại của bạn: ${formatNumber(newBalance)} Xu.\n`;
+                        message += `💰 Quỹ hiện tại: ${formatNumber(loadQuy())} Xu.`;
 
                         await api.sendMessage({
                             body: message,

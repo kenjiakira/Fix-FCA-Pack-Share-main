@@ -14,6 +14,37 @@ try {
     console.error("Error loading transactions:", error);
 }
 
+const TRANSFER_LIMITS = {
+    MIN_AMOUNT: 10000,
+    MAX_AMOUNT_PER_TRANSFER: 50000000, 
+    MAX_DAILY_AMOUNT: 100000000,
+};
+
+const TRANSFER_FEES = [
+    { threshold: 10000, fee: 0.01 },
+    { threshold: 100000, fee: 0.008 }, 
+    { threshold: 1000000, fee: 0.005 }, 
+    { threshold: Infinity, fee: 0.003 }
+];
+
+let dailyTransfers = {};
+
+setInterval(() => {
+    const now = new Date();
+    if (now.getHours() === 0 && now.getMinutes() === 0) {
+        dailyTransfers = {};
+    }
+}, 60000);
+
+function calculateFee(amount) {
+    for (const tier of TRANSFER_FEES) {
+        if (amount <= tier.threshold) {
+            return Math.ceil(amount * tier.fee);
+        }
+    }
+    return Math.ceil(amount * TRANSFER_FEES[TRANSFER_FEES.length - 1].fee);
+}
+
 async function createBillImage(senderName, recipientName, amount, tax, total, remainingBalance) {
     const canvas = createCanvas(800, 600);
     const ctx = canvas.getContext('2d');
@@ -103,37 +134,63 @@ module.exports = {
     onLaunch: async function({ api, event, target = [] }) {
         const { threadID, messageID, senderID } = event;
 
-        if (target.length < 1) {
-            return api.sendMessage("Vui lòng nhập đúng cú pháp: .pay <số tiền> (và reply cho người nhận)", threadID, messageID);
+        if (!target[0] || isNaN(target[0])) {
+            return api.sendMessage("❌ Vui lòng nhập số tiền cần chuyển!\n Cú pháp: .pay <số tiền> (và reply người nhận)", threadID, messageID);
         }
 
         let recipientID;
         if (event.type === 'message_reply') {
             recipientID = event.messageReply.senderID;
+        } else if (Object.keys(event.mentions).length > 0) {
+            return api.sendMessage("❌ Vui lòng reply tin nhắn của người nhận thay vì tag!", threadID, messageID);
         } else {
-            return api.sendMessage("Bạn cần reply tin nhắn của người nhận.", threadID, messageID);
+            return api.sendMessage("❌ Bạn cần reply tin nhắn của người nhận.", threadID, messageID);
         }
 
         const transferAmount = parseInt(target[0], 10);
 
-        if (isNaN(transferAmount) || transferAmount <= 0) {
-            return api.sendMessage("Số tiền phải là một số nguyên dương.", threadID, messageID);
+        if (transferAmount < TRANSFER_LIMITS.MIN_AMOUNT) {
+            return api.sendMessage(`Số tiền chuyển tối thiểu là ${TRANSFER_LIMITS.MIN_AMOUNT.toLocaleString()} Xu.`, threadID, messageID);
         }
 
-        const senderBalance = getBalance(senderID);
-        const tax = Math.ceil(transferAmount * 0.01);
-        const totalAmount = transferAmount + tax;
+        if (transferAmount > TRANSFER_LIMITS.MAX_AMOUNT_PER_TRANSFER) {
+            return api.sendMessage(`Số tiền chuyển tối đa mỗi lần là ${TRANSFER_LIMITS.MAX_AMOUNT_PER_TRANSFER.toLocaleString()} Xu.`, threadID, messageID);
+        }
 
+        dailyTransfers[senderID] = dailyTransfers[senderID] || 0;
+        if (dailyTransfers[senderID] + transferAmount > TRANSFER_LIMITS.MAX_DAILY_AMOUNT) {
+            return api.sendMessage(`Bạn đã vượt quá giới hạn chuyển tiền hàng ngày (${TRANSFER_LIMITS.MAX_DAILY_AMOUNT.toLocaleString()} Xu).`, threadID, messageID);
+        }
+
+        const fee = calculateFee(transferAmount);
+        const totalAmount = transferAmount + fee;
+
+        // Kiểm tra số dư ngay lập tức
+        const senderBalance = getBalance(senderID);
         if (totalAmount > senderBalance) {
-            return api.sendMessage("Bạn không đủ số dư để thực hiện giao dịch này!", threadID, messageID);
+            return api.sendMessage("Số dư không đủ để thực hiện giao dịch này!", threadID, messageID);
         }
 
         updateBalance(senderID, -totalAmount);
         updateBalance(recipientID, transferAmount);
+        dailyTransfers[senderID] += transferAmount;
 
-        const threadInfo = await api.getThreadInfo(threadID);
-        const senderName = threadInfo.userInfo.find(user => user.id === senderID)?.name || "Người dùng";
-        const recipientName = threadInfo.userInfo.find(user => user.id === recipientID)?.name || "Người nhận";
+        let senderName = "Người gửi";
+        let recipientName = "Người nhận";
+        
+        try {
+            const threadInfo = await api.getThreadInfo(threadID);
+            if (threadInfo && threadInfo.userInfo) {
+                const senderInfo = threadInfo.userInfo.find(user => user.id === senderID);
+                const recipientInfo = threadInfo.userInfo.find(user => user.id === recipientID);
+                
+                if (senderInfo) senderName = senderInfo.name;
+                if (recipientInfo) recipientName = recipientInfo.name;
+            }
+        } catch (err) {
+            console.error("Không thể lấy thông tin thread:", err);
+     
+        }
 
         if (!transactions[senderID]) transactions[senderID] = [];
         if (!transactions[recipientID]) transactions[recipientID] = [];
@@ -159,7 +216,6 @@ module.exports = {
             transactions[recipientID] = transactions[recipientID].slice(-5);
         }
 
-        // Save transactions to file
         fs.writeFileSync(transactionsPath, JSON.stringify(transactions, null, 2));
 
         const senderNewBalance = getBalance(senderID);
@@ -168,7 +224,7 @@ module.exports = {
             senderName,
             recipientName,
             transferAmount,
-            tax,
+            fee,
             totalAmount,
             senderNewBalance
         );

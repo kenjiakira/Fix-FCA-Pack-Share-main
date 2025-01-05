@@ -56,27 +56,23 @@ function calculateCreditScore(userId, bankingData) {
     const userData = bankingData.users[userId];
     const transactions = bankingData.transactions[userId] || [];
     const loans = bankingData.loans[userId]?.history || [];
-    let score = CREDIT_SCORE.defaultScore; // Bắt đầu với điểm mặc định là 50
+    let score = CREDIT_SCORE.defaultScore; 
 
-    // 1. Điểm từ giao dịch (30%)
     const transactionVolume = transactions.reduce((sum, t) => sum + t.amount, 0);
     const transactionScore = Math.min(100, (transactionVolume / 1000000) * 100);
     score += transactionScore * 0.3;
 
-    // 2. Điểm từ tuổi tài khoản (20%)
     const accountAge = (Date.now() - (userData.createdAt || Date.now())) / (24 * 60 * 60 * 1000);
     const ageScore = Math.min(100, (accountAge / 30) * 100);
     score += ageScore * 0.2;
 
-    // 3. Điểm từ số dư (20%)
     let balanceScore = 0;
     if (userData.bankBalance > 100000) {
         balanceScore = Math.min(100, (userData.bankBalance / 1000000) * 100);
     }
     score += balanceScore * 0.2;
 
-    // 4. Điểm từ lịch sử vay (30%)
-    let loanScore = 50; // Điểm cơ bản cho người chưa có lịch sử vay
+    let loanScore = 50;
     if (loans.length > 0) {
         const successfulPayments = loans.filter(loan => 
             loan.status === 'paid' && loan.paidOnTime
@@ -85,14 +81,12 @@ function calculateCreditScore(userId, bankingData) {
     }
     score += loanScore * 0.3;
 
-    // Áp dụng penalties nếu có
     if (userData.penalties) {
         userData.penalties.forEach(penalty => {
             score += penalty.points;
         });
     }
 
-    // Giới hạn điểm trong khoảng 0-100
     return Math.max(0, Math.min(100, Math.round(score)));
 }
 
@@ -107,7 +101,7 @@ function calculateDetailedCreditScore(userId, bankingData) {
     const transactionScore = Math.min(100, (totalTransactionVolume / CREDIT_SCORE.factors.transactionVolume.threshold) * 100);
     details.transactionScore = {
         score: Math.round(transactionScore * CREDIT_SCORE.factors.transactionVolume.weight),
-        total: transactionVolume,
+        total: totalTransactionVolume,
         description: `Khối lượng giao dịch: ${totalTransactionVolume.toLocaleString('vi-VN')} Xu`
     };
 
@@ -222,7 +216,7 @@ function initializeUserData(userId, bankingData) {
             creditScore: CREDIT_SCORE.defaultScore
         };
     }
-    // Tính toán credit score ngay khi khởi tạo
+
     bankingData.users[userId].creditScore = calculateCreditScore(userId, bankingData);
     return bankingData.users[userId];
 }
@@ -243,7 +237,7 @@ module.exports = {
     name: "banking",
     dev: "HNT",
     onPrefix: true,
-    usages: ".banking [gửi/rút/chuyển/check/vay/trả/khoản_vay]",
+    usages: ".banking [gửi/rút/check/vay/trả/khoản_vay]",
     info: "Hệ thống ngân hàng trực tuyến với dịch vụ cho vay",
     cooldowns: 3,
 
@@ -296,11 +290,10 @@ module.exports = {
                         "📌 Hướng dẫn sử dụng:\n" +
                         "1. .banking gửi [số tiền]\n" +
                         "2. .banking rút [số tiền]\n" +
-                        "3. .banking chuyển [số tiền] [ID]\n" +
-                        "4. .banking check\n" +
-                        "5. .banking vay [số tiền]\n" +
-                        "6. .banking trả [số tiền]\n" +
-                        "7. .banking khoản_vay\n\n" +
+                        "3. .banking check\n" +
+                        "4. .banking vay [số tiền]\n" +
+                        "5. .banking trả [số tiền]\n" +
+                        "6. .banking khoản_vay\n\n" +
                         `💰 Số dư ví: ${walletBalance.toLocaleString('vi-VN')} Xu\n` +
                         `🏦 Số dư ngân hàng: ${bankBalance.toLocaleString('vi-VN')} Xu`
                 }, threadID, messageID);
@@ -308,7 +301,6 @@ module.exports = {
 
             const action = target[0].toLowerCase();
             const amount = parseInt(target[1]);
-            const recipient = target[2];
 
             switch (action) {
                 case "gửi":
@@ -360,42 +352,6 @@ module.exports = {
                         return api.sendMessage("❌ Có lỗi xảy ra khi rút tiền!", threadID, messageID);
                     }
 
-                case "chuyển":
-                case "chuyen":
-                    try {
-                        if (!amount || isNaN(amount) || amount <= 0) {
-                            return api.sendMessage("❌ Vui lòng nhập số tiền hợp lệ!", threadID, messageID);
-                        }
-                        if (!recipient) {
-                            return api.sendMessage("❌ Vui lòng cung cấp ID người nhận!", threadID, messageID);
-                        }
-                        if (userData.bankBalance < amount) {
-                            return api.sendMessage("❌ Số dư trong ngân hàng không đủ!", threadID, messageID);
-                        }
-                        if (!bankingData.users[recipient]) {
-                            bankingData.users[recipient] = {
-                                balance: 0,
-                                bankBalance: 0,
-                                lastInterest: Date.now()
-                            };
-                        }
-
-                        userData.bankBalance -= amount;
-                        bankingData.users[recipient].bankBalance += amount;
-                        await saveBankingData(bankingData);
-
-                        this.updateTransaction(senderID, 'out', `Chuyển cho ${recipient}: ${amount.toLocaleString('vi-VN')} Xu`, amount);
-                        this.updateTransaction(recipient, 'in', `Nhận từ ${senderID}: ${amount.toLocaleString('vi-VN')} Xu`, amount);
-                        return api.sendMessage(
-                            `✅ Đã chuyển ${amount.toLocaleString('vi-VN')} Xu đến ${recipient}!\n` +
-                            `🏦 Số dư ngân hàng: ${userData.bankBalance.toLocaleString('vi-VN')} Xu`,
-                            threadID, messageID
-                        );
-                    } catch (err) {
-                        console.error('Lỗi chuyển tiền:', err);
-                        return api.sendMessage("❌ Có lỗi xảy ra khi chuyển tiền!", threadID, messageID);
-                    }
-
                 case "check":
                     try {
                         const creditInfo = calculateDetailedCreditScore(senderID, bankingData);
@@ -404,13 +360,9 @@ module.exports = {
                         const transHistory = recentTrans.length > 0 ? 
                             recentTrans.map(t => {
                                 const date = new Date(t.timestamp);
-                                return `${t.type === 'in' ? '📥' : '📤'} ${date.toLocaleTimeString()}: ${t.description}`;
+                                return `${t.type === 'in' ? '📥' : '📤'} ${t.description}`;
                             }).reverse().join('\n') 
                             : 'Chưa có giao dịch nào';
-
-                        const userCreditScore = calculateCreditScore(senderID, bankingData);
-                        userData.creditScore = userCreditScore;
-                        await saveBankingData(bankingData);
 
                         return api.sendMessage(
                             "🏦 THÔNG TIN TÀI KHOẢN 🏦\n" +
@@ -418,12 +370,12 @@ module.exports = {
                             `💰 Số dư ví: ${walletBalance.toLocaleString('vi-VN')} Xu\n` +
                             `🏦 Số dư ngân hàng: ${bankBalance.toLocaleString('vi-VN')} Xu\n` +
                             `💵 Tổng tài sản: ${(walletBalance + bankBalance).toLocaleString('vi-VN')} Xu\n\n` +
-                            `📊 Điểm tín dụng: ${creditScore}/100\n` +
-                            `├─ Giao dịch: ${Math.round((transactionVolume / 1000000) * 100)}%\n` +
-                            `├─ Tuổi tài khoản: ${Math.round(accountAge)} ngày\n` +
-                            `├─ Độ ổn định số dư: ${Math.round(balanceScore)}%\n` +
-                            `└─ Lịch sử vay: ${Math.round(loanScore)}%\n\n` +
-                            `📝 Lịch sử giao dịch:\n${transHistory}`,
+                            `📊 Điểm tín dụng: ${creditInfo.score}/100\n` +
+                            `├─ Giao dịch: ${Math.round(creditInfo.details.transactionScore.score * 100)}%\n` +
+                            `├─ Độ tuổi tài khoản: ${creditInfo.details.ageScore.days} ngày\n` +
+                            `├─ Độ ổn định: ${Math.round(creditInfo.details.stabilityScore.score * 100)}%\n` +
+                            `└─ Lịch sử vay: ${Math.round(creditInfo.details.loanScore.score * 100)}%\n\n` +
+                            `📝 Giao dịch gần đây:\n${transHistory}`,
                             threadID, messageID
                         );
                     } catch (err) {
@@ -606,11 +558,10 @@ module.exports = {
                         "📌 Sử dụng:\n" +
                         "1. .banking gửi [số tiền]\n" +
                         "2. .banking rút [số tiền]\n" +
-                        "3. .banking chuyển [số tiền] [ID]\n" +
-                        "4. .banking check\n" +
-                        "5. .banking vay [số tiền]\n" +
-                        "6. .banking trả [số tiền]\n" +
-                        "7. .banking khoản_vay",
+                        "3. .banking check\n" +
+                        "4. .banking vay [số tiền]\n" +
+                        "5. .banking trả [số tiền]\n" +
+                        "6. .banking khoản_vay",
                         threadID, messageID
                     );
             }
@@ -640,9 +591,9 @@ module.exports = {
             }
 
             await saveBankingData(bankingData);
-        } catch (err) {
+        } catch (err) {a
             console.error('Lỗi cập nhật giao dịch:', err);
-            throw err; // Throw để hàm gọi có thể xử lý
+            throw err; 
         }
     }
 };

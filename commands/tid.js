@@ -16,7 +16,7 @@ module.exports = {
                      `📝 Name: ${threadInfo.threadName}\n` +
                      `👥 Members: ${threadInfo.participantIDs.length}`;
       
-      actions.reply(message);
+      actions.reply(message);a
     } catch (error) {
       actions.reply("❌ Could not fetch thread information.");
     }

@@ -2,9 +2,9 @@
   "users": {
     "61561753304881": {
       "balance": 0,
-      "bankBalance": 9000010,
+      "bankBalance": 9270010,
       "lastInterest": 1736000075249,
-      "lockedCollateral": 300000
+      "lockedCollateral": 30000
     },
     "100068382888605": {
       "bankBalance": 0,
@@ -36,6 +36,39 @@
       "balance": 0,
       "bankBalance": 100000,
       "lastInterest": 1736005031524
+    },
+    "100023369384858": {
+      "bankBalance": 0,
+      "lastInterest": 1736067225984,
+      "createdAt": 1736067225984,
+      "balanceHistory": [],
+      "penalties": [],
+      "creditScore": 65,
+      "lockedCollateral": 1200000
+    },
+    "100050363228652": {
+      "bankBalance": 0,
+      "lastInterest": 1736068371280,
+      "createdAt": 1736068371280,
+      "balanceHistory": [],
+      "penalties": [],
+      "creditScore": 65
+    },
+    "61565913026622": {
+      "bankBalance": 0,
+      "lastInterest": 1736068773354,
+      "createdAt": 1736068773354,
+      "balanceHistory": [],
+      "penalties": [],
+      "creditScore": 65
+    },
+    "100082144972746": {
+      "bankBalance": 0,
+      "lastInterest": 1736070669442,
+      "createdAt": 1736070669442,
+      "balanceHistory": [],
+      "penalties": [],
+      "creditScore": 65
     }
   },
   "transactions": {
@@ -58,13 +91,13 @@
   },
   "loans": {
     "61561753304881": {
-      "amount": 1000000,
-      "interest": 85050,
-      "remainingAmount": 1085050,
-      "startDate": 1736004198942,
-      "dueDate": 1736608998942,
+      "amount": 100000,
+      "interest": 8505,
+      "remainingAmount": 108505,
+      "startDate": 1736069710550,
+      "dueDate": 1736674510550,
       "status": "active",
-      "collateral": 300000,
+      "collateral": 30000,
       "interestRate": 0.01215,
       "creditScore": 76
     },
@@ -78,6 +111,17 @@
       "collateral": 1200000,
       "interestRate": 0.012,
       "creditScore": 85
+    },
+    "100023369384858": {
+      "amount": 4000000,
+      "interest": 453600,
+      "remainingAmount": 4453600,
+      "startDate": 1736068333735,
+      "dueDate": 1736673133735,
+      "status": "active",
+      "collateral": 1200000,
+      "interestRate": 0.0162,
+      "creditScore": 76
     }
   }
 }
