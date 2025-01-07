@@ -17,7 +17,15 @@ const patterns = {
     capcut: /https:\/\/www\.capcut\.com\/t\/\S*/,
     facebook: /https:\/\/www\.facebook\.com\/\S*/,
     tiktok: /(^https:\/\/)((vm|vt|www|v)\.)?(tiktok|douyin)\.com\//,
-    youtube: /^(https?:\/\/)?(www\.)?(youtube\.com|youtu\.?be)\/.+$/,
+    youtube: /^(https?:\/\/)?(www\.)?(youtube\.com|youtu\.?be)\/.+$/
+};
+
+const API_CONFIG = {
+    baseUrl: 'https://api.zm.io.vn/v1/social/autolink',
+    headers: {
+        'Content-Type': 'application/json',
+        'apikey': 'OIaCP3fFqjtM6Ndnx5hb'
+    }
 };
 
 module.exports = {
@@ -40,7 +48,7 @@ module.exports = {
         }
     },
 };
-
+    
 async function handleCapCut(url, api, event) {
     try {
         const response = await axios.get(`https://jonellccapisprojectv2-a62001f39859.herokuapp.com/api/capcut?url=${url}`);

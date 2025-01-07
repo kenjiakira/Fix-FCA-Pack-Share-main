@@ -26,7 +26,7 @@ module.exports = {
     name: 'roblox',
     dev: 'HNT',
     usedby: 0,
-    info: 'Lấy thông tin người dùng Roblox ',
+    info: 'Lấy thông tin chi tiết người dùng Roblox',
     usages: 'roblox [Tên người dùng]',
     dmUser: false,
     onPrefix: true,
@@ -37,93 +37,103 @@ module.exports = {
         const [username] = target;
     
         if (!username) {
-            return api.sendMessage(`⚠️ Vui lòng cung cấp tên người dùng.\nVí dụ: .roblox builderman`, threadID, messageID);
+            return api.sendMessage(`⚠️ Vui lòng nhập tên người dùng\n📝 Cách dùng: .roblox [tên người dùng]`, threadID, messageID);
         }
     
         try {
+            // Basic user info fetch
             const userResponse = await axios.post('https://users.roblox.com/v1/usernames/users', {
                 usernames: [username],
                 excludeBannedUsers: false 
-            }).catch(err => {
-                throw new Error('Không thể kết nối với API Roblox. Vui lòng thử lại sau.');
+            }).catch(() => {
+                throw new Error('⚠️ Lỗi kết nối với API Roblox. Vui lòng thử lại sau!');
             });
 
-            if (!userResponse.data || !userResponse.data.data || userResponse.data.data.length === 0) {
-                return api.sendMessage(`❌ Không tìm thấy người dùng '${username}'.`, threadID, messageID);
+            if (!userResponse.data?.data?.[0]) {
+                return api.sendMessage(`❌ Không tìm thấy người dùng: "${username}"`, threadID, messageID);
             }
 
             const userData = userResponse.data.data[0];
-            const { name, id, displayName, hasVerifiedBadge } = userData;
+            const { name, id, displayName } = userData;
 
-            const getApiData = async (url) => {
-                try {
-                    const response = await axios.get(url);
-                    return response.data;
-                } catch (error) {
-                    console.error(`Error fetching ${url}:`, error.message);
-                    return null;
+            // Fetch all user data in parallel
+            const [userDetail, badges, presence, inventory, groups] = await Promise.all([
+                axios.get(`https://users.roblox.com/v1/users/${id}`).then(r => r.data).catch(() => null),
+                axios.get(`https://accountinformation.roblox.com/v1/users/${id}/roblox-badges`).then(r => r.data).catch(() => []),
+                axios.get(`https://presence.roblox.com/v1/presence/users/${id}`).then(r => r.data).catch(() => null),
+                axios.get(`https://inventory.roblox.com/v2/users/${id}/inventory/count`).then(r => r.data).catch(() => null),
+                axios.get(`https://groups.roblox.com/v2/users/${id}/groups/roles`).then(r => r.data).catch(() => null)
+            ]);
+
+            // Format user info message
+            let message = `📊 THÔNG TIN NGƯỜI DÙNG ROBLOX 📊\n\n`;
+            message += `👤 Tên tài khoản: ${name}\n`;
+            message += `🌟 Tên hiển thị: ${displayName}\n`;
+            message += `🆔 ID: ${id}\n\n`;
+
+            if (userDetail) {
+                message += `📝 Giới thiệu: ${userDetail.description || 'Không có'}\n`;
+                message += `📅 Ngày tạo: ${formatDate(userDetail.created)}\n`;
+                message += `🚫 Trạng thái: ${userDetail.isBanned ? 'Đã bị cấm' : 'Hoạt động'}\n\n`;
+            }
+
+            if (presence?.userPresenceType) {
+                const status = {
+                    0: 'Ngoại tuyến',
+                    1: 'Trực tuyến',
+                    2: 'Đang chơi game',
+                    3: 'Đang Studio',
+                    4: 'Đang tạo game'
+                }[presence.userPresenceType];
+                message += `⭐ Trạng thái: ${status}\n`;
+                if (presence.lastLocation) {
+                    message += `🎮 Hoạt động: ${presence.lastLocation}\n\n`;
                 }
-            };
-
-            const [userDetail, badges] = await Promise.all([
-                getApiData(`https://users.roblox.com/v1/users/${id}`),
-                getApiData(`https://accountinformation.roblox.com/v1/users/${id}/roblox-badges`)
-            ]);
-
-            if (!userDetail) {
-                throw new Error('Không thể tải thông tin người dùng.');
             }
 
-            let message = `👤 - Tên người dùng: ${name}\n`;
-            message += `🌟 - Tên hiển thị: ${displayName}\n`;
-            message += `🆔 - ID người dùng: ${id}\n`;
-
-            if (badges) {
-                message += `🏅 - Huy hiệu: ${badges.map(b => b.name).join(', ') || 'Không có'}\n`;
+            if (inventory) {
+                message += `📦 KHO ĐỒ:\n`;
+                message += `🎮 Game: ${inventory.places || 0}\n`;
+                message += `👕 Quần áo: ${inventory.wearables || 0}\n`;
+                message += `🎵 Âm thanh: ${inventory.audio || 0}\n`;
+                message += `🎨 Ảnh: ${inventory.images || 0}\n\n`;
             }
 
-            const { description, created, isBanned } = userDetail;
-            message += `\n📝 - Mô tả: ${description || 'Chưa có mô tả'}\n`;
-            message += `✅ - Đã xác thực: ${hasVerifiedBadge ? 'Có' : 'Không'}\n`;
-            message += `📅 - Ngày tạo: ${formatDate(created)}\n`;
-            message += `🚫 - Bị cấm: ${isBanned ? 'Có' : 'Không'}\n`;
-            message += `🔗 - Hồ sơ: https://roblox.com/users/${id}\n\n`;
-
-            const [friends, followers, following] = await Promise.all([
-                getApiData(`https://friends.roblox.com/v1/users/${id}/friends/count`),
-                getApiData(`https://friends.roblox.com/v1/users/${id}/followers/count`),
-                getApiData(`https://friends.roblox.com/v1/users/${id}/followings/count`)
-            ]);
-
-            if (friends && followers && following) {
-                message += `👥 - Bạn bè: ${friends.count || 0}\n`;
-                message += `👥 - Người theo dõi: ${followers.count || 0}\n`;
-                message += `👥 - Đang theo dõi: ${following.count || 0}\n`;
+            if (groups?.data?.length) {
+                message += `👥 NHÓM (${groups.data.length}):\n`;
+                groups.data.slice(0, 3).forEach(g => {
+                    message += `• ${g.group.name} (${g.role.name})\n`;
+                });
+                if (groups.data.length > 3) message += `• ... và ${groups.data.length - 3} nhóm khác\n`;
+                message += '\n';
             }
+
+            if (badges?.length) {
+                message += `🏅 HUY HIỆU (${badges.length}):\n`;
+                badges.slice(0, 3).forEach(b => message += `• ${b.name}\n`);
+                if (badges.length > 3) message += `• ... và ${badges.length - 3} huy hiệu khác\n`;
+            }
+
+            message += `\n🔗 Link hồ sơ: https://roblox.com/users/${id}`;
 
             await api.sendMessage(message, threadID, messageID);
 
-            try {
-                const avatarResponse = await axios.get(
-                    `https://thumbnails.roblox.com/v1/users/avatar?userIds=${id}&size=420x420&format=png`
-                );
-                
-                if (avatarResponse.data?.data?.[0]?.imageUrl) {
-                    const imageStream = await getStreamFromURL(avatarResponse.data.data[0].imageUrl);
-                    await api.sendMessage({
-                        body: "🎭 Avatar của người dùng:",
-                        attachment: imageStream
-                    }, threadID);
-                }
-            } catch (avatarError) {
-                console.error('Error fetching avatar:', avatarError.message);
-         
+            // Send avatar image
+            const avatarResponse = await axios.get(
+                `https://thumbnails.roblox.com/v1/users/avatar?userIds=${id}&size=420x420&format=png`
+            ).catch(() => null);
+
+            if (avatarResponse?.data?.data?.[0]?.imageUrl) {
+                const imageStream = await getStreamFromURL(avatarResponse.data.data[0].imageUrl);
+                await api.sendMessage({
+                    body: "🎭 Avatar của người dùng:",
+                    attachment: imageStream
+                }, threadID);
             }
 
         } catch (error) {
-            console.error('Lỗi:', error);
             api.sendMessage(
-                `❌ ${error.message || 'Đã xảy ra lỗi không xác định. Vui lòng thử lại sau.'}`,
+                `❌ Lỗi: ${error.message || 'Đã xảy ra lỗi không xác định'}`,
                 threadID,
                 messageID
             );

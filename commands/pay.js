@@ -115,7 +115,13 @@ async function createBillImage(senderName, recipientName, amount, tax, total, re
     ctx.fillStyle = '#ffffff';
     ctx.fillText(`Mã giao dịch: ${transactionId}`, 400, 580);
 
-    const outputPath = path.resolve(__dirname, '../commands/cache/temp_bill.png');
+    const outputDir = path.resolve(__dirname, '../commands/cache');
+    const outputPath = path.join(outputDir, 'temp_bill.png');
+
+    if (!fs.existsSync(outputDir)) {
+        fs.mkdirSync(outputDir, { recursive: true });
+    }
+
     const buffer = canvas.toBuffer('image/png');
     fs.writeFileSync(outputPath, buffer);
 
@@ -165,7 +171,6 @@ module.exports = {
         const fee = calculateFee(transferAmount);
         const totalAmount = transferAmount + fee;
 
-        // Kiểm tra số dư ngay lập tức
         const senderBalance = getBalance(senderID);
         if (totalAmount > senderBalance) {
             return api.sendMessage("Số dư không đủ để thực hiện giao dịch này!", threadID, messageID);
@@ -231,8 +236,7 @@ module.exports = {
 
         api.sendMessage(
             { attachment: fs.createReadStream(billPath) },
-            threadID,
-            () => fs.unlinkSync(billPath), 
+            threadID,            () => fs.unlinkSync(billPath), 
             messageID
         );
 

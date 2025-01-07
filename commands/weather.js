@@ -2,7 +2,7 @@ const axios = require('axios');
 require('dotenv').config();
 
 const API_KEY = process.env.OPENWEATHER_API_KEY;
-const AQI_TOKEN = process.env.AQI_TOKEN;
+// Remove AQI_TOKEN
 
 module.exports = {
     name: "weather",
@@ -89,11 +89,22 @@ function getBasicWeatherInfo(data) {
 
 async function getAQIData(lat, lon) {
     try {
-        const response = await axios.get(`https://api.waqi.info/feed/geo:${lat};${lon}/?token=${AQI_TOKEN}`);
-        const aqi = response.data.data.aqi;
-        return `\n🌫️ Chất lượng không khí (AQI): ${aqi} - ${getAQILevel(aqi)}`;
+        const response = await axios.get(`http://api.openweathermap.org/data/2.5/air_pollution?lat=${lat}&lon=${lon}&appid=${API_KEY}`);
+        const aqi = response.data.list[0].main.aqi;
+        return `\n🌫️ Chất lượng không khí (AQI): ${getAQIDescription(aqi)}`;
     } catch (error) {
         return '\n⚠️ Không thể lấy thông tin chất lượng không khí';
+    }
+}
+
+function getAQIDescription(aqi) {
+    switch(aqi) {
+        case 1: return "Rất tốt";
+        case 2: return "Tốt";
+        case 3: return "Trung bình";
+        case 4: return "Kém";
+        case 5: return "Rất kém";
+        default: return "Không xác định";
     }
 }
 
@@ -121,15 +132,6 @@ async function getWeatherAlerts(lat, lon) {
 function getWindDirection(degrees) {
     const directions = ['Bắc', 'Đông Bắc', 'Đông', 'Đông Nam', 'Nam', 'Tây Nam', 'Tây', 'Tây Bắc'];
     return directions[Math.round(degrees / 45) % 8];
-}
-
-function getAQILevel(aqi) {
-    if (aqi <= 50) return 'Tốt';
-    if (aqi <= 100) return 'Trung bình';
-    if (aqi <= 150) return 'Không tốt cho nhóm nhạy cảm';
-    if (aqi <= 200) return 'Không tốt';
-    if (aqi <= 300) return 'Rất không tốt';
-    return 'Nguy hiểm';
 }
 
 function formatForecast(list) {
