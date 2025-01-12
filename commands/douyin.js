@@ -36,22 +36,6 @@ module.exports = {
 
         await processDouyinUrl(url, api, threadID, messageID);
     },
-
-    noPrefix: async function({ api, event, target }) {
-        const { threadID, messageID } = event;
-        const douyinUrls = extractDouyinUrls(target);
-        
-        if (douyinUrls.length > 0) {
-            for (const url of douyinUrls) {
-                await processDouyinUrl(url, api, threadID, messageID);
-            }
-        }
-    },
-};
-
-const extractDouyinUrls = (text) => {
-    const urlRegex = /(https?:\/\/(?:www\.)?)(?:douyin\.com|tiktok\.com)\/[^\s]*/gi;
-    return text.match(urlRegex) || [];
 };
 
 const processDouyinUrl = async (url, api, threadID, messageID) => {

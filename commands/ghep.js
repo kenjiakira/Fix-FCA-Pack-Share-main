@@ -12,14 +12,35 @@ module.exports = {
   
   onLaunch: async ({ api, event }) => {
     try {
-     
-      const waitingMsg = await api.sendMessage("⏳ Vui lòng chờ một chút, tôi đang tìm người phù hợp để ghép đôi với bạn...", event.threadID);
+      const { threadID, senderID } = event;
+      const waitingMsg = await api.sendMessage("⏳ Vui lòng chờ một chút, tôi đang tìm người phù hợp để ghép đôi với bạn...", threadID);
       
-      const threadInfo = await api.getThreadInfo(event.threadID);
-      const members = threadInfo.participantIDs.filter(id => id !== event.senderID && id !== api.getCurrentUserID());
-      
+      // Thêm xử lý lỗi cho getThreadInfo
+      let threadInfo;
+      try {
+        threadInfo = await api.getThreadInfo(threadID);
+      } catch (err) {
+        console.error("Error getting thread info:", err);
+        api.unsendMessage(waitingMsg.messageID);
+        return api.sendMessage("❌ Không thể lấy thông tin nhóm chat. Vui lòng thử lại sau!", threadID);
+      }
+
+      // Kiểm tra threadInfo
+      if (!threadInfo || !threadInfo.participantIDs) {
+        api.unsendMessage(waitingMsg.messageID);
+        return api.sendMessage("❌ Không thể lấy danh sách thành viên. Vui lòng thử lại!", threadID);
+      }
+
+      // Lọc danh sách thành viên hợp lệ
+      const members = threadInfo.participantIDs.filter(id => 
+        id !== senderID && 
+        id !== api.getCurrentUserID() &&
+        id.toString().length > 5  // Thêm điều kiện kiểm tra ID hợp lệ
+      );
+
       if (members.length === 0) {
-        return api.sendMessage("Không đủ thành viên để ghép đôi!", event.threadID);
+        api.unsendMessage(waitingMsg.messageID);
+        return api.sendMessage("❌ Không đủ thành viên để ghép đôi!", threadID);
       }
 
       const partner = members[Math.floor(Math.random() * members.length)];
@@ -91,12 +112,16 @@ module.exports = {
       fs.writeFileSync(pathUser, userImg);
       fs.writeFileSync(pathPartner, partnerImg);
 
-      const threadData = await api.getThreadInfo(event.threadID);
-      const userData = threadData.userInfo.find(user => user.id === event.senderID);
-      const partnerData = threadData.userInfo.find(user => user.id === partner);
-
-      const userName = userData ? userData.name : "Người dùng";
-      const partnerName = partnerData ? partnerData.name : "Người ấy";
+      let userName, partnerName;
+      try {
+        const userData = await api.getUserInfo([senderID, partner]);
+        userName = userData[senderID]?.name || "Người dùng";
+        partnerName = userData[partner]?.name || "Người ấy";
+      } catch (err) {
+        console.error("Error getting user info:", err);
+        userName = "Người dùng";
+        partnerName = "Người ấy";
+      }
 
       const canvas = createCanvas(1024, 512);
       const ctx = canvas.getContext('2d');
@@ -121,6 +146,10 @@ module.exports = {
 
       await new Promise((resolve) => out.on('finish', resolve));
 
+      if (!fs.existsSync(mergedPath)) {
+        throw new Error("Failed to create merged image");
+      }
+
       await api.sendMessage({
         body: `🎐 Ghép đôi thành công!\n` +
               `💝 ${userName} (${userZodiac}) 💓 ${partnerName} (${partnerZodiac})\n` +
@@ -142,8 +171,8 @@ module.exports = {
       fs.unlinkSync(pathPartner);
 
     } catch (error) {
-      console.error(error);
-      return api.sendMessage("❌ Có lỗi xảy ra khi thực hiện ghép đôi", event.threadID, event.messageID);
+      console.error("Main error:", error);
+      return api.sendMessage("❌ Đã xảy ra lỗi. Vui lòng thử lại sau!", event.threadID);
     }
   }
 };

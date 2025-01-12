@@ -100,13 +100,32 @@ module.exports = {
                     if (!this.winStreak[senderID]) this.winStreak[senderID] = 0;
 
                     let weightedCombinations = [];
-                    if (this.winStreak[senderID] >= 3) {
+                    const isAllin = target[1].toLowerCase() === "allin";
+                    
+                    if (isAllin) {
+       
+                        const oppositeChoice = choice === "chẵn" ? "lẻ" : "chẵn";
+                        const randomNumber = Math.random();
+                        
+                        if (randomNumber < 0.8) { 
+                            weightedCombinations = [
+                                ...Array(8).fill(combinations[oppositeChoice][0]),
+                                ...Array(2).fill(combinations[choice][0])
+                            ];
+                        } else {
+                            weightedCombinations = [
+                                ...Array(5).fill(combinations[oppositeChoice][0]),
+                                ...Array(5).fill(combinations[choice][0])
+                            ];
+                        }
+                    } else if (this.winStreak[senderID] >= 3) {
+                    
                         weightedCombinations = [
                             ...Array(5).fill(combinations["chẵn"][0]),
                             ...Array(5).fill(combinations["lẻ"][0]),
                             ...Array(5).fill(combinations["lẻ"][1]),
-                            combinations["chẵn"][1], 
-                            combinations["lẻ"][2]    
+                            combinations["chẵn"][1],
+                            combinations["lẻ"][2]
                         ];
                     } else {
                         weightedCombinations = [

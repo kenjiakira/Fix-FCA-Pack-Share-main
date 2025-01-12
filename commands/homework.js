@@ -1,6 +1,7 @@
 const fs = require('fs-extra');
 const path = require('path');
 const axios = require('axios');
+const markdownpdf = require('markdown-pdf');
 const { GoogleGenerativeAI } = require("@google/generative-ai");
 
 const apiKeysPath = path.join(__dirname, 'json', 'key.json');
@@ -54,6 +55,112 @@ const processImage = async (attachment) => {
   }
 };
 
+const formatMathText = (text) => {
+  return text
+    // LaTeX expressions
+    .replace(/\$([^$]+)\$/g, (_, math) => {
+      return math
+        .replace(/\\frac{([^}]+)}{([^}]+)}/g, '$1/$2')
+        .replace(/\\sqrt{([^}]+)}/g, '√($1)')
+        .replace(/\\mathbb{([^}]+)}/g, 'ℝ') // Handle special sets like R, N, Z
+        .replace(/\\mathbb{N}/g, 'ℕ')
+        .replace(/\\mathbb{Z}/g, 'ℤ')
+        .replace(/\\mathbb{Q}/g, 'ℚ')
+        .replace(/\\mathbb{R}/g, 'ℝ')
+        .replace(/C_([^_]+)\^([^_]+)/g, 'C$1^$2') 
+        .replace(/P_([^_]+)\^([^_]+)/g, 'P$1^$2') 
+        .replace(/\\ge/g, '≥')
+        .replace(/\\geq/g, '≥')
+        .replace(/\\le/g, '≤')
+        .replace(/\\leq/g, '≤')
+        .replace(/\\in/g, '∈')
+        .replace(/\\notin/g, '∉')
+        .replace(/\\subset/g, '⊂')
+        .replace(/\\supset/g, '⊃')
+        .replace(/\\cup/g, '∪')
+        .replace(/\\cap/g, '∩')
+        .replace(/\\empty/g, '∅')
+        .replace(/\\cdot/g, '·')
+        .replace(/\\times/g, '×')
+        .replace(/\\div/g, '÷')
+    })
+    .replace(/C_(\d+)\^(\d+)/g, 'C$1^$2')
+    .replace(/P_(\d+)\^(\d+)/g, 'P$1^$2')
+
+    .replace(/\\in\\mathbb{N}/g, '∈ℕ')
+    .replace(/n\\in\\mathbb{N}/g, 'n∈ℕ')
+
+    .replace(/,/g, '.')
+    .replace(/\s*=\s*/g, ' = ')
+    .replace(/\s*\+\s*/g, ' + ')
+    .replace(/\s*-\s*/g, ' - ')
+    .replace(/\s*×\s*/g, ' × ')
+    .replace(/\s*÷\s*/g, ' ÷ ')
+    .replace(/≠/g, '≠')
+    .replace(/≈/g, '≈')
+    .replace(/≤/g, '≤')
+    .replace(/≥/g, '≥')
+    .replace(/∈/g, '∈')
+    .replace(/∉/g, '∉')
+    .replace(/∋/g, '∋')
+    .replace(/∌/g, '∌')
+    .replace(/⊂/g, '⊂')
+    .replace(/⊃/g, '⊃')
+    .replace(/⊆/g, '⊆')
+    .replace(/⊇/g, '⊇')
+    .replace(/∪/g, '∪')
+    .replace(/∩/g, '∩')
+    .replace(/∅/g, '∅')
+    .replace(/∀/g, '∀')
+    .replace(/∃/g, '∃')
+    .replace(/∄/g, '∄')
+    .replace(/∑/g, '∑')
+    .replace(/∏/g, '∏')
+    .replace(/∂/g, '∂')
+    .replace(/∇/g, '∇')
+    .replace(/∫/g, '∫')
+    .replace(/∬/g, '∬')
+    .replace(/∭/g, '∭')
+    .replace(/∮/g, '∮')
+    .replace(/∯/g, '∯')
+    .replace(/∰/g, '∰')
+    .replace(/∞/g, '∞')
+    .replace(/∼/g, '∼')
+    .replace(/∝/g, '∝')
+    .replace(/∠/g, '∠')
+    .replace(/∡/g, '∡')
+    .replace(/∢/g, '∢')
+    .replace(/√/g, '√')
+    .replace(/∛/g, '∛')
+    .replace(/∜/g, '∜')
+    // Greek letters
+    .replace(/α/g, 'α')
+    .replace(/β/g, 'β')
+    .replace(/γ/g, 'γ')
+    .replace(/δ/g, 'δ')
+    .replace(/ε/g, 'ε')
+    .replace(/θ/g, 'θ')
+    .replace(/λ/g, 'λ')
+    .replace(/μ/g, 'μ')
+    .replace(/π/g, 'π')
+    .replace(/σ/g, 'σ')
+    .replace(/φ/g, 'φ')
+    .replace(/ω/g, 'ω')
+    // Existing formatting
+    .replace(/<sup>([^<]+)<\/sup>/g, '^($1)')
+    .replace(/\b(\d+)\^(\([^)]+\)|\d+)/g, '$1^$2')
+    .replace(/([a-zA-Z])\^(\([^)]+\)|\d+)/g, '$1^$2')
+    .replace(/(\d+)\s*:\s*(\d+)/g, '$1 ÷ $2')
+    .replace(/(\d+)\s*\^\s*\((\d+)\)\s*:\s*(\d+)\s*\^\*\((\d+)\)/g, 
+      (_, base1, exp1, base2, exp2) => `${base1}^(${exp1}) ÷ ${base2}^(${exp2})`)
+    .replace(/\n\s*\n/g, '\n')
+    .replace(/•/g, '▹')
+    .replace(/━/g, '═')
+    .replace(/\b(\d+)\s*\^\s*0\b/g, '1')
+    .replace(/\b(\d+)\s*\^\s*1\b/g, '$1')
+    .replace(/(\d+)[.,](\d+)/g, '$1.$2');
+};
+
 const analyzeHomework = async (apiKey, prompt, imagePart) => {
   try {
     const genAI = new GoogleGenerativeAI(apiKey);
@@ -68,12 +175,18 @@ const analyzeHomework = async (apiKey, prompt, imagePart) => {
     });
 
     const result = await model.generateContent([
-      { text: "Hãy giải thích và giải chi tiết bài tập này bằng tiếng Việt. Nếu là bài toán, hãy giải từng bước. Nếu là câu hỏi, hãy trả lời đầy đủ và giải thích rõ ràng.\n\nBài tập:" + prompt },
+      { text: `Hãy phân tích và giải bài tập này. Với các phép toán:
+1. Trình bày rõ ràng từng bước một
+2. Sử dụng dấu phẩy cho phần thập phân
+3. Với phân số, sử dụng dấu / để ngăn cách tử số và mẫu số
+4. Đánh số bài và câu rõ ràng
+
+Bài tập: ${prompt}` },
       imagePart
     ]);
 
     const response = await result.response;
-    return response.text();
+    return formatMathText(response.text());
   } catch (error) {
     console.error(`API Error with key ${apiKey.substring(0, 5)}...`, error.message);
     if (error.message.includes('quota') || 
@@ -82,6 +195,35 @@ const analyzeHomework = async (apiKey, prompt, imagePart) => {
         error.message.includes('Quota')) {
       throw new Error('QUOTA_EXCEEDED');
     }
+    throw error;
+  }
+};
+
+const createPDFFile = async (solution) => {
+  try {
+    const timestamp = Date.now();
+    const markdownDir = path.join(__dirname, 'solutions');
+    const tempMdPath = path.join(markdownDir, `temp_${timestamp}.md`);
+    const pdfPath = path.join(markdownDir, `solution_${timestamp}.pdf`);
+
+    if (!fs.existsSync(markdownDir)) {
+      fs.mkdirSync(markdownDir, { recursive: true });
+    }
+    
+    const markdown = `# Lời Giải Bài Tập\n\n${solution}`;
+    await fs.writeFile(tempMdPath, markdown, 'utf8');
+
+    return new Promise((resolve, reject) => {
+      markdownpdf()
+        .from(tempMdPath)
+        .to(pdfPath, () => {
+          fs.remove(tempMdPath)
+            .then(() => resolve(pdfPath))
+            .catch(reject);
+        });
+    });
+  } catch (error) {
+    console.error("Error creating PDF file:", error);
     throw error;
   }
 };
@@ -140,9 +282,16 @@ module.exports = {
         throw lastError || new Error("Không thể phân tích bài tập");
       }
 
+      const pdfPath = await createPDFFile(solution);
+      
       await api.sendMessage({
-        body: "🎓 Lời giải chi tiết:\n\n" + solution
+        body: "📝 Lời giải chi tiết đã được đính kèm trong file PDF:",
+        attachment: fs.createReadStream(pdfPath)
       }, threadID, messageID);
+
+      setTimeout(() => {
+        fs.unlink(pdfPath).catch(console.error);
+      }, 5000);
       
     } catch (error) {
       console.error("Homework analysis error:", error);

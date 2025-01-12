@@ -1,4 +1,4 @@
-  const fs = require('fs');
+const fs = require('fs');
   const adminConfig = JSON.parse(fs.readFileSync("admin.json", "utf8"));
 
   module.exports = {
@@ -12,8 +12,16 @@
 
     onLaunch: async function ({ api, event }) {
       try {
-        const threadInfo = await api.getThreadInfo(event.threadID);
-        const userIsGroupAdmin = threadInfo.adminIDs.some(idInfo => idInfo.id === event.senderID);
+        let userIsGroupAdmin = false;
+        try {
+          const threadInfo = await api.getThreadInfo(event.threadID);
+          if (threadInfo && threadInfo.adminIDs) {
+            userIsGroupAdmin = threadInfo.adminIDs.some(idInfo => idInfo.id === event.senderID);
+          }
+        } catch (err) {
+          console.error("Error getting thread info:", err);
+        }
+
         const userIsConfigAdmin = adminConfig.adminUIDs.includes(event.senderID);
 
         if (!userIsGroupAdmin && !userIsConfigAdmin) {

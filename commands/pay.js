@@ -46,74 +46,101 @@ function calculateFee(amount) {
 }
 
 async function createBillImage(senderName, recipientName, amount, tax, total, remainingBalance) {
-    const canvas = createCanvas(800, 600);
+    const canvas = createCanvas(900, 700);
     const ctx = canvas.getContext('2d');
 
-    const gradient = ctx.createLinearGradient(0, 0, 800, 600);
-    gradient.addColorStop(0, '#141e30');
-    gradient.addColorStop(1, '#243b55');
+    const gradient = ctx.createLinearGradient(0, 0, 900, 700);
+    gradient.addColorStop(0, '#1a237e');
+    gradient.addColorStop(1, '#0d47a1');
     ctx.fillStyle = gradient;
-    ctx.fillRect(0, 0, 800, 600);
+    ctx.fillRect(0, 0, 900, 700);
 
-    ctx.strokeStyle = '#gold';
-    ctx.lineWidth = 3;
-    ctx.strokeRect(20, 20, 760, 560);
+    ctx.strokeStyle = 'rgba(255, 255, 255, 0.1)';
+    for (let i = 0; i < 900; i += 30) {
+        ctx.beginPath();
+        ctx.moveTo(i, 0);
+        ctx.lineTo(i, 700);
+        ctx.stroke();
+    }
 
-    ctx.fillStyle = 'rgba(255, 255, 255, 0.1)';
-    ctx.fillRect(30, 30, 740, 540);
+    ctx.fillStyle = 'rgba(255, 255, 255, 0.95)';
+    roundRect(ctx, 50, 50, 800, 600, 20);
+
+    const headerGradient = ctx.createLinearGradient(50, 50, 850, 150);
+    headerGradient.addColorStop(0, '#1565c0');
+    headerGradient.addColorStop(1, '#0d47a1');
+    ctx.fillStyle = headerGradient;
+    roundRect(ctx, 50, 50, 800, 100, { tl: 20, tr: 20, br: 0, bl: 0 });
 
     ctx.font = 'bold 40px Arial';
     ctx.textAlign = 'center';
-    ctx.fillStyle = '#ffd700';
-    ctx.fillText('BIÊN LAI GIAO DỊCH', 400, 80);
-
-    ctx.beginPath();
-    ctx.moveTo(200, 100);
-    ctx.lineTo(600, 100);
-    ctx.strokeStyle = '#ffd700';
-    ctx.lineWidth = 2;
-    ctx.stroke();
-
-    const now = new Date();
-    ctx.font = '16px Arial';
     ctx.fillStyle = '#ffffff';
-    ctx.textAlign = 'right';
-    ctx.fillText(`${now.toLocaleDateString()} - ${now.toLocaleTimeString()}`, 700, 140);
+    ctx.fillText('BIÊN LAI CHUYỂN KHOẢN', 450, 110);
+
+    ctx.fillStyle = '#f5f5f5';
+    roundRect(ctx, 80, 180, 740, 400, 15);
 
     ctx.textAlign = 'left';
-    ctx.font = 'bold 24px Arial';
-    const startY = 200;
-    const lineHeight = 50;
+    const startY = 230;
+    const lineHeight = 60;
 
     const drawField = (label, value, y) => {
-        ctx.fillStyle = '#87CEEB';
-        ctx.fillText(label, 60, y);
-        ctx.fillStyle = '#ffffff';
-        ctx.fillText(`: ${value}`, 250, y);
+        ctx.fillStyle = '#424242';
+        ctx.font = 'bold 22px Arial';
+        ctx.fillText(label, 100, y);
+        
+        ctx.fillStyle = '#1565c0';
+        ctx.font = '24px Arial';
+        ctx.fillText(value, 300, y);
     };
 
-    drawField('Người gửi', senderName, startY);
-    drawField('Người nhận', recipientName, startY + lineHeight);
-    drawField('Số tiền gửi', `${amount.toLocaleString()} Xu`, startY + lineHeight * 2);
-    drawField('Thuế (1%)', `${tax.toLocaleString()} Xu`, startY + lineHeight * 3);
+    const now = new Date();
+    ctx.font = '18px Arial';
+    ctx.fillStyle = '#757575';
+    ctx.fillText(`${now.toLocaleDateString()} - ${now.toLocaleTimeString()}`, 100, 210);
+
+    drawField('Người gửi:', senderName, startY);
+    drawField('Người nhận:', recipientName, startY + lineHeight);
     
-    ctx.fillStyle = '#ffd700';
-    ctx.font = 'bold 28px Arial';
-    drawField('Tổng tiền', `${total.toLocaleString()} Xu`, startY + lineHeight * 4);
+    ctx.strokeStyle = '#e0e0e0';
+    ctx.lineWidth = 2;
+    ctx.beginPath();
+    ctx.moveTo(100, startY + lineHeight * 1.5);
+    ctx.lineTo(720, startY + lineHeight * 1.5);
+    ctx.stroke();
+
+    ctx.fillStyle = '#424242';
+    ctx.font = 'bold 22px Arial';
+    ctx.fillText('Số tiền gửi:', 100, startY + lineHeight * 2);
+    ctx.font = 'bold 32px Arial';
+    ctx.fillStyle = '#2e7d32';
+    ctx.fillText(`${amount.toLocaleString()} Xu`, 300, startY + lineHeight * 2);
+
+    drawField('Phí giao dịch:', `${tax.toLocaleString()} Xu`, startY + lineHeight * 3);
     
-    ctx.fillStyle = '#98FB98';
-    ctx.font = 'bold 24px Arial';
-    drawField('Số dư còn lại', `${remainingBalance.toLocaleString()} Xu`, startY + lineHeight * 5);
+    ctx.fillStyle = '#424242';
+    ctx.font = 'bold 26px Arial';
+    ctx.fillText('Tổng tiền:', 100, startY + lineHeight * 4);
+    ctx.fillStyle = '#d32f2f';
+    ctx.font = 'bold 34px Arial';
+    ctx.fillText(`${total.toLocaleString()} Xu`, 300, startY + lineHeight * 4);
+
+    ctx.fillStyle = '#424242';
+    ctx.font = 'bold 22px Arial';
+    ctx.fillText('Số dư còn lại:', 100, startY + lineHeight * 5);
+    ctx.fillStyle = '#1565c0';
+    ctx.font = 'bold 26px Arial';
+    ctx.fillText(`${remainingBalance.toLocaleString()} Xu`, 300, startY + lineHeight * 5);
 
     ctx.font = 'italic 20px Arial';
-    ctx.fillStyle = '#87CEEB';
+    ctx.fillStyle = '#757575';
     ctx.textAlign = 'center';
-    ctx.fillText('Cảm ơn bạn đã sử dụng dịch vụ!', 400, 550);
+    ctx.fillText('Cảm ơn bạn đã sử dụng dịch vụ!', 450, 620);
 
     const transactionId = Math.random().toString(36).substring(2, 15);
     ctx.font = '16px Arial';
-    ctx.fillStyle = '#ffffff';
-    ctx.fillText(`Mã giao dịch: ${transactionId}`, 400, 580);
+    ctx.fillStyle = '#9e9e9e';
+    ctx.fillText(`Mã giao dịch: ${transactionId}`, 450, 645);
 
     const outputDir = path.resolve(__dirname, '../commands/cache');
     const outputPath = path.join(outputDir, 'temp_bill.png');
@@ -126,6 +153,24 @@ async function createBillImage(senderName, recipientName, amount, tax, total, re
     fs.writeFileSync(outputPath, buffer);
 
     return outputPath;
+}
+
+function roundRect(ctx, x, y, width, height, radius) {
+    if (typeof radius === 'number') {
+        radius = { tl: radius, tr: radius, br: radius, bl: radius };
+    }
+    ctx.beginPath();
+    ctx.moveTo(x + radius.tl, y);
+    ctx.lineTo(x + width - radius.tr, y);
+    ctx.quadraticCurveTo(x + width, y, x + width, y + radius.tr);
+    ctx.lineTo(x + width, y + height - radius.br);
+    ctx.quadraticCurveTo(x + width, y + height, x + width - radius.br, y + height);
+    ctx.lineTo(x + radius.bl, y + height);
+    ctx.quadraticCurveTo(x, y + height, x, y + height - radius.bl);
+    ctx.lineTo(x, y + radius.tl);
+    ctx.quadraticCurveTo(x, y, x + radius.tl, y);
+    ctx.closePath();
+    ctx.fill();
 }
 
 module.exports = {

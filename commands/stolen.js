@@ -12,7 +12,7 @@ const SPECIAL_EVENTS = [
     { name: "Tìm thấy két bí mật", chance: 0.15, multiplier: 1.3 }
 ];
 
-const INSURANCE_FEE = 5000; // Phí bảo hiểm
+const INSURANCE_FEE = 5000;
 
 const messages = {
     minBalance: (amount) => `Bạn cần ít nhất ${amount.toLocaleString('vi-VN')} Xu để thực hiện hành động trộm cắp (phí bảo hiểm).`,
@@ -51,12 +51,10 @@ module.exports = {
 
             const userBalance = getBalance(event.senderID);
             
-            // Kiểm tra phí bảo hiểm
             if (userBalance < INSURANCE_FEE) {
                 return api.sendMessage(messages.minBalance(INSURANCE_FEE), event.threadID, event.messageID);
             }
 
-            // Trừ phí bảo hiểm trước
             updateBalance(event.senderID, -INSURANCE_FEE);
             
             const victimBalance = getBalance(victimID);
