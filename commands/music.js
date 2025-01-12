@@ -17,28 +17,62 @@ const convertHMS = (value) => {
     return `${minutes}:${seconds.toString().padStart(2, '0')}`;
 };
 
-const downloadMusicFromYoutube = async (link, filePath) => {
+const getAvailableFilePath = async (basePath) => {
+    let filePath = basePath;
+    let counter = 0;
+    while (true) {
+        try {
+            // Check if file exists and is writable
+            if (fs.existsSync(filePath)) {
+                await fs.access(filePath, fs.constants.W_OK);
+                await fs.unlink(filePath);
+            }
+            // Test if we can write to this path
+            await fs.writeFile(filePath, '');
+            await fs.unlink(filePath);
+            return filePath;
+        } catch (err) {
+            counter++;
+            filePath = `${basePath.replace('.mp3', '')}_${counter}.mp3`;
+            if (counter > 5) throw new Error('Không thể tạo file tạm thời');
+        }
+    }
+};
+
+const downloadMusicFromYoutube = async (link, filePath, retryCount = 0) => {
     try {
         const cacheDir = path.dirname(filePath);
         await fs.ensureDir(cacheDir);
+
+        // Get an available file path
+        filePath = await getAvailableFilePath(filePath);
+
+        const userAgents = [
+            'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/97.0.4692.99 Safari/537.36',
+            'Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:96.0) Gecko/20100101 Firefox/96.0'
+        ];
 
         const data = await ytdl.getInfo(link, {
             headers: {
                 'Cookie': '',
                 'Accept': '*/*',
                 'Accept-Language': 'en-US,en;q=0.5',
-                'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/96.0.4664.110 Safari/537.36'
+                'User-Agent': userAgents[retryCount % userAgents.length]
             }
         });
 
         const formats = ytdl.filterFormats(data.formats, 'audioonly');
-        let format = formats.find(f => f.itag === 140); 
+        let format = formats.find(f => f.itag === 140) || 
+                    formats.find(f => f.itag === 251) || 
+                    formats.find(f => f.itag === 250) ||
+                    formats.find(f => f.itag === 249) ||
+                    formats.find(f => f.audioQuality === 'AUDIO_QUALITY_MEDIUM') ||
+                    formats[0];
 
-        if (!format) {
-            format = formats.find(f => f.audioQuality === 'AUDIO_QUALITY_MEDIUM');
+        if (!format && retryCount < 3) {
+            return downloadMusicFromYoutube(link, filePath, retryCount + 1);
         }
-
-        if (!format) throw new Error('RESTRICTED');
+        if (!format) throw new Error('Không thể tải bài hát này do bị giới hạn!');
 
         const result = {
             title: data.videoDetails.title,
@@ -47,6 +81,7 @@ const downloadMusicFromYoutube = async (link, filePath) => {
         };
 
         return new Promise((resolve, reject) => {
+            const writeStream = fs.createWriteStream(filePath);
             const stream = ytdl(link, { 
                 format: format,
                 requestOptions: {
@@ -54,28 +89,64 @@ const downloadMusicFromYoutube = async (link, filePath) => {
                         'Cookie': '',
                         'Accept': '*/*',
                         'Accept-Language': 'en-US,en;q=0.5',
-                        'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/96.0.4664.110 Safari/537.36'
+                        'User-Agent': userAgents[retryCount % userAgents.length]
                     }
                 },
                 highWaterMark: 1<<25
             });
 
-            stream.on('error', (err) => {
-                reject(new Error('RESTRICTED'));
+            writeStream.on('error', async (err) => {
+                try {
+                    stream.destroy();
+                    if (fs.existsSync(filePath)) {
+                        await fs.unlink(filePath);
+                    }
+                } catch (e) {
+                    console.error('Cleanup error:', e);
+                }
+                reject(err);
             });
 
-            stream.pipe(fs.createWriteStream(filePath))
+            stream.on('error', async (err) => {
+                try {
+                    writeStream.end();
+                    if (fs.existsSync(filePath)) {
+                        await fs.unlink(filePath);
+                    }
+                } catch (e) {
+                    console.error('Cleanup error:', e);
+                }
+                
+                if (retryCount < 3) {
+                    downloadMusicFromYoutube(link, filePath, retryCount + 1)
+                        .then(resolve)
+                        .catch(reject);
+                } else {
+                    reject(new Error('Không thể tải bài hát này do bị giới hạn!'));
+                }
+            });
+
+            stream.pipe(writeStream)
                 .on('finish', () => {
                     resolve({
                         data: filePath,
                         info: result,
                     });
-                })
-                .on('error', reject);
+                });
         });
     } catch (error) {
         console.error('Lỗi tải nhạc:', error);
-        throw new Error('RESTRICTED');
+        if (fs.existsSync(filePath)) {
+            try {
+                await fs.unlink(filePath);
+            } catch (e) {
+                console.error('Cleanup error:', e);
+            }
+        }
+        if (retryCount < 3) {
+            return downloadMusicFromYoutube(link, filePath, retryCount + 1);
+        }
+        throw new Error('Không thể tải bài hát này do bị giới hạn!');
     }
 };
 
@@ -104,21 +175,14 @@ module.exports = {
         }
 
         const selectedSong = songList[choice - 1];
-        const filePath = path.resolve(__dirname, 'cache', `music-${senderID}.mp3`);
+        const basePath = path.resolve(__dirname, 'cache', `music-${senderID}.mp3`);
         let messagesToDelete = [];
 
         try {
             const loadingMsg = await api.sendMessage("⏳ Đang tải bài hát...", threadID, messageID);
             messagesToDelete.push(loadingMsg.messageID);
 
-            if (fs.existsSync(filePath)) {
-                try {
-                    fs.unlinkSync(filePath);
-                } catch (err) {
-                    console.error("Lỗi xóa file cũ:", err);
-                    filePath = path.resolve(__dirname, 'cache', `music-${senderID}-${Date.now()}.mp3`);
-                }
-            }
+            const filePath = await getAvailableFilePath(basePath);
 
             const { data, info } = await downloadMusicFromYoutube(selectedSong.url, filePath);
             
@@ -135,9 +199,14 @@ module.exports = {
                     attachment: fs.createReadStream(data)
                 },
                 threadID,
-                (err) => {
-                    if (err) console.error(err);
-                    fs.unlinkSync(data);
+                async (err) => {
+                    try {
+                        if (fs.existsSync(data)) {
+                            await fs.unlink(data);
+                        }
+                    } catch (e) {
+                        console.error('Cleanup error:', e);
+                    }
                 },
                 messageID
             );

@@ -1,150 +1,22 @@
 const fs = require('fs');
 const path = require('path');
 const { getBalance, updateBalance, updateQuestProgress } = require('../utils/currencies');
+const fishingItems = require('../config/fishing/items');
+const fishTypes = require('../config/fishing/fish');
+const locations = require('../config/fishing/locations');
+const { 
+    treasures, 
+    specialEvents, 
+    expMultipliers, 
+    levelRewards, 
+    defaultCollection,
+    expRequirements,
+    streakBonuses 
+} = require('../config/fishing/constants');
 
 function formatNumber(number) {
     return number.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
 }
-
-const fishingItems = {
-    "Cần trúc": { price: 10000, multiplier: 1, durability: 10 },
-    "Cần máy": { price: 30000, multiplier: 1.5, durability: 20 },
-    "Cần đài": { price: 200000, multiplier: 2, durability: 30 },
-    "Cần Lục": { price: 5000000, multiplier: 3, durability: 50 }
-};
-
-const fishTypes = {
-    trash: [
-        { name: "Rác", value: 100 },
-        { name: "Rong biển", value: 200 },
-        { name: "Chai nhựa", value: 300 }
-    ],
-    common: [
-        { name: "Cá Rô", value: 1000 },
-        { name: "Cá Diếc", value: 2000 },
-        { name: "Cá Chép", value: 3000 },
-        { name: "Cá Tra", value: 1500 },
-        { name: "Cá Mè", value: 2500 }
-    ],
-    uncommon: [
-        { name: "Cá Trê", value: 5000 },
-        { name: "Cá Lóc", value: 7000 },
-        { name: "Cá Quả", value: 6000 },
-        { name: "Cá Thu", value: 8000 }
-    ],
-    rare: [
-        { name: "Cá Hồi", value: 10000 },
-        { name: "Cá Tầm", value: 15000 },
-        { name: "Cá Ngừ", value: 12000 },
-        { name: "Cá Kiếm", value: 18000 }
-    ],
-    legendary: [
-        { name: "Cá Mập", value: 50000 },
-        { name: "Cá Voi", value: 100000 },
-        { name: "Cá Voi Sát Thủ", value: 75000 },
-        { name: "Cá Voi Lưng Gù", value: 150000 }
-    ],
-    mythical: [
-        { name: "Megalodon", value: 500000 },
-        { name: "Kraken", value: 1000000 }
-    ]
-};
-
-const treasures = [
-    { name: "Hòm gỗ", value: 5000 },
-    { name: "Rương bạc", value: 20000 },
-    { name: "Rương vàng", value: 50000 },
-    { name: "Kho báu cổ đại", value: 100000 }
-];
-
-const specialEvents = {
-    doubleRewards: { name: "Mưa vàng", description: "Nhận đôi xu trong 5 phút!" },
-    rareFish: { name: "Cá quý hiếm xuất hiện", description: "Tỉ lệ bắt cá hiếm tăng gấp đôi trong 5 phút!" },
-    treasureHunt: { name: "Săn kho báu", description: "Cơ hội tìm thấy kho báu khi câu cá!" }
-};
-
-const locations = {
-    pond: {
-        name: "Ao làng",
-        cost: 0,
-        fish: {
-            common: 70,
-            uncommon: 25,
-            rare: 4,
-            legendary: 1,
-            trash: 10,
-            mythical: 0
-        }
-    },
-    river: {
-        name: "Sông",
-        cost: 5000,
-        fish: {
-            common: 50,
-            uncommon: 35,
-            rare: 12,
-            legendary: 3,
-            trash: 5,
-            mythical: 0.1,
-        }
-    },
-    ocean: {
-        name: "Biển",
-        cost: 10000,
-        fish: {
-            common: 30,
-            uncommon: 45,
-            rare: 20,
-            legendary: 5,
-            trash: 3,
-            mythical: 0.5
-        }
-    },
-    deepSea: {
-        name: "Biển sâu",
-        cost: 50000,
-        fish: {
-            trash: 1,
-            common: 20,
-            uncommon: 40,
-            rare: 25,
-            legendary: 10,
-            mythical: 4
-        }
-    }
-};
-
-const expMultipliers = {
-    trash: 1,
-    common: 2,
-    uncommon: 4,
-    rare: 8,
-    legendary: 16,
-    mythical: 32
-};
-
-const levelRewards = {
-    5: { reward: 10000, message: "🎉 Đạt cấp 5! Nhận 10,000 xu" },
-    10: { reward: 50000, message: "🎉 Đạt cấp 10! Nhận 50,000 xu" },
-    20: { reward: 200000, message: "🎉 Đạt cấp 20! Nhận 200,000 xu" },
-    50: { reward: 1000000, message: "🎉 Đạt cấp 50! Nhận 1,000,000 xu" },
-};
-
-const defaultCollection = {
-    byRarity: {
-        trash: {},
-        common: {},
-        uncommon: {},
-        rare: {},
-        legendary: {},
-        mythical: {}
-    },
-    stats: {
-        totalCaught: 0,
-        totalValue: 0,
-        bestCatch: { name: "", value: 0 }
-    }
-};
 
 const messages = {
     cooldown: (waitTime, lastTime) => 
@@ -155,6 +27,11 @@ const messages = {
     insufficientFunds: (cost, location) => 
         `❌ Bạn cần ${formatNumber(cost)} xu để câu ở ${location}!`
 };
+
+function calculateRequiredExp(level) {
+    const { baseExp, multiplierPerLevel } = require('../config/fishing/constants').expRequirements;
+    return Math.floor(baseExp * Math.pow(multiplierPerLevel, level - 1));
+}
 
 module.exports = {
     name: "fish",
@@ -452,7 +329,11 @@ module.exports = {
             pond: 1,
             river: 3,
             ocean: 5,
-            deepSea: 10
+            deepSea: 10,
+            abyss: 20,
+            atlantis: 50,
+            spaceOcean: 100,
+            dragonRealm: 200
         };
 
         const locationKey = Object.keys(locations).find(key => locations[key] === location);
@@ -546,26 +427,40 @@ module.exports = {
                     };
                 }
 
+                // Tính toán EXP và streak bonus
                 let baseExp = result.exp * (expMultipliers[rarity] || 1);
-                const streakBonus = Math.min((playerData.fishingStreak || 0) * 0.2, 1.0);
+                let streakBonus = 0;
+                
+                // Tính streak bonus dựa trên số lần câu liên tiếp
+                const streak = playerData.fishingStreak || 0;
+                for (const [streakThreshold, bonus] of Object.entries(streakBonuses)) {
+                    if (streak >= parseInt(streakThreshold)) {
+                        streakBonus = bonus;
+                    }
+                }
+
+                // Áp dụng bonus
                 baseExp = Math.floor(baseExp * (1 + streakBonus));
 
                 if (treasures.some(t => t.name === result.name)) {
                     baseExp *= 2;
                 }
 
+                // Tính level up với exp requirement mới
                 playerData.exp = (playerData.exp || 0) + baseExp;
                 const oldLevel = playerData.level;
-
-                while (playerData.exp >= playerData.level * 1000) {
-                    playerData.exp -= playerData.level * 1000;
-                    playerData.level++;
-                    
-                    await api.sendMessage(messages.levelUp(playerData.level), event.threadID);
-                    if (levelRewards[playerData.level]) {
-                        const reward = levelRewards[playerData.level];
-                        updateBalance(event.senderID, reward.reward);
-                        await api.sendMessage(reward.message, event.threadID);
+                
+                while (playerData.exp >= calculateRequiredExp(playerData.level)) {
+                    playerData.exp -= calculateRequiredExp(playerData.level);
+                    if (playerData.level < expRequirements.maxLevel) {
+                        playerData.level++;
+                        await api.sendMessage(messages.levelUp(playerData.level), event.threadID);
+                        
+                        if (levelRewards[playerData.level]) {
+                            const reward = levelRewards[playerData.level];
+                            updateBalance(event.senderID, reward.reward);
+                            await api.sendMessage(reward.message, event.threadID);
+                        }
                     }
                 }
 
@@ -593,7 +488,7 @@ module.exports = {
                     `📊 EXP: +${formatNumber(baseExp)} (${this.getExpBreakdown(baseExp, streakBonus, rarity)})\n` +
                     `📈 Chuỗi câu: ${playerData.fishingStreak} lần (${Math.floor(streakBonus * 100)}% bonus)\n` +
                     `🎚️ Level: ${oldLevel}${playerData.level > oldLevel ? ` ➜ ${playerData.level}` : ''}\n` +
-                    `✨ EXP: ${formatNumber(playerData.exp)}/${formatNumber(playerData.level * 1000)}\n` +
+                    `✨ EXP: ${formatNumber(playerData.exp)}/${formatNumber(calculateRequiredExp(playerData.level))}\n` +
                     `🎒 Độ bền cần: ${playerData.rodDurability}/${fishingItems[playerData.rod].durability}\n` +
                     `💵 Số dư: ${formatNumber(getBalance(event.senderID))} Xu\n` +
                     `⏳ Chờ 12 phút để câu tiếp!`,
@@ -709,8 +604,7 @@ module.exports = {
                 rodDurability: rodInfo.durability
             };
             
-            if (!userData.inventory.includes(rodName)) {
-                userData.inventory.push(rodName);
+            if (!userData.inventory.includes(rodName)) {                userData.inventory.push(rodName);
             }
 
             this.savePlayerData(userData);
