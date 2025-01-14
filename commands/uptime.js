@@ -53,7 +53,6 @@ module.exports = {
         uptimeMessage += `▸ Hệ điều hành: ${systemInfo.platform} ${systemInfo.arch}\n`;
         uptimeMessage += `▸ Tên máy chủ: ${systemInfo.hostname}\n`;
         uptimeMessage += `▸ Thời gian hoạt động: ${systemUptime}\n`;
-        uptimeMessage += `▸ Tải trung bình: ${systemInfo.loadAverage}\n`;
         uptimeMessage += `══════════════════\n`;
         uptimeMessage += `🔧 Tài Nguyên Hệ Thống\n`;
         uptimeMessage += `▸ CPU: ${systemInfo.cpuUsage}% | ${systemInfo.cpuModel}\n`;
@@ -66,9 +65,6 @@ module.exports = {
         uptimeMessage += `▸ Bộ nhớ Heap: ${systemInfo.processMemory.heapUsed}/${systemInfo.processMemory.heapTotal}MB\n`;
         uptimeMessage += `▸ Bộ nhớ RSS: ${systemInfo.processMemory.rss}MB\n`;
         uptimeMessage += `▸ Mạng: ${systemInfo.networkInfo}\n`;
-        uptimeMessage += `══════════════════\n`;
-        uptimeMessage += `💝 Bot được phát triển bởi HNT\n`;
-        uptimeMessage += `Cảm ơn bạn đã sử dụng bot!`;
 
         await actions.edit(uptimeMessage, replyMessage.messageID);
     }
@@ -148,7 +144,6 @@ async function getSystemInfo() {
     const networkInterfaces = os.networkInterfaces();
     const processMemoryUsage = process.memoryUsage();
     
-    // Get network info
     const networkInfo = Object.entries(networkInterfaces)
         .filter(([_, interfaces]) => interfaces.some(i => !i.internal))
         .map(([name, interfaces]) => {

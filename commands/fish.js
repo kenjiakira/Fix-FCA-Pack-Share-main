@@ -362,33 +362,26 @@ module.exports = {
         }
 
         const availableRods = Object.keys(fishingItems).filter(rod => {
-            return playerData.inventory.includes(rod) && fishingItems[rod].durability > 0;
+            return playerData.inventory.includes(rod) && 
+                   fishingItems[rod] && 
+                   fishingItems[rod].durability > 0;
         });
 
         if (availableRods.length === 0) {
-            return api.sendMessage("⚠️ Bạn không có cần câu nào khả dụng! Hãy mua cần mới.", event.threadID);
+            // Reset to default rod if no valid rods available
+            playerData.rod = "Cần trúc";
+            playerData.rodDurability = fishingItems["Cần trúc"].durability;
+            playerData.inventory = ["Cần trúc"];
+            this.savePlayerData(playerData);
+            return api.sendMessage("⚠️ Đã reset về cần câu mặc định do không có cần câu khả dụng!", event.threadID);
         }
 
-        const bestRod = availableRods.reduce((best, rod) => {
-            if (fishingItems[rod].multiplier > fishingItems[best].multiplier) {
-                return rod;
-            }
-            return best;
-        });
-
-        if (bestRod !== playerData.rod) {
+        // Validate current rod
+        if (!fishingItems[playerData.rod] || playerData.rodDurability <= 0) {
+            const bestRod = availableRods[0];
             playerData.rod = bestRod;
             playerData.rodDurability = fishingItems[bestRod].durability;
-            await api.sendMessage(`🎣 Tự động chọn ${bestRod} để có hiệu quả tốt nhất!`, event.threadID);
-        }
-
-        if (playerData.rodDurability <= 1) {
-            const nextBestRod = availableRods.find(rod => rod !== bestRod && fishingItems[rod].durability > 0);
-            if (nextBestRod) {
-                playerData.rod = nextBestRod;
-                playerData.rodDurability = fishingItems[nextBestRod].durability;
-                await api.sendMessage(messages.rodBroken(nextBestRod), event.threadID);
-            }
+            await api.sendMessage(`🎣 Tự động chuyển sang ${bestRod} do cần hiện tại không khả dụng!`, event.threadID);
         }
 
         const balance = getBalance(event.senderID);
@@ -621,10 +614,28 @@ module.exports = {
     },
 
     validatePlayerStats: function(playerData) {
+        // Ensure basic stats exist
         if (!playerData.exp) playerData.exp = 0;
         if (!playerData.level) playerData.level = 1;
+        if (!playerData.rod) playerData.rod = "Cần trúc";
+        if (!playerData.inventory) playerData.inventory = ["Cần trúc"];
+        
+        // Validate rod and durability
+        if (!fishingItems[playerData.rod]) {
+            playerData.rod = "Cần trúc";
+        }
+        
+        if (typeof playerData.rodDurability !== 'number' || 
+            playerData.rodDurability <= 0 || 
+            !fishingItems[playerData.rod]) {
+            playerData.rodDurability = fishingItems["Cần trúc"].durability;
+        }
+
+        // Ensure non-negative values
         if (playerData.exp < 0) playerData.exp = 0;
         if (playerData.level < 1) playerData.level = 1;
+        if (playerData.rodDurability < 0) playerData.rodDurability = 0;
+
         return playerData;
     },
 

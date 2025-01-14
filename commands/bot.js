@@ -194,21 +194,11 @@ const isValidMessage = (event) => {
     if (event.type !== "message_reply") return false;
 
     const replyContext = global.client.onReply.find(r => 
-        r.messageID === event.messageReply.messageID
+        r.messageID === event.messageReply.messageID && 
+        r.name === "bot"
     );
 
-    if (replyContext && replyContext.name === "bot") {
-        return true;
-    }
-
-    if (event.messageReply?.attachments?.length > 0) {
-        const hasImage = event.messageReply.attachments.some(att => 
-            att.type === "photo" || att.type === "image"
-        );
-        return hasImage;
-    }
-
-    return false;
+    return !!replyContext; 
 };
 
 module.exports = {
@@ -223,15 +213,14 @@ module.exports = {
 
     noPrefix: async function({ event, api }) {
         if (hasIgnoredKeyword(event.body)) return;
+
         if (!isValidMessage(event)) return;
         
         try {
             let imageData = null;
             const prevContext = getContext(event.messageReply.messageID);
 
-            if (event.messageReply?.attachments?.length > 0) {
-                imageData = await processImages(event.messageReply.attachments);
-            } else if (prevContext?.originalImage) {
+            if (prevContext?.originalImage) {
                 imageData = prevContext.imageData;
             }
 
