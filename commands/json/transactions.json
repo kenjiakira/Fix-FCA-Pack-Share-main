@@ -16,18 +16,6 @@
   "61561753304881": [
     {
       "type": "out",
-      "amount": 100800,
-      "timestamp": 1736221101747,
-      "description": "Chuyển 100000 Xu cho Khuong Duy"
-    },
-    {
-      "type": "out",
-      "amount": 100800,
-      "timestamp": 1736226443272,
-      "description": "Chuyển 100000 Xu cho Nguyễn Khánh"
-    },
-    {
-      "type": "out",
       "amount": 502500,
       "timestamp": 1736257758523,
       "description": "Chuyển 500000 Xu cho Hoag Ng Anh"
@@ -43,6 +31,18 @@
       "amount": 30240,
       "timestamp": 1736257822332,
       "description": "Chuyển 30000 Xu cho Pham Minh Dang"
+    },
+    {
+      "type": "out",
+      "amount": 40320,
+      "timestamp": 1736855406470,
+      "description": "Chuyển 40000 Xu cho Con Cac Ba Ma"
+    },
+    {
+      "type": "in",
+      "amount": 50000,
+      "timestamp": 1736855430344,
+      "description": "Nhận 50000 Xu từ Con Cac Ba Ma"
     }
   ],
   "100050363228652": [
@@ -151,18 +151,6 @@
   ],
   "61569008916749": [
     {
-      "type": "out",
-      "amount": 5050000,
-      "timestamp": 1735717721584,
-      "description": "Chuyển 5000000 Xu cho Duong Kinm"
-    },
-    {
-      "type": "in",
-      "amount": 3456789,
-      "timestamp": 1735717772192,
-      "description": "Nhận 3456789 Xu từ Duong Kinm"
-    },
-    {
       "type": "in",
       "amount": 2000000,
       "timestamp": 1735717833328,
@@ -179,6 +167,18 @@
       "amount": 170000,
       "timestamp": 1736416553661,
       "description": "Nhận 170000 Xu từ Anh La Phu Dz"
+    },
+    {
+      "type": "in",
+      "amount": 40000,
+      "timestamp": 1736855406470,
+      "description": "Nhận 40000 Xu từ Ngọc Từ"
+    },
+    {
+      "type": "out",
+      "amount": 50400,
+      "timestamp": 1736855430344,
+      "description": "Chuyển 50000 Xu cho Ngọc Từ"
     }
   ],
   "61570532692675": [

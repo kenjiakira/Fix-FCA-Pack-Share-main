@@ -1,4 +1,3 @@
-
 const fs = require("fs");
 const gradient = require("gradient-string");
  const cron = require('node-cron');
@@ -138,7 +137,20 @@ const startBot = () => {
   console.log(boldText(gradient.retro("Logging via AppState...")));
 
     login({ appState: JSON.parse(fs.readFileSync(config.APPSTATE_PATH, "utf8")) }, (err, api) => {
-        if (err) return console.error(boldText(gradient.passion(`Login error: ${JSON.stringify(err)}`)));
+        if (err) {
+            console.error(boldText(gradient.passion(`Login error: ${JSON.stringify(err)}`)));
+            
+            if (err.code === 'ENOTFOUND' && err.syscall === 'getaddrinfo' && err.hostname === 'www.facebook.com') {
+                console.log(boldText(gradient.cristal("Detected Facebook connection error, attempting to restart in 10 seconds...")));
+                setTimeout(() => {
+                    console.log(boldText(gradient.cristal("Restarting bot...")));
+                    process.exit(1); 
+                }, 3000);
+                return;
+            }
+            return;
+        }
+
         console.log(boldText(gradient.retro("SUCCESSFULLY LOGGED IN VIA APPSTATE")));
         console.log(boldText(gradient.retro("Picked Proxy IP: " + proxy)));
         console.log(boldText(gradient.vice("━━━━━━━[ COMMANDS DEPLOYMENT ]━━━━━━━━━━━")));
@@ -198,6 +210,7 @@ const startBot = () => {
                 );
             }
         }
+                '║ • ARJHIL DUCAYANAN',
         console.log(boldText(gradient.passion("━━━━[ READY INITIALIZING DATABASE ]━━━━━━━")));
         console.log(boldText(gradient.cristal(`╔════════════════════`)));
         console.log(boldText(gradient.cristal(`║ DATABASE SYSTEM STATS`)));
@@ -215,8 +228,7 @@ const startBot = () => {
                 '║ • JR BUSACO',
                 '║ • JONELL MAGALLANES',
                 '║ • JAY MAR',
-                '║ • KENJI AKIRA',
-                '╚════════════════════'
+                '║ • KENJI AKIRA',                '╚════════════════════'
             ];
         
             messages.forEach(msg => console.log(boldText(gradient.cristal(msg))));
@@ -228,5 +240,33 @@ const startBot = () => {
         handleListenEvents(api, commands, eventCommands, threadsDB, usersDB, adminConfig, prefix);
     });
 };
+
+process.on('exit', (code) => {
+    if (code === 1) {
+ 
+        const { spawn } = require('child_process');
+        const child = spawn(process.argv[0], process.argv.slice(1), {
+            detached: true,
+            stdio: ['inherit', 'inherit', 'inherit']
+        });
+        child.unref();
+    }
+});
+
+process.on('uncaughtException', (err) => {
+    console.error('Uncaught Exception:', err);
+    if (err.code === 'ENOTFOUND' && err.syscall === 'getaddrinfo' && err.hostname === 'www.facebook.com') {
+        console.log(boldText(gradient.cristal("Facebook connection lost, restarting...")));
+        process.exit(1);
+    }
+});
+
+process.on('unhandledRejection', (reason, promise) => {
+    console.error('Unhandled Rejection at:', promise, 'reason:', reason);
+    if (reason && reason.code === 'ENOTFOUND' && reason.syscall === 'getaddrinfo' && reason.hostname === 'www.facebook.com') {
+        console.log(boldText(gradient.cristal("Facebook connection lost, restarting...")));
+        process.exit(1);
+    }
+});
 
 startBot();
