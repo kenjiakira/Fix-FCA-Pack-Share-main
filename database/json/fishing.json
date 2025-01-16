@@ -1,15 +1,16 @@
 {
   "61561753304881": {
     "rod": "Cần Trúc",
-    "rodDurability": 9,
+    "rodDurability": 8,
     "inventory": [
-      "Cần trúc",
-      "Cần máy",
-      "Cần Trúc"
+      "Cần Trúc",
+      "Cần trúc"
     ],
     "collection": {
       "byRarity": {
-        "trash": {},
+        "trash": {
+          "Rong biển": 1
+        },
         "common": {
           "Rương vàng": 1,
           "Cá Tra": 2,
@@ -21,24 +22,24 @@
         "mythical": {}
       },
       "stats": {
-        "totalCaught": 4,
-        "totalValue": 82500,
+        "totalCaught": 5,
+        "totalValue": 82700,
         "bestCatch": {
           "name": "Rương vàng",
           "value": 75000
         }
       }
     },
-    "exp": 246,
+    "exp": 248,
     "level": 1,
-    "fishingStreak": 4,
+    "fishingStreak": 5,
     "stats": {
-      "totalExp": 246,
-      "highestStreak": 4,
-      "totalFishes": 4
+      "totalExp": 248,
+      "highestStreak": 5,
+      "totalFishes": 5
     },
     "activeBuffs": {},
-    "lastFished": 1736854357191,
+    "lastFished": 1736941246684,
     "userID": "61561753304881"
   },
   "100068382888605": {

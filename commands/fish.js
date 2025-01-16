@@ -80,12 +80,17 @@ module.exports = {
             console.error("Error loading fishing data:", err);
         }
 
-        // Initialize with safe default values
-        if (!data[userID] || !fishingItems[data[userID]?.rod]) {
+        const defaultRod = {
+            name: "Cần trúc",
+            durability: fishingItems["Cần trúc"]?.durability || 100,
+            inventory: ["Cần trúc"]
+        };
+
+        if (!data[userID]) {
             data[userID] = {
-                rod: "Cần trúc", 
-                rodDurability: fishingItems["Cần trúc"]?.durability || 100, 
-                inventory: ["Cần trúc"],
+                rod: defaultRod.name,
+                rodDurability: defaultRod.durability,
+                inventory: defaultRod.inventory,
                 collection: defaultCollection,
                 exp: 0,
                 level: 1,
@@ -97,32 +102,41 @@ module.exports = {
                 },
                 activeBuffs: {},
                 lastFished: 0,
-                userID: userID 
+                userID: userID
             };
         }
 
-        // Validate and repair inventory
+        if (!fishingItems[data[userID].rod]) {
+            data[userID].rod = defaultRod.name;
+            data[userID].rodDurability = defaultRod.durability;
+        }
+
+        const maxDurability = fishingItems[data[userID].rod]?.durability;
+        if (typeof data[userID].rodDurability !== 'number' || 
+            isNaN(data[userID].rodDurability) || 
+            data[userID].rodDurability < 0 || 
+            !maxDurability) {
+            data[userID].rodDurability = defaultRod.durability;
+            data[userID].rod = defaultRod.name;
+        }
+
         if (!Array.isArray(data[userID].inventory)) {
             data[userID].inventory = ["Cần trúc"];
         }
 
-        // Filter out invalid items from inventory
         data[userID].inventory = data[userID].inventory.filter(item => 
             fishingItems[item] !== undefined
         );
 
-        // Ensure at least default rod exists
         if (!data[userID].inventory.includes("Cần trúc")) {
             data[userID].inventory.push("Cần trúc");
         }
 
-        // Validate rod and durability
         if (!fishingItems[data[userID].rod]) {
             data[userID].rod = "Cần trúc";
             data[userID].rodDurability = fishingItems["Cần trúc"].durability;
         }
 
-        // Fix durability if invalid
         if (typeof data[userID].rodDurability !== 'number' || 
             data[userID].rodDurability < 0 || 
             data[userID].rodDurability > fishingItems[data[userID].rod].durability) {
@@ -341,6 +355,14 @@ module.exports = {
     },
 
     handleFishing: async function(api, event, location, playerData) {
+
+        if (!fishingItems[playerData.rod] || typeof fishingItems[playerData.rod].durability !== 'number') {
+            playerData.rod = "Cần trúc";
+            playerData.rodDurability = fishingItems["Cần trúc"].durability;
+            this.savePlayerData(playerData);
+            await api.sendMessage("⚠️ Đã phát hiện lỗi cần câu, đã reset về cần mặc định!", event.threadID);
+        }
+
         const allData = this.loadAllPlayers();
         const now = Date.now();
 
@@ -399,7 +421,7 @@ module.exports = {
         });
 
         if (availableRods.length === 0) {
-            // Reset to default rod if no valid rods available
+  
             playerData.rod = "Cần trúc";
             playerData.rodDurability = fishingItems["Cần trúc"].durability;
             playerData.inventory = ["Cần trúc"];
@@ -407,7 +429,6 @@ module.exports = {
             return api.sendMessage("⚠️ Đã reset về cần câu mặc định do không có cần câu khả dụng!", event.threadID);
         }
 
-        // Validate current rod
         if (!fishingItems[playerData.rod] || playerData.rodDurability <= 0) {
             const bestRod = availableRods[0];
             playerData.rod = bestRod;
@@ -451,11 +472,9 @@ module.exports = {
                     };
                 }
 
-                // Tính toán EXP và streak bonus
                 let baseExp = result.exp * (expMultipliers[rarity] || 1);
                 let streakBonus = 0;
                 
-                // Tính streak bonus dựa trên số lần câu liên tiếp
                 const streak = playerData.fishingStreak || 0;
                 for (const [streakThreshold, bonus] of Object.entries(streakBonuses)) {
                     if (streak >= parseInt(streakThreshold)) {
@@ -463,14 +482,12 @@ module.exports = {
                     }
                 }
 
-                // Áp dụng bonus
                 baseExp = Math.floor(baseExp * (1 + streakBonus));
 
                 if (treasures.some(t => t.name === result.name)) {
                     baseExp *= 2;
                 }
 
-                // Tính level up với exp requirement mới
                 playerData.exp = (playerData.exp || 0) + baseExp;
                 const oldLevel = playerData.level;
                 
@@ -645,24 +662,21 @@ module.exports = {
     },
 
     validatePlayerStats: function(playerData) {
-        // Ensure fishingItems is loaded
+
         if (!fishingItems || !fishingItems["Cần trúc"]) {
             throw new Error("fishingItems configuration is missing or invalid");
         }
 
-        // Ensure basic stats exist with safe defaults
         playerData.exp = playerData.exp || 0;
         playerData.level = playerData.level || 1;
         playerData.rod = fishingItems[playerData.rod] ? playerData.rod : "Cần trúc";
         playerData.inventory = Array.isArray(playerData.inventory) ? playerData.inventory : ["Cần trúc"];
 
-        // Validate inventory items
         playerData.inventory = playerData.inventory.filter(item => fishingItems[item]);
         if (!playerData.inventory.includes("Cần trúc")) {
             playerData.inventory.push("Cần trúc");
         }
 
-        // Set proper durability
         const maxDurability = fishingItems[playerData.rod]?.durability || fishingItems["Cần trúc"].durability;
         if (typeof playerData.rodDurability !== 'number' || 
             playerData.rodDurability < 0 || 
@@ -670,7 +684,6 @@ module.exports = {
             playerData.rodDurability = maxDurability;
         }
 
-        // Ensure non-negative values
         playerData.exp = Math.max(0, playerData.exp);
         playerData.level = Math.max(1, playerData.level);
         playerData.rodDurability = Math.max(0, playerData.rodDurability);

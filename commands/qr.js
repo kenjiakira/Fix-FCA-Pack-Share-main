@@ -1,72 +1,80 @@
+const axios = require('axios');
 const fs = require('fs');
 const path = require('path');
-const axios = require('axios');
-const jsQR = require('jsqr');
-const { createCanvas, loadImage } = require('canvas');
+
+const BANK_LIST = [
+    "mbbank", "dongabank", "viettinbank", "vietcombank", "techcombank",
+    "bidv", "acb", "sacombank", "vpbank", "agribank",
+    "hdbank", "tpbank", "shb", "eximbank", "ocb",
+    "seabank", "bacabank", "pvcombank", "scb", "vib",
+    "namabank", "abbank", "lpbank", "vietabank", "msb",
+    "nvbank", "pgbank", "publicbank", "cimbbank", "uob"
+];
 
 module.exports = {
     name: "qr",
-    info: "Quét mã QR từ hình ảnh",
     dev: "HNT",
+    info: "Tạo mã QR chuyển khoản ngân hàng",
+    usages: "qr [STK] [Mã bank] [Số tiền] [Nội dung]",
     usedby: 0,
+    cooldowns: 0,
     onPrefix: true,
-    dmUser: false,
-    usages: "Reply một ảnh có chứa mã QR để quét",
-    cooldowns: 5,
 
-    onLaunch: async function ({ api, event, actions }) {
-        const { threadID, messageID, messageReply } = event;
-
-        if (!messageReply || !messageReply.attachments || messageReply.attachments.length === 0) {
-            return await actions.reply("Vui lòng reply một ảnh có chứa mã QR để quét.", threadID, messageID);
-        }
-
-        const attachment = messageReply.attachments[0];
-        if (attachment.type !== 'photo') {
-            return await actions.reply("Vui lòng reply một ảnh có chứa mã QR.", threadID, messageID);
-        }
-
+    onLaunch: async function({ api, event, target }) {
         try {
-            const response = await axios.get(attachment.url, { responseType: 'arraybuffer' });
-            const imageBuffer = Buffer.from(response.data);
+            const args = event.body.split(/\s+/).slice(1);
             
-            const image = await loadImage(imageBuffer);
-            const canvas = createCanvas(image.width, image.height);
-            const ctx = canvas.getContext('2d');
-            
-            ctx.drawImage(image, 0, 0);
-
-            ctx.globalCompositeOperation = 'source-over';
-            ctx.fillStyle = 'white';
-            ctx.fillRect(0, 0, canvas.width, canvas.height);
-            ctx.globalCompositeOperation = 'difference';
-            ctx.drawImage(image, 0, 0);
-
-            const imageData = ctx.getImageData(0, 0, canvas.width, canvas.height);
-
-            let code = null;
-            const scales = [1, 1.5, 2, 0.75, 0.5];
-
-            for (const scale of scales) {
-                const scaledCanvas = createCanvas(canvas.width * scale, canvas.height * scale);
-                const scaledCtx = scaledCanvas.getContext('2d');
-                
-                scaledCtx.drawImage(canvas, 0, 0, scaledCanvas.width, scaledCanvas.height);
-                const scaledImageData = scaledCtx.getImageData(0, 0, scaledCanvas.width, scaledCanvas.height);
-                
-                code = jsQR(scaledImageData.data, scaledImageData.width, scaledImageData.height);
-                if (code) break;
+            if (args.length < 3) {
+                return api.sendMessage(
+                    "Cách dùng: qr [STK] [Mã bank] [Số tiền] [Nội dung]\n" +
+                    "Ví dụ: qr 0123456789 mbbank 50000 Chuyen tien", 
+                    event.threadID
+                );
             }
 
-            if (code) {
-                await actions.reply(`🔍 Nội dung mã QR:\n\n${code.data}`, threadID, messageID);
-            } else {
-                await actions.reply("❌ Không tìm thấy mã QR trong hình ảnh.", threadID, messageID);
+            const [stk, bankCode, amount, ...contentArr] = args;
+            const content = contentArr.join(" ") || "";
+            const bank = bankCode.toLowerCase();
+
+            if (stk.length < 7 || stk.length > 14) {
+                return api.sendMessage("❌ Số tài khoản không hợp lệ!", event.threadID);
             }
 
-        } catch (error) {
-            console.error('Lỗi khi quét mã QR:', error);
-            await actions.reply("❌ Có lỗi xảy ra khi quét mã QR.", threadID, messageID);
+            if (!BANK_LIST.includes(bank)) {
+                return api.sendMessage("❌ Mã ngân hàng không hợp lệ!", event.threadID);
+            }
+
+            if (isNaN(amount)) {
+                return api.sendMessage("❌ Số tiền phải là số!", event.threadID);
+            }
+
+            const qrUrl = `https://qr.sepay.vn/img?acc=${stk}&bank=${bank}&amount=${amount}&des=${encodeURIComponent(content)}&template=compact&download=true`;
+
+            const response = await axios.get(qrUrl, { responseType: 'arraybuffer' });
+            const tempPath = path.join(__dirname, 'cache', 'qr.png');
+            
+            fs.writeFileSync(tempPath, response.data);
+
+            const msg = {
+                body: `🏦 THÔNG TIN CHUYỂN KHOẢN QR\n` +
+                      `━━━━━━━━━━━━━━━━━━━\n` +
+                      `💳 STK: ${stk}\n` +
+                      `🏦 Bank: ${bank.toUpperCase()}\n` +
+                      `💰 Số tiền: ${Number(amount).toLocaleString()}đ\n` +
+                      `📝 Nội dung: ${content}\n` +
+                      `━━━━━━━━━━━━━━━━━━━`,
+                attachment: fs.createReadStream(tempPath)
+            };
+
+            await api.sendMessage(msg, event.threadID);
+
+            fs.unlink(tempPath, (err) => {
+                if (err) console.error("Error deleting temp file:", err);
+            });
+
+        } catch (err) {
+            console.error("QR generation error:", err);
+            return api.sendMessage("❌ Đã xảy ra lỗi khi tạo mã QR!", event.threadID);
         }
     }
 };

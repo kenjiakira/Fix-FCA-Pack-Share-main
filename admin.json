@@ -18,10 +18,5 @@
   "appstate": "./appstate.json",
   "restart": true,
   "restartTime": 50,
-  "FCA": "hut-chat-api",
-  "loginpanel": {
-    "user": "kenjiakira",
-    "password": "11223344",
-    "passcode": "0000"
-  }
+  "FCA": "hut-chat-api"
 }
