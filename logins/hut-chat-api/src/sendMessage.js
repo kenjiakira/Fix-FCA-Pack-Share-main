@@ -253,27 +253,42 @@ module.exports = function (defaultFuncs, api, ctx) {
 
   function handleAttachment(msg, form, callback, cb) {
     if (msg.attachment) {
+      // Khởi tạo các mảng rỗng cho các loại attachment
       form["image_ids"] = [];
       form["gif_ids"] = [];
       form["file_ids"] = [];
       form["video_ids"] = [];
       form["audio_ids"] = [];
 
-      if (utils.getType(msg.attachment) !== "Array") {
-        msg.attachment = [msg.attachment];
+      // Đảm bảo attachment là mảng
+      const attachments = Array.isArray(msg.attachment) ? msg.attachment : [msg.attachment];
+
+      // Kiểm tra stream hợp lệ
+      if (!attachments.every(att => utils.isReadableStream(att))) {
+        return callback({
+          error: "Attachment phải là readable stream"
+        });
       }
 
-      uploadAttachment(msg.attachment, function (err, files) {
+      uploadAttachment(attachments, function (err, files) {
         if (err) {
           return callback(err);
         }
 
-        files.forEach(function (file) {
-          var key = Object.keys(file);
-          var type = key[0]; // image_id, file_id, etc
-          form["" + type + "s"].push(file[type]); // push the id
-        });
-        cb();
+        try {
+          files.forEach(function (file) {
+            const key = Object.keys(file)[0];
+            const value = file[key];
+            if (key && value) {
+              form[`${key}s`].push(value);
+            }
+          });
+          cb();
+        } catch (e) {
+          return callback({
+            error: "Lỗi xử lý attachment: " + e.message
+          });
+        }
       });
     } else {
       cb();

@@ -3,7 +3,7 @@ const fs = require('fs');
 const path = require('path');
 
 const BANK_LIST = [
-    "mbbank", "dongabank", "viettinbank", "vietcombank", "techcombank",
+    "mbbank", "dongabank", "vietinbank", "vietcombank", "techcombank",
     "bidv", "acb", "sacombank", "vpbank", "agribank",
     "hdbank", "tpbank", "shb", "eximbank", "ocb",
     "seabank", "bacabank", "pvcombank", "scb", "vib",
@@ -33,8 +33,12 @@ module.exports = {
             }
 
             const [stk, bankCode, amount, ...contentArr] = args;
-            const content = contentArr.join(" ") || "";
+            const content = contentArr.join(" ") || "Chuyen tien";
             const bank = bankCode.toLowerCase();
+
+            if (!stk || !bank || !amount) {
+                return api.sendMessage("❌ Thiếu thông tin bắt buộc!", event.threadID);
+            }
 
             if (stk.length < 7 || stk.length > 14) {
                 return api.sendMessage("❌ Số tài khoản không hợp lệ!", event.threadID);
@@ -44,37 +48,67 @@ module.exports = {
                 return api.sendMessage("❌ Mã ngân hàng không hợp lệ!", event.threadID);
             }
 
-            if (isNaN(amount)) {
-                return api.sendMessage("❌ Số tiền phải là số!", event.threadID);
+            const amountNum = parseInt(amount);
+            if (isNaN(amountNum) || amountNum <= 0) {
+                return api.sendMessage("❌ Số tiền phải là số dương!", event.threadID);
             }
 
-            const qrUrl = `https://qr.sepay.vn/img?acc=${stk}&bank=${bank}&amount=${amount}&des=${encodeURIComponent(content)}&template=compact&download=true`;
+       
+            const qrUrl = new URL('https://qr.sepay.vn/img');
+            qrUrl.searchParams.append('acc', stk);
+            qrUrl.searchParams.append('bank', bank);
+            qrUrl.searchParams.append('amount', amountNum);
+            qrUrl.searchParams.append('des', content);
+            qrUrl.searchParams.append('template', 'compact');
+            qrUrl.searchParams.append('download', 'true');
 
-            const response = await axios.get(qrUrl, { responseType: 'arraybuffer' });
-            const tempPath = path.join(__dirname, 'cache', 'qr.png');
+            console.log('Generated QR URL:', qrUrl.toString());
+
+            const response = await axios({
+                method: 'GET',
+                url: qrUrl.toString(),
+                responseType: 'arraybuffer',
+                timeout: 10000,
+                headers: {
+                    'Accept': 'image/png',
+                    'User-Agent': 'Mozilla/5.0'
+                }
+            });
+
+            if (!response.data || response.headers['content-type'] !== 'image/png') {
+                throw new Error('Invalid QR image response');
+            }
+
+            const tempPath = path.join(__dirname, 'cache', `qr_${Date.now()}.png`);
             
-            fs.writeFileSync(tempPath, response.data);
+     
+            if (!fs.existsSync(path.dirname(tempPath))) {
+                fs.mkdirSync(path.dirname(tempPath), { recursive: true });
+            }
 
-            const msg = {
+            fs.writeFileSync(tempPath, Buffer.from(response.data));
+
+          
+            await api.sendMessage({
                 body: `🏦 THÔNG TIN CHUYỂN KHOẢN QR\n` +
                       `━━━━━━━━━━━━━━━━━━━\n` +
                       `💳 STK: ${stk}\n` +
                       `🏦 Bank: ${bank.toUpperCase()}\n` +
-                      `💰 Số tiền: ${Number(amount).toLocaleString()}đ\n` +
+                      `💰 Số tiền: ${amountNum.toLocaleString()}đ\n` +
                       `📝 Nội dung: ${content}\n` +
                       `━━━━━━━━━━━━━━━━━━━`,
                 attachment: fs.createReadStream(tempPath)
-            };
-
-            await api.sendMessage(msg, event.threadID);
-
-            fs.unlink(tempPath, (err) => {
-                if (err) console.error("Error deleting temp file:", err);
+            }, event.threadID, () => {
+            
+                fs.unlinkSync(tempPath);
             });
 
         } catch (err) {
             console.error("QR generation error:", err);
-            return api.sendMessage("❌ Đã xảy ra lỗi khi tạo mã QR!", event.threadID);
+            return api.sendMessage(
+                "❌ Đã xảy ra lỗi khi tạo mã QR! Chi tiết lỗi: " + err.message, 
+                event.threadID
+            );
         }
     }
 };
