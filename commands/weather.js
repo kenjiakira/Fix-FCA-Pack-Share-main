@@ -2,7 +2,6 @@ const axios = require('axios');
 require('dotenv').config();
 
 const API_KEY = process.env.OPENWEATHER_API_KEY;
-// Remove AQI_TOKEN
 
 module.exports = {
     name: "weather",

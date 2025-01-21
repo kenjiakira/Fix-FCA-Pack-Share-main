@@ -11,7 +11,7 @@ module.exports = {
     usages: "shortenurl [URL] [-alias tencustom]",
     cooldowns: 5,
 
-    onLaunch: async function ({ api, event, target, actions }) {
+    onLaunch: async function ({ target, actions }) {
         const args = target.join(' ').trim().split(' ');
         const longUrl = args[0];
         const customAlias = args.includes('-alias') ? args[args.indexOf('-alias') + 1] : null;

@@ -57,12 +57,12 @@ const processImage = async (attachment) => {
 
 const formatMathText = (text) => {
   return text
-    // LaTeX expressions
+
     .replace(/\$([^$]+)\$/g, (_, math) => {
       return math
         .replace(/\\frac{([^}]+)}{([^}]+)}/g, '$1/$2')
         .replace(/\\sqrt{([^}]+)}/g, '√($1)')
-        .replace(/\\mathbb{([^}]+)}/g, 'ℝ') // Handle special sets like R, N, Z
+        .replace(/\\mathbb{([^}]+)}/g, 'ℝ')
         .replace(/\\mathbb{N}/g, 'ℕ')
         .replace(/\\mathbb{Z}/g, 'ℤ')
         .replace(/\\mathbb{Q}/g, 'ℚ')
@@ -146,7 +146,7 @@ const formatMathText = (text) => {
     .replace(/σ/g, 'σ')
     .replace(/φ/g, 'φ')
     .replace(/ω/g, 'ω')
-    // Existing formatting
+   
     .replace(/<sup>([^<]+)<\/sup>/g, '^($1)')
     .replace(/\b(\d+)\^(\([^)]+\)|\d+)/g, '$1^$2')
     .replace(/([a-zA-Z])\^(\([^)]+\)|\d+)/g, '$1^$2')
