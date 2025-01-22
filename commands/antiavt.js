@@ -5,7 +5,6 @@ module.exports = {
     name: "antiavt",
     dev: "HNT",
     cooldowns: 5,
-    usedby: 1,
     info: "Bật/tắt chống đổi ảnh nhóm",
     usages: "on/off",
     onPrefix: true,

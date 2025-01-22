@@ -1,12 +1,10 @@
 module.exports = {
     name: "adduser",
     credits: "HNT",
-    usedby: 1,
     info: "add người dùng vào nhóm theo ID FB hoặc link profile",
     onPrefix: true,
     usages: "[ID1 ID2...] hoặc [link1 link2...] hoặc mix\nVD: .adduser 123456 fb.com/user2 789012",
     cooldowns: 5,
-    adminRequired: true, // Thêm flag này
 
     onLaunch: async function({ api, event, target }) {
         const { threadID, messageID, senderID } = event;

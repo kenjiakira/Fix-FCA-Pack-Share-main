@@ -5,7 +5,6 @@ module.exports = {
     name: "antijoin",
     dev: "HNT",
     cooldowns: 5,
-    usedby: 1,
     info: "Bật/tắt chống thêm thành viên mới",
     usages: "on/off",
     onPrefix: true,

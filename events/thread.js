@@ -450,5 +450,48 @@ module.exports = {
         api.sendMessage("❌ Có lỗi xảy ra khi xử lý thay đổi nhóm", threadID);
       }
     }
+
+    if (logMessageType === "log:user-nickname") {
+      const antinickPath = path.join(__dirname, '../commands/json/antinc.json');
+      if (!fs.existsSync(antinickPath)) return;
+      
+      const antinickData = JSON.parse(fs.readFileSync(antinickPath));
+      if (!antinickData.threads?.[threadID]?.enable) return;
+
+      try {
+          const adminConfig = JSON.parse(fs.readFileSync('./admin.json', 'utf8'));
+          const isAdminBot = adminConfig.adminUIDs.includes(author);
+          const threadInfo = await api.getThreadInfo(threadID);
+          const isGroupAdmin = threadInfo.adminIDs.some(e => e.id == author);
+          const isBotAction = author === api.getCurrentUserID();
+
+          if (isBotAction || isAdminBot || isGroupAdmin) return;
+
+          const changedFor = logMessageData.participant_id;
+          const oldNickname = logMessageData.previous_nickname || "";
+          
+          await api.changeNickname(
+              oldNickname,
+              threadID,
+              changedFor
+          );
+
+          const authorInfo = await this.getUserInfo(api, author, threadID);
+          const authorName = authorInfo[author]?.name || "Người dùng Facebook";
+
+          api.sendMessage(
+              `⚠️ ${authorName} đã cố gắng đổi biệt danh!\n` +
+              `💡 Chỉ admin bot và quản trị viên mới có thể đổi biệt danh.`,
+              threadID
+          );
+
+      } catch (error) {
+          console.error("Anti-nickname error:", error);
+          api.sendMessage(
+              "❌ Không thể hoàn tác biệt danh. Bot cần là quản trị viên!",
+              threadID
+          );
+      }
+    }
   }
 };

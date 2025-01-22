@@ -5,7 +5,6 @@ module.exports = {
     name: "antitag",
     dev: "HNT",
     cooldowns: 5,
-    usedby: 1,
     info: "Bật/tắt chống tag spam (3 lần/24h)",
     usages: "on/off",
     onPrefix: true,

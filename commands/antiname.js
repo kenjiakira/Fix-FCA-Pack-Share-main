@@ -5,7 +5,6 @@ module.exports = {
     name: "antiname",
     dev: "HNT",
     cooldowns: 5,
-    usedby: 1,
     info: "Bật/tắt chống đổi tên nhóm",
     usages: "on/off",
     onPrefix: true,

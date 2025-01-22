@@ -5,7 +5,6 @@ module.exports = {
         name: "antiout",
         dev: "HNT",
         cooldowns: 5,
-        usedby: 1,
         info: "Bật/tắt chống rời nhóm",
         usages: "on/off",
         onPrefix: true,
@@ -23,12 +22,11 @@ module.exports = {
         const { threadID, senderID } = event;
 
         try {
-  
             const adminConfig = JSON.parse(fs.readFileSync('./admin.json', 'utf8'));
             const isAdminBot = adminConfig.adminUIDs.includes(senderID);
             
             const threadInfo = await api.getThreadInfo(threadID);
-            const isGroupAdmin = threadInfo.adminIDs.some(e => e.id == senderID);
+            const isGroupAdmin = threadInfo.adminIDs.some(admin => admin.id == senderID);
             
             if (!isAdminBot && !isGroupAdmin) {
                 return api.sendMessage("⚠️ Chỉ Admin bot hoặc Quản trị viên nhóm mới có thể sử dụng lệnh này!", threadID);

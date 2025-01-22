@@ -5,7 +5,6 @@ module.exports = {
     name: "antirole",
     dev: "HNT",
     cooldowns: 5,
-    usedby: 1,
     info: "Bật/tắt chống thay đổi quyền quản trị",
     usages: "on/off",
     onPrefix: true,

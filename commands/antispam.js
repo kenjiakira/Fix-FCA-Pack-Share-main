@@ -5,7 +5,6 @@ module.exports = {
     name: "antispam",
     dev: "HNT",
     cooldowns: 5,
-    usedby: 1,
     info: "Bật/tắt chống spam tin nhắn (5 tin nhắn/5 giây)",
     usages: "on/off",
     onPrefix: true,
