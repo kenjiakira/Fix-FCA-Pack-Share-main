@@ -105,24 +105,9 @@ module.exports = {
                         const combinedImage = fs.createReadStream(outputImagePath);
 
                         let fee = 0;
-                        if (choice === result) {
-                            const winnings = betAmount * 2;
-                            fee = winnings * 0.05;
-                            const finalWinnings = Math.floor(winnings - fee);
-                            updateBalance(senderID, finalWinnings);
-                            message += `🎉 Chúc mừng! Bạn thắng và nhận được ${formatNumber(finalWinnings)} Xu.\nPhí: 5%\n`;
+                        let finalWinnings = 0;
 
-                            let quy = loadQuy();
-                            quy += Math.floor(fee);
-                            saveQuy(quy);
-
-                            updateQuestProgress(senderID, "play_games");
-                            updateQuestProgress(senderID, "win_games");
-                        } else {
-                            message += `😢 Bạn đã thua và mất ${formatNumber(betAmount)} Xu.\n`;
-                            updateQuestProgress(senderID, "play_games");
-                        }
-
+                        // Check jackpot first
                         if (total === 18 || total === 3) {
                             const quy = loadQuy();
                             console.log(`Debug: Jackpot triggered! Total: ${total}, Quỹ: ${quy}`);
@@ -153,6 +138,24 @@ module.exports = {
                                 console.log('Debug: Quỹ is empty or invalid:', quy);
                                 message += `\n🎉 JACKPOT! Tổng ${total} điểm! Nhưng quỹ hiện đang trống.\n`;
                             }
+                        }
+
+                        if (choice === result) {
+                            const winnings = betAmount * 2;
+                            fee = winnings * 0.05;
+                            finalWinnings = Math.floor(winnings - fee);
+                            updateBalance(senderID, finalWinnings);
+                            message += `🎉 Chúc mừng! Bạn thắng và nhận được ${formatNumber(finalWinnings)} Xu.\nPhí: 5%\n`;
+
+                            let quy = loadQuy();
+                            quy += Math.floor(fee);
+                            saveQuy(quy);
+
+                            updateQuestProgress(senderID, "play_games");
+                            updateQuestProgress(senderID, "win_games");
+                        } else {
+                            message += `😢 Bạn đã thua và mất ${formatNumber(betAmount)} Xu.\n`;
+                            updateQuestProgress(senderID, "play_games");
                         }
 
                         const newBalance = getBalance(senderID);

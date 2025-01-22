@@ -12,15 +12,13 @@ module.exports = {
         const out = msg => api.sendMessage(msg, threadID, messageID);
 
         try {
-            // Kiểm tra quyền admin bot
+        
             const adminConfig = JSON.parse(require('fs').readFileSync('./admin.json', 'utf8'));
             const isAdminBot = adminConfig.adminUIDs.includes(senderID);
 
-            // Kiểm tra quyền admin nhóm
             const threadInfo = await api.getThreadInfo(threadID);
             const isGroupAdmin = threadInfo.adminIDs.some(admin => admin.id === senderID);
 
-            // Chỉ cho phép admin bot hoặc admin nhóm sử dụng
             if (!isAdminBot && !isGroupAdmin) {
                 return out("⚠️ Chỉ admin bot hoặc quản trị viên nhóm mới có thể sử dụng lệnh này!");
             }
@@ -35,7 +33,7 @@ module.exports = {
                 try {
                     let uid = user;
                     if (isNaN(user)) {
-                        // Xử lý link profile
+                       
                         try {
                             if (user.includes('facebook.com') || user.includes('fb.com')) {
                                 const axios = require('axios');

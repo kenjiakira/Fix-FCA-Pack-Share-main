@@ -29,7 +29,7 @@ module.exports = {
         async (err, data) => {
           if (err) return api.sendMessage(`Lệnh ${target[0]} không tồn tại!`, threadID, messageID);
           const { PasteClient } = require('pastebin-api');
-          const client = new PasteClient("aeGtA7rxefvTnR3AKmYwG-jxMo598whT");
+          const client = new PasteClient("P5FuV7J-UfXWFmF4lUTkJbGnbLBbLZJo");
 
           async function pastepin(name) {
             const url = await client.createPaste({

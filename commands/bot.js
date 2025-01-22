@@ -188,17 +188,16 @@ const getContext = (messageID) => {
     return context;
 };
 
-const BOT_ID = '100092325757607';
-
 const isValidMessage = (event) => {
     if (event.type !== "message_reply") return false;
-
+    
+    if (!global.client.onReply) return false;
+    
     const replyContext = global.client.onReply.find(r => 
-        r.messageID === event.messageReply.messageID && 
-        r.name === "bot"
+        r.messageID === event.messageReply.messageID
     );
 
-    return !!replyContext; 
+    return replyContext && replyContext.name === "bot";
 };
 
 module.exports = {
@@ -214,8 +213,15 @@ module.exports = {
     noPrefix: async function({ event, api }) {
         if (hasIgnoredKeyword(event.body)) return;
 
-        if (!isValidMessage(event)) return;
-        
+        // Check if this is a valid message reply
+        const isValid = event.type === "message_reply" && 
+                       global.client.onReply?.some(r => 
+                           r.messageID === event.messageReply.messageID && 
+                           r.name === "bot"
+                       );
+
+        if (!isValid) return;
+
         try {
             let imageData = null;
             const prevContext = getContext(event.messageReply.messageID);
@@ -256,10 +262,19 @@ module.exports = {
 
     onReply: async function({ event, api }) {
         const { messageID, body, messageReply } = event;
+        
         if (!messageReply?.messageID || hasIgnoredKeyword(body)) return;
-
+        
         const prevContext = getContext(messageReply.messageID);
-        if (!prevContext) return;
+        if (!prevContext) {
+          
+            global.client.onReply.push({
+                name: this.name,
+                messageID: messageID,
+                threadID: event.threadID
+            });
+            return;
+        }
 
         try {
             updateConversationHistory(event.threadID, `Bot: ${prevContext.response}`);
@@ -301,12 +316,8 @@ module.exports = {
         try {
             let imagePart = null;
             if (messageReply?.attachments?.length > 0) {
-                const attachment = messageReply.attachments.find(att => 
-                    att.type === "photo" || att.type === "image"
-                );
-                if (attachment) {
-                    imagePart = await processImage(attachment);
-                }
+                // Fix: Use processImages instead of processImage
+                imagePart = await processImages(messageReply.attachments);
             }
 
             updateConversationHistory(threadID, `User: ${body}`);
@@ -315,14 +326,21 @@ module.exports = {
 
             const lastMsg = await sendMessageWithDelay(api, response, threadID, messageID);
             
-            if (lastMsg) {
+            if (lastMsg && lastMsg.messageID) {
                 global.client.onReply.push({
                     name: this.name,
                     messageID: lastMsg.messageID,
+                    author: event.senderID,
                     threadID: event.threadID
+                });
+
+                storeContext(event.threadID, lastMsg.messageID, {
+                    response,
+                    imageData: imagePart
                 });
             }
         } catch (error) {
+            console.error("Error in onLaunch:", error);
             api.sendMessage("❌ Xin lỗi, hiện tại tôi không thể trả lời. Vui lòng thử lại sau.", threadID, messageID);
         }
     }

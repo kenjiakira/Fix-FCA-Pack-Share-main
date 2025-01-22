@@ -1,6 +1,6 @@
 {
   "6589198804475799": {
-    "notifications": true,
+    "notifications": false,
     "welcomeMessage": "chào con vợ {userName} đã đến với {threadName} của anh",
     "leaveMessage": "👋 {userName} {actionType}.\n👥 Thành viên còn lại: {memberCount}"
   },
@@ -12,6 +12,11 @@
   "8867281286641611": {
     "notifications": false,
     "welcomeMessage": "🎉 Xin chào {userName}!\nChào mừng bạn đến với nhóm \"{threadName}\"!\nBạn là thành viên thứ {memberNumber} của nhóm này.",
+    "leaveMessage": "👋 {userName} {actionType}.\n👥 Thành viên còn lại: {memberCount}"
+  },
+  "29116818497908958": {
+    "notifications": false,
+    "welcomeMessage": "🎉 Xin chào {userName}!\nChào mừng bạn đến với nhóm \"{threadName}\"!\nBạn là thành viên thứ {memberNumber}",
     "leaveMessage": "👋 {userName} {actionType}.\n👥 Thành viên còn lại: {memberCount}"
   }
 }

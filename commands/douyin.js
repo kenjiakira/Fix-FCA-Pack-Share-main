@@ -45,7 +45,7 @@ module.exports = {
                 }
 
                 for (const image of images) {
-                    if (mediaDownloads.length >= 10) break;
+                    if (mediaDownloads.length >= 20) break;
                     const download = await Downloader.downloadMedia(image, 'douyin_image');
                     mediaDownloads.push(download);
                 }

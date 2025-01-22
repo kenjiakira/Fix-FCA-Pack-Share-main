@@ -1,6 +1,7 @@
 const axios = require('axios');
 const fs = require('fs');
 const path = require('path');
+const moment = require('moment-timezone');
 
 module.exports = {
   name: "noti",
@@ -9,6 +10,70 @@ module.exports = {
   dev: "HNT",
   info: "Tin nhắn từ Admin",
   cooldowns: 30,
+
+  onReply: async function({ event, api }) {
+    const { threadID, messageID, body, senderID, attachments } = event;
+    const time = moment.tz("Asia/Ho_Chi_Minh").format("HH:mm:ss DD/MM/YYYY");
+    
+    if (!body && attachments.length === 0) return;
+
+    const replyInfo = global.client.onReply.find(r => r.messageID === event.messageReply.messageID);
+    if (!replyInfo) return;
+
+    if (replyInfo.type === "admin") {
+
+      const adminID = replyInfo.adminID;
+      
+      let replyMsg = `📝 Phản hồi từ người dùng\n`;
+      replyMsg += `━━━━━━━━━━━━━━━━━━\n`;
+      replyMsg += `👤 Người gửi: ${senderID}\n`;
+      replyMsg += `💬 Nội dung: ${body}\n`;
+      replyMsg += `↩️ Phản hồi cho: ${replyInfo.content}\n`;
+      replyMsg += `⏰ Thời gian: ${time}\n`;
+      replyMsg += `━━━━━━━━━━━━━━━━━━`;
+
+      const msg = await api.sendMessage({
+        body: replyMsg,
+        attachment: attachments
+      }, adminID);
+
+      global.client.onReply.push({
+        name: this.name, 
+        messageID: msg.messageID,
+        content: body,
+        threadID: threadID,
+        type: "user",
+        adminID: adminID,
+        userID: senderID
+      });
+
+      api.sendMessage("✅ Đã gửi phản hồi của bạn đến admin", threadID, messageID);
+    } else if (replyInfo.type === "user") {
+      // Admin replying to user's feedback
+      let replyMsg = `📊 Phản hồi từ Admin\n`;
+      replyMsg += `━━━━━━━━━━━━━━━━━━\n`;
+      replyMsg += `💬 Nội dung: ${body}\n`;
+      replyMsg += `↩️ Trả lời cho: ${replyInfo.content}\n`;
+      replyMsg += `⏰ Thời gian: ${time}\n`;
+      replyMsg += `━━━━━━━━━━━━━━━━━━`;
+
+      const msg = await api.sendMessage({
+        body: replyMsg,
+        attachment: attachments
+      }, replyInfo.threadID);
+
+      global.client.onReply.push({
+        name: this.name,
+        messageID: msg.messageID,
+        content: body,
+        threadID: replyInfo.threadID,
+        type: "admin",
+        adminID: senderID,
+        userID: replyInfo.userID
+      });
+    }
+  },
+
   onLaunch: async function ({ api, event, target }) {
     const content = target.join(" ");
     let attachments = [];
@@ -67,7 +132,7 @@ module.exports = {
         `👤 Người gửi: ${senderName}\n` +
         `⏰ Thời gian: ${new Date().toLocaleString('vi-VN')}\n` +
         `━━━━━━━━━━━━━━━━━━\n` +
-        `💌 Hãy phản hồi nếu bạn có thắc mắc`,
+        `💌 Reply tin nhắn này để phản hồi với admin`,
       attachment: attachments
     };
 
@@ -95,16 +160,25 @@ module.exports = {
           while (retries < maxRetries) {
             try {
            
-              await new Promise((resolve, reject) => {
+              const msg = await new Promise((resolve, reject) => {
                 const timeout = setTimeout(() => {
                   reject(new Error('Send message timeout'));
                 }, 30000); 
 
-                api.sendMessage(messageObject, id, (err) => {
+                api.sendMessage(messageObject, id, (err, messageInfo) => {
                   clearTimeout(timeout);
                   if (err) reject(err);
-                  else resolve();
+                  else resolve(messageInfo);
                 });
+              });
+
+              global.client.onReply.push({
+                name: this.name,
+                messageID: msg.messageID,
+                content: content || "Thông báo không có nội dung",
+                threadID: id,
+                type: "admin",
+                adminID: event.senderID
               });
               
               successCount++;

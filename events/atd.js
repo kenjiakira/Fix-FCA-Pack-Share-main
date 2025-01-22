@@ -14,8 +14,8 @@ if (!fs.existsSync(cacheDir)) fs.mkdirSync(cacheDir);
 const patterns = {
     capcut: /https:\/\/www\.capcut\.com\/t\/\S*/,
     facebook: /https:\/\/www\.facebook\.com\/\S*/,
-    tiktok: /(^https:\/\/)((vm|vt|www|v)\.)?(tiktok|douyin)\.com\//,
-    douyin: /https:\/\/(v\.|www\.)?douyin\.com\/\S+/,
+    tiktok: /https:\/\/(vm|vt|www|v)?\.?tiktok\.com\/.+/, 
+    douyin: /https:\/\/(v\.|www\.)?(douyin\.com|iesdouyin\.com)\/.+/,
     youtube: /^(https?:\/\/)?(www\.)?(youtube\.com|youtu\.?be)\/.+$/,
     instagram: /https?:\/\/(www\.)?instagram\.com\/(p|reel|stories)\/\S+/,
     twitter: /https?:\/\/(www\.)?(twitter\.com|x\.com)\/\S+/,
@@ -32,31 +32,40 @@ module.exports = {
 
     onEvents: async function ({ api, event }) {
         if (event.type !== 'message') return;
-        const message = event.body.trim();
+        const message = event.body;
+        
+        const urlRegex = /(https?:\/\/[^\s]+)/g;
+        const urls = message.match(urlRegex);
+        
+        if (!urls) return;
 
-        for (const [platform, pattern] of Object.entries(patterns)) {
-            if (pattern.test(message)) {
-                const url = message.match(/(https?:\/\/[^\s]+)/)[0];
-                let handler;
-                
-                switch (platform) {
-                    case 'capcut': handler = handleCapCut; break;
-                    case 'facebook': handler = handleFacebook; break;
-                    case 'tiktok':
-                    case 'douyin': handler = handleTikTok; break;
-                    case 'youtube': handler = handleYouTube; break;
-                    case 'instagram': handler = handleInstagram; break;
-                    case 'twitter': handler = handleTwitter; break;
-                    case 'weibo': handler = handleWeibo; break;
-                    case 'xiaohongshu': handler = handleXHS; break;
-                    case 'threads': handler = handleThreads; break;
-                    case 'pinterest': handler = handlePinterest; break;
-                }
+        for (const url of urls) {
+            for (const [platform, pattern] of Object.entries(patterns)) {
+                if (pattern.test(url)) {
+               
+                    if (platform === 'douyin' && !url.includes('douyin.com')) continue;
+                    
+                    let handler;
+                    
+                    switch (platform) {
+                        case 'capcut': handler = handleCapCut; break;
+                        case 'facebook': handler = handleFacebook; break;
+                        case 'tiktok': handler = handleTikTok; break; 
+                        case 'douyin': handler = handleDouyin; break;
+                        case 'youtube': handler = handleYouTube; break;
+                        case 'instagram': handler = handleInstagram; break;
+                        case 'twitter': handler = handleTwitter; break;
+                        case 'weibo': handler = handleWeibo; break;
+                        case 'xiaohongshu': handler = handleXHS; break;
+                        case 'threads': handler = handleThreads; break;
+                        case 'pinterest': handler = handlePinterest; break;
+                    }
 
-                if (handler) {
-                    await handler(url, api, event);
+                    if (handler) {
+                        await handler(url, api, event);
+                    }
+                    break;
                 }
-                break;
             }
         }
     },
@@ -84,7 +93,7 @@ async function handleFacebook(url, api, event) {
         const filePath = await downloadFile(result.sd, 'mp4');
 
         api.sendMessage({
-            body: '𝗙𝗮𝗰𝗲𝗯𝗼𝗼𝗸 𝗗𝗼𝘄𝗻𝗹𝗼𝗮𝗱𝗲𝗿',
+            body: '𝗙𝗮𝗰𝗲𝗯𝗼𝗼𝗸 𝗗𝗼𝘄𝗻𝗼𝗮𝗱𝗲𝗿',
             attachment: fs.createReadStream(filePath),
         }, event.threadID, () => fs.unlinkSync(filePath));
     } catch (error) {
@@ -136,45 +145,53 @@ async function handleYouTube(url, api, event) {
 }
 
 async function handleDouyin(url, api, event) {
+    let loadingMsg = null;
     try {
-        const { data } = await axios.post(
-            `${ZM_API.BASE_URL}/social/autolink`,
-            { url },
-            { 
-                headers: {
-                    'Content-Type': 'application/json',
-                    'apikey': ZM_API.KEY
-                }
-            }
-        );
+        loadingMsg = await api.sendMessage("⏳ Đang tải media từ Douyin...", event.threadID);
+        
+        const cleanUrl = url.split('?')[0];
+        
+        const data = await Downloader.getMediaInfo(cleanUrl);
+        const mediaDownloads = [];
 
-        if (!data || data.error) {
-            return api.sendMessage('⚠️ Không thể tải nội dung từ URL này.', event.threadID);
-        }
-
-        let filePath;
         if (data.medias && data.medias.length > 0) {
-          
-            const sortedMedia = data.medias.sort((a, b) => {
-                const quality = ['hd_no_watermark', 'no_watermark', 'hd', 'HD'];
-                return quality.indexOf(b.quality) - quality.indexOf(a.quality);
-            });
 
-            filePath = await downloadFile(sortedMedia[0].url, 'mp4');
+            const videos = data.medias.filter(m => m.type === 'video');
+            if (videos.length > 0) {
+                const sortedVideos = Downloader.sortMediaByQuality(videos);
+                const bestVideo = sortedVideos[0];
+                const download = await Downloader.downloadMedia(bestVideo, 'douyin_video');
+                mediaDownloads.push(download);
+            }
+            const images = data.medias.filter(m => m.type === 'image');
+            for (const image of images) {
+                if (mediaDownloads.length >= 20) break;
+                const download = await Downloader.downloadMedia(image, 'douyin_image');
+                mediaDownloads.push(download);
+            }
         }
 
-        if (!filePath) {
-            return api.sendMessage('❌ Không tìm thấy media để tải xuống.', event.threadID);
+        if (mediaDownloads.length === 0) {
+            throw new Error('Không tìm thấy media để tải');
         }
 
         await api.sendMessage({
-            body: `=== 𝗗𝗼𝘂𝘆𝗶𝗻 ===\n\n📝 Title: ${data.title || 'N/A'}\n👤 Author: ${data.author || 'N/A'}`,
-            attachment: fs.createReadStream(filePath)
-        }, event.threadID, () => fs.unlinkSync(filePath));
+            body: `=== 𝗗𝗼𝘂𝘆𝗶𝗻 ===\n\n` +
+                  `👤 Tác giả: ${data.author || 'Không xác định'}\n` +
+                  `💬 Nội dung: ${data.title || 'Không có nội dung'}\n` +
+                  `📊 Đã tải: ${mediaDownloads.length} file\n` +
+                  (mediaDownloads.find(m => m.type === 'video') ? '🎥 Bao gồm video\n' : '') +
+                  (mediaDownloads.find(m => m.type === 'image') ? '🖼️ Bao gồm hình ảnh\n' : ''),
+            attachment: mediaDownloads.map(m => fs.createReadStream(m.path))
+        }, event.threadID, () => {
+            mediaDownloads.forEach(m => fs.unlinkSync(m.path));
+            if (loadingMsg) api.unsendMessage(loadingMsg.messageID);
+        });
 
     } catch (error) {
-        console.error('Error with Douyin:', error);
-        api.sendMessage('❌ Đã xảy ra lỗi khi tải video Douyin.', event.threadID);
+        console.error('Douyin error:', error);
+        if (loadingMsg) api.unsendMessage(loadingMsg.messageID);
+        api.sendMessage('❌ Đã xảy ra lỗi khi tải nội dung từ Douyin.', event.threadID);
     }
 }
 
@@ -221,7 +238,7 @@ async function handleTwitter(url, api, event) {
 async function handleWeibo(url, api, event) {
     try {
         const data = await Downloader.getMediaInfo(url);
-        const downloads = await Downloader.downloadMultipleMedia(data.medias, 'weibo', 10);
+        const downloads = await Downloader.downloadMultipleMedia(data.medias, 'weibo', 20);
         
         await api.sendMessage({
             body: `=== 𝗪𝗲𝗶𝗯𝗼 ===\n\n👤 Author: ${data.author}\n💬 Content: ${data.title}\n📊 Media: ${downloads.length} files`,

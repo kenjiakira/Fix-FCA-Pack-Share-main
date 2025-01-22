@@ -33,7 +33,7 @@ module.exports = {
             if (data.medias && data.medias.length > 0) {
                 const sortedMedias = Downloader.sortMediaByQuality(data.medias);
                 for (const media of sortedMedias) {
-                    if (mediaDownloads.length >= 10) break;
+                    if (mediaDownloads.length >= 30) break;
                     const download = await Downloader.downloadMedia(media, 'weibo');
                     mediaDownloads.push(download);
                 }

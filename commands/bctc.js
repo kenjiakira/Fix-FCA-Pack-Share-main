@@ -118,7 +118,7 @@ module.exports = {
                 "cua": "https://imgur.com/zBfgdVh.png",
                 "tôm": "https://imgur.com/U7gRpO2.png",
                 "cá": "https://imgur.com/QonsfX4.png",
-                "mèo": "https://imgur.com/bRH15bD.png",
+                "mèo": "https://imgur.com/XHQpIGl.png",
                 "nai": "https://imgur.com/fgy6eFJ.png"
             };
 
