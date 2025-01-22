@@ -12,7 +12,7 @@ module.exports = {
     onLaunch: async function ({ api, event, target }) {
         const args = event.body.split(' ');
         if (args.length < 4) {
-            return api.sendMessage("『 𝗡𝗚𝗟 𝗦𝗣𝗔𝗠 』\n▭▭▭▭▭▭▭▭▭▭▭▭▭\n\n➜ Cách dùng: ngl [username] [số lần] [nội dung]\n➜ Ví dụ: ngl johndoe 5 Hello world!", event.threadID);
+            return api.sendMessage("Cách dùng: ngl [username] [số lần] [nội dung]\nVí dụ: ngl johndoe 5 Hello world!", event.threadID);
         }
 
         const username = args[1];
@@ -20,11 +20,11 @@ module.exports = {
         const message = args.slice(3).join(' ');
 
         if (!username || isNaN(count) || !message) {
-            return api.sendMessage("『 𝗟𝗢̂̃𝗜 』\n▭▭▭▭▭▭▭▭▭▭▭▭▭\n\n➜ Vui lòng nhập đúng định dạng\n➜ ngl [username] [số lần] [nội dung]", event.threadID);
+            return api.sendMessage("Vui lòng nhập đúng định dạng: ngl [username] [số lần] [nội dung]", event.threadID);
         }
 
         if (count <= 0 || count > 50) {
-            return api.sendMessage("『 𝗟𝗢̂̃𝗜 』\n▭▭▭▭▭▭▭▭▭▭▭▭▭\n\n➜ Số lần gửi phải từ 1 đến 50!", event.threadID);
+            return api.sendMessage("Số lần gửi phải từ 1 đến 50!", event.threadID);
         }
 
         try {
@@ -42,7 +42,7 @@ module.exports = {
             };
 
             let successCount = 0;
-            const progressMsg = await api.sendMessage("『 𝗧𝗜𝗘̂́𝗡 𝗧𝗥𝗜̀𝗡𝗛 』\n▭▭▭▭▭▭▭▭▭▭▭▭▭\n\n➜ Đang bắt đầu gửi tin nhắn...", event.threadID);
+            const progressMsg = await api.sendMessage("Đang bắt đầu gửi tin nhắn...", event.threadID);
 
             for (let i = 0; i < count; i++) {
                 const response = await axios.post('https://ngl.link/api/submit', data, { headers });
@@ -50,7 +50,7 @@ module.exports = {
                 
                 if (i % 2 === 0 || i === count - 1) {
                     await api.editMessage({
-                        body: `『 𝗧𝗜𝗘̂́𝗡 𝗧𝗥𝗜̀𝗡𝗛 』\n▭▭▭▭▭▭▭▭▭▭▭▭▭\n\n➜ Đã gửi: ${successCount}/${count}\n➜ Người nhận: @${username}\n➜ Tiến độ: ${Math.floor((successCount/count) * 100)}%`,
+                        body: `Đã gửi: ${successCount}/${count}\nNgười nhận: @${username}\nTiến độ: ${Math.floor((successCount/count) * 100)}%`,
                         messageID: progressMsg.messageID,
                         threadID: event.threadID
                     });
@@ -59,16 +59,14 @@ module.exports = {
             }
 
             await api.editMessage({
-                body: `『 𝗧𝗛𝗔̀𝗡𝗛 𝗖𝗢̂𝗡𝗚 』\n▭▭▭▭▭▭▭▭▭▭▭▭▭\n\n➜ Đã gửi: ${successCount}/${count}\n➜ Người nhận: @${username}\n➜ Nội dung: ${message}`,
+                body: `Hoàn tất!\nĐã gửi: ${successCount}/${count}\nNgười nhận: @${username}\nNội dung: ${message}`,
                 messageID: progressMsg.messageID,
                 threadID: event.threadID
             });
             setTimeout(() => api.unsendMessage(progressMsg.messageID), 10000);
 
         } catch (error) {
-            return api.sendMessage({
-                body: "『 𝗟𝗢̂̃𝗜 』\n▭▭▭▭▭▭▭▭▭▭▭▭▭\n\n➜ Đã xảy ra lỗi khi gửi tin nhắn!\n➜ Vui lòng thử lại sau!"
-            }, event.threadID);
+            return api.sendMessage("Đã xảy ra lỗi khi gửi tin nhắn! Vui lòng thử lại sau.", event.threadID);
         }
     }
 };

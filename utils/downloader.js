@@ -45,10 +45,33 @@ class Downloader {
         };
     }
 
+    static async downloadMultipleMedia(medias, prefix = 'download', maxFiles = 10) {
+        if (!Array.isArray(medias)) return [];
+        
+        const downloads = [];
+        const sortedMedias = this.sortMediaByQuality(medias);
+        
+        for (const media of sortedMedias) {
+            if (downloads.length >= maxFiles) break;
+            try {
+                const download = await this.downloadMedia(media, prefix);
+                downloads.push(download);
+            } catch (error) {
+                console.error(`Failed to download media: ${error.message}`);
+                continue;
+            }
+        }
+        
+        return downloads;
+    }
+
     static sortMediaByQuality(medias) {
+        if (!Array.isArray(medias)) return [];
         return medias.sort((a, b) => {
-            const qualityOrder = ['hd_no_watermark', 'no_watermark', 'hd', 'HD'];
-            return qualityOrder.indexOf(a.quality) - qualityOrder.indexOf(b.quality);
+            const qualityOrder = ['hd_no_watermark', 'no_watermark', 'hd', 'HD', 'sd', 'SD'];
+            const aQuality = qualityOrder.indexOf(a.quality);
+            const bQuality = qualityOrder.indexOf(b.quality);
+            return (bQuality === -1 ? Infinity : bQuality) - (aQuality === -1 ? Infinity : aQuality);
         });
     }
 }

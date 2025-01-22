@@ -30,23 +30,24 @@ module.exports = {
 
             const data = await Downloader.getMediaInfo(url);
             const mediaDownloads = [];
+            let hasVideo = false;
 
             if (data.medias && data.medias.length > 0) {
-            
                 const videos = data.medias.filter(m => m.type === 'video');
                 const images = data.medias.filter(m => m.type === 'image');
 
                 if (videos.length > 0) {
+                    hasVideo = true;
                     const sortedVideos = Downloader.sortMediaByQuality(videos);
                     const bestVideo = sortedVideos[0];
                     const download = await Downloader.downloadMedia(bestVideo, 'threads_video');
                     mediaDownloads.push(download);
-                }
-
-                for (const image of images) {
-                    if (mediaDownloads.length >= 10) break;
-                    const download = await Downloader.downloadMedia(image, 'threads_image');
-                    mediaDownloads.push(download);
+                } else {
+                    for (const image of images) {
+                        if (mediaDownloads.length >= 10) break;
+                        const download = await Downloader.downloadMedia(image, 'threads_image');
+                        mediaDownloads.push(download);
+                    }
                 }
             }
 
@@ -54,18 +55,29 @@ module.exports = {
                 throw new Error('Không tìm thấy media để tải');
             }
 
-            await api.sendMessage({
-                body: `📥 Tải thành công!\n` +
-                      `👤 Tác giả: ${data.author || 'Không xác định'}\n` +
-                      `💬 Nội dung: ${data.title || 'Không có nội dung'}\n` +
-                      `📊 Số lượng: ${mediaDownloads.length} file\n` +
-                      (mediaDownloads.find(m => m.type === 'video') ? '🎥 Bao gồm video\n' : '') +
-                      `🔗 Link gốc: ${data.url}`,
-                attachment: mediaDownloads.map(m => fs.createReadStream(m.path))
-            }, event.threadID, () => {
-                mediaDownloads.forEach(m => fs.unlinkSync(m.path));
-                if (loadingMsg) api.unsendMessage(loadingMsg.messageID);
-            });
+            const messageBody = `📥 Tải thành công!\n` +
+                              `👤 Tác giả: ${data.author || 'Không xác định'}\n` +
+                              `💬 Nội dung: ${data.title || 'Không có nội dung'}\n` +
+                              `🔗 Link gốc: ${data.url}`;
+
+            if (hasVideo) {
+                await api.sendMessage({
+                    body: messageBody + '\n🎥 Đang gửi video...',
+                    attachment: fs.createReadStream(mediaDownloads[0].path)
+                }, event.threadID, () => {
+                    fs.unlinkSync(mediaDownloads[0].path);
+                });
+            } else {
+              
+                await api.sendMessage({
+                    body: messageBody + `\n🖼️ Số lượng ảnh: ${mediaDownloads.length}`,
+                    attachment: mediaDownloads.map(m => fs.createReadStream(m.path))
+                }, event.threadID, () => {
+                    mediaDownloads.forEach(m => fs.unlinkSync(m.path));
+                });
+            }
+
+            if (loadingMsg) api.unsendMessage(loadingMsg.messageID);
 
         } catch (error) {
             console.error('Threads Download Error:', error);

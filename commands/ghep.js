@@ -15,7 +15,6 @@ module.exports = {
       const { threadID, senderID } = event;
       const waitingMsg = await api.sendMessage("⏳ Vui lòng chờ một chút, tôi đang tìm người phù hợp để ghép đôi với bạn...", threadID);
       
-      // Thêm xử lý lỗi cho getThreadInfo
       let threadInfo;
       try {
         threadInfo = await api.getThreadInfo(threadID);
@@ -25,17 +24,15 @@ module.exports = {
         return api.sendMessage("❌ Không thể lấy thông tin nhóm chat. Vui lòng thử lại sau!", threadID);
       }
 
-      // Kiểm tra threadInfo
       if (!threadInfo || !threadInfo.participantIDs) {
         api.unsendMessage(waitingMsg.messageID);
         return api.sendMessage("❌ Không thể lấy danh sách thành viên. Vui lòng thử lại!", threadID);
       }
 
-      // Lọc danh sách thành viên hợp lệ
       const members = threadInfo.participantIDs.filter(id => 
         id !== senderID && 
         id !== api.getCurrentUserID() &&
-        id.toString().length > 5  // Thêm điều kiện kiểm tra ID hợp lệ
+        id.toString().length > 5 
       );
 
       if (members.length === 0) {
