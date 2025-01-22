@@ -22,6 +22,7 @@ const patterns = {
     weibo: /https?:\/\/(www\.)?(weibo\.com|weibo\.cn)\/\S+/,
     xiaohongshu: /https?:\/\/(www\.)?(xiaohongshu\.com|xhslink\.com)\/\S+/,
     threads: /https?:\/\/(www\.)?threads\.net\/@?[a-zA-Z0-9._-]+\/post\/[a-zA-Z0-9]+/,
+    pinterest: /https?:\/\/(www\.)?pinterest\.(com|ca|fr|jp|co\.uk)\/pin\/[0-9]+/,
 };
 
 module.exports = {
@@ -49,6 +50,7 @@ module.exports = {
                     case 'weibo': handler = handleWeibo; break;
                     case 'xiaohongshu': handler = handleXHS; break;
                     case 'threads': handler = handleThreads; break;
+                    case 'pinterest': handler = handlePinterest; break;
                 }
 
                 if (handler) {
@@ -251,11 +253,9 @@ async function handleThreads(url, api, event) {
         const data = await Downloader.getMediaInfo(url);
         const mediaItems = data.medias || [];
         
-        // Separate videos and images
         const videos = mediaItems.filter(m => m.type === 'video');
         const images = mediaItems.filter(m => m.type === 'image');
 
-        // If there are videos, only send videos
         if (videos.length > 0) {
             const downloads = await Downloader.downloadMultipleMedia(videos, 'threads', 2);
             await api.sendMessage({
@@ -263,7 +263,6 @@ async function handleThreads(url, api, event) {
                 attachment: downloads.map(d => fs.createReadStream(d.path))
             }, event.threadID, () => downloads.forEach(d => fs.unlinkSync(d.path)));
         }
-        // If no videos, then send images
         else if (images.length > 0) {
             const downloads = await Downloader.downloadMultipleMedia(images, 'threads', 10);
             await api.sendMessage({
@@ -274,6 +273,41 @@ async function handleThreads(url, api, event) {
     } catch (error) {
         console.error('Threads error:', error);
         api.sendMessage('❌ Lỗi khi tải nội dung từ Threads', event.threadID);
+    }
+}
+
+async function handlePinterest(url, api, event) {
+    try {
+        const { data } = await axios.post(
+            `${ZM_API.BASE_URL}/social/pinterest`, 
+            { url },
+            { 
+                headers: {
+                    'Content-Type': 'application/json',
+                    'apikey': ZM_API.KEY
+                }
+            }
+        );
+
+        if (!data || data.error) {
+            return api.sendMessage('⚠️ Không thể tải nội dung từ Pinterest này.', event.threadID);
+        }
+
+        let mediaUrl = data.url;
+        if (!mediaUrl) {
+            return api.sendMessage('❌ Không tìm thấy media để tải xuống.', event.threadID);
+        }
+
+        const filePath = await downloadFile(mediaUrl, data.type || 'jpg');
+
+        await api.sendMessage({
+            body: `=== 𝗣𝗶𝗻𝘁𝗲𝗿𝗲𝘀𝘁 ===\n\n📌 Title: ${data.title || 'N/A'}\n👤 Author: ${data.author || 'N/A'}`,
+            attachment: fs.createReadStream(filePath)
+        }, event.threadID, () => fs.unlinkSync(filePath));
+
+    } catch (error) {
+        console.error('Pinterest error:', error);
+        api.sendMessage('❌ Đã xảy ra lỗi khi tải nội dung từ Pinterest.', event.threadID);
     }
 }
 

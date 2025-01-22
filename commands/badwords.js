@@ -32,15 +32,55 @@ const loadBannedWords = threadID => {
   }
 }
 
+const CONFIG = {
+    MAX_WARNINGS: 3,
+    WARNING_EXPIRE_HOURS: 24,
+    PARTIAL_MATCH: true
+};
+
+function checkWarningExpiration() {
+    const now = Date.now();
+    if (!warnings.timestamps) warnings.timestamps = {};
+    
+    for (const userID in warnings.timestamps) {
+        if (now - warnings.timestamps[userID] > CONFIG.WARNING_EXPIRE_HOURS * 3600000) {
+            delete warningsCount[userID];
+            delete warnings.timestamps[userID];
+        }
+    }
+    fs.writeFileSync(saveWarnings, JSON.stringify(warnings), "utf8");
+    fs.writeFileSync(saveWarningsCount, JSON.stringify(warningsCount), "utf8");
+}
+
+function containsBadWord(message, threadID) {
+    if (!bannedWords[threadID]) return false;
+    message = message.toLowerCase();
+    return bannedWords[threadID].some(word => {
+        if (word.startsWith('/') && word.endsWith('/')) {
+      
+            try {
+                const regex = new RegExp(word.slice(1, -1), 'i');
+                return regex.test(message);
+            } catch (e) {
+                return false;
+            }
+        }
+        return CONFIG.PARTIAL_MATCH ? 
+            message.includes(word.toLowerCase()) : 
+            message.split(/\s+/).includes(word.toLowerCase());
+    });
+}
+
 module.exports = {
     name: "badwords", 
     usedby: 0,
     info: "Quản lý danh sách từ bị cấm",
     onPrefix: true,
-    dev: "Jonell Magallanes",
+    dev: "HNT",
     cooldowns: 6,
     onLaunch: async function ({ event, api, target }) {
         const { threadID, messageID, mentions } = event;
+        checkWarningExpiration();
         if (!target[0]) return api.sendMessage("📪 | Vui lòng chỉ định một hành động (thêm, xóa, danh sách, bật, tắt hoặc bỏ cảnh cáo)", threadID, messageID);
 
         const isAdmin = (await api.getThreadInfo(threadID)).adminIDs.some(idInfo => idInfo.id === api.getCurrentUserID());
@@ -56,9 +96,11 @@ module.exports = {
             return api.sendMessage("Bạn không phải là quản trị viên của nhóm này, bạn không thể sử dụng lệnh này.", event.threadID);
         }
         if (action === 'add') {
-            bannedWords[threadID].push(word.toLowerCase());
+            if (!word) return api.sendMessage("❌ | Vui lòng nhập từ cần cấm.", threadID);
+            const words = word.split(',').map(w => w.trim().toLowerCase());
+            bannedWords[threadID] = [...new Set([...bannedWords[threadID], ...words])];
             fs.writeFileSync(path.join(__dirname, `./database/${threadID}.json`), JSON.stringify(bannedWords[threadID]), "utf8");
-            return api.sendMessage(`✅ | Từ ${word} đã được thêm vào danh sách từ bị cấm.`, threadID);
+            return api.sendMessage(`✅ | Đã thêm ${words.length} từ vào danh sách cấm.`, threadID);
         } else if (action === 'remove') {
             const index = bannedWords[threadID].indexOf(word.toLowerCase());
             if (index !== -1) {
@@ -91,6 +133,44 @@ module.exports = {
             return;
         } else {
             return api.sendMessage("📪 | Lệnh không hợp lệ. Vui lòng sử dụng 'add', 'remove', 'list', 'on', 'off' hoặc 'unwarn'.", threadID);
+        }
+    },
+
+    onChat: async function({ event, api }) {
+        const { threadID, messageID, senderID, body } = event;
+        if (!badWordsActive[threadID] || !body) return;
+
+        loadBannedWords(threadID);
+        if (containsBadWord(body, threadID)) {
+            if (!warningsCount[senderID]) warningsCount[senderID] = 0;
+            warningsCount[senderID]++;
+            warnings.timestamps = warnings.timestamps || {};
+            warnings.timestamps[senderID] = Date.now();
+
+            fs.writeFileSync(saveWarningsCount, JSON.stringify(warningsCount), "utf8");
+            fs.writeFileSync(saveWarnings, JSON.stringify(warnings), "utf8");
+
+            api.unsendMessage(messageID);
+
+            try {
+                const userInfo = await api.getUserInfo(senderID);
+                const userName = userInfo[senderID]?.name || senderID;
+                const warningMsg = `⚠️ Cảnh báo: Tin nhắn chứa từ cấm!\n` +
+                                 `👤 Người dùng: ${userName}\n` +
+                                 `🔢 Cảnh báo: ${warningsCount[senderID]}/${CONFIG.MAX_WARNINGS}`;
+                api.sendMessage(warningMsg, threadID);
+            } catch (error) {
+                const warningMsg = `⚠️ Cảnh báo: Tin nhắn chứa từ cấm!\n` +
+                                 `👤 Người dùng: ${senderID}\n` +
+                                 `🔢 Cảnh báo: ${warningsCount[senderID]}/${CONFIG.MAX_WARNINGS}`;
+                api.sendMessage(warningMsg, threadID);
+            }
+
+            if (warningsCount[senderID] >= CONFIG.MAX_WARNINGS) {
+                api.removeUserFromGroup(senderID, threadID);
+                api.sendMessage(`🚫 | Người dùng đã bị kick do vượt quá số lần cảnh báo.`, threadID);
+                warningsCount[senderID] = 0;
+            }
         }
     }
 };

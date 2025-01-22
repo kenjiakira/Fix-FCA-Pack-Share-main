@@ -10,13 +10,6 @@ module.exports = {
     const { threadID, author, logMessageType, logMessageData } = event;
 
     if (logMessageType === "log:thread-name") {
-      const antinamePath = path.join(__dirname, '../commands/json/antiname.json');
-      let antinameData = {};
-
-      if (fs.existsSync(antinamePath)) {
-        antinameData = JSON.parse(fs.readFileSync(antinamePath));
-      }
-
       const newName = logMessageData.name || "Tên nhóm mới";
       let authorName;
 
@@ -35,15 +28,6 @@ module.exports = {
         `⏰ Thời gian: ${new Date().toLocaleString('vi-VN')}`,
         threadID
       );
-
-      if (!antinameData[threadID]?.enable) {
-        antinameData[threadID] = {
-          enable: false,
-          name: newName,
-          lastUpdate: Date.now()
-        };
-        fs.writeFileSync(antinamePath, JSON.stringify(antinameData, null, 4));
-      }
     }
   }
 };

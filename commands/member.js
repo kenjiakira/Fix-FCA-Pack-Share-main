@@ -13,9 +13,24 @@ module.exports = {
     usedby: 1,
     info: "Quản lý thành viên nhóm",
     onPrefix: true,
-    usages: "",
+    usages: [
+        "member ban [@tag/uid] - Cấm người dùng khỏi nhóm",
+        "member unban [@tag/uid] - Gỡ cấm người dùng",
+        "member list - Xem danh sách người dùng bị cấm"
+    ].join("\n"),
+    description: `Công cụ quản lý thành viên nhóm chat:
+    • Cấm thành viên: Ngăn thành viên vào lại nhóm
+    • Tự động kick khi thành viên bị cấm được thêm vào
+    • Tự động cảnh báo người thêm thành viên bị cấm
+    • Quản lý danh sách đen của nhóm
+    
+Ví dụ:
+• /member ban @tên - Cấm theo tag
+• /member ban 100023...- Cấm theo ID 
+• /member unban @tên - Gỡ cấm theo tag
+• /member list - Xem danh sách đen`,
     cooldowns: 2,
-    dev: "Jonell Magallanes",
+    dev: "HNT",
 
     noPrefix: async function ({ api, event, actions }) {
         const botId = api.getCurrentUserID();
@@ -32,12 +47,11 @@ module.exports = {
 
             if (bannedUsers.includes(userId)) {
                 try {
-                    api.removeUserFromGroup(userId, threadId);
                     const userInfo = await api.getUserInfo(userId);
-                    const userName = userInfo[userId].name;
+                    const userName = userInfo[userId]?.name || userId;
                     api.sendMessage(`👤 Đã loại bỏ khỏi nhóm\n━━━━━━━━━━━━━━━━━━\nNgười dùng ${userName} đã bị cấm và đã bị loại bỏ.`, threadId);
                 } catch (error) {
-                    console.error(`Lỗi khi xử lý loại bỏ người dùng bị cấm: ${error}`);
+                    api.sendMessage(`👤 Đã loại bỏ khỏi nhóm\n━━━━━━━━━━━━━━━━━━\nNgười dùng ${userId} đã bị cấm và đã bị loại bỏ.`, threadId);
                 }
             }
         }
@@ -87,6 +101,13 @@ module.exports = {
     onLaunch: async ({ api, event, target }) => {
         const botId = api.getCurrentUserID();
         const threadId = event.threadID.toString();
+
+        if (!target[0] || target[0] === "help") {
+            return api.sendMessage({
+                body: `🛡️ Hướng dẫn sử dụng Member Command:\n\n${module.exports.usages}\n\n${module.exports.description}`,
+                attachment: null
+            }, event.threadID);
+        }
 
         try {
             const threadInfo = await api.getThreadInfo(threadId);
@@ -174,11 +195,18 @@ module.exports = {
         } else if (command === 'list') {
             if (bannedUsers.length > 0) {
                 try {
-                    const userInfo = await api.getUserInfo(bannedUsers);
-                    const bannedList = bannedUsers.map(ban => userInfo[ban].name).join(', ');
-                    api.sendMessage(`📝 Danh sách người dùng bị cấm\n━━━━━━━━━━━━━━━━━━\n${bannedList}`, threadId);
+                    let bannedList = [];
+                    for (const uid of bannedUsers) {
+                        try {
+                            const info = await api.getUserInfo(uid);
+                            bannedList.push(`- ${info[uid].name} (${uid})`);
+                        } catch {
+                            bannedList.push(`- ID: ${uid}`);
+                        }
+                    }
+                    api.sendMessage(`📝 Danh sách người dùng bị cấm:\n━━━━━━━━━━━━━━━━━━\n${bannedList.join('\n')}`, threadId);
                 } catch (error) {
-                    console.error(`Lỗi khi lấy thông tin người dùng bị cấm: ${error}`);
+                    api.sendMessage(`📝 Danh sách ID người dùng bị cấm:\n━━━━━━━━━━━━━━━━━━\n${bannedUsers.join('\n')}`, threadId);
                 }
             } else {
                 api.sendMessage(`ℹ️ Không có người dùng bị cấm\n━━━━━━━━━━━━━━━━━━\nHiện tại không có người dùng nào bị cấm trong nhóm này.`, threadId);

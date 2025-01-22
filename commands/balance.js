@@ -3,8 +3,10 @@ const path = require('path');
 
 const userDataFile = path.join(__dirname,'../events/cache/userData.json');
 const transactionsPath = path.join(__dirname, '../commands/json/transactions.json');
+const bankingDataPath = path.join(__dirname, './json/banking.json');
 let userData = {};
 let transactions = {};
+let bankingData = {};
 
 try {
     if (fs.existsSync(userDataFile)) {
@@ -12,6 +14,9 @@ try {
     }
     if (fs.existsSync(transactionsPath)) {
         transactions = JSON.parse(fs.readFileSync(transactionsPath, 'utf8'));
+    }
+    if (fs.existsSync(bankingDataPath)) {
+        bankingData = JSON.parse(fs.readFileSync(bankingDataPath, 'utf8'));
     }
 } catch (error) {
     console.error("Error loading files:", error);
@@ -35,15 +40,17 @@ module.exports = {
             const userName = userInfo.name || "Người dùng không xác định";
 
             const balance = global.balance[userID] || 0;
-            const bankBalance = global.bankBalance?.[userID] || 0;
-            const lastInterest = global.lastInterest?.[userID] || Date.now();
+            const bankUserData = bankingData.users?.[userID] || {};
+            const bankBalance = bankUserData.bankBalance || 0;
+            const lastInterest = bankUserData.lastInterest || Date.now();
             
             const daysPassed = Math.floor((Date.now() - lastInterest) / (24 * 60 * 60 * 1000));
             const interest = Math.floor(bankBalance * 0.001 * daysPassed);
             
-            if (interest > 0) {
-                global.bankBalance[userID] = bankBalance + interest;
-                global.lastInterest[userID] = Date.now();
+            if (interest > 0 && bankUserData) {
+                bankUserData.bankBalance = bankBalance + interest;
+                bankUserData.lastInterest = Date.now();
+                fs.writeFileSync(bankingDataPath, JSON.stringify(bankingData, null, 2));
             }
 
             const totalWealth = balance + bankBalance;
@@ -77,7 +84,8 @@ module.exports = {
                 `${interest > 0 ? `✨ Bạn nhận được ${interest} Xu tiền lãi!` : ''}`;
 
             await api.sendMessage(response, threadID, messageID);
-        } catch (error) {            console.error("Balance command error:", error);
+        } catch (error) {
+            console.error("Balance command error:", error);
             return api.sendMessage("Có lỗi xảy ra khi kiểm tra số dư. Vui lòng thử lại sau.", event.threadID, event.messageID);
         }
     }

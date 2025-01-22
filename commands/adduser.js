@@ -6,65 +6,84 @@ module.exports = {
     onPrefix: true,
     usages: "[ID1 ID2...] hoặc [link1 link2...] hoặc mix\nVD: .adduser 123456 fb.com/user2 789012",
     cooldowns: 5,
-    adminRequired: true,
+    adminRequired: true, // Thêm flag này
 
     onLaunch: async function({ api, event, target }) {
         const { threadID, messageID, senderID } = event;
         const botID = api.getCurrentUserID();
         const out = msg => api.sendMessage(msg, threadID, messageID);
 
-        const threadInfo = await api.getThreadInfo(threadID);
-        const isAdmin = threadInfo.adminIDs.some(admin => admin.id === senderID);
-        if (this.adminRequired && !isAdmin) return out("⚠️ Chỉ admin mới có thể sử dụng lệnh này!");
+        try {
+            // Kiểm tra quyền admin bot
+            const adminConfig = JSON.parse(require('fs').readFileSync('./admin.json', 'utf8'));
+            const isAdminBot = adminConfig.adminUIDs.includes(senderID);
 
-        if (!target[0]) return out("⚠️ Vui lòng nhập ID hoặc link profile người dùng!");
+            // Kiểm tra quyền admin nhóm
+            const threadInfo = await api.getThreadInfo(threadID);
+            const isGroupAdmin = threadInfo.adminIDs.some(admin => admin.id === senderID);
 
-        let success = 0, failed = 0;
-        const results = [];
+            // Chỉ cho phép admin bot hoặc admin nhóm sử dụng
+            if (!isAdminBot && !isGroupAdmin) {
+                return out("⚠️ Chỉ admin bot hoặc quản trị viên nhóm mới có thể sử dụng lệnh này!");
+            }
 
-        for (const user of target) {
-            try {
-                if (!isNaN(user)) {
-                    const result = await adduser(user, undefined);
-                    results.push(result);
-                } else {
-                    const [id, name, fail] = await getUID(user, api);
-                    if (!fail) {
-                        const result = await adduser(id, name || "Người dùng Facebook");
-                        results.push(result);
-                    } else {
-                        failed++;
-                        results.push(`❌ Không thể xử lý: ${user}`);
+            if (!target[0]) return out("⚠️ Vui lòng nhập ID hoặc link profile người dùng!");
+
+            let success = 0, failed = 0;
+            const results = [];
+            const { participantIDs, approvalMode } = threadInfo;
+
+            for (const user of target) {
+                try {
+                    let uid = user;
+                    if (isNaN(user)) {
+                        // Xử lý link profile
+                        try {
+                            if (user.includes('facebook.com') || user.includes('fb.com')) {
+                                const axios = require('axios');
+                                const response = await axios.get(`https://api.fb.com/profile-to-id?url=${user}`);
+                                if (response.data.id) {
+                                    uid = response.data.id;
+                                }
+                            }
+                        } catch (e) {
+                            failed++;
+                            results.push(`❌ Không thể xử lý link: ${user}`);
+                            continue;
+                        }
                     }
+
+                    uid = String(uid);
+                    if (participantIDs.includes(uid)) {
+                        failed++;
+                        results.push(`⚠️ Người dùng ${uid} đã có trong nhóm`);
+                        continue;
+                    }
+
+                    await api.addUserToGroup(uid, threadID);
+                    success++;
+                    results.push(`✅ Đã thêm người dùng ${uid} ${approvalMode ? "vào danh sách phê duyệt" : "vào nhóm"}`);
+
+                } catch (error) {
+                    failed++;
+                    let errorMsg = `❌ Lỗi thêm ${user}: `;
+                    if (error.error === 6) errorMsg += "Người dùng đã chặn bot";
+                    else if (error.error === 3252001) errorMsg += "Bot bị Facebook hạn chế";
+                    else errorMsg += error.message;
+                    results.push(errorMsg);
                 }
-            } catch (e) {
-                failed++;
-                results.push(`❌ Lỗi xử lý ${user}: ${e.message}`);
             }
-        }
 
-        const summary = `📊 Kết quả thêm người dùng:\n` +
-            `✅ Thành công: ${success}\n` +
-            `❌ Thất bại: ${failed}\n\n` +
-            results.join('\n');
-        
-        return out(summary);
+            return out(
+                `📊 Kết quả thêm người dùng:\n` +
+                `✅ Thành công: ${success}\n` +
+                `❌ Thất bại: ${failed}\n\n` +
+                results.join('\n')
+            );
 
-        async function adduser(id, name) {
-            id = parseInt(id);
-            if (participantIDs.includes(id)) {
-                failed++;
-                return `⚠️ ${name ? name : "Người dùng"} đã có trong nhóm.`;
-            }
-            
-            try {
-                await api.addUserToGroup(id, threadID);
-                success++;
-                return `✅ Đã thêm ${name ? name : "người dùng"} ${approvalMode ? "vào danh sách phê duyệt" : "vào nhóm"}!`;
-            } catch (error) {
-                failed++;
-                return `❌ Không thể thêm ${name ? name : "người dùng"} vào nhóm: ${error.message}`;
-            }
+        } catch (error) {
+            console.error('AddUser Error:', error);
+            return out("❌ Đã xảy ra lỗi khi thực hiện lệnh!");
         }
     }
 };
