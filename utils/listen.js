@@ -13,7 +13,7 @@ const usersDB = JSON.parse(fs.readFileSync("./database/users.json", "utf8") || "
 const cooldowns = {};
 global.client = global.client || { 
     callReact: [], 
-    handleReply: [], // Initialize handleReply array
+    handleReply: [],
     onReply: [] 
 };
 global.bot = { usersDB, threadsDB };
@@ -51,10 +51,31 @@ const handleListenEvents = (api, commands, eventCommands, threadsDB, usersDB) =>
         async function getUserName(api, senderID) {
             try {
                 const userInfo = await api.getUserInfo(senderID);
-                return userInfo[senderID]?.name || "User";
+                if (!userInfo || !userInfo[senderID]) return `Người dùng ${senderID}`;
+                return userInfo[userID].name || `Người dùng ${senderID}`;
             } catch (error) {
-                console.error(error);
-                return "User";
+                // Only log if it's not a Facebook blocking error
+                if (!error.errorSummary?.includes('Bạn tạm thời bị chặn')) {
+                    console.error(`Lỗi khi lấy tên người dùng ${senderID}:`, error);
+                }
+                return `Người dùng ${senderID}`;
+            }
+        }
+
+        async function getThreadInfo(threadID) {
+            try {
+                const info = await api.getThreadInfo(threadID);
+                if (!info) return { adminIDs: [], name: `Nhóm ${threadID}` };
+                return {
+                    adminIDs: info.adminIDs || [],
+                    name: info.name || `Nhóm ${threadID}`
+                };
+            } catch (error) {
+                // Only log if it's not a Facebook blocking error
+                if (!error.errorSummary?.includes('Bạn tạm thời bị chặn')) {
+                    console.error(`Lỗi khi lấy thông tin nhóm ${threadID}:`, error);
+                }
+                return { adminIDs: [], name: `Nhóm ${threadID}` };
             }
         }
 
@@ -236,14 +257,35 @@ const _0xb4166e=_0x1194;function _0x1194(_0x54c3af,_0x26fb8d){const _0x3c1e5b=_0
 }
 
         //onEvents
-                   for (const eventName in eventCommands) {
-                  const eventCommand = eventCommands[eventName];
-                  try {
-                      await eventCommand.onEvents({ api, event, actions: {} });
-                  } catch (error) {
-                      console.error(gradient.passion(`Error executing event command: ${error}`));
-                  }
-    }
+        for (const eventName in eventCommands) {
+            const eventCommand = eventCommands[eventName];
+            try {
+                // Wrap the event execution in a safe handler
+                const safeEventHandler = async () => {
+                    try {
+                        await eventCommand.onEvents({ 
+                            api, 
+                            event,
+                            actions: {},
+                            // Provide default values for commonly accessed properties
+                            thread: {
+                                adminIDs: [],
+                                ...((await getThreadInfo(event.threadID)) || {})
+                            }
+                        });
+                    } catch (innerError) {
+                   
+                        if (!innerError?.toString().includes('Cannot read properties of null') && 
+                            !innerError?.errorSummary?.includes('Bạn tạm thời bị chặn')) {
+                            console.error(gradient.passion(`Lỗi lệnh sự kiện ${eventName}:`, innerError));
+                        }
+                    }
+                };
+                await safeEventHandler();
+            } catch (error) {
+                
+            }
+        }
 
     });
 

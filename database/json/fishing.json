@@ -44,7 +44,7 @@
   },
   "100068382888605": {
     "rod": "Cần Câu tay",
-    "rodDurability": 18,
+    "rodDurability": 17,
     "inventory": [
       "Cần Câu tay",
       "Cần trúc"
@@ -52,7 +52,7 @@
     "collection": {
       "byRarity": {
         "trash": {
-          "Rác": 4,
+          "Rác": 5,
           "Rong biển": 5,
           "Chai nhựa": 3
         },
@@ -85,24 +85,24 @@
         "mythical": {}
       },
       "stats": {
-        "totalCaught": 196,
-        "totalValue": 4655500,
+        "totalCaught": 197,
+        "totalValue": 4655650,
         "bestCatch": {
           "name": "Kho báu cổ đại",
           "value": 300000
         }
       }
     },
-    "exp": 2469,
+    "exp": 2472,
     "level": 6,
-    "fishingStreak": 196,
+    "fishingStreak": 197,
     "stats": {
-      "totalExp": 17469,
-      "highestStreak": 196,
-      "totalFishes": 196
+      "totalExp": 17472,
+      "highestStreak": 197,
+      "totalFishes": 197
     },
     "activeBuffs": {},
-    "lastFished": 1737525408971,
+    "lastFished": 1737600747194,
     "userID": "100068382888605"
   },
   "100024874297909": {

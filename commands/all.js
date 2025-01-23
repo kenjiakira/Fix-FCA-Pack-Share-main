@@ -5,7 +5,7 @@ module.exports = {
     onPrefix: true,
     usedby: 0,
     usages: "Tag mọi người bằng cách gõ .all <văn bản>",
-    cooldowns: 0,
+    cooldowns: 60,
   
     onLaunch: async function({ api, event, target }) {
       try {

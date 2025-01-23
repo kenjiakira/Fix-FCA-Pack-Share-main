@@ -1,5 +1,6 @@
 const fs = require('fs');
 const path = require('path');
+const { sendThreadNotification } = require('../utils/logs');
 
 module.exports = {
   name: "thread",
@@ -43,52 +44,52 @@ module.exports = {
   getUserInfo: async function(api, userID, threadID) {  
     if (!this.nameCache) this.initNameCache();
 
+    // Check cache first
     if (this.nameCache[userID]) {
-      const cached = this.nameCache[userID];
-     
-      if (Date.now() - cached.timestamp < 24 * 60 * 60 * 1000) {
-        return {[userID]: {name: cached.name}};
-      }
-    }
-
-    const now = Date.now();
-    if (now - this.lastApiCall < this.API_COOLDOWN) {
-      await new Promise(resolve => setTimeout(resolve, this.API_COOLDOWN));
-    }
-    
-    try {
-      const info = await api.getUserInfo(userID);
-      this.lastApiCall = Date.now();
-      if (info[userID]?.name) {
-        this.saveName(userID, info[userID].name);
-        return info;
-      }
-      throw new Error('No name in response');
-    } catch (err) {
-      console.log(`Failed to get info for ${userID}:`, err);
-      
-      if (threadID) {  
-        try {
-          const threadInfo = await api.getThreadInfo(threadID);
-          const participant = threadInfo.userInfo?.find(user => user.id === userID);
-          if (participant?.name) {
-            this.saveName(userID, participant.name);
-            return {[userID]: {name: participant.name}};
-          }
-        } catch (e) {
-          console.error('Fallback name fetch failed:', e);
+        const cached = this.nameCache[userID];
+        if (Date.now() - cached.timestamp < 24 * 60 * 60 * 1000) {
+            return {[userID]: {name: cached.name}};
         }
-      }
-
-      if (this.nameCache[userID]) {
-        return {[userID]: {name: this.nameCache[userID].name}};
-      }
-
-      const fallbackName = `Người dùng Facebook (${userID})`;
-      this.saveName(userID, fallbackName);
-      return {[userID]: {name: fallbackName}};
     }
-  },
+
+    try {
+        // Try getting user info directly first
+        const info = await api.getUserInfo(userID);
+        this.lastApiCall = Date.now();
+        if (info[userID]?.name) {
+            this.saveName(userID, info[userID].name);
+            return info;
+        }
+    } catch (err) {
+        // Silently handle API error
+    }
+
+    // If thread ID is provided, try getting from thread info
+    if (threadID) {  
+        try {
+            const threadInfo = await api.getThreadInfo(threadID);
+            if (threadInfo?.userInfo) {
+                const participant = threadInfo.userInfo.find(user => user.id === userID);
+                if (participant?.name) {
+                    this.saveName(userID, participant.name);
+                    return {[userID]: {name: participant.name}};
+                }
+            }
+        } catch (e) {
+            // Silently handle thread info error
+        }
+    }
+
+    // Use cache as fallback if available
+    if (this.nameCache[userID]) {
+        return {[userID]: {name: this.nameCache[userID].name}};
+    }
+
+    // Last resort fallback
+    const fallbackName = `Người dùng Facebook (${userID})`;
+    this.saveName(userID, fallbackName);
+    return {[userID]: {name: fallbackName}};
+},
 
   async tryChangeColor(api, color, threadID) {
     return new Promise((resolve, reject) => {
@@ -316,26 +317,27 @@ module.exports = {
     }
 
     const getAuthorName = async () => {
-      const info = await this.getUserInfo(api, author, threadID);
-      return info[author]?.name || "Người dùng Facebook";
+        try {
+            const info = await this.getUserInfo(api, author, threadID);
+            return info[author]?.name || `Người dùng Facebook (${author})`;
+        } catch (error) {
+            return `Người dùng Facebook (${author})`;
+        }
     };
 
     if (logMessageType === "log:thread-image") {
-      try {
-        const authorName = await getAuthorName();
-        
-        let msg = `👥 THAY ĐỔI ẢNH NHÓM\n` +
-                 `━━━━━━━━━━━━━━━━━━\n\n` +
-                 `👤 Người thay đổi: ${authorName}\n` +
-                 `⏰ Thời gian: ${new Date().toLocaleString('vi-VN')}`;
-        
-        api.sendMessage(msg, threadID);
-        
-      } catch (error) {
-        console.error('Thread Image Update Error:', error);
-        api.sendMessage("❌ Có lỗi xảy ra khi cập nhật ảnh nhóm", threadID);
-      }
-      return;
+        try {
+            const authorName = await getAuthorName();
+            const msg = `👥 THAY ĐỔI ẢNH NHÓM\n` +
+                       `━━━━━━━━━━━━━━━━━━\n\n` +
+                       `👤 Người thay đổi: ${authorName}\n` +
+                       `⏰ Thời gian: ${new Date().toLocaleString('vi-VN')}`;
+            
+            await sendThreadNotification(api, threadID, msg, 'avatar');
+        } catch (error) {
+           
+            console.error('Thread Image Update Error:', error.message);
+        }
     }
 
     if (logMessageType === "log:thread-admins") {
@@ -408,7 +410,7 @@ module.exports = {
                  `📝 Hành động: ${logMessageData.ADMIN_EVENT === "add_admin" ? "Thêm Admin" : "Gỡ Admin"}\n` +
                  `⏰ Thời gian: ${new Date().toLocaleString('vi-VN')}`;
                  
-        api.sendMessage(msg, threadID);
+        await sendThreadNotification(api, threadID, msg, 'admin');
       } catch (error) {
         console.error('Admin Update Error:', error);
         api.sendMessage("❌ Không thể lấy thông tin người dùng", threadID);
@@ -430,7 +432,7 @@ module.exports = {
                     `🎨 Màu mới: ${newColor}\n` +
                     `⏰ Thời gian: ${new Date().toLocaleString('vi-VN')}`;
           
-          api.sendMessage(msg, threadID);
+          await sendThreadNotification(api, threadID, msg, 'color');
         } else if (logMessageType === "log:thread-icon") {
           const oldEmoji = logMessageData.old_emoji || "⚪";
           const newEmoji = logMessageData.new_emoji || "⚪";

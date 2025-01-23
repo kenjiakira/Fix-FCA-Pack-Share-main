@@ -8,7 +8,6 @@ const moment = require("moment-timezone");
 
 let io = null;
 
-// Add this function to initialize socket.io
 const initializeSocket = (socketIO) => {
     io = socketIO;
 };
@@ -28,6 +27,18 @@ try {
 } catch (err) {
     console.error(err);
 }
+
+const loadConfig = () => {
+    try {
+        const settingsPath = './database/threadSettings.json';
+        if (fs.existsSync(settingsPath)) {
+            return JSON.parse(fs.readFileSync(settingsPath));
+        }
+        return {};
+    } catch (error) {
+        return {};
+    }
+};
 
 const notifyAdmins = async (api, threadID, action, senderID) => {
     if (adminConfig.notilogs) {  
@@ -56,6 +67,16 @@ const notifyAdmins = async (api, threadID, action, senderID) => {
     }
 };
 
+const sendThreadNotification = async (api, threadID, message, type) => {
+    const settings = loadConfig();
+    const threadSettings = settings[threadID] || {};
+    
+    // Check if notification type is enabled
+    if (threadSettings[`notify_${type}`] !== false) {
+        await api.sendMessage(message, threadID);
+    }
+};
+
 const logChatRecord = async (api, event) => {
     const threadID = event.threadID;
     const senderID = event.senderID;
@@ -77,7 +98,6 @@ const logChatRecord = async (api, event) => {
 
         console.log(logMessage);
         
-        // Emit to socket if available
         if (io) {
             io.emit('botLog', { 
                 output: logMessage,
@@ -99,7 +119,6 @@ const logChatRecord = async (api, event) => {
 
         console.log(logMessage);
         
-        // Emit to socket if available
         if (io) {
             io.emit('commandOutput', { 
                 output: logMessage,
@@ -142,27 +161,36 @@ const removeFromDatabase = (threadID, senderID) => {
 const getGroupName = async (api, threadID) => {
     try {
         const threadInfo = await api.getThreadInfo(threadID);
-        return threadInfo.name || "Group Chat";
+        if (!threadInfo) return `Nhóm ${threadID}`;
+        return threadInfo.name || `Nhóm ${threadID}`;
     } catch (error) {
-        console.error(`Thất bại khi lấy tên của threadID: ${threadID}`, error);
-        return "Group Chat";
+        // Only log if it's not a Facebook blocking error
+        if (!error.errorSummary?.includes('Bạn tạm thời bị chặn')) {
+            console.error(`Lỗi khi lấy tên nhóm ${threadID}:`, error);
+        }
+        return `Nhóm ${threadID}`;
     }
 };
 
 const getUserName = async (api, userID) => {
     try {
         const userInfo = await api.getUserInfo(userID);
-        return userInfo[userID]?.name || "Unknown User";
+        if (!userInfo || !userInfo[userID]) return `Người dùng ${userID}`;
+        return userInfo[userID].name || `Người dùng ${userID}`;
     } catch (error) {
-        console.error(`Thất bại khi lấy tên của userID: ${userID}`, error);
-        return "Unknown User";
+        // Only log if it's not a Facebook blocking error
+        if (!error.errorSummary?.includes('Bạn tạm thời bị chặn')) {
+            console.error(`Lỗi khi lấy tên người dùng ${userID}:`, error);
+        }
+        return `Người dùng ${userID}`;
     }
 };
 
 module.exports = { 
     logChatRecord, 
     notifyAdmins, 
-    handleBotAddition, 
+    handleBotAddition,     
     handleBotRemoval,
-    initializeSocket  
+    initializeSocket,
+    sendThreadNotification
 };

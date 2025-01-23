@@ -1,6 +1,5 @@
 const fs = require('fs');
 const path = require('path');
-const { adminRequired } = require('../utils/adminRequired');
 
 const threadSettingsPath = path.join(__dirname, '../database/threadSettings.json');
 const rankConfigPath = path.join(__dirname, '../database/json/rankConfig.json');
@@ -33,27 +32,32 @@ module.exports = {
                 detail: 'tự động gửi tin nhắn khi có thành viên vào/rời',
                 usage: 'notify sub on/off' 
             },
-            config: {
-                name: 'config',
-                icon: '⚙️',
-                desc: 'cấu hình tin nhắn',
-                detail: 'tùy chỉnh nội dung tin nhắn chào/tạm biệt',
-                usage: 'notify config [welcome/leave] [nội dung]'
+            admin: {
+                name: 'admin',
+                icon: '👑',
+                desc: 'thông báo thay đổi quản trị viên',
+                detail: 'thông báo khi có thay đổi về quản trị viên nhóm',
+                usage: 'notify admin on/off'
             },
-            rank: { 
-                name: 'rank', 
-                icon: '⭐', 
-                desc: 'thông báo rankup', 
-                detail: 'thông báo khi thành viên lên cấp',
-                usage: 'notify rank on/off'
+            avatar: {
+                name: 'avatar',
+                icon: '🖼️',
+                desc: 'thông báo đổi ảnh nhóm',
+                detail: 'thông báo khi có người thay đổi ảnh nhóm',
+                usage: 'notify avatar on/off'
+            },
+            color: {
+                name: 'color',
+                icon: '🎨',
+                desc: 'thông báo đổi màu chat',
+                detail: 'thông báo khi có người thay đổi màu tin nhắn',
+                usage: 'notify color on/off'
             }
         };
 
         const adminConfig = loadConfig('./admin.json', { adminUIDs: [] });
         const isAdminBot = adminConfig.adminUIDs.includes(senderID);
-        const isGroupAdmin = await adminRequired(api, event);
-
-        if (!isAdminBot && !isGroupAdmin) {
+        if (!isAdminBot) {
             return api.sendMessage("⚠️ Chỉ Admin bot hoặc Quản trị viên nhóm mới có thể sử dụng lệnh này!", threadID);
         }
 
@@ -75,6 +79,7 @@ module.exports = {
                 if (key === 'sub') status = subStatus ? "ON ✅" : "OFF ❌";
                 else if (key === 'config') status = `Welcome: ${welcomeMsg} | Leave: ${leaveMsg}`;
                 else if (key === 'rank') status = rankStatus ? "ON ✅" : "OFF ❌";
+                else if (key === 'admin' || key === 'avatar' || key === 'color') status = settings[threadID][`notify_${key}`] !== false ? "ON ✅" : "OFF ❌";
 
                 msg += `${value.icon} ${key.toUpperCase()}: ${value.desc}\n`;
                 msg += `↬ Chi tiết: ${value.detail}\n`;
@@ -165,6 +170,26 @@ module.exports = {
                 
                 fs.writeFileSync(rankConfigPath, JSON.stringify(rankConfig, null, 2));
                 return api.sendMessage(`✅ Đã ${action === 'on' ? 'bật' : 'tắt'} thông báo rankup!`, threadID);
+            } else if (type === 'admin' || type === 'avatar' || type === 'color') {
+                let settings = loadConfig(threadSettingsPath);
+                if (!settings[threadID]) settings[threadID] = {};
+                
+                if (!['on', 'off'].includes(action)) {
+                    const status = settings[threadID][`notify_${type}`] !== false ? 'BẬT' : 'TẮT';
+                    return api.sendMessage(
+                        `Thông báo ${features[type].desc} đang ${status} trong nhóm này\n` +
+                        `Sử dụng: ${features[type].usage}`, 
+                        threadID
+                    );
+                }
+
+                settings[threadID][`notify_${type}`] = (action === 'on');
+                fs.writeFileSync(threadSettingsPath, JSON.stringify(settings, null, 2));
+                
+                return api.sendMessage(
+                    `✅ Đã ${action === 'on' ? 'bật' : 'tắt'} thông báo ${features[type].desc}!`,
+                    threadID
+                );
             } else {
                 return api.sendMessage("❌ Lệnh không hợp lệ! Sử dụng: notify để xem hướng dẫn", threadID);
             }

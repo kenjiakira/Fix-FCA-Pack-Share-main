@@ -13,8 +13,17 @@ module.exports = {
   onLaunch: async ({ api, event, target }) => {
     const { threadID, messageID, senderID } = event;
 
-    if (!global.config.ADMINBOT.includes(senderID)) {
-        return api.sendMessage("Bạn không có quyền sử dụng lệnh này.", threadID, messageID);
+    let isAdmin = false;
+    try {
+        const adminConfig = JSON.parse(fs.readFileSync('./admin.json', 'utf8'));
+        isAdmin = adminConfig.adminUIDs.includes(senderID);
+    } catch (error) {
+        console.error("Error reading admin.json:", error);
+        return api.sendMessage("❌ Lỗi khi kiểm tra quyền admin!", threadID, messageID);
+    }
+
+    if (!isAdmin) {
+        return api.sendMessage("⚠️ Bạn không có quyền sử dụng lệnh này!", threadID, messageID);
     }
 
     const basePath = path.join(__dirname, '../commands');

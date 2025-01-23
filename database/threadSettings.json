@@ -2,7 +2,10 @@
   "6589198804475799": {
     "notifications": false,
     "welcomeMessage": "chào con vợ {userName} đã đến với {threadName} của anh",
-    "leaveMessage": "👋 {userName} {actionType}.\n👥 Thành viên còn lại: {memberCount}"
+    "leaveMessage": "👋 {userName} {actionType}.\n👥 Thành viên còn lại: {memberCount}",
+    "notify_admin": false,
+    "notify_avatar": true,
+    "notify_color": false
   },
   "8704938436228026": {
     "notifications": false,
