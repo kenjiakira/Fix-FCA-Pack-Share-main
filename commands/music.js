@@ -4,6 +4,16 @@ const Youtube = require('youtube-search-api');
 const path = require('path');
 const axios = require('axios');
 
+const cookies = JSON.parse(fs.readFileSync('./cookies.json'));
+const agent = ytdl.createAgent(cookies);
+
+const userAgents = [
+    'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/97.0.4692.99 Safari/537.36',
+    'Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:96.0) Gecko/20100101 Firefox/96.0',
+    'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36',
+    'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36'
+];
+
 const convertHMS = (value) => {
     if (!value) return "N/A";
     const duration = Number(value);
@@ -22,12 +32,12 @@ const getAvailableFilePath = async (basePath) => {
     let counter = 0;
     while (true) {
         try {
-            // Check if file exists and is writable
+        
             if (fs.existsSync(filePath)) {
                 await fs.access(filePath, fs.constants.W_OK);
                 await fs.unlink(filePath);
             }
-            // Test if we can write to this path
+            
             await fs.writeFile(filePath, '');
             await fs.unlink(filePath);
             return filePath;
@@ -43,21 +53,17 @@ const downloadMusicFromYoutube = async (link, filePath, retryCount = 0) => {
     try {
         const cacheDir = path.dirname(filePath);
         await fs.ensureDir(cacheDir);
-
-        // Get an available file path
         filePath = await getAvailableFilePath(filePath);
 
-        const userAgents = [
-            'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/97.0.4692.99 Safari/537.36',
-            'Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:96.0) Gecko/20100101 Firefox/96.0'
-        ];
-
         const data = await ytdl.getInfo(link, {
-            headers: {
-                'Cookie': '',
-                'Accept': '*/*',
-                'Accept-Language': 'en-US,en;q=0.5',
-                'User-Agent': userAgents[retryCount % userAgents.length]
+            agent,
+            playerClients: ["WEB_CREATOR", "IOS", "ANDROID"],
+            requestOptions: {
+                headers: {
+                    'Accept': '*/*',
+                    'Accept-Language': 'en-US,en;q=0.5',
+                    'User-Agent': userAgents[retryCount % userAgents.length]
+                }
             }
         });
 
@@ -84,9 +90,10 @@ const downloadMusicFromYoutube = async (link, filePath, retryCount = 0) => {
             const writeStream = fs.createWriteStream(filePath);
             const stream = ytdl(link, { 
                 format: format,
+                agent,
+                playerClients: ["WEB_CREATOR", "IOS", "ANDROID"],
                 requestOptions: {
                     headers: {
-                        'Cookie': '',
                         'Accept': '*/*',
                         'Accept-Language': 'en-US,en;q=0.5',
                         'User-Agent': userAgents[retryCount % userAgents.length]

@@ -1,0 +1,55 @@
+Thông tin chi tiết về kỹ thuật (video)
+Gemini 1.5 Pro và Flash hỗ trợ tối đa khoảng một giờ dữ liệu video.
+
+Video phải ở một trong các loại MIME định dạng video sau:
+
+video/mp4
+video/mpeg
+video/mov
+video/avi
+video/x-flv
+video/mpg
+video/webm
+video/wmv
+video/3gpp
+Dịch vụ API tệp trích xuất khung hình ảnh từ video với tốc độ 1 khung hình/giây (FPS) và âm thanh ở tốc độ 1 Kb/giây, một kênh, thêm dấu thời gian mỗi giây. Các tỷ lệ này có thể thay đổi trong tương lai để cải thiện khả năng suy luận.
+
+Lưu ý: Thông tin chi tiết về các cảnh hành động nhanh có thể bị mất ở tốc độ lấy mẫu khung hình 1 FPS. Hãy cân nhắc việc làm chậm các đoạn video tốc độ cao để cải thiện chất lượng suy luận.
+Mỗi khung hình là 258 mã thông báo và âm thanh là 32 mã thông báo mỗi giây. Với siêu dữ liệu, mỗi giây video sẽ trở thành khoảng 300 mã thông báo, tức là cửa sổ ngữ cảnh 1 triệu mã thông báo có thể chứa một video dài chưa đến một giờ.
+
+Để đặt câu hỏi về vị trí được gắn dấu thời gian, hãy sử dụng định dạng MM:SS, trong đó hai chữ số đầu tiên thể hiện phút và hai chữ số cuối cùng thể hiện giây.
+
+Để có kết quả tốt nhất:
+
+Sử dụng một video cho mỗi câu lệnh.
+Nếu bạn sử dụng một video, hãy đặt lời nhắc bằng văn bản sau video đó.
+Tải tệp video lên bằng File API
+Lưu ý: File API cho phép bạn lưu trữ tối đa 20 GB tệp cho mỗi dự án, với kích thước tối đa cho mỗi tệp là 2 GB. Các tệp được lưu trữ trong 48 giờ. Bạn có thể truy cập vào các tệp đó trong khoảng thời gian đó bằng khoá API, nhưng không thể tải xuống bằng bất kỳ API nào. Bạn có thể sử dụng tính năng này mà không mất phí ở tất cả các khu vực có API Gemini.
+File API chấp nhận trực tiếp các định dạng tệp video. Ví dụ này sử dụng phim ngắn của NASA "Vết đỏ lớn trên sao Mộc co lại và phát triển". Nguồn: Trung tâm bay vũ trụ Goddard (GSFC)/David Ladd (2018).
+
+"Vết đỏ lớn trên sao Mộc co lại và phát triển" thuộc phạm vi công cộng và không cho thấy những người có thể nhận dạng được. (Nguyên tắc sử dụng hình ảnh và nội dung nghe nhìn của NASA.)
+
+Bắt đầu bằng cách truy xuất video ngắn:
+
+
+wget https://storage.googleapis.com/generativeai-downloads/images/GreatRedSpot.mp4
+Tải video lên bằng File API và in URI.
+
+
+// To use the File API, use this import path for GoogleAIFileManager.
+// Note that this is a different import path than what you use for generating content.
+// For versions lower than @google/generative-ai@0.13.0
+// use "@google/generative-ai/files"
+import { GoogleAIFileManager } from "@google/generative-ai/server";
+
+// Initialize GoogleAIFileManager with your API_KEY.
+const fileManager = new GoogleAIFileManager(process.env.API_KEY);
+
+// Upload the file and specify a display name.
+const uploadResponse = await fileManager.uploadFile("GreatRedSpot.mp4", {
+  mimeType: "video/mp4",
+  displayName: "Jupiter's Great Red Spot",
+});
+
+// View the response.
+console.log(`Uploaded file ${uploadResponse.file.displayName} as: ${uploadResponse.file.uri}`);

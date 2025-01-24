@@ -16,8 +16,26 @@ module.exports = {
             const adminConfig = JSON.parse(require('fs').readFileSync('./admin.json', 'utf8'));
             const isAdminBot = adminConfig.adminUIDs.includes(senderID);
 
-            const threadInfo = await api.getThreadInfo(threadID);
-            const isGroupAdmin = threadInfo.adminIDs.some(admin => admin.id === senderID);
+            // Thêm retry logic cho getThreadInfo
+            let threadInfo = null;
+            let retryCount = 0;
+            const maxRetries = 3;
+
+            while (retryCount < maxRetries) {
+                try {
+                    threadInfo = await api.getThreadInfo(threadID);
+                    if (threadInfo) break;
+                } catch (error) {
+                    retryCount++;
+                    if (retryCount === maxRetries) {
+                        return out("❌ Không thể lấy thông tin nhóm sau nhiều lần thử. Vui lòng thử lại sau!");
+                    }
+                    // Đợi 2 giây trước khi thử lại
+                    await new Promise(resolve => setTimeout(resolve, 2000));
+                }
+            }
+
+            const isGroupAdmin = threadInfo.adminIDs?.some(admin => admin.id === senderID);
 
             if (!isAdminBot && !isGroupAdmin) {
                 return out("⚠️ Chỉ admin bot hoặc quản trị viên nhóm mới có thể sử dụng lệnh này!");

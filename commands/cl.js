@@ -88,12 +88,12 @@ module.exports = {
                     const combinations = {
                         "chẵn": [
                             [ICONS.WHITE, ICONS.WHITE, ICONS.RED, ICONS.RED],
-                            [ICONS.WHITE, ICONS.WHITE, ICONS.WHITE, ICONS.WHITE]
+                            [ICONS.WHITE, ICONS.WHITE, ICONS.WHITE, ICONS.WHITE],
+                            [ICONS.RED, ICONS.RED, ICONS.RED, ICONS.RED]  
                         ],
                         "lẻ": [
                             [ICONS.WHITE, ICONS.RED, ICONS.RED, ICONS.RED],
-                            [ICONS.WHITE, ICONS.WHITE, ICONS.WHITE, ICONS.RED],
-                            [ICONS.RED, ICONS.RED, ICONS.RED, ICONS.RED]
+                            [ICONS.WHITE, ICONS.WHITE, ICONS.WHITE, ICONS.RED]
                         ]
                     };
 

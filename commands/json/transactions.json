@@ -16,12 +16,6 @@
   "61561753304881": [
     {
       "type": "out",
-      "amount": 502500,
-      "timestamp": 1736257758523,
-      "description": "Chuyển 500000 Xu cho Hoag Ng Anh"
-    },
-    {
-      "type": "out",
       "amount": 100800,
       "timestamp": 1736257803721,
       "description": "Chuyển 100000 Xu cho Văn Hưng"
@@ -43,6 +37,12 @@
       "amount": 50000,
       "timestamp": 1736855430344,
       "description": "Nhận 50000 Xu từ Con Cac Ba Ma"
+    },
+    {
+      "type": "out",
+      "amount": 2006000,
+      "timestamp": 1737633280313,
+      "description": "Chuyển 2000000 Xu cho Người nhận"
     }
   ],
   "100050363228652": [
@@ -1605,6 +1605,14 @@
       "amount": 2006000,
       "timestamp": 1736342394409,
       "description": "Chuyển 2000000 Xu cho Người nhận"
+    }
+  ],
+  "100093208808025": [
+    {
+      "type": "in",
+      "amount": 2000000,
+      "timestamp": 1737633280313,
+      "description": "Nhận 2000000 Xu từ Người gửi"
     }
   ]
 }

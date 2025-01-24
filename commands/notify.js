@@ -52,6 +52,13 @@ module.exports = {
                 desc: 'thông báo đổi màu chat',
                 detail: 'thông báo khi có người thay đổi màu tin nhắn',
                 usage: 'notify color on/off'
+            },
+            name: {
+                name: 'name',
+                icon: '✏️',
+                desc: 'thông báo đổi tên nhóm',
+                detail: 'thông báo khi có người thay đổi tên nhóm',
+                usage: 'notify name on/off'
             }
         };
 
@@ -79,7 +86,7 @@ module.exports = {
                 if (key === 'sub') status = subStatus ? "ON ✅" : "OFF ❌";
                 else if (key === 'config') status = `Welcome: ${welcomeMsg} | Leave: ${leaveMsg}`;
                 else if (key === 'rank') status = rankStatus ? "ON ✅" : "OFF ❌";
-                else if (key === 'admin' || key === 'avatar' || key === 'color') status = settings[threadID][`notify_${key}`] !== false ? "ON ✅" : "OFF ❌";
+                else if (key === 'admin' || key === 'avatar' || key === 'color' || key === 'name') status = settings[threadID][`notify_${key}`] !== false ? "ON ✅" : "OFF ❌";
 
                 msg += `${value.icon} ${key.toUpperCase()}: ${value.desc}\n`;
                 msg += `↬ Chi tiết: ${value.detail}\n`;
@@ -170,7 +177,7 @@ module.exports = {
                 
                 fs.writeFileSync(rankConfigPath, JSON.stringify(rankConfig, null, 2));
                 return api.sendMessage(`✅ Đã ${action === 'on' ? 'bật' : 'tắt'} thông báo rankup!`, threadID);
-            } else if (type === 'admin' || type === 'avatar' || type === 'color') {
+            } else if (type === 'admin' || type === 'avatar' || type === 'color' || type === 'name') {
                 let settings = loadConfig(threadSettingsPath);
                 if (!settings[threadID]) settings[threadID] = {};
                 

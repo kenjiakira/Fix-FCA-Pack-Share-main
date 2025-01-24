@@ -56,15 +56,29 @@ const hasIgnoredKeyword = (text) => {
     return IGNORED_KEYWORDS.some(keyword => lowercaseText.includes(keyword));
 };
 
-const processImages = async (attachments) => {
+const VALID_VIDEO_MIMES = [
+    'video/mp4',
+    'video/mpeg',
+    'video/mov',
+    'video/avi',
+    'video/x-flv',
+    'video/mpg',
+    'video/webm',
+    'video/wmv',
+    'video/3gpp'
+];
+
+const processMedia = async (attachments) => {
     try {
-        const imageAttachments = attachments.filter(att => 
-            att.type === "photo" || att.type === "image"
+        const mediaAttachments = attachments.filter(att => 
+            att.type === "photo" || 
+            att.type === "image" ||
+            att.type === "video"
         );
         
-        if (imageAttachments.length === 0) return null;
+        if (mediaAttachments.length === 0) return null;
         
-        const processedImages = await Promise.all(imageAttachments.map(async (attachment) => {
+        const processedMedia = await Promise.all(mediaAttachments.map(async (attachment) => {
             const fileUrl = attachment.url;
             const cacheDir = path.join(__dirname, 'cache');
             
@@ -72,7 +86,9 @@ const processImages = async (attachments) => {
                 fs.mkdirSync(cacheDir, { recursive: true });
             }
             
-            const tempFilePath = path.join(cacheDir, `temp_image_${Date.now()}_${Math.random()}.jpg`);
+            const isVideo = attachment.type === "video";
+            const extension = isVideo ? '.mp4' : '.jpg';
+            const tempFilePath = path.join(cacheDir, `temp_media_${Date.now()}_${Math.random()}${extension}`);
             
             const response = await axios({
                 url: fileUrl,
@@ -81,21 +97,21 @@ const processImages = async (attachments) => {
             
             await fs.writeFile(tempFilePath, Buffer.from(response.data));
             const fileData = await fs.readFile(tempFilePath);
-            const base64Image = fileData.toString('base64');
+            const base64Data = fileData.toString('base64');
             
             await fs.unlink(tempFilePath);
             
             return {
                 inlineData: {
-                    data: base64Image,
-                    mimeType: 'image/jpeg'
+                    data: base64Data,
+                    mimeType: isVideo ? 'video/mp4' : 'image/jpeg'
                 }
             };
         }));
         
-        return processedImages.length > 0 ? processedImages : null;
+        return processedMedia.length > 0 ? processedMedia : null;
     } catch (error) {
-        console.error("Error processing images:", error);
+        console.error("Error processing media:", error);
         return null;
     }
 };
@@ -167,17 +183,19 @@ const sendMessageWithDelay = async (api, response, threadID, messageID) => {
 
 const messageContexts = new Map();
 
-const storeContext = (threadID, messageID, { response, imageData = null }) => {
+const storeContext = (threadID, messageID, { response, imageData = null, originalMessageID = null }) => {
     messageContexts.set(messageID, {
         threadID,
         response,
         imageData,
         timestamp: Date.now(),
-        originalImage: imageData ? true : false 
+        originalImage: imageData ? true : false,
+        originalMessageID: originalMessageID,
+        chainDepth: 0 
     });
 };
 
-const getContext = (messageID) => {
+const getContext = (messageID, includeChain = true) => {
     const context = messageContexts.get(messageID);
     if (!context) return null;
     
@@ -185,6 +203,19 @@ const getContext = (messageID) => {
         messageContexts.delete(messageID);
         return null;
     }
+
+    if (includeChain && context.originalMessageID) {
+        let originalContext = messageContexts.get(context.originalMessageID);
+        if (originalContext?.imageData) {
+            return {
+                ...context,
+                imageData: originalContext.imageData,
+                originalImage: true,
+                chainDepth: (context.chainDepth || 0) + 1
+            };
+        }
+    }
+    
     return context;
 };
 
@@ -212,23 +243,21 @@ module.exports = {
 
     noPrefix: async function({ event, api }) {
         if (hasIgnoredKeyword(event.body)) return;
+        if (event.type !== "message_reply") return;
+        
+        const replyContext = global.client.onReply?.find(r => 
+            r.messageID === event.messageReply.messageID && 
+            r.name === "bot"
+        );
 
-        // Check if this is a valid message reply
-        const isValid = event.type === "message_reply" && 
-                       global.client.onReply?.some(r => 
-                           r.messageID === event.messageReply.messageID && 
-                           r.name === "bot"
-                       );
-
-        if (!isValid) return;
+        if (!replyContext) return;
 
         try {
-            let imageData = null;
             const prevContext = getContext(event.messageReply.messageID);
-
-            if (prevContext?.originalImage) {
-                imageData = prevContext.imageData;
-            }
+            
+            const newMediaData = event.messageReply.attachments?.length > 0 ? 
+                await processMedia(event.messageReply.attachments) : null;
+            const imageData = newMediaData || prevContext?.imageData;
 
             const prompt = event.body || "Mô tả chi tiết về những bức ảnh này";
             const response = await generateResponse(prompt, event.threadID, imageData);
@@ -239,19 +268,18 @@ module.exports = {
             const sent = await sendMessageWithDelay(api, response, event.threadID, event.messageID);
             
             if (sent && sent.messageID) {
-
                 storeContext(event.threadID, sent.messageID, {
                     response,
                     imageData: imageData,
-                    originalImage: prevContext ? prevContext.originalImage : !!imageData
+                    originalMessageID: newMediaData ? sent.messageID : 
+                        (prevContext?.originalMessageID || event.messageReply.messageID)
                 });
 
                 global.client.onReply.push({
                     name: this.name,
                     messageID: sent.messageID,
                     threadID: event.threadID,
-                    hasImage: !!imageData,
-                    isOriginalImage: prevContext ? prevContext.originalImage : !!imageData
+                    hasImage: !!imageData
                 });
             }
         } catch (error) {
@@ -264,45 +292,41 @@ module.exports = {
         const { messageID, body, messageReply } = event;
         
         if (!messageReply?.messageID || hasIgnoredKeyword(body)) return;
-        
-        const prevContext = getContext(messageReply.messageID);
-        if (!prevContext) {
-          
-            global.client.onReply.push({
-                name: this.name,
-                messageID: messageID,
-                threadID: event.threadID
-            });
-            return;
-        }
 
         try {
-            updateConversationHistory(event.threadID, `Bot: ${prevContext.response}`);
+            const prevContext = getContext(messageReply.messageID);
+            if (!prevContext) {
+                global.client.onReply.push({
+                    name: this.name,
+                    messageID: messageID,
+                    threadID: event.threadID
+                });
+                return;
+            }
+
+            const newMediaData = event.messageReply.attachments?.length > 0 ? 
+                await processMedia(event.messageReply.attachments) : null;
+            const imageData = newMediaData || prevContext?.imageData;
+
+            const response = await generateResponse(body, event.threadID, imageData);
+            
             updateConversationHistory(event.threadID, `User: ${body}`);
-            
-            const response = await generateResponse(
-                body, 
-                event.threadID, 
-                prevContext.originalImage ? prevContext.imageData : null
-            );
-            
             updateConversationHistory(event.threadID, `Bot: ${response}`);
             
             const sent = await sendMessageWithDelay(api, response, event.threadID, messageID);
             
             if (sent && sent.messageID) {
-
                 storeContext(event.threadID, sent.messageID, {
                     response,
-                    imageData: prevContext.originalImage ? prevContext.imageData : null,
-                    originalImage: prevContext.originalImage
+                    imageData: imageData,
+                    originalMessageID: newMediaData ? sent.messageID : prevContext.originalMessageID
                 });
                 
                 global.client.onReply.push({
                     name: this.name,
                     messageID: sent.messageID,
                     threadID: event.threadID,
-                    hasImage: prevContext.originalImage
+                    hasImage: !!imageData
                 });
             }
         } catch (error) {
@@ -314,14 +338,14 @@ module.exports = {
     onLaunch: async function ({ event, api }) {
         const { threadID, messageID, body, messageReply } = event;
         try {
-            let imagePart = null;
+            let mediaPart = null;
             if (messageReply?.attachments?.length > 0) {
-                // Fix: Use processImages instead of processImage
-                imagePart = await processImages(messageReply.attachments);
+             
+                mediaPart = await processMedia(messageReply.attachments);
             }
 
             updateConversationHistory(threadID, `User: ${body}`);
-            const response = await generateResponse(body, threadID, imagePart);
+            const response = await generateResponse(body, threadID, mediaPart);
             updateConversationHistory(threadID, `Bot: ${response}`);
 
             const lastMsg = await sendMessageWithDelay(api, response, threadID, messageID);
@@ -336,7 +360,8 @@ module.exports = {
 
                 storeContext(event.threadID, lastMsg.messageID, {
                     response,
-                    imageData: imagePart
+                    imageData: mediaPart,
+                    originalMessageID: mediaPart ? lastMsg.messageID : null
                 });
             }
         } catch (error) {

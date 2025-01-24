@@ -33,44 +33,90 @@ module.exports = {
                 if (!isNaN(index) && index >= 0 && index < inboxThreads.length) {
                     let threadToLeave = inboxThreads[index];
 
-                    await api.sendMessage("☁️ 𝗕𝗼𝘁 𝗟𝗲𝗳𝘁 𝗚𝗿𝗼𝘂𝗽 𝗖𝗵𝗮𝘁\n━━━━━━━━━━━━━━━━━━\nBot đã rời khỏi nhóm chat này theo quyết định của admin.", threadToLeave.id);
-                    await api.removeUserFromGroup(api.getCurrentUserID(), threadToLeave.id);
-
-                    inboxThreads.splice(index, 1);
-                    saveInboxThreads(inboxThreads);
+                    try {
+                        await api.sendMessage(
+                            "☁️ 𝗕𝗼𝘁 𝗟𝗲𝗳𝘁 𝗚𝗿𝗼𝘂𝗽 𝗖𝗵𝗮𝘁\n━━━━━━━━━━━━━━━━━━\n" +
+                            "Bot đã rời khỏi nhóm chat này theo quyết định của admin.",
+                            threadToLeave.id
+                        );
+                        await api.removeUserFromGroup(api.getCurrentUserID(), threadToLeave.id);
+                        inboxThreads.splice(index, 1);
+                        saveInboxThreads(inboxThreads);
+                    } catch (error) {
+                        console.error("Leave group error:", error);
+                        api.sendMessage("❌ Không thể rời khỏi nhóm. Bot cần quyền quản trị viên!", event.threadID);
+                    }
                 } else {
-                    await api.sendMessage("Số thứ tự không hợp lệ. Vui lòng nhập một số hợp lệ từ danh sách.", event.threadID);
+                    api.sendMessage("Số thứ tự không hợp lệ!", event.threadID);
                 }
-            } else {
-                var inbox = await api.getThreadList(100, null, ['INBOX']);
-                let inboxGroups = [...inbox].filter(group => group.isSubscribed && group.isGroup);
+                return;
+            }
 
-                var inboxThreadData = [];
-                for (var groupInfo of inboxGroups) {
-                    let threadInfo = await api.getThreadInfo(groupInfo.threadID);
+            let inboxGroups = [];
+            try {
+                const inbox = await api.getThreadList(100, null, ['INBOX']);
+                inboxGroups = [...inbox].filter(group => group.isSubscribed && group.isGroup);
+            } catch (error) {
+                console.error("Get thread list error:", error);
+                return api.editMessage("❌ Không thể lấy danh sách nhóm chat.", hs.messageID, event.threadID);
+            }
+
+            var inboxThreadData = [];
+            for (var groupInfo of inboxGroups) {
+                try {
+                    const threadInfo = await api.getThreadInfo(groupInfo.threadID);
+                    if (threadInfo) {
+                        inboxThreadData.push({
+                            id: groupInfo.threadID,
+                            name: threadInfo.threadName || groupInfo.name || `Nhóm ${groupInfo.threadID}`,
+                            memberCount: threadInfo.participantIDs?.length || 0
+                        });
+                    } else {
+                  
+                        inboxThreadData.push({
+                            id: groupInfo.threadID,
+                            name: groupInfo.name || `Nhóm ${groupInfo.threadID}`,
+                            memberCount: 0
+                        });
+                    }
+                } catch (error) {
+                    console.error(`Thread info error for ${groupInfo.threadID}:`, error);
+            
                     inboxThreadData.push({
                         id: groupInfo.threadID,
-                        name: groupInfo.name,
-                        memberCount: threadInfo.userInfo.length
+                        name: groupInfo.name || `Nhóm ${groupInfo.threadID}`,
+                        memberCount: 0
                     });
                 }
+            }
 
-                var sortedInboxThreads = inboxThreadData.sort((a, b) => b.memberCount - a.memberCount);
+            var sortedInboxThreads = inboxThreadData.sort((a, b) => b.memberCount - a.memberCount);
 
-                let msg = '', i = 1;
-                var groupIds = [];
-                for (var group of sortedInboxThreads) {
-                    msg += `\n━━━━━━━━━━━━━━━━━━\n${i++}. ${group.name}\nTID: ${group.id}\nThành viên: ${group.memberCount}\n━━━━━━━━━━━━━━━━━━\n\n`;
-                    groupIds.push(group.id);
-                }
+            let msg = '', i = 1;
+            for (var group of sortedInboxThreads) {
+                msg += `\n━━━━━━━━━━━━━━━━━━\n` +
+                       `${i++}. ${group.name}\n` +
+                       `TID: ${group.id}\n` +
+                       `Thành viên: ${group.memberCount || 'N/A'}\n` +
+                       `━━━━━━━━━━━━━━━━━━\n\n`;
+            }
 
-                await api.editMessage(`📒 𝗤𝘂𝗮̉𝗻 𝗹𝘆 𝗴𝗿𝗼𝘂𝗽 𝗰𝗵𝗮𝘁\n━━━━━━━━━━━━━━━━━━\n${msg}\nVui lòng nhập lệnh ${adminConfig.prefix}inbox out <số thứ tự nhóm chat>`, hs.messageID, event.threadID);
+            if (msg) {
+                await api.editMessage(
+                    `📒 𝗤𝘂𝗮̉𝗻 𝗹𝘆 𝗴𝗿𝗼𝘂𝗽 𝗰𝗵𝗮𝘁\n` +
+                    `━━━━━━━━━━━━━━━━━━\n${msg}\n` +
+                    `Sử dụng: ${adminConfig.prefix}box out <số thứ tự> để rời nhóm`,
+                    hs.messageID,
+                    event.threadID
+                );
                 saveInboxThreads(sortedInboxThreads);
+            } else {
+                await api.editMessage("❌ Không tìm thấy nhóm chat nào.", hs.messageID, event.threadID);
             }
 
         } catch (error) {
-            console.error("Lỗi khi quản lý nhóm chat trong hộp thư:", error);
-            await api.sendMessage("Đã xảy ra lỗi khi quản lý nhóm chat trong hộp thư.", event.threadID);
+            console.error("Box command error:", error);
+            await api.sendMessage("❌ Đã xảy ra lỗi khi quản lý nhóm chat.", event.threadID);
         }
     }
 };

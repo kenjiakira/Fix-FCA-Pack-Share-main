@@ -1,7 +1,7 @@
 module.exports = {
   name: "tid",
   usedby: 0,
-  info: "lấy ID Nhóm",
+  info: "Lấy ID nhóm chat hiện tại",
   dev: "HNT",
   onPrefix: false,
   cooldowns: 2,
@@ -9,16 +9,28 @@ module.exports = {
   onLaunch: async function ({ api, event, actions }) {
     try {
       const tid = event.threadID;
-      const threadInfo = await api.getThreadInfo(tid);
-      const message = `📋 Thread Information\n` +
-                     `━━━━━━━━━━━━━━━\n` +
-                     `🆔 ThreadID: ${tid}\n` +
-                     `📝 Name: ${threadInfo.threadName}\n` +
-                     `👥 Members: ${threadInfo.participantIDs.length}`;
-      
-      actions.reply(message);a
+      let msg = `📋 Thông tin nhóm\n`;
+      msg += `━━━━━━━━━━━━━━━\n`;
+      msg += `🆔 ThreadID: ${tid}\n`;
+
+      try {
+        const threadInfo = await api.getThreadInfo(tid);
+        if (threadInfo) {
+          msg += `📝 Tên nhóm: ${threadInfo.threadName || "Không có tên"}\n`;
+          msg += `👥 Thành viên: ${threadInfo.participantIDs?.length || 0}\n`;
+          msg += `👑 Admin: ${threadInfo.adminIDs?.length || 0} người`;
+        }
+      } catch (err) {
+        msg += `📝 Tên nhóm: [Không thể lấy thông tin]\n`;
+        msg += `💡 Lưu ý: Bot có thể bị FB giới hạn tạm thời`;
+      }
+
+      return actions.reply(msg);
     } catch (error) {
-      actions.reply("❌ Could not fetch thread information.");
+      return actions.reply(
+        "📋 ThreadID của nhóm là: " + event.threadID +
+        "\n💡 Bot không thể lấy thêm thông tin chi tiết"
+      );
     }
   }
-}
+};

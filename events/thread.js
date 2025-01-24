@@ -245,16 +245,30 @@ module.exports = {
 
           let retryCount = 0;
           const maxRetries = 3;
+          let success = false;
           
-          while (retryCount < maxRetries) {
+          while (retryCount < maxRetries && !success) {
               try {
-                  await api.addUserToGroup(leftParticipantFbId, threadID);
+                  // Use promisified version with proper error handling
+                  await new Promise((resolve, reject) => {
+                      api.addUserToGroup(leftParticipantFbId, threadID, (err) => {
+                          if (err) {
+                              if (typeof err === 'object') {
+                                  reject(new Error(err.error || 'Unknown error'));
+                              } else {
+                                  reject(err);
+                              }
+                          } else {
+                              resolve();
+                          }
+                      });
+                  });
                   
+                  success = true;
                   await api.sendMessage(
                       `🔒 Đã thêm ${userName} trở lại nhóm!\n⚠️ Nhóm đang bật chế độ chống rời nhóm.`,
                       threadID
                   );
-                  return;
               } catch (addError) {
                   retryCount++;
                   if (retryCount < maxRetries) {
@@ -268,9 +282,11 @@ module.exports = {
           console.error("Anti-out error:", error);
           let errorMsg = "⚠️ Không thể thêm lại thành viên vào nhóm. ";
           
-          if (error.error === 6) {
+          if (error.message?.includes('not found')) {
+              errorMsg += "Không tìm thấy người dùng.";
+          } else if (error.message?.includes('blocked')) {
               errorMsg += "Người dùng đã chặn bot.";
-          } else if (error.error === 3252001) {
+          } else if (error.message?.includes('limit')) {
               errorMsg += "Bot đang bị Facebook hạn chế tính năng.";
           } else {
               errorMsg += "Có thể bot không phải là quản trị viên.";

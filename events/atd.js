@@ -1,7 +1,7 @@
 const axios = require('axios');
 const fs = require('fs');
 const path = require('path');
-const ytdl = require('ytdl-core');
+const ytdl = require('@distube/ytdl-core');
 const simpleYT = require('simple-youtube-api');
 const getFBInfo = require('@xaviabot/fb-downloader');
 const { ZM_API, YOUTUBE } = require('../config/api');
@@ -124,23 +124,50 @@ async function handleTikTok(url, api, event) {
 
 async function handleYouTube(url, api, event) {
     try {
-        const video = await youtube.getVideo(url);
-        const stream = ytdl(url, { quality: 'highest' });
+        const loadingMsg = await api.sendMessage("⏳ Đang tải video từ YouTube...", event.threadID);
+        
+        const videoInfo = await ytdl.getInfo(url);
+        const title = videoInfo.videoDetails.title;
+        const duration = parseInt(videoInfo.videoDetails.lengthSeconds);
 
-        const fileName = `${event.threadID}.mp4`;
+        if (duration > 900) {
+            api.unsendMessage(loadingMsg.messageID);
+            return api.sendMessage("❌ Video có độ dài hơn 15 phút không được hỗ trợ", event.threadID);
+        }
+
+        const fileName = `youtube_${Date.now()}.mp4`;
         const filePath = path.join(cacheDir, fileName);
 
-        const file = fs.createWriteStream(filePath);
-        stream.pipe(file);
-
-        file.on('finish', () => {
-            api.sendMessage({
-                body: `𝗬𝗼𝘂𝗧𝘂𝗯𝗲\n━━━━━━━━━━━━━━━━━━\nTitle: ${video.title}`,
-                attachment: fs.createReadStream(filePath),
-            }, event.threadID, () => fs.unlinkSync(filePath));
+        await new Promise((resolve, reject) => {
+            ytdl(url, {
+                quality: '18',
+                filter: format => format.container === 'mp4'
+            })
+            .pipe(fs.createWriteStream(filePath))
+            .on('finish', resolve)
+            .on('error', reject);
         });
+
+        const stats = fs.statSync(filePath);
+        const fileSizeInMB = stats.size / (1024 * 1024);
+
+        if (fileSizeInMB > 25) {
+            fs.unlinkSync(filePath);
+            api.unsendMessage(loadingMsg.messageID);
+            return api.sendMessage(`❌ Video quá lớn (${fileSizeInMB.toFixed(2)}MB). Giới hạn là 25MB.`, event.threadID);
+        }
+
+        await api.sendMessage({
+            body: `🎥 Video: ${title}\n⏱️ Thời lượng: ${Math.floor(duration/60)}:${duration%60}`,
+            attachment: fs.createReadStream(filePath)
+        }, event.threadID, () => {
+            api.unsendMessage(loadingMsg.messageID);
+            fs.unlinkSync(filePath);
+        });
+
     } catch (error) {
-        console.error('Error with YouTube:', error);
+        console.error('YouTube error:', error);
+        api.sendMessage('❌ Lỗi khi tải video từ YouTube: ' + error.message, event.threadID);
     }
 }
 
@@ -185,6 +212,7 @@ async function handleDouyin(url, api, event) {
             attachment: mediaDownloads.map(m => fs.createReadStream(m.path))
         }, event.threadID, () => {
             mediaDownloads.forEach(m => fs.unlinkSync(m.path));
+        console.error('Instagram error:', error);
             if (loadingMsg) api.unsendMessage(loadingMsg.messageID);
         });
 
@@ -302,8 +330,7 @@ async function handlePinterest(url, api, event) {
                 headers: {
                     'Content-Type': 'application/json',
                     'apikey': ZM_API.KEY
-                }
-            }
+                }            }
         );
 
         if (!data || data.error) {
