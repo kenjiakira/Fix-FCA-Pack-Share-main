@@ -8,7 +8,7 @@ module.exports = {
     onPrefix: true,
     cooldowns: 10,
 
-    onLaunch: async function ({ api, event, target }) {
+    onLaunch: async function ({ api, event }) {
         const { threadID, messageID } = event;
         
         try {

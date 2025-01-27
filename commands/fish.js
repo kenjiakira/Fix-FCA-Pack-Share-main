@@ -80,13 +80,27 @@ module.exports = {
             console.error("Error loading fishing data:", err);
         }
 
+        if (!fishingItems || typeof fishingItems !== 'object') {
+            console.error("Invalid fishingItems configuration");
+            return null;
+        }
+
+        if (!fishingItems["Cần trúc"]) {
+            fishingItems["Cần trúc"] = {
+                durability: 100,
+                price: 0,
+                multiplier: 1
+            };
+        }
+
         const defaultRod = {
             name: "Cần trúc",
-            durability: fishingItems["Cần trúc"]?.durability || 100,
+            durability: fishingItems["Cần trúc"].durability,
             inventory: ["Cần trúc"]
         };
 
-        if (!data[userID]) {
+    
+        if (!data[userID] || !data[userID].rod) {
             data[userID] = {
                 rod: defaultRod.name,
                 rodDurability: defaultRod.durability,
@@ -106,48 +120,34 @@ module.exports = {
             };
         }
 
+        // Validate rod data
         if (!fishingItems[data[userID].rod]) {
             data[userID].rod = defaultRod.name;
             data[userID].rodDurability = defaultRod.durability;
         }
 
-        const maxDurability = fishingItems[data[userID].rod]?.durability;
-        if (typeof data[userID].rodDurability !== 'number' || 
-            isNaN(data[userID].rodDurability) || 
+        // Ensure rod durability is valid
+        const currentRod = fishingItems[data[userID].rod];
+        if (!currentRod || typeof data[userID].rodDurability !== 'number' || 
             data[userID].rodDurability < 0 || 
-            !maxDurability) {
-            data[userID].rodDurability = defaultRod.durability;
+            data[userID].rodDurability > currentRod.durability) {
             data[userID].rod = defaultRod.name;
+            data[userID].rodDurability = defaultRod.durability;
         }
 
+        // Validate inventory
         if (!Array.isArray(data[userID].inventory)) {
             data[userID].inventory = ["Cần trúc"];
         }
 
+        // Filter invalid items from inventory
         data[userID].inventory = data[userID].inventory.filter(item => 
             fishingItems[item] !== undefined
         );
 
+        // Ensure default rod is always in inventory
         if (!data[userID].inventory.includes("Cần trúc")) {
             data[userID].inventory.push("Cần trúc");
-        }
-
-        if (!fishingItems[data[userID].rod]) {
-            data[userID].rod = "Cần trúc";
-            data[userID].rodDurability = fishingItems["Cần trúc"].durability;
-        }
-
-        if (typeof data[userID].rodDurability !== 'number' || 
-            data[userID].rodDurability < 0 || 
-            data[userID].rodDurability > fishingItems[data[userID].rod].durability) {
-            data[userID].rodDurability = fishingItems[data[userID].rod].durability;
-        }
-
-        if (!data[userID].collection?.byRarity) {
-            data[userID].collection = defaultCollection;
-        }
-        if (!data[userID].stats) {
-            data[userID].stats = { totalExp: 0, highestStreak: 0, totalFishes: 0 };
         }
 
         return data[userID];
@@ -355,8 +355,14 @@ module.exports = {
     },
 
     handleFishing: async function(api, event, location, playerData) {
+        // Validate fishing items and player data first
+        if (!fishingItems || !playerData) {
+            await api.sendMessage("❌ Lỗi cấu hình hoặc dữ liệu người chơi!", event.threadID);
+            return;
+        }
 
-        if (!fishingItems[playerData.rod] || typeof fishingItems[playerData.rod].durability !== 'number') {
+        // Validate current rod
+        if (!fishingItems[playerData.rod]) {
             playerData.rod = "Cần trúc";
             playerData.rodDurability = fishingItems["Cần trúc"].durability;
             this.savePlayerData(playerData);

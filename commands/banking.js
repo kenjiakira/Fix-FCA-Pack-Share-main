@@ -28,20 +28,21 @@ const CREDIT_SCORE = {
     defaultScore: 50,
     factors: {
         transactionVolume: {
-            weight: 0.3,
+            weight: 0.25,
             threshold: 1000000,
         },
         accountAge: {
-            weight: 0.2,
+            weight: 0.30, 
             threshold: 30,
+            minAge: 3,    
         },
         balanceStability: {
-            weight: 0.2,
+            weight: 0.20,
             minBalance: 100000, 
             duration: 7, 
         },
         loanHistory: {
-            weight: 0.3,
+            weight: 0.25,
             successfulPayments: 5,
         }
     },
@@ -54,46 +55,65 @@ const CREDIT_SCORE = {
 
 function calculateCreditScore(userId, bankingData) {
     const userData = bankingData.users[userId];
+    if (!userData) return CREDIT_SCORE.defaultScore;
+
     const transactions = bankingData.transactions[userId] || [];
-    const loans = bankingData.loans[userId]?.history || [];
-    let score = CREDIT_SCORE.defaultScore; 
+    const activeLoan = bankingData.loans[userId];
+    const loanHistory = bankingData.loans[userId]?.history || [];
+    let score = 0;
 
+    // Transaction score
     const transactionVolume = transactions.reduce((sum, t) => sum + t.amount, 0);
-    const transactionScore = Math.min(100, (transactionVolume / 1000000) * 100);
-    score += transactionScore * 0.3;
+    const transactionScore = Math.min(100, (transactionVolume / CREDIT_SCORE.factors.transactionVolume.threshold) * 100);
+    score += transactionScore * CREDIT_SCORE.factors.transactionVolume.weight;
 
+    // Account age score - More significant impact
     const accountAge = (Date.now() - (userData.createdAt || Date.now())) / (24 * 60 * 60 * 1000);
-    const ageScore = Math.min(100, (accountAge / 30) * 100);
-    score += ageScore * 0.2;
-
-    let balanceScore = 0;
-    if (userData.bankBalance > 100000) {
-        balanceScore = Math.min(100, (userData.bankBalance / 1000000) * 100);
+    if (accountAge < CREDIT_SCORE.factors.accountAge.minAge) {
+        score += 0; // No score for very new accounts
+    } else {
+        const ageScore = Math.min(100, (accountAge / CREDIT_SCORE.factors.accountAge.threshold) * 100);
+        score += ageScore * CREDIT_SCORE.factors.accountAge.weight;
     }
-    score += balanceScore * 0.2;
 
-    let loanScore = 50;
-    if (loans.length > 0) {
-        const successfulPayments = loans.filter(loan => 
+    // Balance stability score
+    let balanceScore = 0;
+    if (userData.bankBalance >= CREDIT_SCORE.factors.balanceStability.minBalance) {
+        const hasStableBalance = userData.balanceHistory?.some(h => 
+            h.balance >= CREDIT_SCORE.factors.balanceStability.minBalance &&
+            Date.now() - h.timestamp <= CREDIT_SCORE.factors.balanceStability.duration * 24 * 60 * 60 * 1000
+        );
+        if (hasStableBalance) balanceScore = 100;
+    }
+    score += balanceScore * CREDIT_SCORE.factors.balanceStability.weight;
+
+    // Loan history score
+    let loanScore = 0;
+    if (loanHistory.length > 0) {
+        const successfulPayments = loanHistory.filter(loan => 
             loan.status === 'paid' && loan.paidOnTime
         ).length;
-        loanScore = Math.min(100, (successfulPayments / 5) * 100);
+        loanScore = Math.min(100, (successfulPayments / CREDIT_SCORE.factors.loanHistory.successfulPayments) * 100);
+    } else if (!activeLoan) {
+        loanScore = 50; // Neutral score for no loan history
     }
-    score += loanScore * 0.3;
+    score += loanScore * CREDIT_SCORE.factors.loanHistory.weight;
 
+    // Apply penalties
     if (userData.penalties) {
         userData.penalties.forEach(penalty => {
             score += penalty.points;
         });
     }
 
-    return Math.max(0, Math.min(100, Math.round(score)));
+    return Math.max(CREDIT_SCORE.minScore, Math.min(CREDIT_SCORE.maxScore, Math.round(score)));
 }
 
 function calculateDetailedCreditScore(userId, bankingData) {
     const userData = bankingData.users[userId] || {};
     const transactions = bankingData.transactions[userId] || [];
-    const loans = bankingData.loans[userId]?.history || [];
+    const activeLoan = bankingData.loans[userId];
+    const loanHistory = bankingData.loans[userId]?.history || [];
     let creditScore = CREDIT_SCORE.defaultScore;
     let details = {};
 
@@ -127,13 +147,32 @@ function calculateDetailedCreditScore(userId, bankingData) {
     };
 
     let loanScore = 0;
-    if (loans.length > 0) {
-        const successfulPayments = loans.filter(loan => loan.status === 'paid' && loan.paidOnTime).length;
-        loanScore = Math.min(100, (successfulPayments / CREDIT_SCORE.factors.loanHistory.successfulPayments) * 100);
+    if (loanHistory.length > 0 || activeLoan) {
+        const successfulPayments = loanHistory.filter(loan => 
+            loan.status === 'paid' && loan.paidOnTime
+        ).length;
+        
+        // Consider active loan status
+        if (activeLoan && activeLoan.status === 'active') {
+            const isOverdue = Date.now() > activeLoan.dueDate;
+            if (isOverdue) {
+                loanScore = Math.max(0, Math.min(50, successfulPayments * 10));
+            } else {
+                loanScore = Math.min(100, ((successfulPayments + 1) * 20));
+            }
+        } else {
+            loanScore = Math.min(100, (successfulPayments * 20));
+        }
     }
+    
     details.loanScore = {
         score: Math.round(loanScore * CREDIT_SCORE.factors.loanHistory.weight),
-        description: `Lịch sử vay: ${loanScore}%`
+        description: `Lịch sử vay: ${loanScore}%`,
+        activeLoan: activeLoan ? {
+            amount: activeLoan.amount,
+            remainingAmount: activeLoan.remainingAmount,
+            dueDate: activeLoan.dueDate
+        } : null
     };
 
     creditScore = Object.values(details).reduce((sum, detail) => sum + detail.score, 0);
@@ -356,6 +395,7 @@ module.exports = {
                     try {
                         const creditInfo = calculateDetailedCreditScore(senderID, bankingData);
                         const transactions = bankingData.transactions[senderID] || [];
+                        const activeLoan = bankingData.loans[senderID];
                         const recentTrans = transactions.slice(-3);
                         const transHistory = recentTrans.length > 0 ? 
                             recentTrans.map(t => {
@@ -363,6 +403,15 @@ module.exports = {
                                 return `${t.type === 'in' ? '📥' : '📤'} ${t.description}`;
                             }).reverse().join('\n') 
                             : 'Chưa có giao dịch nào';
+
+                        let loanInfo = "";
+                        if (activeLoan && activeLoan.status === 'active') {
+                            const daysLeft = Math.ceil((activeLoan.dueDate - Date.now()) / (24 * 60 * 60 * 1000));
+                            loanInfo = "\n\n📝 KHOẢN VAY HIỆN TẠI:\n" +
+                                     `💰 Số tiền còn nợ: ${activeLoan.remainingAmount.toLocaleString('vi-VN')} Xu\n` +
+                                     `⏳ Thời gian còn lại: ${daysLeft} ngày\n` +
+                                     `📅 Hạn trả: ${new Date(activeLoan.dueDate).toLocaleDateString('vi-VN')}`;
+                        }
 
                         return api.sendMessage(
                             "🏦 THÔNG TIN TÀI KHOẢN 🏦\n" +
@@ -375,7 +424,7 @@ module.exports = {
                             `├─ Độ tuổi tài khoản: ${creditInfo.details.ageScore.days} ngày\n` +
                             `├─ Độ ổn định: ${Math.round(creditInfo.details.stabilityScore.score * 100)}%\n` +
                             `└─ Lịch sử vay: ${Math.round(creditInfo.details.loanScore.score * 100)}%\n\n` +
-                            `📝 Giao dịch gần đây:\n${transHistory}`,
+                            `📝 Giao dịch gần đây:\n${transHistory}${loanInfo}`,
                             threadID, messageID
                         );
                     } catch (err) {
@@ -400,13 +449,30 @@ module.exports = {
                         }
 
                         const creditScore = calculateCreditScore(senderID, bankingData);
-                        if (creditScore < 30) {
+                        const accountAge = (Date.now() - (userData.createdAt || Date.now())) / (24 * 60 * 60 * 1000);
+                        
+                        // Check minimum account age
+                        if (accountAge < CREDIT_SCORE.factors.accountAge.minAge) {
                             return api.sendMessage(
-                                "❌ Điểm tín dụng của bạn quá thấp để vay!\n" +
+                                `❌ Tài khoản của bạn cần tối thiểu ${CREDIT_SCORE.factors.accountAge.minAge} ngày tuổi để vay!\n` +
+                                `⏳ Thời gian còn lại: ${Math.ceil(CREDIT_SCORE.factors.accountAge.minAge - accountAge)} ngày`,
+                                threadID, messageID
+                            );
+                        }
+
+                        // Stricter credit score requirement based on loan amount
+                        const minRequiredScore = amount > (maxLoanAmount * 0.7) ? 40 : 30;
+                        if (creditScore < minRequiredScore) {
+                            return api.sendMessage(
+                                `❌ Điểm tín dụng tối thiểu để vay ${amount.toLocaleString('vi-VN')} Xu là ${minRequiredScore} điểm!\n` +
+                                `📊 Điểm tín dụng hiện tại: ${creditScore}\n` +
                                 "📝 Hãy thực hiện nhiều giao dịch và duy trì số dư để tăng điểm tín dụng.",
                                 threadID, messageID
                             );
                         }
+
+                        // Update user's credit score before processing loan
+                        userData.creditScore = creditScore;
 
                         const requiredCollateral = amount * LOAN_CONFIG.collateralRatio;
                         if (bankBalance < requiredCollateral) {
@@ -597,3 +663,30 @@ module.exports = {
         }
     }
 };
+//    "100023369384858": {
+//  "bankBalance": 1200000,
+//   "lastInterest": 1736067225984,
+//     "createdAt": 1736067225984,
+//     "balanceHistory": [],
+//     "penalties": [],
+//     "creditScore": 65,
+//     "lockedCollateral": 0
+//   },
+
+// "61564482366941": {
+//     "bankBalance": 3299000,
+//     "lastInterest": 1736425078338,
+//     "createdAt": 1736425078338,
+//     "balanceHistory": [],
+//     "penalties": [],
+//     "creditScore": 65
+//   },
+
+// "100063719077878": {
+//     "bankBalance": 15363391,
+//     "lastInterest": 1737817506286,
+//     "createdAt": 1736225241802,
+//     "balanceHistory": [],
+//     "penalties": [],
+//     "creditScore": 65
+//   },

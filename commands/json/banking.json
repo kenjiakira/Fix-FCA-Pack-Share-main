@@ -1,240 +1,54 @@
 {
   "users": {
     "61561753304881": {
-      "balance": 0,
-      "bankBalance": 9428007,
-      "lastInterest": 1737633323193,
-      "lockedCollateral": 30000
-    },
-    "100068382888605": {
-      "bankBalance": 0,
-      "lastInterest": 1735900298980
-    },
-    "100051073987266": {
-      "bankBalance": 0,
-      "lastInterest": 1736002938494,
-      "lockedCollateral": 1200000
-    },
-    "61570532692675": {
-      "bankBalance": 0,
-      "lastInterest": 1736137289609
-    },
-    "100053970942155": {
-      "bankBalance": 0,
-      "lastInterest": 1736340778473
-    },
-    "61566378911878": {
-      "bankBalance": 0,
-      "lastInterest": 1736004248369
-    },
-    "@Duong": {
-      "balance": 0,
-      "bankBalance": 100000,
-      "lastInterest": 1736004804626
-    },
-    "@Văn": {
-      "balance": 0,
-      "bankBalance": 100000,
-      "lastInterest": 1736005031524
-    },
-    "100023369384858": {
-      "bankBalance": 1200000,
-      "lastInterest": 1736067225984,
-      "createdAt": 1736067225984,
+      "bankBalance": 1001000,
+      "lastInterest": 1737949836693,
+      "createdAt": 1737860175391,
       "balanceHistory": [],
       "penalties": [],
-      "creditScore": 65,
-      "lockedCollateral": 0
+      "creditScore": 13
     },
-    "100050363228652": {
+    "100071151188537": {
       "bankBalance": 0,
-      "lastInterest": 1736068371280,
-      "createdAt": 1736068371280,
+      "lastInterest": 1737860338634,
+      "createdAt": 1737860338634,
       "balanceHistory": [],
       "penalties": [],
-      "creditScore": 65
-    },
-    "61565913026622": {
-      "bankBalance": 0,
-      "lastInterest": 1736068773354,
-      "createdAt": 1736068773354,
-      "balanceHistory": [],
-      "penalties": [],
-      "creditScore": 65
-    },
-    "100082144972746": {
-      "bankBalance": 0,
-      "lastInterest": 1736070669442,
-      "createdAt": 1736070669442,
-      "balanceHistory": [],
-      "penalties": [],
-      "creditScore": 65
-    },
-    "100049109850406": {
-      "bankBalance": 2000,
-      "lastInterest": 1736340951443,
-      "createdAt": 1736083900586,
-      "balanceHistory": [],
-      "penalties": [],
-      "creditScore": 65
-    },
-    "100055074463541": {
-      "bankBalance": 0,
-      "lastInterest": 1736139874126,
-      "createdAt": 1736139874126,
-      "balanceHistory": [],
-      "penalties": [],
-      "creditScore": 65
-    },
-    "61566511812608": {
-      "bankBalance": 2030028,
-      "lastInterest": 1737522523713,
-      "createdAt": 1736140017514,
-      "balanceHistory": [],
-      "penalties": [],
-      "creditScore": 65
-    },
-    "100044841742945": {
-      "bankBalance": 6418562,
-      "lastInterest": 1737612750229,
-      "createdAt": 1736142535411,
-      "balanceHistory": [],
-      "penalties": [],
-      "creditScore": 65
-    },
-    "100058320200877": {
-      "bankBalance": 0,
-      "lastInterest": 1736216757136,
-      "createdAt": 1736216757136,
-      "balanceHistory": [],
-      "penalties": [],
-      "creditScore": 65
+      "creditScore": 13
     },
     "100063719077878": {
-      "bankBalance": 20023000,
-      "lastInterest": 1736325653943,
-      "createdAt": 1736225241802,
-      "balanceHistory": [],
-      "penalties": [],
-      "creditScore": 65
-    },
-    "61550049193361": {
       "bankBalance": 0,
-      "lastInterest": 1736227464866,
-      "createdAt": 1736227464866,
+      "lastInterest": 1737860834874,
+      "createdAt": 1737860834874,
       "balanceHistory": [],
       "penalties": [],
-      "creditScore": 65
+      "creditScore": 13
     },
-    "100083237157086": {
+    "100044841742945": {
       "bankBalance": 0,
-      "lastInterest": 1736261281872,
-      "createdAt": 1736261281872,
+      "lastInterest": 1737861643953,
+      "createdAt": 1737861643953,
       "balanceHistory": [],
       "penalties": [],
-      "creditScore": 65
+      "creditScore": 13
     },
-    "100087199431487": {
+    "61566789515977": {
       "bankBalance": 0,
-      "lastInterest": 1736326745973,
-      "createdAt": 1736326745973,
+      "lastInterest": 1737949900340,
+      "createdAt": 1737949900340,
       "balanceHistory": [],
       "penalties": [],
-      "creditScore": 65
+      "creditScore": 13
     },
-    "100079621883786": {
-      "bankBalance": 0,
-      "lastInterest": 1736342293393,
-      "createdAt": 1736342293393,
+    "61568522233427": {
+      "bankBalance": 1100000,
+      "lastInterest": 1737952825605,
+      "createdAt": 1737952825605,
       "balanceHistory": [],
       "penalties": [],
-      "creditScore": 65
-    },
-    "61569008916749": {
-      "bankBalance": 0,
-      "lastInterest": 1736405657671,
-      "createdAt": 1736405657671,
-      "balanceHistory": [],
-      "penalties": [],
-      "creditScore": 65
-    },
-    "61564482366941": {
-      "bankBalance": 3299000,
-      "lastInterest": 1736425078338,
-      "createdAt": 1736425078338,
-      "balanceHistory": [],
-      "penalties": [],
-      "creditScore": 65
-    },
-    "100081800629553": {
-      "bankBalance": 0,
-      "lastInterest": 1737521363870,
-      "createdAt": 1737521363870,
-      "balanceHistory": [],
-      "penalties": [],
-      "creditScore": 65
+      "creditScore": 13
     }
   },
-  "transactions": {
-    "@Duong": [
-      {
-        "type": "in",
-        "description": "Nhận từ 100051073987266: 100.000 Xu",
-        "amount": 100000,
-        "timestamp": 1736004804647
-      }
-    ],
-    "@Văn": [
-      {
-        "type": "in",
-        "description": "Nhận từ 100051073987266: 100.000 Xu",
-        "amount": 100000,
-        "timestamp": 1736005031538
-      }
-    ]
-  },
-  "loans": {
-    "61561753304881": {
-      "amount": 100000,
-      "interest": 8505,
-      "remainingAmount": 108505,
-      "startDate": 1736069710550,
-      "dueDate": 1736674510550,
-      "status": "active",
-      "collateral": 30000,
-      "interestRate": 0.01215,
-      "creditScore": 76
-    },
-    "100051073987266": {
-      "amount": 4000000,
-      "interest": 336000,
-      "remainingAmount": 4336000,
-      "startDate": 1736004827762,
-      "dueDate": 1736609627762,
-      "status": "active",
-      "collateral": 1200000,
-      "interestRate": 0.012,
-      "creditScore": 85
-    },
-    "100023369384858": {
-      "amount": 4000000,
-      "interest": 453600,
-      "remainingAmount": 0,
-      "startDate": 1736068333735,
-      "dueDate": 1736673133735,
-      "status": "paid",
-      "collateral": 1200000,
-      "interestRate": 0.0162,
-      "creditScore": 76,
-      "history": [
-        {
-          "amount": 4000000,
-          "startDate": 1736068333735,
-          "endDate": 1736137889484,
-          "status": "paid",
-          "paidOnTime": true
-        }
-      ]
-    }
-  }
+  "transactions": {},
+  "loans": {}
 }
