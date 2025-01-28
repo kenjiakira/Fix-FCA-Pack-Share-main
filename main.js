@@ -1,25 +1,40 @@
 const fs = require("fs");
 const gradient = require("gradient-string");
- const cron = require('node-cron');
+const cron = require('node-cron');
 const chalk = require("chalk");
 const { exec } = require("child_process");
 const { handleListenEvents } = require("./utils/listen");
+const lockfile = require('proper-lockfile');
+const portfinder = require('portfinder');
+const path = require('path');
 
 const config = JSON.parse(fs.readFileSync("./logins/hut-chat-api/config.json", "utf8"));
 
-cron.schedule('0 3 * * *', () => {
-    console.log('Exiting the process at 3:00 AM');
-    process.exit(1);
-}, {
-    timezone: "Asia/Ho_Chi_Minh"
-});
+const BOT_LOCK_FILE = path.join(__dirname, 'bot.running');
 
-cron.schedule('0 5 * * *', () => {
-    console.log('Exiting the process at 5:00 AM');
-    process.exit(1);
-}, {
-    timezone: "Asia/Ho_Chi_Minh"
-});
+const checkBotRunning = () => {
+    try {
+        if (fs.existsSync(BOT_LOCK_FILE)) {
+            console.error(boldText(gradient.passion("Bot đang chạy ở một cửa sổ khác!")));
+            return true;
+        }
+        fs.writeFileSync(BOT_LOCK_FILE, String(process.pid));
+        return false;
+    } catch (err) {
+        return false;
+    }
+};
+
+const cleanupBot = () => {
+    try {
+        if (fs.existsSync(BOT_LOCK_FILE)) {
+            fs.unlinkSync(BOT_LOCK_FILE);
+        }
+    } catch (err) {
+       
+    }
+};
+
 const proxyList = fs.readFileSync("./utils/prox.txt", "utf-8").split("\n").filter(Boolean);
 const fonts = require('./utils/fonts');
 function getRandomProxy() {
@@ -133,19 +148,33 @@ const reloadModules = () => {
     const eventCommands = loadEventCommands();
     console.log(boldText(gradient.passion("[ BOT MODULES RELOADED ]")));
 };
-const startBot = () => {
-  console.log(boldText(gradient.retro("Logging via AppState...")));
+
+const startBot = async () => {
+    if (checkBotRunning()) {
+        process.exit(1);
+    }
+
+    try {
+        currentPort = await portfinder.getPortPromise({
+            port: 3000,
+            stopPort: 4000
+        });
+    } catch (err) {
+        console.error(boldText(gradient.passion("No available ports found!")));
+        cleanupBot();
+        process.exit(1);
+    }
+
+    console.log(boldText(gradient.retro(`Starting bot on port ${currentPort}...`)));
+
+    console.log(boldText(gradient.retro("Logging via AppState...")));
 
     login({ appState: JSON.parse(fs.readFileSync(config.APPSTATE_PATH, "utf8")) }, (err, api) => {
         if (err) {
             console.error(boldText(gradient.passion(`Login error: ${JSON.stringify(err)}`)));
             
             if (err.code === 'ENOTFOUND' && err.syscall === 'getaddrinfo' && err.hostname === 'www.facebook.com') {
-                console.log(boldText(gradient.cristal("Detected Facebook connection error, attempting to restart in 10 seconds...")));
-                setTimeout(() => {
-                    console.log(boldText(gradient.cristal("Restarting bot...")));
-                    process.exit(1); 
-                }, 3000);
+                console.log(boldText(gradient.cristal("Detected Facebook connection error")));
                 return;
             }
             return;
@@ -241,32 +270,32 @@ const startBot = () => {
     });
 };
 
-process.on('exit', (code) => {
-    if (code === 1) {
- 
-        const { spawn } = require('child_process');
-        const child = spawn(process.argv[0], process.argv.slice(1), {
-            detached: true,
-            stdio: ['inherit', 'inherit', 'inherit']
-        });
-        child.unref();
-    }
+process.on('exit', () => {
+    cleanupBot();
 });
 
-process.on('uncaughtException', (err) => {
+process.on('SIGINT', () => {
+    console.log(boldText(gradient.cristal("\nGracefully shutting down...")));
+    cleanupBot();
+    process.exit(0);
+});
+
+process.on('uncaughtException', async (err) => {
     console.error('Uncaught Exception:', err);
     if (err.code === 'ENOTFOUND' && err.syscall === 'getaddrinfo' && err.hostname === 'www.facebook.com') {
-        console.log(boldText(gradient.cristal("Facebook connection lost, restarting...")));
-        process.exit(1);
+        console.log(boldText(gradient.cristal("Facebook connection lost")));
     }
 });
 
-process.on('unhandledRejection', (reason, promise) => {
+process.on('unhandledRejection', async (reason, promise) => {
     console.error('Unhandled Rejection at:', promise, 'reason:', reason);
     if (reason && reason.code === 'ENOTFOUND' && reason.syscall === 'getaddrinfo' && reason.hostname === 'www.facebook.com') {
-        console.log(boldText(gradient.cristal("Facebook connection lost, restarting...")));
-        process.exit(1);
+        console.log(boldText(gradient.cristal("Facebook connection lost")));
     }
 });
 
-startBot();
+startBot().catch(async (err) => {
+    console.error(boldText(gradient.passion("Failed to start bot:")), err);
+    cleanupBot();
+    process.exit(1);
+});

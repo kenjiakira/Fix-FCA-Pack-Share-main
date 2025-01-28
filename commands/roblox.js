@@ -56,7 +56,6 @@ module.exports = {
             const userData = userResponse.data.data[0];
             const { name, id, displayName } = userData;
 
-            // Fetch all user data in parallel
             const [userDetail, badges, presence, inventory, groups] = await Promise.all([
                 axios.get(`https://users.roblox.com/v1/users/${id}`).then(r => r.data).catch(() => null),
                 axios.get(`https://accountinformation.roblox.com/v1/users/${id}/roblox-badges`).then(r => r.data).catch(() => []),
@@ -65,7 +64,6 @@ module.exports = {
                 axios.get(`https://groups.roblox.com/v2/users/${id}/groups/roles`).then(r => r.data).catch(() => null)
             ]);
 
-            // Format user info message
             let message = `📊 THÔNG TIN NGƯỜI DÙNG ROBLOX 📊\n\n`;
             message += `👤 Tên tài khoản: ${name}\n`;
             message += `🌟 Tên hiển thị: ${displayName}\n`;

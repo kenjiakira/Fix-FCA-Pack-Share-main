@@ -16,23 +16,24 @@ const handleLogUnsubscribe = async (api, event) => {
             console.error("Error loading settings:", err);
         }
 
-        // Check if notifications are enabled
         if (settings[event.threadID] && !settings[event.threadID].notifications) {
             return;
         }
 
-        let threadInfo;
+        let threadName = "Unnamed group";
+        let participantIDs = [];
+
         try {
-            threadInfo = await api.getThreadInfo(event.threadID);
+            const threadInfo = await api.getThreadInfo(event.threadID);
+            if (threadInfo) {
+                threadName = threadInfo.threadName || "Unnamed group";
+                participantIDs = threadInfo.participantIDs || [];
+            }
         } catch (error) {
             console.error("Error getting thread info:", error);
-            threadInfo = { participantIDs: [], threadName: "Unnamed group" };
         }
 
-        const { threadName, participantIDs } = threadInfo;
         const isSelfLeave = event.author == event.logMessageData.leftParticipantFbId;
-        const leftUserId = event.logMessageData.leftParticipantFbId;
-       
         const userName = event.logMessageData.leftParticipantFbId_name || "Thành viên";
         const adminName = event.logMessageData.author_name || "Quản trị viên";
 
@@ -40,13 +41,11 @@ const handleLogUnsubscribe = async (api, event) => {
             ? "đã tự rời khỏi nhóm"
             : `đã bị đá bởi ${adminName}`;
 
-        // Get custom leave message or use default
         let leaveMessage = "{userName} {actionType}.\n👥 Thành viên còn lại: {memberCount}";
         if (settings[event.threadID] && settings[event.threadID].leaveMessage) {
             leaveMessage = settings[event.threadID].leaveMessage;
         }
 
-        // Replace variables
         leaveMessage = leaveMessage
             .replace(/{userName}/g, userName)
             .replace(/{actionType}/g, actionType)

@@ -18,6 +18,126 @@ module.exports = {
     cooldowns: 0,
 
     lastPlayed: {},
+    playerStats: {}, 
+
+    calculateDynamicFee: function(winAmount) {
+        if (winAmount > 500000) {
+            return 0.10; 
+        } else if (winAmount > 200000) {
+            return 0.07; 
+        }
+        return 0.05; 
+    },
+
+    calculateWinChance: function(senderID, isAllIn = false, balance = 0) {
+        if (!this.playerStats[senderID]) {
+            this.playerStats[senderID] = {
+                totalGames: 0,
+                wins: 0,
+                totalBet: 0,
+                totalWin: 0,
+                consecutiveLosses: 0,
+                firstPlayTime: Date.now()
+            };
+        }
+
+        const stats = this.playerStats[senderID];
+        let baseWinChance = 0.48;
+
+        if (stats.totalGames < 10) {
+            baseWinChance = 0.55; 
+        }
+
+        // Fixed: Now using passed parameters instead of target
+        if (balance < 10000 && isAllIn) {
+            baseWinChance = 0.65;
+        }
+
+        if (stats.consecutiveLosses >= 3) {
+            baseWinChance = Math.min(0.50 + (stats.consecutiveLosses * 0.01), 0.60);
+        }
+
+        if (stats.totalGames > 100) {
+            const winRate = stats.wins / stats.totalGames;
+            const profitRate = stats.totalWin / stats.totalBet;
+
+            if (winRate > 0.5 && profitRate > 1.2) {
+                
+                baseWinChance *= 0.9;
+            }
+
+            if (winRate > 0.6 || profitRate > 1.5) {
+                baseWinChance *= 0.85;
+            }
+        }
+
+        const recentGames = this.getRecentGames(senderID, 5);
+        if (recentGames.wins >= 3) {
+            baseWinChance *= 0.9;
+        }
+
+        return Math.min(Math.max(baseWinChance, 0.35), 0.70);
+    },
+
+    getRecentGames: function(senderID, count) {
+      
+        if (!this.recentGames) this.recentGames = {};
+        if (!this.recentGames[senderID]) this.recentGames[senderID] = [];
+        
+        return {
+            wins: this.recentGames[senderID].filter(game => game.won).length,
+            total: this.recentGames[senderID].length
+        };
+    },
+
+    updatePlayerStats: function(senderID, won, betAmount, winAmount) {
+        const stats = this.playerStats[senderID];
+        
+        if (!this.recentGames) this.recentGames = {};
+        if (!this.recentGames[senderID]) this.recentGames[senderID] = [];
+        
+        this.recentGames[senderID].unshift({ won, betAmount, winAmount });
+        if (this.recentGames[senderID].length > 10) {
+            this.recentGames[senderID].pop();
+        }
+
+        if (won) {
+            stats.consecutiveLosses = 0;
+            stats.wins++;
+        } else {
+            stats.consecutiveLosses++;
+        }
+
+        stats.totalGames++;
+        stats.totalBet += betAmount;
+        if (won) stats.totalWin += winAmount;
+    },
+
+    generateDiceResults: function(senderID, playerChoice, betType, balance) {
+        const winChance = this.calculateWinChance(
+            senderID, 
+            betType === 'allin',
+            balance
+        );
+        
+        const shouldWin = Math.random() < winChance;
+        let dice1, dice2, dice3, total, result;
+        
+        do {
+            dice1 = randomInt(1, 7);
+            dice2 = randomInt(1, 7);
+            dice3 = randomInt(1, 7);
+            total = dice1 + dice2 + dice3;
+            result = total >= 11 ? "tài" : "xỉu";
+            
+            if ((shouldWin && result === playerChoice) || 
+                (!shouldWin && result !== playerChoice)) {
+                break;
+            }
+        } while (true);
+
+        return { dice1, dice2, dice3, total, result };
+    },
 
     onLaunch: async function({ api, event, target = [] }) {
         try {
@@ -74,11 +194,29 @@ module.exports = {
 
             setTimeout(async () => {
                 try {
-                    const dice1 = randomInt(1, 7);
-                    const dice2 = randomInt(1, 7);
-                    const dice3 = randomInt(1, 7);
-                    const total = dice1 + dice2 + dice3;
-                    const result = total >= 11 ? "tài" : "xỉu";
+                    const { dice1, dice2, dice3, total, result } = this.generateDiceResults(
+                        senderID, 
+                        choice,
+                        target[1]?.toLowerCase(),
+                        balance
+                    );
+
+                    if (!this.playerStats[senderID]) {
+                        this.playerStats[senderID] = {
+                            totalGames: 0,
+                            wins: 0,
+                            totalBet: 0,
+                            totalWin: 0
+                        };
+                    }
+
+                    this.playerStats[senderID].totalGames++;
+                    this.playerStats[senderID].totalBet += betAmount;
+
+                    if (choice === result) {
+                        this.playerStats[senderID].wins++;
+                        this.playerStats[senderID].totalWin += betAmount * 2;
+                    }
 
                     message = `🎲 Kết quả: ${dice1} + ${dice2} + ${dice3} = ${total} \nQK ra : ${result.toUpperCase()}\n`;
 
@@ -107,33 +245,54 @@ module.exports = {
                         let fee = 0;
                         let finalWinnings = 0;
 
-                        // Check jackpot first
                         if (total === 18 || total === 3) {
                             const quy = loadQuy();
                             console.log(`Debug: Jackpot triggered! Total: ${total}, Quỹ: ${quy}`);
                             
-                            if (quy > 0) { 
+                            // Check if player correctly predicted the jackpot number
+                            const isValidJackpot = (total === 18 && choice === "tài") || 
+                                                  (total === 3 && choice === "xỉu");
+                            
+                            if (quy > 0) {
                                 const allUsers = Object.keys(readData().balance);
                                 const eligibleUsers = allUsers.filter(userId => getBalance(userId) > 0);
-                                console.log(`Debug: Found ${eligibleUsers.length} eligible users`);
-
-                                if (eligibleUsers.length > 0) {
-                                    const shareAmount = Math.floor(quy / eligibleUsers.length);
-                                    console.log(`Debug: Share amount per user: ${shareAmount}`);
-
-                                    if (shareAmount > 0) {
+                                
+                                if (isValidJackpot) {
+                                  
+                                    const winnerShare = Math.floor(quy * 0.5);
+                                    updateBalance(senderID, winnerShare);
+                                    
+                                    message += `\n🎉 MEGA JACKPOT! Tổng ${total} điểm!\n`;
+                                    message += `🏆 Bạn đã dự đoán đúng và nhận được ${formatNumber(winnerShare)} Xu (50% quỹ)!\n`;
+                                    
+                                    const remainingQuy = quy - winnerShare;
+                                    if (eligibleUsers.length > 1) { 
+                                        const shareAmount = Math.floor(remainingQuy / (eligibleUsers.length - 1));
+                                        
+                                        eligibleUsers.forEach(userId => {
+                                            if (userId !== senderID && shareAmount > 0) {
+                                                updateBalance(userId, shareAmount);
+                                            }
+                                        });
+                                        
+                                        message += `💸 ${formatNumber(remainingQuy)} Xu còn lại được chia đều cho ${eligibleUsers.length - 1} người chơi khác.\n`;
+                                        message += `💰 Mỗi người nhận: ${formatNumber(shareAmount)} Xu.\n`;
+                                    }
+                                } else {
+                                    message += `\n🎲 Ra ${total} điểm nhưng bạn đặt ${choice}!\n`;
+                                
+                                    if (eligibleUsers.length > 0) {
+                                        const shareAmount = Math.floor(quy / eligibleUsers.length);
                                         eligibleUsers.forEach(userId => {
                                             updateBalance(userId, shareAmount);
                                         });
-
-                                        message += `\n🎉 JACKPOT! Tổng ${total} điểm!\n`;
                                         message += `💸 Quỹ ${formatNumber(quy)} Xu được chia đều cho ${eligibleUsers.length} người chơi.\n`;
                                         message += `💰 Mỗi người nhận: ${formatNumber(shareAmount)} Xu.\n`;
-                                        
-                                        saveQuy(0);
-                                        console.log('Debug: Quỹ has been reset to 0 after distribution');
                                     }
                                 }
+                                
+                                saveQuy(0);
+                                console.log('Debug: Quỹ has been reset to 0 after distribution');
                             } else {
                                 console.log('Debug: Quỹ is empty or invalid:', quy);
                                 message += `\n🎉 JACKPOT! Tổng ${total} điểm! Nhưng quỹ hiện đang trống.\n`;
@@ -142,10 +301,13 @@ module.exports = {
 
                         if (choice === result) {
                             const winnings = betAmount * 2;
-                            fee = winnings * 0.05;
+                            const feeRate = this.calculateDynamicFee(winnings);
+                            fee = winnings * feeRate;
                             finalWinnings = Math.floor(winnings - fee);
                             updateBalance(senderID, finalWinnings);
-                            message += `🎉 Chúc mừng! Bạn thắng và nhận được ${formatNumber(finalWinnings)} Xu.\nPhí: 5%\n`;
+                            message += `🎉 Chúc mừng! Bạn thắng và nhận được ${formatNumber(finalWinnings)} Xu.\nPhí: ${feeRate * 100}%\n`;
+
+                            this.updatePlayerStats(senderID, true, betAmount, finalWinnings);
 
                             let quy = loadQuy();
                             quy += Math.floor(fee);
@@ -154,6 +316,7 @@ module.exports = {
                             updateQuestProgress(senderID, "play_games");
                             updateQuestProgress(senderID, "win_games");
                         } else {
+                            this.updatePlayerStats(senderID, false, betAmount, 0);
                             message += `😢 Bạn đã thua và mất ${formatNumber(betAmount)} Xu.\n`;
                             updateQuestProgress(senderID, "play_games");
                         }

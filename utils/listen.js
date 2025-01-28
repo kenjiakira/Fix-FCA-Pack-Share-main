@@ -48,13 +48,14 @@ const handleListenEvents = (api, commands, eventCommands, threadsDB, usersDB) =>
     api.listenMqtt(async (err, event) => {
         if (err) return console.error(gradient.passion(err));
 
+        const { logMessageType } = event;
+
         async function getUserName(api, senderID) {
             try {
                 const userInfo = await api.getUserInfo(senderID);
                 if (!userInfo || !userInfo[senderID]) return `Người dùng ${senderID}`;
                 return userInfo[userID].name || `Người dùng ${senderID}`;
             } catch (error) {
-                // Only log if it's not a Facebook blocking error
                 if (!error.errorSummary?.includes('Bạn tạm thời bị chặn')) {
                     console.error(`Lỗi khi lấy tên người dùng ${senderID}:`, error);
                 }
@@ -71,7 +72,6 @@ const handleListenEvents = (api, commands, eventCommands, threadsDB, usersDB) =>
                     name: info.name || `Nhóm ${threadID}`
                 };
             } catch (error) {
-                // Only log if it's not a Facebook blocking error
                 if (!error.errorSummary?.includes('Bạn tạm thời bị chặn')) {
                     console.error(`Lỗi khi lấy thông tin nhóm ${threadID}:`, error);
                 }
@@ -79,12 +79,34 @@ const handleListenEvents = (api, commands, eventCommands, threadsDB, usersDB) =>
             }
         }
 
-        if (event.logMessageType === "log:subscribe") {
+        async function updateThreadAdmins(threadID) {
+            try {
+                const info = await api.getThreadInfo(threadID);
+                if (info && info.adminIDs) {
+                    if (!threadsDB[threadID]) {
+                        threadsDB[threadID] = {};
+                    }
+                    threadsDB[threadID].adminIDs = info.adminIDs;
+                    fs.writeFileSync("./database/threads.json", JSON.stringify(threadsDB, null, 2));
+                }
+            } catch (error) {
+                if (!error.errorSummary?.includes('Bạn tạm thời bị chặn')) {
+                    console.error(`Lỗi khi cập nhật admin của nhóm ${threadID}:`, error);
+                }
+            }
+        }
+
+        if (logMessageType === "log:thread-admins") {
+            const threadID = event.threadID;
+            await updateThreadAdmins(threadID);
+        }
+
+        if (logMessageType === "log:subscribe") {
             await notifyAdmins(api, event.threadID, "Joined", event.senderID);
             handleLogSubscribe(api, event, adminConfig);
         }
 
-        if (event.logMessageType === "log:unsubscribe") {
+        if (logMessageType === "log:unsubscribe") {
             await notifyAdmins(api, event.threadID, "Kicked", event.senderID);
             await handleLogUnsubscribe(api, event);
         }
@@ -148,6 +170,10 @@ const handleListenEvents = (api, commands, eventCommands, threadsDB, usersDB) =>
                 }
             }
 
+            if (!threadsDB[threadID]?.adminIDs) {
+                await updateThreadAdmins(threadID);
+            }
+
 const allCommands = Object.keys(commands).concat(Object.values(commands).flatMap(cmd => cmd.aliases || []));
 if (isPrefixed) {
     const notfoundCommand = commands['notfound'];
@@ -208,23 +234,40 @@ if (isPrefixed) {
                         return;
                     }
                 }
-                if (command['usedby'] === 1 && !adminConfig['adminUIDs'].includes(senderID)) {
-                    api.sendMessage('Lệnh này chỉ dành cho Quản trị viên nhóm.', threadID);
-                    return;
-                } else {
-                    if (command['usedby'] === 2 && (!adminConfig['moderatorUIDs'] || !adminConfig['moderatorUIDs'].includes(senderID))) {
-                        api.sendMessage('Lệnh này chỉ dành cho Quản trị viên của Bot.', threadID);
+                if (command['usedby'] === 1) {
+                    const isAdminBot = adminConfig['adminUIDs'].includes(senderID);
+                    const isGroupAdmin = threadsDB[threadID]?.adminIDs?.some(admin => 
+                        admin.id === senderID || admin === senderID
+                    );
+                    
+                    console.log('Permission check:', {
+                        senderID,
+                        isAdminBot,
+                        isGroupAdmin,
+                        threadAdmins: threadsDB[threadID]?.adminIDs
+                    });
+
+                    if (!isAdminBot && !isGroupAdmin) {
+                        api.sendMessage('⚠️ Lệnh này chỉ dành cho Quản trị viên nhóm hoặc Admin bot.', threadID);
                         return;
-                    } else {
-                        if (command['usedby'] === 3 && (!adminConfig['moderatorUIDs'] || !adminConfig['moderatorUIDs'].includes(senderID))) {
-                            api.sendMessage('Lệnh này chỉ dành cho Điều hành viên Bot.', threadID);
-                            return;
-                        } else {
-                            if (command['usedby'] === 4 && !(adminConfig['adminUIDs'].includes(senderID) || (adminConfig['moderatorUIDs'] && adminConfig['moderatorUIDs'].includes(senderID)))) {
-                                api.sendMessage('Lệnh này chỉ dành cho Quản trị viên và Điều hành viên Bot.', threadID);
-                                return;
-                            }
-                        }
+                    }
+                } else if (command['usedby'] === 2) {
+                    // Chỉ admin bot
+                    if (!adminConfig['adminUIDs'].includes(senderID)) {
+                        api.sendMessage('⚠️ Lệnh này chỉ dành cho Admin bot.', threadID);
+                        return;
+                    }
+                } else if (command['usedby'] === 3) {
+                    // Chỉ moderator bot
+                    if (!adminConfig['moderatorUIDs'] || !adminConfig['moderatorUIDs'].includes(senderID)) {
+                        api.sendMessage('⚠️ Lệnh này chỉ dành cho Điều hành viên Bot.', threadID);
+                        return;
+                    }
+                } else if (command['usedby'] === 4) {
+                    // Admin bot hoặc moderator
+                    if (!adminConfig['adminUIDs'].includes(senderID) && (!adminConfig['moderatorUIDs'] || !adminConfig['moderatorUIDs'].includes(senderID))) {
+                        api.sendMessage('⚠️ Lệnh này chỉ dành cho Admin và Điều hành viên Bot.', threadID);
+                        return;
                     }
                 }
                 
@@ -260,14 +303,12 @@ const _0xb4166e=_0x1194;function _0x1194(_0x54c3af,_0x26fb8d){const _0x3c1e5b=_0
         for (const eventName in eventCommands) {
             const eventCommand = eventCommands[eventName];
             try {
-                // Wrap the event execution in a safe handler
                 const safeEventHandler = async () => {
                     try {
                         await eventCommand.onEvents({ 
                             api, 
                             event,
                             actions: {},
-                            // Provide default values for commonly accessed properties
                             thread: {
                                 adminIDs: [],
                                 ...((await getThreadInfo(event.threadID)) || {})
@@ -279,9 +320,7 @@ const _0xb4166e=_0x1194;function _0x1194(_0x54c3af,_0x26fb8d){const _0x3c1e5b=_0
                             !innerError?.errorSummary?.includes('Bạn tạm thời bị chặn')) {
                             console.error(gradient.passion(`Lỗi lệnh sự kiện ${eventName}:`, innerError));
                         }
-                    }
-                };
-                await safeEventHandler();
+                    }                };                await safeEventHandler();
             } catch (error) {
                 
             }

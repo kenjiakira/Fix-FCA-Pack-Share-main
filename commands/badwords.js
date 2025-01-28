@@ -73,18 +73,22 @@ function containsBadWord(message, threadID) {
 
 module.exports = {
     name: "badwords", 
-    usedby: 0,
+    usedby: 1,
     info: "Quản lý danh sách từ bị cấm",
     onPrefix: true,
     dev: "HNT",
     cooldowns: 6,
     onLaunch: async function ({ event, api, target }) {
-        const { threadID, messageID, mentions } = event;
+        const { threadID, messageID, mentions, senderID } = event;
         checkWarningExpiration();
         if (!target[0]) return api.sendMessage("📪 | Vui lòng chỉ định một hành động (thêm, xóa, danh sách, bật, tắt hoặc bỏ cảnh cáo)", threadID, messageID);
 
-        const isAdmin = (await api.getThreadInfo(threadID)).adminIDs.some(idInfo => idInfo.id === api.getCurrentUserID());
-        if (!isAdmin) return api.sendMessage("🛡️ | Bot yêu cầu quyền quản trị. Vui lòng nâng cấp bot lên quản trị viên của nhóm chat!", threadID, messageID);
+        const isAdmin = (await api.getThreadInfo(threadID)).adminIDs.some(
+            idInfo => idInfo.id === api.getCurrentUserID()
+        );
+        if (!isAdmin) {
+            return api.sendMessage("⚠️ Bot cần quyền quản trị viên để thực hiện lệnh này!", threadID);
+        }
 
         const action = target[0];
         const word = target.slice(1).join(' ');

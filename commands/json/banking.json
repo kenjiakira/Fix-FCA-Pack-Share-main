@@ -1,8 +1,8 @@
 {
   "users": {
     "61561753304881": {
-      "bankBalance": 1001000,
-      "lastInterest": 1737949836693,
+      "bankBalance": 1102101,
+      "lastInterest": 1738036819911,
       "createdAt": 1737860175391,
       "balanceHistory": [],
       "penalties": [],
@@ -17,8 +17,8 @@
       "creditScore": 13
     },
     "100063719077878": {
-      "bankBalance": 0,
-      "lastInterest": 1737860834874,
+      "bankBalance": 8010000,
+      "lastInterest": 1737991234960,
       "createdAt": 1737860834874,
       "balanceHistory": [],
       "penalties": [],
@@ -41,9 +41,41 @@
       "creditScore": 13
     },
     "61568522233427": {
-      "bankBalance": 1100000,
-      "lastInterest": 1737952825605,
+      "bankBalance": 1674774,
+      "lastInterest": 1738040767537,
       "createdAt": 1737952825605,
+      "balanceHistory": [],
+      "penalties": [],
+      "creditScore": 13
+    },
+    "61564482366941": {
+      "bankBalance": 0,
+      "lastInterest": 1737990182475,
+      "createdAt": 1737990182475,
+      "balanceHistory": [],
+      "penalties": [],
+      "creditScore": 13
+    },
+    "61568641631000": {
+      "bankBalance": 4000000,
+      "lastInterest": 1737999756775,
+      "createdAt": 1737999756775,
+      "balanceHistory": [],
+      "penalties": [],
+      "creditScore": 13
+    },
+    "100049109850406": {
+      "bankBalance": 0,
+      "lastInterest": 1738041028289,
+      "createdAt": 1738041028289,
+      "balanceHistory": [],
+      "penalties": [],
+      "creditScore": 13
+    },
+    "100058320200877": {
+      "bankBalance": 0,
+      "lastInterest": 1738045501680,
+      "createdAt": 1738045501680,
       "balanceHistory": [],
       "penalties": [],
       "creditScore": 13

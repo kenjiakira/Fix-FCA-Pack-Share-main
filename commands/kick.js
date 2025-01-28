@@ -1,56 +1,35 @@
 module.exports = {
     name: "kick",
     dev: "HNT",
+    usedby: 1, 
     info: "Kick thành viên khỏi nhóm",
     onPrefix: true,
     usages: "[reply/tag/uid]",
     cooldowns: 5,
 
     onLaunch: async function({ api, event, target }) {
-        const { threadID, messageID, senderID, messageReply, mentions } = event;
+        const { threadID, messageID, messageReply, mentions } = event;
 
         try {
-            // Check permissions with error handling
-            let isAdmin = false;
-            let isBotAdmin = false;
-            let threadAdmins = [];
             const botID = api.getCurrentUserID();
+            let threadAdmins = [];
 
             try {
                 const threadInfo = await api.getThreadInfo(threadID);
                 if (threadInfo?.adminIDs) {
-    
                     threadAdmins = threadInfo.adminIDs.map(admin => admin.id);
-                    isAdmin = threadAdmins.includes(senderID);
-                    isBotAdmin = threadAdmins.includes(botID);
+                    if (!threadAdmins.includes(botID)) {
+                        return api.sendMessage("❌ Bot cần quyền quản trị viên để thực hiện lệnh này!", threadID);
+                    }
                 }
             } catch (error) {
                 console.error("Thread info fetch error:", error);
             }
 
-            const adminConfig = JSON.parse(require('fs').readFileSync('./admin.json', 'utf8'));
-            const isGlobalAdmin = adminConfig.adminUIDs.includes(senderID);
-
-            if (!isAdmin && !isGlobalAdmin) {
-                return api.sendMessage(
-                    "⚠️ Chỉ quản trị viên nhóm mới có thể sử dụng lệnh này!", 
-                    threadID, 
-                    messageID
-                );
-            }
-
-            if (!isBotAdmin && !isGlobalAdmin) {
-                return api.sendMessage(
-                    "❌ Bot cần quyền quản trị viên để thực hiện lệnh này!", 
-                    threadID, 
-                    messageID
-                );
-            }
-
             let userIDs = [];
             if (messageReply) {
                 userIDs.push(messageReply.senderID);
-            } else if (Object.keys(mentions).length > 0) {
+            } else if (Object.keys(mentions || {}).length > 0) { 
                 userIDs = Object.keys(mentions);
             } else if (target[0]) {
                 if (isNaN(target[0])) {

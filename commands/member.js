@@ -10,9 +10,9 @@ if (!fs.existsSync(bannedUsersDir)) {
 
 module.exports = {
     name: "member",
-    usedby: 1,
     info: "Quản lý thành viên nhóm",
     onPrefix: true,
+    usedby: 1, 
     usages: [
         "member ban [@tag/uid] - Cấm người dùng khỏi nhóm",
         "member unban [@tag/uid] - Gỡ cấm người dùng",
@@ -98,119 +98,107 @@ Ví dụ:
         }
     },
 
-    onLaunch: async ({ api, event, target }) => {
-        const botId = api.getCurrentUserID();
-        const threadId = event.threadID.toString();
-
-        if (!target[0] || target[0] === "help") {
-            return api.sendMessage({
-                body: `🛡️ Hướng dẫn sử dụng Member Command:\n\n${module.exports.usages}\n\n${module.exports.description}`,
-                attachment: null
-            }, event.threadID);
-        }
-
+    onLaunch: async function({ api, event, target }) {
+        const { threadID } = event;
+        
         try {
-            const threadInfo = await api.getThreadInfo(threadId);
-            const adminIds = threadInfo.adminIDs.map(admin => admin.id);
-            if (!adminIds.includes(botId)) {
-                api.sendMessage("Cần quyền admin để thực hiện các hành động quản trị.", threadId);
-                return;
+            if (!target[0] || target[0] === "help") {
+                return api.sendMessage({
+                    body: `🛡️ Hướng dẫn sử dụng Member Command:\n\n${module.exports.usages}\n\n${module.exports.description}`,
+                    attachment: null
+                }, threadID);
             }
-        } catch (error) {
-            console.error(`Lỗi khi kiểm tra quyền admin: ${error}`);
-            api.sendMessage("Lỗi khi kiểm tra quyền admin.", threadId);
-            return;
-        }
 
-        const command = target[0];
-        const bannedUsersFilePath = path.join(bannedUsersDir, `${threadId}.json`);
+            const command = target[0];
+            const bannedUsersFilePath = path.join(bannedUsersDir, `${threadID}.json`);
+            let bannedUsers = [];
 
-        let bannedUsers = [];
-        if (fs.existsSync(bannedUsersFilePath)) {
-            bannedUsers = JSON.parse(fs.readFileSync(bannedUsersFilePath));
-        }
-
-        const userId = event.senderID;
-
-        const threadInfo = await api.getThreadInfo(threadId);
-        const isAdmin = threadInfo.adminIDs.some(admin => admin.id === userId);
-
-        if (!isAdmin) {
-            api.sendMessage(`🚫 Bạn không phải là admin trong nhóm này. Bạn không thể thực hiện lệnh này.`, threadId);
-            return;
-        }
-
-        if (command === 'ban') {
-            const targetUserId = Object.keys(event.mentions)[0] || target[1];
-            if (targetUserId) {
-                if (!bannedUsers.includes(targetUserId)) {
-                    bannedUsers.push(targetUserId);
-                    updateBannedUsersFile(bannedUsers, bannedUsersFilePath);
-                    try {
-                        api.removeUserFromGroup(targetUserId, threadId);
-                        const userInfo = await api.getUserInfo(targetUserId);
-                        const userName = userInfo[targetUserId].name;
-                        api.sendMessage(`👤 Đã cấm khỏi nhóm\n━━━━━━━━━━━━━━━━━━\nNgười dùng ${userName} đã bị cấm và loại bỏ khỏi nhóm này.`, threadId);
-                    } catch (error) {
-                        console.error(`Lỗi khi cấm người dùng: ${error}`);
-                    }
-                } else {
-                    try {
-                        const userInfo = await api.getUserInfo(targetUserId);
-                        const userName = userInfo[targetUserId].name;
-                        api.sendMessage(`⚠️ Đã bị cấm rồi\n━━━━━━━━━━━━━━━━━━\nNgười dùng ${userName} đã bị cấm khỏi nhóm này.`, threadId);
-                    } catch (error) {
-                        console.error(`Lỗi khi lấy thông tin người dùng: ${error}`);
-                    }
-                }
-            } else {
-                api.sendMessage(`❗ Lỗi\n━━━━━━━━━━━━━━━━━━\nVui lòng nhắc đến một người dùng hoặc cung cấp ID người dùng để cấm.`, threadId);
+            if (fs.existsSync(bannedUsersFilePath)) {
+                bannedUsers = JSON.parse(fs.readFileSync(bannedUsersFilePath));
             }
-        } else if (command === 'unban') {
-            const targetUserId = Object.keys(event.mentions)[0] || target[1];
-            if (targetUserId) {
-                const index = bannedUsers.findIndex(ban => ban === targetUserId);
-                if (index !== -1) {
-                    bannedUsers.splice(index, 1);
-                    updateBannedUsersFile(bannedUsers, bannedUsersFilePath);
-                    try {
-                        const userInfo = await api.getUserInfo(targetUserId);
-                        const userName = userInfo[targetUserId].name;
-                        api.sendMessage(`✅ Đã gỡ cấm\n━━━━━━━━━━━━━━━━━━\nNgười dùng ${userName} đã được gỡ cấm khỏi nhóm này.`, threadId);
-                    } catch (error) {
-                        console.error(`Lỗi khi gỡ cấm người dùng: ${error}`);
-                    }
-                } else {
-                    try {
-                        const userInfo = await api.getUserInfo(targetUserId);
-                        const userName = userInfo[targetUserId].name;
-                        api.sendMessage(`⚠️ Chưa bị cấm\n━━━━━━━━━━━━━━━━━━\nNgười dùng ${userName} chưa bị cấm khỏi nhóm này.`, threadId);
-                    } catch (error) {
-                        console.error(`Lỗi khi lấy thông tin người dùng: ${error}`);
-                    }
-                }
-            } else {
-                api.sendMessage(`❗ Lỗi\n━━━━━━━━━━━━━━━━━━\nVui lòng nhắc đến một người dùng hoặc cung cấp ID người dùng để gỡ cấm.`, threadId);
-            }
-        } else if (command === 'list') {
-            if (bannedUsers.length > 0) {
-                try {
-                    let bannedList = [];
-                    for (const uid of bannedUsers) {
-                        try {
-                            const info = await api.getUserInfo(uid);
-                            bannedList.push(`- ${info[uid].name} (${uid})`);
-                        } catch {
-                            bannedList.push(`- ID: ${uid}`);
+
+            switch (command) {
+                case 'ban':
+                    const targetUserId = Object.keys(event.mentions)[0] || target[1];
+                    if (targetUserId) {
+                        if (!bannedUsers.includes(targetUserId)) {
+                            bannedUsers.push(targetUserId);
+                            updateBannedUsersFile(bannedUsers, bannedUsersFilePath);
+                            try {
+                                api.removeUserFromGroup(targetUserId, threadID);
+                                const userInfo = await api.getUserInfo(targetUserId);
+                                const userName = userInfo[targetUserId].name;
+                                api.sendMessage(`👤 Đã cấm khỏi nhóm\n━━━━━━━━━━━━━━━━━━\nNgười dùng ${userName} đã bị cấm và loại bỏ khỏi nhóm này.`, threadID);
+                            } catch (error) {
+                                console.error(`Lỗi khi cấm người dùng: ${error}`);
+                            }
+                        } else {
+                            try {
+                                const userInfo = await api.getUserInfo(targetUserId);
+                                const userName = userInfo[targetUserId].name;
+                                api.sendMessage(`⚠️ Đã bị cấm rồi\n━━━━━━━━━━━━━━━━━━\nNgười dùng ${userName} đã bị cấm khỏi nhóm này.`, threadID);
+                            } catch (error) {
+                                console.error(`Lỗi khi lấy thông tin người dùng: ${error}`);
+                            }
                         }
+                    } else {
+                        api.sendMessage(`❗ Lỗi\n━━━━━━━━━━━━━━━━━━\nVui lòng nhắc đến một người dùng hoặc cung cấp ID người dùng để cấm.`, threadID);
                     }
-                    api.sendMessage(`📝 Danh sách người dùng bị cấm:\n━━━━━━━━━━━━━━━━━━\n${bannedList.join('\n')}`, threadId);
-                } catch (error) {
-                    api.sendMessage(`📝 Danh sách ID người dùng bị cấm:\n━━━━━━━━━━━━━━━━━━\n${bannedUsers.join('\n')}`, threadId);
-                }
-            } else {
-                api.sendMessage(`ℹ️ Không có người dùng bị cấm\n━━━━━━━━━━━━━━━━━━\nHiện tại không có người dùng nào bị cấm trong nhóm này.`, threadId);
+                    break;
+                    
+                case 'unban': 
+                    const unbannedUserId = Object.keys(event.mentions)[0] || target[1];
+                    if (unbannedUserId) {
+                        const index = bannedUsers.findIndex(ban => ban === unbannedUserId);
+                        if (index !== -1) {
+                            bannedUsers.splice(index, 1);
+                            updateBannedUsersFile(bannedUsers, bannedUsersFilePath);
+                            try {
+                                const userInfo = await api.getUserInfo(unbannedUserId);
+                                const userName = userInfo[unbannedUserId].name;
+                                api.sendMessage(`✅ Đã gỡ cấm\n━━━━━━━━━━━━━━━━━━\nNgười dùng ${userName} đã được gỡ cấm khỏi nhóm này.`, threadID);
+                            } catch (error) {
+                                console.error(`Lỗi khi gỡ cấm người dùng: ${error}`);
+                            }
+                        } else {
+                            try {
+                                const userInfo = await api.getUserInfo(unbannedUserId);
+                                const userName = userInfo[unbannedUserId].name;
+                                api.sendMessage(`⚠️ Chưa bị cấm\n━━━━━━━━━━━━━━━━━━\nNgười dùng ${userName} chưa bị cấm khỏi nhóm này.`, threadID);
+                            } catch (error) {
+                                console.error(`Lỗi khi lấy thông tin người dùng: ${error}`);
+                            }
+                        }
+                    } else {
+                        api.sendMessage(`❗ Lỗi\n━━━━━━━━━━━━━━━━━━\nVui lòng nhắc đến một người dùng hoặc cung cấp ID người dùng để gỡ cấm.`, threadID);
+                    }
+                    break;
+                    
+                case 'list':
+                    if (bannedUsers.length > 0) {
+                        try {
+                            let bannedList = [];
+                            for (const uid of bannedUsers) {
+                                try {
+                                    const info = await api.getUserInfo(uid);
+                                    bannedList.push(`- ${info[uid].name} (${uid})`);
+                                } catch {
+                                    bannedList.push(`- ID: ${uid}`);
+                                }
+                            }
+                            api.sendMessage(`📝 Danh sách người dùng bị cấm:\n━━━━━━━━━━━━━━━━━━\n${bannedList.join('\n')}`, threadID);
+                        } catch (error) {
+                            api.sendMessage(`📝 Danh sách ID người dùng bị cấm:\n━━━━━━━━━━━━━━━━━━\n${bannedUsers.join('\n')}`, threadID);
+                        }
+                    } else {
+                        api.sendMessage(`ℹ️ Không có người dùng bị cấm\n━━━━━━━━━━━━━━━━━━\nHiện tại không có người dùng nào bị cấm trong nhóm này.`, threadID);
+                    }
+                    break;
             }
+
+        } catch (error) {
+            console.error(`Member command error:`, error);
+            return api.sendMessage("❌ Không thể thực hiện lệnh! Vui lòng thử lại sau.", threadID);
         }
     }
 };

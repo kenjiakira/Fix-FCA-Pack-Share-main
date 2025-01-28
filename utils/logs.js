@@ -82,6 +82,13 @@ const logChatRecord = async (api, event) => {
     const senderID = event.senderID;
     const userName = await getUserName(api, senderID);
     const groupName = await getGroupName(api, threadID);
+    
+    // Check admin status from cached data
+    let isAdmin = false;
+    if (threadsData[threadID]?.adminIDs) {
+        isAdmin = threadsData[threadID].adminIDs.some(admin => admin.id === senderID);
+    }
+
     const logHeader = gradientText("━━━━━━━━━━[ CHUỖI CSDL NHẬT KÝ BOT ]━━━━━━━━━━");
 
     if (event.body) {
@@ -90,7 +97,7 @@ const logChatRecord = async (api, event) => {
             "┏━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┓",
             `┣➤ 🌐 Nhóm: ${groupName}`,
             `┣➤ 🆔 ID nhóm: ${threadID}`,
-            `┣➤ 👤 ID Người dùng: ${senderID}`,
+            `┣➤ 👤 ID Người dùng: ${senderID}${isAdmin ? ' (Admin)' : ''}`,
             `┣➤ ✉️ Nội dung: ${event.body}`,
             `┣➤ ⏰ Vào lúc: ${time}`,
             "┗━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┛"

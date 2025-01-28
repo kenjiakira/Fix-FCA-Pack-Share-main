@@ -1,13 +1,25 @@
 module.exports = {
     name: "adduser",
     credits: "HNT",
+    usedby: 1, 
     info: "add người dùng vào nhóm theo ID FB hoặc link profile",
     onPrefix: true,
     usages: "[ID1 ID2...] hoặc [link1 link2...] hoặc mix\nVD: .adduser 123456 fb.com/user2 789012",
     cooldowns: 5,
 
     onLaunch: async function({ api, event, target }) {
-        const { threadID, messageID, senderID } = event;
+        const { threadID } = event;
+
+        try {
+            const threadInfo = await api.getThreadInfo(threadID);
+            if (!threadInfo.adminIDs.some(admin => admin.id === api.getCurrentUserID())) {
+                return api.sendMessage("⚠️ Bot cần quyền quản trị viên để thực hiện lệnh này!", threadID);
+            }
+        } catch (error) {
+            console.error('AddUser Error:', error);
+            return api.sendMessage("❌ Không thể kiểm tra quyền hạn!", threadID);
+        }
+
         const botID = api.getCurrentUserID();
         const out = msg => api.sendMessage(msg, threadID, messageID);
 
@@ -16,7 +28,6 @@ module.exports = {
             const adminConfig = JSON.parse(require('fs').readFileSync('./admin.json', 'utf8'));
             const isAdminBot = adminConfig.adminUIDs.includes(senderID);
 
-            // Thêm retry logic cho getThreadInfo
             let threadInfo = null;
             let retryCount = 0;
             const maxRetries = 3;
@@ -30,7 +41,6 @@ module.exports = {
                     if (retryCount === maxRetries) {
                         return out("❌ Không thể lấy thông tin nhóm sau nhiều lần thử. Vui lòng thử lại sau!");
                     }
-                    // Đợi 2 giây trước khi thử lại
                     await new Promise(resolve => setTimeout(resolve, 2000));
                 }
             }

@@ -55,9 +55,40 @@ class DailyRewardManager {
     }
 
     calculateReward(streak) {
-        const baseAmount = randomInt(10, 51) * 1000;
-        const multiplier = Math.min(1 + (streak * 0.1), 2.0); 
+        const baseAmount = randomInt(15, 61) * 1000;
+        let multiplier = Math.min(1 + (streak * 0.1), 2.5);
+        
+        const today = new Date().getDay();
+        
+        switch(today) {
+            case 0: 
+                multiplier += 0.5;
+                break;
+            case 6:
+                multiplier += 0.3; 
+                break;
+            case 5:
+                multiplier += 0.2;
+                break;
+            default:
+                multiplier += 0.1; 
+        }
+        
+        if (streak >= 30) multiplier += 0.5;
+        else if (streak >= 14) multiplier += 0.3;
+        else if (streak >= 7) multiplier += 0.2;
+        
         return Math.floor(baseAmount * multiplier);
+    }
+
+    getDayBonus() {
+        const days = ['Chủ Nhật', 'Thứ Hai', 'Thứ Ba', 'Thứ Tư', 'Thứ Năm', 'Thứ Sáu', 'Thứ Bảy'];
+        const bonuses = ['50%', '10%', '10%', '10%', '10%', '20%', '30%'];
+        const today = new Date().getDay();
+        return {
+            day: days[today],
+            bonus: bonuses[today]
+        };
     }
 }
 
@@ -70,7 +101,7 @@ module.exports = {
     info: "Nhận Xu mỗi ngày",
     onPrefix: true,
     usages: ".daily: Nhận Xu hàng ngày. Nhận thưởng thêm khi duy trì streak!",
-    cooldowns: 0,
+    cooldowns: 5, 
 
     onLaunch: async function({ api, event }) {
         const { threadID, messageID, senderID } = event;
@@ -83,9 +114,11 @@ module.exports = {
             const timeSinceLastClaim = now - userClaim.lastClaim;
 
             if (timeSinceLastClaim < 24 * 60 * 60 * 1000) {
-                const nextClaimTime = new Date(userClaim.lastClaim + 24 * 60 * 60 * 1000);
+                const hoursLeft = Math.ceil((24 * 60 * 60 * 1000 - timeSinceLastClaim) / (60 * 60 * 1000));
+                const minutesLeft = Math.ceil((24 * 60 * 60 * 1000 - timeSinceLastClaim) / (60 * 1000)) % 60;
                 return api.sendMessage(
-                    `Bạn đã nhận Xu hôm nay rồi!\nQuay lại vào: ${nextClaimTime.toLocaleString('vi-VN')}`,
+                    `⏳ Vui lòng đợi ${hoursLeft} giờ ${minutesLeft} phút nữa!\n` +
+                    `Streak hiện tại: ${userClaim.streak || 0} ngày`,
                     threadID,
                     messageID
                 );
@@ -93,19 +126,26 @@ module.exports = {
 
             const streak = dailyManager.calculateStreak(senderID, now);
             const amount = dailyManager.calculateReward(streak);
+            const dayBonus = dailyManager.getDayBonus();
 
             global.balance[senderID] = (global.balance[senderID] || 0) + amount;
             await dailyManager.updateClaim(senderID, now);
             await require('../utils/currencies').saveData();
 
             const currentBalance = global.balance[senderID] || 0;
-            const streakBonus = streak > 1 ? `\nStreak hiện tại: ${streak} ngày! (x${(1 + streak * 0.1).toFixed(1)})` : '';
+            let message = `🎉 ${dayBonus.day} - Nhận ${amount.toLocaleString('vi-VN')} Xu!\n`;
+            message += `📅 Bonus hôm nay: +${dayBonus.bonus}\n`;
+            
+            if (streak > 1) {
+                message += `🔥 Streak hiện tại: ${streak} ngày (x${(1 + streak * 0.1).toFixed(1)})\n`;
+                if (streak === 7) message += '🎮 Chúc mừng! Bạn đã đạt streak 7 ngày!\n';
+                if (streak === 14) message += '🌟 Tuyệt vời! Streak 14 ngày!\n';
+                if (streak === 30) message += '👑 Wow! Streak 30 ngày - Huyền thoại!\n';
+            }
+            
+            message += `💰 Số dư hiện tại: ${currentBalance.toLocaleString('vi-VN')} Xu`;
 
-            return api.sendMessage(
-                `🎉 Bạn đã nhận ${amount.toLocaleString('vi-VN')} Xu!${streakBonus}\n💰 Số dư hiện tại: ${currentBalance.toLocaleString('vi-VN')} Xu`,
-                threadID,
-                messageID
-            );
+            return api.sendMessage(message, threadID, messageID);
         } catch (error) {
             console.error('Daily command error:', error);
             return api.sendMessage("❌ Đã có lỗi xảy ra, vui lòng thử lại sau!", threadID, messageID);

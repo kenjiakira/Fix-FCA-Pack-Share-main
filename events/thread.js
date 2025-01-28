@@ -433,6 +433,27 @@ module.exports = {
       }
     }
 
+    if (logMessageType === "log:user-nickname") {
+      try {
+        const authorName = await getAuthorName();
+        const changedFor = logMessageData.participant_id;
+        const oldNickname = logMessageData.previous_nickname || "Tên mặc định";
+        const newNickname = logMessageData.new_nickname || "Tên mặc định";
+        
+        let msg = `👥 THAY ĐỔI BIỆT DANH\n` +
+                 `━━━━━━━━━━━━━━━━━━\n\n` +
+                 `👤 Người thay đổi: ${authorName}\n` +
+                 `🎯 Đối tượng: ${await getAuthorName(changedFor)}\n` +
+                 `📝 Tên cũ: ${oldNickname}\n` +
+                 `📝 Tên mới: ${newNickname}\n` +
+                 `⏰ Thời gian: ${new Date().toLocaleString('vi-VN')}`;
+
+        await sendThreadNotification(api, threadID, msg, 'nick');
+      } catch (error) {
+        console.error('Nickname Update Error:', error);
+      }
+    }
+
     if (logMessageType === "log:thread-color" || logMessageType === "log:thread-icon") {
       try {
         const authorName = await getAuthorName();

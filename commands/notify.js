@@ -1,6 +1,5 @@
 const fs = require('fs');
 const path = require('path');
-
 const threadSettingsPath = path.join(__dirname, '../database/threadSettings.json');
 const rankConfigPath = path.join(__dirname, '../database/json/rankConfig.json');
 
@@ -15,15 +14,15 @@ function loadConfig(filePath, defaultValue = {}) {
 module.exports = {
     name: "notify",
     dev: "HNT",
+    usedby: 1, 
     info: "Quản lý cài đặt thông báo nhóm",
     onPrefix: true,
     usages: "notify [loại] [tùy chọn]",
     cooldowns: 5,
 
     onLaunch: async ({ api, event, target, prefix }) => {
-        const threadID = event.threadID;
-        const senderID = event.senderID;
-
+        const { threadID, senderID } = event;
+        
         const features = {
             sub: { 
                 name: 'sub', 
@@ -46,27 +45,21 @@ module.exports = {
                 detail: 'thông báo khi có người thay đổi ảnh nhóm',
                 usage: 'notify avatar on/off'
             },
-            color: {
-                name: 'color',
-                icon: '🎨',
-                desc: 'thông báo đổi màu chat',
-                detail: 'thông báo khi có người thay đổi màu tin nhắn',
-                usage: 'notify color on/off'
-            },
             name: {
                 name: 'name',
                 icon: '✏️',
                 desc: 'thông báo đổi tên nhóm',
                 detail: 'thông báo khi có người thay đổi tên nhóm',
                 usage: 'notify name on/off'
+            },
+            nick: {
+                name: 'nick',
+                icon: '📝',
+                desc: 'thông báo đổi biệt danh',
+                detail: 'thông báo khi có người thay đổi biệt danh',
+                usage: 'notify nick on/off'
             }
         };
-
-        const adminConfig = loadConfig('./admin.json', { adminUIDs: [] });
-        const isAdminBot = adminConfig.adminUIDs.includes(senderID);
-        if (!isAdminBot) {
-            return api.sendMessage("⚠️ Chỉ Admin bot hoặc Quản trị viên nhóm mới có thể sử dụng lệnh này!", threadID);
-        }
 
         if (!target[0]) {
             let msg = "╭─────────────────╮\n";
@@ -86,7 +79,7 @@ module.exports = {
                 if (key === 'sub') status = subStatus ? "ON ✅" : "OFF ❌";
                 else if (key === 'config') status = `Welcome: ${welcomeMsg} | Leave: ${leaveMsg}`;
                 else if (key === 'rank') status = rankStatus ? "ON ✅" : "OFF ❌";
-                else if (key === 'admin' || key === 'avatar' || key === 'color' || key === 'name') status = settings[threadID][`notify_${key}`] !== false ? "ON ✅" : "OFF ❌";
+                else if (key === 'admin' || key === 'avatar' || key === 'name' || key === 'nick') status = settings[threadID][`notify_${key}`] !== false ? "ON ✅" : "OFF ❌";
 
                 msg += `${value.icon} ${key.toUpperCase()}: ${value.desc}\n`;
                 msg += `↬ Chi tiết: ${value.detail}\n`;
@@ -108,6 +101,35 @@ module.exports = {
         try {
             const type = target[0].toLowerCase();
             const action = target[1]?.toLowerCase();
+
+            if (type === 'all' || type.includes(' ')) {
+                const featureList = type === 'all' ? 
+                    ['sub', 'admin', 'avatar', 'name', 'nick'] : 
+                    type.split(' ').filter(f => features[f]);
+
+                if (!action || !['on', 'off'].includes(action)) {
+                    return api.sendMessage("⚠️ Vui lòng sử dụng: notify all on/off hoặc notify feature1 feature2 on/off", threadID);
+                }
+
+                let settings = loadConfig(threadSettingsPath);
+                if (!settings[threadID]) settings[threadID] = {};
+
+                let updatedFeatures = [];
+                for (const feature of featureList) {
+                    if (feature === 'sub') {
+                        settings[threadID].notifications = (action === 'on');
+                    } else if (['admin', 'avatar', 'name', 'nick'].includes(feature)) {
+                        settings[threadID][`notify_${feature}`] = (action === 'on');
+                    }
+                    updatedFeatures.push(features[feature].desc);
+                }
+
+                fs.writeFileSync(threadSettingsPath, JSON.stringify(settings, null, 2));
+                return api.sendMessage(
+                    `✅ Đã ${action === 'on' ? 'bật' : 'tắt'} các thông báo:\n${updatedFeatures.map(desc => `• ${desc}`).join('\n')}`,
+                    threadID
+                );
+            }
 
             if (type === 'config') {
                 if (!action || !target[2]) {
@@ -177,7 +199,7 @@ module.exports = {
                 
                 fs.writeFileSync(rankConfigPath, JSON.stringify(rankConfig, null, 2));
                 return api.sendMessage(`✅ Đã ${action === 'on' ? 'bật' : 'tắt'} thông báo rankup!`, threadID);
-            } else if (type === 'admin' || type === 'avatar' || type === 'color' || type === 'name') {
+            } else if (type === 'admin' || type === 'avatar' || type === 'name' || type === 'nick') {
                 let settings = loadConfig(threadSettingsPath);
                 if (!settings[threadID]) settings[threadID] = {};
                 

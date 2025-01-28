@@ -18,7 +18,6 @@ module.exports = {
 
     onLaunch: async function ({ event, api }) {
         try {
-            console.log('Đang gọi API...');
             const response = await axios.get(this.config.apiUrl, {
                 timeout: 5000,
                 maxRedirects: 5,

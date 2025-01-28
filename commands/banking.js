@@ -62,21 +62,18 @@ function calculateCreditScore(userId, bankingData) {
     const loanHistory = bankingData.loans[userId]?.history || [];
     let score = 0;
 
-    // Transaction score
     const transactionVolume = transactions.reduce((sum, t) => sum + t.amount, 0);
     const transactionScore = Math.min(100, (transactionVolume / CREDIT_SCORE.factors.transactionVolume.threshold) * 100);
     score += transactionScore * CREDIT_SCORE.factors.transactionVolume.weight;
 
-    // Account age score - More significant impact
     const accountAge = (Date.now() - (userData.createdAt || Date.now())) / (24 * 60 * 60 * 1000);
     if (accountAge < CREDIT_SCORE.factors.accountAge.minAge) {
-        score += 0; // No score for very new accounts
+        score += 0; 
     } else {
         const ageScore = Math.min(100, (accountAge / CREDIT_SCORE.factors.accountAge.threshold) * 100);
         score += ageScore * CREDIT_SCORE.factors.accountAge.weight;
     }
 
-    // Balance stability score
     let balanceScore = 0;
     if (userData.bankBalance >= CREDIT_SCORE.factors.balanceStability.minBalance) {
         const hasStableBalance = userData.balanceHistory?.some(h => 
@@ -87,7 +84,6 @@ function calculateCreditScore(userId, bankingData) {
     }
     score += balanceScore * CREDIT_SCORE.factors.balanceStability.weight;
 
-    // Loan history score
     let loanScore = 0;
     if (loanHistory.length > 0) {
         const successfulPayments = loanHistory.filter(loan => 
@@ -95,11 +91,10 @@ function calculateCreditScore(userId, bankingData) {
         ).length;
         loanScore = Math.min(100, (successfulPayments / CREDIT_SCORE.factors.loanHistory.successfulPayments) * 100);
     } else if (!activeLoan) {
-        loanScore = 50; // Neutral score for no loan history
+        loanScore = 50; 
     }
     score += loanScore * CREDIT_SCORE.factors.loanHistory.weight;
 
-    // Apply penalties
     if (userData.penalties) {
         userData.penalties.forEach(penalty => {
             score += penalty.points;

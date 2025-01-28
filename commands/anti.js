@@ -4,62 +4,94 @@ const path = require('path');
 module.exports = {
     name: "anti",
     dev: "HNT",
+    usedby: 1,
     cooldowns: 5,
     info: "Quản lý các tính năng bảo vệ nhóm",
     usages: "<feature> <on/off>",
     onPrefix: true,
 
-    onLoad: function() {
-        const features = [
-            'antispam', 'antirole', 'antiout', 'antijoin',
-            'antinc', 'antiname', 'antiavt', 'antitag'
-        ];
-
-        for (const feature of features) {
-            const jsonPath = path.join(__dirname, 'json', `${feature}.json`);
-            if (!fs.existsSync(jsonPath)) {
-                const defaultData = feature === 'antispam' ? 
-                    { threads: {}, spamData: {} } : 
-                    feature === 'antitag' ? 
-                    { threads: {}, tagData: {} } : 
-                    {};
-                
-                fs.writeFileSync(jsonPath, JSON.stringify(defaultData, null, 4));
-            }
+    features: {
+        spam: { 
+            name: 'antispam', 
+            icon: '🛡️', 
+            desc: 'chống spam tin nhắn', 
+            detail: '15 tin nhắn/5 giây',
+            defaultData: { threads: {}, spamData: {} }
+        },
+        role: { 
+            name: 'antirole', 
+            icon: '👑', 
+            desc: 'chống đổi quyền QTV', 
+            detail: 'chỉ admin bot được phép' 
+        },
+        out: { 
+            name: 'antiout', 
+            icon: '🚫', 
+            desc: 'chống rời nhóm', 
+            detail: 'tự thêm lại khi out' 
+        },
+        join: { 
+            name: 'antijoin', 
+            icon: '🚷', 
+            desc: 'chống thêm thành viên', 
+            detail: 'tự kick thành viên mới' 
+        },
+        nick: { 
+            name: 'antinc', 
+            icon: '📝', 
+            desc: 'chống đổi biệt danh', 
+            detail: 'chỉ QTV được phép' 
+        },
+        name: { 
+            name: 'antiname', 
+            icon: '✏️', 
+            desc: 'chống đổi tên nhóm', 
+            detail: 'chỉ QTV được phép' 
+        },
+        avt: { 
+            name: 'antiavt', 
+            icon: '🖼️', 
+            desc: 'chống đổi ảnh nhóm', 
+            detail: 'chỉ QTV được phép' 
+        },
+        tag: { 
+            name: 'antitag', 
+            icon: '🏷️', 
+            desc: 'chống tag spam', 
+            detail: '3 lần/24h',
+            defaultData: { threads: {}, tagData: {} }
         }
+    },
+
+    onLoad: function() {
+        const jsonDir = path.join(__dirname, 'json');
+        if (!fs.existsSync(jsonDir)) {
+            fs.mkdirSync(jsonDir, { recursive: true });
+        }
+
+        Object.values(this.features).forEach(feature => {
+            const jsonPath = path.join(jsonDir, `${feature.name}.json`);
+            if (!fs.existsSync(jsonPath)) {
+                fs.writeFileSync(
+                    jsonPath, 
+                    JSON.stringify(feature.defaultData || {}, null, 4)
+                );
+            }
+        });
     },
 
     onLaunch: async function({ api, event, target }) {
         const { threadID, senderID } = event;
-        const features = {
-            spam: { name: 'antispam', icon: '🛡️', desc: 'chống spam tin nhắn', detail: '15 tin nhắn/5 giây' },
-            role: { name: 'antirole', icon: '👑', desc: 'chống đổi quyền QTV', detail: 'chỉ admin bot được phép' },
-            out: { name: 'antiout', icon: '🚫', desc: 'chống rời nhóm', detail: 'tự thêm lại khi out' },
-            join: { name: 'antijoin', icon: '🚷', desc: 'chống thêm thành viên', detail: 'tự kick thành viên mới' },
-            nick: { name: 'antinc', icon: '📝', desc: 'chống đổi biệt danh', detail: 'chỉ QTV được phép' },
-            name: { name: 'antiname', icon: '✏️', desc: 'chống đổi tên nhóm', detail: 'chỉ QTV được phép' },
-            avt: { name: 'antiavt', icon: '🖼️', desc: 'chống đổi ảnh nhóm', detail: 'chỉ QTV được phép' },
-            tag: { name: 'antitag', icon: '🏷️', desc: 'chống tag spam', detail: '3 lần/24h' }
-        };
-
+        
         try {
+            const threadsDB = JSON.parse(fs.readFileSync("./database/threads.json", "utf8")) || {};
             const adminConfig = JSON.parse(fs.readFileSync('./admin.json', 'utf8'));
+            
             const isAdminBot = adminConfig.adminUIDs.includes(senderID);
-            
-            let isGroupAdmin = false;
-            try {
-                const threadInfo = await api.getThreadInfo(threadID);
-                if (threadInfo && threadInfo.adminIDs) {
-                    isGroupAdmin = threadInfo.adminIDs.some(e => e.id == senderID);
-                }
-            } catch (threadError) {
-                console.error("Thread info fetch error:", threadError);
-          
-                if (!isAdminBot) {
-                    return api.sendMessage("⚠️ Không thể kiểm tra quyền quản trị. Chỉ admin bot mới có thể sử dụng lệnh này!", threadID);
-                }
-            }
-            
+            const isGroupAdmin = threadsDB[threadID]?.adminIDs?.some(admin => 
+                admin.id === senderID || admin === senderID
+            );
+
             if (!isAdminBot && !isGroupAdmin) {
                 return api.sendMessage("⚠️ Chỉ Admin bot hoặc Quản trị viên nhóm mới có thể sử dụng lệnh này!", threadID);
             }
@@ -69,16 +101,16 @@ module.exports = {
                 msg += "     📌 ANTI SYSTEM 📌     \n";
                 msg += "╰─────────────────╯\n\n";
                 
-                for (const [key, value] of Object.entries(features)) {
+                Object.entries(this.features).forEach(([key, value]) => {
                     const status = this.getFeatureStatus(value.name, threadID);
                     msg += `${value.icon} ${key.toUpperCase()}: ${value.desc}\n`;
                     msg += `↬ Chi tiết: ${value.detail}\n`;
                     msg += `↬ Trạng thái: ${status ? "ON ✅" : "OFF ❌"}\n`;
                     msg += "──────────────────\n";
-                }
+                });
                 
                 msg += "\n💡 Hướng dẫn sử dụng:\n";
-                msg += "⌲ anti <key> on/off\n";
+                msg += "⌲ anti <tính năng> on/off\n";
                 msg += "⌲ Ví dụ: anti spam on\n";
                 return api.sendMessage(msg, threadID);
             }
@@ -86,7 +118,37 @@ module.exports = {
             const feature = target[0].toLowerCase();
             const action = target[1]?.toLowerCase();
 
-            if (!Object.keys(features).includes(feature)) {
+            if (feature === 'all' || feature.includes(' ')) {
+                const featureList = feature === 'all' ? 
+                    Object.keys(this.features) : 
+                    feature.split(' ').filter(f => this.features[f]);
+
+                if (!action || !["on", "off"].includes(action)) {
+                    return api.sendMessage("⚠️ Vui lòng sử dụng: anti all on/off hoặc anti spam avt on/off", threadID);
+                }
+
+                const isEnable = action === "on";
+                let updatedFeatures = [];
+
+                for (const feat of featureList) {
+                    const featureConfig = this.features[feat];
+                    try {
+                        const threadInfo = await api.getThreadInfo(threadID);
+                        await this.updateFeature(featureConfig.name, threadID, isEnable, threadInfo || {});
+                        updatedFeatures.push(featureConfig.desc);
+                    } catch (error) {
+                        console.error(`Anti ${feat} update error:`, error);
+                        await this.updateFeature(featureConfig.name, threadID, isEnable, {});
+                    }
+                }
+
+                return api.sendMessage(
+                    `✅ Đã ${isEnable ? 'bật' : 'tắt'} các tính năng bảo vệ:\n${updatedFeatures.map(desc => `• ${desc}`).join('\n')}`,
+                    threadID
+                );
+            }
+
+            if (!this.features[feature]) {
                 return api.sendMessage("⚠️ Tính năng không hợp lệ!", threadID);
             }
 
@@ -94,26 +156,26 @@ module.exports = {
                 return api.sendMessage("⚠️ Vui lòng chọn on hoặc off!", threadID);
             }
 
-            const featureName = features[feature].name;
+            const featureConfig = this.features[feature];
             const isEnable = action === "on";
             
             try {
                 const threadInfo = await api.getThreadInfo(threadID);
-                await this.updateFeature(featureName, threadID, isEnable, threadInfo || {});
-            } catch (updateError) {
-                console.error("Update feature error:", updateError);
-                await this.updateFeature(featureName, threadID, isEnable, {});
+                await this.updateFeature(featureConfig.name, threadID, isEnable, threadInfo || {});
+            } catch (error) {
+                console.error(`Anti ${feature} update error:`, error);
+                await this.updateFeature(featureConfig.name, threadID, isEnable, {});
             }
 
             return api.sendMessage(
-                `${features[feature].icon} ${features[feature].desc}\n` +
+                `${featureConfig.icon} ${featureConfig.desc}\n` +
                 `↬ Trạng thái: ${isEnable ? "ON ✅" : "OFF ❌"}\n` +
-                `↬ Chi tiết: ${features[feature].detail}`,
+                `↬ Chi tiết: ${featureConfig.detail}`,
                 threadID
             );
 
         } catch (error) {
-            console.error(`Anti Feature Error:`, error);
+            console.error(`Anti command error:`, error);
             return api.sendMessage("❌ Đã xảy ra lỗi khi thực hiện lệnh!", threadID);
         }
     },
@@ -122,6 +184,7 @@ module.exports = {
         try {
             const jsonPath = path.join(__dirname, 'json', `${feature}.json`);
             const data = JSON.parse(fs.readFileSync(jsonPath));
+                    lastUpdate: Date.now()
             
             if (feature === 'antiavt') {
                 return data[threadID]?.enable || false;
@@ -168,8 +231,7 @@ module.exports = {
             case 'antiavt':
                 if (isEnable && threadInfo.imageSrc) {
                     const imagePath = await this.downloadImage(threadInfo.imageSrc, threadID);
-                    data[threadID] = {
-                        enable: true,
+                    data[threadID] = {                        enable: true,
                         imageUrl: threadInfo.imageSrc,
                         localPath: imagePath,
                         lastUpdate: Date.now()

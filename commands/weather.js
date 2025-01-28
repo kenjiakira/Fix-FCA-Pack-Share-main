@@ -11,27 +11,20 @@ module.exports = {
     onPrefix: true,
     dmUser: false,
     nickName: ["weather", "forecast", "timeweather", "thoitiet"],
-    usages: "weather [options] [tên thành phố]\n\n" +
+    usages: "weather [tên thành phố]\n\n" +
             "Hướng dẫn sử dụng:\n" +
-            "- `weather [tên thành phố]`: Xem thời tiết cơ bản và chất lượng không khí kèm dự báo\n" +
-            "- `weather`: Xem thời tiết của vị trí hiện tại\n" +
+            "- `weather [tên thành phố]`: Xem thời tiết và dự báo của thành phố\n" +
             "- Ví dụ: weather Hanoi, weather Tokyo",
     cooldowns: 5,
 
     onLaunch: async function ({ api, event, target }) {
         const { threadID, messageID } = event;
-        let cityName;
 
         if (!Array.isArray(target) || target.length === 0) {
-            try {
-                const ipResponse = await axios.get('https://ipapi.co/json/');
-                cityName = ipResponse.data.city;
-            } catch (error) {   
-                return await api.sendMessage("❎ Vui lòng nhập tên thành phố", threadID, messageID);
-            }
-        } else {
-            cityName = target.join(' ');
+            return await api.sendMessage("❎ Vui lòng nhập tên thành phố\nVí dụ: weather Hanoi", threadID, messageID);
         }
+
+        const cityName = target.join(' ');
 
         try {
             const weatherResponse = await axios.get(`https://api.openweathermap.org/data/2.5/weather?q=${cityName}&appid=${API_KEY}&units=metric&lang=vi`);

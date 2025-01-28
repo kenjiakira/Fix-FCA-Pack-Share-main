@@ -4,7 +4,7 @@ const path = require('path');
 const { createReadStream, unlinkSync } = require('fs');
 
 module.exports = {
-  name: "setavatar",
+  name: "setavt",
   dev: "HNT",
   usedby: 2,
   info: "Thay đổi avatar của bot",

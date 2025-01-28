@@ -1,9 +1,6 @@
-const fs = require('fs');
-const adminConfig = JSON.parse(fs.readFileSync("admin.json", "utf8"));
-
 module.exports = {
     name: "unsend",
-    usedby: 0,
+    usedby: 1,
     dev: "HNT",
     onPrefix: false,
     cooldowns: 1,
@@ -11,25 +8,11 @@ module.exports = {
     info: "Hủy tin nhắn",
 
     onLaunch: async function ({ api, event }) {
+        const { threadID } = event;
+
         try {
-            let userIsGroupAdmin = false;
-            try {
-                const threadInfo = await api.getThreadInfo(event.threadID);
-                if (threadInfo?.adminIDs) {
-                    userIsGroupAdmin = threadInfo.adminIDs.some(idInfo => idInfo.id === event.senderID);
-                }
-            } catch (err) {
-                console.error("Error getting thread info:", err);
-            }
-
-            const userIsConfigAdmin = adminConfig.adminUIDs.includes(event.senderID);
-
-            if (!userIsGroupAdmin && !userIsConfigAdmin) {
-                return api.sendMessage("⚠️ Chỉ QTV nhóm và admin bot được dùng lệnh này!", event.threadID);
-            }
-
             if (event.type !== "message_reply") {
-                return api.sendMessage("❌ Vui lòng reply tin nhắn cần gỡ!", event.threadID);
+                return api.sendMessage("❌ Vui lòng reply tin nhắn cần gỡ!", threadID);
             }
 
             if (event.messageReply.senderID !== api.getCurrentUserID()) {

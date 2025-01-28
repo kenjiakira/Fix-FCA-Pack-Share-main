@@ -4,7 +4,7 @@ const axios = require('axios');
 const { Shazam } = require('node-shazam');
 
 module.exports = {
-    name: "shazam",
+    name: "sz",
     dev: "HNT",
     info: "Nhận diện bài hát từ audio/video",
     usages: "[reply audio/video]",

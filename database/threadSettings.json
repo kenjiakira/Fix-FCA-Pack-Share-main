@@ -4,8 +4,10 @@
     "welcomeMessage": "chào con vợ {userName} đã đến với {threadName} của anh",
     "leaveMessage": "👋 {userName} {actionType}.\n👥 Thành viên còn lại: {memberCount}",
     "notify_admin": false,
-    "notify_avatar": true,
-    "notify_color": false
+    "notify_avatar": false,
+    "notify_color": false,
+    "notify_name": false,
+    "notify_nick": false
   },
   "8704938436228026": {
     "notifications": false,
@@ -22,5 +24,14 @@
     "welcomeMessage": "🎉 Xin chào {userName}!\nChào mừng bạn đến với nhóm \"{threadName}\"!\nBạn là thành viên thứ {memberNumber}",
     "leaveMessage": "👋 {userName} {actionType}.\n👥 Thành viên còn lại: {memberCount}",
     "notify_color": false
+  },
+  "8940255536071225": {
+    "notifications": false,
+    "welcomeMessage": "🎉 Xin chào {userName}!\nChào mừng bạn đến với nhóm \"{threadName}\"!\nBạn là thành viên thứ {memberNumber}",
+    "leaveMessage": "👋 {userName} {actionType}.\n👥 Thành viên còn lại: {memberCount}",
+    "notify_avatar": false,
+    "notify_name": false,
+    "notify_admin": false,
+    "notify_nick": false
   }
 }
