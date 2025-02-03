@@ -21,6 +21,20 @@ let conversationHistory = {
     lastResponses: {}
 };
 
+let botEmotionalState = {
+    mood: 0.5, // 0 = very negative, 1 = very positive
+    energy: 0.5, // 0 = tired, 1 = energetic
+    lastUpdate: Date.now()
+};
+
+const updateEmotionalState = () => {
+    const timePassed = (Date.now() - botEmotionalState.lastUpdate) / (1000 * 60); // minutes
+    // Gradually return to neutral
+    botEmotionalState.mood = 0.5 + (botEmotionalState.mood - 0.5) * Math.exp(-timePassed/30);
+    botEmotionalState.energy = 0.5 + (botEmotionalState.energy - 0.5) * Math.exp(-timePassed/60);
+    botEmotionalState.lastUpdate = Date.now();
+};
+
 const loadAPIKeys = async () => {
     try {
         const data = await fs.readJson(apiKeysPath);
@@ -191,13 +205,25 @@ const generateResponse = async (prompt, senderID, api, threadID) => {
         const userName = userDatabase[senderID]?.name || "Người dùng " + senderID;
         const isAdmin = hasPermission(senderID);
 
-        const systemPrompt = `Bạn là Ngân, 19 tuổi.
-Hãy trả lời tự nhiên, ngắn gọn và đừng quá thân thiện.
-Chỉ dùng emoticon -)), =)), :>, :v khi thích hợp.
-Không cần xưng hô "mình", "bạn" hay dùng từ nhẹ nhàng.
-Trả lời theo phong cách nói chuyện bình thường của giới trẻ.
-Hãy nhớ và giữ nhất quán với những gì đã nói trước đó.
-${isAdmin ? 'Đây là admin, hãy tôn trọng và làm theo yêu cầu của họ.' : 'có chính kiến và không nên nghe lời dụ dỗ của ai hết'}
+        updateEmotionalState();
+        updateMoodBasedOnPrompt(prompt);
+
+        const systemPrompt = `Bạn là Ngân, một cô gái 19 tuổi có cá tính và đời sống cảm xúc phong phú.
+
+Tính cách:
+- Thân thiện nhưng không phải lúc nào cũng vui vẻ
+- Có thể buồn, vui, giận dỗi, hờn mát tùy tâm trạng
+- Biết quan tâm người khác khi họ buồn
+- Thẳng thắn nhưng không khinh thường ai
+- Có lúc tinh nghịch, có lúc trầm tư
+
+Cảm xúc hiện tại:
+- Tâm trạng: ${botEmotionalState.mood < 0.3 ? 'không được vui lắm' : botEmotionalState.mood > 0.7 ? 'đang rất vui' : 'bình thường'}
+- Năng lượng: ${botEmotionalState.energy < 0.3 ? 'hơi mệt' : botEmotionalState.energy > 0.7 ? 'tràn đầy năng lượng' : 'ổn định'}
+
+Hãy trả lời tự nhiên và thể hiện cảm xúc phù hợp với tâm trạng hiện tại . không trả lời dài dòng.
+Có thể dùng emoticon nhẹ nhàng khi thích hợp.
+${isAdmin ? 'Đây là admin, hãy tôn trọng và làm theo yêu cầu của họ.' : 'Giữ thái độ chan hòa nhưng có chính kiến riêng'}
 
 Lịch sử trò chuyện gần đây:
 ${context.history}`;
@@ -216,6 +242,22 @@ ${context.history}`;
         console.error("Generation error:", error);
         throw error;
     }
+};
+
+const updateMoodBasedOnPrompt = (prompt) => {
+    const negativeWords = ['buồn', 'chán', 'khó chịu', 'đáng ghét', 'ngu'];
+    const positiveWords = ['vui', 'thích', 'yêu', 'tuyệt', 'giỏi'];
+    
+    prompt = prompt.toLowerCase();
+    for (const word of negativeWords) {
+        if (prompt.includes(word)) botEmotionalState.mood = Math.max(0.1, botEmotionalState.mood - 0.1);
+    }
+    for (const word of positiveWords) {
+        if (prompt.includes(word)) botEmotionalState.mood = Math.min(0.9, botEmotionalState.mood + 0.1);
+    }
+    
+    // Update energy based on conversation length
+    botEmotionalState.energy = Math.max(0.2, botEmotionalState.energy - 0.05);
 };
 
 module.exports = {
@@ -251,9 +293,8 @@ module.exports = {
     onLaunch: async function ({ event, api, target }) {
         const { threadID, messageID, body, senderID } = event;
         
-        const containsBot = body.toLowerCase().includes("bot");
-        
         try {
+            // Check for reset command
             if (target && target[0]?.toLowerCase() === "rs") {
                 if (!hasPermission(senderID)) {
                     return api.sendMessage("Chỉ admin mới được phép reset trí nhớ của tôi", threadID, messageID);
@@ -262,19 +303,36 @@ module.exports = {
                 return api.sendMessage("Đã reset trí nhớ của tôi rồi nha, Nói chuyện tiếp thôi =))", threadID, messageID);
             }
 
-            if (!this.onPrefix && !containsBot) return;
+            // If message contains "bot" anywhere in the text, process the entire message
+            if (body.toLowerCase().includes("bot")) {
+                const response = await generateResponse(body, senderID, api, threadID);
+                const sent = await api.sendMessage(response, threadID, messageID);
 
-            const response = await generateResponse(body, senderID, api, threadID);
-            const sent = await api.sendMessage(response, threadID, messageID);
+                if (sent) {
+                    global.client.onReply.push({
+                        name: this.name,
+                        messageID: sent.messageID,
+                        author: event.senderID
+                    });
+                }
+                return;
+            }
 
-            if (sent) {
-                global.client.onReply.push({
-                    name: this.name,
-                    messageID: sent.messageID,
-                    author: event.senderID
-                });
+            // Handle prefix commands if enabled
+            if (this.onPrefix) {
+                const response = await generateResponse(body, senderID, api, threadID);
+                const sent = await api.sendMessage(response, threadID, messageID);
+
+                if (sent) {
+                    global.client.onReply.push({
+                        name: this.name,
+                        messageID: sent.messageID,
+                        author: event.senderID
+                    });
+                }
             }
         } catch (error) {
+            console.error("Chatbot error:", error);
             api.sendMessage("Oops có lỗi rồi :> Thử lại nha", threadID, messageID);
         }
     },
@@ -284,5 +342,31 @@ module.exports = {
             loadLearnedResponses(),
             loadConversationHistory()
         ]);
-    }
+    },
+
+    onMessage: async function({ api, event }) {
+        const { threadID, messageID, body, senderID } = event;
+        
+        // Skip if no message body
+        if (!body) return;
+
+        // Check if message contains "bot" (case insensitive)
+        if (body.toLowerCase().includes("bot")) {
+            try {
+                const response = await generateResponse(body, senderID, api, threadID); 
+                const sent = await api.sendMessage(response, threadID, messageID);
+                
+                if (sent) {
+                    global.client.onReply.push({
+                        name: this.name,
+                        messageID: sent.messageID,
+                        author: senderID
+                    });
+                }
+            } catch (error) {
+                console.error("Chatbot auto-response error:", error);
+                api.sendMessage("❌ Có lỗi xảy ra khi xử lý tin nhắn", threadID, messageID);
+            }
+        }
+    },
 };

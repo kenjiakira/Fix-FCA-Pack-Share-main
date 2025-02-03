@@ -1,8 +1,8 @@
 {
   "users": {
     "61561753304881": {
-      "bankBalance": 1102101,
-      "lastInterest": 1738036819911,
+      "bankBalance": 1107611,
+      "lastInterest": 1738508310780,
       "createdAt": 1737860175391,
       "balanceHistory": [],
       "penalties": [],
@@ -41,8 +41,8 @@
       "creditScore": 13
     },
     "61568522233427": {
-      "bankBalance": 1674774,
-      "lastInterest": 1738040767537,
+      "bankBalance": 1683147,
+      "lastInterest": 1738497939852,
       "createdAt": 1737952825605,
       "balanceHistory": [],
       "penalties": [],
@@ -76,6 +76,14 @@
       "bankBalance": 0,
       "lastInterest": 1738045501680,
       "createdAt": 1738045501680,
+      "balanceHistory": [],
+      "penalties": [],
+      "creditScore": 13
+    },
+    "100085652238878": {
+      "bankBalance": 0,
+      "lastInterest": 1738509017718,
+      "createdAt": 1738509017718,
       "balanceHistory": [],
       "penalties": [],
       "creditScore": 13

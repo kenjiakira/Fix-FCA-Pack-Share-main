@@ -15,7 +15,8 @@ module.exports = {
         const getTimeOfDay = () => {
             if (currentHour >= 5 && currentHour < 12) return "morning";
             if (currentHour >= 12 && currentHour < 18) return "afternoon";
-            return "evening";
+            if (currentHour >= 18 && currentHour < 22) return "evening";
+            return "night";
         };
 
         const getGreetMessage = () => {
@@ -34,13 +35,19 @@ module.exports = {
 
             const greetBodiesEvening = [
                 "Chào buổi tối! 🌙 Hy vọng bạn đã có một ngày tuyệt vời! 🌟",
-                "Chào buổi tối! 👋 Đêm về rồi, đừng quên nghỉ ngơi để ngày mai tiếp tục thành công nhé! 💖",
                 "Hi! 🌙 Buổi tối thật ấm áp, hy vọng bạn đã có một ngày đầy ắp niềm vui! 💫",
+            ];
+
+            const greetBodiesNight = [
+                "Chào đêm khuya! 🌜 Đừng thức khuya quá nhé! 😴",
+                "Muộn rồi! 🌛 Nhớ giữ gìn sức khỏe nha! 💫",
+                "Hi! 🌙 Đêm khuya rồi, nhớ nghỉ ngơi đầy đủ nhé! ✨"
             ];
 
             if (timeOfDay === "morning") return greetBodiesMorning[Math.floor(Math.random() * greetBodiesMorning.length)];
             if (timeOfDay === "afternoon") return greetBodiesAfternoon[Math.floor(Math.random() * greetBodiesAfternoon.length)];
-            return greetBodiesEvening[Math.floor(Math.random() * greetBodiesEvening.length)];
+            if (timeOfDay === "evening") return greetBodiesEvening[Math.floor(Math.random() * greetBodiesEvening.length)];
+            return greetBodiesNight[Math.floor(Math.random() * greetBodiesNight.length)];
         };
 
         const getByeMessage = () => {
@@ -60,9 +67,15 @@ module.exports = {
                 "Hẹn gặp lại! 🌙 Chúc bạn một đêm thật an yên và tỉnh dậy tràn đầy năng lượng! 💖",
             ];
 
+            const byeBodiesNight = [
+                "Chúc ngủ ngon! 🌙 Hãy nghỉ ngơi thật tốt nhé! 💤",
+                "Đi ngủ thôi! 🌜 Chúc bạn có giấc ngủ thật ngon và những giấc mơ đẹp! 💫"
+            ];
+
             if (timeOfDay === "morning") return byeBodiesMorning[Math.floor(Math.random() * byeBodiesMorning.length)];
             if (timeOfDay === "afternoon") return byeBodiesAfternoon[Math.floor(Math.random() * byeBodiesAfternoon.length)];
-            return byeBodiesEvening[Math.floor(Math.random() * byeBodiesEvening.length)];
+            if (timeOfDay === "evening") return byeBodiesEvening[Math.floor(Math.random() * byeBodiesEvening.length)];
+            return byeBodiesNight[Math.floor(Math.random() * byeBodiesNight.length)];
         };
 
         const { body, threadID, messageID } = event;

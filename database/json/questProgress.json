@@ -1,19 +1,19 @@
 {
   "100050363228652": {
     "progress": {
-      "play_games": 2
+      "play_games": 3,
+      "win_games": 1
     },
     "completed": {},
-    "lastReset": "Tue Jan 28 2025",
+    "lastReset": "Sun Feb 02 2025",
     "lastRewardClaim": null
   },
   "100068382888605": {
     "progress": {
-      "play_games": 3,
-      "win_games": 2
+      "play_games": 1
     },
     "completed": {},
-    "lastReset": "Tue Jan 28 2025",
+    "lastReset": "Sun Feb 02 2025",
     "lastRewardClaim": null
   },
   "61562904223570": {
@@ -26,38 +26,37 @@
   },
   "61568522233427": {
     "progress": {
-      "play_games": 10,
+      "play_games": 9,
       "win_games": 6
     },
     "completed": {},
-    "lastReset": "Tue Jan 28 2025",
+    "lastReset": "Sun Feb 02 2025",
     "lastRewardClaim": null
   },
   "100071151188537": {
     "progress": {
-      "play_bctc": 1,
-      "play_games": 3
+      "play_games": 10,
+      "win_games": 5
     },
     "completed": {},
-    "lastReset": "Tue Jan 28 2025",
+    "lastReset": "Sun Feb 02 2025",
     "lastRewardClaim": null
   },
   "61566378911878": {
+    "progress": {
+      "play_games": 1
+    },
+    "completed": {},
+    "lastReset": "Sun Feb 02 2025",
+    "lastRewardClaim": null
+  },
+  "100058320200877": {
     "progress": {
       "play_games": 5,
       "win_games": 4
     },
     "completed": {},
-    "lastReset": "Tue Jan 28 2025",
-    "lastRewardClaim": null
-  },
-  "100058320200877": {
-    "progress": {
-      "play_games": 3,
-      "win_games": 1
-    },
-    "completed": {},
-    "lastReset": "Tue Jan 28 2025",
+    "lastReset": "Sun Feb 02 2025",
     "lastRewardClaim": null
   },
   "100049109850406": {
@@ -71,7 +70,7 @@
   },
   "61570532692675": {
     "progress": {
-      "play_games": 3,
+      "play_games": 6,
       "win_games": 2
     },
     "completed": {},
@@ -83,7 +82,7 @@
       "play_games": 1
     },
     "completed": {},
-    "lastReset": "Tue Jan 28 2025",
+    "lastReset": "Sun Feb 02 2025",
     "lastRewardClaim": null
   },
   "100083237157086": {
@@ -96,10 +95,103 @@
   },
   "100090107051071": {
     "progress": {
+      "play_games": 3,
+      "win_games": 1
+    },
+    "completed": {},
+    "lastReset": "Tue Jan 28 2025",
+    "lastRewardClaim": null
+  },
+  "100006842495827": {
+    "progress": {
+      "play_games": 1,
+      "win_games": 1
+    },
+    "completed": {},
+    "lastReset": "Sun Feb 02 2025",
+    "lastRewardClaim": null
+  },
+  "61563665666655": {
+    "progress": {
+      "win_games": 1
+    },
+    "completed": {},
+    "lastReset": "Tue Jan 28 2025",
+    "lastRewardClaim": null
+  },
+  "100008297661441": {
+    "progress": {
       "play_games": 1
     },
     "completed": {},
     "lastReset": "Tue Jan 28 2025",
+    "lastRewardClaim": null
+  },
+  "100063719077878": {
+    "progress": {
+      "play_games": 1
+    },
+    "completed": {},
+    "lastReset": "Sun Feb 02 2025",
+    "lastRewardClaim": null
+  },
+  "61569008916749": {
+    "progress": {
+      "play_games": 1,
+      "win_games": 1
+    },
+    "completed": {},
+    "lastReset": "Sun Feb 02 2025",
+    "lastRewardClaim": null
+  },
+  "100024874297909": {
+    "progress": {
+      "play_games": 1
+    },
+    "completed": {},
+    "lastReset": "Sun Feb 02 2025",
+    "lastRewardClaim": null
+  },
+  "61568733064572": {
+    "progress": {
+      "play_games": 14,
+      "win_games": 9
+    },
+    "completed": {},
+    "lastReset": "Sun Feb 02 2025",
+    "lastRewardClaim": null
+  },
+  "100085652238878": {
+    "progress": {
+      "play_games": 6,
+      "win_games": 1
+    },
+    "completed": {},
+    "lastReset": "Sun Feb 02 2025",
+    "lastRewardClaim": null
+  },
+  "61554805990725": {
+    "progress": {
+      "play_games": 1
+    },
+    "completed": {},
+    "lastReset": "Sun Feb 02 2025",
+    "lastRewardClaim": null
+  },
+  "100093208808025": {
+    "progress": {
+      "play_games": 1
+    },
+    "completed": {},
+    "lastReset": "Sun Feb 02 2025",
+    "lastRewardClaim": null
+  },
+  "100092998355704": {
+    "progress": {
+      "play_games": 1
+    },
+    "completed": {},
+    "lastReset": "Sun Feb 02 2025",
     "lastRewardClaim": null
   }
 }
