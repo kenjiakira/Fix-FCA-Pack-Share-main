@@ -14,37 +14,34 @@ module.exports = {
 
     onLaunch: async function ({ api, event, target }) {
         const url = target[0];
-        const device = target[1]?.toLowerCase() || 'mobile';
-
-        const deviceConfigs = {
-            'mobile': { width: 390, height: 844, device: 'Điện thoại' },
-            'tablet': { width: 820, height: 1180, device: 'Máy tính bảng' },
-            'desktop': { width: 1920, height: 1080, device: 'Máy tính' }
-        };
 
         if (!url) {
             return api.sendMessage(
-                `⚠️ Vui lòng cung cấp URL\n` +
-                `📝 Cách dùng: ssl [url] [thiết bị]\n` +
-                `📱 Thiết bị: mobile, tablet, desktop`,
+                "🔒 SSL là gì?\n" +
+                "SSL (Secure Sockets Layer) là chứng chỉ bảo mật giúp mã hóa thông tin và xác thực website của bạn.\n\n" +
+                "💡 Tác dụng của lệnh này:\n" +
+                "- Kiểm tra tính hợp lệ của chứng chỉ SSL\n" +
+                "- Chụp ảnh màn hình website\n" +
+                "- Xem thông tin nhà cung cấp SSL\n" +
+                "- Kiểm tra ngày hết hạn chứng chỉ\n\n" +
+                "📌 Cách dùng: ssl [url]\n" +
+                "Ví dụ: ssl example.com",
                 event.threadID,
                 event.messageID
             );
         }
 
-        const selectedDevice = deviceConfigs[device] || deviceConfigs.mobile;
         const check = await api.sendMessage(
-            `🔄 Đang xử lý...\n` +
-            `📱 Thiết bị: ${selectedDevice.device}`,
+            "🔄 Đang xử lý...\n" +
+            "📱 Thiết bị: iPhone 16",
             event.threadID,
             event.messageID
         );
 
         try {
-            
             const screenshotResponse = await axios({
                 method: 'get',
-                url: `https://render-puppeteer-test-sspb.onrender.com/ss?url=${url}&width=${selectedDevice.width}&height=${selectedDevice.height}`,
+                url: `https://render-puppeteer-test-sspb.onrender.com/ss?url=${url}&width=390&height=844`,
                 responseType: 'arraybuffer',
             });
 
@@ -70,7 +67,7 @@ module.exports = {
 
             await api.sendMessage({
                 body: `🌐 URL: ${url}\n` +
-                      `📱 Thiết bị: ${selectedDevice.device}\n` +
+                      `📱 Thiết bị: iPhone 16\n` +
                       `🔒 ${certResult.status}` +
                       (certResult.provider ? `\n📜 SSL Provider: ${certResult.provider}` : '') +
                       (certResult.expiry ? `\n📅 Hết hạn: ${certResult.expiry}` : ''),

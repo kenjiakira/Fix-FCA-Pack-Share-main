@@ -256,7 +256,6 @@ const updateMoodBasedOnPrompt = (prompt) => {
         if (prompt.includes(word)) botEmotionalState.mood = Math.min(0.9, botEmotionalState.mood + 0.1);
     }
     
-    // Update energy based on conversation length
     botEmotionalState.energy = Math.max(0.2, botEmotionalState.energy - 0.05);
 };
 
@@ -318,7 +317,6 @@ module.exports = {
                 return;
             }
 
-            // Handle prefix commands if enabled
             if (this.onPrefix) {
                 const response = await generateResponse(body, senderID, api, threadID);
                 const sent = await api.sendMessage(response, threadID, messageID);

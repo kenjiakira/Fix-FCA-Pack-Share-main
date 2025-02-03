@@ -11,20 +11,33 @@ module.exports = {
     cooldowns: 10,
 
     config: {
-        
-        apiUrl: "https://api-gai-xinh.vercel.app/getRandomImage"
-       
+        apiUrl: "https://api-gai-xinh.vercel.app/getRandomImage",
+        timeout: 15000,  
+        retries: 2      
+    },
+
+    async retryRequest(fn, retries = this.config.retries) {
+        for (let i = 0; i <= retries; i++) {
+            try {
+                return await fn();
+            } catch (error) {
+                if (i === retries) throw error;
+                await new Promise(resolve => setTimeout(resolve, 1000 * (i + 1)));
+            }
+        }
     },
 
     onLaunch: async function ({ event, api }) {
         try {
-            const response = await axios.get(this.config.apiUrl, {
-                timeout: 5000,
-                maxRedirects: 5,
-                validateStatus: function (status) {
-                    return status >= 200 && status < 500;
-                }
-            });
+            const response = await this.retryRequest(() => 
+                axios.get(this.config.apiUrl, {
+                    timeout: this.config.timeout,
+                    maxRedirects: 5,
+                    validateStatus: function (status) {
+                        return status >= 200 && status < 500;
+                    }
+                })
+            );
 
             if (response.status === 401) {
                 throw new Error('API yêu cầu xác thực. Vui lòng kiểm tra lại URL.');
@@ -47,10 +60,12 @@ module.exports = {
 
             const tempFilePath = path.join(cacheDir, `gai-${Date.now()}.jpg`);
             
-            const imageResponse = await axios.get(imageUrl, { 
-                responseType: 'arraybuffer',
-                timeout: 5000
-            });
+            const imageResponse = await this.retryRequest(() =>
+                axios.get(imageUrl, { 
+                    responseType: 'arraybuffer',
+                    timeout: this.config.timeout
+                })
+            );
             
             fs.writeFileSync(tempFilePath, imageResponse.data);
 
@@ -79,9 +94,9 @@ module.exports = {
             } else if (error.code === 'ECONNREFUSED') {
                 errorMsg += "Không thể kết nối tới server.";
             } else if (error.code === 'ECONNABORTED') {
-                errorMsg += "Kết nối bị gián đoạn, thử lại sau.";
+                errorMsg += "Server phản hồi quá chậm, đang thử lại...";
             } else {
-                errorMsg += error.message;
+                errorMsg += "Có lỗi xảy ra: " + error.message;
             }
             
             api.sendMessage(errorMsg, event.threadID);

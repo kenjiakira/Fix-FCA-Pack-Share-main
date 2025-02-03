@@ -1,7 +1,7 @@
 {
   "61561753304881": {
     "rod": "Cần Trúc",
-    "rodDurability": 8,
+    "rodDurability": 7,
     "inventory": [
       "Cần Trúc",
       "Cần trúc"
@@ -16,30 +16,32 @@
           "Cá Tra": 2,
           "Cá Mè": 1
         },
-        "uncommon": {},
+        "uncommon": {
+          "Cá Lóc": 1
+        },
         "rare": {},
         "legendary": {},
         "mythical": {}
       },
       "stats": {
-        "totalCaught": 5,
-        "totalValue": 82700,
+        "totalCaught": 6,
+        "totalValue": 89700,
         "bestCatch": {
           "name": "Rương vàng",
           "value": 75000
         }
       }
     },
-    "exp": 248,
+    "exp": 336,
     "level": 1,
-    "fishingStreak": 5,
+    "fishingStreak": 6,
     "stats": {
-      "totalExp": 248,
-      "highestStreak": 5,
-      "totalFishes": 5
+      "totalExp": 336,
+      "highestStreak": 6,
+      "totalFishes": 6
     },
     "activeBuffs": {},
-    "lastFished": 1736941246684,
+    "lastFished": 1738553386313,
     "userID": "61561753304881"
   },
   "100068382888605": {
@@ -1945,7 +1947,7 @@
   },
   "100071151188537": {
     "rod": "Cần trúc",
-    "rodDurability": 22,
+    "rodDurability": 9,
     "inventory": [
       "Cần trúc"
     ],
@@ -1959,7 +1961,7 @@
           "Cá Diếc": 13,
           "Cá Chép": 10,
           "Cá Tra": 15,
-          "Cá Mè": 13,
+          "Cá Mè": 15,
           "Cá Rô": 10,
           "Hòm gỗ": 1,
           "Rương bạc": 1
@@ -1977,24 +1979,24 @@
         "cosmic": {}
       },
       "stats": {
-        "totalCaught": 78,
-        "totalValue": 209900,
+        "totalCaught": 80,
+        "totalValue": 214900,
         "bestCatch": {
           "name": "Rương bạc",
           "value": 20000
         }
       }
     },
-    "exp": 1367,
+    "exp": 1419,
     "level": 3,
-    "fishingStreak": 78,
+    "fishingStreak": 80,
     "stats": {
-      "totalExp": 3567,
-      "highestStreak": 78,
-      "totalFishes": 78
+      "totalExp": 3619,
+      "highestStreak": 80,
+      "totalFishes": 80
     },
     "activeBuffs": {},
-    "lastFished": 1738509752092,
+    "lastFished": 1738553491616,
     "userID": "100071151188537"
   },
   "100006842495827": {

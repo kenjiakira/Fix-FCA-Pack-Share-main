@@ -87,7 +87,7 @@ module.exports = {
 
         if (!fishingItems["Cần trúc"]) {
             fishingItems["Cần trúc"] = {
-                durability: 100,
+                durability: 10,
                 price: 0,
                 multiplier: 1
             };
