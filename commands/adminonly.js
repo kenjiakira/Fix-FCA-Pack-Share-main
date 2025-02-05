@@ -8,6 +8,11 @@ module.exports = {
     usedby: 1,
     cooldowns: 5,
     onPrefix: true,
+    usages: [
+        "/adminonly on - Bật chế độ chỉ admin",
+        "/adminonly off - Tắt chế độ chỉ admin",
+        "/adminonly status - Kiểm tra trạng thái hiện tại"
+    ],
 
     onLoad: function() {
         const jsonPath = path.join(__dirname, 'json', 'adminonly.json');

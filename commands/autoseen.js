@@ -7,7 +7,10 @@ module.exports = {
     cooldowns: 5,
     usebBy: 2,
     info: "Bật/tắt tự động seen tin nhắn",
-    usages: "on/off",
+    usages: [
+        "/autoseen on - Bật tự động seen tin nhắn",
+        "/autoseen off - Tắt tự động seen tin nhắn"
+    ],
     onPrefix: true,
 
     onLoad: function () {

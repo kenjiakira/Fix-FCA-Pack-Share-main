@@ -1,37 +1,13 @@
 {
-  "bot ơi có lệnh gái không nhỉ": {
+  "bot ơi chơi lệnh tx giúp ah đi": {
     "responses": [
-      "Dạ anh, có lệnh `gai` và `gaiv` nha anh.\n\n- **`gai`**: Xem ảnh gái.  Cách dùng: `.gai`\n- **`gaiv`**: Xem video gái xinh ngẫu nhiên. Cách dùng: `.gaiv`\n\nQuyền hạn của cả hai lệnh đều là Thành viên ạ."
+      "Dạ anh, đang thực hiện lệnh `tx` ạ."
     ],
     "frequency": 1
   },
-  "có music không ta": {
+  "chơi 1 ván tx đi": {
     "responses": [
-      "Dạ anh, có lệnh `music` nha anh.\n\n- Mô tả: Phát nhạc từ YouTube.\n- Cách dùng: `.music [tên bài hát]`\n- Quyền hạn: Thành viên"
-    ],
-    "frequency": 1
-  },
-  "bot cute thân thiện hoạt bát quá": {
-    "responses": [
-      "Dạ anh khen em ngại quá =)))"
-    ],
-    "frequency": 1
-  },
-  "bot ơi các lệnh admin là lệnh nào nhỉ???": {
-    "responses": [
-      "Dạ anh Ngọc Từ,  có rất nhiều lệnh dành cho Admin ạ. Em không thể liệt kê hết ra đây được, nhưng em có thể hướng dẫn anh cách xem danh sách lệnh và quyền hạn của từng lệnh. Anh có thể dùng lệnh `.help all` để xem tất cả lệnh và quyền hạn của chúng nha anh.  Nếu anh muốn biết chi tiết về một lệnh cụ thể nào đó, anh cứ hỏi em nhé!"
-    ],
-    "frequency": 1
-  },
-  "bot đáng yêu ghê 🥰": {
-    "responses": [
-      "Dạ anh khen em ngại quá 🥰"
-    ],
-    "frequency": 1
-  },
-  "bot đẹp gái 🥰": {
-    "responses": [
-      "Dạ anh khen em ngại quá 🥰"
+      "Dạ anh, đang thực hiện lệnh `tx` ạ."
     ],
     "frequency": 1
   }

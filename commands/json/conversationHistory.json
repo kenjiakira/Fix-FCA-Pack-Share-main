@@ -1,102 +1,40 @@
 {
   "global": [
     {
-      "timestamp": 1738728575196,
-      "prompt": "bot ơi có lệnh gái không nhỉ",
-      "response": "Dạ anh, có lệnh `gai` và `gaiv` nha anh.\n\n- **`gai`**: Xem ảnh gái.  Cách dùng: `.gai`\n- **`gaiv`**: Xem video gái xinh ngẫu nhiên. Cách dùng: `.gaiv`\n\nQuyền hạn của cả hai lệnh đều là Thành viên ạ.",
+      "timestamp": 1738734296904,
+      "prompt": "bot ơi chơi lệnh tx giúp ah đi",
+      "response": "Dạ anh, đang thực hiện lệnh `tx` ạ.",
       "senderID": "61561753304881",
       "senderName": "Ngọc Từ"
     },
     {
-      "timestamp": 1738728597654,
-      "prompt": "có music không ta",
-      "response": "Dạ anh, có lệnh `music` nha anh.\n\n- Mô tả: Phát nhạc từ YouTube.\n- Cách dùng: `.music [tên bài hát]`\n- Quyền hạn: Thành viên",
+      "timestamp": 1738734314382,
+      "prompt": "chơi 1 ván tx đi",
+      "response": "Dạ anh, đang thực hiện lệnh `tx` ạ.",
       "senderID": "61561753304881",
       "senderName": "Ngọc Từ"
-    },
-    {
-      "timestamp": 1738728860504,
-      "prompt": "Bot cute thân thiện hoạt bát quá",
-      "response": "Dạ anh khen em ngại quá =)))",
-      "senderID": "100079596714407",
-      "senderName": "Người dùng 100079596714407"
-    },
-    {
-      "timestamp": 1738728860507,
-      "prompt": "bot ơi các lệnh admin là lệnh nào nhỉ???",
-      "response": "Dạ anh Ngọc Từ,  có rất nhiều lệnh dành cho Admin ạ. Em không thể liệt kê hết ra đây được, nhưng em có thể hướng dẫn anh cách xem danh sách lệnh và quyền hạn của từng lệnh. Anh có thể dùng lệnh `.help all` để xem tất cả lệnh và quyền hạn của chúng nha anh.  Nếu anh muốn biết chi tiết về một lệnh cụ thể nào đó, anh cứ hỏi em nhé!",
-      "senderID": "61561753304881",
-      "senderName": "Ngọc Từ"
-    },
-    {
-      "timestamp": 1738728911084,
-      "prompt": "Bot đáng yêu ghê 🥰",
-      "response": "Dạ anh khen em ngại quá 🥰",
-      "senderID": "100079596714407",
-      "senderName": "Người dùng 100079596714407"
-    },
-    {
-      "timestamp": 1738728925033,
-      "prompt": "Bot đẹp gái 🥰",
-      "response": "Dạ anh khen em ngại quá 🥰",
-      "senderID": "100079596714407",
-      "senderName": "Người dùng 100079596714407"
     }
   ],
   "threads": {
     "6589198804475799": [
       {
-        "timestamp": 1738728575196,
-        "prompt": "bot ơi có lệnh gái không nhỉ",
-        "response": "Dạ anh, có lệnh `gai` và `gaiv` nha anh.\n\n- **`gai`**: Xem ảnh gái.  Cách dùng: `.gai`\n- **`gaiv`**: Xem video gái xinh ngẫu nhiên. Cách dùng: `.gaiv`\n\nQuyền hạn của cả hai lệnh đều là Thành viên ạ.",
+        "timestamp": 1738734296904,
+        "prompt": "bot ơi chơi lệnh tx giúp ah đi",
+        "response": "Dạ anh, đang thực hiện lệnh `tx` ạ.",
         "senderID": "61561753304881",
         "senderName": "Ngọc Từ"
       },
       {
-        "timestamp": 1738728597654,
-        "prompt": "có music không ta",
-        "response": "Dạ anh, có lệnh `music` nha anh.\n\n- Mô tả: Phát nhạc từ YouTube.\n- Cách dùng: `.music [tên bài hát]`\n- Quyền hạn: Thành viên",
+        "timestamp": 1738734314382,
+        "prompt": "chơi 1 ván tx đi",
+        "response": "Dạ anh, đang thực hiện lệnh `tx` ạ.",
         "senderID": "61561753304881",
         "senderName": "Ngọc Từ"
-      },
-      {
-        "timestamp": 1738728860507,
-        "prompt": "bot ơi các lệnh admin là lệnh nào nhỉ???",
-        "response": "Dạ anh Ngọc Từ,  có rất nhiều lệnh dành cho Admin ạ. Em không thể liệt kê hết ra đây được, nhưng em có thể hướng dẫn anh cách xem danh sách lệnh và quyền hạn của từng lệnh. Anh có thể dùng lệnh `.help all` để xem tất cả lệnh và quyền hạn của chúng nha anh.  Nếu anh muốn biết chi tiết về một lệnh cụ thể nào đó, anh cứ hỏi em nhé!",
-        "senderID": "61561753304881",
-        "senderName": "Ngọc Từ"
-      }
-    ],
-    "8940255536071225": [
-      {
-        "timestamp": 1738728860504,
-        "prompt": "Bot cute thân thiện hoạt bát quá",
-        "response": "Dạ anh khen em ngại quá =)))",
-        "senderID": "100079596714407",
-        "senderName": "Người dùng 100079596714407"
-      },
-      {
-        "timestamp": 1738728911084,
-        "prompt": "Bot đáng yêu ghê 🥰",
-        "response": "Dạ anh khen em ngại quá 🥰",
-        "senderID": "100079596714407",
-        "senderName": "Người dùng 100079596714407"
-      },
-      {
-        "timestamp": 1738728925033,
-        "prompt": "Bot đẹp gái 🥰",
-        "response": "Dạ anh khen em ngại quá 🥰",
-        "senderID": "100079596714407",
-        "senderName": "Người dùng 100079596714407"
       }
     ]
   },
   "lastResponses": {
-    "bot ơi có lệnh gái không nhỉ": "Dạ anh, có lệnh `gai` và `gaiv` nha anh.\n\n- **`gai`**: Xem ảnh gái.  Cách dùng: `.gai`\n- **`gaiv`**: Xem video gái xinh ngẫu nhiên. Cách dùng: `.gaiv`\n\nQuyền hạn của cả hai lệnh đều là Thành viên ạ.",
-    "có music không ta": "Dạ anh, có lệnh `music` nha anh.\n\n- Mô tả: Phát nhạc từ YouTube.\n- Cách dùng: `.music [tên bài hát]`\n- Quyền hạn: Thành viên",
-    "bot cute thân thiện hoạt bát quá": "Dạ anh khen em ngại quá =)))",
-    "bot ơi các lệnh admin là lệnh nào nhỉ???": "Dạ anh Ngọc Từ,  có rất nhiều lệnh dành cho Admin ạ. Em không thể liệt kê hết ra đây được, nhưng em có thể hướng dẫn anh cách xem danh sách lệnh và quyền hạn của từng lệnh. Anh có thể dùng lệnh `.help all` để xem tất cả lệnh và quyền hạn của chúng nha anh.  Nếu anh muốn biết chi tiết về một lệnh cụ thể nào đó, anh cứ hỏi em nhé!",
-    "bot đáng yêu ghê 🥰": "Dạ anh khen em ngại quá 🥰",
-    "bot đẹp gái 🥰": "Dạ anh khen em ngại quá 🥰"
+    "bot ơi chơi lệnh tx giúp ah đi": "Dạ anh, đang thực hiện lệnh `tx` ạ.",
+    "chơi 1 ván tx đi": "Dạ anh, đang thực hiện lệnh `tx` ạ."
   }
 }

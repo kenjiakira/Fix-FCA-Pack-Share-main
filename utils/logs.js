@@ -5,6 +5,7 @@ const threadsPath = "./database/threads.json";
 const chalk = require('chalk');
 const gradient = require('gradient-string');
 const moment = require("moment-timezone");
+const os = require('os'); 
 
 let io = null;
 
@@ -71,10 +72,22 @@ const sendThreadNotification = async (api, threadID, message, type) => {
     const settings = loadConfig();
     const threadSettings = settings[threadID] || {};
     
-    // Check if notification type is enabled
     if (threadSettings[`notify_${type}`] !== false) {
         await api.sendMessage(message, threadID);
     }
+};
+
+const getMemoryUsage = () => {
+    const totalMem = os.totalmem();
+    const freeMem = os.freemem();
+    const usedMem = totalMem - freeMem;
+    
+    const toGB = (bytes) => (bytes / 1024 / 1024 / 1024).toFixed(2);
+    return {
+        used: toGB(usedMem),
+        total: toGB(totalMem),
+        percentage: ((usedMem / totalMem) * 100).toFixed(1)
+    };
 };
 
 const logChatRecord = async (api, event) => {
@@ -83,7 +96,6 @@ const logChatRecord = async (api, event) => {
     const userName = await getUserName(api, senderID);
     const groupName = await getGroupName(api, threadID);
     
-    // Check admin status from cached data
     let isAdmin = false;
     if (threadsData[threadID]?.adminIDs) {
         isAdmin = threadsData[threadID].adminIDs.some(admin => admin.id === senderID);
@@ -92,6 +104,7 @@ const logChatRecord = async (api, event) => {
     const logHeader = gradientText("━━━━━━━━━━[ CHUỖI CSDL NHẬT KÝ BOT ]━━━━━━━━━━");
 
     if (event.body) {
+        const memory = getMemoryUsage();
         const logMessage = [
             logHeader,
             "┏━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┓",
@@ -100,11 +113,13 @@ const logChatRecord = async (api, event) => {
             `┣➤ 👤 ID Người dùng: ${senderID}${isAdmin ? ' (Admin)' : ''}`,
             `┣➤ ✉️ Nội dung: ${event.body}`,
             `┣➤ ⏰ Vào lúc: ${time}`,
+            `┣➤ 💻 RAM: ${memory.used}GB/${memory.total}GB (${memory.percentage}%)`,
             "┗━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┛"
         ].join('\n');
 
         console.log(logMessage);
         
+            "┗━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┛"
         if (io) {
             io.emit('botLog', { 
                 output: logMessage,
@@ -171,7 +186,7 @@ const getGroupName = async (api, threadID) => {
         if (!threadInfo) return `Nhóm ${threadID}`;
         return threadInfo.name || `Nhóm ${threadID}`;
     } catch (error) {
-        // Only log if it's not a Facebook blocking error
+
         if (!error.errorSummary?.includes('Bạn tạm thời bị chặn')) {
             console.error(`Lỗi khi lấy tên nhóm ${threadID}:`, error);
         }
@@ -182,10 +197,8 @@ const getGroupName = async (api, threadID) => {
 const getUserName = async (api, userID) => {
     try {
         const userInfo = await api.getUserInfo(userID);
-        if (!userInfo || !userInfo[userID]) return `Người dùng ${userID}`;
-        return userInfo[userID].name || `Người dùng ${userID}`;
-    } catch (error) {
-        // Only log if it's not a Facebook blocking error
+        if (!userInfo || !userInfo[userID]) return `Người dùng ${userID}`;        return userInfo[userID].name || `Người dùng ${userID}`;    } catch (error) {
+
         if (!error.errorSummary?.includes('Bạn tạm thời bị chặn')) {
             console.error(`Lỗi khi lấy tên người dùng ${userID}:`, error);
         }

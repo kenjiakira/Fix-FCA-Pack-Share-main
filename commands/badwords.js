@@ -77,7 +77,16 @@ module.exports = {
     info: "Quản lý danh sách từ bị cấm",
     onPrefix: true,
     dev: "HNT",
+    usages: [
+        "/badwords add [từ] - Thêm từ vào danh sách cấm",
+        "/badwords remove [từ] - Xóa từ khỏi danh sách cấm",
+        "/badwords list - Hiển thị danh sách từ cấm",
+        "/badwords on - Bật tính năng cấm từ",
+        "/badwords off - Tắt tính năng cấm từ",
+        "/badwords clearwarnings - Bỏ cảnh cáo cho tất cả thành viên"
+    ],
     cooldowns: 6,
+    
     onLaunch: async function ({ event, api, target }) {
         const { threadID, messageID, mentions, senderID } = event;
         checkWarningExpiration();

@@ -3,20 +3,30 @@ const axios = require('axios');
 module.exports = {
     name: "check",
     usedby: 0,
-    info: "Lấy thông tin từ URL.",
+    info: "Lấy thông tin từ URL",
     onPrefix: true,
     dev: "Jonell Magallanes",
     cooldowns: 3,
     dmUser: false,
 
     onLaunch: async function ({ api, event, target }) {
-        const { threadID, messageID } = event;
-
-        if (!target[0]) {
-            return api.sendMessage("Vui lòng cung cấp một URL để kiểm tra.", threadID, messageID);
+        const { threadID, messageID, type, messageReply } = event;
+        
+        let url;
+        if (type === "message_reply" && messageReply.body) {
+            const urlRegex = /(https?:\/\/[^\s]+)/g;
+            const matches = messageReply.body.match(urlRegex);
+            if (matches) {
+                url = matches[0];
+            }
+        } else {
+            url = target[0];
         }
 
-        const url = target[0];
+        if (!url) {
+            return api.sendMessage("Vui lòng cung cấp một URL để kiểm tra hoặc reply tin nhắn chứa URL.", threadID, messageID);
+        }
+
         const checking = await api.sendMessage("Đang kiểm tra.....", event.threadID, event.messageID);
         try {
             const response = await axios.get(`https://joncll.serv00.net/checker.php?url=${url}`);

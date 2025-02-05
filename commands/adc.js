@@ -1,9 +1,24 @@
 module.exports = {
   name: "adc",
   usedby: 2,
-  info: "thêm lệnh và chia sẻ",
+  info: "Thêm lệnh và chia sẻ code qua pastebin/drive/buildtool links",
   onPrefix: true,
   cooldowns: 10,
+  usages: `Cách dùng:
+  1. Tải code lên pastebin:
+     {prefix}adc <tên_file>
+  2. Thêm code từ link:
+     {prefix}adc <tên_file> [Phản hồi link code]
+     
+  Hỗ trợ các link:
+  - Pastebin raw
+  - Google Drive txt
+  - Buildtool
+  - Tinyurl
+  
+  Ví dụ:
+  - {prefix}adc test → Tải code của file test.js lên pastebin
+  - {prefix}adc newcmd [reply link] → Tải code từ link và lưu thành newcmd.js`,
 
   onLaunch: async function({ api, event, target }) {
     const axios = require('axios');
@@ -68,7 +83,7 @@ module.exports = {
       });
     }
 
-    if (url[0].indexOf('buildtool') !== -1 || url[0].indexOf('tinyurl.com') !== -1) {
+    if (url[0].indexOf('buildtool') !== -1 || url[0].indexOf('tinyurl') !== -1) {
       const options = {
         method: 'GET',
         url: messageReply.body
