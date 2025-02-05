@@ -64,6 +64,7 @@ async function sendWelcomeMessage(api, threadID, userName, threadName, memberNum
 
 const handleLogSubscribe = async (api, event, adminConfig) => {
     try {
+       
         if (event.logMessageData.addedParticipants.some(i => i.userFbId == api.getCurrentUserID())) {
             try {
                 await api.changeNickname(
@@ -83,33 +84,51 @@ const handleLogSubscribe = async (api, event, adminConfig) => {
 
         const { threadID } = event;
         let threadInfo;
-        try {
-            threadInfo = await api.getThreadInfo(threadID);
-        } catch (error) {
-            console.error("Error getting thread info:", error);
-            threadInfo = { participantIDs: [], threadName: "Unnamed group" };
+        
+        let retries = 0;
+        const maxRetries = 3;
+        
+        while (retries < maxRetries) {
+            try {
+                threadInfo = await api.getThreadInfo(threadID);
+                if (threadInfo) break;
+            } catch (err) {
+                retries++;
+                if (retries === maxRetries) {
+                    console.error("Failed to get thread info after", maxRetries, "attempts");
+                    threadInfo = { participantIDs: [] };
+                } else {
+                    await new Promise(resolve => setTimeout(resolve, 1000 * retries));
+                }
+            }
         }
 
-        let threadName = threadInfo.threadName || "Unnamed group";
-        let { participantIDs } = threadInfo;
-        let addedParticipants = event.logMessageData.addedParticipants;
+        const threadName = threadInfo?.threadName || `Nhóm ${threadID}`;
+        const participantIDs = threadInfo?.participantIDs || [];
+        const addedParticipants = event.logMessageData.addedParticipants;
 
         for (let newParticipant of addedParticipants) {
-            let userID = newParticipant.userFbId;
+            const userID = newParticipant.userFbId;
             if (userID === api.getCurrentUserID()) continue;
 
-            let userName = newParticipant.fullName || "Thành viên mới";
+            const userName = newParticipant.fullName || `Thành viên mới`;
             const memberNumber = participantIDs.length;
 
             await sendWelcomeMessage(api, threadID, userName, threadName, memberNumber);
 
-            await handleNewMember(api, {
-                threadID: threadID,
-                participantIDs: [userID]
-            });
+         
+            try {
+                await handleNewMember(api, {
+                    threadID: threadID,
+                    participantIDs: [userID]
+                });
+            } catch (memberError) {
+                console.error("Error handling new member:", memberError);
+            }
         }
     } catch (error) {
-        console.error("Lỗi trong handleLogSubscribe:", error);
+        console.error("Error in handleLogSubscribe:", error);
+
     }
 };
 

@@ -1,13 +1,7 @@
 {
-  "bot ơi chơi lệnh tx giúp ah đi": {
+  "bot ơi lệnh coin dùng như nào": {
     "responses": [
-      "Dạ anh, đang thực hiện lệnh `tx` ạ."
-    ],
-    "frequency": 1
-  },
-  "chơi 1 ván tx đi": {
-    "responses": [
-      "Dạ anh, đang thực hiện lệnh `tx` ạ."
+      "Dạ anh Ngọc Từ, lệnh `coin` dùng để tương tác với hệ thống đào coin crypto nha.\n\n- Mô tả: Hệ thống đào coin crypto.\n- Cách dùng: `.coin [mine/shop/upgrade/trade/market/wallet]`\n- Quyền hạn: Admin"
     ],
     "frequency": 1
   }

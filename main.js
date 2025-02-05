@@ -290,16 +290,38 @@ process.on('SIGINT', () => {
 });
 
 process.on('uncaughtException', async (err) => {
-    console.error('Uncaught Exception:', err);
-    if (err.code === 'ENOTFOUND' && err.syscall === 'getaddrinfo' && err.hostname === 'www.facebook.com') {
+    // Ignore Facebook rate limit errors
+    if (err?.error === 3252001 || 
+        err?.errorSummary?.includes('Bạn tạm thời bị chặn') ||
+        (err?.error && err?.blockedAction)) {
+        return; // Silently ignore these errors  
+    }
+
+    if (err.code === 'ENOTFOUND' && 
+        err.syscall === 'getaddrinfo' && 
+        err.hostname === 'www.facebook.com') {
         console.log(boldText(gradient.cristal("Facebook connection lost")));
+    } else {
+        console.error('Uncaught Exception:', 
+            err?.message || err?.errorSummary || 'Unknown error');
     }
 });
 
 process.on('unhandledRejection', async (reason, promise) => {
-    console.error('Unhandled Rejection at:', promise, 'reason:', reason);
-    if (reason && reason.code === 'ENOTFOUND' && reason.syscall === 'getaddrinfo' && reason.hostname === 'www.facebook.com') {
+   
+    if (reason?.error === 3252001 || 
+        reason?.errorSummary?.includes('Bạn tạm thời bị chặn') ||
+        (reason?.error && reason?.blockedAction)) {
+        return; 
+    }
+
+    if (reason && reason.code === 'ENOTFOUND' && 
+        reason.syscall === 'getaddrinfo' && 
+        reason.hostname === 'www.facebook.com') {
         console.log(boldText(gradient.cristal("Facebook connection lost")));
+    } else {
+        console.error('Unhandled Rejection:', 
+            reason?.message || reason?.errorSummary || 'Unknown error');
     }
 });
 

@@ -26,7 +26,7 @@
     "notify_color": false
   },
   "8940255536071225": {
-    "notifications": false,
+    "notifications": true,
     "welcomeMessage": "🎉 Xin chào {userName}!\nChào mừng bạn đến với nhóm \"{threadName}\"!\nBạn là thành viên thứ {memberNumber}",
     "leaveMessage": "👋 {userName} {actionType}.\n👥 Thành viên còn lại: {memberCount}",
     "notify_avatar": false,

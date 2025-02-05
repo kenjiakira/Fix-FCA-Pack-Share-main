@@ -186,9 +186,8 @@ module.exports = {
             if (error.error === 1545116) {
                 errorMsg += "- Không thể gửi trực tiếp đến admin do hạn chế của Facebook.\n";
                 errorMsg += "- Vui lòng liên hệ admin qua các phương thức khác:\n";
-                errorMsg += "1. Tham gia nhóm support: [link group]\n";
-                errorMsg += "2. Liên hệ qua Facebook: [fb.com/admin]\n";
-                errorMsg += "3. Gửi email tới: [email]";
+                errorMsg += "1. Liên hệ qua Facebook: [https://www.facebook.com/KenjiDevv]\n";
+                errorMsg += "2. Gửi email tới: [akistudio@gmail.com]";
             } else {
                 errorMsg += `- Lỗi: ${error.message}\n`;
                 errorMsg += "- Vui lòng thử lại sau hoặc liên hệ admin qua phương thức khác.";

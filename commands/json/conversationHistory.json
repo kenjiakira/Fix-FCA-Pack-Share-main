@@ -1,16 +1,9 @@
 {
   "global": [
     {
-      "timestamp": 1738734296904,
-      "prompt": "bot ơi chơi lệnh tx giúp ah đi",
-      "response": "Dạ anh, đang thực hiện lệnh `tx` ạ.",
-      "senderID": "61561753304881",
-      "senderName": "Ngọc Từ"
-    },
-    {
-      "timestamp": 1738734314382,
-      "prompt": "chơi 1 ván tx đi",
-      "response": "Dạ anh, đang thực hiện lệnh `tx` ạ.",
+      "timestamp": 1738742792672,
+      "prompt": "bot ơi lệnh coin dùng như nào",
+      "response": "Dạ anh Ngọc Từ, lệnh `coin` dùng để tương tác với hệ thống đào coin crypto nha.\n\n- Mô tả: Hệ thống đào coin crypto.\n- Cách dùng: `.coin [mine/shop/upgrade/trade/market/wallet]`\n- Quyền hạn: Admin",
       "senderID": "61561753304881",
       "senderName": "Ngọc Từ"
     }
@@ -18,23 +11,15 @@
   "threads": {
     "6589198804475799": [
       {
-        "timestamp": 1738734296904,
-        "prompt": "bot ơi chơi lệnh tx giúp ah đi",
-        "response": "Dạ anh, đang thực hiện lệnh `tx` ạ.",
-        "senderID": "61561753304881",
-        "senderName": "Ngọc Từ"
-      },
-      {
-        "timestamp": 1738734314382,
-        "prompt": "chơi 1 ván tx đi",
-        "response": "Dạ anh, đang thực hiện lệnh `tx` ạ.",
+        "timestamp": 1738742792672,
+        "prompt": "bot ơi lệnh coin dùng như nào",
+        "response": "Dạ anh Ngọc Từ, lệnh `coin` dùng để tương tác với hệ thống đào coin crypto nha.\n\n- Mô tả: Hệ thống đào coin crypto.\n- Cách dùng: `.coin [mine/shop/upgrade/trade/market/wallet]`\n- Quyền hạn: Admin",
         "senderID": "61561753304881",
         "senderName": "Ngọc Từ"
       }
     ]
   },
   "lastResponses": {
-    "bot ơi chơi lệnh tx giúp ah đi": "Dạ anh, đang thực hiện lệnh `tx` ạ.",
-    "chơi 1 ván tx đi": "Dạ anh, đang thực hiện lệnh `tx` ạ."
+    "bot ơi lệnh coin dùng như nào": "Dạ anh Ngọc Từ, lệnh `coin` dùng để tương tác với hệ thống đào coin crypto nha.\n\n- Mô tả: Hệ thống đào coin crypto.\n- Cách dùng: `.coin [mine/shop/upgrade/trade/market/wallet]`\n- Quyền hạn: Admin"
   }
 }
