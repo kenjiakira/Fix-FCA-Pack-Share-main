@@ -62,9 +62,15 @@ function calculateCreditScore(userId, bankingData) {
     const loanHistory = bankingData.loans[userId]?.history || [];
     let score = 0;
 
-    const transactionVolume = transactions.reduce((sum, t) => sum + t.amount, 0);
-    const transactionScore = Math.min(100, (transactionVolume / CREDIT_SCORE.factors.transactionVolume.threshold) * 100);
+   
+    const totalTransactionVolume = transactions.reduce((sum, t) => sum + t.amount, 0);
+   
+    const transactionScore = Math.min(100, (totalTransactionVolume / CREDIT_SCORE.factors.transactionVolume.threshold) * 120);
     score += transactionScore * CREDIT_SCORE.factors.transactionVolume.weight;
+
+    const successfulTransactions = transactions.length;
+    const transactionCountScore = Math.min(100, (successfulTransactions / 10) * 100);
+    score += transactionCountScore * 0.2;
 
     const accountAge = (Date.now() - (userData.createdAt || Date.now())) / (24 * 60 * 60 * 1000);
     if (accountAge < CREDIT_SCORE.factors.accountAge.minAge) {
@@ -101,6 +107,13 @@ function calculateCreditScore(userId, bankingData) {
         });
     }
 
+    const recentTransactions = transactions.filter(t => 
+        Date.now() - t.timestamp < 7 * 24 * 60 * 60 * 1000 
+    );
+    if (recentTransactions.length >= 5) {
+        score += 10; 
+    }
+
     return Math.max(CREDIT_SCORE.minScore, Math.min(CREDIT_SCORE.maxScore, Math.round(score)));
 }
 
@@ -134,11 +147,14 @@ function calculateDetailedCreditScore(userId, bankingData) {
             b.timestamp > Date.now() - (CREDIT_SCORE.factors.balanceStability.duration * 24 * 60 * 60 * 1000)
         );
         const hasStableBalance = recentBalances.every(b => b.balance >= CREDIT_SCORE.factors.balanceStability.minBalance);
-        if (hasStableBalance) stabilityScore = 100;
+        stabilityScore = hasStableBalance ? 100 : Math.min(100, 
+            (userData.bankBalance / CREDIT_SCORE.factors.balanceStability.minBalance) * 50
+        );
     }
+    
     details.stabilityScore = {
         score: Math.round(stabilityScore * CREDIT_SCORE.factors.balanceStability.weight),
-        description: `Độ ổn định số dư: ${stabilityScore}%`
+        description: `Độ ổn định số dư: ${Math.min(100, Math.round(stabilityScore))}%`
     };
 
     let loanScore = 0;
@@ -147,7 +163,6 @@ function calculateDetailedCreditScore(userId, bankingData) {
             loan.status === 'paid' && loan.paidOnTime
         ).length;
         
-        // Consider active loan status
         if (activeLoan && activeLoan.status === 'active') {
             const isOverdue = Date.now() > activeLoan.dueDate;
             if (isOverdue) {
@@ -177,6 +192,16 @@ function calculateDetailedCreditScore(userId, bankingData) {
     }
 
     creditScore = Math.max(CREDIT_SCORE.minScore, Math.min(CREDIT_SCORE.maxScore, creditScore));
+
+    const transferTransactions = transactions.filter(t => t.type === 'out').length;
+    const receiveTransactions = transactions.filter(t => t.type === 'in').length;
+    
+    details.transactionScore = {
+        score: Math.round(transactionScore * CREDIT_SCORE.factors.transactionVolume.weight),
+        total: totalTransactionVolume,
+        description: `Khối lượng giao dịch: ${totalTransactionVolume.toLocaleString('vi-VN')} Xu`,
+        transfers: `Chuyển: ${transferTransactions}, Nhận: ${receiveTransactions}`
+    };
 
     return {
         score: Math.round(creditScore),
@@ -276,6 +301,7 @@ const getBankingHelp = () => {
 - Ví dụ: 1,000,000 Xu
 
 💹 Lãi suất (Interest Rate)
+- Thời điểm tính lãi: Mỗi lần check số dư
 - Mô tả: Tỷ lệ lãi suất áp dụng cho số dư
 - Mức lãi: 0.1% mỗi ngày (3% mỗi tháng)
 - Thời điểm tính lãi: Mỗi lần check số dư
@@ -353,7 +379,6 @@ module.exports = {
                 walletBalance = 0;
             }
             
-            // Khởi tạo user data
             if (!bankingData.users[senderID]) {
                 try {
                     bankingData.users[senderID] = initializeUserData(senderID, bankingData);
@@ -480,9 +505,9 @@ module.exports = {
                             `🏦 Số dư ngân hàng: ${bankBalance.toLocaleString('vi-VN')} Xu\n` +
                             `💵 Tổng tài sản: ${(walletBalance + bankBalance).toLocaleString('vi-VN')} Xu\n\n` +
                             `📊 Điểm tín dụng: ${creditInfo.score}/100\n` +
-                            `├─ Giao dịch: ${Math.round(creditInfo.details.transactionScore.score * 100)}%\n` +
+                            `├─ Giao dịch: ${Math.min(100, Math.round(creditInfo.details.transactionScore.score))}%\n` +
                             `├─ Độ tuổi tài khoản: ${creditInfo.details.ageScore.days} ngày\n` +
-                            `├─ Độ ổn định: ${Math.round(creditInfo.details.stabilityScore.score * 100)}%\n` +
+                            `├─ Độ ổn định: ${Math.min(100, Math.round(creditInfo.details.stabilityScore.score))}%\n` +
                             `└─ Lịch sử vay: ${Math.round(creditInfo.details.loanScore.score * 100)}%\n\n` +
                             `📝 Giao dịch gần đây:\n${transHistory}${loanInfo}`,
                             threadID, messageID
@@ -714,36 +739,8 @@ module.exports = {
             }
 
             await saveBankingData(bankingData);
-        } catch (err) {a
+        } catch (err) {
             console.error('Lỗi cập nhật giao dịch:', err);
             throw err; 
         }
-    }
-};
-//    "100023369384858": {
-//  "bankBalance": 1200000,
-//   "lastInterest": 1736067225984,
-//     "createdAt": 1736067225984,
-//     "balanceHistory": [],
-//     "penalties": [],
-//     "creditScore": 65,
-//     "lockedCollateral": 0
-//   },
-
-// "61564482366941": {
-//     "bankBalance": 3299000,
-//     "lastInterest": 1736425078338,
-//     "createdAt": 1736425078338,
-//     "balanceHistory": [],
-//     "penalties": [],
-//     "creditScore": 65
-//   },
-
-// "100063719077878": {
-//     "bankBalance": 15363391,
-//     "lastInterest": 1737817506286,
-//     "createdAt": 1736225241802,
-//     "balanceHistory": [],
-//     "penalties": [],
-//     "creditScore": 65
-//   },
+    }};

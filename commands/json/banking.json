@@ -1,102 +1,491 @@
 {
   "users": {
+    "100029043375434": {
+      "bankBalance": 0,
+      "lastInterest": 1738670359449,
+      "createdAt": 1738670359449,
+      "balanceHistory": [],
+      "penalties": [],
+      "creditScore": 13
+    },
     "61561753304881": {
-      "bankBalance": 1107611,
-      "lastInterest": 1738508310780,
-      "createdAt": 1737860175391,
-      "balanceHistory": [],
-      "penalties": [],
-      "creditScore": 13
-    },
-    "100071151188537": {
-      "bankBalance": 0,
-      "lastInterest": 1737860338634,
-      "createdAt": 1737860338634,
-      "balanceHistory": [],
-      "penalties": [],
-      "creditScore": 13
-    },
-    "100063719077878": {
-      "bankBalance": 8010000,
-      "lastInterest": 1737991234960,
-      "createdAt": 1737860834874,
-      "balanceHistory": [],
-      "penalties": [],
-      "creditScore": 13
-    },
-    "100044841742945": {
-      "bankBalance": 0,
-      "lastInterest": 1737861643953,
-      "createdAt": 1737861643953,
-      "balanceHistory": [],
-      "penalties": [],
-      "creditScore": 13
-    },
-    "61566789515977": {
-      "bankBalance": 0,
-      "lastInterest": 1737949900340,
-      "createdAt": 1737949900340,
-      "balanceHistory": [],
-      "penalties": [],
-      "creditScore": 13
-    },
-    "61568522233427": {
-      "bankBalance": 1683147,
-      "lastInterest": 1738497939852,
-      "createdAt": 1737952825605,
-      "balanceHistory": [],
-      "penalties": [],
-      "creditScore": 13
-    },
-    "61564482366941": {
-      "bankBalance": 0,
-      "lastInterest": 1737990182475,
-      "createdAt": 1737990182475,
-      "balanceHistory": [],
-      "penalties": [],
-      "creditScore": 13
-    },
-    "61568641631000": {
-      "bankBalance": 4000000,
-      "lastInterest": 1737999756775,
-      "createdAt": 1737999756775,
-      "balanceHistory": [],
-      "penalties": [],
-      "creditScore": 13
-    },
-    "100049109850406": {
-      "bankBalance": 22208000,
-      "lastInterest": 1738584765662,
-      "createdAt": 1738041028289,
-      "balanceHistory": [],
-      "penalties": [],
-      "creditScore": 13
-    },
-    "100058320200877": {
-      "bankBalance": 0,
-      "lastInterest": 1738045501680,
-      "createdAt": 1738045501680,
-      "balanceHistory": [],
-      "penalties": [],
-      "creditScore": 13
-    },
-    "100085652238878": {
-      "bankBalance": 0,
-      "lastInterest": 1738509017718,
-      "createdAt": 1738509017718,
+      "bankBalance": 1000000,
+      "lastInterest": 1738670829270,
+      "createdAt": 1738670829270,
       "balanceHistory": [],
       "penalties": [],
       "creditScore": 13
     },
     "100095177644281": {
-      "bankBalance": 31000000,
-      "lastInterest": 1738589381405,
-      "createdAt": 1738589381405,
+      "bankBalance": 0,
+      "lastInterest": 1738671413984,
+      "createdAt": 1738671413984,
       "balanceHistory": [],
       "penalties": [],
       "creditScore": 13
+    },
+    "100049109850406": {
+      "bankBalance": 0,
+      "lastInterest": 1738679703764,
+      "createdAt": 1738679703764,
+      "balanceHistory": [],
+      "penalties": [],
+      "creditScore": 13
+    },
+    "100006842495827": {
+      "bankBalance": 0,
+      "lastInterest": 1738684313323,
+      "createdAt": 1738684313323,
+      "balanceHistory": [],
+      "penalties": [],
+      "creditScore": 13
+    },
+    "100073764251719": {
+      "bankBalance": 5000,
+      "lastInterest": 1738684392741,
+      "createdAt": 1738684392741,
+      "balanceHistory": [],
+      "penalties": [],
+      "creditScore": 13
+    },
+    "100050363228652": {
+      "bankBalance": 0,
+      "lastInterest": 1738685044508,
+      "createdAt": 1738685044508,
+      "balanceHistory": [],
+      "penalties": [],
+      "creditScore": 42
+    },
+    "100079621883786": {
+      "bankBalance": 0,
+      "lastInterest": 1738685448344,
+      "createdAt": 1738685448344,
+      "balanceHistory": [],
+      "penalties": [],
+      "creditScore": 42
+    },
+    "61568733064572": {
+      "bankBalance": 0,
+      "lastInterest": 1738685632917,
+      "createdAt": 1738685632917,
+      "balanceHistory": [],
+      "penalties": [],
+      "creditScore": 35
     }
   },
-  "transactions": {},
+  "transactions": {
+    "61564482366941": [
+      {
+        "type": "out",
+        "description": "Chuyển 1,000,000 Xu cho Người nhận",
+        "amount": 1000000,
+        "timestamp": 1738670326290
+      },
+      {
+        "type": "in",
+        "description": "Nhận 1,000,000 Xu từ Người gửi",
+        "amount": 1000000,
+        "timestamp": 1738670384147
+      },
+      {
+        "type": "in",
+        "description": "Nhận 1,000,000 Xu từ Người gửi",
+        "amount": 1000000,
+        "timestamp": 1738680532358
+      },
+      {
+        "type": "in",
+        "description": "Nhận 1,000,000 Xu từ Người gửi",
+        "amount": 1000000,
+        "timestamp": 1738684810121
+      },
+      {
+        "type": "in",
+        "description": "Nhận 3,000,000 Xu từ Người gửi",
+        "amount": 3000000,
+        "timestamp": 1738685382324
+      },
+      {
+        "type": "in",
+        "description": "Nhận 5,000,000 Xu từ Người gửi",
+        "amount": 5000000,
+        "timestamp": 1738685796559
+      },
+      {
+        "type": "in",
+        "description": "Nhận 1,000,000 Xu từ Người gửi",
+        "amount": 1000000,
+        "timestamp": 1738686016727
+      },
+      {
+        "type": "in",
+        "description": "Nhận 1,000,000 Xu từ Người gửi",
+        "amount": 1000000,
+        "timestamp": 1738686137590
+      }
+    ],
+    "100079621883786": [
+      {
+        "type": "in",
+        "description": "Nhận 1,000,000 Xu từ Người gửi",
+        "amount": 1000000,
+        "timestamp": 1738670326314
+      },
+      {
+        "type": "out",
+        "description": "Chuyển 1,000,000 Xu cho Người nhận",
+        "amount": 1000000,
+        "timestamp": 1738670384124
+      },
+      {
+        "type": "out",
+        "description": "Chuyển 500,000 Xu cho Người nhận",
+        "amount": 500000,
+        "timestamp": 1738685525257
+      },
+      {
+        "type": "in",
+        "description": "Nhận 5,000,000 Xu từ Người gửi",
+        "amount": 5000000,
+        "timestamp": 1738686015384
+      },
+      {
+        "type": "in",
+        "description": "Nhận 1,000,000 Xu từ Người gửi",
+        "amount": 1000000,
+        "timestamp": 1738686207717
+      }
+    ],
+    "61563665666655": [
+      {
+        "type": "out",
+        "description": "Chuyển 10,000 Xu cho Người nhận",
+        "amount": 10000,
+        "timestamp": 1738671059119
+      },
+      {
+        "type": "out",
+        "description": "Chuyển 10,000 Xu cho Người nhận",
+        "amount": 10000,
+        "timestamp": 1738671314436
+      },
+      {
+        "type": "out",
+        "description": "Chuyển 10,000 Xu cho Người nhận",
+        "amount": 10000,
+        "timestamp": 1738671368314
+      },
+      {
+        "type": "out",
+        "description": "Chuyển 10,000 Xu cho Người nhận",
+        "amount": 10000,
+        "timestamp": 1738671576840
+      }
+    ],
+    "61565356555051": [
+      {
+        "type": "in",
+        "description": "Nhận 10,000 Xu từ Người gửi",
+        "amount": 10000,
+        "timestamp": 1738671059132
+      },
+      {
+        "type": "in",
+        "description": "Nhận 10,000 Xu từ Người gửi",
+        "amount": 10000,
+        "timestamp": 1738671368323
+      }
+    ],
+    "61551406833367": [
+      {
+        "type": "in",
+        "description": "Nhận 10,000 Xu từ Người gửi",
+        "amount": 10000,
+        "timestamp": 1738671314445
+      }
+    ],
+    "61554196576460": [
+      {
+        "type": "in",
+        "description": "Nhận 10,000 Xu từ Người gửi",
+        "amount": 10000,
+        "timestamp": 1738671576848
+      }
+    ],
+    "100095177644281": [
+      {
+        "type": "out",
+        "description": "Chuyển 1,000,000 Xu cho Người nhận",
+        "amount": 1000000,
+        "timestamp": 1738681435413
+      },
+      {
+        "type": "in",
+        "description": "Nhận 1,000,000 Xu từ Người gửi",
+        "amount": 1000000,
+        "timestamp": 1738681870518
+      },
+      {
+        "type": "out",
+        "description": "Chuyển 3,000,000 Xu cho Người nhận",
+        "amount": 3000000,
+        "timestamp": 1738683167785
+      },
+      {
+        "type": "in",
+        "description": "Nhận 1,000,000 Xu từ Người gửi",
+        "amount": 1000000,
+        "timestamp": 1738684778279
+      },
+      {
+        "type": "out",
+        "description": "Chuyển 1,000,000 Xu cho Người nhận",
+        "amount": 1000000,
+        "timestamp": 1738684915738
+      },
+      {
+        "type": "out",
+        "description": "Chuyển 3,000,000 Xu cho Người nhận",
+        "amount": 3000000,
+        "timestamp": 1738685375704
+      },
+      {
+        "type": "out",
+        "description": "Chuyển 3,000,000 Xu cho Người nhận",
+        "amount": 3000000,
+        "timestamp": 1738685382314
+      },
+      {
+        "type": "in",
+        "description": "Nhận 3,000,001 Xu từ Người gửi",
+        "amount": 3000001,
+        "timestamp": 1738685561059
+      },
+      {
+        "type": "out",
+        "description": "Chuyển 5,000,000 Xu cho Người nhận",
+        "amount": 5000000,
+        "timestamp": 1738686015372
+      },
+      {
+        "type": "out",
+        "description": "Chuyển 1,000,000 Xu cho Người nhận",
+        "amount": 1000000,
+        "timestamp": 1738686207704
+      }
+    ],
+    "100089415987625": [
+      {
+        "type": "in",
+        "description": "Nhận 5,000,000 Xu từ Người gửi",
+        "amount": 5000000,
+        "timestamp": 1738673014795
+      }
+    ],
+    "100049109850406": [
+      {
+        "type": "in",
+        "description": "Nhận 1,000,000 Xu từ Người gửi",
+        "amount": 1000000,
+        "timestamp": 1738679860626
+      },
+      {
+        "type": "out",
+        "description": "Chuyển 150,000 Xu cho Người nhận",
+        "amount": 150000,
+        "timestamp": 1738680193332
+      },
+      {
+        "type": "out",
+        "description": "Chuyển 1,000,000 Xu cho Người nhận",
+        "amount": 1000000,
+        "timestamp": 1738680217996
+      },
+      {
+        "type": "in",
+        "description": "Nhận 100,000 Xu từ Người gửi",
+        "amount": 100000,
+        "timestamp": 1738681353526
+      },
+      {
+        "type": "in",
+        "description": "Nhận 1,000,000 Xu từ Người gửi",
+        "amount": 1000000,
+        "timestamp": 1738681435420
+      },
+      {
+        "type": "in",
+        "description": "Nhận 500,000 Xu từ Người gửi",
+        "amount": 500000,
+        "timestamp": 1738681796515
+      },
+      {
+        "type": "out",
+        "description": "Chuyển 1,000,000 Xu cho Người nhận",
+        "amount": 1000000,
+        "timestamp": 1738681870500
+      },
+      {
+        "type": "out",
+        "description": "Chuyển 500,000 Xu cho Người nhận",
+        "amount": 500000,
+        "timestamp": 1738683495104
+      }
+    ],
+    "61561753304881": [
+      {
+        "type": "out",
+        "description": "Chuyển 100,000 Xu cho Người nhận",
+        "amount": 100000,
+        "timestamp": 1738681322480
+      },
+      {
+        "type": "out",
+        "description": "Chuyển 100,000 Xu cho Người nhận",
+        "amount": 100000,
+        "timestamp": 1738681329703
+      },
+      {
+        "type": "out",
+        "description": "Chuyển 100,000 Xu cho Người nhận",
+        "amount": 100000,
+        "timestamp": 1738681353519
+      },
+      {
+        "type": "out",
+        "description": "Chuyển 500,000 Xu cho Người nhận",
+        "amount": 500000,
+        "timestamp": 1738681796501
+      },
+      {
+        "type": "in",
+        "description": "Nhận 500,000 Xu từ Người gửi",
+        "amount": 500000,
+        "timestamp": 1738683495113
+      }
+    ],
+    "61568733064572": [
+      {
+        "type": "in",
+        "description": "Nhận 100,000 Xu từ Người gửi",
+        "amount": 100000,
+        "timestamp": 1738681322487
+      },
+      {
+        "type": "in",
+        "description": "Nhận 500,000 Xu từ Người gửi",
+        "amount": 500000,
+        "timestamp": 1738685525267
+      },
+      {
+        "type": "in",
+        "description": "Nhận 500,000 Xu từ Người gửi",
+        "amount": 500000,
+        "timestamp": 1738685858721
+      }
+    ],
+    "100050363228652": [
+      {
+        "type": "in",
+        "description": "Nhận 100,000 Xu từ Người gửi",
+        "amount": 100000,
+        "timestamp": 1738681329709
+      },
+      {
+        "type": "in",
+        "description": "Nhận 3,000,000 Xu từ Người gửi",
+        "amount": 3000000,
+        "timestamp": 1738683167792
+      }
+    ],
+    "100080149704587": [
+      {
+        "type": "out",
+        "description": "Chuyển 1,000,000 Xu cho Người nhận",
+        "amount": 1000000,
+        "timestamp": 1738684778270
+      },
+      {
+        "type": "out",
+        "description": "Chuyển 1,000,000 Xu cho Người nhận",
+        "amount": 1000000,
+        "timestamp": 1738684810107
+      },
+      {
+        "type": "in",
+        "description": "Nhận 3,000,000 Xu từ Người gửi",
+        "amount": 3000000,
+        "timestamp": 1738685375717
+      },
+      {
+        "type": "out",
+        "description": "Chuyển 3,000,001 Xu cho Người nhận",
+        "amount": 3000001,
+        "timestamp": 1738685561052
+      },
+      {
+        "type": "out",
+        "description": "Chuyển 5,000,000 Xu cho Người nhận",
+        "amount": 5000000,
+        "timestamp": 1738685796547
+      },
+      {
+        "type": "out",
+        "description": "Chuyển 500,000 Xu cho Người nhận",
+        "amount": 500000,
+        "timestamp": 1738685858701
+      },
+      {
+        "type": "out",
+        "description": "Chuyển 1,000,000 Xu cho Người nhận",
+        "amount": 1000000,
+        "timestamp": 1738686016720
+      },
+      {
+        "type": "out",
+        "description": "Chuyển 1,000,000 Xu cho Người nhận",
+        "amount": 1000000,
+        "timestamp": 1738686137575
+      },
+      {
+        "type": "out",
+        "description": "Chuyển 1,000,000 Xu cho Người nhận",
+        "amount": 1000000,
+        "timestamp": 1738686188906
+      }
+    ],
+    "100068382888605": [
+      {
+        "type": "in",
+        "description": "Nhận 1,000,000 Xu từ Người gửi",
+        "amount": 1000000,
+        "timestamp": 1738684915750
+      }
+    ],
+    "100063719077878": [
+      {
+        "type": "in",
+        "description": "Nhận 1,000,000 Xu từ Người gửi",
+        "amount": 1000000,
+        "timestamp": 1738686188919
+      }
+    ],
+    "100089981373051": [
+      {
+        "type": "out",
+        "description": "Chuyển 100,000 Xu cho Người nhận",
+        "amount": 100000,
+        "timestamp": 1738686351536
+      }
+    ],
+    "100053857386814": [
+      {
+        "type": "in",
+        "description": "Nhận 100,000 Xu từ Người gửi",
+        "amount": 100000,
+        "timestamp": 1738686351545
+      }
+    ]
+  },
   "loans": {}
 }

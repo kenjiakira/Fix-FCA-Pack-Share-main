@@ -20,14 +20,6 @@ module.exports = {
     onLaunch: async function({ api, event, target = [] }) {
         try {
             const { threadID, messageID, senderID } = event;
-
-            const currentTime = Date.now();
-
-            if (this.lastPlayed[senderID] && currentTime - this.lastPlayed[senderID] < 60000) {
-                const waitTime = Math.ceil((60000 - (currentTime - this.lastPlayed[senderID])) / 1000);
-                return api.sendMessage(`Vui lòng đợi ${waitTime} giây nữa để chơi lại!`, threadID, messageID);
-            }
-
             const balance = getBalance(senderID);
 
             if (target.length < 2) {
@@ -63,7 +55,14 @@ module.exports = {
                 return api.sendMessage("Bạn không đủ số dư để đặt cược số tiền này!", threadID, messageID);
             }
 
+            const currentTime = Date.now();
+            if (this.lastPlayed[senderID] && currentTime - this.lastPlayed[senderID] < 60000) {
+                const waitTime = Math.ceil((60000 - (currentTime - this.lastPlayed[senderID])) / 1000);
+                return api.sendMessage(`Vui lòng đợi ${waitTime} giây nữa để chơi lại!`, threadID, messageID);
+            }
+
             this.lastPlayed[senderID] = currentTime;
+
             updateBalance(senderID, -betAmount);
 
             let message = `Đang lắc... Đợi ${5} giây...`;

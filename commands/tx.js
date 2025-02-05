@@ -143,15 +143,7 @@ module.exports = {
         try {
             const { threadID, messageID, senderID } = event;
 
-            const currentTime = Date.now();
-
-            if (this.lastPlayed[senderID] && currentTime - this.lastPlayed[senderID] < 40000) {
-                const waitTime = Math.ceil((40000 - (currentTime - this.lastPlayed[senderID])) / 1000);
-                return api.sendMessage(`Vui lòng đợi ${waitTime} giây nữa để chơi lại!`, threadID, messageID);
-            }
-
-            this.lastPlayed[senderID] = currentTime;
-
+            
             const balance = getBalance(senderID);
 
             if (target.length < 2) {
@@ -185,6 +177,14 @@ module.exports = {
             if (betAmount > balance) {
                 return api.sendMessage("Bạn không đủ số dư để đặt cược số tiền này!", threadID, messageID);
             }
+
+            const currentTime = Date.now();
+            if (this.lastPlayed[senderID] && currentTime - this.lastPlayed[senderID] < 40000) {
+                const waitTime = Math.ceil((40000 - (currentTime - this.lastPlayed[senderID])) / 1000);
+                return api.sendMessage(`Vui lòng đợi ${waitTime} giây nữa để chơi lại!`, threadID, messageID);
+            }
+
+            this.lastPlayed[senderID] = currentTime;
 
             updateBalance(senderID, -betAmount);
 
@@ -249,7 +249,6 @@ module.exports = {
                             const quy = loadQuy();
                             console.log(`Debug: Jackpot triggered! Total: ${total}, Quỹ: ${quy}`);
                             
-                            // Check if player correctly predicted the jackpot number
                             const isValidJackpot = (total === 18 && choice === "tài") || 
                                                   (total === 3 && choice === "xỉu");
                             

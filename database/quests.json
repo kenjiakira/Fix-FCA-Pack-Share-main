@@ -1,40 +1,60 @@
 {
   "dailyQuests": {
     "play_games": {
-      "name": "Chơi game",
-      "description": "Chơi các mini-game 5 lần",
-      "target": 5,
-      "reward": 10000
+      "name": "Người chơi tích cực",
+      "description": "Chơi tổng cộng 20 lần minigame bất kỳ",
+      "target": 20,
+      "reward": 50000,
+      "type": "counter"
     },
     "win_games": {
-      "name": "Thắng cuộc",
-      "description": "Thắng 3 ván game bất kỳ",
-      "target": 3,
-      "reward": 20000
-    },
-    "play_bctc": {
-      "name": "chơi bầu cua",
-      "description": "Chơi bầu cua 10 lần",
+      "name": "Tay chơi may mắn",
+      "description": "Thắng tổng cộng 10 lần trong bất kỳ minigame",
       "target": 10,
-      "reward": 30000
-    },
-    "win_bctc": {
-      "name": "Thần bầu cua",
-      "description": "Thắng bầu cua 5 lần",
-      "target": 5,
-      "reward": 50000
+      "reward": 100000,
+      "type": "counter"  
     },
     "play_coinflip": {
-      "name": "Chơi Coinflip",
-      "description": "Chơi coinflip 15 lần",
+      "name": "Thợ lật xu",
+      "description": "Chơi Coinflip 15 lần",
       "target": 15,
-      "reward": 25000
+      "reward": 30000,
+      "type": "counter"
     },
     "win_coinflip": {
-      "name": "Thần may mắn",
-      "description": "Thắng coinflip 8 lần", 
+      "name": "Trùm Coinflip",
+      "description": "Thắng 8 lần trong Coinflip",
       "target": 8,
-      "reward": 40000
+      "reward": 80000,
+      "type": "counter"
+    },
+    "play_bctc": {
+      "name": "Con bạc bầu cua", 
+      "description": "Chơi Bầu Cua 25 lần",
+      "target": 25,
+      "reward": 40000,
+      "type": "counter"
+    },
+    "win_bctc": {
+      "name": "Cao thủ bầu cua",
+      "description": "Thắng 12 lần trong Bầu Cua",
+      "target": 12,
+      "reward": 120000,
+      "type": "counter"
+    },
+    "win_streak": {
+      "name": "Chuỗi thắng",
+      "description": "Đạt chuỗi thắng 5 lần liên tiếp",
+      "target": 5, 
+      "reward": 200000,
+      "type": "streak"
+    },
+    "high_bet": {
+      "name": "Con bạc liều lĩnh",
+      "description": "Cược trên 1,000,000 xu trong một lần chơi",
+      "target": 1,
+      "reward": 500000,
+      "type": "achievement"
     }
   }
 }

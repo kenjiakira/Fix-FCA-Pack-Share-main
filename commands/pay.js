@@ -2,6 +2,7 @@ const { updateBalance, getBalance, saveData } = require('../utils/currencies');
 const { createCanvas, loadImage } = require('canvas');
 const fs = require('fs');
 const path = require('path');
+const { updateTransaction } = require('./banking'); 
 
 const transactionsPath = path.join(__dirname, '../commands/json/transactions.json');
 let transactions = {};
@@ -279,9 +280,19 @@ module.exports = {
             senderNewBalance
         );
 
+        try {
+
+            await updateTransaction(senderID, 'out', `Chuyển ${transferAmount.toLocaleString()} Xu cho ${recipientName}`, transferAmount);
+            
+            await updateTransaction(recipientID, 'in', `Nhận ${transferAmount.toLocaleString()} Xu từ ${senderName}`, transferAmount);
+        } catch (err) {
+            console.error("Lỗi cập nhật lịch sử giao dịch:", err);
+        }
+
         api.sendMessage(
             { attachment: fs.createReadStream(billPath) },
-            threadID,            () => fs.unlinkSync(billPath), 
+            threadID,
+            () => fs.unlinkSync(billPath),
             messageID
         );
 

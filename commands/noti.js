@@ -8,7 +8,7 @@ module.exports = {
   usedby: 2,
   onPrefix: true,
   dev: "HNT",
-  info: "Tin nhắn từ Admin",
+  info: "[level] <message> - Gửi thông báo với mức độ (INFO/WARN/ERROR)",
   cooldowns: 30,
 
   onReply: async function({ event, api }) {
@@ -49,7 +49,7 @@ module.exports = {
 
       api.sendMessage("✅ Đã gửi phản hồi của bạn đến admin", threadID, messageID);
     } else if (replyInfo.type === "user") {
-      // Admin replying to user's feedback
+
       let replyMsg = `📊 Phản hồi từ Admin\n`;
       replyMsg += `━━━━━━━━━━━━━━━━━━\n`;
       replyMsg += `💬 Nội dung: ${body}\n`;
@@ -75,7 +75,29 @@ module.exports = {
   },
 
   onLaunch: async function ({ api, event, target }) {
-    const content = target.join(" ");
+    const validLevels = ['INFO', 'WARN', 'ERROR'];
+    let level = 'INFO';
+    let content = target.join(" ");
+    
+    if (validLevels.includes(target[0]?.toUpperCase())) {
+      level = target[0].toUpperCase();
+      content = target.slice(1).join(" ");
+    }
+
+    const notiCode = `${level}-${Date.now().toString(36)}`;
+    
+    const levelEmoji = {
+      'INFO': '📢',
+      'WARN': '⚠️',
+      'ERROR': '🚨'
+    };
+
+    const levelColors = {
+      'INFO': '🔵',
+      'WARN': '🟡', 
+      'ERROR': '🔴'
+    };
+
     let attachments = [];
     
     const tmpFolderPath = path.join(__dirname, 'tmp');
@@ -126,10 +148,12 @@ module.exports = {
     }
 
     let messageObject = {
-      body: `📢 THÔNG BÁO QUAN TRỌNG 📢\n` +
+      body: `${levelEmoji[level]} THÔNG BÁO HỆ THỐNG ${levelEmoji[level]}\n` +
         `━━━━━━━━━━━━━━━━━━\n\n` +
-        `${content || ""}${content ? "\n\n" : ""}` +
-        `👤 Người gửi: ${senderName}\n` +
+        `${levelColors[level]} Mức độ: ${level}\n` +
+        `📝 Mã thông báo: ${notiCode}\n` +
+        `${content ? `\n💬 Nội dung:\n${content}\n` : ""}` +
+        `\n👤 Người gửi: ${senderName}\n` +
         `⏰ Thời gian: ${new Date().toLocaleString('vi-VN')}\n` +
         `━━━━━━━━━━━━━━━━━━\n` +
         `💌 Reply tin nhắn này để phản hồi với admin`,
@@ -178,7 +202,9 @@ module.exports = {
                 content: content || "Thông báo không có nội dung",
                 threadID: id,
                 type: "admin",
-                adminID: event.senderID
+                adminID: event.senderID,
+                notiCode: notiCode,
+                level: level
               });
               
               successCount++;
@@ -215,6 +241,8 @@ module.exports = {
       api.sendMessage(
         `📊 BÁO CÁO GỬI THÔNG BÁO\n` +
         `━━━━━━━━━━━━━━━━━━\n` +
+        `${levelColors[level]} Mức độ: ${level}\n` +
+        `📝 Mã thông báo: ${notiCode}\n` +
         `✅ Đã gửi thành công: ${successCount}/${threadIDs.length} nhóm\n` +
         `❌ Gửi thất bại: ${failedThreads.length} nhóm\n` +
         `📎 Số file đính kèm: ${attachments.length}\n` +
@@ -224,7 +252,7 @@ module.exports = {
       );
     } catch (error) {
       console.error('[ERROR]', error);
-      api.sendMessage('❌ Đã xảy ra lỗi khi gửi thông báo.', event.threadID);
+      api.sendMessage(`❌ Lỗi: ${error.message}\nMã thông báo: ${notiCode}`, event.threadID);
     }
   }
 };

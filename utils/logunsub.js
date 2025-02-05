@@ -54,17 +54,6 @@ const handleLogUnsubscribe = async (api, event) => {
 
         await api.sendMessage(leaveMessage, event.threadID);
 
-        if (participantIDs.length < 5) {
-            try {
-                await api.sendMessage(
-                    `⚠️ Cảnh báo: Nhóm hiện chỉ còn ${participantIDs.length} thành viên!`,
-                    event.threadID
-                );
-            } catch (error) {
-                console.error("Error sending warning message:", error);
-            }
-        }
-
     } catch (err) {
         console.error("ERROR trong handleLogUnsubscribe:", err);
         try {
