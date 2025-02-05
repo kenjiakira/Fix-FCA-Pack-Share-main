@@ -651,6 +651,12 @@
       "amount": 100000,
       "timestamp": 1735715965706,
       "description": "Nhận 100000 Xu từ Pham Minh Dang"
+    },
+    {
+      "type": "out",
+      "amount": 1005000,
+      "timestamp": 1738727230145,
+      "description": "Chuyển 1000000 Xu cho Người nhận"
     }
   ],
   "100094538943472": [
@@ -1300,12 +1306,6 @@
   "61564482366941": [
     {
       "type": "in",
-      "amount": 1000000,
-      "timestamp": 1738684810050,
-      "description": "Nhận 1000000 Xu từ Người gửi"
-    },
-    {
-      "type": "in",
       "amount": 3000000,
       "timestamp": 1738685382256,
       "description": "Nhận 3000000 Xu từ Người gửi"
@@ -1326,6 +1326,12 @@
       "type": "in",
       "amount": 1000000,
       "timestamp": 1738686137520,
+      "description": "Nhận 1000000 Xu từ Người gửi"
+    },
+    {
+      "type": "in",
+      "amount": 1000000,
+      "timestamp": 1738727230145,
       "description": "Nhận 1000000 Xu từ Người gửi"
     }
   ],

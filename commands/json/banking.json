@@ -122,6 +122,12 @@
         "description": "Nhận 1,000,000 Xu từ Người gửi",
         "amount": 1000000,
         "timestamp": 1738686137590
+      },
+      {
+        "type": "in",
+        "description": "Nhận 1,000,000 Xu từ Người gửi",
+        "amount": 1000000,
+        "timestamp": 1738727230626
       }
     ],
     "100079621883786": [
@@ -484,6 +490,14 @@
         "description": "Nhận 100,000 Xu từ Người gửi",
         "amount": 100000,
         "timestamp": 1738686351545
+      }
+    ],
+    "61566015353601": [
+      {
+        "type": "out",
+        "description": "Chuyển 1,000,000 Xu cho Người nhận",
+        "amount": 1000000,
+        "timestamp": 1738727230583
       }
     ]
   },

@@ -8,7 +8,7 @@ module.exports = {
   usedby: 2,
   onPrefix: true,
   dev: "HNT",
-  info: "[level] <message> - Gửi thông báo với mức độ (INFO/WARN/ERROR)",
+  info: "Gửi thông báo",
   cooldowns: 30,
 
   onReply: async function({ event, api }) {

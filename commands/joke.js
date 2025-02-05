@@ -1,5 +1,5 @@
-const axios = require("axios");
-const translate = require('translate-google');
+const { GoogleGenerativeAI } = require("@google/generative-ai");
+const config = require('../config/api');
 
 module.exports = {
     name: "joke",
@@ -11,31 +11,52 @@ module.exports = {
     cooldowns: 5,
 
     onLaunch: async function ({ api, event, actions }) {
-        const replyMessage = await actions.reply("Đang tìm kiếm truyện cười.......");
+        const replyMessage = await actions.reply("Đang nghĩ ra câu chuyện cười.......");
 
         try {
-            const response = await axios.get("https://v2.jokeapi.dev/joke/Any?safe-mode");
-            let joke = "";
+            const genAI = new GoogleGenerativeAI(config.GEMINI.API_KEY);
+            const model = genAI.getGenerativeModel({ model: "gemini-1.5-flash" });
 
-            if (response.data.type === "single") {
-                joke = response.data.joke;
-            } else {
-                joke = `${response.data.setup}\n${response.data.delivery}`;
-            }
+            const prompt = `Kể một câu chuyện cười ngắn bằng tiếng Việt, phải thật hài hước, dễ hiểu và phù hợp mọi lứa tuổi. Không quá 4 dòng.`;
 
-            const translatedJoke = await translate(joke, { to: 'vi' });
+            const result = await model.generateContent(prompt);
+            const joke = result.response.text();
 
-            const jokeMessage = `😄 TRUYỆN CƯỜI 😄\n\n` +
-                              `🇻🇳 ${translatedJoke}\n\n` +
-                              `🇬🇧 ${joke}\n\n` +
+            const jokeMessage = `😄 TRUYỆN CƯỜI 😄\n\n${joke}\n\n` +
                               `━━━━━━━━━━━━━━━━━━━\n` +
-                              `💡 Gõ "joke" để xem thêm truyện cười khác`;
+                              `👍 Thả like để xem truyện cười khác`;
 
             await actions.edit(jokeMessage, replyMessage.messageID);
-
+            global.client.callReact.push({ 
+                messageID: replyMessage.messageID, 
+                name: this.name 
+            });
         } catch (error) {
             console.error('Joke Command Error:', error);
             await actions.edit("❌ Đã xảy ra lỗi: " + error.message, replyMessage.messageID);
+        }
+    },
+
+    callReact: async function ({ reaction, api, event }) {
+        if (reaction !== '👍') return;
+        const { threadID } = event;
+        
+        try {
+            const genAI = new GoogleGenerativeAI(config.GEMINI.API_KEY);
+            const model = genAI.getGenerativeModel({ model: "gemini-1.5-flash" });
+            const prompt = `Kể một câu chuyện cười ngắn bằng tiếng Việt, phải thật hài hước, dễ hiểu và phù hợp mọi lứa tuổi. Không quá 4 dòng.`;
+            
+            const result = await model.generateContent(prompt);
+            const joke = result.response.text();
+
+            const jokeMessage = `😄 TRUYỆN CƯỜI 😄\n\n${joke}\n\n` +
+                              `━━━━━━━━━━━━━━━━━━━\n` +
+                              `👍 Thả like để xem truyện cười khác`;
+
+            const sent = await api.sendMessage(jokeMessage, threadID);
+            global.client.callReact.push({ messageID: sent.messageID, name: this.name });
+        } catch (error) {
+            api.sendMessage("❌ Đã xảy ra lỗi: " + error.message, threadID);
         }
     }
 };

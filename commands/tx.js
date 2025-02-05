@@ -48,7 +48,6 @@ module.exports = {
             baseWinChance = 0.55; 
         }
 
-        // Fixed: Now using passed parameters instead of target
         if (balance < 10000 && isAllIn) {
             baseWinChance = 0.65;
         }
