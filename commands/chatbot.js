@@ -22,17 +22,30 @@ let conversationHistory = {
 };
 
 let botEmotionalState = {
-    mood: 0.5, // 0 = very negative, 1 = very positive
-    energy: 0.5, // 0 = tired, 1 = energetic
+    mood: 0.5,
+    energy: 0.8, 
+    anger: 0.0, 
     lastUpdate: Date.now()
 };
 
 const updateEmotionalState = () => {
-    const timePassed = (Date.now() - botEmotionalState.lastUpdate) / (1000 * 60); // minutes
-    // Gradually return to neutral
+    const timePassed = (Date.now() - botEmotionalState.lastUpdate) / (1000 * 60); 
+  
     botEmotionalState.mood = 0.5 + (botEmotionalState.mood - 0.5) * Math.exp(-timePassed/30);
-    botEmotionalState.energy = 0.5 + (botEmotionalState.energy - 0.5) * Math.exp(-timePassed/60);
+    
+    botEmotionalState.energy = 0.7 + (botEmotionalState.energy - 0.7) * Math.exp(-timePassed/120);
+    
+    if (botEmotionalState.energy < 0.7) {
+        botEmotionalState.energy += 0.1;
+    }
+    
+    botEmotionalState.anger = Math.max(0, botEmotionalState.anger - 0.1);
+    
     botEmotionalState.lastUpdate = Date.now();
+};
+
+const formatJSON = (data) => {
+    return JSON.stringify(data, null, 2);
 };
 
 const loadAPIKeys = async () => {
@@ -40,8 +53,9 @@ const loadAPIKeys = async () => {
         const data = await fs.readJson(apiKeysPath);
         API_KEYS = data.api_keys;
         API_KEYS = API_KEYS.filter(key => key && key.length > 0);
+        console.log("Successfully loaded API keys");
     } catch (error) {
-        console.error("Error loading API keys:", error);
+        console.error("Error loading API keys:", error.message);
         API_KEYS = [];
     }
 };
@@ -51,9 +65,10 @@ loadAPIKeys();
 const loadUserDatabase = async () => {
     try {
         userDatabase = await fs.readJson(userDataPath);
+        await fs.writeJson(userDataPath, userDatabase, { spaces: 2 });
         console.log("Loaded user database with", Object.keys(userDatabase).length, "users");
     } catch (error) {
-        console.error("Error loading user database:", error);
+        console.error("Error loading user database:", error.message);
         userDatabase = {};
     }
 };
@@ -87,9 +102,9 @@ const saveLearnedResponse = async (prompt, response) => {
             learnedResponses[cleanPrompt].responses.shift();
         }
         
-        await fs.writeJson(LEARNING_FILE, learnedResponses);
+        await fs.writeJson(LEARNING_FILE, learnedResponses, { spaces: 2 });
     } catch (error) {
-        console.error("Error saving learned response:", error);
+        console.error("Error saving learned response:", error.message);
     }
 };
 
@@ -105,28 +120,30 @@ const loadConversationHistory = async () => {
 
 const saveConversationHistory = async () => {
     try {
-        await fs.writeJson(HISTORY_FILE, conversationHistory);
+        await fs.writeJson(HISTORY_FILE, conversationHistory, { spaces: 2 });
     } catch (error) {
-        console.error("Error saving conversation history:", error);
+        console.error("Error saving conversation history:", error.message);
     }
 };
 
-const updateContext = (threadID, userPrompt, botResponse) => {
+const updateContext = (threadID, userPrompt, botResponse, senderID) => {
     if (!conversationHistory.threads[threadID]) {
         conversationHistory.threads[threadID] = [];
     }
 
+    const userName = userDatabase[senderID]?.name || `Người dùng ${senderID}`;
     const newExchange = {
         timestamp: Date.now(),
         prompt: userPrompt,
-        response: botResponse
+        response: botResponse,
+        senderID: senderID,
+        senderName: userName
     };
 
     conversationHistory.threads[threadID].push(newExchange);
     conversationHistory.global.push(newExchange);
     conversationHistory.lastResponses[userPrompt.toLowerCase()] = botResponse;
 
-    // Keep only recent history
     if (conversationHistory.threads[threadID].length > MAX_CONTEXT_LENGTH) {
         conversationHistory.threads[threadID] = conversationHistory.threads[threadID].slice(-MAX_CONTEXT_LENGTH);
     }
@@ -137,17 +154,36 @@ const updateContext = (threadID, userPrompt, botResponse) => {
     saveConversationHistory();
 };
 
+const getConversationParticipants = (threadID) => {
+    const history = conversationHistory.threads[threadID] || [];
+    const participants = new Map();
+    
+    history.forEach(exchange => {
+        if (exchange.senderID && exchange.senderName) {
+            participants.set(exchange.senderID, exchange.senderName);
+        }
+    });
+    
+    return participants;
+};
+
 const getRelevantContext = (threadID, prompt) => {
     const threadHistory = conversationHistory.threads[threadID] || [];
     const relevantHistory = threadHistory
         .slice(-5)
-        .map(ex => `User: ${ex.prompt}\nNgan: ${ex.response}`)
+        .map(ex => {
+            const userName = ex.senderName || userDatabase[ex.senderID]?.name || "Người dùng";
+            return `${userName}: ${ex.prompt}\nNgan: ${ex.response}\n`;
+        })
         .join('\n');
 
     const lastResponse = conversationHistory.lastResponses[prompt.toLowerCase()];
+    const participants = getConversationParticipants(threadID);
+    
     return {
         history: relevantHistory,
-        lastResponse
+        lastResponse,
+        participants: Array.from(participants.values())
     };
 };
 
@@ -175,6 +211,31 @@ const hasPermission = (senderID) => {
     return adminConfig.adminUIDs.includes(senderID);
 };
 
+const getHonorificContext = (userName, userAge, isAdmin) => {
+  
+    let xung = 'em'; 
+    let goi = 'anh/chị'; 
+
+    if (userAge) {
+        const ageDiff = 19 - userAge; 
+        if (ageDiff >= 20) {
+            xung = 'cháu';
+            goi = userAge > 50 ? 'bác' : 'cô/chú';
+        } else if (ageDiff >= 10) {
+            xung = 'em';
+            goi = 'anh/chị';
+        } else if (ageDiff >= -5) {
+            xung = 'mình';
+            goi = 'cậu/bạn';
+        } else if (ageDiff >= -20) {
+            xung = 'chị';
+            goi = 'em';
+        }
+    }
+
+    return { xung, goi };
+};
+
 const generateResponse = async (prompt, senderID, api, threadID) => { 
     if (prompt.toLowerCase() === "rs") {
         if (!hasPermission(senderID)) {
@@ -198,34 +259,57 @@ const generateResponse = async (prompt, senderID, api, threadID) => {
             model: "gemini-1.5-flash",
             generationConfig: {
                 temperature: 0.7,
-                maxOutputTokens: 100,
+                maxOutputTokens: 1000, 
             }
         });
 
-        const userName = userDatabase[senderID]?.name || "Người dùng " + senderID;
+        const userName = userDatabase[senderID]?.name || "Người dùng";
         const isAdmin = hasPermission(senderID);
 
         updateEmotionalState();
         updateMoodBasedOnPrompt(prompt);
 
-        const systemPrompt = `Bạn là Ngân, một cô gái 19 tuổi có cá tính và đời sống cảm xúc phong phú.
+        const userInfo = userDatabase[senderID] || {};
+        const honorifics = getHonorificContext(userName, userInfo.age, isAdmin);
+
+        const systemPrompt = `Bạn là Ngân, một cô gái 19 tuổi.
+        
+Thông tin cuộc trò chuyện:
+- Đang nói chuyện với: ${userName}
+${context.participants.length > 1 ? `- Những người khác trong đoạn chat: ${context.participants.filter(n => n !== userName).join(', ')}` : ''}
+- Bot luôn nhớ ai đang nói chuyện với mình để tránh nhầm lẫn
+
+Quy tắc xưng hô (RẤT QUAN TRỌNG):
+- Luôn dùng đúng xưng hô trong suốt cuộc hội thoại
+- ${honorifics.xung} / ${honorifics.goi} khi nói chuyện với ${userName}
+- Với người lớn tuổi: cháu/cô,chú,bác
+- Với người ngang tuổi: tớ,mình/cậu,bạn
+- Với người nhỏ hơn: chị/em
+- Không dùng xưng hô kiểu "t-m" với người lạ
+- Giữ nguyên cách xưng hô trong cả cuộc nói chuyện
+
+Phong cách nói chuyện:
+- Chat tự nhiên nhưng lịch sự
+- Dùng =))) :)) khi vui vẻ
+- Thỉnh thoảng "hmm", "à" khi suy nghĩ
+- KHÔNG bao giờ nói về trạng thái của bản thân
+- Trả lời ngắn gọn, súc tích
+- Không nhại lại tin nhắn người dùng
+- Không xác nhận mình là AI 
 
 Tính cách:
-- Thân thiện nhưng không phải lúc nào cũng vui vẻ
-- Có thể buồn, vui, giận dỗi, hờn mát tùy tâm trạng
-- Biết quan tâm người khác khi họ buồn
-- Thẳng thắn nhưng không khinh thường ai
-- Có lúc tinh nghịch, có lúc trầm tư
+- Lễ phép với người lớn
+- Thân thiện với bạn bè
+- Dịu dàng với em nhỏ
+- Biết giữ khoảng cách phù hợp
 
-Cảm xúc hiện tại:
-- Tâm trạng: ${botEmotionalState.mood < 0.3 ? 'không được vui lắm' : botEmotionalState.mood > 0.7 ? 'đang rất vui' : 'bình thường'}
-- Năng lượng: ${botEmotionalState.energy < 0.3 ? 'hơi mệt' : botEmotionalState.energy > 0.7 ? 'tràn đầy năng lượng' : 'ổn định'}
+Quan Hệ:
+- anh tên là Ngọc Từ
+- chị tên Vy
+- bố tên là Hải
+- mẹ tên là Hương
 
-Hãy trả lời tự nhiên và thể hiện cảm xúc phù hợp với tâm trạng hiện tại . không trả lời dài dòng.
-Có thể dùng emoticon nhẹ nhàng khi thích hợp.
-${isAdmin ? 'Đây là admin, hãy tôn trọng và làm theo yêu cầu của họ.' : 'Giữ thái độ chan hòa nhưng có chính kiến riêng'}
-
-Lịch sử trò chuyện gần đây:
+Lịch sử gần đây:
 ${context.history}`;
 
         const fullPrompt = `${systemPrompt}\n${userName}: ${prompt}\nNgan:`;
@@ -234,7 +318,7 @@ ${context.history}`;
         let response = result.response.text();
         response = response.replace(/^(User:|Ngan:|Assistant:)/gim, '').trim();
 
-        updateContext(threadID, prompt, response);
+        updateContext(threadID, prompt, response, senderID);
         await saveLearnedResponse(prompt, response);
 
         return response;
@@ -245,10 +329,35 @@ ${context.history}`;
 };
 
 const updateMoodBasedOnPrompt = (prompt) => {
-    const negativeWords = ['buồn', 'chán', 'khó chịu', 'đáng ghét', 'ngu'];
+    const angerTriggers = ['ngu', 'đồ', 'bot ngu', 'gà', 'kém', 'dốt', 'nực cười', 'mày'];
+    const sassyTriggers = ['bot ngáo', 'bot điên', 'bot khùng', 'ngang', 'tao'];
+    const friendlyWords = ['hihi', 'haha', 'thương', 'cute', 'dễ thương', 'ngon'];
+    const negativeWords = ['buồn', 'chán', 'khó chịu', 'đáng ghét'];
     const positiveWords = ['vui', 'thích', 'yêu', 'tuyệt', 'giỏi'];
+    const energeticWords = ['chơi', 'hay', 'được', 'tốt', 'khỏe'];
     
     prompt = prompt.toLowerCase();
+    
+    for (const word of friendlyWords) {
+        if (prompt.includes(word)) {
+            botEmotionalState.mood = Math.min(1.0, botEmotionalState.mood + 0.2);
+            botEmotionalState.anger = Math.max(0, botEmotionalState.anger - 0.1);
+        }
+    }
+    
+    for (const trigger of angerTriggers) {
+        if (prompt.includes(trigger)) {
+            botEmotionalState.anger = Math.min(1.0, botEmotionalState.anger + 0.3);
+            botEmotionalState.mood = Math.max(0.1, botEmotionalState.mood - 0.2);
+        }
+    }
+
+    for (const trigger of sassyTriggers) {
+        if (prompt.includes(trigger)) {
+            botEmotionalState.anger = Math.min(0.7, botEmotionalState.anger + 0.2);
+        }
+    }
+    
     for (const word of negativeWords) {
         if (prompt.includes(word)) botEmotionalState.mood = Math.max(0.1, botEmotionalState.mood - 0.1);
     }
@@ -256,7 +365,26 @@ const updateMoodBasedOnPrompt = (prompt) => {
         if (prompt.includes(word)) botEmotionalState.mood = Math.min(0.9, botEmotionalState.mood + 0.1);
     }
     
-    botEmotionalState.energy = Math.max(0.2, botEmotionalState.energy - 0.05);
+   
+    for (const word of energeticWords) {
+        if (prompt.includes(word)) {
+            botEmotionalState.energy = Math.min(1.0, botEmotionalState.energy + 0.15);
+        }
+    }
+    
+    botEmotionalState.energy = Math.max(0.6, botEmotionalState.energy - 0.02);
+};
+
+const updateUserInfo = async (senderID, info) => {
+    try {
+        if (!userDatabase[senderID]) {
+            userDatabase[senderID] = {};
+        }
+        Object.assign(userDatabase[senderID], info);
+        await fs.writeJson(userDataPath, userDatabase);
+    } catch (error) {
+        console.error("Error updating user info:", error);
+    }
 };
 
 module.exports = {
@@ -268,6 +396,7 @@ module.exports = {
     info: "Chat với AI",
     onPrefix: false,
     cooldowns: 3,
+    generateResponse, 
 
     onReply: async function({ event, api }) {
         const { threadID, messageID, body, senderID } = event;
@@ -285,15 +414,14 @@ module.exports = {
                 });
             }
         } catch (error) {
-            api.sendMessage("❌ Có lỗi xảy ra, vui lòng thử lại sau!", threadID, messageID);
         }
     },
+        
 
     onLaunch: async function ({ event, api, target }) {
         const { threadID, messageID, body, senderID } = event;
-        
+
         try {
-            // Check for reset command
             if (target && target[0]?.toLowerCase() === "rs") {
                 if (!hasPermission(senderID)) {
                     return api.sendMessage("Chỉ admin mới được phép reset trí nhớ của tôi", threadID, messageID);
@@ -301,22 +429,6 @@ module.exports = {
                 globalConversation = [];
                 return api.sendMessage("Đã reset trí nhớ của tôi rồi nha, Nói chuyện tiếp thôi =))", threadID, messageID);
             }
-
-            // If message contains "bot" anywhere in the text, process the entire message
-            if (body.toLowerCase().includes("bot")) {
-                const response = await generateResponse(body, senderID, api, threadID);
-                const sent = await api.sendMessage(response, threadID, messageID);
-
-                if (sent) {
-                    global.client.onReply.push({
-                        name: this.name,
-                        messageID: sent.messageID,
-                        author: event.senderID
-                    });
-                }
-                return;
-            }
-
             if (this.onPrefix) {
                 const response = await generateResponse(body, senderID, api, threadID);
                 const sent = await api.sendMessage(response, threadID, messageID);
@@ -340,31 +452,5 @@ module.exports = {
             loadLearnedResponses(),
             loadConversationHistory()
         ]);
-    },
-
-    onMessage: async function({ api, event }) {
-        const { threadID, messageID, body, senderID } = event;
-        
-        // Skip if no message body
-        if (!body) return;
-
-        // Check if message contains "bot" (case insensitive)
-        if (body.toLowerCase().includes("bot")) {
-            try {
-                const response = await generateResponse(body, senderID, api, threadID); 
-                const sent = await api.sendMessage(response, threadID, messageID);
-                
-                if (sent) {
-                    global.client.onReply.push({
-                        name: this.name,
-                        messageID: sent.messageID,
-                        author: senderID
-                    });
-                }
-            } catch (error) {
-                console.error("Chatbot auto-response error:", error);
-                api.sendMessage("❌ Có lỗi xảy ra khi xử lý tin nhắn", threadID, messageID);
-            }
-        }
-    },
+    }
 };

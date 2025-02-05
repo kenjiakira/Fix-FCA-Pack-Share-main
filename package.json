@@ -12,7 +12,7 @@
   "license": "ISC",
   "dependencies": {
     "@distube/yt-dlp": "^2.0.1",
-    "@distube/ytdl-core": "^4.15.8",
+    "@distube/ytdl-core": "^4.16.0",
     "@google/generative-ai": "^0.21.0",
     "@tensorflow-models/mobilenet": "^2.1.1",
     "@tensorflow/tfjs-node": "^4.22.0",

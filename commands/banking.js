@@ -267,15 +267,80 @@ function updateBalanceHistory(userId, bankingData, newBalance) {
     userData.balanceHistory = userData.balanceHistory.filter(h => h.timestamp > thirtyDaysAgo);
 }
 
+const getBankingHelp = () => {
+    return `🏦 ĐIỀU KHOẢN NGÂN HÀNG AKI 🏦
+━━━━━━━━━━━━━━━━━━━━━
+
+💰 Số dư tài khoản (Bank Balance)
+- Mô tả: Số tiền hiện có trong tài khoản
+- Ví dụ: 1,000,000 Xu
+
+💹 Lãi suất (Interest Rate)
+- Mô tả: Tỷ lệ lãi suất áp dụng cho số dư
+- Mức lãi: 0.1% mỗi ngày (3% mỗi tháng)
+- Thời điểm tính lãi: Mỗi lần check số dư
+
+⏰ Thời gian tính lãi
+- Mô tả: Thời điểm cuối được tính lãi
+- Chu kỳ: 24 giờ một lần
+- Yêu cầu: Duy trì số dư tối thiểu
+
+📊 Lịch sử số dư
+- Ghi chép tất cả giao dịch:
+  • Nạp/rút tiền
+  • Tiền lãi nhận được
+  • Các khoản vay và trả nợ
+  • Phí phạt (nếu có)
+
+❌ Phạt (Penalties)
+- Mô tả: Các khoản phạt vi phạm
+- Phạt trễ hạn khoản vay: 3%/ngày
+- Phạt thanh toán trễ: 5% số tiền
+- Ảnh hưởng: Giảm điểm tín dụng
+
+📈 Điểm tín dụng
+- Thang điểm: 0-100
+- Ảnh hưởng bởi:
+  • Lịch sử giao dịch (30%)
+  • Trả nợ đúng hạn (40%) 
+  • Duy trì số dư (30%)
+
+🔒 Tài sản thế chấp
+- Mô tả: Tài sản đảm bảo khoản vay
+- Tỷ lệ: 30% giá trị khoản vay
+- Khóa đến khi trả hết nợ
+- Xử lý khi vỡ nợ
+
+⚠️ Lưu ý quan trọng:
+1. Bảo mật thông tin tài khoản
+2. Duy trì số dư để hưởng lãi
+3. Trả nợ đúng hạn tránh phạt
+4. Giữ điểm tín dụng tốt
+
+💡 Sử dụng lệnh:
+1. .banking check - Xem số dư
+2. .banking gửi [số xu] - Gửi tiền
+3. .banking rút [số xu] - Rút tiền
+4. .banking vay [số xu] - Vay tiền
+5. .banking trả [số xu] - Trả nợ
+6. .banking khoản_vay - Xem nợ`;
+};
+
 module.exports = {
     name: "banking",
     dev: "HNT",
     onPrefix: true,
-    usages: ".banking [gửi/rút/check/vay/trả/khoản_vay]",
+    usages: ".banking [gửi/rút/check/vay/trả/khoản_vay]\n",
     info: "Hệ thống ngân hàng trực tuyến với dịch vụ cho vay",
     cooldowns: 3,
 
     onLaunch: async function({ api, event, target }) {
+        const { threadID, messageID, senderID } = event;
+        
+        if (!target[0]) {
+            return api.sendMessage(getBankingHelp(), threadID, messageID);
+        }
+
         try {
             const { threadID, messageID, senderID } = event;
             
@@ -446,7 +511,6 @@ module.exports = {
                         const creditScore = calculateCreditScore(senderID, bankingData);
                         const accountAge = (Date.now() - (userData.createdAt || Date.now())) / (24 * 60 * 60 * 1000);
                         
-                        // Check minimum account age
                         if (accountAge < CREDIT_SCORE.factors.accountAge.minAge) {
                             return api.sendMessage(
                                 `❌ Tài khoản của bạn cần tối thiểu ${CREDIT_SCORE.factors.accountAge.minAge} ngày tuổi để vay!\n` +
@@ -455,7 +519,6 @@ module.exports = {
                             );
                         }
 
-                        // Stricter credit score requirement based on loan amount
                         const minRequiredScore = amount > (maxLoanAmount * 0.7) ? 40 : 30;
                         if (creditScore < minRequiredScore) {
                             return api.sendMessage(
@@ -466,7 +529,6 @@ module.exports = {
                             );
                         }
 
-                        // Update user's credit score before processing loan
                         userData.creditScore = creditScore;
 
                         const requiredCollateral = amount * LOAN_CONFIG.collateralRatio;

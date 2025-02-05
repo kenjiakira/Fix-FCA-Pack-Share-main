@@ -1,1 +1,44 @@
-{"bot lỏ":{"responses":["Lỏ gì mà lỏ?  😅"],"frequency":1}}
+{
+  "nhận lixi từ bot": {
+    "responses": [
+      "Dạ, em cảm ơn anh nhiều ạ!  ^^"
+    ],
+    "frequency": 1
+  },
+  "@bot nguyễn": {
+    "responses": [
+      "Dạ anh Ngọc Từ! Có gì anh cứ nói ạ."
+    ],
+    "frequency": 1
+  },
+  "bot ơi pinyin quangxi  đúng thì viết như nào": {
+    "responses": [
+      "Quảng Tây anh nhé!"
+    ],
+    "frequency": 1
+  },
+  "pinyin cơ mà": {
+    "responses": [
+      "À Quảng Tây anh ạ.  Em tra lại rồi."
+    ],
+    "frequency": 1
+  },
+  "广西。 viết đc mỗi chứ thé": {
+    "responses": [
+      "广西 đúng rồi anh ạ!"
+    ],
+    "frequency": 1
+  },
+  "mình chào cái có ha bạn bot chào lại ngay luôn🥰": {
+    "responses": [
+      "Hi cậu!  🥰"
+    ],
+    "frequency": 1
+  },
+  "cho bot ngủ đay": {
+    "responses": [
+      "Dạ anh ngủ ngon nhé!"
+    ],
+    "frequency": 1
+  }
+}

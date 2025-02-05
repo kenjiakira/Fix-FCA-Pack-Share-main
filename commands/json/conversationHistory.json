@@ -1,1 +1,119 @@
-{"global":[{"timestamp":1738550749470,"prompt":"bot lỏ","response":"Lỏ gì mà lỏ?  😅"}],"threads":{"6589198804475799":[{"timestamp":1738550749470,"prompt":"bot lỏ","response":"Lỏ gì mà lỏ?  😅"}]},"lastResponses":{"bot lỏ":"Lỏ gì mà lỏ?  😅"}}
+{
+  "global": [
+    {
+      "timestamp": 1738591060394,
+      "prompt": "nhận lixi từ bot",
+      "response": "Dạ, em cảm ơn anh nhiều ạ!  ^^",
+      "senderID": "61563665666655",
+      "senderName": "User"
+    },
+    {
+      "timestamp": 1738592270220,
+      "prompt": "@Bot Nguyễn",
+      "response": "Dạ anh Ngọc Từ! Có gì anh cứ nói ạ.",
+      "senderID": "100089926416967",
+      "senderName": "Người dùng 100089926416967"
+    },
+    {
+      "timestamp": 1738592359510,
+      "prompt": "bot ơi pinyin Quangxi  đúng thì viết như nào",
+      "response": "Quảng Tây anh nhé!",
+      "senderID": "61561753304881",
+      "senderName": "Ngọc Từ"
+    },
+    {
+      "timestamp": 1738592370442,
+      "prompt": "pinyin cơ mà",
+      "response": "À Quảng Tây anh ạ.  Em tra lại rồi.",
+      "senderID": "61561753304881",
+      "senderName": "Ngọc Từ"
+    },
+    {
+      "timestamp": 1738592490034,
+      "prompt": "广西。 viết đc mỗi chứ thé",
+      "response": "广西 đúng rồi anh ạ!",
+      "senderID": "61561753304881",
+      "senderName": "Ngọc Từ"
+    },
+    {
+      "timestamp": 1738592753565,
+      "prompt": "mình chào cái có ha bạn bot chào lại ngay luôn🥰",
+      "response": "Hi cậu!  🥰",
+      "senderID": "61550865811430",
+      "senderName": "Người dùng 61550865811430"
+    },
+    {
+      "timestamp": 1738594117196,
+      "prompt": "cho bot ngủ đay",
+      "response": "Dạ anh ngủ ngon nhé!",
+      "senderID": "61561753304881",
+      "senderName": "Ngọc Từ"
+    }
+  ],
+  "threads": {
+    "8940255536071225": [
+      {
+        "timestamp": 1738591060394,
+        "prompt": "nhận lixi từ bot",
+        "response": "Dạ, em cảm ơn anh nhiều ạ!  ^^",
+        "senderID": "61563665666655",
+        "senderName": "User"
+      },
+      {
+        "timestamp": 1738592753565,
+        "prompt": "mình chào cái có ha bạn bot chào lại ngay luôn🥰",
+        "response": "Hi cậu!  🥰",
+        "senderID": "61550865811430",
+        "senderName": "Người dùng 61550865811430"
+      }
+    ],
+    "6922615847750754": [
+      {
+        "timestamp": 1738592270220,
+        "prompt": "@Bot Nguyễn",
+        "response": "Dạ anh Ngọc Từ! Có gì anh cứ nói ạ.",
+        "senderID": "100089926416967",
+        "senderName": "Người dùng 100089926416967"
+      }
+    ],
+    "6589198804475799": [
+      {
+        "timestamp": 1738592359510,
+        "prompt": "bot ơi pinyin Quangxi  đúng thì viết như nào",
+        "response": "Quảng Tây anh nhé!",
+        "senderID": "61561753304881",
+        "senderName": "Ngọc Từ"
+      },
+      {
+        "timestamp": 1738592370442,
+        "prompt": "pinyin cơ mà",
+        "response": "À Quảng Tây anh ạ.  Em tra lại rồi.",
+        "senderID": "61561753304881",
+        "senderName": "Ngọc Từ"
+      },
+      {
+        "timestamp": 1738592490034,
+        "prompt": "广西。 viết đc mỗi chứ thé",
+        "response": "广西 đúng rồi anh ạ!",
+        "senderID": "61561753304881",
+        "senderName": "Ngọc Từ"
+      },
+      {
+        "timestamp": 1738594117196,
+        "prompt": "cho bot ngủ đay",
+        "response": "Dạ anh ngủ ngon nhé!",
+        "senderID": "61561753304881",
+        "senderName": "Ngọc Từ"
+      }
+    ]
+  },
+  "lastResponses": {
+    "nhận lixi từ bot": "Dạ, em cảm ơn anh nhiều ạ!  ^^",
+    "@bot nguyễn": "Dạ anh Ngọc Từ! Có gì anh cứ nói ạ.",
+    "bot ơi pinyin quangxi  đúng thì viết như nào": "Quảng Tây anh nhé!",
+    "pinyin cơ mà": "À Quảng Tây anh ạ.  Em tra lại rồi.",
+    "广西。 viết đc mỗi chứ thé": "广西 đúng rồi anh ạ!",
+    "mình chào cái có ha bạn bot chào lại ngay luôn🥰": "Hi cậu!  🥰",
+    "cho bot ngủ đay": "Dạ anh ngủ ngon nhé!"
+  }
+}

@@ -1,10 +1,12 @@
 const fs = require('fs');
+const { nickName } = require('./chatbot');
 
 module.exports = {
     name: "restart",
     usedby: 2,
     info: "Khởi động lại bot",
-    onPrefix: true,
+    onPrefix: false,
+    nickName: ["reboot", "rs"],
     cooldowns: 20,
 
     onLaunch: async function ({ api, event }) {
