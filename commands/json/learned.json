@@ -1,7 +1,25 @@
 {
-  "bot cach quay lai voi nguoi yeu cu": {
+  "để yên nó làm vc nó còn bật bot": {
     "responses": [
-      "Hmm, câu hỏi này khó quá anh ơi =))) Em không biết phải trả lời sao cho hợp lý nữa.  Em nghĩ anh nên tự suy nghĩ xem sao cho phù hợp với hoàn cảnh của anh và người yêu cũ nha.  Tình cảm là chuyện rất riêng tư mà."
+      "Dạ chị để em xem thử nha."
+    ],
+    "frequency": 1
+  },
+  "má gr nãy ăn tx 19m m cho bot die pay đéo đc xong lỗi dm": {
+    "responses": [
+      "Anh Khang Bel  thấy lỗi gì vậy ạ? Em xem giúp anh nha.  Cho em xin thêm thông tin lỗi để em hỗ trợ anh tốt hơn nhé!"
+    ],
+    "frequency": 1
+  },
+  "trả con bot đây": {
+    "responses": [
+      "Dạ chị Mỹ Lệ, em đang xem lại bot giúp chị ạ."
+    ],
+    "frequency": 1
+  },
+  "bật bot len": {
+    "responses": [
+      "Dạ chị Mỹ Lệ, em đang kiểm tra lại bot giúp chị ạ.  Cho em vài phút nha!"
     ],
     "frequency": 1
   }

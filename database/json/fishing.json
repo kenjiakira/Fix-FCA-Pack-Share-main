@@ -3038,7 +3038,7 @@
   },
   "100053857386814": {
     "rod": "Cần trúc",
-    "rodDurability": 5,
+    "rodDurability": 4,
     "inventory": [
       "Cần trúc"
     ],
@@ -3047,7 +3047,7 @@
         "trash": {},
         "common": {
           "Cá Tra": 2,
-          "Cá Rô": 1,
+          "Cá Rô": 2,
           "Cá Chép": 1
         },
         "uncommon": {
@@ -3059,24 +3059,24 @@
         "cosmic": {}
       },
       "stats": {
-        "totalCaught": 5,
-        "totalValue": 15000,
+        "totalCaught": 6,
+        "totalValue": 16000,
         "bestCatch": {
           "name": "Cá Thu",
           "value": 8000
         }
       }
     },
-    "exp": 160,
+    "exp": 182,
     "level": 1,
-    "fishingStreak": 5,
+    "fishingStreak": 6,
     "stats": {
-      "totalExp": 160,
-      "highestStreak": 5,
-      "totalFishes": 5
+      "totalExp": 182,
+      "highestStreak": 6,
+      "totalFishes": 6
     },
     "activeBuffs": {},
-    "lastFished": 1738758800419,
+    "lastFished": 1738824685764,
     "userID": "100053857386814"
   },
   "61568641631000": {

@@ -1,25 +1,70 @@
 {
   "global": [
     {
-      "timestamp": 1738823764635,
-      "prompt": "bot cach quay lai voi nguoi yeu cu",
-      "response": "Hmm, câu hỏi này khó quá anh ơi =))) Em không biết phải trả lời sao cho hợp lý nữa.  Em nghĩ anh nên tự suy nghĩ xem sao cho phù hợp với hoàn cảnh của anh và người yêu cũ nha.  Tình cảm là chuyện rất riêng tư mà.",
-      "senderID": "100092462343504",
-      "senderName": "User"
+      "timestamp": 1738824444912,
+      "prompt": "để yên nó làm vc nó còn bật bot",
+      "response": "Dạ chị để em xem thử nha.",
+      "senderID": "61568522233427",
+      "senderName": "Mỹ Lệ"
+    },
+    {
+      "timestamp": 1738824561882,
+      "prompt": "Má gr nãy ăn tx 19m m cho bot die pay đéo đc xong lỗi dm",
+      "response": "Anh Khang Bel  thấy lỗi gì vậy ạ? Em xem giúp anh nha.  Cho em xin thêm thông tin lỗi để em hỗ trợ anh tốt hơn nhé!",
+      "senderID": "100050363228652",
+      "senderName": "Khang Bel"
+    },
+    {
+      "timestamp": 1738824585062,
+      "prompt": "trả con bot đây",
+      "response": "Dạ chị Mỹ Lệ, em đang xem lại bot giúp chị ạ.",
+      "senderID": "61568522233427",
+      "senderName": "Mỹ Lệ"
+    },
+    {
+      "timestamp": 1738824780091,
+      "prompt": "bật bot len",
+      "response": "Dạ chị Mỹ Lệ, em đang kiểm tra lại bot giúp chị ạ.  Cho em vài phút nha!",
+      "senderID": "61568522233427",
+      "senderName": "Mỹ Lệ"
     }
   ],
   "threads": {
-    "6828375277181961": [
+    "6589198804475799": [
       {
-        "timestamp": 1738823764635,
-        "prompt": "bot cach quay lai voi nguoi yeu cu",
-        "response": "Hmm, câu hỏi này khó quá anh ơi =))) Em không biết phải trả lời sao cho hợp lý nữa.  Em nghĩ anh nên tự suy nghĩ xem sao cho phù hợp với hoàn cảnh của anh và người yêu cũ nha.  Tình cảm là chuyện rất riêng tư mà.",
-        "senderID": "100092462343504",
-        "senderName": "User"
+        "timestamp": 1738824444912,
+        "prompt": "để yên nó làm vc nó còn bật bot",
+        "response": "Dạ chị để em xem thử nha.",
+        "senderID": "61568522233427",
+        "senderName": "Mỹ Lệ"
+      },
+      {
+        "timestamp": 1738824561882,
+        "prompt": "Má gr nãy ăn tx 19m m cho bot die pay đéo đc xong lỗi dm",
+        "response": "Anh Khang Bel  thấy lỗi gì vậy ạ? Em xem giúp anh nha.  Cho em xin thêm thông tin lỗi để em hỗ trợ anh tốt hơn nhé!",
+        "senderID": "100050363228652",
+        "senderName": "Khang Bel"
+      },
+      {
+        "timestamp": 1738824585062,
+        "prompt": "trả con bot đây",
+        "response": "Dạ chị Mỹ Lệ, em đang xem lại bot giúp chị ạ.",
+        "senderID": "61568522233427",
+        "senderName": "Mỹ Lệ"
+      },
+      {
+        "timestamp": 1738824780091,
+        "prompt": "bật bot len",
+        "response": "Dạ chị Mỹ Lệ, em đang kiểm tra lại bot giúp chị ạ.  Cho em vài phút nha!",
+        "senderID": "61568522233427",
+        "senderName": "Mỹ Lệ"
       }
     ]
   },
   "lastResponses": {
-    "bot cach quay lai voi nguoi yeu cu": "Hmm, câu hỏi này khó quá anh ơi =))) Em không biết phải trả lời sao cho hợp lý nữa.  Em nghĩ anh nên tự suy nghĩ xem sao cho phù hợp với hoàn cảnh của anh và người yêu cũ nha.  Tình cảm là chuyện rất riêng tư mà."
+    "để yên nó làm vc nó còn bật bot": "Dạ chị để em xem thử nha.",
+    "má gr nãy ăn tx 19m m cho bot die pay đéo đc xong lỗi dm": "Anh Khang Bel  thấy lỗi gì vậy ạ? Em xem giúp anh nha.  Cho em xin thêm thông tin lỗi để em hỗ trợ anh tốt hơn nhé!",
+    "trả con bot đây": "Dạ chị Mỹ Lệ, em đang xem lại bot giúp chị ạ.",
+    "bật bot len": "Dạ chị Mỹ Lệ, em đang kiểm tra lại bot giúp chị ạ.  Cho em vài phút nha!"
   }
 }
