@@ -55,7 +55,7 @@
   "100050363228652": {
     "progress": {
       "win_games": 13,
-      "play_games": 28
+      "play_games": 29
     },
     "completed": {},
     "lastReset": "Thu Feb 06 2025",
@@ -674,6 +674,14 @@
   },
   "100035610181048": {
     "progress": {},
+    "completed": {},
+    "lastReset": "Thu Feb 06 2025",
+    "lastRewardClaim": null
+  },
+  "61565365376358": {
+    "progress": {
+      "play_games": 1
+    },
     "completed": {},
     "lastReset": "Thu Feb 06 2025",
     "lastRewardClaim": null

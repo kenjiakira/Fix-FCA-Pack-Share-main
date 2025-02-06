@@ -1,23 +1,11 @@
 {
   "VNM": {
     "name": "Vinamilk",
-    "price": 7113,
-    "change": -8.620246659815004,
-    "volume": 21370200028923,
+    "price": 7092,
+    "change": -1.609322974472808,
+    "volume": 23158059988249,
     "marketCap": 167000000000000,
     "history": [
-      {
-        "price": 3384,
-        "timestamp": 1738821791899
-      },
-      {
-        "price": 3509,
-        "timestamp": 1738821821898
-      },
-      {
-        "price": 3430,
-        "timestamp": 1738821851913
-      },
       {
         "price": 2925,
         "timestamp": 1738821882034
@@ -405,28 +393,28 @@
       {
         "price": 7113,
         "timestamp": 1738824969578
+      },
+      {
+        "price": 7397,
+        "timestamp": 1738824999731
+      },
+      {
+        "price": 7208,
+        "timestamp": 1738825029776
+      },
+      {
+        "price": 7092,
+        "timestamp": 1738825059777
       }
     ]
   },
   "FPT": {
     "name": "FPT Corp",
-    "price": 33886,
-    "change": -1.7141862691069407,
-    "volume": 116880461553141,
+    "price": 26825,
+    "change": -8.1901567526867,
+    "volume": 146064277434162,
     "marketCap": 108000000000000,
     "history": [
-      {
-        "price": 76988,
-        "timestamp": 1738821791899
-      },
-      {
-        "price": 80248,
-        "timestamp": 1738821821898
-      },
-      {
-        "price": 81064,
-        "timestamp": 1738821851913
-      },
       {
         "price": 83761,
         "timestamp": 1738821882034
@@ -814,28 +802,28 @@
       {
         "price": 33886,
         "timestamp": 1738824969578
+      },
+      {
+        "price": 28967,
+        "timestamp": 1738824999731
+      },
+      {
+        "price": 29218,
+        "timestamp": 1738825029776
+      },
+      {
+        "price": 26825,
+        "timestamp": 1738825059777
       }
     ]
   },
   "VIC": {
     "name": "Vingroup",
-    "price": 115567,
-    "change": 0.10307670986071651,
-    "volume": 95500923494771,
+    "price": 111771,
+    "change": -3.897544366487825,
+    "volume": 104872816422638,
     "marketCap": 320000000000000,
     "history": [
-      {
-        "price": 151569,
-        "timestamp": 1738821791899
-      },
-      {
-        "price": 136098,
-        "timestamp": 1738821821898
-      },
-      {
-        "price": 137720,
-        "timestamp": 1738821851913
-      },
       {
         "price": 136912,
         "timestamp": 1738821882034
@@ -1223,28 +1211,28 @@
       {
         "price": 115567,
         "timestamp": 1738824969578
+      },
+      {
+        "price": 112735,
+        "timestamp": 1738824999731
+      },
+      {
+        "price": 116304,
+        "timestamp": 1738825029776
+      },
+      {
+        "price": 111771,
+        "timestamp": 1738825059777
       }
     ]
   },
   "BID": {
     "name": "BIDV Bank",
-    "price": 32978,
-    "change": 2.2446828300365844,
-    "volume": 47921461661277,
+    "price": 27943,
+    "change": -0.10367510367510367,
+    "volume": 55754922303083,
     "marketCap": 180000000000000,
     "history": [
-      {
-        "price": 31993,
-        "timestamp": 1738821791899
-      },
-      {
-        "price": 27292,
-        "timestamp": 1738821821898
-      },
-      {
-        "price": 25200,
-        "timestamp": 1738821851913
-      },
       {
         "price": 24239,
         "timestamp": 1738821882034
@@ -1632,28 +1620,28 @@
       {
         "price": 32978,
         "timestamp": 1738824969578
+      },
+      {
+        "price": 29381,
+        "timestamp": 1738824999731
+      },
+      {
+        "price": 27972,
+        "timestamp": 1738825029776
+      },
+      {
+        "price": 27943,
+        "timestamp": 1738825059777
       }
     ]
   },
   "VCB": {
     "name": "Vietcombank",
-    "price": 16394,
-    "change": -14.185510887772192,
-    "volume": 12003476231478,
+    "price": 15277,
+    "change": -1.7366694539139385,
+    "volume": 12858977394083,
     "marketCap": 315000000000000,
     "history": [
-      {
-        "price": 10033,
-        "timestamp": 1738821791899
-      },
-      {
-        "price": 9804,
-        "timestamp": 1738821821898
-      },
-      {
-        "price": 9629,
-        "timestamp": 1738821851913
-      },
       {
         "price": 9772,
         "timestamp": 1738821882034
@@ -2041,28 +2029,28 @@
       {
         "price": 16394,
         "timestamp": 1738824969578
+      },
+      {
+        "price": 16047,
+        "timestamp": 1738824999731
+      },
+      {
+        "price": 15547,
+        "timestamp": 1738825029776
+      },
+      {
+        "price": 15277,
+        "timestamp": 1738825059777
       }
     ]
   },
   "HPG": {
     "name": "Hòa Phát",
-    "price": 187473,
-    "change": 13.593838994655776,
-    "volume": 12725176849713,
+    "price": 166385,
+    "change": -4.475803905133166,
+    "volume": 14271295605198,
     "marketCap": 156000000000000,
     "history": [
-      {
-        "price": 29567,
-        "timestamp": 1738821791899
-      },
-      {
-        "price": 28937,
-        "timestamp": 1738821821898
-      },
-      {
-        "price": 29446,
-        "timestamp": 1738821851913
-      },
       {
         "price": 29936,
         "timestamp": 1738821882034
@@ -2450,28 +2438,28 @@
       {
         "price": 187473,
         "timestamp": 1738824969578
+      },
+      {
+        "price": 181651,
+        "timestamp": 1738824999731
+      },
+      {
+        "price": 174181,
+        "timestamp": 1738825029776
+      },
+      {
+        "price": 166385,
+        "timestamp": 1738825059777
       }
     ]
   },
   "MSN": {
     "name": "Masan Group",
-    "price": 12669,
-    "change": -3.5918118864622177,
-    "volume": 122592441665649,
+    "price": 13746,
+    "change": 10.436249698722584,
+    "volume": 161076694212550,
     "marketCap": 112000000000000,
     "history": [
-      {
-        "price": 13175,
-        "timestamp": 1738821791899
-      },
-      {
-        "price": 13581,
-        "timestamp": 1738821821898
-      },
-      {
-        "price": 13133,
-        "timestamp": 1738821851913
-      },
       {
         "price": 13208,
         "timestamp": 1738821882034
@@ -2859,6 +2847,18 @@
       {
         "price": 12669,
         "timestamp": 1738824969578
+      },
+      {
+        "price": 13760,
+        "timestamp": 1738824999731
+      },
+      {
+        "price": 12447,
+        "timestamp": 1738825029776
+      },
+      {
+        "price": 13746,
+        "timestamp": 1738825059777
       }
     ]
   }
