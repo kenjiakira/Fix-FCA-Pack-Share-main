@@ -1,6 +1,8 @@
 const { GoogleGenerativeAI } = require("@google/generative-ai");
 const path = require("path");
 const fs = require("fs-extra");
+const axios = require('axios');
+const cheerio = require('cheerio');
 const adminConfig = JSON.parse(fs.readFileSync("admin.json", "utf8"));
 const apiKeysPath = path.join(__dirname, 'json', 'key.json');
 const userDataPath = path.join(__dirname, '..', 'events', 'cache', 'userData.json');
@@ -305,7 +307,7 @@ const generateResponse = async (prompt, senderID, api, threadID) => {
             `- ${cmd.name}: ${cmd.info} | Quyền hạn: ${cmd.permission} | Cách dùng: ${cmd.usage}`
         ).join('\n');
 
-        const systemPrompt = `Bạn là Ngân, một cô gái 19 tuổi.
+        let systemPrompt = `Bạn là Ngân, một cô gái 19 tuổi.
         
 Thông tin cuộc trò chuyện:
 - Đang nói chuyện với: ${userName}
@@ -362,6 +364,17 @@ Ví dụ câu trả lời mẫu:
 
 Lịch sử gần đây:
 ${context.history}`;
+
+        if (prompt.toLowerCase().includes('tin tức') || 
+            prompt.toLowerCase().includes('tin mới') ||
+            prompt.toLowerCase().includes('có gì mới')) {
+            await updateNews();
+            const recentNews = newsCache.vnexpress
+                .slice(0, 3)
+                .map(n => `${n.title}\n${n.description}`)
+                .join('\n\n');
+            systemPrompt += `\nTin tức mới nhất:\n${recentNews}`;
+        }
 
         const fullPrompt = `${systemPrompt}\n${userName}: ${prompt}\nNgan:`;
 
@@ -437,6 +450,38 @@ const updateUserInfo = async (senderID, info) => {
         console.error("Error updating user info:", error);
     }
 };
+
+let newsCache = {
+    vnexpress: [],
+    lastUpdate: 0
+};
+
+async function updateNews() {
+    try {
+        const now = Date.now();
+      
+        if (now - newsCache.lastUpdate < 30 * 60 * 1000) return;
+
+        const response = await axios.get('https://vnexpress.net/tin-tuc-24h');
+        const $ = cheerio.load(response.data);
+        const news = [];
+
+        $('.item-news').each((i, el) => {
+            if (i < 10) {
+                const title = $(el).find('.title-news a').text().trim();
+                const description = $(el).find('.description a').text().trim();
+                if (title && description) {
+                    news.push({ title, description });
+                }
+            }
+        });
+
+        newsCache.vnexpress = news;
+        newsCache.lastUpdate = now;
+    } catch (error) {
+        console.error("Error updating news:", error);
+    }
+}
 
 module.exports = {
     name: "chatbot",

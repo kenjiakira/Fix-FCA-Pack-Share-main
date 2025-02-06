@@ -6,9 +6,10 @@ function formatNumber(number) {
 
 function formatCurrency(str) {
     if (!str) return 0;
+    str = str.toString();
     str = str.replace(/[^0-9.]/g, '');
     const num = parseFloat(str);
-    return isNaN(num) ? 0 : num;
+    return isNaN(num) ? 0 : Math.abs(num);
 }
 
 module.exports = {
@@ -27,21 +28,28 @@ module.exports = {
     hide: true,
 
     onLaunch: async function({ api, event, target = [] }) {
-        const { threadID, messageID, mentions, type, messageReply } = event;
+        const { threadID, messageID, mentions, messageReply } = event;
 
         if (target.length < 1) {
             return api.sendMessage("Vui lòng sử dụng một trong các lệnh sau:\n" + this.usages, threadID, messageID);
         }
 
         const action = target[0].toLowerCase();
-        let userID, reason;
+        let userID, amount, reason;
 
         if (Object.keys(mentions).length > 0) {
             userID = Object.keys(mentions)[0];
-        } else if (type === 'message_reply') {
+            amount = target[2];
+        } else if (messageReply) {
             userID = messageReply.senderID;
-        } else {
+            amount = target[1]; 
+            reason = target.slice(2).join(' '); 
+        } else if (target[1]) {
+            if (isNaN(target[1])) {
+                return api.sendMessage("❌ ID người dùng phải là một số!", threadID, messageID);
+            }
             userID = target[1];
+            amount = target[2];
         }
 
         if (!userID) {
@@ -60,16 +68,18 @@ module.exports = {
             case 'set':
             case 'add':
             case 'sub': {
-                const amount = formatCurrency(target[2]);
                 if (!amount) {
-                    return api.sendMessage("❌ Vui lòng nhập số tiền hợp lệ!", threadID, messageID);
+                    return api.sendMessage("❌ Vui lòng nhập số tiền!", threadID, messageID);
                 }
 
-                reason = target.slice(3).join(' ');
+                const processedAmount = formatCurrency(amount);
+                if (processedAmount <= 0) {
+                    return api.sendMessage("❌ Số tiền phải lớn hơn 0!", threadID, messageID);
+                }
 
-                let newBalance = amount;
-                if (action === 'add') newBalance = currentBalance + amount;
-                if (action === 'sub') newBalance = currentBalance - amount;
+                let newBalance = processedAmount;
+                if (action === 'add') newBalance = currentBalance + processedAmount;
+                if (action === 'sub') newBalance = currentBalance - processedAmount;
 
                 if (newBalance < 0) {
                     return api.sendMessage("❌ Số dư không thể âm!", threadID, messageID);

@@ -1,25 +1,25 @@
 {
   "global": [
     {
-      "timestamp": 1738742792672,
-      "prompt": "bot ơi lệnh coin dùng như nào",
-      "response": "Dạ anh Ngọc Từ, lệnh `coin` dùng để tương tác với hệ thống đào coin crypto nha.\n\n- Mô tả: Hệ thống đào coin crypto.\n- Cách dùng: `.coin [mine/shop/upgrade/trade/market/wallet]`\n- Quyền hạn: Admin",
-      "senderID": "61561753304881",
-      "senderName": "Ngọc Từ"
+      "timestamp": 1738817078777,
+      "prompt": "bot đg lặp lại tin nhắn thu hồi của em^^",
+      "response": "Dạ em xin lỗi ạ, em sẽ cố gắng hết sức để không lặp lại nữa.",
+      "senderID": "100089456734425",
+      "senderName": "Người dùng 100089456734425"
     }
   ],
   "threads": {
-    "6589198804475799": [
+    "8940255536071225": [
       {
-        "timestamp": 1738742792672,
-        "prompt": "bot ơi lệnh coin dùng như nào",
-        "response": "Dạ anh Ngọc Từ, lệnh `coin` dùng để tương tác với hệ thống đào coin crypto nha.\n\n- Mô tả: Hệ thống đào coin crypto.\n- Cách dùng: `.coin [mine/shop/upgrade/trade/market/wallet]`\n- Quyền hạn: Admin",
-        "senderID": "61561753304881",
-        "senderName": "Ngọc Từ"
+        "timestamp": 1738817078777,
+        "prompt": "bot đg lặp lại tin nhắn thu hồi của em^^",
+        "response": "Dạ em xin lỗi ạ, em sẽ cố gắng hết sức để không lặp lại nữa.",
+        "senderID": "100089456734425",
+        "senderName": "Người dùng 100089456734425"
       }
     ]
   },
   "lastResponses": {
-    "bot ơi lệnh coin dùng như nào": "Dạ anh Ngọc Từ, lệnh `coin` dùng để tương tác với hệ thống đào coin crypto nha.\n\n- Mô tả: Hệ thống đào coin crypto.\n- Cách dùng: `.coin [mine/shop/upgrade/trade/market/wallet]`\n- Quyền hạn: Admin"
+    "bot đg lặp lại tin nhắn thu hồi của em^^": "Dạ em xin lỗi ạ, em sẽ cố gắng hết sức để không lặp lại nữa."
   }
 }

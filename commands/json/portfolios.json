@@ -1,0 +1,205 @@
+{
+  "61561753304881": {
+    "stocks": {
+      "FPT": {
+        "quantity": 601,
+        "averagePrice": 84410.45590682197
+      },
+      "BID": {
+        "quantity": 10,
+        "averagePrice": 96503
+      }
+    },
+    "transactions": [
+      {
+        "type": "buy",
+        "symbol": "FPT",
+        "quantity": 100,
+        "price": 84490,
+        "timestamp": 1738813304724
+      },
+      {
+        "type": "buy",
+        "symbol": "FPT",
+        "quantity": 500,
+        "price": 84490,
+        "timestamp": 1738813321797
+      },
+      {
+        "type": "buy",
+        "symbol": "FPT",
+        "quantity": 1,
+        "price": 36684,
+        "timestamp": 1738817174715
+      },
+      {
+        "type": "buy",
+        "symbol": "BID",
+        "quantity": 10,
+        "price": 96503,
+        "timestamp": 1738817245209
+      }
+    ],
+    "lastUpdate": 1738813304721
+  },
+  "61560872141013": {
+    "stocks": {
+      "FPT": {
+        "quantity": 100,
+        "averagePrice": 31439
+      },
+      "MSN": {
+        "quantity": 20,
+        "averagePrice": 92614
+      }
+    },
+    "transactions": [
+      {
+        "type": "buy",
+        "symbol": "FPT",
+        "quantity": 100,
+        "price": 31439,
+        "timestamp": 1738815630521
+      },
+      {
+        "type": "buy",
+        "symbol": "MSN",
+        "quantity": 10,
+        "price": 91934,
+        "timestamp": 1738815887456
+      },
+      {
+        "type": "buy",
+        "symbol": "MSN",
+        "quantity": 10,
+        "price": 93294,
+        "timestamp": 1738815930193
+      },
+      {
+        "type": "buy",
+        "symbol": "VCB",
+        "quantity": 10,
+        "price": 56675,
+        "timestamp": 1738816256187
+      },
+      {
+        "type": "sell",
+        "symbol": "VCB",
+        "quantity": 10,
+        "price": 30421,
+        "timestamp": 1738816614603
+      }
+    ],
+    "lastUpdate": 1738815471187
+  },
+  "100081800629553": {
+    "stocks": {
+      "BID": {
+        "quantity": 25,
+        "averagePrice": 119145
+      }
+    },
+    "transactions": [
+      {
+        "type": "buy",
+        "symbol": "FPT",
+        "quantity": 1,
+        "price": 34810,
+        "timestamp": 1738815652923
+      },
+      {
+        "type": "buy",
+        "symbol": "VIC",
+        "quantity": 23,
+        "price": 210058,
+        "timestamp": 1738815834318
+      },
+      {
+        "type": "sell",
+        "symbol": "FPT",
+        "quantity": 1,
+        "price": 42055,
+        "timestamp": 1738815990109
+      },
+      {
+        "type": "sell",
+        "symbol": "VIC",
+        "quantity": 23,
+        "price": 180015,
+        "timestamp": 1738816510322
+      },
+      {
+        "type": "buy",
+        "symbol": "BID",
+        "quantity": 25,
+        "price": 119145,
+        "timestamp": 1738816800605
+      }
+    ],
+    "lastUpdate": 1738815571989
+  },
+  "100049109850406": {
+    "stocks": {
+      "BID": {
+        "quantity": 51,
+        "averagePrice": 109432.60784313726
+      },
+      "FPT": {
+        "quantity": 250,
+        "averagePrice": 39762.8
+      }
+    },
+    "transactions": [
+      {
+        "type": "buy",
+        "symbol": "BID",
+        "quantity": 20,
+        "price": 109299,
+        "timestamp": 1738817004784
+      },
+      {
+        "type": "buy",
+        "symbol": "BID",
+        "quantity": 20,
+        "price": 109753,
+        "timestamp": 1738817044404
+      },
+      {
+        "type": "buy",
+        "symbol": "BID",
+        "quantity": 10,
+        "price": 109093,
+        "timestamp": 1738817058518
+      },
+      {
+        "type": "buy",
+        "symbol": "BID",
+        "quantity": 1,
+        "price": 109093,
+        "timestamp": 1738817063874
+      },
+      {
+        "type": "buy",
+        "symbol": "FPT",
+        "quantity": 50,
+        "price": 36684,
+        "timestamp": 1738817120824
+      },
+      {
+        "type": "buy",
+        "symbol": "FPT",
+        "quantity": 100,
+        "price": 36684,
+        "timestamp": 1738817135669
+      },
+      {
+        "type": "buy",
+        "symbol": "FPT",
+        "quantity": 100,
+        "price": 44381,
+        "timestamp": 1738817215994
+      }
+    ],
+    "lastUpdate": 1738817004783
+  }
+}

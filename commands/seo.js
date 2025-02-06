@@ -51,14 +51,26 @@ module.exports = {
                 robotsTxt: await checkRobotsTxt(url),
                 sitemap: await checkSitemap(url),
                 viewport: $('meta[name="viewport"]').length > 0,
-                canonical: $('link[rel="canonical"]').length > 0
+                canonical: $('link[rel="canonical"]').length > 0,
+                structuredData: $('script[type="application/ld+json"]').length > 0,
+                openGraph: $('meta[property^="og:"]').length > 0,
+                twitter: $('meta[name^="twitter:"]').length > 0,
+                https: url.startsWith('https'),
+                charset: $('meta[charset]').attr('charset') || $('meta[http-equiv="Content-Type"]').attr('content'),
+                language: $('html').attr('lang'),
+                responsiveImages: checkResponsiveImages($),
+                contentLength: pageResponse.data.length,
+                headers: pageResponse.headers,
+                loadTime: pageResponse.headers['x-response-time'] || 'N/A'
             };
 
             const sslScore = await checkSSL(url);
 
-            const performanceData = await checkPerformance(url);
+            const performanceData = await checkEnhancedPerformance(url);
 
             const mobileFriendly = await checkMobileFriendly(url);
+
+            const securityScore = checkSecurityHeaders(pageResponse.headers);
 
             let totalScore = 0;
             let details = [];
@@ -87,9 +99,20 @@ module.exports = {
             totalScore += technicalScore;
             details.push(`⚙️ Kỹ thuật: ${technicalScore}/30`);
 
+            let contentScore = calculateContentScore(seoFactors);
+            totalScore += contentScore;
+            details.push(`📑 Nội dung: ${contentScore}/20`);
+
+            let socialScore = calculateSocialScore(seoFactors);
+            totalScore += socialScore;
+            details.push(`🔗 Social Media: ${socialScore}/10`);
+
+            details.push(`🛡️ Bảo mật: ${securityScore}/10`);
+            totalScore += securityScore;
+
             let ranking = getRanking(totalScore);
 
-            const report = createDetailedReport(seoFactors, totalScore, ranking, details);
+            const report = createEnhancedReport(seoFactors, totalScore, ranking, details, performanceData);
 
             api.unsendMessage(loadingMessage.messageID);
             return api.sendMessage(report, event.threadID, event.messageID);
@@ -210,6 +233,124 @@ function createDetailedReport(factors, score, ranking, details) {
     if (factors.imgAltTags < factors.totalImages) report += "- Bổ sung alt cho ảnh\n";
     if (!factors.robotsTxt) report += "- Tạo file robots.txt\n";
     if (!factors.sitemap) report += "- Tạo sitemap\n";
+    
+    return report;
+}
+
+function checkResponsiveImages($) {
+    const images = $('img');
+    let responsiveCount = 0;
+    images.each((i, img) => {
+        if ($(img).attr('srcset') || $(img).css('max-width') === '100%') {
+            responsiveCount++;
+        }
+    });
+    return responsiveCount / images.length;
+}
+
+function checkSecurityHeaders(headers) {
+    let score = 0;
+    const securityHeaders = {
+        'strict-transport-security': 2,
+        'x-content-type-options': 2,
+        'x-frame-options': 2,
+        'x-xss-protection': 2,
+        'content-security-policy': 2
+    };
+
+    Object.keys(securityHeaders).forEach(header => {
+        if (headers[header]) score += securityHeaders[header];
+    });
+    
+    return score;
+}
+
+async function checkEnhancedPerformance(url) {
+    try {
+        const response = await axios.get(
+            `https://www.googleapis.com/pagespeedonline/v5/runPagespeed?url=${url}&strategy=mobile`
+        );
+        
+        return {
+            score: response.data.lighthouseResult.categories.performance.score,
+            metrics: {
+                firstContentfulPaint: response.data.lighthouseResult.audits['first-contentful-paint'],
+                speedIndex: response.data.lighthouseResult.audits['speed-index'],
+                largestContentfulPaint: response.data.lighthouseResult.audits['largest-contentful-paint'],
+                timeToInteractive: response.data.lighthouseResult.audits['interactive'],
+                totalBlockingTime: response.data.lighthouseResult.audits['total-blocking-time']
+            }
+        };
+    } catch {
+        return { score: 0, metrics: {} };
+    }
+}
+
+function calculateContentScore(factors) {
+    let score = 0;
+    if (factors.contentLength > 1500) score += 5;
+    if (factors.structuredData) score += 5;
+    if (factors.language) score += 5;
+    if (factors.responsiveImages > 0.8) score += 5;
+    return score;
+}
+
+function calculateSocialScore(factors) {
+    let score = 0;
+    if (factors.openGraph) score += 5;
+    if (factors.twitter) score += 5;
+    return score;
+}
+
+function createEnhancedReport(factors, score, ranking, details, performanceData) {
+    let report = "🔍 BÁO CÁO PHÂN TÍCH SEO CHI TIẾT\n\n";
+    
+    report += `${details.join('\n')}\n\n`;
+    
+    report += `📊 Tổng điểm: ${score}/100\n`;
+    report += `🏆 Xếp hạng: ${ranking}\n\n`;
+    
+    report += "🔧 CHI TIẾT KỸ THUẬT:\n";
+    report += `- Title: ${factors.title ? '✅' : '❌'}\n`;
+    report += `- Meta Description: ${factors.description ? '✅' : '❌'}\n`;
+    report += `- Keywords: ${factors.keywords ? '✅' : '❌'}\n`;
+    report += `- H1 Tags: ${factors.h1Tags}\n`;
+    report += `- Ảnh có Alt: ${factors.imgAltTags}/${factors.totalImages}\n`;
+    report += `- Internal Links: ${factors.internalLinks}\n`;
+    report += `- External Links: ${factors.externalLinks}\n`;
+    report += `- Robots.txt: ${factors.robotsTxt ? '✅' : '❌'}\n`;
+    report += `- Sitemap: ${factors.sitemap ? '✅' : '❌'}\n`;
+    
+    report += "\n⚡ METRICS HIỆU SUẤT:\n";
+    if (performanceData.metrics) {
+        report += `- First Contentful Paint: ${performanceData.metrics.firstContentfulPaint?.displayValue || 'N/A'}\n`;
+        report += `- Speed Index: ${performanceData.metrics.speedIndex?.displayValue || 'N/A'}\n`;
+        report += `- Time to Interactive: ${performanceData.metrics.timeToInteractive?.displayValue || 'N/A'}\n`;
+    }
+
+    report += "\n🔒 KIỂM TRA BẢO MẬT:\n";
+    report += `- HTTPS: ${factors.https ? '✅' : '❌'}\n`;
+    report += `- Security Headers: ${checkSecurityHeaders(factors.headers)}/10\n`;
+
+    report += "\n🌐 SEO NÂNG CAO:\n";
+    report += `- Structured Data: ${factors.structuredData ? '✅' : '❌'}\n`;
+    report += `- Open Graph Tags: ${factors.openGraph ? '✅' : '❌'}\n`;
+    report += `- Twitter Cards: ${factors.twitter ? '✅' : '❌'}\n`;
+    report += `- Language Tag: ${factors.language || '❌'}\n`;
+    
+    report += "\n💡 ĐỀ XUẤT CẢI THIỆN:\n";
+    if (!factors.description) report += "- Thêm meta description\n";
+    if (!factors.keywords) report += "- Thêm meta keywords\n";
+    if (factors.h1Tags === 0) report += "- Thêm thẻ H1\n";
+    if (factors.imgAltTags < factors.totalImages) report += "- Bổ sung alt cho ảnh\n";
+    if (!factors.robotsTxt) report += "- Tạo file robots.txt\n";
+    if (!factors.sitemap) report += "- Tạo sitemap\n";
+    if (!factors.https) report += "- Nâng cấp lên HTTPS để bảo mật website\n";
+    if (!factors.structuredData) report += "- Thêm Schema Markup để tăng hiển thị rich snippets\n";
+    if (!factors.openGraph) report += "- Thêm Open Graph tags để tối ưu chia sẻ mạng xã hội\n";
+    if (performanceData.metrics?.largestContentfulPaint?.numericValue > 2500) {
+        report += "- Tối ưu LCP bằng cách nén hình ảnh và sử dụng CDN\n";
+    }
     
     return report;
 }

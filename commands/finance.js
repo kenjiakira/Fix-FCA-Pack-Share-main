@@ -3,7 +3,7 @@ const path = require('path');
 
 module.exports = {
     name: "finance",
-    aliases: ["fin", "money"],
+    nickName: ["fin", "money"],
     dev: "HNT",
     info: "Quản lý chi tiêu cá nhân",
     usages: "finance [command] [options]",
