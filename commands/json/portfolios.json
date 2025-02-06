@@ -94,9 +94,13 @@
   },
   "100081800629553": {
     "stocks": {
-      "BID": {
-        "quantity": 25,
-        "averagePrice": 119145
+      "MSN": {
+        "quantity": 139,
+        "averagePrice": 25747.841726618706
+      },
+      "FPT": {
+        "quantity": 100,
+        "averagePrice": 72683
       }
     },
     "transactions": [
@@ -134,6 +138,48 @@
         "quantity": 25,
         "price": 119145,
         "timestamp": 1738816800605
+      },
+      {
+        "type": "sell",
+        "symbol": "BID",
+        "quantity": 23,
+        "price": 144409,
+        "timestamp": 1738818165653
+      },
+      {
+        "type": "sell",
+        "symbol": "BID",
+        "quantity": 2,
+        "price": 139518,
+        "timestamp": 1738818198658
+      },
+      {
+        "type": "buy",
+        "symbol": "MSN",
+        "quantity": 120,
+        "price": 26023,
+        "timestamp": 1738818414205
+      },
+      {
+        "type": "buy",
+        "symbol": "MSN",
+        "quantity": 18,
+        "price": 24010,
+        "timestamp": 1738818423115
+      },
+      {
+        "type": "buy",
+        "symbol": "MSN",
+        "quantity": 1,
+        "price": 24010,
+        "timestamp": 1738818432641
+      },
+      {
+        "type": "buy",
+        "symbol": "FPT",
+        "quantity": 100,
+        "price": 72683,
+        "timestamp": 1738823288671
       }
     ],
     "lastUpdate": 1738815571989
@@ -201,5 +247,35 @@
       }
     ],
     "lastUpdate": 1738817004783
+  },
+  "100050363228652": {
+    "stocks": {},
+    "transactions": [],
+    "lastUpdate": 1738818238707
+  },
+  "61568522233427": {
+    "stocks": {},
+    "transactions": [],
+    "lastUpdate": 1738819858968
+  },
+  "100063719077878": {
+    "stocks": {},
+    "transactions": [
+      {
+        "type": "buy",
+        "symbol": "FPT",
+        "quantity": 10,
+        "price": 65976,
+        "timestamp": 1738823302995
+      },
+      {
+        "type": "sell",
+        "symbol": "FPT",
+        "quantity": 10,
+        "price": 61699,
+        "timestamp": 1738823355268
+      }
+    ],
+    "lastUpdate": 1738823302994
   }
 }

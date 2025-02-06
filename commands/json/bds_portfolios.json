@@ -1,0 +1,42 @@
+{
+  "100081800629553": {
+    "properties": {},
+    "transactions": [
+      {
+        "type": "buy",
+        "propertyId": "GLAND",
+        "quantity": 1,
+        "price": 3000000,
+        "timestamp": 1738818308583
+      },
+      {
+        "type": "sell",
+        "propertyId": "GLAND",
+        "quantity": 1,
+        "price": 3000000,
+        "timestamp": 1738818368194
+      }
+    ],
+    "lastRentCollection": {}
+  },
+  "100050363228652": {
+    "properties": {},
+    "transactions": [
+      {
+        "type": "buy",
+        "propertyId": "VHOMES",
+        "quantity": 1,
+        "price": 5000000,
+        "timestamp": 1738821256754
+      },
+      {
+        "type": "sell",
+        "propertyId": "VHOMES",
+        "quantity": 1,
+        "price": 5000000,
+        "timestamp": 1738821330773
+      }
+    ],
+    "lastRentCollection": {}
+  }
+}

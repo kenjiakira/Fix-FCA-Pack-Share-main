@@ -1,0 +1,47 @@
+{
+  "VHOMES": {
+    "name": "Vinhomes Central Park",
+    "type": "Chung cư cao cấp",
+    "location": "TP.HCM",
+    "price": 5480277,
+    "rent": 50000,
+    "area": "100m2",
+    "appreciation": 0.1
+  },
+  "PVILLE": {
+    "name": "Park Villa",
+    "type": "Biệt thự",
+    "location": "Hà Nội",
+    "price": 11611526,
+    "rent": 100000,
+    "area": "300m2",
+    "appreciation": 0.15
+  },
+  "LAKEV": {
+    "name": "Lake View",
+    "type": "Đất nền",
+    "location": "Đà Nẵng",
+    "price": 2340486,
+    "rent": 0,
+    "area": "200m2",
+    "appreciation": 0.2
+  },
+  "SHOUSE": {
+    "name": "Sunshine House",
+    "type": "Nhà phố",
+    "location": "TP.HCM",
+    "price": 8790569,
+    "rent": 80000,
+    "area": "150m2",
+    "appreciation": 0.12
+  },
+  "GLAND": {
+    "name": "Green Land",
+    "type": "Đất nền",
+    "location": "Hà Nội",
+    "price": 3460014,
+    "rent": 0,
+    "area": "250m2",
+    "appreciation": 0.18
+  }
+}

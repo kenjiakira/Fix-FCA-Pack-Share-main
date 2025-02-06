@@ -18,6 +18,14 @@ module.exports = {
     gameRooms: new Map(),
     autoCloseTimers: new Map(),
 
+    RANKINGS: {
+        SAP: 7,    
+        LIENG: 6, 
+        ANH: 5,  
+        DONGCHAT: 4, 
+        THUONG: 0 
+    },
+
     onLaunch: async function({ api, event, target = [] }) {
         try {
             const { threadID, messageID, senderID } = event;
@@ -34,7 +42,32 @@ module.exports = {
             };
 
             if (!target[0]) {
-                return api.sendMessage("BÀI CÀO\n━━━━━━━━━━━━━━━━━━\n\nHướng dẫn:\n.baicao create: Tạo bàn\n.baicao join: Tham gia\n.baicao start: Bắt đầu ván\n.baicao leave: Rời bàn\n.baicao bet [số tiền]: Đặt cược", threadID);
+                return api.sendMessage(
+                    "🎴 BÀI CÀO (Liêng)\n" +
+                    "━━━━━━━━━━━━━━━━━━\n\n" +
+                    "🎯 Hướng dẫn:\n" +
+                    ".baicao create: Tạo bàn\n" +
+                    ".baicao join: Tham gia\n" +
+                    ".baicao start [số tiền]: Bắt đầu ván\n" +
+                    ".baicao leave: Rời bàn\n\n" +
+                    "📝 Thứ tự các loại bài:\n" +
+                    "1. Sáp: Ba lá bài giống nhau (VD: 666)\n" +
+                    "2. Liêng: Dây liên tiếp 123\n" +
+                    "3. Ảnh: Có JQK và 2 lá giống nhau (VD: JJQ)\n" +
+                    "4. Đồng chất: 3 lá cùng chất (VD: ♠️♠️♠️)\n" +
+                    "5. Tính điểm: Tổng 3 lá chia lấy dư cho 10\n\n" +
+                    "💎 Giá trị:\n" +
+                    "- A = 1 điểm\n" +
+                    "- 2-9 = 2-9 điểm\n" +
+                    "- 10, J, Q, K = 10 điểm\n" +
+                    "- Chất bài: ♠️ > ♣️ > ♦️ > ♥️\n\n" +
+                    "⚡️ Lưu ý:\n" +
+                    "- Mỗi bàn tối đa 8 người\n" +
+                    "- Cược tối thiểu 10,000 xu\n" +
+                    "- Ván mới tự động bắt đầu sau 10 giây\n" +
+                    "- Phí thắng game 5%", 
+                    threadID
+                );
             }
 
             const command = target[0].toLowerCase();
@@ -84,7 +117,7 @@ module.exports = {
                         if (!room) return api.sendMessage("Chưa có bàn nào được tạo!", threadID);
                         if (room.status !== "waiting") return api.sendMessage("Ván đang diễn ra!", threadID);
                         if (room.players.find(p => p.id === senderID)) return api.sendMessage("Bạn đã ở trong bàn!", threadID);
-                        if (room.players.length >= 6) return api.sendMessage("Bàn đã đầy!", threadID);
+                        if (room.players.length >= 8) return api.sendMessage("Bàn đã đầy!", threadID);
                         
                         const playerName = getUserName(senderID);
                         room.players.push({id: senderID, name: playerName, cards: [], total: 0, ready: false});
@@ -95,16 +128,34 @@ module.exports = {
                         return api.sendMessage("Có lỗi xảy ra khi tham gia!", threadID);
                     }
 
+                case "ready":
+                    if (!room) return api.sendMessage("Chưa có bàn nào được tạo!", threadID);
+                    if (!room.players.find(p => p.id === senderID)) return api.sendMessage("Bạn không trong bàn!", threadID);
+                    if (room.status !== "waiting_ready") return api.sendMessage("Chưa tới lúc ready!", threadID);
+                    
+                    const player = room.players.find(p => p.id === senderID);
+                    if (player.ready) return api.sendMessage("Bạn đã sẵn sàng rồi!", threadID);
+                    
+                    player.ready = true;
+                    const readyPlayers = room.players.filter(p => p.ready).length;
+                    api.sendMessage(`👤 ${player.name} đã sẵn sàng! (${readyPlayers}/${room.players.length})`, threadID);
+
+                    if (readyPlayers === room.players.length) {
+                        room.status = "waiting";
+                        api.sendMessage("🎮 Tất cả đã sẵn sàng! Chủ phòng có thể bắt đầu ván mới.", threadID);
+                    }
+                    break;
+
                 case "start":
                     try {
                         if (!room) return api.sendMessage("Chưa có bàn nào được tạo!", threadID);
                         if (room.host !== senderID) return api.sendMessage("Chỉ chủ bàn mới được bắt đầu!", threadID);
                         if (room.players.length < 2) return api.sendMessage("Cần ít nhất 2 người để chơi!", threadID);
-                        if (room.status !== "waiting") return api.sendMessage("Ván đang diễn ra!", threadID);
+                        if (room.status !== "waiting") return api.sendMessage("Không thể bắt đầu lúc này!", threadID);
                         
                         const betAmount = parseInt(target[1]);
                         if (!betAmount || betAmount < 10000) {
-                            return api.sendMessage("Vui lòng nhập số tiền cược hợp lệ!\n.baicao start [số tiền]", threadID);
+                            return api.sendMessage("Vui lòng nhập số tiền cược hợp lệ!\n.lieng start [số tiền]", threadID);
                         }
 
                         const insufficientPlayers = [];
@@ -146,7 +197,6 @@ module.exports = {
                     if (room.status === "waiting") {
                         room.players = room.players.filter(p => p.id !== senderID);
                         if (room.players.length === 0) {
-                            // Instead of deleting, reset the room
                             room.status = "waiting";
                             room.deck = null;
                             room.betAmount = 0;
@@ -202,15 +252,25 @@ module.exports = {
                     let resultMsg = `🎴 Kết quả (Cược: ${formatNumber(room.betAmount)} Xu):\n\n`;
                     
                     room.players.sort((a, b) => {
-                        if (b.total !== a.total) return b.total - a.total;
+                        const handA = this.calculateHand(a.cards);
+                        const handB = this.calculateHand(b.cards);
+                        
+                        if (handA.rank !== handB.rank) {
+                            return handB.rank - handA.rank;
+                        }
+                        if (handA.value !== handB.value) {
+                            return handB.value - handA.value;
+                        }
                         return Math.max(...b.cards.map(c => this.getSuitValue(c.suit))) - 
                                Math.max(...a.cards.map(c => this.getSuitValue(c.suit)));
                     });
 
                     for (let i = 0; i < room.players.length; i++) {
                         const player = room.players[i];
+                        const hand = this.calculateHand(player.cards);
                         const cards = player.cards.map(c => `${c.value}${c.suit}`).join(" ");
-                        resultMsg += `${i+1}. ${player.name}\nBài: ${cards}\nTổng: ${player.total}\n\n`;
+                        resultMsg += `${i+1}. ${player.name}\nBài: ${cards}\n`;
+                        resultMsg += `Kết quả: ${hand.type} (${hand.value} điểm)\n\n`;
                     }
 
                     const winner = room.players[0];
@@ -222,31 +282,60 @@ module.exports = {
 
                     resultMsg += `\n🎉 Người thắng: ${winner.name}\n`;
                     resultMsg += `💰 Thắng: ${formatNumber(winnings)} Xu\n`;
-                    resultMsg += `💸 Phí: 5%`;
+                    resultMsg += `💸 Phí: 5%\n\n`;
+                    resultMsg += "⏳ Ván mới sẽ bắt đầu sau 10 giây...";
 
                     await api.sendMessage(resultMsg, threadID);
+
+                    room.status = "waiting";
+                    room.deck = null;
+                    for (let player of room.players) {
+                        player.cards = [];
+                        player.total = 0;
+                    }
+
+                    setTimeout(async () => {
+                        if (this.gameRooms.has(threadID)) {
+                            const room = this.gameRooms.get(threadID);
+                            if (room.players.length >= 2) {
+                                const betAmount = room.betAmount;
+                                
+                                const insufficientPlayers = [];
+                                for (let player of room.players) {
+                                    const balance = getBalance(player.id);
+                                    if (balance < betAmount) {
+                                        insufficientPlayers.push(player.name);
+                                    }
+                                }
+
+                                if (insufficientPlayers.length > 0) {
+                                    api.sendMessage(
+                                        `❌ Không thể bắt đầu ván mới vì các người chơi sau không đủ ${formatNumber(betAmount)} Xu:\n${insufficientPlayers.join(", ")}`,
+                                        threadID
+                                    );
+                                    this.gameRooms.delete(threadID);
+                                    return;
+                                }
+
+                                for (let player of room.players) {
+                                    updateBalance(player.id, -betAmount);
+                                }
+                                
+                                await api.sendMessage(
+                                    `🎴 Bắt đầu ván mới!\nTiền cược: ${formatNumber(betAmount)} Xu\nĐang chia bài...`, 
+                                    threadID
+                                );
+                                this.startGame(api, threadID);
+                            } else {
+                                api.sendMessage("❌ Không đủ người chơi để bắt đầu ván mới!", threadID);
+                                this.gameRooms.delete(threadID);
+                            }
+                        }
+                    }, 10000);
+
                 } catch (err) {
                     console.error("Error in game completion:", err);
-                    await api.sendMessage("Có lỗi xảy ra khi kết thúc ván!", threadID)
-                        .catch(console.error);
-                } finally {
-                    // Reset room instead of deleting
-                    const room = this.gameRooms.get(threadID);
-                    if (room) {
-                        room.status = "waiting";
-                        room.deck = null;
-                        room.betAmount = 0;
-                        room.players = [];
-                        
-                        // Set auto-close timer for reset room
-                        this.autoCloseTimers.set(threadID, setTimeout(() => {
-                            if (this.gameRooms.has(threadID) && this.gameRooms.get(threadID).status === "waiting") {
-                                api.sendMessage("⌛ Bàn đã tự động đóng do không có người chơi trong 60 giây!", threadID);
-                                this.gameRooms.delete(threadID);
-                                this.autoCloseTimers.delete(threadID);
-                            }
-                        }, 60000));
-                    }
+                    await api.sendMessage("Có lỗi xảy ra khi kết thúc ván!", threadID);
                 }
             }, 5000);
 
@@ -260,7 +349,7 @@ module.exports = {
 
     createDeck() {
         const suits = ["♠️", "♣️", "♦️", "♥️"];
-        const values = ["A", "2", "3", "4", "5", "6", "7", "8", "9"];
+        const values = ["A", "2", "3", "4", "5", "6", "7", "8", "9", "10", "J", "Q", "K"];
         let deck = [];
         
         for (let suit of suits) {
@@ -276,12 +365,58 @@ module.exports = {
         return deck;
     },
 
-    calculateTotal(cards) {
-        let total = cards.reduce((sum, card) => {
-            if (card.value === "A") return sum + 1;
-            return sum + parseInt(card.value);
-        }, 0);
-        return total % 10;
+    calculateHand(cards) {
+        const values = cards.map(c => {
+            if (c.value === "A") return 1;
+            if (["J", "Q", "K"].includes(c.value)) return 10;
+            return parseInt(c.value);
+        });
+
+        if (cards[0].value === cards[1].value && cards[1].value === cards[2].value) {
+            return {
+                type: "SAP",
+                rank: this.RANKINGS.SAP,
+                value: parseInt(cards[0].value) || 10
+            };
+        }
+
+        const sortedValues = [...values].sort((a, b) => a - b);
+        if (sortedValues[0] === 1 && sortedValues[1] === 2 && sortedValues[2] === 3) {
+            return {
+                type: "LIENG",
+                rank: this.RANKINGS.LIENG,
+                value: 3
+            };
+        }
+
+        const hasRoyals = cards.filter(c => ["J", "Q", "K"].includes(c.value));
+        if (hasRoyals.length >= 2) {
+            const royalCounts = {};
+            hasRoyals.forEach(c => {
+                royalCounts[c.value] = (royalCounts[c.value] || 0) + 1;
+            });
+            if (Object.values(royalCounts).some(count => count >= 2)) {
+                return {
+                    type: "ANH",
+                    rank: this.RANKINGS.ANH,
+                    value: Math.max(...values)
+                };
+            }
+        }
+
+        if (cards.every(c => c.suit === cards[0].suit)) {
+            return {
+                type: "DONGCHAT",
+                rank: this.RANKINGS.DONGCHAT,
+                value: Math.max(...values)
+            };
+        }
+
+        return {
+            type: "THUONG",
+            rank: this.RANKINGS.THUONG,
+            value: values.reduce((sum, val) => sum + val, 0) % 10
+        };
     },
 
     getSuitValue(suit) {
