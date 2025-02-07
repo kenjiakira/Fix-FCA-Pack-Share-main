@@ -189,8 +189,8 @@ module.exports = {
         const playerData = this.loadPlayerData(senderID);
 
         if (reply.type === "location") {
-            if (allData[senderID]?.lastFished && Date.now() - allData[senderID].lastFished < 360000) {
-                const waitTime = Math.ceil((360000 - (Date.now() - allData[senderID].lastFished)) / 1000);
+            if (allData[senderID]?.lastFished && Date.now() - allData[senderID].lastFished < 180000) {
+                const waitTime = Math.ceil((180000 - (Date.now() - allData[senderID].lastFished)) / 1000);
                 return api.sendMessage(
                     messages.cooldown(waitTime, new Date(allData[senderID].lastFished).toLocaleTimeString()),
                     threadID
@@ -538,7 +538,7 @@ module.exports = {
                     `✨ EXP: ${formatNumber(playerData.exp)}/${formatNumber(calculateRequiredExp(playerData.level))}\n` +
                     `🎒 Độ bền cần: ${playerData.rodDurability}/${fishingItems[playerData.rod].durability}\n` +
                     `💵 Số dư: ${formatNumber(getBalance(event.senderID))} Xu\n` +
-                    `⏳ Chờ 12 phút để câu tiếp!`,
+                    `⏳ Chờ 6 phút để câu tiếp!`,
                     event.threadID
                 );
 

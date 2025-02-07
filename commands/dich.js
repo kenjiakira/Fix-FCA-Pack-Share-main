@@ -3,107 +3,114 @@ const translate = require('translate-google');
 
 module.exports = {
     name: "dich",
-    dev:"HNT",
+    dev: "HNT",
     usedby: 0,
-    info: "Dịch văn bản qua nhiều ngôn ngữ",
-    usages: "dich <text> | <lang> hoặc reply tin nhắn với 'dich <lang>'",
+    info: "Dịch văn bản qua nhiều ngôn ngữ", 
+    usages: "dich [ngôn ngữ] [nội dung] hoặc reply",
     cooldowns: 5,
 
     langCodes: {
         'việt': 'vi',
-        'anh': 'en', 
-        'nhật': 'ja',
+        'v': 'vi',
+        'anh': 'en',
+        'a': 'en',
+        'nhật': 'ja', 
+        'n': 'ja',
         'hàn': 'ko',
+        'h': 'ko',
         'trung': 'zh',
+        't': 'zh',
         'pháp': 'fr',
+        'p': 'fr',
         'đức': 'de',
+        'nga': 'ru',
         'ý': 'it',
-        'tây ban nha': 'es',
-        'nga': 'ru'
+        'tbn': 'es', // Tây Ban Nha
+        'tl': 'th', // Thái Lan
+        'indo': 'id'
     },
 
     async translate(text, targetLang = 'vi') {
         try {
-            const result = await translate(text, {to: targetLang});
-            
-            if (!result) {
-                throw new Error("Không thể dịch văn bản này!");
-            }
-            
+            const result = await translate(text, {
+                to: targetLang,
+                autoCorrect: true
+            });
             return result;
         } catch (err) {
             if (err.code === 'BAD_NETWORK') {
                 throw new Error("Lỗi kết nối mạng!");
             }
-            throw new Error("Lỗi dịch thuật: " + err.message);
+            throw err;
         }
     },
 
     getLanguageCode(input) {
-        input = input.toLowerCase();
+        input = input.toLowerCase().trim();
         return this.langCodes[input] || input;
-    },
-
-    onReply: async function({ api, event }) {
-        const { threadID, messageID } = event;
-        
-        if (!event.messageReply?.body) {
-            return api.sendMessage("❌ Không tìm thấy nội dung để dịch!", threadID);
-        }
-
-        const langCode = this.getLanguageCode(event.body.toLowerCase().replace("dich", "").trim()) || 'vi';
-        
-        try {
-            const translatedText = await this.translate(event.messageReply.body, langCode);
-            return api.sendMessage(
-                `🌐 Bản dịch (${langCode}):\n\n${translatedText}`, 
-                threadID,
-                messageID
-            );
-        } catch (err) {
-            return api.sendMessage(
-                "❌ Lỗi: " + err.message, 
-                threadID,
-                messageID
-            );
-        }
     },
 
     onLaunch: async function({ api, event, target }) {
         const { threadID, messageID } = event;
-
-        if (event.type === "message_reply") {
-            return this.onReply({ api, event });
-        }
-
-        const text = target.join(" ");
-        if (!text) {
+        
+        // Nếu không có tham số, hiển thị hướng dẫn
+        if (!target[0] && !event.messageReply) {
             return api.sendMessage(
-                "📝 Hướng dẫn sử dụng:\n" +
-                "1. Dịch trực tiếp: dich <văn bản> | <mã ngôn ngữ>\n" +
-                "2. Dịch qua reply: Reply một tin nhắn với 'dich <mã ngôn ngữ>'\n\n" +
-                "Các ngôn ngữ hỗ trợ:\n" +
-                Object.entries(this.langCodes)
-                    .map(([name, code]) => `- ${name}: ${code}`)
-                    .join("\n"),
+                "🌐 DỊCH THUẬT 🌐\n" +
+                "━━━━━━━━━━━━━━━━━━\n\n" +
+                "Cách dùng:\n" +
+                "1. Dịch bình thường:\n" + 
+                "   dich [ngôn ngữ] [nội dung]\n" +
+                "   VD: dich anh xin chào\n\n" +
+                "2. Dịch qua reply:\n" +
+                "   Reply tin nhắn + dich [ngôn ngữ]\n" +
+                "   VD: dich nhật\n\n" +
+                "Ngôn ngữ hỗ trợ:\n" +
+                "- Việt (v)\n- Anh (a)\n- Nhật (n)\n" +
+                "- Hàn (h)\n- Trung (t)\n- Pháp (p)\n" +
+                "- Đức (de)\n- Nga (ru)\n- Ý (it)\n" +
+                "- Tây Ban Nha (tbn)\n- Thái (tl)\n" +
+                "- Indonesia (indo)",
                 threadID
             );
         }
 
-        const [content, langCode = 'vi'] = text.split("|").map(s => s.trim());
-        
         try {
-            const translatedText = await this.translate(content, this.getLanguageCode(langCode));
+            let langCode = 'vi';
+            let content = '';
+
+            // Xử lý reply
+            if (event.messageReply) {
+                langCode = this.getLanguageCode(target[0] || 'việt');
+                content = event.messageReply.body;
+            }
+            // Xử lý lệnh trực tiếp
+            else {
+                langCode = this.getLanguageCode(target[0]);
+                content = target.slice(1).join(" ");
+                
+                // Nếu không có ngôn ngữ, mặc định dịch sang tiếng Việt
+                if (!content) {
+                    content = target.join(" ");
+                    langCode = 'vi';
+                }
+            }
+
+            if (!content) {
+                return api.sendMessage("❌ Vui lòng nhập nội dung cần dịch!", threadID);
+            }
+
+            const translated = await this.translate(content, langCode);
             return api.sendMessage(
-                `🌐 Bản dịch (${langCode}):\n\n${translatedText}`, 
-                threadID,
-                messageID
+                `📝 Văn bản gốc:\n${content}\n\n` +
+                `🌐 Bản dịch (${langCode}):\n${translated}`,
+                threadID
             );
+
         } catch (err) {
             return api.sendMessage(
-                "❌ Lỗi: " + err.message, 
-                threadID,
-                messageID
+                `❌ Lỗi: ${err.message || "Không thể dịch văn bản này"}`, 
+                threadID
             );
         }
     }

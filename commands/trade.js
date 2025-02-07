@@ -13,7 +13,30 @@ class StockMarket {
             open: 9, 
             close: 15 
         };
+        this.lastUpdate = null;
+        this.updateInterval = 30000;
         this.loadMarketData();
+        this.startUpdates();
+    }
+
+    startUpdates() {
+        if (this.updateTimer) {
+            clearInterval(this.updateTimer);
+        }
+
+        const now = new Date();
+        const hour = now.getHours();
+        
+        if (hour >= this.marketHours.open && hour < this.marketHours.close) {
+            console.log("[MARKET] Market is open, starting updates...");
+            this.updatePrices();
+            this.updateTimer = setInterval(() => {
+                console.log("[MARKET] Checking for updates...");
+                this.updatePrices();
+            }, this.updateInterval);
+        } else {
+            console.log("[MARKET] Market is closed. Updates paused.");
+        }
     }
 
     loadMarketData() {
@@ -53,8 +76,8 @@ class StockMarket {
 
     saveMarketData() {
         try {
-            fs.writeFileSync(MARKET_DATA_PATH, JSON.stringify(this.stocks, null, 2));
-            fs.writeFileSync(USER_PORTFOLIO_PATH, JSON.stringify(this.portfolios, null, 2));
+            fs.writeFileSync(MARKET_DATA_PATH, JSON.stringify(this.stocks));
+            fs.writeFileSync(USER_PORTFOLIO_PATH, JSON.stringify(this.portfolios));
         } catch (error) {
             console.error("Error saving market data:", error);
         }
@@ -68,7 +91,7 @@ class StockMarket {
                 change: 0,
                 volume: 1000000,
                 marketCap: 167000000000000,
-                history: []
+                history: []  // Initialize empty array
             },
             "FPT": {
                 name: "FPT Corp",
@@ -120,12 +143,17 @@ class StockMarket {
             }
         };
 
+        const now = Date.now();
         Object.keys(this.stocks).forEach(symbol => {
             const stock = this.stocks[symbol];
+     
+            if (!Array.isArray(stock.history)) {
+                stock.history = [];
+            }
             for (let i = 0; i < 10; i++) {
                 stock.history.push({
                     price: stock.price,
-                    timestamp: Date.now() - (i * 60000)
+                    timestamp: now - (i * 60000)
                 });
             }
         });
@@ -141,40 +169,79 @@ class StockMarket {
     updatePrices() {
         const now = new Date();
         const hour = now.getHours();
+
+        if (hour < this.marketHours.open || hour >= this.marketHours.close) {
+            console.log("[MARKET] Market is closed. No updates.");
+            return;
+        }
+
+        console.log(`[MARKET] Updating prices at ${now.toLocaleTimeString()}`);
         
-        if (hour >= this.marketHours.open && hour < this.marketHours.close) {
-            Object.keys(this.stocks).forEach(symbol => {
-                const stock = this.stocks[symbol];
-                const volatility = 0.05; 
-                let change = (Math.random() - 0.5) * 2 * volatility * stock.price;
+        let marketChanged = false;
+        
+        Object.keys(this.stocks).forEach(symbol => {
+            const stock = this.stocks[symbol];
+            
+            if (!Array.isArray(stock.history)) {
+                stock.history = [];
+            }
 
-                const randomChance = Math.random();
-                if (randomChance < 0.3) {
-                    change = (Math.random() - 0.5) * 2 * 0.15 * stock.price;
-                } else if (randomChance < 0.4) {
-                    change = (Math.random() - 0.5) * 2 * 0.25 * stock.price;
-                }
+            const baseVolatility = 0.05; 
+            const randomFactor = Math.random();
+            
+            let volatility;
+            if (randomFactor < 0.15) { 
+                volatility = baseVolatility * 3;
+            } else if (randomFactor < 0.35) { 
+                volatility = baseVolatility * 2;
+            } else { 
+                volatility = baseVolatility;
+            }
 
-                const marketTrend = Math.random() < 0.6 ? 1 : -1; 
-                change *= marketTrend;
-
+            const change = (Math.random() - 0.5) * 2 * volatility * stock.price;
+            
+            if (Math.abs(change) > 100) { 
+                marketChanged = true;
+                
                 const oldPrice = stock.price;
-                stock.price = Math.max(100, Math.round(stock.price + change));
-                stock.change = ((stock.price - oldPrice) / oldPrice) * 100;
+                const newPrice = Math.max(1000, Math.round(oldPrice + change));
+                stock.price = newPrice;
+                stock.change = ((newPrice - oldPrice) / oldPrice) * 100;
 
-                stock.volume = Math.round(stock.volume * (1 + Math.abs(stock.change) / 100));
+                stock.volume = Math.round(stock.volume * (1 + Math.abs(stock.change) / 50));
 
                 stock.history.push({
-                    price: stock.price,
+                    price: newPrice,
                     timestamp: Date.now()
                 });
-                
+
                 if (stock.history.length > 100) {
-                    stock.history.shift();
+                    stock.history = stock.history.slice(-100);
                 }
-            });
+
+                console.log(`[MARKET] ${symbol} changed: ${oldPrice} -> ${newPrice} (${stock.change.toFixed(2)}%)`);
+            }
+        });
+
+        if (marketChanged) {
+            console.log("[MARKET] Saving market changes...");
             this.saveMarketData();
         }
+
+        this.lastUpdate = Date.now();
+    }
+
+    getInitialPrice(symbol) {
+        const initialPrices = {
+            "VNM": 80000,
+            "FPT": 90000,
+            "VIC": 100000,
+            "BID": 45000,
+            "VCB": 85000,
+            "HPG": 35000,
+            "MSN": 95000
+        };
+        return initialPrices[symbol] || 50000;
     }
 
     getUserPortfolio(userId) {
@@ -190,6 +257,13 @@ class StockMarket {
     }
 
     async buyStock(userId, symbol, quantity) {
+        // Check market hours
+        const now = new Date();
+        const hour = now.getHours();
+        if (hour < this.marketHours.open || hour >= this.marketHours.close) {
+            throw new Error(`Thị trường đóng cửa! Giao dịch từ ${this.marketHours.open}:00 đến ${this.marketHours.close}:00`);
+        }
+
         const stock = this.stocks[symbol];
         if (!stock) throw new Error("Mã cổ phiếu không tồn tại");
 
@@ -236,6 +310,13 @@ class StockMarket {
     }
 
     async sellStock(userId, symbol, quantity) {
+        // Check market hours
+        const now = new Date();
+        const hour = now.getHours();
+        if (hour < this.marketHours.open || hour >= this.marketHours.close) {
+            throw new Error(`Thị trường đóng cửa! Giao dịch từ ${this.marketHours.open}:00 đến ${this.marketHours.close}:00`);
+        }
+
         const stock = this.stocks[symbol];
         if (!stock) throw new Error("Mã cổ phiếu không tồn tại");
 
@@ -273,7 +354,8 @@ class StockMarket {
     getMarketOverview() {
         const overview = {
             stocks: {},
-            timestamp: Date.now()
+            timestamp: Date.now(),
+            isOpen: this.isMarketOpen()
         };
 
         Object.keys(this.stocks).forEach(symbol => {
@@ -352,11 +434,15 @@ class StockMarket {
 
         return analysis;
     }
+
+    isMarketOpen() {
+        const now = new Date();
+        const hour = now.getHours();
+        return hour >= this.marketHours.open && hour < this.marketHours.close;
+    }
 }
 
 const market = new StockMarket();
-
-setInterval(() => market.updatePrices(), 30000); 
 
 module.exports = {
     name: "trade",
@@ -368,6 +454,11 @@ module.exports = {
 
     onLaunch: async function({ api, event, target }) {
         const { threadID, messageID, senderID } = event;
+
+        if (!market.lastUpdate || Date.now() - market.lastUpdate > 60000) {
+            console.log("[TRADE] Restarting market updates...");
+            market.startUpdates();
+        }
 
         try {
             if (Object.keys(market.stocks).length === 0) {
@@ -390,13 +481,19 @@ module.exports = {
 
             const command = target[0].toLowerCase();
 
+            const now = new Date();
+            const hour = now.getHours();
+            const isMarketOpen = hour >= market.marketHours.open && hour < market.marketHours.close;
+
             switch (command) {
                 case "check": {
                     const overview = market.getMarketOverview();
                     const analysis = market.getMarketAnalysis();
                     
                     let message = "📊 BẢNG GIÁ CHỨNG KHOÁN 📊\n";
-                    message += "━━━━━━━━━━━━━━━━━━\n\n";
+                    message += "━━━━━━━━━━━━━━━━━━\n";
+                    message += `🕒 Trạng thái: ${isMarketOpen ? '🟢 Đang mở cửa' : '🔴 Đã đóng cửa'}\n`;
+                    message += `⏰ Giờ giao dịch: ${market.marketHours.open}:00 - ${market.marketHours.close}:00\n\n`;
                     message += "🏆 TOP TĂNG GIÁ:\n";
                     
                     analysis.topGainers.forEach(([symbol, data]) => {

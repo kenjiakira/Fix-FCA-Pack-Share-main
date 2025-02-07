@@ -79,9 +79,7 @@ module.exports = {
                 `💰 Số dư ví: ${balance.toLocaleString('vi-VN')} Xu\n`+
                 `🏦 Số dư ngân hàng: ${bankBalance.toLocaleString('vi-VN')} Xu\n`+
                 `💵 Tổng tài sản: ${totalWealth.toLocaleString('vi-VN')} Xu\n\n`+
-                `📊 Giao dịch gần đây:\n${transHistory}\n\n`+
-                `💫 Lãi suất ngân hàng: 0.1%/ngày\n`+
-                `${interest > 0 ? `✨ Bạn nhận được ${interest} Xu tiền lãi!` : ''}`;
+                `📊 Giao dịch gần đây:\n${transHistory}\n\n`;
 
             await api.sendMessage(response, threadID, messageID);
         } catch (error) {

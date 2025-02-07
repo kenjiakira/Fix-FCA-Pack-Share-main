@@ -325,8 +325,23 @@ module.exports = {
                     userData = {};
                 }
 
-                if (!userData[event.senderID]) {
-                    userData[event.senderID] = {
+                const userId = event.senderID;
+
+                try {
+                    const userInfo = await api.getUserInfo(userId);
+                    const newName = userInfo[userId]?.name;
+                    if (newName && (!userData[userId]?.name || userData[userId].name !== newName)) {
+                        userData[userId] = {
+                            ...userData[userId],
+                            name: newName
+                        };
+                    }
+                } catch (nameError) {
+                    console.log('Could not update name, using existing:', nameError.message);
+                }
+
+                if (!userData[userId]) {
+                    userData[userId] = {
                         exp: 0,
                         level: 1,
                         name: event.senderName || "User",
@@ -334,8 +349,6 @@ module.exports = {
                     };
                 }
 
-                const userId = event.senderID;
-                
                 const config = loadRankConfig();
                 if (config.disabledThreads.includes(event.threadID)) {
                     return;

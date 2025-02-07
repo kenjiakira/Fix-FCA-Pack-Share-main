@@ -38,5 +38,25 @@
       }
     ],
     "lastRentCollection": {}
+  },
+  "100035610181048": {
+    "properties": {
+      "VHOMES": {
+        "quantity": 1,
+        "averagePrice": 5480277
+      }
+    },
+    "transactions": [
+      {
+        "type": "buy",
+        "propertyId": "VHOMES",
+        "quantity": 1,
+        "price": 5480277,
+        "timestamp": 1738829291594
+      }
+    ],
+    "lastRentCollection": {
+      "VHOMES": 1738829309189
+    }
   }
 }

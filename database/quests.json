@@ -41,20 +41,6 @@
       "target": 12,
       "reward": 120000,
       "type": "counter"
-    },
-    "win_streak": {
-      "name": "Chuỗi thắng",
-      "description": "Đạt chuỗi thắng 5 lần liên tiếp",
-      "target": 5, 
-      "reward": 200000,
-      "type": "streak"
-    },
-    "high_bet": {
-      "name": "Con bạc liều lĩnh",
-      "description": "Cược trên 1,000,000 xu trong một lần chơi",
-      "target": 1,
-      "reward": 500000,
-      "type": "achievement"
     }
   }
 }
