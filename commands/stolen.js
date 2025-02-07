@@ -1,13 +1,12 @@
-const { getBalance, updateBalance } = require('../utils/currencies');
+const { getBalance, updateBalance, updateQuestProgress } = require('../utils/currencies');
 
-const INSURANCE_FEE = 5000;
-const MIN_STEAL_PERCENT = 0.05; 
-const MAX_STEAL_PERCENT = 0.15;
-const MAX_STEAL = 25000; 
-const MIN_VICTIM_BALANCE = 20000;
-const STEAL_COOLDOWN = 600000; 
+const MIN_STEAL_PERCENT = 0.08;
+const MAX_STEAL_PERCENT = 0.20;
+const MAX_STEAL = 35000;
+const MIN_VICTIM_BALANCE = 15000;
+const STEAL_COOLDOWN = 900000;
 
-const stealCooldowns = new Map(); 
+const stealCooldowns = new Map();
 
 module.exports = {
     name: "stolen",
@@ -16,7 +15,7 @@ module.exports = {
     onPrefix: true,
     dmUser: false,
     usedby: 0,
-    usages: "stolen Reply hoặc stolen @Tag\n- Phí bảo hiểm: 2,000đ\n- Cooldown trộm: 30 phút",
+    usages: "stolen Reply hoặc stolen @Tag\n- Có thể trộm 8-20% số dư của nạn nhân\n- Tối đa 35,000đ\n- Cooldown: 15 phút",
     cooldowns: 5, 
 
     onLaunch: async ({ api, event }) => {
@@ -49,69 +48,58 @@ module.exports = {
             }
 
             const userBalance = getBalance(event.senderID);
-            if (userBalance < INSURANCE_FEE) {
-                return api.sendMessage(
-                    `❌ Bạn cần tối thiểu ${INSURANCE_FEE.toLocaleString()}đ để trả phí bảo hiểm!`,
-                    threadID
-                );
-            }
-
             const victimBalance = getBalance(victimID);
+            
             if (victimBalance < MIN_VICTIM_BALANCE) {
                 return api.sendMessage(
-                    "❌ Đối phương cần ít nhất 20,000đ để có thể trộm!",
+                    "❌ Đối phương cần ít nhất 15,000đ để có thể trộm!",
                     threadID
                 );
             }
 
             stealCooldowns.set(senderID, now);
 
-            let successChance = 0.4;
-            if (userBalance > victimBalance * 2) successChance += 0.1;
-            if (victimBalance > userBalance * 5) successChance -= 0.2;
-
-            if (userBalance < victimBalance / 2) successChance += 0.2; 
+            let successChance = 0.5; 
+          
+            const wealthRatio = userBalance / victimBalance;
+            if (wealthRatio < 0.5) successChance += 0.2;
+            else if (wealthRatio > 2) successChance -= 0.1; 
+            
+            successChance += (Math.random() * 0.2) - 0.1;
 
             const success = Math.random() < successChance;
-
-            updateBalance(event.senderID, -INSURANCE_FEE);
 
             if (success) {
                 const stealPercent = MIN_STEAL_PERCENT + (Math.random() * (MAX_STEAL_PERCENT - MIN_STEAL_PERCENT));
                 const stealAmount = Math.min(
                     Math.floor(victimBalance * stealPercent),
-                    MAX_STEAL,
-                    Math.floor(userBalance * 2) 
+                    MAX_STEAL
                 );
 
                 updateBalance(victimID, -stealAmount);
                 updateBalance(event.senderID, stealAmount);
+                
+                updateQuestProgress(senderID, 'successful_steals', 1);
 
                 const messages = [
-                    `🦹‍♂️ Trộm thành công!\n└─ Chiếm được: ${stealAmount.toLocaleString()}đ`,
-                    `💰 Ăn trộm thành công!\n└─ Lấy được: ${stealAmount.toLocaleString()}đ`,
-                    `🎭 Phi vụ thành công!\n└─ Thu về: ${stealAmount.toLocaleString()}đ`
+                    `🦹‍♂️ Trộm thành công!\n└─ Chiếm được: ${stealAmount.toLocaleString()}đ (${Math.floor(stealPercent * 100)}% số dư)`,
+                    `💰 Ăn trộm thành công!\n└─ Lấy được: ${stealAmount.toLocaleString()}đ (${Math.floor(stealPercent * 100)}% số dư)`,
+                    `🎭 Phi vụ thành công!\n└─ Thu về: ${stealAmount.toLocaleString()}đ (${Math.floor(stealPercent * 100)}% số dư)`
                 ];
 
-                return api.sendMessage(
-                    `${messages[Math.floor(Math.random() * messages.length)]}\n└─ Phí bảo hiểm: -${INSURANCE_FEE.toLocaleString()}đ`,
-                    threadID
-                );
+                return api.sendMessage(messages[Math.floor(Math.random() * messages.length)], threadID);
             } else {
-                const penaltyPercent = 0.15 + (Math.random() * 0.15);
-                const penalty = Math.floor(userBalance * penaltyPercent);
+                const penaltyPercent = 0.1 + (Math.random() * 0.1); 
+                const penalty = Math.floor(victimBalance * penaltyPercent);
                 updateBalance(event.senderID, -penalty);
 
                 const messages = [
-                    `👮 Bị bắt quả tang!\n└─ Mất: ${penalty.toLocaleString()}đ`,
-                    `🚔 Bị phát hiện!\n└─ Phạt: ${penalty.toLocaleString()}đ`,
-                    `⚠️ Thất bại!\n└─ Mất: ${penalty.toLocaleString()}đ`
+                    `👮 Bị bắt quả tang!\n└─ Phạt: ${penalty.toLocaleString()}đ`,
+                    `🚔 Thất bại và bị phạt!\n└─ Mất: ${penalty.toLocaleString()}đ`,
+                    `⚠️ Trộm hụt!\n└─ Bị phạt: ${penalty.toLocaleString()}đ`
                 ];
 
-                return api.sendMessage(
-                    `${messages[Math.floor(Math.random() * messages.length)]}\n└─ Phí bảo hiểm: -${INSURANCE_FEE.toLocaleString()}đ`,
-                    threadID
-                );
+                return api.sendMessage(messages[Math.floor(Math.random() * messages.length)], threadID);
             }
 
         } catch (error) {

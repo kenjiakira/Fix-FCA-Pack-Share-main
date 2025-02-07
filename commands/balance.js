@@ -1,5 +1,6 @@
 const fs = require('fs');
 const path = require('path');
+const { market } = require('./trade.js'); 
 
 const userDataFile = path.join(__dirname,'../events/cache/userData.json');
 const transactionsPath = path.join(__dirname, '../commands/json/transactions.json');
@@ -81,7 +82,26 @@ module.exports = {
                 `💵 Tổng tài sản: ${totalWealth.toLocaleString('vi-VN')} Xu\n\n`+
                 `📊 Giao dịch gần đây:\n${transHistory}\n\n`;
 
-            await api.sendMessage(response, threadID, messageID);
+          
+            let stockAlert = "\n📈 THÔNG BÁO THỊ TRƯỜNG:\n";
+            
+            const analysis = market.getMarketAnalysis();
+            
+            if (analysis.topGainers.length > 0) {
+                const topGainer = analysis.topGainers[0];
+                stockAlert += `⭐️ ${topGainer[0]} đang TĂNG ${topGainer[1].change.toFixed(2)}% (${topGainer[1].price.toLocaleString('vi-VN')} Xu)\n`;
+            }
+
+            if (analysis.topLosers.length > 0) {
+                const topLoser = analysis.topLosers[0];
+                stockAlert += `💡 ${topLoser[0]} đang GIẢM ${Math.abs(topLoser[1].change).toFixed(2)}% (${topLoser[1].price.toLocaleString('vi-VN')} Xu)\n`;
+            }
+
+            stockAlert += "\n💎 Gõ .trade check để xem thị trường!";
+
+            const finalResponse = response + stockAlert;
+
+            await api.sendMessage(finalResponse, threadID, messageID);
         } catch (error) {
             console.error("Balance command error:", error);
             return api.sendMessage("Có lỗi xảy ra khi kiểm tra số dư. Vui lòng thử lại sau.", event.threadID, event.messageID);

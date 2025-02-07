@@ -89,9 +89,13 @@ class StockMarket {
                 name: "Vinamilk",
                 price: 80000,
                 change: 0,
-                volume: 1000000,
+                volume: 100000,
                 marketCap: 167000000000000,
-                history: []  // Initialize empty array
+                history: [],
+                supply: 1000000,
+                demand: 800000,
+                dailyVolume: 0,
+                maxDailyVolume: 300000 // 30% of supply
             },
             "FPT": {
                 name: "FPT Corp",
@@ -99,7 +103,11 @@ class StockMarket {
                 change: 0,
                 volume: 800000,
                 marketCap: 108000000000000,
-                history: []
+                history: [],
+                supply: 800000,
+                demand: 600000,
+                dailyVolume: 0,
+                maxDailyVolume: 240000 // 30% of supply
             },
             "VIC": {
                 name: "Vingroup",
@@ -107,7 +115,11 @@ class StockMarket {
                 change: 0,
                 volume: 1200000,
                 marketCap: 320000000000000,
-                history: []
+                history: [],
+                supply: 1200000,
+                demand: 1000000,
+                dailyVolume: 0,
+                maxDailyVolume: 360000
             },
             "BID": {
                 name: "BIDV Bank",
@@ -115,7 +127,11 @@ class StockMarket {
                 change: 0,
                 volume: 900000,
                 marketCap: 180000000000000,
-                history: []
+                history: [],
+                supply: 900000,
+                demand: 700000,
+                dailyVolume: 0,
+                maxDailyVolume: 270000 
             },
             "VCB": {
                 name: "Vietcombank", 
@@ -123,7 +139,11 @@ class StockMarket {
                 change: 0,
                 volume: 950000,
                 marketCap: 315000000000000,
-                history: []
+                history: [],
+                supply: 950000,
+                demand: 750000,
+                dailyVolume: 0,
+                maxDailyVolume: 285000
             },
             "HPG": {
                 name: "Hòa Phát",
@@ -131,7 +151,11 @@ class StockMarket {
                 change: 0,
                 volume: 1500000,
                 marketCap: 156000000000000,
-                history: []
+                history: [],
+                supply: 1500000,
+                demand: 1200000,
+                dailyVolume: 0,
+                maxDailyVolume: 450000 
             },
             "MSN": {
                 name: "Masan Group",
@@ -139,7 +163,11 @@ class StockMarket {
                 change: 0,
                 volume: 700000,
                 marketCap: 112000000000000,
-                history: []
+                history: [],
+                supply: 700000,
+                demand: 500000,
+                dailyVolume: 0,
+                maxDailyVolume: 210000 
             }
         };
 
@@ -167,52 +195,67 @@ class StockMarket {
     }
 
     updatePrices() {
-        const now = new Date();
-        const hour = now.getHours();
-
-        if (hour < this.marketHours.open || hour >= this.marketHours.close) {
+        if (!this.isMarketOpen()) {
             console.log("[MARKET] Market is closed. No updates.");
             return;
         }
 
-        console.log(`[MARKET] Updating prices at ${now.toLocaleTimeString()}`);
+        console.log(`[MARKET] Updating prices at ${new Date().toLocaleTimeString()}`);
         
         let marketChanged = false;
         
         Object.keys(this.stocks).forEach(symbol => {
             const stock = this.stocks[symbol];
             
-            if (!Array.isArray(stock.history)) {
-                stock.history = [];
-            }
+            const supplyChange = Math.floor((Math.random() - 0.5) * stock.supply * 0.1);
+            const demandChange = Math.floor((Math.random() - 0.5) * stock.demand * 0.1);
+            
+            stock.supply = Math.max(100000, stock.supply + supplyChange);
+            stock.demand = Math.max(100000, stock.demand + demandChange);
 
-            const baseVolatility = 0.05; 
+            const supplyDemandRatio = stock.demand / stock.supply;
+            const priceImpact = (supplyDemandRatio - 1) * 0.05;
+            
+            const baseVolatility = 0.03;
             const randomFactor = Math.random();
-            
-            let volatility;
-            if (randomFactor < 0.15) { 
-                volatility = baseVolatility * 3;
-            } else if (randomFactor < 0.35) { 
-                volatility = baseVolatility * 2;
-            } else { 
-                volatility = baseVolatility;
-            }
+            const volatility = randomFactor < 0.15 ? baseVolatility * 3 
+                           : randomFactor < 0.35 ? baseVolatility * 2 
+                           : baseVolatility;
 
-            const change = (Math.random() - 0.5) * 2 * volatility * stock.price;
-            
-            if (Math.abs(change) > 100) { 
+            const marketSentiment = (Math.random() - 0.5) * 2 * volatility;
+            const totalChange = (priceImpact + marketSentiment) * stock.price;
+
+            if (Math.abs(totalChange) > 50) {
                 marketChanged = true;
                 
                 const oldPrice = stock.price;
-                const newPrice = Math.max(1000, Math.round(oldPrice + change));
+                const newPrice = Math.max(1000, Math.round(oldPrice + totalChange));
                 stock.price = newPrice;
                 stock.change = ((newPrice - oldPrice) / oldPrice) * 100;
 
-                stock.volume = Math.round(stock.volume * (1 + Math.abs(stock.change) / 50));
+           
+                const baseVolume = stock.supply * 0.1; 
+                const volatilityMultiplier = 1 + (Math.abs(stock.change) / 100);
+                const randomFactor = 0.5 + Math.random(); 
+                const newVolume = Math.floor(baseVolume * volatilityMultiplier * randomFactor);
+                
+             
+                const maxVolume = stock.supply * 0.3; 
+                stock.volume = Math.min(newVolume, maxVolume);
+                
+                const now = new Date();
+                if (now.getHours() === this.marketHours.open && now.getMinutes() < 5) {
+                    stock.dailyVolume = 0;
+                }
+                
+                const remainingCap = maxVolume - stock.dailyVolume;
+                const volumeToAdd = Math.min(stock.volume, remainingCap);
+                stock.dailyVolume += volumeToAdd;
 
                 stock.history.push({
                     price: newPrice,
-                    timestamp: Date.now()
+                    timestamp: Date.now(),
+                    volume: stock.volume
                 });
 
                 if (stock.history.length > 100) {
@@ -224,7 +267,6 @@ class StockMarket {
         });
 
         if (marketChanged) {
-            console.log("[MARKET] Saving market changes...");
             this.saveMarketData();
         }
 
@@ -257,7 +299,7 @@ class StockMarket {
     }
 
     async buyStock(userId, symbol, quantity) {
-        // Check market hours
+      
         const now = new Date();
         const hour = now.getHours();
         if (hour < this.marketHours.open || hour >= this.marketHours.close) {
@@ -299,6 +341,11 @@ class StockMarket {
         });
 
         await updateBalance(userId, -totalCost);
+        
+        stock.supply = Math.max(0, stock.supply - quantity);
+        stock.demand += Math.floor(quantity * 0.8);
+        stock.dailyVolume += quantity;
+
         this.saveMarketData();
 
         return {
@@ -310,7 +357,7 @@ class StockMarket {
     }
 
     async sellStock(userId, symbol, quantity) {
-        // Check market hours
+
         const now = new Date();
         const hour = now.getHours();
         if (hour < this.marketHours.open || hour >= this.marketHours.close) {
@@ -341,6 +388,12 @@ class StockMarket {
         });
 
         await updateBalance(userId, totalValue);
+        
+        // Update supply and demand when selling
+        stock.supply += quantity;
+        stock.demand = Math.max(0, stock.demand - Math.floor(quantity * 0.8));
+        stock.dailyVolume += quantity;
+
         this.saveMarketData();
 
         return {
@@ -451,7 +504,7 @@ module.exports = {
     onPrefix: true,
     usages: ".trade [check/buy/sell/portfolio/info] [mã CP] [số lượng]",
     cooldowns: 5,
-
+    market, 
     onLaunch: async function({ api, event, target }) {
         const { threadID, messageID, senderID } = event;
 

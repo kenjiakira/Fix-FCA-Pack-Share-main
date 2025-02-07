@@ -4,22 +4,25 @@ module.exports = {
     usedby: 0,
     info: "Đếm số ký tự trong 1 tin nhắn bất kì",
     onPrefix: true,
-    usages: ".count: Đếm số ký tự trong tin nhắn trả lời, không tính dấu cách.",
+    usages: ".count <text>: Đếm số ký tự trong tin nhắn hoặc trả lời tin nhắn để đếm.",
     cooldowns: 0,
 
     onLaunch: async function({ api, event }) {
-        const { threadID, messageID, messageReply } = event;
-
-        if (!messageReply) {
-            return api.sendMessage("❎ Vui lòng trả lời một tin nhắn để sử dụng lệnh này.", threadID, messageID);
+        const { threadID, messageID, messageReply, target } = event;
+        
+        let textToCount = "";
+        
+        if (messageReply) {
+            textToCount = messageReply.body;
+        } else if (target.length > 0) {
+            textToCount = target.join(" ");
+        } else {
+            return api.sendMessage("📝 Vui lòng nhập nội dung cần đếm hoặc trả lời một tin nhắn.", threadID, messageID);
         }
 
-        const repliedMessage = messageReply.body;
-
-        const messageWithoutSpaces = repliedMessage.replace(/\s+/g, '');
-
+        const messageWithoutSpaces = textToCount.replace(/\s+/g, '');
         const charCount = messageWithoutSpaces.length;
 
-        return api.sendMessage(`🔢 Tin nhắn bạn trả lời có ${charCount} ký tự.`, threadID, messageID);
+        return api.sendMessage(`🔢 Tin nhắn có ${charCount} ký tự.`, threadID, messageID);
     }
 };

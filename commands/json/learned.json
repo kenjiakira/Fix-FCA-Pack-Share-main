@@ -1,7 +1,19 @@
 {
-  "ngọc từ ơi con bot nuốt tui 50m nx": {
+  "bot": {
     "responses": [
-      "Chị Ngọc ơi, em không biết chuyện gì xảy ra cả ạ :(  Em không thấy thông tin gì về việc bot lấy tiền của chị cả.  Chị có thể nói rõ hơn được không ạ?"
+      "Dạ anh, em đây ạ.  Anh cần em giúp gì không ạ?"
+    ],
+    "frequency": 1
+  },
+  "cách chơi chứng khoán": {
+    "responses": [
+      "Dạ anh, em không biết nhiều về chứng khoán lắm ạ.  Nhưng mà bot có lệnh `.trade` có vẻ liên quan đến giao dịch chứng khoán đó anh. Anh thử dùng lệnh đó xem sao ạ, hoặc anh có thể dùng lệnh `.help trade` để xem hướng dẫn chi tiết hơn nha."
+    ],
+    "frequency": 1
+  },
+  "❎ nhóm của bạn chưa thuê bot, vui lòng liên hệ admin 𓏪𓉚singu-💌💌◡̈⃝︎🛸𓉛𓏪 để thuê bot": {
+    "responses": [
+      "Dạ vâng ạ.  Em sẽ báo lại Admin nha!"
     ],
     "frequency": 1
   }

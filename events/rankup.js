@@ -337,7 +337,7 @@ module.exports = {
                         };
                     }
                 } catch (nameError) {
-                    console.log('Could not update name, using existing:', nameError.message);
+     
                 }
 
                 if (!userData[userId]) {

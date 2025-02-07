@@ -7,8 +7,10 @@ module.exports = {
     onEvents: async function ({ event, api }) {
         const greetKeywords = ["hello", "hi", "hai", "chào", "chao", "hí", "híí", "hì", "hìì", "lô", "hii", "helo", "hê nhô"];
         const byeKeywords = ["bye", "bai", "off", "byee", "pai", "paii"];
+        const sleepKeywords = ["ngủ", "đi ngủ", "ngủ ngon", "ngủ nha", "ngủ đây", "ngủ đi", "ngủ thôi"];
         const greetStickerData = ["789355237820057", "445625802303278", "1554246411471073", "1151376801549337"];
         const byeStickerData = ["629261957190121", "657500430999881", "144885315685735"];
+        const sleepStickerData = ["178528499292171", "1458993734132403", "290255108068856"]; 
 
         const currentHour = moment().hour();
 
@@ -78,6 +80,17 @@ module.exports = {
             return byeBodiesNight[Math.floor(Math.random() * byeBodiesNight.length)];
         };
 
+        const getSleepMessage = () => {
+            const sleepMessages = [
+                "Chúc bạn ngủ ngon! 🌙 Mơ đẹp nhé! 💫",
+                "Ngủ ngon nha! 😴 Hẹn gặp lại vào ngày mai! ✨",
+                "Một giấc ngủ thật ngon và bình yên nhé! 🌛",
+                "Sweet dreams! 💫 Chúc bạn có những giấc mơ tuyệt vời! 🌠",
+                "Đêm an lành nhé! 🌙 Ngủ ngon và nạp đầy năng lượng! 💝"
+            ];
+            return sleepMessages[Math.floor(Math.random() * sleepMessages.length)];
+        };
+
         const { body, threadID, messageID } = event;
 
         if (body) { 
@@ -104,6 +117,18 @@ module.exports = {
                     if (!err) {
                         setTimeout(() => {
                             api.sendMessage({ sticker: randomByeSticker }, threadID);
+                        }, 100);
+                    }
+                }, messageID);
+            }
+            else if (sleepKeywords.includes(lowerBody)) {
+                const sleepMessage = getSleepMessage();
+                const randomSleepSticker = sleepStickerData[Math.floor(Math.random() * sleepStickerData.length)];
+
+                api.sendMessage({ body: sleepMessage }, threadID, (err) => {
+                    if (!err) {
+                        setTimeout(() => {
+                            api.sendMessage({ sticker: randomSleepSticker }, threadID);
                         }, 100);
                     }
                 }, messageID);

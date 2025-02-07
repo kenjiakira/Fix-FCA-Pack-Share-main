@@ -54,6 +54,25 @@ async function fileToGenerativePart(imagePath) {
 
 const conversations = {};
 
+const wait = (ms) => new Promise(resolve => setTimeout(resolve, ms));
+
+async function retryWithExponentialBackoff(fn, maxRetries = 2, initialDelay = 500) {
+    let retries = 0;
+    while (retries < maxRetries) {
+        try {
+            return await fn();
+        } catch (error) {
+            if (error.message?.includes('503') || error.message?.includes('overloaded')) {
+                retries++;
+                if (retries === maxRetries) throw error;
+                await wait(initialDelay * Math.pow(1.5, retries));
+                continue;
+            }
+            throw error;
+        }
+    }
+}
+
 const generateResponse = async (prompt, threadID, imagePath = null) => {
     try {
         const apiKey = API_KEYS[0];
@@ -63,23 +82,37 @@ const generateResponse = async (prompt, threadID, imagePath = null) => {
         let result;
         
         if (imagePath) {
-            model = genAI.getGenerativeModel({ model: "gemini-1.5-pro" });
-            const imagePart = await fileToGenerativePart(imagePath);
-            
-            const systemPrompt = `Bạn là Aki, một cô gái 19 tuổi thông minh và thân thiện.
-            Hãy trò chuyện một cách tự nhiên với người dùng về hình ảnh họ gửi.
-            - Không chỉ mô tả hình ảnh mà hãy hỏi thêm về nó
-            - Thể hiện sự quan tâm và tò mò
-            - Sử dụng "mình" để xưng hô
-            - Giữ câu trả lời ngắn gọn và dễ hiểu`;
-            
-            result = await model.generateContent([systemPrompt, imagePart, prompt || "Chia sẻ với mình về bức ảnh này nhé!"]);
+            const generateWithPro = async () => {
+                model = genAI.getGenerativeModel({ 
+                    model: "gemini-1.5-pro",
+                    generationConfig: {
+                        temperature: 0.7,
+                        maxOutputTokens: 1000,
+                    }
+                });
+                const imagePart = await fileToGenerativePart(imagePath);
+                const systemPrompt = `Bạn là Aki, một cô gái 19 tuổi thông minh và thân thiện.
+                Hãy trò chuyện một cách tự nhiên với người dùng về hình ảnh họ gửi.
+                - Không chỉ mô tả hình ảnh mà hãy hỏi thêm về nó
+                - Thể hiện sự quan tâm và tò mò
+                - Sử dụng "mình" để xưng hô
+                - Giữ câu trả lời ngắn gọn và dễ hiểu`;
+                return await model.generateContent([systemPrompt, imagePart, prompt || "Chia sẻ với mình về bức ảnh này nhé!"]);
+            };
+
+            try {
+                result = await retryWithExponentialBackoff(generateWithPro);
+            } catch (error) {
+                console.warn("Image processing failed, falling back to text-only response");
+                model = genAI.getGenerativeModel({ model: "gemini-1.5-pro" });
+                result = await model.generateContent(`Xin lỗi, mình không xem được hình ảnh lúc này. ${prompt || "Bạn có thể mô tả nó cho mình được không?"}`);
+            }
         } else {
             model = genAI.getGenerativeModel({ 
                 model: "gemini-1.5-flash",
                 generationConfig: {
-                    temperature: 0.9,
-                    maxOutputTokens: 2048,
+                    temperature: 0.7,
+                    maxOutputTokens: 1000,
                 }
             });
             
@@ -100,7 +133,6 @@ const generateResponse = async (prompt, threadID, imagePath = null) => {
 
         const response = result.response.text();
 
-        // Update conversation history
         if (!conversations[threadID]) conversations[threadID] = [];
         conversations[threadID].push(`User: ${prompt}`);
         conversations[threadID].push(`Aki: ${response}`);
@@ -109,7 +141,6 @@ const generateResponse = async (prompt, threadID, imagePath = null) => {
             conversations[threadID].shift();
         }
 
-        // Cleanup image
         if (imagePath && fs.existsSync(imagePath)) {
             fs.unlinkSync(imagePath);
         }
@@ -117,6 +148,9 @@ const generateResponse = async (prompt, threadID, imagePath = null) => {
         return response;
     } catch (error) {
         console.error("Generation error:", error);
+        if (error.message?.includes('503') || error.message?.includes('overloaded')) {
+            return "Xin lỗi, hệ thống đang bận. Bạn vui lòng thử lại sau nhé! 😅";
+        }
         throw error;
     }
 };
@@ -160,8 +194,7 @@ module.exports = {
         const { threadID, messageID, body, messageReply } = event;
         let imagePath = null;
         
-        try {
-            // Handle image in message
+        try {   
             if (messageReply && messageReply.attachments && messageReply.attachments[0]?.type === "photo") {
                 const imageUrl = messageReply.attachments[0].url;
                 imagePath = await downloadImage(imageUrl);

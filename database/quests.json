@@ -14,13 +14,6 @@
       "reward": 100000,
       "type": "counter"  
     },
-    "play_coinflip": {
-      "name": "Thợ lật xu",
-      "description": "Chơi Coinflip 15 lần",
-      "target": 15,
-      "reward": 30000,
-      "type": "counter"
-    },
     "win_coinflip": {
       "name": "Trùm Coinflip",
       "description": "Thắng 8 lần trong Coinflip",
@@ -28,18 +21,18 @@
       "reward": 80000,
       "type": "counter"
     },
-    "play_bctc": {
-      "name": "Con bạc bầu cua", 
-      "description": "Chơi Bầu Cua 25 lần",
-      "target": 25,
-      "reward": 40000,
-      "type": "counter"
-    },
     "win_bctc": {
       "name": "Cao thủ bầu cua",
       "description": "Thắng 12 lần trong Bầu Cua",
       "target": 12,
       "reward": 120000,
+      "type": "counter"
+    },
+    "successful_steals": {
+      "name": "Siêu Đạo Chích",
+      "description": "Trộm thành công 5 lần",
+      "target": 5,
+      "reward": 75000,
       "type": "counter"
     }
   }

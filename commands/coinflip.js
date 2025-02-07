@@ -40,7 +40,6 @@ module.exports = {
             const { threadID, messageID, senderID } = event;
             const balance = getBalance(senderID);
 
-            // Basic validation
             if (target.length < 2) {
                 return api.sendMessage(
                     "COINFLIP - TUNG ĐỒNG XU\n━━━━━━━━━━━━━━━━━━\n\n" +

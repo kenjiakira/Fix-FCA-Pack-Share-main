@@ -10,38 +10,57 @@ module.exports = {
       const { threadID, messageID } = event;
       const botID = api.getCurrentUserID();
       const out = msg => api.sendMessage(msg, threadID, messageID);
-      var { participantIDs, approvalMode, adminIDs } = await api.getThreadInfo(threadID);
-      participantIDs = participantIDs.map(e => parseInt(e));
-  
-      if (!target[0]) return out("Please enter an id/link profile user to add.");
+      
+      let threadInfo;
+      try {
+        threadInfo = await api.getThreadInfo(threadID);
+        if (!threadInfo) {
+          return out("❌ Không thể lấy thông tin nhóm. Vui lòng thử lại sau!");
+        }
+      } catch (error) {
+        console.error("Thread info error:", error);
+        return out("❌ Đã xảy ra lỗi khi lấy thông tin nhóm!");
+      }
+
+      const participantIDs = threadInfo.participantIDs || [];
+      const approvalMode = threadInfo.approvalMode || false;
+      const adminIDs = threadInfo.adminIDs || [];
+      
+      const parsedParticipantIDs = participantIDs.map(e => parseInt(e));
+
+      if (!target[0]) return out("⚠️ Vui lòng nhập ID hoặc link profile người dùng cần thêm!");
       if (!isNaN(target[0])) return adduser(target[0], undefined);
       else {
         try {
           var [id, name, fail] = await getUID(target[0], api);
           if (fail == true && id != null) return out(id);
-          else if (fail == true && id == null) return out("Không tìm thấy ID người dùng.");
+          else if (fail == true && id == null) return out("❌ Không tìm thấy ID người dùng!");
           else {
             await adduser(id, name || "Người dùng Facebook");
           }
         } catch (e) {
-          return out(`${e.name}: ${e.message}.`);
+          return out(`❌ Lỗi: ${e.message}`);
         }
       }
       
       async function adduser(id, name) {
         id = parseInt(id);
-        if (participantIDs.includes(id)) return out(`${name ? name : "Người dùng"} đã có trong nhóm.`);
-        else {
+        if (parsedParticipantIDs.includes(id)) {
+          return out(`⚠️ ${name ? name : "Người dùng"} đã có trong nhóm!`);
+        } else {
           var admins = adminIDs.map(e => parseInt(e.id));
           try {
             await api.addUserToGroup(id, threadID);
-          } catch {
-            return out(`Không thể thêm ${name ? name : "người dùng"} vào nhóm.`);
+            if (approvalMode === true && !admins.includes(botID)) {
+              return out(`✅ Đã thêm ${name ? name : "người dùng"} vào danh sách phê duyệt!`);
+            } else {
+              return out(`✅ Đã thêm ${name ? name : "người dùng"} vào nhóm!`);
+            }
+          } catch (error) {
+            console.error("Add user error:", error);
+            return out(`❌ Không thể thêm ${name ? name : "người dùng"} vào nhóm!\nCó thể do người dùng đã chặn bot hoặc bot không phải là quản trị viên.`);
           }
-          if (approvalMode === true && !admins.includes(botID)) return out(`Đã thêm ${name ? name : "người dùng"} vào danh sách phê duyệt!`);
-          else return out(`Đã thêm ${name ? name : "người dùng"} vào nhóm!`);
         }
       }
     }
   };
-  
