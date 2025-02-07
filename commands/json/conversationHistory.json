@@ -27,6 +27,13 @@
       "response": "Dạ chị Mỹ Lệ, em đang kiểm tra lại bot giúp chị ạ.  Cho em vài phút nha!",
       "senderID": "61568522233427",
       "senderName": "Mỹ Lệ"
+    },
+    {
+      "timestamp": 1738825081339,
+      "prompt": "bat bot i",
+      "response": "Dạ anh Ông Sói, em đang kiểm tra lại bot giúp mọi người ạ.  Cho em vài phút nha!",
+      "senderID": "100071639513410",
+      "senderName": "Ông Sói"
     }
   ],
   "threads": {
@@ -58,6 +65,13 @@
         "response": "Dạ chị Mỹ Lệ, em đang kiểm tra lại bot giúp chị ạ.  Cho em vài phút nha!",
         "senderID": "61568522233427",
         "senderName": "Mỹ Lệ"
+      },
+      {
+        "timestamp": 1738825081339,
+        "prompt": "bat bot i",
+        "response": "Dạ anh Ông Sói, em đang kiểm tra lại bot giúp mọi người ạ.  Cho em vài phút nha!",
+        "senderID": "100071639513410",
+        "senderName": "Ông Sói"
       }
     ]
   },
@@ -65,6 +79,7 @@
     "để yên nó làm vc nó còn bật bot": "Dạ chị để em xem thử nha.",
     "má gr nãy ăn tx 19m m cho bot die pay đéo đc xong lỗi dm": "Anh Khang Bel  thấy lỗi gì vậy ạ? Em xem giúp anh nha.  Cho em xin thêm thông tin lỗi để em hỗ trợ anh tốt hơn nhé!",
     "trả con bot đây": "Dạ chị Mỹ Lệ, em đang xem lại bot giúp chị ạ.",
-    "bật bot len": "Dạ chị Mỹ Lệ, em đang kiểm tra lại bot giúp chị ạ.  Cho em vài phút nha!"
+    "bật bot len": "Dạ chị Mỹ Lệ, em đang kiểm tra lại bot giúp chị ạ.  Cho em vài phút nha!",
+    "bat bot i": "Dạ anh Ông Sói, em đang kiểm tra lại bot giúp mọi người ạ.  Cho em vài phút nha!"
   }
 }
