@@ -136,7 +136,9 @@
             },
             "100089981373051": {
                 "count": 1,
-                "lastReset": 1738815057003
+                "lastReset": 1738927049418,
+                "tagsInWindow": 1,
+                "lastTagTime": 1738927049418
             },
             "100049109850406": {
                 "count": 1,
@@ -144,7 +146,9 @@
             },
             "100046632541720": {
                 "count": 1,
-                "lastReset": 1738811141765
+                "lastReset": 1738980975648,
+                "tagsInWindow": 1,
+                "lastTagTime": 1738980975648
             },
             "61571871997045": {
                 "count": 1,
@@ -162,6 +166,12 @@
                 "count": 2,
                 "lastReset": 1738903725722,
                 "lastTagTime": 1738904304870,
+                "tagsInWindow": 1
+            },
+            "100068382888605": {
+                "count": 1,
+                "lastReset": 1738941471434,
+                "lastTagTime": 1738941471434,
                 "tagsInWindow": 1
             }
         }

@@ -1,6 +1,11 @@
 const fs = require('fs');
 const path = require('path');
 const { getBalance, updateBalance } = require('../utils/currencies');
+const { getVIPBenefits } = require('../utils/vipCheck');
+
+function formatNumber(number) {
+    return number.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+}
 
 const FILES = {
     banking: path.join(__dirname, './json/banking.json'),
@@ -19,7 +24,27 @@ const LOAN_CONFIG = {
         balanceStability: 0.3  
     },
     penaltyRate: 0.03,
-    collateralRatio: 0.3 
+    collateralRatio: 0.3,
+    vipBenefits: {
+        1: { 
+            maxLoanRatio: 0.8, 
+            interestDiscount: 0.1, 
+            collateralRequired: true, 
+            creditScoreRequired: true 
+        },
+        2: { 
+            maxLoanRatio: 1, 
+            interestDiscount: 0.2, 
+            collateralRequired: true,
+            creditScoreRequired: false
+        },
+        3: { 
+            maxLoanRatio: 1.5, // Có thể vay 150% tổng tài sản
+            interestDiscount: 0.3, // Giảm 30% lãi suất 
+            collateralRequired: false, // Không cần tài sản đảm bảo
+            creditScoreRequired: false // Không cần điểm tín dụng
+        }
+    }
 };
 
 const CREDIT_SCORE = {
@@ -524,7 +549,87 @@ module.exports = {
                         }
 
                         const totalAssets = walletBalance + bankBalance;
-                        const maxLoanAmount = totalAssets * LOAN_CONFIG.maxLoanRatio;
+                        const vipBenefits = getVIPBenefits(senderID);
+                        const vipLevel = vipBenefits?.packageId || 0;
+                        const vipLoanConfig = LOAN_CONFIG.vipBenefits[vipLevel];
+                        let maxLoanAmount = totalAssets * LOAN_CONFIG.maxLoanRatio;
+
+                        if (vipLoanConfig) {
+                            maxLoanAmount = totalAssets * vipLoanConfig.maxLoanRatio;
+                            
+                            if (amount > maxLoanAmount) {
+                                return api.sendMessage(
+                                    `❌ Với VIP ${vipLevel}, số tiền vay tối đa của bạn là ${formatNumber(maxLoanAmount)} Xu!`,
+                                    threadID, messageID
+                                );
+                            }
+
+                            const existingLoan = bankingData.loans[senderID];
+                            if (existingLoan && existingLoan.status === 'active') {
+                                return api.sendMessage(
+                                    "❌ Bạn đang có khoản vay chưa thanh toán!\n" +
+                                    `💰 Số tiền nợ: ${formatNumber(existingLoan.remainingAmount)} Xu\n` +
+                                    `📅 Hạn trả: ${new Date(existingLoan.dueDate).toLocaleDateString('vi-VN')}`,
+                                    threadID, messageID
+                                );
+                            }
+
+                            let interestRate = calculateInterestRate(100, amount, totalAssets); 
+                            interestRate *= (1 - vipLoanConfig.interestDiscount);
+
+                            const interest = Math.ceil(amount * interestRate * LOAN_CONFIG.maxLoanDuration);
+                            const totalRepayment = amount + interest;
+                            const dueDate = Date.now() + (LOAN_CONFIG.maxLoanDuration * 24 * 60 * 60 * 1000);
+
+                            let requiredCollateral = 0;
+                            if (vipLoanConfig.collateralRequired) {
+                                requiredCollateral = amount * LOAN_CONFIG.collateralRatio;
+                                if (bankBalance < requiredCollateral) {
+                                    return api.sendMessage(
+                                        `❌ Bạn cần có ít nhất ${formatNumber(requiredCollateral)} Xu trong ngân hàng để đảm bảo khoản vay!\n` +
+                                        "📝 Số tiền này sẽ bị phong tỏa cho đến khi trả hết nợ.",
+                                        threadID, messageID
+                                    );
+                                }
+                                userData.bankBalance -= requiredCollateral;
+                                userData.lockedCollateral = requiredCollateral;
+                            }
+
+                            // Tạo khoản vay mới
+                            bankingData.loans[senderID] = {
+                                amount: amount,
+                                interest: interest,
+                                remainingAmount: totalRepayment,
+                                startDate: Date.now(),
+                                dueDate: dueDate,
+                                status: 'active',
+                                collateral: requiredCollateral,
+                                interestRate: interestRate,
+                                creditScore: 100,
+                                isVipLoan: true,
+                                vipLevel: vipLevel
+                            };
+
+                            await updateBalance(senderID, amount);
+                            await saveBankingData(bankingData);
+
+                            return api.sendMessage(
+                                "🏦 THÔNG TIN KHOẢN VAY VIP 🏦\n" +
+                                "━━━━━━━━━━━━━━━━━━\n" +
+                                `👑 Cấp VIP: ${vipLevel}\n` +
+                                `💰 Số tiền vay: ${formatNumber(amount)} Xu\n` +
+                                `💹 Lãi suất: ${(interestRate * 100).toFixed(2)}%/ngày\n` +
+                                `${requiredCollateral ? `🔒 Tài sản đảm bảo: ${formatNumber(requiredCollateral)} Xu\n` : ''}` +
+                                `💵 Tiền lãi: ${formatNumber(interest)} Xu\n` +
+                                `💳 Tổng số tiền phải trả: ${formatNumber(totalRepayment)} Xu\n` +
+                                `📅 Hạn trả: ${new Date(dueDate).toLocaleDateString('vi-VN')}\n\n` +
+                                "✨ Đặc quyền VIP:\n" +
+                                `• Giảm ${vipLoanConfig.interestDiscount * 100}% lãi suất\n` +
+                                `• ${vipLoanConfig.collateralRequired ? 'Giảm' : 'Miễn'} tài sản đảm bảo\n` +
+                                `• Không yêu cầu điểm tín dụng`,
+                                threadID, messageID
+                            );
+                        }
 
                         if (amount > maxLoanAmount) {
                             return api.sendMessage(

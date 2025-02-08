@@ -1,57 +1,25 @@
 {
   "global": [
     {
-      "timestamp": 1738913457616,
-      "prompt": "bot",
-      "response": "Dạ anh, em đây ạ.  Anh cần em giúp gì không ạ?",
-      "senderID": "100063817249915",
-      "senderName": "Quý Dũng "
-    },
-    {
-      "timestamp": 1738913465608,
-      "prompt": "cách chơi chứng khoán",
-      "response": "Dạ anh, em không biết nhiều về chứng khoán lắm ạ.  Nhưng mà bot có lệnh `.trade` có vẻ liên quan đến giao dịch chứng khoán đó anh. Anh thử dùng lệnh đó xem sao ạ, hoặc anh có thể dùng lệnh `.help trade` để xem hướng dẫn chi tiết hơn nha.",
-      "senderID": "100063817249915",
-      "senderName": "Quý Dũng "
-    },
-    {
-      "timestamp": 1738914201147,
-      "prompt": "❎ Nhóm của bạn chưa thuê bot, vui lòng liên hệ Admin 𓏪𓉚SINGU-💌💌◡̈⃝︎🛸𓉛𓏪 để thuê bot",
-      "response": "Dạ vâng ạ.  Em sẽ báo lại Admin nha!",
-      "senderID": "61567446986103",
-      "senderName": "Người dùng 61567446986103"
+      "timestamp": 1739001245361,
+      "prompt": "bot đi cambuchia à",
+      "response": "Chị ơi, em không biết nữa ạ =)))",
+      "senderID": "100087199431487",
+      "senderName": "Kitty Cte"
     }
   ],
   "threads": {
-    "6828375277181961": [
+    "6589198804475799": [
       {
-        "timestamp": 1738913457616,
-        "prompt": "bot",
-        "response": "Dạ anh, em đây ạ.  Anh cần em giúp gì không ạ?",
-        "senderID": "100063817249915",
-        "senderName": "Quý Dũng "
-      },
-      {
-        "timestamp": 1738913465608,
-        "prompt": "cách chơi chứng khoán",
-        "response": "Dạ anh, em không biết nhiều về chứng khoán lắm ạ.  Nhưng mà bot có lệnh `.trade` có vẻ liên quan đến giao dịch chứng khoán đó anh. Anh thử dùng lệnh đó xem sao ạ, hoặc anh có thể dùng lệnh `.help trade` để xem hướng dẫn chi tiết hơn nha.",
-        "senderID": "100063817249915",
-        "senderName": "Quý Dũng "
-      }
-    ],
-    "8940255536071225": [
-      {
-        "timestamp": 1738914201147,
-        "prompt": "❎ Nhóm của bạn chưa thuê bot, vui lòng liên hệ Admin 𓏪𓉚SINGU-💌💌◡̈⃝︎🛸𓉛𓏪 để thuê bot",
-        "response": "Dạ vâng ạ.  Em sẽ báo lại Admin nha!",
-        "senderID": "61567446986103",
-        "senderName": "Người dùng 61567446986103"
+        "timestamp": 1739001245361,
+        "prompt": "bot đi cambuchia à",
+        "response": "Chị ơi, em không biết nữa ạ =)))",
+        "senderID": "100087199431487",
+        "senderName": "Kitty Cte"
       }
     ]
   },
   "lastResponses": {
-    "bot": "Dạ anh, em đây ạ.  Anh cần em giúp gì không ạ?",
-    "cách chơi chứng khoán": "Dạ anh, em không biết nhiều về chứng khoán lắm ạ.  Nhưng mà bot có lệnh `.trade` có vẻ liên quan đến giao dịch chứng khoán đó anh. Anh thử dùng lệnh đó xem sao ạ, hoặc anh có thể dùng lệnh `.help trade` để xem hướng dẫn chi tiết hơn nha.",
-    "❎ nhóm của bạn chưa thuê bot, vui lòng liên hệ admin 𓏪𓉚singu-💌💌◡̈⃝︎🛸𓉛𓏪 để thuê bot": "Dạ vâng ạ.  Em sẽ báo lại Admin nha!"
+    "bot đi cambuchia à": "Chị ơi, em không biết nữa ạ =)))"
   }
 }

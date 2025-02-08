@@ -38,73 +38,52 @@ module.exports = {
             const userID = String(senderID);
 
             const userInfo = userData[userID] || {};
-            const userName = userInfo.name || "Người dùng không xác định";
+            const userName = userInfo.name || "Người dùng";
 
             const balance = global.balance[userID] || 0;
             const bankUserData = bankingData.users?.[userID] || {};
             const bankBalance = bankUserData.bankBalance || 0;
-            const lastInterest = bankUserData.lastInterest || Date.now();
-            
-            const daysPassed = Math.floor((Date.now() - lastInterest) / (24 * 60 * 60 * 1000));
-            const interest = Math.floor(bankBalance * 0.001 * daysPassed);
-            
-            if (interest > 0 && bankUserData) {
-                bankUserData.bankBalance = bankBalance + interest;
-                bankUserData.lastInterest = Date.now();
-                fs.writeFileSync(bankingDataPath, JSON.stringify(bankingData, null, 2));
-            }
-
             const totalWealth = balance + bankBalance;
 
-            let transHistory;
+            let transHistory = 'Chưa có';
             try {
                 if (fs.existsSync(transactionsPath)) {
                     transactions = JSON.parse(fs.readFileSync(transactionsPath, 'utf8'));
+                    const recentTrans = transactions[userID]?.slice(-2) || [];
+                    if (recentTrans.length > 0) {
+                        transHistory = recentTrans.map(t => {
+                            const date = new Date(t.timestamp);
+                            const time = `${date.getHours()}:${String(date.getMinutes()).padStart(2, '0')}`;
+                            const icon = t.type === 'in' ? '📥' : '📤';
+                            return `${icon} ${time}: ${t.description}`;
+                        }).reverse().join('\n');
+                    }
                 }
-                const recentTrans = transactions[userID]?.slice(-3) || [];
-                transHistory = recentTrans.length > 0 ? 
-                    recentTrans.map(t => {
-                        const date = new Date(t.timestamp);
-                        const time = `${date.getDate()}/${date.getMonth() + 1} ${date.getHours()}:${String(date.getMinutes()).padStart(2, '0')}`;
-                        const icon = t.type === 'in' ? '📥' : '📤';
-                        return `${icon} ${time}: ${t.description}`;
-                    }).reverse().join('\n') 
-                    : 'Chưa có giao dịch nào';
-            } catch (transError) {
-                console.error("Error processing transactions:", transError);
-                transHistory = 'Không thể tải lịch sử giao dịch';
+            } catch (error) {
+                transHistory = 'Không thể tải';
             }
 
-            const response = `⭐️ 【 BÁO CÁO TÀI CHÍNH 】 ⭐️\n\n`+
-                `👤 Người dùng: ${userName}\n`+ 
-                `💰 Số dư ví: ${balance.toLocaleString('vi-VN')} Xu\n`+
-                `🏦 Số dư ngân hàng: ${bankBalance.toLocaleString('vi-VN')} Xu\n`+
-                `💵 Tổng tài sản: ${totalWealth.toLocaleString('vi-VN')} Xu\n\n`+
-                `📊 Giao dịch gần đây:\n${transHistory}\n\n`;
-
-          
-            let stockAlert = "\n📈 THÔNG BÁO THỊ TRƯỜNG:\n";
-            
+            let marketAlert = '';
             const analysis = market.getMarketAnalysis();
-            
             if (analysis.topGainers.length > 0) {
-                const topGainer = analysis.topGainers[0];
-                stockAlert += `⭐️ ${topGainer[0]} đang TĂNG ${topGainer[1].change.toFixed(2)}% (${topGainer[1].price.toLocaleString('vi-VN')} Xu)\n`;
+                const [symbol, data] = analysis.topGainers[0];
+                marketAlert = `\n📈 ${symbol}: +${data.change.toFixed(1)}%`;
             }
 
-            if (analysis.topLosers.length > 0) {
-                const topLoser = analysis.topLosers[0];
-                stockAlert += `💡 ${topLoser[0]} đang GIẢM ${Math.abs(topLoser[1].change).toFixed(2)}% (${topLoser[1].price.toLocaleString('vi-VN')} Xu)\n`;
-            }
+            const response = 
+                `💰 SỐ DƯ TÀI KHOẢN 💰\n` +
+                `━━━━━━━━━━━━━━\n` +
+                `👤 ${userName}\n` +
+                `💵 Ví: ${balance.toLocaleString('vi-VN')} xu\n` +
+                `🏦 Bank: ${bankBalance.toLocaleString('vi-VN')} xu\n` +
+                `💎 Tổng: ${totalWealth.toLocaleString('vi-VN')} xu\n\n` +
+                `📝 Giao dịch:\n${transHistory}` +
+                marketAlert;
 
-            stockAlert += "\n💎 Gõ .trade check để xem thị trường!";
-
-            const finalResponse = response + stockAlert;
-
-            await api.sendMessage(finalResponse, threadID, messageID);
+            await api.sendMessage(response, threadID, messageID);
         } catch (error) {
             console.error("Balance command error:", error);
-            return api.sendMessage("Có lỗi xảy ra khi kiểm tra số dư. Vui lòng thử lại sau.", event.threadID, event.messageID);
+            return api.sendMessage("❌ Lỗi hệ thống!", event.threadID, event.messageID);
         }
     }
 };

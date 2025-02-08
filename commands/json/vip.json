@@ -1,0 +1,82 @@
+{
+  "users": {
+    "100040203282108": {
+      "packageId": 3,
+      "name": "VIP GOLD",
+      "expireTime": 1741523966390,
+      "benefits": {
+        "workBonus": 40,
+        "cooldownReduction": 30,
+        "fishingCooldown": 120000, 
+        "fishExpMultiplier": 4, 
+        "dailyBonus": true,
+        "packageId": 3
+      }
+    },
+    "100053970942155": {
+      "packageId": 3,
+      "name": "VIP GOLD",
+      "expireTime": 1741528606260,
+      "benefits": {
+        "workBonus": 40,
+        "cooldownReduction": 30,
+        "fishingCooldown": 120000, 
+        "fishExpMultiplier": 4, 
+        "dailyBonus": true,
+        "packageId": 3
+      }
+    },
+    "100087199431487": {
+      "packageId": 3,
+      "name": "VIP GOLD",
+      "expireTime": 1741528635261,
+      "benefits": {
+        "workBonus": 40,
+        "cooldownReduction": 30,
+        "fishingCooldown": 120000, 
+        "fishExpMultiplier": 4, 
+        "dailyBonus": true,
+        "packageId": 3
+      }
+    },
+    "61550331471452": {
+      "packageId": 3,
+      "name": "VIP GOLD",
+      "expireTime": 1741529332251,
+      "benefits": {
+        "workBonus": 40,
+        "cooldownReduction": 30,
+        "fishingCooldown": 120000, 
+        "fishExpMultiplier": 4, 
+        "dailyBonus": true,
+        "packageId": 3
+      }
+    },
+    "61561753304881": {
+      "packageId": 3,
+      "name": "VIP GOLD",
+      "expireTime": 1741535871332,
+      "benefits": {
+        "workBonus": 40,
+        "cooldownReduction": 30,
+        "dailyBonus": true,
+        "fishingCooldown": 120000, 
+        "fishExpMultiplier": 4, 
+        "packageId": 3
+      }
+    },
+    "100068382888605": {
+      "packageId": 3,
+      "name": "VIP GOLD",
+      "expireTime": 1741536540500,
+      "benefits": {
+        "workBonus": 40,
+        "cooldownReduction": 30,
+        "fishingCooldown": 120000, 
+        "fishExpMultiplier": 4, 
+        "dailyBonus": true,
+        "packageId": 3
+      }
+    }
+  }
+}

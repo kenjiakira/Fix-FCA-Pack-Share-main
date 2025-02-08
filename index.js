@@ -14,7 +14,7 @@ function startBotProcess(script) {
     child.on("close", (codeExit) => {
         console.log(`${script} Quá trình thoát bằng mã: ${codeExit}`);
         if (codeExit !== 0) {
-            setTimeout(() => startBotProcess(script), 3000);
+            setTimeout(() => startBotProcess(script), 3001);
         }
     });
 

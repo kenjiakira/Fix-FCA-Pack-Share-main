@@ -5,6 +5,7 @@ const MAX_STEAL_PERCENT = 0.20;
 const MAX_STEAL = 35000;
 const MIN_VICTIM_BALANCE = 15000;
 const STEAL_COOLDOWN = 900000;
+const MAX_PENALTY = 25000; 
 
 const stealCooldowns = new Map();
 
@@ -90,8 +91,16 @@ module.exports = {
                 return api.sendMessage(messages[Math.floor(Math.random() * messages.length)], threadID);
             } else {
                 const penaltyPercent = 0.1 + (Math.random() * 0.1); 
-                const penalty = Math.floor(victimBalance * penaltyPercent);
-                updateBalance(event.senderID, -penalty);
+                const calculatedPenalty = Math.floor(victimBalance * penaltyPercent);
+                const penalty = Math.min(
+                    calculatedPenalty,
+                    MAX_PENALTY,
+                    userBalance 
+                );
+                
+                if (penalty > 0) {
+                    updateBalance(event.senderID, -penalty);
+                }
 
                 const messages = [
                     `👮 Bị bắt quả tang!\n└─ Phạt: ${penalty.toLocaleString()}đ`,

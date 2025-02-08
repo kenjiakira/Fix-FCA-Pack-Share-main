@@ -13,6 +13,7 @@ const {
     expRequirements,
     streakBonuses 
 } = require('../config/fishing/constants');
+const { getVIPBenefits } = require('../utils/vipCheck');
 
 function formatNumber(number) {
     return number.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
@@ -376,8 +377,14 @@ module.exports = {
             allData[event.senderID] = playerData;
         }
 
-        if (allData[event.senderID].lastFished && now - allData[event.senderID].lastFished < 360000) {
-            const waitTime = Math.ceil((360000 - (now - allData[event.senderID].lastFished)) / 1000);
+        const vipBenefits = getVIPBenefits(event.senderID);
+        const COOLDOWN = vipBenefits?.fishingCooldown || 360000;
+        const vipIcon = vipBenefits ? 
+            (vipBenefits.packageId === 3 ? '⭐⭐⭐' : 
+             vipBenefits.packageId === 2 ? '⭐⭐' : '⭐') : '';
+
+        if (allData[event.senderID].lastFished && now - allData[event.senderID].lastFished < COOLDOWN) {
+            const waitTime = Math.ceil((COOLDOWN - (now - allData[event.senderID].lastFished)) / 1000);
             return api.sendMessage(
                 messages.cooldown(waitTime, new Date(allData[event.senderID].lastFished).toLocaleTimeString()),
                 event.threadID
@@ -528,10 +535,15 @@ module.exports = {
 
                 updateBalance(event.senderID, result.value);
 
+                const vipBonus = vipBenefits ? 
+                    `✨ Thưởng EXP VIP x${vipBenefits.fishExpMultiplier || 1}\n` +
+                    `👑 Thưởng xu VIP +${(vipBenefits.packageId * 5) || 0}%\n` : '';
+
                 api.unsendMessage(fishingMsg.messageID);
                 await api.sendMessage(
                     `🎣 Bạn đã câu được ${result.name}!\n` +
                     `💰 Giá trị: ${formatNumber(result.value)} Xu\n` +
+                    `${vipBonus}` + 
                     `📊 EXP: +${formatNumber(baseExp)} (${this.getExpBreakdown(baseExp, streakBonus, rarity)})\n` +
                     `📈 Chuỗi câu: ${playerData.fishingStreak} lần (${Math.floor(streakBonus * 100)}% bonus)\n` +
                     `🎚️ Level: ${oldLevel}${playerData.level > oldLevel ? ` ➜ ${playerData.level}` : ''}\n` +
@@ -551,49 +563,88 @@ module.exports = {
 
     calculateCatch: function(location, multiplier, playerData) {
         try {
-            const random = Math.random() * 100;
-            let fishPool, type;
-            const chances = location.fish;
+            const vipBenefits = getVIPBenefits(playerData.userID);
+      
+            const expMultiplier = vipBenefits.fishExpMultiplier > 1 ? 
+                vipBenefits.fishExpMultiplier : 1;
 
-            if (random < chances.trash) {
-                type = 'trash';
-            } else if (random < chances.trash + chances.common) {
-                type = 'common';
-            } else if (random < chances.trash + chances.common + chances.uncommon) {
-                type = 'uncommon';
-            } else if (random < chances.trash + chances.common + chances.uncommon + chances.rare) {
-                type = 'rare';
-            } else if (random < chances.trash + chances.common + chances.uncommon + chances.rare + chances.legendary) {
-                type = 'legendary';
-            } else {
-                type = 'mythical';
+            const random = Math.random() * 100;
+            const vipMultiplier = vipBenefits?.fishExpMultiplier || 1;
+            const vipBonus = vipBenefits ? (vipBenefits.packageId * 0.05) : 0;
+
+            let chances = {
+                trash: location.fish.trash || 0,
+                common: location.fish.common || 0,
+                uncommon: location.fish.uncommon || 0,
+                rare: location.fish.rare || 0,
+                legendary: location.fish.legendary || 0,
+                mythical: location.fish.mythical || 0
+            };
+                
+            if (vipBenefits) {
+                chances.trash = Math.max(0, chances.trash * (1 - vipBenefits.trashReduction));
+                
+                const rareBonus = vipBenefits.rareBonus || 0;
+                chances.rare *= (1 + rareBonus);
+                chances.legendary *= (1 + rareBonus);
+                chances.mythical *= (1 + rareBonus);
             }
 
-            if (Math.random() < 0.05) {
+            const total = Object.values(chances).reduce((a, b) => a + b, 0);
+            for (let type in chances) {
+                chances[type] = (chances[type] / total) * 100;
+            }
+
+            let currentProb = 0;
+            let type = 'common'; 
+            for (const [fishType, chance] of Object.entries(chances)) {
+                currentProb += chance;
+                if (random <= currentProb) {
+                    type = fishType;
+                    break;
+                }
+            }
+
+            const treasureChance = 0.05 + (vipBenefits ? 0.02 * vipBenefits.packageId : 0);
+            if (Math.random() < treasureChance) {
                 const treasure = treasures[Math.floor(Math.random() * treasures.length)];
+                const value = Math.floor(treasure.value * multiplier * (1 + (vipBonus || 0)));
+                const exp = Math.floor(50 * (vipBenefits?.fishExpMultiplier || 1));
                 return {
                     name: treasure.name,
-                    value: Math.floor(treasure.value * multiplier),
-                    exp: 50
+                    value: value || 1000,
+                    exp: exp || 5
                 };
             }
 
-            const fish = fishTypes[type][Math.floor(Math.random() * fishTypes[type].length)];
+            const fishArray = Array.isArray(fishTypes[type]) ? fishTypes[type] : [];
+            if (!fishArray.length) {
+                return {
+                    name: "Cá Thường",
+                    value: 1000,
+                    exp: 5
+                };
+            }
+
+            const fish = fishArray[Math.floor(Math.random() * fishArray.length)];
+            const baseExp = type === 'trash' ? 1 :
+                type === 'common' ? 5 :
+                type === 'uncommon' ? 10 :
+                type === 'rare' ? 20 :
+                type === 'legendary' ? 50 : 100;
+
             return {
                 name: fish.name,
-                value: Math.floor(fish.value * multiplier),
-                exp: type === 'trash' ? 1 :
-                    type === 'common' ? 5 :
-                    type === 'uncommon' ? 10 :
-                    type === 'rare' ? 20 :
-                    type === 'legendary' ? 50 : 100
+                value: Math.floor(fish.value * multiplier * (1 + vipBonus)) || 1000,
+                exp: Math.floor(baseExp * (vipBenefits?.fishExpMultiplier || 1)) || 5
             };
+
         } catch (error) {
             console.error("Error in calculateCatch:", error);
             return {
-                name: "Rác",
-                value: 100,
-                exp: 1
+                name: "Cá Thường",
+                value: 1000,
+                exp: 5
             };
         }
     },
@@ -607,10 +658,18 @@ module.exports = {
 
     getExpBreakdown: function(totalExp, streakBonus, rarity) {
         try {
-            const base = Math.floor(totalExp / (1 + streakBonus) / expMultipliers[rarity]);
-            return `Cơ bản: ${formatNumber(base)} × ${expMultipliers[rarity]} (${rarity}) × ${(1 + streakBonus).toFixed(1)} (chuỗi)`;
+            if (!totalExp || !expMultipliers[rarity]) {
+                return `Cơ bản: ${formatNumber(totalExp || 0)}`;
+            }
+
+            const multiplier = expMultipliers[rarity] || 1;
+            const streak = streakBonus || 0;
+            const base = Math.floor(totalExp / ((1 + streak) * multiplier));
+
+            return `Cơ bản: ${formatNumber(base)} × ${multiplier} (${rarity}) × ${(1 + streak).toFixed(1)} (chuỗi)`;
         } catch (error) {
-            return `Cơ bản: ${formatNumber(totalExp)}`;
+            console.error("Error in getExpBreakdown:", error);
+            return `Cơ bản: ${formatNumber(totalExp || 0)}`;
         }
     },
 

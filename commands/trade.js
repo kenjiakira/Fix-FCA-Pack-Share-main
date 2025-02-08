@@ -1,6 +1,7 @@
 const fs = require('fs');
 const path = require('path');
 const { getBalance, updateBalance } = require('../utils/currencies');
+const axios = require('axios');
 
 const MARKET_DATA_PATH = path.join(__dirname, './json/market.json');
 const USER_PORTFOLIO_PATH = path.join(__dirname, './json/portfolios.json');
@@ -28,14 +29,10 @@ class StockMarket {
         const hour = now.getHours();
         
         if (hour >= this.marketHours.open && hour < this.marketHours.close) {
-            console.log("[MARKET] Market is open, starting updates...");
             this.updatePrices();
             this.updateTimer = setInterval(() => {
-                console.log("[MARKET] Checking for updates...");
                 this.updatePrices();
             }, this.updateInterval);
-        } else {
-            console.log("[MARKET] Market is closed. Updates paused.");
         }
     }
 
@@ -95,7 +92,7 @@ class StockMarket {
                 supply: 1000000,
                 demand: 800000,
                 dailyVolume: 0,
-                maxDailyVolume: 300000 // 30% of supply
+                maxDailyVolume: 300000 
             },
             "FPT": {
                 name: "FPT Corp",
@@ -107,7 +104,7 @@ class StockMarket {
                 supply: 800000,
                 demand: 600000,
                 dailyVolume: 0,
-                maxDailyVolume: 240000 // 30% of supply
+                maxDailyVolume: 240000
             },
             "VIC": {
                 name: "Vingroup",
@@ -196,12 +193,9 @@ class StockMarket {
 
     updatePrices() {
         if (!this.isMarketOpen()) {
-            console.log("[MARKET] Market is closed. No updates.");
             return;
         }
 
-        console.log(`[MARKET] Updating prices at ${new Date().toLocaleTimeString()}`);
-        
         let marketChanged = false;
         
         Object.keys(this.stocks).forEach(symbol => {
@@ -261,8 +255,6 @@ class StockMarket {
                 if (stock.history.length > 100) {
                     stock.history = stock.history.slice(-100);
                 }
-
-                console.log(`[MARKET] ${symbol} changed: ${oldPrice} -> ${newPrice} (${stock.change.toFixed(2)}%)`);
             }
         });
 
@@ -509,7 +501,6 @@ module.exports = {
         const { threadID, messageID, senderID } = event;
 
         if (!market.lastUpdate || Date.now() - market.lastUpdate > 60000) {
-            console.log("[TRADE] Restarting market updates...");
             market.startUpdates();
         }
 
@@ -670,20 +661,108 @@ module.exports = {
                     }
 
                     const stock = market.stocks[symbol];
-                    const message = 
-                        `🏢 ${symbol} - ${stock.name}\n` +
-                        `━━━━━━━━━━━━━━━━━━\n\n` +
-                        `💰 Giá: ${stock.price.toLocaleString('vi-VN')} Xu\n` +
-                        `📊 Thay đổi: ${stock.change > 0 ? '+' : ''}${stock.change.toFixed(2)}%\n` +
-                        `📈 Volume: ${stock.volume.toLocaleString('vi-VN')}\n` +
-                        `💎 Vốn hóa: ${stock.marketCap.toLocaleString('vi-VN')} Xu\n\n` +
-                        `📌 Lịch sử giá (5 gần nhất):\n` +
-                        stock.history.slice(-5).map(h => {
-                            const date = new Date(h.timestamp);
-                            return `${date.getHours()}:${date.getMinutes()}: ${h.price.toLocaleString('vi-VN')} Xu`;
-                        }).join('\n');
+                    
+                    const timestamps = stock.history.map(h => {
+                        const date = new Date(h.timestamp);
+                        return `${date.getHours()}:${date.getMinutes()}`;
+                    });
+                    const prices = stock.history.map(h => h.price);
+                    
+                    const maxPrice = Math.max(...prices);
+                    const minPrice = Math.min(...prices);
+                    const padding = (maxPrice - minPrice) * 0.1;
 
-                    return api.sendMessage(message, threadID, messageID);
+                    const chartUrl = `https://quickchart.io/chart?c={
+                        type:'line',
+                        data:{
+                            labels:${JSON.stringify(timestamps)},
+                            datasets:[{
+                                label:'${symbol} Price',
+                                data:${JSON.stringify(prices)},
+                                fill:true,
+                                borderColor:'rgb(59, 130, 246)',
+                                borderWidth:2,
+                                pointRadius:0,
+                                tension:0.4,
+                                backgroundColor:'rgba(59, 130, 246, 0.1)'
+                            }]
+                        },
+                        options:{
+                            responsive:true,
+                            plugins:{
+                                title:{
+                                    display:true,
+                                    text:'${symbol} - Price History',
+                                    font:{size:16}
+                                },
+                                legend:{display:false}
+                            },
+                            scales:{
+                                y:{
+                                    min:${minPrice - padding},
+                                    max:${maxPrice + padding},
+                                    ticks:{
+                                        callback:'function(value){return value.toLocaleString("vi-VN")+" Xu"}',
+                                        font:{size:11}
+                                    },
+                                    grid:{
+                                        display:true,
+                                        color:'rgba(0,0,0,0.1)'
+                                    }
+                                },
+                                x:{
+                                    ticks:{
+                                        maxRotation:45,
+                                        autoSkip:true,
+                                        maxTicksLimit:8,
+                                        font:{size:11}
+                                    },
+                                    grid:{display:false}
+                                }
+                            },
+                            elements:{
+                                point:{
+                                    radius:0,
+                                    hitRadius:10,
+                                    hoverRadius:4
+                                }
+                            },
+                            animation:false,
+                            interaction:{
+                                intersect:false,
+                                mode:'index'
+                            }
+                        }
+                    }`.replace(/\s+/g, '');
+
+                    try {
+                        const chartResponse = await axios.get(chartUrl, { responseType: 'arraybuffer' });
+                        const chartPath = __dirname + `/cache/trade_chart_${symbol}_${Date.now()}.png`;
+                        require('fs').writeFileSync(chartPath, chartResponse.data);
+
+                        const message = 
+                            `🏢 ${symbol} - ${stock.name}\n` +
+                            `━━━━━━━━━━━━━━━━━━\n\n` +
+                            `💰 Giá: ${stock.price.toLocaleString('vi-VN')} Xu\n` +
+                            `📊 Thay đổi: ${stock.change > 0 ? '+' : ''}${stock.change.toFixed(2)}%\n` +
+                            `📈 Volume: ${stock.volume.toLocaleString('vi-VN')}\n` +
+                            `💎 Vốn hóa: ${stock.marketCap.toLocaleString('vi-VN')} Xu\n` +
+                            `📉 Supply: ${stock.supply.toLocaleString('vi-VN')}\n` +
+                            `📈 Demand: ${stock.demand.toLocaleString('vi-VN')}\n\n` +
+                            `⏰ Cập nhật: ${new Date().toLocaleString()}`;
+
+                        await api.sendMessage({
+                            body: message,
+                            attachment: require('fs').createReadStream(chartPath)
+                        }, threadID, () => {
+                            require('fs').unlinkSync(chartPath);
+                        });
+                    } catch (error) {
+                        console.error(error);
+                        api.sendMessage("❌ Có lỗi khi tạo biểu đồ!", threadID, messageID);
+                    }
+
+                    return;
                 }
             }
         } catch (error) { 

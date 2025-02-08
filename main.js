@@ -156,7 +156,7 @@ const startBot = async () => {
 
     try {
         currentPort = await portfinder.getPortPromise({
-            port: 3000,
+            port: 3001,
             stopPort: 4000
         });
     } catch (err) {

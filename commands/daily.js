@@ -90,6 +90,31 @@ class DailyRewardManager {
             bonus: bonuses[today]
         };
     }
+
+    async getVipBonus(userId) {
+        try {
+            const vipDataPath = path.join(__dirname, 'json', 'vip.json');
+            const vipData = JSON.parse(await fs.readFile(vipDataPath, 'utf8'));
+            const userData = vipData.users?.[userId];
+
+            if (!userData || userData.expireTime < Date.now()) return {
+                hasVip: false,
+                bonus: 0
+            };
+
+            switch (userData.packageId) {
+                case 3: 
+                    return { hasVip: true, bonus: 80000 };
+                case 2:
+                    return { hasVip: true, bonus: 50000 };
+                default: 
+                    return { hasVip: true, bonus: 0 };
+            }
+        } catch (error) {
+            console.error('Error getting VIP bonus:', error);
+            return { hasVip: false, bonus: 0 };
+        }
+    }
 }
 
 const dailyManager = new DailyRewardManager();
@@ -127,14 +152,21 @@ module.exports = {
             const streak = dailyManager.calculateStreak(senderID, now);
             const amount = dailyManager.calculateReward(streak);
             const dayBonus = dailyManager.getDayBonus();
+            const vipInfo = await dailyManager.getVipBonus(senderID);
 
-            global.balance[senderID] = (global.balance[senderID] || 0) + amount;
+            const totalAmount = amount + (vipInfo.bonus || 0);
+
+            global.balance[senderID] = (global.balance[senderID] || 0) + totalAmount;
             await dailyManager.updateClaim(senderID, now);
             await require('../utils/currencies').saveData();
 
             const currentBalance = global.balance[senderID] || 0;
             let message = `🎉 ${dayBonus.day} - Nhận ${amount.toLocaleString('vi-VN')} Xu!\n`;
             message += `📅 Bonus hôm nay: +${dayBonus.bonus}\n`;
+            
+            if (vipInfo.hasVip && vipInfo.bonus > 0) {
+                message += `👑 VIP Bonus: +${vipInfo.bonus.toLocaleString('vi-VN')} Xu\n`;
+            }
             
             if (streak > 1) {
                 message += `🔥 Streak hiện tại: ${streak} ngày (x${(1 + streak * 0.1).toFixed(1)})\n`;

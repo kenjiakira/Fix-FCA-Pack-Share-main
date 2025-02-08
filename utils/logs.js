@@ -5,7 +5,6 @@ const threadsPath = "./database/threads.json";
 const chalk = require('chalk');
 const gradient = require('gradient-string');
 const moment = require("moment-timezone");
-const os = require('os'); 
 
 let io = null;
 
@@ -77,18 +76,6 @@ const sendThreadNotification = async (api, threadID, message, type) => {
     }
 };
 
-const getMemoryUsage = () => {
-    const totalMem = os.totalmem();
-    const freeMem = os.freemem();
-    const usedMem = totalMem - freeMem;
-    
-    const toGB = (bytes) => (bytes / 1024 / 1024 / 1024).toFixed(2);
-    return {
-        used: toGB(usedMem),
-        total: toGB(totalMem),
-        percentage: ((usedMem / totalMem) * 100).toFixed(1)
-    };
-};
 
 const logChatRecord = async (api, event) => {
     const threadID = event.threadID;
@@ -104,7 +91,6 @@ const logChatRecord = async (api, event) => {
     const logHeader = gradientText("━━━━━━━━━━[ CHUỖI CSDL NHẬT KÝ BOT ]━━━━━━━━━━");
 
     if (event.body) {
-        const memory = getMemoryUsage();
         const logMessage = [
             logHeader,
             "┏━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┓",
@@ -113,7 +99,6 @@ const logChatRecord = async (api, event) => {
             `┣➤ 👤 ID Người dùng: ${senderID}${isAdmin ? ' (Admin)' : ''}`,
             `┣➤ ✉️ Nội dung: ${event.body}`,
             `┣➤ ⏰ Vào lúc: ${time}`,
-            `┣➤ 💻 RAM: ${memory.used}GB/${memory.total}GB (${memory.percentage}%)`,
             "┗━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┛"
         ].join('\n');
 
