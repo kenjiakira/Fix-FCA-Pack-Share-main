@@ -11,6 +11,12 @@ const BANK_LIST = [
     "nvbank", "pgbank", "publicbank", "cimbbank", "uob"
 ];
 
+const VIP_PRICES = {
+    'bronze': 20000,
+    'silver': 30000,
+    'gold': 50000
+};
+
 module.exports = {
     name: "qr",
     dev: "HNT",
@@ -24,6 +30,31 @@ module.exports = {
         try {
             const args = event.body.split(/\s+/).slice(1);
             
+            if (args[0]?.toLowerCase() === 'vip') {
+                const vipType = args[1]?.toLowerCase();
+                if (!vipType || !VIP_PRICES[vipType]) {
+                    return api.sendMessage(
+                        "Cú pháp: qr vip [bronze/silver/gold]\n" +
+                        "Ví dụ: qr vip bronze", 
+                        event.threadID
+                    );
+                }
+
+                const amount = VIP_PRICES[vipType];
+                const content = `VIP_${vipType.toUpperCase()}_${event.senderID}`;
+                
+                // Generate QR for VIP purchase
+                await generateAndSendQR(api, event, {
+                    stk: "0354683398",
+                    bank: "vietinbank",
+                    amount: amount,
+                    content: content,
+                    isVip: true,
+                    vipType: vipType
+                });
+                return;
+            }
+
             if (args.length < 3) {
                 return api.sendMessage(
                     "Cách dùng: qr [STK] [Mã bank] [Số tiền] [Nội dung]\n" +
@@ -53,54 +84,12 @@ module.exports = {
                 return api.sendMessage("❌ Số tiền phải là số dương!", event.threadID);
             }
 
-       
-            const qrUrl = new URL('https://qr.sepay.vn/img');
-            qrUrl.searchParams.append('acc', stk);
-            qrUrl.searchParams.append('bank', bank);
-            qrUrl.searchParams.append('amount', amountNum);
-            qrUrl.searchParams.append('des', content);
-            qrUrl.searchParams.append('template', 'compact');
-            qrUrl.searchParams.append('download', 'true');
-
-            console.log('Generated QR URL:', qrUrl.toString());
-
-            const response = await axios({
-                method: 'GET',
-                url: qrUrl.toString(),
-                responseType: 'arraybuffer',
-                timeout: 10000,
-                headers: {
-                    'Accept': 'image/png',
-                    'User-Agent': 'Mozilla/5.0'
-                }
-            });
-
-            if (!response.data || response.headers['content-type'] !== 'image/png') {
-                throw new Error('Invalid QR image response');
-            }
-
-            const tempPath = path.join(__dirname, 'cache', `qr_${Date.now()}.png`);
-            
-     
-            if (!fs.existsSync(path.dirname(tempPath))) {
-                fs.mkdirSync(path.dirname(tempPath), { recursive: true });
-            }
-
-            fs.writeFileSync(tempPath, Buffer.from(response.data));
-
-          
-            await api.sendMessage({
-                body: `🏦 THÔNG TIN CHUYỂN KHOẢN QR\n` +
-                      `━━━━━━━━━━━━━━━━━━━\n` +
-                      `💳 STK: ${stk}\n` +
-                      `🏦 Bank: ${bank.toUpperCase()}\n` +
-                      `💰 Số tiền: ${amountNum.toLocaleString()}đ\n` +
-                      `📝 Nội dung: ${content}\n` +
-                      `━━━━━━━━━━━━━━━━━━━`,
-                attachment: fs.createReadStream(tempPath)
-            }, event.threadID, () => {
-            
-                fs.unlinkSync(tempPath);
+            await generateAndSendQR(api, event, {
+                stk: stk,
+                bank: bank,
+                amount: amountNum,
+                content: content,
+                isVip: false
             });
 
         } catch (err) {
@@ -112,3 +101,54 @@ module.exports = {
         }
     }
 };
+
+async function generateAndSendQR(api, event, { stk, bank, amount, content, isVip, vipType }) {
+    const qrUrl = new URL('https://qr.sepay.vn/img');
+    qrUrl.searchParams.append('acc', stk);
+    qrUrl.searchParams.append('bank', bank);
+    qrUrl.searchParams.append('amount', amount);
+    qrUrl.searchParams.append('des', content);
+    qrUrl.searchParams.append('template', 'compact');
+
+    const response = await axios({
+        method: 'GET',
+        url: qrUrl.toString(),
+        responseType: 'arraybuffer',
+        headers: {
+            'Accept': 'image/png',
+            'User-Agent': 'Mozilla/5.0'
+        }
+    });
+
+    const tempPath = path.join(__dirname, 'cache', `qr_${Date.now()}.png`);
+    
+    if (!fs.existsSync(path.dirname(tempPath))) {
+        fs.mkdirSync(path.dirname(tempPath), { recursive: true });
+    }
+
+    fs.writeFileSync(tempPath, Buffer.from(response.data));
+
+    let messageBody = isVip 
+        ? `🎮 THANH TOÁN VIP ${vipType.toUpperCase()}\n` +
+          `━━━━━━━━━━━━━━━━━━━\n` +
+          `💳 STK: ${stk}\n` +
+          `🏦 Bank: ${bank.toUpperCase()}\n` +
+          `💰 Số tiền: ${amount.toLocaleString()}đ\n` +
+          `📝 Nội dung: ${content}\n` +
+          `⚠️ Vui lòng chuyển khoản chính xác nội dung\n` +
+          `━━━━━━━━━━━━━━━━━━━`
+        : `🏦 THÔNG TIN CHUYỂN KHOẢN\n` +
+          `━━━━━━━━━━━━━━━━━━━\n` +
+          `💳 STK: ${stk}\n` +
+          `🏦 Bank: ${bank.toUpperCase()}\n` +
+          `💰 Số tiền: ${amount.toLocaleString()}đ\n` +
+          `📝 Nội dung: ${content}\n` +
+          `━━━━━━━━━━━━━━━━━━━`;
+
+    await api.sendMessage({
+        body: messageBody,
+        attachment: fs.createReadStream(tempPath)
+    }, event.threadID, () => {
+        fs.unlinkSync(tempPath);
+    });
+}

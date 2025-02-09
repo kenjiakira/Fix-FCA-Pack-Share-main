@@ -119,10 +119,10 @@ class GameLogic {
 
     calculateReward(betAmount, multiplier = 1, special = false) {
         const rawReward = betAmount * multiplier;
-        let feeRate = 0.01; // Phí cơ bản 1%
+        let feeRate = 0.03; // Phí cơ bản 1%
         
-        if (betAmount >= 1000000) feeRate = 0.02; // 2% cho cược từ 1M
-        if (betAmount >= 10000000) feeRate = 0.03; // 3% cho cược từ 10M
+        if (betAmount >= 1000000) feeRate = 0.07; // 2% cho cược từ 1M
+        if (betAmount >= 10000000) feeRate = 0.09; // 3% cho cược từ 10M
     
         const fee = Math.ceil(rawReward * feeRate);
         const finalReward = rawReward - fee;

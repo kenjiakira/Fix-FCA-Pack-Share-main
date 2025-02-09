@@ -7,8 +7,8 @@
       "benefits": {
         "workBonus": 40,
         "cooldownReduction": 30,
-        "fishingCooldown": 120000, 
-        "fishExpMultiplier": 4, 
+        "fishingCooldown": 120000,
+        "fishExpMultiplier": 4,
         "dailyBonus": true,
         "packageId": 3
       }
@@ -20,8 +20,8 @@
       "benefits": {
         "workBonus": 40,
         "cooldownReduction": 30,
-        "fishingCooldown": 120000, 
-        "fishExpMultiplier": 4, 
+        "fishingCooldown": 120000,
+        "fishExpMultiplier": 4,
         "dailyBonus": true,
         "packageId": 3
       }
@@ -33,8 +33,8 @@
       "benefits": {
         "workBonus": 40,
         "cooldownReduction": 30,
-        "fishingCooldown": 120000, 
-        "fishExpMultiplier": 4, 
+        "fishingCooldown": 120000,
+        "fishExpMultiplier": 4,
         "dailyBonus": true,
         "packageId": 3
       }
@@ -46,8 +46,8 @@
       "benefits": {
         "workBonus": 40,
         "cooldownReduction": 30,
-        "fishingCooldown": 120000, 
-        "fishExpMultiplier": 4, 
+        "fishingCooldown": 120000,
+        "fishExpMultiplier": 4,
         "dailyBonus": true,
         "packageId": 3
       }
@@ -60,8 +60,8 @@
         "workBonus": 40,
         "cooldownReduction": 30,
         "dailyBonus": true,
-        "fishingCooldown": 120000, 
-        "fishExpMultiplier": 4, 
+        "fishingCooldown": 120000,
+        "fishExpMultiplier": 4,
         "packageId": 3
       }
     },
@@ -72,10 +72,26 @@
       "benefits": {
         "workBonus": 40,
         "cooldownReduction": 30,
-        "fishingCooldown": 120000, 
-        "fishExpMultiplier": 4, 
+        "fishingCooldown": 120000,
+        "fishExpMultiplier": 4,
         "dailyBonus": true,
         "packageId": 3
+      }
+    },
+    "100006842495827": {
+      "packageId": 3,
+      "name": "VIP GOLD",
+      "expireTime": 1742220355467,
+      "benefits": {
+        "workBonus": 40,
+        "cooldownReduction": 30,
+        "dailyBonus": true,
+        "fishingCooldown": 120000,
+        "fishExpMultiplier": 4,
+        "packageId": 3,
+        "name": "VIP GOLD ⭐⭐⭐",
+        "rareBonus": 0.3,
+        "trashReduction": 0.6
       }
     }
   }

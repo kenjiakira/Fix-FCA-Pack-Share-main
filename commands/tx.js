@@ -82,6 +82,7 @@ module.exports = {
         try {
             const { threadID, messageID, senderID } = event;
             const balance = getBalance(senderID);
+            let refundProcessed = false;  // Add refund tracking flag
 
             if (target.length < 2) {
                 return api.sendMessage("TÀI XỈU \n━━━━━━━━━━━━━━━━━━\n\nHướng dẫn: .tx tài/xỉu <số tiền> hoặc\n.tx tài/xỉu allin", threadID, messageID);
@@ -140,13 +141,20 @@ module.exports = {
 
                 } catch (error) {
                     console.error('Game processing error:', error);
-                    updateBalance(senderID, betAmount);
-                    await api.sendMessage("Có lỗi xảy ra, đã hoàn tiền cược.", threadID, messageID);
+                    if (!refundProcessed) {
+                        refundProcessed = true;
+                        updateBalance(senderID, betAmount);
+                        await api.sendMessage("Có lỗi xảy ra, đã hoàn tiền cược.", threadID, messageID);
+                    }
                 }
             }, 5000);
 
         } catch (error) {
             console.error('Main error:', error);
+            if (!refundProcessed) {
+                refundProcessed = true;
+                updateBalance(senderID, betAmount);
+            }
             await api.sendMessage("Có lỗi xảy ra.", event.threadID, event.messageID);
         }
     },

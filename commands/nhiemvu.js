@@ -1,4 +1,5 @@
 const { getBalance, updateBalance, loadQuests, getUserQuests, canClaimRewards, setRewardClaimed } = require('../utils/currencies');
+const { getVIPBenefits } = require('../utils/vipCheck');
 
 function formatNumber(number) {
     return number.toLocaleString('vi-VN');
@@ -17,7 +18,8 @@ module.exports = {
         const { threadID, messageID, senderID } = event;
         const quests = await loadQuests();
         const userQuests = getUserQuests(senderID);
-
+        const vipBenefits = getVIPBenefits(senderID);
+        
         const completedQuests = Object.entries(quests.dailyQuests)
             .filter(([questId, quest]) => {
                 const progress = userQuests.progress[questId] || 0;
@@ -25,40 +27,64 @@ module.exports = {
             });
 
         if (completedQuests.length > 0) {
-        
-            const totalReward = completedQuests.reduce((sum, [_, quest]) => sum + quest.reward, 0);
-            completedQuests.forEach(([questId]) => userQuests.completed[questId] = true);
+            let totalReward = completedQuests.reduce((sum, [_, quest]) => sum + quest.reward, 0);
+            
+            if (vipBenefits) {
+                const vipBonus = {
+                    1: 0.2, 
+                    2: 0.5,
+                    3: 1.0
+                }[vipBenefits.packageId] || 0;
 
-            updateBalance(senderID, totalReward);
-            setRewardClaimed(senderID);
+                const bonusAmount = Math.floor(totalReward * vipBonus);
+                totalReward += bonusAmount;
 
-            return api.sendMessage(
-                `🎉 Chúc mừng! Bạn đã nhận được ${formatNumber(totalReward)} Xu!\n` +
-                `📝 Đã hoàn thành ${completedQuests.length} nhiệm vụ.\n` +
-                `⭐ Tiếp tục cố gắng nhé!`,
-                threadID, messageID
-            );
+                completedQuests.forEach(([questId]) => userQuests.completed[questId] = true);
+                updateBalance(senderID, totalReward);
+                setRewardClaimed(senderID);
+
+                return api.sendMessage(
+                    `🎉 Chúc mừng! Bạn đã nhận được ${formatNumber(totalReward)} Xu!\n` +
+                    `${vipBenefits ? `👑 Thưởng VIP +${vipBonus * 100}%: ${formatNumber(bonusAmount)} Xu\n` : ''}` +
+                    `📝 Đã hoàn thành ${completedQuests.length} nhiệm vụ.\n` +
+                    `⭐ Tiếp tục cố gắng nhé!`,
+                    threadID, messageID
+                );
+            }
         }
 
         let message = "📋 NHIỆM VỤ HÀNG NGÀY\n━━━━━━━━━━━━━━━━━━\n\n";
         
+        if (vipBenefits) {
+            message += `👑 Đặc quyền VIP ${vipBenefits.packageId}:\n`;
+            message += `• Thưởng nhiệm vụ +${vipBenefits.packageId === 3 ? '100' : 
+                        vipBenefits.packageId === 2 ? '50' : '20'}%\n`;
+            message += `• Tích lũy nhanh hơn ${vipBenefits.packageId * 20}%\n\n`;
+        }
+
         let totalCompleted = 0;
         let totalQuests = Object.keys(quests.dailyQuests).length;
 
         for (const [questId, quest] of Object.entries(quests.dailyQuests)) {
             const progress = userQuests.progress[questId] || 0;
+            const vipProgress = vipBenefits ? Math.floor(progress * (1 + vipBenefits.packageId * 0.2)) : progress;
+            
             if (userQuests.completed[questId]) totalCompleted++;
             
-            const status = userQuests.completed[questId] ? "✅" : progress >= quest.target ? "⭐" : "▪️";
+            const status = userQuests.completed[questId] ? "✅" : vipProgress >= quest.target ? "⭐" : "▪️";
             message += `${status} ${quest.name}\n`;
             message += `👉 ${quest.description}\n`;
-            message += `🎯 Tiến độ: ${progress}/${quest.target}\n`;
-            message += `💰 Phần thưởng: ${formatNumber(quest.reward)} Xu\n\n`;
+            message += `🎯 Tiến độ: ${vipProgress}/${quest.target}\n`;
+            message += `💰 Phần thưởng: ${formatNumber(quest.reward)} Xu ${vipBenefits ? 
+                `(+${formatNumber(Math.floor(quest.reward * (vipBenefits.packageId === 3 ? 1 : 
+                                                            vipBenefits.packageId === 2 ? 0.5 : 0.2)))} xu VIP)` : ''}\n\n`;
         }
 
         if (totalCompleted === totalQuests && canClaimRewards(senderID) === false) {
             return api.sendMessage(
-                "⏰ Hôm nay bạn đã nhận thưởng tất cả nhiệm vụ rồi!\nVui lòng quay lại vào ngày mai nhé!",
+                "⏰ Hôm nay bạn đã nhận thưởng tất cả nhiệm vụ rồi!\n" +
+                (vipBenefits ? "👑 Ngày mai nhận thêm thưởng VIP nhé!\n" : "") +
+                "Vui lòng quay lại vào ngày mai!",
                 threadID, messageID
             );
         }

@@ -16,7 +16,27 @@ class StockMarket {
         };
         this.lastUpdate = null;
         this.updateInterval = 30000;
+        this.marketState = {
+            prevDayClose: {},
+            lastResetDate: null,
+            status: 'CLOSED',  
+            gapMovements: {}
+        };
+        this.marketStats = {
+            totalTradingVolume: 0,
+            totalTransactions: 0,
+            totalMoneyFlow: 0,
+            dailyStats: {
+                volume: 0,
+                transactions: 0,
+                moneyIn: 0,
+                moneyOut: 0,
+                date: new Date().toDateString()
+            },
+            historicalStats: []
+        };
         this.loadMarketData();
+        this.checkMarketStatus();
         this.startUpdates();
     }
 
@@ -191,52 +211,136 @@ class StockMarket {
         this.saveMarketData();
     }
 
-    updatePrices() {
-        if (!this.isMarketOpen()) {
-            return;
+    checkMarketStatus() {
+        const now = new Date();
+        const hour = now.getHours();
+        const minutes = now.getMinutes();
+
+        // Reset daily stats if it's a new day
+        const today = new Date().toDateString();
+        if (this.marketState.lastResetDate !== today && hour >= this.marketHours.open) {
+            this.resetDailyStats();
         }
+
+        if (hour < this.marketHours.open - 1) {
+            this.marketState.status = 'CLOSED';
+        } else if (hour === this.marketHours.open - 1) {
+            this.marketState.status = 'PRE_MARKET';
+        } else if (hour >= this.marketHours.open && hour < this.marketHours.close) {
+            this.marketState.status = 'OPEN';
+        } else if (hour === this.marketHours.close && minutes < 30) {
+            this.marketState.status = 'POST_MARKET';
+        } else {
+            this.marketState.status = 'CLOSED';
+        }
+    }
+
+    resetDailyStats() {
+        const today = new Date().toDateString();
+        
+        // Save yesterday's stats to history
+        if (this.marketStats.dailyStats.date !== today && 
+            this.marketStats.dailyStats.transactions > 0) {
+            this.marketStats.historicalStats.push({...this.marketStats.dailyStats});
+            // Keep only last 30 days
+            if (this.marketStats.historicalStats.length > 30) {
+                this.marketStats.historicalStats.shift();
+            }
+        }
+
+        // Reset daily stats
+        this.marketStats.dailyStats = {
+            volume: 0,
+            transactions: 0,
+            moneyIn: 0,
+            moneyOut: 0,
+            date: today
+        };
+
+        Object.keys(this.stocks).forEach(symbol => {
+            this.marketState.prevDayClose[symbol] = this.stocks[symbol].price;
+            this.stocks[symbol].dailyVolume = 0;
+            
+            const gapPercent = (Math.random() - 0.5) * 6; 
+            const marketSentiment = Math.random() < 0.7 ? Math.sign(gapPercent) : -Math.sign(gapPercent);
+            const gapMultiplier = 1 + (gapPercent / 100);
+            
+            this.marketState.gapMovements[symbol] = {
+                percent: gapPercent,
+                targetPrice: Math.round(this.stocks[symbol].price * gapMultiplier),
+                sentiment: marketSentiment
+            };
+        });
+
+        this.saveMarketData();
+    }
+
+    updatePrices() {
+        this.checkMarketStatus();
+        if (this.marketState.status === 'CLOSED') return;
 
         let marketChanged = false;
         
         Object.keys(this.stocks).forEach(symbol => {
             const stock = this.stocks[symbol];
-            
-            const supplyChange = Math.floor((Math.random() - 0.5) * stock.supply * 0.1);
-            const demandChange = Math.floor((Math.random() - 0.5) * stock.demand * 0.1);
-            
-            stock.supply = Math.max(100000, stock.supply + supplyChange);
-            stock.demand = Math.max(100000, stock.demand + demandChange);
+            let priceChange = 0;
 
-            const supplyDemandRatio = stock.demand / stock.supply;
-            const priceImpact = (supplyDemandRatio - 1) * 0.05;
-            
-            const baseVolatility = 0.03;
-            const randomFactor = Math.random();
-            const volatility = randomFactor < 0.15 ? baseVolatility * 3 
-                           : randomFactor < 0.35 ? baseVolatility * 2 
-                           : baseVolatility;
-
-            const marketSentiment = (Math.random() - 0.5) * 2 * volatility;
-            const totalChange = (priceImpact + marketSentiment) * stock.price;
-
-            if (Math.abs(totalChange) > 50) {
-                marketChanged = true;
+            if (this.marketState.status === 'PRE_MARKET') {
+                // Reduce pre-market gap movements
+                const gap = this.marketState.gapMovements[symbol];
+                if (gap) {
+                    const distanceToTarget = gap.targetPrice - stock.price;
+                    priceChange = (distanceToTarget * 0.1) + (Math.random() - 0.5) * 500;
+                }
+            } else {
+                // Reduced volatility for normal trading hours
+                const supplyChange = Math.floor((Math.random() - 0.5) * stock.supply * 0.05);
+                const demandChange = Math.floor((Math.random() - 0.5) * stock.demand * 0.05);
                 
-                const oldPrice = stock.price;
-                const newPrice = Math.max(1000, Math.round(oldPrice + totalChange));
-                stock.price = newPrice;
-                stock.change = ((newPrice - oldPrice) / oldPrice) * 100;
+                stock.supply = Math.max(100000, stock.supply + supplyChange);
+                stock.demand = Math.max(100000, stock.demand + demandChange);
 
-           
-                const baseVolume = stock.supply * 0.1; 
-                const volatilityMultiplier = 1 + (Math.abs(stock.change) / 100);
-                const randomFactor = 0.5 + Math.random(); 
+                const supplyDemandRatio = stock.demand / stock.supply;
+                const priceImpact = (supplyDemandRatio - 1) * 0.02; // Reduced impact
+                
+                const baseVolatility = 0.015; // Reduced base volatility
+                const randomFactor = Math.random();
+                const volatility = randomFactor < 0.1 ? baseVolatility * 2 
+                               : randomFactor < 0.3 ? baseVolatility * 1.5 
+                               : baseVolatility;
+
+                const marketSentiment = (Math.random() - 0.5) * volatility;
+                priceChange = (priceImpact + marketSentiment) * stock.price;
+
+                // Add price change limits
+                const maxChangePercent = 0.03; // Maximum 3% change per update
+                const maxChange = stock.price * maxChangePercent;
+                priceChange = Math.max(Math.min(priceChange, maxChange), -maxChange);
+            }
+
+            // Only update if price change is significant but not too large
+            if (Math.abs(priceChange) > 20 && Math.abs(priceChange) < stock.price * 0.05) {
+                marketChanged = true;
+                const oldPrice = stock.price;
+                
+                // Ensure new price stays within reasonable bounds
+                const minPrice = this.getInitialPrice(symbol) * 0.3; // Minimum 30% of initial price
+                const maxPrice = this.getInitialPrice(symbol) * 3; // Maximum 300% of initial price
+                const newPrice = Math.max(minPrice, Math.min(maxPrice, Math.round(oldPrice + priceChange)));
+                
+                stock.price = newPrice;
+                stock.change = ((newPrice - (this.marketState.prevDayClose[symbol] || oldPrice)) / 
+                              (this.marketState.prevDayClose[symbol] || oldPrice)) * 100;
+
+                // More conservative volume calculations
+                const baseVolume = stock.supply * 0.05;
+                const volatilityMultiplier = 1 + (Math.abs(stock.change) / 200);
+                const randomFactor = 0.7 + (Math.random() * 0.6);
                 const newVolume = Math.floor(baseVolume * volatilityMultiplier * randomFactor);
                 
-             
-                const maxVolume = stock.supply * 0.3; 
+                const maxVolume = stock.supply * 0.2;
                 stock.volume = Math.min(newVolume, maxVolume);
-                
+
                 const now = new Date();
                 if (now.getHours() === this.marketHours.open && now.getMinutes() < 5) {
                     stock.dailyVolume = 0;
@@ -338,6 +442,14 @@ class StockMarket {
         stock.demand += Math.floor(quantity * 0.8);
         stock.dailyVolume += quantity;
 
+        // Update market statistics
+        this.marketStats.totalTradingVolume += quantity;
+        this.marketStats.totalTransactions++;
+        this.marketStats.totalMoneyFlow += totalCost;
+        this.marketStats.dailyStats.volume += quantity;
+        this.marketStats.dailyStats.transactions++;
+        this.marketStats.dailyStats.moneyIn += totalCost;
+
         this.saveMarketData();
 
         return {
@@ -386,6 +498,14 @@ class StockMarket {
         stock.demand = Math.max(0, stock.demand - Math.floor(quantity * 0.8));
         stock.dailyVolume += quantity;
 
+        // Update market statistics
+        this.marketStats.totalTradingVolume += quantity;
+        this.marketStats.totalTransactions++;
+        this.marketStats.totalMoneyFlow += totalValue;
+        this.marketStats.dailyStats.volume += quantity;
+        this.marketStats.dailyStats.transactions++;
+        this.marketStats.dailyStats.moneyOut += totalValue;
+
         this.saveMarketData();
 
         return {
@@ -397,19 +517,27 @@ class StockMarket {
     }
 
     getMarketOverview() {
+        this.checkMarketStatus();
         const overview = {
             stocks: {},
             timestamp: Date.now(),
-            isOpen: this.isMarketOpen()
+            marketState: this.marketState.status,
+            tradingHours: {
+                open: this.marketHours.open,
+                close: this.marketHours.close
+            }
         };
 
         Object.keys(this.stocks).forEach(symbol => {
             const stock = this.stocks[symbol];
+            const prevClose = this.marketState.prevDayClose[symbol];
             overview.stocks[symbol] = {
                 name: stock.name,
                 price: stock.price,
                 change: stock.change,
-                volume: stock.volume
+                prevClose: prevClose || stock.price,
+                volume: stock.volume,
+                dailyVolume: stock.dailyVolume
             };
         });
 
@@ -462,7 +590,23 @@ class StockMarket {
             topGainers: [],
             topLosers: [],
             mostActive: [],
-            marketTrend: 0
+            marketTrend: 0,
+            statistics: {
+                total: {
+                    volume: this.marketStats.totalTradingVolume,
+                    transactions: this.marketStats.totalTransactions,
+                    moneyFlow: this.marketStats.totalMoneyFlow
+                },
+                daily: {
+                    ...this.marketStats.dailyStats,
+                    netFlow: this.marketStats.dailyStats.moneyIn - this.marketStats.dailyStats.moneyOut
+                },
+                averages: {
+                    dailyVolume: 0,
+                    dailyTransactions: 0,
+                    dailyMoneyFlow: 0
+                }
+            }
         };
 
         const stocks = Object.entries(this.stocks);
@@ -476,6 +620,24 @@ class StockMarket {
 
         const totalChange = stocks.reduce((sum, [_, stock]) => sum + stock.change, 0);
         analysis.marketTrend = totalChange / stocks.length;
+
+        // Calculate averages from historical data
+        if (this.marketStats.historicalStats.length > 0) {
+            const historicalTotals = this.marketStats.historicalStats.reduce((acc, day) => {
+                return {
+                    volume: acc.volume + day.volume,
+                    transactions: acc.transactions + day.transactions,
+                    moneyFlow: acc.moneyFlow + (day.moneyIn - day.moneyOut)
+                };
+            }, { volume: 0, transactions: 0, moneyFlow: 0 });
+
+            const daysCount = this.marketStats.historicalStats.length;
+            analysis.statistics.averages = {
+                dailyVolume: Math.round(historicalTotals.volume / daysCount),
+                dailyTransactions: Math.round(historicalTotals.transactions / daysCount),
+                dailyMoneyFlow: Math.round(historicalTotals.moneyFlow / daysCount)
+            };
+        }
 
         return analysis;
     }
@@ -536,7 +698,12 @@ module.exports = {
                     
                     let message = "📊 BẢNG GIÁ CHỨNG KHOÁN 📊\n";
                     message += "━━━━━━━━━━━━━━━━━━\n";
-                    message += `🕒 Trạng thái: ${isMarketOpen ? '🟢 Đang mở cửa' : '🔴 Đã đóng cửa'}\n`;
+                    message += `🕒 Trạng thái: ${
+                        overview.marketState === 'CLOSED' ? '🔴 Đã đóng cửa' :
+                        overview.marketState === 'PRE_MARKET' ? '🟡 Chuẩn bị mở cửa' :
+                        overview.marketState === 'OPEN' ? '🟢 Đang giao dịch' :
+                        overview.marketState === 'POST_MARKET' ? '🟠 Đóng cửa định kỳ' : '🔴 Đã đóng cửa'
+                    }\n`;
                     message += `⏰ Giờ giao dịch: ${market.marketHours.open}:00 - ${market.marketHours.close}:00\n\n`;
                     message += "🏆 TOP TĂNG GIÁ:\n";
                     
@@ -554,6 +721,14 @@ module.exports = {
                         message += `${symbol}: ${data.volume.toLocaleString('vi-VN')} CP\n`;
                     });
                     
+                    message += "\n📊 THỐNG KÊ GIAO DỊCH:\n";
+                    message += `💰 Tổng giá trị GD: ${analysis.statistics.total.moneyFlow.toLocaleString('vi-VN')} Xu\n`;
+                    message += `📈 Số lệnh hôm nay: ${analysis.statistics.daily.transactions}\n`;
+                    message += `💎 Khối lượng: ${analysis.statistics.daily.volume.toLocaleString('vi-VN')} CP\n`;
+                    message += `➡️ Tiền vào: ${analysis.statistics.daily.moneyIn.toLocaleString('vi-VN')} Xu\n`;
+                    message += `⬅️ Tiền ra: ${analysis.statistics.daily.moneyOut.toLocaleString('vi-VN')} Xu\n`;
+                    message += `📊 Dòng tiền thuần: ${analysis.statistics.daily.netFlow.toLocaleString('vi-VN')} Xu\n\n`;
+
                     message += "\n💎 CỔ PHIẾU KHÁC:\n";
                     Object.entries(overview.stocks)
                         .filter(([symbol]) => 

@@ -29,15 +29,12 @@ const { updateBalance } = require('../utils/currencies');
 
 const VIP_REWARDS = {
     1: {
-        bonus: 500000,
         name: "VIP BRONZE"
     },
     2: {
-        bonus: 1500000,
         name: "VIP SILVER" 
     },
     3: {
-        bonus: 5000000,
         name: "VIP GOLD"
     }
 };
@@ -89,28 +86,30 @@ module.exports = {
                 }
 
                 const vipPackage = VIP_REWARDS[packageId];
+          
+                const duration = packageId === 3 ? 37 : 30; 
+                
                 vipData.users[userID] = {
                     packageId: packageId,
                     name: vipPackage.name,
-                    expireTime: Date.now() + (30 * 24 * 60 * 60 * 1000), 
+                    expireTime: Date.now() + (duration * 24 * 60 * 60 * 1000),
                     benefits: getBenefits(packageId)
                 };
 
                 try {
-                    await updateBalance(userID, vipPackage.bonus);
                     saveVipData(vipData);
 
+                    const durationText = packageId === 3 ? "37 ngày (30+7 bonus)" : "30 ngày";
                     return api.sendMessage(
                         `✅ Đã set ${vipPackage.name} cho ID: ${userID}\n` +
-                        `⏳ Hết hạn: ${new Date(vipData.users[userID].expireTime).toLocaleString('vi-VN')}\n` +
-                        `💰 Đã tặng: ${vipPackage.bonus.toLocaleString('vi-VN')} Xu`, 
+                        `⏳ Thời hạn: ${durationText}\n` +
+                        `📅 Hết hạn: ${new Date(vipData.users[userID].expireTime).toLocaleString('vi-VN')}`,
                         threadID, messageID
                     );
                 } catch (error) {
-                    console.error("Error adding bonus:", error);
+                    console.error("Error setting VIP:", error);
                     return api.sendMessage(
-                        `❌ Có lỗi xảy ra khi tặng xu thưởng!\n` +
-                        `✅ Đã set ${vipPackage.name} thành công`,
+                        `❌ Có lỗi xảy ra khi set VIP!`,
                         threadID, messageID
                     );
                 }

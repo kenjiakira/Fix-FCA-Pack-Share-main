@@ -121,13 +121,11 @@ module.exports = {
             };
         }
 
-        // Validate rod data
         if (!fishingItems[data[userID].rod]) {
             data[userID].rod = defaultRod.name;
             data[userID].rodDurability = defaultRod.durability;
         }
 
-        // Ensure rod durability is valid
         const currentRod = fishingItems[data[userID].rod];
         if (!currentRod || typeof data[userID].rodDurability !== 'number' || 
             data[userID].rodDurability < 0 || 
@@ -136,17 +134,14 @@ module.exports = {
             data[userID].rodDurability = defaultRod.durability;
         }
 
-        // Validate inventory
         if (!Array.isArray(data[userID].inventory)) {
             data[userID].inventory = ["Cần trúc"];
         }
 
-        // Filter invalid items from inventory
         data[userID].inventory = data[userID].inventory.filter(item => 
             fishingItems[item] !== undefined
         );
 
-        // Ensure default rod is always in inventory
         if (!data[userID].inventory.includes("Cần trúc")) {
             data[userID].inventory.push("Cần trúc");
         }
@@ -356,13 +351,12 @@ module.exports = {
     },
 
     handleFishing: async function(api, event, location, playerData) {
-        // Validate fishing items and player data first
+    
         if (!fishingItems || !playerData) {
             await api.sendMessage("❌ Lỗi cấu hình hoặc dữ liệu người chơi!", event.threadID);
             return;
         }
 
-        // Validate current rod
         if (!fishingItems[playerData.rod]) {
             playerData.rod = "Cần trúc";
             playerData.rodDurability = fishingItems["Cần trúc"].durability;
@@ -378,10 +372,12 @@ module.exports = {
         }
 
         const vipBenefits = getVIPBenefits(event.senderID);
-        const COOLDOWN = vipBenefits?.fishingCooldown || 360000;
+        const COOLDOWN = vipBenefits?.fishingCooldown || 360000; 
         const vipIcon = vipBenefits ? 
             (vipBenefits.packageId === 3 ? '⭐⭐⭐' : 
              vipBenefits.packageId === 2 ? '⭐⭐' : '⭐') : '';
+
+        const cooldownMinutes = Math.ceil(COOLDOWN / 60000);
 
         if (allData[event.senderID].lastFished && now - allData[event.senderID].lastFished < COOLDOWN) {
             const waitTime = Math.ceil((COOLDOWN - (now - allData[event.senderID].lastFished)) / 1000);
@@ -550,7 +546,7 @@ module.exports = {
                     `✨ EXP: ${formatNumber(playerData.exp)}/${formatNumber(calculateRequiredExp(playerData.level))}\n` +
                     `🎒 Độ bền cần: ${playerData.rodDurability}/${fishingItems[playerData.rod].durability}\n` +
                     `💵 Số dư: ${formatNumber(getBalance(event.senderID))} Xu\n` +
-                    `⏳ Chờ 6 phút để câu tiếp!`,
+                    `⏳ Chờ ${cooldownMinutes} phút để câu tiếp!`,
                     event.threadID
                 );
 
@@ -570,7 +566,8 @@ module.exports = {
 
             const random = Math.random() * 100;
             const vipMultiplier = vipBenefits?.fishExpMultiplier || 1;
-            const vipBonus = vipBenefits ? (vipBenefits.packageId * 0.05) : 0;
+            
+            const vipBonus = vipBenefits ? (vipBenefits.packageId * 0.02) : 0;
 
             let chances = {
                 trash: location.fish.trash || 0,
@@ -582,12 +579,16 @@ module.exports = {
             };
                 
             if (vipBenefits) {
+              
                 chances.trash = Math.max(0, chances.trash * (1 - vipBenefits.trashReduction));
                 
-                const rareBonus = vipBenefits.rareBonus || 0;
+                const rareBonus = 0.1 + (vipBenefits.packageId * 0.15); 
                 chances.rare *= (1 + rareBonus);
                 chances.legendary *= (1 + rareBonus);
                 chances.mythical *= (1 + rareBonus);
+
+                chances.common *= (1 - rareBonus * 0.3);
+                chances.uncommon *= (1 - rareBonus * 0.2);
             }
 
             const total = Object.values(chances).reduce((a, b) => a + b, 0);

@@ -6,24 +6,30 @@ const vipDataPath = path.join(__dirname, '../commands/json/vip.json');
 const vipBenefits = {
     1: {
         name: "VIP BRONZE",
-        fishingCooldown: 300000,    
+        fishingCooldown: 300000, // 5 phút
         fishExpMultiplier: 2,      
         rareBonus: 0.1,           
-        trashReduction: 0.2       
+        trashReduction: 0.2,
+        stolenProtection: 0.3, // Bảo vệ 30% xu khi bị trộm
+        stolenCooldown: 720000 // 12 phút
     },
     2: {
         name: "VIP SILVER",
-        fishingCooldown: 240000,    
+        fishingCooldown: 240000, // 4 phút
         fishExpMultiplier: 3,   
         rareBonus: 0.2,         
-        trashReduction: 0.4       
+        trashReduction: 0.4,
+        stolenProtection: 0.6, // Bảo vệ 60% xu khi bị trộm
+        stolenCooldown: 600000 // 10 phút
     },
     3: {
         name: "VIP GOLD",
-        fishingCooldown: 120000,    
+        fishingCooldown: 120000, // 2 phút
         fishExpMultiplier: 4,    
         rareBonus: 0.3,            
-        trashReduction: 0.6    
+        trashReduction: 0.6,
+        stolenProtection: 1.0, // Bảo vệ 100% xu khi bị trộm
+        stolenCooldown: 480000 // 8 phút
     }
 };
 
@@ -36,7 +42,9 @@ const defaultBenefits = {
     packageId: 0,
     name: "No VIP",
     rareBonus: 0,
-    trashReduction: 0
+    trashReduction: 0,
+    stolenProtection: 0,
+    stolenCooldown: 900000 // 15 phút mặc định
 };
 
 function checkAndRemoveExpiredVIP() {

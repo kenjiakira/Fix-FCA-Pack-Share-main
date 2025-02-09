@@ -1,4 +1,5 @@
 const { getBalance, updateBalance, updateQuestProgress } = require('../utils/currencies');
+const { getVIPBenefits } = require('../utils/vipCheck');
 
 const MIN_STEAL_PERCENT = 0.08;
 const MAX_STEAL_PERCENT = 0.20;
@@ -22,14 +23,17 @@ module.exports = {
     onLaunch: async ({ api, event }) => {
         const { threadID, senderID } = event;
 
+        const vipBenefits = getVIPBenefits(senderID);
+        const COOLDOWN = vipBenefits?.stolenCooldown || STEAL_COOLDOWN;
+
         const now = Date.now();
         const lastStealTime = stealCooldowns.get(senderID) || 0;
-        const timeLeft = STEAL_COOLDOWN - (now - lastStealTime);
+        const timeLeft = COOLDOWN - (now - lastStealTime);
 
         if (timeLeft > 0) {
             const minutes = Math.ceil(timeLeft / 60000);
             return api.sendMessage(
-                `⏳ Vui lòng đợi ${minutes} phút nữa để có thể trộm tiếp!`,
+                `⏳ Vui lòng đợi ${minutes} phút nữa để có thể trộm tiếp!${vipBenefits ? `\n👑 VIP ${vipBenefits.name} giảm thời gian chờ` : ''}`,
                 threadID
             );
         }
@@ -58,6 +62,17 @@ module.exports = {
                 );
             }
 
+            const victimVipBenefits = getVIPBenefits(victimID);
+            const protection = victimVipBenefits?.stolenProtection || 0;
+
+            if (protection >= 1) {
+                return api.sendMessage(
+                    "❌ Không thể trộm từ người này!\n" +
+                    "👑 Họ được bảo vệ bởi VIP GOLD",
+                    threadID
+                );
+            }
+
             stealCooldowns.set(senderID, now);
 
             let successChance = 0.5; 
@@ -72,10 +87,18 @@ module.exports = {
 
             if (success) {
                 const stealPercent = MIN_STEAL_PERCENT + (Math.random() * (MAX_STEAL_PERCENT - MIN_STEAL_PERCENT));
-                const stealAmount = Math.min(
-                    Math.floor(victimBalance * stealPercent),
+                let stealAmount = Math.min(
+                    Math.floor(victimBalance * stealPercent * (1 - protection)), // Giảm số tiền trộm được theo bảo vệ VIP
                     MAX_STEAL
                 );
+
+                if (protection > 0) {
+                    const protectedAmount = Math.floor(victimBalance * stealPercent * protection);
+                    await api.sendMessage(
+                        `🛡️ VIP ${victimVipBenefits.name} đã bảo vệ ${protectedAmount.toLocaleString()}đ!`,
+                        threadID
+                    );
+                }
 
                 updateBalance(victimID, -stealAmount);
                 updateBalance(event.senderID, stealAmount);
