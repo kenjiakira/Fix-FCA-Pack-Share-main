@@ -19,13 +19,25 @@ module.exports = {
     lastPlayed: {},
 
     generateDiceResults: function(senderID, playerChoice, betType, balance) {
+        const stats = gameLogic.playerStats[senderID] || {};
+        const dailyStats = gameLogic.getDailyStats(senderID);
+        const pattern = gameLogic.analyzePlayerPattern(senderID);
+        
+        const isDailyLimitReached = dailyStats.winAmount >= gameLogic.DAILY_WIN_LIMIT;
+        
         const winChance = gameLogic.calculateWinChance(senderID, {
             isAllIn: betType === 'allin',
             balance: balance,
-            gameType: 'taixiu'
+            gameType: 'taixiu',
+            betType: isDailyLimitReached ? 'restricted' : betType,
+            pattern: pattern
         });
-        
-        const shouldWin = Math.random() < winChance;
+
+        let shouldWin = Math.random() < winChance;
+         
+        if (isDailyLimitReached) shouldWin = Math.random() < 0.15;
+        if (pattern.isExploiting) shouldWin = Math.random() < 0.25;
+
         let dice1, dice2, dice3, total, result;
         
         do {
@@ -82,7 +94,7 @@ module.exports = {
         try {
             const { threadID, messageID, senderID } = event;
             const balance = getBalance(senderID);
-            let refundProcessed = false;  // Add refund tracking flag
+            let refundProcessed = false;  
 
             if (target.length < 2) {
                 return api.sendMessage("TÀI XỈU \n━━━━━━━━━━━━━━━━━━\n\nHướng dẫn: .tx tài/xỉu <số tiền> hoặc\n.tx tài/xỉu allin", threadID, messageID);
@@ -160,19 +172,48 @@ module.exports = {
     },
 
     async createDiceImage(dice1, dice2, dice3) {
-        const getDiceImagePath = (num) => path.join(__dirname, 'cache', 'images', 'dice', `dice${num}.png`);
-        const images = await Promise.all([dice1, dice2, dice3].map(n => loadImage(getDiceImagePath(n))));
-        
-        const canvas = createCanvas(images[0].width * 3, images[0].height);
-        const ctx = canvas.getContext('2d');
-        images.forEach((img, i) => ctx.drawImage(img, i * img.width, 0));
-        
-        const outputPath = path.join(__dirname, 'cache', 'images', 'dice', 'combined.png');
-        fs.writeFileSync(outputPath, canvas.toBuffer('image/png'));
-        
-        const stream = fs.createReadStream(outputPath);
-        stream.on('end', () => fs.unlink(outputPath, err => err && console.error('Cleanup error:', err)));
-        
-        return stream;
+        try {
+            const diceImagesDir = path.join(__dirname, 'dice');
+            const tempDir = path.join(__dirname, 'temp');
+            
+            [diceImagesDir, tempDir].forEach(dir => {
+                if (!fs.existsSync(dir)) {
+                    fs.mkdirSync(dir, { recursive: true });
+                }
+            });
+
+            const getDiceImagePath = (num) => {
+                const imagePath = path.join(diceImagesDir, `dice${num}.png`);
+                if (!fs.existsSync(imagePath)) {
+                    throw new Error(`Dice image not found: dice${num}.png`);
+                }
+                return imagePath;
+            };
+
+            const diceImages = await Promise.all(
+                [dice1, dice2, dice3].map(async n => {
+                    try {
+                        return await loadImage(getDiceImagePath(n));
+                    } catch (err) {
+                        throw new Error(`Failed to load dice${n}.png: ${err.message}`);
+                    }
+                })
+            );
+
+            const canvas = createCanvas(diceImages[0].width * 3, diceImages[0].height);
+            const ctx = canvas.getContext('2d');
+            diceImages.forEach((img, i) => ctx.drawImage(img, i * img.width, 0));
+
+            const outputPath = path.join(tempDir, 'combined.png');
+            fs.writeFileSync(outputPath, canvas.toBuffer('image/png'));
+
+            const stream = fs.createReadStream(outputPath);
+            stream.on('end', () => fs.unlink(outputPath, err => err && console.error('Cleanup error:', err)));
+
+            return stream;
+        } catch (error) {
+            console.error('Image processing error:', error);
+            throw error;
+        }
     }
 };

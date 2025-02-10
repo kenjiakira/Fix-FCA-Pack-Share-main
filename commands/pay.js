@@ -50,22 +50,28 @@ async function createBillImage(senderName, recipientName, amount, tax, total, re
     const canvas = createCanvas(900, 700);
     const ctx = canvas.getContext('2d');
 
-    const gradient = ctx.createLinearGradient(0, 0, 900, 700);
-    gradient.addColorStop(0, '#1a237e');
-    gradient.addColorStop(1, '#0d47a1');
-    ctx.fillStyle = gradient;
+    const bgGradient = ctx.createLinearGradient(0, 0, 900, 700);
+    bgGradient.addColorStop(0, '#0a1128');
+    bgGradient.addColorStop(1, '#1a237e');
+    ctx.fillStyle = bgGradient;
     ctx.fillRect(0, 0, 900, 700);
 
-    ctx.strokeStyle = 'rgba(255, 255, 255, 0.1)';
-    for (let i = 0; i < 900; i += 30) {
+    ctx.strokeStyle = 'rgba(255, 255, 255, 0.05)';
+    for (let i = 0; i < 900; i += 20) {
         ctx.beginPath();
         ctx.moveTo(i, 0);
-        ctx.lineTo(i, 700);
+        ctx.lineTo(i + 100, 700);
         ctx.stroke();
     }
 
-    ctx.fillStyle = 'rgba(255, 255, 255, 0.95)';
+    ctx.save();
+    ctx.shadowColor = 'rgba(0, 0, 0, 0.5)';
+    ctx.shadowBlur = 20;
+    ctx.shadowOffsetX = 0;
+    ctx.shadowOffsetY = 10;
+    ctx.fillStyle = 'rgba(255, 255, 255, 0.98)';
     roundRect(ctx, 50, 50, 800, 600, 20);
+    ctx.restore();
 
     const headerGradient = ctx.createLinearGradient(50, 50, 850, 150);
     headerGradient.addColorStop(0, '#1565c0');
@@ -73,37 +79,53 @@ async function createBillImage(senderName, recipientName, amount, tax, total, re
     ctx.fillStyle = headerGradient;
     roundRect(ctx, 50, 50, 800, 100, { tl: 20, tr: 20, br: 0, bl: 0 });
 
+    ctx.beginPath();
+    ctx.arc(120, 100, 30, 0, Math.PI * 2);
+    ctx.fillStyle = '#ffffff';
+    ctx.fill();
     ctx.font = 'bold 40px Arial';
+    ctx.fillStyle = '#1565c0';
     ctx.textAlign = 'center';
+    ctx.fillText('$', 120, 115);
+
+    ctx.font = 'bold 40px Arial';
     ctx.fillStyle = '#ffffff';
     ctx.fillText('BIÊN LAI CHUYỂN KHOẢN', 450, 110);
 
-    ctx.fillStyle = '#f5f5f5';
+    const contentGradient = ctx.createLinearGradient(80, 180, 80, 580);
+    contentGradient.addColorStop(0, '#ffffff');
+    contentGradient.addColorStop(1, '#f8f9fa');
+    ctx.fillStyle = contentGradient;
     roundRect(ctx, 80, 180, 740, 400, 15);
 
-    ctx.textAlign = 'left';
     const startY = 230;
     const lineHeight = 60;
 
-    const drawField = (label, value, y) => {
+    const drawField = (label, value, y, isHighlight = false) => {
+       
         ctx.fillStyle = '#424242';
         ctx.font = 'bold 22px Arial';
+        ctx.textAlign = 'left';
         ctx.fillText(label, 100, y);
         
-        ctx.fillStyle = '#1565c0';
-        ctx.font = '24px Arial';
+        ctx.fillStyle = isHighlight ? '#1565c0' : '#2e7d32';
+        ctx.font = isHighlight ? 'bold 24px Arial' : '24px Arial';
         ctx.fillText(value, 300, y);
     };
 
     const now = new Date();
-    ctx.font = '18px Arial';
+    ctx.font = 'bold 18px Arial';
     ctx.fillStyle = '#757575';
-    ctx.fillText(`${now.toLocaleDateString()} - ${now.toLocaleTimeString()}`, 100, 210);
+    ctx.fillText(`${now.toLocaleDateString()} - ${now.toLocaleTimeString()}`, 210, 210); 
 
     drawField('Người gửi:', senderName, startY);
     drawField('Người nhận:', recipientName, startY + lineHeight);
-    
-    ctx.strokeStyle = '#e0e0e0';
+
+    const lineGradient = ctx.createLinearGradient(100, 0, 720, 0);
+    lineGradient.addColorStop(0, '#e3f2fd');
+    lineGradient.addColorStop(0.5, '#1565c0');
+    lineGradient.addColorStop(1, '#e3f2fd');
+    ctx.strokeStyle = lineGradient;
     ctx.lineWidth = 2;
     ctx.beginPath();
     ctx.moveTo(100, startY + lineHeight * 1.5);
@@ -118,20 +140,18 @@ async function createBillImage(senderName, recipientName, amount, tax, total, re
     ctx.fillText(`${amount.toLocaleString()} Xu`, 300, startY + lineHeight * 2);
 
     drawField('Phí giao dịch:', `${tax.toLocaleString()} Xu`, startY + lineHeight * 3);
-    
+
     ctx.fillStyle = '#424242';
     ctx.font = 'bold 26px Arial';
     ctx.fillText('Tổng tiền:', 100, startY + lineHeight * 4);
-    ctx.fillStyle = '#d32f2f';
+    const totalGradient = ctx.createLinearGradient(300, 0, 600, 0);
+    totalGradient.addColorStop(0, '#d32f2f');
+    totalGradient.addColorStop(1, '#f44336');
+    ctx.fillStyle = totalGradient;
     ctx.font = 'bold 34px Arial';
     ctx.fillText(`${total.toLocaleString()} Xu`, 300, startY + lineHeight * 4);
 
-    ctx.fillStyle = '#424242';
-    ctx.font = 'bold 22px Arial';
-    ctx.fillText('Số dư còn lại:', 100, startY + lineHeight * 5);
-    ctx.fillStyle = '#1565c0';
-    ctx.font = 'bold 26px Arial';
-    ctx.fillText(`${remainingBalance.toLocaleString()} Xu`, 300, startY + lineHeight * 5);
+    drawField('Số dư còn lại:', `${remainingBalance.toLocaleString()} Xu`, startY + lineHeight * 5, true);
 
     ctx.font = 'italic 20px Arial';
     ctx.fillStyle = '#757575';
@@ -139,6 +159,8 @@ async function createBillImage(senderName, recipientName, amount, tax, total, re
     ctx.fillText('Cảm ơn bạn đã sử dụng dịch vụ!', 450, 620);
 
     const transactionId = Math.random().toString(36).substring(2, 15);
+    ctx.fillStyle = '#f5f5f5';
+    roundRect(ctx, 300, 625, 300, 30, 15);
     ctx.font = '16px Arial';
     ctx.fillStyle = '#9e9e9e';
     ctx.fillText(`Mã giao dịch: ${transactionId}`, 450, 645);

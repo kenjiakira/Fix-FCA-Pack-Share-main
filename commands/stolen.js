@@ -6,7 +6,7 @@ const MAX_STEAL_PERCENT = 0.20;
 const MAX_STEAL = 35000;
 const MIN_VICTIM_BALANCE = 15000;
 const STEAL_COOLDOWN = 900000;
-const MAX_PENALTY = 25000; 
+const MAX_PENALTY = 25000;
 
 const stealCooldowns = new Map();
 
@@ -23,21 +23,6 @@ module.exports = {
     onLaunch: async ({ api, event }) => {
         const { threadID, senderID } = event;
 
-        const vipBenefits = getVIPBenefits(senderID);
-        const COOLDOWN = vipBenefits?.stolenCooldown || STEAL_COOLDOWN;
-
-        const now = Date.now();
-        const lastStealTime = stealCooldowns.get(senderID) || 0;
-        const timeLeft = COOLDOWN - (now - lastStealTime);
-
-        if (timeLeft > 0) {
-            const minutes = Math.ceil(timeLeft / 60000);
-            return api.sendMessage(
-                `⏳ Vui lòng đợi ${minutes} phút nữa để có thể trộm tiếp!${vipBenefits ? `\n👑 VIP ${vipBenefits.name} giảm thời gian chờ` : ''}`,
-                threadID
-            );
-        }
-
         try {
             let victimID;
             if (event.type === 'message_reply') {
@@ -48,8 +33,28 @@ module.exports = {
                 return api.sendMessage("Reply tin nhắn hoặc tag người cần trộm!", event.threadID);
             }
 
-            if (victimID === event.senderID) {
-                return api.sendMessage("❌ Không thể trộm chính mình!", event.threadID);
+            const victimVipBenefits = getVIPBenefits(victimID);
+            if (victimVipBenefits?.stolenProtection >= 1.0) {
+                return api.sendMessage(
+                    `❌ Không thể trộm từ người này!\n` +
+                    `👑 Họ được bảo vệ hoàn toàn bởi ${victimVipBenefits.name}`,
+                    threadID
+                );
+            }
+
+            const vipBenefits = getVIPBenefits(senderID);
+            const COOLDOWN = vipBenefits?.stolenCooldown || STEAL_COOLDOWN;
+
+            const now = Date.now();
+            const lastStealTime = stealCooldowns.get(senderID) || 0;
+            const timeLeft = COOLDOWN - (now - lastStealTime);
+
+            if (timeLeft > 0) {
+                const minutes = Math.ceil(timeLeft / 60000);
+                return api.sendMessage(
+                    `⏳ Vui lòng đợi ${minutes} phút nữa để có thể trộm tiếp!${vipBenefits ? `\n👑 VIP ${vipBenefits.name} giảm thời gian chờ` : ''}`,
+                    threadID
+                );
             }
 
             const userBalance = getBalance(event.senderID);
@@ -58,17 +63,6 @@ module.exports = {
             if (victimBalance < MIN_VICTIM_BALANCE) {
                 return api.sendMessage(
                     "❌ Đối phương cần ít nhất 15,000đ để có thể trộm!",
-                    threadID
-                );
-            }
-
-            const victimVipBenefits = getVIPBenefits(victimID);
-            const protection = victimVipBenefits?.stolenProtection || 0;
-
-            if (protection >= 1) {
-                return api.sendMessage(
-                    "❌ Không thể trộm từ người này!\n" +
-                    "👑 Họ được bảo vệ bởi VIP GOLD",
                     threadID
                 );
             }
@@ -88,12 +82,13 @@ module.exports = {
             if (success) {
                 const stealPercent = MIN_STEAL_PERCENT + (Math.random() * (MAX_STEAL_PERCENT - MIN_STEAL_PERCENT));
                 let stealAmount = Math.min(
-                    Math.floor(victimBalance * stealPercent * (1 - protection)), // Giảm số tiền trộm được theo bảo vệ VIP
+                    Math.floor(victimBalance * stealPercent * (1 - (victimVipBenefits?.stolenProtection || 0))),
                     MAX_STEAL
                 );
 
-                if (protection > 0) {
-                    const protectedAmount = Math.floor(victimBalance * stealPercent * protection);
+                // Thông báo nếu VIP bảo vệ một phần
+                if (victimVipBenefits?.stolenProtection > 0) {
+                    const protectedAmount = Math.floor(victimBalance * stealPercent * victimVipBenefits.stolenProtection);
                     await api.sendMessage(
                         `🛡️ VIP ${victimVipBenefits.name} đã bảo vệ ${protectedAmount.toLocaleString()}đ!`,
                         threadID

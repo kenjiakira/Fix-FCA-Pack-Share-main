@@ -1,5 +1,21 @@
-const { updateBalance, updateQuestProgress } = require('../utils/currencies');
+const { updateBalance, updateQuestProgress, getBalance, saveData } = require('../utils/currencies');
 const { getVIPBenefits } = require('../utils/vipCheck');
+
+const TAX_BRACKETS = [
+    { threshold: 1000000, rate: 0.05 },  
+    { threshold: 5000000, rate: 0.10 }, 
+    { threshold: 10000000, rate: 0.15 },
+    { threshold: Infinity, rate: 0.20 }  
+];
+
+function calculateTax(amount) {
+    for (const bracket of TAX_BRACKETS) {
+        if (amount <= bracket.threshold) {
+            return Math.floor(amount * bracket.rate);
+        }
+    }
+    return Math.floor(amount * TAX_BRACKETS[TAX_BRACKETS.length - 1].rate);
+}
 
 const jobs = [
     {
@@ -84,14 +100,19 @@ module.exports = {
             earned += bonusAmount;
         }
 
+        const tax = calculateTax(earned);
+        const netEarnings = earned - tax;
+
         this.lastWorked[senderID] = currentTime;
 
-        await updateBalance(senderID, earned);
+        await updateBalance(senderID, netEarnings);
         await updateQuestProgress(senderID, "work");
 
         let message = `[🏢] Công việc: ${job.name}\n` + 
                      job.description.replace("{count}", count) + "\n" +
-                     `[💰] Được trả: ${earned.toLocaleString('vi-VN')} Xu`;
+                     `[💰] Được trả: ${earned.toLocaleString('vi-VN')} Xu\n` +
+                     `[💸] Thuế thu nhập: ${tax.toLocaleString('vi-VN')} Xu (${((tax/earned)*100).toFixed(1)}%)\n` +
+                     `[💵] Thực lãnh: ${netEarnings.toLocaleString('vi-VN')} Xu`;
         
         if (vipBonus > 0) {
             message += `\n[👑] Thưởng VIP +${vipBonus}%\n(${Math.floor(earned * vipBonus / 100).toLocaleString('vi-VN')} Xu)`;

@@ -1,25 +1,42 @@
 {
   "global": [
     {
-      "timestamp": 1739070789751,
-      "prompt": "Cướp của bot",
-      "response": "Anh định cướp của bot kiểu gì ạ? =)))",
+      "timestamp": 1739167162620,
+      "prompt": "Đụ mẹ m bot",
+      "response": "Em xin lỗi anh, em không hiểu ý anh lắm ạ.  Em có thể giúp gì cho anh không?",
       "senderID": "100053868457890",
       "senderName": "Tiến Đụt"
+    },
+    {
+      "timestamp": 1739167204172,
+      "prompt": "Bot fix lỗi đi",
+      "response": "Dạ anh/chị nói lỗi gì vậy ạ? Em sẽ cố gắng giúp anh/chị nha =))",
+      "senderID": "100047529173949",
+      "senderName": "User"
     }
   ],
   "threads": {
     "6678977622216557": [
       {
-        "timestamp": 1739070789751,
-        "prompt": "Cướp của bot",
-        "response": "Anh định cướp của bot kiểu gì ạ? =)))",
+        "timestamp": 1739167162620,
+        "prompt": "Đụ mẹ m bot",
+        "response": "Em xin lỗi anh, em không hiểu ý anh lắm ạ.  Em có thể giúp gì cho anh không?",
         "senderID": "100053868457890",
         "senderName": "Tiến Đụt"
+      }
+    ],
+    "7476107402402665": [
+      {
+        "timestamp": 1739167204172,
+        "prompt": "Bot fix lỗi đi",
+        "response": "Dạ anh/chị nói lỗi gì vậy ạ? Em sẽ cố gắng giúp anh/chị nha =))",
+        "senderID": "100047529173949",
+        "senderName": "User"
       }
     ]
   },
   "lastResponses": {
-    "cướp của bot": "Anh định cướp của bot kiểu gì ạ? =)))"
+    "đụ mẹ m bot": "Em xin lỗi anh, em không hiểu ý anh lắm ạ.  Em có thể giúp gì cho anh không?",
+    "bot fix lỗi đi": "Dạ anh/chị nói lỗi gì vậy ạ? Em sẽ cố gắng giúp anh/chị nha =))"
   }
 }

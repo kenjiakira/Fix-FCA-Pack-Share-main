@@ -13,7 +13,7 @@ module.exports = {
   },
   river: {
       name: "Sông",
-      cost: 5000,
+      cost: 2500,
       fish: {
           common: 50,
           uncommon: 35,
@@ -25,7 +25,7 @@ module.exports = {
   },
   ocean: {
       name: "Biển",
-      cost: 10000,
+      cost: 5000,
       fish: {
           common: 30,
           uncommon: 45,
@@ -37,7 +37,7 @@ module.exports = {
   },
   deepSea: {
       name: "Biển sâu",
-      cost: 50000,
+      cost: 25000,
       fish: {
           trash: 1,
           common: 20,
@@ -49,7 +49,7 @@ module.exports = {
   },
   abyss: {
       name: "Vực Sâu",
-      cost: 200000,
+      cost: 100000,
       fish: {
           trash: 0,
           common: 10,
@@ -61,7 +61,7 @@ module.exports = {
   },
   atlantis: {
       name: "Atlantis",
-      cost: 500000,
+      cost: 250000,
       fish: {
           trash: 0,
           common: 5,
@@ -73,7 +73,7 @@ module.exports = {
   },
   spaceOcean: {
       name: "Đại Dương Vũ Trụ",
-      cost: 1000000,
+      cost: 500000,
       fish: {
           trash: 0,
           common: 0,
@@ -85,7 +85,7 @@ module.exports = {
   },
   dragonRealm: {
       name: "Thủy Cung Rồng",
-      cost: 2000000,
+      cost: 1000000,
       fish: {
           trash: 0,
           common: 0,

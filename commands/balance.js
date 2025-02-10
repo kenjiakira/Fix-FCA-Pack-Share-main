@@ -64,10 +64,15 @@ module.exports = {
             }
 
             let marketAlert = '';
-            const analysis = market.getMarketAnalysis();
-            if (analysis.topGainers.length > 0) {
-                const [symbol, data] = analysis.topGainers[0];
-                marketAlert = `\n📈 ${symbol}: +${data.change.toFixed(1)}%`;
+            try {
+                const analysis = await market.getMarketAnalysis();
+                if (analysis?.topGainers?.length > 0) {
+                    const [symbol, data] = analysis.topGainers[0];
+                    marketAlert = `\n📈 ${symbol}: +${data.change.toFixed(1)}%`;
+                }
+            } catch (error) {
+                console.error("Market analysis error:", error);
+                marketAlert = '';
             }
 
             const response = 

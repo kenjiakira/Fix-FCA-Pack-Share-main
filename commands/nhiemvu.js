@@ -28,29 +28,30 @@ module.exports = {
 
         if (completedQuests.length > 0) {
             let totalReward = completedQuests.reduce((sum, [_, quest]) => sum + quest.reward, 0);
+            let bonusAmount = 0;
             
-            if (vipBenefits) {
+            if (vipBenefits && vipBenefits.packageId > 0) {
                 const vipBonus = {
                     1: 0.2, 
                     2: 0.5,
                     3: 1.0
                 }[vipBenefits.packageId] || 0;
 
-                const bonusAmount = Math.floor(totalReward * vipBonus);
+                bonusAmount = Math.floor(totalReward * vipBonus);
                 totalReward += bonusAmount;
-
-                completedQuests.forEach(([questId]) => userQuests.completed[questId] = true);
-                updateBalance(senderID, totalReward);
-                setRewardClaimed(senderID);
-
-                return api.sendMessage(
-                    `🎉 Chúc mừng! Bạn đã nhận được ${formatNumber(totalReward)} Xu!\n` +
-                    `${vipBenefits ? `👑 Thưởng VIP +${vipBonus * 100}%: ${formatNumber(bonusAmount)} Xu\n` : ''}` +
-                    `📝 Đã hoàn thành ${completedQuests.length} nhiệm vụ.\n` +
-                    `⭐ Tiếp tục cố gắng nhé!`,
-                    threadID, messageID
-                );
             }
+
+            completedQuests.forEach(([questId]) => userQuests.completed[questId] = true);
+            updateBalance(senderID, totalReward);
+            setRewardClaimed(senderID);
+
+            return api.sendMessage(
+                `🎉 Chúc mừng! Bạn đã nhận được ${formatNumber(totalReward)} Xu!\n` +
+                `${bonusAmount > 0 ? `👑 Thưởng VIP +${(bonusAmount/totalReward*100).toFixed(0)}%: ${formatNumber(bonusAmount)} Xu\n` : ''}` +
+                `📝 Đã hoàn thành ${completedQuests.length} nhiệm vụ.\n` +
+                `⭐ Tiếp tục cố gắng nhé!`,
+                threadID, messageID
+            );
         }
 
         let message = "📋 NHIỆM VỤ HÀNG NGÀY\n━━━━━━━━━━━━━━━━━━\n\n";

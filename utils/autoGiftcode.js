@@ -131,10 +131,24 @@ async function sendGiftcodeAnnouncement(api, code, reward) {
 
 function scheduleAutoGiftcode(api) {
     schedule.scheduleJob('0 12 * * *', async () => {
-        const reward = Math.floor(Math.random() * 5000) + 5000;
-        const code = createGiftcode(reward, "Giftcode tự động hàng ngày");
+   
+        const minReward = 100000;
+        const maxReward = 500000;
+        const reward = Math.floor(Math.random() * (maxReward - minReward + 1)) + minReward;
         
+        const today = new Date();
+        if (today.getDay() === 0) { 
+            reward *= 2; 
+        }
+        
+        const code = createGiftcode(reward, "Giftcode tự động hàng ngày");
         await sendGiftcodeAnnouncement(api, code, reward);
+    });
+
+    schedule.scheduleJob('0 20 * * *', async () => {
+        const specialReward = Math.floor(Math.random() * 400000) + 600000; 
+        const code = createGiftcode(specialReward, "Giftcode đặc biệt buổi tối");
+        await sendGiftcodeAnnouncement(api, code, specialReward);
     });
 
     schedule.scheduleJob('0 * * * *', cleanExpiredCodes);

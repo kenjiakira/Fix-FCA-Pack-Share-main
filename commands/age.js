@@ -36,12 +36,12 @@ module.exports = {
       const waitMessage = await api.sendMessage("⏳ Đang phân tích khuôn mặt...", threadID);
 
       await Promise.all([
-        faceapi.nets.ssdMobilenetv1.loadFromDisk('./commands/cache/models'),
-        faceapi.nets.faceLandmark68Net.loadFromDisk('./commands/cache/models'),
-        faceapi.nets.faceRecognitionNet.loadFromDisk('./commands/cache/models'),
-        faceapi.nets.ageGenderNet.loadFromDisk('./commands/cache/models'),
-        faceapi.nets.faceExpressionNet.loadFromDisk('./commands/cache/models'),
-        faceapi.nets.tinyFaceDetector.loadFromDisk('./commands/cache/models')
+        faceapi.nets.ssdMobilenetv1.loadFromDisk('./commands/models'),
+        faceapi.nets.faceLandmark68Net.loadFromDisk('./commands/models'),
+        faceapi.nets.faceRecognitionNet.loadFromDisk('./commands/models'),
+        faceapi.nets.ageGenderNet.loadFromDisk('./commands/cache/'),
+        faceapi.nets.faceExpressionNet.loadFromDisk('./commands/models'),
+        faceapi.nets.tinyFaceDetector.loadFromDisk('./commands/models')
       ]);
 
       const imageUrl = attachment.url;

@@ -6,30 +6,30 @@ const vipDataPath = path.join(__dirname, '../commands/json/vip.json');
 const vipBenefits = {
     1: {
         name: "VIP BRONZE",
-        fishingCooldown: 300000, // 5 phút
+        fishingCooldown: 300000, 
         fishExpMultiplier: 2,      
         rareBonus: 0.1,           
         trashReduction: 0.2,
-        stolenProtection: 0.3, // Bảo vệ 30% xu khi bị trộm
-        stolenCooldown: 720000 // 12 phút
+        stolenProtection: 0.3, 
+        stolenCooldown: 720000 
     },
     2: {
         name: "VIP SILVER",
-        fishingCooldown: 240000, // 4 phút
+        fishingCooldown: 240000, 
         fishExpMultiplier: 3,   
         rareBonus: 0.2,         
         trashReduction: 0.4,
-        stolenProtection: 0.6, // Bảo vệ 60% xu khi bị trộm
-        stolenCooldown: 600000 // 10 phút
+        stolenProtection: 0.6,
+        stolenCooldown: 600000 
     },
     3: {
         name: "VIP GOLD",
-        fishingCooldown: 120000, // 2 phút
+        fishingCooldown: 120000, 
         fishExpMultiplier: 4,    
         rareBonus: 0.3,            
         trashReduction: 0.6,
-        stolenProtection: 1.0, // Bảo vệ 100% xu khi bị trộm
-        stolenCooldown: 480000 // 8 phút
+        stolenProtection: 1.0,
+        stolenCooldown: 480000 
     }
 };
 
@@ -74,13 +74,18 @@ function getVIPBenefits(userId) {
         if (vipData.users && vipData.users[userId]) {
             const userData = vipData.users[userId];
             if (userData.expireTime > Date.now()) {
-                // Đảm bảo luôn có đủ benefits và không bị ghi đè về 1
-                return {
+            
+                const benefits = {
                     ...defaultBenefits,
                     ...userData.benefits,
-                    fishExpMultiplier: userData.benefits.fishExpMultiplier || defaultBenefits.fishExpMultiplier,
                     packageId: userData.packageId
                 };
+
+                if (userData.packageId === 3) {
+                    benefits.stolenProtection = 1.0;
+                }
+
+                return benefits;
             }
         }
         return defaultBenefits;

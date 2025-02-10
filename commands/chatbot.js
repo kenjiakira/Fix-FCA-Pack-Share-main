@@ -238,34 +238,6 @@ const getHonorificContext = (userName, userAge, isAdmin) => {
     return { xung, goi };
 };
 
-const getAllCommands = () => {
-    const cmdsPath = path.join(__dirname, '');
-    const commandFiles = fs.readdirSync(cmdsPath).filter(file => file.endsWith('.js'));
-    const commands = {};
-
-    commandFiles.forEach(file => {
-        try {
-            const command = require(path.join(cmdsPath, file));
-            if (!command.hide) {
-                const name = command.name.toLowerCase();
-                commands[name] = {
-                    name: command.name,
-                    info: command.info || "Không có mô tả",
-                    usage: command.usages || command.name,
-                    permission: command.usedby === 0 ? "Thành viên" : 
-                              command.usedby === 1 ? "Quản trị viên nhóm" :
-                              command.usedby === 2 ? "Quản trị viên bot" : "Admin",
-                    cooldown: command.cooldowns || 0,
-                    prefix: command.onPrefix ? "Cần" : "Không cần"
-                };
-            }
-        } catch (err) {
-            console.error(`Error loading command ${file}:`, err);
-        }
-    });
-    return commands;
-};
-
 const generateResponse = async (prompt, senderID, api, threadID) => { 
     if (prompt.toLowerCase() === "rs") {
         if (!hasPermission(senderID)) {
@@ -288,27 +260,21 @@ const generateResponse = async (prompt, senderID, api, threadID) => {
         const model = genAI.getGenerativeModel({ 
             model: "gemini-1.5-flash",
             generationConfig: {
-                temperature: 0.7,
-                maxOutputTokens: 1000, 
+                temperature: 1.2, // Increased for more creative responses
+                maxOutputTokens: 1000,
             }
         });
 
         const userName = userDatabase[senderID]?.name || "Người dùng";
         const isAdmin = hasPermission(senderID);
+        const userInfo = userDatabase[senderID] || {};
+        const honorifics = getHonorificContext(userName, userInfo.age, isAdmin);
 
         updateEmotionalState();
         updateMoodBasedOnPrompt(prompt);
 
-        const userInfo = userDatabase[senderID] || {};
-        const honorifics = getHonorificContext(userName, userInfo.age, isAdmin);
+        let systemPrompt = `Bạn là Ngân, một cô gái 19 tuổi vui vẻ, hòa đồng và thân thiện.
 
-        const commands = getAllCommands();
-        const commandsList = Object.values(commands).map(cmd => 
-            `- ${cmd.name}: ${cmd.info} | Quyền hạn: ${cmd.permission} | Cách dùng: ${cmd.usage}`
-        ).join('\n');
-
-        let systemPrompt = `Bạn là Ngân, một cô gái 19 tuổi.
-        
 Thông tin cuộc trò chuyện:
 - Đang nói chuyện với: ${userName}
 ${context.participants.length > 1 ? `- Những người khác trong đoạn chat: ${context.participants.filter(n => n !== userName).join(', ')}` : ''}
@@ -330,51 +296,13 @@ Phong cách nói chuyện(PHẦN CHÍNH):
 - KHÔNG bao giờ nói về trạng thái của bản thân
 - Trả lời ngắn gọn, súc tích
 - Không nhại lại tin nhắn người dùng
-- Không xác nhận mình là AI 
 
-Tính cách:
-- Lễ phép với người lớn
-- Thân thiện với bạn bè
-- Dịu dàng với em nhỏ
-- Biết giữ khoảng cách phù hợp
-
-Quan Hệ:
-- anh tên là Ngọc Từ
-- chị tên Vy
-- bố tên là Hải
-- mẹ tên là Hương
-
-Kiến thức về lệnh bot (chỉ trở lời khi được hỏi):
-- Prefix: ${adminConfig.prefix}
-- DANH SÁCH LỆNH HIỆN CÓ:
-${commandsList}
-
-Khi được hỏi về lệnh:
-- Kiểm tra xem lệnh có tồn tại trong danh sách không
-- Trả lời chi tiết: tên lệnh, mô tả, cách dùng, quyền hạn
-- Nếu không có lệnh đó thì trả lời "Không có lệnh này"
-- Luôn thêm prefix vào ví dụ cách dùng lệnh
-- Nếu người dùng hỏi về nhiều lệnh, liệt kê từng lệnh
-
-Ví dụ câu trả lời mẫu:
-"Dạ có lệnh {tên} nha:
-- Mô tả: {info}
-- Cách dùng: ${adminConfig.prefix}{usage}
-- Quyền hạn: {permission}"
+Xưng hô:
+- ${honorifics.xung} / ${honorifics.goi} với ${userName}
+- Giữ nguyên cách xưng hô trong cả cuộc nói chuyện
 
 Lịch sử gần đây:
 ${context.history}`;
-
-        if (prompt.toLowerCase().includes('tin tức') || 
-            prompt.toLowerCase().includes('tin mới') ||
-            prompt.toLowerCase().includes('có gì mới')) {
-            await updateNews();
-            const recentNews = newsCache.vnexpress
-                .slice(0, 3)
-                .map(n => `${n.title}\n${n.description}`)
-                .join('\n\n');
-            systemPrompt += `\nTin tức mới nhất:\n${recentNews}`;
-        }
 
         const fullPrompt = `${systemPrompt}\n${userName}: ${prompt}\nNgan:`;
 
@@ -386,6 +314,7 @@ ${context.history}`;
         await saveLearnedResponse(prompt, response);
 
         return response;
+
     } catch (error) {
         console.error("Generation error:", error);
         throw error;
@@ -450,38 +379,6 @@ const updateUserInfo = async (senderID, info) => {
         console.error("Error updating user info:", error);
     }
 };
-
-let newsCache = {
-    vnexpress: [],
-    lastUpdate: 0
-};
-
-async function updateNews() {
-    try {
-        const now = Date.now();
-      
-        if (now - newsCache.lastUpdate < 30 * 60 * 1000) return;
-
-        const response = await axios.get('https://vnexpress.net/tin-tuc-24h');
-        const $ = cheerio.load(response.data);
-        const news = [];
-
-        $('.item-news').each((i, el) => {
-            if (i < 10) {
-                const title = $(el).find('.title-news a').text().trim();
-                const description = $(el).find('.description a').text().trim();
-                if (title && description) {
-                    news.push({ title, description });
-                }
-            }
-        });
-
-        newsCache.vnexpress = news;
-        newsCache.lastUpdate = now;
-    } catch (error) {
-        console.error("Error updating news:", error);
-    }
-}
 
 module.exports = {
     name: "chatbot",

@@ -1,0 +1,81 @@
+{
+  "users": {
+    "100040203282108": [
+      {
+        "type": "BRONZE",
+        "code": "BRONZE_BJQC0790",
+        "discount": 20,
+        "expires": 1739682830789,
+        "used": true
+      },
+      {
+        "type": "SILVER",
+        "code": "SILVER_V9RT0237",
+        "discount": 30,
+        "expires": 1739683540237,
+        "used": true
+      }
+    ],
+    "100053970942155": [
+      {
+        "type": "BRONZE",
+        "code": "BRONZE_O8682382",
+        "discount": 10,
+        "expires": 1739692742382,
+        "used": false
+      }
+    ],
+    "61561753304881": [
+      {
+        "type": "BRONZE",
+        "code": "BRONZE_ORHG1008",
+        "discount": 10,
+        "expires": 1739692771008,
+        "used": false
+      },
+      {
+        "type": "GOLD",
+        "code": "GOLD_CTCW5284",
+        "discount": 20,
+        "expires": 1739706175284,
+        "used": true
+      }
+    ],
+    "100053121190229": [
+      {
+        "type": "BRONZE",
+        "code": "BRONZE_A50C9506",
+        "discount": 10,
+        "expires": 1739697399506,
+        "used": false
+      }
+    ],
+    "100000709336080": [
+      {
+        "type": "BRONZE",
+        "code": "BRONZE_C8UA9046",
+        "discount": 10,
+        "expires": 1739697519044,
+        "used": false
+      }
+    ],
+    "100014034669306": [
+      {
+        "type": "BRONZE",
+        "code": "BRONZE_E7KH8935",
+        "discount": 10,
+        "expires": 1739697578935,
+        "used": false
+      }
+    ],
+    "100089134298284": [
+      {
+        "type": "BRONZE",
+        "code": "BRONZE_H3C78089",
+        "discount": 10,
+        "expires": 1739697678089,
+        "used": false
+      }
+    ]
+  }
+}

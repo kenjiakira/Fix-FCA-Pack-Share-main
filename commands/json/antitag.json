@@ -98,16 +98,6 @@
                 "count": 1,
                 "lastReset": 1738683751456
             },
-            "100079621883786": {
-                "count": 1,
-                "lastReset": 1738812747823
-            },
-            "100053970942155": {
-                "count": 2,
-                "lastReset": 1738771855774,
-                "tagsInWindow": null,
-                "lastTagTime": 1738855111682
-            },
             "100050363228652": {
                 "count": 1,
                 "lastReset": 1738825736230,
@@ -135,14 +125,16 @@
                 "lastReset": 1738675173509
             },
             "100089981373051": {
-                "count": 1,
-                "lastReset": 1739019166536,
+                "count": 2,
+                "lastReset": 1739106294493,
                 "tagsInWindow": 1,
-                "lastTagTime": 1739019166536
+                "lastTagTime": 1739117623091
             },
             "100049109850406": {
                 "count": 1,
-                "lastReset": 1738732636445
+                "lastReset": 1739103803977,
+                "tagsInWindow": 1,
+                "lastTagTime": 1739103803977
             },
             "100046632541720": {
                 "count": 1,
@@ -163,15 +155,15 @@
                 "lastReset": 1738757782506
             },
             "100053857386814": {
-                "count": 2,
-                "lastReset": 1738903725722,
-                "lastTagTime": 1738904304870,
+                "count": 1,
+                "lastReset": 1739095945594,
+                "lastTagTime": 1739095945594,
                 "tagsInWindow": 1
             },
             "100068382888605": {
                 "count": 1,
-                "lastReset": 1738941471434,
-                "lastTagTime": 1738941471434,
+                "lastReset": 1739113178881,
+                "lastTagTime": 1739113178881,
                 "tagsInWindow": 1
             }
         }
