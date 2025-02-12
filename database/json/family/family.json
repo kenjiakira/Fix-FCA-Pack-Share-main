@@ -1,0 +1,180 @@
+{
+  "100053970942155": {
+    "name": null,
+    "spouse": "61564482366941",
+    "children": [
+      {
+        "name": "Lê Ngọc Hà",
+        "birthDate": 1739294195453,
+        "happiness": 100,
+        "gender": "👧",
+        "nickname": "Yêu Lê Ngọc Hà"
+      }
+    ],
+    "home": null,
+    "happiness": 100,
+    "lastChecked": 1739291787733,
+    "lastBaby": 1739294195453,
+    "lastIntimate": 1739294185225,
+    "isProposer": true,
+    "proposedBy": ""
+  },
+  "100068382888605": {
+    "name": null,
+    "spouse": "100063719077878",
+    "children": [
+      {
+        "name": "trai cdmm",
+        "birthDate": 1739292398290,
+        "happiness": 100,
+        "gender": "👦",
+        "nickname": "Cưng trai cdmm"
+      }
+    ],
+    "home": null,
+    "happiness": 100,
+    "lastChecked": 1739291883985,
+    "lastBaby": 1739292398290,
+    "lastIntimate": 1739292388936,
+    "isProposer": true,
+    "proposedBy": ""
+  },
+  "100079621883786": {
+    "name": null,
+    "spouse": null,
+    "children": [],
+    "home": null,
+    "happiness": 50,
+    "lastChecked": 1739292012133,
+    "lastBaby": 0,
+    "lastIntimate": 0,
+    "isProposer": false,
+    "proposedBy": "Dat Lee"
+  },
+  "61561753304881": {
+    "name": null,
+    "spouse": "61563982612558",
+    "children": [
+      {
+        "name": "Hoàng Ngọc Hà",
+        "birthDate": 1739292395503,
+        "happiness": 100,
+        "gender": "👦",
+        "nickname": "Cưng Hoàng Ngọc Hà"
+      }
+    ],
+    "home": null,
+    "happiness": 100,
+    "lastChecked": 1739292048068,
+    "lastBaby": 1739292395503,
+    "lastIntimate": 1739292382146,
+    "isProposer": true,
+    "proposedBy": ""
+  },
+  "61563982612558": {
+    "name": null,
+    "spouse": "61561753304881",
+    "children": [
+      {
+        "name": "Hoàng Ngọc Hà",
+        "birthDate": 1739292395503,
+        "happiness": 100,
+        "gender": "👦",
+        "nickname": "Cưng Hoàng Ngọc Hà"
+      }
+    ],
+    "home": null,
+    "happiness": 100,
+    "lastChecked": 1739292048068,
+    "lastBaby": 1739292395503,
+    "lastIntimate": 1739292382146,
+    "isProposer": false,
+    "proposedBy": "Ngọc Từ"
+  },
+  "100063719077878": {
+    "name": null,
+    "spouse": "100068382888605",
+    "children": [
+      {
+        "name": "trai cdmm",
+        "birthDate": 1739292398290,
+        "happiness": 100,
+        "gender": "👦",
+        "nickname": "Cưng trai cdmm"
+      }
+    ],
+    "home": null,
+    "happiness": 100,
+    "lastChecked": 1739292113280,
+    "lastBaby": 1739292398290,
+    "lastIntimate": 1739292388937,
+    "isProposer": false,
+    "proposedBy": "Pham Minh Dang"
+  },
+  "61564482366941": {
+    "name": null,
+    "spouse": "100053970942155",
+    "children": [
+      {
+        "name": "Lê Ngọc Hà",
+        "birthDate": 1739294195453,
+        "happiness": 100,
+        "gender": "👧",
+        "nickname": "Yêu Lê Ngọc Hà"
+      }
+    ],
+    "home": null,
+    "happiness": 100,
+    "lastChecked": 1739292204718,
+    "lastBaby": 1739294195453,
+    "lastIntimate": 1739294185226,
+    "isProposer": false,
+    "proposedBy": "Dat Lee"
+  },
+  "100053857386814": {
+    "name": null,
+    "spouse": "100049109850406",
+    "children": [],
+    "home": null,
+    "happiness": 100,
+    "lastChecked": 1739292495387,
+    "lastBaby": 0,
+    "lastIntimate": 0,
+    "isProposer": true,
+    "proposedBy": null
+  },
+  "100049109850406": {
+    "name": null,
+    "spouse": "100053857386814",
+    "children": [],
+    "home": null,
+    "happiness": 100,
+    "lastChecked": 1739292772312,
+    "lastBaby": 0,
+    "lastIntimate": 0,
+    "isProposer": false,
+    "proposedBy": "Phạm Hùng"
+  },
+  "61550331471452": {
+    "name": null,
+    "spouse": null,
+    "children": [],
+    "home": null,
+    "happiness": 50,
+    "lastChecked": 1739292922714,
+    "lastBaby": 0,
+    "lastIntimate": 0,
+    "isProposer": false,
+    "proposedBy": ""
+  },
+  "100076957299243": {
+    "name": null,
+    "spouse": null,
+    "children": [],
+    "home": null,
+    "happiness": 50,
+    "lastChecked": 1739293414746,
+    "lastBaby": 0,
+    "lastIntimate": 0
+  }
+}

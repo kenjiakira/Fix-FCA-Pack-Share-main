@@ -109,7 +109,7 @@ module.exports = {
         scheduleNext(); 
     },
 
-    onLoad: function({ api }) {
-        this.setupScheduler(api);
+    onLoad: function(params) {
+        this.setupScheduler(params.api);
     }
 };

@@ -45,7 +45,16 @@ module.exports = {
             dice2 = randomInt(1, 7);
             dice3 = randomInt(1, 7);
             total = dice1 + dice2 + dice3;
+            
             result = total >= 11 ? "tài" : "xỉu";
+
+            if (total === 3 || total === 18) {
+                if ((total === 18 && playerChoice === "tài") || 
+                    (total === 3 && playerChoice === "xỉu")) {
+                    break;
+                }
+                continue;
+            }
         } while ((shouldWin && result !== playerChoice) || (!shouldWin && result === playerChoice));
 
         return { dice1, dice2, dice3, total, result };
@@ -55,38 +64,47 @@ module.exports = {
         const quy = loadQuy();
         if (quy <= 0) return null;
 
-        const isValidJackpot = (total === 18 && choice === "tài") || (total === 3 && choice === "xỉu");
-        const eligibleUsers = Object.keys(readData().balance).filter(userId => getBalance(userId) > 0);
+
+        const isValidJackpot = 
+            (total === 18 && choice === "tài") || 
+            (total === 3 && choice === "xỉu");
+
+        if (!isValidJackpot) return null;
+
+        const eligibleUsers = Object.keys(readData().balance)
+            .filter(userId => getBalance(userId) > 0);
         
         let jackpotResult = {
             message: `\n🎉 JACKPOT! Tổng ${total} điểm!`,
             distributedAmount: 0
         };
 
-        if (isValidJackpot) {
-            const winnerShare = Math.floor(quy * 0.5);
+        // Phân phối tiền thưởng
+        const winnerShare = Math.floor(quy * 0.5);
+        if (winnerShare > 0) {
             updateBalance(senderID, winnerShare);
-            jackpotResult.message += `\n🏆 Bạn nhận được ${formatNumber(winnerShare)} Xu (50% quỹ)!`;
             jackpotResult.distributedAmount += winnerShare;
+            jackpotResult.message += `\n🏆 Bạn nhận được ${formatNumber(winnerShare)} Xu (50% quỹ)!`;
 
             if (eligibleUsers.length > 1) {
                 const shareAmount = Math.floor((quy - winnerShare) / (eligibleUsers.length - 1));
-                eligibleUsers.forEach(userId => {
-                    if (userId !== senderID && shareAmount > 0) {
-                        updateBalance(userId, shareAmount);
-                    }
-                });
-                jackpotResult.message += `\n💸 ${formatNumber(quy - winnerShare)} Xu chia đều cho ${eligibleUsers.length - 1} người.`;
-                jackpotResult.message += `\n💰 Mỗi người nhận: ${formatNumber(shareAmount)} Xu.`;
+                if (shareAmount > 0) {
+                    eligibleUsers.forEach(userId => {
+                        if (userId !== senderID) {
+                            updateBalance(userId, shareAmount);
+                            jackpotResult.distributedAmount += shareAmount;
+                        }
+                    });
+                    jackpotResult.message += `\n💸 ${formatNumber(quy - winnerShare)} Xu chia đều cho ${eligibleUsers.length - 1} người.`;
+                    jackpotResult.message += `\n💰 Mỗi người nhận: ${formatNumber(shareAmount)} Xu.`;
+                }
             }
-        } else {
-            const shareAmount = Math.floor(quy / eligibleUsers.length);
-            eligibleUsers.forEach(userId => updateBalance(userId, shareAmount));
-            jackpotResult.message += `\n💸 ${formatNumber(quy)} Xu chia đều cho ${eligibleUsers.length} người.`;
-            jackpotResult.message += `\n💰 Mỗi người nhận: ${formatNumber(shareAmount)} Xu.`;
+
+            if (jackpotResult.distributedAmount > 0) {
+                saveQuy(quy - jackpotResult.distributedAmount);
+            }
         }
-        
-        saveQuy(0);
+
         return jackpotResult;
     },
 
@@ -125,9 +143,11 @@ module.exports = {
                     const { dice1, dice2, dice3, total, result } = this.generateDiceResults(senderID, choice, target[1].toLowerCase(), balance);
                     let message = `🎲 Kết quả: ${dice1} + ${dice2} + ${dice3} = ${total}\nKết quả: ${result.toUpperCase()}\n`;
 
-                    if (total === 18 || total === 3) {
+                    if ((total === 18 || total === 3) && result === choice) {
                         const jackpotResult = this.handleJackpot(total, choice, senderID);
-                        if (jackpotResult) message += jackpotResult.message;
+                        if (jackpotResult) {
+                            message += jackpotResult.message;
+                        }
                     }
 
               

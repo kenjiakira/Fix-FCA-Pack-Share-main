@@ -1,0 +1,87 @@
+{
+  "100040203282108": {
+    "type": "h2",
+    "name": "Căn hộ cho thuê",
+    "purchaseDate": 1739274225442,
+    "condition": 100,
+    "lastMaintenance": 1739274225442,
+    "upgrades": [],
+    "stats": {
+      "security": 0,
+      "comfort": 0,
+      "environment": 0,
+      "luxury": 0
+    },
+    "rentEndDate": 1739879025442
+  },
+  "100053868457890": {
+    "type": "h6",
+    "name": "Khu compound",
+    "purchaseDate": 1739291288470,
+    "condition": 100,
+    "lastMaintenance": 1739291288470,
+    "upgrades": [],
+    "stats": {
+      "security": 0,
+      "comfort": 0,
+      "environment": 0,
+      "luxury": 0
+    }
+  },
+  "100035610181048": {
+    "type": "h6",
+    "name": "Khu compound",
+    "purchaseDate": 1739291375099,
+    "condition": 100,
+    "lastMaintenance": 1739291375099,
+    "upgrades": [],
+    "stats": {
+      "security": 0,
+      "comfort": 0,
+      "environment": 0,
+      "luxury": 0
+    }
+  },
+  "100053970942155": {
+    "type": "h4",
+    "name": "Nhà phố",
+    "purchaseDate": 1739291802992,
+    "condition": 100,
+    "lastMaintenance": 1739291802992,
+    "upgrades": [],
+    "stats": {
+      "security": 0,
+      "comfort": 0,
+      "environment": 0,
+      "luxury": 0
+    }
+  },
+  "61561753304881": {
+    "type": "h5",
+    "name": "Biệt thự",
+    "purchaseDate": 1739293399724,
+    "condition": 100,
+    "lastMaintenance": 1739293399724,
+    "upgrades": [],
+    "stats": {
+      "security": 0,
+      "comfort": 0,
+      "environment": 0,
+      "luxury": 0
+    }
+  },
+  "61550331471452": {
+    "type": "h4",
+    "name": "Nhà phố",
+    "purchaseDate": 1739293547009,
+    "condition": 100,
+    "lastMaintenance": 1739293547009,
+    "upgrades": [],
+    "stats": {
+      "security": 0,
+      "comfort": 0,
+      "environment": 0,
+      "luxury": 0
+    }
+  }
+}

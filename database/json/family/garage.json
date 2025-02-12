@@ -1,0 +1,32 @@
+{
+  "100040203282108": {
+    "vehicles": {
+      "v11": {
+        "purchaseDate": 1739279386207,
+        "durability": 75,
+        "lastMaintenance": 1739279386207,
+        "ownerID": "100040203282108"
+      }
+    }
+  },
+  "61561753304881": {
+    "vehicles": {
+      "v8": {
+        "purchaseDate": 1739292345803,
+        "durability": 93,
+        "lastMaintenance": 1739292345803,
+        "ownerID": "61561753304881"
+      }
+    }
+  },
+  "100068382888605": {
+    "vehicles": {
+      "v2": {
+        "purchaseDate": 1739292724338,
+        "durability": 90,
+        "lastMaintenance": 1739292724338,
+        "ownerID": "100068382888605"
+      }
+    }
+  }
+}

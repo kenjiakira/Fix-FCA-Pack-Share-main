@@ -1,0 +1,385 @@
+const { updateBalance, getBalance } = require('../utils/currencies');
+const FamilySystem = require('../family/FamilySystem');
+const { MARRIAGE_COST, CHILD_COST, DIVORCE_COST, HOME_PRICES } = require('../config/familyConfig');
+const HomeSystem = require('../family/HomeSystem');
+const fs = require('fs');
+const path = require('path');
+
+function formatNumber(number) {
+    return number.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+}
+
+const familySystem = new FamilySystem();
+const homeSystem = new HomeSystem(); 
+
+module.exports = {
+    name: "family",
+    dev: "HNT",
+    usedby: 0,
+    info: "Hệ thống gia đình",
+    onPrefix: true,
+    usages: ".family [info/marry/divorce/child]",
+    cooldowns: 5,
+
+    onLaunch: async function({ api, event, target }) {
+        const { threadID, messageID, senderID } = event;
+        const command = target[0]?.toLowerCase();
+
+        const getUserName = (userID) => {
+            const userDataPath = path.join(__dirname, '../events/cache/userData.json');
+            try {
+                const userData = JSON.parse(fs.readFileSync(userDataPath, 'utf8'));
+                return userData[userID]?.name || userID;
+            } catch (error) {
+                console.error('Error reading userData:', error);
+                return userID;
+            }
+        };
+
+        try {
+            if (!command) {
+                return api.sendMessage(
+                    "👨‍👩‍👧‍👦 GIA ĐÌNH NHỎ 👨‍👩‍👧‍👦\n" +
+                    "━━━━━━━━━━━━━━━━━━\n\n" +
+                    "1. info - Xem thông tin gia đình\n" +
+                    "2. marry [@tag] - Kết hôn\n" +
+                    "3. divorce - Ly hôn\n" +
+                    "4. love - Động phòng\n\n" +
+                    "━━━━━━━━━━━━━━━━━━\n" +
+                    "📝 CÁC LỆNH LIÊN QUAN:\n" +
+                    "• .garage - Quản lý xe cộ\n" +
+                    "• .home - Quản lý nhà ở\n" +
+                    "• .job - Xin việc làm\n" +
+                    "• .study - Học hành, bằng cấp\n" +
+                    "• .work - Làm việc kiếm tiền\n\n" +
+                    "💡 Các lệnh trên đã được tách riêng,\n" + 
+                    "vui lòng sử dụng đúng cú pháp để truy cập",
+                    threadID
+                );
+            }
+
+            const family = familySystem.getFamily(senderID);
+            familySystem.updateHappiness(senderID);
+
+            switch (command) {
+                case "info": {
+                    let spouseName = "Độc thân";
+                    let proposedBy = "";
+                    
+                    if (family.spouse) {
+                        spouseName = getUserName(family.spouse);
+                    }
+                    family.isProposer = family.isProposer ?? false;
+                    family.proposedBy = family.proposedBy ?? "";
+
+                    const sharedHome = familySystem.getSharedHome(senderID);
+                    const isOwnHome = homeSystem.getHome(senderID);
+
+                    const sharedVehicles = familySystem.getSharedVehicles(senderID);
+                    const { CARS, BRANDS } = require('../config/carConfig');
+
+                    return api.sendMessage(
+                        "╔════ 『 THÔNG TIN GIA ĐÌNH 』 ════╗\n" +
+                        "║                                                              ║\n" +
+                        "╠═ 👤 THÔNG TIN CÁ NHÂN\n" +
+                        `║  ▸ Tên: ${getUserName(senderID)}\n` +
+                        `║  ▸ ID: ${senderID}\n` +
+                        `║  ▸ Học vấn: ${familySystem.getEducationInfo(senderID)}\n` +
+                        `║  ▸ Nghề nghiệp: ${familySystem.getJobInfo(senderID)}\n` +
+                        "║\n" +
+                        "╠═ 💑 TÌNH TRẠNG HÔN NHÂN\n" +
+                        `║  ▸ Bạn đời: ${spouseName}\n` +
+                        `║  ▸ Độ hạnh phúc: ${Math.round(family.happiness)}%\n` +
+                        `║  ▸ Số con: ${family.children.length} đứa\n` +
+                        "║\n" +
+                        "╠═ 🏠 NHÀ Ở\n" +
+                        `║  ▸ ${sharedHome ? `Loại nhà: ${sharedHome.name}` : 'Chưa có nhà'}\n` +
+                        (sharedHome ? 
+                        `║  ▸ Tình trạng: ${sharedHome.condition}%\n` +
+                        `║  ▸ Chủ hộ: ${getUserName(isOwnHome ? senderID : family.spouse)}\n` : "") +
+                        "║\n" +
+                        "╠═ 🚗 PHƯƠNG TIỆN\n" +
+                        (sharedVehicles && Object.keys(sharedVehicles).length > 0 ? 
+                            Object.entries(sharedVehicles).map(([carId, vehicle]) => {
+                                const car = CARS[carId];
+                                return `║  ▸ ${BRANDS[car.brand]} ${car.name}\n` +
+                                       `║    └ Độ bền: ${vehicle.durability.toFixed(1)}%`;
+                            }).join("\n") : 
+                            "║  ▸ Chưa có phương tiện\n"
+                        ) +
+                        "║\n" +
+                        (family.children.length > 0 ? 
+                        "╠═ 👶 THÔNG TIN CON CÁI\n" +
+                        family.children.map((child, index) => 
+                            `║  ▸ ${index + 1}. ${child.gender} ${child.name}\n` +
+                            `║    └ Tuổi: ${familySystem.calculateAge(child.birthDate)}\n` +
+                            `║    └ Hạnh phúc: ${Math.round(child.happiness)}%`
+                        ).join("\n") + "\n║\n" : "") +
+                        "╚══════════════════════════╝",
+                        threadID
+                    );
+                }
+
+                case "marry": {
+                    const mention = Object.keys(event.mentions)[0];
+                    if (!mention) {
+                        return api.sendMessage("❌ Vui lòng tag người bạn muốn cưới!", threadID);
+                    }
+
+                    const proposerFamily = familySystem.getFamily(senderID);
+                    if (proposerFamily.spouse) {
+                        return api.sendMessage("❌ Bạn đã kết hôn rồi, không thể cầu hôn người khác!", threadID);
+                    }
+
+                    const targetFamily = familySystem.getFamily(mention);
+                    if (targetFamily.spouse) {
+                        return api.sendMessage("❌ Người này đã kết hôn với người khác rồi!", threadID);
+                    }
+
+                    const balance = await getBalance(senderID);
+                    if (balance < MARRIAGE_COST) {
+                        return api.sendMessage(
+                            `❌ Bạn cần ${formatNumber(MARRIAGE_COST)} Xu để kết hôn!`,
+                            threadID
+                        );
+                    }
+                    await updateBalance(senderID, -MARRIAGE_COST);
+                    const user1Name = getUserName(senderID);
+                    const user2Name = getUserName(mention);
+
+                    const confirmMsg = await api.sendMessage(
+                        `💍 ${user1Name} muốn kết hôn với bạn.\nReply "yes" để chấp nhận, hoặc "no" để từ chối.`,
+                        threadID
+                    );
+
+                    global.client.onReply.push({
+                        name: this.name,
+                        messageID: confirmMsg.messageID,
+                        author: mention,
+                        type: "marriage-confirmation",
+                        proposerID: senderID,
+                        proposerName: user1Name
+                    });
+
+                    api.sendMessage(
+                        `💌 Đã gửi lời cầu hôn đến ${user2Name}, chờ phản hồi...`,
+                        threadID
+                    );
+                    break;
+                }
+                
+                case "divorce": {
+                    if (!family.spouse) {
+                        return api.sendMessage("❌ Bạn chưa kết hôn!", threadID);
+                    }
+                    const balance = await getBalance(senderID);
+                    if (balance < DIVORCE_COST) {
+                        return api.sendMessage(
+                            `❌ Bạn cần ${formatNumber(DIVORCE_COST)} Xu để ly hôn!`,
+                            threadID
+                        );
+                    }
+                    await updateBalance(senderID, -DIVORCE_COST);
+                    await familySystem.divorce(senderID);
+                    return api.sendMessage(
+                        `💔 Đã ly hôn thành công!\n💰 Chi phí: ${formatNumber(DIVORCE_COST)} Xu`,
+                        threadID
+                    );
+                }
+
+                case "love": {
+                    if (!family.spouse) {
+                        return api.sendMessage("❌ Bạn cần kết hôn trước!", threadID);
+                    }
+
+                    try {
+                        const spouseName = getUserName(family.spouse);
+                        
+                        if (!familySystem.canHaveNewBaby(senderID)) {
+                            return api.sendMessage(
+                                "❌ Vợ chồng cần nghỉ ngơi 3 ngày sau mỗi lần sinh con!",
+                                threadID
+                            );
+                        }
+
+                        await familySystem.intimate(senderID);
+                        
+                        const intimateMessages = [
+                            "💕 pap pap pap👏👏 Một đêm ngọt ngào với ${spouseName}...",
+                            "💝 Căn phòng ngập tràn tiếng thở dài...",
+                            "💖 pap pap pap👏👏 Một đêm đáng nhớ cùng ${spouseName}...",
+                            "💓 Cùng ${spouseName} tạo nên khoảnh khắc đặc biệt... pap pap pap👏👏"
+                        ];
+                        
+                        const randomMsg = intimateMessages[Math.floor(Math.random() * intimateMessages.length)]
+                            .replace("${spouseName}", spouseName);
+
+                        if (Math.random() < 0.8) {
+                            const babyGender = Math.random() < 0.5 ? "👶 Bé trai" : "👶 Bé gái";
+                            const confirmMsg = await api.sendMessage(
+                                `${randomMsg}\n\n` +
+                                `🎊 CHÚC MỪNG! Gia đình có thêm ${babyGender}!\n` +
+                                `💝 Hãy reply tin nhắn này để đặt tên cho bé`,
+                                threadID
+                            );
+
+                            global.client.onReply.push({
+                                name: this.name,
+                                messageID: confirmMsg.messageID,
+                                author: senderID,
+                                type: "baby-naming",
+                                spouseName: spouseName,
+                                isSpouse: family.spouse
+                            });
+                        } else {
+                            return api.sendMessage(
+                                `${randomMsg}\n\n` +
+                                `😔 Tiếc quá! Chưa có tin vui lần này...`,
+                                threadID
+                            );
+                        }
+
+                    } catch (error) {
+                        return api.sendMessage(`❌ Lỗi: ${error.message}`, threadID);
+                    }
+                    break;
+                }
+                
+                default:
+                    return api.sendMessage(
+                        "❌ Lệnh không hợp lệ!\n" +
+                        "💡 Sử dụng: .family [info/marry/divorce/child]",
+                        threadID
+                    );
+            }
+        } catch (error) {
+            console.error("Family command error:", error);
+            return api.sendMessage("❌ Đã xảy ra lỗi!", threadID);
+        }
+    },
+
+    onReply: async function({ api, event }) {
+        const { threadID, messageID, senderID, body } = event;
+        
+        const getUserName = (userID) => {
+            const userDataPath = path.join(__dirname, '../events/cache/userData.json');
+            try {
+                const userData = JSON.parse(fs.readFileSync(userDataPath, 'utf8'));
+                return userData[userID]?.name || userID;
+            } catch (error) {
+                console.error('Error reading userData:', error);
+                return userID;
+            }
+        };
+
+        const reply = global.client.onReply.find(r => {
+         
+            if (r.messageID !== event.messageReply.messageID) return false;
+            
+            if (r.type === "marriage-confirmation") {
+                return r.author === senderID; 
+            } else if (r.type === "baby-confirmation" || r.type === "baby-naming") {
+                
+                const family = familySystem.getFamily(senderID);
+                return (senderID === r.author || senderID === family.spouse);
+            }
+            return false;
+        });
+
+        if (!reply) return;
+        
+        global.client.onReply = global.client.onReply.filter(r => r.messageID !== reply.messageID);
+
+        switch(reply.type) {
+            case "marriage-confirmation":
+                try {
+                    const response = body.toLowerCase().trim();
+                    if (response === "yes" || response === "accept" || response === "1") {
+                        await familySystem.confirmMarriage(reply.proposerID, senderID);
+                        const acceptorName = getUserName(senderID);
+                        
+                        return api.sendMessage(
+                            `💕 ${acceptorName} đã đồng ý kết hôn với ${reply.proposerName}!\n` +
+                            `💝 Hạnh phúc: 100%`,
+                            threadID
+                        );
+                    } else {
+                        return api.sendMessage(
+                            `💔 ${getUserName(senderID)} đã từ chối lời cầu hôn của ${reply.proposerName}!`,
+                            threadID
+                        );
+                    }
+                } catch (error) {
+                    console.error("Marriage confirmation error:", error);
+                    return api.sendMessage(
+                        `❌ Lỗi: ${error.message}`,
+                        threadID
+                    );
+                }
+                break;
+
+            case "baby-confirmation":
+                {
+                    const response = body.toLowerCase().trim();
+                    if (["yes", "1", "ok", "đồng ý"].includes(response)) {
+                        try {
+                            const family = familySystem.getFamily(senderID);
+                            
+                            if (!familySystem.canHaveNewBaby(senderID)) {
+                                return api.sendMessage(
+                                    "❌ Bạn cần đợi 3 ngày sau mới có thể sinh em bé tiếp!",
+                                    threadID
+                                );
+                            }
+
+                            const nameMsg = await api.sendMessage(
+                                "💝 Hãy đặt tên cho em bé (Reply tin nhắn này)\n" +
+                                "Lưu ý: Tên không được chứa số và ký tự đặc biệt",
+                                threadID
+                            );
+
+                            global.client.onReply.push({
+                                name: this.name,
+                                messageID: nameMsg.messageID,
+                                author: senderID,
+                                type: "baby-naming",
+                                spouseName: reply.spouseName
+                            });
+
+                        } catch (error) {
+                            return api.sendMessage(`❌ Lỗi: ${error.message}`, threadID);
+                        }
+                    }
+                }
+                break;
+
+            case "baby-naming":
+                {
+                    const babyName = body.trim();
+                    if (!familySystem.validateBabyName(babyName)) {
+                        return api.sendMessage(
+                            "❌ Tên không hợp lệ! Tên phải từ 2-20 ký tự và không chứa số hoặc ký tự đặc biệt",
+                            threadID
+                        );
+                    }
+
+                    try {
+                        if (senderID !== reply.author && senderID !== reply.isSpouse) {
+                            return api.sendMessage("❌ Chỉ vợ/chồng mới có thể đặt tên cho bé!", threadID);
+                        }
+
+                        const child = await familySystem.addChild(senderID, babyName);
+                        return api.sendMessage(
+                            `👶 Chúc mừng gia đình có thêm thành viên mới!\n` +
+                            `${child.gender} Tên bé: ${child.name}\n` +
+                            `💝 Biệt danh: ${child.nickname}\n` +
+                            `💖 Chúc bé luôn khỏe mạnh và hạnh phúc!`,
+                            threadID);
+                    } catch (error) {
+                        return api.sendMessage(`❌ Lỗi: ${error.message}`, threadID);
+                    }
+                }
+                break;
+        }
+    },
+};

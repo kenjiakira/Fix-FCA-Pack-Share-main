@@ -748,9 +748,11 @@ module.exports = {
                         await updateBalance(senderID, -paymentAmount);
                         loan.remainingAmount -= paymentAmount;
 
+                        let returnedCollateral = 0;
                         if (loan.remainingAmount <= 0) {
                             loan.status = 'paid';
                             if (userData.lockedCollateral) {
+                                returnedCollateral = userData.lockedCollateral;
                                 userData.bankBalance += userData.lockedCollateral;
                                 userData.lockedCollateral = 0;
                             }
@@ -769,14 +771,20 @@ module.exports = {
 
                         await saveBankingData(bankingData);
                         
-                        return api.sendMessage(
-                            `✅ Đã trả ${paymentAmount.toLocaleString('vi-VN')} Xu cho khoản vay!\n` +
-                            `${loan.status === 'paid' ? 
-                                '🎉 Chúc mừng! Khoản vay đã được thanh toán đầy đủ!\n' +
-                                `💰 Đã hoàn trả ${userData.lockedCollateral?.toLocaleString('vi-VN')} Xu tài sản đảm bảo!` : 
-                                `📌 Số tiền còn nợ: ${loan.remainingAmount.toLocaleString('vi-VN')} Xu`}`,
-                            threadID, messageID
-                        );
+                        const message = [
+                            `✅ Đã trả ${paymentAmount.toLocaleString('vi-VN')} Xu cho khoản vay!`
+                        ];
+
+                        if (loan.status === 'paid') {
+                            message.push('🎉 Chúc mừng! Khoản vay đã được thanh toán đầy đủ!');
+                            if (returnedCollateral > 0) {
+                                message.push(`💰 Đã hoàn trả ${returnedCollateral.toLocaleString('vi-VN')} Xu tài sản đảm bảo!`);
+                            }
+                        } else {
+                            message.push(`📌 Số tiền còn nợ: ${loan.remainingAmount.toLocaleString('vi-VN')} Xu`);
+                        }
+
+                        return api.sendMessage(message.join('\n'), threadID, messageID);
                     } catch (err) {
                         console.error('Lỗi trả nợ:', err);
                         return api.sendMessage("❌ Có lỗi xảy ra khi trả nợ!", threadID, messageID);

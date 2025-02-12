@@ -1,4 +1,3 @@
-const { randomInt } = require("crypto");
 const { getBalance, updateBalance, updateQuestProgress } = require('../utils/currencies');
 const gameLogic = require('../utils/gameLogic');
 
@@ -42,7 +41,6 @@ module.exports = {
                 return api.sendMessage(`Số tiền cược không hợp lệ (tối thiểu 10,000 Xu${betAmount > balance ? ", số dư không đủ" : ""}).`, threadID, messageID);
             }
 
-            // Cooldown check
             const currentTime = Date.now();
             if (this.lastPlayed[senderID] && currentTime - this.lastPlayed[senderID] < 60000) {
                 const waitTime = Math.ceil((60000 - (currentTime - this.lastPlayed[senderID])) / 1000);
@@ -50,7 +48,6 @@ module.exports = {
             }
             this.lastPlayed[senderID] = currentTime;
 
-            // Place bet
             updateBalance(senderID, -betAmount);
             await api.sendMessage("Đang lắc... Đợi 5 giây...", threadID, messageID);
 

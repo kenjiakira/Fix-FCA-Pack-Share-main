@@ -1,5 +1,7 @@
-const { updateBalance, updateQuestProgress, getBalance, saveData } = require('../utils/currencies');
+const { updateBalance, getBalance } = require('../utils/currencies');
 const { getVIPBenefits } = require('../utils/vipCheck');
+const JobSystem = require('../family/JobSystem');
+const { JOBS } = require('../config/jobConfig'); 
 
 const TAX_BRACKETS = [
     { threshold: 1000000, rate: 0.05 },  
@@ -7,6 +9,10 @@ const TAX_BRACKETS = [
     { threshold: 10000000, rate: 0.15 },
     { threshold: Infinity, rate: 0.20 }  
 ];
+
+function formatNumber(number) {
+    return number.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+}
 
 function calculateTax(amount) {
     for (const bracket of TAX_BRACKETS) {
@@ -17,50 +23,7 @@ function calculateTax(amount) {
     return Math.floor(amount * TAX_BRACKETS[TAX_BRACKETS.length - 1].rate);
 }
 
-const jobs = [
-    {
-        name: "Shipper",
-        description: "Bạn đã giao {count} đơn hàng",
-        minPay: 20000,
-        maxPay: 45000,
-        countRange: [3, 8]
-    },
-    {
-        name: "Rửa xe",
-        description: "Bạn đã rửa {count} chiếc xe",
-        minPay: 25000,
-        maxPay: 50000,
-        countRange: [2, 5]
-    },
-    {
-        name: "Đầu bếp",
-        description: "Bạn đã nấu {count} món ăn",
-        minPay: 35000,
-        maxPay: 70000,
-        countRange: [4, 8]
-    },
-    {
-        name: "Bảo vệ",
-        description: "Bạn đã làm việc {count} giờ",
-        minPay: 20000,
-        maxPay: 40000,
-        countRange: [4, 8]
-    },
-    {
-        name: "Lập trình viên",
-        description: "Bạn đã fix {count} bug",
-        minPay: 50000,
-        maxPay: 100000,
-        countRange: [2, 5]
-    },
-    {
-        name: "Streamer",
-        description: "Bạn đã stream {count} giờ",
-        minPay: 40000,
-        maxPay: 80000,
-        countRange: [3, 6]
-    }
-];
+const jobSystem = new JobSystem();
 
 module.exports = {
     name: "work",
@@ -69,55 +32,74 @@ module.exports = {
     onPrefix: true,
     usages: "work",
     cooldowns: 0,
-    lastWorked: {},
 
     onLaunch: async function({ api, event }) {
-        const { threadID, messageID, senderID } = event;
+        const { threadID, senderID } = event;
 
-        const currentTime = Date.now();
-        let COOLDOWN = 600000; 
-
-        const vipBenefits = getVIPBenefits(senderID);
-        let vipBonus = 0;
-        if (vipBenefits) {
-            if (vipBenefits.cooldownReduction) {
-                COOLDOWN = COOLDOWN * (100 - vipBenefits.cooldownReduction) / 100;
+        try {
+            // Force reload job system data
+            jobSystem.data = jobSystem.loadData();
+            const jobData = jobSystem.getJob(senderID);
+            
+            // Double check job data
+            if (!jobData?.currentJob?.id || !JOBS[jobData.currentJob.id]) {
+                jobData.currentJob = null;
+                jobSystem.saveData();
+                return api.sendMessage(
+                    "❌ Bạn chưa có việc làm hoặc công việc không hợp lệ!\n" +
+                    "💡 Sử dụng .job list để xem việc và .job apply để ứng tuyển", 
+                    threadID
+                );
             }
-            vipBonus = vipBenefits.workBonus || 0;
+
+            if (!jobSystem.canWork(senderID)) {
+                const cooldown = jobSystem.getWorkCooldown(senderID);
+                const timeLeft = Math.ceil(cooldown / 1000);
+                return api.sendMessage(
+                    `⏳ Bạn cần nghỉ ngơi ${Math.floor(timeLeft/60)} phút ${timeLeft%60} giây nữa!`, 
+                    threadID
+                );
+            }
+
+            try {
+                const workResult = await jobSystem.work(senderID);
+                if (!workResult) {
+                    throw new Error("Không thể thực hiện công việc!");
+                }
+                const vipBenefits = getVIPBenefits(senderID);
+                let earned = workResult.salary;
+
+                if (vipBenefits && vipBenefits.workBonus) {
+                    const bonusAmount = Math.floor(earned * (vipBenefits.workBonus / 100));
+                    earned += bonusAmount;
+                }
+
+                const tax = calculateTax(earned);
+                const netEarnings = earned - tax;
+
+                await updateBalance(senderID, netEarnings);
+
+                let message = `💼 ${workResult.name}\n\n` +
+                             `[💰] Lương: ${formatNumber(earned)} Xu\n` +
+                             `[💸] Thuế: ${formatNumber(tax)} Xu (${((tax/earned)*100).toFixed(1)}%)\n` +
+                             `[💵] Thực lãnh: ${formatNumber(netEarnings)} Xu`;
+
+                if (vipBenefits && vipBenefits.workBonus) {
+                    message += `\n[👑] Thưởng VIP +${vipBenefits.workBonus}%`;
+                }
+
+                return api.sendMessage(message, threadID);
+
+            } catch (workError) {
+                return api.sendMessage(`❌ ${workError.message}`, threadID);
+            }
+
+        } catch (error) {
+            console.error('Work command error:', error);
+            return api.sendMessage(
+                `❌ Lỗi: ${error.message || "Đã xảy ra lỗi không xác định!"}`,
+                threadID
+            );
         }
-
-        if (this.lastWorked[senderID] && currentTime - this.lastWorked[senderID] < COOLDOWN) {
-            const timeLeft = Math.ceil((COOLDOWN - (currentTime - this.lastWorked[senderID])) / 1000);
-            return api.sendMessage(`⏳ Bạn cần nghỉ ngơi ${Math.floor(timeLeft/60)} phút ${timeLeft%60} giây nữa mới có thể làm việc tiếp!`, threadID, messageID);
-        }
-
-        const job = jobs[Math.floor(Math.random() * jobs.length)];
-        const count = Math.floor(Math.random() * (job.countRange[1] - job.countRange[0] + 1)) + job.countRange[0];
-        let earned = Math.floor(Math.random() * (job.maxPay - job.minPay + 1)) + job.minPay;
-
-        if (vipBonus > 0) {
-            const bonusAmount = Math.floor(earned * (vipBonus / 100));
-            earned += bonusAmount;
-        }
-
-        const tax = calculateTax(earned);
-        const netEarnings = earned - tax;
-
-        this.lastWorked[senderID] = currentTime;
-
-        await updateBalance(senderID, netEarnings);
-        await updateQuestProgress(senderID, "work");
-
-        let message = `[🏢] Công việc: ${job.name}\n` + 
-                     job.description.replace("{count}", count) + "\n" +
-                     `[💰] Được trả: ${earned.toLocaleString('vi-VN')} Xu\n` +
-                     `[💸] Thuế thu nhập: ${tax.toLocaleString('vi-VN')} Xu (${((tax/earned)*100).toFixed(1)}%)\n` +
-                     `[💵] Thực lãnh: ${netEarnings.toLocaleString('vi-VN')} Xu`;
-        
-        if (vipBonus > 0) {
-            message += `\n[👑] Thưởng VIP +${vipBonus}%\n(${Math.floor(earned * vipBonus / 100).toLocaleString('vi-VN')} Xu)`;
-        }
-
-        return api.sendMessage(message, threadID, messageID);
     }
 };

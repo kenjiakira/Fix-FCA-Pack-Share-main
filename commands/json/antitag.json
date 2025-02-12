@@ -37,8 +37,10 @@
                 "lastReset": 1737727050340
             },
             "61569008916749": {
-                "count": 1,
-                "lastReset": 1737727133260
+                "count": 2,
+                "lastReset": 1739270430519,
+                "tagsInWindow": 1,
+                "lastTagTime": 1739270793551
             },
             "100081800629553": {
                 "count": 1,
@@ -161,9 +163,21 @@
                 "tagsInWindow": 1
             },
             "100068382888605": {
+                "count": 2,
+                "lastReset": 1739204511494,
+                "lastTagTime": 1739269243836,
+                "tagsInWindow": 1
+            },
+            "100094060806952": {
                 "count": 1,
-                "lastReset": 1739113178881,
-                "lastTagTime": 1739113178881,
+                "lastReset": 1739193277958,
+                "lastTagTime": 1739193277958,
+                "tagsInWindow": 1
+            },
+            "100079621883786": {
+                "count": 1,
+                "lastReset": 1739279018069,
+                "lastTagTime": 1739279018069,
                 "tagsInWindow": 1
             }
         }

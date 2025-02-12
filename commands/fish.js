@@ -16,8 +16,10 @@ const {
 const { getVIPBenefits } = require('../utils/vipCheck');
 
 function formatNumber(number) {
+    if (number === undefined || number === null) return "0";
     return number.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
 }
+
 
 const messages = {
     cooldown: (waitTime, lastTime) => 
@@ -538,7 +540,9 @@ module.exports = {
                 api.unsendMessage(fishingMsg.messageID);
                 await api.sendMessage(
                     `🎣 Bạn đã câu được ${result.name}!\n` +
-                    `💰 Giá trị: ${formatNumber(result.value)} Xu\n` +
+                    `💰 Giá gốc: ${formatNumber(result.originalValue)} Xu\n` +
+                    `📋 Thuế: ${formatNumber(result.taxAmount)} Xu (${(result.taxRate * 100).toFixed(1)}%)\n` +
+                    `💵 Thực nhận: ${formatNumber(result.value)} Xu\n` +
                     `${vipBonus}` + 
                     `📊 EXP: +${formatNumber(baseExp)} (${this.getExpBreakdown(baseExp, streakBonus, rarity)})\n` +
                     `📈 Chuỗi câu: ${playerData.fishingStreak} lần (${Math.floor(streakBonus * 100)}% bonus)\n` +
@@ -609,12 +613,18 @@ module.exports = {
             const treasureChance = 0.05 + (vipBenefits ? 0.02 * vipBenefits.packageId : 0);
             if (Math.random() < treasureChance) {
                 const treasure = treasures[Math.floor(Math.random() * treasures.length)];
-                const value = Math.floor(treasure.value * multiplier * (1 + (vipBonus || 0)));
+                const originalValue = Math.floor(treasure.value * multiplier);
+                const taxRate = this.calculateTaxRate('legendary', originalValue);
+                const taxAmount = Math.floor(originalValue * taxRate);
+                const finalValue = Math.floor(originalValue * (1 + (vipBonus || 0)) - taxAmount);
                 const exp = Math.floor(50 * (vipBenefits?.fishExpMultiplier || 1));
                 return {
                     name: treasure.name,
-                    value: value || 1000,
-                    exp: exp || 5
+                    value: finalValue,
+                    exp: exp,
+                    taxRate: taxRate,
+                    taxAmount: taxAmount,
+                    originalValue: originalValue
                 };
             }
 
@@ -634,10 +644,18 @@ module.exports = {
                 type === 'rare' ? 20 :
                 type === 'legendary' ? 50 : 100;
 
+            const baseValue = fish.value * multiplier * (1 + vipBonus);
+            const taxRate = this.calculateTaxRate(type, baseValue);
+            const taxAmount = Math.floor(baseValue * taxRate);
+            const finalValue = Math.floor(baseValue - taxAmount);
+
             return {
                 name: fish.name,
-                value: Math.floor(fish.value * multiplier * (1 + vipBonus)) || 1000,
-                exp: Math.floor(baseExp * (vipBenefits?.fishExpMultiplier || 1)) || 5
+                value: finalValue || 1000,
+                exp: Math.floor(baseExp * (vipBenefits?.fishExpMultiplier || 1)) || 5,
+                taxRate: taxRate,
+                taxAmount: taxAmount,
+                originalValue: baseValue
             };
 
         } catch (error) {
@@ -645,9 +663,31 @@ module.exports = {
             return {
                 name: "Cá Thường",
                 value: 1000,
-                exp: 5
+                exp: 5,
+                taxRate: 0,
+                taxAmount: 0,
+                originalValue: 1000
             };
         }
+    },
+
+    calculateTaxRate: function(type, value) {
+    
+        const baseTaxRates = {
+            trash: 0,
+            common: 0.02,  
+            uncommon: 0.04, 
+            rare: 0.6,    
+            legendary: 0.8,
+            mythical: 0.12   
+        };
+
+        let progressiveTax = 0;
+        if (value > 1000000) progressiveTax = 0.02;   
+        if (value > 5000000) progressiveTax = 0.5;     
+        if (value > 10000000) progressiveTax = 0.8;   
+
+        return Math.min(0.05, (baseTaxRates[type] || 0.01) + progressiveTax);
     },
 
     getFishRarity: function(fishName) {

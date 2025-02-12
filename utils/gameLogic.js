@@ -39,6 +39,61 @@ class GameLogic {
         this.luckyNumbers = [3, 7, 9];
         this.specialDates = ['Saturday', 'Sunday'];
         this.bonusHours = [12, 20, 22];
+
+        // Thêm các ngưỡng kiểm soát mới
+        this.RISK_THRESHOLDS = {
+            HIGH_ROLLER: 100000000, // 100tr
+            SUPER_HIGH_ROLLER: 200000000, // 200tr
+            DAILY_MONITOR: 50000000, // 50tr/ngày
+            SESSION_MONITOR: 20000000 // 20tr/phiên
+        };
+        
+        this.SPECIAL_CONDITIONS = {
+            MAX_WIN_STREAK: 3,
+            MIN_LOSS_REQUIRED: 5,
+            COOLDOWN_MINUTES: 30
+        };
+        
+        // Theo dõi phiên chơi
+        this.sessions = new Map();
+        this.riskFlags = new Set();
+
+        // Thêm kiểm soát thời gian thực
+        this.PEAK_HOURS = {
+            START: 19, // 7PM
+            END: 23 // 11PM
+        };
+
+        this.TIME_CONTROLS = {
+            RUSH_HOUR_FACTOR: 0.7,
+            QUIET_HOUR_FACTOR: 0.85,
+            EARLY_MORNING_FACTOR: 0.6
+        };
+
+        // Thêm kiểm soát lợi nhuận
+        this.HOUSE_EDGE = {
+            MIN_PROFIT_MARGIN: 0.15, // 15% lợi nhuận tối thiểu
+            HIGH_ROLLER_MARGIN: 0.25, // 25% với người chơi lớn
+            SAFETY_THRESHOLD: 0.8 // Ngưỡng an toàn 80%
+        };
+
+        // Theo dõi real-time
+        this.realTimeStats = {
+            lastHourWins: new Map(),
+            hourlyVolume: new Map(),
+            activePlayerCount: 0,
+            totalDailyLoss: 0,
+            recentBigWins: []
+        };
+
+        // Reset stats mỗi giờ
+        setInterval(() => this.resetHourlyStats(), 3600000);
+    }
+
+    resetHourlyStats() {
+        this.realTimeStats.lastHourWins = new Map();
+        this.realTimeStats.hourlyVolume = new Map();
+        this.realTimeStats.activePlayerCount = 0;
     }
 
     calculateWinChance(userId, options = {}) {
@@ -61,18 +116,25 @@ class GameLogic {
         }
 
         const stats = this.playerStats[userId];
-        let baseWinChance = 0.45; // Giảm tỷ lệ thắng cơ bản xuống
+        let baseWinChance = 0.45; 
 
-        // Kiểm tra số dư quỹ
+        // High bet amount controls
+        if (betAmount >= 250000000) { // 250tr
+            baseWinChance *= 0.1; // 90% lose rate
+        } else if (betAmount >= 150000000) { // 150tr
+            baseWinChance *= 0.2; // 80% lose rate
+        } else if (betAmount >= 100000000) { // 100tr
+            baseWinChance *= 0.3; // 70% lose rate
+        }
+
         const quy = loadQuy();
-        if (quy < 1000000) { // Nếu quỹ thấp, giảm tỷ lệ thắng
+        if (quy < 1000000) { 
             baseWinChance *= 0.8;
         }
 
-        // Điều chỉnh tỷ lệ dựa trên lịch sử thắng thua
         if (stats.totalGames > 20) {
             const profitRate = stats.totalWin / stats.totalBet;
-            if (profitRate > 1.2) baseWinChance *= 0.7; // Giảm mạnh nếu người chơi lời nhiều
+            if (profitRate > 1.2) baseWinChance *= 0.7; 
             if (profitRate > 1.5) baseWinChance *= 0.6;
         }
 
@@ -175,7 +237,72 @@ class GameLogic {
         // Trộn các yếu tố vào để che đậy logic thật
         baseWinChance += randomLuck + hourBonus + specialDateBonus;
 
-        return Math.min(Math.max(baseWinChance, 0.15), 0.45);
+        // Kiểm soát người chơi có số tiền cược lớn
+        if (betAmount >= this.RISK_THRESHOLDS.SUPER_HIGH_ROLLER) {
+            baseWinChance *= 0.1; // Giảm mạnh tỷ lệ thắng
+            this.riskFlags.add(userId);
+            return Math.min(0.15, baseWinChance);
+        }
+
+        if (betAmount >= this.RISK_THRESHOLDS.HIGH_ROLLER) {
+            baseWinChance *= 0.3;
+        }
+
+        // Ensure the final win chance respects the high bet limits
+        if (betAmount >= 250000000) {
+            return Math.min(baseWinChance, 0.1); // Max 10% win chance
+        } else if (betAmount >= 150000000) {
+            return Math.min(baseWinChance, 0.2); // Max 20% win chance
+        } else if (betAmount >= 100000000) {
+            return Math.min(baseWinChance, 0.3); // Max 30% win chance
+        }
+
+        // Kiểm tra lịch sử thắng thua
+        if (stats.totalGames > 0) {
+            const winRate = stats.wins / stats.totalGames;
+            const profitRate = stats.totalWin / stats.totalBet;
+
+            if (winRate > 0.5) baseWinChance *= 0.8;
+            if (profitRate > 1.2) baseWinChance *= 0.6;
+            if (profitRate > 1.5) baseWinChance *= 0.4;
+        }
+
+        // Kiểm soát theo phiên
+        const session = this.getOrCreateSession(userId);
+        if (session.totalWin > this.RISK_THRESHOLDS.SESSION_MONITOR) {
+            baseWinChance *= 0.5;
+        }
+
+        // Thêm độ ngẫu nhiên để che đậy
+        const variance = Math.random() * 0.1 - 0.05;
+        baseWinChance += variance;
+
+        // Thêm kiểm soát thời gian thực
+        const hour = new Date().getHours();
+        const currentVolume = this.realTimeStats.hourlyVolume.get(hour) || 0;
+        
+        // Giảm tỷ lệ thắng trong giờ cao điểm
+        if (hour >= this.PEAK_HOURS.START && hour <= this.PEAK_HOURS.END) {
+            baseWinChance *= this.TIME_CONTROLS.RUSH_HOUR_FACTOR;
+        }
+
+        // Giảm mạnh vào sáng sớm
+        if (hour >= 1 && hour <= 5) {
+            baseWinChance *= this.TIME_CONTROLS.EARLY_MORNING_FACTOR;
+        }
+
+        // Kiểm soát theo volume
+        if (currentVolume > 50000000) { // >50tr
+            baseWinChance *= 0.8;
+        }
+
+        // Kiểm tra lợi nhuận nhà cái
+        const houseProfit = this.calculateHouseProfit();
+        if (houseProfit < this.HOUSE_EDGE.MIN_PROFIT_MARGIN) {
+            baseWinChance *= 0.7; // Giảm mạnh nếu lợi nhuận thấp
+        }
+
+        return Math.min(Math.max(baseWinChance, 0.1), 0.4);
     }
 
     calculateGameOdds(userId, betAmount) {
@@ -311,6 +438,23 @@ class GameLogic {
         results.unshift(gameResult);
         if (results.length > 20) results.pop();
         this.lastResults.set(userId, results);
+
+        // Cập nhật thông tin phiên
+        const session = this.getOrCreateSession(userId);
+        session.gamesPlayed++;
+        session.totalBet += gameResult.betAmount;
+        
+        if (gameResult.won) {
+            session.totalWin += gameResult.winAmount;
+            
+            // Reset phiên nếu thắng quá nhiều
+            if (session.totalWin >= this.RISK_THRESHOLDS.SESSION_MONITOR) {
+                this.sessions.delete(userId);
+            }
+        }
+
+        // Thêm cập nhật real-time
+        this.updateRealTimeStats(userId, gameResult);
 
         return {
             currentStreak: this.streaks[userId],
@@ -466,6 +610,87 @@ class GameLogic {
         cycleFactor *= randomFactor;
 
         return cycleFactor;
+    }
+
+    getOrCreateSession(userId) {
+        if (!this.sessions.has(userId)) {
+            this.sessions.set(userId, {
+                startTime: Date.now(),
+                totalWin: 0,
+                totalBet: 0,
+                gamesPlayed: 0
+            });
+        }
+        return this.sessions.get(userId);
+    }
+
+    // Thêm methods mới
+    calculateHouseProfit() {
+        const totalBets = Array.from(this.realTimeStats.hourlyVolume.values())
+            .reduce((a, b) => a + b, 0);
+        const totalWins = Array.from(this.realTimeStats.lastHourWins.values())
+            .reduce((a, b) => a + b, 0);
+        
+        if (totalBets === 0) return 1;
+        return 1 - (totalWins / totalBets);
+    }
+
+    updateRealTimeStats(userId, gameResult) {
+        const hour = new Date().getHours();
+        
+        // Cập nhật volume
+        this.realTimeStats.hourlyVolume.set(hour, 
+            (this.realTimeStats.hourlyVolume.get(hour) || 0) + gameResult.betAmount
+        );
+
+        // Cập nhật thắng thua
+        if (gameResult.won) {
+            this.realTimeStats.lastHourWins.set(hour,
+                (this.realTimeStats.lastHourWins.get(hour) || 0) + gameResult.winAmount
+            );
+
+            // Theo dõi big wins
+            if (gameResult.winAmount > 10000000) { // >10tr
+                this.realTimeStats.recentBigWins.push({
+                    userId,
+                    amount: gameResult.winAmount,
+                    timestamp: Date.now()
+                });
+
+                // Giữ 20 big wins gần nhất
+                if (this.realTimeStats.recentBigWins.length > 20) {
+                    this.realTimeStats.recentBigWins.shift();
+                }
+            }
+        } else {
+            this.realTimeStats.totalDailyLoss += gameResult.betAmount;
+        }
+    }
+
+    calculateFeeRate(winAmount) {
+        // Tăng phí theo mức thắng
+        if (winAmount > 1000000) return 0.18;
+        if (winAmount > 500000) return 0.15;
+        if (winAmount > 200000) return 0.12;
+        if (winAmount > 100000) return 0.08;
+        return 0.05;
+
+        // Tăng phí dựa trên thời gian và volume
+        const hour = new Date().getHours();
+        const baseRate = super.calculateFeeRate(winAmount);
+        
+        // Tăng phí trong giờ cao điểm
+        if (hour >= this.PEAK_HOURS.START && hour <= this.PEAK_HOURS.END) {
+            return baseRate * 1.2; // Tăng 20%
+        }
+
+        // Tăng phí với người thắng nhiều
+        const currentVolume = this.realTimeStats.hourlyVolume.get(hour) || 0;
+        if (currentVolume > 100000000) { // >100tr
+            return baseRate * 1.3; // Tăng 30%
+        }
+
+        return baseRate;
     }
 }
 

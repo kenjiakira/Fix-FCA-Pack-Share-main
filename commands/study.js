@@ -1,139 +1,206 @@
+const { getBalance, updateBalance } = require('../utils/currencies');
+const { DEGREES, STUDY_TIME, LEARNING_SPEED, DEGREE_CATEGORIES } = require('../config/educationConfig');
+const fs = require('fs');
+const path = require('path');
+
+function formatNumber(number) {
+    return number.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+}
+
 module.exports = {
     name: "study",
-    info: "Tìm kiếm tài liệu học tập",
     dev: "HNT",
     usedby: 0,
+    info: "Hệ thống học tập",
     onPrefix: true,
-    usages: "study <category> [topic]",
-    cooldowns: 10,
+    usages: ".study [list/enroll/info]",
+    cooldowns: 5,
 
-    onLaunch: async function ({ api, event, target }) {
-        const { threadID, messageID } = event;
-        
-        const categories = {
-            programming: ["python", "javascript", "java", "cpp", "ruby", "php"],
-            dataScience: ["machine_learning", "data_analysis", "statistics", "ai"],
-            languages: ["english", "japanese", "korean", "chinese"],
-            design: ["ui_ux", "graphic_design", "web_design", "3d_modeling"],
-            business: ["marketing", "finance", "management", "entrepreneurship"]
-        };
+    onLaunch: async function({ api, event, target }) {
+        const { threadID, senderID } = event;
+        const command = target[0]?.toLowerCase();
 
-        const resources = {
-           
-            python: [
-                {
-                    title: "Codecademy Python Course",
-                    url: "https://www.codecademy.com/learn/learn-python-3",
-                    rating: 4.8,
-                    type: "Interactive"
-                },
-                "2. [Học Python tại W3Schools](https://www.w3schools.com/python/)",
-                "3. [Khóa học Python miễn phí tại Coursera](https://www.coursera.org/courses?query=python)",
-                "4. [Học Python với FreeCodeCamp](https://www.freecodecamp.org/learn/scientific-computing-with-python/)",
-                "5. [Học Python qua YouTube](https://www.youtube.com/results?search_query=python+tutorial)"
-            ],
-            javascript: [   
-                "1. [Học JavaScript tại W3Schools](https://www.w3schools.com/js/)",
-                "2. [JavaScript for Beginners tại freeCodeCamp](https://www.freecodecamp.org/news/javascript-for-beginners/)",
-                "3. [Học JavaScript tại MDN](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide)",
-                "4. [Học JavaScript qua YouTube](https://www.youtube.com/results?search_query=learn+javascript+for+beginners)",
-                "5. [Khóa học JavaScript miễn phí tại Coursera](https://www.coursera.org/courses?query=javascript)"
-            ],
-            java: [
-                "1. [Học Java tại W3Schools](https://www.w3schools.com/java/)",
-                "2. [Khóa học Java miễn phí tại Coursera](https://www.coursera.org/courses?query=java)",
-                "3. [Học Java tại Udemy](https://www.udemy.com/topic/java/)",
-                "4. [Java Programming với FreeCodeCamp](https://www.freecodecamp.org/news/learn-java-for-beginners/)"
-            ],
-            "machine learning": [
-                "1. [Học Machine Learning tại Coursera](https://www.coursera.org/learn/machine-learning)",
-                "2. [Machine Learning miễn phí với Google](https://developers.google.com/machine-learning/crash-course)",
-                "3. [Học Machine Learning tại edX](https://www.edx.org/learn/machine-learning)",
-                "4. [Khóa học Machine Learning miễn phí tại Udemy](https://www.udemy.com/topic/machine-learning/)"
-            ],
-            "data science": [
-                "1. [Học Data Science tại Coursera](https://www.coursera.org/browse/data-science)",
-                "2. [Học Data Science tại freeCodeCamp](https://www.freecodecamp.org/learn/data-analysis-with-python/)",
-                "3. [Data Science with Python tại edX](https://www.edx.org/learn/data-science)",
-                "4. [Tài liệu học Data Science với Kaggle](https://www.kaggle.com/learn/overview)"
-            ],
-            design: [
-                "1. [Học thiết kế đồ họa tại Udemy](https://www.udemy.com/topic/graphic-design/)",
-                "2. [Khóa học thiết kế đồ họa miễn phí tại Coursera](https://www.coursera.org/courses?query=graphic%20design)",
-                "3. [Tài liệu học thiết kế với Canva Design School](https://www.canva.com/learn/design-school/)",
-                "4. [Học thiết kế tại Skillshare](https://www.skillshare.com/browse/graphic-design)"
-            ],
-            english: [
-                "1. [Học tiếng Anh với BBC Learning English](https://www.bbc.co.uk/learningenglish)",
-                "2. [Học tiếng Anh miễn phí tại Duolingo](https://www.duolingo.com/)",
-                "3. [Học tiếng Anh qua podcast với EnglishClass101](https://www.englishclass101.com/)",
-                "4. [Học tiếng Anh tại Memrise](https://www.memrise.com/)",
-                "5. [Học tiếng Anh qua YouTube](https://www.youtube.com/results?search_query=learn+english)"
-            ],
-            "web development": [
-                "1. [Học Web Development tại freeCodeCamp](https://www.freecodecamp.org/learn/)",
-                "2. [Học Web Development tại MDN](https://developer.mozilla.org/en-US/docs/Learn)",
-                "3. [Khóa học Web Development miễn phí tại Coursera](https://www.coursera.org/courses?query=web%20development)",
-                "4. [Học Web Development tại Udemy](https://www.udemy.com/topic/web-development/)"
-            ]
-        };
+        try {
+            const education = this.loadEducation(senderID);
 
-        if (!target[0]) {
-            return api.sendMessage(getHelpMessage(categories), threadID, messageID);
+            if (!command) {
+                return api.sendMessage(
+                    "🎓 HỆ THỐNG HỌC TẬP 🎓\n" +
+                    "━━━━━━━━━━━━━━━━━━\n\n" +
+                    "1. list - Xem các bằng cấp\n" +
+                    "2. enroll [mã] - Đăng ký học\n" +
+                    "3. info - Xem thông tin học vấn\n\n" +
+                    "💡 Học vấn sẽ ảnh hưởng đến công việc",
+                    threadID
+                );
+            }
+
+            switch (command) {
+                case "list": {
+                    let msg = "🎓 DANH SÁCH BẰNG CẤP 🎓\n━━━━━━━━━━━━━━━━━━\n\n";
+                    
+                    for (const [categoryId, category] of Object.entries(DEGREE_CATEGORIES)) {
+                        msg += `【${category.name}】\n`;
+                        
+                        for (const degreeId of category.degrees) {
+                            const degree = DEGREES[degreeId];
+                            if (!degree) continue;
+
+                            msg += `• Mã: ${degreeId} (${degree.name})\n`;
+                            msg += `• Chi phí: ${degree.instantGrant ? 'Miễn phí' : formatNumber(degree.cost) + ' Xu'}\n`;
+                            msg += `• Thời gian: ${degree.instantGrant ? 'Cấp ngay' : degree.timeNeeded + ' ngày'}\n`;
+                            
+                            if (degree.requirements.length > 0) {
+                                msg += `• Yêu cầu: ${degree.requirements.map(req => DEGREES[req].name).join(", ")}\n`;
+                            }
+                            msg += '\n';
+                        }
+                    }
+
+                    msg += "💡 HƯỚNG DẪN:\n";
+                    msg += "• Đăng ký học: .study enroll <mã>\n";
+                    msg += "• Xem tiến độ: .study info\n\n";
+                    msg += "💵 Số dư: " + formatNumber(await getBalance(senderID)) + " Xu";
+                    
+                    return api.sendMessage(msg, threadID);
+                }
+
+                case "enroll": {
+                    const degreeId = target[1]?.toLowerCase();
+                    if (!degreeId || !DEGREES[degreeId]) {
+                        return api.sendMessage("❌ Vui lòng nhập mã bằng cấp hợp lệ!", threadID);
+                    }
+
+                    const degree = DEGREES[degreeId];
+                    if (education.currentDegree) {
+                        return api.sendMessage("❌ Bạn đang theo học một chương trình khác!", threadID);
+                    }
+                    
+                    for (const req of degree.requirements) {
+                        if (!education.degrees.includes(req)) {
+                            return api.sendMessage(
+                                `❌ Bạn cần có bằng ${DEGREES[req].name} trước!`,
+                                threadID
+                            );
+                        }
+                    }
+
+                    if (degree.instantGrant) {
+                        education.degrees = education.degrees || []; // Thêm dòng này
+                        education.degrees.push(degreeId);
+                        this.saveEducation(senderID, education);
+                        return api.sendMessage(
+                            "🎓 CHÚC MỪNG BẠN ĐÃ TỐT NGHIỆP THPT!\n\n" +
+                            `Bằng cấp: ${degree.name}\n` +
+                            "💡 Bây giờ bạn có thể học lên Cao đẳng hoặc Đại học",
+                            threadID
+                        );
+                    }
+
+                    const balance = await getBalance(senderID);
+                    if (balance < degree.cost) {
+                        return api.sendMessage(
+                            `❌ Bạn cần ${formatNumber(degree.cost)} Xu để đăng ký học!`,
+                            threadID
+                        );
+                    }
+
+                    await updateBalance(senderID, -degree.cost);
+                    education.currentDegree = {
+                        id: degreeId,
+                        startTime: Date.now(),
+                        progress: 0
+                    };
+                    this.saveEducation(senderID, education);
+
+                    return api.sendMessage(
+                        "🎓 ĐĂNG KÝ THÀNH CÔNG!\n\n" +
+                        `Bằng cấp: ${degree.name}\n` +
+                        `Thời gian học: ${degree.timeNeeded} ngày\n` +
+                        `Chi phí: ${formatNumber(degree.cost)} Xu\n\n` +
+                        "💡 Dùng .study info để xem tiến độ",
+                        threadID
+                    );
+                }
+
+                case "info": {
+                    let msg = "🎓 THÔNG TIN HỌC VẤN 🎓\n━━━━━━━━━━━━━━━━━━\n\n";
+                    
+                    if (education.degrees.length === 0) {
+                        msg += "📚 Trình độ: Chưa tốt nghiệp\n";
+                    } else {
+                        const highestDegree = education.degrees[education.degrees.length - 1];
+                        msg += `📚 Trình độ cao nhất: ${DEGREES[highestDegree].name}\n\n`;
+                        msg += "🎓 Các bằng cấp đã có:\n";
+                        education.degrees.forEach(degreeId => {
+                            msg += `• ${DEGREES[degreeId].name}\n`;
+                        });
+                    }
+
+                    if (education.currentDegree) {
+                        const degree = DEGREES[education.currentDegree.id];
+                        const daysPassed = (Date.now() - education.currentDegree.startTime) / STUDY_TIME;
+                        const progress = Math.min(100, (daysPassed / degree.timeNeeded) * 100);
+                        
+                        msg += "\n📝 Đang theo học:\n";
+                        msg += `• ${degree.name}\n`;
+                        msg += `• Tiến độ: ${Math.floor(progress)}%\n`;
+                        
+                        if (progress >= 100) {
+                            education.degrees.push(education.currentDegree.id);
+                            education.currentDegree = null;
+                            this.saveEducation(senderID, education);
+                            msg += "\n🎊 CHÚC MỪNG BẠN ĐÃ TỐT NGHIỆP!";
+                        }
+                    }
+
+                    return api.sendMessage(msg, threadID);
+                }
+            }
+        } catch (error) {
+            console.error(error);
+            return api.sendMessage("❌ Đã có lỗi xảy ra!", threadID);
         }
+    },
 
-        const [category, topic] = target;
-        
-        if (!categories[category]) {
-            return api.sendMessage(
-                `Danh mục không hợp lệ. Các danh mục hiện có:\n${Object.keys(categories).join(", ")}`,
-                threadID, 
-                messageID
-            );
+    loadEducation: function(userID) {
+        const educationPath = path.join(__dirname, '../database/json/family/familyeducation.json');
+        try {
+            if (!fs.existsSync(educationPath)) {
+                fs.writeFileSync(educationPath, '{}');
+            }
+            const data = JSON.parse(fs.readFileSync(educationPath));
+            let education = data[userID] || { degrees: [], currentDegree: null };
+
+            // Thêm phần chuyển đổi mã cũ sang mã mới
+            if (education.degrees) {
+                education.degrees = education.degrees.map(degree => {
+                    // Chuyển đổi mã cũ sang mã mới
+                    if (degree === "highschool") return "e1";
+                    return degree;
+                });
+            }
+
+            return education;
+        } catch (error) {
+            console.error(error);
+            return { degrees: [], currentDegree: null };
         }
+    },
 
-        if (!topic) {
-            return api.sendMessage(
-                `Các chủ đề trong ${category}:\n${categories[category].join(", ")}`,
-                threadID,
-                messageID
-            );
+    saveEducation: function(userID, data) {
+        const educationPath = path.join(__dirname, '../database/json/family/familyeducation.json');
+        try {
+            let eduData = {};
+            if (fs.existsSync(educationPath)) {
+                eduData = JSON.parse(fs.readFileSync(educationPath));
+            }
+            eduData[userID] = data;
+            fs.writeFileSync(educationPath, JSON.stringify(eduData, null, 2));
+            return true;
+        } catch (error) {
+            console.error(error);
+            return false;
         }
-
-        const topicResources = resources[topic];
-        if (!topicResources) {
-            const suggestions = findSimilarTopics(topic, Object.keys(resources));
-            return api.sendMessage(
-                `Không tìm thấy tài liệu cho "${topic}"\nCó thể bạn muốn tìm: ${suggestions.join(", ")}`,
-                threadID,
-                messageID
-            );
-        }
-
-        const response = formatResourceList(topic, topicResources);
-        return api.sendMessage(response, threadID, messageID);
     }
 };
-
-function getHelpMessage(categories) {
-    return `Hướng dẫn sử dụng lệnh study:
-1. Xem danh mục: study <tên danh mục>
-2. Xem tài liệu: study <danh mục> <chủ đề>
-
-Danh mục hiện có:
-${Object.entries(categories)
-    .map(([cat, topics]) => `${cat}: ${topics.join(", ")}`)
-    .join("\n")}`;
-}
-
-function formatResourceList(topic, resources) {
-    return `📚 Tài liệu học ${topic}:\n${resources
-        .map(r => `- ${r.title} (${r.rating}⭐)\n  ${r.url}\n  Loại: ${r.type}`)
-        .join("\n\n")}`;
-}
-
-function findSimilarTopics(search, topics) {
-    return topics.filter(t => 
-        t.includes(search) || search.includes(t)
-    ).slice(0, 3);
-}

@@ -7,9 +7,9 @@ function formatNumber(number) {
 function formatCurrency(str) {
     if (!str) return 0;
     str = str.toString();
-    str = str.replace(/[^0-9.]/g, '');
+    str = str.replace(/[^0-9.-]/g, ''); 
     const num = parseFloat(str);
-    return isNaN(num) ? 0 : Math.abs(num);
+    return isNaN(num) ? 0 : num; 
 }
 
 module.exports = {
@@ -73,18 +73,22 @@ module.exports = {
                 }
 
                 const processedAmount = formatCurrency(amount);
-                if (processedAmount <= 0) {
-                    return api.sendMessage("❌ Số tiền phải lớn hơn 0!", threadID, messageID);
+                if (processedAmount === 0) {
+                    return api.sendMessage("❌ Số tiền không hợp lệ!", threadID, messageID);
                 }
 
-                let newBalance = processedAmount;
-                if (action === 'add') newBalance = currentBalance + processedAmount;
-                if (action === 'sub') newBalance = currentBalance - processedAmount;
-
-                if (newBalance < 0) {
-                    return api.sendMessage("❌ Số dư không thể âm!", threadID, messageID);
+                let newBalance;
+                switch(action) {
+                    case 'set':
+                        newBalance = processedAmount;
+                        break;
+                    case 'add':
+                        newBalance = currentBalance + Math.abs(processedAmount); // Luôn cộng số dương
+                        break;
+                    case 'sub':
+                        newBalance = currentBalance - Math.abs(processedAmount); // Luôn trừ số dương
+                        break;
                 }
-
                 setBalance(userID, newBalance);
                 saveData();
 
