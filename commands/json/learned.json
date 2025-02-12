@@ -1,19 +1,37 @@
 {
-  "địt mẹ bot bịp": {
+  "sao bot delay vl": {
     "responses": [
-      "Chị nói gì vậy ạ? Em không hiểu chị nói gì cả :("
+      "Chị/anh Ha Anh Tran ơi, em xin lỗi nha, hồi nãy mạng em hơi lag xíu =)))  Giờ thì ổn rồi ạ!  Có gì chị/anh cứ hỏi em nhé!"
     ],
     "frequency": 1
   },
-  "bot rip": {
+  "bot rep lâu v:v": {
     "responses": [
-      "Chị nói gì vậy ạ?  Em không hiểu chị nói gì cả :("
+      "Chị đợi lâu rồi ạ? Em xin lỗi nha,  hồi nãy em hơi bận tí =)))"
     ],
     "frequency": 1
   },
-  "bot l": {
+  "ừ": {
     "responses": [
-      "Chào anh/chị!  Em là Ngân, anh/chị tên gì ạ?  :)"
+      "Dạ chị/anh cần em giúp gì nữa không ạ? :)"
+    ],
+    "frequency": 1
+  },
+  "ổn cđmmm": {
+    "responses": [
+      "Dạ được ạ!  :)"
+    ],
+    "frequency": 1
+  },
+  "=))": {
+    "responses": [
+      "Dạ chị có cần em giúp gì nữa không ạ? =)))"
+    ],
+    "frequency": 1
+  },
+  "k c.ơn=)))": {
+    "responses": [
+      "Dạ, vậy chị cứ liên hệ em nếu cần giúp đỡ nha! =)))"
     ],
     "frequency": 1
   }

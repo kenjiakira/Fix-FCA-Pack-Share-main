@@ -1,38 +1,59 @@
 {
   "users": {
-    "100048502504358": {
+    "61564482366941": {
       "personal": [],
       "facts": [],
       "preferences": [],
       "interactions": [
         {
-          "content": "User nói: địt mẹ bot bịp\nTôi trả lời: Chị nói gì vậy ạ? Em không hiểu chị nói gì cả :(",
-          "timestamp": 1739354624570,
+          "content": "Ha Anh Tran nói: sao bot delay vl\nTôi trả lời: Chị/anh Ha Anh Tran ơi, em xin lỗi nha, hồi nãy mạng em hơi lag xíu =)))  Giờ thì ổn rồi ạ!  Có gì chị/anh cứ hỏi em nhé!",
+          "timestamp": 1739355709730,
           "priority": 1,
           "accessCount": 1,
-          "lastAccess": 1739354759960
+          "lastAccess": 1739355732284
         },
         {
-          "content": "User nói: bot rip\nTôi trả lời: Chị nói gì vậy ạ?  Em không hiểu chị nói gì cả :(",
-          "timestamp": 1739354761969,
+          "content": "Ha Anh Tran nói: ừ\nTôi trả lời: Dạ chị/anh cần em giúp gì nữa không ạ? :)",
+          "timestamp": 1739355728908,
           "priority": 1,
           "accessCount": 0,
-          "lastAccess": 1739354761969
+          "lastAccess": 1739355728908
+        },
+        {
+          "content": "Ha Anh Tran nói: ổn cđmmm\nTôi trả lời: Dạ được ạ!  :)",
+          "timestamp": 1739355732969,
+          "priority": 1,
+          "accessCount": 0,
+          "lastAccess": 1739355732969
         }
       ],
       "emotions": []
     },
-    "100053868457890": {
+    "100055052811579": {
       "personal": [],
       "facts": [],
       "preferences": [],
       "interactions": [
         {
-          "content": "Người dùng nói: Bot l\nTôi trả lời: Chào anh/chị!  Em là Ngân, anh/chị tên gì ạ?  :)",
-          "timestamp": 1739354956681,
+          "content": "Người dùng nói: Bot rep lâu v:v\nTôi trả lời: Chị đợi lâu rồi ạ? Em xin lỗi nha,  hồi nãy em hơi bận tí =)))",
+          "timestamp": 1739355722112,
+          "priority": 1,
+          "accessCount": 1,
+          "lastAccess": 1739355751095
+        },
+        {
+          "content": "Người dùng nói: =))\nTôi trả lời: Dạ chị có cần em giúp gì nữa không ạ? =)))",
+          "timestamp": 1739355752544,
+          "priority": 1,
+          "accessCount": 1,
+          "lastAccess": 1739355784039
+        },
+        {
+          "content": "Người dùng nói: K c.ơn=)))\nTôi trả lời: Dạ, vậy chị cứ liên hệ em nếu cần giúp đỡ nha! =)))",
+          "timestamp": 1739355785891,
           "priority": 1,
           "accessCount": 0,
-          "lastAccess": 1739354956681
+          "lastAccess": 1739355785891
         }
       ],
       "emotions": []
