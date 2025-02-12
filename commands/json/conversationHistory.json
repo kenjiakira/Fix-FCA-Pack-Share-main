@@ -1,25 +1,57 @@
 {
   "global": [
     {
-      "timestamp": 1739341162437,
-      "prompt": "clmm bot",
-      "response": "Chị ơi, sao chị lại nói vậy ạ? =)))",
-      "senderID": "100068382888605",
-      "senderName": "Pham Minh Dang"
+      "timestamp": 1739354624562,
+      "prompt": "địt mẹ bot bịp",
+      "response": "Chị nói gì vậy ạ? Em không hiểu chị nói gì cả :(",
+      "senderID": "100048502504358",
+      "senderName": "User"
+    },
+    {
+      "timestamp": 1739354761761,
+      "prompt": "bot rip",
+      "response": "Chị nói gì vậy ạ?  Em không hiểu chị nói gì cả :(",
+      "senderID": "100048502504358",
+      "senderName": "User"
+    },
+    {
+      "timestamp": 1739354956642,
+      "prompt": "Bot l",
+      "response": "Chào anh/chị!  Em là Ngân, anh/chị tên gì ạ?  :)",
+      "senderID": "100053868457890",
+      "senderName": "Người dùng 100053868457890"
     }
   ],
   "threads": {
     "6589198804475799": [
       {
-        "timestamp": 1739341162437,
-        "prompt": "clmm bot",
-        "response": "Chị ơi, sao chị lại nói vậy ạ? =)))",
-        "senderID": "100068382888605",
-        "senderName": "Pham Minh Dang"
+        "timestamp": 1739354624562,
+        "prompt": "địt mẹ bot bịp",
+        "response": "Chị nói gì vậy ạ? Em không hiểu chị nói gì cả :(",
+        "senderID": "100048502504358",
+        "senderName": "User"
+      },
+      {
+        "timestamp": 1739354761761,
+        "prompt": "bot rip",
+        "response": "Chị nói gì vậy ạ?  Em không hiểu chị nói gì cả :(",
+        "senderID": "100048502504358",
+        "senderName": "User"
+      }
+    ],
+    "6678977622216557": [
+      {
+        "timestamp": 1739354956642,
+        "prompt": "Bot l",
+        "response": "Chào anh/chị!  Em là Ngân, anh/chị tên gì ạ?  :)",
+        "senderID": "100053868457890",
+        "senderName": "Người dùng 100053868457890"
       }
     ]
   },
   "lastResponses": {
-    "clmm bot": "Chị ơi, sao chị lại nói vậy ạ? =)))"
+    "địt mẹ bot bịp": "Chị nói gì vậy ạ? Em không hiểu chị nói gì cả :(",
+    "bot rip": "Chị nói gì vậy ạ?  Em không hiểu chị nói gì cả :(",
+    "bot l": "Chào anh/chị!  Em là Ngân, anh/chị tên gì ạ?  :)"
   }
 }

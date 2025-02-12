@@ -34,6 +34,8 @@ module.exports = {
         if (event.type !== 'message') return;
         const message = event.body;
         
+        if (message.toLowerCase().startsWith('down ')) return;
+        
         const urlRegex = /(https?:\/\/[^\s]+)/g;
         const urls = message.match(urlRegex);
         
@@ -224,26 +226,41 @@ async function handleDouyin(url, api, event) {
 }
 
 async function handleInstagram(url, api, event) {
+    let loadingMsg = null;
     try {
+        loadingMsg = await api.sendMessage("⏳ Đang tải media từ Instagram...", event.threadID);
+        
         const data = await Downloader.getMediaInfo(url);
-        const videos = data.medias.filter(m => m.type === 'video');
-        const images = data.medias.filter(m => m.type === 'image');
+        const mediaDownloads = [];
 
-        if (videos.length > 0) {
-            const downloads = await Downloader.downloadMultipleMedia(videos, 'instagram', 2);
-            await api.sendMessage({
-                body: `=== 𝗜𝗻𝘀𝘁𝗮𝗴𝗿𝗮𝗺 ===\n\n👤 Author: ${data.author}\n📝 Caption: ${data.title}`,
-                attachment: downloads.map(d => fs.createReadStream(d.path))
-            }, event.threadID, () => downloads.forEach(d => fs.unlinkSync(d.path)));
-        } else if (images.length > 0) {
-            const downloads = await Downloader.downloadMultipleMedia(images, 'instagram', 10);
-            await api.sendMessage({
-                body: `=== 𝗜𝗻𝘀𝘁𝗮𝗴𝗿𝗮𝗺 ===\n\n👤 Author: ${data.author}\n📝 Caption: ${data.title}`,
-                attachment: downloads.map(d => fs.createReadStream(d.path))
-            }, event.threadID, () => downloads.forEach(d => fs.unlinkSync(d.path)));
+        if (data.medias && data.medias.length > 0) {
+            const sortedMedias = Downloader.sortMediaByQuality(data.medias);
+            for (const media of sortedMedias) {
+                if (mediaDownloads.length >= 10) break;
+                const download = await Downloader.downloadMedia(media, 'instagram');
+                mediaDownloads.push(download);
+            }
         }
+
+        if (mediaDownloads.length === 0) {
+            throw new Error('Không tìm thấy media để tải');
+        }
+
+        await api.sendMessage({
+            body: `=== 𝗜𝗻𝘀𝘁𝗮𝗴𝗿𝗮𝗺 ===\n\n` +
+                  `👤 Author: ${data.author || 'Không xác định'}\n` +
+                  `💬 Caption: ${data.title || 'Không có caption'}\n` +
+                  `📊 Media: ${mediaDownloads.length} files\n` +
+                  `🔗 Link: ${data.url}`,
+            attachment: mediaDownloads.map(d => fs.createReadStream(d.path))
+        }, event.threadID, () => {
+            mediaDownloads.forEach(d => fs.unlinkSync(d.path));
+            if (loadingMsg) api.unsendMessage(loadingMsg.messageID);
+        });
+
     } catch (error) {
         console.error('Instagram error:', error);
+        if (loadingMsg) api.unsendMessage(loadingMsg.messageID);
         api.sendMessage('❌ Lỗi khi tải nội dung từ Instagram', event.threadID);
     }
 }

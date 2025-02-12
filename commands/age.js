@@ -4,7 +4,7 @@ const { Canvas, Image, ImageData, loadImage } = require('canvas');
 const faceapi = require('face-api.js');
 const axios = require('axios');
 
-const cacheDir = path.join(__dirname, 'cache');
+const cacheDir = path.join(__dirname, 'models');
 if (!fs.existsSync(cacheDir)) {
   fs.mkdirSync(cacheDir);
 }
@@ -39,7 +39,7 @@ module.exports = {
         faceapi.nets.ssdMobilenetv1.loadFromDisk('./commands/models'),
         faceapi.nets.faceLandmark68Net.loadFromDisk('./commands/models'),
         faceapi.nets.faceRecognitionNet.loadFromDisk('./commands/models'),
-        faceapi.nets.ageGenderNet.loadFromDisk('./commands/cache/'),
+        faceapi.nets.ageGenderNet.loadFromDisk('./commands/models/'),
         faceapi.nets.faceExpressionNet.loadFromDisk('./commands/models'),
         faceapi.nets.tinyFaceDetector.loadFromDisk('./commands/models')
       ]);

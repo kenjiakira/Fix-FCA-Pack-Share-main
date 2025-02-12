@@ -1,5 +1,5 @@
 const { getBalance, updateBalance } = require('../utils/currencies');
-const { DEGREES, STUDY_TIME, LEARNING_SPEED, DEGREE_CATEGORIES } = require('../config/educationConfig');
+const { DEGREES, STUDY_TIME, LEARNING_SPEED, DEGREE_CATEGORIES } = require('../config/family/educationConfig');
 const fs = require('fs');
 const path = require('path');
 

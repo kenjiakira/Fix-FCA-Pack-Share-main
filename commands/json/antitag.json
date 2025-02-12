@@ -127,10 +127,10 @@
                 "lastReset": 1738675173509
             },
             "100089981373051": {
-                "count": 2,
-                "lastReset": 1739106294493,
+                "count": 1,
+                "lastReset": 1739344775322,
                 "tagsInWindow": 1,
-                "lastTagTime": 1739117623091
+                "lastTagTime": 1739344775322
             },
             "100049109850406": {
                 "count": 1,
@@ -178,6 +178,12 @@
                 "count": 1,
                 "lastReset": 1739279018069,
                 "lastTagTime": 1739279018069,
+                "tagsInWindow": 1
+            },
+            "100000349406075": {
+                "count": 2,
+                "lastReset": 1739349564844,
+                "lastTagTime": 1739349981445,
                 "tagsInWindow": 1
             }
         }

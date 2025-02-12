@@ -92,4 +92,25 @@ const loadEventCommands = () => {
     });
 };
 
-module.exports = { loadCommands, loadEventCommands, loadConfig };
+const reloadCommand = (commandName) => {
+    try {
+        delete require.cache[require.resolve(`../commands/${commandName}.js`)];
+        const command = require(`../commands/${commandName}.js`);
+        if (command.name && typeof command.name === 'string') {
+            global.cc.commands[command.name] = {
+                name: command.name,
+                usedby: command.usedby,
+                info: command.info,
+                onPrefix: command.onPrefix,
+                cooldowns: command.cooldowns
+            };
+            return true;
+        }
+        return false;
+    } catch (error) {
+        console.error(`Failed to reload command ${commandName}:`, error);
+        return false;
+    }
+};
+
+module.exports = { loadCommands, loadEventCommands, loadConfig, reloadCommand };

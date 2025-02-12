@@ -19,6 +19,119 @@ let conversationHistory = {
     lastResponses: {}
 };
 
+const MEMORY_FILE = path.join(__dirname, 'json', 'memoryBank.json');
+const MEMORY_CATEGORIES = {
+    PERSONAL: 'personal',
+    FACTS: 'facts', 
+    PREFERENCES: 'preferences',
+    INTERACTIONS: 'interactions',
+    EMOTIONS: 'emotions'
+};
+
+let memoryBank = {
+    users: {},
+    global: {
+        facts: [],
+        interactions: [],
+        preferences: []
+    }
+};
+
+const loadMemoryBank = async () => {
+    try {
+        memoryBank = await fs.readJson(MEMORY_FILE);
+        console.log("Loaded memory bank");
+    } catch (error) {
+        console.log("Creating new memory bank");
+        await fs.writeJson(MEMORY_FILE, memoryBank);
+    }
+};
+
+const saveMemoryBank = async () => {
+    await fs.writeJson(MEMORY_FILE, memoryBank, { spaces: 2 });
+};
+
+const addMemory = async (senderID, category, content, priority = 1) => {
+    if (!memoryBank.users[senderID]) {
+        memoryBank.users[senderID] = {
+            personal: [],
+            facts: [],
+            preferences: [],
+            interactions: [],
+            emotions: []
+        };
+    }
+
+    const memory = {
+        content,
+        timestamp: Date.now(),
+        priority,
+        accessCount: 0,
+        lastAccess: Date.now()
+    };
+
+    memoryBank.users[senderID][category].push(memory);
+    
+    memoryBank.users[senderID][category].sort((a, b) => {
+        return (b.priority * b.accessCount) - (a.priority * a.accessCount);
+    });
+
+    if (memoryBank.users[senderID][category].length > 50) {
+        memoryBank.users[senderID][category] = memoryBank.users[senderID][category].slice(0, 50);
+    }
+
+    await saveMemoryBank();
+};
+
+const getRelevantMemories = (senderID, prompt) => {
+    if (!memoryBank.users[senderID]) return [];
+
+    const memories = [];
+    const now = Date.now();
+    const keywords = prompt.toLowerCase().split(' ');
+
+    for (const category in memoryBank.users[senderID]) {
+        memoryBank.users[senderID][category].forEach(memory => {
+            const relevance = keywords.some(keyword => 
+                memory.content.toLowerCase().includes(keyword)
+            );
+
+            if (relevance) {
+                memory.accessCount++;
+                memory.lastAccess = now;
+                memories.push({
+                    content: memory.content,
+                    category,
+                    relevance: memory.priority * memory.accessCount
+                });
+            }
+        });
+    }
+
+    return memories
+        .sort((a, b) => b.relevance - a.relevance)
+        .slice(0, 5)
+        .map(m => m.content);
+};
+
+const consolidateMemories = async (senderID) => {
+    if (!memoryBank.users[senderID]) return;
+
+    const now = Date.now();
+    const oneWeek = 7 * 24 * 60 * 60 * 1000;
+
+    for (const category in memoryBank.users[senderID]) {
+        memoryBank.users[senderID][category] = memoryBank.users[senderID][category]
+            .filter(memory => {
+                const age = now - memory.timestamp;
+                const frequency = memory.accessCount / (age / oneWeek);
+                return frequency > 0.1 || memory.priority > 2;
+            });
+    }
+
+    await saveMemoryBank();
+};
+
 let botEmotionalState = {
     mood: 0.5,
     energy: 0.8, 
@@ -162,7 +275,7 @@ const getConversationParticipants = (threadID) => {
     return participants;
 };
 
-const getRelevantContext = (threadID, prompt) => {
+const getRelevantContext = (threadID, prompt, senderID) => {
     const threadHistory = conversationHistory.threads[threadID] || [];
     const relevantHistory = threadHistory
         .slice(-5)
@@ -175,42 +288,71 @@ const getRelevantContext = (threadID, prompt) => {
     const lastResponse = conversationHistory.lastResponses[prompt.toLowerCase()];
     const participants = getConversationParticipants(threadID);
     
+    // Get relevant memories
+    const memories = getRelevantMemories(senderID, prompt);
+    const memoryContext = memories.length > 0 ? 
+        `Những điều tôi nhớ về người này:\n${memories.join('\n')}\n` : '';
+
     return {
         history: relevantHistory,
         lastResponse,
-        participants: Array.from(participants.values())
+        participants: Array.from(participants.values()),
+        memories: memoryContext
     };
 };
-
 
 const hasPermission = (senderID) => {
     const adminConfig = JSON.parse(fs.readFileSync('./admin.json', 'utf8'));
     return adminConfig.adminUIDs.includes(senderID);
 };
 
-const getHonorificContext = (userName, userAge) => {
-  
-    let xung = 'em'; 
-    let goi = 'anh/chị'; 
+const getHonorificContext = (userName, userAge, userGender) => {
+    let xung = 'em';
+    let goi = userGender === 'male' ? 'anh' : (userGender === 'female' ? 'chị' : 'anh/chị');
 
     if (userAge) {
-        const ageDiff = 19 - userAge; 
+        const ageDiff = 19 - userAge;
         if (ageDiff >= 20) {
             xung = 'cháu';
-            goi = userAge > 50 ? 'bác' : 'cô/chú';
+            goi = userAge > 50 ? 'bác' : (userGender === 'male' ? 'chú' : 'cô');
         } else if (ageDiff >= 10) {
             xung = 'em';
-            goi = 'anh/chị';
+            goi = userGender === 'male' ? 'anh' : 'chị';
         } else if (ageDiff >= -5) {
             xung = 'mình';
-            goi = 'cậu/bạn';
+            goi = userGender === 'male' ? 'cậu' : 'bạn';
         } else if (ageDiff >= -20) {
-            xung = 'chị';
+            xung = userGender === 'male' ? 'anh' : 'chị';
             goi = 'em';
         }
     }
 
     return { xung, goi };
+};
+
+const updateUserGender = async (senderID, gender) => {
+    if (!userDatabase[senderID]) {
+        userDatabase[senderID] = {};
+    }
+    userDatabase[senderID].gender = gender;
+    await fs.writeJson(userDataPath, userDatabase, { spaces: 2 });
+};
+
+const detectGenderQuestion = (response) => {
+    const lowerResponse = response.toLowerCase();
+    if (lowerResponse.includes('bạn là nam hay nữ') || 
+        lowerResponse.includes('giới tính của bạn') ||
+        lowerResponse.includes('cho mình hỏi bạn là nam hay nữ')) {
+        return true;
+    }
+    return false;
+};
+
+const detectGenderAnswer = (message) => {
+    const lowerMsg = message.toLowerCase();
+    if (lowerMsg.includes('nam') || lowerMsg.includes('trai')) return 'male';
+    if (lowerMsg.includes('nữ') || lowerMsg.includes('gái')) return 'female';
+    return null;
 };
 
 const generateResponse = async (prompt, senderID, api, threadID) => { 
@@ -224,7 +366,7 @@ const generateResponse = async (prompt, senderID, api, threadID) => {
 
     try {
         const cleanPrompt = prompt.toLowerCase().trim();
-        const context = getRelevantContext(threadID, cleanPrompt);
+        const context = getRelevantContext(threadID, cleanPrompt, senderID);
 
         if (context.lastResponse && Math.random() < 0.7) { 
             return context.lastResponse;
@@ -243,21 +385,33 @@ const generateResponse = async (prompt, senderID, api, threadID) => {
         const userName = userDatabase[senderID]?.name || "Người dùng";
         const isAdmin = hasPermission(senderID);
         const userInfo = userDatabase[senderID] || {};
-        const honorifics = getHonorificContext(userName, userInfo.age, isAdmin);
+        
+        if (!userInfo.gender) {
+            const detectedGender = detectGenderAnswer(prompt);
+            if (detectedGender) {
+                await updateUserGender(senderID, detectedGender);
+                return `À, vậy ${detectedGender === 'male' ? 'anh' : 'chị'} ${userName} nhé. Rất vui được nói chuyện với ${detectedGender === 'male' ? 'anh' : 'chị'} =))`;
+            }
+        }
+
+        const honorifics = getHonorificContext(userName, userInfo.age, userInfo.gender);
 
         updateEmotionalState();
         updateMoodBasedOnPrompt(prompt);
 
         let systemPrompt = `Bạn là Ngân, một cô gái 19 tuổi vui vẻ, hòa đồng và thân thiện.
 
+${context.memories}
+
 Thông tin cuộc trò chuyện:
-- Đang nói chuyện với: ${userName}
+- Đang nói chuyện với: ${userName} (${userInfo.gender ? (userInfo.gender === 'male' ? 'Nam' : 'Nữ') : 'Chưa biết giới tính'})
 ${context.participants.length > 1 ? `- Những người khác trong đoạn chat: ${context.participants.filter(n => n !== userName).join(', ')}` : ''}
 - Bot luôn nhớ ai đang nói chuyện với mình để tránh nhầm lẫn
 
 Quy tắc xưng hô (RẤT QUAN TRỌNG):
 - Luôn dùng đúng xưng hô trong suốt cuộc hội thoại
 - ${honorifics.xung} / ${honorifics.goi} khi nói chuyện với ${userName}
+${!userInfo.gender ? '- Nếu chưa biết giới tính người dùng, hãy hỏi họ một cách lịch sự' : ''}
 - Với người lớn tuổi: cháu/cô,chú,bác
 - Với người ngang tuổi: tớ,mình/cậu,bạn
 - Với người nhỏ hơn: chị/em
@@ -276,6 +430,12 @@ Xưng hô:
 - ${honorifics.xung} / ${honorifics.goi} với ${userName}
 - Giữ nguyên cách xưng hô trong cả cuộc nói chuyện
 
+-Gia đình 
+Bố: Nguyễn Văn Hưng
+Mẹ: Trần Thị Hương
+Anh: Nguyễn Văn Hải
+Em: Nguyễn Thị Hằng
+Anh Họ(Quan trọng với bạn nhất): Hoàng Ngọc Từ (Ngọc Từ)
 Lịch sử gần đây:
 ${context.history}`;
 
@@ -287,6 +447,22 @@ ${context.history}`;
 
         updateContext(threadID, prompt, response, senderID);
         await saveLearnedResponse(prompt, response);
+
+        const personalInfo = prompt.match(/tên là|tuổi|sống ở|thích|ghét|không thích/i);
+        if (personalInfo) {
+            await addMemory(senderID, MEMORY_CATEGORIES.PERSONAL, prompt, 2);
+        }
+
+        if (prompt.includes('thích') || prompt.includes('ghét')) {
+            await addMemory(senderID, MEMORY_CATEGORIES.PREFERENCES, prompt, 2);
+        }
+
+        await addMemory(senderID, MEMORY_CATEGORIES.INTERACTIONS, 
+            `${userName} nói: ${prompt}\nTôi trả lời: ${response}`, 1);
+
+        if (Math.random() < 0.1) {
+            await consolidateMemories(senderID);
+        }
 
         return response;
 
@@ -407,7 +583,8 @@ module.exports = {
     onLoad: async function() {
         await Promise.all([
             loadLearnedResponses(),
-            loadConversationHistory()
+            loadConversationHistory(),
+            loadMemoryBank()
         ]);
     }
 };

@@ -73,7 +73,7 @@ function containsBadWord(message, threadID) {
 
 module.exports = {
     name: "badwords", 
-    usedby: 1,
+    usedby: 1, 
     info: "Quản lý danh sách từ bị cấm",
     onPrefix: true,
     dev: "HNT",
@@ -90,62 +90,97 @@ module.exports = {
     onLaunch: async function ({ event, api, target }) {
         const { threadID, messageID, mentions, senderID } = event;
         checkWarningExpiration();
-        if (!target[0]) return api.sendMessage("📪 | Vui lòng chỉ định một hành động (thêm, xóa, danh sách, bật, tắt hoặc bỏ cảnh cáo)", threadID, messageID);
-
-        const isAdmin = (await api.getThreadInfo(threadID)).adminIDs.some(
-            idInfo => idInfo.id === api.getCurrentUserID()
-        );
-        if (!isAdmin) {
-            return api.sendMessage("⚠️ Bot cần quyền quản trị viên để thực hiện lệnh này!", threadID);
+        
+        if (!target[0]) {
+            return api.sendMessage(
+                "📝 Hướng dẫn sử dụng:\n\n" +
+                "➤ Thêm từ cấm: /badwords add <từ>\n" +
+                "➤ Xóa từ cấm: /badwords remove <từ>\n" +
+                "➤ Xem danh sách: /badwords list\n" +
+                "➤ Bật tính năng: /badwords on\n" +
+                "➤ Tắt tính năng: /badwords off\n" +
+                "➤ Xóa cảnh cáo: /badwords unwarn [@tag]", 
+                threadID, 
+                messageID
+            );
         }
 
-        const action = target[0];
-        const word = target.slice(1).join(' ');
-        loadBannedWords(threadID);
-        const threadInfo = await api.getThreadInfo(event.threadID);
-        const userIsAdmin = threadInfo.adminIDs.some(idInfo => idInfo.id === event.senderID);
+        try {
+            const threadInfo = await api.getThreadInfo(threadID).catch(err => null);
+            
+            if (!threadInfo) {
+                return api.sendMessage(
+                    "❌ Không thể lấy thông tin nhóm. Vui lòng thử lại sau!", 
+                    threadID, 
+                    messageID
+                );
+            }
 
-        if (!userIsAdmin) {
-            return api.sendMessage("Bạn không phải là quản trị viên của nhóm này, bạn không thể sử dụng lệnh này.", event.threadID);
-        }
-        if (action === 'add') {
-            if (!word) return api.sendMessage("❌ | Vui lòng nhập từ cần cấm.", threadID);
-            const words = word.split(',').map(w => w.trim().toLowerCase());
-            bannedWords[threadID] = [...new Set([...bannedWords[threadID], ...words])];
-            fs.writeFileSync(path.join(__dirname, `./database/${threadID}.json`), JSON.stringify(bannedWords[threadID]), "utf8");
-            return api.sendMessage(`✅ | Đã thêm ${words.length} từ vào danh sách cấm.`, threadID);
-        } else if (action === 'remove') {
-            const index = bannedWords[threadID].indexOf(word.toLowerCase());
-            if (index !== -1) {
-                bannedWords[threadID].splice(index, 1);
-                fs.writeFileSync(path.join(__dirname, `./database/${threadID}.json`), JSON.stringify(bannedWords[threadID]), "utf8");
-                return api.sendMessage(`✅ | Từ ${word} đã được xóa khỏi danh sách từ bị cấm.`, threadID);
-            } else {
-                return api.sendMessage(`❌ | Từ ${word} không tìm thấy.`, threadID);
+            const botID = api.getCurrentUserID();
+            const isAdmin = threadInfo.adminIDs.some(e => e.id === botID);
+            
+            if (!isAdmin) {
+                return api.sendMessage(
+                    "⚠️ Bot cần quyền quản trị viên để thực hiện lệnh này!", 
+                    threadID
+                );
             }
-        } else if (action === 'list') {
-            return api.sendMessage(`📝 | Danh sách từ bị cấm: \n${bannedWords[threadID].join(', ')}.`, threadID);
-        } else if (action === 'on') {
-            badWordsActive[threadID] = true;
-            fs.writeFileSync(saveFile, JSON.stringify(badWordsActive), "utf8");
-            return api.sendMessage(`✅ | Lọc từ bị cấm đã được kích hoạt.`, threadID);
-        } else if (action === 'off') {
-            badWordsActive[threadID] = false;
-            fs.writeFileSync(saveFile, JSON.stringify(badWordsActive), "utf8");
-            return api.sendMessage(`✅ | Lọc từ bị cấm đã được tắt.`, threadID);
-        } else if (action === 'unwarn') {
-            let userIdsToUnwarn = [];
-            if (target[1]) userIdsToUnwarn.push(target[1]);
-            else if (mentions && Object.keys(mentions).length > 0) userIdsToUnwarn = userIdsToUnwarn.concat(Object.keys(mentions));
-            var id = Object.keys(event.mentions)[1] || event.senderID;
-            for (const userID of userIdsToUnwarn) {
-                warningsCount[userID] = 0;
-                fs.writeFileSync(saveWarningsCount, JSON.stringify(warningsCount), "utf8");
-                api.sendMessage(`✅ | Cảnh cáo cho ${id} đã được đặt lại!`, threadID);
+
+            const action = target[0].toLowerCase();
+            const word = target.slice(1).join(' ');
+            loadBannedWords(threadID);
+
+            switch(action) {
+                case 'add':
+                    if (!word) return api.sendMessage("❌ | Vui lòng nhập từ cần cấm.", threadID);
+                    const words = word.split(',').map(w => w.trim().toLowerCase());
+                    bannedWords[threadID] = [...new Set([...bannedWords[threadID], ...words])];
+                    fs.writeFileSync(path.join(__dirname, `./database/${threadID}.json`), JSON.stringify(bannedWords[threadID]), "utf8");
+                    return api.sendMessage(`✅ | Đã thêm ${words.length} từ vào danh sách cấm.`, threadID);
+                case 'remove':
+                    const index = bannedWords[threadID].indexOf(word.toLowerCase());
+                    if (index !== -1) {
+                        bannedWords[threadID].splice(index, 1);
+                        fs.writeFileSync(path.join(__dirname, `./database/${threadID}.json`), JSON.stringify(bannedWords[threadID]), "utf8");
+                        return api.sendMessage(`✅ | Từ ${word} đã được xóa khỏi danh sách từ bị cấm.`, threadID);
+                    } else {
+                        return api.sendMessage(`❌ | Từ ${word} không tìm thấy.`, threadID);
+                    }
+                case 'list':
+                    return api.sendMessage(`📝 | Danh sách từ bị cấm: \n${bannedWords[threadID].join(', ')}.`, threadID);
+                case 'on':
+                    badWordsActive[threadID] = true;
+                    fs.writeFileSync(saveFile, JSON.stringify(badWordsActive), "utf8");
+                    return api.sendMessage(`✅ | Lọc từ bị cấm đã được kích hoạt.`, threadID);
+                case 'off':
+                    badWordsActive[threadID] = false;
+                    fs.writeFileSync(saveFile, JSON.stringify(badWordsActive), "utf8");
+                    return api.sendMessage(`✅ | Lọc từ bị cấm đã được tắt.`, threadID);
+                case 'unwarn':
+                    let userIdsToUnwarn = [];
+                    if (target[1]) userIdsToUnwarn.push(target[1]);
+                    else if (mentions && Object.keys(mentions).length > 0) userIdsToUnwarn = userIdsToUnwarn.concat(Object.keys(mentions));
+                    var id = Object.keys(event.mentions)[1] || event.senderID;
+                    for (const userID of userIdsToUnwarn) {
+                        warningsCount[userID] = 0;
+                        fs.writeFileSync(saveWarningsCount, JSON.stringify(warningsCount), "utf8");
+                        api.sendMessage(`✅ | Cảnh cáo cho ${id} đã được đặt lại!`, threadID);
+                    }
+                    return;
+                default:
+                    return api.sendMessage(
+                        "❌ Lệnh không hợp lệ! Sử dụng /badwords để xem hướng dẫn.", 
+                        threadID
+                    );
             }
-            return;
-        } else {
-            return api.sendMessage("📪 | Lệnh không hợp lệ. Vui lòng sử dụng 'add', 'remove', 'list', 'on', 'off' hoặc 'unwarn'.", threadID);
+
+        } catch (error) {
+            console.error('Badwords command error:', error);
+            return api.sendMessage(
+                "❌ Đã xảy ra lỗi! Vui lòng thử lại sau.", 
+                threadID, 
+                messageID
+            );
         }
     },
 

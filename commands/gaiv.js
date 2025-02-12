@@ -22,10 +22,11 @@ module.exports = {
 
     onLaunch: async function({ api, event }) {
         const { threadID, messageID } = event;
+        let videoPath = null;
+        let loadingMsg = null;
 
         try {
-         
-            const loadingMsg = await api.sendMessage("⏳ Đang tải video, vui lòng đợi...", threadID);
+            loadingMsg = await api.sendMessage("⏳ Đang tải video, vui lòng đợi...", threadID);
 
             if (!fs.existsSync(this.config.tempDir)) {
                 fs.mkdirSync(this.config.tempDir, { recursive: true });
@@ -54,7 +55,7 @@ module.exports = {
                 throw new Error("Không thể lấy được video từ API");
             }
 
-            const videoPath = path.join(this.config.tempDir, `gai_${Date.now()}.mp4`);
+            videoPath = path.join(this.config.tempDir, `gai_${Date.now()}.mp4`);
             const videoResponse = await axios({
                 method: 'GET',
                 url: videoData.url,
@@ -76,13 +77,20 @@ module.exports = {
 
                 attachment: fs.createReadStream(videoPath)
             }, threadID, async (error, info) => {
-            
-                if (fs.existsSync(videoPath)) {
-                    fs.unlinkSync(videoPath);
-                }
-                
-                if (loadingMsg && loadingMsg.messageID) {
-                    await api.unsendMessage(loadingMsg.messageID);
+                try {
+                    if (videoPath && fs.existsSync(videoPath)) {
+                        fs.unlinkSync(videoPath);
+                    }
+                    
+                    if (loadingMsg && loadingMsg.messageID) {
+                        await api.unsendMessage(loadingMsg.messageID);
+                    }
+
+                    if (error) {
+                        throw error;
+                    }
+                } catch (cleanupError) {
+                    console.error('Cleanup Error:', cleanupError);
                 }
             });
 
@@ -103,8 +111,16 @@ module.exports = {
                 errorMessage += "Không thể tải video, vui lòng thử lại sau";
             }
 
-            if (loadingMsg && loadingMsg.messageID) {
-                api.unsendMessage(loadingMsg.messageID);
+            try {
+                if (videoPath && fs.existsSync(videoPath)) {
+                    fs.unlinkSync(videoPath);
+                }
+                
+                if (loadingMsg && loadingMsg.messageID) {
+                    await api.unsendMessage(loadingMsg.messageID);
+                }
+            } catch (cleanupError) {
+                console.error('Final Cleanup Error:', cleanupError);
             }
 
             return api.sendMessage(errorMessage, threadID, messageID);

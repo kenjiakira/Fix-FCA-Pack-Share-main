@@ -1,6 +1,6 @@
 const { updateBalance, getBalance } = require('../utils/currencies');
 const FamilySystem = require('../family/FamilySystem');
-const { MARRIAGE_COST, CHILD_COST, DIVORCE_COST, HOME_PRICES } = require('../config/familyConfig');
+const { MARRIAGE_COST, CHILD_COST, DIVORCE_COST, HOME_PRICES } = require('../config/family/familyConfig');
 const HomeSystem = require('../family/HomeSystem');
 const fs = require('fs');
 const path = require('path');
@@ -94,7 +94,7 @@ module.exports = {
                         "╠═ 🚗 PHƯƠNG TIỆN\n" +
                         (Object.keys(sharedVehicles || {}).length > 0 ? 
                             Object.entries(sharedVehicles).map(([carId, vehicle]) => {
-                                const { CARS, BRANDS } = require('../config/carConfig');
+                                const { CARS, BRANDS } = require('../config/family/carConfig');
                                 const car = CARS[carId];
                                 return `║  ▸ ${BRANDS[car.brand]} ${car.name}\n` +
                                        `║    └ Độ bền: ${vehicle.durability.toFixed(1)}%`;

@@ -8,7 +8,7 @@ const gameLogic = require('../utils/gameLogic');
 const HISTORY_FILE = path.join(__dirname, './json/tx_history.json');
 
 const gameHistory = {
-    results: [],
+    results: {},  
     sessions: new Map()
 };
 
@@ -19,14 +19,14 @@ function loadHistory() {
             if (!fs.existsSync(dir)) {
                 fs.mkdirSync(dir, { recursive: true });
             }
-            fs.writeFileSync(HISTORY_FILE, JSON.stringify({ results: [] }));
-            return [];
+            fs.writeFileSync(HISTORY_FILE, JSON.stringify({ results: {} }));
+            return {};
         }
         const data = JSON.parse(fs.readFileSync(HISTORY_FILE));
-        return data.results || [];
+        return data.results || {};
     } catch (error) {
         console.error('Error loading TX history:', error);
-        return [];
+        return {};
     }
 }
 
@@ -43,36 +43,29 @@ function generateSessionId() {
     return `#HNT${random}`;
 }
 
-function updateHistory(result) {
+function updateHistory(threadID, result) {
+    if (!gameHistory.results[threadID]) {
+        gameHistory.results[threadID] = [];
+    }
     const emoji = result === "tài" ? "⚫" : "⚪";
-    gameHistory.results.push(emoji);
-    if (gameHistory.results.length > 10) {
-        gameHistory.results.shift(); 
+    gameHistory.results[threadID].push(emoji);
+    
+    if (gameHistory.results[threadID].length > 9) {
+        gameHistory.results[threadID].shift(); 
     }
     saveHistory();
 }
 
-function formatHistory() {
-    if (gameHistory.results.length === 0) return "Chưa có lịch sử";
-    
-    const results = [...gameHistory.results]; 
-    let history = "";
-    
-    const bottomRow = results.slice(-5).join(" ");
-    
-    const topRow = results.slice(-10, -5).join(" ");
-    
-    if (topRow) {
-        history = `${topRow}\n${bottomRow}`;
-    } else {
-        history = bottomRow;
+function formatHistory(threadID) {
+    if (!gameHistory.results[threadID] || gameHistory.results[threadID].length === 0) {
+        return "Chưa có lịch sử";
     }
     
-    return history;
+    return gameHistory.results[threadID].join(" ");
 }
 
-function getHistoryString() {
-    return formatHistory();
+function getHistoryString(threadID) {
+    return formatHistory(threadID);
 }
 
 gameHistory.results = loadHistory();
@@ -196,7 +189,8 @@ module.exports = {
                     "⚜️ Hướng dẫn:\n" +
                     "➤ .tx tài/xỉu <số tiền>\n" +
                     "➤ .tx tài/xỉu allin\n\n" +
-                    "📌 Lịch sử:\n" + getHistoryString() + "\n" +
+                    "📌 Lịch sử:\n" + getHistoryString(threadID) + "\n" +
+                    "━━━━━━━━━━━━━━\n" +
                     "⚫ = Tài | ⚪ = Xỉu\n" +
                     "┗━━━━━━━━━━━━━━┛", 
                     threadID, messageID
@@ -226,7 +220,7 @@ module.exports = {
                 `👤 Người chơi: ${event.senderID}\n` +
                 `💰 Đặt cược: ${formatNumber(betAmount)} Xu\n` +
                 `🎯 Lựa chọn: ${choice.toUpperCase()}\n` +
-                `📌 Lịch sử:\n${getHistoryString()}\n` +
+                `📌 Lịch sử:\n${getHistoryString(threadID)}\n` +
                 "⏳ Đang lắc xúc xắc...\n" +
                 "┗━━━━━━━━━━━┛", 
                 threadID, messageID
@@ -235,12 +229,12 @@ module.exports = {
             setTimeout(async () => {
                 try {
                     const { dice1, dice2, dice3, total, result } = this.generateDiceResults(senderID, choice, target[1].toLowerCase(), balance);
-                    updateHistory(result);
+                    updateHistory(threadID, result);
                     let message = 
                         `『 PHIÊN ${sessionId} 』\n\n` +
                         `🎲 Kết quả: ${dice1} + ${dice2} + ${dice3} = ${total}\n` +
                         `➤ ${result.toUpperCase()}\n` +
-                        `📌 Lịch sử:\n${getHistoryString()}\n`;
+                        `📌 Lịch sử:\n${getHistoryString(threadID)}\n`;
 
                     if ((total === 18 || total === 3) && result === choice) {
                         const jackpotResult = this.handleJackpot(total, choice, senderID);

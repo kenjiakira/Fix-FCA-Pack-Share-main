@@ -1,6 +1,6 @@
 const fs = require('fs');
 const path = require('path');
-const { HOME_PRICES, HOME_UPGRADES } = require('../config/familyConfig');
+const { HOME_PRICES, HOME_UPGRADES } = require('../config/family/familyConfig');
 
 class HomeSystem {
     constructor() {

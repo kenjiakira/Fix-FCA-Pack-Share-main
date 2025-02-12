@@ -1,7 +1,5 @@
 const Downloader = require('../utils/downloader');
-const axios = require('axios');
 const fs = require('fs');
-const path = require('path');
 
 module.exports = {
     name: "ig",
@@ -49,6 +47,7 @@ module.exports = {
                       `👤 Tác giả: ${data.author || 'Không xác định'}\n` +
                       `💬 Caption: ${data.title || 'Không có caption'}\n` +
                       `📊 Số lượng: ${mediaDownloads.length} file\n` +
+                      `🔍 Nguồn: Instagram\n` +
                       `🔗 Link gốc: ${data.url}`,
                 attachment: mediaDownloads.map(m => fs.createReadStream(m.path))
             }, event.threadID, () => {

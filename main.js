@@ -49,6 +49,21 @@ const threadsDB = JSON.parse(fs.readFileSync("./database/threads.json", "utf8") 
 const usersDB = JSON.parse(fs.readFileSync("./database/users.json", "utf8") || "{}");
 const boldText = (text) => chalk.bold(text);
 global.fonts = fonts;
+const loadCommand = (commandName) => {
+    try {
+        delete require.cache[require.resolve(`./commands/${commandName}.js`)];
+        const command = require(`./commands/${commandName}.js`);
+        if (command.name && typeof command.name === 'string') {
+            global.cc.module.commands[command.name] = command;
+            return true;
+        }
+        return false;
+    } catch (error) {
+        console.error(`Failed to load command ${commandName}:`, error);
+        return false;
+    }
+};
+
 global.cc = {
     admin: "admin.json",
     adminBot: adminConfig.adminUIDs,
@@ -64,7 +79,9 @@ global.cc = {
     },
     cooldowns: {},
     getCurrentPrefix: () => global.cc.prefix,
-    reload: {}
+    reload: {},
+    loadCommand: loadCommand,
+    reloadCommand: loadCommand
 };
 
 global.cc.reloadCommand = function (commandName) {

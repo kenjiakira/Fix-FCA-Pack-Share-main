@@ -1,6 +1,6 @@
 const HomeSystem = require('../family/HomeSystem');
 const FamilySystem = require('../family/FamilySystem');
-const { HOME_PRICES, HOME_UPGRADES } = require('../config/familyConfig');
+const { HOME_PRICES, HOME_UPGRADES } = require('../config/family/familyConfig');
 const { getBalance } = require('../utils/currencies');
 const axios = require('axios');
 

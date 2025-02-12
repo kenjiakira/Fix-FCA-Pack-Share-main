@@ -1,0 +1,13 @@
+module.exports = {
+    name: "coin",
+    info: "Xem giá coin và số dư coin của bạn",
+    dev: "HNT",
+    onPrefix: true,
+    dmUser: false,
+    usages: "!coininfo",
+    cooldowns: 10,
+    onLaunch: async function ({ api, event, actions }) {
+        const userID = event.senderID;
+        await actions.reply(`Giá coin hiện tại là:\n1Coin = ${require('../utils/coinSystem').getCurrentCoinPrice()} Gems.`);
+    }
+};

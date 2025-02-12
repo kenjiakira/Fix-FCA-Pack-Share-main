@@ -1,6 +1,6 @@
 const fs = require('fs');
 const path = require('path');
-const { JOBS } = require('../config/jobConfig');
+const { JOBS } = require('../config/family/jobConfig');
 
 class JobSystem {
     constructor() {
@@ -124,7 +124,7 @@ class JobSystem {
         try {
             const education = this.loadEducation(userID);
             const job = JOBS[jobId];
-            const DEGREES = require('../config/educationConfig').DEGREES;
+            const DEGREES = require('../config/family/educationConfig').DEGREES;
 
             if (!job) return { qualified: false, reason: "Công việc không tồn tại" };
             if (!job.requirements || job.requirements.length === 0) return { qualified: true };

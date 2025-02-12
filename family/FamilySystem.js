@@ -253,7 +253,7 @@ class FamilySystem {
 
     buyHome(userID, type) {
         const family = this.getFamily(userID);
-        const homeConfig = require('../config/familyConfig').HOME_PRICES[type];
+        const homeConfig = require('../config/family/familyConfig').HOME_PRICES[type];
 
         if (!homeConfig) {
             throw new Error("Loại nhà không hợp lệ!");
@@ -292,7 +292,7 @@ class FamilySystem {
             throw new Error("Bạn chưa có nhà!");
         }
 
-        const homeConfig = require('../config/familyConfig').HOME_PRICES[family.home.type];
+        const homeConfig = require('../config/family/familyConfig').HOME_PRICES[family.home.type];
         const sellPrice = Math.floor(homeConfig.xu * (family.home.condition / 100) * 0.7);
 
         family.home = null;
@@ -308,7 +308,7 @@ class FamilySystem {
         }
 
         const maintenanceCost = Math.floor(
-            require('../config/familyConfig').HOME_PRICES[family.home.type].xu * 0.05
+            require('../config/family/familyConfig').HOME_PRICES[family.home.type].xu * 0.05
         );
 
         family.home.condition = 100;
@@ -320,7 +320,7 @@ class FamilySystem {
 
     upgradeHome(userID, upgradeType) {
         const family = this.getFamily(userID);
-        const upgrades = require('../config/familyConfig').HOME_UPGRADES;
+        const upgrades = require('../config/family/familyConfig').HOME_UPGRADES;
 
         if (!family.home) {
             throw new Error("Bạn chưa có nhà!");
@@ -395,7 +395,7 @@ class FamilySystem {
             });
 
             const highestDegree = degrees[degrees.length - 1];
-            const degreeConfig = require('../config/educationConfig').DEGREES;
+            const degreeConfig = require('../config/family/educationConfig').DEGREES;
             return degreeConfig[highestDegree]?.name || "Chưa tốt nghiệp";
 
         } catch (error) {
@@ -411,7 +411,7 @@ class FamilySystem {
             const job = jobData[userID];
             if (!job || !job.currentJob) return "Thất nghiệp";
             
-            const { JOBS } = require('../config/jobConfig');
+            const { JOBS } = require('../config/family/jobConfig');
             const currentJob = JOBS[job.currentJob.id];
             return `${currentJob.name}`;
         } catch (error) {

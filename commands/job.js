@@ -1,4 +1,4 @@
-const { JOB_CATEGORIES, JOBS } = require('../config/jobConfig');
+const { JOB_CATEGORIES, JOBS } = require('../config/family/jobConfig');
 const fs = require('fs');
 const path = require('path');
 
@@ -61,7 +61,7 @@ module.exports = {
                             msg += `├ Lương: 💰 ${formatNumber(job.salary)} Xu/lần\n`;
                             if (job.requirements.length > 0) {
                                 msg += `└ Yêu cầu: 📚 ${job.requirements.map(req => {
-                                    const degree = require('../config/educationConfig').DEGREES[req];
+                                    const degree = require('../config/family/educationConfig').DEGREES[req];
                                     return degree ? degree.name : req;
                                 }).join(", ")}\n`;
                             }

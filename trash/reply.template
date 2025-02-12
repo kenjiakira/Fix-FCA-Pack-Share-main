@@ -1,0 +1,56 @@
+module.exports = {
+    name: "REPLY TEMPLATE",
+    usedby: 0,
+    dmUser: false,
+    dev: "HNT",
+    nickName: ["template", "template"],
+    info: "template",
+    onPrefix: false,
+    cooldowns: 3,
+
+    onReply: async function({ event, api }) {
+        const { threadID, messageID, body } = event;
+        const input = body.toLowerCase().trim();
+        
+        const responses = {
+            "hi":"template"
+        };
+
+        let response = "I'm listening! Feel free to ask me something else.";
+        
+        for (let key in responses) {
+            if (input.includes(key)) {
+                response = responses[key];
+                break;
+            }
+        }
+
+        api.sendMessage(response, threadID, messageID);
+    },
+
+    onLaunch: async function ({ event, api }) {
+        const { threadID, messageID } = event;
+        const input = event.body.toLowerCase().trim();
+
+        const responses = {
+            "hi":"template"
+        };
+
+        let response = "template";
+        
+        for (let key in responses) {
+            if (input.includes(key)) {
+                response = responses[key];
+                break;
+            }
+        }
+
+        const msg = await api.sendMessage(response, threadID, messageID);
+
+        global.client.onReply.push({
+            name: this.name,
+            messageID: msg.messageID,
+            author: event.senderID
+        });
+    }
+};

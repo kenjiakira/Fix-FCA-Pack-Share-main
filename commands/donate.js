@@ -2,26 +2,40 @@ module.exports = {
     name: "donate",
     dev: "HNT",
     usedby: 0,
-    info: "Thông tin về cách ủng hộ bot.",
+    info: "Thông tin về cách ủng hộ bot",
     usages: "donate",
     onPrefix: true,
     cooldowns: 5,
   
     onLaunch: async function({ api, event }) {
-      const { threadID, messageID } = event;
+        const { threadID, messageID } = event;
   
-      const donateMessage = `
-      💸 Ủng hộ Admin Bot! 💸
-  
-      Cảm ơn bạn đã sử dụng bot của chúng tôi! Nếu bạn muốn ủng hộ bot để duy trì và phát triển, bạn có thể chọn một trong những phương thức sau:
+        const donateMessage = `
+╔═《 DONATE 》═╗
 
-      1. Ví điện tử MoMo: Số điện thoại: 0354683398
-      2. Ngân hàng: Số tài khoản: 0354683398 - Vietinbank
+💝 Ủng Hộ Admin Bot 💝
+
+➤ Chủ tài khoản: HOANG NGOC TU
+━━━━━━━━━━━━━━━━━━
+
+💳 Thông Tin Thanh Toán:
+
+🏦 Ngân Hàng:
+• VietinBank
+• STK: 0354683398
+
+📱 Ví Điện Tử:
+• MoMo: 0354683398
+• Người nhận: HOANG NGOC TU
+
+━━━━━━━━━━━━━━━━━━
+💌 Lời Nhắn:
+➤ Mỗi đóng góp của bạn giúp 
+   bot phát triển tốt hơn!
+➤ Cảm ơn bạn đã ủng hộ!
+
+╚═《 HNT 》═╝`;
   
-      Mỗi đóng góp của bạn sẽ giúp chúng tôi tiếp tục phát triển và duy trì bot. Cảm ơn rất nhiều! ❤️
-      `;
-  
-      api.sendMessage(donateMessage, threadID, messageID);
+        api.sendMessage(donateMessage, threadID, messageID);
     }
-  };
-  
+};

@@ -1,7 +1,19 @@
 {
-  "clmm bot": {
+  "địt mẹ bot bịp": {
     "responses": [
-      "Chị ơi, sao chị lại nói vậy ạ? =)))"
+      "Chị nói gì vậy ạ? Em không hiểu chị nói gì cả :("
+    ],
+    "frequency": 1
+  },
+  "bot rip": {
+    "responses": [
+      "Chị nói gì vậy ạ?  Em không hiểu chị nói gì cả :("
+    ],
+    "frequency": 1
+  },
+  "bot l": {
+    "responses": [
+      "Chào anh/chị!  Em là Ngân, anh/chị tên gì ạ?  :)"
     ],
     "frequency": 1
   }

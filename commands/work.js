@@ -1,7 +1,7 @@
 const { updateBalance, getBalance } = require('../utils/currencies');
 const { getVIPBenefits } = require('../utils/vipCheck');
 const JobSystem = require('../family/JobSystem');
-const { JOBS } = require('../config/jobConfig'); 
+const { JOBS } = require('../config/family/jobConfig'); 
 
 const TAX_BRACKETS = [
     { threshold: 1000000, rate: 0.05 },  

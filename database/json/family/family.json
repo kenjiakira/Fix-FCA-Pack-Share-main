@@ -279,23 +279,43 @@
   },
   "100048502504358": {
     "name": null,
-    "spouse": null,
-    "children": [],
+    "spouse": "100087199431487",
+    "children": [
+      {
+        "name": "khang bùi",
+        "birthDate": 1739342008480,
+        "happiness": 100,
+        "gender": "👧",
+        "nickname": "Bé khang bùi"
+      }
+    ],
     "home": null,
-    "happiness": 50,
+    "happiness": 100,
     "lastChecked": 1739335807851,
-    "lastBaby": 0,
-    "lastIntimate": 0
+    "lastBaby": 1739342008480,
+    "lastIntimate": 1739341995917,
+    "isProposer": true,
+    "proposedBy": null
   },
   "100087199431487": {
     "name": null,
-    "spouse": null,
-    "children": [],
+    "spouse": "100048502504358",
+    "children": [
+      {
+        "name": "khang bùi",
+        "birthDate": 1739342008480,
+        "happiness": 100,
+        "gender": "👧",
+        "nickname": "Bé khang bùi"
+      }
+    ],
     "home": null,
-    "happiness": 50,
+    "happiness": 100,
     "lastChecked": 1739335807851,
-    "lastBaby": 0,
-    "lastIntimate": 0
+    "lastBaby": 1739342008480,
+    "lastIntimate": 1739341995917,
+    "isProposer": false,
+    "proposedBy": "Nguyen Hoang Huy"
   },
   "100092325757607": {
     "name": null,
@@ -314,6 +334,36 @@
     "home": null,
     "happiness": 50,
     "lastChecked": 1739340801950,
+    "lastBaby": 0,
+    "lastIntimate": 0
+  },
+  "61568641631000": {
+    "name": null,
+    "spouse": null,
+    "children": [],
+    "home": null,
+    "happiness": 50,
+    "lastChecked": 1739342005935,
+    "lastBaby": 0,
+    "lastIntimate": 0
+  },
+  "100008297661441": {
+    "name": null,
+    "spouse": null,
+    "children": [],
+    "home": null,
+    "happiness": 50,
+    "lastChecked": 1739350714423,
+    "lastBaby": 0,
+    "lastIntimate": 0
+  },
+  "100048267517770": {
+    "name": null,
+    "spouse": null,
+    "children": [],
+    "home": null,
+    "happiness": 50,
+    "lastChecked": 1739351405483,
     "lastBaby": 0,
     "lastIntimate": 0
   }

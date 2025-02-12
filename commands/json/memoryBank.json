@@ -1,0 +1,46 @@
+{
+  "users": {
+    "100048502504358": {
+      "personal": [],
+      "facts": [],
+      "preferences": [],
+      "interactions": [
+        {
+          "content": "User nói: địt mẹ bot bịp\nTôi trả lời: Chị nói gì vậy ạ? Em không hiểu chị nói gì cả :(",
+          "timestamp": 1739354624570,
+          "priority": 1,
+          "accessCount": 1,
+          "lastAccess": 1739354759960
+        },
+        {
+          "content": "User nói: bot rip\nTôi trả lời: Chị nói gì vậy ạ?  Em không hiểu chị nói gì cả :(",
+          "timestamp": 1739354761969,
+          "priority": 1,
+          "accessCount": 0,
+          "lastAccess": 1739354761969
+        }
+      ],
+      "emotions": []
+    },
+    "100053868457890": {
+      "personal": [],
+      "facts": [],
+      "preferences": [],
+      "interactions": [
+        {
+          "content": "Người dùng nói: Bot l\nTôi trả lời: Chào anh/chị!  Em là Ngân, anh/chị tên gì ạ?  :)",
+          "timestamp": 1739354956681,
+          "priority": 1,
+          "accessCount": 0,
+          "lastAccess": 1739354956681
+        }
+      ],
+      "emotions": []
+    }
+  },
+  "global": {
+    "facts": [],
+    "interactions": [],
+    "preferences": []
+  }
+}

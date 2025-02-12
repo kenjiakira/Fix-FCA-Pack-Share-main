@@ -1,68 +1,82 @@
 module.exports = {
     name: "load",
     info: "Tải lại một lệnh",
-    onPrefix: true,
+    onPrefix: false,
     usedby: 2,
     cooldowns: 0,
+    hide: true,
 
     onLaunch: async function({ target, actions, api, event }) {
         const fs = require('fs');
-        let name = target[0];
+        const name = target[0];
         if (!name) return actions.reply('Vui lòng nhập tên lệnh!');
 
         try {
             let msg = "";
-            const h = await actions.reply("Đang tải lại Module...");
-            let count = 0;
+            const loadingMsg = await actions.reply("Đang tải lại Module...");
+            
             if (name === "all") {
                 let errorCount = 0;
                 let successCount = 0;
-                let failedCommand = [];
-                let successCommand = [];
-                for (let file of fs.readdirSync(__dirname).filter(file => file.endsWith('.js'))) {
-                    api.editMessage("Đang triển khai.....", h.messageID, event.threadID, event.messageID);
+                let failedCommands = [];
+                let successCommands = [];
+
+                const files = fs.readdirSync(__dirname).filter(file => file.endsWith('.js'));
+                for (const file of files) {
                     if (file === "load.js") continue;
+                    
                     try {
                         delete require.cache[require.resolve(__dirname + `/${file}`)];
-                        let newCommand = require(__dirname + `/${file}`);
+                        const newCommand = require(__dirname + `/${file}`);
+                        
                         if (newCommand.name && typeof newCommand.name === 'string') {
+                           
+                            global.cc.module.commands[newCommand.name] = newCommand;
                             successCount++;
-                            successCommand.push(newCommand.name);
-                            count++;
-                            msg += `Đã tải ${count}. ${newCommand.name}\n`;
+                            successCommands.push(newCommand.name);
                         } else {
                             throw new Error('Cấu trúc lệnh không hợp lệ');
                         }
                     } catch (e) {
                         errorCount++;
-                        failedCommand.push(file);
-                        msg += `Không thể tải ${count + 1}. ${file} - ${e.message}\n`;
+                        failedCommands.push(file);
+                        console.error(`Lỗi khi tải ${file}:`, e);
                     }
                 }
-                msg += `\nĐã tải thành công ${successCount} lệnh.\nKhông thể tải ${errorCount} lệnh.\n\n${failedCommand.join(", ")}`;
-                actions.reply(msg);
-                setTimeout(() => {
-                    process.exit(1);
-                }, 2000); 
-                return;
-            }
 
-            if (!fs.existsSync(__dirname + `/${name}.js`)) return actions.reply('Tệp ' + name + ".js không tồn tại!");
+                msg = `Kết quả tải lại lệnh:\n`;
+                msg += `✅ Thành công: ${successCount} lệnh\n`;
+                if (successCommands.length) msg += `📝 Các lệnh đã tải: ${successCommands.join(", ")}\n`;
+                if (errorCount > 0) {
+                    msg += `❌ Thất bại: ${errorCount} lệnh\n`;
+                    msg += `⚠️ Các lệnh lỗi: ${failedCommands.join(", ")}`;
+                }
 
-            delete require.cache[require.resolve(__dirname + `/${name}.js`)];
-            let newCommand = require(__dirname + '/' + name);
-            if (newCommand.name && typeof newCommand.name === 'string') {
-                console.log('Lệnh ' + name + ' đã được tải!');
-                actions.reply('Lệnh ' + name + ' đã được tải!');
             } else {
-                throw new Error('Cấu trúc lệnh không hợp lệ');
+                if (!fs.existsSync(__dirname + `/${name}.js`)) {
+                    return api.editMessage(`❌ Lệnh "${name}" không tồn tại!`, loadingMsg.messageID);
+                }
+
+                try {
+                    delete require.cache[require.resolve(__dirname + `/${name}.js`)];
+                    const newCommand = require(__dirname + `/${name}.js`);
+                    
+                    if (newCommand.name && typeof newCommand.name === 'string') {
+                 
+                        global.cc.module.commands[newCommand.name] = newCommand;
+                        msg = `✅ Đã tải lại thành công lệnh "${name}"`;
+                    } else {
+                        throw new Error('Cấu trúc lệnh không hợp lệ');
+                    }
+                } catch (e) {
+                    msg = `❌ Lỗi khi tải lại lệnh "${name}": ${e.message}`;
+                }
             }
 
-            setTimeout(() => {
-                process.exit(1);
-            }, 2000); 
-        } catch (s) {
-            return actions.reply('Lỗi: ' + s.message);
+            api.editMessage(msg, loadingMsg.messageID);
+
+        } catch (error) {
+            return actions.reply(`❌ Đã xảy ra lỗi: ${error.message}`);
         }
     }
 };
