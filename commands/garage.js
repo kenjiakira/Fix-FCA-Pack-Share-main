@@ -23,15 +23,15 @@ module.exports = {
         try {
             if (!command) {
                 return api.sendMessage(
-                    "🚗 GARAGE SYSTEM 🚗\n" +
-                    "━━━━━━━━━━━━━━━━━━\n\n" +
-                    "1. list - Xem danh sách xe\n" +
-                    "2. buy [mã xe] - Mua xe\n" +
-                    "3. sell [mã xe] - Bán xe\n" +
-                    "4. repair [mã xe] - Sửa chữa xe\n" +
-                    "5. info [mã xe] - Xem thông tin xe\n" +
-                    "6. garage - Xem garage của bạn\n\n" +
-                    "💡 Dùng .garage list để xem danh sách xe",
+                    "┏━━『 GARAGE SYSTEM 』━━┓\n\n" +
+                    "🎯 HƯỚNG DẪN SỬ DỤNG:\n\n" +
+                    "📋 .garage list\n└ Xem danh sách xe\n\n" +
+                    "🛒 .garage buy <mã>\n└ Mua xe mới\n\n" +
+                    "💰 .garage sell <mã>\n└ Bán xe cũ\n\n" +
+                    "🔧 .garage repair <mã>\n└ Sửa chữa xe\n\n" +
+                    "ℹ️ .garage info <mã>\n└ Xem thông tin xe\n\n" +
+                    "🏎️ .garage\n└ Xem garage của bạn\n" +
+                    "\n┗━━━━━━━━━━━━━━━━━┛",
                     threadID
                 );
             }
@@ -40,24 +40,26 @@ module.exports = {
 
             switch (command) {
                 case "list": {
-                    let msg = "🚘 DANH SÁCH XE 🚘\n━━━━━━━━━━━━━━━━━━\n\n";
+                    let msg = "┏━━『 DANH SÁCH XE 』━━┓\n\n";
                     
                     for (const type in VEHICLE_TYPES) {
-                        msg += `【${VEHICLE_TYPES[type].toUpperCase()}】\n`;
+                        msg += `🚘 ${VEHICLE_TYPES[type].toUpperCase()}\n`;
+                        msg += "┏━━━━━━━━━━━━━━━┓\n";
                         const vehicles = Object.entries(CARS).filter(([_, car]) => car.type === type);
                         
                         for (const [id, car] of vehicles) {
                             msg += `${BRANDS[car.brand]} ${car.name}\n`;
-                            msg += `• Mã xe: [ ${id} ]\n`; 
-                            msg += `• Giá: ${formatNumber(car.price)} Xu\n`;
-                            msg += `• Tốc độ: ${car.speed} km/h\n`;
-                            msg += `• Độ bền: ${car.durability}%\n\n`;
+                            msg += `├ Mã xe: [ ${id} ]\n`; 
+                            msg += `├ Giá: 💰 ${formatNumber(car.price)} Xu\n`;
+                            msg += `├ Tốc độ: ⚡ ${car.speed} km/h\n`;
+                            msg += `└ Độ bền: 🛠️ ${car.durability}%\n\n`;
                         }
+                        msg += "┗━━━━━━━━━━━━━━━┛\n\n";
                     }
                     
-                    msg += "💡 CÁCH MUA XE:\n";
-                    msg += "• Mua 1 xe: .garage buy v1\n";
-                    msg += "• Mua nhiều xe: .garage buy v1 v2 v3\n\n";
+                    msg += "💡 HƯỚNG DẪN MUA XE:\n";
+                    msg += "➤ Mua 1 xe: .garage buy v1\n";
+                    msg += "➤ Mua nhiều xe: .garage buy v1 v2\n\n";
                     msg += "💵 Số dư: " + formatNumber(await getBalance(senderID)) + " Xu";
                     
                     return api.sendMessage(msg, threadID);
@@ -175,24 +177,24 @@ module.exports = {
                     const daysSinceLastMaintenance = Math.floor((Date.now() - vehicle.lastMaintenance) / (1000 * 60 * 60 * 24));
 
                     return api.sendMessage(
-                        `🚗 THÔNG TIN XE\n` +
-                        `━━━━━━━━━━━━━━━━━━\n\n` +
-                        `Tên: ${car.name}\n` +
-                        `Hãng: ${car.brand} ${BRANDS[car.brand]}\n` +
-                        `Chủ sở hữu: ${getUserName(vehicle.ownerID)}\n` +  // Add owner display
-                        `Loại: ${VEHICLE_TYPES[car.type]}\n` +
-                        `Tốc độ: ${car.speed} km/h\n` +
-                        `Độ bền: ${vehicle.durability.toFixed(1)}%\n` +
-                        `Ngày mua: ${new Date(vehicle.purchaseDate).toLocaleDateString()}\n` +
-                        `Bảo dưỡng lần cuối: ${new Date(vehicle.lastMaintenance).toLocaleDateString()}\n` +
-                        `(${daysSinceLastMaintenance} ngày trước)\n` +
-                        `Chi phí bảo dưỡng: ${formatNumber(maintenanceCost)} Xu`,
+                        "┏━━『 THÔNG TIN XE 』━━┓\n\n" +
+                        `🚗 Tên: ${car.name}\n` +
+                        `🏢 Hãng: ${car.brand} ${BRANDS[car.brand]}\n` +
+                        `👤 Chủ sở hữu: ${getUserName(vehicle.ownerID)}\n` +
+                        `📑 Loại: ${VEHICLE_TYPES[car.type]}\n` +
+                        `⚡ Tốc độ: ${car.speed} km/h\n` +
+                        `🛠️ Độ bền: ${vehicle.durability.toFixed(1)}%\n` +
+                        `📅 Ngày mua: ${new Date(vehicle.purchaseDate).toLocaleDateString()}\n` +
+                        `🔧 Bảo dưỡng cuối: ${new Date(vehicle.lastMaintenance).toLocaleDateString()}\n` +
+                        `⏳ (${daysSinceLastMaintenance} ngày trước)\n` +
+                        `💰 Chi phí bảo dưỡng: ${formatNumber(maintenanceCost)} Xu\n` +
+                        "\n┗━━━━━━━━━━━━━━━━━┛",
                         threadID
                     );
                 }
 
                 default: {
-                    let msg = "🏎️ GARAGE CỦA BẠN 🏎️\n━━━━━━━━━━━━━━━━━━\n\n";
+                    let msg = "┏━━『 GARAGE CỦA BẠN 』━━┓\n\n";
                     const ownedVehicles = Object.entries(garage.vehicles);
 
                     if (ownedVehicles.length === 0) {
@@ -201,11 +203,12 @@ module.exports = {
 
                     for (const [carId, vehicle] of ownedVehicles) {
                         const car = CARS[carId];
-                        msg += `${BRANDS[car.brand]} ${car.name}\n`;
-                        msg += `• Độ bền: ${vehicle.durability.toFixed(1)}%\n`;
-                        msg += `• Mua ngày: ${new Date(vehicle.purchaseDate).toLocaleDateString()}\n\n`;
+                        msg += `🚗 ${BRANDS[car.brand]} ${car.name}\n`;
+                        msg += `├ Độ bền: ${vehicle.durability.toFixed(1)}%\n`;
+                        msg += `└ Mua ngày: ${new Date(vehicle.purchaseDate).toLocaleDateString()}\n\n`;
                     }
-
+                    
+                    msg += "┗━━━━━━━━━━━━━━━━━┛";
                     return api.sendMessage(msg, threadID);
                 }
             }

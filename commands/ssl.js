@@ -6,7 +6,7 @@ const https = require('https');
 module.exports = {
     name: "ssl",
     usedby: 0,
-    info: "Chụp màn hình và kiểm tra bảo mật SSL của trang web",
+    info: "kiểm tra bảo mật SSL",
     onPrefix: true,
     dev: "HNT",
     cooldowns: 6,

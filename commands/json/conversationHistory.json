@@ -1,57 +1,25 @@
 {
   "global": [
     {
-      "timestamp": 1739294031633,
-      "prompt": "bot",
-      "response": "Khaq Dwie: bot\n Chào chị Khaq Dwie!  Có gì em giúp chị được không ạ? :)",
-      "senderID": "61555903228492",
-      "senderName": "Khaq Dwie"
-    },
-    {
-      "timestamp": 1739294139007,
-      "prompt": "rep tnhan bot",
-      "response": "Dạ anh, em rep tin nhắn anh đây ạ =)))",
-      "senderID": "100053970942155",
-      "senderName": "Dat Lee"
-    },
-    {
-      "timestamp": 1739294639935,
-      "prompt": "ngủ đi bot",
-      "response": "Anh ngủ sớm đi cho khỏe anh Khoaa!  :))",
-      "senderID": "100008297661441",
-      "senderName": "Anh Khoaa"
+      "timestamp": 1739341162437,
+      "prompt": "clmm bot",
+      "response": "Chị ơi, sao chị lại nói vậy ạ? =)))",
+      "senderID": "100068382888605",
+      "senderName": "Pham Minh Dang"
     }
   ],
   "threads": {
-    "7804850272968007": [
-      {
-        "timestamp": 1739294031633,
-        "prompt": "bot",
-        "response": "Khaq Dwie: bot\n Chào chị Khaq Dwie!  Có gì em giúp chị được không ạ? :)",
-        "senderID": "61555903228492",
-        "senderName": "Khaq Dwie"
-      },
-      {
-        "timestamp": 1739294639935,
-        "prompt": "ngủ đi bot",
-        "response": "Anh ngủ sớm đi cho khỏe anh Khoaa!  :))",
-        "senderID": "100008297661441",
-        "senderName": "Anh Khoaa"
-      }
-    ],
     "6589198804475799": [
       {
-        "timestamp": 1739294139007,
-        "prompt": "rep tnhan bot",
-        "response": "Dạ anh, em rep tin nhắn anh đây ạ =)))",
-        "senderID": "100053970942155",
-        "senderName": "Dat Lee"
+        "timestamp": 1739341162437,
+        "prompt": "clmm bot",
+        "response": "Chị ơi, sao chị lại nói vậy ạ? =)))",
+        "senderID": "100068382888605",
+        "senderName": "Pham Minh Dang"
       }
     ]
   },
   "lastResponses": {
-    "bot": "Khaq Dwie: bot\n Chào chị Khaq Dwie!  Có gì em giúp chị được không ạ? :)",
-    "rep tnhan bot": "Dạ anh, em rep tin nhắn anh đây ạ =)))",
-    "ngủ đi bot": "Anh ngủ sớm đi cho khỏe anh Khoaa!  :))"
+    "clmm bot": "Chị ơi, sao chị lại nói vậy ạ? =)))"
   }
 }

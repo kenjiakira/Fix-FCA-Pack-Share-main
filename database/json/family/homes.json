@@ -14,26 +14,12 @@
     },
     "rentEndDate": 1739879025442
   },
-  "100053868457890": {
-    "type": "h6",
-    "name": "Khu compound",
-    "purchaseDate": 1739291288470,
-    "condition": 100,
-    "lastMaintenance": 1739291288470,
-    "upgrades": [],
-    "stats": {
-      "security": 0,
-      "comfort": 0,
-      "environment": 0,
-      "luxury": 0
-    }
-  },
   "100035610181048": {
     "type": "h6",
     "name": "Khu compound",
     "purchaseDate": 1739291375099,
     "condition": 100,
-    "lastMaintenance": 1739291375099,
+    "lastMaintenance": 1739327015978,
     "upgrades": [],
     "stats": {
       "security": 0,
@@ -56,32 +42,33 @@
       "luxury": 0
     }
   },
-  "61561753304881": {
-    "type": "h5",
-    "name": "Biệt thự",
-    "purchaseDate": 1739293399724,
+  "100089981373051": {
+    "type": "h1",
+    "name": "Nhà trọ",
+    "purchaseDate": 1739325259553,
     "condition": 100,
-    "lastMaintenance": 1739293399724,
+    "lastMaintenance": 1739325259553,
     "upgrades": [],
     "stats": {
       "security": 0,
       "comfort": 0,
       "environment": 0,
       "luxury": 0
-    }
+    },
+    "rentEndDate": 1739930059553
   },
-  "61550331471452": {
-    "type": "h4",
-    "name": "Nhà phố",
-    "purchaseDate": 1739293547009,
+  "61561753304881": {
+    "type": "h7",
+    "name": "Penthouse",
+    "purchaseDate": 1739334494448,
     "condition": 100,
-    "lastMaintenance": 1739293547009,
+    "lastMaintenance": 1739334494448,
     "upgrades": [],
     "stats": {
-      "security": 0,
-      "comfort": 0,
-      "environment": 0,
-      "luxury": 0
+      "security": 95,
+      "comfort": 95,
+      "environment": 85,
+      "luxury": 100
     }
   }
 }

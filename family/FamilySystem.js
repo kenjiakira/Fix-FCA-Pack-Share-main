@@ -419,6 +419,78 @@ class FamilySystem {
             return "Thất nghiệp";
         }
     }
+
+    getUserName(userID) {
+        const userDataPath = path.join(__dirname, '../events/cache/userData.json');
+        try {
+            const userData = JSON.parse(fs.readFileSync(userDataPath, 'utf8'));
+            return userData[userID]?.name || userID;
+        } catch (error) {
+            console.error('Error reading userData:', error);
+            return userID;
+        }
+    }
+
+    renameChild(userID, childIndex, newName) {
+        const family = this.getFamily(userID);
+        if (!family.children || !family.children[childIndex]) {
+            throw new Error("Không tìm thấy con!");
+        }
+
+        if (!this.validateBabyName(newName)) {
+            throw new Error("Tên không hợp lệ!");
+        }
+
+        const child = family.children[childIndex];
+        child.name = newName;
+        child.nickname = this.generateNickname(newName);
+
+        // Đồng bộ với vợ/chồng
+        if (family.spouse) {
+            const spouseFamily = this.getFamily(family.spouse);
+            if (spouseFamily.children && spouseFamily.children[childIndex]) {
+                spouseFamily.children[childIndex] = {...child};
+            }
+        }
+
+        this.saveData();
+        return child;
+    }
+
+    getChildInfo(userID) {
+        const family = this.getFamily(userID);
+        if (!family.children || family.children.length === 0) {
+            return "Chưa có con";
+        }
+
+        return family.children.map((child, index) => ({
+            index,
+            name: child.name,
+            gender: child.gender,
+            nickname: child.nickname,
+            age: this.calculateAge(child.birthDate),
+            happiness: Math.round(child.happiness)
+        }));
+    }
+
+    getMarriageInfo(userID) {
+        const family = this.getFamily(userID);
+        if (!family) {
+            return {
+                spouse: "Độc thân",
+                happiness: 0,
+                childCount: 0,
+                children: []
+            };
+        }
+
+        return {
+            spouse: family.spouse ? this.getUserName(family.spouse) : "Độc thân",
+            happiness: Math.round(family.happiness || 0),
+            childCount: (family.children || []).length,
+            children: family.children || []
+        };
+    }
 }
 
 module.exports = FamilySystem;

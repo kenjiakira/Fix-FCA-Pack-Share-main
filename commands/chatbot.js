@@ -1,14 +1,10 @@
 const { GoogleGenerativeAI } = require("@google/generative-ai");
 const path = require("path");
 const fs = require("fs-extra");
-const axios = require('axios');
-const cheerio = require('cheerio');
-const adminConfig = JSON.parse(fs.readFileSync("admin.json", "utf8"));
 const apiKeysPath = path.join(__dirname, 'json', 'key.json');
 const userDataPath = path.join(__dirname, '..', 'events', 'cache', 'userData.json');
 let API_KEYS = [];
 
-let globalConversation = [];
 
 let userDatabase = {};
 let learnedResponses = {};
@@ -46,9 +42,6 @@ const updateEmotionalState = () => {
     botEmotionalState.lastUpdate = Date.now();
 };
 
-const formatJSON = (data) => {
-    return JSON.stringify(data, null, 2);
-};
 
 const loadAPIKeys = async () => {
     try {
@@ -189,31 +182,13 @@ const getRelevantContext = (threadID, prompt) => {
     };
 };
 
-const getUserName = async (api, senderID, threadID) => {
-    try {
-        const userData = await fs.readJson(userDataPath);
-        if (userData[senderID]?.name) {
-            return userData[senderID].name;
-        }
-
-        const userInfo = await api.getUserInfo(senderID);
-        if (userInfo[senderID]?.name) {
-            return userInfo[senderID].name;
-        }
-
-        return "Người dùng " + senderID;
-    } catch (error) {
-        console.error("Error getting user name:", error);
-        return "Người dùng " + senderID;
-    }
-};
 
 const hasPermission = (senderID) => {
     const adminConfig = JSON.parse(fs.readFileSync('./admin.json', 'utf8'));
     return adminConfig.adminUIDs.includes(senderID);
 };
 
-const getHonorificContext = (userName, userAge, isAdmin) => {
+const getHonorificContext = (userName, userAge) => {
   
     let xung = 'em'; 
     let goi = 'anh/chị'; 
@@ -260,7 +235,7 @@ const generateResponse = async (prompt, senderID, api, threadID) => {
         const model = genAI.getGenerativeModel({ 
             model: "gemini-1.5-flash",
             generationConfig: {
-                temperature: 1.2, // Increased for more creative responses
+                temperature: 1.2, 
                 maxOutputTokens: 1000,
             }
         });
@@ -368,17 +343,6 @@ const updateMoodBasedOnPrompt = (prompt) => {
     botEmotionalState.energy = Math.max(0.6, botEmotionalState.energy - 0.02);
 };
 
-const updateUserInfo = async (senderID, info) => {
-    try {
-        if (!userDatabase[senderID]) {
-            userDatabase[senderID] = {};
-        }
-        Object.assign(userDatabase[senderID], info);
-        await fs.writeJson(userDataPath, userDatabase);
-    } catch (error) {
-        console.error("Error updating user info:", error);
-    }
-};
 
 module.exports = {
     name: "chatbot",

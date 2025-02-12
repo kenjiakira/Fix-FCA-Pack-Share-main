@@ -72,7 +72,7 @@ async function downloadTrackPreview(url, outputPath) {
 
 module.exports = {
     name: "spotify",
-    info: "Tìm kiếm thông tin bài hát hoặc album từ Spotify.",
+    info: "thông tin bài hát Spotify.",
     dev: "HNT",
     usedby: 0,
     onPrefix: true,

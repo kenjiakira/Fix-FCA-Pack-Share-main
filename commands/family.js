@@ -22,19 +22,9 @@ module.exports = {
     cooldowns: 5,
 
     onLaunch: async function({ api, event, target }) {
-        const { threadID, messageID, senderID } = event;
+        const { threadID, senderID } = event;
         const command = target[0]?.toLowerCase();
-
-        const getUserName = (userID) => {
-            const userDataPath = path.join(__dirname, '../events/cache/userData.json');
-            try {
-                const userData = JSON.parse(fs.readFileSync(userDataPath, 'utf8'));
-                return userData[userID]?.name || userID;
-            } catch (error) {
-                console.error('Error reading userData:', error);
-                return userID;
-            }
-        };
+        const subCommand = target[1]?.toLowerCase();
 
         try {
             if (!command) {
@@ -44,7 +34,8 @@ module.exports = {
                     "1. info - Xem thông tin gia đình\n" +
                     "2. marry [@tag] - Kết hôn\n" +
                     "3. divorce - Ly hôn\n" +
-                    "4. love - Động phòng\n\n" +
+                    "4. love - Động phòng\n" +
+                    "5. rename [số thứ tự] [tên mới] - Đổi tên con\n\n" +
                     "━━━━━━━━━━━━━━━━━━\n" +
                     "📝 CÁC LỆNH LIÊN QUAN:\n" +
                     "• .garage - Quản lý xe cộ\n" +
@@ -63,44 +54,47 @@ module.exports = {
 
             switch (command) {
                 case "info": {
-                    let spouseName = "Độc thân";
-                    let proposedBy = "";
-                    
-                    if (family.spouse) {
-                        spouseName = getUserName(family.spouse);
-                    }
-                    family.isProposer = family.isProposer ?? false;
-                    family.proposedBy = family.proposedBy ?? "";
-
-                    const sharedHome = familySystem.getSharedHome(senderID);
-                    const isOwnHome = homeSystem.getHome(senderID);
-
+                    const marriageInfo = familySystem.getMarriageInfo(senderID);
+                    const currentUserHome = homeSystem.getHome(senderID);
+                    const spouseHome = family.spouse ? homeSystem.getHome(family.spouse) : null;
+                    const sharedHome = currentUserHome || spouseHome;
                     const sharedVehicles = familySystem.getSharedVehicles(senderID);
-                    const { CARS, BRANDS } = require('../config/carConfig');
+                    const childrenInfo = familySystem.getChildInfo(senderID);
+
+                    let childrenDisplay = "";
+                    if (Array.isArray(childrenInfo) && childrenInfo.length > 0) {
+                        childrenDisplay = "╠═ 👶CON CÁI\n" +
+                            childrenInfo.map((child, index) => 
+                                `║  ▸ ${index + 1}. ${child.gender} ${child.name}\n` +
+                                `║    └ Tuổi: ${child.age}\n` +
+                                `║    └ Hạnh phúc: ${child.happiness}%`
+                            ).join("\n") + "\n║\n";
+                    }
 
                     return api.sendMessage(
-                        "╔════ 『 THÔNG TIN GIA ĐÌNH 』 ════╗\n" +
+                        "╔═ 『 THÔNG TIN 』 ═╗\n" +
                         "║                                                              ║\n" +
-                        "╠═ 👤 THÔNG TIN CÁ NHÂN\n" +
-                        `║  ▸ Tên: ${getUserName(senderID)}\n` +
+                        "╠═ 👤CÁ NHÂN\n" +
+                        `║  ▸ Tên: ${familySystem.getUserName(senderID)}\n` +
                         `║  ▸ ID: ${senderID}\n` +
                         `║  ▸ Học vấn: ${familySystem.getEducationInfo(senderID)}\n` +
                         `║  ▸ Nghề nghiệp: ${familySystem.getJobInfo(senderID)}\n` +
                         "║\n" +
-                        "╠═ 💑 TÌNH TRẠNG HÔN NHÂN\n" +
-                        `║  ▸ Bạn đời: ${spouseName}\n` +
-                        `║  ▸ Độ hạnh phúc: ${Math.round(family.happiness)}%\n` +
-                        `║  ▸ Số con: ${family.children.length} đứa\n` +
+                        "╠═ 💑HÔN NHÂN\n" +
+                        `║  ▸ Bạn đời: ${marriageInfo.spouse}\n` +
+                        `║  ▸ Độ hạnh phúc: ${marriageInfo.happiness}%\n` +
+                        `║  ▸ Số con: ${marriageInfo.childCount} đứa\n` +
                         "║\n" +
                         "╠═ 🏠 NHÀ Ở\n" +
                         `║  ▸ ${sharedHome ? `Loại nhà: ${sharedHome.name}` : 'Chưa có nhà'}\n` +
                         (sharedHome ? 
                         `║  ▸ Tình trạng: ${sharedHome.condition}%\n` +
-                        `║  ▸ Chủ hộ: ${getUserName(isOwnHome ? senderID : family.spouse)}\n` : "") +
+                        `║  ▸ Chủ hộ: ${familySystem.getUserName(currentUserHome ? senderID : family.spouse)}\n` : "") +
                         "║\n" +
                         "╠═ 🚗 PHƯƠNG TIỆN\n" +
-                        (sharedVehicles && Object.keys(sharedVehicles).length > 0 ? 
+                        (Object.keys(sharedVehicles || {}).length > 0 ? 
                             Object.entries(sharedVehicles).map(([carId, vehicle]) => {
+                                const { CARS, BRANDS } = require('../config/carConfig');
                                 const car = CARS[carId];
                                 return `║  ▸ ${BRANDS[car.brand]} ${car.name}\n` +
                                        `║    └ Độ bền: ${vehicle.durability.toFixed(1)}%`;
@@ -108,14 +102,8 @@ module.exports = {
                             "║  ▸ Chưa có phương tiện\n"
                         ) +
                         "║\n" +
-                        (family.children.length > 0 ? 
-                        "╠═ 👶 THÔNG TIN CON CÁI\n" +
-                        family.children.map((child, index) => 
-                            `║  ▸ ${index + 1}. ${child.gender} ${child.name}\n` +
-                            `║    └ Tuổi: ${familySystem.calculateAge(child.birthDate)}\n` +
-                            `║    └ Hạnh phúc: ${Math.round(child.happiness)}%`
-                        ).join("\n") + "\n║\n" : "") +
-                        "╚══════════════════════════╝",
+                        childrenDisplay +
+                        "╚═══════════════╝",
                         threadID
                     );
                 }
@@ -144,8 +132,8 @@ module.exports = {
                         );
                     }
                     await updateBalance(senderID, -MARRIAGE_COST);
-                    const user1Name = getUserName(senderID);
-                    const user2Name = getUserName(mention);
+                    const user1Name = familySystem.getUserName(senderID);
+                    const user2Name = familySystem.getUserName(mention);
 
                     const confirmMsg = await api.sendMessage(
                         `💍 ${user1Name} muốn kết hôn với bạn.\nReply "yes" để chấp nhận, hoặc "no" để từ chối.`,
@@ -193,7 +181,7 @@ module.exports = {
                     }
 
                     try {
-                        const spouseName = getUserName(family.spouse);
+                        const spouseName = familySystem.getUserName(family.spouse);
                         
                         if (!familySystem.canHaveNewBaby(senderID)) {
                             return api.sendMessage(
@@ -243,6 +231,30 @@ module.exports = {
                         return api.sendMessage(`❌ Lỗi: ${error.message}`, threadID);
                     }
                     break;
+                }
+
+                case "rename": {
+                    const index = parseInt(subCommand) - 1;
+                    const newName = target.slice(2).join(" ");
+                    
+                    if (isNaN(index) || !newName) {
+                        return api.sendMessage(
+                            "❌ Vui lòng nhập đúng cú pháp:\n.family rename [số thứ tự] [tên mới]",
+                            threadID
+                        );
+                    }
+
+                    try {
+                        const child = await familySystem.renameChild(senderID, index, newName);
+                        return api.sendMessage(
+                            `✨ Đổi tên thành công!\n` +
+                            `${child.gender} ${child.name}\n` +
+                            `💝 Biệt danh: ${child.nickname}`,
+                            threadID
+                        );
+                    } catch (error) {
+                        return api.sendMessage(`❌ ${error.message}`, threadID);
+                    }
                 }
                 
                 default:

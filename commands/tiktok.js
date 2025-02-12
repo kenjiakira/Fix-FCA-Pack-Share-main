@@ -10,7 +10,7 @@ if (!fs.existsSync(cacheDir)) {
 
 module.exports = {
   name: 'tiktok',
-  info: 'Tải video, hình ảnh hoặc chuyển video thành nhạc MP3 từ TikTok',
+  info: 'Tải video TikTok',
   dev: 'HNT',
   usedby: 0,
   onPrefix: true, 

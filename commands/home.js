@@ -6,11 +6,12 @@ const axios = require('axios');
 
 const homeImages = {
     'h1': 'https://imgur.com/QQSDzLV.png', // Nhà trọ
-    'h2': 'https://imgur.com/a/a59HsVH.png', // Căn hộ cho thuê
+    'h2': 'https://imgur.com/QY8DJQ9.png', // Căn hộ cho thuê
     'h3': 'https://imgur.com/pvhsfzH.png', // Nhà cấp 4
     'h4': 'https://imgur.com/DucqpmM.png', // Nhà phố
     'h5': 'https://imgur.com/9UIy8OI.png', // Biệt thự
-    'h6': 'https://imgur.com/URZlIJd.png'  // Khu compound
+    'h6': 'https://imgur.com/URZlIJd.png',  // Khu compound
+    "h7": "https://imgur.com/rQVPvod.png"  // Penthouse
 };
 
 function formatNumber(number) {
@@ -42,18 +43,20 @@ module.exports = {
             }
 
             if (!command) {
-                return api.sendMessage(
-                    "🏠 QUẢN LÝ NHÀ Ở 🏠\n" +
-                    "━━━━━━━━━━━━━━━━━━\n\n" +
-                    "1. buy [mã] - Mua/thuê nhà\n" +
-                    "2. sell - Bán nhà\n" +
-                    "3. info - Xem thông tin nhà\n" +
-                    "4. list - Xem danh sách nhà\n" +
-                    "5. repair - Bảo trì nhà\n" +
-                    "6. upgrade [mã] - Nâng cấp nhà\n\n" +
-                    "💡 Dùng .home không kèm tham số để xem menu này",
+                await api.sendMessage(
+                    "┏━━『 HỆ THỐNG NHÀ Ở 』━━┓\n\n" +
+                    "🎯 HƯỚNG DẪN SỬ DỤNG:\n\n" +
+                    "📋 .home list\n└ Xem danh sách nhà\n\n" +
+                    "🏠 .home buy <mã>\n└ Mua/thuê nhà\n\n" +
+                    "💰 .home sell\n└ Bán nhà hiện tại\n\n" +
+                    "🔧 .home repair\n└ Bảo trì nhà\n\n" +
+                    "⚡ .home upgrade\n└ Nâng cấp nhà\n\n" +
+                    "ℹ️ .home info\n└ Xem thông tin nhà\n" +
+                    "\n┗━━━━━━━━━━━━━━━━━┛",
                     threadID
                 );
+                
+                return;
             }
 
             switch (command) {
@@ -61,43 +64,63 @@ module.exports = {
                 case "buy": {
                     const type = target[1]?.toLowerCase();
                     if (!type || !HOME_PRICES[type]) {
-                        let message = "🏠 DANH SÁCH NHÀ Ở 🏠\n━━━━━━━━━━━━━━━━━━\n\n";
-                        message += "📋 NHÀ CHO THUÊ:\n";
-                        message += `• h1 - Nhà trọ: ${formatNumber(HOME_PRICES.h1.xu)} Xu/tuần\n`;
-                        message += `• h2 - Căn hộ: ${formatNumber(HOME_PRICES.h2.xu)} Xu/tuần\n\n`;
+                        let msg = "┏━━『 DANH SÁCH NHÀ Ở 』━━┓\n\n";
                         
-                        message += "🏘️ NHÀ MUA:\n";
-                        message += `• h3 - Nhà cấp 4: ${formatNumber(HOME_PRICES.h3.xu)} Xu\n`;
-                        message += `• h4 - Nhà phố: ${formatNumber(HOME_PRICES.h4.xu)} Xu\n`;
-                        message += `• h5 - Biệt thự: ${formatNumber(HOME_PRICES.h5.xu)} Xu\n`;
-                        message += `• h6 - Khu compound: ${formatNumber(HOME_PRICES.h6.xu)} Xu\n\n`;
-                        
-                        message += "💡 Dùng: .home buy h1-h6 để mua/thuê nhà\n";
-                        message += "💵 Số dư: " + formatNumber(await getBalance(senderID)) + " Xu";
+                        const categories = {
+                            rental: { name: "🏢 NHÀ CHO THUÊ", homes: [] },
+                            basic: { name: "🏘️ NHÀ CƠ BẢN", homes: [] },
+                            luxury: { name: "🏰 NHÀ CAO CẤP", homes: [] },
+                            premium: { name: "⭐ NHÀ PREMIUM", homes: [] }
+                        };
 
-                        try {
-                            const attachments = [];
-                            for (const key of Object.keys(homeImages)) {
-                                const response = await axios.get(homeImages[key], {
-                                    responseType: 'stream'
+                        Object.entries(HOME_PRICES).forEach(([id, home]) => {
+                            const category = home.category || (home.isRental ? 'rental' : 'basic');
+                            categories[category].homes.push({id, ...home});
+                        });
+
+                        Object.values(categories).forEach(category => {
+                            if (category.homes.length > 0) {
+                                msg += `${category.name}\n`;
+                                msg += "┏━━━━━━━━━━━━━━━┓\n";
+                                category.homes.forEach(home => {
+                                    msg += `🏠 ${home.name}\n`;
+                                    msg += `├ Mã: [ ${home.id} ]\n`;
+                                    msg += `├ Giá: 💰 ${formatNumber(home.xu)} Xu${home.isRental ? '/tuần' : ''}\n`;
+                                    if (home.isRental) {
+                                        msg += `└ Thời hạn: ⏳ ${home.rentPeriod} ngày\n\n`;
+                                    } else {
+                                        msg += `└ Diện tích: 📏 ${home.size || 'N/A'}m²\n\n`;
+                                    }
                                 });
-                                attachments.push(response.data);
+                                msg += "┗━━━━━━━━━━━━━━━┛\n\n";
                             }
-                            
-                            return api.sendMessage({
-                                body: message,
-                                attachment: attachments
-                            }, threadID);
-                        } catch (err) {
-                            console.error('Error sending images:', err);
-                            return api.sendMessage(message, threadID);
-                        }
+                        });
+
+                        msg += "💡 HƯỚNG DẪN:\n";
+                        msg += "➤ Mua nhà: .home buy <mã>\n";
+                        msg += "➤ Thông tin: .home info\n\n";
+                        msg += "💵 Số dư: " + formatNumber(await getBalance(senderID)) + " Xu";
+
+                        const listMsg = await api.sendMessage(msg, threadID);
+                        
+                        return;
                     }
 
                     try {
-                        const home = await homeSystem.buyHome(senderID, type);
-                 
+                        const balance = await getBalance(senderID);
                         const homeConfig = HOME_PRICES[type];
+                        
+                        if (balance < homeConfig.xu) {
+                            return api.sendMessage(
+                                `❌ Không đủ tiền!\n` +
+                                `💰 Giá nhà: ${formatNumber(homeConfig.xu)} Xu\n` +
+                                `💵 Số dư: ${formatNumber(balance)} Xu\n` +
+                                `⚠️ Thiếu: ${formatNumber(homeConfig.xu - balance)} Xu`,
+                                threadID
+                            );
+                        }
+
+                        const home = await homeSystem.buyHome(senderID, type);
                         const message = `🏠 ${homeConfig.isRental ? 'THUÊ' : 'MUA'} NHÀ THÀNH CÔNG!\n\n` + 
                             `Loại: ${home.name}\n` +
                             `Giá: ${formatNumber(homeConfig.xu)} Xu\n` +
@@ -117,6 +140,7 @@ module.exports = {
                             console.error('Error sending home image:', imgErr);
                             return api.sendMessage(message, threadID);
                         }
+
                     } catch (err) {
                         return api.sendMessage(`❌ ${err.message}`, threadID);
                     }
@@ -125,10 +149,11 @@ module.exports = {
                 case "sell": {
                     try {
                         const sellPrice = await homeSystem.sellHome(senderID);
+                        const newBalance = await getBalance(senderID);
                         return api.sendMessage(
                             "🏠 BÁN NHÀ THÀNH CÔNG!\n" +
                             `💰 Số tiền nhận được: ${formatNumber(sellPrice)} Xu\n` +
-                            `💵 Số dư: ${formatNumber(await getBalance(senderID))} Xu`,
+                            `💵 Số dư hiện tại: ${formatNumber(newBalance)} Xu`,
                             threadID
                         );
                     } catch (err) {

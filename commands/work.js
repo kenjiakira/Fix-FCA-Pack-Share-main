@@ -37,11 +37,9 @@ module.exports = {
         const { threadID, senderID } = event;
 
         try {
-            // Force reload job system data
             jobSystem.data = jobSystem.loadData();
             const jobData = jobSystem.getJob(senderID);
             
-            // Double check job data
             if (!jobData?.currentJob?.id || !JOBS[jobData.currentJob.id]) {
                 jobData.currentJob = null;
                 jobSystem.saveData();

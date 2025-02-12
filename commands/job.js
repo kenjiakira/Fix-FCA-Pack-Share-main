@@ -24,40 +24,43 @@ module.exports = {
 
         try {
             const job = jobSystem.getJob(senderID);
-            const education = this.loadEducation(senderID);
+            const education = jobSystem.loadEducation(senderID);
 
             if (!command) {
-                return api.sendMessage(
-                    "💼 HỆ THỐNG VIỆC LÀM 💼\n" +
-                    "━━━━━━━━━━━━━━━━━━\n\n" +
-                    "1. list - Xem danh sách việc làm\n" +
-                    "2. apply [mã] - Ứng tuyển việc làm\n" +
-                    "3. info - Xem công việc hiện tại\n" +
-                    "4. quit - Nghỉ việc\n\n" +
-                    "💡 Học vấn càng cao, công việc càng tốt",
+                await api.sendMessage(
+                    "┏━━『 HỆ THỐNG VIỆC LÀM 』━━┓\n\n" +
+                    "🎯 HƯỚNG DẪN SỬ DỤNG:\n\n" +
+                    "📋 .job list\n└ Xem danh sách việc làm\n\n" +
+                    "📝 .job apply <mã>\n└ Ứng tuyển việc làm\n\n" +
+                    "ℹ️ .job info\n└ Xem công việc hiện tại\n\n" +
+                    "❌ .job quit\n└ Nghỉ việc hiện tại\n\n" +
+                    "💡 Ghi chú: Trình độ học vấn càng\ncao thì cơ hội việc làm càng tốt\n" +
+                    "\n┗━━━━━━━━━━━━━━━━━┛",
                     threadID
                 );
+                return;
             }
 
             switch (command) {
                 case "list": {
-                    let msg = "💼 DANH SÁCH VIỆC LÀM 💼\n━━━━━━━━━━━━━━━━━━\n\n";
+                    let msg = "┏━━『 DANH SÁCH VIỆC LÀM 』━━┓\n\n";
                     let availableJobs = [];
 
                     for (const [catId, category] of Object.entries(JOB_CATEGORIES)) {
-                        msg += `【${category.name}】\n`;
+                        msg += `🏢 ${category.name}\n`;
+                        msg += "┏━━━━━━━━━━━━━━━┓\n";
                         msg += `${category.desc}\n\n`;
 
                         for (const jobId of category.jobs) {
                             const job = JOBS[jobId];
                             if (!job) continue;
 
-                            const canApply = this.checkRequirements(job.requirements, education.degrees);
+                            const canApply = jobSystem.checkRequirements(job.requirements, education.degrees);
                             msg += `${canApply ? '✅' : '❌'} ${job.name}\n`;
-                            msg += `• Mã: ${jobId}\n`;
-                            msg += `• Lương: ${formatNumber(job.salary)} Xu/lần\n`;
+                            msg += `├ Mã: ${jobId}\n`;
+                            msg += `├ Lương: 💰 ${formatNumber(job.salary)} Xu/lần\n`;
                             if (job.requirements.length > 0) {
-                                msg += `• Yêu cầu: ${job.requirements.map(req => {
+                                msg += `└ Yêu cầu: 📚 ${job.requirements.map(req => {
                                     const degree = require('../config/educationConfig').DEGREES[req];
                                     return degree ? degree.name : req;
                                 }).join(", ")}\n`;
@@ -66,13 +69,15 @@ module.exports = {
 
                             if (canApply) availableJobs.push(jobId);
                         }
+                        msg += "┗━━━━━━━━━━━━━━━┛\n\n";
                     }
 
-                    msg += "💡 HƯỚNG DẪN:\n";
-                    msg += `• Công việc bạn có thể ứng tuyển: ${availableJobs.join(", ")}\n`;
-                    msg += "• Dùng .job apply [mã] để ứng tuyển\n";
+                    msg += "💡 VIỆC LÀM PHÙ HỢP:\n";
+                    msg += `➤ Các mã: ${availableJobs.join(", ")}\n`;
+                    msg += "➤ Ứng tuyển: .job apply <mã>\n";
                     
-                    return api.sendMessage(msg, threadID);
+                    const listMsg = await api.sendMessage(msg, threadID);
+                    return;
                 }
 
                 case "apply": {
@@ -101,15 +106,16 @@ module.exports = {
                     }
 
                     const currentJob = JOBS[job.currentJob.id];
-                    return api.sendMessage(
-                        "💼 THÔNG TIN CÔNG VIỆC 💼\n" +
-                        "━━━━━━━━━━━━━━━━━━\n\n" +
-                        `Công việc: ${currentJob.name}\n` +
-                        `Lương: ${formatNumber(currentJob.salary)} Xu/lần\n` +
-                        `Ngày bắt đầu: ${new Date(job.currentJob.startDate).toLocaleDateString()}\n\n` +
-                        "💡 Dùng .work để làm việc kiếm tiền",
+                    const infoMsg = await api.sendMessage(
+                        "┏━━『 THÔNG TIN CÔNG VIỆC 』━━┓\n\n" +
+                        `💼 Công việc: ${currentJob.name}\n` +
+                        `💰 Lương: ${formatNumber(currentJob.salary)} Xu/lần\n` +
+                        `📅 Ngày bắt đầu: ${new Date(job.currentJob.startDate).toLocaleDateString()}\n\n` +
+                        "💡 Dùng .work để làm việc kiếm tiền\n" +
+                        "\n┗━━━━━━━━━━━━━━━━━┛",
                         threadID
                     );
+                    return;
                 }
 
                 case "quit": {
@@ -133,16 +139,6 @@ module.exports = {
             console.error(error);
             return api.sendMessage("❌ Đã xảy ra lỗi!", threadID);
         }
-    },
-
-    checkRequirements(requirements, degrees) {
-        if (!requirements || requirements.length === 0) return true;
-        // Thêm log để debug
-        console.log('Checking requirements:', requirements);
-        console.log('User degrees:', degrees);
-        const result = requirements.some(req => degrees.includes(req));
-        console.log('Check result:', result);
-        return result;
     },
 
     loadJob(userID) {
@@ -172,25 +168,6 @@ module.exports = {
         } catch (error) {
             console.error(error);
             return false;
-        }
-    },
-
-    loadEducation(userID) {
-        const educationPath = path.join(__dirname, '../database/json/family/familyeducation.json');
-        try {
-            if (!fs.existsSync(educationPath)) return { degrees: [] };
-            const data = JSON.parse(fs.readFileSync(educationPath));
-            let education = data[userID] || { degrees: [] };
-            
-            // Thêm chuyển đổi mã
-            education.degrees = education.degrees.map(degree => {
-                return degree === "highschool" ? "e1" : degree;
-            });
-
-            return education;
-        } catch (error) {
-            console.error(error);
-            return { degrees: [] };
         }
     }
 };

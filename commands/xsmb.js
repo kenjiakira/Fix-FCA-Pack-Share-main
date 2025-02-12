@@ -2,7 +2,7 @@ const axios = require('axios');
 
 module.exports = {
     name: "xsmb",
-    info: "Xem kết quả xổ số miền Bắc",
+    info: "Xem xổ số miền Bắc",
     dev: "HNT",
     usedby: 0,
     onPrefix: true,

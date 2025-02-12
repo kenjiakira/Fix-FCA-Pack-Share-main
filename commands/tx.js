@@ -5,6 +5,78 @@ const { createCanvas, loadImage } = require("canvas");
 const { getBalance, updateBalance, loadQuy, saveQuy, updateQuestProgress, readData } = require('../utils/currencies');
 const gameLogic = require('../utils/gameLogic');
 
+const HISTORY_FILE = path.join(__dirname, './json/tx_history.json');
+
+const gameHistory = {
+    results: [],
+    sessions: new Map()
+};
+
+function loadHistory() {
+    try {
+        if (!fs.existsSync(HISTORY_FILE)) {
+            const dir = path.dirname(HISTORY_FILE);
+            if (!fs.existsSync(dir)) {
+                fs.mkdirSync(dir, { recursive: true });
+            }
+            fs.writeFileSync(HISTORY_FILE, JSON.stringify({ results: [] }));
+            return [];
+        }
+        const data = JSON.parse(fs.readFileSync(HISTORY_FILE));
+        return data.results || [];
+    } catch (error) {
+        console.error('Error loading TX history:', error);
+        return [];
+    }
+}
+
+function saveHistory() {
+    try {
+        fs.writeFileSync(HISTORY_FILE, JSON.stringify({ results: gameHistory.results }));
+    } catch (error) {
+        console.error('Error saving TX history:', error);
+    }
+}
+
+function generateSessionId() {
+    const random = Math.random().toString(36).substring(2, 8).toUpperCase();
+    return `#HNT${random}`;
+}
+
+function updateHistory(result) {
+    const emoji = result === "tài" ? "⚫" : "⚪";
+    gameHistory.results.push(emoji);
+    if (gameHistory.results.length > 10) {
+        gameHistory.results.shift(); 
+    }
+    saveHistory();
+}
+
+function formatHistory() {
+    if (gameHistory.results.length === 0) return "Chưa có lịch sử";
+    
+    const results = [...gameHistory.results]; 
+    let history = "";
+    
+    const bottomRow = results.slice(-5).join(" ");
+    
+    const topRow = results.slice(-10, -5).join(" ");
+    
+    if (topRow) {
+        history = `${topRow}\n${bottomRow}`;
+    } else {
+        history = bottomRow;
+    }
+    
+    return history;
+}
+
+function getHistoryString() {
+    return formatHistory();
+}
+
+gameHistory.results = loadHistory();
+
 function formatNumber(number) {
     return number.toLocaleString('vi-VN');  
 }
@@ -79,7 +151,6 @@ module.exports = {
             distributedAmount: 0
         };
 
-        // Phân phối tiền thưởng
         const winnerShare = Math.floor(quy * 0.5);
         if (winnerShare > 0) {
             updateBalance(senderID, winnerShare);
@@ -112,10 +183,24 @@ module.exports = {
         try {
             const { threadID, messageID, senderID } = event;
             const balance = getBalance(senderID);
-            let refundProcessed = false;  
+            let refundProcessed = false;
+            const sessionId = generateSessionId();
+            gameHistory.sessions.set(sessionId, {
+                userId: senderID,
+                timestamp: Date.now()
+            });
 
             if (target.length < 2) {
-                return api.sendMessage("TÀI XỈU \n━━━━━━━━━━━━━━━━━━\n\nHướng dẫn: .tx tài/xỉu <số tiền> hoặc\n.tx tài/xỉu allin", threadID, messageID);
+                return api.sendMessage(
+                    "┏━━『 TÀI XỈU 』━━┓\n\n" +
+                    "⚜️ Hướng dẫn:\n" +
+                    "➤ .tx tài/xỉu <số tiền>\n" +
+                    "➤ .tx tài/xỉu allin\n\n" +
+                    "📌 Lịch sử:\n" + getHistoryString() + "\n" +
+                    "⚫ = Tài | ⚪ = Xỉu\n" +
+                    "┗━━━━━━━━━━━━━━┛", 
+                    threadID, messageID
+                );
             }
 
             const choice = target[0].toLowerCase();
@@ -136,12 +221,26 @@ module.exports = {
             this.lastPlayed[senderID] = currentTime;
 
             updateBalance(senderID, -betAmount);
-            await api.sendMessage("🎲 Lắc xúc xắc... Đợi 5 giây...", threadID, messageID);
+            await api.sendMessage(
+                `『 PHIÊN ${sessionId} 』\n\n` +
+                `👤 Người chơi: ${event.senderID}\n` +
+                `💰 Đặt cược: ${formatNumber(betAmount)} Xu\n` +
+                `🎯 Lựa chọn: ${choice.toUpperCase()}\n` +
+                `📌 Lịch sử:\n${getHistoryString()}\n` +
+                "⏳ Đang lắc xúc xắc...\n" +
+                "┗━━━━━━━━━━━┛", 
+                threadID, messageID
+            );
 
             setTimeout(async () => {
                 try {
                     const { dice1, dice2, dice3, total, result } = this.generateDiceResults(senderID, choice, target[1].toLowerCase(), balance);
-                    let message = `🎲 Kết quả: ${dice1} + ${dice2} + ${dice3} = ${total}\nKết quả: ${result.toUpperCase()}\n`;
+                    updateHistory(result);
+                    let message = 
+                        `『 PHIÊN ${sessionId} 』\n\n` +
+                        `🎲 Kết quả: ${dice1} + ${dice2} + ${dice3} = ${total}\n` +
+                        `➤ ${result.toUpperCase()}\n` +
+                        `📌 Lịch sử:\n${getHistoryString()}\n`;
 
                     if ((total === 18 || total === 3) && result === choice) {
                         const jackpotResult = this.handleJackpot(total, choice, senderID);
@@ -176,7 +275,10 @@ module.exports = {
                     if (!refundProcessed) {
                         refundProcessed = true;
                         updateBalance(senderID, betAmount);
-                        await api.sendMessage("Có lỗi xảy ra, đã hoàn tiền cược.", threadID, messageID);
+                        await api.sendMessage(
+                            `❌ Có lỗi xảy ra trong phiên ${sessionId}, đã hoàn tiền cược.`, 
+                            threadID, messageID
+                        );
                     }
                 }
             }, 5000);
@@ -187,7 +289,10 @@ module.exports = {
                 refundProcessed = true;
                 updateBalance(senderID, betAmount);
             }
-            await api.sendMessage("Có lỗi xảy ra.", event.threadID, event.messageID);
+            await api.sendMessage(
+                "❌ Có lỗi xảy ra.", 
+                event.threadID, event.messageID
+            );
         }
     },
 

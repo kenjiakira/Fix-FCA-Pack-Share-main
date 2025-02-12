@@ -28,7 +28,11 @@ module.exports = {
 
         } catch (error) {
             console.error("Unsend error:", error);
-            return api.sendMessage("❌ Lỗi!", event.threadID);
+            if (error.error === 3252001) {
+                console.log("Bot temporarily blocked from unsending");
+                return;
+            }
+            return api.sendMessage("❌ Không thể gỡ tin nhắn!", event.threadID);
         }
     }
 };

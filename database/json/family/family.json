@@ -24,11 +24,11 @@
     "spouse": "100063719077878",
     "children": [
       {
-        "name": "trai cdmm",
+        "name": "Son Goku",
         "birthDate": 1739292398290,
         "happiness": 100,
         "gender": "👦",
-        "nickname": "Cưng trai cdmm"
+        "nickname": "Angel Son Goku"
       }
     ],
     "home": null,
@@ -96,11 +96,11 @@
     "spouse": "100068382888605",
     "children": [
       {
-        "name": "trai cdmm",
+        "name": "Son Goku",
         "birthDate": 1739292398290,
         "happiness": 100,
         "gender": "👦",
-        "nickname": "Cưng trai cdmm"
+        "nickname": "Angel Son Goku"
       }
     ],
     "home": null,
@@ -174,6 +174,146 @@
     "home": null,
     "happiness": 50,
     "lastChecked": 1739293414746,
+    "lastBaby": 0,
+    "lastIntimate": 0
+  },
+  "100035610181048": {
+    "name": null,
+    "spouse": null,
+    "children": [],
+    "home": null,
+    "happiness": 50,
+    "lastChecked": 1739325784202,
+    "lastBaby": 0,
+    "lastIntimate": 0
+  },
+  "100053868457890": {
+    "name": null,
+    "spouse": null,
+    "children": [],
+    "home": null,
+    "happiness": 50,
+    "lastChecked": 1739325784203,
+    "lastBaby": 0,
+    "lastIntimate": 0
+  },
+  "100000349406075": {
+    "name": null,
+    "spouse": null,
+    "children": [],
+    "home": null,
+    "happiness": 50,
+    "lastChecked": 1739327598813,
+    "lastBaby": 0,
+    "lastIntimate": 0
+  },
+  "100089981373051": {
+    "name": null,
+    "spouse": null,
+    "children": [],
+    "home": null,
+    "happiness": 50,
+    "lastChecked": 1739327875929,
+    "lastBaby": 0,
+    "lastIntimate": 0
+  },
+  "100067146620344": {
+    "name": null,
+    "spouse": null,
+    "children": [],
+    "home": null,
+    "happiness": 50,
+    "lastChecked": 1739333295840,
+    "lastBaby": 0,
+    "lastIntimate": 0
+  },
+  "61555034078738": {
+    "name": null,
+    "spouse": "61568522233427",
+    "children": [
+      {
+        "name": "Nguyễn Khánh An",
+        "birthDate": 1739336038634,
+        "happiness": 100,
+        "gender": "👦",
+        "nickname": "Cưng Nguyễn Khánh An"
+      }
+    ],
+    "home": null,
+    "happiness": 100,
+    "lastChecked": 1739333386650,
+    "lastBaby": 1739336038634,
+    "lastIntimate": 1739336018403,
+    "isProposer": false,
+    "proposedBy": "Mỹ Lệ"
+  },
+  "100041316051795": {
+    "name": null,
+    "spouse": null,
+    "children": [],
+    "home": null,
+    "happiness": 50,
+    "lastChecked": 1739333603272,
+    "lastBaby": 0,
+    "lastIntimate": 0
+  },
+  "61568522233427": {
+    "name": null,
+    "spouse": "61555034078738",
+    "children": [
+      {
+        "name": "Nguyễn Khánh An",
+        "birthDate": 1739336038634,
+        "happiness": 100,
+        "gender": "👦",
+        "nickname": "Cưng Nguyễn Khánh An"
+      }
+    ],
+    "home": null,
+    "happiness": 100,
+    "lastChecked": 1739335678358,
+    "lastBaby": 1739336038634,
+    "lastIntimate": 1739336018403,
+    "isProposer": true,
+    "proposedBy": null
+  },
+  "100048502504358": {
+    "name": null,
+    "spouse": null,
+    "children": [],
+    "home": null,
+    "happiness": 50,
+    "lastChecked": 1739335807851,
+    "lastBaby": 0,
+    "lastIntimate": 0
+  },
+  "100087199431487": {
+    "name": null,
+    "spouse": null,
+    "children": [],
+    "home": null,
+    "happiness": 50,
+    "lastChecked": 1739335807851,
+    "lastBaby": 0,
+    "lastIntimate": 0
+  },
+  "100092325757607": {
+    "name": null,
+    "spouse": null,
+    "children": [],
+    "home": null,
+    "happiness": 50,
+    "lastChecked": 1739340801950,
+    "lastBaby": 0,
+    "lastIntimate": 0
+  },
+  "100029520259216": {
+    "name": null,
+    "spouse": null,
+    "children": [],
+    "home": null,
+    "happiness": 50,
+    "lastChecked": 1739340801950,
     "lastBaby": 0,
     "lastIntimate": 0
   }

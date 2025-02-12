@@ -5,6 +5,7 @@ const { JOBS } = require('../config/jobConfig');
 class JobSystem {
     constructor() {
         this.path = path.join(__dirname, '../database/json/family/job.json');
+        this.educationPath = path.join(__dirname, '../database/json/family/familyeducation.json');
         this.data = this.loadData();
     }
 
@@ -41,6 +42,25 @@ class JobSystem {
         } catch (error) {
             console.error('Error loading job data:', error);
             return {};
+        }
+    }
+
+    loadEducation(userID) {
+        try {
+            if (!fs.existsSync(this.educationPath)) {
+                return { degrees: [] };
+            }
+            const data = JSON.parse(fs.readFileSync(this.educationPath));
+            let education = data[userID] || { degrees: [] };
+            
+            education.degrees = education.degrees.map(degree => {
+                return degree === "highschool" ? "e1" : degree;
+            });
+
+            return education;
+        } catch (error) {
+            console.error('Error loading education:', error);
+            return { degrees: [] };
         }
     }
 
@@ -101,10 +121,8 @@ class JobSystem {
     }
 
     async checkQualification(userID, jobId) {
-        const eduPath = path.join(__dirname, '../database/json/family/familyeducation.json');
         try {
-            const eduData = JSON.parse(fs.readFileSync(eduPath));
-            const education = eduData[userID] || { degrees: [] };
+            const education = this.loadEducation(userID);
             const job = JOBS[jobId];
             const DEGREES = require('../config/educationConfig').DEGREES;
 
@@ -265,6 +283,16 @@ class JobSystem {
         const COOLDOWN = 10 * 60 * 1000; 
         const timeLeft = COOLDOWN - (Date.now() - jobData.lastWorked);
         return Math.max(0, timeLeft);
+    }
+
+    checkRequirements(requirements, degrees) {
+        if (!requirements || requirements.length === 0) return true;
+    
+        console.log('Checking requirements:', requirements);
+        console.log('User degrees:', degrees);
+        const result = requirements.some(req => degrees.includes(req));
+        console.log('Check result:', result);
+        return result;
     }
 }
 

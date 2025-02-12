@@ -31,11 +31,25 @@ class HomeSystem {
         }
     }
 
+    updateHomeCondition() {
+        Object.keys(this.data).forEach(userID => {
+            const home = this.data[userID];
+            const timePassed = (Date.now() - home.lastMaintenance) / (1000 * 60 * 60 * 24); // Days
+
+            if (timePassed >= 1) {
+                home.condition = Math.max(0, home.condition - (timePassed * 5));
+                home.lastMaintenance = Date.now();
+            }
+        });
+        this.saveData();
+    }
+
     getHome(userID) {
+        this.updateHomeCondition(); 
         return this.data[userID] || null;
     }
 
-    buyHome(userID, type) {
+    async buyHome(userID, type) {
         if (!HOME_PRICES[type]) {
             throw new Error("Loại nhà không hợp lệ!");
         }
@@ -45,6 +59,15 @@ class HomeSystem {
         }
 
         const homeConfig = HOME_PRICES[type];
+        const { getBalance, updateBalance } = require('../utils/currencies');
+        
+        const balance = await getBalance(userID);
+        if (balance < homeConfig.xu) {
+            throw new Error(`Bạn cần thêm ${formatNumber(homeConfig.xu - balance)} Xu để mua nhà này!`);
+        }
+
+        await updateBalance(userID, -homeConfig.xu);
+
         this.data[userID] = {
             type: type,
             name: homeConfig.name,
@@ -52,12 +75,12 @@ class HomeSystem {
             condition: 100,
             lastMaintenance: Date.now(),
             upgrades: [],
-            stats: {
+            stats: {...(homeConfig.baseStats || {
                 security: 0,
                 comfort: 0,
                 environment: 0,
                 luxury: 0
-            }
+            })}
         };
 
         if (homeConfig.isRental) {
@@ -68,7 +91,7 @@ class HomeSystem {
         return this.data[userID];
     }
 
-    sellHome(userID) {
+    async sellHome(userID) {
         const home = this.getHome(userID);
         if (!home) {
             throw new Error("Bạn chưa có nhà!");
@@ -76,6 +99,9 @@ class HomeSystem {
 
         const homeConfig = HOME_PRICES[home.type];
         const sellPrice = Math.floor(homeConfig.xu * (home.condition / 100) * 0.7);
+
+        const { updateBalance } = require('../utils/currencies');
+        await updateBalance(userID, sellPrice); 
 
         delete this.data[userID];
         this.saveData();

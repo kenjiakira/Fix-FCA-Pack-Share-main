@@ -202,7 +202,7 @@ class StockMarket {
             if (hour >= MARKET_HOURS.open && hour < MARKET_HOURS.close) {
                 this.updatePrices();
             }
-        }, 30000); 
+        }, 180000); 
     }
 
     saveStocks() {
@@ -270,17 +270,17 @@ class StockMarket {
         }
 
         const stockData = this.getStockPrice(symbol);
-        const totalCost = stockData.price * quantity;
+        const totalCost = Math.floor(stockData.price * quantity); // Round down total cost
         
-        const transactionFee = Math.min(
+        const transactionFee = Math.floor(Math.min(
             Math.max(totalCost * FEES.transaction, FEES.minFee),
             FEES.maxFee
-        );
-        const tax = Math.min(
+        ));
+        const tax = Math.floor(Math.min(
             Math.max(totalCost * FEES.tax, FEES.minFee),
             FEES.maxFee
-        );
-        const totalWithFees = totalCost + transactionFee + tax;
+        ));
+        const totalWithFees = Math.floor(totalCost + transactionFee + tax); // Round down total with fees
         
         const balance = await getBalance(userId);
         
@@ -340,17 +340,17 @@ class StockMarket {
         }
 
         const stockData = this.getStockPrice(symbol);
-        const totalValue = stockData.price * quantity;
+        const totalValue = Math.floor(stockData.price * quantity); 
         
-        const transactionFee = Math.min(
+        const transactionFee = Math.floor(Math.min(
             Math.max(totalValue * FEES.transaction, FEES.minFee),
             FEES.maxFee
-        );
-        const tax = Math.min(
+        ));
+        const tax = Math.floor(Math.min(
             Math.max(totalValue * FEES.tax, FEES.minFee),
             FEES.maxFee
-        );
-        const finalValue = totalValue - transactionFee - tax;
+        ));
+        const finalValue = Math.floor(totalValue - transactionFee - tax); 
 
         portfolio.stocks[symbol].quantity -= quantity;
         if (portfolio.stocks[symbol].quantity === 0) {
@@ -361,7 +361,7 @@ class StockMarket {
             type: 'sell',
             symbol: symbol,
             quantity: quantity,
-            price: stockData.price,
+            price: Math.floor(stockData.price), // Round down price
             timestamp: Date.now()
         });
 
@@ -372,7 +372,7 @@ class StockMarket {
         return {
             symbol,
             quantity,
-            price: stockData.price,
+            price: Math.floor(stockData.price), // Round down price
             total: totalValue,
             transactionFee,
             tax,
@@ -382,7 +382,18 @@ class StockMarket {
 
     getMarketOverview() {
         return {
-            stocks: this.stocks,
+            stocks: Object.fromEntries(
+                Object.entries(this.stocks).map(([symbol, data]) => [
+                    symbol,
+                    {
+                        ...data,
+                        price: Math.floor(data.price), // Round down stock prices
+                        priceUSD: Math.floor(data.priceUSD * 100) / 100, // Keep 2 decimal places for USD
+                        change: Math.floor(data.change * 100) / 100, // Keep 2 decimal places for change
+                        changePercent: Math.floor(data.changePercent * 100) / 100
+                    }
+                ])
+            ),
             xuRate: this.xuRate
         };
     }
@@ -521,18 +532,18 @@ case "portfolio": {
     Object.entries(portfolio.stocks).forEach(([symbol, data]) => {
         const stock = market.stocks[symbol];
         const currentValue = Math.floor(stock.price * data.quantity);
-        const profitLoss = Math.floor(currentValue - (data.averagePrice * data.quantity));
+        const profitLoss = Math.floor(currentValue - (Math.floor(data.averagePrice) * data.quantity));
         totalValue += currentValue;
 
         message += `🏢 ${symbol} - ${stock.name}\n`;
         message += `🔢 Số lượng: ${data.quantity}\n`;
-        message += `💰 Giá TB: ${Math.floor(data.averagePrice).toLocaleString('vi-VN')} Xu\n`;
-        message += `📊 Giá HT: ${Math.floor(stock.price).toLocaleString('vi-VN')} Xu\n`;
-        message += `💵 Giá trị: ${currentValue.toLocaleString('vi-VN')} Xu\n`;
-        message += `${profitLoss >= 0 ? '📈' : '📉'} Lãi/Lỗ: ${profitLoss.toLocaleString('vi-VN')} Xu\n\n`;
+        message += `💰 Giá TB: ${formatNumber(data.averagePrice)}\n`;
+        message += `📊 Giá HT: ${formatNumber(stock.price)}\n`;
+        message += `💵 Giá trị: ${formatNumber(currentValue)}\n`;
+        message += `${profitLoss >= 0 ? '📈' : '📉'} Lãi/Lỗ: ${formatNumber(profitLoss)}\n\n`;
     });
 
-    message += `💎 Tổng giá trị: ${Math.floor(totalValue).toLocaleString('vi-VN')} Xu`;
+    message += `💎 Tổng giá trị: ${formatNumber(totalValue)}`;
     return api.sendMessage(message, threadID, messageID);
 }
 
