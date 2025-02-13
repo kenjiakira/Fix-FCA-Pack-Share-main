@@ -14,7 +14,7 @@ module.exports = {
     name: "artgen",
     dev: "HNT",
     info: "Tạo ảnh AIu",
-    usedby: 0,
+    usedby: 2,
     dmUser: false,
     onPrefix: true,
     usages: ".artgen <prompt> | .artgen style <phong cách> <prompt>",

@@ -137,3 +137,5 @@ git restore --staged appstate.json database/message.json
 ecosystem.config.js
 
 cache/key.json
+
+.vscode

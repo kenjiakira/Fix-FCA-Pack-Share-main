@@ -1,18 +1,30 @@
 {
-  "100080964828004": {
+  "584291935": {
     "progress": {
-      "play_games": 20,
-      "win_games": 6,
-      "play_coinflip": 1
+      "play_games": 7
     },
     "completed": {},
     "lastReset": "Wed Feb 12 2025",
     "lastRewardClaim": null
   },
+  "100080964828004": {
+    "progress": {
+      "play_games": 124,
+      "win_games": 32,
+      "play_coinflip": 3,
+      "win_coinflip": 1
+    },
+    "completed": {
+      "play_games": true,
+      "win_games": true
+    },
+    "lastReset": "Wed Feb 12 2025",
+    "lastRewardClaim": "Wed Feb 12 2025"
+  },
   "100047529173949": {
     "progress": {
-      "play_games": 25,
-      "win_games": 11
+      "play_games": 128,
+      "win_games": 37
     },
     "completed": {},
     "lastReset": "Wed Feb 12 2025",
@@ -20,25 +32,29 @@
   },
   "100053857386814": {
     "progress": {
-      "play_games": 48,
-      "win_games": 18
+      "play_games": 1,
+      "win_games": 1
     },
     "completed": {},
-    "lastReset": "Wed Feb 12 2025",
+    "lastReset": "Thu Feb 13 2025",
     "lastRewardClaim": null
   },
   "100068382888605": {
     "progress": {
-      "play_games": 73,
-      "win_games": 19
+      "play_games": 92,
+      "win_games": 24
     },
-    "completed": {},
+    "completed": {
+      "play_games": true,
+      "win_games": true
+    },
     "lastReset": "Wed Feb 12 2025",
-    "lastRewardClaim": null
+    "lastRewardClaim": "Wed Feb 12 2025"
   },
   "100050363228652": {
     "progress": {
-      "play_games": 2
+      "play_games": 13,
+      "win_games": 2
     },
     "completed": {},
     "lastReset": "Wed Feb 12 2025",
@@ -46,18 +62,20 @@
   },
   "100087199431487": {
     "progress": {
-      "play_games": 18,
+      "play_games": 22,
       "win_games": 6
     },
-    "completed": {},
+    "completed": {
+      "play_games": true
+    },
     "lastReset": "Wed Feb 12 2025",
-    "lastRewardClaim": null
+    "lastRewardClaim": "Wed Feb 12 2025"
   },
   "100053868457890": {
     "progress": {
-      "play_games": 14,
+      "play_games": 18,
       "play_coinflip": 2,
-      "win_games": 2
+      "win_games": 3
     },
     "completed": {},
     "lastReset": "Wed Feb 12 2025",
@@ -65,8 +83,8 @@
   },
   "61550331471452": {
     "progress": {
-      "play_games": 10,
-      "win_games": 1
+      "play_games": 31,
+      "win_games": 8
     },
     "completed": {},
     "lastReset": "Wed Feb 12 2025",
@@ -74,8 +92,8 @@
   },
   "100000349406075": {
     "progress": {
-      "play_games": 8,
-      "win_games": 3
+      "play_games": 11,
+      "win_games": 4
     },
     "completed": {},
     "lastReset": "Wed Feb 12 2025",
@@ -83,8 +101,9 @@
   },
   "61555034078738": {
     "progress": {
-      "play_games": 7,
-      "win_games": 2
+      "play_games": 13,
+      "win_games": 3,
+      "successful_steals": 1
     },
     "completed": {},
     "lastReset": "Wed Feb 12 2025",
@@ -92,8 +111,8 @@
   },
   "100071151188537": {
     "progress": {
-      "win_games": 6,
-      "play_games": 18
+      "win_games": 10,
+      "play_games": 32
     },
     "completed": {},
     "lastReset": "Wed Feb 12 2025",
@@ -101,8 +120,8 @@
   },
   "100048502504358": {
     "progress": {
-      "play_games": 20,
-      "win_games": 6
+      "play_games": 40,
+      "win_games": 9
     },
     "completed": {},
     "lastReset": "Wed Feb 12 2025",
@@ -110,7 +129,7 @@
   },
   "100055417691992": {
     "progress": {
-      "play_games": 1
+      "play_games": 2
     },
     "completed": {},
     "lastReset": "Wed Feb 12 2025",
@@ -118,16 +137,16 @@
   },
   "100063719077878": {
     "progress": {
-      "play_games": 33,
-      "win_games": 8
+      "play_games": 2,
+      "win_games": 1
     },
     "completed": {},
-    "lastReset": "Wed Feb 12 2025",
+    "lastReset": "Thu Feb 13 2025",
     "lastRewardClaim": null
   },
   "100083237157086": {
     "progress": {
-      "play_games": 2,
+      "play_games": 4,
       "win_games": 1
     },
     "completed": {},
@@ -136,12 +155,14 @@
   },
   "100058320200877": {
     "progress": {
-      "play_games": 20,
-      "win_games": 2
+      "play_games": 46,
+      "win_games": 12
     },
-    "completed": {},
+    "completed": {
+      "play_games": true
+    },
     "lastReset": "Wed Feb 12 2025",
-    "lastRewardClaim": null
+    "lastRewardClaim": "Wed Feb 12 2025"
   },
   "61566789515977": {
     "progress": {
@@ -154,8 +175,8 @@
   },
   "61561753304881": {
     "progress": {
-      "play_games": 1,
-      "win_games": 1
+      "play_games": 3,
+      "win_games": 2
     },
     "completed": {},
     "lastReset": "Wed Feb 12 2025",
@@ -172,8 +193,8 @@
   },
   "100093208808025": {
     "progress": {
-      "play_games": 2,
-      "win_games": 1
+      "play_games": 11,
+      "win_games": 2
     },
     "completed": {},
     "lastReset": "Wed Feb 12 2025",
@@ -181,8 +202,8 @@
   },
   "100085397934729": {
     "progress": {
-      "play_games": 2,
-      "win_games": 1
+      "play_games": 8,
+      "win_games": 3
     },
     "completed": {},
     "lastReset": "Wed Feb 12 2025",
@@ -199,8 +220,9 @@
   },
   "100067146620344": {
     "progress": {
-      "play_games": 13,
-      "win_games": 4
+      "play_games": 54,
+      "win_games": 14,
+      "play_coinflip": 2
     },
     "completed": {},
     "lastReset": "Wed Feb 12 2025",
@@ -216,16 +238,18 @@
   },
   "100053970942155": {
     "progress": {
-      "play_games": 16,
-      "win_games": 3
+      "play_games": 50,
+      "win_games": 13
     },
-    "completed": {},
+    "completed": {
+      "play_games": true
+    },
     "lastReset": "Wed Feb 12 2025",
-    "lastRewardClaim": null
+    "lastRewardClaim": "Wed Feb 12 2025"
   },
   "100006842495827": {
     "progress": {
-      "play_games": 1
+      "play_games": 2
     },
     "completed": {},
     "lastReset": "Wed Feb 12 2025",
@@ -242,7 +266,8 @@
   },
   "61550616981053": {
     "progress": {
-      "play_games": 3
+      "play_games": 13,
+      "win_games": 3
     },
     "completed": {},
     "lastReset": "Wed Feb 12 2025",
@@ -250,7 +275,7 @@
   },
   "100008297661441": {
     "progress": {
-      "play_games": 4,
+      "play_games": 6,
       "win_games": 1
     },
     "completed": {},
@@ -259,7 +284,7 @@
   },
   "100048267517770": {
     "progress": {
-      "play_games": 13,
+      "play_games": 14,
       "win_games": 5,
       "play_coinflip": 3,
       "win_coinflip": 1
@@ -270,8 +295,8 @@
   },
   "61568733064572": {
     "progress": {
-      "play_games": 4,
-      "win_games": 2,
+      "play_games": 7,
+      "win_games": 4,
       "win_coinflip": 1,
       "play_coinflip": 1
     },
@@ -281,19 +306,22 @@
   },
   "100055052811579": {
     "progress": {
-      "play_games": 14,
-      "win_games": 6,
-      "win_coinflip": 2,
-      "play_coinflip": 3
+      "play_games": 56,
+      "win_games": 16,
+      "win_coinflip": 4,
+      "play_coinflip": 14
     },
-    "completed": {},
+    "completed": {
+      "play_games": true,
+      "win_games": true
+    },
     "lastReset": "Wed Feb 12 2025",
-    "lastRewardClaim": null
+    "lastRewardClaim": "Wed Feb 12 2025"
   },
   "100063397755304": {
     "progress": {
-      "play_games": 3,
-      "win_games": 1
+      "play_games": 13,
+      "win_games": 3
     },
     "completed": {},
     "lastReset": "Wed Feb 12 2025",
@@ -301,8 +329,8 @@
   },
   "100076957299243": {
     "progress": {
-      "play_games": 11,
-      "win_games": 5
+      "play_games": 23,
+      "win_games": 9
     },
     "completed": {},
     "lastReset": "Wed Feb 12 2025",
@@ -310,8 +338,8 @@
   },
   "61550049193361": {
     "progress": {
-      "play_games": 6,
-      "win_games": 1
+      "play_games": 17,
+      "win_games": 3
     },
     "completed": {},
     "lastReset": "Wed Feb 12 2025",
@@ -319,8 +347,8 @@
   },
   "61563838955237": {
     "progress": {
-      "play_games": 4,
-      "win_games": 1
+      "play_games": 7,
+      "win_games": 2
     },
     "completed": {},
     "lastReset": "Wed Feb 12 2025",
@@ -344,8 +372,8 @@
   },
   "61552144357464": {
     "progress": {
-      "play_games": 2,
-      "win_games": 1
+      "play_games": 6,
+      "win_games": 3
     },
     "completed": {},
     "lastReset": "Wed Feb 12 2025",
@@ -353,9 +381,337 @@
   },
   "100072567218546": {
     "progress": {
-      "play_games": 4,
-      "win_games": 1,
+      "play_games": 36,
+      "win_games": 8,
       "play_coinflip": 1
+    },
+    "completed": {},
+    "lastReset": "Wed Feb 12 2025",
+    "lastRewardClaim": null
+  },
+  "100069488311969": {
+    "progress": {
+      "play_games": 1,
+      "win_games": 1
+    },
+    "completed": {},
+    "lastReset": "Wed Feb 12 2025",
+    "lastRewardClaim": null
+  },
+  "100087677240339": {
+    "progress": {
+      "play_games": 2,
+      "win_games": 1
+    },
+    "completed": {},
+    "lastReset": "Wed Feb 12 2025",
+    "lastRewardClaim": null
+  },
+  "61572510797725": {
+    "progress": {
+      "play_games": 25,
+      "win_games": 7
+    },
+    "completed": {},
+    "lastReset": "Wed Feb 12 2025",
+    "lastRewardClaim": null
+  },
+  "100092462343504": {
+    "progress": {
+      "play_games": 2,
+      "win_games": 1
+    },
+    "completed": {},
+    "lastReset": "Wed Feb 12 2025",
+    "lastRewardClaim": null
+  },
+  "100023894737975": {
+    "progress": {
+      "play_games": 1,
+      "win_games": 1
+    },
+    "completed": {},
+    "lastReset": "Wed Feb 12 2025",
+    "lastRewardClaim": null
+  },
+  "100060791037285": {
+    "progress": {
+      "play_games": 7,
+      "win_games": 1
+    },
+    "completed": {},
+    "lastReset": "Wed Feb 12 2025",
+    "lastRewardClaim": null
+  },
+  "61565083133053": {
+    "progress": {
+      "play_games": 2
+    },
+    "completed": {},
+    "lastReset": "Wed Feb 12 2025",
+    "lastRewardClaim": null
+  },
+  "61565228129928": {
+    "progress": {
+      "play_games": 1,
+      "win_games": 1
+    },
+    "completed": {},
+    "lastReset": "Wed Feb 12 2025",
+    "lastRewardClaim": null
+  },
+  "100001158424488": {
+    "progress": {
+      "play_games": 1
+    },
+    "completed": {},
+    "lastReset": "Wed Feb 12 2025",
+    "lastRewardClaim": null
+  },
+  "100090942052360": {
+    "progress": {
+      "play_games": 1,
+      "win_games": 1
+    },
+    "completed": {},
+    "lastReset": "Wed Feb 12 2025",
+    "lastRewardClaim": null
+  },
+  "61566663098619": {
+    "progress": {
+      "play_games": 1
+    },
+    "completed": {},
+    "lastReset": "Wed Feb 12 2025",
+    "lastRewardClaim": null
+  },
+  "100000265737421": {
+    "progress": {
+      "play_games": 3,
+      "win_games": 1
+    },
+    "completed": {},
+    "lastReset": "Wed Feb 12 2025",
+    "lastRewardClaim": null
+  },
+  "100089981373051": {
+    "progress": {
+      "play_games": 1
+    },
+    "completed": {},
+    "lastReset": "Wed Feb 12 2025",
+    "lastRewardClaim": null
+  },
+  "61563759854074": {
+    "progress": {},
+    "completed": {},
+    "lastReset": "Wed Feb 12 2025",
+    "lastRewardClaim": null
+  },
+  "100055074463541": {
+    "progress": {
+      "play_games": 25,
+      "win_games": 5
+    },
+    "completed": {},
+    "lastReset": "Wed Feb 12 2025",
+    "lastRewardClaim": null
+  },
+  "61569008916749": {
+    "progress": {
+      "play_games": 1
+    },
+    "completed": {},
+    "lastReset": "Wed Feb 12 2025",
+    "lastRewardClaim": null
+  },
+  "61565401950493": {
+    "progress": {
+      "play_games": 1
+    },
+    "completed": {},
+    "lastReset": "Wed Feb 12 2025",
+    "lastRewardClaim": null
+  },
+  "61565365376358": {
+    "progress": {
+      "play_games": 1
+    },
+    "completed": {},
+    "lastReset": "Wed Feb 12 2025",
+    "lastRewardClaim": null
+  },
+  "61570532692675": {
+    "progress": {
+      "play_games": 1
+    },
+    "completed": {},
+    "lastReset": "Wed Feb 12 2025",
+    "lastRewardClaim": null
+  },
+  "61565466350552": {
+    "progress": {
+      "play_games": 1
+    },
+    "completed": {},
+    "lastReset": "Wed Feb 12 2025",
+    "lastRewardClaim": null
+  },
+  "100085191341131": {
+    "progress": {
+      "play_games": 2,
+      "win_games": 1
+    },
+    "completed": {},
+    "lastReset": "Wed Feb 12 2025",
+    "lastRewardClaim": null
+  },
+  "100088600797175": {
+    "progress": {
+      "play_games": 3,
+      "win_games": 1
+    },
+    "completed": {},
+    "lastReset": "Wed Feb 12 2025",
+    "lastRewardClaim": null
+  },
+  "61566612873540": {
+    "progress": {
+      "play_games": 1
+    },
+    "completed": {},
+    "lastReset": "Wed Feb 12 2025",
+    "lastRewardClaim": null
+  },
+  "61566378911878": {
+    "progress": {
+      "play_games": 5,
+      "win_games": 2
+    },
+    "completed": {},
+    "lastReset": "Wed Feb 12 2025",
+    "lastRewardClaim": null
+  },
+  "100094538943472": {
+    "progress": {
+      "play_games": 2,
+      "win_games": 1
+    },
+    "completed": {},
+    "lastReset": "Wed Feb 12 2025",
+    "lastRewardClaim": null
+  },
+  "100049109850406": {
+    "progress": {
+      "play_games": 1
+    },
+    "completed": {},
+    "lastReset": "Wed Feb 12 2025",
+    "lastRewardClaim": null
+  },
+  "61554017180645": {
+    "progress": {
+      "play_games": 8,
+      "win_games": 4
+    },
+    "completed": {},
+    "lastReset": "Wed Feb 12 2025",
+    "lastRewardClaim": null
+  },
+  "61554131527913": {
+    "progress": {
+      "play_games": 2,
+      "win_games": 1
+    },
+    "completed": {},
+    "lastReset": "Wed Feb 12 2025",
+    "lastRewardClaim": null
+  },
+  "100044992386960": {
+    "progress": {
+      "play_games": 1
+    },
+    "completed": {},
+    "lastReset": "Wed Feb 12 2025",
+    "lastRewardClaim": null
+  },
+  "61568522233427": {
+    "progress": {
+      "play_games": 3
+    },
+    "completed": {},
+    "lastReset": "Wed Feb 12 2025",
+    "lastRewardClaim": null
+  },
+  "100028202556430": {
+    "progress": {
+      "play_games": 1
+    },
+    "completed": {},
+    "lastReset": "Wed Feb 12 2025",
+    "lastRewardClaim": null
+  },
+  "100041316051795": {
+    "progress": {
+      "play_games": 2
+    },
+    "completed": {},
+    "lastReset": "Wed Feb 12 2025",
+    "lastRewardClaim": null
+  },
+  "61550626076611": {
+    "progress": {
+      "play_games": 1
+    },
+    "completed": {},
+    "lastReset": "Wed Feb 12 2025",
+    "lastRewardClaim": null
+  },
+  "100048799053165": {
+    "progress": {
+      "play_games": 1
+    },
+    "completed": {},
+    "lastReset": "Wed Feb 12 2025",
+    "lastRewardClaim": null
+  },
+  "100074888445500": {
+    "progress": {
+      "play_games": 3,
+      "win_games": 1
+    },
+    "completed": {},
+    "lastReset": "Wed Feb 12 2025",
+    "lastRewardClaim": null
+  },
+  "61568674334716": {
+    "progress": {
+      "play_games": 1,
+      "win_games": 1
+    },
+    "completed": {},
+    "lastReset": "Wed Feb 12 2025",
+    "lastRewardClaim": null
+  },
+  "100081598021413": {
+    "progress": {
+      "play_games": 1
+    },
+    "completed": {},
+    "lastReset": "Wed Feb 12 2025",
+    "lastRewardClaim": null
+  },
+  "100085405731662": {
+    "progress": {
+      "play_games": 1
+    },
+    "completed": {},
+    "lastReset": "Wed Feb 12 2025",
+    "lastRewardClaim": null
+  },
+  "61557517660851": {
+    "progress": {
+      "play_games": 1
     },
     "completed": {},
     "lastReset": "Wed Feb 12 2025",

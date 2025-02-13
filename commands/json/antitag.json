@@ -112,7 +112,9 @@
             },
             "61550616981053": {
                 "count": 1,
-                "lastReset": 1738666845537
+                "lastReset": 1739362778728,
+                "tagsInWindow": 1,
+                "lastTagTime": 1739362778728
             },
             "100089415987625": {
                 "count": 1,
@@ -164,8 +166,8 @@
             },
             "100068382888605": {
                 "count": 2,
-                "lastReset": 1739204511494,
-                "lastTagTime": 1739269243836,
+                "lastReset": 1739362250046,
+                "lastTagTime": 1739362708348,
                 "tagsInWindow": 1
             },
             "100094060806952": {
@@ -180,10 +182,16 @@
                 "lastTagTime": 1739279018069,
                 "tagsInWindow": 1
             },
-            "100000349406075": {
+            "100063397755304": {
                 "count": 2,
-                "lastReset": 1739349564844,
-                "lastTagTime": 1739349981445,
+                "lastReset": 1739369087015,
+                "lastTagTime": 1739369167981,
+                "tagsInWindow": 1
+            },
+            "61563759854074": {
+                "count": 1,
+                "lastReset": 1739374839137,
+                "lastTagTime": 1739374839137,
                 "tagsInWindow": 1
             }
         }

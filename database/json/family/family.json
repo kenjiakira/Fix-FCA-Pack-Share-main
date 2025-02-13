@@ -24,11 +24,11 @@
     "spouse": "100063719077878",
     "children": [
       {
-        "name": "Son Goku",
+        "name": "Vũ Wag",
         "birthDate": 1739292398290,
         "happiness": 100,
         "gender": "👦",
-        "nickname": "Angel Son Goku"
+        "nickname": "Sunshine Vũ Wag"
       }
     ],
     "home": null,
@@ -96,11 +96,11 @@
     "spouse": "100068382888605",
     "children": [
       {
-        "name": "Son Goku",
+        "name": "Vũ Wag",
         "birthDate": 1739292398290,
         "happiness": 100,
         "gender": "👦",
-        "nickname": "Angel Son Goku"
+        "nickname": "Sunshine Vũ Wag"
       }
     ],
     "home": null,
@@ -199,13 +199,15 @@
   },
   "100000349406075": {
     "name": null,
-    "spouse": null,
+    "spouse": "61563759854074",
     "children": [],
     "home": null,
-    "happiness": 50,
+    "happiness": 100,
     "lastChecked": 1739327598813,
     "lastBaby": 0,
-    "lastIntimate": 0
+    "lastIntimate": 1739362471077,
+    "isProposer": true,
+    "proposedBy": null
   },
   "100089981373051": {
     "name": null,
@@ -232,11 +234,11 @@
     "spouse": "61568522233427",
     "children": [
       {
-        "name": "Nguyễn Khánh An",
+        "name": "Lê Văn Huy",
         "birthDate": 1739336038634,
         "happiness": 100,
         "gender": "👦",
-        "nickname": "Cưng Nguyễn Khánh An"
+        "nickname": "Bé Lê Văn Huy"
       }
     ],
     "home": null,
@@ -262,11 +264,11 @@
     "spouse": "61555034078738",
     "children": [
       {
-        "name": "Nguyễn Khánh An",
+        "name": "Lê Văn Huy",
         "birthDate": 1739336038634,
         "happiness": 100,
         "gender": "👦",
-        "nickname": "Cưng Nguyễn Khánh An"
+        "nickname": "Bé Lê Văn Huy"
       }
     ],
     "home": null,
@@ -364,6 +366,48 @@
     "home": null,
     "happiness": 50,
     "lastChecked": 1739351405483,
+    "lastBaby": 0,
+    "lastIntimate": 0
+  },
+  "61563759854074": {
+    "name": null,
+    "spouse": "100000349406075",
+    "children": [],
+    "home": null,
+    "happiness": 100,
+    "lastChecked": 1739362019486,
+    "lastBaby": 0,
+    "lastIntimate": 1739362471064,
+    "isProposer": false,
+    "proposedBy": "Zeni Gâu Gâu"
+  },
+  "100094060806952": {
+    "name": null,
+    "spouse": null,
+    "children": [],
+    "home": null,
+    "happiness": 50,
+    "lastChecked": 1739362048884,
+    "lastBaby": 0,
+    "lastIntimate": 0
+  },
+  "100058320200877": {
+    "name": null,
+    "spouse": null,
+    "children": [],
+    "home": null,
+    "happiness": 50,
+    "lastChecked": 1739368398845,
+    "lastBaby": 0,
+    "lastIntimate": 0
+  },
+  "100063397755304": {
+    "name": null,
+    "spouse": null,
+    "children": [],
+    "home": null,
+    "happiness": 50,
+    "lastChecked": 1739368427627,
     "lastBaby": 0,
     "lastIntimate": 0
   }
