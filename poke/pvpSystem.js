@@ -26,6 +26,10 @@ class PvPSystem {
         this.BASE_DAMAGE = 8; 
         this.MAX_DAMAGE_MULTIPLIER = 1.4;
         this.MIN_DAMAGE = 5;
+        this.AI_DECISION_WEIGHTS = {
+            AGGRESSIVE: 0.7,
+            DEFENSIVE: 0.3
+        };
     }
 
     calculateDamage(attacker, defender) {
@@ -110,6 +114,58 @@ class PvPSystem {
         };
     }
 
+    async pve(playerPokemon, wildPokemon) {
+        if (!playerPokemon || !wildPokemon) return null;
+
+        if (playerPokemon.hp === 0) {
+            return { error: "recovery", timeLeft: this.getRecoveryTimeLeft(playerPokemon) };
+        }
+
+        let p1HP = playerPokemon.hp;
+        let p2HP = wildPokemon.hp;
+        const battleLog = [];
+        const expGain = Math.floor(Math.random() * 40) + 30; // More EXP for PVE
+
+        while (p1HP > 0 && p2HP > 0) {
+            // Player turn
+            const dmg1 = this.calculateDamage(playerPokemon, wildPokemon);
+            p2HP -= dmg1;
+            const effectiveness1 = this.getTypeEffectiveness(playerPokemon.types[0], wildPokemon.types);
+            battleLog.push(`${playerPokemon.name} gây ${dmg1} sát thương cho ${wildPokemon.name} (${this.getEffectivenessText(effectiveness1)})`);
+
+            if (p2HP <= 0) break;
+
+            // Wild Pokemon turn with AI
+            const aiDamageMultiplier = this.getAIDecision(p2HP / wildPokemon.hp);
+            const dmg2 = Math.floor(this.calculateDamage(wildPokemon, playerPokemon) * aiDamageMultiplier);
+            p1HP -= dmg2;
+            const effectiveness2 = this.getTypeEffectiveness(wildPokemon.types[0], playerPokemon.types);
+            battleLog.push(`${wildPokemon.name} gây ${dmg2} sát thương cho ${playerPokemon.name} (${this.getEffectivenessText(effectiveness2)})`);
+        }
+
+        return {
+            winner: p1HP > 0 ? playerPokemon : wildPokemon,
+            loser: p1HP > 0 ? wildPokemon : playerPokemon,
+            finalHP: {
+                player: Math.max(0, p1HP),
+                wild: Math.max(0, p2HP)
+            },
+            log: battleLog,
+            expGained: expGain,
+            rewardCoins: Math.floor(Math.random() * 20000) + 10000
+        };
+    }
+
+    getAIDecision(hpPercentage) {
+        if (hpPercentage < 0.3) {
+            return 1.2;
+        } else if (hpPercentage < 0.5) {
+
+            return this.AI_DECISION_WEIGHTS.AGGRESSIVE;
+        }
+        return 1.0;
+    }
+
     getTypeEffectiveness(attackType, defenderTypes) {
         let effectiveness = 1;
         defenderTypes.forEach(defType => {
@@ -130,7 +186,6 @@ class PvPSystem {
         if (!pokemon.maxHp) pokemon.maxHp = pokemon.hp;
         if (pokemon.hp < 0) pokemon.hp = 0;
 
-        // Kiểm tra và cập nhật HP khi hết thời gian hồi phục
         if (pokemon.recoveryStart) {
             const now = Date.now();
             const timeLeft = (pokemon.recoveryStart + this.RECOVERY_TIME) - now;

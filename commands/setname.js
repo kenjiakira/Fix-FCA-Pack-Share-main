@@ -1,8 +1,8 @@
 const fs = require("fs");
 const path = require("path");
 
-const nicknameConfigPath = path.join(__dirname, "../database/nicknames.json");
-const setnameStatusPath = path.join(__dirname, "../database/setnameStatus.json");
+const nicknameConfigPath = path.join(__dirname, "../database/json/setname/nicknames.json");
+const setnameStatusPath = path.join(__dirname, "../database/json/setname/setnameStatus.json");
 
 if (!fs.existsSync(nicknameConfigPath)) {
   fs.writeFileSync(nicknameConfigPath, JSON.stringify({}, null, 2));

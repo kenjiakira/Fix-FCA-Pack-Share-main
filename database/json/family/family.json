@@ -182,8 +182,8 @@
     "spouse": null,
     "children": [],
     "home": null,
-    "happiness": 50,
-    "lastChecked": 1739325784202,
+    "happiness": 44.14956712962963,
+    "lastChecked": 1739426879682,
     "lastBaby": 0,
     "lastIntimate": 0
   },
@@ -199,7 +199,7 @@
   },
   "100000349406075": {
     "name": null,
-    "spouse": null,
+    "spouse": "61571521751763",
     "children": [
       {
         "name": "minh ngọc",
@@ -210,7 +210,7 @@
       }
     ],
     "home": null,
-    "happiness": 50,
+    "happiness": 100,
     "lastChecked": 1739424045955,
     "lastBaby": 1739421084843,
     "lastIntimate": 1739421079320,
@@ -232,8 +232,8 @@
     "spouse": null,
     "children": [],
     "home": null,
-    "happiness": 50,
-    "lastChecked": 1739333295840,
+    "happiness": 42.88809826388889,
+    "lastChecked": 1739456189502,
     "lastBaby": 0,
     "lastIntimate": 0
   },
@@ -394,14 +394,14 @@
       {
         "name": "minh ngọc",
         "birthDate": 1739421084843,
-        "happiness": 100,
+        "happiness": 96.89156309027777,
         "gender": "👧",
         "nickname": "Sunshine minh ngọc"
       }
     ],
     "home": null,
-    "happiness": 50,
-    "lastChecked": 1739362019486,
+    "happiness": 44.81927181712963,
+    "lastChecked": 1739451542469,
     "lastBaby": 1739421084843,
     "lastIntimate": 1739421079320,
     "isProposer": false,
@@ -459,13 +459,23 @@
   },
   "61556582712090": {
     "name": null,
-    "spouse": null,
-    "children": [],
+    "spouse": "61568444251856",
+    "children": [
+      {
+        "name": "BimBim",
+        "birthDate": 1739456570753,
+        "happiness": 100,
+        "gender": "👧",
+        "nickname": "Yêu BimBim"
+      }
+    ],
     "home": null,
-    "happiness": 50,
+    "happiness": 100,
     "lastChecked": 1739419064382,
-    "lastBaby": 0,
-    "lastIntimate": 0
+    "lastBaby": 1739456570754,
+    "lastIntimate": 1739456539063,
+    "isProposer": true,
+    "proposedBy": null
   },
   "100040203282108": {
     "name": null,
@@ -481,11 +491,71 @@
   },
   "61571521751763": {
     "name": null,
+    "spouse": "100000349406075",
+    "children": [
+      {
+        "name": "minh ngọc",
+        "birthDate": 1739421084843,
+        "happiness": 96.65114090277778,
+        "gender": "👧",
+        "nickname": "Sunshine minh ngọc"
+      }
+    ],
+    "home": null,
+    "happiness": 100,
+    "lastChecked": 1739424095041,
+    "lastBaby": 1739421084843,
+    "lastIntimate": 0,
+    "isProposer": false,
+    "proposedBy": "Zeni Gâu Gâu"
+  },
+  "61572510797725": {
+    "name": null,
     "spouse": null,
     "children": [],
     "home": null,
     "happiness": 50,
-    "lastChecked": 1739424095041,
+    "lastChecked": 1739426835134,
+    "lastBaby": 0,
+    "lastIntimate": 0
+  },
+  "100076639060958": {
+    "name": null,
+    "spouse": null,
+    "children": [],
+    "home": null,
+    "happiness": 50,
+    "lastChecked": 1739427576723,
+    "lastBaby": 0,
+    "lastIntimate": 0
+  },
+  "61568444251856": {
+    "name": null,
+    "spouse": "61556582712090",
+    "children": [
+      {
+        "name": "BimBim",
+        "birthDate": 1739456570753,
+        "happiness": 100,
+        "gender": "👧",
+        "nickname": "Yêu BimBim"
+      }
+    ],
+    "home": null,
+    "happiness": 100,
+    "lastChecked": 1739450393350,
+    "lastBaby": 1739456570754,
+    "lastIntimate": 1739456539064,
+    "isProposer": false,
+    "proposedBy": "Freina Nelson"
+  },
+  "100006842495827": {
+    "name": null,
+    "spouse": null,
+    "children": [],
+    "home": null,
+    "happiness": 50,
+    "lastChecked": 1739456828629,
     "lastBaby": 0,
     "lastIntimate": 0
   }

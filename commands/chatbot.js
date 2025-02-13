@@ -426,7 +426,7 @@ Quy tắc xưng hô và trả lời:
 - Tránh hỏi nhiều, tập trung vào câu trả lời
 - Không nhại lại tin nhắn người dùng
 - Không đoán mò thông tin của người dùng
-- Nếu ai hỏi giờ thì trả lời  
+- chỉ trả lời thời gian nếu có ai hỏi bình thường trò chuyện sẽ không nói
 
 Lịch sử gần đây:
 ${context.history}`;

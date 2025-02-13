@@ -21,10 +21,11 @@ module.exports = {
       event.threadID, event.messageID
     );
 
-    const imagePath = path.join(__dirname, 'cache', `gen
-n    _${Date.now()}.png`);
-    if (!fs.existsSync(path.join(__dirname, 'cache'))) {
-      fs.mkdirSync(path.join(__dirname, 'cache'), { recursive: true });
+    const cacheDir = path.join(__dirname, 'cache');
+    const imagePath = path.join(cacheDir, `gen_${Date.now()}.png`);
+    
+    if (!fs.existsSync(cacheDir)) {
+      fs.mkdirSync(cacheDir, { recursive: true });
     }
 
     try {

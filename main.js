@@ -307,11 +307,11 @@ process.on('SIGINT', () => {
 });
 
 process.on('uncaughtException', async (err) => {
-    // Ignore Facebook rate limit errors
+
     if (err?.error === 3252001 || 
         err?.errorSummary?.includes('Bạn tạm thời bị chặn') ||
         (err?.error && err?.blockedAction)) {
-        return; // Silently ignore these errors  
+        return; 
     }
 
     if (err.code === 'ENOTFOUND' && 

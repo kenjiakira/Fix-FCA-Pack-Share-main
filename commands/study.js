@@ -25,13 +25,13 @@ module.exports = {
 
             if (!command) {
                 await api.sendMessage(
-                    "┏━━『 HỆ THỐNG HỌC TẬP 』━━┓\n\n" +
+                    "『 HỌC TẬP 』\n\n" +
                     "🎯 HƯỚNG DẪN SỬ DỤNG:\n\n" +
                     "⭐ .study list\n└ Xem danh sách bằng cấp\n\n" +
                     "📝 .study enroll <mã>\n└ Đăng ký học bằng cấp\n\n" +
                     "ℹ️ .study info\n└ Xem thông tin học vấn\n\n" +
                     "💡 Ghi chú: Trình độ học vấn càng\ncao thì cơ hội việc làm càng tốt\n" +
-                    "\n┗━━━━━━━━━━━━━━━━━┛",
+                    "\n┗━━━━━━━━━━━━━┛",
                     threadID
                 );
                 return;
@@ -92,7 +92,7 @@ module.exports = {
                     }
 
                     if (degree.instantGrant) {
-                        education.degrees = education.degrees || []; // Thêm dòng này
+                        education.degrees = education.degrees || []; 
                         education.degrees.push(degreeId);
                         this.saveEducation(senderID, education);
                         return api.sendMessage(

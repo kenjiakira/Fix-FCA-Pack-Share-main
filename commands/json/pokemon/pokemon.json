@@ -7,7 +7,7 @@
         "level": 3,
         "exp": 0,
         "expNeeded": 100,
-        "hp": 0,
+        "hp": 36,
         "maxHp": 36,
         "attack": 36,
         "defense": 37,
@@ -25,19 +25,76 @@
         "shiny": false,
         "catchDate": 1739424008579,
         "wins": 0,
-        "battles": 1,
-        "recoveryStart": 1739424032865
+        "battles": 8,
+        "recoveryStart": null
+      },
+      {
+        "id": 883,
+        "name": "arctovish",
+        "level": 2,
+        "hp": 107,
+        "maxHp": 107,
+        "attack": 103,
+        "defense": 102,
+        "types": [
+          "water",
+          "ice"
+        ],
+        "moves": [
+          "body-slam",
+          "bite",
+          "water-gun",
+          "hydro-pump"
+        ],
+        "image": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/883.png",
+        "shiny": false,
+        "exp": 87,
+        "expNeeded": 150,
+        "catchDate": 1739450727683,
+        "wins": 4,
+        "battles": 5,
+        "ballCaught": "Master Ball"
+      },
+      {
+        "id": 568,
+        "name": "trubbish",
+        "level": 3,
+        "hp": 56,
+        "maxHp": 56,
+        "attack": 43,
+        "defense": 59,
+        "types": [
+          "poison"
+        ],
+        "moves": [
+          "pound",
+          "double-slap",
+          "sand-attack",
+          "take-down"
+        ],
+        "image": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/568.png",
+        "shiny": false,
+        "exp": 0,
+        "expNeeded": 100,
+        "catchDate": 1739451461425,
+        "wins": 0,
+        "battles": 0,
+        "ballCaught": "Ultra Ball"
       }
     ],
-    "activePokemon": 0,
+    "activePokemon": 1,
     "battles": 1,
     "wins": 0,
     "lastCatch": 1739424008579,
     "inventory": {
       "pokeballs": 10,
       "potions": 5,
-      "revives": 2
-    }
+      "revives": 2,
+      "masterball": null,
+      "ultraball": 0,
+      "pokeball": 5
+    },
+    "lastPvE": 1739456053238
   },
   "100040203282108": {
     "pokemons": [

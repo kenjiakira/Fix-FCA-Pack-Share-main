@@ -78,6 +78,18 @@ const CREDIT_SCORE = {
     }
 };
 
+const SECURITY_CONFIG = {
+    maxLoansPerDay: 1,
+    blacklistDuration: 30 * 24 * 60 * 60 * 1000,
+    minTransactionAmount: 10000,
+    minTransactionInterval: 5 * 60 * 1000,
+    creditScore: {
+        minTransactionAmount: 50000,
+        dailyTransactionLimit: 10,
+        minTransactionInterval: 30 * 60 * 1000 
+    }
+};
+
 function calculateCreditScore(userId, bankingData) {
     const userData = bankingData.users[userId];
     if (!userData) return CREDIT_SCORE.defaultScore;
@@ -87,10 +99,26 @@ function calculateCreditScore(userId, bankingData) {
     const loanHistory = bankingData.loans[userId]?.history || [];
     let score = 0;
 
-   
-    const totalTransactionVolume = transactions.reduce((sum, t) => sum + t.amount, 0);
-   
-    const transactionScore = Math.min(100, (totalTransactionVolume / CREDIT_SCORE.factors.transactionVolume.threshold) * 120);
+    const validTransactions = transactions.filter(t => {
+        const isValidAmount = t.amount >= SECURITY_CONFIG.creditScore.minTransactionAmount;
+        const hasMinInterval = transactions.every(other => 
+            t === other || 
+            Math.abs(t.timestamp - other.timestamp) >= SECURITY_CONFIG.creditScore.minTransactionInterval
+        );
+        return isValidAmount && hasMinInterval;
+    });
+
+    const dailyTransactions = {};
+    validTransactions.forEach(t => {
+        const date = new Date(t.timestamp).toDateString();
+        dailyTransactions[date] = (dailyTransactions[date] || 0) + 1;
+    });
+
+    const validTransactionVolume = validTransactions
+        .filter(t => dailyTransactions[new Date(t.timestamp).toDateString()] <= SECURITY_CONFIG.creditScore.dailyTransactionLimit)
+        .reduce((sum, t) => sum + t.amount, 0);
+
+    const transactionScore = Math.min(100, (validTransactionVolume / CREDIT_SCORE.factors.transactionVolume.threshold) * 120);
     score += transactionScore * CREDIT_SCORE.factors.transactionVolume.weight;
 
     const successfulTransactions = transactions.length;
@@ -258,7 +286,9 @@ function initializeBankingData() {
             fs.writeFileSync(FILES.banking, JSON.stringify({
                 users: {},
                 transactions: {},
-                loans: {}
+                loans: {},
+                blacklist: {},
+                dailyLoans: {}
             }, null, 2));
         }
     } catch (err) {
@@ -273,11 +303,13 @@ function loadBankingData() {
         return {
             users: data.users || {},
             transactions: data.transactions || {},
-            loans: data.loans || {}
+            loans: data.loans || {},
+            blacklist: data.blacklist || {},
+            dailyLoans: data.dailyLoans || {}
         };
     } catch (err) {
         console.error('Lỗi đọc dữ liệu banking:', err);
-        return { users: {}, transactions: {}, loans: {} };
+        return { users: {}, transactions: {}, loans: {}, blacklist: {}, dailyLoans: {} };
     }
 }
 
@@ -315,6 +347,60 @@ function updateBalanceHistory(userId, bankingData, newBalance) {
     });
     const thirtyDaysAgo = Date.now() - (30 * 24 * 60 * 60 * 1000);
     userData.balanceHistory = userData.balanceHistory.filter(h => h.timestamp > thirtyDaysAgo);
+}
+
+function isBlacklisted(userId, bankingData) {
+    const blacklistEntry = bankingData.blacklist[userId];
+    if (!blacklistEntry) return false;
+    
+    if (Date.now() - blacklistEntry.timestamp > SECURITY_CONFIG.blacklistDuration) {
+        delete bankingData.blacklist[userId];
+        return false;
+    }
+    return true;
+}
+
+function checkLoanLimit(userId, bankingData) {
+    const today = new Date().toDateString();
+    const dailyLoans = bankingData.dailyLoans[userId] || {};
+    
+    if (dailyLoans.date === today) {
+        if (dailyLoans.count >= SECURITY_CONFIG.maxLoansPerDay) {
+            return false;
+        }
+    } else {
+        bankingData.dailyLoans[userId] = {
+            date: today,
+            count: 0
+        };
+    }
+    return true;
+}
+
+function lockCollateral(userId, amount, bankingData) {
+    const userData = bankingData.users[userId];
+    if (!userData.lockedCollateral) userData.lockedCollateral = {};
+    
+    userData.lockedCollateral[Date.now()] = {
+        amount: amount,
+        unlockTime: Date.now() + (LOAN_CONFIG.maxLoanDuration * 24 * 60 * 60 * 1000)
+    };
+}
+
+function validateTransaction(userId, bankingData, amount) {
+    const transactions = bankingData.transactions[userId] || [];
+    const lastTransaction = transactions[transactions.length - 1];
+    
+    if (amount < SECURITY_CONFIG.minTransactionAmount) {
+        return { valid: false, reason: "Số tiền giao dịch quá nhỏ!" };
+    }
+    
+    if (lastTransaction && 
+        Date.now() - lastTransaction.timestamp < SECURITY_CONFIG.minTransactionInterval) {
+        return { valid: false, reason: "Vui lòng đợi ít phút giữa các giao dịch!" };
+    }
+    
+    return { valid: true };
 }
 
 const getBankingHelp = () => {
@@ -484,8 +570,24 @@ module.exports = {
                         if (!amount || isNaN(amount) || amount <= 0) {
                             return api.sendMessage("❌ Vui lòng nhập số tiền hợp lệ!", threadID, messageID);
                         }
+                        const validationResult = validateTransaction(senderID, bankingData, amount);
+                        if (!validationResult.valid) {
+                            return api.sendMessage(validationResult.reason, threadID, messageID);
+                        }
                         if (userData.bankBalance < amount) {
                             return api.sendMessage("❌ Số dư trong ngân hàng không đủ!", threadID, messageID);
+                        }
+                        const lockedAmount = Object.values(userData.lockedCollateral || {})
+                            .reduce((sum, lock) => {
+                                if (lock.unlockTime > Date.now()) return sum + lock.amount;
+                                return sum;
+                            }, 0);
+
+                        if (userData.bankBalance - amount < lockedAmount) {
+                            return api.sendMessage(
+                                "❌ Không thể rút tiền đã được phong tỏa làm tài sản đảm bảo!",
+                                threadID, messageID
+                            );
                         }
                         userData.bankBalance -= amount;
                         await updateBalance(senderID, amount);
@@ -670,6 +772,20 @@ module.exports = {
                             );
                         }
 
+                        if (isBlacklisted(senderID, bankingData)) {
+                            return api.sendMessage(
+                                "❌ Tài khoản của bạn đã bị cấm vay do vi phạm điều khoản!",
+                                threadID, messageID
+                            );
+                        }
+
+                        if (!checkLoanLimit(senderID, bankingData)) {
+                            return api.sendMessage(
+                                `❌ Bạn đã đạt giới hạn ${SECURITY_CONFIG.maxLoansPerDay} khoản vay trong ngày!`,
+                                threadID, messageID
+                            );
+                        }
+
                         const existingLoan = bankingData.loans[senderID];
                         if (existingLoan && existingLoan.status === 'active') {
                             return api.sendMessage(
@@ -686,7 +802,13 @@ module.exports = {
                         const dueDate = Date.now() + (LOAN_CONFIG.maxLoanDuration * 24 * 60 * 60 * 1000);
 
                         userData.bankBalance -= requiredCollateral;
-                        userData.lockedCollateral = requiredCollateral;
+                        lockCollateral(senderID, requiredCollateral, bankingData);
+
+                        const today = new Date().toDateString();
+                        if (!bankingData.dailyLoans[senderID]) {
+                            bankingData.dailyLoans[senderID] = { date: today, count: 0 };
+                        }
+                        bankingData.dailyLoans[senderID].count++;
 
                         bankingData.loans[senderID] = {
                             amount: amount,
