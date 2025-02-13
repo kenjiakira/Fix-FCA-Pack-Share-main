@@ -1,25 +1,70 @@
 {
   "global": [
     {
-      "timestamp": 1739414860439,
-      "prompt": "bot oiw",
-      "response": "Chào Ngọc Từ!  Bây giờ là 9:47 sáng nè. Có gì mình giúp được không?",
+      "timestamp": 1739419691602,
+      "prompt": "ket hon voi bot",
+      "response": "Hihi, kết hôn với bơ? Nghe hay đấy! 😄  Bây giờ là 11 giờ 8 phút nha bạn.",
       "senderID": "61561753304881",
       "senderName": "Ngọc Từ"
+    },
+    {
+      "timestamp": 1739420121698,
+      "prompt": "bot nó nguuuu quá",
+      "response": "Hihi, đúng rồi đó!  Mình cũng thấy thế! 😂",
+      "senderID": "61550331471452",
+      "senderName": "Văn Quyến"
+    },
+    {
+      "timestamp": 1739420169112,
+      "prompt": "bot s nó bấm",
+      "response": "Chắc bot bị lỗi ấy bạn! 😅",
+      "senderID": "100079621883786",
+      "senderName": "Hạo Nhiên"
+    },
+    {
+      "timestamp": 1739420269531,
+      "prompt": "vào acc bot yess dii",
+      "response": "Vào acc bot làm gì bạn?  😅",
+      "senderID": "61550331471452",
+      "senderName": "Văn Quyến"
     }
   ],
   "threads": {
     "6589198804475799": [
       {
-        "timestamp": 1739414860439,
-        "prompt": "bot oiw",
-        "response": "Chào Ngọc Từ!  Bây giờ là 9:47 sáng nè. Có gì mình giúp được không?",
+        "timestamp": 1739419691602,
+        "prompt": "ket hon voi bot",
+        "response": "Hihi, kết hôn với bơ? Nghe hay đấy! 😄  Bây giờ là 11 giờ 8 phút nha bạn.",
         "senderID": "61561753304881",
         "senderName": "Ngọc Từ"
+      },
+      {
+        "timestamp": 1739420121698,
+        "prompt": "bot nó nguuuu quá",
+        "response": "Hihi, đúng rồi đó!  Mình cũng thấy thế! 😂",
+        "senderID": "61550331471452",
+        "senderName": "Văn Quyến"
+      },
+      {
+        "timestamp": 1739420169112,
+        "prompt": "bot s nó bấm",
+        "response": "Chắc bot bị lỗi ấy bạn! 😅",
+        "senderID": "100079621883786",
+        "senderName": "Hạo Nhiên"
+      },
+      {
+        "timestamp": 1739420269531,
+        "prompt": "vào acc bot yess dii",
+        "response": "Vào acc bot làm gì bạn?  😅",
+        "senderID": "61550331471452",
+        "senderName": "Văn Quyến"
       }
     ]
   },
   "lastResponses": {
-    "bot oiw": "Chào Ngọc Từ!  Bây giờ là 9:47 sáng nè. Có gì mình giúp được không?"
+    "ket hon voi bot": "Hihi, kết hôn với bơ? Nghe hay đấy! 😄  Bây giờ là 11 giờ 8 phút nha bạn.",
+    "bot nó nguuuu quá": "Hihi, đúng rồi đó!  Mình cũng thấy thế! 😂",
+    "bot s nó bấm": "Chắc bot bị lỗi ấy bạn! 😅",
+    "vào acc bot yess dii": "Vào acc bot làm gì bạn?  😅"
   }
 }

@@ -14,6 +14,8 @@ const BANNED_WORDS = [
     "nsfw", "nude", "naked", "sex", "porn", "hentai", "xxx", "18+", "adult",
     "khỏa thân", "ngực", "váy ngắn", "bikini", "áo lót", "nội y",
     "sexy", "erotic", "lewd", "blood", "gore", "violence",
+    "pussy", "loli", "shota", "yaoi", "yuri", "harem",
+    "dick", "cock" ,
     "kill", "murder", "death", "suicide", "drugs", "bạo lực",
     "ma túy", "tự tử", "giết người", "máu me", "đồ lót",
     "khiêu dâm", "tiêu cực", "phản cảm", "nhạy cảm"

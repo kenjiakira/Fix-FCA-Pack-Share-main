@@ -45,11 +45,11 @@
     "children": [],
     "home": null,
     "happiness": 50,
-    "lastChecked": 1739292012133,
+    "lastChecked": 1739418694541,
     "lastBaby": 0,
     "lastIntimate": 0,
-    "isProposer": false,
-    "proposedBy": "Dat Lee"
+    "isProposer": true,
+    "proposedBy": null
   },
   "61561753304881": {
     "name": null,
@@ -160,8 +160,8 @@
     "spouse": null,
     "children": [],
     "home": null,
-    "happiness": 50,
-    "lastChecked": 1739292922714,
+    "happiness": 42.6968634837963,
+    "lastChecked": 1739419120913,
     "lastBaby": 0,
     "lastIntimate": 0,
     "isProposer": false,
@@ -199,13 +199,21 @@
   },
   "100000349406075": {
     "name": null,
-    "spouse": "61563759854074",
-    "children": [],
+    "spouse": null,
+    "children": [
+      {
+        "name": "minh ngọc",
+        "birthDate": 1739421084843,
+        "happiness": 96.65114090277778,
+        "gender": "👧",
+        "nickname": "Sunshine minh ngọc"
+      }
+    ],
     "home": null,
-    "happiness": 100,
-    "lastChecked": 1739327598813,
-    "lastBaby": 0,
-    "lastIntimate": 1739362471077,
+    "happiness": 50,
+    "lastChecked": 1739424045955,
+    "lastBaby": 1739421084843,
+    "lastIntimate": 1739421079320,
     "isProposer": true,
     "proposedBy": null
   },
@@ -381,13 +389,21 @@
   },
   "61563759854074": {
     "name": null,
-    "spouse": "100000349406075",
-    "children": [],
+    "spouse": null,
+    "children": [
+      {
+        "name": "minh ngọc",
+        "birthDate": 1739421084843,
+        "happiness": 100,
+        "gender": "👧",
+        "nickname": "Sunshine minh ngọc"
+      }
+    ],
     "home": null,
-    "happiness": 100,
+    "happiness": 50,
     "lastChecked": 1739362019486,
-    "lastBaby": 0,
-    "lastIntimate": 1739362471064,
+    "lastBaby": 1739421084843,
+    "lastIntimate": 1739421079320,
     "isProposer": false,
     "proposedBy": "Zeni Gâu Gâu"
   },
@@ -440,5 +456,37 @@
     "lastIntimate": 1739415538665,
     "isProposer": false,
     "proposedBy": "Ủa Alo"
+  },
+  "61556582712090": {
+    "name": null,
+    "spouse": null,
+    "children": [],
+    "home": null,
+    "happiness": 50,
+    "lastChecked": 1739419064382,
+    "lastBaby": 0,
+    "lastIntimate": 0
+  },
+  "100040203282108": {
+    "name": null,
+    "spouse": null,
+    "children": [],
+    "home": null,
+    "happiness": 50,
+    "lastChecked": 1739419166188,
+    "lastBaby": 0,
+    "lastIntimate": 0,
+    "isProposer": false,
+    "proposedBy": "Hạo Nhiên"
+  },
+  "61571521751763": {
+    "name": null,
+    "spouse": null,
+    "children": [],
+    "home": null,
+    "happiness": 50,
+    "lastChecked": 1739424095041,
+    "lastBaby": 0,
+    "lastIntimate": 0
   }
 }

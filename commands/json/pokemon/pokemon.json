@@ -1,0 +1,80 @@
+{
+  "61561753304881": {
+    "pokemons": [
+      {
+        "id": 187,
+        "name": "hoppip",
+        "level": 3,
+        "exp": 0,
+        "expNeeded": 100,
+        "hp": 0,
+        "maxHp": 36,
+        "attack": 36,
+        "defense": 37,
+        "types": [
+          "grass",
+          "flying"
+        ],
+        "moves": [
+          "pay-day",
+          "swords-dance",
+          "headbutt",
+          "tackle"
+        ],
+        "image": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/187.png",
+        "shiny": false,
+        "catchDate": 1739424008579,
+        "wins": 0,
+        "battles": 1,
+        "recoveryStart": 1739424032865
+      }
+    ],
+    "activePokemon": 0,
+    "battles": 1,
+    "wins": 0,
+    "lastCatch": 1739424008579,
+    "inventory": {
+      "pokeballs": 10,
+      "potions": 5,
+      "revives": 2
+    }
+  },
+  "100040203282108": {
+    "pokemons": [
+      {
+        "id": 555,
+        "name": "darmanitan-standard",
+        "level": 4,
+        "exp": 26,
+        "expNeeded": 100,
+        "hp": 110,
+        "maxHp": 110,
+        "attack": 131,
+        "defense": 52,
+        "types": [
+          "fire"
+        ],
+        "moves": [
+          "mega-punch",
+          "fire-punch",
+          "mega-kick",
+          "headbutt"
+        ],
+        "image": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/555.png",
+        "shiny": false,
+        "catchDate": 1739424013629,
+        "wins": 1,
+        "battles": 1
+      }
+    ],
+    "activePokemon": 0,
+    "battles": 1,
+    "wins": 1,
+    "lastCatch": 1739424013629,
+    "inventory": {
+      "pokeballs": 10,
+      "potions": 5,
+      "revives": 2
+    }
+  }
+}

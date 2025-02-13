@@ -10,7 +10,6 @@ module.exports = {
 
     onLaunch: async function({ api, event, target }) {
         const { threadID, messageID } = event;
-
         if (!target[0]) {
             return api.sendMessage(
                 "🚗 PHẠT NGUỘI - TRA CỨU VI PHẠM\n" +
