@@ -58,14 +58,14 @@
       {
         "name": "Hoàng Ngọc Hà",
         "birthDate": 1739292395503,
-        "happiness": 100,
+        "happiness": 95.84135475694444,
         "gender": "👦",
         "nickname": "Cưng Hoàng Ngọc Hà"
       }
     ],
     "home": null,
-    "happiness": 100,
-    "lastChecked": 1739292048068,
+    "happiness": 93.0689245949074,
+    "lastChecked": 1739411817052,
     "lastBaby": 1739292395503,
     "lastIntimate": 1739292382146,
     "isProposer": true,
@@ -98,14 +98,14 @@
       {
         "name": "Vũ Wag",
         "birthDate": 1739292398290,
-        "happiness": 100,
+        "happiness": 95.7582921875,
         "gender": "👦",
         "nickname": "Sunshine Vũ Wag"
       }
     ],
     "home": null,
-    "happiness": 100,
-    "lastChecked": 1739292113280,
+    "happiness": 92.93048697916666,
+    "lastChecked": 1739414274465,
     "lastBaby": 1739292398290,
     "lastIntimate": 1739292388937,
     "isProposer": false,
@@ -341,13 +341,23 @@
   },
   "61568641631000": {
     "name": null,
-    "spouse": null,
-    "children": [],
+    "spouse": "100055417691992",
+    "children": [
+      {
+        "name": "Lê Nguyên Vũ",
+        "birthDate": 1739415566794,
+        "happiness": 100,
+        "gender": "👦",
+        "nickname": "Yêu Lê Nguyên Vũ"
+      }
+    ],
     "home": null,
-    "happiness": 50,
+    "happiness": 100,
     "lastChecked": 1739342005935,
-    "lastBaby": 0,
-    "lastIntimate": 0
+    "lastBaby": 1739415566794,
+    "lastIntimate": 1739415538665,
+    "isProposer": true,
+    "proposedBy": null
   },
   "100008297661441": {
     "name": null,
@@ -410,5 +420,25 @@
     "lastChecked": 1739368427627,
     "lastBaby": 0,
     "lastIntimate": 0
+  },
+  "100055417691992": {
+    "name": null,
+    "spouse": "61568641631000",
+    "children": [
+      {
+        "name": "Lê Nguyên Vũ",
+        "birthDate": 1739415566794,
+        "happiness": 100,
+        "gender": "👦",
+        "nickname": "Yêu Lê Nguyên Vũ"
+      }
+    ],
+    "home": null,
+    "happiness": 100,
+    "lastChecked": 1739415374945,
+    "lastBaby": 1739415566794,
+    "lastIntimate": 1739415538665,
+    "isProposer": false,
+    "proposedBy": "Ủa Alo"
   }
 }

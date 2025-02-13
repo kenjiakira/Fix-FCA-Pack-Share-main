@@ -35,6 +35,19 @@ module.exports = {
             .map(({ cmd }) => cmd);
     },
 
+    onLaunch: function({ event, actions, api, prefix, commandName }) {
+        const allCommands = Object.keys(global.cc.module.commands)
+            .filter(cmd => !global.cc.module.commands[cmd].hide);
+            
+        return this.handleNotFound({ 
+            api, 
+            event, 
+            commandName, 
+            prefix, 
+            allCommands 
+        });
+    },
+
     handleNotFound: async function({ api, event, commandName, prefix, allCommands }) {
         if (!commandName) {
             const emptyMessage = [

@@ -15,9 +15,9 @@ function formatStockPrice(number) {
 }
 
 
-const USER_PORTFOLIO_PATH = path.join(__dirname, './json/portfolios.json');
-const EXCHANGE_RATE_PATH = path.join(__dirname, './json/exchange_rate.json');
-const STOCKS_DATA_PATH = path.join(__dirname, './json/stocks_data.json');
+const USER_PORTFOLIO_PATH = path.join(__dirname, './json/trade/portfolios.json');
+const EXCHANGE_RATE_PATH = path.join(__dirname, './json/trade/exchange_rate.json');
+const STOCKS_DATA_PATH = path.join(__dirname, './json/trade/stocks_data.json');
 const MARKET_HOURS = {
     open: 9,  
     close: 19
@@ -55,7 +55,6 @@ class StockMarket {
     }
 
     ensureJsonPaths() {
-        // Ensure all JSON directories exist
         [USER_PORTFOLIO_PATH, EXCHANGE_RATE_PATH, STOCKS_DATA_PATH].forEach(jsonPath => {
             const dir = path.dirname(jsonPath);
             if (!fs.existsSync(dir)) {
@@ -63,17 +62,14 @@ class StockMarket {
             }
         });
 
-        // Initialize stocks data file if it doesn't exist
         if (!fs.existsSync(STOCKS_DATA_PATH)) {
             fs.writeFileSync(STOCKS_DATA_PATH, JSON.stringify({}));
         }
 
-        // Initialize exchange rate file if it doesn't exist
         if (!fs.existsSync(EXCHANGE_RATE_PATH)) {
             fs.writeFileSync(EXCHANGE_RATE_PATH, JSON.stringify({ rate: this.xuRate }));
         }
 
-        // Initialize portfolios file if it doesn't exist
         if (!fs.existsSync(USER_PORTFOLIO_PATH)) {
             fs.writeFileSync(USER_PORTFOLIO_PATH, JSON.stringify({}));
         }
@@ -120,7 +116,7 @@ class StockMarket {
         try {
             if (fs.existsSync(STOCKS_DATA_PATH)) {
                 this.stocks = JSON.parse(fs.readFileSync(STOCKS_DATA_PATH));
-                // If no stocks exist in the JSON, initialize them
+             
                 if (Object.keys(this.stocks).length === 0) {
                     this.initializeStocks();
                 }
@@ -207,7 +203,6 @@ class StockMarket {
 
     saveStocks() {
         try {
-            // Ensure directory exists before saving
             const dir = path.dirname(STOCKS_DATA_PATH);
             if (!fs.existsSync(dir)) {
                 fs.mkdirSync(dir, { recursive: true });
@@ -270,7 +265,7 @@ class StockMarket {
         }
 
         const stockData = this.getStockPrice(symbol);
-        const totalCost = Math.floor(stockData.price * quantity); // Round down total cost
+        const totalCost = Math.floor(stockData.price * quantity); 
         
         const transactionFee = Math.floor(Math.min(
             Math.max(totalCost * FEES.transaction, FEES.minFee),
@@ -280,7 +275,7 @@ class StockMarket {
             Math.max(totalCost * FEES.tax, FEES.minFee),
             FEES.maxFee
         ));
-        const totalWithFees = Math.floor(totalCost + transactionFee + tax); // Round down total with fees
+        const totalWithFees = Math.floor(totalCost + transactionFee + tax);
         
         const balance = await getBalance(userId);
         
@@ -361,7 +356,7 @@ class StockMarket {
             type: 'sell',
             symbol: symbol,
             quantity: quantity,
-            price: Math.floor(stockData.price), // Round down price
+            price: Math.floor(stockData.price), 
             timestamp: Date.now()
         });
 
@@ -372,7 +367,7 @@ class StockMarket {
         return {
             symbol,
             quantity,
-            price: Math.floor(stockData.price), // Round down price
+            price: Math.floor(stockData.price), 
             total: totalValue,
             transactionFee,
             tax,
@@ -387,9 +382,9 @@ class StockMarket {
                     symbol,
                     {
                         ...data,
-                        price: Math.floor(data.price), // Round down stock prices
-                        priceUSD: Math.floor(data.priceUSD * 100) / 100, // Keep 2 decimal places for USD
-                        change: Math.floor(data.change * 100) / 100, // Keep 2 decimal places for change
+                        price: Math.floor(data.price), 
+                        priceUSD: Math.floor(data.priceUSD * 100) / 100, 
+                        change: Math.floor(data.change * 100) / 100, 
                         changePercent: Math.floor(data.changePercent * 100) / 100
                     }
                 ])

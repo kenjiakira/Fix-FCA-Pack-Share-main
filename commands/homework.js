@@ -4,7 +4,7 @@ const axios = require('axios');
 const markdownpdf = require('markdown-pdf');
 const { GoogleGenerativeAI } = require("@google/generative-ai");
 
-const apiKeysPath = path.join(__dirname, 'json', 'key.json');
+const apiKeysPath = path.join(__dirname, 'json', 'chatbot' , 'key.json');
 let API_KEYS = [];
 
 const loadAPIKeys = async () => {

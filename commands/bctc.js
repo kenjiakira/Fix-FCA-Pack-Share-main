@@ -200,6 +200,7 @@ module.exports = {
                 updateQuestProgress(senderID, "play_games");
                 if (finalReward > totalBet) {
                     updateQuestProgress(senderID, "win_games");
+                    updateQuestProgress(senderID, "win_bctc");
                 }
 
                 await api.sendMessage(message, threadID, messageID);

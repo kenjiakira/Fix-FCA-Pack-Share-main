@@ -15,6 +15,17 @@ const {
 } = require('../config/fishing/constants');
 const { getVIPBenefits } = require('../utils/vipCheck');
 
+const levelRequirements = {
+    pond: 1,        // Hồ câu
+    river: 3,       // Sông
+    ocean: 5,       // Biển
+    deepSea: 10,    // Biển sâu
+    abyss: 20,      // Vực thẳm
+    atlantis: 50,   // Atlantis
+    spaceOcean: 100, // Đại dương vũ trụ
+    dragonRealm: 200 // Vương quốc rồng
+};
+
 function formatNumber(number) {
     if (number === undefined || number === null) return "0";
     return number.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
@@ -50,8 +61,20 @@ module.exports = {
     onLaunch: async function({ api, event }) {
         const { threadID, messageID, senderID } = event;
         const playerData = this.loadPlayerData(senderID);
+        const allData = this.loadAllPlayers();
+        
+        const now = Date.now();
+        const vipBenefits = getVIPBenefits(senderID);
+        const COOLDOWN = vipBenefits?.fishingCooldown || 360000;
+        
+        let cooldownMsg = "";
+        if (allData[senderID]?.lastFished && now - allData[senderID].lastFished < COOLDOWN) {
+            const waitTime = Math.ceil((COOLDOWN - (now - allData[senderID].lastFished)) / 1000);
+            cooldownMsg = `⏳ Chờ ${waitTime} giây nữa mới có thể câu tiếp!\n`;
+        }
         
         const menu = "🎣 MENU CÂU CÁ 🎣\n━━━━━━━━━━━━━━━━━━\n" +
+            `${cooldownMsg}` +
             "1. Câu cá\n" +
             "2. Cửa hàng\n" +
             "3. Túi đồ\n" +
@@ -204,17 +227,37 @@ module.exports = {
                 }
 
                 switch(choice) {
-                    case 1: 
+                    case 1:
+                        const now = Date.now();
+                        const vipBenefits = getVIPBenefits(event.senderID);
+                        const COOLDOWN = vipBenefits?.fishingCooldown || 360000;
+                        
+                        if (allData[event.senderID]?.lastFished && now - allData[event.senderID].lastFished < COOLDOWN) {
+                            const waitTime = Math.ceil((COOLDOWN - (now - allData[event.senderID].lastFished)) / 1000);
+                            return api.sendMessage(
+                                messages.cooldown(waitTime, new Date(allData[event.senderID].lastFished).toLocaleTimeString()),
+                                threadID
+                            );
+                        }
+
                         const locationMenu = "🗺️ CHỌN ĐỊA ĐIỂM CÂU CÁ:\n━━━━━━━━━━━━━━━━━━\n" +
                             Object.entries(locations).map(([key, loc], index) => 
-                                `${index + 1}. ${loc.name}\n💰 Phí: ${formatNumber(loc.cost)} Xu\n`
+                                `${index + 1}. ${loc.name} [Cấp ${levelRequirements[key]}+]\n` +
+                                `💰 Phí: ${formatNumber(loc.cost)} Xu\n` +
+                                `${playerData.level >= levelRequirements[key] ? '✅' : '❌'} Yêu cầu: Cấp ${levelRequirements[key]}\n`
                             ).join("\n");
                         
-                        const locMsg = await api.sendMessage(locationMenu, threadID);
+                        const locMsg = await api.sendMessage(
+                            `📊 Cấp độ của bạn: ${playerData.level}\n` +
+                            `💵 Số dư: ${formatNumber(getBalance(event.senderID))} Xu\n\n` +
+                            locationMenu,
+                            threadID
+                        );
+
                         global.client.onReply.push({
                             name: this.name,
                             messageID: locMsg.messageID,
-                            author: senderID,
+                            author: event.senderID,
                             type: "location",
                             playerData
                         });

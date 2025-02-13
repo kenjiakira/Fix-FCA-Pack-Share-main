@@ -8,6 +8,8 @@ module.exports = {
   info: "Check Minecraft Server Status",
   usages: "<java/bedrock> <ip> <port>",
   cooldowns: 5,
+    usedby: 0,
+    onPrefix: true,
 
 onLaunch: async function({ api, target, event }) {
   const { threadID, messageID } = event;

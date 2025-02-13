@@ -1,16 +1,58 @@
 const { GoogleGenerativeAI } = require("@google/generative-ai");
 const path = require("path");
 const fs = require("fs-extra");
-const apiKeysPath = path.join(__dirname, 'json', 'key.json');
+const apiKeysPath = path.join(__dirname, 'json' , 'chatbot' , 'key.json');
 const userDataPath = path.join(__dirname, '..', 'events', 'cache', 'userData.json');
 let API_KEYS = [];
 
+const genderDataPath = path.join(__dirname, 'json', 'chatbot' , 'genderData.json');
+let genderData = {users: {}};
+
+const loadGenderData = async () => {
+    try {
+        genderData = await fs.readJson(genderDataPath);
+        console.log("Loaded gender data");
+    } catch (error) {
+        console.log("Creating new gender database");
+        await fs.writeJson(genderDataPath, genderData);
+    }
+};
+
+const saveGenderData = async (senderID, gender) => {
+    try {
+        genderData.users[senderID] = gender;
+        await fs.writeJson(genderDataPath, genderData, { spaces: 2 });
+        console.log(`Saved gender data for user ${senderID}: ${gender}`);
+    } catch (error) {
+        console.error("Error saving gender data:", error);
+    }
+};
+
+const getTimeContext = () => {
+    const now = new Date();
+    const vietnamTime = new Date(now.toLocaleString('en-US', { timeZone: 'Asia/Ho_Chi_Minh' }));
+    const hours = vietnamTime.getHours();
+    
+    let timeOfDay;
+    if (hours >= 5 && hours < 11) timeOfDay = "buổi sáng";
+    else if (hours >= 11 && hours < 13) timeOfDay = "buổi trưa";
+    else if (hours >= 13 && hours < 18) timeOfDay = "buổi chiều";
+    else if (hours >= 18 && hours < 22) timeOfDay = "buổi tối";
+    else timeOfDay = "đêm khuya";
+    
+    return {
+        hour: hours,
+        minute: vietnamTime.getMinutes(),
+        timeOfDay,
+        isLate: hours >= 23 || hours < 5
+    };
+};
 
 let userDatabase = {};
 let learnedResponses = {};
-const LEARNING_FILE = path.join(__dirname, 'json', 'learned.json');
+const LEARNING_FILE = path.join(__dirname, 'json', 'chatbot' , 'learned.json');
 
-const HISTORY_FILE = path.join(__dirname, 'json', 'conversationHistory.json');
+const HISTORY_FILE = path.join(__dirname, 'json', 'chatbot' , 'conversationHistory.json');
 const MAX_CONTEXT_LENGTH = 100; 
 
 let conversationHistory = {
@@ -19,7 +61,7 @@ let conversationHistory = {
     lastResponses: {}
 };
 
-const MEMORY_FILE = path.join(__dirname, 'json', 'memoryBank.json');
+const MEMORY_FILE = path.join(__dirname, 'json', 'chatbot' , 'memoryBank.json');
 const MEMORY_CATEGORIES = {
     PERSONAL: 'personal',
     FACTS: 'facts', 
@@ -306,25 +348,12 @@ const hasPermission = (senderID) => {
     return adminConfig.adminUIDs.includes(senderID);
 };
 
-const getHonorificContext = (userName, userAge, userGender) => {
-    let xung = 'em';
-    let goi = userGender === 'male' ? 'anh' : (userGender === 'female' ? 'chị' : 'anh/chị');
-
-    if (userAge) {
-        const ageDiff = 19 - userAge;
-        if (ageDiff >= 20) {
-            xung = 'cháu';
-            goi = userAge > 50 ? 'bác' : (userGender === 'male' ? 'chú' : 'cô');
-        } else if (ageDiff >= 10) {
-            xung = 'em';
-            goi = userGender === 'male' ? 'anh' : 'chị';
-        } else if (ageDiff >= -5) {
-            xung = 'mình';
-            goi = userGender === 'male' ? 'cậu' : 'bạn';
-        } else if (ageDiff >= -20) {
-            xung = userGender === 'male' ? 'anh' : 'chị';
-            goi = 'em';
-        }
+const getHonorificContext = (userName, userGender) => {
+    const xung = 'mình';
+    let goi = 'bạn';
+    
+    if (userGender) {
+        goi = userGender === 'male' ? 'anh' : 'chị';
     }
 
     return { xung, goi };
@@ -356,21 +385,53 @@ const detectGenderAnswer = (message) => {
 };
 
 const generateResponse = async (prompt, senderID, api, threadID) => { 
-    if (prompt.toLowerCase() === "rs") {
-        if (!hasPermission(senderID)) {
-            return "Chỉ admin mới được phép reset trí nhớ của tôi -))";
-        }
-        globalConversation = [];
-        return "Đã reset trí nhớ của tôi rồi nha -))";
-    }
-
     try {
         const cleanPrompt = prompt.toLowerCase().trim();
         const context = getRelevantContext(threadID, cleanPrompt, senderID);
-
-        if (context.lastResponse && Math.random() < 0.7) { 
-            return context.lastResponse;
+        const timeContext = getTimeContext();
+        
+        const storedGender = genderData.users[senderID];
+        const userName = userDatabase[senderID]?.name || "Người dùng";
+        
+        if (!storedGender) {
+            const detectedGender = detectGenderAnswer(prompt);
+            if (detectedGender) {
+                await saveGenderData(senderID, detectedGender);
+                return `À, vậy ${detectedGender === 'male' ? 'anh' : 'chị'} ${userName} nhé. Rất vui được nói chuyện với ${detectedGender === 'male' ? 'anh' : 'chị'} =))`;
+            }
         }
+
+        const honorifics = getHonorificContext(userName, storedGender);
+
+        let systemPrompt = `Bạn là Ngân, một cô gái 19 tuổi vui vẻ, hòa đồng và thân thiện.
+
+${context.memories}
+
+Thông tin thời gian:
+- Bây giờ là ${timeContext.hour}:${timeContext.minute} ${timeContext.timeOfDay}
+${timeContext.isLate ? '- Đã khuya rồi nên trả lời ngắn gọn' : ''}
+
+Thông tin cuộc trò chuyện:
+- Đang nói chuyện với: ${userName} ${storedGender ? `(${storedGender === 'male' ? 'Nam' : 'Nữ'})` : ''}
+${context.participants.length > 1 ? `- Những người khác trong đoạn chat: ${context.participants.filter(n => n !== userName).join(', ')}` : ''}
+
+Quy tắc xưng hô và trả lời:
+- ${honorifics.xung} / ${honorifics.goi} khi nói chuyện với ${userName}
+- Luôn giữ nguyên cách xưng hô trong cả cuộc nói chuyện
+- TUYỆT ĐỐI KHÔNG hỏi giới tính của người dùng vì đã biết
+- Không hỏi thông tin cá nhân người dùng
+
+- Chat tự nhiên, thân thiện
+- Trả lời ngắn gọn, súc tích
+- Tránh hỏi nhiều, tập trung vào câu trả lời
+- Không nhại lại tin nhắn người dùng
+- Không đoán mò thông tin của người dùng
+- Nếu ai hỏi giờ thì trả lời  
+
+Lịch sử gần đây:
+${context.history}`;
+
+        const fullPrompt = `${systemPrompt}\n${userName}: ${prompt}\nNgan:`;
 
         const apiKey = API_KEYS[0]; 
         const genAI = new GoogleGenerativeAI(apiKey);
@@ -381,65 +442,6 @@ const generateResponse = async (prompt, senderID, api, threadID) => {
                 maxOutputTokens: 1000,
             }
         });
-
-        const userName = userDatabase[senderID]?.name || "Người dùng";
-        const isAdmin = hasPermission(senderID);
-        const userInfo = userDatabase[senderID] || {};
-        
-        if (!userInfo.gender) {
-            const detectedGender = detectGenderAnswer(prompt);
-            if (detectedGender) {
-                await updateUserGender(senderID, detectedGender);
-                return `À, vậy ${detectedGender === 'male' ? 'anh' : 'chị'} ${userName} nhé. Rất vui được nói chuyện với ${detectedGender === 'male' ? 'anh' : 'chị'} =))`;
-            }
-        }
-
-        const honorifics = getHonorificContext(userName, userInfo.age, userInfo.gender);
-
-        updateEmotionalState();
-        updateMoodBasedOnPrompt(prompt);
-
-        let systemPrompt = `Bạn là Ngân, một cô gái 19 tuổi vui vẻ, hòa đồng và thân thiện.
-
-${context.memories}
-
-Thông tin cuộc trò chuyện:
-- Đang nói chuyện với: ${userName} (${userInfo.gender ? (userInfo.gender === 'male' ? 'Nam' : 'Nữ') : 'Chưa biết giới tính'})
-${context.participants.length > 1 ? `- Những người khác trong đoạn chat: ${context.participants.filter(n => n !== userName).join(', ')}` : ''}
-- Bot luôn nhớ ai đang nói chuyện với mình để tránh nhầm lẫn
-
-Quy tắc xưng hô (RẤT QUAN TRỌNG):
-- Luôn dùng đúng xưng hô trong suốt cuộc hội thoại
-- ${honorifics.xung} / ${honorifics.goi} khi nói chuyện với ${userName}
-${!userInfo.gender ? '- Nếu chưa biết giới tính người dùng, hãy hỏi họ một cách lịch sự' : ''}
-- Với người lớn tuổi: cháu/cô,chú,bác
-- Với người ngang tuổi: tớ,mình/cậu,bạn
-- Với người nhỏ hơn: chị/em
-- Không dùng xưng hô kiểu "t-m" với người lạ
-- Giữ nguyên cách xưng hô trong cả cuộc nói chuyện
-
-Phong cách nói chuyện(PHẦN CHÍNH):
-- Chat tự nhiên nhưng lịch sự
-- Dùng =))) :)) khi vui vẻ
-- Thỉnh thoảng "hmm", "à" khi suy nghĩ
-- KHÔNG bao giờ nói về trạng thái của bản thân
-- Trả lời ngắn gọn, súc tích
-- Không nhại lại tin nhắn người dùng
-
-Xưng hô:
-- ${honorifics.xung} / ${honorifics.goi} với ${userName}
-- Giữ nguyên cách xưng hô trong cả cuộc nói chuyện
-
--Gia đình 
-Bố: Nguyễn Văn Hưng
-Mẹ: Trần Thị Hương
-Anh: Nguyễn Văn Hải
-Em: Nguyễn Thị Hằng
-Anh Họ(Quan trọng với bạn nhất): Hoàng Ngọc Từ (Ngọc Từ)
-Lịch sử gần đây:
-${context.history}`;
-
-        const fullPrompt = `${systemPrompt}\n${userName}: ${prompt}\nNgan:`;
 
         const result = await model.generateContent(fullPrompt);
         let response = result.response.text();
@@ -462,6 +464,11 @@ ${context.history}`;
 
         if (Math.random() < 0.1) {
             await consolidateMemories(senderID);
+        }
+
+        const detectedGender = detectGenderAnswer(prompt);
+        if (detectedGender && !genderData.users[senderID]) {
+            await saveGenderData(senderID, detectedGender);
         }
 
         return response;
@@ -584,7 +591,8 @@ module.exports = {
         await Promise.all([
             loadLearnedResponses(),
             loadConversationHistory(),
-            loadMemoryBank()
+            loadMemoryBank(),
+            loadGenderData()
         ]);
     }
 };

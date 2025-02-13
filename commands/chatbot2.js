@@ -3,7 +3,7 @@ const path = require("path");
 const fs = require("fs-extra");
 const axios = require('axios');
 
-const apiKeysPath = path.join(__dirname, 'json', 'key.json');
+const apiKeysPath = path.join(__dirname, 'json', 'chatbot' , 'key.json');
 let API_KEYS = [];
 
 const loadAPIKeys = async () => {

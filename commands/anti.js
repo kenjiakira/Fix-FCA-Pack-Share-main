@@ -73,13 +73,13 @@ module.exports = {
     },
 
     onLoad: function() {
-        const jsonDir = path.join(__dirname, 'json');
-        if (!fs.existsSync(jsonDir)) {
-            fs.mkdirSync(jsonDir, { recursive: true });
+        const antiDir = path.join(__dirname, './json/anti');
+        if (!fs.existsSync(antiDir)) {
+            fs.mkdirSync(antiDir, { recursive: true });
         }
 
         Object.values(this.features).forEach(feature => {
-            const jsonPath = path.join(jsonDir, `${feature.name}.json`);
+            const jsonPath = path.join(antiDir, `${feature.name}.json`);
             if (!fs.existsSync(jsonPath)) {
                 fs.writeFileSync(
                     jsonPath, 
@@ -191,7 +191,7 @@ module.exports = {
 
     getFeatureStatus: function(feature, threadID) {
         try {
-            const jsonPath = path.join(__dirname, 'json', `${feature}.json`);
+            const jsonPath = path.join(__dirname, 'json', 'anti', `${feature}.json`);
             const data = JSON.parse(fs.readFileSync(jsonPath));
                     lastUpdate: Date.now()
             
@@ -213,7 +213,7 @@ module.exports = {
     },
 
     updateFeature: async function(feature, threadID, isEnable, threadInfo) {
-        const jsonPath = path.join(__dirname, 'json', `${feature}.json`);
+        const jsonPath = path.join(__dirname, 'json', 'anti', `${feature}.json`);
         let data = {};
 
         try {

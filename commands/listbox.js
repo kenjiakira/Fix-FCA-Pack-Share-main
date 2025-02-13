@@ -1,7 +1,7 @@
 module.exports = {
     name: "listbox",
     usedby: 2,
-    dmUser: false,
+    dmUser: true,
     dev: "HNT",
     nickName: ["listbox", "boxes", "nhom"],
     info: "Xem danh sách các nhóm trong hệ thống",

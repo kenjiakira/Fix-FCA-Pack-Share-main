@@ -10,11 +10,20 @@ const STYLES = {
     scifi: "(phong cách khoa học viễn tưởng), tương lai, công nghệ, bóng bẩy"
 };
 
+const BANNED_WORDS = [
+    "nsfw", "nude", "naked", "sex", "porn", "hentai", "xxx", "18+", "adult",
+    "khỏa thân", "ngực", "váy ngắn", "bikini", "áo lót", "nội y",
+    "sexy", "erotic", "lewd", "blood", "gore", "violence",
+    "kill", "murder", "death", "suicide", "drugs", "bạo lực",
+    "ma túy", "tự tử", "giết người", "máu me", "đồ lót",
+    "khiêu dâm", "tiêu cực", "phản cảm", "nhạy cảm"
+];
+
 module.exports = {
     name: "artgen",
     dev: "HNT",
     info: "Tạo ảnh AIu",
-    usedby: 2,
+    usedby: 0,
     dmUser: false,
     onPrefix: true,
     usages: ".artgen <prompt> | .artgen style <phong cách> <prompt>",
@@ -56,6 +65,18 @@ module.exports = {
 
         if (!prompt) {
             return api.sendMessage("❌ Vui lòng nhập mô tả cho bức ảnh!", threadID, messageID);
+        }
+
+        const promptLower = prompt.toLowerCase();
+        const foundBannedWords = BANNED_WORDS.filter(word => promptLower.includes(word));
+        
+        if (foundBannedWords.length > 0) {
+            return api.sendMessage(
+                `⚠️ Prompt của bạn chứa từ ngữ không phù hợp!\n` +
+                `🚫 Từ không được phép: ${foundBannedWords.join(", ")}\n` +
+                `📝 Vui lòng sử dụng ngôn từ phù hợp và thử lại.`,
+                threadID, messageID
+            );
         }
 
         const loadingMessage = await api.sendMessage(
