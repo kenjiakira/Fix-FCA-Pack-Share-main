@@ -1,40 +1,102 @@
 {
   "global": [
     {
-      "timestamp": 1739459518198,
-      "prompt": "vô chs bot phúc",
-      "response": "Chào bạn!  Mình online nè 😊",
-      "senderID": "100049109850406",
-      "senderName": "Thao Vyy"
+      "timestamp": 1739512927189,
+      "prompt": "Cho vô bank kiểu gì bot",
+      "response": "Mình không hiểu ý bạn lắm, bạn nói rõ hơn được không?  😊",
+      "senderID": "100087005528287",
+      "senderName": "User"
     },
     {
-      "timestamp": 1739459526812,
-      "prompt": "phúc hoàng xưa chỉ tụi tui chs bot đó mn",
-      "response": "Hihi, đúng rồi đó bạn!  Tuyệt vời ghê 😊",
+      "timestamp": 1739512941585,
+      "prompt": "Cho xu vào bank kiểu gì",
+      "response": "Bạn muốn hỏi cách nạp tiền vào ngân hàng à?  😊",
+      "senderID": "100087005528287",
+      "senderName": "User"
+    },
+    {
+      "timestamp": 1739512949205,
+      "prompt": "Đroi",
+      "response": "Dạ?  😊",
+      "senderID": "100087005528287",
+      "senderName": "User"
+    },
+    {
+      "timestamp": 1739512977201,
+      "prompt": "Cách nạp vào ngân hàng kiểu gì",
+      "response": "Bạn muốn nạp tiền vào tài khoản ngân hàng bằng cách nào vậy? 😊",
+      "senderID": "100087005528287",
+      "senderName": "User"
+    },
+    {
+      "timestamp": 1739512993753,
+      "prompt": "Bằng stk ngân hàng",
+      "response": "Bạn có thể dùng ứng dụng ngân hàng điện tử, hoặc nộp tiền mặt trực tiếp tại quầy giao dịch của ngân hàng đó nha! 😊",
+      "senderID": "100087005528287",
+      "senderName": "User"
+    },
+    {
+      "timestamp": 1739513009478,
+      "prompt": "bot đâu",
+      "response": "Mình đây nè!  Có gì mình giúp được không bạn? 😊",
       "senderID": "61556582712090",
       "senderName": "Freina Nelson"
     }
   ],
   "threads": {
-    "9410743895708292": [
+    "6980269048743794": [
       {
-        "timestamp": 1739459518198,
-        "prompt": "vô chs bot phúc",
-        "response": "Chào bạn!  Mình online nè 😊",
-        "senderID": "100049109850406",
-        "senderName": "Thao Vyy"
+        "timestamp": 1739512927189,
+        "prompt": "Cho vô bank kiểu gì bot",
+        "response": "Mình không hiểu ý bạn lắm, bạn nói rõ hơn được không?  😊",
+        "senderID": "100087005528287",
+        "senderName": "User"
       },
       {
-        "timestamp": 1739459526812,
-        "prompt": "phúc hoàng xưa chỉ tụi tui chs bot đó mn",
-        "response": "Hihi, đúng rồi đó bạn!  Tuyệt vời ghê 😊",
+        "timestamp": 1739512941585,
+        "prompt": "Cho xu vào bank kiểu gì",
+        "response": "Bạn muốn hỏi cách nạp tiền vào ngân hàng à?  😊",
+        "senderID": "100087005528287",
+        "senderName": "User"
+      },
+      {
+        "timestamp": 1739512949205,
+        "prompt": "Đroi",
+        "response": "Dạ?  😊",
+        "senderID": "100087005528287",
+        "senderName": "User"
+      },
+      {
+        "timestamp": 1739512977201,
+        "prompt": "Cách nạp vào ngân hàng kiểu gì",
+        "response": "Bạn muốn nạp tiền vào tài khoản ngân hàng bằng cách nào vậy? 😊",
+        "senderID": "100087005528287",
+        "senderName": "User"
+      },
+      {
+        "timestamp": 1739512993753,
+        "prompt": "Bằng stk ngân hàng",
+        "response": "Bạn có thể dùng ứng dụng ngân hàng điện tử, hoặc nộp tiền mặt trực tiếp tại quầy giao dịch của ngân hàng đó nha! 😊",
+        "senderID": "100087005528287",
+        "senderName": "User"
+      }
+    ],
+    "6589198804475799": [
+      {
+        "timestamp": 1739513009478,
+        "prompt": "bot đâu",
+        "response": "Mình đây nè!  Có gì mình giúp được không bạn? 😊",
         "senderID": "61556582712090",
         "senderName": "Freina Nelson"
       }
     ]
   },
   "lastResponses": {
-    "vô chs bot phúc": "Chào bạn!  Mình online nè 😊",
-    "phúc hoàng xưa chỉ tụi tui chs bot đó mn": "Hihi, đúng rồi đó bạn!  Tuyệt vời ghê 😊"
+    "cho vô bank kiểu gì bot": "Mình không hiểu ý bạn lắm, bạn nói rõ hơn được không?  😊",
+    "cho xu vào bank kiểu gì": "Bạn muốn hỏi cách nạp tiền vào ngân hàng à?  😊",
+    "đroi": "Dạ?  😊",
+    "cách nạp vào ngân hàng kiểu gì": "Bạn muốn nạp tiền vào tài khoản ngân hàng bằng cách nào vậy? 😊",
+    "bằng stk ngân hàng": "Bạn có thể dùng ứng dụng ngân hàng điện tử, hoặc nộp tiền mặt trực tiếp tại quầy giao dịch của ngân hàng đó nha! 😊",
+    "bot đâu": "Mình đây nè!  Có gì mình giúp được không bạn? 😊"
   }
 }

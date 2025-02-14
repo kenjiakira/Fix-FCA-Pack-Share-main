@@ -2,6 +2,34 @@ const { randomInt } = require("crypto");
 const fs = require('fs').promises;
 const path = require('path');
 
+const BALL_REWARDS = {
+    masterball: {
+        chance: 0.01, 
+        min: 1,
+        max: 1
+    },
+    ultraball: {
+        chance: 0.05,
+        min: 1,
+        max: 3
+    },
+    safariball: {
+        chance: 0.10, 
+        min: 1,
+        max: 5
+    },
+    greatball: {
+        chance: 0.30, 
+        min: 2,
+        max: 5
+    },
+    pokeball: {
+        chance: 0.80, 
+        min: 3,
+        max: 8
+    }
+};
+
 class DailyRewardManager {
     constructor() {
         this.filepath = path.join(__dirname, 'json', 'userClaims.json');
@@ -115,6 +143,78 @@ class DailyRewardManager {
             return { hasVip: false, bonus: 0 };
         }
     }
+
+    generateBallRewards(streak) {
+        const rewards = [];
+        const streakBonus = Math.min(streak * 0.05, 0.5); 
+
+        for (const [ballType, config] of Object.entries(BALL_REWARDS)) {
+            const chance = config.chance + (config.chance * streakBonus);
+            if (Math.random() < chance) {
+                const amount = Math.floor(Math.random() * (config.max - config.min + 1)) + config.min;
+                rewards.push({
+                    type: ballType,
+                    amount
+                });
+            }
+        }
+
+        return rewards;
+    }
+
+    async updatePokemonInventory(userId, ballRewards) {
+        try {
+            const pokePath = path.join(__dirname, '..', 'commands', 'json', 'pokemon', 'pokemon.json');
+            let pokeData = {};
+            
+            try {
+                pokeData = JSON.parse(await fs.readFile(pokePath, 'utf8'));
+            } catch (error) {
+                console.error("Error reading Pokemon data:", error);
+            }
+
+            if (!pokeData[userId]) {
+                pokeData[userId] = {
+                    pokemons: [],
+                    activePokemon: 0,
+                    battles: 0,
+                    wins: 0,
+                    inventory: {
+                        pokeball: 0,
+                        greatball: 0,
+                        ultraball: 0,
+                        masterball: 0,
+                        safariball: 0
+                    }
+                };
+            }
+
+            for (const reward of ballRewards) {
+                pokeData[userId].inventory[reward.type] = 
+                    (pokeData[userId].inventory[reward.type] || 0) + reward.amount;
+            }
+
+            await fs.writeFile(pokePath, JSON.stringify(pokeData, null, 2));
+            return true;
+        } catch (error) {
+            console.error("Error updating Pokemon inventory:", error);
+            return false;
+        }
+    }
+
+    formatBallRewards(rewards) {
+        const BALL_EMOJIS = {
+            masterball: "🟣",
+            ultraball: "🟡",
+            safariball: "🔵",
+            greatball: "🔴",
+            pokeball: "⚪"
+        };
+
+        return rewards.map(reward => 
+            `${BALL_EMOJIS[reward.type]} ${reward.type}: +${reward.amount}`
+        ).join('\n');
+    }
 }
 
 const dailyManager = new DailyRewardManager();
@@ -153,11 +253,13 @@ module.exports = {
             const amount = dailyManager.calculateReward(streak);
             const dayBonus = dailyManager.getDayBonus();
             const vipInfo = await dailyManager.getVipBonus(senderID);
+            const ballRewards = dailyManager.generateBallRewards(streak);
 
             const totalAmount = amount + (vipInfo.bonus || 0);
 
             global.balance[senderID] = (global.balance[senderID] || 0) + totalAmount;
             await dailyManager.updateClaim(senderID, now);
+            await dailyManager.updatePokemonInventory(senderID, ballRewards);
             await require('../utils/currencies').saveData();
 
             const currentBalance = global.balance[senderID] || 0;
@@ -174,8 +276,13 @@ module.exports = {
                 if (streak === 14) message += '🌟 Tuyệt vời! Streak 14 ngày!\n';
                 if (streak === 30) message += '👑 Wow! Streak 30 ngày - Huyền thoại!\n';
             }
+
+            if (ballRewards.length > 0) {
+                message += "\n🎁 POKÉBALL REWARDS:\n";
+                message += dailyManager.formatBallRewards(ballRewards) + "\n";
+            }
             
-            message += `💰 Số dư hiện tại: ${currentBalance.toLocaleString('vi-VN')} Xu`;
+            message += `\n💰 Số dư hiện tại: ${currentBalance.toLocaleString('vi-VN')} Xu`;
 
             return api.sendMessage(message, threadID, messageID);
         } catch (error) {

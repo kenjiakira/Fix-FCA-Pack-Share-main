@@ -1,44 +1,1042 @@
 {
   "61561753304881": {
+    "name": "kenjiakira",
     "pokemons": [
       {
-        "id": 187,
-        "name": "hoppip",
-        "level": 3,
+        "id": 622,
+        "name": "golett",
+        "level": 36,
+        "hp": 59,
+        "maxHp": 59,
+        "attack": 74,
+        "defense": 50,
+        "types": [
+          "ground",
+          "ghost"
+        ],
+        "moves": [
+          "pound",
+          "mega-punch",
+          "fire-punch",
+          "ice-punch"
+        ],
+        "image": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/622.png",
+        "shiny": false,
+        "weather": "stormy",
         "exp": 0,
         "expNeeded": 100,
-        "hp": 36,
-        "maxHp": 36,
-        "attack": 36,
-        "defense": 37,
+        "catchDate": 1739502769762,
+        "wins": 0,
+        "battles": 20,
+        "ballCaught": "Ultra Ball"
+      }
+    ],
+    "activePokemon": 0,
+    "battles": 19,
+    "wins": 0,
+    "inventory": {
+      "pokeball": 20,
+      "greatball": 5,
+      "ultraball": 1,
+      "masterball": 0,
+      "safariball": 0
+    },
+    "lastCatch": null,
+    "lastPvE": null
+  },
+  "100055074463541": {
+    "name": "messi",
+    "pokemons": [
+      {
+        "id": 898,
+        "name": "calyrex",
+        "level": 10,
+        "hp": 107,
+        "maxHp": 107,
+        "attack": 85,
+        "defense": 85,
         "types": [
-          "grass",
+          "psychic",
+          "grass"
+        ],
+        "moves": [
+          "pound",
+          "pay-day",
+          "take-down",
+          "psybeam"
+        ],
+        "image": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/898.png",
+        "shiny": false,
+        "weather": "rainy",
+        "exp": 30,
+        "expNeeded": 150,
+        "catchDate": 1739503433742,
+        "wins": 3,
+        "battles": 7,
+        "ballCaught": "Ultra Ball"
+      },
+      {
+        "id": 385,
+        "name": "jirachi",
+        "level": 10,
+        "hp": 194,
+        "maxHp": 194,
+        "attack": 194,
+        "defense": 194,
+        "types": [
+          "steel",
+          "psychic"
+        ],
+        "moves": [
+          "mega-punch",
+          "fire-punch",
+          "ice-punch",
+          "thunder-punch"
+        ],
+        "image": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/385.png",
+        "shiny": false,
+        "weather": "foggy",
+        "exp": 393,
+        "expNeeded": 505,
+        "catchDate": 1739506351824,
+        "wins": 30,
+        "battles": 34,
+        "ballCaught": "Ultra Ball"
+      },
+      {
+        "id": 385,
+        "name": "jirachi",
+        "level": 52,
+        "hp": 141,
+        "maxHp": 141,
+        "attack": 141,
+        "defense": 141,
+        "types": [
+          "steel",
+          "psychic"
+        ],
+        "moves": [
+          "mega-punch",
+          "fire-punch",
+          "ice-punch",
+          "thunder-punch"
+        ],
+        "image": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/385.png",
+        "shiny": false,
+        "weather": "foggy",
+        "exp": 0,
+        "expNeeded": 100,
+        "catchDate": 1739507276525,
+        "wins": 0,
+        "battles": 2,
+        "ballCaught": "Ultra Ball"
+      }
+    ],
+    "activePokemon": 1,
+    "battles": 26,
+    "wins": 22,
+    "inventory": {
+      "pokeball": 10,
+      "greatball": 5,
+      "ultraball": 2,
+      "masterball": 0,
+      "safariball": 0
+    },
+    "lastCatch": null,
+    "lastPvE": 1739509381877
+  },
+  "100080149704587": {
+    "name": "con coc",
+    "pokemons": [
+      {
+        "id": 136,
+        "name": "flareon",
+        "level": 5,
+        "hp": 89,
+        "maxHp": 89,
+        "attack": 179,
+        "defense": 82,
+        "types": [
+          "fire"
+        ],
+        "moves": [
+          "pay-day",
+          "double-kick",
+          "sand-attack",
+          "headbutt"
+        ],
+        "image": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/136.png",
+        "shiny": false,
+        "weather": "sunny",
+        "exp": 96,
+        "expNeeded": 100,
+        "catchDate": 1739504916141,
+        "wins": 3,
+        "battles": 3,
+        "ballCaught": "Ultra Ball"
+      },
+      {
+        "id": 896,
+        "name": "glastrier",
+        "level": 45,
+        "hp": 105,
+        "maxHp": 105,
+        "attack": 152,
+        "defense": 136,
+        "types": [
+          "ice"
+        ],
+        "moves": [
+          "swords-dance",
+          "stomp",
+          "double-kick",
+          "tackle"
+        ],
+        "image": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/896.png",
+        "shiny": false,
+        "weather": "stormy",
+        "exp": 0,
+        "expNeeded": 100,
+        "catchDate": 1739505462306,
+        "wins": 0,
+        "battles": 0,
+        "ballCaught": "Great Ball"
+      },
+      {
+        "id": 382,
+        "name": "kyogre",
+        "level": 50,
+        "hp": 141,
+        "maxHp": 141,
+        "attack": 141,
+        "defense": 127,
+        "types": [
+          "water"
+        ],
+        "moves": [
+          "headbutt",
+          "body-slam",
+          "take-down",
+          "double-edge"
+        ],
+        "image": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/382.png",
+        "shiny": false,
+        "weather": "rainy",
+        "exp": 0,
+        "expNeeded": 100,
+        "catchDate": 1739507427712,
+        "wins": 0,
+        "battles": 7,
+        "ballCaught": "Great Ball"
+      },
+      {
+        "id": 487,
+        "name": "giratina-altered",
+        "level": 35,
+        "hp": 151,
+        "maxHp": 151,
+        "attack": 100,
+        "defense": 120,
+        "types": [
+          "ghost",
+          "dragon"
+        ],
+        "moves": [
+          "cut",
+          "fly",
+          "headbutt",
+          "body-slam"
+        ],
+        "image": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/487.png",
+        "shiny": false,
+        "weather": "snowy",
+        "exp": 0,
+        "expNeeded": 100,
+        "catchDate": 1739507937618,
+        "wins": 0,
+        "battles": 2,
+        "ballCaught": "Great Ball"
+      },
+      {
+        "id": 604,
+        "name": "eelektross",
+        "level": 28,
+        "hp": 117,
+        "maxHp": 117,
+        "attack": 159,
+        "defense": 110,
+        "types": [
+          "electric"
+        ],
+        "moves": [
+          "fire-punch",
+          "thunder-punch",
+          "cut",
+          "bind"
+        ],
+        "image": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/604.png",
+        "shiny": false,
+        "weather": "rainy",
+        "exp": 0,
+        "expNeeded": 100,
+        "catchDate": 1739508283403,
+        "wins": 0,
+        "battles": 0,
+        "ballCaught": "Great Ball"
+      },
+      {
+        "id": 145,
+        "name": "zapdos",
+        "level": 43,
+        "hp": 141,
+        "maxHp": 141,
+        "attack": 141,
+        "defense": 133,
+        "types": [
+          "electric",
           "flying"
+        ],
+        "moves": [
+          "razor-wind",
+          "whirlwind",
+          "fly",
+          "headbutt"
+        ],
+        "image": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/145.png",
+        "shiny": false,
+        "weather": "stormy",
+        "exp": 41,
+        "expNeeded": 100,
+        "catchDate": 1739509121013,
+        "wins": 1,
+        "battles": 7,
+        "ballCaught": "Great Ball"
+      },
+      {
+        "id": 243,
+        "name": "raikou",
+        "level": 33,
+        "hp": 126,
+        "maxHp": 126,
+        "attack": 119,
+        "defense": 105,
+        "types": [
+          "electric"
+        ],
+        "moves": [
+          "cut",
+          "headbutt",
+          "body-slam",
+          "take-down"
+        ],
+        "image": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/243.png",
+        "shiny": false,
+        "weather": "rainy",
+        "exp": 0,
+        "expNeeded": 100,
+        "catchDate": 1739509326186,
+        "wins": 0,
+        "battles": 0,
+        "ballCaught": "Great Ball"
+      }
+    ],
+    "activePokemon": 5,
+    "battles": 14,
+    "wins": 4,
+    "inventory": {
+      "pokeball": 10,
+      "greatball": 9,
+      "ultraball": 0,
+      "masterball": 0,
+      "safariball": 0
+    },
+    "lastCatch": null,
+    "lastPvE": null
+  },
+  "100051073987266": {
+    "name": "ZanJhat",
+    "pokemons": [
+      {
+        "id": 419,
+        "name": "floatzel",
+        "level": 41,
+        "hp": 108,
+        "maxHp": 108,
+        "attack": 134,
+        "defense": 70,
+        "types": [
+          "water"
+        ],
+        "moves": [
+          "ice-punch",
+          "razor-wind",
+          "headbutt",
+          "tackle"
+        ],
+        "image": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/419.png",
+        "shiny": false,
+        "weather": "rainy",
+        "exp": 0,
+        "expNeeded": 100,
+        "catchDate": 1739505429149,
+        "wins": 0,
+        "battles": 5,
+        "ballCaught": "Ultra Ball"
+      },
+      {
+        "id": 851,
+        "name": "centiskorch",
+        "level": 34,
+        "hp": 118,
+        "maxHp": 118,
+        "attack": 135,
+        "defense": 76,
+        "types": [
+          "fire",
+          "bug"
+        ],
+        "moves": [
+          "slam",
+          "wrap",
+          "bite",
+          "ember"
+        ],
+        "image": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/851.png",
+        "shiny": false,
+        "weather": "sunny",
+        "exp": 0,
+        "expNeeded": 100,
+        "catchDate": 1739506912132,
+        "wins": 0,
+        "battles": 0,
+        "ballCaught": "Ultra Ball"
+      },
+      {
+        "id": 464,
+        "name": "rhyperior",
+        "level": 45,
+        "hp": 113,
+        "maxHp": 113,
+        "attack": 137,
+        "defense": 127,
+        "types": [
+          "ground",
+          "rock"
+        ],
+        "moves": [
+          "mega-punch",
+          "pay-day",
+          "fire-punch",
+          "ice-punch"
+        ],
+        "image": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/464.png",
+        "shiny": false,
+        "weather": "stormy",
+        "exp": 0,
+        "expNeeded": 100,
+        "catchDate": 1739507641637,
+        "wins": 0,
+        "battles": 2,
+        "ballCaught": "Great Ball"
+      }
+    ],
+    "activePokemon": 2,
+    "battles": 2,
+    "wins": 0,
+    "inventory": {
+      "pokeball": 10,
+      "greatball": 4,
+      "ultraball": 0,
+      "masterball": 0,
+      "safariball": 0
+    },
+    "lastCatch": null,
+    "lastPvE": null
+  },
+  "100079621883786": {
+    "name": "anh 3 mien tay",
+    "pokemons": [
+      {
+        "id": 697,
+        "name": "tyrantrum",
+        "level": 38,
+        "hp": 92,
+        "maxHp": 92,
+        "attack": 136,
+        "defense": 134,
+        "types": [
+          "rock",
+          "dragon"
+        ],
+        "moves": [
+          "stomp",
+          "horn-drill",
+          "tackle",
+          "body-slam"
+        ],
+        "image": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/697.png",
+        "shiny": false,
+        "weather": "snowy",
+        "exp": 9,
+        "expNeeded": 150,
+        "catchDate": 1739506126283,
+        "wins": 3,
+        "battles": 21,
+        "ballCaught": "Ultra Ball"
+      },
+      {
+        "id": 257,
+        "name": "blaziken",
+        "level": 46,
+        "hp": 98,
+        "maxHp": 98,
+        "attack": 148,
+        "defense": 86,
+        "types": [
+          "fire",
+          "fighting"
+        ],
+        "moves": [
+          "mega-punch",
+          "fire-punch",
+          "thunder-punch",
+          "scratch"
+        ],
+        "image": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/257.png",
+        "shiny": false,
+        "weather": "sunny",
+        "exp": 0,
+        "expNeeded": 100,
+        "catchDate": 1739508387825,
+        "wins": 0,
+        "battles": 0,
+        "ballCaught": "Ultra Ball"
+      }
+    ],
+    "activePokemon": 0,
+    "battles": 21,
+    "wins": 3,
+    "inventory": {
+      "pokeball": 10,
+      "greatball": 5,
+      "ultraball": 0,
+      "masterball": 0,
+      "safariball": 0
+    },
+    "lastCatch": null,
+    "lastPvE": null
+  },
+  "61566378911878": {
+    "name": "playernameHung",
+    "pokemons": [],
+    "activePokemon": 0,
+    "battles": 0,
+    "wins": 0,
+    "inventory": {
+      "pokeball": 10,
+      "greatball": 5,
+      "ultraball": 2,
+      "masterball": 0,
+      "safariball": 0
+    },
+    "lastCatch": null,
+    "lastPvE": null
+  },
+  "100048267517770": {
+    "name": "anh ba cha cu",
+    "pokemons": [
+      {
+        "id": 145,
+        "name": "zapdos",
+        "level": 55,
+        "hp": 130,
+        "maxHp": 130,
+        "attack": 130,
+        "defense": 123,
+        "types": [
+          "electric",
+          "flying"
+        ],
+        "moves": [
+          "razor-wind",
+          "whirlwind",
+          "fly",
+          "headbutt"
+        ],
+        "image": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/145.png",
+        "shiny": false,
+        "weather": "stormy",
+        "exp": 0,
+        "expNeeded": 100,
+        "catchDate": 1739506393189,
+        "wins": 0,
+        "battles": 1,
+        "ballCaught": "Ultra Ball"
+      }
+    ],
+    "activePokemon": 0,
+    "battles": 1,
+    "wins": 0,
+    "inventory": {
+      "pokeball": 10,
+      "greatball": 5,
+      "ultraball": 1,
+      "masterball": 0,
+      "safariball": 0
+    },
+    "lastCatch": null,
+    "lastPvE": null
+  },
+  "100058320200877": {
+    "name": "hoanglongprovip",
+    "pokemons": [
+      {
+        "id": 186,
+        "name": "politoed",
+        "level": 58,
+        "hp": 114,
+        "maxHp": 114,
+        "attack": 95,
+        "defense": 95,
+        "types": [
+          "water"
+        ],
+        "moves": [
+          "pound",
+          "double-slap",
+          "mega-punch",
+          "ice-punch"
+        ],
+        "image": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/186.png",
+        "shiny": false,
+        "weather": "rainy",
+        "exp": 0,
+        "expNeeded": 100,
+        "catchDate": 1739507550364,
+        "wins": 0,
+        "battles": 0,
+        "ballCaught": "Ultra Ball"
+      },
+      {
+        "id": 170,
+        "name": "chinchou",
+        "level": 30,
+        "hp": 120,
+        "maxHp": 120,
+        "attack": 60,
+        "defense": 60,
+        "types": [
+          "water",
+          "electric"
+        ],
+        "moves": [
+          "take-down",
+          "double-edge",
+          "supersonic",
+          "mist"
+        ],
+        "image": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/170.png",
+        "shiny": false,
+        "weather": "stormy",
+        "exp": 0,
+        "expNeeded": 100,
+        "catchDate": 1739509224994,
+        "wins": 0,
+        "battles": 0,
+        "ballCaught": "Ultra Ball"
+      }
+    ],
+    "activePokemon": 0,
+    "battles": 0,
+    "wins": 0,
+    "inventory": {
+      "pokeball": 10,
+      "greatball": 5,
+      "ultraball": 0,
+      "masterball": 0,
+      "safariball": 0
+    },
+    "lastCatch": null,
+    "lastPvE": null
+  },
+  "100047529173949": {
+    "name": "kutoquatroi",
+    "pokemons": [
+      {
+        "id": 239,
+        "name": "elekid",
+        "level": 4,
+        "hp": 74,
+        "maxHp": 74,
+        "attack": 103,
+        "defense": 60,
+        "types": [
+          "electric"
+        ],
+        "moves": [
+          "karate-chop",
+          "mega-punch",
+          "fire-punch",
+          "ice-punch"
+        ],
+        "image": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/239.png",
+        "shiny": false,
+        "weather": "stormy",
+        "exp": 20,
+        "expNeeded": 100,
+        "catchDate": 1739507797930,
+        "wins": 1,
+        "battles": 2,
+        "ballCaught": "Ultra Ball"
+      },
+      {
+        "id": 324,
+        "name": "torkoal",
+        "level": 38,
+        "hp": 91,
+        "maxHp": 91,
+        "attack": 110,
+        "defense": 182,
+        "types": [
+          "fire"
+        ],
+        "moves": [
+          "headbutt",
+          "body-slam",
+          "take-down",
+          "double-edge"
+        ],
+        "image": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/324.png",
+        "shiny": false,
+        "weather": "sunny",
+        "exp": 0,
+        "expNeeded": 100,
+        "catchDate": 1739508604456,
+        "wins": 0,
+        "battles": 1,
+        "ballCaught": "Ultra Ball"
+      },
+      {
+        "id": 466,
+        "name": "electivire",
+        "level": 29,
+        "hp": 107,
+        "maxHp": 107,
+        "attack": 176,
+        "defense": 96,
+        "types": [
+          "electric"
+        ],
+        "moves": [
+          "mega-punch",
+          "fire-punch",
+          "ice-punch",
+          "thunder-punch"
+        ],
+        "image": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/466.png",
+        "shiny": false,
+        "weather": "stormy",
+        "exp": 0,
+        "expNeeded": 100,
+        "catchDate": 1739509490950,
+        "wins": 0,
+        "battles": 0,
+        "ballCaught": "Great Ball"
+      },
+      {
+        "id": 709,
+        "name": "trevenant",
+        "level": 45,
+        "hp": 115,
+        "maxHp": 115,
+        "attack": 148,
+        "defense": 102,
+        "types": [
+          "ghost",
+          "grass"
+        ],
+        "moves": [
+          "cut",
+          "tackle",
+          "take-down",
+          "disable"
+        ],
+        "image": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/709.png",
+        "shiny": false,
+        "weather": "sunny",
+        "exp": 0,
+        "expNeeded": 100,
+        "catchDate": 1739509608127,
+        "wins": 0,
+        "battles": 0,
+        "ballCaught": "Great Ball"
+      },
+      {
+        "id": 250,
+        "name": "ho-oh",
+        "level": 24,
+        "hp": 148,
+        "maxHp": 148,
+        "attack": 182,
+        "defense": 126,
+        "types": [
+          "fire",
+          "flying"
+        ],
+        "moves": [
+          "gust",
+          "whirlwind",
+          "fly",
+          "body-slam"
+        ],
+        "image": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/250.png",
+        "shiny": false,
+        "weather": "sunny",
+        "exp": 0,
+        "expNeeded": 100,
+        "catchDate": 1739509672555,
+        "wins": 0,
+        "battles": 0,
+        "ballCaught": "Great Ball"
+      }
+    ],
+    "activePokemon": 1,
+    "battles": 2,
+    "wins": 1,
+    "inventory": {
+      "pokeball": 10,
+      "greatball": 7,
+      "ultraball": 0,
+      "masterball": 0,
+      "safariball": 0
+    },
+    "lastCatch": null,
+    "lastPvE": null
+  },
+  "61550331471452": {
+    "name": "vanquyen",
+    "pokemons": [
+      {
+        "id": 448,
+        "name": "lucario",
+        "level": 23,
+        "hp": 108,
+        "maxHp": 108,
+        "attack": 171,
+        "defense": 108,
+        "types": [
+          "fighting",
+          "steel"
+        ],
+        "moves": [
+          "mega-punch",
+          "ice-punch",
+          "thunder-punch",
+          "swords-dance"
+        ],
+        "image": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/448.png",
+        "shiny": false,
+        "weather": "snowy",
+        "exp": 105,
+        "expNeeded": 225,
+        "catchDate": 1739508553199,
+        "wins": 10,
+        "battles": 11,
+        "ballCaught": "Ultra Ball"
+      },
+      {
+        "id": 419,
+        "name": "floatzel",
+        "level": 14,
+        "hp": 117,
+        "maxHp": 117,
+        "attack": 145,
+        "defense": 76,
+        "types": [
+          "water"
+        ],
+        "moves": [
+          "ice-punch",
+          "razor-wind",
+          "headbutt",
+          "tackle"
+        ],
+        "image": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/419.png",
+        "shiny": false,
+        "weather": "rainy",
+        "exp": 0,
+        "expNeeded": 100,
+        "catchDate": 1739509002252,
+        "wins": 0,
+        "battles": 0,
+        "ballCaught": "Ultra Ball"
+      },
+      {
+        "id": 879,
+        "name": "copperajah",
+        "level": 41,
+        "hp": 144,
+        "maxHp": 144,
+        "attack": 154,
+        "defense": 81,
+        "types": [
+          "steel"
+        ],
+        "moves": [
+          "stomp",
+          "mega-kick",
+          "tackle",
+          "body-slam"
+        ],
+        "image": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/879.png",
+        "shiny": false,
+        "weather": "snowy",
+        "exp": 0,
+        "expNeeded": 100,
+        "catchDate": 1739509304248,
+        "wins": 0,
+        "battles": 0,
+        "ballCaught": "Ultra Ball"
+      },
+      {
+        "id": 306,
+        "name": "aggron",
+        "level": 25,
+        "hp": 99,
+        "maxHp": 99,
+        "attack": 156,
+        "defense": 255,
+        "types": [
+          "steel",
+          "rock"
+        ],
+        "moves": [
+          "mega-punch",
+          "fire-punch",
+          "ice-punch",
+          "thunder-punch"
+        ],
+        "image": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/306.png",
+        "shiny": false,
+        "weather": "snowy",
+        "exp": 0,
+        "expNeeded": 100,
+        "catchDate": 1739509894603,
+        "wins": 0,
+        "battles": 0,
+        "ballCaught": "Ultra Ball"
+      }
+    ],
+    "activePokemon": 0,
+    "battles": 11,
+    "wins": 10,
+    "inventory": {
+      "pokeball": 10,
+      "greatball": 4,
+      "ultraball": 98,
+      "masterball": 0,
+      "safariball": 0
+    },
+    "lastCatch": null,
+    "lastPvE": null
+  },
+  "61556582712090": {
+    "name": "Rei",
+    "pokemons": [
+      {
+        "id": 462,
+        "name": "magnezone",
+        "level": 57,
+        "hp": 91,
+        "maxHp": 91,
+        "attack": 91,
+        "defense": 150,
+        "types": [
+          "electric",
+          "steel"
+        ],
+        "moves": [
+          "tackle",
+          "body-slam",
+          "take-down",
+          "double-edge"
+        ],
+        "image": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/462.png",
+        "shiny": false,
+        "weather": "rainy",
+        "exp": 27,
+        "expNeeded": 100,
+        "catchDate": 1739508295903,
+        "wins": 1,
+        "battles": 2,
+        "ballCaught": "Ultra Ball"
+      },
+      {
+        "id": 646,
+        "name": "kyurem",
+        "level": 28,
+        "hp": 209,
+        "maxHp": 209,
+        "attack": 218,
+        "defense": 150,
+        "types": [
+          "dragon",
+          "ice"
+        ],
+        "moves": [
+          "cut",
+          "fly",
+          "body-slam",
+          "take-down"
+        ],
+        "image": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/646.png",
+        "shiny": false,
+        "weather": "snowy",
+        "exp": 276,
+        "expNeeded": 337,
+        "catchDate": 1739508356726,
+        "wins": 21,
+        "battles": 22,
+        "ballCaught": "Ultra Ball"
+      },
+      {
+        "id": 470,
+        "name": "leafeon",
+        "level": 30,
+        "hp": 82,
+        "maxHp": 82,
+        "attack": 139,
+        "defense": 165,
+        "types": [
+          "grass"
         ],
         "moves": [
           "pay-day",
           "swords-dance",
-          "headbutt",
-          "tackle"
+          "sand-attack",
+          "headbutt"
         ],
-        "image": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/187.png",
+        "image": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/470.png",
         "shiny": false,
-        "catchDate": 1739424008579,
+        "weather": "sunny",
+        "exp": 0,
+        "expNeeded": 100,
+        "catchDate": 1739509217600,
         "wins": 0,
-        "battles": 8,
-        "recoveryStart": null
+        "battles": 0,
+        "ballCaught": "Great Ball"
       },
       {
-        "id": 883,
-        "name": "arctovish",
-        "level": 2,
-        "hp": 107,
-        "maxHp": 107,
-        "attack": 103,
-        "defense": 102,
+        "id": 565,
+        "name": "carracosta",
+        "level": 42,
+        "hp": 79,
+        "maxHp": 79,
+        "attack": 115,
+        "defense": 142,
         "types": [
           "water",
-          "ice"
+          "rock"
         ],
         "moves": [
           "body-slam",
@@ -46,92 +1044,526 @@
           "water-gun",
           "hydro-pump"
         ],
-        "image": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/883.png",
+        "image": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/565.png",
         "shiny": false,
-        "exp": 87,
-        "expNeeded": 150,
-        "catchDate": 1739450727683,
-        "wins": 4,
-        "battles": 5,
-        "ballCaught": "Master Ball"
-      },
-      {
-        "id": 568,
-        "name": "trubbish",
-        "level": 3,
-        "hp": 56,
-        "maxHp": 56,
-        "attack": 43,
-        "defense": 59,
-        "types": [
-          "poison"
-        ],
-        "moves": [
-          "pound",
-          "double-slap",
-          "sand-attack",
-          "take-down"
-        ],
-        "image": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/568.png",
-        "shiny": false,
+        "weather": "foggy",
         "exp": 0,
         "expNeeded": 100,
-        "catchDate": 1739451461425,
+        "catchDate": 1739509223496,
         "wins": 0,
         "battles": 0,
-        "ballCaught": "Ultra Ball"
+        "ballCaught": "Great Ball"
       }
     ],
     "activePokemon": 1,
-    "battles": 1,
-    "wins": 0,
-    "lastCatch": 1739424008579,
+    "battles": 24,
+    "wins": 22,
     "inventory": {
-      "pokeballs": 10,
-      "potions": 5,
-      "revives": 2,
-      "masterball": null,
+      "pokeball": 113,
+      "greatball": 3,
       "ultraball": 0,
-      "pokeball": 5
+      "masterball": 1,
+      "safariball": 0
     },
-    "lastPvE": 1739456053238
+    "lastCatch": null,
+    "lastPvE": null
   },
-  "100040203282108": {
+  "100053857386814": {
+    "name": "pokecui",
     "pokemons": [
       {
-        "id": 555,
-        "name": "darmanitan-standard",
-        "level": 4,
-        "exp": 26,
+        "id": 241,
+        "name": "miltank",
+        "level": 10,
+        "hp": 92,
+        "maxHp": 92,
+        "attack": 77,
+        "defense": 102,
+        "types": [
+          "normal"
+        ],
+        "moves": [
+          "mega-punch",
+          "fire-punch",
+          "ice-punch",
+          "thunder-punch"
+        ],
+        "image": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/241.png",
+        "shiny": false,
+        "weather": "rainy",
+        "exp": 0,
         "expNeeded": 100,
-        "hp": 110,
-        "maxHp": 110,
-        "attack": 131,
+        "catchDate": 1739508087537,
+        "wins": 0,
+        "battles": 5,
+        "ballCaught": "Ultra Ball"
+      },
+      {
+        "id": 12,
+        "name": "butterfree",
+        "level": 12,
+        "hp": 62,
+        "maxHp": 62,
+        "attack": 46,
         "defense": 52,
         "types": [
+          "bug",
+          "flying"
+        ],
+        "moves": [
+          "razor-wind",
+          "gust",
+          "whirlwind",
+          "headbutt"
+        ],
+        "image": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/12.png",
+        "shiny": false,
+        "weather": "sunny",
+        "exp": 0,
+        "expNeeded": 100,
+        "catchDate": 1739508099266,
+        "wins": 0,
+        "battles": 0,
+        "ballCaught": "Ultra Ball"
+      },
+      {
+        "id": 400,
+        "name": "bibarel",
+        "level": 10,
+        "hp": 83,
+        "maxHp": 83,
+        "attack": 89,
+        "defense": 63,
+        "types": [
+          "normal",
+          "water"
+        ],
+        "moves": [
+          "swords-dance",
+          "cut",
+          "headbutt",
+          "tackle"
+        ],
+        "image": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/400.png",
+        "shiny": false,
+        "weather": "sunny",
+        "exp": 0,
+        "expNeeded": 100,
+        "catchDate": 1739508218003,
+        "wins": 0,
+        "battles": 0,
+        "ballCaught": "Great Ball"
+      },
+      {
+        "id": 182,
+        "name": "bellossom",
+        "level": 6,
+        "hp": 75,
+        "maxHp": 75,
+        "attack": 80,
+        "defense": 95,
+        "types": [
+          "grass"
+        ],
+        "moves": [
+          "swords-dance",
+          "cut",
+          "double-edge",
+          "acid"
+        ],
+        "image": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/182.png",
+        "shiny": false,
+        "exp": 0,
+        "expNeeded": 100,
+        "catchDate": 1739508344726,
+        "wins": 0,
+        "battles": 0,
+        "ballCaught": "Great Ball"
+      },
+      {
+        "id": 342,
+        "name": "crawdaunt",
+        "level": 6,
+        "hp": 89,
+        "maxHp": 89,
+        "attack": 169,
+        "defense": 120,
+        "types": [
+          "water",
+          "dark"
+        ],
+        "moves": [
+          "vice-grip",
+          "guillotine",
+          "swords-dance",
+          "cut"
+        ],
+        "image": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/342.png",
+        "shiny": false,
+        "weather": "rainy",
+        "exp": 0,
+        "expNeeded": 100,
+        "catchDate": 1739508459049,
+        "wins": 0,
+        "battles": 0,
+        "ballCaught": "Great Ball"
+      },
+      {
+        "id": 494,
+        "name": "victini",
+        "level": 46,
+        "hp": 131,
+        "maxHp": 131,
+        "attack": 131,
+        "defense": 131,
+        "types": [
+          "psychic",
           "fire"
         ],
         "moves": [
           "mega-punch",
           "fire-punch",
-          "mega-kick",
-          "headbutt"
+          "thunder-punch",
+          "mega-kick"
         ],
-        "image": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/555.png",
+        "image": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/494.png",
         "shiny": false,
-        "catchDate": 1739424013629,
+        "weather": "sunny",
+        "exp": 26,
+        "expNeeded": 100,
+        "catchDate": 1739508587596,
         "wins": 1,
-        "battles": 1
+        "battles": 1,
+        "ballCaught": "Great Ball"
+      },
+      {
+        "id": 478,
+        "name": "froslass",
+        "level": 21,
+        "hp": 97,
+        "maxHp": 97,
+        "attack": 111,
+        "defense": 97,
+        "types": [
+          "ice",
+          "ghost"
+        ],
+        "moves": [
+          "ice-punch",
+          "headbutt",
+          "body-slam",
+          "take-down"
+        ],
+        "image": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/478.png",
+        "shiny": false,
+        "weather": "snowy",
+        "exp": 0,
+        "expNeeded": 100,
+        "catchDate": 1739508621243,
+        "wins": 0,
+        "battles": 0,
+        "ballCaught": "Great Ball"
+      }
+    ],
+    "activePokemon": 5,
+    "battles": 6,
+    "wins": 1,
+    "inventory": {
+      "pokeball": 60,
+      "greatball": 0,
+      "ultraball": 0,
+      "masterball": 0,
+      "safariball": 0
+    },
+    "lastCatch": null,
+    "lastPvE": null
+  },
+  "100072567218546": {
+    "name": "potatolord",
+    "pokemons": [
+      {
+        "id": 130,
+        "name": "gyarados",
+        "level": 7,
+        "hp": 142,
+        "maxHp": 142,
+        "attack": 187,
+        "defense": 118,
+        "types": [
+          "water",
+          "flying"
+        ],
+        "moves": [
+          "bind",
+          "headbutt",
+          "tackle",
+          "body-slam"
+        ],
+        "image": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/130.png",
+        "shiny": false,
+        "weather": "stormy",
+        "exp": 77,
+        "expNeeded": 100,
+        "catchDate": 1739508224555,
+        "wins": 2,
+        "battles": 3,
+        "ballCaught": "Ultra Ball"
+      },
+      {
+        "id": 523,
+        "name": "zebstrika",
+        "level": 31,
+        "hp": 91,
+        "maxHp": 91,
+        "attack": 121,
+        "defense": 76,
+        "types": [
+          "electric"
+        ],
+        "moves": [
+          "stomp",
+          "double-kick",
+          "sand-attack",
+          "body-slam"
+        ],
+        "image": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/523.png",
+        "shiny": false,
+        "weather": "rainy",
+        "exp": 0,
+        "expNeeded": 100,
+        "catchDate": 1739509425598,
+        "wins": 0,
+        "battles": 0,
+        "ballCaught": "Ultra Ball"
+      }
+    ],
+    "activePokemon": 0,
+    "battles": 3,
+    "wins": 2,
+    "inventory": {
+      "pokeball": 10,
+      "greatball": 20,
+      "ultraball": 0,
+      "masterball": 0,
+      "safariball": 0
+    },
+    "lastCatch": null,
+    "lastPvE": null
+  },
+  "61566789515977": {
+    "name": "depchaixamlul",
+    "pokemons": [],
+    "activePokemon": 0,
+    "battles": 0,
+    "wins": 0,
+    "inventory": {
+      "pokeball": 10,
+      "greatball": 5,
+      "ultraball": 2,
+      "masterball": 0,
+      "safariball": 0
+    },
+    "lastCatch": null,
+    "lastPvE": null
+  },
+  "100063397755304": {
+    "name": "veres",
+    "pokemons": [
+      {
+        "id": 420,
+        "name": "cherubi",
+        "level": 1,
+        "hp": 49,
+        "maxHp": 49,
+        "attack": 38,
+        "defense": 49,
+        "types": [
+          "grass"
+        ],
+        "moves": [
+          "swords-dance",
+          "tackle",
+          "take-down",
+          "double-edge"
+        ],
+        "image": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/420.png",
+        "shiny": false,
+        "weather": "rainy",
+        "exp": 0,
+        "expNeeded": 100,
+        "catchDate": 1739508390000,
+        "wins": 0,
+        "battles": 0,
+        "ballCaught": "Ultra Ball"
+      },
+      {
+        "id": 455,
+        "name": "carnivine",
+        "level": 8,
+        "hp": 85,
+        "maxHp": 85,
+        "attack": 116,
+        "defense": 83,
+        "types": [
+          "grass"
+        ],
+        "moves": [
+          "swords-dance",
+          "cut",
+          "bind",
+          "slam"
+        ],
+        "image": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/455.png",
+        "shiny": false,
+        "weather": "snowy",
+        "exp": 2,
+        "expNeeded": 150,
+        "catchDate": 1739508493486,
+        "wins": 2,
+        "battles": 3,
+        "ballCaught": "Ultra Ball"
+      },
+      {
+        "id": 162,
+        "name": "furret",
+        "level": 10,
+        "hp": 90,
+        "maxHp": 90,
+        "attack": 81,
+        "defense": 68,
+        "types": [
+          "normal"
+        ],
+        "moves": [
+          "fire-punch",
+          "ice-punch",
+          "thunder-punch",
+          "scratch"
+        ],
+        "image": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/162.png",
+        "shiny": false,
+        "weather": "snowy",
+        "exp": 0,
+        "expNeeded": 100,
+        "catchDate": 1739509077388,
+        "wins": 0,
+        "battles": 0,
+        "ballCaught": "Great Ball"
+      }
+    ],
+    "activePokemon": 1,
+    "battles": 2,
+    "wins": 1,
+    "inventory": {
+      "pokeball": 10,
+      "greatball": 4,
+      "ultraball": 0,
+      "masterball": 0,
+      "safariball": 0
+    },
+    "lastCatch": null,
+    "lastPvE": 1739509419479
+  },
+  "100008297661441": {
+    "name": "khoa889",
+    "pokemons": [],
+    "activePokemon": 0,
+    "battles": 0,
+    "wins": 0,
+    "inventory": {
+      "pokeball": 10,
+      "greatball": 5,
+      "ultraball": 2,
+      "masterball": 0,
+      "safariball": 0
+    },
+    "lastCatch": null,
+    "lastPvE": null
+  },
+  "100080964828004": {
+    "name": "Duong",
+    "pokemons": [
+      {
+        "id": 460,
+        "name": "abomasnow",
+        "level": 60,
+        "hp": 81,
+        "maxHp": 81,
+        "attack": 83,
+        "defense": 68,
+        "types": [
+          "grass",
+          "ice"
+        ],
+        "moves": [
+          "mega-punch",
+          "ice-punch",
+          "swords-dance",
+          "mega-kick"
+        ],
+        "image": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/460.png",
+        "shiny": false,
+        "weather": "stormy",
+        "exp": 0,
+        "expNeeded": 100,
+        "catchDate": 1739509460117,
+        "wins": 0,
+        "battles": 1,
+        "ballCaught": "Ultra Ball"
+      },
+      {
+        "id": 781,
+        "name": "dhelmise",
+        "level": 39,
+        "hp": 94,
+        "maxHp": 94,
+        "attack": 177,
+        "defense": 135,
+        "types": [
+          "ghost",
+          "grass"
+        ],
+        "moves": [
+          "swords-dance",
+          "slam",
+          "wrap",
+          "hydro-pump"
+        ],
+        "image": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/781.png",
+        "shiny": false,
+        "weather": "sunny",
+        "exp": 0,
+        "expNeeded": 100,
+        "catchDate": 1739509683428,
+        "wins": 0,
+        "battles": 0,
+        "ballCaught": "Ultra Ball"
       }
     ],
     "activePokemon": 0,
     "battles": 1,
-    "wins": 1,
-    "lastCatch": 1739424013629,
+    "wins": 0,
     "inventory": {
-      "pokeballs": 10,
-      "potions": 5,
-      "revives": 2
+      "pokeball": 10,
+      "greatball": 5,
+      "ultraball": 0,
+      "masterball": 0,
+      "safariball": 0
+    },
+    "lastCatch": null,
+    "lastPvE": null
+  },
+  "100089981373051": {
+    "pokemons": [],
+    "activePokemon": 0,
+    "battles": 0,
+    "wins": 0,
+    "inventory": {
+      "pokeball": 7,
+      "greatball": 0,
+      "ultraball": 0,
+      "masterball": 0,
+      "safariball": 0
     }
   }
 }

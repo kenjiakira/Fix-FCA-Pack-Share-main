@@ -58,14 +58,14 @@
       {
         "name": "Hoàng Ngọc Hà",
         "birthDate": 1739292395503,
-        "happiness": 95.84135475694444,
+        "happiness": 92.74027930555555,
         "gender": "👦",
         "nickname": "Cưng Hoàng Ngọc Hà"
       }
     ],
     "home": null,
-    "happiness": 93.0689245949074,
-    "lastChecked": 1739411817052,
+    "happiness": 87.90046550925925,
+    "lastChecked": 1739501128025,
     "lastBaby": 1739292395503,
     "lastIntimate": 1739292382146,
     "isProposer": true,
@@ -98,14 +98,14 @@
       {
         "name": "Vũ Wag",
         "birthDate": 1739292398290,
-        "happiness": 95.7582921875,
+        "happiness": 92.7054426388889,
         "gender": "👦",
         "nickname": "Sunshine Vũ Wag"
       }
     ],
     "home": null,
-    "happiness": 92.93048697916666,
-    "lastChecked": 1739414274465,
+    "happiness": 87.84240439814815,
+    "lastChecked": 1739502196532,
     "lastBaby": 1739292398290,
     "lastIntimate": 1739292388937,
     "isProposer": false,
@@ -134,24 +134,40 @@
   "100053857386814": {
     "name": null,
     "spouse": "100049109850406",
-    "children": [],
+    "children": [
+      {
+        "name": "elephant",
+        "birthDate": 1739465020428,
+        "happiness": 100,
+        "gender": "👦",
+        "nickname": "Cưng elephant"
+      }
+    ],
     "home": null,
-    "happiness": 100,
-    "lastChecked": 1739292495387,
-    "lastBaby": 0,
-    "lastIntimate": 0,
+    "happiness": 90.02361012731481,
+    "lastChecked": 1739464887404,
+    "lastBaby": 1739465020428,
+    "lastIntimate": 1739464899888,
     "isProposer": true,
     "proposedBy": null
   },
   "100049109850406": {
     "name": null,
     "spouse": "100053857386814",
-    "children": [],
+    "children": [
+      {
+        "name": "elephant",
+        "birthDate": 1739465020428,
+        "happiness": 100,
+        "gender": "👦",
+        "nickname": "Cưng elephant"
+      }
+    ],
     "home": null,
-    "happiness": 100,
-    "lastChecked": 1739292772312,
-    "lastBaby": 0,
-    "lastIntimate": 0,
+    "happiness": 90.03384403935185,
+    "lastChecked": 1739464987487,
+    "lastBaby": 1739465020428,
+    "lastIntimate": 1739464899889,
     "isProposer": false,
     "proposedBy": "Phạm Hùng"
   },
@@ -372,8 +388,8 @@
     "spouse": null,
     "children": [],
     "home": null,
-    "happiness": 50,
-    "lastChecked": 1739350714423,
+    "happiness": 43.38482077546296,
+    "lastChecked": 1739465024720,
     "lastBaby": 0,
     "lastIntimate": 0
   },
@@ -556,6 +572,26 @@
     "home": null,
     "happiness": 50,
     "lastChecked": 1739456828629,
+    "lastBaby": 0,
+    "lastIntimate": 0
+  },
+  "61561706008732": {
+    "name": null,
+    "spouse": null,
+    "children": [],
+    "home": null,
+    "happiness": 50,
+    "lastChecked": 1739461028886,
+    "lastBaby": 0,
+    "lastIntimate": 0
+  },
+  "100044825933221": {
+    "name": null,
+    "spouse": null,
+    "children": [],
+    "home": null,
+    "happiness": 50,
+    "lastChecked": 1739510543805,
     "lastBaby": 0,
     "lastIntimate": 0
   }

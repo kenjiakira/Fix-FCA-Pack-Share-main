@@ -1,6 +1,6 @@
 class PvPSystem {
     constructor() {
-        this.RECOVERY_TIME = 30000; 
+        this.RECOVERY_TIME = 120000; 
         this.MIN_HP_PERCENT = 20;
         
         this.typeEffectiveness = {
@@ -124,10 +124,10 @@ class PvPSystem {
         let p1HP = playerPokemon.hp;
         let p2HP = wildPokemon.hp;
         const battleLog = [];
-        const expGain = Math.floor(Math.random() * 40) + 30; // More EXP for PVE
+        const expGain = Math.floor(Math.random() * 40) + 30; 
 
         while (p1HP > 0 && p2HP > 0) {
-            // Player turn
+       
             const dmg1 = this.calculateDamage(playerPokemon, wildPokemon);
             p2HP -= dmg1;
             const effectiveness1 = this.getTypeEffectiveness(playerPokemon.types[0], wildPokemon.types);
@@ -135,7 +135,6 @@ class PvPSystem {
 
             if (p2HP <= 0) break;
 
-            // Wild Pokemon turn with AI
             const aiDamageMultiplier = this.getAIDecision(p2HP / wildPokemon.hp);
             const dmg2 = Math.floor(this.calculateDamage(wildPokemon, playerPokemon) * aiDamageMultiplier);
             p1HP -= dmg2;

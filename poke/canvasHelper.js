@@ -1,0 +1,115 @@
+const fs = require('fs');
+const path = require('path');
+const { createCanvas, loadImage, registerFont } = require('canvas');
+
+module.exports = {
+    createBattleImage: async function(pokemon1Image, pokemon2Image, player1Name, player2Name, pokemon1Name, pokemon2Name) {
+        try {
+            const tempDir = path.join(__dirname, './cache');
+            
+            if (!fs.existsSync(tempDir)) {
+                fs.mkdirSync(tempDir, { recursive: true });
+            }
+    
+            try {
+                registerFont(path.join(__dirname, './fonts/Pokemon_Solid.ttf'), { family: 'Pokemon Solid' });
+                registerFont(path.join(__dirname, './fonts/Pokemon_Hollow.ttf'), { family: 'Pokemon Hollow' });
+            } catch (error) {
+                console.log('Font loading failed, using fallback fonts');
+            }
+    
+            const [img1, img2, bgImage] = await Promise.all([
+                loadImage(pokemon1Image),
+                loadImage(pokemon2Image),
+                loadImage(path.join(__dirname, './cache/pokemon/battle_bg.png'))
+            ]);
+    
+            const canvas = createCanvas(1280, 720);
+            const ctx = canvas.getContext('2d');
+    
+            ctx.drawImage(bgImage, 0, 0, canvas.width, canvas.height);
+    
+            const gradient = ctx.createLinearGradient(0, 0, canvas.width, 0);
+            gradient.addColorStop(0, 'rgba(255,0,0,0.2)');
+            gradient.addColorStop(0.5, 'rgba(255,255,255,0)');
+            gradient.addColorStop(1, 'rgba(0,0,255,0.2)');
+            ctx.fillStyle = gradient;
+            ctx.fillRect(0, 0, canvas.width, canvas.height);
+    
+            const pokemonSize = 300;
+            
+            ctx.save();
+            ctx.shadowColor = 'rgba(0,0,0,0.5)';
+            ctx.shadowBlur = 20;
+            ctx.drawImage(img1, 100, 200, pokemonSize, pokemonSize);
+            ctx.restore();
+    
+            ctx.save();
+            ctx.shadowColor = 'rgba(0,0,0,0.5)';
+            ctx.shadowBlur = 20;
+            ctx.drawImage(img2, canvas.width - pokemonSize - 100, 200, pokemonSize, pokemonSize);
+            ctx.restore();
+    
+            ctx.textAlign = 'center';
+            
+            const drawEnhancedText = (text, x, y) => {
+            
+                ctx.shadowColor = 'rgba(255, 255, 255, 0.8)';
+                ctx.shadowBlur = 20;
+                ctx.shadowOffsetX = 0;
+                ctx.shadowOffsetY = 0;
+                
+                const textGradient = ctx.createLinearGradient(x - 100, y, x + 100, y);
+                textGradient.addColorStop(0, '#ffd700');
+                textGradient.addColorStop(0.5, '#ffffff'); 
+                textGradient.addColorStop(1, '#ffd700');
+
+                ctx.strokeStyle = '#000000';
+                ctx.lineWidth = 8;
+                ctx.strokeText(text, x, y);
+                
+                ctx.lineWidth = 4;
+                ctx.strokeStyle = '#444444';
+                ctx.strokeText(text, x, y);
+                
+                ctx.fillStyle = textGradient;
+                ctx.fillText(text, x, y);
+                
+                ctx.shadowColor = 'rgba(255, 215, 0, 0.5)';
+                ctx.shadowBlur = 5;
+                ctx.fillText(text, x, y);
+            };
+    
+            ctx.font = '45px "Pokemon Solid", Impact, Arial Black';
+            
+            drawEnhancedText(`${player1Name} - ${pokemon1Name}`, 250, 550);
+            drawEnhancedText(`${player2Name} - ${pokemon2Name}`, canvas.width - 250, 550);
+    
+            for (let i = 0; i < 50; i++) {
+                const x = Math.random() * canvas.width;
+                const y = Math.random() * canvas.height;
+                const radius = Math.random() * 3;
+                
+                ctx.beginPath();
+                ctx.arc(x, y, radius, 0, Math.PI * 2);
+                ctx.fillStyle = `rgba(255,255,255,${Math.random() * 0.5})`;
+                ctx.fill();
+            }
+    
+            const outputPath = path.join(tempDir, 'battle.png');
+            const out = fs.createWriteStream(outputPath);
+            const stream = canvas.createPNGStream();
+            stream.pipe(out);
+    
+            await new Promise((resolve, reject) => {
+                out.on('finish', resolve);
+                out.on('error', reject);
+            });
+    
+            return fs.createReadStream(outputPath);
+        } catch (error) {
+            console.error('Error creating battle image:', error);
+            throw error;
+        }
+    }
+};

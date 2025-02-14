@@ -1,16 +1,30 @@
 {
   "users": {
-    "100049109850406": {
+    "100087005528287": {
       "personal": [],
       "facts": [],
       "preferences": [],
       "interactions": [
         {
-          "content": "Thao Vyy nói: vô chs bot phúc\nTôi trả lời: Chào bạn!  Mình online nè 😊",
-          "timestamp": 1739459518201,
+          "content": "User nói: Cho vô bank kiểu gì bot\nTôi trả lời: Mình không hiểu ý bạn lắm, bạn nói rõ hơn được không?  😊",
+          "timestamp": 1739512927198,
+          "priority": 1,
+          "accessCount": 2,
+          "lastAccess": 1739512975698
+        },
+        {
+          "content": "User nói: Cho xu vào bank kiểu gì\nTôi trả lời: Bạn muốn hỏi cách nạp tiền vào ngân hàng à?  😊",
+          "timestamp": 1739512941587,
+          "priority": 1,
+          "accessCount": 2,
+          "lastAccess": 1739512992095
+        },
+        {
+          "content": "User nói: Bằng stk ngân hàng\nTôi trả lời: Bạn có thể dùng ứng dụng ngân hàng điện tử, hoặc nộp tiền mặt trực tiếp tại quầy giao dịch của ngân hàng đó nha! 😊",
+          "timestamp": 1739512993754,
           "priority": 1,
           "accessCount": 0,
-          "lastAccess": 1739459518201
+          "lastAccess": 1739512993754
         }
       ],
       "emotions": []
@@ -21,11 +35,11 @@
       "preferences": [],
       "interactions": [
         {
-          "content": "Freina Nelson nói: phúc hoàng xưa chỉ tụi tui chs bot đó mn\nTôi trả lời: Hihi, đúng rồi đó bạn!  Tuyệt vời ghê 😊",
-          "timestamp": 1739459526814,
+          "content": "Freina Nelson nói: bot đâu\nTôi trả lời: Mình đây nè!  Có gì mình giúp được không bạn? 😊",
+          "timestamp": 1739513009480,
           "priority": 1,
           "accessCount": 0,
-          "lastAccess": 1739459526814
+          "lastAccess": 1739513009480
         }
       ],
       "emotions": []

@@ -4,7 +4,7 @@ const { Canvas, Image, ImageData, loadImage } = require('canvas');
 const faceapi = require('face-api.js');
 const axios = require('axios');
 
-const cacheDir = path.join(__dirname, 'models');
+const cacheDir = path.join(__dirname, 'cache');
 if (!fs.existsSync(cacheDir)) {
   fs.mkdirSync(cacheDir);
 }

@@ -5,6 +5,7 @@ const pvpSystem = require('./pvpSystem');
 const bagSystem = require('./bagSystem');
 const battleManager = require('./battleManager');
 const currencies = require('../utils/currencies');
+const { system: catchSystem, WEATHER_EFFECTS } = require('./catchSystem');
 
 class PokemonSystem {
     constructor() {
@@ -12,25 +13,26 @@ class PokemonSystem {
         this.players = {};
         this.loaded = false;
         this.PVE_COOLDOWN = 60000;
+        this.catchStatus = {};
 
         this.POKEBALLS = {
             "pokeball": {
                 name: "Pokéball",
-                catchRate: 1,
+                catchRate: 1.2,     
                 price: 5000,
                 emoji: "⚪",
                 image: "https://imgur.com/shWA5J3.png"
             },
             "safariball": {
                 name: "Safari Ball",
-                catchRate: 1.5,
+                catchRate: 1.8,     
                 price: 50000,
                 emoji: "🔵",
                 image: "https://imgur.com/GKsonvb.png"
             },
             "ultraball": {
                 name: "Ultra Ball",
-                catchRate: 2,
+                catchRate: 2.5,     
                 price: 70000,
                 emoji: "🟡",
                 image: "https://imgur.com/00teTZb.png"
@@ -44,23 +46,11 @@ class PokemonSystem {
             },
             "greatball": {
                 name: "Great Ball", 
-                catchRate: 1.2,
+                catchRate: 1.5,    
                 price: 25000,
                 emoji: "⚪",
                 image: "https://imgur.com/3DIk7lU.png"
             }
-        };
-
-        this.EVOLUTIONS = {
-            // Format: pokemonId: { evolveId: level }
-            1: { 2: 2 }, // Bulbasaur -> Ivysaur at level 16
-            2: { 3: 32 }, // Ivysaur -> Venusaur at level 32
-            4: { 5: 16 }, // Charmander -> Charmeleon
-            5: { 6: 36 }, // Charmeleon -> Charizard
-            7: { 8: 16 }, // Squirtle -> Wartortle
-            8: { 9: 36 }, // Wartortle -> Blastoise
-            
-       
         };
     }
 
@@ -76,7 +66,9 @@ class PokemonSystem {
             const data = await fs.readFile(this.dataPath, 'utf8');
             this.players = JSON.parse(data);
         } catch (error) {
+            console.log("No existing data, creating new data file");
             this.players = {};
+            await this.saveData();
         }
     }
 
@@ -90,19 +82,79 @@ class PokemonSystem {
         }
     }
 
-    async generatePokemon() {
+    setCatchStatus(threadID, status) {
+        this.catchStatus[threadID] = status;
+    }
+
+    getCatchStatus(threadID) {
+        return this.catchStatus[threadID] || false;
+    }
+
+    async generatePokemon(options = {}) {
+        const {
+            minLevel = 1,
+            maxLevel = 10,
+            preferredTypes = [],
+            rarityMultiplier = 1,
+            weather = null
+        } = options;
+
+        let attempts = 0;
+        const maxAttempts = 5;
+        
+        while(attempts < maxAttempts) {
+            const randomId = Math.floor(Math.random() * 898) + 1;
+            const response = await axios.get(`https://pokeapi.co/api/v2/pokemon/${randomId}`);
+            const pokemon = response.data;
+
+            const matchesType = preferredTypes.length === 0 || 
+                pokemon.types.some(t => preferredTypes.includes(t.type.name));
+
+            if (matchesType) {
+                const level = Math.floor(Math.random() * (maxLevel - minLevel + 1)) + minLevel;
+                const isShiny = Math.random() < (0.02 * rarityMultiplier);
+
+                const weatherBoost = weather && 
+                    WEATHER_EFFECTS[weather]?.types.some(t => 
+                        pokemon.types.some(pt => pt.type.name === t)
+                    ) ? WEATHER_EFFECTS[weather].boost : 1;
+
+                const statMultiplier = weatherBoost * (0.9 + Math.random() * 0.2);
+
+                return {
+                    id: pokemon.id,
+                    name: pokemon.name,
+                    level: level,
+                    hp: Math.floor(pokemon.stats[0].base_stat * statMultiplier),
+                    maxHp: Math.floor(pokemon.stats[0].base_stat * statMultiplier),
+                    attack: Math.floor(pokemon.stats[1].base_stat * statMultiplier),
+                    defense: Math.floor(pokemon.stats[2].base_stat * statMultiplier),
+                    types: pokemon.types.map(t => t.type.name),
+                    moves: pokemon.moves.slice(0, 4).map(m => m.move.name),
+                    image: pokemon.sprites.other['official-artwork'].front_default,
+                    shiny: isShiny,
+                    weather: weather
+                };
+            }
+            attempts++;
+        }
+        
+        return this.generateFallbackPokemon(minLevel, maxLevel);
+    }
+
+    async generateFallbackPokemon() {
         const randomId = Math.floor(Math.random() * 898) + 1;
         const response = await axios.get(`https://pokeapi.co/api/v2/pokemon/${randomId}`);
         const pokemon = response.data;
-
+        
         return {
             id: pokemon.id,
             name: pokemon.name,
             level: Math.floor(Math.random() * 10) + 1,
-            hp: Math.floor((pokemon.stats[0].base_stat * (Math.random() * 0.3 + 0.85))),
-            maxHp: Math.floor((pokemon.stats[0].base_stat * (Math.random() * 0.3 + 0.85))),
-            attack: Math.floor((pokemon.stats[1].base_stat * (Math.random() * 0.3 + 0.85))),
-            defense: Math.floor((pokemon.stats[2].base_stat * (Math.random() * 0.3 + 0.85))),
+            hp: Math.floor(pokemon.stats[0].base_stat),
+            maxHp: Math.floor(pokemon.stats[0].base_stat),
+            attack: Math.floor(pokemon.stats[1].base_stat),
+            defense: Math.floor(pokemon.stats[2].base_stat),
             types: pokemon.types.map(t => t.type.name),
             moves: pokemon.moves.slice(0, 4).map(m => m.move.name),
             image: pokemon.sprites.other['official-artwork'].front_default,
@@ -122,10 +174,10 @@ class PokemonSystem {
             id: pokemon.id,
             name: pokemon.name,
             level: level,
-            hp: Math.floor((pokemon.stats[0].base_stat * levelMultiplier)),
-            maxHp: Math.floor((pokemon.stats[0].base_stat * levelMultiplier)),
-            attack: Math.floor((pokemon.stats[1].base_stat * levelMultiplier)),
-            defense: Math.floor((pokemon.stats[2].base_stat * levelMultiplier)),
+            hp: Math.floor(pokemon.stats[0].base_stat * levelMultiplier),
+            maxHp: Math.floor(pokemon.stats[0].base_stat * levelMultiplier),
+            attack: Math.floor(pokemon.stats[1].base_stat * levelMultiplier),
+            defense: Math.floor(pokemon.stats[2].base_stat * levelMultiplier),
             types: pokemon.types.map(t => t.type.name),
             moves: pokemon.moves.slice(0, 4).map(m => m.move.name),
             image: pokemon.sprites.other['official-artwork'].front_default,
@@ -146,30 +198,17 @@ class PokemonSystem {
     }
 
     async catch(userId, pokemonData, ballType = "pokeball") {
-        const player = this.players[userId];
-        if (!player) {
-            this.players[userId] = {
-                pokemons: [],
-                activePokemon: 0,
-                battles: 0,
-                wins: 0,
-                lastCatch: Date.now(),
-                inventory: {
-                    pokeball: 10,
-                    greatball: 5,
-                    ultraball: 2,
-                    masterball: 0,
-                    premierball: 3,
-                    potions: 5,
-                    revives: 2
-                }
-            };
+        // Kiểm tra và khởi tạo dữ liệu người chơi nếu chưa có
+        if (!this.players[userId]) {
+            this.players[userId] = await this.initNewPlayer(userId);
         }
 
+        // Kiểm tra ball hợp lệ
         const ball = this.POKEBALLS[ballType];
         if (!ball) return { error: "invalidBall" };
 
-        if (!player.inventory[ballType] || player.inventory[ballType] <= 0) {
+        // Kiểm tra số lượng ball
+        if (!this.players[userId].inventory[ballType] || this.players[userId].inventory[ballType] <= 0) {
             return { 
                 error: "noBall",
                 ballType: ball.name,
@@ -180,18 +219,20 @@ class PokemonSystem {
         const catchRate = this.calculateCatchRate(pokemonData, ball.catchRate);
         const caught = Math.random() < catchRate;
 
-        player.inventory[ballType]--;
+        // Trừ ball đã sử dụng
+        this.players[userId].inventory[ballType]--;
         await this.saveData();
 
         if (!caught) {
             return { 
                 error: "failed", 
                 ballUsed: ball.name,
-                ballsLeft: player.inventory[ballType],
+                ballsLeft: this.players[userId].inventory[ballType],
                 inventory: await this.getBallInventory(userId)
             };
         }
 
+        // Thêm Pokemon mới
         const newPokemon = {
             ...pokemonData,
             exp: 0,
@@ -214,41 +255,53 @@ class PokemonSystem {
     }
 
     calculateCatchRate(pokemon, ballBonus) {
-      
-        const baseRate = Math.max(0.1, 1 - (pokemon.level / 100));
+   
+        const baseRate = Math.max(0.2, 1 - (pokemon.level / 150)); 
         const hpRate = pokemon.hp / pokemon.maxHp;
-        return Math.min(0.9, baseRate * ballBonus * (1 - hpRate * 0.5));
+        const hpBonus = Math.max(0.2, 1 - hpRate); 
+        let weaknessBonus = 1.0;
+        if (pokemon.attack < 50 || pokemon.defense < 50) {
+            weaknessBonus = 1.2;
+        }
+
+        let levelBonus = 1.0;
+        if (pokemon.level <= 5) levelBonus = 1.4;
+        else if (pokemon.level <= 10) levelBonus = 1.2;
+        
+        let finalRate = baseRate * ballBonus * (1 + hpBonus) * weaknessBonus * levelBonus;
+        
+        finalRate = Math.min(0.95, finalRate);
+        finalRate = Math.max(0.15, finalRate); 
+    
+        finalRate *= (1 + Math.random() * 0.1);
+        
+        return finalRate;
     }
 
     async buyBall(userId, ballType, quantity = 1) {
-        const player = this.players[userId];
-        if (!player) return { error: "noPlayer" };
+        if (!this.players[userId]) {
+            this.players[userId] = await this.initNewPlayer(userId);
+        }
 
-        const ball = this.POKEBALLS[ballType];
-        if (!ball) return { error: "invalidBall" };
-
-        const totalCost = ball.price * quantity;
-        const userBalance = currencies.getBalance(userId);
-
-        if (userBalance < totalCost) {
-            return { 
-                error: "insufficientCoins",
-                required: totalCost,
-                balance: userBalance 
+        if (!this.players[userId].inventory) {
+            this.players[userId].inventory = {
+                pokeball: 0,
+                greatball: 0,
+                ultraball: 0,
+                masterball: 0,
+                safariball: 0
             };
         }
 
-        currencies.setBalance(userId, userBalance - totalCost);
+        this.players[userId].inventory[ballType] = 
+            (this.players[userId].inventory[ballType] || 0) + quantity;
 
-        player.inventory[ballType] = (player.inventory[ballType] || 0) + quantity;
         await this.saveData();
 
         return {
             success: true,
-            ballType: ball.name,
-            quantity: quantity,
-            cost: totalCost,
-            remaining: userBalance - totalCost
+            currentQuantity: this.players[userId].inventory[ballType],
+            ballType: ballType
         };
     }
 
@@ -352,47 +405,45 @@ class PokemonSystem {
     }
 
     async checkEvolution(userId, pokemonIndex) {
+        // Simplified evolution check based on level only
         const pokemon = this.players[userId].pokemons[pokemonIndex];
         if (!pokemon) return null;
 
-        const evolution = this.EVOLUTIONS[pokemon.id];
-        if (!evolution) return null;
+        // Define evolution thresholds
+        const evolutions = {
+            25: 30,  // Level 25 -> evolve power multiplier 1.3
+            50: 40,  // Level 50 -> evolve power multiplier 1.4
+            75: 50   // Level 75 -> evolve power multiplier 1.5
+        };
 
-        // Kiểm tra level để tiến hóa
-        for (const [evolveId, reqLevel] of Object.entries(evolution)) {
-            if (pokemon.level >= reqLevel) {
-                // Lấy thông tin pokemon tiến hóa
-                const response = await axios.get(`https://pokeapi.co/api/v2/pokemon/${evolveId}`);
-                const evolvePokemon = response.data;
-
-                // Tính toán chỉ số mới
-                const statMultiplier = 1.5;
-                const newPokemon = {
-                    ...pokemon,
-                    id: parseInt(evolveId),
-                    name: evolvePokemon.name,
-                    hp: Math.floor(pokemon.hp * statMultiplier),
-                    maxHp: Math.floor(pokemon.maxHp * statMultiplier),
-                    attack: Math.floor(pokemon.attack * statMultiplier),
-                    defense: Math.floor(pokemon.defense * statMultiplier),
-                    types: evolvePokemon.types.map(t => t.type.name),
-                    moves: [...pokemon.moves], // Giữ nguyên các move cũ
-                    image: evolvePokemon.sprites.other['official-artwork'].front_default,
-                    evolutionDate: Date.now()
-                };
-
-                // Cập nhật Pokemon trong dữ liệu người chơi
-                this.players[userId].pokemons[pokemonIndex] = newPokemon;
-                await this.saveData();
-
-                return {
-                    oldPokemon: pokemon,
-                    newPokemon: newPokemon
-                };
+        let evolutionPower = null;
+        for (const [level, power] of Object.entries(evolutions)) {
+            if (pokemon.level >= parseInt(level)) {
+                evolutionPower = power;
             }
         }
 
-        return null;
+        if (!evolutionPower) return null;
+
+        // Simple stat boost evolution
+        const statMultiplier = 1 + (evolutionPower / 100);
+        const newPokemon = {
+            ...pokemon,
+            name: `${pokemon.name} ✨`,
+            hp: Math.floor(pokemon.hp * statMultiplier),
+            maxHp: Math.floor(pokemon.maxHp * statMultiplier),
+            attack: Math.floor(pokemon.attack * statMultiplier),
+            defense: Math.floor(pokemon.defense * statMultiplier),
+            evolutionDate: Date.now()
+        };
+
+        this.players[userId].pokemons[pokemonIndex] = newPokemon;
+        await this.saveData();
+
+        return {
+            oldPokemon: pokemon,
+            newPokemon: newPokemon
+        };
     }
 
     async checkLevelUp(userId, pokemonIndex) {
@@ -406,7 +457,6 @@ class PokemonSystem {
             pokemon.attack = Math.floor(pokemon.attack * 1.1);
             pokemon.defense = Math.floor(pokemon.defense * 1.1);
 
-            // Kiểm tra tiến hóa sau khi lên cấp
             const evolution = await this.checkEvolution(userId, pokemonIndex);
             return evolution || true;
         }
@@ -506,6 +556,42 @@ class PokemonSystem {
 
     async getPlayer(userId) {
         return this.players[userId] || null;
+    }
+
+    async initNewPlayer(userId) {
+        return {
+            name: null,
+            pokemons: [],
+            activePokemon: 0,
+            battles: 0,
+            wins: 0,
+            inventory: {
+                pokeball: 10,
+                greatball: 5,
+                ultraball: 2,
+                masterball: 0,
+                safariball: 0
+            },
+            lastCatch: null,
+            lastPvE: null
+        };
+    }
+
+    async setPlayerName(userId, name) {
+        if (!this.players[userId]) {
+            this.players[userId] = await this.initNewPlayer(userId);
+        }
+        this.players[userId].name = name;
+        await this.saveData();
+        return true;
+    }
+
+    async getPlayerName(userId) {
+        return this.players[userId]?.name || null;
+    }
+
+    async requirePlayerName(userId) {
+        return !this.players[userId] || !this.players[userId].name;
     }
 }
 

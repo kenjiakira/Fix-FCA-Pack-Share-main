@@ -3,6 +3,8 @@ const path = require('path');
 const axios = require('axios');
 const pokeSystem = require('../poke/pokemonSystem');
 const currencies = require('../utils/currencies');
+const { system: catchSystem } = require('../poke/catchSystem');
+const { createBattleImage } = require('../poke/canvasHelper'); 
 
 module.exports = {
     name: "poke",
@@ -51,62 +53,176 @@ module.exports = {
         const { threadID, messageID, senderID } = event;
         await pokeSystem.init();
 
+        if (await pokeSystem.requirePlayerName(senderID)) {
+            if (!target[0]) {
+                return api.sendMessage(
+                    "🎮 CHÀO MỪNG ĐẾN VỚI POKEMON GAME! 🎮\n" +
+                    "━━━━━━━━━━━━━━━━━\n\n" +
+                    "👋 Để bắt đầu, hãy đặt tên cho nhân vật của bạn!\n" +
+                    "Cách dùng: .poke register [tên của bạn]\n" +
+                    "VD: .poke register Ash\n\n" +
+                    "📝 Lưu ý: Tên nhân vật không quá 15 ký tự\n" +
+                    "và không chứa ký tự đặc biệt!",
+                    threadID,
+                    messageID
+                );
+            }
+
+            if (target[0].toLowerCase() === "register") {
+                const name = target.slice(1).join(" ");
+                if (!name) {
+                    return api.sendMessage("❌ Vui lòng nhập tên nhân vật!", threadID, messageID);
+                }
+
+                if (name.length > 15) {
+                    return api.sendMessage("❌ Tên nhân vật không được quá 15 ký tự!", threadID, messageID);
+                }
+
+                if (!/^[a-zA-Z0-9\s]+$/.test(name)) {
+                    return api.sendMessage("❌ Tên chỉ được chứa chữ cái và số!", threadID, messageID);
+                }
+
+                await pokeSystem.setPlayerName(senderID, name);
+                return api.sendMessage(
+                    `🎉 Chào mừng ${name} đến với thế giới Pokemon!\n` +
+                    "Dùng lệnh .poke để xem hướng dẫn chơi game nhé!",
+                    threadID,
+                    messageID
+                );
+            }
+
+            return api.sendMessage(
+                "❌ Bạn cần đăng ký tên nhân vật trước!\n" +
+                "Dùng lệnh: .poke register [tên của bạn]",
+                threadID,
+                messageID
+            );
+        }
+
         const command = target[0]?.toLowerCase();
         const param = target[1];
         try {
             switch (command) {
-                case "catch":
-                    const catchData = await pokeSystem.generatePokemon();
-                    const response = await axios.get(catchData.image, { responseType: 'arraybuffer' });
-                    const imagePath = path.join(__dirname, 'cache', 'pokemon_catch.png');
-                    await fs.promises.writeFile(imagePath, response.data);
+                case "catch": {
+                    if (!param) {
+                        const locations = catchSystem.getAllLocations();
+                        const locationList = locations.map(loc => 
+                            `${loc.id}. ${loc.name}\n` +
+                            `   💰 Phí: ${loc.cost.toLocaleString()}xu\n` +
+                            `   ⏳ Hồi: ${loc.cooldown/60000} phút\n` +
+                            `   📊 Cấp: ${loc.level.min}-${loc.level.max}`
+                        ).join('\n\n');
 
-                    const bestBall = await pokeSystem.getBestAvailableBall(senderID);
-                    if (!bestBall) {
                         return api.sendMessage(
-                            "❌ Bạn đã hết bóng trong kho!\n" +
-                            "Dùng .poke buy để mua thêm bóng.",
-                            threadID,
-                            messageID
+                            "🗺️ KHU VỰC SĂN POKEMON 🗺️\n" +
+                            "━━━━━━━━━━━━━━━━━\n\n" +
+                            locationList + "\n\n" +
+                            "Cách dùng: .poke catch [khu vực]\n" +
+                            "VD: .poke catch forest",
+                            threadID
                         );
                     }
 
-                    const catchResult = await pokeSystem.catch(senderID, catchData, bestBall.type);
-                    if (catchResult?.error === "catchCooldown") {
-                        const timeLeft = Math.ceil(catchResult.timeLeft / 1000);
-                        const minutes = Math.floor(timeLeft / 60);
-                        const seconds = timeLeft % 60;
+                    const location = catchSystem.getLocation(param);
+                    if (!location) {
+                        return api.sendMessage("❌ Khu vực không hợp lệ!", threadID);
+                    }
+
+                    if (catchSystem.isHunting(senderID, param)) {
                         return api.sendMessage(
-                            `⏳ Bạn cần đợi ${minutes}:${seconds < 10 ? '0' : ''}${seconds} phút nữa để bắt tiếp!\n` +
-                            "→ Thử làm nhiệm vụ khác trong lúc chờ nhé!",
-                            threadID,
-                            messageID
+                            "❌ Bạn đang trong quá trình bắt Pokemon!\n" +
+                            "→ Hãy trả lời tin nhắn bắt Pokemon trước đó.",
+                            threadID
                         );
                     }
 
-                    const catchMsg = await api.sendMessage({
-                        body: `🎯 Bạn đã gặp ${catchData.name} (Cấp ${catchData.level})!\n` +
-                             `💪 Chỉ số:\n` +
-                             `❤️ HP: ${catchData.hp}\n` +
-                             `⚔️ Tấn công: ${catchData.attack}\n` +
-                             `🛡️ Phòng thủ: ${catchData.defense}\n` +
-                             `🎭 Hệ: ${catchData.types.map(t => 
-                                 `${pokeSystem.getTypeEmoji(t)} ${pokeSystem.getTypeName(t)}`
-                             ).join(' | ')}\n\n` +
-                             `${bestBall.ball.emoji} Sẽ dùng ${bestBall.ball.name} để bắt (còn ${bestBall.count} bóng)\n\n` +
-                             "Reply 'yes' để bắt, 'no' để bỏ qua.",
-                        attachment: fs.createReadStream(imagePath)
-                    }, threadID);
+                    const cooldownCheck = await catchSystem.checkHuntCooldown(senderID, param);
+                    if (!cooldownCheck.canHunt) {
+                        if (cooldownCheck.reason === "cooldown") {
+                            const timeLeft = Math.ceil(cooldownCheck.timeLeft / 1000);
+                            return api.sendMessage(
+                                `⏳ Vui lòng đợi ${timeLeft} giây nữa để săn ở ${location.name}!`,
+                                threadID
+                            );
+                        }
+                        return api.sendMessage(
+                            "❌ Bạn đang trong quá trình bắt Pokemon khác!",
+                            threadID
+                        );
+                    }
 
-                    global.client.onReply.push({
-                        name: this.name,
-                        messageID: catchMsg.messageID,
-                        author: senderID,
-                        type: "catch",
-                        pokemon: catchData,
-                        bestBall: bestBall.type
-                    });
+                    const balance = await currencies.getBalance(senderID);
+                    if (balance < location.cost) {
+                        return api.sendMessage(
+                            `❌ Bạn cần ${location.cost.toLocaleString()}xu để săn ở ${location.name}!\n` +
+                            `💰 Số dư: ${balance.toLocaleString()}xu`,
+                            threadID
+                        );
+                    }
+
+                    catchSystem.setActiveHunt(senderID, param, true);
+
+                    try {
+                        const weather = catchSystem.getCurrentWeather();
+                        
+                        const pokemon = await pokeSystem.generatePokemon({
+                            minLevel: location.level.min,
+                            maxLevel: location.level.max,
+                            preferredTypes: catchSystem.getPreferredTypes(location, weather),
+                            rarityMultiplier: catchSystem.calculateRarity(location, weather),
+                            weather: weather
+                        });
+
+                        const bestBall = await pokeSystem.getBestAvailableBall(senderID);
+                        if (!bestBall) {
+                            catchSystem.setActiveHunt(senderID, param, false);
+                            return api.sendMessage(
+                                "❌ Bạn đã hết bóng trong kho!\n" +
+                                "Dùng .poke buy để mua thêm bóng.",
+                                threadID
+                            );
+                        }
+
+                        const response = await axios.get(pokemon.image, { responseType: 'arraybuffer' });
+                        const imagePath = path.join(__dirname, 'cache', 'pokemon_catch.png');
+                        await fs.promises.writeFile(imagePath, response.data);
+
+                        await currencies.setBalance(senderID, balance - location.cost);
+
+                        const catchMsg = await api.sendMessage({
+                            body: `🎯 Bạn đã gặp ${pokemon.name} (Cấp ${pokemon.level})!\n` +
+                                  `🌤️ Thời tiết: ${weather}\n` +
+                                  `💪 Chỉ số:\n` +
+                                  `❤️ HP: ${pokemon.hp}\n` +
+                                  `⚔️ Tấn công: ${pokemon.attack}\n` +
+                                  `🛡️ Phòng thủ: ${pokemon.defense}\n` +
+                                  `🎭 Hệ: ${pokemon.types.map(t => 
+                                      `${pokeSystem.getTypeEmoji(t)} ${pokeSystem.getTypeName(t)}`
+                                  ).join(' | ')}\n\n` +
+                                  `${bestBall.ball.emoji} Sẽ dùng ${bestBall.ball.name} để bắt (còn ${bestBall.count} bóng)\n\n` +
+                                  "Reply 'yes' để bắt, 'no' để bỏ qua.",
+                            attachment: fs.createReadStream(imagePath)
+                        }, threadID);
+
+                        global.client.onReply.push({
+                            name: this.name,
+                            messageID: catchMsg.messageID,
+                            author: senderID,
+                            type: "catch",
+                            pokemon: pokemon,
+                            bestBall: bestBall.type,
+                            locationId: param,
+                            weather: weather,
+                            msgID: catchMsg.messageID
+                        });
+
+                    } catch (error) {
+                        console.error(error);
+                        catchSystem.setActiveHunt(senderID, param, false);
+                        return api.sendMessage("❌ Đã xảy ra lỗi khi tạo Pokemon!", threadID);
+                    }
                     return;
+                }
 
                 case "list":
                 case "bag":
@@ -187,85 +303,103 @@ module.exports = {
                         messageID
                     );
 
-                case "battle":
-                    const mentionedId = Object.keys(event.mentions)[0];
-                    if (!mentionedId) {
-                        return api.sendMessage(
-                            "❌ Vui lòng tag người bạn muốn thách đấu!\n" +
-                            "💡 Cách dùng: .poke battle @tên_người_chơi",
-                            threadID, 
-                            messageID
-                        );
-                    }
-
-                    const player1Pokemon = await pokeSystem.getSelectedPokemon(senderID);
-                    const player2Pokemon = await pokeSystem.getSelectedPokemon(mentionedId);
-
-                    if (!player1Pokemon) {
-                        return api.sendMessage(
-                            "❌ Bạn chưa có Pokemon nào được chọn!\n" +
-                            "1️⃣ Dùng .poke catch để bắt Pokemon\n" +
-                            "2️⃣ Dùng .poke select [số] để chọn Pokemon",
-                            threadID,
-                            messageID
-                        );
-                    }
-
-                    if (!player2Pokemon) {
-                        return api.sendMessage(
-                            "❌ Đối thủ chưa có Pokemon nào được chọn!\n" +
-                            "→ Hãy nhắc đối thủ bắt và chọn Pokemon trước khi thách đấu",
-                            threadID,
-                            messageID
-                        );
-                    }
-
-                    const battleResult = await pokeSystem.battle(senderID, mentionedId, threadID);
-                    const player = await pokeSystem.getPlayer(senderID);
-
-                    await api.sendMessage(
-                        "⚔️ BATTLE POKEMON ⚔️\n" +
-                        "━━━━━━━━━━━━━━━━━\n\n" +
-                        `👊 ${player1Pokemon.name.toUpperCase()} (Lv.${player1Pokemon.level})\n` +
-                        `🎭 Hệ: ${player1Pokemon.types.map(t => 
-                            `${pokeSystem.getTypeEmoji(t)} ${pokeSystem.getTypeName(t)}`
-                        ).join(' | ')}\n` +
-                        `   ❤️ HP: ${player1Pokemon.hp}\n` +
-                        `   ⚔️ ATK: ${player1Pokemon.attack}\n` +
-                        `   🛡️ DEF: ${player1Pokemon.defense}\n\n` +
-                        `⚔️ VS ⚔️\n\n` +
-                        `👊 ${player2Pokemon.name.toUpperCase()} (Lv.${player2Pokemon.level})\n` +
-                        `🎭 Hệ: ${player2Pokemon.types.map(t => 
-                            `${pokeSystem.getTypeEmoji(t)} ${pokeSystem.getTypeName(t)}`
-                        ).join(' | ')}\n` +
-                        `   ❤️ HP: ${player2Pokemon.hp}\n` +
-                        `   ⚔️ ATK: ${player2Pokemon.attack}\n` +
-                        `   🛡️ DEF: ${player2Pokemon.defense}\n\n` +
-                        "🎯 Trận đấu bắt đầu trong 20 giây...",
-                        threadID
-                    );
-
-                    await new Promise(resolve => setTimeout(resolve, 20000));
-
-                    const battleFinalMsg = "🏆 KẾT QUẢ CUỐI CÙNG 🏆\n" +
-                                   "━━━━━━━━━━━━━━━━━\n\n" +
-                                   `👑 Người thắng: ${battleResult.winner.name.toUpperCase()}\n` +
-                                   `❤️ HP còn lại: ${battleResult.winner.remainingHp}\n` +
-                                   `✨ EXP nhận được: ${battleResult.expGained || 0}\n\n` +
-                                   `💀 Người thua: ${battleResult.loser.name.toUpperCase()}\n` +
-                                   `❤️ HP còn lại: ${battleResult.loser.remainingHp}\n\n` +
-                                   `💡 Dùng .poke info để xem thống kê trận đấu`;
-
-                    await api.sendMessage(battleFinalMsg, threadID, messageID);
-
-                    if (battleResult.winner.id === senderID && player) { 
-                        const levelUp = await pokeSystem.checkLevelUp(senderID, player.activePokemon);
-                        if (levelUp && levelUp !== true) {
-                            await this.handleEvolution(api, threadID, levelUp);
+                    case "battle":
+                        const mentionedId = Object.keys(event.mentions)[0];
+                        if (!mentionedId) {
+                            return api.sendMessage(
+                                "❌ Vui lòng tag người bạn muốn thách đấu!\n" +
+                                "💡 Cách dùng: .poke battle @tên_người_chơi",
+                                threadID, 
+                                messageID
+                            );
                         }
-                    }
-
-                    return;
+            
+                        const player1Pokemon = await pokeSystem.getSelectedPokemon(senderID);
+                        const player2Pokemon = await pokeSystem.getSelectedPokemon(mentionedId);
+            
+                        if (!player1Pokemon) {
+                            return api.sendMessage(
+                                "❌ Bạn chưa có Pokemon nào được chọn!\n" +
+                                "1️⃣ Dùng .poke catch để bắt Pokemon\n" +
+                                "2️⃣ Dùng .poke select [số] để chọn Pokemon",
+                                threadID,
+                                messageID
+                            );
+                        }
+            
+                        if (!player2Pokemon) {
+                            return api.sendMessage(
+                                "❌ Đối thủ chưa có Pokemon nào được chọn!\n" +
+                                "→ Hãy nhắc đối thủ bắt và chọn Pokemon trước khi thách đấu",
+                                threadID,
+                                messageID
+                            );
+                        }
+            
+                        const player1Name = await pokeSystem.getPlayerName(senderID);
+                        const player2Name = await pokeSystem.getPlayerName(mentionedId);
+                        
+                        try {
+                            const battleImage = await createBattleImage(
+                                player1Pokemon.image,
+                                player2Pokemon.image,
+                                player1Name,
+                                player2Name,
+                                player1Pokemon.name,
+                                player2Pokemon.name
+                            );
+                
+                            await api.sendMessage({
+                                body: "⚔️ BATTLE POKEMON ⚔️\n" +
+                                      "━━━━━━━━━━━━━━━━━\n\n" +
+                                      `🔵 ${player1Name} với ${player1Pokemon.name.toUpperCase()} (Lv.${player1Pokemon.level})\n` +
+                                      `🎭 Hệ: ${player1Pokemon.types.map(t => 
+                                          `${pokeSystem.getTypeEmoji(t)} ${pokeSystem.getTypeName(t)}`
+                                      ).join(' | ')}\n` +
+                                      `   ❤️ HP: ${player1Pokemon.hp}\n` +
+                                      `   ⚔️ ATK: ${player1Pokemon.attack}\n` +
+                                      `   🛡️ DEF: ${player1Pokemon.defense}\n\n` +
+                                      `⚔️ VS ⚔️\n\n` +
+                                      `🔴 ${player2Name} với ${player2Pokemon.name.toUpperCase()} (Lv.${player2Pokemon.level})\n` +
+                                      `🎭 Hệ: ${player2Pokemon.types.map(t => 
+                                          `${pokeSystem.getTypeEmoji(t)} ${pokeSystem.getTypeName(t)}`
+                                      ).join(' | ')}\n` +
+                                      `   ❤️ HP: ${player2Pokemon.hp}\n` +
+                                      `   ⚔️ ATK: ${player2Pokemon.attack}\n` +
+                                      `   🛡️ DEF: ${player2Pokemon.defense}\n\n` +
+                                      "🎯 Trận đấu bắt đầu trong 20 giây...",
+                                attachment: battleImage
+                            }, threadID);
+                
+                        } catch (error) {
+                            console.error('Battle error:', error);
+                            return api.sendMessage("❌ Đã xảy ra lỗi khi tạo trận đấu!", threadID, messageID);
+                        }
+            
+                        await new Promise(resolve => setTimeout(resolve, 20000));
+            
+                        const battleResult = await pokeSystem.battle(senderID, mentionedId, threadID);
+                        const player = await pokeSystem.getPlayer(senderID);
+                        
+                        const battleFinalMsg = "🏆 KẾT QUẢ CUỐI CÙNG 🏆\n" +
+                                               "━━━━━━━━━━━━━━━━━\n\n" +
+                                               `👑 Người thắng: ${battleResult.winner.name.toUpperCase()}\n` +
+                                               `❤️ HP còn lại: ${battleResult.winner.remainingHp}\n` +
+                                               `✨ EXP nhận được: ${battleResult.expGained || 0}\n\n` +
+                                               `💀 Người thua: ${battleResult.loser.name.toUpperCase()}\n` +
+                                               `❤️ HP còn lại: ${battleResult.loser.remainingHp}\n\n` +
+                                               `💡 Dùng .poke info để xem thống kê trận đấu`;
+                        
+                        await api.sendMessage(battleFinalMsg, threadID, messageID);
+            
+                        if (battleResult.winner.id === senderID && player) { 
+                            const levelUp = await pokeSystem.checkLevelUp(senderID, player.activePokemon);
+                            if (levelUp && levelUp !== true) {
+                                await this.handleEvolution(api, threadID, levelUp);
+                            }
+                        }
+            
+                        return;            
 
                 case "wild":
                 case "pve":
@@ -339,32 +473,43 @@ module.exports = {
                     }
 
                     return;
-
+                    
                 case "balls":
-                case "inventory":
+                case "inventory": {
+                    const player = await pokeSystem.getPlayer(senderID);
                     if (!player) {
                         return api.sendMessage("❌ Bạn chưa có dữ liệu Pokemon!", threadID, messageID);
                     }
-
-                    const userBalance = currencies.getBalance(senderID);
-                    const inv = player.inventory;
-                    const ballList = Object.entries(pokeSystem.POKEBALLS)
-                        .map(([key, ball]) => 
-                            `${ball.emoji} ${ball.name}: ${inv[key] || 0} (${ball.price.toLocaleString()}đ)`
-                        ).join('\n');
-
-                    return api.sendMessage(
-                        "🎒 KHO POKÉBALL 🎒\n" +
-                        "━━━━━━━━━━━━━━━━\n" +
-                        ballList + "\n\n" +
-                        `💰 Số dư: ${userBalance.toLocaleString()} xu\n` +
-                        "Mua bóng: .poke buy <loại> <số lượng>\n" +
-                        "Ví dụ: .poke buy ultraball 5",
-                        threadID,
-                        messageID
-                    );
-
-                case "buy":
+                
+                    try {
+                        const userBalance = parseInt(await currencies.getBalance(senderID)) || 0;
+                        
+                        const inv = player.inventory || {};
+                        
+                        const ballList = Object.entries(pokeSystem.POKEBALLS)
+                            .map(([key, ball]) => {
+                                const count = inv[key] || 0;
+                                const price = ball.price ? ball.price.toLocaleString() : '0';
+                                return `${ball.emoji} ${ball.name}: ${count} (${price} xu)`;
+                            })
+                            .join('\n');
+                
+                        return api.sendMessage(
+                            "🎒 KHO POKÉBALL 🎒\n" +
+                            "━━━━━━━━━━━━━━━━\n" +
+                            ballList + "\n\n" +
+                            `💰 Số dư: ${userBalance.toLocaleString()} xu\n` +
+                            "Mua bóng: .poke buy <loại> <số lượng>\n" +
+                            "Ví dụ: .poke buy ultraball 5",
+                            threadID,
+                            messageID
+                        );
+                    } catch (error) {
+                        console.error("Balance retrieval error:", error);
+                        return api.sendMessage("❌ Không thể lấy thông tin số dư!", threadID, messageID);
+                    }
+                }
+                case "buy": {
                     if (!param) {
                         const priceList = Object.entries(pokeSystem.POKEBALLS)
                             .map(([key, ball]) => 
@@ -381,36 +526,63 @@ module.exports = {
                             messageID
                         );
                     }
-
-                    const [ballType, amount] = param.split(" ");
-                    const quantity = parseInt(amount) || 1;
-
-                    const purchase = await pokeSystem.buyBall(senderID, ballType, quantity);
-                    
-                    if (purchase.error) {
-                        const errors = {
-                            noPlayer: "❌ Bạn chưa có dữ liệu Pokemon!",
-                            invalidBall: "❌ Loại bóng không hợp lệ!",
-                            insufficientCoins: `❌ Không đủ tiền!\n💰 Giá: ${purchase.required.toLocaleString()} xu\n💵 Số dư: ${purchase.balance.toLocaleString()} xu`
-                        };
-                        return api.sendMessage(errors[purchase.error], threadID, messageID);
+                
+                    const buyParams = target.slice(1);
+                    const ballType = buyParams[0]?.toLowerCase();
+                    const quantity = parseInt(buyParams[1]) || 1;
+                
+                    if (quantity <= 0) {
+                        return api.sendMessage("❌ Số lượng không hợp lệ!", threadID, messageID);
                     }
-
+                
                     const ball = pokeSystem.POKEBALLS[ballType];
-                    const ballImage = await axios.get(ball.image, { responseType: 'arraybuffer' });
-                    const tempPath = path.join(__dirname, 'cache', `pokeball_${ballType}.png`);
-                    await fs.promises.writeFile(tempPath, ballImage.data);
-
-                    return api.sendMessage(
-                        {
-                            body: `✅ Đã mua ${quantity} ${purchase.ballType}\n` +
-                                `💰 Tổng giá: ${purchase.cost.toLocaleString()} xu\n` +
-                                `💵 Số dư còn lại: ${purchase.remaining.toLocaleString()} xu`,
-                            attachment: fs.createReadStream(tempPath)
-                        },
-                        threadID,
-                        messageID
-                    );
+                    if (!ball) {
+                        return api.sendMessage("❌ Loại bóng không hợp lệ!", threadID, messageID);
+                    }
+                
+                    const balance = await currencies.getBalance(senderID);
+                    const cost = quantity * ball.price;
+                    
+                    if (balance < cost) {
+                        return api.sendMessage(
+                            `❌ Không đủ tiền!\n` +
+                            `💰 Giá: ${cost.toLocaleString()} xu\n` +
+                            `💵 Số dư: ${balance.toLocaleString()} xu`,
+                            threadID,
+                            messageID
+                        );
+                    }
+                
+                    try {
+                        await pokeSystem.init(); 
+                        const purchase = await pokeSystem.buyBall(senderID, ballType, quantity);
+                        
+                        if (!purchase.success) {
+                            return api.sendMessage("❌ Đã xảy ra lỗi khi mua bóng!", threadID, messageID);
+                        }
+                
+                        await currencies.setBalance(senderID, balance - cost);
+                
+                        const ballImage = await axios.get(ball.image, { responseType: 'arraybuffer' });
+                        const tempPath = path.join(__dirname, 'cache', `pokeball_${ballType}.png`);
+                        await fs.promises.writeFile(tempPath, ballImage.data);
+                
+                        return api.sendMessage(
+                            {
+                                body: `✅ Đã mua ${quantity} ${ball.name}\n` +
+                                      `💰 Tổng giá: ${cost.toLocaleString()} xu\n` +
+                                      `💵 Số dư còn lại: ${(balance - cost).toLocaleString()} xu\n` +
+                                      `🎒 Trong kho: ${purchase.currentQuantity} ${ball.name}`,
+                                attachment: fs.createReadStream(tempPath)
+                            },
+                            threadID,
+                            messageID
+                        );
+                    } catch (error) {
+                        console.error(error);
+                        return api.sendMessage("❌ Đã xảy ra lỗi khi mua bóng!", threadID, messageID);
+                    }
+                }
 
                 case "info": {
                     const playerStats = await pokeSystem.getPlayerStats(senderID);
@@ -419,7 +591,7 @@ module.exports = {
                     }
 
                     const activePokemon = await pokeSystem.getSelectedPokemon(senderID);
-                    const userBalance = currencies.getBalance(senderID);
+                    const userBalance = await currencies.getBalance(senderID) || 0;
 
                     let msg = "📊 THỐNG KÊ POKEMON 📊\n" +
                              "━━━━━━━━━━━━━━━━━\n\n" +
@@ -480,20 +652,37 @@ module.exports = {
     },
 
     onReply: async function({ api, event }) {
-        const { threadID, messageID, senderID, body } = event;
-        const reply = global.client.onReply.find(r => r.messageID === event.messageReply.messageID && r.author === senderID);
+        const { threadID, messageID, senderID, body, messageReply } = event;
+        
+        const reply = global.client.onReply.find(r => 
+            r.messageID === messageReply.messageID && 
+            r.author === senderID
+        );
+
         if (!reply) return;
 
-        global.client.onReply = global.client.onReply.filter(r => r.messageID !== reply.messageID);
+        if (reply.type !== "catch") {
+            global.client.onReply = global.client.onReply.filter(r => 
+                r.messageID !== reply.messageID
+            );
+        }
 
         switch (reply.type) {
             case "catch": {
                 const answer = body.toLowerCase();
+                
+                global.client.onReply = global.client.onReply.filter(r => 
+                    r.messageID !== reply.messageID
+                );
+
                 if (answer === "no") {
+                    catchSystem.setActiveHunt(senderID, reply.locationId, false);
                     return api.sendMessage("❌ Đã bỏ qua Pokemon này.", threadID);
                 }
 
                 if (answer !== "yes") {
+                    // Keep hunt active on invalid reply
+                    catchSystem.setActiveHunt(senderID, reply.locationId, true);
                     return api.sendMessage(
                         "❌ Lựa chọn không hợp lệ!\n" +
                         "Reply 'yes' để bắt hoặc 'no' để bỏ qua.",
@@ -501,44 +690,77 @@ module.exports = {
                     );
                 }
 
-                const result = await pokeSystem.catch(senderID, reply.pokemon, reply.bestBall);
-                
-                if (result.error === "noBall") {
-                    const ballList = Object.entries(result.inventory)
-                        .map(([key, count]) => 
-                            `${pokeSystem.POKEBALLS[key].emoji} ${pokeSystem.POKEBALLS[key].name}: ${count}`
-                        ).join('\n');
+                try {
+                    const result = await pokeSystem.catch(senderID, reply.pokemon, reply.bestBall);
+                    
+                    if (result.error === "noBall") {
+                        catchSystem.setActiveHunt(senderID, reply.locationId, false);
+                        const ballList = Object.entries(result.inventory)
+                            .map(([key, count]) => 
+                                `${pokeSystem.POKEBALLS[key].emoji} ${pokeSystem.POKEBALLS[key].name}: ${count}`
+                            ).join('\n');
 
-                    return api.sendMessage(
-                        "❌ Đã hết bóng trong kho!\n\n" +
-                        "🎒 Kho bóng hiện tại:\n" +
-                        ballList + "\n\n" +
-                        "→ Dùng .poke buy để mua thêm",
-                        threadID
-                    );
+                        return api.sendMessage(
+                            "❌ Đã hết bóng trong kho!\n\n" +
+                            "🎒 Kho bóng hiện tại:\n" +
+                            ballList + "\n\n" +
+                            "→ Dùng .poke buy để mua thêm",
+                            threadID
+                        );
+                    }
+
+                    if (result.error === "failed") {
+                        catchSystem.setActiveHunt(senderID, reply.locationId, false);
+                        const ballList = Object.entries(result.inventory)
+                            .map(([key, count]) => 
+                                `${pokeSystem.POKEBALLS[key].emoji} ${pokeSystem.POKEBALLS[key].name}: ${count}`
+                            ).join('\n');
+
+                        return api.sendMessage(
+                            `💢 Tiếc quá! ${reply.pokemon.name} đã thoát khỏi ${result.ballUsed}!\n` +
+                            `Còn lại ${result.ballsLeft} ${result.ballUsed}\n\n` +
+                            "🎒 Kho bóng hiện tại:\n" +
+                            ballList,
+                            threadID
+                        );
+                    }
+
+                    if (result.success) {
+                        catchSystem.setHuntCooldown(senderID, reply.locationId);
+
+                        const weatherBonus = reply.weather ? 
+                            `\n🌤️ Bonus thời tiết: ${reply.weather}` : '';
+                        
+                        return api.sendMessage(
+                            `🎉 Thu phục thành công ${result.pokemon.name} bằng ${result.ballUsed}!\n` +
+                            `📊 Chỉ số:\n` +
+                            `❤️ HP: ${result.pokemon.hp}\n` +
+                            `⚔️ Tấn công: ${result.pokemon.attack}\n` +
+                            `🛡️ Phòng thủ: ${result.pokemon.defense}\n` +
+                            `🎭 Hệ: ${result.pokemon.types.map(t => 
+                                `${pokeSystem.getTypeEmoji(t)} ${pokeSystem.getTypeName(t)}`
+                            ).join(' | ')}` +
+                            weatherBonus,
+                            threadID
+                        );
+                    }
+
+                    catchSystem.setActiveHunt(senderID, reply.locationId, false);
+                    return api.sendMessage("❌ Đã xảy ra lỗi khi bắt Pokemon!", threadID);
+
+                } catch (error) {
+                    console.error(error);
+                    catchSystem.setActiveHunt(senderID, reply.locationId, false);
+                    return api.sendMessage("❌ Đã xảy ra lỗi khi bắt Pokemon!", threadID);
                 }
-
-                if (result.error === "failed") {
-                    const ballList = Object.entries(result.inventory)
-                        .map(([key, count]) => 
-                            `${pokeSystem.POKEBALLS[key].emoji} ${pokeSystem.POKEBALLS[key].name}: ${count}`
-                        ).join('\n');
-
-                    return api.sendMessage(
-                        `💢 Tiếc quá! ${reply.pokemon.name} đã thoát khỏi ${result.ballUsed}!\n` +
-                        `Còn lại ${result.ballsLeft} ${result.ballUsed}\n\n` +
-                        "🎒 Kho bóng hiện tại:\n" +
-                        ballList,
-                        threadID
-                    );
-                }
-
-                return api.sendMessage(
-                    `🎉 Thu phục thành công ${result.pokemon.name} bằng ${result.ballUsed}!\n` +
-                    `📊 Đã thêm vào bộ sưu tập của bạn.`,
-                    threadID
-                );
             }
         }
     }
 };
+
+const handleMessage = async (message) => {
+    if (message.toLowerCase() === 'no' || message.toLowerCase() === 'ko') {
+        global.pokemon.setCatchStatus(threadID, false); 
+        return api.sendMessage("🎮 Bạn đã bỏ qua con Pokemon này!", threadID);
+    }
+}

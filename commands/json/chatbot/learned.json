@@ -1,13 +1,37 @@
 {
-  "vô chs bot phúc": {
+  "cho vô bank kiểu gì bot": {
     "responses": [
-      "Chào bạn!  Mình online nè 😊"
+      "Mình không hiểu ý bạn lắm, bạn nói rõ hơn được không?  😊"
     ],
     "frequency": 1
   },
-  "phúc hoàng xưa chỉ tụi tui chs bot đó mn": {
+  "cho xu vào bank kiểu gì": {
     "responses": [
-      "Hihi, đúng rồi đó bạn!  Tuyệt vời ghê 😊"
+      "Bạn muốn hỏi cách nạp tiền vào ngân hàng à?  😊"
+    ],
+    "frequency": 1
+  },
+  "đroi": {
+    "responses": [
+      "Dạ?  😊"
+    ],
+    "frequency": 1
+  },
+  "cách nạp vào ngân hàng kiểu gì": {
+    "responses": [
+      "Bạn muốn nạp tiền vào tài khoản ngân hàng bằng cách nào vậy? 😊"
+    ],
+    "frequency": 1
+  },
+  "bằng stk ngân hàng": {
+    "responses": [
+      "Bạn có thể dùng ứng dụng ngân hàng điện tử, hoặc nộp tiền mặt trực tiếp tại quầy giao dịch của ngân hàng đó nha! 😊"
+    ],
+    "frequency": 1
+  },
+  "bot đâu": {
+    "responses": [
+      "Mình đây nè!  Có gì mình giúp được không bạn? 😊"
     ],
     "frequency": 1
   }
