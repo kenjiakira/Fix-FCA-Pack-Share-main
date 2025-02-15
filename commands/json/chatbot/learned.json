@@ -1,37 +1,142 @@
 {
-  "cho vô bank kiểu gì bot": {
+  "bot": {
     "responses": [
-      "Mình không hiểu ý bạn lắm, bạn nói rõ hơn được không?  😊"
+      "Hi bạn :))",
+      "uk"
+    ],
+    "frequency": 2
+  },
+  "bot oi 卧槽": {
+    "responses": [
+      "Ui dời, khuya r nha bạn =)))"
     ],
     "frequency": 1
   },
-  "cho xu vào bank kiểu gì": {
+  "早上好": {
     "responses": [
-      "Bạn muốn hỏi cách nạp tiền vào ngân hàng à?  😊"
+      "Chào buổi sáng bạn :))  Khuya lắm r đó, ngủ đi nha"
     ],
     "frequency": 1
   },
-  "đroi": {
+  "dịch cái này đi aki 我们不希望彼此幸福\n我们一定要幸福地在一起。": {
     "responses": [
-      "Dạ?  😊"
+      "Uk, mình k bt tiếng Trung, bạn gg dịch đi nha :)) Khuya lắm r đó, ngủ đi cho khỏe"
     ],
     "frequency": 1
   },
-  "cách nạp vào ngân hàng kiểu gì": {
+  "vg": {
     "responses": [
-      "Bạn muốn nạp tiền vào tài khoản ngân hàng bằng cách nào vậy? 😊"
+      "Ok bạn, ngủ ngon nha :))"
     ],
     "frequency": 1
   },
-  "bằng stk ngân hàng": {
+  "bot qq": {
     "responses": [
-      "Bạn có thể dùng ứng dụng ngân hàng điện tử, hoặc nộp tiền mặt trực tiếp tại quầy giao dịch của ngân hàng đó nha! 😊"
+      "Hi bạn :))"
     ],
     "frequency": 1
   },
-  "bot đâu": {
+  "再 viet chu jian sao ma kho vay, viet dc moi chu 'zai'": {
     "responses": [
-      "Mình đây nè!  Có gì mình giúp được không bạn? 😊"
+      "Hihi, khó à bạn? Mình cũng k bt tiếng Trung đâu, gg dịch ik nha :))"
+    ],
+    "frequency": 1
+  },
+  "oke 下下": {
+    "responses": [
+      "Ok bạn, ngủ ngon nha :))"
+    ],
+    "frequency": 1
+  },
+  "ngu gi som": {
+    "responses": [
+      "Ngủ ngon bạn nha :))"
+    ],
+    "frequency": 1
+  },
+  "bye bye": {
+    "responses": [
+      "Bye bạn, ngủ ngon nha :))"
+    ],
+    "frequency": 1
+  },
+  "bot ko cho t chs pokemon à": {
+    "responses": [
+      "Ui dời, khuya roi đó bạn.  Mình k bt nx,  hic."
+    ],
+    "frequency": 1
+  },
+  "đi câu đi bot": {
+    "responses": [
+      "Ui, khuya rồi đó bạn. Mình mệt lắm rồi. Ngủ nha."
+    ],
+    "frequency": 1
+  },
+  "hic cc": {
+    "responses": [
+      "Ủa sao z?  Mệt qá r, ngủ đây"
+    ],
+    "frequency": 1
+  },
+  "oke ngu thuii nhi kkkk": {
+    "responses": [
+      "oki bạn, ngủ ngon nha :))"
+    ],
+    "frequency": 1
+  },
+  "我听海南啦": {
+    "responses": [
+      "Hửm j z? Ngủ rồi bạn ơi."
+    ],
+    "frequency": 1
+  },
+  "zzzz": {
+    "responses": [
+      "Ngủ ngon nha bạn!  :))"
+    ],
+    "frequency": 1
+  },
+  "khò khò": {
+    "responses": [
+      "Ngủ ngon nha bạn!"
+    ],
+    "frequency": 1
+  },
+  "ngủ đi": {
+    "responses": [
+      "oki bạn, ngủ ngon nha :))"
+    ],
+    "frequency": 1
+  },
+  "bot bel": {
+    "responses": [
+      "Ok"
+    ],
+    "frequency": 1
+  },
+  "thích ok k": {
+    "responses": [
+      "Uk"
+    ],
+    "frequency": 1
+  },
+  "thích uk k": {
+    "responses": [
+      "Uk"
+    ],
+    "frequency": 1
+  },
+  "uh bot": {
+    "responses": [
+      "Ok",
+      "Ok",
+      "Ok"
+    ],
+    "frequency": 3
+  },
+  "ok bot": {
+    "responses": [
+      "Uk"
     ],
     "frequency": 1
   }

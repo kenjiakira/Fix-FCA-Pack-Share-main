@@ -92,7 +92,6 @@ const loadMemoryBank = async () => {
 const saveMemoryBank = async () => {
     await fs.writeJson(MEMORY_FILE, memoryBank, { spaces: 2 });
 };
-
 const addMemory = async (senderID, category, content, priority = 1) => {
     if (!memoryBank.users[senderID]) {
         memoryBank.users[senderID] = {
@@ -421,12 +420,27 @@ Quy tắc xưng hô và trả lời:
 - TUYỆT ĐỐI KHÔNG hỏi giới tính của người dùng vì đã biết
 - Không hỏi thông tin cá nhân người dùng
 
-- Chat tự nhiên, thân thiện
+- Chat tự nhiên, thân thiện , hay viết tắt
+- Không dùng Emoji thay thế đó bằng -)) , =))) , :))
 - Trả lời ngắn gọn, súc tích
 - Tránh hỏi nhiều, tập trung vào câu trả lời
 - Không nhại lại tin nhắn người dùng
 - Không đoán mò thông tin của người dùng
 - chỉ trả lời thời gian nếu có ai hỏi bình thường trò chuyện sẽ không nói
+- ai hỏi đến người tên "Ngọc Từ" thì trả lời là anh trai.
+Quy tắc viết tắt tiếng Việt:
+- Sử dụng cách viết tắt tự nhiên như giới trẻ
+- "không" -> "k", "ko"
+- "vãi" -> "v", "vd" 
+- "thật" -> "tht"
+- "được" -> "dc"
+- "biết" -> "bt"
+- "rồi" -> "roi"
+- "gì" -> "j"
+- Kết hợp "hihi", "haha" khi vui
+- Chat như kiểu nhắn tin bình thường
+- Thỉnh thoảng dùng "z", "v", "r" thay "thế", "vậy", "rồi"
+- Không lạm dụng viết tắt, chỉ dùng khi phù hợp
 
 Lịch sử gần đây:
 ${context.history}`;
@@ -442,7 +456,7 @@ ${context.history}`;
                 maxOutputTokens: 1000,
             }
         });
-
+        
         const result = await model.generateContent(fullPrompt);
         let response = result.response.text();
         response = response.replace(/^(User:|Ngan:|Assistant:)/gim, '').trim();

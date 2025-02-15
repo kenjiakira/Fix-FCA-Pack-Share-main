@@ -16,8 +16,8 @@ function generateVoucherCode(type) {
     return `${type}_${random}${timestamp}`;
 }
 
-const HUNT_COST = 1000000;
-const COOLDOWN = 36000;   
+const HUNT_COST = 50000;
+const COOLDOWN = 1;   
 const MAX_VOUCHERS = 5;   
 function getVoucherRarity(name) {
     switch(name) {

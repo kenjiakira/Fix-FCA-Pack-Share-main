@@ -106,12 +106,29 @@ module.exports = {
                     }
 
                     const currentJob = JOBS[job.currentJob.id];
+                    const jobType = currentJob.type || 'shipper';
+                    const levels = jobSystem.JOB_LEVELS[jobType] || [];
+                    const currentLevel = jobSystem.getJobLevel(jobType, job.workCount);
+
+                    let levelInfo = "\n📊 THÔNG TIN CẤP BẬC:\n";
+                    levels.forEach(level => {
+                        const isCurrentLevel = currentLevel && level.name === currentLevel.name;
+                        levelInfo += `${isCurrentLevel ? '➤' : '•'} ${level.name}\n`;
+                        levelInfo += `  ├ Yêu cầu: ${level.minWork} lần làm việc\n`;
+                        if (level.bonus) {
+                            levelInfo += `  └ Thưởng: +${((level.bonus - 1) * 100).toFixed(0)}% lương\n`;
+                        }
+                    });
+
                     const infoMsg = await api.sendMessage(
                         "┏━━『 THÔNG TIN CÔNG VIỆC 』━━┓\n\n" +
                         `💼 Công việc: ${currentJob.name}\n` +
                         `💰 Lương: ${formatNumber(currentJob.salary)} Xu/lần\n` +
-                        `📅 Ngày bắt đầu: ${new Date(job.currentJob.startDate).toLocaleDateString()}\n\n` +
-                        "💡 Dùng .work để làm việc kiếm tiền\n" +
+                        `📅 Ngày bắt đầu: ${new Date(job.currentJob.startDate).toLocaleDateString()}\n` +
+                        `📈 Số lần làm việc: ${job.workCount}\n` +
+                        `👔 Cấp bậc hiện tại: ${currentLevel?.name || 'Tập sự'}\n` +
+                        levelInfo +
+                        "\n💡 Dùng .work để làm việc kiếm tiền\n" +
                         "\n┗━━━━━━━━━━━━━━━━━┛",
                         threadID
                     );

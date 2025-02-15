@@ -23,71 +23,79 @@ module.exports = {
     },
 
     JOBS: {
-        // Công việc cơ bản - không yêu cầu bằng cấp
         j1: {
             name: "Shipper",
             salary: 50000,
+            type: "shipper",
             requirements: []
         },
         j2: {
             name: "Phụ hồ",
             salary: 60000,
+            type: "construction",
             requirements: []
         },
         j3: {
             name: "Phục vụ",
             salary: 45000,
+            type: "service",
             requirements: []
         },
 
-        // Công việc kỹ thuật - yêu cầu THPT
         j4: {
             name: "Công nhân",
             salary: 80000,
+            type: "worker",
             requirements: ["e1"]
         },
         j5: {
             name: "Nhân viên bán hàng",
             salary: 70000,
+            type: "sales",
             requirements: ["e1"]
         },
         j6: {
             name: "Lễ tân khách sạn",
             salary: 75000,
+            type: "receptionist",
             requirements: ["e1"]
         },
 
-        // Công việc chuyên môn - yêu cầu CĐ/ĐH
         j7: {
             name: "Kế toán",
             salary: 150000,
+            type: "accountant",
             requirements: ["e2", "e3"]
         },
         j8: {
             name: "Lập trình viên",
             salary: 200000,
+            type: "developer",
             requirements: ["e3"]
         },
         j9: {
             name: "Giáo viên",
             salary: 180000,
+            type: "teacher",
             requirements: ["e3"]
         },
 
-        // Chuyên gia - yêu cầu ThS/TS
         j10: {
             name: "Giảng viên ĐH",
             salary: 300000,
+            type: "lecturer",
             requirements: ["e4"]
         },
         j11: {
             name: "Nghiên cứu viên",
             salary: 350000,
+            type: "researcher",
             requirements: ["e4", "e5"]
         },
         j12: {
             name: "Chuyên gia tư vấn",
             salary: 400000,
+            type: "consultant",
             requirements: ["e4"]
         }
     }

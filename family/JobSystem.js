@@ -7,6 +7,90 @@ class JobSystem {
         this.path = path.join(__dirname, '../database/json/family/job.json');
         this.educationPath = path.join(__dirname, '../database/json/family/familyeducation.json');
         this.data = this.loadData();
+        this.TAX_BRACKETS = [
+            { threshold: 1000000, rate: 0.05 },  
+            { threshold: 5000000, rate: 0.10 }, 
+            { threshold: 10000000, rate: 0.15 },
+            { threshold: Infinity, rate: 0.20 }  
+        ];
+        
+        this.CLASSIC_JOBS = [
+            {
+                name: "Shipper",
+                description: "Bạn đã giao {count} đơn hàng",
+                minPay: 20000,
+                maxPay: 45000,
+                countRange: [3, 8]
+            },
+            {
+                name: "Rửa xe",
+                description: "Bạn đã rửa {count} chiếc xe",
+                minPay: 25000,
+                maxPay: 50000,
+                countRange: [2, 5]
+            },
+            {
+                name: "Đầu bếp",
+                description: "Bạn đã nấu {count} món ăn",
+                minPay: 35000,
+                maxPay: 70000,
+                countRange: [4, 8]
+            },
+            {
+                name: "Bảo vệ",
+                description: "Bạn đã làm việc {count} giờ",
+                minPay: 20000,
+                maxPay: 40000,
+                countRange: [4, 8]
+            },
+            {
+                name: "Lập trình viên",
+                description: "Bạn đã fix {count} bug",
+                minPay: 50000,
+                maxPay: 100000,
+                countRange: [2, 5]
+            },
+            {
+                name: "Streamer",
+                description: "Bạn đã stream {count} giờ",
+                minPay: 40000,
+                maxPay: 80000,
+                countRange: [3, 6]
+            }
+        ];
+
+        this.JOB_LEVELS = {
+            "shipper": [
+                { name: "Shipper tập sự", minWork: 0 },
+                { name: "Shipper chuyên nghiệp", minWork: 50, bonus: 1.2 },
+                { name: "Shipper cao cấp", minWork: 100, bonus: 1.5 }
+            ],
+            "construction": [
+                { name: "Phụ hồ", minWork: 0 },
+                { name: "Thợ chính", minWork: 30, bonus: 1.3 },
+                { name: "Thợ cả", minWork: 80, bonus: 1.8 }
+            ],
+            "chef": [
+                { name: "Phụ bếp", minWork: 0 },
+                { name: "Đầu bếp", minWork: 40, bonus: 1.4 },
+                { name: "Bếp trưởng", minWork: 90, bonus: 2.0 }
+            ],
+            "guard": [
+                { name: "Bảo vệ tập sự", minWork: 0 },
+                { name: "Bảo vệ chính thức", minWork: 35, bonus: 1.25 },
+                { name: "Giám sát an ninh", minWork: 85, bonus: 1.6 }
+            ],
+            "programmer": [
+                { name: "Intern", minWork: 0 },
+                { name: "Developer", minWork: 45, bonus: 1.5 },
+                { name: "Senior Dev", minWork: 95, bonus: 2.2 }
+            ],
+            "streamer": [
+                { name: "Streamer tập sự", minWork: 0 },
+                { name: "Streamer chuyên nghiệp", minWork: 40, bonus: 1.35 },
+                { name: "Top Streamer", minWork: 90, bonus: 1.9 }
+            ]
+        };
     }
 
     loadData() {
@@ -234,7 +318,7 @@ class JobSystem {
         return timeSinceLastWork >= COOLDOWN;
     }
 
-    work(userID) {
+    work(userID, vipBenefits = null) {
         try {
             this.data = this.loadData();
             
@@ -254,33 +338,66 @@ class JobSystem {
                 throw new Error("Công việc không hợp lệ! Vui lòng xin việc lại.");
             }
 
-            if (!this.canWork(userID)) {
-                const cooldown = this.getWorkCooldown(userID);
-                throw new Error(`Bạn cần nghỉ ngơi ${Math.ceil(cooldown/1000)} giây nữa!`);
+            const cooldown = this.getWorkCooldown(userID, vipBenefits);
+            if (cooldown > 0) {
+                const minutes = Math.floor(cooldown / 60000);
+                const seconds = Math.ceil((cooldown % 60000) / 1000);
+                const cooldownError = new Error(`Bạn cần nghỉ ngơi ${minutes > 0 ? `${minutes} phút ` : ''}${seconds} giây nữa!`);
+                cooldownError.isWaitError = true;
+                throw cooldownError;
             }
 
             const job = JOBS[jobData.currentJob.id];
+            const jobType = job.type || 'shipper';
+            const currentLevel = this.getJobLevel(jobType, jobData.workCount || 0);
+            
+            let salary = job.salary;
+            if (currentLevel && currentLevel.bonus) {
+                salary = Math.floor(salary * currentLevel.bonus);
+            }
+
+            if (vipBenefits && vipBenefits.workBonus) {
+                const bonusAmount = Math.floor(salary * (vipBenefits.workBonus / 100));
+                salary += bonusAmount;
+            }
+
             jobData.lastWorked = Date.now();
-            jobData.workCount++;
-            jobData.totalEarned += job.salary;
+            jobData.workCount = (jobData.workCount || 0) + 1;
+            jobData.totalEarned = (jobData.totalEarned || 0) + salary;
+
+            const newLevel = this.getJobLevel(jobType, jobData.workCount);
+            const leveledUp = newLevel && currentLevel && newLevel.name !== currentLevel.name;
 
             const saved = this.saveData();
             if (!saved) {
                 throw new Error("Không thể lưu thông tin làm việc!");
             }
 
-            return job;
+            return {
+                ...job,
+                salary,
+                workCount: jobData.workCount,
+                levelName: currentLevel?.name || job.name,
+                leveledUp: leveledUp ? newLevel : null
+            };
         } catch (error) {
-            console.error('Work error:', error);
+            if (!error.isWaitError) {
+                console.error('Work error:', error);
+            }
             throw error;
         }
     }
 
-    getWorkCooldown(userID) {
+    getWorkCooldown(userID, vipBenefits = null) {
         const jobData = this.getJob(userID);
         if (!jobData.lastWorked) return 0;
         
-        const COOLDOWN = 10 * 60 * 1000; 
+        let COOLDOWN = 10 * 60 * 1000;
+        
+        if (vipBenefits && vipBenefits.cooldownReduction) {
+            COOLDOWN = COOLDOWN * (100 - vipBenefits.cooldownReduction) / 100;
+        }
+        
         const timeLeft = COOLDOWN - (Date.now() - jobData.lastWorked);
         return Math.max(0, timeLeft);
     }
@@ -293,6 +410,38 @@ class JobSystem {
         const result = requirements.some(req => degrees.includes(req));
         console.log('Check result:', result);
         return result;
+    }
+
+    calculateTax(amount) {
+        for (const bracket of this.TAX_BRACKETS) {
+            if (amount <= bracket.threshold) {
+                return Math.floor(amount * bracket.rate);
+            }
+        }
+        return Math.floor(amount * this.TAX_BRACKETS[this.TAX_BRACKETS.length - 1].rate);
+    }
+
+    getRandomClassicJob() {
+        const job = this.CLASSIC_JOBS[Math.floor(Math.random() * this.CLASSIC_JOBS.length)];
+        const count = Math.floor(Math.random() * (job.countRange[1] - job.countRange[0] + 1)) + job.countRange[0];
+        const earned = Math.floor(Math.random() * (job.maxPay - job.minPay + 1)) + job.minPay;
+        
+        return {
+            ...job,
+            count,
+            earned,
+            description: job.description.replace("{count}", count)
+        };
+    }
+
+    getJobLevel(jobType, workCount) {
+        const levels = this.JOB_LEVELS[jobType] || [];
+        for (let i = levels.length - 1; i >= 0; i--) {
+            if (workCount >= levels[i].minWork) {
+                return levels[i];
+            }
+        }
+        return levels[0] || null;
     }
 }
 

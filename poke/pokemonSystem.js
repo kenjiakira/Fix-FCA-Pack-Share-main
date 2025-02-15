@@ -14,6 +14,7 @@ class PokemonSystem {
         this.loaded = false;
         this.PVE_COOLDOWN = 60000;
         this.catchStatus = {};
+        this.pendingEvolutions = {};
 
         this.POKEBALLS = {
             "pokeball": {
@@ -198,16 +199,14 @@ class PokemonSystem {
     }
 
     async catch(userId, pokemonData, ballType = "pokeball") {
-        // Kiểm tra và khởi tạo dữ liệu người chơi nếu chưa có
+        
         if (!this.players[userId]) {
             this.players[userId] = await this.initNewPlayer(userId);
         }
 
-        // Kiểm tra ball hợp lệ
         const ball = this.POKEBALLS[ballType];
         if (!ball) return { error: "invalidBall" };
 
-        // Kiểm tra số lượng ball
         if (!this.players[userId].inventory[ballType] || this.players[userId].inventory[ballType] <= 0) {
             return { 
                 error: "noBall",
@@ -219,7 +218,6 @@ class PokemonSystem {
         const catchRate = this.calculateCatchRate(pokemonData, ball.catchRate);
         const caught = Math.random() < catchRate;
 
-        // Trừ ball đã sử dụng
         this.players[userId].inventory[ballType]--;
         await this.saveData();
 
@@ -232,7 +230,6 @@ class PokemonSystem {
             };
         }
 
-        // Thêm Pokemon mới
         const newPokemon = {
             ...pokemonData,
             exp: 0,
@@ -365,6 +362,7 @@ class PokemonSystem {
                 log: battleResult.log,
                 expGained: battleResult.expGained
             };
+
         } catch (error) {
             battleManager.endBattle(threadID);
             console.error("Battle error:", error);
@@ -387,14 +385,13 @@ class PokemonSystem {
         const wildPokemon = await this.generateWildPokemon(pokemon.level);
         const battleResult = await pvpSystem.pve(pokemon, wildPokemon);
 
+        player.lastPvE = now;
+
         if (!battleResult.error && battleResult.winner === pokemon) {
-            player.lastPvE = now;
             pokemon.exp += battleResult.expGained;
             pokemon.wins++;
-            
             const coinsEarned = battleResult.rewardCoins;
             currencies.updateBalance(userId, coinsEarned);
-            
             await this.checkLevelUp(userId, player.activePokemon);
         }
 
@@ -404,46 +401,166 @@ class PokemonSystem {
         return battleResult;
     }
 
-    async checkEvolution(userId, pokemonIndex) {
-        // Simplified evolution check based on level only
+    async checkEvolution(userId, pokemonIndex, autoConfirm = false) {
         const pokemon = this.players[userId].pokemons[pokemonIndex];
         if (!pokemon) return null;
 
-        // Define evolution thresholds
-        const evolutions = {
-            25: 30,  // Level 25 -> evolve power multiplier 1.3
-            50: 40,  // Level 50 -> evolve power multiplier 1.4
-            75: 50   // Level 75 -> evolve power multiplier 1.5
+        // Check if there's already a pending evolution
+        if (this.pendingEvolutions[userId]?.pokemonIndex === pokemonIndex) {
+            return { pending: true, ...this.pendingEvolutions[userId] };
+        }
+
+        const evolutionData = {
+            // Starters
+            bulbasaur: { level: 16, evolution: 'ivysaur', power: 35, moveBonus: ['vine-whip', 'razor-leaf'] },
+            ivysaur: { level: 32, evolution: 'venusaur', power: 45, moveBonus: ['solar-beam', 'petal-dance'] },
+            charmander: { level: 16, evolution: 'charmeleon', power: 35, moveBonus: ['ember', 'flame-burst'] },
+            charmeleon: { level: 36, evolution: 'charizard', power: 45, moveBonus: ['flamethrower', 'fire-blast'] },
+            squirtle: { level: 16, evolution: 'wartortle', power: 35, moveBonus: ['water-gun', 'aqua-tail'] },
+            wartortle: { level: 36, evolution: 'blastoise', power: 45, moveBonus: ['hydro-pump', 'skull-bash'] },
+
+            // Bug Types
+            caterpie: { level: 7, evolution: 'metapod', power: 25, moveBonus: ['harden'] },
+            metapod: { level: 10, evolution: 'butterfree', power: 35, moveBonus: ['confusion', 'gust'] },
+            weedle: { level: 7, evolution: 'kakuna', power: 25, moveBonus: ['poison-sting'] },
+            kakuna: { level: 10, evolution: 'beedrill', power: 35, moveBonus: ['twineedle', 'fury-attack'] },
+
+            // Flying Types
+            pidgey: { level: 18, evolution: 'pidgeotto', power: 35, moveBonus: ['gust', 'wing-attack'] },
+            pidgeotto: { level: 36, evolution: 'pidgeot', power: 45, moveBonus: ['hurricane', 'brave-bird'] },
+
+            // Special Evolutions
+            pikachu: { 
+                power: 850, 
+                evolution: 'raichu', 
+                powerBoost: 1.4,
+                moveBonus: ['thunder', 'volt-tackle'],
+                condition: 'thunderstone'
+            },
+            eevee: {
+                power: 900,
+                evolutions: {
+                    'vaporeon': { item: 'water-stone', powerBoost: 1.45, moveBonus: ['hydro-pump', 'aqua-ring'] },
+                    'jolteon': { item: 'thunder-stone', powerBoost: 1.45, moveBonus: ['thunder', 'volt-switch'] },
+                    'flareon': { item: 'fire-stone', powerBoost: 1.45, moveBonus: ['flare-blitz', 'fire-blast'] },
+                    'espeon': { condition: 'friendship', timeOfDay: 'day', powerBoost: 1.45, moveBonus: ['psychic', 'future-sight'] },
+                    'umbreon': { condition: 'friendship', timeOfDay: 'night', powerBoost: 1.45, moveBonus: ['dark-pulse', 'moonlight'] },
+                    'leafeon': { item: 'leaf-stone', powerBoost: 1.45, moveBonus: ['leaf-blade', 'synthesis'] },
+                    'glaceon': { item: 'ice-stone', powerBoost: 1.45, moveBonus: ['ice-beam', 'blizzard'] },
+                    'sylveon': { condition: 'friendship', moveType: 'fairy', powerBoost: 1.45, moveBonus: ['moonblast', 'dazzling-gleam'] }
+                }
+            },
+            magikarp: { 
+                level: 20,
+                evolution: 'gyarados', 
+                powerBoost: 2.0,
+                moveBonus: ['waterfall', 'dragon-rage', 'hyper-beam']
+            },
+
+            dratini: { level: 30, evolution: 'dragonair', power: 40, moveBonus: ['dragon-rage', 'aqua-tail'] },
+            dragonair: { level: 55, evolution: 'dragonite', power: 55, moveBonus: ['dragon-dance', 'outrage'] },
+
+            geodude: { level: 25, evolution: 'graveler', power: 35, moveBonus: ['rock-throw', 'magnitude'] },
+            graveler: { 
+                power: 850,
+                evolution: 'golem',
+                powerBoost: 1.4,
+                moveBonus: ['earthquake', 'explosion'],
+                condition: 'trade'
+            },
+
+            gastly: { level: 25, evolution: 'haunter', power: 35, moveBonus: ['shadow-ball', 'dark-pulse'] },
+            haunter: {
+                power: 850,
+                evolution: 'gengar',
+                powerBoost: 1.4,
+                moveBonus: ['shadow-punch', 'dream-eater'],
+                condition: 'trade'
+            }
         };
 
-        let evolutionPower = null;
-        for (const [level, power] of Object.entries(evolutions)) {
-            if (pokemon.level >= parseInt(level)) {
-                evolutionPower = power;
+        const pokemonData = evolutionData[pokemon.name.toLowerCase()];
+        if (!pokemonData) return null;
+
+        let canEvolve = false;
+        if (pokemonData.level && pokemon.level >= pokemonData.level) {
+            canEvolve = true;
+        } else if (pokemonData.power) {
+            const currentPower = this.calculatePower(pokemon);
+            if (currentPower >= pokemonData.power) {
+                canEvolve = true;
             }
         }
 
-        if (!evolutionPower) return null;
+        if (!canEvolve) return null;
 
-        // Simple stat boost evolution
-        const statMultiplier = 1 + (evolutionPower / 100);
-        const newPokemon = {
-            ...pokemon,
-            name: `${pokemon.name} ✨`,
-            hp: Math.floor(pokemon.hp * statMultiplier),
-            maxHp: Math.floor(pokemon.maxHp * statMultiplier),
-            attack: Math.floor(pokemon.attack * statMultiplier),
-            defense: Math.floor(pokemon.defense * statMultiplier),
-            evolutionDate: Date.now()
-        };
+        try {
+            const response = await axios.get(`https://pokeapi.co/api/v2/pokemon/${pokemonData.evolution}`);
+            const evolutionPokemon = response.data;
 
-        this.players[userId].pokemons[pokemonIndex] = newPokemon;
-        await this.saveData();
+            let statMultiplier;
+            if (pokemonData.powerBoost) {
+                statMultiplier = pokemonData.powerBoost;
+            } else {
+                statMultiplier = 1 + (pokemonData.power / 100);
+            }
 
-        return {
-            oldPokemon: pokemon,
-            newPokemon: newPokemon
-        };
+            // Apply evolution changes
+            const newPokemon = {
+                ...pokemon,
+                name: pokemonData.evolution,
+                hp: Math.floor(pokemon.hp * statMultiplier),
+                maxHp: Math.floor(pokemon.maxHp * statMultiplier),
+                attack: Math.floor(pokemon.attack * statMultiplier),
+                defense: Math.floor(pokemon.defense * statMultiplier),
+                image: evolutionPokemon.sprites.other['official-artwork'].front_default,
+                evolutionDate: Date.now(),
+                evolutionStage: (pokemon.evolutionStage || 0) + 1,
+                // Add new moves from evolution
+                moves: [
+                    ...pokemon.moves,
+                    ...(pokemonData.moveBonus || [])
+                ].slice(0, 4) // Keep only 4 moves
+            };
+
+            // Update friendship for friendship-based evolutions
+            if (pokemonData.condition === 'friendship') {
+                newPokemon.friendship = 0; // Reset friendship after evolution
+            }
+
+            // Remove used evolution item if item-based evolution
+            if (pokemonData.condition && pokemonData.condition.endsWith('-stone')) {
+                delete newPokemon.heldItem;
+            }
+
+            if (autoConfirm) {
+                this.players[userId].pokemons[pokemonIndex] = newPokemon;
+                await this.saveData();
+
+                return {
+                    oldPokemon: pokemon,
+                    newPokemon: newPokemon,
+                    powerIncrease: Math.floor((this.calculatePower(newPokemon) - this.calculatePower(pokemon)) * 10) / 10
+                };
+            } else {
+                // Store pending evolution
+                this.pendingEvolutions[userId] = {
+                    pokemonIndex: pokemonIndex,
+                    oldPokemon: pokemon,
+                    newPokemon: newPokemon,
+                    powerIncrease: Math.floor((this.calculatePower(newPokemon) - this.calculatePower(pokemon)) * 10) / 10
+                };
+
+                return {
+                    pending: true,
+                    ...this.pendingEvolutions[userId]
+                };
+            }
+
+        } catch (error) {
+            console.error("Evolution error:", error);
+            return null;
+        }
     }
 
     async checkLevelUp(userId, pokemonIndex) {
@@ -566,15 +683,52 @@ class PokemonSystem {
             battles: 0,
             wins: 0,
             inventory: {
+                // Pokeballs
                 pokeball: 10,
                 greatball: 5,
                 ultraball: 2,
                 masterball: 0,
-                safariball: 0
+                safariball: 0,
+                // Evolution Items
+                'fire-stone': 0,
+                'water-stone': 0,
+                'thunder-stone': 0,
+                'leaf-stone': 0,
+                'ice-stone': 0,
+                'moon-stone': 0,
+                'sun-stone': 0,
+                'shiny-stone': 0,
+                'dusk-stone': 0,
+                'dawn-stone': 0,
+                'oval-stone': 0
             },
             lastCatch: null,
-            lastPvE: null
+            lastPvE: null,
+            // Friendship tracking
+            friendship: {}
         };
+    }
+
+    getTimeOfDay() {
+        const hour = new Date().getHours();
+        if (hour >= 6 && hour < 18) {
+            return 'day';
+        } else {
+            return 'night';
+        }
+    }
+
+    async updateFriendship(userId, pokemonIndex, amount) {
+        const player = this.players[userId];
+        if (!player || !player.pokemons[pokemonIndex]) return;
+
+        if (!player.friendship) player.friendship = {};
+        if (!player.friendship[pokemonIndex]) player.friendship[pokemonIndex] = 0;
+
+        player.friendship[pokemonIndex] = Math.min(255, player.friendship[pokemonIndex] + amount);
+        await this.saveData();
+        
+        return player.friendship[pokemonIndex];
     }
 
     async setPlayerName(userId, name) {
@@ -592,6 +746,21 @@ class PokemonSystem {
 
     async requirePlayerName(userId) {
         return !this.players[userId] || !this.players[userId].name;
+    }
+
+    async confirmEvolution(userId, confirm = true) {
+        const pendingEvolution = this.pendingEvolutions[userId];
+        if (!pendingEvolution) return null;
+
+        if (confirm) {
+            this.players[userId].pokemons[pendingEvolution.pokemonIndex] = pendingEvolution.newPokemon;
+            await this.saveData();
+            delete this.pendingEvolutions[userId];
+            return pendingEvolution;
+        } else {
+            delete this.pendingEvolutions[userId];
+            return { cancelled: true };
+        }
     }
 }
 

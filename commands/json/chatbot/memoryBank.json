@@ -1,45 +1,183 @@
 {
   "users": {
-    "100087005528287": {
+    "100084145368497": {
       "personal": [],
       "facts": [],
       "preferences": [],
       "interactions": [
         {
-          "content": "User nói: Cho vô bank kiểu gì bot\nTôi trả lời: Mình không hiểu ý bạn lắm, bạn nói rõ hơn được không?  😊",
-          "timestamp": 1739512927198,
-          "priority": 1,
-          "accessCount": 2,
-          "lastAccess": 1739512975698
-        },
-        {
-          "content": "User nói: Cho xu vào bank kiểu gì\nTôi trả lời: Bạn muốn hỏi cách nạp tiền vào ngân hàng à?  😊",
-          "timestamp": 1739512941587,
-          "priority": 1,
-          "accessCount": 2,
-          "lastAccess": 1739512992095
-        },
-        {
-          "content": "User nói: Bằng stk ngân hàng\nTôi trả lời: Bạn có thể dùng ứng dụng ngân hàng điện tử, hoặc nộp tiền mặt trực tiếp tại quầy giao dịch của ngân hàng đó nha! 😊",
-          "timestamp": 1739512993754,
+          "content": "User nói: bot\nTôi trả lời: Hi bạn :))",
+          "timestamp": 1739550953600,
           "priority": 1,
           "accessCount": 0,
-          "lastAccess": 1739512993754
+          "lastAccess": 1739550953600
         }
       ],
       "emotions": []
     },
-    "61556582712090": {
+    "61573427362389": {
       "personal": [],
       "facts": [],
       "preferences": [],
       "interactions": [
         {
-          "content": "Freina Nelson nói: bot đâu\nTôi trả lời: Mình đây nè!  Có gì mình giúp được không bạn? 😊",
-          "timestamp": 1739513009480,
+          "content": "Ngọc Từ nói: oke 下下\nTôi trả lời: Ok bạn, ngủ ngon nha :))",
+          "timestamp": 1739553134606,
+          "priority": 1,
+          "accessCount": 2,
+          "lastAccess": 1739553293689
+        },
+        {
+          "content": "Ngọc Từ nói: ngu gi som\nTôi trả lời: Ngủ ngon bạn nha :))",
+          "timestamp": 1739553145683,
+          "priority": 1,
+          "accessCount": 2,
+          "lastAccess": 1739553293689
+        },
+        {
+          "content": "Ngọc Từ nói: ngủ đi\nTôi trả lời: oki bạn, ngủ ngon nha :))",
+          "timestamp": 1739553295254,
           "priority": 1,
           "accessCount": 0,
-          "lastAccess": 1739513009480
+          "lastAccess": 1739553295254
+        }
+      ],
+      "emotions": []
+    },
+    "61550331471452": {
+      "personal": [],
+      "facts": [],
+      "preferences": [],
+      "interactions": [
+        {
+          "content": "Văn Quyến nói: bot qq\nTôi trả lời: Hi bạn :))",
+          "timestamp": 1739553051536,
+          "priority": 1,
+          "accessCount": 1,
+          "lastAccess": 1739553172378
+        },
+        {
+          "content": "Văn Quyến nói: đi câu đi bot\nTôi trả lời: Ui, khuya rồi đó bạn. Mình mệt lắm rồi. Ngủ nha.",
+          "timestamp": 1739553172994,
+          "priority": 1,
+          "accessCount": 0,
+          "lastAccess": 1739553172994
+        }
+      ],
+      "emotions": []
+    },
+    "100095177644281": {
+      "personal": [],
+      "facts": [],
+      "preferences": [],
+      "interactions": [
+        {
+          "content": "Hu Hu Hu nói: bot ko cho t chs pokemon à\nTôi trả lời: Ui dời, khuya roi đó bạn.  Mình k bt nx,  hic.",
+          "timestamp": 1739553169319,
+          "priority": 1,
+          "accessCount": 1,
+          "lastAccess": 1739553182430
+        },
+        {
+          "content": "Hu Hu Hu nói: hic cc\nTôi trả lời: Ủa sao z?  Mệt qá r, ngủ đây",
+          "timestamp": 1739553183076,
+          "priority": 1,
+          "accessCount": 0,
+          "lastAccess": 1739553183076
+        }
+      ],
+      "emotions": []
+    },
+    "100044825933221": {
+      "personal": [
+        {
+          "content": "thích ok k",
+          "timestamp": 1739554567413,
+          "priority": 2,
+          "accessCount": 2,
+          "lastAccess": 1739555145830
+        },
+        {
+          "content": "thích uk k",
+          "timestamp": 1739554578923,
+          "priority": 2,
+          "accessCount": 0,
+          "lastAccess": 1739554578923
+        }
+      ],
+      "facts": [],
+      "preferences": [
+        {
+          "content": "thích ok k",
+          "timestamp": 1739554567414,
+          "priority": 2,
+          "accessCount": 2,
+          "lastAccess": 1739555145830
+        },
+        {
+          "content": "thích uk k",
+          "timestamp": 1739554578925,
+          "priority": 2,
+          "accessCount": 0,
+          "lastAccess": 1739554578925
+        }
+      ],
+      "interactions": [
+        {
+          "content": "Jehug Wrey nói: bot\nTôi trả lời: uk",
+          "timestamp": 1739553920525,
+          "priority": 1,
+          "accessCount": 7,
+          "lastAccess": 1739555462877
+        },
+        {
+          "content": "Jehug Wrey nói: bot bel\nTôi trả lời: Ok",
+          "timestamp": 1739554556530,
+          "priority": 1,
+          "accessCount": 6,
+          "lastAccess": 1739555462877
+        },
+        {
+          "content": "Jehug Wrey nói: uh bot\nTôi trả lời: Ok",
+          "timestamp": 1739555078263,
+          "priority": 1,
+          "accessCount": 3,
+          "lastAccess": 1739555462877
+        },
+        {
+          "content": "Jehug Wrey nói: thích ok k\nTôi trả lời: Uk",
+          "timestamp": 1739554567415,
+          "priority": 1,
+          "accessCount": 2,
+          "lastAccess": 1739555145830
+        },
+        {
+          "content": "Jehug Wrey nói: uh bot\nTôi trả lời: Ok",
+          "timestamp": 1739555138215,
+          "priority": 1,
+          "accessCount": 2,
+          "lastAccess": 1739555462877
+        },
+        {
+          "content": "Jehug Wrey nói: ok bot\nTôi trả lời: Uk",
+          "timestamp": 1739555147303,
+          "priority": 1,
+          "accessCount": 1,
+          "lastAccess": 1739555462877
+        },
+        {
+          "content": "Jehug Wrey nói: thích uk k\nTôi trả lời: Uk",
+          "timestamp": 1739554578942,
+          "priority": 1,
+          "accessCount": 0,
+          "lastAccess": 1739554578942
+        },
+        {
+          "content": "Jehug Wrey nói: uh bot\nTôi trả lời: Ok",
+          "timestamp": 1739555464337,
+          "priority": 1,
+          "accessCount": 0,
+          "lastAccess": 1739555464337
         }
       ],
       "emotions": []
