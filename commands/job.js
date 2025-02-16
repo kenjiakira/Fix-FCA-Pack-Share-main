@@ -60,10 +60,27 @@ module.exports = {
                             msg += `├ Mã: ${jobId}\n`;
                             msg += `├ Lương: 💰 ${formatNumber(job.salary)} Xu/lần\n`;
                             if (job.requirements.length > 0) {
-                                msg += `└ Yêu cầu: 📚 ${job.requirements.map(req => {
-                                    const degree = require('../config/family/educationConfig').DEGREES[req];
-                                    return degree ? degree.name : req;
-                                }).join(", ")}\n`;
+                                const DEGREES = require('../config/family/educationConfig').DEGREES;
+                                const DEGREE_CATEGORIES = require('../config/family/educationConfig').DEGREE_CATEGORIES;
+                                
+                                msg += "└ Yêu cầu:\n";
+                                const groupedReqs = job.requirements.reduce((acc, req) => {
+                                    const degree = DEGREES[req];
+                                    if (!degree) return acc;
+                                    
+                                    const category = Object.entries(DEGREE_CATEGORIES).find(([_, cat]) => 
+                                        cat.degrees.includes(req)
+                                    )?.[1];
+                                    
+                                    const catName = category ? category.name : "Khác";
+                                    if (!acc[catName]) acc[catName] = [];
+                                    acc[catName].push(degree.name);
+                                    return acc;
+                                }, {});
+
+                                Object.entries(groupedReqs).forEach(([category, degrees]) => {
+                                    msg += `   • ${category}: ${degrees.join(", ")}\n`;
+                                });
                             }
                             msg += "\n";
 
@@ -77,6 +94,9 @@ module.exports = {
                     msg += "➤ Ứng tuyển: .job apply <mã>\n";
                     
                     const listMsg = await api.sendMessage(msg, threadID);
+                    setTimeout(() => {
+                        api.unsendMessage(listMsg.messageID);
+                    }, 120000);
                     return;
                 }
 
@@ -127,11 +147,15 @@ module.exports = {
                         `📅 Ngày bắt đầu: ${new Date(job.currentJob.startDate).toLocaleDateString()}\n` +
                         `📈 Số lần làm việc: ${job.workCount}\n` +
                         `👔 Cấp bậc hiện tại: ${currentLevel?.name || 'Tập sự'}\n` +
+                        `📝 Mô tả: ${currentJob.description}\n` +
                         levelInfo +
                         "\n💡 Dùng .work để làm việc kiếm tiền\n" +
                         "\n┗━━━━━━━━━━━━━━━━━┛",
                         threadID
                     );
+                    setTimeout(() => {
+                        api.unsendMessage(infoMsg.messageID);
+                    }, 30000);
                     return;
                 }
 

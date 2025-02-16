@@ -1,6 +1,6 @@
 const fs = require('fs');
 const path = require('path');
-const { JOBS } = require('../config/family/jobConfig');
+const { JOBS, JOB_RANKS } = require('../config/family/jobConfig');
 
 class JobSystem {
     constructor() {
@@ -58,39 +58,6 @@ class JobSystem {
                 countRange: [3, 6]
             }
         ];
-
-        this.JOB_LEVELS = {
-            "shipper": [
-                { name: "Shipper tập sự", minWork: 0 },
-                { name: "Shipper chuyên nghiệp", minWork: 50, bonus: 1.2 },
-                { name: "Shipper cao cấp", minWork: 100, bonus: 1.5 }
-            ],
-            "construction": [
-                { name: "Phụ hồ", minWork: 0 },
-                { name: "Thợ chính", minWork: 30, bonus: 1.3 },
-                { name: "Thợ cả", minWork: 80, bonus: 1.8 }
-            ],
-            "chef": [
-                { name: "Phụ bếp", minWork: 0 },
-                { name: "Đầu bếp", minWork: 40, bonus: 1.4 },
-                { name: "Bếp trưởng", minWork: 90, bonus: 2.0 }
-            ],
-            "guard": [
-                { name: "Bảo vệ tập sự", minWork: 0 },
-                { name: "Bảo vệ chính thức", minWork: 35, bonus: 1.25 },
-                { name: "Giám sát an ninh", minWork: 85, bonus: 1.6 }
-            ],
-            "programmer": [
-                { name: "Intern", minWork: 0 },
-                { name: "Developer", minWork: 45, bonus: 1.5 },
-                { name: "Senior Dev", minWork: 95, bonus: 2.2 }
-            ],
-            "streamer": [
-                { name: "Streamer tập sự", minWork: 0 },
-                { name: "Streamer chuyên nghiệp", minWork: 40, bonus: 1.35 },
-                { name: "Top Streamer", minWork: 90, bonus: 1.9 }
-            ]
-        };
     }
 
     loadData() {
@@ -213,11 +180,7 @@ class JobSystem {
             if (!job) return { qualified: false, reason: "Công việc không tồn tại" };
             if (!job.requirements || job.requirements.length === 0) return { qualified: true };
 
-            console.log('User degrees:', education.degrees);
-            console.log('Job requirements:', job.requirements);
-
             const userDegrees = education.degrees.map(d => d === "highschool" ? "e1" : d);
-            console.log('Mapped degrees:', userDegrees);
 
             const hasQualification = job.requirements.some(req => {
                 const requiredLevel = DEGREES[req].level;
@@ -226,8 +189,6 @@ class JobSystem {
                     return userDegreeLevel >= requiredLevel;
                 });
             });
-
-            console.log('Has qualification:', hasQualification);
 
             if (!hasQualification) {
                 const missingDegrees = job.requirements
@@ -375,10 +336,12 @@ class JobSystem {
 
             return {
                 ...job,
+                id: jobData.currentJob.id,
                 salary,
                 workCount: jobData.workCount,
                 levelName: currentLevel?.name || job.name,
-                leveledUp: leveledUp ? newLevel : null
+                leveledUp: leveledUp ? newLevel : null,
+                type: jobType
             };
         } catch (error) {
             if (!error.isWaitError) {
@@ -435,13 +398,13 @@ class JobSystem {
     }
 
     getJobLevel(jobType, workCount) {
-        const levels = this.JOB_LEVELS[jobType] || [];
-        for (let i = levels.length - 1; i >= 0; i--) {
-            if (workCount >= levels[i].minWork) {
-                return levels[i];
+        const ranks = JOB_RANKS[jobType] || [];
+        for (let i = ranks.length - 1; i >= 0; i--) {
+            if (workCount >= ranks[i].minWork) {
+                return ranks[i];
             }
         }
-        return levels[0] || null;
+        return ranks[0] || null;
     }
 }
 

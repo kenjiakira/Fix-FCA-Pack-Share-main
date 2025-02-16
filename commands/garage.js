@@ -62,7 +62,11 @@ module.exports = {
                     msg += "➤ Mua nhiều xe: .garage buy v1 v2\n\n";
                     msg += "💵 Số dư: " + formatNumber(await getBalance(senderID)) + " Xu";
                     
-                    return api.sendMessage(msg, threadID);
+                    const listMessage = await api.sendMessage(msg, threadID);
+                    setTimeout(() => {
+                        api.unsendMessage(listMessage.messageID);
+                    }, 30000);
+                    return;
                 }
 
                 case "buy": {
@@ -112,8 +116,15 @@ module.exports = {
 
                 case "repair": {
                     const carId = target[1]?.toLowerCase();
-                    if (!carId || !garage.vehicles[carId]) {
-                        return api.sendMessage("❌ Bạn không sở hữu xe này!", threadID);
+                    if (!carId) {
+                        return api.sendMessage("❌ Vui lòng nhập mã xe cần xem thông tin!", threadID);
+                    }
+                    if (!CARS[carId]) {
+                        return api.sendMessage(`❌ Mã xe '${carId}' không tồn tại!`, threadID);
+                    }
+                    if (!garage.vehicles[carId]) {
+                        const car = CARS[carId];
+                        return api.sendMessage(`❌ Bạn không sở hữu xe ${car.brand} ${car.name} (Mã: ${carId})!`, threadID);
                     }
 
                     const car = CARS[carId];
@@ -144,8 +155,15 @@ module.exports = {
 
                 case "sell": {
                     const carId = target[1]?.toLowerCase();
-                    if (!carId || !garage.vehicles[carId]) {
-                        return api.sendMessage("❌ Bạn không sở hữu xe này!", threadID);
+                    if (!carId) {
+                        return api.sendMessage("❌ Vui lòng nhập mã xe cần bán!", threadID);
+                    }
+                    if (!CARS[carId]) {
+                        return api.sendMessage(`❌ Mã xe '${carId}' không tồn tại!`, threadID);
+                    }
+                    if (!garage.vehicles[carId]) {
+                        const car = CARS[carId];
+                        return api.sendMessage(`❌ Bạn không sở hữu xe ${car.brand} ${car.name} (Mã: ${carId})!`, threadID);
                     }
 
                     const car = CARS[carId];
@@ -167,8 +185,15 @@ module.exports = {
 
                 case "info": {
                     const carId = target[1]?.toLowerCase();
-                    if (!carId || !garage.vehicles[carId]) {
-                        return api.sendMessage("❌ Bạn không sở hữu xe này!", threadID);
+                    if (!carId) {
+                        return api.sendMessage("❌ Vui lòng nhập mã xe cần xem thông tin!", threadID);
+                    }
+                    if (!CARS[carId]) {
+                        return api.sendMessage(`❌ Mã xe '${carId}' không tồn tại!`, threadID);
+                    }
+                    if (!garage.vehicles[carId]) {
+                        const car = CARS[carId];
+                        return api.sendMessage(`❌ Bạn không sở hữu xe ${car.brand} ${car.name} (Mã: ${carId})!`, threadID);
                     }
 
                     const car = CARS[carId];
@@ -209,7 +234,11 @@ module.exports = {
                     }
                     
                     msg += "┗━━━━━━━━━━━━━━━━━┛";
-                    return api.sendMessage(msg, threadID);
+                    const garageMessage = await api.sendMessage(msg, threadID);
+                    setTimeout(() => {
+                        api.unsendMessage(garageMessage.messageID);
+                    }, 30000);
+                    return;
                 }
             }
 

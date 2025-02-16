@@ -39,9 +39,9 @@
       "performance": 100
     },
     "jobHistory": [],
-    "lastWorked": 1739669864683,
-    "totalEarned": 1350000,
-    "workCount": 9
+    "lastWorked": 1739672146583,
+    "totalEarned": 1500000,
+    "workCount": 10
   },
   "100076957299243": {
     "currentJob": {
@@ -112,9 +112,9 @@
       "performance": 100
     },
     "jobHistory": [],
-    "lastWorked": 1739637231310,
-    "totalEarned": 5200000,
-    "workCount": 26
+    "lastWorked": 1739675754113,
+    "totalEarned": 5400000,
+    "workCount": 27
   },
   "100035610181048": {
     "currentJob": {
@@ -123,9 +123,9 @@
       "performance": 100
     },
     "jobHistory": [],
-    "lastWorked": 1739638016104,
-    "totalEarned": 3000000,
-    "workCount": 15
+    "lastWorked": 1739675941612,
+    "totalEarned": 3200000,
+    "workCount": 16
   },
   "61563759854074": {
     "currentJob": {
@@ -134,9 +134,9 @@
       "performance": 100
     },
     "jobHistory": [],
-    "lastWorked": 1739594419762,
-    "totalEarned": 600000,
-    "workCount": 3
+    "lastWorked": 1739675427755,
+    "totalEarned": 800000,
+    "workCount": 4
   },
   "61566378911878": {
     "currentJob": {
@@ -163,9 +163,9 @@
       "performance": 100
     },
     "jobHistory": [],
-    "lastWorked": 1739638722488,
-    "totalEarned": 450000,
-    "workCount": 6
+    "lastWorked": 1739672476115,
+    "totalEarned": 525000,
+    "workCount": 7
   },
   "100085397934729": {
     "currentJob": {
@@ -185,9 +185,9 @@
       "performance": 100
     },
     "jobHistory": [],
-    "lastWorked": 1739549311291,
-    "totalEarned": 560000,
-    "workCount": 1
+    "lastWorked": 1739675000032,
+    "totalEarned": 1120000,
+    "workCount": 2
   },
   "100093208808025": {
     "currentJob": {
@@ -213,14 +213,14 @@
   },
   "61550331471452": {
     "currentJob": {
-      "id": "j2",
-      "startDate": 1739295299316,
+      "id": "j4",
+      "startDate": 1739673780596,
       "performance": 100
     },
     "jobHistory": [],
-    "lastWorked": 1739607713016,
-    "totalEarned": 612000,
-    "workCount": 9
+    "lastWorked": 1739675456511,
+    "totalEarned": 112000,
+    "workCount": 1
   },
   "61564482366941": {
     "currentJob": {
@@ -258,9 +258,9 @@
       "performance": 100
     },
     "jobHistory": [],
-    "lastWorked": 1739618429017,
-    "totalEarned": 1200000,
-    "workCount": 8
+    "lastWorked": 1739678624440,
+    "totalEarned": 2170000,
+    "workCount": 10
   },
   "100071151188537": {
     "currentJob": {
@@ -269,9 +269,9 @@
       "performance": 100
     },
     "jobHistory": [],
-    "lastWorked": 1739670048299,
-    "totalEarned": 1120000,
-    "workCount": 14
+    "lastWorked": 1739679888162,
+    "totalEarned": 1440000,
+    "workCount": 18
   },
   "100006842495827": {
     "currentJob": {
@@ -280,9 +280,9 @@
       "performance": 100
     },
     "jobHistory": [],
-    "lastWorked": 1739456797136,
-    "totalEarned": 320000,
-    "workCount": 4
+    "lastWorked": 1739670887087,
+    "totalEarned": 432000,
+    "workCount": 5
   },
   "100067146620344": {
     "currentJob": {
@@ -386,9 +386,9 @@
       "performance": 100
     },
     "jobHistory": [],
-    "lastWorked": 1739627596987,
-    "totalEarned": 400000,
-    "workCount": 2
+    "lastWorked": 1739675070890,
+    "totalEarned": 600000,
+    "workCount": 3
   },
   "100089415987625": {
     "currentJob": null,
@@ -451,9 +451,9 @@
       "performance": 100
     },
     "jobHistory": [],
-    "lastWorked": 1739669902847,
-    "totalEarned": 4275000,
-    "workCount": 57
+    "lastWorked": 1739675933055,
+    "totalEarned": 4500000,
+    "workCount": 60
   },
   "61550616981053": {
     "currentJob": {
@@ -629,9 +629,9 @@
       "performance": 100
     },
     "jobHistory": [],
-    "lastWorked": 1739636611137,
-    "totalEarned": 495000,
-    "workCount": 11
+    "lastWorked": 1739678481891,
+    "totalEarned": 540000,
+    "workCount": 12
   },
   "100050445245297": {
     "currentJob": {
@@ -652,11 +652,15 @@
     "workCount": 0
   },
   "100071639513410": {
-    "currentJob": null,
+    "currentJob": {
+      "id": "j3",
+      "startDate": 1739673937403,
+      "performance": 100
+    },
     "jobHistory": [],
-    "lastWorked": 0,
-    "totalEarned": 0,
-    "workCount": 0
+    "lastWorked": 1739674851200,
+    "totalEarned": 90000,
+    "workCount": 2
   },
   "100080149704587": {
     "currentJob": {
@@ -790,6 +794,17 @@
     "jobHistory": [],
     "lastWorked": 1739619637752,
     "totalEarned": 80000,
+    "workCount": 1
+  },
+  "61568444251856": {
+    "currentJob": {
+      "id": "j6",
+      "startDate": 1739677105236,
+      "performance": 100
+    },
+    "jobHistory": [],
+    "lastWorked": 1739677110200,
+    "totalEarned": 75000,
     "workCount": 1
   }
 }

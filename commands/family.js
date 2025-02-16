@@ -18,7 +18,7 @@ module.exports = {
     usedby: 0,
     info: "Hệ thống gia đình",
     onPrefix: true,
-    usages: ".family [info/marry/divorce/child]",
+    usages: ".family [info/marry/divorce/child/temple]",
     cooldowns: 5,
 
     onLaunch: async function({ api, event, target }) {
@@ -35,7 +35,8 @@ module.exports = {
                     "2. marry [@tag] - Kết hôn\n" +
                     "3. divorce - Ly hôn\n" +
                     "4. love - Động phòng\n" +
-                    "5. rename [số thứ tự] [tên mới] - Đổi tên con\n\n" +
+                    "5. rename [số thứ tự] [tên mới] - Đổi tên con\n" +
+                    "6. temple [số thứ tự] - Gửi con vào chùa tu hành\n\n" +
                     "━━━━━━━━━━━━━━━━━━\n" +
                     "📝 CÁC LỆNH LIÊN QUAN:\n" +
                     "• .garage - Quản lý xe cộ\n" +
@@ -73,7 +74,7 @@ module.exports = {
 
                     return api.sendMessage(
                         "╔═ 『 THÔNG TIN 』 ═╗\n" +
-                        "║                                                              ║\n" +
+                        "║║\n" +
                         "╠═ 👤CÁ NHÂN\n" +
                         `║  ▸ Tên: ${familySystem.getUserName(senderID)}\n` +
                         `║  ▸ ID: ${senderID}\n` +
@@ -88,7 +89,7 @@ module.exports = {
                         "╠═ 🏠 NHÀ Ở\n" +
                         `║  ▸ ${sharedHome ? `Loại nhà: ${sharedHome.name}` : 'Chưa có nhà'}\n` +
                         (sharedHome ? 
-                        `║  ▸ Tình trạng: ${sharedHome.condition}%\n` +
+                        `║  ▸ Tình trạng: ${Math.round(sharedHome.condition)}%\n` +
                         `║  ▸ Chủ hộ: ${familySystem.getUserName(currentUserHome ? senderID : family.spouse)}\n` : "") +
                         "║\n" +
                         "╠═ 🚗 PHƯƠNG TIỆN\n" +
@@ -168,11 +169,16 @@ module.exports = {
                         );
                     }
                     await updateBalance(senderID, -DIVORCE_COST);
-                    await familySystem.divorce(senderID);
-                    return api.sendMessage(
-                        `💔 Đã ly hôn thành công!\n💰 Chi phí: ${formatNumber(DIVORCE_COST)} Xu`,
-                        threadID
-                    );
+                    const divorceResult = await familySystem.divorce(senderID);
+                    
+                    let message = `💔 Đã ly hôn thành công!\n💰 Chi phí: ${formatNumber(DIVORCE_COST)} Xu`;
+                    
+                    if (divorceResult.custodyInfo) {
+                        const custodyParentName = familySystem.getUserName(divorceResult.custodyInfo.parent);
+                        message += `\n👶 Quyền nuôi ${divorceResult.custodyInfo.childCount} đứa con thuộc về ${custodyParentName}`;
+                    }
+                    
+                    return api.sendMessage(message, threadID);
                 }
 
                 case "love": {
@@ -257,10 +263,32 @@ module.exports = {
                     }
                 }
                 
+                case "temple": {
+                    const index = parseInt(subCommand) - 1;
+                    
+                    if (isNaN(index)) {
+                        return api.sendMessage(
+                            "❌ Vui lòng nhập đúng cú pháp:\n.family temple [số thứ tự]",
+                            threadID
+                        );
+                    }
+
+                    try {
+                        const result = await familySystem.sendChildToTemple(senderID, index);
+                        return api.sendMessage(
+                            `🙏 Đã gửi ${result.gender} ${result.name} vào chùa tu hành\n` +
+                            `💝 Cầu mong ${result.name} sẽ có một tương lai tốt đẹp trên con đường tu tập`,
+                            threadID
+                        );
+                    } catch (error) {
+                        return api.sendMessage(`❌ ${error.message}`, threadID);
+                    }
+                }
+
                 default:
                     return api.sendMessage(
                         "❌ Lệnh không hợp lệ!\n" +
-                        "💡 Sử dụng: .family [info/marry/divorce/child]",
+                        "💡 Sử dụng: .family [info/marry/divorce/child/temple]",
                         threadID
                     );
             }

@@ -1278,12 +1278,6 @@
   "61556582712090": [
     {
       "type": "in",
-      "amount": 2000000,
-      "timestamp": 1739509087616,
-      "description": "Nhận 2000000 Xu từ Người gửi"
-    },
-    {
-      "type": "in",
       "amount": 5000000,
       "timestamp": 1739509745562,
       "description": "Nhận 5000000 Xu từ Người gửi"
@@ -1305,6 +1299,12 @@
       "amount": 50000000,
       "timestamp": 1739616116822,
       "description": "Nhận 50000000 Xu từ Người gửi"
+    },
+    {
+      "type": "out",
+      "amount": 50150000,
+      "timestamp": 1739677784281,
+      "description": "Chuyển 50000000 Xu cho Người nhận"
     }
   ],
   "61564956976450": [
@@ -1899,24 +1899,6 @@
     {
       "type": "out",
       "amount": 5015000,
-      "timestamp": 1739597095457,
-      "description": "Chuyển 5000000 Xu cho Người nhận"
-    },
-    {
-      "type": "out",
-      "amount": 5015000,
-      "timestamp": 1739597122060,
-      "description": "Chuyển 5000000 Xu cho Người nhận"
-    },
-    {
-      "type": "in",
-      "amount": 10000000,
-      "timestamp": 1739597704615,
-      "description": "Nhận 10000000 Xu từ Người gửi"
-    },
-    {
-      "type": "out",
-      "amount": 5015000,
       "timestamp": 1739611098625,
       "description": "Chuyển 5000000 Xu cho Người nhận"
     },
@@ -1925,6 +1907,24 @@
       "amount": 50150000,
       "timestamp": 1739616116822,
       "description": "Chuyển 50000000 Xu cho Người nhận"
+    },
+    {
+      "type": "in",
+      "amount": 50000000,
+      "timestamp": 1739671506425,
+      "description": "Nhận 50000000 Xu từ Người gửi"
+    },
+    {
+      "type": "in",
+      "amount": 50000000,
+      "timestamp": 1739671512249,
+      "description": "Nhận 50000000 Xu từ Người gửi"
+    },
+    {
+      "type": "in",
+      "amount": 50000000,
+      "timestamp": 1739677784281,
+      "description": "Nhận 50000000 Xu từ Người gửi"
     }
   ],
   "61554398430319": [
@@ -2186,12 +2186,6 @@
   "100071151188537": [
     {
       "type": "in",
-      "amount": 5000000,
-      "timestamp": 1739349689220,
-      "description": "Nhận 5000000 Xu từ Người gửi"
-    },
-    {
-      "type": "in",
       "amount": 500000,
       "timestamp": 1739349707923,
       "description": "Nhận 500000 Xu từ Người gửi"
@@ -2213,6 +2207,12 @@
       "amount": 9970000,
       "timestamp": 1739355431818,
       "description": "Nhận 9970000 Xu từ Người gửi"
+    },
+    {
+      "type": "in",
+      "amount": 8000000,
+      "timestamp": 1739673514098,
+      "description": "Nhận 8000000 Xu từ Người gửi"
     }
   ],
   "61563982612558": [
@@ -2539,18 +2539,6 @@
   ],
   "100053857386814": [
     {
-      "type": "in",
-      "amount": 600000,
-      "timestamp": 1739452341317,
-      "description": "Nhận 600000 Xu từ Người gửi"
-    },
-    {
-      "type": "out",
-      "amount": 10030000,
-      "timestamp": 1739597704615,
-      "description": "Chuyển 10000000 Xu cho Người nhận"
-    },
-    {
       "type": "out",
       "amount": 3009000,
       "timestamp": 1739612537944,
@@ -2567,6 +2555,18 @@
       "amount": 2006000,
       "timestamp": 1739626245238,
       "description": "Chuyển 2000000 Xu cho Người nhận"
+    },
+    {
+      "type": "out",
+      "amount": 50150000,
+      "timestamp": 1739671506425,
+      "description": "Chuyển 50000000 Xu cho Người nhận"
+    },
+    {
+      "type": "out",
+      "amount": 50150000,
+      "timestamp": 1739671512249,
+      "description": "Chuyển 50000000 Xu cho Người nhận"
     }
   ],
   "100028202556430": [
@@ -4007,12 +4007,6 @@
     {
       "type": "in",
       "amount": 16000000,
-      "timestamp": 1739358057618,
-      "description": "Nhận 16000000 Xu từ Người gửi"
-    },
-    {
-      "type": "in",
-      "amount": 16000000,
       "timestamp": 1739358163681,
       "description": "Nhận 16000000 Xu từ Người gửi"
     },
@@ -4033,6 +4027,12 @@
       "amount": 1000000,
       "timestamp": 1739617312528,
       "description": "Nhận 1000000 Xu từ Người gửi"
+    },
+    {
+      "type": "out",
+      "amount": 8024000,
+      "timestamp": 1739673514098,
+      "description": "Chuyển 8000000 Xu cho Người nhận"
     }
   ],
   "61555175093963": [
@@ -4932,12 +4932,6 @@
   "100078984067946": [
     {
       "type": "out",
-      "amount": 5015000,
-      "timestamp": 1739364314208,
-      "description": "Chuyển 5000000 Xu cho Người nhận"
-    },
-    {
-      "type": "out",
       "amount": 2507500,
       "timestamp": 1739364359665,
       "description": "Chuyển 2500000 Xu cho Người nhận"
@@ -4959,6 +4953,12 @@
       "amount": 9027000,
       "timestamp": 1739616086945,
       "description": "Chuyển 9000000 Xu cho Người nhận"
+    },
+    {
+      "type": "in",
+      "amount": 20000000,
+      "timestamp": 1739671463737,
+      "description": "Nhận 20000000 Xu từ Người gửi"
     }
   ],
   "61564135792122": [
@@ -5177,6 +5177,12 @@
       "amount": 2006000,
       "timestamp": 1739626613246,
       "description": "Chuyển 2000000 Xu cho Người nhận"
+    },
+    {
+      "type": "out",
+      "amount": 20060000,
+      "timestamp": 1739671463737,
+      "description": "Chuyển 20000000 Xu cho Người nhận"
     }
   ],
   "61566949294471": [

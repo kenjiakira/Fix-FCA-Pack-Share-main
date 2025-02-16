@@ -165,7 +165,24 @@ class FamilySystem {
         if (!family.spouse) throw new Error("Bạn chưa kết hôn!");
 
         const spouseFamily = this.getFamily(family.spouse);
-        
+        const hasChildren = family.children && family.children.length > 0;
+
+        // Determine child custody based on happiness levels
+        if (hasChildren) {
+            const children = [...family.children];
+            if (family.happiness >= spouseFamily.happiness) {
+                // User gets custody
+                spouseFamily.children = [];
+                family.hasCustody = true;
+                spouseFamily.hasCustody = false;
+            } else {
+                // Spouse gets custody
+                family.children = [];
+                family.hasCustody = false;
+                spouseFamily.hasCustody = true;
+            }
+        }
+
         family.spouse = null;
         family.happiness = 50;
         
@@ -173,7 +190,13 @@ class FamilySystem {
         spouseFamily.happiness = 50;
 
         this.saveData();
-        return true;
+        return {
+            success: true,
+            custodyInfo: hasChildren ? {
+                parent: family.hasCustody ? userID : family.spouse,
+                childCount: family.children.length || spouseFamily.children.length
+            } : null
+        };
     }
 
     addChild(userID, childName) {
@@ -489,6 +512,31 @@ class FamilySystem {
             happiness: Math.round(family.happiness || 0),
             childCount: (family.children || []).length,
             children: family.children || []
+        };
+    }
+
+    sendChildToTemple(userID, childIndex) {
+        const family = this.getFamily(userID);
+        if (!family.children || !family.children[childIndex]) {
+            throw new Error("Không tìm thấy con!");
+        }
+
+        const child = family.children[childIndex];
+        
+        // Remove child from both parents' arrays
+        family.children.splice(childIndex, 1);
+        
+        if (family.spouse) {
+            const spouseFamily = this.getFamily(family.spouse);
+            if (spouseFamily.children) {
+                spouseFamily.children.splice(childIndex, 1);
+            }
+        }
+
+        this.saveData();
+        return {
+            name: child.name,
+            gender: child.gender
         };
     }
 }

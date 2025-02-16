@@ -242,7 +242,8 @@ module.exports = {
                             attachment: fs.createReadStream(imagePath)
                         }, threadID);
 
-                        // Set timeout to auto-skip after 60 seconds
+                        const catchMsgId = catchMsg.messageID;
+
                         setTimeout(async () => {
                             const replyStillExists = global.client.onReply.some(r => 
                                 r.messageID === catchMsg.messageID
@@ -360,7 +361,136 @@ module.exports = {
                         messageID
                     );
 
-                case "battle": {
+case "pve": {
+    const pveSystem = require('../poke/pveSystem');
+    
+    if (!param) {
+        const difficulties = pveSystem.getDifficultyInfo();
+        let msg = "🆚 CHẾ ĐỘ PVE 🆚\n" +
+                  "━━━━━━━━━━━━━━━━━\n\n" +
+                  "📊 CÁC ĐỘ KHÓ:\n";
+        
+        difficulties.forEach(diff => {
+            msg += `${diff.id}. ${diff.name}\n`;
+            msg += `   🎯 Cấp độ: ${diff.level}\n`;
+            msg += `   ✨ EXP: ${diff.exp}\n\n`;
+        });
+        
+        msg += "Cách dùng: .poke pve [độ khó]\n";
+        msg += "VD: .poke pve normal";
+        
+        return api.sendMessage(msg, threadID, messageID);
+    }
+
+    const difficulty = param.toLowerCase();
+    
+    if (!pveSystem.difficulties[difficulty]) {
+        return api.sendMessage("❌ Độ khó không hợp lệ!", threadID, messageID);
+    }
+
+    const cooldownCheck = pveSystem.checkCooldown(senderID, difficulty);
+    if (!cooldownCheck.canBattle) {
+        const timeLeft = Math.ceil(cooldownCheck.timeLeft / 1000);
+        return api.sendMessage(
+            `⏳ Vui lòng đợi ${timeLeft} giây nữa để tiếp tục PvE ở độ khó này!`,
+            threadID,
+            messageID
+        );
+    }
+
+    const pokemon = await pokeSystem.getSelectedPokemon(senderID);
+    if (!pokemon) {
+        return api.sendMessage(
+            "❌ Bạn chưa chọn Pokemon!\n" +
+            "Dùng .poke select [số] để chọn Pokemon",
+            threadID,
+            messageID
+        );
+    }
+
+    try {
+        const wildPokemon = await pveSystem.generateWildPokemon(difficulty, pokeSystem);
+        
+        const battleImage = await createBattleImage(
+            pokemon.image,
+            wildPokemon.image,
+            await pokeSystem.getPlayerName(senderID),
+            "Wild Pokemon",
+            pokemon.name,
+            wildPokemon.name
+        );
+
+        const battleMsg = await api.sendMessage({
+            body: "⚔️ BATTLE PVE ⚔️\n" +
+                  "━━━━━━━━━━━━━━━━━\n\n" +
+                  `🔵 ${pokemon.name.toUpperCase()} (Lv.${pokemon.level})\n` +
+                  `🎭 Hệ: ${pokemon.types.map(t => 
+                      `${pokeSystem.getTypeEmoji(t)} ${pokeSystem.getTypeName(t)}`
+                  ).join(' | ')}\n` +
+                  `   ❤️ HP: ${pokemon.hp}\n` +
+                  `   ⚔️ ATK: ${pokemon.attack}\n` +
+                  `   🛡️ DEF: ${pokemon.defense}\n\n` +
+                  `⚔️ VS ⚔️\n\n` +
+                  `🔴 ${wildPokemon.name.toUpperCase()} (Lv.${wildPokemon.level})\n` +
+                  `🎭 Hệ: ${wildPokemon.types.map(t => 
+                      `${pokeSystem.getTypeEmoji(t)} ${pokeSystem.getTypeName(t)}`
+                  ).join(' | ')}\n` +
+                  `   ❤️ HP: ${wildPokemon.hp}\n` +
+                  `   ⚔️ ATK: ${wildPokemon.attack}\n` +
+                  `   🛡️ DEF: ${wildPokemon.defense}\n\n` +
+                  "🎯 Trận đấu bắt đầu trong 10 giây...",
+            attachment: battleImage
+        }, threadID);
+
+        await new Promise(resolve => setTimeout(resolve, 10000));
+
+        const battleResult = await pveSystem.battle(pokemon, wildPokemon);
+        const rewards = pveSystem.calculateRewards(
+            difficulty, 
+            wildPokemon,
+            battleResult.winner === pokemon
+        );
+
+        // Set cooldown after battle completes
+        pveSystem.setCooldown(senderID, difficulty);
+
+        if (battleResult.winner === pokemon) {
+            pokemon.exp += rewards.exp;
+            await pokeSystem.saveData();
+
+            const levelUp = await pokeSystem.checkLevelUp(senderID, 
+                (await pokeSystem.getPlayer(senderID)).activePokemon
+            );
+            
+            if (levelUp && levelUp !== true) {
+                await this.handleEvolution(api, threadID, levelUp);
+            }
+        }
+
+        const battleLog = battleResult.battleLog.slice(-5).join('\n');
+        
+        return api.sendMessage(
+            "🏆 KẾT QUẢ TRẬN ĐẤU 🏆\n" +
+            "━━━━━━━━━━━━━━━━━\n\n" +
+            `${battleLog}\n\n` +
+            `👑 Người thắng: ${battleResult.winner.name}\n` +
+            `❤️ HP còn lại: ${battleResult.winner === pokemon ? 
+                battleResult.finalHP.player : battleResult.finalHP.wild}\n` +
+            `✨ EXP nhận được: +${rewards.exp}`,
+            threadID
+        );
+
+    } catch (error) {
+        console.error('PvE battle error:', error);
+        return api.sendMessage(
+            "❌ Đã xảy ra lỗi trong trận đấu!",
+            threadID
+        );
+    }
+    return;
+}
+
+case "battle": {
                     const mentionedId = Object.keys(event.mentions)[0]; 
                     if (!mentionedId) {
                         return api.sendMessage(
@@ -1132,18 +1262,19 @@ module.exports = {
                         "1. .poke catch - Bắt Pokemon mới\n" +
                         "2. .poke bag [trang] - Xem túi Pokemon\n" +
                         "3. .poke select [số] - Chọn Pokemon\n" +
-                        "4. .poke battle [@tag] - Đấu Pokemon\n" +
-                        "5. .poke train - Huấn luyện Pokemon (+EXP)\n\n" +
-                        "6. .poke info - Xem thống kê\n" +
-                        "7. .poke find [tên] - Tìm Pokemon\n" +
-                        "8. .poke balls - Xem kho bóng\n" +
-                        "9. .poke buy [loại] [số lượng] - Mua bóng\n" +
-                        "10. .poke stones - Xem kho đá tiến hóa\n" +
-                        "11. .poke evolve [số] - Kiểm tra và tiến hóa Pokemon\n" +
-                        "12. .poke evo - Xem thông tin về tiến hóa\n" +
-                        "13. .poke buystone [tên] [số lượng] - Mua đá tiến hóa\n" +
-                        "14. .poke pet - Tương tác với Pokemon\n" +
-                        "15. .poke levelup - Nâng cấp Pokemon\n\n" +
+                        "4. .poke battle [@tag] - Đấu Pokemon (PvP)\n" +
+                        "5. .poke pve [độ khó] - Đấu với Pokemon hoang dã\n" +
+                        "6. .poke train - Huấn luyện Pokemon (+EXP)\n\n" +
+                        "7. .poke info - Xem thống kê\n" +
+                        "8. .poke find [tên] - Tìm Pokemon\n" +
+                        "9. .poke balls - Xem kho bóng\n" +
+                        "10. .poke buy [loại] [số lượng] - Mua bóng\n" +
+                        "11. .poke stones - Xem kho đá tiến hóa\n" +
+                        "12. .poke evolve [số] - Kiểm tra và tiến hóa Pokemon\n" +
+                        "13. .poke evo - Xem thông tin về tiến hóa\n" +
+                        "14. .poke buystone [tên] [số lượng] - Mua đá tiến hóa\n" +
+                        "15. .poke pet - Tương tác với Pokemon\n" +
+                        "16. .poke levelup - Nâng cấp Pokemon\n\n" +
                         "📌 LƯU Ý:\n" +
                         "━━━━━━━━━━━━━━━━━\n" +
                         "• Mỗi người chơi chỉ có thể chọn 1 Pokemon để tham gia trận đấu\n" +
@@ -1151,7 +1282,17 @@ module.exports = {
                         "• Tương tác với Pokemon để tăng độ thân thiết";
 
                     if (typeof api.sendMessage === 'function') {
-                        return api.sendMessage(helpMessage, threadID, messageID);
+                        const menuMsg = await api.sendMessage(helpMessage, threadID, messageID);
+                        
+                        setTimeout(async () => {
+                            try {
+                                await api.unsendMessage(menuMsg.messageID);
+                            } catch (error) {
+                                console.error("Error unsending menu message:", error);
+                            }
+                        }, 30000);
+                        
+                        return;
                     } else {
                         console.error("api.sendMessage is not a function");
                         return null;
@@ -1190,16 +1331,41 @@ module.exports = {
 
                 if (answer === "no") {
                     catchSystem.setHuntCooldown(senderID, reply.locationId);
-                    return api.sendMessage("❌ Đã bỏ qua Pokemon này.", threadID);
+                    
+                    // Unsend the catch message
+                    await api.unsendMessage(reply.msgID);
+                    
+                    const skipMsg = await api.sendMessage("❌ Đã bỏ qua Pokemon này.", threadID);
+                    
+                    setTimeout(async () => {
+                        try {
+                            await api.unsendMessage(skipMsg.messageID);
+                        } catch (error) {
+                            console.error("Error unsending skip message:", error);
+                        }
+                    }, 5000);
+                    
+                    return;
                 }
 
                 if (answer !== "yes") {
                     catchSystem.setActiveHunt(senderID, reply.locationId, true);
-                    return api.sendMessage(
+                    
+                    const invalidMsg = await api.sendMessage(
                         "❌ Lựa chọn không hợp lệ!\n" +
                         "Reply 'yes' để bắt hoặc 'no' để bỏ qua.",
                         threadID
                     );
+                
+                    setTimeout(async () => {
+                        try {
+                            await api.unsendMessage(invalidMsg.messageID);
+                        } catch (error) {
+                            console.error("Error unsending invalid choice message:", error);
+                        }
+                    }, 5000);
+                    
+                    return;
                 }
 
                 try {
@@ -1240,10 +1406,12 @@ module.exports = {
                     if (result.success) {
                         catchSystem.setHuntCooldown(senderID, reply.locationId);
 
+                        await api.unsendMessage(reply.msgID);
+
                         const weatherBonus = reply.weather ? 
                             `\n🌤️ Bonus thời tiết: ${reply.weather}` : '';
                         
-                        return api.sendMessage(
+                        const successMsg = await api.sendMessage(
                             `🎉 Thu phục thành công ${result.pokemon.name} bằng ${result.ballUsed}!\n` +
                             `📊 Chỉ số:\n` +
                             `❤️ HP: ${result.pokemon.hp}\n` +
@@ -1255,6 +1423,16 @@ module.exports = {
                             weatherBonus,
                             threadID
                         );
+
+                        setTimeout(async () => {
+                            try {
+                                await api.unsendMessage(successMsg.messageID);
+                            } catch (error) {
+                                console.error("Error unsending success message:", error);
+                            }
+                        }, 10000);
+
+                        return;
                     }
 
                     catchSystem.setActiveHunt(senderID, reply.locationId, false);

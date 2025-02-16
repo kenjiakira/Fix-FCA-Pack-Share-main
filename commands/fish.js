@@ -16,14 +16,14 @@ const {
 const { getVIPBenefits } = require('../utils/vipCheck');
 
 const levelRequirements = {
-    pond: 1,        // Hồ câu
-    river: 3,       // Sông
-    ocean: 5,       // Biển
-    deepSea: 10,    // Biển sâu
-    abyss: 20,      // Vực thẳm
-    atlantis: 50,   // Atlantis
-    spaceOcean: 100, // Đại dương vũ trụ
-    dragonRealm: 200 // Vương quốc rồng
+    pond: 1,       
+    river: 3,      
+    ocean: 5,     
+    deepSea: 10,
+    abyss: 20,      
+    atlantis: 50, 
+    spaceOcean: 100, 
+    dragonRealm: 200 
 };
 
 function formatNumber(number) {
@@ -240,7 +240,7 @@ module.exports = {
                             );
                         }
 
-                        const locationMenu = "🗺️ CHỌN ĐỊA ĐIỂM CÂU CÁ:\n━━━━━━━━━━━━━━━━━━\n" +
+                const locationMenu = "🗺️ CHỌN ĐỊA ĐIỂM CÂU CÁ:\n━━━━━━━━━━━━━━━━━━\n" +
                             Object.entries(locations).map(([key, loc], index) => 
                                 `${index + 1}. ${loc.name} [Cấp ${levelRequirements[key]}+]\n` +
                                 `💰 Phí: ${formatNumber(loc.cost)} Xu\n` +
@@ -253,6 +253,10 @@ module.exports = {
                             locationMenu,
                             threadID
                         );
+
+                        setTimeout(() => {
+                            api.unsendMessage(locMsg.messageID);
+                        }, 20000); // Tự động gỡ sau 20 giây
 
                         global.client.onReply.push({
                             name: this.name,
@@ -445,7 +449,7 @@ module.exports = {
 
         const locationKey = Object.keys(locations).find(key => locations[key] === location);
         if (levelRequirements[locationKey] > playerData.level) {
-            const locationMenu = "🗺️ CHỌN ĐỊA ĐIỂM CÂU CÁ:\n━━━━━━━━━━━━━━━━━━\n" +
+                const locationMenu = "🗺️ CHỌN ĐỊA ĐIỂM CÂU CÁ:\n━━━━━━━━━━━━━━━━━━\n" +
                 Object.entries(locations).map(([key, loc], index) => 
                     `${index + 1}. ${loc.name}\n💰 Phí: ${formatNumber(loc.cost)} Xu\n`
                 ).join("\n");
@@ -456,6 +460,10 @@ module.exports = {
                 locationMenu,
                 event.threadID
             );
+
+            setTimeout(() => {
+                api.unsendMessage(errorMsg.messageID);
+            }, 20000); // Tự động gỡ sau 20 giây
 
             global.client.onReply.push({
                 name: this.name,

@@ -102,7 +102,9 @@ module.exports = {
                         msg += "💵 Số dư: " + formatNumber(await getBalance(senderID)) + " Xu";
 
                         const listMsg = await api.sendMessage(msg, threadID);
-                        
+                        setTimeout(() => {
+                            api.unsendMessage(listMsg.messageID);
+                        }, 30000);
                         return;
                     }
 
@@ -189,7 +191,11 @@ module.exports = {
                         message += "💡 Dùng: .home upgrade [mã] để nâng cấp\n";
                         message += "💵 Số dư: " + formatNumber(await getBalance(senderID)) + " Xu";
 
-                        return api.sendMessage(message, threadID);
+                        const upgradeMsg = await api.sendMessage(message, threadID);
+                        setTimeout(() => {
+                            api.unsendMessage(upgradeMsg.messageID);
+                        }, 30000);
+                        return;
                     }
 
                     try {

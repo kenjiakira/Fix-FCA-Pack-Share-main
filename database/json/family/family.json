@@ -69,22 +69,7 @@
   "61573427362389": {
     "name": null,
     "spouse": null,
-    "children": [
-      {
-        "name": "Hoàng Ngọc Hà",
-        "birthDate": 1739292395503,
-        "happiness": 88.54686899305555,
-        "gender": "👦",
-        "nickname": "Cưng Hoàng Ngọc Hà"
-      },
-      {
-        "name": "Xuân Mai",
-        "birthDate": 1739590228162,
-        "happiness": 96.77295798611111,
-        "gender": "👦",
-        "nickname": "Sunshine Xuân Mai"
-      }
-    ],
+    "children": [],
     "home": null,
     "happiness": 50,
     "lastChecked": 1739634526501,
@@ -207,21 +192,21 @@
       {
         "name": "Hoàng Ngọc Hà",
         "birthDate": 1739292395503,
-        "happiness": 91.77391100694445,
+        "happiness": 87.20100125,
         "gender": "👦",
         "nickname": "Cưng Hoàng Ngọc Hà"
       },
       {
         "name": "đào anh chi",
         "birthDate": 1739590228162,
-        "happiness": 100,
+        "happiness": 95.42709024305556,
         "gender": "👦",
         "nickname": "Sunshine đào anh chi"
       }
     ],
     "home": null,
-    "happiness": 50,
-    "lastChecked": 1739541926712,
+    "happiness": 42.37848373842593,
+    "lastChecked": 1739673626513,
     "lastBaby": 1739590228162,
     "lastIntimate": 1739590129049,
     "isProposer": true,
@@ -603,14 +588,14 @@
       {
         "name": "BimBim",
         "birthDate": 1739456570753,
-        "happiness": 96.75248225694445,
+        "happiness": 92.13096899305556,
         "gender": "👧",
         "nickname": "Yêu BimBim"
       }
     ],
     "home": null,
-    "happiness": 94.58747042824074,
-    "lastChecked": 1739543921861,
+    "happiness": 86.88494832175925,
+    "lastChecked": 1739677021444,
     "lastBaby": 1739456570754,
     "lastIntimate": 1739456539064,
     "isProposer": false,
