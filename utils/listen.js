@@ -194,7 +194,11 @@ if (isPrefixed) {
             const command = commands[commandName] || Object.values(commands).find(cmd => cmd.nickName && cmd.nickName.includes(commandName));
 
             if (command) {
-       
+                if (!command.onLaunch) {
+                    console.error(`Command ${commandName} does not have an onLaunch function`);
+                    return;
+                }
+                
                 try {
                     const adminOnlyPath = path.join(__dirname, '../commands/json/adminonly.json');
                     if (fs.existsSync(adminOnlyPath)) {

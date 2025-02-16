@@ -67,7 +67,15 @@ class CatchSystem {
 
     isHunting(userId, locationId) {
         const key = `${userId}_${locationId}`;
-        return this.activeHunts.has(key);
+        const huntStartTime = this.activeHunts.get(key);
+        
+        // If no active hunt or hunt started more than 5 minutes ago, consider it expired
+        if (!huntStartTime || (Date.now() - huntStartTime > 300000)) {
+            this.activeHunts.delete(key);
+            return false;
+        }
+        
+        return true;
     }
 
     getLocation(locationId) {
@@ -119,11 +127,8 @@ class CatchSystem {
 
     setHuntCooldown(userId, locationId) {
         const key = `${userId}_${locationId}`;
-        // Only set cooldown if the hunt was previously active
-        if (this.isHunting(userId, locationId)) {
-            this.huntCooldowns.set(key, Date.now());
-            this.setActiveHunt(userId, locationId, false);
-        }
+        this.huntCooldowns.set(key, Date.now());
+        this.setActiveHunt(userId, locationId, false);
     }
 
     calculateRarity(location, weather) {

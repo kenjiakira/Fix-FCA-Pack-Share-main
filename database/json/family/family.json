@@ -51,16 +51,16 @@
     "spouse": "100095177644281",
     "children": [
       {
-        "name": "Từ Hy Thái Hậu",
+        "name": "Mũ Tươi",
         "birthDate": 1739543977628,
-        "happiness": 100,
+        "happiness": 96.84928166666667,
         "gender": "👦",
-        "nickname": "Cưng Từ Hy Thái Hậu"
+        "nickname": "Bé Mũ Tươi"
       }
     ],
     "home": null,
-    "happiness": 100,
-    "lastChecked": 1739543739333,
+    "happiness": 94.73753425925926,
+    "lastChecked": 1739634674741,
     "lastBaby": 1739543977628,
     "lastIntimate": 1739543964950,
     "isProposer": true,
@@ -73,16 +73,25 @@
       {
         "name": "Hoàng Ngọc Hà",
         "birthDate": 1739292395503,
-        "happiness": 91.77391100694445,
+        "happiness": 88.54686899305555,
         "gender": "👦",
         "nickname": "Cưng Hoàng Ngọc Hà"
+      },
+      {
+        "name": "Xuân Mai",
+        "birthDate": 1739590228162,
+        "happiness": 96.77295798611111,
+        "gender": "👦",
+        "nickname": "Sunshine Xuân Mai"
       }
     ],
     "home": null,
     "happiness": 50,
-    "lastChecked": 1739541587691,
-    "lastBaby": 1739292395503,
-    "lastIntimate": 0
+    "lastChecked": 1739634526501,
+    "lastBaby": 1739590228162,
+    "lastIntimate": 1739590129048,
+    "isProposer": true,
+    "proposedBy": null
   },
   "61563982612558": {
     "name": null,
@@ -111,21 +120,21 @@
       {
         "name": "Vũ Wag",
         "birthDate": 1739292398290,
-        "happiness": 92.7054426388889,
+        "happiness": 88.0716970138889,
         "gender": "👦",
         "nickname": "Sunshine Vũ Wag"
       },
       {
         "name": "thanh kiều",
         "birthDate": 1739551711051,
-        "happiness": 100,
+        "happiness": 95.366254375,
         "gender": "👦",
         "nickname": "Angel thanh kiều"
       }
     ],
     "home": null,
-    "happiness": 87.84240439814815,
-    "lastChecked": 1739502196532,
+    "happiness": 80.11949502314815,
+    "lastChecked": 1739635648406,
     "lastBaby": 1739551711051,
     "lastIntimate": 1739551685403,
     "isProposer": false,
@@ -158,14 +167,14 @@
       {
         "name": "elephant",
         "birthDate": 1739465020428,
-        "happiness": 100,
+        "happiness": 94.77692201388889,
         "gender": "👦",
         "nickname": "Cưng elephant"
       }
     ],
     "home": null,
-    "happiness": 90.02361012731481,
-    "lastChecked": 1739464887404,
+    "happiness": 81.31848015046296,
+    "lastChecked": 1739615312050,
     "lastBaby": 1739465020428,
     "lastIntimate": 1739464899888,
     "isProposer": true,
@@ -178,14 +187,14 @@
       {
         "name": "elephant",
         "birthDate": 1739465020428,
-        "happiness": 100,
+        "happiness": 94.71829565972222,
         "gender": "👦",
         "nickname": "Cưng elephant"
       }
     ],
     "home": null,
-    "happiness": 90.03384403935185,
-    "lastChecked": 1739464987487,
+    "happiness": 81.23100347222221,
+    "lastChecked": 1739617100573,
     "lastBaby": 1739465020428,
     "lastIntimate": 1739464899889,
     "isProposer": false,
@@ -194,14 +203,29 @@
   "61550331471452": {
     "name": null,
     "spouse": null,
-    "children": [],
+    "children": [
+      {
+        "name": "Hoàng Ngọc Hà",
+        "birthDate": 1739292395503,
+        "happiness": 91.77391100694445,
+        "gender": "👦",
+        "nickname": "Cưng Hoàng Ngọc Hà"
+      },
+      {
+        "name": "đào anh chi",
+        "birthDate": 1739590228162,
+        "happiness": 100,
+        "gender": "👦",
+        "nickname": "Sunshine đào anh chi"
+      }
+    ],
     "home": null,
-    "happiness": 35.59004641203704,
+    "happiness": 50,
     "lastChecked": 1739541926712,
-    "lastBaby": 0,
-    "lastIntimate": 0,
-    "isProposer": false,
-    "proposedBy": ""
+    "lastBaby": 1739590228162,
+    "lastIntimate": 1739590129049,
+    "isProposer": true,
+    "proposedBy": null
   },
   "100076957299243": {
     "name": null,
@@ -240,14 +264,14 @@
       {
         "name": "minh ngọc",
         "birthDate": 1739421084843,
-        "happiness": 96.65114090277778,
+        "happiness": 89.95437930555556,
         "gender": "👧",
         "nickname": "Sunshine minh ngọc"
       }
     ],
     "home": null,
-    "happiness": 100,
-    "lastChecked": 1739424045955,
+    "happiness": 88.83873067129629,
+    "lastChecked": 1739616912690,
     "lastBaby": 1739421084843,
     "lastIntimate": 1739421079320,
     "isProposer": true,
@@ -390,14 +414,14 @@
       {
         "name": "Lê Nguyên Vũ",
         "birthDate": 1739415566794,
-        "happiness": 93.56080697916667,
+        "happiness": 89.8048507638889,
         "gender": "👦",
         "nickname": "Yêu Lê Nguyên Vũ"
       }
     ],
     "home": null,
-    "happiness": 89.26801163194445,
-    "lastChecked": 1739527454694,
+    "happiness": 83.00808460648149,
+    "lastChecked": 1739635626233,
     "lastBaby": 1739415566794,
     "lastIntimate": 1739415538665,
     "isProposer": true,
@@ -428,20 +452,27 @@
     "spouse": null,
     "children": [
       {
-        "name": "minh ngọc",
-        "birthDate": 1739421084843,
-        "happiness": 96.89156309027777,
-        "gender": "👧",
-        "nickname": "Sunshine minh ngọc"
+        "name": "Hoàng Ngọc Hà",
+        "birthDate": 1739292395503,
+        "happiness": 88.54686899305555,
+        "gender": "👦",
+        "nickname": "Cưng Hoàng Ngọc Hà"
+      },
+      {
+        "name": "Xuân Mai",
+        "birthDate": 1739590228162,
+        "happiness": 96.77295798611111,
+        "gender": "👦",
+        "nickname": "Sunshine Xuân Mai"
       }
     ],
     "home": null,
-    "happiness": 44.81927181712963,
-    "lastChecked": 1739451542469,
-    "lastBaby": 1739421084843,
+    "happiness": 50,
+    "lastChecked": 1739634506803,
+    "lastBaby": 1739590228162,
     "lastIntimate": 1739421079320,
     "isProposer": false,
-    "proposedBy": "Zeni Gâu Gâu"
+    "proposedBy": "Ngọc Từ"
   },
   "100094060806952": {
     "name": null,
@@ -480,14 +511,14 @@
       {
         "name": "Lê Nguyên Vũ",
         "birthDate": 1739415566794,
-        "happiness": 100,
+        "happiness": 93.86516454861112,
         "gender": "👦",
         "nickname": "Yêu Lê Nguyên Vũ"
       }
     ],
     "home": null,
-    "happiness": 100,
-    "lastChecked": 1739415374945,
+    "happiness": 89.77527424768519,
+    "lastChecked": 1739592058207,
     "lastBaby": 1739415566794,
     "lastIntimate": 1739415538665,
     "isProposer": false,
@@ -500,14 +531,14 @@
       {
         "name": "BimBim",
         "birthDate": 1739456570753,
-        "happiness": 96.18808121527778,
+        "happiness": 93.18661645833333,
         "gender": "👧",
         "nickname": "Yêu BimBim"
       }
     ],
     "home": null,
-    "happiness": 93.64680202546296,
-    "lastChecked": 1739528847643,
+    "happiness": 88.64436076388888,
+    "lastChecked": 1739615289828,
     "lastBaby": 1739456570754,
     "lastIntimate": 1739456539063,
     "isProposer": true,
@@ -550,8 +581,8 @@
     "spouse": null,
     "children": [],
     "home": null,
-    "happiness": 50,
-    "lastChecked": 1739426835134,
+    "happiness": 40.09660347222222,
+    "lastChecked": 1739597965826,
     "lastBaby": 0,
     "lastIntimate": 0
   },
@@ -610,8 +641,8 @@
     "spouse": null,
     "children": [],
     "home": null,
-    "happiness": 50,
-    "lastChecked": 1739510543805,
+    "happiness": 44.94266394675926,
+    "lastChecked": 1739597934572,
     "lastBaby": 0,
     "lastIntimate": 0
   },
@@ -620,16 +651,16 @@
     "spouse": "100079621883786",
     "children": [
       {
-        "name": "Từ Hy Thái Hậu",
+        "name": "Mũ Tươi",
         "birthDate": 1739543977628,
-        "happiness": 100,
+        "happiness": 96.84928166666667,
         "gender": "👦",
-        "nickname": "Cưng Từ Hy Thái Hậu"
+        "nickname": "Bé Mũ Tươi"
       }
     ],
     "home": null,
-    "happiness": 100,
-    "lastChecked": 1739543739334,
+    "happiness": 94.74880277777778,
+    "lastChecked": 1739634480022,
     "lastBaby": 1739543977628,
     "lastIntimate": 1739543964951,
     "isProposer": false,
@@ -642,6 +673,26 @@
     "home": null,
     "happiness": 50,
     "lastChecked": 1739547507668,
+    "lastBaby": 0,
+    "lastIntimate": 0
+  },
+  "61566663098619": {
+    "name": null,
+    "spouse": null,
+    "children": [],
+    "home": null,
+    "happiness": 50,
+    "lastChecked": 1739635446208,
+    "lastBaby": 0,
+    "lastIntimate": 0
+  },
+  "61570270795701": {
+    "name": null,
+    "spouse": null,
+    "children": [],
+    "home": null,
+    "happiness": 50,
+    "lastChecked": 1739635491901,
     "lastBaby": 0,
     "lastIntimate": 0
   }

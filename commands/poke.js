@@ -5,6 +5,10 @@ const pokeSystem = require('../poke/pokemonSystem');
 const currencies = require('../utils/currencies');
 const { system: catchSystem } = require('../poke/catchSystem');
 const { createBattleImage, createWinnerImage } = require('../poke/canvasHelper'); 
+const PET_COOLDOWN = 300000;
+const TRAIN_COOLDOWN = 300000; 
+const petCooldowns = new Map();
+const trainCooldowns = new Map();
 
 module.exports = {
     name: "poke",
@@ -100,8 +104,19 @@ module.exports = {
                     return api.sendMessage("❌ Tên nhân vật không được quá 15 ký tự!", threadID, messageID);
                 }
 
-                if (!/^[a-zA-Z0-9\s]+$/.test(name)) {
-                    return api.sendMessage("❌ Tên chỉ được chứa chữ cái và số!", threadID, messageID);
+                if (!/^[a-zA-Z0-9\s.]+$/.test(name)) {
+                    return api.sendMessage("❌ Tên chỉ được chứa chữ cái, số và dấu chấm!", threadID, messageID);
+                }
+
+                if (name.toLowerCase().includes('admin')) {
+                    return api.sendMessage("❌ Tên không được chứa từ 'ADMIN'!", threadID, messageID);
+                }
+
+                const existingPlayer = Object.values(pokeSystem.players).find(
+                    player => player.name && player.name.toLowerCase() === name.toLowerCase()
+                );
+                if (existingPlayer) {
+                    return api.sendMessage("❌ Tên này đã được sử dụng! Vui lòng chọn tên khác.", threadID, messageID);
                 }
 
                 await pokeSystem.setPlayerName(senderID, name);
@@ -222,9 +237,29 @@ module.exports = {
                                       `${pokeSystem.getTypeEmoji(t)} ${pokeSystem.getTypeName(t)}`
                                   ).join(' | ')}\n\n` +
                                   `${bestBall.ball.emoji} Sẽ dùng ${bestBall.ball.name} để bắt (còn ${bestBall.count} bóng)\n\n` +
-                                  "Reply 'yes' để bắt, 'no' để bỏ qua.",
+                                  "Reply 'yes' để bắt, 'no' để bỏ qua.\n" +
+                                  "⏳ Thời gian chờ: 60 giây",
                             attachment: fs.createReadStream(imagePath)
                         }, threadID);
+
+                        // Set timeout to auto-skip after 60 seconds
+                        setTimeout(async () => {
+                            const replyStillExists = global.client.onReply.some(r => 
+                                r.messageID === catchMsg.messageID
+                            );
+
+                            if (replyStillExists) {
+                                global.client.onReply = global.client.onReply.filter(r => 
+                                    r.messageID !== catchMsg.messageID
+                                );
+                                catchSystem.setHuntCooldown(senderID, param);
+                                await api.sendMessage(
+                                    "⌛ Đã hết thời gian bắt Pokemon!\n" +
+                                    "→ Pokemon đã bỏ chạy.", 
+                                    threadID
+                                );
+                            }
+                        }, 60000);
 
                         global.client.onReply.push({
                             name: this.name,
@@ -335,6 +370,30 @@ module.exports = {
                             messageID
                         );
                     }
+
+                    const existingInvite = global.client.onReply.find(r => 
+                        r.type === "pvp_confirmation" && 
+                        ((r.player1 === senderID && r.player2 === mentionedId) ||
+                         (r.player1 === mentionedId && r.player2 === senderID))
+                    );
+
+                    if (existingInvite) {
+                        if (existingInvite.player2 === senderID) {
+                            return api.sendMessage(
+                                "❌ Người chơi này đã mời bạn tham gia PVP!\n" +
+                                "→ Hãy trả lời tin nhắn mời của họ.",
+                                threadID,
+                                messageID
+                            );
+                        } else {
+                            return api.sendMessage(
+                                "❌ Bạn đã gửi lời mời PVP cho người này!\n" +
+                                "→ Vui lòng đợi họ phản hồi.",
+                                threadID,
+                                messageID
+                            );
+                        }
+                    }
                 
                     const player1Pokemon = await pokeSystem.getSelectedPokemon(senderID);
                     if (!player1Pokemon) {
@@ -383,79 +442,6 @@ module.exports = {
                 
                     return;
                 }
-
-                case "wild":
-                case "pve":
-                    const playerPokemon = await pokeSystem.getSelectedPokemon(senderID);
-                    if (!playerPokemon) {
-                        return api.sendMessage(
-                            "❌ Bạn chưa có Pokemon nào được chọn!\n" +
-                            "1️⃣ Dùng .poke catch để bắt Pokemon\n" +
-                            "2️⃣ Dùng .poke select [số] để chọn Pokemon",
-                            threadID,
-                            messageID
-                        );
-                    }
-
-                    const pveResult = await pokeSystem.pve(senderID);
-                    const pvePlayer = await pokeSystem.getPlayer(senderID); 
-                    
-                    if (pveResult?.error === "cooldown") {
-                        const timeLeft = Math.ceil(pveResult.timeLeft / 1000);
-                        return api.sendMessage(
-                            `❌ Bạn cần đợi ${timeLeft} giây nữa để tiếp tục đánh wild Pokemon!`,
-                            threadID,
-                            messageID
-                        );
-                    }
-
-                    const wildPokemon = pveResult.winner === playerPokemon ? pveResult.loser : pveResult.winner;
-                    
-                    await api.sendMessage(
-                        "⚔️ WILD POKEMON BATTLE ⚔️\n" +
-                        "━━━━━━━━━━━━━━━━━\n\n" +
-                        `👊 ${playerPokemon.name.toUpperCase()} (Lv.${playerPokemon.level})\n` +
-                        `🎭 Hệ: ${playerPokemon.types.map(t => 
-                            `${pokeSystem.getTypeEmoji(t)} ${pokeSystem.getTypeName(t)}`
-                        ).join(' | ')}\n` +
-                        `   ❤️ HP: ${playerPokemon.hp}\n` +
-                        `   ⚔️ ATK: ${playerPokemon.attack}\n` +
-                        `   🛡️ DEF: ${playerPokemon.defense}\n\n` +
-                        `🆚 VS 🆚\n\n` +
-                        `👊 ${wildPokemon.name.toUpperCase()} (Lv.${wildPokemon.level})\n` +
-                        `🎭 Hệ: ${wildPokemon.types.map(t => 
-                            `${pokeSystem.getTypeEmoji(t)} ${pokeSystem.getTypeName(t)}`
-                        ).join(' | ')}\n` +
-                        `   ❤️ HP: ${wildPokemon.hp}\n` +
-                        `   ⚔️ ATK: ${wildPokemon.attack}\n` +
-                        `   🛡️ DEF: ${wildPokemon.defense}\n\n` +
-                        "🎯 Trận đấu bắt đầu trong 15 giây...",
-                        threadID
-                    );
-
-                    await new Promise(resolve => setTimeout(resolve, 15000));
-
-                    const finalMsg = "🏆 KẾT QUẢ TRẬN ĐẤU 🏆\n" +
-                                   "━━━━━━━━━━━━━━━━━\n\n" +
-                                   `${pveResult.winner === playerPokemon ? "🎉 Bạn đã chiến thắng!" : "💀 Bạn đã thua!"}\n\n` +
-                                   `👊 ${playerPokemon.name.toUpperCase()}\n` +
-                                   `❤️ HP còn lại: ${pveResult.finalHP.player}\n` +
-                                   (pveResult.winner === playerPokemon ? 
-                                    `✨ EXP nhận được: ${pveResult.expGained}\n` +
-                                    `💰 Coins nhận được: ${pveResult.rewardCoins.toLocaleString()} xu\n` : "") +
-                                   `\n🆚 ${wildPokemon.name.toUpperCase()}\n` +
-                                   `❤️ HP còn lại: ${pveResult.finalHP.wild}`;
-
-                    await api.sendMessage(finalMsg, threadID, messageID);
-
-                    if (pveResult.winner === playerPokemon && pvePlayer) { 
-                        const levelUp = await pokeSystem.checkLevelUp(senderID, pvePlayer.activePokemon);
-                        if (levelUp && levelUp !== true) {
-                            await this.handleEvolution(api, threadID, levelUp);
-                        }
-                    }
-
-                    return;
                     
                 case "balls":
                 case "inventory": {
@@ -593,7 +579,7 @@ module.exports = {
                               `❤️ HP: ${activePokemon.hp}/${activePokemon.maxHp}\n` +
                               `⚔️ Tấn công: ${activePokemon.attack}\n` +
                               `🛡️ Phòng thủ: ${activePokemon.defense}\n` +
-                              `✨ EXP: ${activePokemon.exp}/${activePokemon.expNeeded}\n` +
+                              `✨ EXP: ${activePokemon.exp}/${activePokemon.expNeeded} (${Math.floor((activePokemon.exp/activePokemon.expNeeded)*100)}%)\n` +
                               `🎯 Số trận: ${activePokemon.battles || 0}\n` +
                               `🏆 Số thắng: ${activePokemon.wins || 0}\n`;
                     }
@@ -606,6 +592,73 @@ module.exports = {
                     }
 
                     return api.sendMessage(msg, threadID, messageID);
+                }
+
+                case "levelup": {   
+                    const player = await pokeSystem.getPlayer(senderID);
+                    if (!player) {
+                        return api.sendMessage("❌ Bạn chưa có dữ liệu Pokemon!", threadID, messageID);
+                    }
+
+                    const pokemonIndex = parseInt(param) - 1;
+                    if (isNaN(pokemonIndex)) {
+                        return api.sendMessage(
+                            "❌ Vui lòng nhập số thứ tự Pokemon!\n" +
+                            "Cách dùng: .poke levelup [số thứ tự]",
+                            threadID, 
+                            messageID
+                        );
+                    }
+
+                    let pokemon = player.pokemons[pokemonIndex];
+                    if (!pokemon) {
+                        return api.sendMessage("❌ Không tìm thấy Pokemon!", threadID, messageID);
+                    }
+
+                    if (pokemon.exp < pokemon.expNeeded) {
+                        return api.sendMessage(
+                            `❌ ${pokemon.name} chưa đủ EXP để lên cấp!\n` +
+                            `✨ EXP hiện tại: ${pokemon.exp}/${pokemon.expNeeded}`,
+                            threadID,
+                            messageID
+                        );
+                    }
+
+                    let leveledUp = false;
+                    while (pokemon.exp >= pokemon.expNeeded) {
+                        leveledUp = true;
+                        const levelUp = await pokeSystem.checkLevelUp(senderID, pokemonIndex);
+                        if (levelUp && levelUp !== true) {
+                            await this.handleEvolution(api, threadID, levelUp);
+                            break;
+                        }
+                        await api.sendMessage(
+                            `🎉 ${pokemon.name} đã đạt cấp ${pokemon.level}!\n` +
+                            `❤️ HP: ${Math.floor(pokemon.hp * 1.1)}\n` +
+                            `⚔️ Tấn công: ${Math.floor(pokemon.attack * 1.1)}\n` +
+                            `🛡️ Phòng thủ: ${Math.floor(pokemon.defense * 1.1)}`,
+                            threadID
+                        );
+                        const updatedPlayer = await pokeSystem.getPlayer(senderID);
+                        if (!updatedPlayer) break;
+                        pokemon = updatedPlayer.pokemons[pokemonIndex];
+                        if (!pokemon) break;
+                    }
+
+                    if (leveledUp) {
+                        await pokeSystem.saveData();
+                        return api.sendMessage(
+                            "✅ Đã nâng cấp Pokemon thành công!",
+                            threadID,
+                            messageID
+                        );
+                    }
+
+                    return api.sendMessage(
+                        "❌ Đã xảy ra lỗi khi nâng cấp Pokemon!",
+                        threadID,
+                        messageID
+                    );
                 }
 
                 case "evolve": {
@@ -624,36 +677,140 @@ module.exports = {
                         );
                     }
 
-                    const evolution = await pokeSystem.checkEvolution(senderID, pokemonIndex, false);
-                    
-                    if (!evolution) {
+                    const pokemon = player.pokemons[pokemonIndex];
+                    if (!pokemon) {
+                        return api.sendMessage("❌ Không tìm thấy Pokemon!", threadID, messageID);
+                    }
+
+                    const evolutionData = {
+                        pichu: { friendshipRequired: 220, evolution: 'pikachu' },
+                        bulbasaur: { level: 16, evolution: 'ivysaur' },
+                        ivysaur: { level: 32, evolution: 'venusaur' },
+                        charmander: { level: 16, evolution: 'charmeleon' },
+                        charmeleon: { level: 36, evolution: 'charizard' },
+                        squirtle: { level: 16, evolution: 'wartortle' },
+                        wartortle: { level: 36, evolution: 'blastoise' },
+                        pikachu: { item: 'thunder-stone', evolution: 'raichu' },
+                        eevee: {
+                            items: {
+                                'water-stone': 'vaporeon',
+                                'thunder-stone': 'jolteon',
+                                'fire-stone': 'flareon',
+                                'leaf-stone': 'leafeon',
+                                'ice-stone': 'glaceon'
+                            },
+                            friendship: {
+                                day: 'espeon',
+                                night: 'umbreon'
+                            }
+                        },
+                        magikarp: { level: 20, evolution: 'gyarados' },
+                        dratini: { level: 30, evolution: 'dragonair' },
+                        dragonair: { level: 55, evolution: 'dragonite' },
+                        geodude: { level: 25, evolution: 'graveler' },
+                        graveler: { method: 'trade', evolution: 'golem' },
+                        gastly: { level: 25, evolution: 'haunter' },
+                        haunter: { method: 'trade', evolution: 'gengar' }
+                    };
+
+                    const pokemonData = evolutionData[pokemon.name.toLowerCase()];
+                    if (!pokemonData) {
                         return api.sendMessage(
-                            "❌ Pokemon này chưa đủ điều kiện để tiến hóa!",
+                            "❌ Pokemon này không có hình thức tiến hóa!",
                             threadID,
                             messageID
                         );
                     }
 
-                    if (evolution.pending) {
-                        const confirmMsg = await api.sendMessage(
-                            "✨ POKEMON CÓ THỂ TIẾN HÓA! ✨\n" +
-                            "━━━━━━━━━━━━━━━━━\n\n" +
-                            `${evolution.oldPokemon.name.toUpperCase()} có thể tiến hóa thành ${evolution.newPokemon.name.toUpperCase()}!\n\n` +
-                            "📊 CHỈ SỐ MỚI:\n" +
-                            `❤️ HP: ${evolution.oldPokemon.hp} → ${evolution.newPokemon.hp}\n` +
-                            `⚔️ ATK: ${evolution.oldPokemon.attack} → ${evolution.newPokemon.attack}\n` +
-                            `🛡️ DEF: ${evolution.oldPokemon.defense} → ${evolution.newPokemon.defense}\n` +
-                            `💪 Sức mạnh tăng: +${evolution.powerIncrease}\n\n` +
-                            "Reply 'yes' để tiến hóa, 'no' để hủy.",
-                            threadID
-                        );
+                    let evolutionMsg = `📝 THÔNG TIN TIẾN HÓA: ${pokemon.name.toUpperCase()}\n`;
+                    evolutionMsg += "━━━━━━━━━━━━━━━━━\n\n";
+                    evolutionMsg += "📊 CHỈ SỐ HIỆN TẠI:\n";
+                    evolutionMsg += `❤️ HP: ${pokemon.hp}\n`;
+                    evolutionMsg += `⚔️ ATK: ${pokemon.attack}\n`;
+                    evolutionMsg += `🛡️ DEF: ${pokemon.defense}\n`;
+                    evolutionMsg += `📈 Level: ${pokemon.level}\n`;
+                    evolutionMsg += `💕 Độ thân thiết: ${player.friendship?.[pokemonIndex] || 0}\n\n`;
 
-                        global.client.onReply.push({
-                            name: this.name,
-                            messageID: confirmMsg.messageID,
-                            author: senderID,
-                            type: "evolution_confirm"
-                        });
+                    let requirements = [];
+                    let missing = [];
+
+                    if (pokemonData.level) {
+                        requirements.push(`📊 Cần đạt cấp độ ${pokemonData.level}`);
+                        if (pokemon.level < pokemonData.level) {
+                            missing.push(`Còn thiếu ${pokemonData.level - pokemon.level} cấp độ`);
+                        }
+                    }
+
+                    if (pokemonData.friendshipRequired) {
+                        requirements.push(`💕 Cần độ thân thiết ${pokemonData.friendshipRequired}`);
+                        const currentFriendship = player.friendship?.[pokemonIndex] || 0;
+                        if (currentFriendship < pokemonData.friendshipRequired) {
+                            missing.push(`Còn thiếu ${pokemonData.friendshipRequired - currentFriendship} độ thân thiết`);
+                        }
+                    }
+
+                    if (pokemonData.item) {
+                        requirements.push(`🎁 Cần ${pokemonData.item}`);
+                        if (!player.inventory?.[pokemonData.item] || player.inventory[pokemonData.item] <= 0) {
+                            missing.push(`Thiếu ${pokemonData.item}`);
+                        }
+                    }
+
+                    if (pokemonData.items) {
+                        const itemList = Object.keys(pokemonData.items).join(', ');
+                        requirements.push(`🎁 Cần một trong các đá: ${itemList}`);
+                        const hasAnyItem = Object.keys(pokemonData.items).some(item => 
+                            player.inventory?.[item] && player.inventory[item] > 0
+                        );
+                        if (!hasAnyItem) {
+                            missing.push(`Thiếu đá tiến hóa`);
+                        }
+                    }
+
+                    if (pokemonData.method === 'trade') {
+                        requirements.push('🤝 Cần trao đổi với người chơi khác');
+                        missing.push('Chưa thể trao đổi trong phiên bản hiện tại');
+                    }
+
+                    evolutionMsg += "📋 YÊU CẦU TIẾN HÓA:\n";
+                    evolutionMsg += requirements.map(req => `• ${req}`).join('\n');
+                    evolutionMsg += "\n\n";
+
+                    if (missing.length > 0) {
+                        evolutionMsg += "⚠️ THIẾU YÊU CẦU:\n";
+                        evolutionMsg += missing.map(miss => `• ${miss}`).join('\n');
+                    } else {
+                        evolutionMsg += "✅ Đã đủ điều kiện tiến hóa!\n";
+                        evolutionMsg += "→ Dùng .poke evolve [số] để tiến hóa";
+                    }
+
+                    const evolution = await pokeSystem.checkEvolution(senderID, pokemonIndex, true);
+                    if (evolution && typeof evolution === 'object') {
+                        if (evolution.pending) {
+                            const confirmMsg = await api.sendMessage(
+                                evolutionMsg + "\n\n" +
+                                "✨ POKEMON CÓ THỂ TIẾN HÓA! ✨\n" +
+                                `${pokemon.name.toUpperCase()} → ${evolution.newPokemon.name.toUpperCase()}\n\n` +
+                                "📊 CHỈ SỐ MỚI:\n" +
+                                `❤️ HP: ${pokemon.hp} → ${evolution.newPokemon.hp}\n` +
+                                `⚔️ ATK: ${pokemon.attack} → ${evolution.newPokemon.attack}\n` +
+                                `🛡️ DEF: ${pokemon.defense} → ${evolution.newPokemon.defense}\n` +
+                                `💪 Sức mạnh tăng: +${evolution.powerIncrease}\n\n` +
+                                "Reply 'yes' để tiến hóa, 'no' để hủy.",
+                                threadID
+                            );
+
+                            global.client.onReply.push({
+                                name: this.name,
+                                messageID: confirmMsg.messageID,
+                                author: senderID,
+                                type: "evolution_confirm"
+                            });
+                        } else {
+                            return api.sendMessage(evolutionMsg, threadID, messageID);
+                        }
+                    } else {
+                        return api.sendMessage(evolutionMsg, threadID, messageID);
                     }
                     return;
                 }
@@ -687,17 +844,17 @@ module.exports = {
                     };
 
                     const stonePrices = {
-                        'fire-stone': 50000,
-                        'water-stone': 50000,
-                        'thunder-stone': 50000,
-                        'leaf-stone': 50000,
-                        'ice-stone': 75000,
-                        'moon-stone': 75000,
-                        'sun-stone': 75000,
-                        'shiny-stone': 100000,
-                        'dusk-stone': 100000,
-                        'dawn-stone': 100000,
-                        'oval-stone': 150000
+                        'fire-stone': 5000000,
+                        'water-stone': 5000000,
+                        'thunder-stone': 5000000,
+                        'leaf-stone': 5000000,
+                        'ice-stone': 7500000,
+                        'moon-stone': 7500000,
+                        'sun-stone': 7500000,
+                        'shiny-stone': 10000000,
+                        'dusk-stone': 10000000,
+                        'dawn-stone': 10000000,
+                        'oval-stone': 15000000
                     };
 
                     let msg = "💎 KHO ĐÁ TIẾN HÓA 💎\n" +
@@ -807,15 +964,176 @@ module.exports = {
                     return api.sendMessage(evolutionInfo, threadID, messageID);
                 }
 
-                default:
+                case "train": {
+                    const minigameSystem = require('../poke/minigameSystem');
+                    const lastTrain = trainCooldowns.get(senderID) || 0;
+                    const cooldownLeft = TRAIN_COOLDOWN - (Date.now() - lastTrain);
+                    
+                    if (cooldownLeft > 0) {
+                        return api.sendMessage(
+                            `⏳ Vui lòng đợi ${Math.ceil(cooldownLeft/1000)} giây nữa để train tiếp!`,
+                            threadID,
+                            messageID
+                        );
+                    }
+
+                    const pokemon = await pokeSystem.getSelectedPokemon(senderID);
+                    if (!pokemon) {
+                        return api.sendMessage(
+                            "❌ Bạn chưa chọn Pokemon nào!\n" +
+                            "Dùng .poke select [số] để chọn Pokemon",
+                            threadID,
+                            messageID
+                        );
+                    }
+
+                    const result = await minigameSystem.startMinigame(senderID);
+                    
+                    if (result.error) {
+                        return api.sendMessage(result.error, threadID);
+                    }
+
+                    const msg = await api.sendMessage(
+                        "🎮 POKEMON TRAINING 🎮\n" +
+                        "━━━━━━━━━━━━━━━━━\n\n" +
+                        `${pokemon.name} đang tập luyện...\n` +
+                        "Reply 'train' để hoàn thành buổi tập!\n" +
+                        "⏳ Thời gian: 30 giây",
+                        threadID
+                    );
+
+                    global.client.onReply.push({
+                        name: this.name,
+                        messageID: msg.messageID,
+                        author: senderID,
+                        type: "minigame"
+                    });
+
+                    // Auto-complete training after 30 seconds
+                    setTimeout(async () => {
+                        const replyStillExists = global.client.onReply.some(r => 
+                            r.messageID === msg.messageID
+                        );
+
+                        if (replyStillExists) {
+                            global.client.onReply = global.client.onReply.filter(r => 
+                                r.messageID !== msg.messageID
+                            );
+                            
+                            const autoResult = await minigameSystem.checkAnswer(senderID, "train");
+                            if (!autoResult.error) {
+                                trainCooldowns.set(senderID, Date.now());
+                                await api.sendMessage(
+                                    "⌛ Hết giờ tập luyện!\n" +
+                                    autoResult.message,
+                                    threadID
+                                );
+                            }
+                        }
+                    }, 30000);
+
+                    return;
+                }
+
+                case "interact":
+                case "pet": {
+
+
+                    const lastPet = petCooldowns.get(senderID) || 0;
+                    const cooldownLeft = PET_COOLDOWN - (Date.now() - lastPet);
+                    
+                    if (cooldownLeft > 0) {
+                        return api.sendMessage(
+                            `⏳ Vui lòng đợi ${Math.ceil(cooldownLeft/1000)} giây nữa mới có thể tương tác tiếp!`,
+                            threadID,
+                            messageID
+                        );
+                    }
+
+                    const player = await pokeSystem.getPlayer(senderID);
+                    if (!player || !player.pokemons || player.pokemons.length === 0) {
+                        return api.sendMessage(
+                            "❌ Bạn chưa có Pokemon nào!\n" +
+                            "Hãy bắt Pokemon đầu tiên bằng lệnh .poke catch",
+                            threadID,
+                            messageID
+                        );
+                    }
+
+                    let pokemon = await pokeSystem.getSelectedPokemon(senderID);
+                    if (!pokemon) {
+                        return api.sendMessage(
+                            "❌ Bạn chưa chọn Pokemon nào!\n" +
+                            "Dùng .poke select [số] để chọn Pokemon",
+                            threadID,
+                            messageID
+                        );
+                    }
+
+                    const actions = [
+                        "vỗ về", "cho ăn", "ôm", "chơi đùa với", "vuốt ve", 
+                        "tập luyện với", "nói chuyện với", "chăm sóc"
+                    ];
+                    const reactions = [
+                        "có vẻ rất thích", "trông rất vui", "tỏ ra rất hạnh phúc",
+                        "nhảy nhót vui vẻ", "nũng nịu", "phấn khích", "vui vẻ"
+                    ];
+                    const bonuses = [
+                        "tăng thêm sức mạnh", "trở nên khỏe hơn", "thân thiết hơn với bạn",
+                        "có vẻ muốn tiến hóa", "trông có vẻ mạnh hơn"
+                    ];
+
+                    const action = actions[Math.floor(Math.random() * actions.length)];
+                    const reaction = reactions[Math.floor(Math.random() * reactions.length)];
+                    const bonus = bonuses[Math.floor(Math.random() * bonuses.length)];
+
+                    const statIncrease = Math.floor(Math.random() * 2) + 1;
+                    pokemon.hp += statIncrease;
+                    pokemon.maxHp += statIncrease;
+                    pokemon.attack += statIncrease;
+                    pokemon.defense += statIncrease;
+
+                    const expGain = Math.floor(Math.random() * 10) + 5;
+                    pokemon.exp += expGain;
+
+                    const friendshipGain = Math.floor(Math.random() * 3) + 1;
+                    await pokeSystem.updateFriendship(senderID, player.activePokemon, friendshipGain);
+
+                    await pokeSystem.saveData();
+
+                    // Auto level up
+                    while (pokemon.exp >= pokemon.expNeeded) {
+                        const levelUp = await pokeSystem.checkLevelUp(senderID, player.activePokemon);
+                        if (levelUp && levelUp !== true) {
+                            await this.handleEvolution(api, threadID, levelUp);
+                            break; // Stop if evolution occurs
+                        }
+                        // Level up without notification
+                    }
+
+                    petCooldowns.set(senderID, Date.now());
+
                     return api.sendMessage(
-                        "📌 HƯỚNG DẪN SỬ DỤNG:\n" +
+                        `💝 Bạn ${action} ${pokemon.name}\n` +
+                        `→ ${pokemon.name} ${reaction}\n` +
+                        `→ Chỉ số tăng: +${statIncrease}\n` +
+                        `→ EXP tăng: +${expGain}\n` +
+                        `→ Độ thân thiết tăng: +${friendshipGain}\n` +
+                        `→ ${pokemon.name} ${bonus}!\n`+
+                        `⏳ Chờ 5 phút để tương tác tiếp.`,
+                        threadID,
+                        messageID
+                    );
+                }
+
+                default: {
+                    const helpMessage = "📌 HƯỚNG DẪN SỬ DỤNG:\n" +
                         "━━━━━━━━━━━━━━━━━\n\n" +
                         "1. .poke catch - Bắt Pokemon mới\n" +
                         "2. .poke bag [trang] - Xem túi Pokemon\n" +
                         "3. .poke select [số] - Chọn Pokemon\n" +
                         "4. .poke battle [@tag] - Đấu Pokemon\n" +
-                        "5. .poke wild - Đánh Pokemon hoang dã\n" +
+                        "5. .poke train - Huấn luyện Pokemon (+EXP)\n\n" +
                         "6. .poke info - Xem thống kê\n" +
                         "7. .poke find [tên] - Tìm Pokemon\n" +
                         "8. .poke balls - Xem kho bóng\n" +
@@ -823,15 +1141,22 @@ module.exports = {
                         "10. .poke stones - Xem kho đá tiến hóa\n" +
                         "11. .poke evolve [số] - Kiểm tra và tiến hóa Pokemon\n" +
                         "12. .poke evo - Xem thông tin về tiến hóa\n" +
-                        "13. .poke buystone [tên] [số lượng] - Mua đá tiến hóa\n\n" +
+                        "13. .poke buystone [tên] [số lượng] - Mua đá tiến hóa\n" +
+                        "14. .poke pet - Tương tác với Pokemon\n" +
+                        "15. .poke levelup - Nâng cấp Pokemon\n\n" +
                         "📌 LƯU Ý:\n" +
                         "━━━━━━━━━━━━━━━━━\n" +
                         "• Mỗi người chơi chỉ có thể chọn 1 Pokemon để tham gia trận đấu\n" +
                         "• Pokemon có thể tiến hóa khi đạt đủ điều kiện (cấp độ, đá tiến hóa, v.v.)\n" +
-                        "• Tương tác với Pokemon để tăng độ thân thiết\n",
-                        threadID,
-                        messageID
-                    );
+                        "• Tương tác với Pokemon để tăng độ thân thiết";
+
+                    if (typeof api.sendMessage === 'function') {
+                        return api.sendMessage(helpMessage, threadID, messageID);
+                    } else {
+                        console.error("api.sendMessage is not a function");
+                        return null;
+                    }
+                }
             }
         } catch (error) {
             console.error(error);
@@ -864,7 +1189,7 @@ module.exports = {
                 );
 
                 if (answer === "no") {
-                    catchSystem.setActiveHunt(senderID, reply.locationId, false);
+                    catchSystem.setHuntCooldown(senderID, reply.locationId);
                     return api.sendMessage("❌ Đã bỏ qua Pokemon này.", threadID);
                 }
 
@@ -964,6 +1289,39 @@ module.exports = {
                 return;
             }
 
+            case "minigame": {
+                const minigameSystem = require('../poke/minigameSystem');
+                const result = await minigameSystem.checkAnswer(senderID, body.trim());
+                
+                if (result.error) {
+                    return api.sendMessage(result.error, threadID);
+                }
+
+                if (!result.success && result.attemptsLeft > 0) {
+                    return api.sendMessage(
+                        `${result.message}\n` +
+                        `⚠️ Còn ${result.attemptsLeft} lần thử`,
+                        threadID
+                    );
+                }
+
+                let msg = result.success ? 
+                    "🎮 HOÀN THÀNH MINIGAME! 🎮\n" :
+                    "❌ THẤT BẠI!\n";
+                msg += "━━━━━━━━━━━━━━━━━\n\n";
+
+                if (result.success) {
+                    msg += `✨ EXP đạt được: +${result.rewards.exp}\n`;
+                    msg += "📈 Chỉ số tăng:\n";
+                    Object.entries(result.rewards.stats).forEach(([stat, value]) => {
+                        msg += `→ ${stat}: +${value}\n`;
+                    });
+                }
+
+                trainCooldowns.set(senderID, Date.now());
+                return api.sendMessage(msg, threadID);
+            }
+
             case "pvp_confirmation": {
                 const answer = body.toLowerCase();
                 
@@ -991,11 +1349,10 @@ module.exports = {
                     );
                 }
             
-                // Xóa handler reply và bắt đầu trận đấu
                 global.client.onReply = global.client.onReply.filter(r => r.messageID !== reply.messageID);
             
                 try {
-                    // Tạo ảnh battle
+                    
                     const battleImage = await createBattleImage(
                         reply.player1Pokemon.image,
                         reply.player2Pokemon.image,
@@ -1005,7 +1362,6 @@ module.exports = {
                         reply.player2Pokemon.name
                     );
             
-                    // Gửi thông báo bắt đầu trận đấu
                     await api.sendMessage({
                         body: "⚔️ BATTLE POKEMON ⚔️\n" +
                               "━━━━━━━━━━━━━━━━━\n\n" +
@@ -1036,9 +1392,10 @@ module.exports = {
                                        "━━━━━━━━━━━━━━━━━\n\n" +
                                        `👑 Người thắng: ${battleResult.winner.name}\n` +
                                        `❤️ HP còn lại: ${battleResult.winner.remainingHp}\n` +
-                                       `✨ EXP nhận được: ${battleResult.expGained}\n\n` +
+                                       `✨ EXP nhận được: +${battleResult.expGained.winner}\n\n` +
                                        `💀 Người thua: ${battleResult.loser.name}\n` +
-                                       `❤️ HP còn lại: ${battleResult.loser.remainingHp}`;
+                                       `❤️ HP còn lại: ${battleResult.loser.remainingHp}\n` +
+                                       `✨ EXP an ủi: +${battleResult.expGained.loser}`;
             
                     await api.sendMessage(battleFinalMsg, threadID);
             
@@ -1093,17 +1450,12 @@ module.exports = {
             
             'geodude-graveler': '📈 Cấp độ 25',
             
-            'gastly-haunter': '📈 Cấp độ 25'
+            'gastly-haunter': '📈 Cấp độ 25',
+            
+            'pichu-pikachu': '💕 Thân thiết cao'
         };
 
         const key = `${oldPokemon.name}-${newPokemon.name}`.toLowerCase();
         return evolutionMethods[key] || '📈 Cấp độ tiến hóa';
     }
 };
-
-const handleMessage = async (message) => {
-    if (message.toLowerCase() === 'no' || message.toLowerCase() === 'ko') {
-        global.pokemon.setCatchStatus(threadID, false); 
-        return api.sendMessage("🎮 Bạn đã bỏ qua con Pokemon này!", threadID);
-    }
-}

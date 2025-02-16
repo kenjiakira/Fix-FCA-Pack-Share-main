@@ -188,13 +188,11 @@ const startBot = async () => {
 
     const { scheduleAutoGiftcode } = require('./utils/autoGiftcode');
 
-    login({ appState: JSON.parse(fs.readFileSync(config.APPSTATE_PATH, "utf8")) }, async (err, api) => {
+    login({ appState: JSON.parse(fs.readFileSync(config.APPSTATE_PATH, "utf8")), logLevel: "silent" }, async function(err, api) {
         if (err) {
             console.error(boldText(gradient.passion(`Login error: ${JSON.stringify(err)}`)));
-            
             if (err.code === 'ENOTFOUND' && err.syscall === 'getaddrinfo' && err.hostname === 'www.facebook.com') {
                 console.log(boldText(gradient.cristal("Detected Facebook connection error")));
-                return;
             }
             return;
         }
@@ -306,8 +304,7 @@ process.on('SIGINT', () => {
     process.exit(0);
 });
 
-process.on('uncaughtException', async (err) => {
-
+process.on('uncaughtException', (err) => {
     if (err?.error === 3252001 || 
         err?.errorSummary?.includes('Bạn tạm thời bị chặn') ||
         (err?.error && err?.blockedAction)) {
@@ -324,8 +321,7 @@ process.on('uncaughtException', async (err) => {
     }
 });
 
-process.on('unhandledRejection', async (reason, promise) => {
-   
+process.on('unhandledRejection', (reason, promise) => {
     if (reason?.error === 3252001 || 
         reason?.errorSummary?.includes('Bạn tạm thời bị chặn') ||
         (reason?.error && reason?.blockedAction)) {

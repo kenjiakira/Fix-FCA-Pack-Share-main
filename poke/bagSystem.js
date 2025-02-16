@@ -1,4 +1,4 @@
-const MAX_POWER = 1000;
+  const MAX_POWER = 1000;
 
 class BagSystem {
     constructor() {
@@ -99,10 +99,36 @@ class BagSystem {
 
     calculatePower(pokemon) {
         if (!pokemon) return 0;
-        const base = (pokemon.hp + pokemon.attack + pokemon.defense) / 3;
-        const levelBonus = pokemon.level * 10;
-        const power = Math.floor(base + levelBonus);
-        return Math.min(Math.max(0, power), MAX_POWER); 
+
+        const baseStats = (
+            (pokemon.hp * 0.8) + 
+            (pokemon.attack * 1.2) + 
+            (pokemon.defense * 1.0)
+        ) / 3;
+
+        const levelBonus = Math.pow(pokemon.level, 1.2) * 8;
+
+        const evolutionBonus = (pokemon.evolutionStage || 0) * 50;
+
+        const shinyBonus = pokemon.shiny ? 100 : 0;
+
+        const typeBonus = (pokemon.types?.length || 1) * 25;
+
+        // Wins bonus - reward battle experience
+        const winsBonus = (pokemon.wins || 0) * 5;
+
+        let power = Math.floor(
+            baseStats + 
+            levelBonus + 
+            evolutionBonus + 
+            shinyBonus + 
+            typeBonus + 
+            winsBonus
+        );
+
+        power = Math.min(Math.max(0, power), MAX_POWER);
+
+        return power;
     }
 
     getPowerBar(power) {

@@ -101,15 +101,15 @@ module.exports = {
     },
     createBattleImage: async function(pokemon1Image, pokemon2Image, player1Name, player2Name, pokemon1Name, pokemon2Name) {
         try {
-            const tempDir = path.join(__dirname, '../commands/cache');
+            const tempDir = path.join(__dirname, './cache');
             
             if (!fs.existsSync(tempDir)) {
                 fs.mkdirSync(tempDir, { recursive: true });
             }
     
             try {
-                registerFont(path.join(__dirname, '../fonts/Pokemon_Solid.ttf'), { family: 'Pokemon Solid' });
-                registerFont(path.join(__dirname, '../fonts/Pokemon_Hollow.ttf'), { family: 'Pokemon Hollow' });
+                registerFont(path.join(__dirname, './fonts/Pokemon_Solid.ttf'), { family: 'Pokemon Solid' });
+                registerFont(path.join(__dirname, './fonts/Pokemon_Hollow.ttf'), { family: 'Pokemon Hollow' });
             } catch (error) {
                 console.log('Font loading failed, using fallback fonts');
             }
@@ -117,7 +117,7 @@ module.exports = {
             const [img1, img2, bgImage] = await Promise.all([
                 loadImage(pokemon1Image),
                 loadImage(pokemon2Image),
-                loadImage(path.join(__dirname, '../commands/cache/pokemon/battle_bg.png'))
+                loadImage(path.join(__dirname, './cache/pokemon/battle_bg.png'))
             ]);
     
             const canvas = createCanvas(1280, 720);

@@ -1,3 +1,5 @@
+const bagSystem = require('./bagSystem');
+
 class PvPSystem {
     constructor() {
         this.RECOVERY_TIME = 120000; 
@@ -23,24 +25,29 @@ class PvPSystem {
             fairy: { fighting: 2, dragon: 2, dark: 2, poison: 0.5, steel: 0.5 }
         };
 
-        this.BASE_DAMAGE = 8; 
-        this.MAX_DAMAGE_MULTIPLIER = 1.4;
-        this.MIN_DAMAGE = 5;
-        this.AI_DECISION_WEIGHTS = {
-            AGGRESSIVE: 0.7,
-            DEFENSIVE: 0.3
-        };
+        this.BASE_DAMAGE = 6; 
+        this.MAX_DAMAGE_MULTIPLIER = 1.2; 
+        this.MIN_DAMAGE = 4; 
     }
 
     calculateDamage(attacker, defender) {
         const STAB_BONUS = 1.3;
         const CRITICAL_CHANCE = 0.08;
         const CRITICAL_MULTIPLIER = 1.3;
+        const POWER_SCALING = 0.15;
+
+        const attackerPower = bagSystem.calculatePower(attacker);
+        const defenderPower = bagSystem.calculatePower(defender);
+
+        const powerDiff = Math.max(-300, Math.min(300, attackerPower - defenderPower));
+        const powerBonus = 1 + (powerDiff * POWER_SCALING / 100);
+                
+        let damage = (attacker.attack / (defender.defense * 1.2)) * this.BASE_DAMAGE;
         
-        let power = (attacker.attack / (defender.defense * 1.2)) * this.BASE_DAMAGE;
+        damage *= powerBonus;
         
-        power = Math.min(power, attacker.attack * this.MAX_DAMAGE_MULTIPLIER);
-        power = Math.max(power, this.MIN_DAMAGE);
+        damage = Math.min(damage, attacker.attack * this.MAX_DAMAGE_MULTIPLIER);
+        damage = Math.max(damage, this.MIN_DAMAGE);
         
         let typeMultiplier = 1;
         attacker.types.forEach(attackerType => {
@@ -52,17 +59,18 @@ class PvPSystem {
         });
 
         if (attacker.types.includes(attacker.types[0])) {
-            power *= STAB_BONUS;
+            damage *= STAB_BONUS;
         }
 
-        if (Math.random() < CRITICAL_CHANCE) {
-            power *= CRITICAL_MULTIPLIER;
+        const powerBasedCritChance = CRITICAL_CHANCE * (1 + attackerPower/1000);
+        if (Math.random() < powerBasedCritChance) {
+            damage *= CRITICAL_MULTIPLIER;
         }
 
-        power *= typeMultiplier;
-        power *= (0.95 + Math.random() * 0.1); 
+        damage *= typeMultiplier;
+        damage *= (0.95 + Math.random() * 0.1);
 
-        return Math.floor(power);
+        return Math.floor(damage);
     }
 
     async battle(pokemon1, pokemon2) {
@@ -86,7 +94,6 @@ class PvPSystem {
         let p1HP = pokemon1.hp;
         let p2HP = pokemon2.hp;
         const battleLog = [];
-        const expGain = Math.floor(Math.random() * 30) + 20;
 
         while (p1HP > 0 && p2HP > 0) {
             const dmg1 = this.calculateDamage(pokemon1, pokemon2);
@@ -102,67 +109,29 @@ class PvPSystem {
             battleLog.push(`${pokemon2.name} gây ${dmg2} sát thương cho ${pokemon1.name} (${this.getEffectivenessText(effectiveness2)})`);
         }
 
+        const winner = p1HP > 0 ? pokemon1 : pokemon2;
+        const loser = p1HP > 0 ? pokemon2 : pokemon1;
+        
+        const winnerExpGain = Math.floor(Math.random() * 30) + 20;
+        const loserExpGain = Math.floor(winnerExpGain * 0.4);
+        
+        const winnerPower = bagSystem.calculatePower(winner);
+        const loserPower = bagSystem.calculatePower(loser);
+        battleLog.push(`\n⚡ Chỉ số Power:\n${winner.name}: ${winnerPower}\n${loser.name}: ${loserPower}`);
+        
         return {
-            winner: p1HP > 0 ? pokemon1 : pokemon2,
-            loser: p1HP > 0 ? pokemon2 : pokemon1,
+            winner: winner,
+            loser: loser,
             finalHP: {
                 pokemon1: Math.max(0, p1HP),
                 pokemon2: Math.max(0, p2HP)
             },
             log: battleLog,
-            expGained: expGain
+            expGained: {
+                winner: winnerExpGain,
+                loser: loserExpGain
+            }
         };
-    }
-
-    async pve(playerPokemon, wildPokemon) {
-        if (!playerPokemon || !wildPokemon) return null;
-
-        if (playerPokemon.hp === 0) {
-            return { error: "recovery", timeLeft: this.getRecoveryTimeLeft(playerPokemon) };
-        }
-
-        let p1HP = playerPokemon.hp;
-        let p2HP = wildPokemon.hp;
-        const battleLog = [];
-        const expGain = Math.floor(Math.random() * 40) + 30; 
-
-        while (p1HP > 0 && p2HP > 0) {
-       
-            const dmg1 = this.calculateDamage(playerPokemon, wildPokemon);
-            p2HP -= dmg1;
-            const effectiveness1 = this.getTypeEffectiveness(playerPokemon.types[0], wildPokemon.types);
-            battleLog.push(`${playerPokemon.name} gây ${dmg1} sát thương cho ${wildPokemon.name} (${this.getEffectivenessText(effectiveness1)})`);
-
-            if (p2HP <= 0) break;
-
-            const aiDamageMultiplier = this.getAIDecision(p2HP / wildPokemon.hp);
-            const dmg2 = Math.floor(this.calculateDamage(wildPokemon, playerPokemon) * aiDamageMultiplier);
-            p1HP -= dmg2;
-            const effectiveness2 = this.getTypeEffectiveness(wildPokemon.types[0], playerPokemon.types);
-            battleLog.push(`${wildPokemon.name} gây ${dmg2} sát thương cho ${playerPokemon.name} (${this.getEffectivenessText(effectiveness2)})`);
-        }
-
-        return {
-            winner: p1HP > 0 ? playerPokemon : wildPokemon,
-            loser: p1HP > 0 ? wildPokemon : playerPokemon,
-            finalHP: {
-                player: Math.max(0, p1HP),
-                wild: Math.max(0, p2HP)
-            },
-            log: battleLog,
-            expGained: expGain,
-            rewardCoins: Math.floor(Math.random() * 20000) + 10000
-        };
-    }
-
-    getAIDecision(hpPercentage) {
-        if (hpPercentage < 0.3) {
-            return 1.2;
-        } else if (hpPercentage < 0.5) {
-
-            return this.AI_DECISION_WEIGHTS.AGGRESSIVE;
-        }
-        return 1.0;
     }
 
     getTypeEffectiveness(attackType, defenderTypes) {

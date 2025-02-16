@@ -83,10 +83,10 @@ module.exports = {
                         newBalance = processedAmount;
                         break;
                     case 'add':
-                        newBalance = currentBalance + Math.abs(processedAmount); // Luôn cộng số dương
+                        newBalance = currentBalance + Math.abs(processedAmount); 
                         break;
                     case 'sub':
-                        newBalance = currentBalance - Math.abs(processedAmount); // Luôn trừ số dương
+                        newBalance = currentBalance - Math.abs(processedAmount); 
                         break;
                 }
                 setBalance(userID, newBalance);

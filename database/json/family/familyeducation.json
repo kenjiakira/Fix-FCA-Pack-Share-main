@@ -95,13 +95,10 @@
       "e3",
       "e4",
       "e5",
-      "aws"
+      "aws",
+      "eng1"
     ],
-    "currentDegree": {
-      "id": "eng1",
-      "startTime": 1739424389709,
-      "progress": 0
-    }
+    "currentDegree": null
   },
   "61564482366941": {
     "degrees": [
@@ -121,6 +118,7 @@
   },
   "100000349406075": {
     "degrees": [
+      "e1",
       "e1"
     ],
     "currentDegree": null
@@ -335,6 +333,12 @@
     "currentDegree": null
   },
   "100094538943472": {
+    "degrees": [
+      "e1"
+    ],
+    "currentDegree": null
+  },
+  "61566052662145": {
     "degrees": [
       "e1"
     ],
