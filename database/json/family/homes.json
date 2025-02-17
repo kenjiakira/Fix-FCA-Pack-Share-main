@@ -3,8 +3,8 @@
     "type": "h2",
     "name": "Căn hộ cho thuê",
     "purchaseDate": 1739274225442,
-    "condition": 79.15193136574074,
-    "lastMaintenance": 1739634480068,
+    "condition": 74.03173894675925,
+    "lastMaintenance": 1739722956993,
     "upgrades": [],
     "stats": {
       "security": 0,
@@ -18,11 +18,13 @@
     "type": "h6",
     "name": "Khu compound",
     "purchaseDate": 1739291375099,
-    "condition": 79.76988136574073,
-    "lastMaintenance": 1739676592428,
-    "upgrades": [],
+    "condition": 100,
+    "lastMaintenance": 1739699248901,
+    "upgrades": [
+      "security"
+    ],
     "stats": {
-      "security": 0,
+      "security": 20,
       "comfort": 0,
       "environment": 0,
       "luxury": 0
@@ -61,8 +63,8 @@
     "type": "h7",
     "name": "Penthouse",
     "purchaseDate": 1739334494448,
-    "condition": 84.75462233796297,
-    "lastMaintenance": 1739597934574,
+    "condition": 100,
+    "lastMaintenance": 1739699449719,
     "upgrades": [],
     "stats": {
       "security": 95,
@@ -75,8 +77,8 @@
     "type": "h1",
     "name": "Nhà trọ",
     "purchaseDate": 1739510688409,
-    "condition": 94.95103211805555,
-    "lastMaintenance": 1739597934574,
+    "condition": 89.79885248842592,
+    "lastMaintenance": 1739686964238,
     "upgrades": [],
     "stats": {
       "security": 10,

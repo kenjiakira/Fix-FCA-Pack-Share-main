@@ -2,6 +2,7 @@ const fs = require('fs');
 const path = require('path');
 const { getBalance, updateBalance } = require('../utils/currencies');
 const MarketAlgorithms = require('../config/trade/marketAlgorithms');
+const { TradingMonitor } = require('../config/trade/tradingRestrictions');
 
 const USER_PORTFOLIO_PATH = path.join(__dirname, '../commands/json/trade/portfolios.json');
 const EXCHANGE_RATE_PATH = path.join(__dirname, '../commands/json/trade/exchange_rate.json');
@@ -10,6 +11,31 @@ const STOCKS_DATA_PATH = path.join(__dirname, '../commands/json/trade/stocks_dat
 const MARKET_HOURS = {
     open: 9,  
     close: 19
+};
+
+const RISK_CONFIG = {
+    volatility: {
+        normal: 0.5,   // Adjusted normal volatility threshold to reduce sensitivity
+
+
+        extreme: 5,    
+        openClose: 3,   
+    },
+    blackSwan: {
+        probability: 0.001,  
+        impact: 0.5,      
+        marketWide: true  
+    },
+    marketCrash: {
+        threshold: 0.15,   
+        maxDrop: 0.3,      
+        recoveryDays: 3     
+    },
+    margin: {
+        callThreshold: 0.4,   
+        callDuration: 4 * 3600000, 
+        volatilityFeeMultiplier: 1.5 
+    }
 };
 
 const DEFAULT_STOCKS = {
@@ -28,11 +54,26 @@ const FEES = {
     transaction: 0.001, 
     tax: 0.001,      
     minFee: 1000,    
-    maxFee: 1000000  
+    maxFee: 1000000,
+    margin: 0.01     
+};
+
+const ORDER_TYPES = {
+    MARKET: 'market',
+    LIMIT: 'limit', 
+    STOP: 'stop'
+};
+
+const MARGIN_CONFIG = {
+    maxLeverage: 5,  
+    maintenanceMargin: 0.1,
+    initialMargin: 0.2      
 };
 
 class TradeSystem {
     constructor() {
+        this.orders = {};
+        this.marginPositions = {};
         this.portfolios = {};
         this.stocks = {};
         this.xuRate = this.generateInitialRate();
@@ -65,7 +106,7 @@ class TradeSystem {
     }
 
     generateInitialRate() {
-        return Math.floor(Math.random() * (24 - 17)) + 17;
+        return Math.floor(Math.random() * (34 - 27)) + 27;
     }
 
     updateExchangeRate() {
@@ -144,10 +185,47 @@ class TradeSystem {
     }
 
     updatePrices() {
+        const marketAnalysis = this.getMarketAnalysis();
+        
+        const isBlackSwan = Math.random() < RISK_CONFIG.blackSwan.probability;
+        
+        const hour = new Date().getHours();
+        const isOpenClose = (hour === MARKET_HOURS.open || hour === MARKET_HOURS.close - 1);
+        const marketWideVolatility = isOpenClose ? RISK_CONFIG.volatility.openClose : 0;
+        
+        const avgMarketDrop = Object.values(this.stocks).reduce((sum, stock) => 
+            sum + (stock.changePercent || 0), 0) / Object.keys(this.stocks).length;
+        const isMarketCrash = avgMarketDrop < -RISK_CONFIG.marketCrash.threshold;
+        
         Object.entries(this.stocks).forEach(([symbol, stock]) => {
             if (!stock || typeof stock.priceUSD !== 'number') return;
-            const maxChange = 2;
-            const randomChange = (Math.random() * maxChange * 2) - maxChange;
+            
+            // Calculate base volatility
+            let maxChange = RISK_CONFIG.volatility.normal; // Allowing for a maximum change of 0.5% for normal volatility
+
+
+            
+            // Add open/close volatility
+            maxChange += marketWideVolatility;
+            
+            // Random extreme volatility (10% chance)
+            if (Math.random() < 0.1) {
+                maxChange = RISK_CONFIG.volatility.extreme;
+            }
+            
+            // Calculate price change
+            let randomChange = (Math.random() * maxChange * 2) - maxChange;
+            
+            // Apply black swan effect
+            if (isBlackSwan) {
+                randomChange = -RISK_CONFIG.blackSwan.impact * 100;
+            }
+            
+            // Apply market crash effect
+            if (isMarketCrash) {
+                const crashImpact = -(Math.random() * RISK_CONFIG.marketCrash.maxDrop * 100);
+                randomChange = Math.min(randomChange, crashImpact);
+            }
             
             const minPrice = DEFAULT_STOCKS[symbol].minPrice;
             const newPriceUSD = Math.max(
@@ -302,30 +380,61 @@ class TradeSystem {
     }
 
     async sellStock(userId, symbol, quantity) {
+        // Market hours check
         const now = new Date();
         const hour = now.getHours();
-        
         if (hour < MARKET_HOURS.open || hour >= MARKET_HOURS.close) {
             throw new Error(`Market is closed! Trading hours: ${MARKET_HOURS.open}:00 - ${MARKET_HOURS.close}:00`);
         }
 
+        // Get user data and check stock availability
         const portfolio = this.getUserPortfolio(userId);
         if (!portfolio.stocks[symbol] || portfolio.stocks[symbol].quantity < quantity) {
             throw new Error("Insufficient stocks to sell");
         }
 
+        // Get stock info and validate trade
         const stockData = this.getStockPrice(symbol);
+        const validation = TradingMonitor.isValidTrade({
+            symbol,
+            type: 'sell',
+            quantity,
+            price: stockData.price,
+            priceChange: stockData.changePercent,
+            timestamp: Date.now()
+        }, portfolio.transactions || []);
+
+        if (!validation.isValid) {
+            const violations = validation.violations.map(v => v.message).join('\n');
+            throw new Error(`Giao dịch không hợp lệ:\n${violations}`);
+        }
+
+        // Calculate values and fees
         const totalValue = Math.floor(stockData.price * quantity);
+        const entryValue = Math.floor(portfolio.stocks[symbol].averagePrice * quantity);
+        const profitAmount = Math.max(0, totalValue - entryValue);
+
+        // Calculate penalties if any
+        const penalties = TradingMonitor.calculatePenalties(validation.violations, profitAmount);
         
         const transactionFee = Math.floor(Math.min(
             Math.max(totalValue * FEES.transaction, FEES.minFee),
             FEES.maxFee
         ));
         const tax = Math.floor(Math.min(
-            Math.max(totalValue * FEES.tax, FEES.minFee),
+            Math.max(totalValue * (FEES.tax + penalties.additionalTax), FEES.minFee),
             FEES.maxFee
         ));
-        const finalValue = Math.floor(totalValue - transactionFee - tax);
+        const finalValue = Math.floor(totalValue - transactionFee - tax - penalties.penaltyAmount);
+
+        // Log violations if any
+        if (validation.violations.length > 0) {
+            validation.violations.forEach(violation => {
+                const log = TradingMonitor.logViolation(userId, violation);
+                if (!portfolio.violations) portfolio.violations = [];
+                portfolio.violations.push(log);
+            });
+        }
 
         portfolio.stocks[symbol].quantity -= quantity;
         if (portfolio.stocks[symbol].quantity === 0) {
@@ -373,7 +482,14 @@ class TradeSystem {
     }
 
     getMarketAnalysis() {
-        return MarketAlgorithms.analyzeMarket(this.stocks);
+        const analysis = MarketAlgorithms.analyzeMarket(this.stocks);
+        return {
+            topGainers: analysis.topGainers || [],
+            topLosers: analysis.topLosers || [],
+            totalVolume: analysis.totalVolume || 0,
+            totalValue: analysis.totalValue || 0,
+            marketSentiment: analysis.marketSentiment || 'Neutral'
+        };
     }
 
     isMarketOpen() {
@@ -389,6 +505,254 @@ class TradeSystem {
 
     formatStockPrice(number) {
         return "$" + Math.floor(number).toLocaleString('vi-VN');
+    }
+
+    // Order Management Methods
+    async placeOrder(userId, symbol, quantity, type, params = {}) {
+        if (!this.isMarketOpen()) {
+            throw new Error(`Market is closed! Trading hours: ${MARKET_HOURS.open}:00 - ${MARKET_HOURS.close}:00`);
+        }
+
+        const stockData = this.getStockPrice(symbol);
+        const orderId = `${userId}-${symbol}-${Date.now()}`;
+
+        switch (type) {
+            case ORDER_TYPES.MARKET:
+                return this.executeMarketOrder(userId, symbol, quantity, params.isBuy);
+
+            case ORDER_TYPES.LIMIT:
+                if (!params.limitPrice) throw new Error("Limit price is required for limit orders");
+                this.orders[orderId] = {
+                    userId,
+                    symbol,
+                    quantity,
+                    type: ORDER_TYPES.LIMIT,
+                    limitPrice: params.limitPrice,
+                    isBuy: params.isBuy,
+                    timestamp: Date.now()
+                };
+                break;
+
+            case ORDER_TYPES.STOP:
+                if (!params.stopPrice) throw new Error("Stop price is required for stop orders");
+                this.orders[orderId] = {
+                    userId,
+                    symbol,
+                    quantity,
+                    type: ORDER_TYPES.STOP,
+                    stopPrice: params.stopPrice,
+                    isBuy: params.isBuy,
+                    timestamp: Date.now()
+                };
+                break;
+
+            default:
+                throw new Error("Invalid order type");
+        }
+
+        return orderId;
+    }
+
+    async executeMarketOrder(userId, symbol, quantity, isBuy) {
+        return isBuy ? 
+            this.buyStock(userId, symbol, quantity) :
+            this.sellStock(userId, symbol, quantity);
+    }
+
+    // Margin Trading Methods
+    async openMarginPosition(userId, symbol, quantity, leverage) {
+        if (leverage > MARGIN_CONFIG.maxLeverage) {
+            throw new Error(`Maximum leverage is ${MARGIN_CONFIG.maxLeverage}x`);
+        }
+
+        // Check market volatility
+        const marketVolatility = this.calculateMarketVolatility();
+        const isHighVolatility = marketVolatility > RISK_CONFIG.volatility.normal;
+
+        const stockData = this.getStockPrice(symbol);
+        const positionValue = stockData.price * quantity;
+        
+        // Increase margin requirements during high volatility
+        const volatilityMultiplier = isHighVolatility ? RISK_CONFIG.margin.volatilityFeeMultiplier : 1;
+        const requiredMargin = positionValue * MARGIN_CONFIG.initialMargin * volatilityMultiplier / leverage;
+        
+        const balance = await getBalance(userId);
+        if (balance < requiredMargin) {
+            throw new Error(`Insufficient margin. Required: ${this.formatNumber(requiredMargin)} Xu`);
+        }
+
+        const positionId = `${userId}-${symbol}-${Date.now()}`;
+        this.marginPositions[positionId] = {
+            userId,
+            symbol,
+            quantity,
+            leverage,
+            entryPrice: stockData.price,
+            margin: requiredMargin,
+            timestamp: Date.now(),
+            lastMarginCheck: Date.now(),
+            marginCallIssued: false,
+            marginCallDeadline: null
+        };
+
+        // Set up margin monitoring
+        this.monitorMarginPosition(positionId);
+
+        await updateBalance(userId, -requiredMargin);
+        return positionId;
+    }
+
+    async closeMarginPosition(userId, positionId) {
+        const position = this.marginPositions[positionId];
+        if (!position || position.userId !== userId) {
+            throw new Error("Invalid position");
+        }
+
+        const stockData = this.getStockPrice(position.symbol);
+        const currentValue = stockData.price * position.quantity;
+        const entryValue = position.entryPrice * position.quantity;
+        
+        const pnl = (currentValue - entryValue) * position.leverage;
+        const marginFee = position.margin * FEES.margin;
+        
+        delete this.marginPositions[positionId];
+        
+        const finalPnl = pnl - marginFee;
+        await updateBalance(userId, position.margin + finalPnl);
+        
+        return {
+            pnl,
+            marginFee,
+            finalPnl
+        };
+    }
+
+    calculateRSI(symbol, period = 14) {
+        const stock = this.stocks[symbol];
+        if (!stock || !stock.history) return null;
+
+        const prices = stock.history.map(h => h.price);
+        if (prices.length < period) return null;
+
+        let gains = 0;
+        let losses = 0;
+
+        for (let i = 1; i < prices.length; i++) {
+            const difference = prices[i] - prices[i - 1];
+            if (difference >= 0) {
+                gains += difference;
+            } else {
+                losses -= difference;
+            }
+        }
+
+        const avgGain = gains / period;
+        const avgLoss = losses / period;
+        const rs = avgGain / avgLoss;
+        return 100 - (100 / (1 + rs));
+    }
+
+    calculateMACD(symbol) {
+        const stock = this.stocks[symbol];
+        if (!stock || !stock.history) return null;
+
+        const prices = stock.history.map(h => h.price);
+        const ema12 = this.calculateEMA(prices, 12);
+        const ema26 = this.calculateEMA(prices, 26);
+        
+        return {
+            macd: ema12 - ema26,
+            signal: this.calculateEMA([ema12 - ema26], 9)
+        };
+    }
+
+    calculateEMA(prices, period) {
+        const multiplier = 2 / (period + 1);
+        let ema = prices[0];
+        
+        for (let i = 1; i < prices.length; i++) {
+            ema = (prices[i] - ema) * multiplier + ema;
+        }
+        
+        return ema;
+    }
+
+    calculateMarketVolatility() {
+        return Object.values(this.stocks).reduce((sum, stock) => 
+            sum + Math.abs(stock.changePercent || 0), 0) / Object.keys(this.stocks).length;
+    }
+
+    monitorMarginPosition(positionId) {
+        const position = this.marginPositions[positionId];
+        if (!position) return;
+
+        const stockData = this.getStockPrice(position.symbol);
+        const currentValue = stockData.price * position.quantity;
+        const equity = position.margin + (currentValue - (position.entryPrice * position.quantity));
+        const equityRatio = equity / (currentValue * position.leverage);
+
+        // Check for margin call
+        if (equityRatio < RISK_CONFIG.margin.callThreshold && !position.marginCallIssued) {
+            position.marginCallIssued = true;
+            position.marginCallDeadline = Date.now() + RISK_CONFIG.margin.callDuration;
+            
+            // Notify user of margin call
+            this.notifyMarginCall(position.userId, positionId, equityRatio);
+        }
+
+        // Liquidate position if margin call not met
+        if (position.marginCallIssued && Date.now() > position.marginCallDeadline) {
+            this.liquidatePosition(positionId);
+        }
+    }
+
+    async notifyMarginCall(userId, positionId, equityRatio) {
+        const position = this.marginPositions[positionId];
+        if (!position) return;
+
+        const message = {
+            type: 'MARGIN_CALL',
+            userId,
+            positionId,
+            symbol: position.symbol,
+            currentEquity: equityRatio,
+            requiredEquity: RISK_CONFIG.margin.callThreshold,
+            deadline: new Date(position.marginCallDeadline).toLocaleString(),
+            action: 'Add funds or reduce position to avoid liquidation'
+        };
+
+        // Store notification in user's portfolio
+        const portfolio = this.getUserPortfolio(userId);
+        if (!portfolio.notifications) portfolio.notifications = [];
+        portfolio.notifications.push(message);
+        this.savePortfolios();
+    }
+
+    async liquidatePosition(positionId) {
+        const position = this.marginPositions[positionId];
+        if (!position) return;
+
+        try {
+            // Force close position at market price
+            await this.closeMarginPosition(position.userId, positionId, true);
+            
+            // Notify user of liquidation
+            const message = {
+                type: 'LIQUIDATION',
+                userId: position.userId,
+                positionId,
+                symbol: position.symbol,
+                timestamp: Date.now(),
+                reason: 'Margin call not met within deadline'
+            };
+
+            const portfolio = this.getUserPortfolio(position.userId);
+            if (!portfolio.notifications) portfolio.notifications = [];
+            portfolio.notifications.push(message);
+            this.savePortfolios();
+        } catch (error) {
+            console.error(`Error liquidating position ${positionId}:`, error);
+        }
     }
 }
 

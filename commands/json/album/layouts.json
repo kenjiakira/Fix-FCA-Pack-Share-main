@@ -1,0 +1,125 @@
+{
+  "layouts": {
+    "1": {
+      "rows": 1,
+      "cols": 1,
+      "padding": 0,
+      "maxSize": 2000,
+      "background": "#FFFFFF"
+    },
+    "2": {
+      "rows": 1,
+      "cols": 2,
+      "padding": 10,
+      "maxSize": 1800,
+      "background": "#FFFFFF"
+    },
+    "3": {
+      "rows": 2,
+      "cols": 2,
+      "padding": 8,
+      "maxSize": 1600,
+      "special": {
+        "positions": [
+          {"x": 0, "y": 0, "w": 2, "h": 1},
+          {"x": 0, "y": 1, "w": 1, "h": 1},
+          {"x": 1, "y": 1, "w": 1, "h": 1}
+        ]
+      },
+      "background": "#FFFFFF"
+    },
+    "4": {
+      "rows": 2,
+      "cols": 2,
+      "padding": 8,
+      "maxSize": 1600,
+      "background": "#F5F5F5"
+    },
+    "5": {
+      "rows": 2,
+      "cols": 3,
+      "padding": 6,
+      "maxSize": 1500,
+      "special": {
+        "positions": [
+          {"x": 0, "y": 0, "w": 2, "h": 2},
+          {"x": 2, "y": 0, "w": 1, "h": 1},
+          {"x": 2, "y": 1, "w": 1, "h": 1},
+          {"x": 0, "y": 2, "w": 1, "h": 1},
+          {"x": 1, "y": 2, "w": 1, "h": 1}
+        ]
+      },
+      "background": "#FFFFFF"
+    },
+    "6": {
+      "rows": 2,
+      "cols": 3,
+      "padding": 6,
+      "maxSize": 1500,
+      "background": "#F8F8F8"
+    },
+    "7": {
+      "rows": 3,
+      "cols": 3,
+      "padding": 5,
+      "maxSize": 1400,
+      "special": {
+        "positions": [
+          {"x": 0, "y": 0, "w": 2, "h": 2},
+          {"x": 2, "y": 0, "w": 1, "h": 1},
+          {"x": 2, "y": 1, "w": 1, "h": 1},
+          {"x": 0, "y": 2, "w": 1, "h": 1},
+          {"x": 1, "y": 2, "w": 1, "h": 1},
+          {"x": 2, "y": 2, "w": 1, "h": 1}
+        ]
+      },
+      "background": "#FFFFFF"
+    },
+    "8": {
+      "rows": 3,
+      "cols": 3,
+      "padding": 5,
+      "maxSize": 1400,
+      "background": "#F0F0F0"
+    },
+    "9": {
+      "rows": 3,
+      "cols": 3,
+      "padding": 5,
+      "maxSize": 1400,
+      "background": "#FFFFFF"
+    },
+    "10": {
+      "rows": 3,
+      "cols": 4,
+      "padding": 4,
+      "maxSize": 1300,
+      "background": "#F5F5F5"
+    },
+    "default": {
+      "rows": 4,
+      "cols": 4,
+      "padding": 4,
+      "maxSize": 1200,
+      "background": "#FFFFFF"
+    }
+  },
+  "effects": {
+    "shadow": {
+      "color": "rgba(0,0,0,0.2)",
+      "blur": 10,
+      "offsetX": 0,
+      "offsetY": 4
+    },
+    "border": {
+      "width": 1,
+      "color": "#E0E0E0"
+    },
+    "cornerRadius": 8
+  },
+  "optimization": {
+    "maxFileSize": 5242880,
+    "quality": 0.9,
+    "format": "png"
+  }
+}

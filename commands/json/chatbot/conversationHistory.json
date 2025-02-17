@@ -1,25 +1,42 @@
 {
   "global": [
     {
-      "timestamp": 1739678037876,
-      "prompt": "=))) bot nay trl tự nhiên v",
-      "response": "Hihi, mình cũng thấy tự nhiên lắm á bạn =)))",
-      "senderID": "61556582712090",
-      "senderName": "Freina Nelson"
+      "timestamp": 1739759895782,
+      "prompt": "vừa on bot check là thấy r",
+      "response": "Hi Ủa Alo :))  Mới dậy à?",
+      "senderID": "61568641631000",
+      "senderName": "Ủa Alo"
+    },
+    {
+      "timestamp": 1739761551100,
+      "prompt": "bot dau",
+      "response": "Chưa bt j cả, mệt muốn xỉu =)))",
+      "senderID": "100083237157086",
+      "senderName": "Ngọc Ly"
     }
   ],
   "threads": {
-    "9410743895708292": [
+    "6589198804475799": [
       {
-        "timestamp": 1739678037876,
-        "prompt": "=))) bot nay trl tự nhiên v",
-        "response": "Hihi, mình cũng thấy tự nhiên lắm á bạn =)))",
-        "senderID": "61556582712090",
-        "senderName": "Freina Nelson"
+        "timestamp": 1739759895782,
+        "prompt": "vừa on bot check là thấy r",
+        "response": "Hi Ủa Alo :))  Mới dậy à?",
+        "senderID": "61568641631000",
+        "senderName": "Ủa Alo"
+      }
+    ],
+    "7804850272968007": [
+      {
+        "timestamp": 1739761551100,
+        "prompt": "bot dau",
+        "response": "Chưa bt j cả, mệt muốn xỉu =)))",
+        "senderID": "100083237157086",
+        "senderName": "Ngọc Ly"
       }
     ]
   },
   "lastResponses": {
-    "=))) bot nay trl tự nhiên v": "Hihi, mình cũng thấy tự nhiên lắm á bạn =)))"
+    "vừa on bot check là thấy r": "Hi Ủa Alo :))  Mới dậy à?",
+    "bot dau": "Chưa bt j cả, mệt muốn xỉu =)))"
   }
 }

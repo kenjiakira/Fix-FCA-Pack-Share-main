@@ -5,7 +5,7 @@ const adminConfig = JSON.parse(fs.readFileSync("admin.json", "utf8"));
 module.exports = {
     name: "help",
     usedby: 0,
-    info: "Hiển thị các lệnh có sẵn và thông tin chi tiết",
+    info: "Hiển thị các lệnh có sẵn và thông tin chi tiết. Sử dụng: help [số trang | all | tên lệnh]",
     dev: "HNT",
     onPrefix: true,
     usages: "help [số trang | all | tên lệnh]",

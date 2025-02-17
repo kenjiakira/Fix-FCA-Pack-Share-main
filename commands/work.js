@@ -1,5 +1,6 @@
-const { updateBalance, updateQuestProgress } = require('../utils/currencies');
+const { updateBalance, updateQuestProgress, getBalance, saveData } = require('../utils/currencies');
 const { getVIPBenefits } = require('../utils/vipCheck');
+const { createUserData } = require('../utils/userData');
 const JobSystem = require('../family/JobSystem');
 const { JOB_CATEGORIES, JOB_RANKS } = require('../config/family/jobConfig');
 
@@ -13,6 +14,13 @@ module.exports = {
 
     onLaunch: async function({ api, event }) {
         const { threadID, messageID, senderID } = event;
+
+        try {
+            await createUserData(senderID);
+        } catch (error) {
+            return api.sendMessage("❌ Có lỗi xảy ra khi tạo dữ liệu người dùng!", threadID, messageID);
+        }
+
         const jobSystem = new JobSystem();
 
         try {

@@ -1,6 +1,7 @@
 const fs = require('fs');
 const path = require('path');
-const { market } = require('./trade.js'); 
+const TradeSystem = require('../trade/TradeSystem');
+const tradeSystem = new TradeSystem();
 
 const userDataFile = path.join(__dirname,'../events/cache/userData.json');
 const transactionsPath = path.join(__dirname, '../commands/json/transactions.json');
@@ -65,10 +66,10 @@ module.exports = {
 
             let marketAlert = '';
             try {
-                const analysis = await market.getMarketAnalysis();
-                if (analysis?.topGainers?.length > 0) {
-                    const [symbol, data] = analysis.topGainers[0];
-                    marketAlert = `\n📈 ${symbol}: +${data.change.toFixed(1)}%`;
+                const analysis = tradeSystem.getMarketAnalysis();
+                if (analysis.topGainers.length > 0) {
+                    const gainer = analysis.topGainers[0];
+                    marketAlert = `\n📈 ${gainer.symbol}: +${gainer.change.toFixed(1)}%`;
                 }
             } catch (error) {
                 console.error("Market analysis error:", error);

@@ -1,0 +1,53 @@
+📈 HƯỚNG DẪN GIAO DỊCH CHỨNG KHOÁN 📈
+━━━━━━━━━━━━━━━━━━━━━
+
+🕒 THỜI GIAN GIAO DỊCH:
+• Thị trường mở cửa: 9:00 - 19:00
+• Cooling period: 30 phút giữa các giao dịch
+• Thời gian nắm giữ tối thiểu: 24 giờ
+
+💰 LOẠI LỆNH:
+1. Lệnh thị trường (Market Order)
+   • Khớp ngay tại giá thị trường
+   • .trade buy/sell [mã] [số lượng]
+
+2. Lệnh giới hạn (Limit Order) 
+   • Đặt mua/bán tại mức giá xác định
+   • .trade order [mã] [số lượng] limit [giá] [buy/sell]
+
+3. Lệnh dừng (Stop Order)
+   • Kích hoạt khi giá chạm mức stop
+   • .trade order [mã] [số lượng] stop [giá] [buy/sell]
+
+📊 GIAO DỊCH KÝ QUỸ (MARGIN):
+• Đòn bẩy tối đa: 5x
+• Margin call khi equity < 40%
+• Thời hạn margin call: 4 giờ
+• .trade margin [mã] [số lượng] [đòn bẩy] [open/close]
+
+💵 PHÍ & THUẾ:
+• Phí giao dịch: 0.1% (tối thiểu 1,000 xu)
+• Thuế: 0.1%
+• Phí margin: 1%
+• Phí phạt bán sớm: 50% lợi nhuận
+• Phí thao túng: 80% lợi nhuận
+
+⚠️ GIỚI HẠN & CẢNH BÁO:
+• Biên độ dao động: ±7%/ngày
+• Circuit breaker: ±15%
+• Giá sàn tối thiểu: 1,000 xu
+• Cảnh báo biến động cao
+• Theo dõi giao dịch bất thường
+
+📋 LỆNH HỖ TRỢ:
+• .trade check - Xem thị trường
+• .trade info [mã] - Thông tin cổ phiếu
+• .trade portfolio - Xem danh mục
+• .trade analysis [mã] - Phân tích kỹ thuật
+• .trade risk - Xem cảnh báo rủi ro
+
+💡 LƯU Ý:
+• Tuân thủ thời gian giao dịch
+• Tránh các hành vi thao túng
+• Chú ý margin call để tránh thanh lý
+• Kiểm tra kỹ trước khi đặt lệnh

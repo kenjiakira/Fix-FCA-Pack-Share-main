@@ -1,61 +1,75 @@
 class MarketAlgorithms {
-    static generateMarketDepth(price, isBid) {
-        const levels = 5;
-        const depth = [];
-        let basePrice = price;
-        
-        for (let i = 0; i < levels; i++) {
-            const priceChange = (isBid ? -1 : 1) * (i + 1) * 0.1;
-            const levelPrice = Math.floor(basePrice * (1 + priceChange));
-            const volume = Math.floor(Math.random() * 5000) + 1000;
-            depth.push({
+    static generateInitialPrice(basePrice) {
+        const variance = 0.1; // 10% variance
+        const randomFactor = 1 + (Math.random() * variance * 2 - variance);
+        return Math.floor(basePrice * randomFactor);
+    }
+
+    static generateMarketDepth(currentPrice, isBids) {
+        const levels = [];
+        const numLevels = 5;
+        const maxPriceChange = 0.05; 
+        const maxVolumeVariance = 0.3; // 30% volume variance
+
+        for (let i = 0; i < numLevels; i++) {
+            const priceOffset = (isBids ? -1 : 1) * (i + 1) * (maxPriceChange / numLevels);
+            const levelPrice = Math.floor(currentPrice * (1 + priceOffset));
+            
+            const baseVolume = Math.floor(Math.random() * 10000) + 1000;
+            const volumeVariance = 1 + (Math.random() * maxVolumeVariance * 2 - maxVolumeVariance);
+            const volume = Math.floor(baseVolume * volumeVariance);
+
+            levels.push({
                 price: levelPrice,
                 volume: volume
             });
         }
-        return depth;
-    }
 
-    static calculatePriceChange(currentPrice, prevChange) {
-        const baseChange = (Math.random() - 0.5) * 2;
-        const momentum = prevChange > 0 ? 0.6 : 0.4;
-        return baseChange * (Math.random() < momentum ? 1 : -1);
-    }
-
-    static calculateVolume(currentVolume) {
-        return Math.floor(currentVolume * (0.8 + Math.random() * 0.4));
-    }
-
-    static generateInitialPrice(basePrice) {
-        const randomChange = (Math.random() - 0.5) * 4;
-        return Math.floor(basePrice * (1 + randomChange / 100));
-    }
-
-    static generateRandomHistory(currentPrice, count = 20) {
-        const history = [];
-        for (let i = 0; i < count; i++) {
-            const time = Date.now() - (i * 5 * 60 * 1000);
-            const randomChange = (Math.random() - 0.5) * 2;
-            history.unshift({
-                price: currentPrice * (1 + randomChange / 100),
-                timestamp: time
-            });
-        }
-        return history;
+        return levels;
     }
 
     static analyzeMarket(stocks) {
-        const stockEntries = Object.entries(stocks);
+        const gainers = [];
+        const losers = [];
+        let totalVolume = 0;
+        let totalValue = 0;
+
+        Object.entries(stocks).forEach(([symbol, data]) => {
+            totalVolume += data.volume;
+            totalValue += data.price * data.volume;
+
+            if (data.change > 0) {
+                gainers.push({ symbol, change: data.change });
+            } else if (data.change < 0) {
+                losers.push({ symbol, change: data.change });
+            }
+        });
+
+        gainers.sort((a, b) => b.change - a.change);
+        losers.sort((a, b) => a.change - b.change);
+
+        const marketSentiment = this.calculateMarketSentiment(gainers, losers);
+
         return {
-            topGainers: stockEntries
-                .filter(([_, data]) => data.change > 0)
-                .sort((a, b) => b[1].change - a[1].change)
-                .slice(0, 3),
-            topLosers: stockEntries
-                .filter(([_, data]) => data.change < 0)
-                .sort((a, b) => a[1].change - b[1].change)
-                .slice(0, 3)
+            topGainers: gainers.slice(0, 3),
+            topLosers: losers.slice(0, 3),
+            totalVolume,
+            totalValue,
+            marketSentiment
         };
+    }
+
+    static calculateMarketSentiment(gainers, losers) {
+        if (gainers.length === 0 && losers.length === 0) return 'Neutral';
+
+        const totalStocks = gainers.length + losers.length;
+        const gainerPercentage = (gainers.length / totalStocks) * 100;
+
+        if (gainerPercentage >= 70) return 'Very Bullish';
+        if (gainerPercentage >= 60) return 'Bullish';
+        if (gainerPercentage >= 40) return 'Neutral';
+        if (gainerPercentage >= 30) return 'Bearish';
+        return 'Very Bearish';
     }
 }
 

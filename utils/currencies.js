@@ -12,21 +12,59 @@ async function loadData() {
     try {
         if (fs.existsSync(dataFile)) {
             const data = JSON.parse(await fs.promises.readFile(dataFile, 'utf8'));
-            global.balance = data.balance || {};
-        } else {
+      
+            if (data && data.balance && Object.keys(data.balance).length > 0) {
+                global.balance = data.balance;
+            } else {
+                const backupFile = `${dataFile}.backup`;
+                if (fs.existsSync(backupFile)) {
+                    const backupData = JSON.parse(await fs.promises.readFile(backupFile, 'utf8'));
+                    if (backupData && backupData.balance && Object.keys(backupData.balance).length > 0) {
+                        global.balance = backupData.balance;
+                        await saveData(); 
+                    }
+                }
+            }
+        }
+        if (!global.balance || Object.keys(global.balance).length === 0) {
             global.balance = {};
         }
     } catch (error) {
         console.error("Lỗi khi đọc tệp dữ liệu:", error);
+        global.balance = global.balance || {};
     }
 }
 
 async function saveData() {
     try {
+        if (fs.existsSync(dataFile)) {
+            const backupFile = `${dataFile}.backup`;
+            await fs.promises.copyFile(dataFile, backupFile);
+        }
+
+        if (Object.keys(global.balance).length === 0 && fs.existsSync(dataFile)) {
+            const existingData = JSON.parse(await fs.promises.readFile(dataFile, 'utf8'));
+            if (Object.keys(existingData.balance || {}).length > 0) {
+                console.error("Preventing save of empty balance when existing data exists");
+                global.balance = existingData.balance;
+                return;
+            }
+        }
+
         const data = { balance: global.balance };
         await fs.promises.writeFile(dataFile, JSON.stringify(data, null, 2), 'utf8');
     } catch (error) {
         console.error("Lỗi khi ghi tệp dữ liệu:", error);
+     
+        try {
+            const backupFile = `${dataFile}.backup`;
+            if (fs.existsSync(backupFile)) {
+                await fs.promises.copyFile(backupFile, dataFile);
+                console.log("Restored from backup file");
+            }
+        } catch (backupError) {
+            console.error("Lỗi khi khôi phục từ backup:", backupError);
+        }
     }
 }
 

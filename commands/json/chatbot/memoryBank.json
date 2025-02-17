@@ -1,16 +1,31 @@
 {
   "users": {
-    "61556582712090": {
+    "61568641631000": {
       "personal": [],
       "facts": [],
       "preferences": [],
       "interactions": [
         {
-          "content": "Freina Nelson nói: =))) bot nay trl tự nhiên v\nTôi trả lời: Hihi, mình cũng thấy tự nhiên lắm á bạn =)))",
-          "timestamp": 1739678037879,
+          "content": "Ủa Alo nói: vừa on bot check là thấy r\nTôi trả lời: Hi Ủa Alo :))  Mới dậy à?",
+          "timestamp": 1739759895812,
           "priority": 1,
           "accessCount": 0,
-          "lastAccess": 1739678037879
+          "lastAccess": 1739759895812
+        }
+      ],
+      "emotions": []
+    },
+    "100083237157086": {
+      "personal": [],
+      "facts": [],
+      "preferences": [],
+      "interactions": [
+        {
+          "content": "Ngọc Ly nói: bot dau\nTôi trả lời: Chưa bt j cả, mệt muốn xỉu =)))",
+          "timestamp": 1739761551102,
+          "priority": 1,
+          "accessCount": 0,
+          "lastAccess": 1739761551102
         }
       ],
       "emotions": []
