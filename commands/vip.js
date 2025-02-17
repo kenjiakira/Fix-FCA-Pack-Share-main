@@ -138,7 +138,6 @@ module.exports = {
     onLaunch: async function({ api, event, target }) {
         const { threadID, messageID, senderID, mentions } = event;
 
-        // VIP Check Command
         if (target[0]?.toLowerCase() === "check") {
             const userID = Object.keys(mentions)[0] || senderID;
             const vipPath = path.join(__dirname, 'json', 'vip.json');

@@ -154,7 +154,6 @@ async function drawAvatar(ctx, senderID, level) {
         const avatar = await circleImage(avatarBuffer, avatarSize);
         const avatarImage = await loadImage(avatar);
 
-        // Draw avatar border
         ctx.lineWidth = 12;
         let borderColor;
         if (level >= 100) borderColor = '#e74c3c';
@@ -170,16 +169,54 @@ async function drawAvatar(ctx, senderID, level) {
         ctx.closePath();
         ctx.stroke();
 
-        // Draw avatar
         ctx.drawImage(avatarImage, avatarX, avatarY, avatarSize, avatarSize);
 
     } catch (error) {
         console.error('Lỗi khi tải avatar:', error);
-        // Fallback to default avatar handling if custom avatar fails
         if (customAvatar) {
             console.log('Falling back to default avatar...');
-            await drawAvatar(ctx, senderID, level); // Retry with default avatar
+            await drawAvatar(ctx, senderID, level);
         }
+    }
+}
+
+async function drawVIPBadge(ctx, senderID) {
+    const vipJsonPath = path.join(__dirname, '../commands/json/vip.json');
+    try {
+        const vipData = JSON.parse(fs.readFileSync(vipJsonPath, 'utf8'));
+        const userVIP = vipData.users[senderID];
+        
+        if (userVIP && userVIP.expireTime > Date.now()) {
+            const badgeX = 310;
+            const badgeY = 290; 
+            
+            ctx.font = 'bold 28px "Segoe UI"';
+            ctx.fillStyle = '#ffd700';
+            ctx.shadowColor = 'rgba(0, 0, 0, 0.8)';
+            ctx.shadowBlur = 8;
+            ctx.shadowOffsetX = 2;
+            ctx.shadowOffsetY = 2;
+            
+            ctx.beginPath();
+            ctx.roundRect(badgeX, badgeY, 130, 40, 20);
+            const gradient = ctx.createLinearGradient(badgeX, badgeY, badgeX + 130, badgeY + 40);
+            gradient.addColorStop(0, '#FFD700');
+            gradient.addColorStop(1, '#FFA500');
+            ctx.fillStyle = gradient;
+            ctx.fill();
+            
+            ctx.fillStyle = '#ffffff';
+            ctx.textAlign = 'center';
+            ctx.fillText('VIP GOLD', badgeX + 65, badgeY + 28);
+            
+            ctx.shadowColor = 'transparent';
+            ctx.shadowBlur = 0;
+            ctx.shadowOffsetX = 0;
+            ctx.shadowOffsetY = 0;
+            ctx.textAlign = 'left'; 
+        }
+    } catch (error) {
+        console.error('Error drawing VIP badge:', error);
     }
 }
 
@@ -215,6 +252,7 @@ async function createRankCard(senderID, name, currentExp, level, rank, outputPat
     drawUserInfo(ctx, name, level, currentExp, requiredXp, rank);
     drawProgressBar(ctx, currentExp, requiredXp);
     await drawAvatar(ctx, senderID, level);
+    await drawVIPBadge(ctx, senderID); 
 
     const buffer = canvas.toBuffer('image/jpeg');
     fs.writeFileSync(outputPath, buffer);

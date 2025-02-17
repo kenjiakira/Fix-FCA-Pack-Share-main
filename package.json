@@ -42,6 +42,7 @@
     "docx": "^9.1.0",
     "dotenv": "^16.4.7",
     "ejs": "^3.1.10",
+    "elevenlabs": "^1.51.0",
     "encode32": "^1.1.0",
     "express": "^4.21.2",
     "express-rate-limit": "^7.5.0",

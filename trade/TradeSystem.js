@@ -15,26 +15,25 @@ const MARKET_HOURS = {
 
 const RISK_CONFIG = {
     volatility: {
-        normal: 0.5,   // Adjusted normal volatility threshold to reduce sensitivity
-
-
-        extreme: 5,    
-        openClose: 3,   
+        normal: 0.2,        
+        extreme: 2.0,      
+        openClose: 1.0,     
+        extremeProbability: 0.05  // Reduced from 10% to 5% chance of extreme volatility
     },
     blackSwan: {
-        probability: 0.001,  
-        impact: 0.5,      
-        marketWide: true  
+        probability: 0.0005,  // Reduced from 0.1% to 0.05% probability
+        impact: 0.3,          // Reduced from 0.5 to 0.3 impact
+        marketWide: true     
     },
     marketCrash: {
-        threshold: 0.15,   
-        maxDrop: 0.3,      
-        recoveryDays: 3     
+        threshold: 0.10,      // Reduced from 15% to 10% threshold
+        maxDrop: 0.2,         // Reduced from 30% to 20% max drop
+        recoveryDays: 5       // Increased recovery period
     },
     margin: {
-        callThreshold: 0.4,   
-        callDuration: 4 * 3600000, 
-        volatilityFeeMultiplier: 1.5 
+        callThreshold: 0.5,   // Increased from 0.4 to 0.5 for more buffer
+        callDuration: 6 * 3600000, // Increased from 4 to 6 hours
+        volatilityFeeMultiplier: 1.2 // Reduced from 1.5 to 1.2
     }
 };
 
@@ -110,14 +109,15 @@ class TradeSystem {
     }
 
     updateExchangeRate() {
-        const maxChange = 0.005;
+        const maxChange = 0.002; // Reduced from 0.5% to 0.2% max change
         const change = (Math.random() * maxChange * 2) - maxChange;
         
         const newRate = Math.min(24, Math.max(17, 
             this.xuRate * (1 + change)
         ));
         
-        this.xuRate = Math.floor(newRate);
+        // Smooth the rate change
+        this.xuRate = Math.floor((this.xuRate + newRate) / 2);
         
         Object.keys(this.stocks).forEach(symbol => {
             const stock = this.stocks[symbol];
@@ -135,7 +135,7 @@ class TradeSystem {
             if (hour >= MARKET_HOURS.open && hour < MARKET_HOURS.close) {
                 this.updateExchangeRate();
             }
-        }, 300000); 
+        }, 900000); // Changed from 5 minutes to 15 minutes
     }
 
     loadExchangeRate() {
@@ -208,8 +208,8 @@ class TradeSystem {
             // Add open/close volatility
             maxChange += marketWideVolatility;
             
-            // Random extreme volatility (10% chance)
-            if (Math.random() < 0.1) {
+            // Random extreme volatility (5% chance)
+            if (Math.random() < RISK_CONFIG.volatility.extremeProbability) {
                 maxChange = RISK_CONFIG.volatility.extreme;
             }
             
@@ -264,7 +264,7 @@ class TradeSystem {
             if (hour >= MARKET_HOURS.open && hour < MARKET_HOURS.close) {
                 this.updatePrices();
             }
-        }, 180000);
+        }, 300000); // Changed from 3 minutes to 5 minutes
     }
 
     saveStocks() {

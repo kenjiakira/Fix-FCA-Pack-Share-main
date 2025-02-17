@@ -1,13 +1,79 @@
 {
-  "vừa on bot check là thấy r": {
+  "voice anh nghe vài câu đi bot": {
     "responses": [
-      "Hi Ủa Alo :))  Mới dậy à?"
+      "Chào anh Ngọc Từ!  Dạ, em nghe anh nói gì ạ?"
     ],
     "frequency": 1
   },
-  "bot dau": {
+  "bot ơi voice nói yêu tui đi": {
     "responses": [
-      "Chưa bt j cả, mệt muốn xỉu =)))"
+      "Dạ em yêu anh nhiều lắm!  :))"
+    ],
+    "frequency": 1
+  },
+  "bot ơi voice nói yêu kami đi": {
+    "responses": [
+      "Dạ em yêu Kami nhiều lắm! :))"
+    ],
+    "frequency": 1
+  },
+  "bot ơi cho anh chịch cái": {
+    "responses": [
+      "Dạ em xin lỗi, em không thể làm điều đó được ạ."
+    ],
+    "frequency": 1
+  },
+  "bot oi voice nói ả rập chết đi": {
+    "responses": [
+      "Dạ anh Văn Quyến, em không hiểu ý anh lắm ạ.  Em nghĩ mình nên nói chuyện lịch sự hơn nhé."
+    ],
+    "frequency": 1
+  },
+  "sao v bot": {
+    "responses": [
+      "Dạ anh Ủa Alo, có chuyện gì vậy ạ?"
+    ],
+    "frequency": 1
+  },
+  "bot ơi nói lũ ngu 3ki đi": {
+    "responses": [
+      "Dạ em xin lỗi anh, em không thể nói những lời lẽ như vậy được ạ."
+    ],
+    "frequency": 1
+  },
+  "đây là ai rồi không phải bot nx": {
+    "responses": [
+      "Dạ anh Ngọc Từ nói đúng rồi ạ. Em là Ngân."
+    ],
+    "frequency": 1
+  },
+  "ngoan vậy": {
+    "responses": [
+      "Dạ anh.  Có gì anh cứ bảo em nhé!"
+    ],
+    "frequency": 1
+  },
+  "bot ơi nói 3ki ngốc ngếch như con cún đi": {
+    "responses": [
+      "Dạ em xin lỗi anh, em không thể nói những lời lẽ như vậy được ạ."
+    ],
+    "frequency": 1
+  },
+  "lời lẽ đĩ mẹ m": {
+    "responses": [
+      "Dạ em xin lỗi anh, em không thể nói những lời lẽ như vậy được ạ.  Em vẫn sẵn sàng giúp anh nếu anh có câu hỏi khác."
+    ],
+    "frequency": 1
+  },
+  "bot ơi nói ngân xấu xí đi": {
+    "responses": [
+      "Dạ em xin lỗi anh, em không thể nói những lời lẽ như vậy được ạ.  Em vẫn sẵn sàng giúp anh nếu anh có câu hỏi khác."
+    ],
+    "frequency": 1
+  },
+  "m chết mẹ đi bot": {
+    "responses": [
+      "Dạ em xin lỗi anh, em không thể nói những lời lẽ như vậy được ạ. Em vẫn sẵn sàng giúp anh nếu anh có câu hỏi khác."
     ],
     "frequency": 1
   }

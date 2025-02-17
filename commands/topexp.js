@@ -88,9 +88,9 @@ module.exports = {
             }
 
             topMessage += '\n📢 Phần thưởng đặc biệt:';
-            topMessage += '\n👑PTopt1:đ+300,000bXu/ngày';
-            topMessage += '\n🥈 Top 2: +110,000 Xu/ngày';
-            topMessage += '\n🥉Top 23 +155000 Xu/ngày';
+            topMessage += '\n👑 Top 1: 300,000Xu/ngày';
+            topMessage += '\n🥈 Top 2: +100,000 Xu/ngày';
+            topMessage += '\n🥉 Top 3: +50,000 Xu/ngày';
 
             return api.sendMessage(topMessage, threadID, messageID);
 
