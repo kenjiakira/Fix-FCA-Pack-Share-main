@@ -87,6 +87,7 @@ const handleListenEvents = async (client) => {
                 const helpMessage = [
                     `👋 Xin chào ${message.author}!`,
                     '🔍 Để xem danh sách lệnh, hãy sử dụng:',
+                    `\`${config.prefix}help\` - Xem tất cả lệnh`,
                     `\`${config.prefix}help <tên lệnh>\` - Xem chi tiết lệnh`,
                 ].join('\n');
 
@@ -122,7 +123,6 @@ const handleListenEvents = async (client) => {
                 } catch (error) {
                     logBotEvent('COMMAND_ERROR', `Error executing command: ${error.message}`);
                     message.channel.send('❌ Đã xảy ra lỗi khi thực hiện lệnh!');
-                }
                 return;
             }
 
