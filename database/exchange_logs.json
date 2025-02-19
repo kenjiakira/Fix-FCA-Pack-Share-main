@@ -1,0 +1,25 @@
+{
+  "exchanges": [
+    {
+      "transactionId": "EX1739960907052hv2dl",
+      "timestamp": "2025-02-19T10:28:27.053Z",
+      "discordId": "726340876313296998",
+      "discordUsername": ".kenjiakira",
+      "messengerId": "61573427362389",
+      "nitroAmount": 1000,
+      "xuAmount": 100000,
+      "status": "pending"
+    },
+    {
+      "transactionId": "EX1739961090170zuix4",
+      "timestamp": "2025-02-19T10:31:30.171Z",
+      "discordId": "726340876313296998",
+      "discordUsername": ".kenjiakira",
+      "messengerId": "61573427362389",
+      "nitroAmount": 1000,
+      "xuAmount": 100000,
+      "status": "completed",
+      "claimedAt": "2025-02-19T10:31:58.532Z"
+    }
+  ]
+}

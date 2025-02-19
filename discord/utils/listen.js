@@ -2,6 +2,7 @@ const { logDiscordMessage, logBotEvent } = require('./logs');
 const { EmbedBuilder } = require('discord.js');
 const config = require('../../config/config.json');
 const { ALLOWED_CHANNEL } = require('../commands/taixiu');
+const { GAME_CHANNELS, MAIN_CHAT } = require('../config/channels');
 
 const handleReactions = {
     '👋': ['hello', 'hi', 'chào', 'bot ơi'],
@@ -33,8 +34,7 @@ const levenshteinDistance = (str1, str2) => {
     }
     return track[str2.length][str1.length];
 };
-
-// Tìm lệnh gần giống
+    
 const findSimilarCommands = (input, commands, threshold = 3) => {
     const similarities = [];
     commands.forEach(cmd => {
@@ -49,29 +49,48 @@ const findSimilarCommands = (input, commands, threshold = 3) => {
     return similarities.sort((a, b) => a.distance - b.distance);
 };
 
+const RESTRICTED_CHANNELS = {
+    MAIN_CHAT,
+    GAME_CHANNELS
+};
+
+const CHANNEL_COMMANDS = {
+    [GAME_CHANNELS.TAIXIU]: ['taixiu'],
+    [GAME_CHANNELS.CHANLE]: ['chanle']
+};
+
 const handleListenEvents = async (client) => {
     client.on('messageCreate', async (message) => {
         try {
             if (message.author.bot) return;
 
-            // Kiểm tra và xóa tin nhắn trong kênh tài xỉu
-            if (message.channel.id === ALLOWED_CHANNEL) {
+            // Check if message is in main chat
+            if (message.channel.id === RESTRICTED_CHANNELS.MAIN_CHAT) {
+                if (!checkBotAdmin(message.author.id) && message.content.startsWith(config.prefix)) {
+                    await message.delete().catch(() => {});
+                    const warning = await message.channel.send(
+                        `❌ ${message.author}, bạn không thể sử dụng lệnh bot trong kênh này!`
+                    );
+                    setTimeout(() => warning.delete().catch(() => {}), 5000);
+                    return;
+                }
+            }
+
+            // Check if message is in game channels
+            if (Object.values(RESTRICTED_CHANNELS.GAME_CHANNELS).includes(message.channel.id)) {
                 const content = message.content.toLowerCase();
-                // Chỉ cho phép các lệnh: tx, taixiu, data, balance
-                const allowedCommands = ['taixiu'];
+                const allowedCommands = CHANNEL_COMMANDS[message.channel.id];
                 const isAllowedCommand = allowedCommands.some(cmd => 
                     content === `${config.prefix}${cmd}` || 
                     content.startsWith(`${config.prefix}${cmd} `)
                 );
 
-                // Xóa tất cả tin nhắn không phải lệnh cho phép
                 if (!isAllowedCommand) {
                     await message.delete().catch(() => {});
                     
-                    // Nếu là lệnh không được phép, hiển thị cảnh báo
                     if (content.startsWith(config.prefix)) {
                         const warning = await message.channel.send(
-                            `❌ ${message.author}, kênh này chỉ cho phép sử dụng lệnh tài xỉu!`
+                            `❌ ${message.author}, kênh này chỉ cho phép sử dụng lệnh ${allowedCommands.join(', ')}!`
                         );
                         setTimeout(() => warning.delete().catch(() => {}), 5000);
                     }
@@ -186,4 +205,8 @@ const handleListenEvents = async (client) => {
     });
 };
 
-module.exports = { handleListenEvents, checkBotAdmin };
+module.exports = { 
+    handleListenEvents, 
+    checkBotAdmin,
+    RESTRICTED_CHANNELS 
+};

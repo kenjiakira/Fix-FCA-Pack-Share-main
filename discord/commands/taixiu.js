@@ -1,7 +1,8 @@
-const { getBalance, addBalance } = require('../utils/currencies');
+const { getData, setData } = require('../utils/currencies');
 const fs = require('fs');
 const path = require('path');
-const { EmbedBuilder, ActionRowBuilder, ButtonBuilder, ButtonStyle } = require('discord.js');
+const { EmbedBuilder, ActionRowBuilder, ButtonBuilder, ButtonStyle, AttachmentBuilder } = require('discord.js');
+const { createCanvas, loadImage } = require('canvas');
 
 const BETTING_TIME = 60000;
 const NO_BETTING_WINDOW = 10000; 
@@ -14,6 +15,15 @@ let sessionTimer = null;
 let resultTimer = null;
 let gameHistory = [];
 let lastSessionId = 0;
+
+const DICE_IMAGES = {
+    1: 'https://imgur.com/q4APzUj.png',
+    2: 'https://imgur.com/G7ehIO9.png',
+    3: 'https://imgur.com/kD8Dh7Q.png',
+    4: 'https://imgur.com/XM9skoz.png',
+    5: 'https://imgur.com/QCujL6x.png',
+    6: 'https://imgur.com/IyM5Yc4.png'
+};
 
 function loadHistory() {
     try {
@@ -226,7 +236,7 @@ function setupButtonHandlers(message) {
 
             if (balance <= 0) {
                 return interaction.reply({
-                    content: '❌ Bạn không có đủ xu để tham gia! Hãy nhận thưởng daily hoặc nạp thêm.',
+                    content: '❌ Bạn không có đủ Nitro để tham gia! Hãy nhận thưởng daily hoặc nạp thêm.',
                     ephemeral: true
                 });
             }
@@ -280,7 +290,7 @@ function setupButtonHandlers(message) {
 
                 if (currentSession.placeBet(userId, playerChoice, amount)) {
                     return interaction.reply({
-                        content: `✅ Đặt cược ${amount.toLocaleString('vi-VN')} xu vào ${playerChoice === 'tai' ? 'TÀI 🔴' : 'XỈU ⚪'} thành công!\nBạn có thể tiếp tục đặt cược số tiền khác.`,
+                        content: `✅ Đặt cược ${amount.toLocaleString('vi-VN')} Nitro vào ${playerChoice === 'tai' ? 'TÀI 🔴' : 'XỈU ⚪'} thành công!\nBạn có thể tiếp tục đặt cược số tiền khác.`,
                         ephemeral: true
                     });
                 }
@@ -446,6 +456,10 @@ async function startNewSession(channel) {
                 const dice3 = Math.floor(Math.random() * 6) + 1;
                 const total = dice1 + dice2 + dice3;
                 const result = total >= 11 ? 'tai' : 'xiu';
+                
+                const diceImageBuffer = await createDiceImage(dice1, dice2, dice3);
+                const attachment = new AttachmentBuilder(diceImageBuffer, { name: 'dice.png' });
+
                 const losingChoice = result === 'tai' ? 'xiu' : 'tai';
 
                 const winners = currentSession.bets[result].size;
@@ -476,6 +490,7 @@ async function startNewSession(channel) {
                 const resultEmbed = new EmbedBuilder()
                     .setColor(result === 'tai' ? 0xFF0000 : 0xFFFFFF)
                     .setTitle(`🎲 Kết quả phiên ${currentSession.id}`)
+                    .setImage('attachment://dice.png')
                     .addFields([
                         {
                             name: '🎯 Thông tin phiên',
@@ -490,8 +505,8 @@ async function startNewSession(channel) {
                             value: [
                                 `Người thắng: ${winners} người`,
                                 `Người thua: ${losers} người`,
-                                `Tổng thắng: ${totalWinAmount.toLocaleString('vi-VN')} xu`,
-                                `Tổng thua: ${totalLossAmount.toLocaleString('vi-VN')} xu`
+                                `Tổng thắng: ${totalWinAmount.toLocaleString('vi-VN')} Nitro`,
+                                `Tổng thua: ${totalLossAmount.toLocaleString('vi-VN')} Nitro`
                             ].join('\n'),
                             inline: false
                         }
@@ -499,7 +514,10 @@ async function startNewSession(channel) {
                     .setTimestamp()
                     .setFooter({ text: `Bot Tài Xỉu by HN • Phiên ${currentSession.id}` });
 
-                const resultMsg = await channel.send({ embeds: [resultEmbed] });
+                const resultMsg = await channel.send({ 
+                    embeds: [resultEmbed],
+                    files: [attachment]
+                });
 
                 setTimeout(() => {
                     resultMsg.delete().catch(() => {});
@@ -518,6 +536,33 @@ async function startNewSession(channel) {
         currentSession = null; 
         setTimeout(() => startNewSession(channel), 5000);
     }
+}
+
+async function createDiceImage(dice1, dice2, dice3) {
+    const canvas = createCanvas(384, 128); // Chiều rộng đủ cho 3 xúc xắc
+    const ctx = canvas.getContext('2d');
+
+    // Load các ảnh xúc xắc
+    const dice1Img = await loadImage(DICE_IMAGES[dice1]);
+    const dice2Img = await loadImage(DICE_IMAGES[dice2]);
+    const dice3Img = await loadImage(DICE_IMAGES[dice3]);
+
+    // Vẽ 3 xúc xắc cạnh nhau
+    ctx.drawImage(dice1Img, 0, 0, 128, 128);
+    ctx.drawImage(dice2Img, 128, 0, 128, 128);
+    ctx.drawImage(dice3Img, 256, 0, 128, 128);
+
+    return canvas.toBuffer();
+}
+
+function getBalance(userId) {
+    return getData(userId) || 0;
+}
+
+function addBalance(userId, amount) {
+    const currentBalance = getBalance(userId);
+    setData(userId, currentBalance + amount);
+    return currentBalance + amount;
 }
 
 loadHistory();

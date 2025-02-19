@@ -1,23 +1,22 @@
 {
   "users": {
-    "61570532692675": {
+    "61554805990725": {
       "personal": [],
       "facts": [],
       "preferences": [],
       "interactions": [
         {
-          "content": "Anh La Phu Dz nói: bot mess dễ win v\nTôi trả lời: Chắc anh đang nói về trò chơi nào đó đúng không ạ?  Em không biết nhiều về game lắm.",
-          "timestamp": 1739938045045,
+          "content": "Linh Giang nói: chị còn ở trong box có con bot k\nTôi trả lời: Em vẫn đang ở đây anh ạ.  Có gì anh cần em giúp không?",
+          "timestamp": 1739966346249,
           "priority": 1,
           "accessCount": 0,
-          "lastAccess": 1739938045045,
+          "lastAccess": 1739966346249,
           "metadata": {
             "sentiment": {
               "score": 0,
               "sentiment": "neutral"
             },
             "topics": [
-              "ENTERTAINMENT",
               "PERSONAL"
             ],
             "entities": {}
@@ -37,10 +36,10 @@
       "undefined": [
         {
           "content": "Xưng hô: em/anh",
-          "timestamp": 1739938043368,
+          "timestamp": 1739966344703,
           "priority": 2,
           "accessCount": 0,
-          "lastAccess": 1739938043368,
+          "lastAccess": 1739966344703,
           "metadata": {
             "sentiment": {
               "score": 0,

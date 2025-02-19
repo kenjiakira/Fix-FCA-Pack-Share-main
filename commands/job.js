@@ -164,15 +164,17 @@ module.exports = {
                         return api.sendMessage("❌ Bạn chưa có việc làm!", threadID);
                     }
 
-                    const oldJob = JOBS[job.currentJob.id];
-                    job.currentJob = null;
-                    this.saveJob(senderID, job);
-
-                    return api.sendMessage(
-                        `💼 Bạn đã nghỉ việc ${oldJob.name} thành công!\n` +
-                        "💡 Dùng .job list để tìm việc mới",
-                        threadID
-                    );
+                    try {
+                        const oldJob = jobSystem.quitJob(senderID);
+                        return api.sendMessage(
+                            `💼 Bạn đã nghỉ việc ${oldJob.name} thành công!\n` +
+                            "⏳ Bạn cần đợi 24 giờ để có thể xin việc lại.\n" +
+                            "💡 Dùng .job list để xem danh sách việc làm",
+                            threadID
+                        );
+                    } catch (error) {
+                        return api.sendMessage(`❌ ${error.message}`, threadID);
+                    }
                 }
             }
 

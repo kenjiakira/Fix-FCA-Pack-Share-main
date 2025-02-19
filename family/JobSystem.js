@@ -58,6 +58,8 @@ class JobSystem {
                 countRange: [3, 6]
             }
         ];
+        this.QUIT_COOLDOWN = 24 * 60 * 60 * 1000; // 24 hours cooldown after quitting
+        this.WORK_COOLDOWN = 10 * 60 * 1000; // 10 minutes cooldown between works
     }
 
     loadData() {
@@ -202,8 +204,20 @@ class JobSystem {
                 throw new Error("Công việc không tồn tại!");
             }
 
-            // Check quit cooldown first
             const jobData = this.getJob(userID);
+            
+            // Check quit cooldown
+            if (jobData.lastQuit) {
+                const timeSinceQuit = Date.now() - jobData.lastQuit;
+                if (timeSinceQuit < this.QUIT_COOLDOWN) {
+                    const timeLeft = this.QUIT_COOLDOWN - timeSinceQuit;
+                    const hours = Math.floor(timeLeft / 3600000);
+                    const minutes = Math.floor((timeLeft % 3600000) / 60000);
+                    throw new Error(`Bạn cần đợi ${hours} giờ ${minutes} phút nữa mới có thể xin việc lại!`);
+                }
+            }
+
+            // Check quit cooldown first
             const QUIT_COOLDOWN = 10 * 60 * 1000; // 10 minutes cooldown after quitting
             
             if (jobData.lastQuit) {
@@ -298,19 +312,17 @@ class JobSystem {
                 throw new Error("Bạn chưa có việc làm!");
             }
 
-            if (!JOBS[jobData.currentJob.id]) {
-                jobData.currentJob = null;
-                this.saveData();
-                throw new Error("Công việc không hợp lệ! Vui lòng xin việc lại.");
-            }
-
             const cooldown = this.getWorkCooldown(userID, vipBenefits);
             if (cooldown > 0) {
                 const minutes = Math.floor(cooldown / 60000);
                 const seconds = Math.ceil((cooldown % 60000) / 1000);
-                const cooldownError = new Error(`Bạn cần nghỉ ngơi ${minutes > 0 ? `${minutes} phút ` : ''}${seconds} giây nữa!`);
-                cooldownError.isWaitError = true;
-                throw cooldownError;
+                throw new Error(`Bạn cần nghỉ ngơi ${minutes > 0 ? `${minutes} phút ` : ''}${seconds} giây nữa!`);
+            }
+
+            if (!JOBS[jobData.currentJob.id]) {
+                jobData.currentJob = null;
+                this.saveData();
+                throw new Error("Công việc không hợp lệ! Vui lòng xin việc lại.");
             }
 
             const job = JOBS[jobData.currentJob.id];
@@ -358,17 +370,28 @@ class JobSystem {
 
     getWorkCooldown(userID, vipBenefits = null) {
         const jobData = this.getJob(userID);
-        if (!jobData.lastWorked) return 0;
-        
-        let COOLDOWN = 10 * 60 * 1000;
-        
-        if (vipBenefits && vipBenefits.cooldownReduction) {
-            COOLDOWN = COOLDOWN * (100 - vipBenefits.cooldownReduction) / 100;
+        let cooldown = 0;
+
+        // Calculate work cooldown
+        if (jobData.lastWorked) {
+            const timeSinceLastWork = Date.now() - jobData.lastWorked;
+            const workTimeLeft = Math.max(0, this.WORK_COOLDOWN - timeSinceLastWork);
+            cooldown = Math.max(cooldown, workTimeLeft);
         }
-        
-        // Always check cooldown against lastWorked, regardless of current job status
-        const timeLeft = COOLDOWN - (Date.now() - jobData.lastWorked);
-        return Math.max(0, timeLeft);
+
+        // Calculate quit cooldown
+        if (jobData.lastQuit) {
+            const timeSinceQuit = Date.now() - jobData.lastQuit;
+            const quitTimeLeft = Math.max(0, QUIT_COOLDOWN - timeSinceQuit);
+            cooldown = Math.max(cooldown, quitTimeLeft);
+        }
+
+        // Apply VIP benefits
+        if (vipBenefits && vipBenefits.cooldownReduction) {
+            cooldown = cooldown * (100 - vipBenefits.cooldownReduction) / 100;
+        }
+
+        return Math.max(0, cooldown);
     }
 
     checkRequirements(requirements, degrees) {

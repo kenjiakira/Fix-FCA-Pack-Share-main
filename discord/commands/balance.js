@@ -24,7 +24,7 @@ module.exports = {
                     },
                     {
                         name: '🏦 Số Dư',
-                        value: `${balance.toLocaleString('vi-VN')} xu`,
+                        value: `${balance.toLocaleString('vi-VN')} Nitro`,
                         inline: true
                     },
                     {
@@ -41,7 +41,6 @@ module.exports = {
 
             const reply = await message.reply({ embeds: [embed] });
             
-            // Tự động xóa sau 30 giây
             setTimeout(() => {
                 reply.delete().catch(() => {});
                 message.delete().catch(() => {});

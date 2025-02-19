@@ -11,6 +11,7 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "@discordjs/voice": "^0.18.0",
     "@distube/yt-dlp": "^2.0.1",
     "@distube/ytdl-core": "^4.16.0",
     "@google/generative-ai": "^0.21.0",

@@ -15,25 +15,25 @@ const MARKET_HOURS = {
 
 const RISK_CONFIG = {
     volatility: {
-        normal: 0.005,        // Reduced from 0.2 to 0.005 (0.5%)
-        extreme: 0.02,        // Reduced from 2.0 to 0.02 (2%)
-        openClose: 0.01,      // Reduced from 1.0 to 0.01 (1%)
-        extremeProbability: 0.01  // Reduced from 5% to 1% chance
+        normal: 0.02,         
+        extreme: 0.05,       
+        openClose: 0.03,     
+        extremeProbability: 0.05  
     },
     blackSwan: {
-        probability: 0.0001,   // Reduced probability
-        impact: 0.05,         // Reduced from 0.3 to 0.05 (5%)
+        probability: 0.001,    
+        impact: 0.10,       
         marketWide: true     
     },
     marketCrash: {
-        threshold: 0.05,      // Reduced from 0.10 to 0.05 (5%)
-        maxDrop: 0.08,        // Reduced from 0.2 to 0.08 (8%)
-        recoveryDays: 3       // Reduced recovery period
+        threshold: 0.08,     
+        maxDrop: 0.15,      
+        recoveryDays: 2      
     },
     margin: {
-        callThreshold: 0.5,   // Increased from 0.4 to 0.5 for more buffer
-        callDuration: 6 * 3600000, // Increased from 4 to 6 hours
-        volatilityFeeMultiplier: 1.2 // Reduced from 1.5 to 1.2
+        callThreshold: 0.5,  
+        callDuration: 6 * 3600000,
+        volatilityFeeMultiplier: 1.2 
     }
 };
 
@@ -109,15 +109,20 @@ class TradeSystem {
     }
 
     updateExchangeRate() {
-        const maxChange = 0.002; // Reduced from 0.5% to 0.2% max change
+        const maxChange = 0.01; // Increased to 1% max change
         const change = (Math.random() * maxChange * 2) - maxChange;
         
+        // Add market sentiment influence
+        const marketSentiment = this.getMarketAnalysis().marketSentiment;
+        const sentimentMultiplier = marketSentiment === 'Bullish' ? 1.2 : 
+                                  marketSentiment === 'Bearish' ? 0.8 : 1;
+        
         const newRate = Math.min(24, Math.max(17, 
-            this.xuRate * (1 + change)
+            this.xuRate * (1 + change * sentimentMultiplier)
         ));
         
-        // Smooth the rate change
-        this.xuRate = Math.floor((this.xuRate + newRate) / 2);
+        // Less smoothing for more dynamic changes
+        this.xuRate = Math.floor(this.xuRate * 0.7 + newRate * 0.3);
         
         Object.keys(this.stocks).forEach(symbol => {
             const stock = this.stocks[symbol];
@@ -135,7 +140,7 @@ class TradeSystem {
             if (hour >= MARKET_HOURS.open && hour < MARKET_HOURS.close) {
                 this.updateExchangeRate();
             }
-        }, 900000); // Changed from 5 minutes to 15 minutes
+        }, 300000); // Changed to 5 minutes for more frequent updates
     }
 
     loadExchangeRate() {
@@ -267,7 +272,7 @@ class TradeSystem {
             if (hour >= MARKET_HOURS.open && hour < MARKET_HOURS.close) {
                 this.updatePrices();
             }
-        }, 300000); // Changed from 3 minutes to 5 minutes
+        }, 180000); // Changed to 3 minutes for more frequent updates
     }
 
     saveStocks() {

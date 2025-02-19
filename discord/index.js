@@ -83,6 +83,19 @@ client.once('ready', async () => {
         console.error('[TAIXIU] Failed to start auto sessions:', error);
     }
 
+    // Initialize Chẵn Lẻ system
+    try {
+        const chanleCommand = require('./commands/chanle');
+        const gameChannel = await client.channels.fetch(chanleCommand.ALLOWED_CHANNEL);
+        if (gameChannel) {
+            await chanleCommand.startNewSession(gameChannel);
+            logBotEvent('GAME_INIT', '🎲 Chẵn Lẻ system started successfully');
+            console.log(`[CHANLE] Started auto sessions in channel: ${gameChannel.name}`);
+        }
+    } catch (error) {
+        console.error('[CHANLE] Failed to start auto sessions:', error);
+    }
+
     const restartFilePath = path.join(__dirname, '../database/discord_restart.json');
     if (fs.existsSync(restartFilePath)) {
         try {

@@ -1,4 +1,4 @@
-const { addBalance, getBalance } = require('../utils/currencies');
+const { updateBalance, getBalance } = require('../utils/currencies');
 const { saveCooldown, getCooldown } = require('../utils/cooldowns');
 const { EmbedBuilder } = require('discord.js');
 
@@ -10,7 +10,7 @@ module.exports = {
         try {
             const userID = message.author.id;
             const now = Date.now();
-            const cooldownTime =  1 * 1000;
+            const cooldownTime = 24 * 60 * 60 * 1000;
             const lastClaim = getCooldown('daily', userID);
 
             if (lastClaim) {
@@ -31,28 +31,26 @@ module.exports = {
                 }
             }
 
-            const baseReward = Math.floor(Math.random() * (50000000 - 30000000 + 1) + 30000000);
+            const baseReward = Math.floor(Math.random() * (5000 - 3000 + 1) + 3000);
             const dayBonus = new Date().getDay() === 0 ? 1.5 : 1.0;
             const finalReward = Math.floor(baseReward * dayBonus);
 
-            addBalance(userID, finalReward);
+            updateBalance(userID, finalReward);
             saveCooldown('daily', userID, now);
 
             const newBalance = getBalance(userID);
             
-            const embedReward = new EmbedBuilder()
-                .setColor(0x00FF00)
-                .setTitle('💰 Daily Reward')
+            const embedReward = new EmbedBuilder()                .setColor(0x00FF00)                .setTitle('💰 Daily Reward')
                 .setDescription('Bạn đã nhận phần thưởng hàng ngày!')
                 .addFields([
                     { 
                         name: '💵 Phần thưởng', 
-                        value: `${finalReward.toLocaleString('vi-VN')} xu`,
+                        value: `${finalReward.toLocaleString('vi-VN')} Nitro`,
                         inline: true
                     },
                     { 
                         name: '💰 Số dư hiện tại', 
-                        value: `${newBalance.toLocaleString('vi-VN')} xu`,
+                        value: `${newBalance.toLocaleString('vi-VN')} Nitro`,
                         inline: true
                     }
                 ])
