@@ -8,7 +8,7 @@ const getStreamFromURL = async (url) => {
         method: 'GET',
         responseType: 'arraybuffer'
     });
-    const buffer = Buffer.from(response.data, 'utf-8');
+    const buffer = Buffer.from(response.data);  // Remove 'utf-8' encoding
     const streamPass = new stream.PassThrough();
     streamPass.end(buffer);
     return streamPass;
@@ -117,16 +117,21 @@ module.exports = {
             await api.sendMessage(message, threadID, messageID);
 
             // Send avatar image
-            const avatarResponse = await axios.get(
-                `https://thumbnails.roblox.com/v1/users/avatar?userIds=${id}&size=420x420&format=png`
-            ).catch(() => null);
-
-            if (avatarResponse?.data?.data?.[0]?.imageUrl) {
-                const imageStream = await getStreamFromURL(avatarResponse.data.data[0].imageUrl);
-                await api.sendMessage({
-                    body: "🎭 Avatar của người dùng:",
-                    attachment: imageStream
-                }, threadID);
+            try {
+                const avatarResponse = await axios.get(
+                    `https://thumbnails.roblox.com/v1/users/avatar-headshot?userIds=${id}&size=420x420&format=Png`
+                );
+                
+                if (avatarResponse?.data?.data?.[0]?.imageUrl) {
+                    const imageStream = await getStreamFromURL(avatarResponse.data.data[0].imageUrl);
+                    await api.sendMessage({
+                        body: "🎭 Avatar của người dùng:",
+                        attachment: imageStream
+                    }, threadID);
+                }
+            } catch (avatarError) {
+                console.error("Error fetching avatar:", avatarError);
+              
             }
 
         } catch (error) {

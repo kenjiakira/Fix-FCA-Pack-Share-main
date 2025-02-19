@@ -127,6 +127,7 @@ class JobSystem {
             currentJob: null,
             jobHistory: [],
             lastWorked: 0,
+            lastQuit: 0,
             totalEarned: 0,
             workCount: 0
         };
@@ -139,13 +140,7 @@ class JobSystem {
             }
             for (const userId in this.data) {
                 if (!this.data[userId] || !this.data[userId].currentJob) {
-                    this.data[userId] = {
-                        currentJob: null,
-                        jobHistory: [],
-                        lastWorked: 0,
-                        totalEarned: 0,
-                        workCount: 0
-                    };
+                    this.data[userId] = this.getDefaultUserData();
                 }
             }
             fs.writeFileSync(this.path, JSON.stringify(this.data, null, 2), 'utf8');
@@ -158,13 +153,7 @@ class JobSystem {
 
     getJob(userID) {
         if (!this.data[userID]) {
-            this.data[userID] = {
-                currentJob: null,
-                jobHistory: [],
-                lastWorked: 0,
-                totalEarned: 0,
-                workCount: 0
-            };
+            this.data[userID] = this.getDefaultUserData();
         }
         if (!this.data[userID].jobHistory) this.data[userID].jobHistory = [];
         this.saveData();
@@ -211,6 +200,20 @@ class JobSystem {
         try {
             if (!JOBS[jobId]) {
                 throw new Error("Công việc không tồn tại!");
+            }
+
+            // Check quit cooldown first
+            const jobData = this.getJob(userID);
+            const QUIT_COOLDOWN = 10 * 60 * 1000; // 10 minutes cooldown after quitting
+            
+            if (jobData.lastQuit) {
+                const timeSinceQuit = Date.now() - jobData.lastQuit;
+                if (timeSinceQuit < QUIT_COOLDOWN) {
+                    const timeLeft = QUIT_COOLDOWN - timeSinceQuit;
+                    const minutes = Math.floor(timeLeft / 60000);
+                    const seconds = Math.ceil((timeLeft % 60000) / 1000);
+                    throw new Error(`Bạn vừa nghỉ việc! Vui lòng đợi ${minutes > 0 ? `${minutes} phút ` : ''}${seconds} giây nữa để xin việc mới!`);
+                }
             }
 
             const check = await this.checkQualification(userID, jobId);
@@ -260,11 +263,13 @@ class JobSystem {
         }
 
         const oldJob = {...jobData.currentJob};
+        const quitTime = Date.now();
         jobData.jobHistory.push({
             ...oldJob,
-            endDate: Date.now()
+            endDate: quitTime
         });
 
+        jobData.lastQuit = quitTime;
         jobData.currentJob = null;
         this.saveData();
         return JOBS[oldJob.id];
@@ -361,6 +366,7 @@ class JobSystem {
             COOLDOWN = COOLDOWN * (100 - vipBenefits.cooldownReduction) / 100;
         }
         
+        // Always check cooldown against lastWorked, regardless of current job status
         const timeLeft = COOLDOWN - (Date.now() - jobData.lastWorked);
         return Math.max(0, timeLeft);
     }

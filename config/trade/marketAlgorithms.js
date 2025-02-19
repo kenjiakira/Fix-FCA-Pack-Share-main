@@ -65,10 +65,10 @@ class MarketAlgorithms {
         const totalStocks = gainers.length + losers.length;
         const gainerPercentage = (gainers.length / totalStocks) * 100;
 
-        if (gainerPercentage >= 70) return 'Very Bullish';
-        if (gainerPercentage >= 60) return 'Bullish';
-        if (gainerPercentage >= 40) return 'Neutral';
-        if (gainerPercentage >= 30) return 'Bearish';
+        if (gainerPercentage >= 80) return 'Very Bullish';
+        if (gainerPercentage >= 65) return 'Bullish';
+        if (gainerPercentage >= 35) return 'Neutral';
+        if (gainerPercentage >= 20) return 'Bearish';
         return 'Very Bearish';
     }
 }

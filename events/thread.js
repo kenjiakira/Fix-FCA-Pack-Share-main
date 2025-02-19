@@ -84,7 +84,7 @@ module.exports = {
     const fallbackName = `Người dùng Facebook (${userID})`;
     this.saveName(userID, fallbackName);
     return {[userID]: {name: fallbackName}};
-},
+  },
 
   async tryChangeColor(api, color, threadID) {
     return new Promise((resolve, reject) => {
@@ -121,7 +121,6 @@ module.exports = {
               warnings: 0
           };
       } else {
-
           antispamData.spamData[threadID][event.senderID].messages.push({
               timestamp: now
           });
@@ -155,8 +154,44 @@ module.exports = {
 
     if (event.type === "message" && event.mentions) {
       const antitagPath = path.join(__dirname, '../commands/json/antitag.json');
-      if (!fs.existsSync(antitagPath)) return;
+      const antiadmintagPath = path.join(__dirname, '../commands/json/anti/antiadmintag.json');
       
+      // Check for admin mentions first
+      if (fs.existsSync(antiadmintagPath)) {
+        try {
+          const antiadmintagData = JSON.parse(fs.readFileSync(antiadmintagPath));
+          if (antiadmintagData.threads?.[threadID]) {
+            const adminConfig = JSON.parse(fs.readFileSync('./admin.json', 'utf8'));
+            const adminUIDs = adminConfig.adminUIDs || [];
+            const mentionsKeys = Object.keys(event.mentions);
+            
+            const hasAdminMention = mentionsKeys.some(key => adminUIDs.includes(key));
+            if (hasAdminMention) {
+              try {
+                await api.removeUserFromGroup(event.senderID, threadID);
+                api.sendMessage(
+                  `🚫 Đã kick ${event.senderName || "thành viên"} vì tag admin!\n` +
+                  `⚡ Lý do: Không được phép tag admin bot`,
+                  threadID
+                );
+                return;
+              } catch (error) {
+                console.error("Anti-admin-tag kick error:", error);
+                api.sendMessage(
+                  "❌ Không thể kick thành viên. Bot cần quyền quản trị viên!",
+                  threadID
+                );
+                return;
+              }
+            }
+          }
+        } catch (error) {
+          console.error("Error checking admin mentions:", error);
+        }
+      }
+
+      // Then check for everyone mentions
+      if (!fs.existsSync(antitagPath)) return;
       let antitagData = JSON.parse(fs.readFileSync(antitagPath));
       if (!antitagData.threads?.[threadID]) return;
 
@@ -196,7 +231,6 @@ module.exports = {
           userData.tagsInWindow = 0;
       }
 
-
       userData.count++;
       userData.tagsInWindow++;
       userData.lastTagTime = now;
@@ -210,7 +244,6 @@ module.exports = {
           );
       }
       
-   
       if (userData.count >= 3 || userData.tagsInWindow >= 5) {
           try {
               await api.removeUserFromGroup(event.senderID, threadID);
@@ -262,7 +295,6 @@ module.exports = {
           
           while (retryCount < maxRetries && !success) {
               try {
-                  // Use promisified version with proper error handling
                   await new Promise((resolve, reject) => {
                       api.addUserToGroup(leftParticipantFbId, threadID, (err) => {
                           if (err) {
@@ -364,7 +396,6 @@ module.exports = {
             
             await sendThreadNotification(api, threadID, msg, 'avatar');
         } catch (error) {
-           
             console.error('Thread Image Update Error:', error.message);
         }
     }
@@ -467,40 +498,10 @@ module.exports = {
       }
     }
 
-    if (logMessageType === "log:thread-color" || logMessageType === "log:thread-icon") {
-      try {
-        const authorName = await getAuthorName();
-        
-        if (logMessageType === "log:thread-color") {
-          const oldColor = logMessageData.old_color || "Mặc định";
-          const newColor = logMessageData.new_color || "Mặc định";
-          
-          let msg = `👥 THAY ĐỔI CHỦ ĐỀ NHÓM\n` +
-                    `━━━━━━━━━━━━━━━━━━\n\n` +
-                    `👤 Người thay đổi: ${authorName}\n` +
-                    `🎨 Màu cũ: ${oldColor}\n` +
-                    `🎨 Màu mới: ${newColor}\n` +
-                    `⏰ Thời gian: ${new Date().toLocaleString('vi-VN')}`;
-          
-          await sendThreadNotification(api, threadID, msg, 'color');
-        } else if (logMessageType === "log:thread-icon") {
-          const oldEmoji = logMessageData.old_emoji || "⚪";
-          const newEmoji = logMessageData.new_emoji || "⚪";
-          
-          let msg = `👥 THAY ĐỔI EMOJI NHÓM\n` +
-                    `━━━━━━━━━━━━━━━━━━\n\n` +
-                    `👤 Người thay đổi: ${authorName}\n` +
-                    `😀 Emoji cũ: ${oldEmoji}\n` +
-                    `😀 Emoji mới: ${newEmoji}\n` +
-                    `⏰ Thời gian: ${new Date().toLocaleString('vi-VN')}`;
-          
-          api.sendMessage(msg, threadID);
-        }
-        
-      } catch (error) {
-        console.error('Thread Update Event Error:', error);
-        api.sendMessage("❌ Có lỗi xảy ra khi xử lý thay đổi nhóm", threadID);
-      }
+    if (logMessageType === "log:thread-color") {
+      // Theme/color change notification disabled
+    } else if (logMessageType === "log:thread-icon") {
+      // Emoji change notification disabled
     }
 
     if (logMessageType === "log:user-nickname") {
@@ -523,7 +524,9 @@ module.exports = {
           const oldNickname = logMessageData.previous_nickname || "";
           
           await api.changeNickname(
-              oldNickname,              threadID,              changedFor
+              oldNickname,
+              threadID,
+              changedFor
           );
 
           const authorInfo = await this.getUserInfo(api, author, threadID);

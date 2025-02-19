@@ -24,7 +24,7 @@ module.exports = {
         }
 
         let bienso = target[0].trim();
-        // Chuẩn hóa biển số
+    
         bienso = bienso.replace(/[-. ]/g, '');
 
         if (!/^\d{2}[A-Z]\d{5,6}$/.test(bienso)) {
@@ -76,10 +76,9 @@ module.exports = {
                     `⚡ Trạng thái: ${violation['Trạng thái']}`;
             });
 
-            // Gửi từng vi phạm một để tránh tin nhắn quá dài
             for (let msg of messages) {
                 await api.sendMessage(msg, threadID);
-                // Đợi 1 giây giữa các tin nhắn để tránh spam
+
                 await new Promise(resolve => setTimeout(resolve, 1000));
             }
 

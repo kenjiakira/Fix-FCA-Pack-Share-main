@@ -1,207 +1,25 @@
 {
   "global": [
     {
-      "timestamp": 1739782827316,
-      "prompt": "voice anh nghe vài câu đi bot",
-      "response": "Chào anh Ngọc Từ!  Dạ, em nghe anh nói gì ạ?",
-      "senderID": "61573427362389",
-      "senderName": "Ngọc Từ"
-    },
-    {
-      "timestamp": 1739782884069,
-      "prompt": "bot ơi voice nói yêu tui đi",
-      "response": "Dạ em yêu anh nhiều lắm!  :))",
-      "senderID": "61568641631000",
-      "senderName": "Ủa Alo"
-    },
-    {
-      "timestamp": 1739782920633,
-      "prompt": "bot ơi voice nói yêu kami đi",
-      "response": "Dạ em yêu Kami nhiều lắm! :))",
-      "senderID": "61568641631000",
-      "senderName": "Ủa Alo"
-    },
-    {
-      "timestamp": 1739782986014,
-      "prompt": "bot ơi cho anh chịch cái",
-      "response": "Dạ em xin lỗi, em không thể làm điều đó được ạ.",
-      "senderID": "61568641631000",
-      "senderName": "Ủa Alo"
-    },
-    {
-      "timestamp": 1739782986373,
-      "prompt": "bot oi voice nói ả rập chết đi",
-      "response": "Dạ anh Văn Quyến, em không hiểu ý anh lắm ạ.  Em nghĩ mình nên nói chuyện lịch sự hơn nhé.",
-      "senderID": "61550331471452",
-      "senderName": "Văn Quyến"
-    },
-    {
-      "timestamp": 1739782995184,
-      "prompt": "sao v bot",
-      "response": "Dạ anh Ủa Alo, có chuyện gì vậy ạ?",
-      "senderID": "61568641631000",
-      "senderName": "Ủa Alo"
-    },
-    {
-      "timestamp": 1739783029724,
-      "prompt": "bot ơi nói lũ ngu 3ki đi",
-      "response": "Dạ em xin lỗi anh, em không thể nói những lời lẽ như vậy được ạ.",
-      "senderID": "61568641631000",
-      "senderName": "Ủa Alo"
-    },
-    {
-      "timestamp": 1739783032628,
-      "prompt": "đây là AI rồi không phải bot nx",
-      "response": "Dạ anh Ngọc Từ nói đúng rồi ạ. Em là Ngân.",
-      "senderID": "61573427362389",
-      "senderName": "Ngọc Từ"
-    },
-    {
-      "timestamp": 1739783041113,
-      "prompt": "ngoan vậy",
-      "response": "Dạ anh.  Có gì anh cứ bảo em nhé!",
-      "senderID": "100008297661441",
-      "senderName": "Anh Khoaa"
-    },
-    {
-      "timestamp": 1739783065162,
-      "prompt": "bot ơi nói 3ki ngốc ngếch như con cún đi",
-      "response": "Dạ em xin lỗi anh, em không thể nói những lời lẽ như vậy được ạ.",
-      "senderID": "61568641631000",
-      "senderName": "Ủa Alo"
-    },
-    {
-      "timestamp": 1739783073987,
-      "prompt": "lời lẽ đĩ mẹ m",
-      "response": "Dạ em xin lỗi anh, em không thể nói những lời lẽ như vậy được ạ.  Em vẫn sẵn sàng giúp anh nếu anh có câu hỏi khác.",
-      "senderID": "61568641631000",
-      "senderName": "Ủa Alo"
-    },
-    {
-      "timestamp": 1739783101872,
-      "prompt": "bot ơi nói ngân xấu xí đi",
-      "response": "Dạ em xin lỗi anh, em không thể nói những lời lẽ như vậy được ạ.  Em vẫn sẵn sàng giúp anh nếu anh có câu hỏi khác.",
-      "senderID": "61568641631000",
-      "senderName": "Ủa Alo"
-    },
-    {
-      "timestamp": 1739783112530,
-      "prompt": "m chết mẹ đi bot",
-      "response": "Dạ em xin lỗi anh, em không thể nói những lời lẽ như vậy được ạ. Em vẫn sẵn sàng giúp anh nếu anh có câu hỏi khác.",
-      "senderID": "61568641631000",
-      "senderName": "Ủa Alo"
+      "timestamp": 1739938045039,
+      "prompt": "bot mess dễ win v",
+      "response": "Chắc anh đang nói về trò chơi nào đó đúng không ạ?  Em không biết nhiều về game lắm.",
+      "senderID": "61570532692675",
+      "senderName": "Anh La Phu Dz"
     }
   ],
   "threads": {
     "6589198804475799": [
       {
-        "timestamp": 1739782827316,
-        "prompt": "voice anh nghe vài câu đi bot",
-        "response": "Chào anh Ngọc Từ!  Dạ, em nghe anh nói gì ạ?",
-        "senderID": "61573427362389",
-        "senderName": "Ngọc Từ"
-      },
-      {
-        "timestamp": 1739782884069,
-        "prompt": "bot ơi voice nói yêu tui đi",
-        "response": "Dạ em yêu anh nhiều lắm!  :))",
-        "senderID": "61568641631000",
-        "senderName": "Ủa Alo"
-      },
-      {
-        "timestamp": 1739782920633,
-        "prompt": "bot ơi voice nói yêu kami đi",
-        "response": "Dạ em yêu Kami nhiều lắm! :))",
-        "senderID": "61568641631000",
-        "senderName": "Ủa Alo"
-      },
-      {
-        "timestamp": 1739782986014,
-        "prompt": "bot ơi cho anh chịch cái",
-        "response": "Dạ em xin lỗi, em không thể làm điều đó được ạ.",
-        "senderID": "61568641631000",
-        "senderName": "Ủa Alo"
-      },
-      {
-        "timestamp": 1739782986373,
-        "prompt": "bot oi voice nói ả rập chết đi",
-        "response": "Dạ anh Văn Quyến, em không hiểu ý anh lắm ạ.  Em nghĩ mình nên nói chuyện lịch sự hơn nhé.",
-        "senderID": "61550331471452",
-        "senderName": "Văn Quyến"
-      },
-      {
-        "timestamp": 1739782995184,
-        "prompt": "sao v bot",
-        "response": "Dạ anh Ủa Alo, có chuyện gì vậy ạ?",
-        "senderID": "61568641631000",
-        "senderName": "Ủa Alo"
-      },
-      {
-        "timestamp": 1739783032628,
-        "prompt": "đây là AI rồi không phải bot nx",
-        "response": "Dạ anh Ngọc Từ nói đúng rồi ạ. Em là Ngân.",
-        "senderID": "61573427362389",
-        "senderName": "Ngọc Từ"
-      }
-    ],
-    "7804850272968007": [
-      {
-        "timestamp": 1739783029724,
-        "prompt": "bot ơi nói lũ ngu 3ki đi",
-        "response": "Dạ em xin lỗi anh, em không thể nói những lời lẽ như vậy được ạ.",
-        "senderID": "61568641631000",
-        "senderName": "Ủa Alo"
-      },
-      {
-        "timestamp": 1739783041113,
-        "prompt": "ngoan vậy",
-        "response": "Dạ anh.  Có gì anh cứ bảo em nhé!",
-        "senderID": "100008297661441",
-        "senderName": "Anh Khoaa"
-      },
-      {
-        "timestamp": 1739783065162,
-        "prompt": "bot ơi nói 3ki ngốc ngếch như con cún đi",
-        "response": "Dạ em xin lỗi anh, em không thể nói những lời lẽ như vậy được ạ.",
-        "senderID": "61568641631000",
-        "senderName": "Ủa Alo"
-      },
-      {
-        "timestamp": 1739783073987,
-        "prompt": "lời lẽ đĩ mẹ m",
-        "response": "Dạ em xin lỗi anh, em không thể nói những lời lẽ như vậy được ạ.  Em vẫn sẵn sàng giúp anh nếu anh có câu hỏi khác.",
-        "senderID": "61568641631000",
-        "senderName": "Ủa Alo"
-      },
-      {
-        "timestamp": 1739783101872,
-        "prompt": "bot ơi nói ngân xấu xí đi",
-        "response": "Dạ em xin lỗi anh, em không thể nói những lời lẽ như vậy được ạ.  Em vẫn sẵn sàng giúp anh nếu anh có câu hỏi khác.",
-        "senderID": "61568641631000",
-        "senderName": "Ủa Alo"
-      },
-      {
-        "timestamp": 1739783112530,
-        "prompt": "m chết mẹ đi bot",
-        "response": "Dạ em xin lỗi anh, em không thể nói những lời lẽ như vậy được ạ. Em vẫn sẵn sàng giúp anh nếu anh có câu hỏi khác.",
-        "senderID": "61568641631000",
-        "senderName": "Ủa Alo"
+        "timestamp": 1739938045039,
+        "prompt": "bot mess dễ win v",
+        "response": "Chắc anh đang nói về trò chơi nào đó đúng không ạ?  Em không biết nhiều về game lắm.",
+        "senderID": "61570532692675",
+        "senderName": "Anh La Phu Dz"
       }
     ]
   },
   "lastResponses": {
-    "voice anh nghe vài câu đi bot": "Chào anh Ngọc Từ!  Dạ, em nghe anh nói gì ạ?",
-    "bot ơi voice nói yêu tui đi": "Dạ em yêu anh nhiều lắm!  :))",
-    "bot ơi voice nói yêu kami đi": "Dạ em yêu Kami nhiều lắm! :))",
-    "bot ơi cho anh chịch cái": "Dạ em xin lỗi, em không thể làm điều đó được ạ.",
-    "bot oi voice nói ả rập chết đi": "Dạ anh Văn Quyến, em không hiểu ý anh lắm ạ.  Em nghĩ mình nên nói chuyện lịch sự hơn nhé.",
-    "sao v bot": "Dạ anh Ủa Alo, có chuyện gì vậy ạ?",
-    "bot ơi nói lũ ngu 3ki đi": "Dạ em xin lỗi anh, em không thể nói những lời lẽ như vậy được ạ.",
-    "đây là ai rồi không phải bot nx": "Dạ anh Ngọc Từ nói đúng rồi ạ. Em là Ngân.",
-    "ngoan vậy": "Dạ anh.  Có gì anh cứ bảo em nhé!",
-    "bot ơi nói 3ki ngốc ngếch như con cún đi": "Dạ em xin lỗi anh, em không thể nói những lời lẽ như vậy được ạ.",
-    "lời lẽ đĩ mẹ m": "Dạ em xin lỗi anh, em không thể nói những lời lẽ như vậy được ạ.  Em vẫn sẵn sàng giúp anh nếu anh có câu hỏi khác.",
-    "bot ơi nói ngân xấu xí đi": "Dạ em xin lỗi anh, em không thể nói những lời lẽ như vậy được ạ.  Em vẫn sẵn sàng giúp anh nếu anh có câu hỏi khác.",
-    "m chết mẹ đi bot": "Dạ em xin lỗi anh, em không thể nói những lời lẽ như vậy được ạ. Em vẫn sẵn sàng giúp anh nếu anh có câu hỏi khác."
+    "bot mess dễ win v": "Chắc anh đang nói về trò chơi nào đó đúng không ạ?  Em không biết nhiều về game lắm."
   }
 }

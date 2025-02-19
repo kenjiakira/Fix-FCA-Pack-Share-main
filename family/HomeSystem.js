@@ -79,31 +79,86 @@ class HomeSystem {
         }
 
         const homeConfig = HOME_PRICES[type];
-        const { getBalance, updateBalance } = require('../utils/currencies');
-        
         const balance = await getBalance(userID);
         if (balance < homeConfig.xu) {
             throw new Error(`Bạn cần thêm ${(homeConfig.xu - balance).toLocaleString()} Xu để mua nhà này!`);
         }
 
-        await updateBalance(userID, -homeConfig.xu);
+        try {
+            // Deduct money first
+            await updateBalance(userID, -homeConfig.xu);
 
-        this.data[userID] = {
-            type: type,
-            name: homeConfig.name,
-            purchaseDate: Date.now(),
-            condition: 100,
-            lastMaintenance: Date.now(),
-            upgrades: [],
-            stats: {...(homeConfig.baseStats || Object.keys(this.statNames).reduce((acc, key) => ({...acc, [key]: 0}), {}))}
-        };
+            // Create new home data
+            const newHome = {
+                type: type,
+                name: homeConfig.name,
+                purchaseDate: Date.now(),
+                condition: 100,
+                lastMaintenance: Date.now(),
+                upgrades: [],
+                stats: {...(homeConfig.baseStats || {
+                    security: 0,
+                    comfort: 0,
+                    environment: 0,
+                    luxury: 0
+                })}
+            };
 
-        if (homeConfig.isRental) {
-            this.data[userID].rentEndDate = Date.now() + (homeConfig.rentPeriod * 24 * 60 * 60 * 1000);
+            // Add rental end date if applicable
+            if (homeConfig.isRental) {
+                newHome.rentEndDate = Date.now() + (homeConfig.rentPeriod * 24 * 60 * 60 * 1000);
+            }
+
+            // Save to homes.json
+            this.data[userID] = newHome;
+            const savedHome = this.saveData();
+            
+            if (!savedHome) {
+                // If save fails, refund the money
+                await updateBalance(userID, homeConfig.xu);
+                throw new Error("Không thể lưu dữ liệu nhà. Vui lòng thử lại!");
+            }
+
+            // Update family record to match homes.json
+            const familyPath = path.join(__dirname, '../database/json/family/family.json');
+            try {
+                let familyData = {};
+                if (fs.existsSync(familyPath)) {
+                    familyData = JSON.parse(fs.readFileSync(familyPath));
+                }
+
+                if (!familyData[userID]) {
+                    familyData[userID] = {};
+                }
+
+                familyData[userID].home = {
+                    type: type,
+                    name: homeConfig.name,
+                    condition: 100,
+                    purchaseDate: newHome.purchaseDate,
+                    lastMaintenance: newHome.lastMaintenance
+                };
+
+                fs.writeFileSync(familyPath, JSON.stringify(familyData, null, 2));
+            } catch (error) {
+                console.error('Error updating family data:', error);
+            }
+
+            return newHome;
+        } catch (error) {
+            // If any error occurs, attempt to refund
+            try {
+                await updateBalance(userID, homeConfig.xu);
+                // Also clean up any partial data
+                if (this.data[userID]) {
+                    delete this.data[userID];
+                    this.saveData();
+                }
+            } catch (refundError) {
+                console.error('Error refunding after failed home purchase:', refundError);
+            }
+            throw error;
         }
-
-        this.saveData();
-        return this.data[userID];
     }
 
     async sellHome(userID) {
@@ -129,6 +184,18 @@ class HomeSystem {
         delete this.data[userID];
         this.saveData();
 
+        // Update family record when selling home
+        const familyPath = path.join(__dirname, '../database/json/family/family.json');
+        try {
+            const familyData = JSON.parse(fs.readFileSync(familyPath));
+            if (familyData[userID]) {
+                familyData[userID].home = null;
+                fs.writeFileSync(familyPath, JSON.stringify(familyData, null, 2));
+            }
+        } catch (error) {
+            console.error('Error updating family data:', error);
+        }
+
         return sellPrice;
     }
 
@@ -143,8 +210,6 @@ class HomeSystem {
         }
 
         const maintenanceCost = this.calculateMaintenanceCost(home.type);
-        
-        const { getBalance, updateBalance } = require('../utils/currencies');
         const balance = await getBalance(userID);
         
         if (balance < maintenanceCost) {
@@ -179,8 +244,6 @@ class HomeSystem {
 
         const upgrade = HOME_UPGRADES[upgradeType];
         const upgradeCost = this.calculateUpgradeCost(home.type, upgrade);
-
-        const { getBalance, updateBalance } = require('../utils/currencies');
         const balance = await getBalance(userID);
         
         if (balance < upgradeCost) {

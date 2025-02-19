@@ -7,6 +7,7 @@ const { handleListenEvents } = require("./utils/listen");
 const lockfile = require('proper-lockfile');
 const portfinder = require('portfinder');
 const path = require('path');
+const { startDiscordBot } = require('./discord/index.js');
 
 const config = JSON.parse(fs.readFileSync("./logins/hut-chat-api/config.json", "utf8"));
 
@@ -166,180 +167,188 @@ const reloadModules = () => {
     console.log(boldText(gradient.passion("[ BOT MODULES RELOADED ]")));
 };
 
-const startBot = async () => {
-    if (checkBotRunning()) {
-        process.exit(1);
-    }
-
+(async () => {
     try {
-        currentPort = await portfinder.getPortPromise({
-            port: 3001,
-            stopPort: 4000
-        });
-    } catch (err) {
-        console.error(boldText(gradient.passion("No available ports found!")));
-        cleanupBot();
-        process.exit(1);
-    }
-
-    console.log(boldText(gradient.retro(`Starting bot on port ${currentPort}...`)));
-
-    console.log(boldText(gradient.retro("Logging via AppState...")));
-
-    const { scheduleAutoGiftcode } = require('./utils/autoGiftcode');
-
-    login({ appState: JSON.parse(fs.readFileSync(config.APPSTATE_PATH, "utf8")), logLevel: "silent" }, async function(err, api) {
-        if (err) {
-            console.error(boldText(gradient.passion(`Login error: ${JSON.stringify(err)}`)));
-            if (err.code === 'ENOTFOUND' && err.syscall === 'getaddrinfo' && err.hostname === 'www.facebook.com') {
-                console.log(boldText(gradient.cristal("Detected Facebook connection error")));
-            }
-            return;
-        }
-
-        try {
-            scheduleAutoGiftcode(api);
-            console.log('📦 Auto Giftcode system initialized!');
-        } catch (error) {
-            console.error('Failed to initialize Auto Giftcode system:', error);
-        }
-
-        console.log(boldText(gradient.retro("SUCCESSFULLY LOGGED IN VIA APPSTATE")));
-        console.log(boldText(gradient.retro("Picked Proxy IP: " + proxy)));
-        console.log(boldText(gradient.vice("━━━━━━━[ COMMANDS DEPLOYMENT ]━━━━━━━━━━━")));
-        const commands = loadCommands();
-        console.log(boldText(gradient.morning("━━━━━━━[ EVENTS DEPLOYMENT ]━━━━━━━━━━━")));
-        const eventCommands = loadEventCommands();
+        startDiscordBot();
         
-        const adminConfig = {
-            botName: 'Aki Bot',
-            prefix: '.',
-            botUID: '100092325757607',
-            ownerName: 'Akira',
-            vice: 'Akira'
+        const startBot = async () => {
+            if (checkBotRunning()) {
+                process.exit(1);
+            }
+        
+            try {
+                currentPort = await portfinder.getPortPromise({
+                    port: 3001,
+                    stopPort: 4000
+                });
+            } catch (err) {
+                console.error(boldText(gradient.passion("No available ports found!")));
+                cleanupBot();
+                process.exit(1);
+            }
+        
+            console.log(boldText(gradient.retro(`Starting bot on port ${currentPort}...`)));
+        
+            console.log(boldText(gradient.retro("Logging via AppState...")));
+        
+            const { scheduleAutoGiftcode } = require('./utils/autoGiftcode');
+        
+            login({ appState: JSON.parse(fs.readFileSync(config.APPSTATE_PATH, "utf8")), logLevel: "silent" }, async function(err, api) {
+                if (err) {
+                    console.error(boldText(gradient.passion(`Login error: ${JSON.stringify(err)}`)));
+                    if (err.code === 'ENOTFOUND' && err.syscall === 'getaddrinfo' && err.hostname === 'www.facebook.com') {
+                        console.log(boldText(gradient.cristal("Detected Facebook connection error")));
+                    }
+                    return;
+                }
+        
+                try {
+                    scheduleAutoGiftcode(api);
+                    console.log('📦 Auto Giftcode system initialized!');
+                } catch (error) {
+                    console.error('Failed to initialize Auto Giftcode system:', error);
+                }
+        
+                console.log(boldText(gradient.retro("SUCCESSFULLY LOGGED IN VIA APPSTATE")));
+                console.log(boldText(gradient.retro("Picked Proxy IP: " + proxy)));
+                console.log(boldText(gradient.vice("━━━━━━━[ COMMANDS DEPLOYMENT ]━━━━━━━━━━━")));
+                const commands = loadCommands();
+                console.log(boldText(gradient.morning("━━━━━━━[ EVENTS DEPLOYMENT ]━━━━━━━━━━━")));
+                const eventCommands = loadEventCommands();
+                
+                const adminConfig = {
+                    botName: 'Aki Bot',
+                    prefix: '.',
+                    botUID: '100092325757607',
+                    ownerName: 'Akira',
+                    vice: 'Akira'
+                };
+                
+                console.log(boldText(gradient.cristal('█▄▀ █▀ █▄ █ █ █    ▄▀█ █▄▀ █ █▀▄ ▄▀█\n█▀█ █▄ █ ▀█ █ █    █▀█ █▀█ █ █▀▄ █▀█')));
+                
+                console.log(boldText(gradient.cristal('BOT NAME: ' + adminConfig.botName)));
+                console.log(boldText(gradient.cristal('PREFIX: ' + adminConfig.prefix)));
+                console.log(boldText(gradient.cristal('ADMINBOT: ' + adminConfig.botUID)));
+                console.log(boldText(gradient.cristal('OWNER: ' + adminConfig.ownerName + '\n╰───────────⟡')));
+                
+                if (fs.existsSync('./database/threadID.json')) {
+                    const data = JSON.parse(fs.readFileSync('./database/threadID.json', 'utf8'));
+                    if (data.threadID) {
+                        api.sendMessage('✅ Restarted Thành Công\n━━━━━━━━━━━━━━━━━━\nBot đã Restart Xong.', data.threadID, _0x3bb26a => {
+                            if (_0x3bb26a) {
+                                console.error(boldText('Failed to send message:', _0x3bb26a));
+                            } else {
+                                console.log(boldText('Restart message sent successfully.'));
+                                fs.unlinkSync('./database/threadID.json');
+                                console.log(boldText('threadID.json has been deleted.'));
+                            }
+                        });
+                    }
+                }
+                
+                if (fs.existsSync('./database/prefix/threadID.json')) {
+              
+                    const data = JSON.parse(fs.readFileSync('./database/prefix/threadID.json', 'utf8'));
+                
+                    if (data.threadID) {
+                   
+                        api.sendMessage(
+                            `✅ Bot đã thay đổi tiền tố hệ thống thành ${adminConfig.prefix}`,
+                            data.threadID,
+                            (error) => {
+                                if (error) {
+                                   
+                                    console.log("Lỗi gửi tin nhắn:", error);
+                                } else {
+                                  
+                                    fs.unlinkSync('./database/prefix/threadID.json');
+                                    console.log("threadID.json đã bị xóa.");
+                                }
+                            }
+                        );
+                    }
+                }
+                        '║ • ARJHIL DUCAYANAN',
+                console.log(boldText(gradient.passion("━━━━[ READY INITIALIZING DATABASE ]━━━━━━━")));
+                console.log(boldText(gradient.cristal(`╔════════════════════`)));
+                console.log(boldText(gradient.cristal(`║ DATABASE SYSTEM STATS`)));
+                console.log(boldText(gradient.cristal(`║ Số Nhóm: ${Object.keys(threadsDB).length}`)));
+                console.log(boldText(gradient.cristal(`║ Tổng Người Dùng: ${Object.keys(usersDB).length} `)));
+                console.log(boldText(gradient.cristal(`╚════════════════════`)));
+                console.log(boldText(gradient.cristal("BOT Made By CC PROJECTS And Kaguya And Kenji Akira")))
+        
+                
+                function printBotInfo() {
+                    const messages = [
+                        '╔════════════════════',
+                        '║ => DEDICATED: CHATBOT COMMUNITY AND YOU',
+                        '║ • ARJHIL DUCAYANAN',
+                        '║ • JR BUSACO',
+                        '║ • JONELL MAGALLANES',
+                        '║ • JAY MAR',
+                        '║ • KENJI AKIRA',                '╚════════════════════'
+                    ];
+                
+                    messages.forEach(msg => console.log(boldText(gradient.cristal(msg))));
+                
+                    console.error(boldText(gradient.summer('[ BOT IS LISTENING ]')));
+                }
+                printBotInfo();
+        
+                handleListenEvents(api, commands, eventCommands, threadsDB, usersDB, adminConfig, prefix);
+            });
         };
         
-        console.log(boldText(gradient.cristal('█▄▀ █▀ █▄ █ █ █    ▄▀█ █▄▀ █ █▀▄ ▄▀█\n█▀█ █▄ █ ▀█ █ █    █▀█ █▀█ █ █▀▄ █▀█')));
+        process.on('exit', () => {
+            cleanupBot();
+        });
         
-        console.log(boldText(gradient.cristal('BOT NAME: ' + adminConfig.botName)));
-        console.log(boldText(gradient.cristal('PREFIX: ' + adminConfig.prefix)));
-        console.log(boldText(gradient.cristal('ADMINBOT: ' + adminConfig.botUID)));
-        console.log(boldText(gradient.cristal('OWNER: ' + adminConfig.ownerName + '\n╰───────────⟡')));
+        process.on('SIGINT', () => {
+            console.log(boldText(gradient.cristal("\nGracefully shutting down...")));
+            cleanupBot();
+            process.exit(0);
+        });
         
-        if (fs.existsSync('./database/threadID.json')) {
-            const data = JSON.parse(fs.readFileSync('./database/threadID.json', 'utf8'));
-            if (data.threadID) {
-                api.sendMessage('✅ Restarted Thành Công\n━━━━━━━━━━━━━━━━━━\nBot đã Restart Xong.', data.threadID, _0x3bb26a => {
-                    if (_0x3bb26a) {
-                        console.error(boldText('Failed to send message:', _0x3bb26a));
-                    } else {
-                        console.log(boldText('Restart message sent successfully.'));
-                        fs.unlinkSync('./database/threadID.json');
-                        console.log(boldText('threadID.json has been deleted.'));
-                    }
-                });
+        process.on('uncaughtException', (err) => {
+            if (err?.error === 3252001 || 
+                err?.errorSummary?.includes('Bạn tạm thời bị chặn') ||
+                (err?.error && err?.blockedAction)) {
+                return; 
             }
-        }
         
-        if (fs.existsSync('./database/prefix/threadID.json')) {
-      
-            const data = JSON.parse(fs.readFileSync('./database/prefix/threadID.json', 'utf8'));
-        
-            if (data.threadID) {
-           
-                api.sendMessage(
-                    `✅ Bot đã thay đổi tiền tố hệ thống thành ${adminConfig.prefix}`,
-                    data.threadID,
-                    (error) => {
-                        if (error) {
-                           
-                            console.log("Lỗi gửi tin nhắn:", error);
-                        } else {
-                          
-                            fs.unlinkSync('./database/prefix/threadID.json');
-                            console.log("threadID.json đã bị xóa.");
-                        }
-                    }
-                );
+            if (err.code === 'ENOTFOUND' && 
+                err.syscall === 'getaddrinfo' && 
+                err.hostname === 'www.facebook.com') {
+                console.log(boldText(gradient.cristal("Facebook connection lost")));
+            } else {
+                console.error('Uncaught Exception:', 
+                    err?.message || err?.errorSummary || 'Unknown error');
             }
-        }
-                '║ • ARJHIL DUCAYANAN',
-        console.log(boldText(gradient.passion("━━━━[ READY INITIALIZING DATABASE ]━━━━━━━")));
-        console.log(boldText(gradient.cristal(`╔════════════════════`)));
-        console.log(boldText(gradient.cristal(`║ DATABASE SYSTEM STATS`)));
-        console.log(boldText(gradient.cristal(`║ Số Nhóm: ${Object.keys(threadsDB).length}`)));
-        console.log(boldText(gradient.cristal(`║ Tổng Người Dùng: ${Object.keys(usersDB).length} `)));
-        console.log(boldText(gradient.cristal(`╚════════════════════`)));
-        console.log(boldText(gradient.cristal("BOT Made By CC PROJECTS And Kaguya And Kenji Akira")))
-
+        });
         
-        function printBotInfo() {
-            const messages = [
-                '╔════════════════════',
-                '║ => DEDICATED: CHATBOT COMMUNITY AND YOU',
-                '║ • ARJHIL DUCAYANAN',
-                '║ • JR BUSACO',
-                '║ • JONELL MAGALLANES',
-                '║ • JAY MAR',
-                '║ • KENJI AKIRA',                '╚════════════════════'
-            ];
+        process.on('unhandledRejection', (reason, promise) => {
+            if (reason?.error === 3252001 || 
+                reason?.errorSummary?.includes('Bạn tạm thời bị chặn') ||
+                (reason?.error && reason?.blockedAction)) {
+                return; 
+            }
         
-            messages.forEach(msg => console.log(boldText(gradient.cristal(msg))));
+            if (reason && reason.code === 'ENOTFOUND' && 
+                reason.syscall === 'getaddrinfo' && 
+                reason.hostname === 'www.facebook.com') {
+                console.log(boldText(gradient.cristal("Facebook connection lost")));
+            } else {
+                console.error('Unhandled Rejection:', 
+                    reason?.message || reason?.errorSummary || 'Unknown error');
+            }
+        });
         
-            console.error(boldText(gradient.summer('[ BOT IS LISTENING ]')));
-        }
-        printBotInfo();
-
-        handleListenEvents(api, commands, eventCommands, threadsDB, usersDB, adminConfig, prefix);
-    });
-};
-
-process.on('exit', () => {
-    cleanupBot();
-});
-
-process.on('SIGINT', () => {
-    console.log(boldText(gradient.cristal("\nGracefully shutting down...")));
-    cleanupBot();
-    process.exit(0);
-});
-
-process.on('uncaughtException', (err) => {
-    if (err?.error === 3252001 || 
-        err?.errorSummary?.includes('Bạn tạm thời bị chặn') ||
-        (err?.error && err?.blockedAction)) {
-        return; 
+        startBot().catch(async (err) => {
+            console.error(boldText(gradient.passion("Failed to start bot:")), err);
+            cleanupBot();
+            process.exit(1);
+        });
+    } catch (error) {
+        console.error('Bot startup error:', error);
     }
-
-    if (err.code === 'ENOTFOUND' && 
-        err.syscall === 'getaddrinfo' && 
-        err.hostname === 'www.facebook.com') {
-        console.log(boldText(gradient.cristal("Facebook connection lost")));
-    } else {
-        console.error('Uncaught Exception:', 
-            err?.message || err?.errorSummary || 'Unknown error');
-    }
-});
-
-process.on('unhandledRejection', (reason, promise) => {
-    if (reason?.error === 3252001 || 
-        reason?.errorSummary?.includes('Bạn tạm thời bị chặn') ||
-        (reason?.error && reason?.blockedAction)) {
-        return; 
-    }
-
-    if (reason && reason.code === 'ENOTFOUND' && 
-        reason.syscall === 'getaddrinfo' && 
-        reason.hostname === 'www.facebook.com') {
-        console.log(boldText(gradient.cristal("Facebook connection lost")));
-    } else {
-        console.error('Unhandled Rejection:', 
-            reason?.message || reason?.errorSummary || 'Unknown error');
-    }
-});
-
-startBot().catch(async (err) => {
-    console.error(boldText(gradient.passion("Failed to start bot:")), err);
-    cleanupBot();
-    process.exit(1);
-});
+})();

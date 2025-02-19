@@ -1077,11 +1077,11 @@ const detectGenderAnswer = (message) => {
 };
 
 const generateResponse = async (prompt, senderID, api, threadID, messageID) => {
-    // Check if voice generation is requested
+
     const isVoiceRequested = prompt.toLowerCase().includes("nghe") || 
                             prompt.toLowerCase().includes("voice") ||
                             prompt.toLowerCase().includes("giọng") ||
-                            prompt.toLowerCase().includes("ai");
+                            prompt.toLowerCase().includes("nói");
     const startTime = Date.now();
     
     try {
@@ -1139,7 +1139,7 @@ const generateResponse = async (prompt, senderID, api, threadID, messageID) => {
 let systemPrompt = `Bạn là Ngân, một cô gái 19 tuổi vui vẻ, hòa đồng và thân thiện. Bạn có khả năng tạo giọng nói thông qua ElevenLabs API.
 
 Khả năng đặc biệt:
-- Có thể tạo giọng nói khi người dùng yêu cầu (dùng từ khóa: nghe, voice, giọng, ai)
+- Có thể tạo giọng nói khi người dùng yêu cầu (dùng từ khóa: nghe, voice, giọng, nói)
 - Giọng nói tự nhiên, thân thiện và dễ nghe
 - TUYỆT ĐỐI KHÔNG ĐƯỢC trả lời là không có chức năng voice/giọng nói
 - TUYỆT ĐỐI KHÔNG ĐƯỢC từ chối yêu cầu voice/giọng nói
@@ -1169,7 +1169,7 @@ Quy tắc xưng hô và trả lời:
 - ${honorifics.formal ? 'Dùng ngôn ngữ lịch sự và trang trọng hơn' : 'Chat tự nhiên như bạn bè'}
 - ${honorifics.relationship ? `Giữ mối quan hệ ${honorifics.relationship}` : 'Xưng hô theo độ tuổi và giới tính'}
 
-- Chat tự nhiên, thân thiện
+- Chat tự nhiên, thân thiện , không nói yêu cầu giúp đỡ , trả lời như con người
 - Không dùng Emoji thay thế đó bằng -)) , =))) , :))
 - Trả lời ngắn gọn, súc tích
 - Tránh hỏi nhiều, tập trung vào câu trả lời
@@ -1316,7 +1316,7 @@ module.exports = {
     usedby: 0,
     dmUser: false,
     dev: "HNT",
-    nickName: ["bot", "ai"],
+    nickName: ["bot", "ngân"],
     info: "Chat với AI",
     onPrefix: false,
     cooldowns: 3,
@@ -1326,19 +1326,49 @@ module.exports = {
         const { threadID, messageID, body, senderID, attachments } = event;
         
         try {
-            // Handle voice message replies
+            const threadHistory = conversationHistory.threads[threadID] || [];
+            const lastExchange = threadHistory[threadHistory.length - 1];
+            
             if (attachments && attachments[0]?.type === "audio") {
-                // For voice messages, we'll respond with voice
-                const response = await generateResponse("Trả lời tin nhắn voice", senderID, api, threadID, messageID);
+                // Use last context or transcribed text from voice
+                const contextPrompt = lastExchange ? 
+                    `${lastExchange.prompt} (Tiếp tục cuộc trò chuyện bằng voice message)` :
+                    "Tiếp tục cuộc trò chuyện bằng voice message";
+                
+                // Generate response with context
+                const response = await generateResponse(contextPrompt, senderID, api, threadID, messageID);
                 if (response) {
-                    const sent = await api.sendMessage(response, threadID, messageID);
+                    // Always generate voice for voice message replies
+                    const audioBuffer = await generateVoice(response);
+                    const cacheDir = path.join(__dirname, 'cache');
+                    if (!fs.existsSync(cacheDir)) {
+                        fs.mkdirSync(cacheDir, { recursive: true });
+                    }
+                    
+                    const voicePath = path.join(cacheDir, `voice_${senderID}.mp3`);
+                    await fs.writeFile(voicePath, audioBuffer);
+                    
+                    // Send both text and voice
+                    const sent = await api.sendMessage({
+                        body: response,
+                        attachment: fs.createReadStream(voicePath)
+                    }, threadID, messageID);
+                    
                     if (sent) {
                         global.client.onReply.push({
                             name: this.name,
                             messageID: sent.messageID,
-                            author: event.senderID
+                            author: event.senderID,
+                            isVoiceContext: true // Mark this as voice context
                         });
                     }
+                    
+                    // Clean up voice file
+                    setTimeout(() => {
+                        fs.unlink(voicePath, (err) => {
+                            if (err) console.error("Error deleting voice file:", err);
+                        });
+                    }, 5000);
                 }
                 return;
             }
@@ -1348,13 +1378,52 @@ module.exports = {
             
             const response = await generateResponse(body, senderID, api, threadID, messageID);
             if (response) {
-                const sent = await api.sendMessage(response, threadID, messageID);
-                if (sent) {
-                    global.client.onReply.push({
-                        name: this.name,
-                        messageID: sent.messageID,
-                        author: event.senderID
-                    });
+                // Check if we should continue voice context
+                const lastReply = global.client.onReply.find(r => r.messageID === messageID);
+                const shouldUseVoice = lastReply?.isVoiceContext || body.toLowerCase().includes('voice');
+                
+                if (shouldUseVoice) {
+                    // Generate and send voice response
+                    const audioBuffer = await generateVoice(response);
+                    const cacheDir = path.join(__dirname, 'cache');
+                    if (!fs.existsSync(cacheDir)) {
+                        fs.mkdirSync(cacheDir, { recursive: true });
+                    }
+                    
+                    const voicePath = path.join(cacheDir, `voice_${senderID}.mp3`);
+                    await fs.writeFile(voicePath, audioBuffer);
+                    
+                    const sent = await api.sendMessage({
+                        body: response,
+                        attachment: fs.createReadStream(voicePath)
+                    }, threadID, messageID);
+                    
+                    if (sent) {
+                        global.client.onReply.push({
+                            name: this.name,
+                            messageID: sent.messageID,
+                            author: event.senderID,
+                            isVoiceContext: true
+                        });
+                    }
+                    
+                    // Clean up voice file
+                    setTimeout(() => {
+                        fs.unlink(voicePath, (err) => {
+                            if (err) console.error("Error deleting voice file:", err);
+                        });
+                    }, 5000);
+                } else {
+                    // Send text-only response
+                    const sent = await api.sendMessage(response, threadID, messageID);
+                    if (sent) {
+                        global.client.onReply.push({
+                            name: this.name,
+                            messageID: sent.messageID,
+                            author: event.senderID,
+                            isVoiceContext: false
+                        });
+                    }
                 }
             }
         } catch (error) {
@@ -1368,18 +1437,51 @@ module.exports = {
         const { threadID, messageID, body, senderID, attachments } = event;
 
         try {
+            // Get previous context from conversation history
+            const threadHistory = conversationHistory.threads[threadID] || [];
+            const lastExchange = threadHistory[threadHistory.length - 1];
+            
             // Handle voice message launch
             if (attachments && attachments[0]?.type === "audio") {
-                const response = await generateResponse("Trả lời tin nhắn voice", senderID, api, threadID, messageID);
+                // Use last context or transcribed text from voice
+                const contextPrompt = lastExchange ? 
+                    `${lastExchange.prompt} (Tiếp tục cuộc trò chuyện bằng voice message)` :
+                    "Tiếp tục cuộc trò chuyện bằng voice message";
+                
+                // Generate response with context
+                const response = await generateResponse(contextPrompt, senderID, api, threadID, messageID);
                 if (response) {
-                    const sent = await api.sendMessage(response, threadID, messageID);
+                    // Always generate voice for voice messages
+                    const audioBuffer = await generateVoice(response);
+                    const cacheDir = path.join(__dirname, 'cache');
+                    if (!fs.existsSync(cacheDir)) {
+                        fs.mkdirSync(cacheDir, { recursive: true });
+                    }
+                    
+                    const voicePath = path.join(cacheDir, `voice_${senderID}.mp3`);
+                    await fs.writeFile(voicePath, audioBuffer);
+                    
+                    // Send both text and voice
+                    const sent = await api.sendMessage({
+                        body: response,
+                        attachment: fs.createReadStream(voicePath)
+                    }, threadID, messageID);
+                    
                     if (sent) {
                         global.client.onReply.push({
                             name: this.name,
                             messageID: sent.messageID,
-                            author: event.senderID
+                            author: event.senderID,
+                            isVoiceContext: true // Mark this as voice context
                         });
                     }
+                    
+                    // Clean up voice file
+                    setTimeout(() => {
+                        fs.unlink(voicePath, (err) => {
+                            if (err) console.error("Error deleting voice file:", err);
+                        });
+                    }, 5000);
                 }
                 return;
             }
@@ -1395,13 +1497,53 @@ module.exports = {
             if (this.onPrefix) {
                 const response = await generateResponse(body, senderID, api, threadID, messageID);
                 if (response) {
-                    const sent = await api.sendMessage(response, threadID, messageID);
-                    if (sent) {
-                        global.client.onReply.push({
-                            name: this.name,
-                            messageID: sent.messageID,
-                            author: event.senderID
-                        });
+                    // Check if we should use voice based on context or request
+                    const shouldUseVoice = body?.toLowerCase().includes('voice') || 
+                                         body?.toLowerCase().includes('nghe') ||
+                                         body?.toLowerCase().includes('giọng');
+                    
+                    if (shouldUseVoice) {
+                        // Generate and send voice response
+                        const audioBuffer = await generateVoice(response);
+                        const cacheDir = path.join(__dirname, 'cache');
+                        if (!fs.existsSync(cacheDir)) {
+                            fs.mkdirSync(cacheDir, { recursive: true });
+                        }
+                        
+                        const voicePath = path.join(cacheDir, `voice_${senderID}.mp3`);
+                        await fs.writeFile(voicePath, audioBuffer);
+                        
+                        const sent = await api.sendMessage({
+                            body: response,
+                            attachment: fs.createReadStream(voicePath)
+                        }, threadID, messageID);
+                        
+                        if (sent) {
+                            global.client.onReply.push({
+                                name: this.name,
+                                messageID: sent.messageID,
+                                author: event.senderID,
+                                isVoiceContext: true
+                            });
+                        }
+                        
+                        // Clean up voice file
+                        setTimeout(() => {
+                            fs.unlink(voicePath, (err) => {
+                                if (err) console.error("Error deleting voice file:", err);
+                            });
+                        }, 5000);
+                    } else {
+                        // Send text-only response
+                        const sent = await api.sendMessage(response, threadID, messageID);
+                        if (sent) {
+                            global.client.onReply.push({
+                                name: this.name,
+                                messageID: sent.messageID,
+                                author: event.senderID,
+                                isVoiceContext: false
+                            });
+                        }
                     }
                 }
             }

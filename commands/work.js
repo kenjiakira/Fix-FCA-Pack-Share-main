@@ -23,8 +23,19 @@ module.exports = {
 
         const jobSystem = new JobSystem();
 
+        const vipBenefits = getVIPBenefits(senderID);
+        const cooldown = jobSystem.getWorkCooldown(senderID, vipBenefits);
+        
+        if (cooldown > 0) {
+            const timeLeft = Math.ceil(cooldown / 1000);
+            return api.sendMessage(
+                `⏳ Bạn cần nghỉ ngơi ${Math.floor(timeLeft/60)} phút ${timeLeft%60} giây nữa mới có thể làm việc tiếp!`,
+                threadID,
+                messageID
+            );
+        }
+
         try {
-            const vipBenefits = getVIPBenefits(senderID);
             const result = await jobSystem.work(senderID, vipBenefits);
             
             const tax = jobSystem.calculateTax(result.salary);

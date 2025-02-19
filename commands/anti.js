@@ -7,16 +7,7 @@ module.exports = {
     usedby: 1,
     cooldowns: 5,
     info: "Quản lý các tính năng bảo vệ nhóm",
-    usages: [
-        "/anti spam on - Bật tính năng chống spam",
-        "/anti spam off - Tắt tính năng chống spam",
-        "/anti role on - Bật tính năng chống đổi quyền QTV",
-        "/anti role off - Tắt tính năng chống đổi quyền QTV",
-        "/anti out on - Bật tính năng chống rời nhóm",
-        "/anti out off - Tắt tính năng chống rời nhóm",
-        "/anti join on - Bật tính năng chống thêm thành viên",
-        "/anti join off - Tắt tính năng chống thêm thành viên"
-    ],
+    usages: [],
     onPrefix: true,
 
     features: {
@@ -69,6 +60,13 @@ module.exports = {
             desc: 'chống tag spam', 
             detail: '3 lần/24h',
             defaultData: { threads: {}, tagData: {} }
+        },
+        admintag: {
+            name: 'antiadmintag',
+            icon: '⚔️',
+            desc: 'chống tag admin',
+            detail: 'tự động kick khi tag admin',
+            defaultData: { threads: {} }
         }
     },
 

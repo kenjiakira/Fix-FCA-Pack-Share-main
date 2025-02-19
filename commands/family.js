@@ -1,7 +1,6 @@
 const { updateBalance, getBalance } = require('../utils/currencies');
 const FamilySystem = require('../family/FamilySystem');
-const { MARRIAGE_COST, CHILD_COST, DIVORCE_COST, HOME_PRICES } = require('../config/family/familyConfig');
-const HomeSystem = require('../family/HomeSystem');
+const { MARRIAGE_COST, CHILD_COST, DIVORCE_COST } = require('../config/family/familyConfig');
 const fs = require('fs');
 const path = require('path');
 
@@ -10,7 +9,6 @@ function formatNumber(number) {
 }
 
 const familySystem = new FamilySystem();
-const homeSystem = new HomeSystem(); 
 
 module.exports = {
     name: "family",
@@ -40,7 +38,6 @@ module.exports = {
                     "━━━━━━━━━━━━━━━━━━\n" +
                     "📝 CÁC LỆNH LIÊN QUAN:\n" +
                     "• .garage - Quản lý xe cộ\n" +
-                    "• .home - Quản lý nhà ở\n" +
                     "• .job - Xin việc làm\n" +
                     "• .study - Học hành, bằng cấp\n" +
                     "• .work - Làm việc kiếm tiền\n\n" +
@@ -56,9 +53,6 @@ module.exports = {
             switch (command) {
                 case "info": {
                     const marriageInfo = familySystem.getMarriageInfo(senderID);
-                    const currentUserHome = homeSystem.getHome(senderID);
-                    const spouseHome = family.spouse ? homeSystem.getHome(family.spouse) : null;
-                    const sharedHome = currentUserHome || spouseHome;
                     const sharedVehicles = familySystem.getSharedVehicles(senderID);
                     const childrenInfo = familySystem.getChildInfo(senderID);
 
@@ -85,12 +79,6 @@ module.exports = {
                         `║  ▸ Bạn đời: ${marriageInfo.spouse}\n` +
                         `║  ▸ Độ hạnh phúc: ${marriageInfo.happiness}%\n` +
                         `║  ▸ Số con: ${marriageInfo.childCount} đứa\n` +
-                        "║\n" +
-                        "╠═ 🏠 NHÀ Ở\n" +
-                        `║  ▸ ${sharedHome ? `Loại nhà: ${sharedHome.name}` : 'Chưa có nhà'}\n` +
-                        (sharedHome ? 
-                        `║  ▸ Tình trạng: ${Math.round(sharedHome.condition)}%\n` +
-                        `║  ▸ Chủ hộ: ${familySystem.getUserName(currentUserHome ? senderID : family.spouse)}\n` : "") +
                         "║\n" +
                         "╠═ 🚗 PHƯƠNG TIỆN\n" +
                         (Object.keys(sharedVehicles || {}).length > 0 ? 
@@ -313,13 +301,11 @@ module.exports = {
         };
 
         const reply = global.client.onReply.find(r => {
-         
             if (r.messageID !== event.messageReply.messageID) return false;
             
             if (r.type === "marriage-confirmation") {
                 return r.author === senderID; 
             } else if (r.type === "baby-confirmation" || r.type === "baby-naming") {
-                
                 const family = familySystem.getFamily(senderID);
                 return (senderID === r.author || senderID === family.spouse);
             }

@@ -166,10 +166,6 @@ module.exports = {
                     message += `⏰ Giờ giao dịch: ${MARKET_HOURS.open}:00 - ${MARKET_HOURS.close}:00\n`;
                     message += `💱 Tỉ giá: 1$ = ${overview.xuRate.toLocaleString('vi-VN')} Xu\n`;
                     
-                    const marketVolatility = tradeSystem.calculateMarketVolatility();
-                    if (marketVolatility > 2) {
-                        message += `⚠️ Cảnh báo: Biến động thị trường cao (${marketVolatility.toFixed(1)}%)\n`;
-                    }
                     message += "\n";
                     
                     message += "📈 TỔNG QUAN THỊ TRƯỜNG:\n";

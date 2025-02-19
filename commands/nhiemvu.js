@@ -51,7 +51,7 @@ module.exports = {
                 `📝 Đã hoàn thành ${completedQuests.length} nhiệm vụ.\n` +
                 `⭐ Tiếp tục cố gắng nhé!`,
                 threadID, messageID
-            );
+            );zz
         }
 
         let message = "📋 NHIỆM VỤ HÀNG NGÀY\n━━━━━━━━━━━━━━━━━━\n\n";

@@ -15,20 +15,20 @@ const MARKET_HOURS = {
 
 const RISK_CONFIG = {
     volatility: {
-        normal: 0.2,        
-        extreme: 2.0,      
-        openClose: 1.0,     
-        extremeProbability: 0.05  // Reduced from 10% to 5% chance of extreme volatility
+        normal: 0.005,        // Reduced from 0.2 to 0.005 (0.5%)
+        extreme: 0.02,        // Reduced from 2.0 to 0.02 (2%)
+        openClose: 0.01,      // Reduced from 1.0 to 0.01 (1%)
+        extremeProbability: 0.01  // Reduced from 5% to 1% chance
     },
     blackSwan: {
-        probability: 0.0005,  // Reduced from 0.1% to 0.05% probability
-        impact: 0.3,          // Reduced from 0.5 to 0.3 impact
+        probability: 0.0001,   // Reduced probability
+        impact: 0.05,         // Reduced from 0.3 to 0.05 (5%)
         marketWide: true     
     },
     marketCrash: {
-        threshold: 0.10,      // Reduced from 15% to 10% threshold
-        maxDrop: 0.2,         // Reduced from 30% to 20% max drop
-        recoveryDays: 5       // Increased recovery period
+        threshold: 0.05,      // Reduced from 0.10 to 0.05 (5%)
+        maxDrop: 0.08,        // Reduced from 0.2 to 0.08 (8%)
+        recoveryDays: 3       // Reduced recovery period
     },
     margin: {
         callThreshold: 0.5,   // Increased from 0.4 to 0.5 for more buffer
@@ -200,31 +200,34 @@ class TradeSystem {
         Object.entries(this.stocks).forEach(([symbol, stock]) => {
             if (!stock || typeof stock.priceUSD !== 'number') return;
             
-            // Calculate base volatility
-            let maxChange = RISK_CONFIG.volatility.normal; // Allowing for a maximum change of 0.5% for normal volatility
-
-
+            // Calculate base volatility with dampening
+            let maxChange = RISK_CONFIG.volatility.normal;
             
-            // Add open/close volatility
-            maxChange += marketWideVolatility;
+            // Add reduced open/close volatility
+            if (isOpenClose) {
+                maxChange += RISK_CONFIG.volatility.openClose * 0.5;
+            }
             
-            // Random extreme volatility (5% chance)
+            // Limit extreme volatility
             if (Math.random() < RISK_CONFIG.volatility.extremeProbability) {
-                maxChange = RISK_CONFIG.volatility.extreme;
+                maxChange = Math.min(maxChange + RISK_CONFIG.volatility.extreme, 0.02);
             }
             
-            // Calculate price change
-            let randomChange = (Math.random() * maxChange * 2) - maxChange;
+            // Calculate price change with dampening
+            let randomChange = ((Math.random() * maxChange * 2) - maxChange) * 0.8;
             
-            // Apply black swan effect
+            // Apply reduced black swan effect
             if (isBlackSwan) {
-                randomChange = -RISK_CONFIG.blackSwan.impact * 100;
+                randomChange = Math.max(-RISK_CONFIG.blackSwan.impact, randomChange);
             }
             
-            // Apply market crash effect
+            // Apply reduced market crash effect with recovery
             if (isMarketCrash) {
-                const crashImpact = -(Math.random() * RISK_CONFIG.marketCrash.maxDrop * 100);
-                randomChange = Math.min(randomChange, crashImpact);
+                const crashImpact = -Math.min(
+                    (Math.random() * RISK_CONFIG.marketCrash.maxDrop),
+                    0.05
+                );
+                randomChange = Math.max(crashImpact, randomChange);
             }
             
             const minPrice = DEFAULT_STOCKS[symbol].minPrice;

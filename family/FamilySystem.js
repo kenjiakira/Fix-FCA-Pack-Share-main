@@ -1,12 +1,10 @@
 const fs = require('fs');
 const path = require('path');
-const HomeSystem = require('./HomeSystem');
 
 class FamilySystem {
     constructor() {
         this.path = path.join(__dirname, '../database/json/family/family.json');
         this.data = this.loadData();
-        this.homeSystem = new HomeSystem();
     }
 
     loadData() {
@@ -38,26 +36,22 @@ class FamilySystem {
                 name: null,
                 spouse: null,
                 children: [],
-                home: null,
                 happiness: 50,
                 lastChecked: Date.now(),
-                lastBaby: 0,  // Thêm thời gian sinh con gần nhất
-                lastIntimate: 0 // Thêm thời gian động phòng gần nhất
+                lastBaby: 0,
+                lastIntimate: 0
             };
             this.saveData();
         }
 
-        // Thêm phần đồng bộ thông tin con cái giữa vợ chồng
         const family = this.data[userID];
         if (family.spouse && this.data[family.spouse]) {
             const spouseFamily = this.data[family.spouse];
-            // Đồng bộ con cái giữa 2 vợ chồng
             if (spouseFamily.children.length > family.children.length) {
                 family.children = [...spouseFamily.children];
             } else if (family.children.length > spouseFamily.children.length) {
                 spouseFamily.children = [...family.children];
             }
-            // Đồng bộ thời gian sinh con
             if (spouseFamily.lastBaby > family.lastBaby) {
                 family.lastBaby = spouseFamily.lastBaby;
             } else if (family.lastBaby > spouseFamily.lastBaby) {
@@ -83,12 +77,12 @@ class FamilySystem {
         const proposerName = userData[userID1]?.name || userID1;
 
         family1.spouse = userID2;
-        family1.isProposer = true; 
-        family1.proposedBy = null
+        family1.isProposer = true;
+        family1.proposedBy = null;
         
         family2.spouse = userID1;
-        family2.isProposer = false; 
-        family2.proposedBy = proposerName; 
+        family2.isProposer = false;
+        family2.proposedBy = proposerName;
         
         family1.happiness = 100;
         family2.happiness = 100;
@@ -122,18 +116,6 @@ class FamilySystem {
         return true;
     }
 
-    getSharedHome(userID) {
-        let home = this.homeSystem.getHome(userID);
-        if (home) return home;
-        
-        const family = this.getFamily(userID);
-        if (family.spouse) {
-            home = this.homeSystem.getHome(family.spouse);
-            if (home) return home;
-        }
-        return null;
-    }
-
     getSharedVehicles(userID) {
         const family = this.getFamily(userID);
         const garagePath = path.join(__dirname, '../database/json/family/garage.json');
@@ -147,11 +129,8 @@ class FamilySystem {
             
             if (family.spouse && garageData[family.spouse]) {
                 const spouseVehicles = garageData[family.spouse].vehicles || {};
-           
                 vehicles = {...vehicles, ...spouseVehicles};
             }
-
-            console.log('Vehicles found for', userID, ':', vehicles);
             
             return vehicles;
         } catch (error) {
@@ -167,16 +146,13 @@ class FamilySystem {
         const spouseFamily = this.getFamily(family.spouse);
         const hasChildren = family.children && family.children.length > 0;
 
-        // Determine child custody based on happiness levels
         if (hasChildren) {
             const children = [...family.children];
             if (family.happiness >= spouseFamily.happiness) {
-                // User gets custody
                 spouseFamily.children = [];
                 family.hasCustody = true;
                 spouseFamily.hasCustody = false;
             } else {
-                // Spouse gets custody
                 family.children = [];
                 family.hasCustody = false;
                 spouseFamily.hasCustody = true;
@@ -207,16 +183,15 @@ class FamilySystem {
             name: childName,
             birthDate: Date.now(),
             happiness: 100,
-            gender: Math.random() < 0.5 ? "👦" : "👧", // Random giới tính
-            nickname: this.generateNickname(childName) // Tạo biệt danh ngẫu nhiên
+            gender: Math.random() < 0.5 ? "👦" : "👧",
+            nickname: this.generateNickname(childName)
         };
 
-        // Thêm con cho cả 2 vợ chồng
         family.children.push(child);
         family.lastBaby = Date.now();
         
         const spouseFamily = this.getFamily(family.spouse);
-        spouseFamily.children = [...family.children]; // Sử dụng spread operator để copy mảng
+        spouseFamily.children = [...family.children];
         spouseFamily.lastBaby = family.lastBaby;
 
         this.saveData();
@@ -230,7 +205,7 @@ class FamilySystem {
 
     calculateAge(birthDate) {
         const hours = Math.floor((Date.now() - birthDate) / (1000 * 60 * 60));
-        const months = hours; 
+        const months = hours;
         const years = Math.floor(months / 12);
         const remainingMonths = months % 12;
         
@@ -242,7 +217,7 @@ class FamilySystem {
 
     updateHappiness(userID) {
         const family = this.getFamily(userID);
-        const timePassed = (Date.now() - family.lastChecked) / (1000 * 60 * 60 * 24); // Days
+        const timePassed = (Date.now() - family.lastChecked) / (1000 * 60 * 60 * 24);
         
         if (timePassed >= 1) {
             family.happiness = Math.max(0, family.happiness - (timePassed * 5));
@@ -272,108 +247,6 @@ class FamilySystem {
 
         this.saveData();
         return family.happiness;
-    }
-
-    buyHome(userID, type) {
-        const family = this.getFamily(userID);
-        const homeConfig = require('../config/family/familyConfig').HOME_PRICES[type];
-
-        if (!homeConfig) {
-            throw new Error("Loại nhà không hợp lệ!");
-        }
-
-        if (family.home) {
-            throw new Error("Bạn đã có nhà rồi! Hãy bán nhà cũ trước.");
-        }
-
-        family.home = {
-            type: type,
-            name: homeConfig.name,
-            purchaseDate: Date.now(),
-            condition: 100,
-            lastMaintenance: Date.now(),
-            upgrades: [],
-            stats: {
-                security: 0,
-                comfort: 0,
-                environment: 0,
-                luxury: 0
-            }
-        };
-
-        if (homeConfig.isRental) {
-            family.home.rentEndDate = Date.now() + (homeConfig.rentPeriod * 24 * 60 * 60 * 1000);
-        }
-
-        this.saveData();
-        return family.home;
-    }
-
-    sellHome(userID) {
-        const family = this.getFamily(userID);
-        if (!family.home) {
-            throw new Error("Bạn chưa có nhà!");
-        }
-
-        const homeConfig = require('../config/family/familyConfig').HOME_PRICES[family.home.type];
-        const sellPrice = Math.floor(homeConfig.xu * (family.home.condition / 100) * 0.7);
-
-        family.home = null;
-        this.saveData();
-
-        return sellPrice;
-    }
-
-    maintainHome(userID) {
-        const family = this.getFamily(userID);
-        if (!family.home) {
-            throw new Error("Bạn chưa có nhà!");
-        }
-
-        const maintenanceCost = Math.floor(
-            require('../config/family/familyConfig').HOME_PRICES[family.home.type].xu * 0.05
-        );
-
-        family.home.condition = 100;
-        family.home.lastMaintenance = Date.now();
-        this.saveData();
-
-        return maintenanceCost;
-    }
-
-    upgradeHome(userID, upgradeType) {
-        const family = this.getFamily(userID);
-        const upgrades = require('../config/family/familyConfig').HOME_UPGRADES;
-
-        if (!family.home) {
-            throw new Error("Bạn chưa có nhà!");
-        }
-
-        if (!upgrades[upgradeType]) {
-            throw new Error("Gói nâng cấp không hợp lệ!");
-        }
-
-        if (family.home.upgrades.includes(upgradeType)) {
-            throw new Error("Bạn đã có gói nâng cấp này rồi!");
-        }
-
-        const upgrade = upgrades[upgradeType];
-        family.home.upgrades.push(upgradeType);
-
-        // Cập nhật thông số nhà
-        Object.entries(upgrade.effects).forEach(([stat, value]) => {
-            if (family.home.stats[stat] !== undefined) {
-                family.home.stats[stat] = Math.min(100, (family.home.stats[stat] || 0) + value);
-            }
-        });
-
-        this.saveData();
-        return upgrade;
-    }
-
-    getHomeStats(home) {
-        if (!home) return null;
-        return home.stats;
     }
 
     canHaveNewBaby(userID) {
@@ -468,7 +341,6 @@ class FamilySystem {
         child.name = newName;
         child.nickname = this.generateNickname(newName);
 
-        // Đồng bộ với vợ/chồng
         if (family.spouse) {
             const spouseFamily = this.getFamily(family.spouse);
             if (spouseFamily.children && spouseFamily.children[childIndex]) {
@@ -523,7 +395,6 @@ class FamilySystem {
 
         const child = family.children[childIndex];
         
-        // Remove child from both parents' arrays
         family.children.splice(childIndex, 1);
         
         if (family.spouse) {
