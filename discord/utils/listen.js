@@ -58,7 +58,7 @@ const handleListenEvents = async (client) => {
             if (message.channel.id === ALLOWED_CHANNEL) {
                 const content = message.content.toLowerCase();
                 // Chỉ cho phép các lệnh: tx, taixiu, data, balance
-                const allowedCommands = ['tx', 'taixiu', 'data', 'balance'];
+                const allowedCommands = ['taixiu'];
                 const isAllowedCommand = allowedCommands.some(cmd => 
                     content === `${config.prefix}${cmd}` || 
                     content.startsWith(`${config.prefix}${cmd} `)
