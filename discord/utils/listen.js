@@ -123,6 +123,7 @@ const handleListenEvents = async (client) => {
                 } catch (error) {
                     logBotEvent('COMMAND_ERROR', `Error executing command: ${error.message}`);
                     message.channel.send('❌ Đã xảy ra lỗi khi thực hiện lệnh!');
+                }
                 return;
             }
 
