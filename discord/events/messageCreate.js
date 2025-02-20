@@ -1,3 +1,5 @@
+const { GAME_CHANNELS } = require('../config/channels');
+
 module.exports = {
     name: 'messageCreate',
     once: false,
@@ -5,24 +7,27 @@ module.exports = {
         try {
             if (message.author.bot) return;
 
-            if (message.channel.id === '1341367963004960851') {
-                // Schedule message deletion
-                setTimeout(() => {
-                    message.delete().catch(() => {});
-                }, 5000);
+            if (message.channel.id === GAME_CHANNELS.TAIXIU || 
+                message.channel.id === GAME_CHANNELS.CHANLE) {
                 
-                if (!message.content.toLowerCase().startsWith('.tx')) {
-                    return;
+                const isGameCommand = message.content.startsWith('.tx') || 
+                                    message.content.startsWith('.chanle');
+
+                if (!isGameCommand) {
+                    try {
+                        await message.delete();
+                    } catch (error) {
+                        console.error('Error deleting message:', error);
+                    }
                 }
             }
-            
+
             const prefix = '.';
             if (!message.content.startsWith(prefix)) return;
 
             const args = message.content.slice(prefix.length).trim().split(/ +/);
             const commandName = args.shift().toLowerCase();
 
-            // Block other commands in taixiu channel
             if (message.channel.id === '1341367963004960851' && commandName !== 'tx') {
                 message.reply('❌ Chỉ được sử dụng lệnh tài xỉu trong kênh này!')
                     .then(reply => {

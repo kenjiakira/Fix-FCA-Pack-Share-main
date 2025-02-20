@@ -206,27 +206,13 @@ class JobSystem {
 
             const jobData = this.getJob(userID);
             
-            // Check quit cooldown
             if (jobData.lastQuit) {
                 const timeSinceQuit = Date.now() - jobData.lastQuit;
                 if (timeSinceQuit < this.QUIT_COOLDOWN) {
                     const timeLeft = this.QUIT_COOLDOWN - timeSinceQuit;
                     const hours = Math.floor(timeLeft / 3600000);
                     const minutes = Math.floor((timeLeft % 3600000) / 60000);
-                    throw new Error(`Bạn cần đợi ${hours} giờ ${minutes} phút nữa mới có thể xin việc lại!`);
-                }
-            }
-
-            // Check quit cooldown first
-            const QUIT_COOLDOWN = 10 * 60 * 1000; // 10 minutes cooldown after quitting
-            
-            if (jobData.lastQuit) {
-                const timeSinceQuit = Date.now() - jobData.lastQuit;
-                if (timeSinceQuit < QUIT_COOLDOWN) {
-                    const timeLeft = QUIT_COOLDOWN - timeSinceQuit;
-                    const minutes = Math.floor(timeLeft / 60000);
-                    const seconds = Math.ceil((timeLeft % 60000) / 1000);
-                    throw new Error(`Bạn vừa nghỉ việc! Vui lòng đợi ${minutes > 0 ? `${minutes} phút ` : ''}${seconds} giây nữa để xin việc mới!`);
+                    throw new Error(`Bạn vừa nghỉ việc! Vui lòng đợi ${hours} giờ ${minutes} phút nữa để xin việc mới!`);
                 }
             }
 
@@ -382,7 +368,7 @@ class JobSystem {
         // Calculate quit cooldown
         if (jobData.lastQuit) {
             const timeSinceQuit = Date.now() - jobData.lastQuit;
-            const quitTimeLeft = Math.max(0, QUIT_COOLDOWN - timeSinceQuit);
+            const quitTimeLeft = Math.max(0, this.QUIT_COOLDOWN - timeSinceQuit);
             cooldown = Math.max(cooldown, quitTimeLeft);
         }
 

@@ -1,20 +1,73 @@
 {
   "users": {
-    "61554805990725": {
+    "100055052811579": {
       "personal": [],
       "facts": [],
       "preferences": [],
       "interactions": [
         {
-          "content": "Linh Giang nói: chị còn ở trong box có con bot k\nTôi trả lời: Em vẫn đang ở đây anh ạ.  Có gì anh cần em giúp không?",
-          "timestamp": 1739966346249,
+          "content": "Quốc Hưng nói: Yêu em ngân ❤️❤️\nTôi trả lời: Chào anh Quốc Hưng.  :))",
+          "timestamp": 1740033793307,
           "priority": 1,
-          "accessCount": 0,
-          "lastAccess": 1739966346249,
+          "accessCount": 1,
+          "lastAccess": 1740036119375,
+          "metadata": {
+            "sentiment": {
+              "score": 1,
+              "sentiment": "positive"
+            },
+            "topics": [
+              "PERSONAL",
+              "RELATIONSHIP"
+            ],
+            "entities": {}
+          }
+        },
+        {
+          "content": "Quốc Hưng nói: Bot ơi\nTôi trả lời: Dạ anh Quốc Hưng.  Anh có cần em giúp gì không ạ?",
+          "timestamp": 1740036074612,
+          "priority": 1,
+          "accessCount": 2,
+          "lastAccess": 1740036119375,
           "metadata": {
             "sentiment": {
               "score": 0,
               "sentiment": "neutral"
+            },
+            "topics": [
+              "PERSONAL"
+            ],
+            "entities": {}
+          }
+        },
+        {
+          "content": "Quốc Hưng nói: Làm sao để sử dụng danh mục đầu tư vậy bot\nTôi trả lời: Dạ, anh Quốc Hưng muốn tìm hiểu về cách sử dụng danh mục đầu tư như thế nào ạ? Em có thể giúp anh tìm hiểu thông tin hoặc hướng dẫn anh một số bước cơ bản nếu anh muốn.",
+          "timestamp": 1740036106161,
+          "priority": 1,
+          "accessCount": 1,
+          "lastAccess": 1740036119375,
+          "metadata": {
+            "sentiment": {
+              "score": 0,
+              "sentiment": "neutral"
+            },
+            "topics": [
+              "PERSONAL",
+              "WORK"
+            ],
+            "entities": {}
+          }
+        },
+        {
+          "content": "Quốc Hưng nói: Chỉ a với\nTôi trả lời: Dạ được ạ. Anh muốn tìm hiểu khía cạnh nào của việc sử dụng danh mục đầu tư vậy anh? Ví dụ như cách lập danh mục, cách phân bổ tài sản, hay cách theo dõi hiệu quả đầu tư?  Em sẽ cố gắng giúp anh hết sức có thể.",
+          "timestamp": 1740036121180,
+          "priority": 1,
+          "accessCount": 0,
+          "lastAccess": 1740036121180,
+          "metadata": {
+            "sentiment": {
+              "score": 1,
+              "sentiment": "positive"
             },
             "topics": [
               "PERSONAL"
@@ -36,10 +89,55 @@
       "undefined": [
         {
           "content": "Xưng hô: em/anh",
-          "timestamp": 1739966344703,
+          "timestamp": 1740033791744,
+          "priority": 2,
+          "accessCount": 3,
+          "lastAccess": 1740036119375,
+          "metadata": {
+            "sentiment": {
+              "score": 0,
+              "sentiment": "neutral"
+            },
+            "topics": [],
+            "entities": {}
+          }
+        },
+        {
+          "content": "Xưng hô: em/anh",
+          "timestamp": 1740036073666,
+          "priority": 2,
+          "accessCount": 2,
+          "lastAccess": 1740036119375,
+          "metadata": {
+            "sentiment": {
+              "score": 0,
+              "sentiment": "neutral"
+            },
+            "topics": [],
+            "entities": {}
+          }
+        },
+        {
+          "content": "Xưng hô: em/anh",
+          "timestamp": 1740036104366,
+          "priority": 2,
+          "accessCount": 1,
+          "lastAccess": 1740036119375,
+          "metadata": {
+            "sentiment": {
+              "score": 0,
+              "sentiment": "neutral"
+            },
+            "topics": [],
+            "entities": {}
+          }
+        },
+        {
+          "content": "Xưng hô: em/anh",
+          "timestamp": 1740036119375,
           "priority": 2,
           "accessCount": 0,
-          "lastAccess": 1739966344703,
+          "lastAccess": 1740036119375,
           "metadata": {
             "sentiment": {
               "score": 0,
@@ -65,7 +163,7 @@
     "voice": {}
   },
   "stats": {
-    "totalInteractions": 2,
+    "totalInteractions": 8,
     "uniqueUsers": {},
     "topTopics": {},
     "responseTime": [],

@@ -70,5 +70,27 @@
         "ownerID": "100000349406075"
       }
     }
+  },
+  "100053857386814": {
+    "vehicles": {
+      "v1": {
+        "purchaseDate": 1740036301289,
+        "durability": 85,
+        "lastMaintenance": 1740036301289,
+        "ownerID": "100053857386814"
+      },
+      "v2": {
+        "purchaseDate": 1740036301289,
+        "durability": 90,
+        "lastMaintenance": 1740036301289,
+        "ownerID": "100053857386814"
+      },
+      "v3": {
+        "purchaseDate": 1740036301289,
+        "durability": 80,
+        "lastMaintenance": 1740036301289,
+        "ownerID": "100053857386814"
+      }
+    }
   }
 }

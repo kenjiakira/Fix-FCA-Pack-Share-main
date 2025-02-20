@@ -1,9 +1,8 @@
-const { getData, setData } = require('../utils/currencies');
+const { getBalance, updateBalance } = require('../utils/currencies'); 
 const fs = require('fs');
 const path = require('path');
 const { EmbedBuilder, ActionRowBuilder, ButtonBuilder, ButtonStyle, AttachmentBuilder } = require('discord.js');
 const { createCanvas, loadImage } = require('canvas');
-
 const BETTING_TIME = 60000;
 const NO_BETTING_WINDOW = 10000; 
 const ALLOWED_CHANNEL = '1341367963004960851';
@@ -70,21 +69,45 @@ class TaixiuSession {
     }
 
     placeBet(userId, choice, amount) {
-        if (!this.active) {
-            console.log('Session not active');
-            return false;
-        }
-        
-        const timeLeft = this.endTime - Date.now();
+        try {
+            if (!this.active) {
+                console.log('Session not active');
+                return false;
+            }
+            
+            const timeLeft = this.endTime - Date.now();
+            if (timeLeft <= NO_BETTING_WINDOW) {
+                console.log(`Cannot bet - too close to end: ${timeLeft}ms left`);
+                return false;
+            }
 
-        if (timeLeft <= NO_BETTING_WINDOW) {
-            console.log(`Cannot bet - too close to end: ${timeLeft}ms left`);
+            // Validate bet amount
+            if (typeof amount !== 'number' || isNaN(amount) || amount <= 0) {
+                console.log(`Invalid bet amount: ${amount}`);
+                return false;
+            }
+
+            // Validate choice
+            if (!['tai', 'xiu'].includes(choice)) {
+                console.log(`Invalid choice: ${choice}`);
+                return false;
+            }
+
+            const currentBet = this.bets[choice].get(userId) || 0;
+            const newAmount = currentBet + amount;
+
+            // Additional validation for total bet
+            if (isNaN(newAmount) || newAmount <= 0) {
+                console.log(`Invalid total bet amount: ${newAmount}`);
+                return false;
+            }
+
+            this.bets[choice].set(userId, newAmount);
+            return true;
+        } catch (error) {
+            console.error('Error in placeBet:', error);
             return false;
         }
-        
-        const currentBet = this.bets[choice].get(userId) || 0;
-        this.bets[choice].set(userId, currentBet + amount);
-        return true;
     }
 
     getTotalBets(choice) {
@@ -119,125 +142,127 @@ function createProgressBar(current, total, size = 15) {
     return `[${filled}${empty}]`;
 }
 
+const messageQueue = require('../utils/messageQueue');
+
 async function updateSessionMessage(channel) {
     if (!currentSession?.message) return;
 
-    const totalPlayers = currentSession.getBettingPlayers().size;
-    const timeLeft = Math.max(0, Math.ceil((currentSession.endTime - Date.now()) / 1000));
-    const totalTime = BETTING_TIME / 1000;
-    const progressBar = createProgressBar(totalTime - timeLeft, totalTime);
-    const history = getHistoryDisplay();
+    const updateFunction = async (message) => {
+        const totalPlayers = currentSession.getBettingPlayers().size;
+        const timeLeft = Math.max(0, Math.ceil((currentSession.endTime - Date.now()) / 1000));
+        const totalTime = BETTING_TIME / 1000;
+        const progressBar = createProgressBar(totalTime - timeLeft, totalTime);
+        const history = getHistoryDisplay();
 
-    const embed = new EmbedBuilder()
-        .setColor(0x2B2D31)
-        .setTitle(`🎲 Phiên ${currentSession.id}`)
-        .setDescription(progressBar)
-        .addFields([
-            {
-                name: '⏱️ Thời gian còn lại',
-                value: `${timeLeft}s`,
-                inline: true
-            },
-            {
-                name: '👥 Người tham gia',
-                value: `${totalPlayers}`,
-                inline: true
-            },
-            {
-                name: '📊 Lịch sử',
-                value: history || 'Chưa có dữ liệu',
-                inline: false
-            }
-        ])
-        .setTimestamp()
-        .setFooter({ text: 'Bot Tài Xỉu by HN' });
+        const embed = new EmbedBuilder()
+            .setColor(0x2B2D31)
+            .setTitle(`🎲 Phiên ${currentSession.id}`)
+            .setDescription(progressBar)
+            .addFields([
+                {
+                    name: '⏱️ Thời gian còn lại',
+                    value: `${timeLeft}s`,
+                    inline: true
+                },
+                {
+                    name: '👥 Người tham gia',
+                    value: `${totalPlayers}`,
+                    inline: true
+                },
+                {
+                    name: '📊 Lịch sử',
+                    value: history || 'Chưa có dữ liệu',
+                    inline: false
+                }
+            ])
+            .setTimestamp()
+            .setFooter({ text: 'Bot Tài Xỉu by HN' });
 
-    const row1 = new ActionRowBuilder()
-        .addComponents(
-            new ButtonBuilder()
-                .setCustomId('bet_tai')
-                .setLabel('🔴 Tài')
-                .setStyle(ButtonStyle.Danger),
-            new ButtonBuilder()
-                .setCustomId('bet_xiu')
-                .setLabel('⚪ Xỉu')
-                .setStyle(ButtonStyle.Secondary)
-        );
+        const row1 = new ActionRowBuilder()
+            .addComponents(
+                new ButtonBuilder()
+                    .setCustomId('bet_tai')
+                    .setLabel('🔴 Tài')
+                    .setStyle(ButtonStyle.Danger),
+                new ButtonBuilder()
+                    .setCustomId('bet_xiu')
+                    .setLabel('⚪ Xỉu')
+                    .setStyle(ButtonStyle.Secondary)
+            );
 
-    const row2 = new ActionRowBuilder()
-        .addComponents(
-            new ButtonBuilder()
-                .setCustomId('bet_10k')
-                .setLabel('10K')
-                .setStyle(ButtonStyle.Primary),
-            new ButtonBuilder()
-                .setCustomId('bet_50k')
-                .setLabel('50K')
-                .setStyle(ButtonStyle.Primary),
-            new ButtonBuilder()
-                .setCustomId('bet_100k')
-                .setLabel('100K')
-                .setStyle(ButtonStyle.Primary),
-            new ButtonBuilder()
-                .setCustomId('bet_500k')
-                .setLabel('500K')
-                .setStyle(ButtonStyle.Primary)
-        );
+        const row2 = new ActionRowBuilder()
+            .addComponents(
+                new ButtonBuilder()
+                    .setCustomId('bet_10k')
+                    .setLabel('10K')
+                    .setStyle(ButtonStyle.Primary),
+                new ButtonBuilder()
+                    .setCustomId('bet_50k')
+                    .setLabel('50K')
+                    .setStyle(ButtonStyle.Primary),
+                new ButtonBuilder()
+                    .setCustomId('bet_100k')
+                    .setLabel('100K')
+                    .setStyle(ButtonStyle.Primary),
+                new ButtonBuilder()
+                    .setCustomId('bet_500k')
+                    .setLabel('500K')
+                    .setStyle(ButtonStyle.Primary)
+            );
 
-    const row3 = new ActionRowBuilder()
-        .addComponents(
-            new ButtonBuilder()
-                .setCustomId('bet_1m')
-                .setLabel('1M')
-                .setStyle(ButtonStyle.Primary),
-            new ButtonBuilder()
-                .setCustomId('bet_5m')
-                .setLabel('5M')
-                .setStyle(ButtonStyle.Primary),
-            new ButtonBuilder()
-                .setCustomId('bet_10m')
-                .setLabel('10M')
-                .setStyle(ButtonStyle.Primary),
-            new ButtonBuilder()
-                .setCustomId('bet_allin')
-                .setLabel('ALL IN')
-                .setStyle(ButtonStyle.Danger)
-        );
+        const row3 = new ActionRowBuilder()
+            .addComponents(
+                new ButtonBuilder()
+                    .setCustomId('bet_1m')
+                    .setLabel('1M')
+                    .setStyle(ButtonStyle.Primary),
+                new ButtonBuilder()
+                    .setCustomId('bet_5m')
+                    .setLabel('5M')
+                    .setStyle(ButtonStyle.Primary),
+                new ButtonBuilder()
+                    .setCustomId('bet_10m')
+                    .setLabel('10M')
+                    .setStyle(ButtonStyle.Primary),
+                new ButtonBuilder()
+                    .setCustomId('bet_allin')
+                    .setLabel('ALL IN')
+                    .setStyle(ButtonStyle.Danger)
+            );
 
-    try {
-        await currentSession.message.edit({ 
+        await message.edit({
             embeds: [embed],
             components: timeLeft <= NO_BETTING_WINDOW / 1000 ? [] : [row1, row2, row3]
         });
-    } catch (error) {
-        console.error('Error updating session message:', error);
-    }
+    };
+
+    // Add update to queue instead of executing directly
+    messageQueue.add(currentSession.message, updateFunction);
 }
 
-// Add button interaction handler
 function setupButtonHandlers(message) {
     const collector = message.channel.createMessageComponentCollector({
         filter: i => i.message.id === currentSession?.message?.id
     });
 
-    const playerChoices = new Map(); // Store player choices throughout the session
+    const playerChoices = new Map(); 
 
     collector.on('collect', async (interaction) => {
         try {
             if (!currentSession?.active) {
                 return interaction.reply({
                     content: '❌ Phiên đã kết thúc!',
-                    ephemeral: true
+                    flags: ['Ephemeral']
                 });
             }
 
             const userId = interaction.user.id;
-            const balance = Math.max(0, getBalance(userId)); // Ensure balance is not negative
+            const balance = getBalance(userId); 
 
             if (balance <= 0) {
                 return interaction.reply({
                     content: '❌ Bạn không có đủ Nitro để tham gia! Hãy nhận thưởng daily hoặc nạp thêm.',
-                    ephemeral: true
+                    flags: ['Ephemeral']
                 });
             }
 
@@ -245,19 +270,20 @@ function setupButtonHandlers(message) {
                 const choice = interaction.customId.slice(4);
                 
                 if (choice === 'tai' || choice === 'xiu') {
-                    // Store choice for the entire session
+
                     playerChoices.set(userId, choice);
-                    return interaction.reply({
+                    await interaction.reply({
                         content: `✅ Đã chọn ${choice === 'tai' ? 'TÀI 🔴' : 'XỈU ⚪'}! Vui lòng chọn số tiền cược.`,
-                        ephemeral: true
+                        flags: ['Ephemeral']
                     });
+                    return;
                 }
 
                 const playerChoice = playerChoices.get(userId);
                 if (!playerChoice) {
                     return interaction.reply({
                         content: '❌ Vui lòng chọn Tài hoặc Xỉu trước!',
-                        ephemeral: true
+                        flags: ['Ephemeral']
                     });
                 }
 
@@ -277,73 +303,141 @@ function setupButtonHandlers(message) {
                 if (amount === 0) {
                     return interaction.reply({
                         content: '❌ Không thể đặt cược số tiền bằng 0!',
-                        ephemeral: true
+                        flags: ['Ephemeral']
                     });
                 }
 
                 if (balance < amount) {
                     return interaction.reply({
                         content: '❌ Số dư không đủ!',
-                        ephemeral: true
+                        flags: ['Ephemeral']
                     });
                 }
 
                 if (currentSession.placeBet(userId, playerChoice, amount)) {
-                    return interaction.reply({
+                    await interaction.reply({
                         content: `✅ Đặt cược ${amount.toLocaleString('vi-VN')} Nitro vào ${playerChoice === 'tai' ? 'TÀI 🔴' : 'XỈU ⚪'} thành công!\nBạn có thể tiếp tục đặt cược số tiền khác.`,
-                        ephemeral: true
+                        flags: ['Ephemeral']
                     });
+                    return;
                 }
             }
 
         } catch (error) {
             console.error('Button interaction error:', error);
             interaction.reply({
-                content: '❌ Đã xảy ra lỗi!',
-                ephemeral: true
+                content: '❌ Đã xảy ra lỗi! Vui lòng thử lại.',
+                flags: ['Ephemeral']
             });
         }
     });
 
-    // Clear player choices when session ends
     collector.on('end', () => {
         playerChoices.clear();
     });
 }
 
+async function cleanOldMessages(channel) {
+    try {
+        const messages = await channel.messages.fetch({ limit: 100 });
+        const oldMessages = messages.filter(msg => 
+            msg.author.bot && 
+            (msg.embeds.length > 0 || msg.content.includes('⏳'))
+        );
+        
+        for (const message of oldMessages.values()) {
+            try {
+                if (message.deletable) {
+                    await message.delete().catch(() => {});
+                }
+            } catch (error) {
+                
+                if (error.code !== 10008) {
+                    console.error(`Error deleting message ${message.id}:`, error.message);
+                }
+            }
+        
+            await new Promise(resolve => setTimeout(resolve, 100));
+        }
+    } catch (error) {
+        console.error('Error in cleanOldMessages:', error.message);
+    }
+}
+
 async function startNewSession(channel) {
     if (channel.id !== ALLOWED_CHANNEL) return;
 
-    // Clear any existing timers
-    if (sessionTimer) clearTimeout(sessionTimer);
-    if (resultTimer) clearTimeout(resultTimer);
+    await cleanOldMessages(channel);
 
-    // Delete old session message
+    
+    try {
+        if (sessionTimer) {
+            clearTimeout(sessionTimer);
+            sessionTimer = null;
+        }
+        if (resultTimer) {
+            clearTimeout(resultTimer);
+            resultTimer = null;
+        }
+    } catch (error) {
+        console.error('Error clearing timers:', error);
+    }
+
+  
     if (currentSession?.message) {
         try {
-            await currentSession.message.delete();
+            if (currentSession.message.deletable) {
+                await currentSession.message.delete().catch(() => {
+           
+                    console.log('Previous message already deleted or not found');
+                });
+            }
         } catch (error) {
-            console.error('Error deleting old session message:', error);
+        
+            if (error.code !== 10008) {
+                console.error('Other error deleting message:', error);
+            }
         }
     }
     
-    // Send waiting message
-    const waitMsg = await channel.send('⏳ Chờ phiên mới...');
-    
-    // Add countdown for waiting period
-    for(let i = 10; i > 0; i--) {
-        await waitMsg.edit(`⏳ Phiên mới bắt đầu sau ${i}s...`);
-        await new Promise(resolve => setTimeout(resolve, 1000));
+   
+    let waitMsg;
+    try {
+        waitMsg = await channel.send('⏳ Chờ phiên mới...');
+    } catch (error) {
+        console.error('Error sending wait message:', error);
+        return;
     }
     
-    await waitMsg.delete().catch(() => {});
+ 
+    for(let i = 10; i > 0; i--) {
+        try {
+            if (waitMsg.deletable) {
+                await waitMsg.edit(`⏳ Phiên mới bắt đầu sau ${i}s...`);
+            }
+            await new Promise(resolve => setTimeout(resolve, 1000));
+        } catch (error) {
+            console.error('Error updating wait message:', error);
+            break;
+        }
+    }
+    
+    try {
+        if (waitMsg.deletable) {
+            await waitMsg.delete().catch(() => {});
+        }
+    } catch (error) {
+        if (error.code !== 10008) {
+            console.error('Error deleting wait message:', error);
+        }
+    }
 
-    // Create new session with proper timing
+  
     currentSession = new TaixiuSession();
     currentSession.endTime = Date.now() + BETTING_TIME;
     currentSession.active = true;
 
-    // Create initial progress bar
+  
     const initialProgressBar = createProgressBar(BETTING_TIME / 1000, BETTING_TIME / 1000);
 
     try {
@@ -430,12 +524,12 @@ async function startNewSession(channel) {
 
         currentSession.message = await channel.send({ 
             embeds: [embed],
-            components: [row1, row2, row3] // Add initial buttons
+            components: [row1, row2, row3]
         });
 
         setupButtonHandlers(currentSession.message);
 
-        // Update more frequently for smoother countdown
+    
         const updateInterval = setInterval(() => {
             if (!currentSession?.active) {
                 clearInterval(updateInterval);
@@ -444,9 +538,9 @@ async function startNewSession(channel) {
             updateSessionMessage(channel);
         }, 1000);
 
-        // Set timer for session end
+    
         sessionTimer = setTimeout(async () => {
-            if (!currentSession?.active) return; // Check if session is still valid
+            if (!currentSession?.active) return; 
             try {
                 currentSession.active = false;
                 clearInterval(updateInterval);
@@ -519,35 +613,45 @@ async function startNewSession(channel) {
                     files: [attachment]
                 });
 
-                setTimeout(() => {
-                    resultMsg.delete().catch(() => {});
-                    startNewSession(channel);
-                }, 10000);
-
+        resultTimer = setTimeout(async () => {
+            try {
+                if (resultMsg?.deletable) {
+                    await resultMsg.delete().catch(() => {});
+                }
+                if (!currentSession?.active) {
+                    await startNewSession(channel);
+                }
+            } catch (error) {
+                console.error('Error in result timer:', error);
+                if (!currentSession?.active) {
+                    resultTimer = setTimeout(() => startNewSession(channel), 10000);
+                }
+            }
+        }, 10000);
             } catch (error) {
                 console.error('Error in session end:', error);
-            
-                setTimeout(() => startNewSession(channel), 10000);
             }
         }, BETTING_TIME);
 
     } catch (error) {
         console.error('Error starting new session:', error);
         currentSession = null; 
-        setTimeout(() => startNewSession(channel), 5000);
+        if (!currentSession?.active) {
+            resultTimer = setTimeout(() => startNewSession(channel), 5000);
+        }
     }
 }
 
 async function createDiceImage(dice1, dice2, dice3) {
-    const canvas = createCanvas(384, 128); // Chiều rộng đủ cho 3 xúc xắc
+    const canvas = createCanvas(384, 128); 
     const ctx = canvas.getContext('2d');
 
-    // Load các ảnh xúc xắc
+
     const dice1Img = await loadImage(DICE_IMAGES[dice1]);
     const dice2Img = await loadImage(DICE_IMAGES[dice2]);
     const dice3Img = await loadImage(DICE_IMAGES[dice3]);
 
-    // Vẽ 3 xúc xắc cạnh nhau
+   
     ctx.drawImage(dice1Img, 0, 0, 128, 128);
     ctx.drawImage(dice2Img, 128, 0, 128, 128);
     ctx.drawImage(dice3Img, 256, 0, 128, 128);
@@ -555,14 +659,8 @@ async function createDiceImage(dice1, dice2, dice3) {
     return canvas.toBuffer();
 }
 
-function getBalance(userId) {
-    return getData(userId) || 0;
-}
-
 function addBalance(userId, amount) {
-    const currentBalance = getBalance(userId);
-    setData(userId, currentBalance + amount);
-    return currentBalance + amount;
+    return updateBalance(userId, amount); 
 }
 
 loadHistory();
@@ -578,6 +676,7 @@ module.exports = {
             return message.reply('❌ Lệnh này chỉ có thể sử dụng trong kênh tài xỉu!');
         }
 
+        await cleanOldMessages(message.channel);
         if (!currentSession) {
             startNewSession(message.channel);
         }

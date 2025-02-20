@@ -178,6 +178,16 @@ module.exports = {
             const balance = getBalance(senderID);
             let refundProcessed = false;
             const sessionId = generateSessionId();
+            
+            const shouldPromoteDiscord = Math.random() < 0.15;
+            const discordPromo = shouldPromoteDiscord ? 
+                "\n\n🎮 Chơi Tài Xỉu trên Discord:\n" +
+                "• Trải nghiệm mượt mà hơn\n" + 
+                "• Giao diện đẹp với nút bấm\n" +
+                "• Thưởng thêm Xu Nitro mỗi ngày\n" +
+                "• Link Discord: https://discord.gg/UBtdSYzn\n" +
+                "━━━━━━━━━━━━━━\n" : "";
+
             gameHistory.sessions.set(sessionId, {
                 userId: senderID,
                 timestamp: Date.now()
@@ -191,7 +201,8 @@ module.exports = {
                     "➤ .tx tài/xỉu allin\n\n" +
                     "📌 Lịch sử:\n" + getHistoryString(threadID) + "\n" +
                     "━━━━━━━━━━━━━━\n" +
-                    "⚫ = Tài | ⚪ = Xỉu\n" +
+                    "⚫ = Tài | ⚪ = Xỉu" +
+                    discordPromo +
                     "┗━━━━━━━━━━━━━━┛", 
                     threadID, messageID
                 );
@@ -258,6 +269,16 @@ module.exports = {
 
                     message += `\n💰 Số dư: ${formatNumber(getBalance(senderID))} Xu`;
                     message += `\n💰 Quỹ: ${formatNumber(loadQuy())} Xu`;
+
+                    if (choice === result && Math.random() < 0.2) {
+                        message += "\n\n🎮 Bạn có biết?\n" +
+                                 "Bot Discord của chúng tôi có:\n" +
+                                 "• Giao diện đẹp mắt hơn\n" +
+                                 "• Tốc độ xử lý nhanh hơn\n" +
+                                 "• Nhiều phần thưởng hấp dẫn\n" +
+                                 "→ Tham gia ngay: https://discord.gg/UBtdSYzn";
+                    }
+
                     updateQuestProgress(senderID, "play_games");
                     if (choice === result) updateQuestProgress(senderID, "win_games");
 
@@ -309,15 +330,15 @@ module.exports = {
                 return imagePath;
             };
 
-            const diceImages = await Promise.all(
-                [dice1, dice2, dice3].map(async n => {
-                    try {
-                        return await loadImage(getDiceImagePath(n));
-                    } catch (err) {
-                        throw new Error(`Failed to load dice${n}.png: ${err.message}`);
-                    }
-                })
-            );
+    const diceImages = await Promise.all(
+        [dice1, dice2, dice3].map(async n => {
+            try {
+                return await loadImage(getDiceImagePath(n));
+            } catch (err) {
+                throw new Error(`Failed to load dice${n}.png: ${err.message}`);
+            }
+        })
+    );
 
             const canvas = createCanvas(diceImages[0].width * 3, diceImages[0].height);
             const ctx = canvas.getContext('2d');

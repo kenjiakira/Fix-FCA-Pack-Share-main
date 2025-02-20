@@ -31,7 +31,7 @@ module.exports = {
                 }
             }
 
-            const baseReward = Math.floor(Math.random() * (5000 - 3000 + 1) + 3000);
+            const baseReward = Math.floor(Math.random() * (20000 - 10000 + 1) + 10000);
             const dayBonus = new Date().getDay() === 0 ? 1.5 : 1.0;
             const finalReward = Math.floor(baseReward * dayBonus);
 

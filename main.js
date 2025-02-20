@@ -7,7 +7,6 @@ const { handleListenEvents } = require("./utils/listen");
 const lockfile = require('proper-lockfile');
 const portfinder = require('portfinder');
 const path = require('path');
-const { startDiscordBot } = require('./discord/index.js');
 
 const config = JSON.parse(fs.readFileSync("./logins/hut-chat-api/config.json", "utf8"));
 
@@ -169,7 +168,6 @@ const reloadModules = () => {
 
 (async () => {
     try {
-        startDiscordBot();
         
         const startBot = async () => {
             if (checkBotRunning()) {

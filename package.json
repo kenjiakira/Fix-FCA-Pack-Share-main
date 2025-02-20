@@ -5,7 +5,10 @@
   "main": "index.js",
   "scripts": {
     "start": "node index.js",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "discord:start": "node discord/index.js",
+    "discord:restart": "pm2 restart discord",
+    "discord:stop": "pm2 stop discord"
   },
   "keywords": [],
   "author": "",

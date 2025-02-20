@@ -34,25 +34,52 @@ async function validateMessengerId(id) {
 
 async function verifyTransaction(userId, transactionId) {
     const exchangeLogFile = path.join(__dirname, '../database/exchange_logs.json');
-    const discordCurrenciesFile = path.join(__dirname, '../database/discord/discord_currencies.json'); 
     const messengerCurrenciesFile = path.join(__dirname, '../database/currencies.json');
 
     try {
-        // Đọc các file dữ liệu
         const logs = JSON.parse(fs.readFileSync(exchangeLogFile, 'utf8'));
-        const discordData = JSON.parse(fs.readFileSync(discordCurrenciesFile, 'utf8'));
         const messengerData = JSON.parse(fs.readFileSync(messengerCurrenciesFile, 'utf8'));
 
         const transaction = logs.exchanges.find(ex => 
             ex.transactionId === transactionId && 
-            ex.messengerId === userId &&
-            ex.status === 'pending'
+            ex.messengerId === userId
         );
 
         if (!transaction) {
             return {
                 success: false,
-                message: "Không tìm thấy giao dịch hoặc giao dịch đã được xử lý!"
+                message: "❌ Không tìm thấy giao dịch!"
+            };
+        }
+
+        if (transaction.status === 'completed') {
+            return {
+                success: false,
+                message: "❌ Giao dịch này đã được claim!"
+            };
+        }
+
+        if (transaction.status === 'expired') {
+            return {
+                success: false,
+                message: "❌ Giao dịch đã hết hạn!"
+            };
+        }
+
+        if (transaction.status === 'failed') {
+            return {
+                success: false,
+                message: "❌ Giao dịch này đã bị hủy!"
+            };
+        }
+
+        const expiryDate = new Date(transaction.expiresAt);
+        if (Date.now() > expiryDate.getTime()) {
+            transaction.status = 'expired';
+            fs.writeFileSync(exchangeLogFile, JSON.stringify(logs, null, 2));
+            return {
+                success: false,
+                message: "❌ Giao dịch đã hết hạn (quá 24h)!"
             };
         }
 
@@ -66,14 +93,18 @@ async function verifyTransaction(userId, transactionId) {
 
         return {
             success: true,
-            message: `✅ Đã nhận ${transaction.xuAmount.toLocaleString('vi-VN')} xu từ giao dịch!\n💰 Số dư hiện tại: ${messengerData.balance[userId].toLocaleString('vi-VN')} xu`
+            message: [
+                `✅ Đã claim thành công!`,
+                `💰 Số xu nhận được: ${transaction.xuAmount.toLocaleString('vi-VN')} xu`,
+                `💎 Số dư hiện tại: ${messengerData.balance[userId].toLocaleString('vi-VN')} xu`
+            ].join('\n')
         };
 
     } catch (error) {
         console.error('Verify transaction error:', error);
         return {
             success: false,
-            message: "Lỗi xử lý giao dịch, vui lòng thử lại sau!"
+            message: "❌ Lỗi xử lý giao dịch, vui lòng thử lại sau!"
         };
     }
 }

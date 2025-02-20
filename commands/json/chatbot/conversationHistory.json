@@ -1,25 +1,70 @@
 {
   "global": [
     {
-      "timestamp": 1739966346247,
-      "prompt": "chị còn ở trong box có con bot k",
-      "response": "Em vẫn đang ở đây anh ạ.  Có gì anh cần em giúp không?",
-      "senderID": "61554805990725",
-      "senderName": "Linh Giang"
+      "timestamp": 1740033793305,
+      "prompt": "Yêu em ngân ❤️❤️",
+      "response": "Chào anh Quốc Hưng.  :))",
+      "senderID": "100055052811579",
+      "senderName": "Quốc Hưng"
+    },
+    {
+      "timestamp": 1740036074607,
+      "prompt": "Bot ơi",
+      "response": "Dạ anh Quốc Hưng.  Anh có cần em giúp gì không ạ?",
+      "senderID": "100055052811579",
+      "senderName": "Quốc Hưng"
+    },
+    {
+      "timestamp": 1740036106158,
+      "prompt": "Làm sao để sử dụng danh mục đầu tư vậy bot",
+      "response": "Dạ, anh Quốc Hưng muốn tìm hiểu về cách sử dụng danh mục đầu tư như thế nào ạ? Em có thể giúp anh tìm hiểu thông tin hoặc hướng dẫn anh một số bước cơ bản nếu anh muốn.",
+      "senderID": "100055052811579",
+      "senderName": "Quốc Hưng"
+    },
+    {
+      "timestamp": 1740036121178,
+      "prompt": "Chỉ a với",
+      "response": "Dạ được ạ. Anh muốn tìm hiểu khía cạnh nào của việc sử dụng danh mục đầu tư vậy anh? Ví dụ như cách lập danh mục, cách phân bổ tài sản, hay cách theo dõi hiệu quả đầu tư?  Em sẽ cố gắng giúp anh hết sức có thể.",
+      "senderID": "100055052811579",
+      "senderName": "Quốc Hưng"
     }
   ],
   "threads": {
-    "6187276691363515": [
+    "9109843752441768": [
       {
-        "timestamp": 1739966346247,
-        "prompt": "chị còn ở trong box có con bot k",
-        "response": "Em vẫn đang ở đây anh ạ.  Có gì anh cần em giúp không?",
-        "senderID": "61554805990725",
-        "senderName": "Linh Giang"
+        "timestamp": 1740033793305,
+        "prompt": "Yêu em ngân ❤️❤️",
+        "response": "Chào anh Quốc Hưng.  :))",
+        "senderID": "100055052811579",
+        "senderName": "Quốc Hưng"
+      },
+      {
+        "timestamp": 1740036074607,
+        "prompt": "Bot ơi",
+        "response": "Dạ anh Quốc Hưng.  Anh có cần em giúp gì không ạ?",
+        "senderID": "100055052811579",
+        "senderName": "Quốc Hưng"
+      },
+      {
+        "timestamp": 1740036106158,
+        "prompt": "Làm sao để sử dụng danh mục đầu tư vậy bot",
+        "response": "Dạ, anh Quốc Hưng muốn tìm hiểu về cách sử dụng danh mục đầu tư như thế nào ạ? Em có thể giúp anh tìm hiểu thông tin hoặc hướng dẫn anh một số bước cơ bản nếu anh muốn.",
+        "senderID": "100055052811579",
+        "senderName": "Quốc Hưng"
+      },
+      {
+        "timestamp": 1740036121178,
+        "prompt": "Chỉ a với",
+        "response": "Dạ được ạ. Anh muốn tìm hiểu khía cạnh nào của việc sử dụng danh mục đầu tư vậy anh? Ví dụ như cách lập danh mục, cách phân bổ tài sản, hay cách theo dõi hiệu quả đầu tư?  Em sẽ cố gắng giúp anh hết sức có thể.",
+        "senderID": "100055052811579",
+        "senderName": "Quốc Hưng"
       }
     ]
   },
   "lastResponses": {
-    "chị còn ở trong box có con bot k": "Em vẫn đang ở đây anh ạ.  Có gì anh cần em giúp không?"
+    "yêu em ngân ❤️❤️": "Chào anh Quốc Hưng.  :))",
+    "bot ơi": "Dạ anh Quốc Hưng.  Anh có cần em giúp gì không ạ?",
+    "làm sao để sử dụng danh mục đầu tư vậy bot": "Dạ, anh Quốc Hưng muốn tìm hiểu về cách sử dụng danh mục đầu tư như thế nào ạ? Em có thể giúp anh tìm hiểu thông tin hoặc hướng dẫn anh một số bước cơ bản nếu anh muốn.",
+    "chỉ a với": "Dạ được ạ. Anh muốn tìm hiểu khía cạnh nào của việc sử dụng danh mục đầu tư vậy anh? Ví dụ như cách lập danh mục, cách phân bổ tài sản, hay cách theo dõi hiệu quả đầu tư?  Em sẽ cố gắng giúp anh hết sức có thể."
   }
 }

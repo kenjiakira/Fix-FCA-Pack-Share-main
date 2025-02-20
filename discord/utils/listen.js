@@ -64,7 +64,6 @@ const handleListenEvents = async (client) => {
         try {
             if (message.author.bot) return;
 
-            // Check if message is in main chat
             if (message.channel.id === RESTRICTED_CHANNELS.MAIN_CHAT) {
                 if (!checkBotAdmin(message.author.id) && message.content.startsWith(config.prefix)) {
                     await message.delete().catch(() => {});
@@ -76,7 +75,6 @@ const handleListenEvents = async (client) => {
                 }
             }
 
-            // Check if message is in game channels
             if (Object.values(RESTRICTED_CHANNELS.GAME_CHANNELS).includes(message.channel.id)) {
                 const content = message.content.toLowerCase();
                 const allowedCommands = CHANNEL_COMMANDS[message.channel.id];
@@ -177,30 +175,6 @@ const handleListenEvents = async (client) => {
 
         } catch (error) {
             logBotEvent('MESSAGE_ERROR', `Error handling message: ${error.message}`);
-        }
-    });
-
-    client.on('messageReactionAdd', async (reaction, user) => {
-        try {
-            if (user.bot) return;
-            if (reaction.partial) await reaction.fetch();
-
-            if (reaction.emoji.name === '👋') {
-                reaction.message.channel.send(`👋 Chào bạn ${user}!`);
-            }
-        } catch (error) {
-            logBotEvent('REACTION_ERROR', `Error handling reaction: ${error.message}`);
-        }
-    });
-
-    client.on('guildMemberAdd', async (member) => {
-        try {
-            const welcomeChannel = member.guild.systemChannel;
-            if (welcomeChannel) {
-                welcomeChannel.send(`👋 Chào mừng ${member} đã tham gia server!`);
-            }
-        } catch (error) {
-            logBotEvent('WELCOME_ERROR', `Error handling member join: ${error.message}`);
         }
     });
 };

@@ -1,26 +1,46 @@
 const fs = require('fs');
 const path = require('path');
+const { logBotEvent } = require('./logs');
 
 function loadCommands(client) {
-    const commandsPath = path.join(__dirname, '../commands');
-    const commandFiles = fs.readdirSync(commandsPath).filter(file => file.endsWith('.js'));
+    try {
+        client.commands.clear();
 
-    for (const file of commandFiles) {
-        try {
-            const filePath = path.join(commandsPath, file);
-            delete require.cache[require.resolve(filePath)];
-            const command = require(filePath);
+        const commandsPath = path.join(__dirname, '../commands');
+        const commandFiles = fs.readdirSync(commandsPath).filter(file => file.endsWith('.js'));
 
-            if (!command.name || !command.execute) {
-                console.log(`[WARNING] Command ${file} missing required properties`);
-                continue;
+        for (const file of commandFiles) {
+            try {
+                const filePath = path.join(commandsPath, file);
+                
+                delete require.cache[require.resolve(filePath)];
+                
+                const command = require(filePath);
+                
+                if ('name' in command && 'execute' in command) {
+                    client.commands.set(command.name, command);
+                    
+                    if (command.aliases) {
+                        command.aliases.forEach(alias => {
+                            client.commands.set(alias, command);
+                        });
+                    }
+
+                    if (typeof command.onLoad === 'function') {
+                        command.onLoad(client);
+                    }
+
+                    logBotEvent('COMMAND_LOAD', `Loaded command: ${command.name}`);
+                }
+            } catch (error) {
+                logBotEvent('COMMAND_LOAD_ERROR', `Error loading ${file}: ${error.message}`);
             }
-
-            client.commands.set(command.name, command);
-            console.log(`✓ Loaded command: ${command.name}`);
-        } catch (error) {
-            console.error(`[ERROR] Failed to load ${file}:`, error);
         }
+
+        return true;
+    } catch (error) {
+        logBotEvent('COMMANDS_LOAD_ERROR', `Failed to load commands: ${error.message}`);
+        return false;
     }
 }
 
