@@ -630,7 +630,8 @@ module.exports = {
                 uncommon: location.fish.uncommon || 0,
                 rare: location.fish.rare || 0,
                 legendary: location.fish.legendary || 0,
-                mythical: location.fish.mythical || 0
+                mythical: location.fish.mythical || 0,
+                cosmic: location.fish.cosmic || 0
             };
                 
             if (vipBenefits) {
@@ -641,6 +642,7 @@ module.exports = {
                 chances.rare *= (1 + rareBonus);
                 chances.legendary *= (1 + rareBonus);
                 chances.mythical *= (1 + rareBonus);
+                chances.cosmic *= (1 + rareBonus * 1.5);
 
                 chances.common *= (1 - rareBonus * 0.3);
                 chances.uncommon *= (1 - rareBonus * 0.2);
@@ -689,11 +691,15 @@ module.exports = {
             }
 
             const fish = fishArray[Math.floor(Math.random() * fishArray.length)];
-            const baseExp = type === 'trash' ? 1 :
+            const baseExp = fish.exp || (
+                type === 'trash' ? 1 :
                 type === 'common' ? 5 :
                 type === 'uncommon' ? 10 :
                 type === 'rare' ? 20 :
-                type === 'legendary' ? 50 : 100;
+                type === 'legendary' ? 50 :
+                type === 'mythical' ? 100 :
+                type === 'cosmic' ? 200 : 5
+            );
 
             const baseValue = fish.value * multiplier * (1 + vipBonus);
             const taxRate = this.calculateTaxRate(type, baseValue);
@@ -730,13 +736,15 @@ module.exports = {
             uncommon: 0.04, 
             rare: 0.6,    
             legendary: 0.8,
-            mythical: 0.12   
+            mythical: 0.12,
+            cosmic: 0.15
         };
 
         let progressiveTax = 0;
         if (value > 1000000) progressiveTax = 0.02;   
         if (value > 5000000) progressiveTax = 0.5;     
-        if (value > 10000000) progressiveTax = 0.8;   
+        if (value > 10000000) progressiveTax = 0.8;
+        if (value > 25000000) progressiveTax = 1.0;
 
         return Math.min(0.05, (baseTaxRates[type] || 0.01) + progressiveTax);
     },

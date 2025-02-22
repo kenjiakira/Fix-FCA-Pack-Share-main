@@ -1,13 +1,13 @@
 {
   "6589198804475799": {
-    "notifications": true,
+    "notifications": false,
     "welcomeMessage": "chào con vợ {userName} đã đến với {threadName} của anh",
     "leaveMessage": "👋 {userName} {actionType}.\n👥 Thành viên còn lại: {memberCount}",
-    "notify_admin": true,
-    "notify_avatar": true,
+    "notify_admin": false,
+    "notify_avatar": false,
     "notify_color": false,
-    "notify_name": true,
-    "notify_nick": true
+    "notify_name": false,
+    "notify_nick": false
   },
   "8704938436228026": {
     "notifications": false,

@@ -3,8 +3,8 @@ const TRADING_RESTRICTIONS = {
 
     coolingPeriod: 30 * 60 * 1000, 
     priceLimit: {
-        dailyChange: 0.15,  // Increased from 7% to 15% to allow trading at 5% change
-        circuitBreaker: 0.20, // Increased circuit breaker accordingly
+        dailyChange: 0.15,
+        circuitBreaker: 0.20, 
         minPrice: 1000 
     },
     penalties: {

@@ -4,33 +4,66 @@
     "type": "CAT",
     "name": "Mèo",
     "level": 1,
-    "exp": 0,
-    "hunger": 99.9701888888889,
-    "happiness": 99.99373,
-    "lastFed": 1740023123993,
-    "lastPetted": 1740023123993,
-    "lastReward": 1740022905958
+    "exp": 37,
+    "hunger": 86.0717138888889,
+    "happiness": 91.65439583333333,
+    "lastFed": 1740119472737,
+    "lastPetted": 1740119472737,
+    "lastReward": 1740119472391
   },
   "1092479856257814648": {
     "type": "CAT",
     "name": "Mèo",
     "level": 1,
-    "exp": 0,
-    "hunger": 99.83286111111111,
-    "happiness": 99.89971666666666,
-    "lastFed": 1740023123776,
-    "lastPetted": 1740023123776,
-    "lastReward": 1740023003436
+    "exp": 27,
+    "hunger": 99.95390277777778,
+    "happiness": 99.99083416666666,
+    "lastFed": 1740118867057,
+    "lastPetted": 1740118867057,
+    "lastReward": 1740118861350
   },
   "849533072566648833": {
     "type": "CAT",
     "name": "Mèo",
     "level": 1,
+    "exp": 14,
+    "hunger": 99.97263333333332,
+    "happiness": 99.98131749999999,
+    "lastFed": 1740145222539,
+    "lastPetted": 1740145222539,
+    "lastReward": 1740145219209
+  },
+  "884766804117958697": {
+    "type": "DOG",
+    "name": "Chó",
+    "level": 1,
+    "exp": 9,
+    "hunger": 99.99262361111111,
+    "happiness": 99.96997833333333,
+    "lastFed": 1740122019245,
+    "lastPetted": 1740122019245,
+    "lastReward": 1740121990705
+  },
+  "881739615453716501": {
+    "type": "CAT",
+    "name": "Mèo",
+    "level": 1,
+    "exp": 14,
+    "hunger": 99.99035555555555,
+    "happiness": 99.98664083333333,
+    "lastFed": 1740138608186,
+    "lastPetted": 1740138608186,
+    "lastReward": 1740138607772
+  },
+  "744066078312890520": {
+    "type": "CAT",
+    "name": "Mèo",
+    "level": 1,
     "exp": 0,
-    "hunger": 99.990425,
-    "happiness": 99.94237416666667,
-    "lastFed": 1740037101062,
-    "lastPetted": 1740037101062,
-    "lastReward": 1740037031911
+    "hunger": 100,
+    "happiness": 100,
+    "lastFed": 1740117374242,
+    "lastPetted": 1740117374242,
+    "lastReward": 1740117374242
   }
 }

@@ -183,6 +183,32 @@
       "status": "pending",
       "createdAt": "2025-02-20T06:56:38.450Z",
       "expiresAt": "2025-02-21T06:56:38.450Z"
+    },
+    {
+      "transactionId": "EX174003844771924z80",
+      "timestamp": "2025-02-20T08:00:47.720Z",
+      "discordId": "522035419945107477",
+      "discordUsername": "thatnotme123",
+      "messengerId": "100006842495827",
+      "nitroAmount": 1000,
+      "xuAmount": 100000,
+      "status": "completed",
+      "createdAt": "2025-02-20T08:00:47.720Z",
+      "expiresAt": "2025-02-21T08:00:47.720Z",
+      "claimedAt": "2025-02-20T08:03:51.367Z"
+    },
+    {
+      "transactionId": "EX1740116492723lizf4",
+      "timestamp": "2025-02-21T05:41:32.723Z",
+      "discordId": "884766804117958697",
+      "discordUsername": "anhbabeo142",
+      "messengerId": "100055074463541",
+      "nitroAmount": 100,
+      "xuAmount": 10000,
+      "status": "completed",
+      "createdAt": "2025-02-21T05:41:32.723Z",
+      "expiresAt": "2025-02-22T05:41:32.723Z",
+      "claimedAt": "2025-02-21T05:42:08.153Z"
     }
   ]
 }

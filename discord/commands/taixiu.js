@@ -1,8 +1,7 @@
 const { getBalance, updateBalance } = require('../utils/currencies'); 
 const fs = require('fs');
 const path = require('path');
-const { EmbedBuilder, ActionRowBuilder, ButtonBuilder, ButtonStyle, AttachmentBuilder } = require('discord.js');
-const { createCanvas, loadImage } = require('canvas');
+const { EmbedBuilder, ActionRowBuilder, ButtonBuilder, ButtonStyle } = require('discord.js');
 const BETTING_TIME = 60000;
 const NO_BETTING_WINDOW = 10000; 
 const ALLOWED_CHANNEL = '1341367963004960851';
@@ -14,15 +13,6 @@ let sessionTimer = null;
 let resultTimer = null;
 let gameHistory = [];
 let lastSessionId = 0;
-
-const DICE_IMAGES = {
-    1: 'https://imgur.com/q4APzUj.png',
-    2: 'https://imgur.com/G7ehIO9.png',
-    3: 'https://imgur.com/kD8Dh7Q.png',
-    4: 'https://imgur.com/XM9skoz.png',
-    5: 'https://imgur.com/QCujL6x.png',
-    6: 'https://imgur.com/IyM5Yc4.png'
-};
 
 function loadHistory() {
     try {
@@ -38,6 +28,7 @@ function loadHistory() {
     }
 }
 
+// Save game history to file
 function saveHistory() {
     try {
         fs.writeFileSync(HISTORY_FILE, JSON.stringify({
@@ -66,41 +57,23 @@ class TaixiuSession {
         this.active = true;
         this.endTime = Date.now() + BETTING_TIME;
         this.message = null;
+        this.lastUpdate = 0;
     }
 
     placeBet(userId, choice, amount) {
         try {
-            if (!this.active) {
-                console.log('Session not active');
-                return false;
-            }
+            if (!this.active) return false;
             
             const timeLeft = this.endTime - Date.now();
-            if (timeLeft <= NO_BETTING_WINDOW) {
-                console.log(`Cannot bet - too close to end: ${timeLeft}ms left`);
-                return false;
-            }
+            if (timeLeft <= NO_BETTING_WINDOW) return false;
 
-            // Validate bet amount
-            if (typeof amount !== 'number' || isNaN(amount) || amount <= 0) {
-                console.log(`Invalid bet amount: ${amount}`);
-                return false;
-            }
-
-            // Validate choice
-            if (!['tai', 'xiu'].includes(choice)) {
-                console.log(`Invalid choice: ${choice}`);
-                return false;
-            }
+            if (typeof amount !== 'number' || isNaN(amount) || amount <= 0) return false;
+            if (!['tai', 'xiu'].includes(choice)) return false;
 
             const currentBet = this.bets[choice].get(userId) || 0;
             const newAmount = currentBet + amount;
 
-            // Additional validation for total bet
-            if (isNaN(newAmount) || newAmount <= 0) {
-                console.log(`Invalid total bet amount: ${newAmount}`);
-                return false;
-            }
+            if (isNaN(newAmount) || newAmount <= 0) return false;
 
             this.bets[choice].set(userId, newAmount);
             return true;
@@ -126,6 +99,15 @@ class TaixiuSession {
             .map(([userId, amount]) => `<@${userId}> • ${amount.toLocaleString('vi-VN')}`)
             .join('\n');
     }
+
+    shouldUpdate() {
+        const now = Date.now();
+        if (now - this.lastUpdate >= 1000) {
+            this.lastUpdate = now;
+            return true;
+        }
+        return false;
+    }
 }
 
 function getHistoryDisplay() {
@@ -142,12 +124,10 @@ function createProgressBar(current, total, size = 15) {
     return `[${filled}${empty}]`;
 }
 
-const messageQueue = require('../utils/messageQueue');
-
 async function updateSessionMessage(channel) {
-    if (!currentSession?.message) return;
+    if (!currentSession?.message || !currentSession.shouldUpdate()) return;
 
-    const updateFunction = async (message) => {
+    try {
         const totalPlayers = currentSession.getBettingPlayers().size;
         const timeLeft = Math.max(0, Math.ceil((currentSession.endTime - Date.now()) / 1000));
         const totalTime = BETTING_TIME / 1000;
@@ -230,39 +210,54 @@ async function updateSessionMessage(channel) {
                     .setStyle(ButtonStyle.Danger)
             );
 
-        await message.edit({
-            embeds: [embed],
-            components: timeLeft <= NO_BETTING_WINDOW / 1000 ? [] : [row1, row2, row3]
-        });
-    };
+        const components = timeLeft <= NO_BETTING_WINDOW / 1000 ? [] : [row1, row2, row3];
 
-    // Add update to queue instead of executing directly
-    messageQueue.add(currentSession.message, updateFunction);
+        await currentSession.message.edit({
+            embeds: [embed],
+            components
+        }).catch(error => {
+            console.error('Error updating session message:', error);
+        });
+    } catch (error) {
+        console.error('Error in updateSessionMessage:', error);
+    }
 }
 
 function setupButtonHandlers(message) {
-    const collector = message.channel.createMessageComponentCollector({
-        filter: i => i.message.id === currentSession?.message?.id
+    const collector = message.createMessageComponentCollector({
+        filter: i => i.message.id === currentSession?.message?.id,
+        time: BETTING_TIME
     });
 
-    const playerChoices = new Map(); 
+    const playerChoices = new Map();
+    const playerLastBet = new Map();
 
     collector.on('collect', async (interaction) => {
         try {
             if (!currentSession?.active) {
                 return interaction.reply({
                     content: '❌ Phiên đã kết thúc!',
-                    flags: ['Ephemeral']
+                    ephemeral: true
                 });
             }
 
+            const now = Date.now();
             const userId = interaction.user.id;
-            const balance = getBalance(userId); 
+            const lastBet = playerLastBet.get(userId) || 0;
 
+            // Rate limit check
+            if (now - lastBet < 500) {
+                return interaction.reply({
+                    content: '❌ Vui lòng đợi giây lát rồi đặt tiếp!',
+                    ephemeral: true
+                });
+            }
+
+            const balance = getBalance(userId);
             if (balance <= 0) {
                 return interaction.reply({
-                    content: '❌ Bạn không có đủ Nitro để tham gia! Hãy nhận thưởng daily hoặc nạp thêm.',
-                    flags: ['Ephemeral']
+                    content: '❌ Bạn không có đủ Nitro để tham gia!',
+                    ephemeral: true
                 });
             }
 
@@ -270,11 +265,10 @@ function setupButtonHandlers(message) {
                 const choice = interaction.customId.slice(4);
                 
                 if (choice === 'tai' || choice === 'xiu') {
-
                     playerChoices.set(userId, choice);
                     await interaction.reply({
                         content: `✅ Đã chọn ${choice === 'tai' ? 'TÀI 🔴' : 'XỈU ⚪'}! Vui lòng chọn số tiền cược.`,
-                        flags: ['Ephemeral']
+                        ephemeral: true
                     });
                     return;
                 }
@@ -283,7 +277,7 @@ function setupButtonHandlers(message) {
                 if (!playerChoice) {
                     return interaction.reply({
                         content: '❌ Vui lòng chọn Tài hoặc Xỉu trước!',
-                        flags: ['Ephemeral']
+                        ephemeral: true
                     });
                 }
 
@@ -303,37 +297,41 @@ function setupButtonHandlers(message) {
                 if (amount === 0) {
                     return interaction.reply({
                         content: '❌ Không thể đặt cược số tiền bằng 0!',
-                        flags: ['Ephemeral']
+                        ephemeral: true
                     });
                 }
 
                 if (balance < amount) {
                     return interaction.reply({
                         content: '❌ Số dư không đủ!',
-                        flags: ['Ephemeral']
+                        ephemeral: true
                     });
                 }
+
+                playerLastBet.set(userId, now);
 
                 if (currentSession.placeBet(userId, playerChoice, amount)) {
                     await interaction.reply({
-                        content: `✅ Đặt cược ${amount.toLocaleString('vi-VN')} Nitro vào ${playerChoice === 'tai' ? 'TÀI 🔴' : 'XỈU ⚪'} thành công!\nBạn có thể tiếp tục đặt cược số tiền khác.`,
-                        flags: ['Ephemeral']
+                        content: `✅ Đặt cược ${amount.toLocaleString('vi-VN')} Nitro vào ${playerChoice === 'tai' ? 'TÀI 🔴' : 'XỈU ⚪'} thành công!`,
+                        ephemeral: true
                     });
-                    return;
+                    
+                    // Update message after successful bet
+                    setTimeout(() => updateSessionMessage(message.channel), 100);
                 }
             }
-
         } catch (error) {
             console.error('Button interaction error:', error);
-            interaction.reply({
+            await interaction.reply({
                 content: '❌ Đã xảy ra lỗi! Vui lòng thử lại.',
-                flags: ['Ephemeral']
-            });
+                ephemeral: true
+            }).catch(() => {});
         }
     });
 
     collector.on('end', () => {
         playerChoices.clear();
+        playerLastBet.clear();
     });
 }
 
@@ -347,104 +345,47 @@ async function cleanOldMessages(channel) {
         
         for (const message of oldMessages.values()) {
             try {
-                if (message.deletable) {
-                    await message.delete().catch(() => {});
-                }
+                await message.delete().catch(() => {});
+                await new Promise(resolve => setTimeout(resolve, 100));
             } catch (error) {
-                
                 if (error.code !== 10008) {
-                    console.error(`Error deleting message ${message.id}:`, error.message);
+                    console.error(`Error deleting message ${message.id}:`, error);
                 }
             }
-        
-            await new Promise(resolve => setTimeout(resolve, 100));
         }
     } catch (error) {
-        console.error('Error in cleanOldMessages:', error.message);
+        console.error('Error in cleanOldMessages:', error);
     }
 }
 
 async function startNewSession(channel) {
     if (channel.id !== ALLOWED_CHANNEL) return;
 
-    await cleanOldMessages(channel);
-
-    
     try {
-        if (sessionTimer) {
-            clearTimeout(sessionTimer);
-            sessionTimer = null;
-        }
-        if (resultTimer) {
-            clearTimeout(resultTimer);
-            resultTimer = null;
-        }
-    } catch (error) {
-        console.error('Error clearing timers:', error);
-    }
+        await cleanOldMessages(channel);
 
-  
-    if (currentSession?.message) {
-        try {
-            if (currentSession.message.deletable) {
-                await currentSession.message.delete().catch(() => {
-           
-                    console.log('Previous message already deleted or not found');
-                });
-            }
-        } catch (error) {
+        if (sessionTimer) clearTimeout(sessionTimer);
+        if (resultTimer) clearTimeout(resultTimer);
+
+        if (currentSession?.message) {
+            await currentSession.message.delete().catch(() => {});
+        }
+
+        const waitMsg = await channel.send('⏳ Chờ phiên mới...');
         
-            if (error.code !== 10008) {
-                console.error('Other error deleting message:', error);
-            }
-        }
-    }
-    
-   
-    let waitMsg;
-    try {
-        waitMsg = await channel.send('⏳ Chờ phiên mới...');
-    } catch (error) {
-        console.error('Error sending wait message:', error);
-        return;
-    }
-    
- 
-    for(let i = 10; i > 0; i--) {
-        try {
-            if (waitMsg.deletable) {
-                await waitMsg.edit(`⏳ Phiên mới bắt đầu sau ${i}s...`);
-            }
+        for(let i = 5; i > 0; i--) {
+            await waitMsg.edit(`⏳ Phiên mới bắt đầu sau ${i}s...`).catch(() => {});
             await new Promise(resolve => setTimeout(resolve, 1000));
-        } catch (error) {
-            console.error('Error updating wait message:', error);
-            break;
         }
-    }
-    
-    try {
-        if (waitMsg.deletable) {
-            await waitMsg.delete().catch(() => {});
-        }
-    } catch (error) {
-        if (error.code !== 10008) {
-            console.error('Error deleting wait message:', error);
-        }
-    }
+        
+        await waitMsg.delete().catch(() => {});
 
-  
-    currentSession = new TaixiuSession();
-    currentSession.endTime = Date.now() + BETTING_TIME;
-    currentSession.active = true;
+        currentSession = new TaixiuSession();
 
-  
-    const initialProgressBar = createProgressBar(BETTING_TIME / 1000, BETTING_TIME / 1000);
-
-    try {
         const embed = new EmbedBuilder()
             .setColor(0x2B2D31)
             .setTitle(`🎲 Phiên ${currentSession.id}`)
-            .setDescription(initialProgressBar)
+            .setDescription(createProgressBar(BETTING_TIME / 1000, BETTING_TIME / 1000))
             .addFields([
                 {
                     name: '⏱️ Thời gian còn lại',
@@ -459,11 +400,6 @@ async function startNewSession(channel) {
                 {
                     name: '📊 Lịch sử',
                     value: getHistoryDisplay() || 'Chưa có dữ liệu',
-                    inline: false
-                },
-                {
-                    name: '📝 Hướng dẫn',
-                    value: '`.tx <tài/xỉu> <số tiền>`',
                     inline: false
                 }
             ])
@@ -522,14 +458,13 @@ async function startNewSession(channel) {
                     .setStyle(ButtonStyle.Danger)
             );
 
-        currentSession.message = await channel.send({ 
+        currentSession.message = await channel.send({
             embeds: [embed],
             components: [row1, row2, row3]
         });
 
         setupButtonHandlers(currentSession.message);
 
-    
         const updateInterval = setInterval(() => {
             if (!currentSession?.active) {
                 clearInterval(updateInterval);
@@ -538,58 +473,52 @@ async function startNewSession(channel) {
             updateSessionMessage(channel);
         }, 1000);
 
-    
         sessionTimer = setTimeout(async () => {
-            if (!currentSession?.active) return; 
+            if (!currentSession?.active) return;
+            
             try {
                 currentSession.active = false;
                 clearInterval(updateInterval);
-                
+
                 const dice1 = Math.floor(Math.random() * 6) + 1;
                 const dice2 = Math.floor(Math.random() * 6) + 1;
                 const dice3 = Math.floor(Math.random() * 6) + 1;
                 const total = dice1 + dice2 + dice3;
                 const result = total >= 11 ? 'tai' : 'xiu';
-                
-                const diceImageBuffer = await createDiceImage(dice1, dice2, dice3);
-                const attachment = new AttachmentBuilder(diceImageBuffer, { name: 'dice.png' });
 
                 const losingChoice = result === 'tai' ? 'xiu' : 'tai';
-
                 const winners = currentSession.bets[result].size;
                 const losers = currentSession.bets[losingChoice].size;
                 let totalWinAmount = 0;
                 let totalLossAmount = 0;
 
+                // Process winners
                 for (const [userId, betAmount] of currentSession.bets[result].entries()) {
-                    const winnings = Math.floor(betAmount * 1.95); 
+                    const winnings = Math.floor(betAmount * 1.95);
                     totalWinAmount += winnings;
-                    addBalance(userId, winnings);
+                    updateBalance(userId, winnings);
                 }
-                
+
+                // Process losers
                 for (const [userId, betAmount] of currentSession.bets[losingChoice].entries()) {
                     totalLossAmount += betAmount;
                     const currentBalance = getBalance(userId);
-                    if (currentBalance < betAmount) {
-                        addBalance(userId, -currentBalance);
-                    } else {
-                        addBalance(userId, -betAmount);
-                    }
+                    updateBalance(userId, -Math.min(betAmount, currentBalance));
                 }
 
+                // Update history
                 gameHistory.push(result);
                 if (gameHistory.length > MAX_HISTORY) gameHistory.shift();
                 saveHistory();
-                
+
                 const resultEmbed = new EmbedBuilder()
                     .setColor(result === 'tai' ? 0xFF0000 : 0xFFFFFF)
                     .setTitle(`🎲 Kết quả phiên ${currentSession.id}`)
-                    .setImage('attachment://dice.png')
                     .addFields([
                         {
                             name: '🎯 Thông tin phiên',
                             value: [
-                                `Xúc xắc: ${dice1} + ${dice2} + ${dice3} = ${total}`,
+                                `Xúc xắc: ${dice1} • ${dice2} • ${dice3} = ${total}`,
                                 `Kết quả: ${result === 'tai' ? 'TÀI 🔴' : 'XỈU ⚪'}`
                             ].join('\n'),
                             inline: false
@@ -597,8 +526,8 @@ async function startNewSession(channel) {
                         {
                             name: '📊 Thống kê',
                             value: [
-                                `Người thắng: ${winners} người`,
-                                `Người thua: ${losers} người`,
+                                `Người thắng: ${winners}`,
+                                `Người thua: ${losers}`,
                                 `Tổng thắng: ${totalWinAmount.toLocaleString('vi-VN')} Nitro`,
                                 `Tổng thua: ${totalLossAmount.toLocaleString('vi-VN')} Nitro`
                             ].join('\n'),
@@ -608,59 +537,30 @@ async function startNewSession(channel) {
                     .setTimestamp()
                     .setFooter({ text: `Bot Tài Xỉu by HN • Phiên ${currentSession.id}` });
 
-                const resultMsg = await channel.send({ 
-                    embeds: [resultEmbed],
-                    files: [attachment]
+                const resultMsg = await channel.send({
+                    embeds: [resultEmbed]
                 });
 
-        resultTimer = setTimeout(async () => {
-            try {
-                if (resultMsg?.deletable) {
-                    await resultMsg.delete().catch(() => {});
-                }
-                if (!currentSession?.active) {
-                    await startNewSession(channel);
-                }
-            } catch (error) {
-                console.error('Error in result timer:', error);
-                if (!currentSession?.active) {
-                    resultTimer = setTimeout(() => startNewSession(channel), 10000);
-                }
-            }
-        }, 10000);
+                resultTimer = setTimeout(async () => {
+                    try {
+                        await resultMsg.delete().catch(() => {});
+                        await startNewSession(channel);
+                    } catch (error) {
+                        console.error('Error in result timer:', error);
+                        setTimeout(() => startNewSession(channel), 5000);
+                    }
+                }, 10000);
+
             } catch (error) {
                 console.error('Error in session end:', error);
+                setTimeout(() => startNewSession(channel), 5000);
             }
         }, BETTING_TIME);
 
     } catch (error) {
         console.error('Error starting new session:', error);
-        currentSession = null; 
-        if (!currentSession?.active) {
-            resultTimer = setTimeout(() => startNewSession(channel), 5000);
-        }
+        setTimeout(() => startNewSession(channel), 5000);
     }
-}
-
-async function createDiceImage(dice1, dice2, dice3) {
-    const canvas = createCanvas(384, 128); 
-    const ctx = canvas.getContext('2d');
-
-
-    const dice1Img = await loadImage(DICE_IMAGES[dice1]);
-    const dice2Img = await loadImage(DICE_IMAGES[dice2]);
-    const dice3Img = await loadImage(DICE_IMAGES[dice3]);
-
-   
-    ctx.drawImage(dice1Img, 0, 0, 128, 128);
-    ctx.drawImage(dice2Img, 128, 0, 128, 128);
-    ctx.drawImage(dice3Img, 256, 0, 128, 128);
-
-    return canvas.toBuffer();
-}
-
-function addBalance(userId, amount) {
-    return updateBalance(userId, amount); 
 }
 
 loadHistory();

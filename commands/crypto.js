@@ -12,10 +12,12 @@ module.exports = {
     onPrefix: true,
     usedby: 0,
     dmUser: false,
-    nickName: ['crypto', 'bitcoin'],
-    usages: 'crypto\n\nHướng dẫn sử dụng:\n' +
+    nickName: ['crypto', 'bitcoin', 'coin'],
+    usages: 'crypto [symbol] [timeframe]\n\nHướng dẫn sử dụng:\n' +
         '1. Gõ lệnh `crypto` để xem giá các đồng tiền điện tử phổ biến và biểu đồ.\n' +
-        '2. Thông tin được cập nhật theo thời gian thực.',
+        '2. Gõ `crypto [symbol]` để xem thông tin chi tiết về một đồng tiền cụ thể (ví dụ: crypto btc).\n' +
+        '3. Gõ `crypto [symbol] [timeframe]` để xem biểu đồ theo khung thời gian (1d, 7d, 30d).\n' +
+        '4. Thông tin được cập nhật theo thời gian thực.',
     cooldowns: 10,
 
     CRYPTO_LIST: [
@@ -26,11 +28,36 @@ module.exports = {
         { id: 'cardano', symbol: 'ADA', icon: '🔷' },
         { id: 'dogecoin', symbol: 'DOGE', icon: '🐶' },
         { id: 'polkadot', symbol: 'DOT', icon: '⭕' },
-        { id: 'ripple', symbol: 'XRP', icon: '💫' }
+        { id: 'ripple', symbol: 'XRP', icon: '💫' },
+        { id: 'avalanche-2', symbol: 'AVAX', icon: '❄️' },
+        { id: 'chainlink', symbol: 'LINK', icon: '⛓️' },
+        { id: 'polygon', symbol: 'MATIC', icon: '🔮' },
+        { id: 'uniswap', symbol: 'UNI', icon: '🦄' }
     ],
 
+    TIMEFRAMES: {
+        '1d': { days: '1', label: '24 giờ' },
+        '7d': { days: '7', label: '7 ngày' },
+        '30d': { days: '30', label: '30 ngày' }
+    },
+
     formatCurrency: (number) => {
-        return new Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' }).format(number);
+        return new Intl.NumberFormat('vi-VN', { 
+            style: 'currency', 
+            currency: 'VND',
+            maximumFractionDigits: 0 
+        }).format(number);
+    },
+
+    formatNumber: (number) => {
+        if (number >= 1e9) {
+            return (number / 1e9).toFixed(2) + 'B';
+        } else if (number >= 1e6) {
+            return (number / 1e6).toFixed(2) + 'M';
+        } else if (number >= 1e3) {
+            return (number / 1e3).toFixed(2) + 'K';
+        }
+        return number.toFixed(2);
     },
 
     formatPercentage: (value) => {
@@ -54,14 +81,13 @@ module.exports = {
         return result;
     },
 
-    generateChart: async function (chartData, timeRange, cryptoSymbol) {
-
-        const title = `${cryptoSymbol.toUpperCase()} - ${timeRange} Ngày`
+    generateChart: async function (chartData, timeRange, cryptoSymbol, cryptoName) {
         const width = 1500; 
         const height = 900;
         const canvas = createCanvas(width, height);
         const ctx = canvas.getContext('2d');
 
+        // Enhanced background gradient
         const bgGradient = ctx.createLinearGradient(0, 0, width, height);
         bgGradient.addColorStop(0, '#1a237e');
         bgGradient.addColorStop(0.5, '#000051');
@@ -69,6 +95,7 @@ module.exports = {
         ctx.fillStyle = bgGradient;
         ctx.fillRect(0, 0, width, height);
 
+        // Enhanced grid
         ctx.strokeStyle = 'rgba(255, 255, 255, 0.07)';
         ctx.lineWidth = 0.8;
         for (let i = 0; i < width; i += 50) {
@@ -224,7 +251,7 @@ module.exports = {
                         displayColors: true,
                         callbacks: {
                             label: function(context) {
-                                if (context.dataset.label === `Giá ${cryptoName}`) {
+                                if (context.dataset.label === `Giá ${cryptoSymbol}`) {
                                     return `Giá: $${context.parsed.y.toLocaleString('en-US', {
                                         minimumFractionDigits: 2,
                                         maximumFractionDigits: 2
@@ -302,55 +329,115 @@ module.exports = {
 
     onLaunch: async function ({ api, event, target }) {
         try {
-            const cryptoName = target[0]?.toLowerCase() || 'bitcoin';
-            const crypto = this.CRYPTO_LIST.find(c => c.symbol.toLowerCase() === cryptoName || c.id === cryptoName);
-    
+            let cryptoName = target[0]?.toLowerCase() || 'bitcoin';
+            let timeframe = target[1]?.toLowerCase() || '1d';
+
+            // Handle symbol input (e.g., 'btc' instead of 'bitcoin')
+            const crypto = this.CRYPTO_LIST.find(c => 
+                c.symbol.toLowerCase() === cryptoName || 
+                c.id.toLowerCase() === cryptoName
+            );
+
             if (!crypto) {
-                await api.sendMessage(`Không tìm thấy thông tin về loại "${cryptoName}". Vui lòng thử tên có trong danh sách.`, event.threadID);
+                const availableSymbols = this.CRYPTO_LIST.map(c => c.symbol).join(', ');
+                await api.sendMessage(
+                    `Không tìm thấy thông tin về loại "${cryptoName}".\n` +
+                    `Các mã có sẵn: ${availableSymbols}`, 
+                    event.threadID
+                );
                 return;
             }
-    
+
+            // Validate timeframe
+            if (!this.TIMEFRAMES[timeframe]) {
+                const availableTimeframes = Object.keys(this.TIMEFRAMES).join(', ');
+                await api.sendMessage(
+                    `Khung thời gian "${timeframe}" không hợp lệ.\n` +
+                    `Các khung thời gian có sẵn: ${availableTimeframes}`,
+                    event.threadID
+                );
+                return;
+            }
+
+            // Fetch detailed crypto data
+            const detailResponse = await axios.get(`https://api.coingecko.com/api/v3/coins/${crypto.id}`, {
+                params: {
+                    localization: false,
+                    tickers: false,
+                    community_data: false,
+                    developer_data: false,
+                    sparkline: false
+                }
+            });
+
+            // Fetch prices for all cryptos
             const pricesResponse = await axios.get(`https://api.coingecko.com/api/v3/simple/price`, {
                 params: {
                     ids: this.CRYPTO_LIST.map(c => c.id).join(','),
                     vs_currencies: 'usd',
-                    include_24h_change: true
+                    include_24h_change: true,
+                    include_24h_vol: true,
+                    include_market_cap: true
                 }
             });
-    
+
+            // Get VND exchange rate
             const exchangeRateResponse = await axios.get('https://openexchangerates.org/api/latest.json?app_id=61633cc8176742a4b1a470d0d93df6df');
             const exchangeRateVND = exchangeRateResponse.data.rates.VND || 0;
-    
+
             if (exchangeRateVND === 0) {
                 throw new Error('Không thể lấy tỉ giá VND');
             }
-    
-            let message = `SÀN GIAO DỊCH - ${crypto.symbol}\n━━━━━━━━━━━━━━━━━━\n\n`;
-    
-            const priceUSD = pricesResponse?.data[crypto.id]?.usd || 0;
-            if (priceUSD === 0) {
-                throw new Error(`Không thể lấy giá cho ${crypto.symbol}`);
-            }
+
+            const cryptoData = pricesResponse.data[crypto.id];
+            const priceUSD = cryptoData?.usd || 0;
             const priceVND = priceUSD * exchangeRateVND;
-    
-            message += `${crypto.icon} ${crypto.symbol}\n`;
-            message += `💵 ${priceUSD.toFixed(2)} USD\n`;
-            message += `💰 ${this.formatCurrency(priceVND)}\n\n`;
-    
+            const change24h = cryptoData?.usd_24h_change || 0;
+            const marketCap = cryptoData?.usd_market_cap || 0;
+            const volume24h = cryptoData?.usd_24h_vol || 0;
+
+            let message = `${crypto.icon} ${crypto.symbol.toUpperCase()} - ${detailResponse.data.name}\n`;
+            message += `━━━━━━━━━━━━━━━━━━\n\n`;
+            message += `💵 Giá USD: $${priceUSD.toLocaleString()}\n`;
+            message += `💰 Giá VND: ${this.formatCurrency(priceVND)}\n`;
+            message += `📊 Thay đổi 24h: ${this.formatPercentage(change24h)}\n`;
+            message += `📈 Vốn hóa: $${this.formatNumber(marketCap)}\n`;
+            message += `💹 Khối lượng 24h: $${this.formatNumber(volume24h)}\n\n`;
+
+            // Fetch chart data
+            const { days, label } = this.TIMEFRAMES[timeframe];
             const chartResponse = await axios.get(`https://api.coingecko.com/api/v3/coins/${crypto.id}/market_chart`, {
-                params: { vs_currency: 'usd', days: '3' }
+                params: { 
+                    vs_currency: 'usd', 
+                    days: days
+                }
             });
-    
-            const chartPath = await this.generateChart(chartResponse.data.prices, '3', crypto.symbol);
-    
+
+            const chartPath = await this.generateChart(
+                chartResponse.data.prices, 
+                days,
+                crypto.symbol,
+                detailResponse.data.name
+            );
+
             await api.sendMessage({
-                body: message + `Biểu đồ giá ${crypto.symbol.toUpperCase()} 3 ngày qua`,
+                body: message + `Biểu đồ giá ${crypto.symbol.toUpperCase()} ${label} qua`,
                 attachment: fs.createReadStream(chartPath)
             }, event.threadID);
-    
+
         } catch (error) {
-            console.error(error);
-            await api.sendMessage('Đã xảy ra lỗi khi cập nhật thông tin tiền điện tử.', event.threadID);
+            console.error('Crypto Error:', error);
+            let errorMessage = 'Đã xảy ra lỗi khi cập nhật thông tin tiền điện tử.';
+            
+            if (error.response) {
+                if (error.response.status === 429) {
+                    errorMessage = 'Đã vượt quá giới hạn yêu cầu API. Vui lòng thử lại sau ít phút.';
+                } else if (error.response.status === 404) {
+                    errorMessage = 'Không tìm thấy thông tin về đồng tiền này.';
+                }
+            }
+            
+            await api.sendMessage(errorMessage, event.threadID);
         }
     }
 };

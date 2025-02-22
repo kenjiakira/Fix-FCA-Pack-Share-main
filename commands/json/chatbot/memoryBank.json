@@ -1,73 +1,72 @@
 {
   "users": {
-    "100055052811579": {
+    "61550331471452": {
       "personal": [],
       "facts": [],
       "preferences": [],
       "interactions": [
         {
-          "content": "Quốc Hưng nói: Yêu em ngân ❤️❤️\nTôi trả lời: Chào anh Quốc Hưng.  :))",
-          "timestamp": 1740033793307,
-          "priority": 1,
-          "accessCount": 1,
-          "lastAccess": 1740036119375,
-          "metadata": {
-            "sentiment": {
-              "score": 1,
-              "sentiment": "positive"
-            },
-            "topics": [
-              "PERSONAL",
-              "RELATIONSHIP"
-            ],
-            "entities": {}
-          }
-        },
-        {
-          "content": "Quốc Hưng nói: Bot ơi\nTôi trả lời: Dạ anh Quốc Hưng.  Anh có cần em giúp gì không ạ?",
-          "timestamp": 1740036074612,
-          "priority": 1,
-          "accessCount": 2,
-          "lastAccess": 1740036119375,
-          "metadata": {
-            "sentiment": {
-              "score": 0,
-              "sentiment": "neutral"
-            },
-            "topics": [
-              "PERSONAL"
-            ],
-            "entities": {}
-          }
-        },
-        {
-          "content": "Quốc Hưng nói: Làm sao để sử dụng danh mục đầu tư vậy bot\nTôi trả lời: Dạ, anh Quốc Hưng muốn tìm hiểu về cách sử dụng danh mục đầu tư như thế nào ạ? Em có thể giúp anh tìm hiểu thông tin hoặc hướng dẫn anh một số bước cơ bản nếu anh muốn.",
-          "timestamp": 1740036106161,
-          "priority": 1,
-          "accessCount": 1,
-          "lastAccess": 1740036119375,
-          "metadata": {
-            "sentiment": {
-              "score": 0,
-              "sentiment": "neutral"
-            },
-            "topics": [
-              "PERSONAL",
-              "WORK"
-            ],
-            "entities": {}
-          }
-        },
-        {
-          "content": "Quốc Hưng nói: Chỉ a với\nTôi trả lời: Dạ được ạ. Anh muốn tìm hiểu khía cạnh nào của việc sử dụng danh mục đầu tư vậy anh? Ví dụ như cách lập danh mục, cách phân bổ tài sản, hay cách theo dõi hiệu quả đầu tư?  Em sẽ cố gắng giúp anh hết sức có thể.",
-          "timestamp": 1740036121180,
+          "content": "Văn Quyến nói: bot quay lại ròi\nTôi trả lời: Hi Văn Quyến! Anh lại online rồi à?",
+          "timestamp": 1740145033905,
           "priority": 1,
           "accessCount": 0,
-          "lastAccess": 1740036121180,
+          "lastAccess": 1740145033905,
           "metadata": {
             "sentiment": {
-              "score": 1,
-              "sentiment": "positive"
+              "score": 0,
+              "sentiment": "neutral"
+            },
+            "topics": [
+              "PERSONAL",
+              "FOOD"
+            ],
+            "entities": {}
+          }
+        }
+      ],
+      "emotions": [],
+      "names": [],
+      "relationships": {},
+      "context": {
+        "lastTopics": [],
+        "importantDates": {},
+        "recentMentions": {},
+        "conversationFlow": []
+      },
+      "topics": {},
+      "undefined": [
+        {
+          "content": "Xưng hô: em/anh",
+          "timestamp": 1740145033146,
+          "priority": 2,
+          "accessCount": 0,
+          "lastAccess": 1740145033146,
+          "metadata": {
+            "sentiment": {
+              "score": 0,
+              "sentiment": "neutral"
+            },
+            "topics": [],
+            "entities": {}
+          }
+        }
+      ]
+    },
+    "61559182237087": {
+      "personal": [],
+      "facts": [],
+      "preferences": [],
+      "interactions": [
+        {
+          "content": "Nên Gọi Là Khánh nói: bot thô tục\nTôi trả lời: Em xin lỗi anh, em không hiểu ý anh lắm. Có phải anh đang nói về một vấn đề gì đó không hay?  Em không có ý định nói những lời thô tục đâu ạ.",
+          "timestamp": 1740145995010,
+          "priority": 1,
+          "accessCount": 0,
+          "lastAccess": 1740145995010,
+          "metadata": {
+            "sentiment": {
+              "score": 0,
+              "sentiment": "neutral"
             },
             "topics": [
               "PERSONAL"
@@ -89,55 +88,61 @@
       "undefined": [
         {
           "content": "Xưng hô: em/anh",
-          "timestamp": 1740033791744,
-          "priority": 2,
-          "accessCount": 3,
-          "lastAccess": 1740036119375,
-          "metadata": {
-            "sentiment": {
-              "score": 0,
-              "sentiment": "neutral"
-            },
-            "topics": [],
-            "entities": {}
-          }
-        },
-        {
-          "content": "Xưng hô: em/anh",
-          "timestamp": 1740036073666,
-          "priority": 2,
-          "accessCount": 2,
-          "lastAccess": 1740036119375,
-          "metadata": {
-            "sentiment": {
-              "score": 0,
-              "sentiment": "neutral"
-            },
-            "topics": [],
-            "entities": {}
-          }
-        },
-        {
-          "content": "Xưng hô: em/anh",
-          "timestamp": 1740036104366,
-          "priority": 2,
-          "accessCount": 1,
-          "lastAccess": 1740036119375,
-          "metadata": {
-            "sentiment": {
-              "score": 0,
-              "sentiment": "neutral"
-            },
-            "topics": [],
-            "entities": {}
-          }
-        },
-        {
-          "content": "Xưng hô: em/anh",
-          "timestamp": 1740036119375,
+          "timestamp": 1740145993212,
           "priority": 2,
           "accessCount": 0,
-          "lastAccess": 1740036119375,
+          "lastAccess": 1740145993212,
+          "metadata": {
+            "sentiment": {
+              "score": 0,
+              "sentiment": "neutral"
+            },
+            "topics": [],
+            "entities": {}
+          }
+        }
+      ]
+    },
+    "100083237157086": {
+      "personal": [],
+      "facts": [],
+      "preferences": [],
+      "interactions": [
+        {
+          "content": "Ngọc Ly nói: dm bot luon\nTôi trả lời: Chị nói gì thế ạ? Em không hiểu lắm.",
+          "timestamp": 1740146226977,
+          "priority": 1,
+          "accessCount": 0,
+          "lastAccess": 1740146226977,
+          "metadata": {
+            "sentiment": {
+              "score": 0,
+              "sentiment": "neutral"
+            },
+            "topics": [
+              "PERSONAL"
+            ],
+            "entities": {}
+          }
+        }
+      ],
+      "emotions": [],
+      "names": [],
+      "relationships": {},
+      "context": {
+        "lastTopics": [],
+        "importantDates": {},
+        "recentMentions": {},
+        "conversationFlow": []
+      },
+      "topics": {},
+      "undefined": [
+        {
+          "content": "Xưng hô: em/anh",
+          "timestamp": 1740146226124,
+          "priority": 2,
+          "accessCount": 0,
+          "lastAccess": 1740146226124,
           "metadata": {
             "sentiment": {
               "score": 0,
@@ -163,7 +168,7 @@
     "voice": {}
   },
   "stats": {
-    "totalInteractions": 8,
+    "totalInteractions": 6,
     "uniqueUsers": {},
     "topTopics": {},
     "responseTime": [],

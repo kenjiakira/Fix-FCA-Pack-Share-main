@@ -1,22 +1,12 @@
 const { logBotEvent } = require('./logs');
+const { loadCommands } = require('./loadCommands');
 const fs = require('fs');
 const path = require('path');
 
-// Check if we're in debug/development mode
 function isDebugMode() {
     return process.env.NODE_ENV === 'development' || !!process.env.DEBUG;
 }
 
-// Handle debug mode exit
-function handleDebugExit() {
-    if (isDebugMode()) {
-        process.kill(process.pid, 'SIGTERM');
-        return true;
-    }
-    return false;
-}
-
-// Save restart state
 function saveRestartState() {
     const restartFlagPath = path.join(__dirname, '../../database/discord_restart.json');
     fs.writeFileSync(restartFlagPath, JSON.stringify({ 
@@ -25,81 +15,119 @@ function saveRestartState() {
     }));
 }
 
-// Clean up resources
 async function cleanupResources(client) {
-    // Clear intervals
-    for (const [_, interval] of client.intervals || []) {
-        clearInterval(interval);
-    }
-    
-    // Clear timeouts
-    for (const [_, timeout] of client.timeouts || []) {
-        clearTimeout(timeout);
-    }
+    try {
+        if (client.commands) {
+            try {
+                const tradeCommand = client.commands.get('trade');
+                if (tradeCommand?.onLoad) {
+                    await tradeCommand.onLoad(client);
+                }
+            } catch (error) {
+                console.error('[CLEANUP] Error cleaning trade messages:', error);
+            }
+        }
 
-    // Destroy client connection if active
-    if (client.isReady()) {
-        await client.destroy();
+        if (client.intervals?.size > 0) {
+            for (const [name, interval] of client.intervals.entries()) {
+                clearInterval(interval);
+                console.log(`[CLEANUP] Cleared interval: ${name}`);
+            }
+            client.intervals.clear();
+        }
+        
+        if (client.timeouts?.size > 0) {
+            for (const [name, timeout] of client.timeouts.entries()) {
+                clearTimeout(timeout);
+                console.log(`[CLEANUP] Cleared timeout: ${name}`);
+            }
+            client.timeouts.clear();
+        }
+
+        try {
+            if (client.isReady()) {
+                await client.destroy();
+                console.log('[CLEANUP] Discord client destroyed');
+            }
+        } catch (error) {
+            console.error('[CLEANUP] Error destroying client:', error);
+        }
+
+        return true;
+    } catch (error) {
+        console.error('[CLEANUP] Error during cleanup:', error);
+        return false;
     }
 }
 
-// Main shutdown function
 async function shutdownBot(client, isRestart = false) {
     try {
         const action = isRestart ? 'restart' : 'shutdown';
+        console.log(`[BOT] Initiating ${action}...`);
         logBotEvent(`BOT_${action.toUpperCase()}`, `Discord bot ${action} initiated`);
 
-        // Save state before cleanup
         saveRestartState();
 
-        // Clean up resources
-        await cleanupResources(client);
+        const cleanupSuccess = await cleanupResources(client);
         
-        logBotEvent(`BOT_${action.toUpperCase()}`, 'Discord client destroyed successfully');
+        if (cleanupSuccess) {
+            logBotEvent(`BOT_${action.toUpperCase()}`, 'Discord client cleanup successful');
+            
+            if (isDebugMode()) {
+                process.kill(process.pid, 'SIGTERM');
+                return;
+            }
 
-        // Handle debug mode exit
-        if (handleDebugExit()) {
-            return;
-        }
-
-        // Force exit after 5 seconds if graceful shutdown fails
-        setTimeout(() => {
-            console.log(`Force exiting Discord bot (${action})...`);
             process.exit(0);
-        }, 5000);
+        } else {
+            console.log(`[BOT] Forcing ${action} in 5 seconds...`);
+            setTimeout(() => {
+                process.exit(1);
+            }, 5000);
+        }
 
     } catch (error) {
-        console.error(`Error during Discord bot ${isRestart ? 'restart' : 'shutdown'}:`, error);
+        console.error(`[BOT] Error during ${isRestart ? 'restart' : 'shutdown'}:`, error);
         logBotEvent('BOT_ERROR', error.message);
         
-        if (isDebugMode()) {
-            process.kill(process.pid, 'SIGTERM');
-        } else {
+        setTimeout(() => {
             process.exit(1);
-        }
+        }, 1000);
     }
 }
 
-// Restart function
-async function restartBot(client, message = null) {
+async function restartBot(client, statusMsg = null) {
     try {
-        if (message) {
-            await message.channel.send('🔄 Đang khởi động lại bot...');
+        if (!client) {
+            throw new Error('Client is required for restart');
         }
-        
-        await shutdownBot(client, true);
-        
-        // Process will be restarted by external process manager or debug tools
-        if (isDebugMode()) {
-            process.kill(process.pid, 'SIGTERM');
-        } else {
-            process.exit(0);
+
+        if (statusMsg) {
+            await statusMsg.edit('🔄 Đang dọn dẹp tài nguyên...');
         }
+
+        saveRestartState();
+
+        const cleanupSuccess = await cleanupResources(client);
+        if (!cleanupSuccess) {
+            throw new Error('Failed to clean up resources');
+        }
+
+        if (statusMsg) {
+            await statusMsg.edit('🔄 Đang khởi động lại...');
+        }
+
+        const { spawnNewProcess } = require('./processManager');
+        const newProcess = spawnNewProcess();
+        
+        await new Promise(resolve => setTimeout(resolve, 2000));
+        
+        process.exit(0);
     } catch (error) {
-        console.error('Error restarting bot:', error);
+        console.error('[BOT] Error restarting bot:', error);
         logBotEvent('RESTART_ERROR', error.message);
-        if (message) {
-            await message.channel.send('❌ Có lỗi xảy ra khi khởi động lại bot!');
+        if (statusMsg) {
+            await statusMsg.edit('❌ Có lỗi xảy ra khi khởi động lại bot!');
         }
         throw error;
     }
@@ -108,6 +136,5 @@ async function restartBot(client, message = null) {
 module.exports = {
     shutdownBot,
     restartBot,
-    isDebugMode,
-    handleDebugExit
+    isDebugMode
 };

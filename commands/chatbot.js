@@ -3,7 +3,6 @@ const path = require("path");
 const fs = require("fs-extra");
 const { ElevenLabsClient } = require("elevenlabs");
 
-// Memory Compression Utility
 const MemoryCompression = {
     shouldCompress: (memories) => {
         return memories.length > 100;
@@ -1169,7 +1168,8 @@ Quy tắc xưng hô và trả lời:
 - ${honorifics.formal ? 'Dùng ngôn ngữ lịch sự và trang trọng hơn' : 'Chat tự nhiên như bạn bè'}
 - ${honorifics.relationship ? `Giữ mối quan hệ ${honorifics.relationship}` : 'Xưng hô theo độ tuổi và giới tính'}
 
-- Chat tự nhiên, thân thiện , không nói yêu cầu giúp đỡ , trả lời như con người
+- Chat tự nhiên, thân thiện, không hỏi người dùng cần giúp đỡ gì, trả lời như một người bạn.
+- Sử dụng các từ xưng hô đa dạng như "bạn", "cậu", "chị", "ông", "bà" tùy thuộc vào ngữ cảnh và mối quan hệ.
 - Không dùng Emoji thay thế đó bằng -)) , =))) , :))
 - Trả lời ngắn gọn, súc tích
 - Tránh hỏi nhiều, tập trung vào câu trả lời

@@ -136,7 +136,7 @@ const handleListenEvents = async (client) => {
 
                 try {
                     logBotEvent('COMMAND_EXECUTE', `User ${message.author.tag} executing command: ${commandName}`);
-                    await command.execute(message, args);
+                    await command.execute(message, args, client);
                 } catch (error) {
                     logBotEvent('COMMAND_ERROR', `Error executing command: ${error.message}`);
                     message.channel.send('❌ Đã xảy ra lỗi khi thực hiện lệnh!');

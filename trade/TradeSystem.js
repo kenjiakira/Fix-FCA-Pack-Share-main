@@ -15,20 +15,20 @@ const MARKET_HOURS = {
 
 const RISK_CONFIG = {
     volatility: {
-        normal: 0.02,         
-        extreme: 0.05,       
-        openClose: 0.03,     
-        extremeProbability: 0.05  
+        normal: 0.30,      
+        extreme: 0.50,       
+        openClose: 0.30,    
+        extremeProbability: 0.25
     },
     blackSwan: {
-        probability: 0.001,    
-        impact: 0.10,       
+        probability: 0.005,   
+        impact: 0.15,    
         marketWide: true     
     },
     marketCrash: {
-        threshold: 0.08,     
-        maxDrop: 0.15,      
-        recoveryDays: 2      
+        threshold: 0.10,     
+        maxDrop: 0.20,  
+        recoveryDays: 1     
     },
     margin: {
         callThreshold: 0.5,  
@@ -109,7 +109,7 @@ class TradeSystem {
     }
 
     updateExchangeRate() {
-        const maxChange = 0.01; // Increased to 1% max change
+        const maxChange = 0.02; // Increased to 2% max change
         const change = (Math.random() * maxChange * 2) - maxChange;
         
         // Add market sentiment influence
@@ -122,7 +122,7 @@ class TradeSystem {
         ));
         
         // Less smoothing for more dynamic changes
-        this.xuRate = Math.floor(this.xuRate * 0.7 + newRate * 0.3);
+        this.xuRate = Math.floor(this.xuRate * 0.5 + newRate * 0.5); // Less smoothing for more dynamic changes
         
         Object.keys(this.stocks).forEach(symbol => {
             const stock = this.stocks[symbol];
@@ -140,7 +140,7 @@ class TradeSystem {
             if (hour >= MARKET_HOURS.open && hour < MARKET_HOURS.close) {
                 this.updateExchangeRate();
             }
-        }, 300000); // Changed to 5 minutes for more frequent updates
+        }, 2000); // Update every 2 seconds for more frequent changes
     }
 
     loadExchangeRate() {
@@ -205,32 +205,26 @@ class TradeSystem {
         Object.entries(this.stocks).forEach(([symbol, stock]) => {
             if (!stock || typeof stock.priceUSD !== 'number') return;
             
-            // Calculate base volatility with dampening
-            let maxChange = RISK_CONFIG.volatility.normal;
+            let maxChange = RISK_CONFIG.volatility.normal * 2;
             
-            // Add reduced open/close volatility
             if (isOpenClose) {
-                maxChange += RISK_CONFIG.volatility.openClose * 0.5;
+                maxChange += RISK_CONFIG.volatility.openClose;
             }
             
-            // Limit extreme volatility
             if (Math.random() < RISK_CONFIG.volatility.extremeProbability) {
-                maxChange = Math.min(maxChange + RISK_CONFIG.volatility.extreme, 0.02);
+                maxChange = Math.min(maxChange + RISK_CONFIG.volatility.extreme, 0.05);
             }
             
-            // Calculate price change with dampening
-            let randomChange = ((Math.random() * maxChange * 2) - maxChange) * 0.8;
+            let randomChange = (Math.random() * maxChange * 2) - maxChange;
             
-            // Apply reduced black swan effect
             if (isBlackSwan) {
-                randomChange = Math.max(-RISK_CONFIG.blackSwan.impact, randomChange);
+                randomChange = Math.max(-RISK_CONFIG.blackSwan.impact * 1.5, randomChange);
             }
             
-            // Apply reduced market crash effect with recovery
             if (isMarketCrash) {
                 const crashImpact = -Math.min(
-                    (Math.random() * RISK_CONFIG.marketCrash.maxDrop),
-                    0.05
+                    (Math.random() * RISK_CONFIG.marketCrash.maxDrop * 1.2),
+                    0.08
                 );
                 randomChange = Math.max(crashImpact, randomChange);
             }
@@ -272,7 +266,7 @@ class TradeSystem {
             if (hour >= MARKET_HOURS.open && hour < MARKET_HOURS.close) {
                 this.updatePrices();
             }
-        }, 180000); // Changed to 3 minutes for more frequent updates
+        }, 2000); // Update every 2 seconds for more frequent changes
     }
 
     saveStocks() {

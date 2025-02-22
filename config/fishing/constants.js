@@ -3,13 +3,16 @@ module.exports = {
         { name: "Hòm gỗ", value: 5000 },
         { name: "Rương bạc", value: 20000 },
         { name: "Rương vàng", value: 50000 },
-        { name: "Kho báu cổ đại", value: 100000 }
+        { name: "Kho báu cổ đại", value: 100000 },
+        { name: "Rương kim cương", value: 250000 },
+        { name: "Kho báu thần thoại", value: 500000 }
     ],
 
     specialEvents: {
         doubleRewards: { name: "Mưa vàng", description: "Nhận đôi xu trong 5 phút!" },
         rareFish: { name: "Cá quý hiếm xuất hiện", description: "Tỉ lệ bắt cá hiếm tăng gấp đôi trong 5 phút!" },
-        treasureHunt: { name: "Săn kho báu", description: "Cơ hội tìm thấy kho báu khi câu cá!" }
+        treasureHunt: { name: "Săn kho báu", description: "Cơ hội tìm thấy kho báu khi câu cá!" },
+        luckyStreak: { name: "May mắn liên tiếp", description: "Tăng gấp đôi EXP trong 5 phút!" }
     },
 
     expMultipliers: {
@@ -19,7 +22,7 @@ module.exports = {
         rare: 15,      
         legendary: 25,  
         mythical: 40,   
-        cosmic: 60     
+        cosmic: 100     
     },
 
     expRequirements: {
@@ -44,11 +47,13 @@ module.exports = {
     },
 
     streakBonuses: {
-        5: 0.1, 
-        10: 0.15, 
-        20: 0.2,   
-        50: 0.3,
-        100: 0.5   
+        5: 0.1,    // +10% bonus at 5 streak
+        10: 0.15,  // +15% bonus at 10 streak
+        20: 0.2,   // +20% bonus at 20 streak
+        50: 0.3,   // +30% bonus at 50 streak
+        100: 0.5,  // +50% bonus at 100 streak
+        200: 0.75, // +75% bonus at 200 streak
+        500: 1.0   // +100% bonus at 500 streak
     },
 
     defaultCollection: {

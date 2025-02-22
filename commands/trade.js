@@ -255,7 +255,6 @@ module.exports = {
                     let message = "⚠️ CẢNH BÁO RỦI RO ⚠️\n";
                     message += "━━━━━━━━━━━━━━━━━━\n\n";
                     
-                    // Market Risk
                     const marketVolatility = tradeSystem.calculateMarketVolatility();
                     message += "📊 THỊ TRƯỜNG:\n";
                     message += `Độ biến động: ${marketVolatility.toFixed(1)}%\n`;

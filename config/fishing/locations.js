@@ -3,36 +3,39 @@ module.exports = {
       name: "Ao làng",
       cost: 0,
       fish: {
+          trash: 10,
           common: 70,
           uncommon: 25,
           rare: 4,
           legendary: 1,
-          trash: 10,
-          mythical: 0
+          mythical: 0,
+          cosmic: 0
       }
   },
   river: {
       name: "Sông",
       cost: 2500,
       fish: {
+          trash: 5,
           common: 50,
           uncommon: 35,
           rare: 12,
           legendary: 3,
-          trash: 5,
           mythical: 0.1,
+          cosmic: 0
       }
   },
   ocean: {
       name: "Biển",
       cost: 5000,
       fish: {
+          trash: 3,
           common: 30,
           uncommon: 45,
           rare: 20,
           legendary: 5,
-          trash: 3,
-          mythical: 0.5
+          mythical: 0.5,
+          cosmic: 0.01
       }
   },
   deepSea: {
@@ -44,7 +47,8 @@ module.exports = {
           uncommon: 40,
           rare: 25,
           legendary: 10,
-          mythical: 4
+          mythical: 4,
+          cosmic: 0.05
       }
   },
   abyss: {
@@ -56,7 +60,8 @@ module.exports = {
           uncommon: 30,
           rare: 35,
           legendary: 20,
-          mythical: 5
+          mythical: 5,
+          cosmic: 0.1
       }
   },
   atlantis: {
@@ -68,7 +73,8 @@ module.exports = {
           uncommon: 15,
           rare: 40,
           legendary: 30,
-          mythical: 10
+          mythical: 10,
+          cosmic: 0.5
       }
   },
   spaceOcean: {
@@ -80,7 +86,8 @@ module.exports = {
           uncommon: 10,
           rare: 35,
           legendary: 40,
-          mythical: 15
+          mythical: 15,
+          cosmic: 1
       }
   },
   dragonRealm: {
@@ -92,7 +99,8 @@ module.exports = {
           uncommon: 0,
           rare: 30,
           legendary: 50,
-          mythical: 20
+          mythical: 20,
+          cosmic: 2
       }
   }
 };

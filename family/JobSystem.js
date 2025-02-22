@@ -58,8 +58,8 @@ class JobSystem {
                 countRange: [3, 6]
             }
         ];
-        this.QUIT_COOLDOWN = 24 * 60 * 60 * 1000; // 24 hours cooldown after quitting
-        this.WORK_COOLDOWN = 10 * 60 * 1000; // 10 minutes cooldown between works
+        this.QUIT_COOLDOWN = 24 * 60 * 60 * 1000; 
+        this.WORK_COOLDOWN = 10 * 60 * 1000; 
     }
 
     loadData() {
@@ -137,16 +137,9 @@ class JobSystem {
 
     saveData() {
         try {
-            if (!this.data || typeof this.data !== 'object') {
-                this.data = {};
-            }
-            for (const userId in this.data) {
-                if (!this.data[userId] || !this.data[userId].currentJob) {
-                    this.data[userId] = this.getDefaultUserData();
-                }
-            }
             fs.writeFileSync(this.path, JSON.stringify(this.data, null, 2), 'utf8');
             return true;
+
         } catch (error) {
             console.error('Error saving job data:', error);
             return false;
@@ -206,16 +199,8 @@ class JobSystem {
 
             const jobData = this.getJob(userID);
             
-            if (jobData.lastQuit) {
-                const timeSinceQuit = Date.now() - jobData.lastQuit;
-                if (timeSinceQuit < this.QUIT_COOLDOWN) {
-                    const timeLeft = this.QUIT_COOLDOWN - timeSinceQuit;
-                    const hours = Math.floor(timeLeft / 3600000);
-                    const minutes = Math.floor((timeLeft % 3600000) / 60000);
-                    throw new Error(`Bạn vừa nghỉ việc! Vui lòng đợi ${hours} giờ ${minutes} phút nữa để xin việc mới!`);
-                }
-            }
-
+            const savedData = this.loadData()[userID] || this.getDefaultUserData();
+            console.log(`User ID: ${userID}, Last Quit: ${jobData.lastQuit}, Current Time: ${Date.now()}`);
             const check = await this.checkQualification(userID, jobId);
             if (!check.qualified) {
                 throw new Error(check.reason);
@@ -264,14 +249,25 @@ class JobSystem {
 
         const oldJob = {...jobData.currentJob};
         const quitTime = Date.now();
+        
         jobData.jobHistory.push({
             ...oldJob,
             endDate: quitTime
         });
-
+        // Log the quit time to a JSON file
+        const quitLogPath = path.join(__dirname, '../database/json/family/quitLog.json');
+        const quitLog = fs.existsSync(quitLogPath) ? JSON.parse(fs.readFileSync(quitLogPath)) : {};
+        quitLog[userID] = quitTime;
+        fs.writeFileSync(quitLogPath, JSON.stringify(quitLog, null, 2));
         jobData.lastQuit = quitTime;
         jobData.currentJob = null;
-        this.saveData();
+        
+        if (!this.saveData()) {
+            throw new Error("Không thể lưu thông tin nghỉ việc!");
+        }
+
+        this.data = this.loadData();
+        
         return JOBS[oldJob.id];
     }
 
@@ -424,3 +420,4 @@ class JobSystem {
 }
 
 module.exports = JobSystem;
+     

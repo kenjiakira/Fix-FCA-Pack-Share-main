@@ -1,6 +1,6 @@
 class MarketAlgorithms {
     static generateInitialPrice(basePrice) {
-        const variance = 0.1; // 10% variance
+        const variance = 0.25; 
         const randomFactor = 1 + (Math.random() * variance * 2 - variance);
         return Math.floor(basePrice * randomFactor);
     }
@@ -8,8 +8,8 @@ class MarketAlgorithms {
     static generateMarketDepth(currentPrice, isBids) {
         const levels = [];
         const numLevels = 5;
-        const maxPriceChange = 0.05; 
-        const maxVolumeVariance = 0.3; // 30% volume variance
+        const maxPriceChange = 0.15; 
+        const maxVolumeVariance = 0.8; 
 
         for (let i = 0; i < numLevels; i++) {
             const priceOffset = (isBids ? -1 : 1) * (i + 1) * (maxPriceChange / numLevels);

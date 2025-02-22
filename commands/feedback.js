@@ -1,80 +1,189 @@
 const fs = require('fs');
 const moment = require('moment-timezone');
+const path = require('path');
+
 const adminConfig = JSON.parse(fs.readFileSync('admin.json', 'utf8'));
+const FEEDBACK_LOG_DIR = './commands/json/feedback';
+const FEEDBACK_STATUS = {
+    PENDING: 'pending',
+    REPLIED: 'replied',
+    RESOLVED: 'resolved'
+};
+
+if (!fs.existsSync(FEEDBACK_LOG_DIR)) {
+    fs.mkdirSync(FEEDBACK_LOG_DIR, { recursive: true });
+}
 
 module.exports = {
     name: "feedback",
     usedby: 0,
     dmUser: false,
     dev: "HNT",
-    nickName: ["feedback", "fb"],
+    nickName: ["feedback", "fb", "report"],
     info: "Gửi phản hồi đến admin",
+    usages: "feedback [nội dung]\n" +
+            "Ví dụ: feedback Bot bị lỗi command crypto\n" +
+            "Reply tin nhắn feedback để tiếp tục phản hồi",
     onPrefix: true,
-    cooldowns: 3,
+    cooldowns: 60,
+
+    userFeedbackCount: new Map(),
+    
+    MAX_FEEDBACK_PER_HOUR: 3,
+    
+    logFeedback: function(feedbackData) {
+        const logFile = path.join(FEEDBACK_LOG_DIR, `feedback_${moment().format('YYYY-MM')}.json`);
+        let logs = [];
+        
+        if (fs.existsSync(logFile)) {
+            logs = JSON.parse(fs.readFileSync(logFile, 'utf8'));
+        }
+        
+        logs.push({
+            ...feedbackData,
+            timestamp: moment().unix()
+        });
+        
+        fs.writeFileSync(logFile, JSON.stringify(logs, null, 2));
+    },
+
+    checkRateLimit: function(userID) {
+        const now = Date.now();
+        const hourAgo = now - (60 * 60 * 1000);
+        
+        if (!this.userFeedbackCount.has(userID)) {
+            this.userFeedbackCount.set(userID, []);
+        }
+        
+        const userFeedbacks = this.userFeedbackCount.get(userID);
+        const recentFeedbacks = userFeedbacks.filter(time => time > hourAgo);
+        
+        this.userFeedbackCount.set(userID, recentFeedbacks);
+        
+        return recentFeedbacks.length >= this.MAX_FEEDBACK_PER_HOUR;
+    },
+
+    formatMessage: function(type, data) {
+        const time = moment.tz("Asia/Ho_Chi_Minh").format("HH:mm:ss DD/MM/YYYY");
+        let message = '';
+
+        switch (type) {
+            case 'new':
+                message = `━━━ 𝗡𝗘𝗪 𝗙𝗘𝗘𝗗𝗕𝗔𝗖𝗞 ━━━\n\n` +
+                         `📝 Mã phản hồi: ${data.feedbackCode}\n` +
+                         `👤 𝗧𝘂̛̛̀ 𝗻𝗴𝘂̛𝗼̛̀𝗶 𝗱𝘂̀𝗻𝗴: ${data.userID}\n` +
+                         `💬 𝗡𝗼̣̂𝗶 𝗱𝘂𝗻𝗴: ${data.content}\n` +
+                         `📎 File đính kèm: ${data.hasAttachment ? 'Có' : 'Không'}\n` +
+                         `⏰ 𝗧𝗶𝗺𝗲: ${time}\n` +
+                         `━━━━━━━━━━━━━━━━━━`;
+                break;
+            case 'reply':
+                message = `━━━ 𝗙𝗘𝗘𝗗𝗕𝗔𝗖𝗞 ━━━\n\n` +
+                         `📝 Mã phản hồi: ${data.feedbackCode}\n` +
+                         `${data.isAdmin ? '💌 𝗣𝗵𝗮̉𝗻 𝗵𝗼̂̀𝗶 𝘁𝘂̛̛̀ 𝗔𝗱𝗺𝗶𝗻' : '👤 𝗧𝘂̛̛̀ 𝗻𝗴𝘂̛𝗼̛̀𝗶 𝗱𝘂̀𝗻𝗴'}: ${data.content}\n` +
+                         `📎 File đính kèm: ${data.hasAttachment ? 'Có' : 'Không'}\n` +
+                         `↪️ 𝗧𝗿𝗮̉ 𝗹𝗼̛̀𝗶 𝘁𝗶𝗻 𝗻𝗵𝗮̆́𝗻: ${data.replyTo}\n` +
+                         `⏰ 𝗧𝗶𝗺𝗲: ${time}\n` +
+                         `━━━━━━━━━━━━━━━━━━`;
+                break;
+            case 'success':
+                message = `✅ Phản hồi của bạn đã được gửi thành công!\n` +
+                         `📝 Mã phản hồi: ${data.feedbackCode}\n` +
+                         `⏰ Time: ${time}\n` +
+                         `💌 Reply tin nhắn này để tiếp tục phản hồi.`;
+                break;
+        }
+
+        return message;
+    },
 
     onReply: async function({ event, api }) {
         const { threadID, messageID, body, senderID, attachments } = event;
-        const time = moment.tz("Asia/Ho_Chi_Minh").format("HH:mm:ss DD/MM/YYYY");
         
         if (!body && attachments.length === 0) return;
 
         const replyInfo = global.client.onReply.find(r => r.messageID === event.messageReply.messageID);
         if (!replyInfo) return;
 
-        if (adminConfig.adminUIDs.includes(senderID)) {
-            let replyMsg = `━━━ 𝗙𝗘𝗘𝗗𝗕𝗔𝗖𝗞 ━━━\n\n`;
-            replyMsg += `📝 Mã phản hồi: ${replyInfo.feedbackCode}\n`;
-            replyMsg += `💌 𝗣𝗵𝗮̉𝗻 𝗵𝗼̂̀𝗶 𝘁𝘂̛̛̀ 𝗔𝗱𝗺𝗶𝗻:\n${body}\n\n`;
-            replyMsg += `↪️ 𝗧𝗿𝗮̉ 𝗹𝗼̛̀𝗶 𝘁𝗶𝗻 𝗻𝗵𝗮̆́𝗻: ${replyInfo.content}\n`;
-            replyMsg += `⏰ 𝗧𝗶𝗺𝗲: ${time}\n`;
-            replyMsg += `━━━━━━━━━━━━━━━━━━`;
+        try {
+            const isAdmin = adminConfig.adminUIDs.includes(senderID);
+            const hasAttachments = attachments.length > 0;
 
-            const msg = await api.sendMessage({
-                body: replyMsg,
-                attachment: attachments
-            }, replyInfo.threadID);
-
-            global.client.onReply.push({
-                name: this.name,
-                messageID: msg.messageID,
-                userID: replyInfo.userID,
-                threadID: replyInfo.threadID,
-                type: "user",
-                adminID: senderID,
+            const replyData = {
+                feedbackCode: replyInfo.feedbackCode,
                 content: body,
-                feedbackCode: replyInfo.feedbackCode
-            });
-        } 
-        else {
-            let feedbackMsg = `━━━ 𝗙𝗘𝗘𝗗𝗕𝗔𝗖𝗞 ━━━\n\n`;
-            feedbackMsg += `📝 Mã phản hồi: ${replyInfo.feedbackCode}\n`;
-            feedbackMsg += `👤 𝗧𝘂̛̛̀ 𝗻𝗴𝘂̛𝗼̛̀𝗶 𝗱𝘂̀𝗻𝗴: ${senderID}\n`;
-            feedbackMsg += `💬 𝗡𝗼̣̂𝗶 𝗱𝘂𝗻𝗴: ${body}\n\n`;
-            feedbackMsg += `↪️ 𝗧𝗿𝗮̉ 𝗹𝗼̛̀𝗶 𝘁𝗶𝗻 𝗻𝗵𝗮̆́𝗻: ${replyInfo.content}\n`;
-            feedbackMsg += `⏰ 𝗧𝗶𝗺𝗲: ${time}\n`;
-            feedbackMsg += `━━━━━━━━━━━━━━━━━━`;
+                hasAttachment: hasAttachments,
+                replyTo: replyInfo.content,
+                isAdmin: isAdmin
+            };
 
-            const msg = await api.sendMessage({
-                body: feedbackMsg,
-                attachment: attachments
-            }, replyInfo.adminID);
+            const message = this.formatMessage('reply', replyData);
 
+            if (isAdmin) {
+                const msg = await api.sendMessage({
+                    body: message,
+                    attachment: attachments
+                }, replyInfo.threadID);
+
+                // Update feedback status
+                this.logFeedback({
+                    ...replyData,
+                    status: FEEDBACK_STATUS.REPLIED,
+                    adminID: senderID
+                });
+
+                global.client.onReply.push({
+                    name: this.name,
+                    messageID: msg.messageID,
+                    userID: replyInfo.userID,
+                    threadID: replyInfo.threadID,
+                    type: "user",
+                    adminID: senderID,
+                    content: body,
+                    feedbackCode: replyInfo.feedbackCode
+                });
+            } else {
+                // Check rate limit for user replies
+                if (this.checkRateLimit(senderID)) {
+                    return api.sendMessage(
+                        "⚠️ Bạn đã gửi quá nhiều phản hồi. Vui lòng thử lại sau 1 giờ.",
+                        threadID,
+                        messageID
+                    );
+                }
+
+                const msg = await api.sendMessage({
+                    body: message,
+                    attachment: attachments
+                }, replyInfo.adminID);
+
+                this.userFeedbackCount.get(senderID).push(Date.now());
+
+                api.sendMessage(
+                    "✅ Đã gửi phản hồi của bạn đến admin!\n⏰ Time: " + 
+                    moment.tz("Asia/Ho_Chi_Minh").format("HH:mm:ss DD/MM/YYYY"),
+                    threadID,
+                    messageID
+                );
+
+                global.client.onReply.push({
+                    name: this.name,
+                    messageID: msg.messageID,
+                    userID: senderID,
+                    threadID: threadID,
+                    type: "admin",
+                    adminID: replyInfo.adminID,
+                    content: body,
+                    feedbackCode: replyInfo.feedbackCode
+                });
+            }
+        } catch (error) {
+            console.error("Feedback Reply Error:", error);
             api.sendMessage(
-                "✅ Đã gửi phản hồi của bạn đến admin!\n⏰ Time: " + time,
+                "❌ Đã xảy ra lỗi khi gửi phản hồi. Vui lòng thử lại sau.",
                 threadID,
                 messageID
             );
-
-            global.client.onReply.push({
-                name: this.name,
-                messageID: msg.messageID,
-                userID: senderID,
-                threadID: threadID,
-                type: "admin",
-                adminID: replyInfo.adminID,
-                content: body,
-                feedbackCode: replyInfo.feedbackCode
-            });
         }
     },
 
@@ -82,39 +191,71 @@ module.exports = {
         try {
             const { threadID, messageID, senderID, attachments } = event;
             const feedback = target.join(" ");
-            const time = moment.tz("Asia/Ho_Chi_Minh").format("HH:mm:ss DD/MM/YYYY");
             const feedbackCode = `#${this.dev}${Date.now().toString(36)}`;
 
+            // Basic validation
             if (!feedback && attachments.length === 0) {
-                return api.sendMessage("⚠️ Vui lòng nhập nội dung hoặc gửi file đính kèm!", threadID, messageID);
+                return api.sendMessage(
+                    "⚠️ Vui lòng nhập nội dung hoặc gửi file đính kèm!",
+                    threadID,
+                    messageID
+                );
+            }
+
+            // Check rate limit
+            if (this.checkRateLimit(senderID)) {
+                return api.sendMessage(
+                    "⚠️ Bạn đã gửi quá nhiều phản hồi. Vui lòng thử lại sau 1 giờ.",
+                    threadID,
+                    messageID
+                );
             }
 
             const adminIDs = adminConfig.adminUIDs;
             if (!adminIDs || adminIDs.length === 0) {
-                return api.sendMessage("⚠️ Không tìm thấy admin!", threadID, messageID);
+                return api.sendMessage(
+                    "⚠️ Không tìm thấy admin!",
+                    threadID,
+                    messageID
+                );
             }
 
-            let feedbackMsg = `━━━ 𝗡𝗘𝗪 𝗙𝗘𝗘𝗗𝗕𝗔𝗖𝗞 ━━━\n\n`;
-            feedbackMsg += `📝 Mã phản hồi: ${feedbackCode}\n`;
-            feedbackMsg += `👤 𝗧𝘂̛̛̀ 𝗻𝗴𝘂̛𝗼̛̀𝗶 𝗱𝘂̀𝗻𝗴: ${senderID}\n`;
-            feedbackMsg += `💬 𝗡𝗼̣̂𝗶 𝗱𝘂𝗻𝗴: ${feedback}\n`;
-            feedbackMsg += `⏰ 𝗧𝗶𝗺𝗲: ${time}\n`;
-            feedbackMsg += `━━━━━━━━━━━━━━━━━━`;
+            const feedbackData = {
+                feedbackCode,
+                userID: senderID,
+                content: feedback,
+                hasAttachment: attachments.length > 0
+            };
+
+            const message = this.formatMessage('new', feedbackData);
 
             let sentSuccessfully = false;
             let successfulAdminID;
-            let lastError;
 
+            // Try sending to individual admins
             for (const adminID of adminIDs) {
                 try {
                     const msg = await api.sendMessage({
-                        body: feedbackMsg,
+                        body: message,
                         attachment: attachments
                     }, adminID);
 
                     sentSuccessfully = true;
                     successfulAdminID = adminID;
                     
+                    // Log successful feedback
+                    this.logFeedback({
+                        ...feedbackData,
+                        adminID,
+                        status: FEEDBACK_STATUS.PENDING
+                    });
+
+                    // Track user feedback count
+                    if (!this.userFeedbackCount.has(senderID)) {
+                        this.userFeedbackCount.set(senderID, []);
+                    }
+                    this.userFeedbackCount.get(senderID).push(Date.now());
+
                     global.client.onReply.push({
                         name: this.name,
                         messageID: msg.messageID,
@@ -128,25 +269,31 @@ module.exports = {
 
                     break;
                 } catch (err) {
-                    lastError = err;
                     console.log(`Failed to send to admin ${adminID}:`, err);
-                    continue; 
+                    continue;
                 }
             }
 
+            // Try sending to feedback group if individual admin messaging fails
             if (!sentSuccessfully) {
-               
-                const feedbackGroupID = adminConfig.feedbackGroupID; 
+                const feedbackGroupID = adminConfig.feedbackGroupID;
                 
                 if (feedbackGroupID) {
                     try {
+                        const groupMessage = `[ADMIN FEEDBACK]\n${message}`;
                         const msg = await api.sendMessage({
-                            body: `[ADMIN FEEDBACK]\n${feedbackMsg}`,
+                            body: groupMessage,
                             attachment: attachments
                         }, feedbackGroupID);
 
                         sentSuccessfully = true;
                         
+                        this.logFeedback({
+                            ...feedbackData,
+                            groupID: feedbackGroupID,
+                            status: FEEDBACK_STATUS.PENDING
+                        });
+
                         global.client.onReply.push({
                             name: this.name,
                             messageID: msg.messageID,
@@ -160,20 +307,13 @@ module.exports = {
                         });
                     } catch (err) {
                         console.error("Failed to send to feedback group:", err);
-                        lastError = err;
                     }
                 }
             }
 
             if (sentSuccessfully) {
-                await api.sendMessage(
-                    `✅ Phản hồi của bạn đã được gửi thành công!\n` +
-                    `📝 Mã phản hồi: ${feedbackCode}\n` +
-                    `⏰ Time: ${time}\n` +
-                    `💌 Reply tin nhắn này để tiếp tục phản hồi.`, 
-                    threadID, 
-                    messageID
-                );
+                const successMessage = this.formatMessage('success', { feedbackCode });
+                await api.sendMessage(successMessage, threadID, messageID);
             } else {
                 throw new Error("Không thể gửi phản hồi đến bất kỳ admin nào");
             }
