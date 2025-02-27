@@ -1,6 +1,9 @@
-const axios = require('axios');
-const fs = require('fs');
+const { createCanvas } = require('canvas');
+const fs = require('fs-extra');
 const path = require('path');
+const { Chart, LineController, LineElement, PointElement, LinearScale, Title, CategoryScale, Filler } = require('chart.js');
+
+Chart.register(LineController, LineElement, PointElement, LinearScale, Title, CategoryScale, Filler);
 
 class StockChart {
     static async generate(data, options = {}) {
@@ -9,200 +12,244 @@ class StockChart {
             name,
             timestamps,
             prices,
-            outputDir
+            outputDir,
+            theme = 'dark'
         } = data;
 
-        // Calculate price changes for color coding
-        const priceChanges = prices.map((price, i) => {
-            if (i === 0) return 0;
-            return price - prices[i - 1];
+        // Format timestamps
+        const formattedTimestamps = timestamps.map(ts => {
+            const date = new Date(ts);
+            return date.toLocaleTimeString('vi-VN', {
+                hour: '2-digit',
+                minute: '2-digit'
+            });
         });
 
-        // Calculate moving averages
+        // Calculate indicators
+        const priceChanges = this.calculatePriceChanges(prices);
         const ma20 = this.calculateMA(prices, 20);
         const ma50 = this.calculateMA(prices, 50);
 
-        // Calculate min/max for better scaling
-        const maxPrice = Math.max(...prices);
-        const minPrice = Math.min(...prices);
-        const padding = (maxPrice - minPrice) * 0.1;
+        // Setup canvas
+        const width = 1500;
+        const height = 900;
+        const canvas = createCanvas(width, height);
+        const ctx = canvas.getContext('2d');
 
-        // Format timestamps for better display
-        const formattedTimestamps = timestamps.map(ts => {
-            const date = new Date(ts);
-            return `${date.getDate()}/${date.getMonth() + 1}\n${date.getHours()}:${date.getMinutes()}`;
-        });
+        // Create background
+        const bgGradient = ctx.createLinearGradient(0, 0, width, height);
+        bgGradient.addColorStop(0, '#1a237e');
+        bgGradient.addColorStop(0.5, '#000051');
+        bgGradient.addColorStop(1, '#000028');
+        ctx.fillStyle = bgGradient;
+        ctx.fillRect(0, 0, width, height);
 
-        const chartConfig = {
+        // Add grid
+        ctx.strokeStyle = 'rgba(255, 255, 255, 0.07)';
+        ctx.lineWidth = 0.8;
+        for (let i = 0; i < width; i += 50) {
+            ctx.beginPath();
+            ctx.moveTo(i, 0);
+            ctx.lineTo(i, height);
+            ctx.stroke();
+        }
+        for (let i = 0; i < height; i += 50) {
+            ctx.beginPath();
+            ctx.moveTo(0, i);
+            ctx.lineTo(width, i);
+            ctx.stroke();
+        }
+
+        // Calculate price changes for colors
+        const priceStart = prices[0];
+        const priceEnd = prices[prices.length - 1];
+        const priceChange = ((priceEnd - priceStart) / priceStart) * 100;
+
+        const primaryColor = priceChange >= 0 ? 
+            'rgba(0, 255, 127, 0.9)' : 'rgba(255, 69, 0, 0.9)';
+        const secondaryColor = priceChange >= 0 ? 
+            'rgba(0, 255, 127, 0.05)' : 'rgba(255, 69, 0, 0.05)';
+
+        // Create gradient for line
+        const gradientLine = ctx.createLinearGradient(0, 0, 0, height);
+        gradientLine.addColorStop(0, primaryColor);
+        gradientLine.addColorStop(1, secondaryColor);
+
+        // Create chart
+        new Chart(ctx, {
             type: 'line',
             data: {
                 labels: formattedTimestamps,
                 datasets: [
                     {
-                        label: symbol,
+                        label: `Giá ${symbol}`,
                         data: prices,
+                        borderColor: primaryColor,
+                        borderWidth: 2.5,
                         fill: true,
-                        borderColor: 'rgb(56, 178, 172)',
-                        borderWidth: 2,
-                        pointRadius: 3,
-                        pointBackgroundColor: priceChanges.map(change => 
-                            change > 0 ? 'rgb(34, 197, 94)' : 
-                            change < 0 ? 'rgb(239, 68, 68)' : 
-                            'rgb(56, 178, 172)'
-                        ),
-                        pointBorderColor: 'white',
-                        pointBorderWidth: 2,
-                        pointHoverRadius: 6,
-                        tension: 0.4,
-                        backgroundColor: 'rgba(56, 178, 172, 0.1)'
+                        backgroundColor: gradientLine,
+                        pointRadius: 0,
+                        pointHoverRadius: 10,
+                        tension: 0.35
                     },
                     {
                         label: 'MA20',
                         data: ma20,
-                        borderColor: 'rgba(234, 179, 8, 0.8)',
+                        borderColor: 'rgba(255, 215, 0, 0.8)',
                         borderWidth: 2,
-                        pointRadius: 0,
                         fill: false,
-                        tension: 0.4
+                        pointRadius: 0,
+                        tension: 0.35
                     },
                     {
                         label: 'MA50',
                         data: ma50,
-                        borderColor: 'rgba(168, 85, 247, 0.8)',
+                        borderColor: 'rgba(147, 112, 219, 0.8)', 
                         borderWidth: 2,
-                        pointRadius: 0,
                         fill: false,
-                        tension: 0.4
+                        pointRadius: 0,
+                        tension: 0.35
                     }
                 ]
             },
             options: {
                 responsive: true,
-                indexAxis: 'x',
+                maintainAspectRatio: false,
+                animation: false,
+                layout: {
+                    padding: {
+                        top: 50,
+                        right: 50,
+                        bottom: 40,
+                        left: 50
+                    }
+                },
                 plugins: {
-                    title: {
-                        display: true,
-                        text: `${symbol} - ${name}`,
-                        font: {
-                            size: 20,
-                            weight: 'bold'
-                        },
-                        padding: 20
-                    },
                     legend: {
                         display: true,
                         position: 'top',
                         labels: {
+                            color: '#ffffff',
                             font: {
-                                size: 12,
-                                weight: 'bold'
+                                size: 16,
+                                family: "'Arial', sans-serif",
+                                weight: '600'
                             },
-                            padding: 15
+                            padding: 25
+                        }
+                    },
+                    title: {
+                        display: true,
+                        text: [
+                            `${symbol} - ${name}`,
+                            `Thay đổi: ${priceChange >= 0 ? '+' : ''}${priceChange.toFixed(2)}%`
+                        ],
+                        color: '#ffffff',
+                        font: {
+                            size: 24,
+                            family: "'Arial', sans-serif",
+                            weight: '700'
+                        },
+                        padding: {
+                            top: 25,
+                            bottom: 35
                         }
                     },
                     tooltip: {
-                        backgroundColor: 'rgba(0, 0, 0, 0.8)',
-                        titleFont: {
-                            size: 14,
-                            weight: 'bold'
-                        },
-                        bodyFont: {
-                            size: 13
-                        },
-                        padding: 12,
-                        displayColors: false,
+                        backgroundColor: 'rgba(0, 0, 0, 0.85)',
+                        titleColor: '#ffffff',
+                        bodyColor: '#ffffff',
+                        borderColor: primaryColor,
+                        borderWidth: 1,
+                        padding: 18,
                         callbacks: {
                             label: function(context) {
-                                const price = context.raw;
-                                const change = context.dataIndex > 0 ? 
-                                    price - context.dataset.data[context.dataIndex - 1] : 
-                                    0;
-                                const changePercent = context.dataIndex > 0 ? 
-                                    (change / context.dataset.data[context.dataIndex - 1] * 100).toFixed(2) : 
-                                    0;
-                                return [
-                                    `Giá: ${price.toLocaleString('vi-VN')} Xu`,
-                                    `Thay đổi: ${change >= 0 ? '+' : ''}${change.toLocaleString('vi-VN')} Xu (${changePercent}%)`
-                                ];
+                                return `Giá: ${context.parsed.y.toLocaleString('vi-VN')} Xu`;  
                             }
                         }
                     }
                 },
                 scales: {
-                    y: {
-                        min: minPrice - padding,
-                        max: maxPrice + padding,
+                    x: {
                         grid: {
-                            color: 'rgba(0, 0, 0, 0.05)',
+                            color: 'rgba(255, 255, 255, 0.08)',
                             drawBorder: false
                         },
                         ticks: {
-                            callback: function(value) {
-                                return value.toLocaleString('vi-VN') + ' Xu';
-                            },
+                            color: '#ffffff',
                             font: {
-                                size: 12,
-                                weight: 'bold'
+                                size: 13
                             },
-                            padding: 10
+                            maxRotation: 45
                         }
                     },
-                    x: {
+                    y: {
+                        position: 'right',
                         grid: {
-                            display: false
+                            color: 'rgba(255, 255, 255, 0.08)', 
+                            drawBorder: false
                         },
                         ticks: {
-                            maxRotation: 45,
-                            maxTicksLimit: 8,
+                            color: '#ffffff',
                             font: {
-                                size: 12,
-                                weight: 'bold'
+                                size: 14
                             },
-                            padding: 8
+                            callback: function(value) {
+                                return value.toLocaleString('vi-VN') + ' Xu';
+                            }
                         }
-                    }
-                },
-                layout: {
-                    padding: {
-                        left: 15,
-                        right: 15,
-                        top: 15,
-                        bottom: 15
                     }
                 }
             }
-        };
+        });
 
-        const chartUrl = `https://quickchart.io/chart?c=${encodeURIComponent(JSON.stringify(chartConfig))}`;
-        const chartResponse = await axios.get(chartUrl, { responseType: 'arraybuffer' });
-        
-        // Ensure output directory exists
-        if (!fs.existsSync(outputDir)) {
-            fs.mkdirSync(outputDir, { recursive: true });
-        }
-        
+        // Add watermark
+        ctx.fillStyle = 'rgba(255, 255, 255, 0.15)';
+        ctx.font = 'bold 14px Arial';
+        ctx.textAlign = 'right';
+        ctx.fillText('Created by HNT', width - 60, height - 25);
+
+        // Save chart
+        const buffer = canvas.toBuffer('image/png');
         const chartPath = path.join(outputDir, `trade_chart_${symbol}_${Date.now()}.png`);
-        fs.writeFileSync(chartPath, chartResponse.data);
-        
+        await fs.writeFile(chartPath, buffer);
+
         return chartPath;
     }
 
+    static calculatePriceChanges(prices) {
+        return prices.map((price, i) => {
+            if (i === 0) return 0;
+            return price - prices[i - 1];
+        });
+    }
+
     static calculateMA(prices, period) {
-        const ma = [];
-        for (let i = 0; i < prices.length; i++) {
-            if (i < period - 1) {
-                ma.push(null);
-                continue;
-            }
-            
-            let sum = 0;
-            for (let j = 0; j < period; j++) {
-                sum += prices[i - j];
-            }
-            ma.push(sum / period);
-        }
-        return ma;
+        return prices.map((_, i) => {
+            if (i < period - 1) return null;
+            const slice = prices.slice(i - period + 1, i + 1);
+            return slice.reduce((sum, p) => sum + p, 0) / period;
+        });
+    }
+
+    static calculateRSI(prices, period = 14) {
+        const changes = prices.slice(1).map((price, i) => price - prices[i]);
+        const gains = changes.map(c => c > 0 ? c : 0);
+        const losses = changes.map(c => c < 0 ? -c : 0);
+        
+        const avgGain = gains.slice(0, period).reduce((a, b) => a + b) / period;
+        const avgLoss = losses.slice(0, period).reduce((a, b) => a + b) / period;
+        
+        let rs = avgGain / avgLoss;
+        return 100 - (100 / (1 + rs));
+    }
+
+    static formatNumber(number) {
+        if (number >= 1e6) return `${(number / 1e6).toFixed(2)}M`;
+        if (number >= 1e3) return `${(number / 1e3).toFixed(2)}K`;
+        return number.toString();
     }
 }
 
 module.exports = StockChart;
+    

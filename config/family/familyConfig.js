@@ -34,7 +34,7 @@ module.exports = {
     },
     
     COOLDOWNS: {
-        normal: 3 * 24 * 60, 
+        normal: 10, 
         protected: 10 
     }
 };

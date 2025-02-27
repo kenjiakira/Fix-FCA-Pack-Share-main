@@ -41,12 +41,13 @@ module.exports = {
         return api.sendMessage(membersUID || 'Không tìm thấy thành viên trong nhóm.', event.threadID, event.messageID);
       }
 
-      if (event.type !== 'message_reply') {
+      if (event.mentions && Object.keys(event.mentions).length > 0) {
         for (let i = 0; i < Object.keys(event.mentions).length; i++) {
           const mentionedUID = Object.keys(event.mentions)[i];
           console.log('UID Mentioned:', mentionedUID);
           api.sendMessage(mentionedUID, event.threadID, event.messageID);
         }
+        return; 
       }
 
       const input = target[0];

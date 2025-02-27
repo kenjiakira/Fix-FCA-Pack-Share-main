@@ -194,7 +194,7 @@ function getBenefits(packageId) {
                 rareBonus: 0.1,
                 trashReduction: 0.2
             };
-        default:
+        default:z
             return {
                 workBonus: 0,
                 cooldownReduction: 0,

@@ -147,7 +147,6 @@ const fs = require("fs");
                 const commandName = (isPrefixed ? message.slice(threadPrefix.length).split(' ')[0] : message.split(' ')[0]).toLowerCase();
                 const commandArgs = isPrefixed ? message.slice(threadPrefix.length).split(' ').slice(1) : message.split(' ').slice(1);
 
-                // Kiểm tra maintenance mode
                 const adminConfig = JSON.parse(fs.readFileSync('./admin.json', 'utf8'));
                 if (adminConfig.mtnMode) {
                     const isAdmin = adminConfig.adminUIDs?.includes(senderID);
@@ -155,7 +154,12 @@ const fs = require("fs");
                     
                     if (!isAdmin && !isModerator) {
                         if (message.startsWith(threadPrefix)) {
-                            api.sendMessage("⚠️ Bot đang trong chế độ bảo trì! Chỉ Admin và Moderator mới có thể sử dụng.", threadID);
+                            api.sendMessage("⚠️ Bot đang trong chế độ bảo trì! Chỉ Admin và Moderator mới có thể sử dụng.", threadID)
+                            .then(data => {
+                                setTimeout(() => {
+                                    api.unsendMessage(data.messageID);
+                                }, 5000);
+                            });
                             return;
                         }
                         return;
@@ -251,13 +255,16 @@ const fs = require("fs");
                     const timestamps = cooldowns[commandName];
                     const cooldownAmount = (command.cooldowns || 5) * 1000;
 
-                    if (timestamps[senderID]) {
-                        const expirationTime = timestamps[senderID] + cooldownAmount;
+                    if (!adminConfig['adminUIDs'].includes(senderID) && 
+                        !adminConfig['moderatorUIDs']?.includes(senderID)) {
+                        if (timestamps[senderID]) {
+                            const expirationTime = timestamps[senderID] + cooldownAmount;
 
-                        if (now < expirationTime) {
-                            const timeLeft = ((expirationTime - now) / 1000).toFixed(1);
-                            api.sendMessage(`Hãy chờ ${timeLeft} giây trước khi sử dụng lại lệnh \`${command.name}\`.`, event.threadID);
-                            return;
+                            if (now < expirationTime) {
+                                const timeLeft = ((expirationTime - now) / 1000).toFixed(1);
+                                api.sendMessage(`Hãy chờ ${timeLeft} giây trước khi sử dụng lại lệnh \`${command.name}\`.`, event.threadID);
+                                return;
+                            }
                         }
                     }
                     if (command['usedby'] === 1) {

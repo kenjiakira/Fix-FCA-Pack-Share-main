@@ -1,7 +1,7 @@
 const TRADING_RESTRICTIONS = {
     holdingPeriod: 1 * 60 * 60 * 1000,
 
-    coolingPeriod: 30 * 60 * 1000, 
+    coolingPeriod: 1 * 60 * 1000, 
     priceLimit: {
         dailyChange: 0.15,
         circuitBreaker: 0.20, 
@@ -33,7 +33,7 @@ class TradingMonitor {
         if (lastTrade && (Date.now() - lastTrade.timestamp) < TRADING_RESTRICTIONS.coolingPeriod) {
             violations.push({
                 type: 'COOLING_PERIOD',
-                message: 'Phải đợi 30 phút giữa các giao dịch',
+                message: 'Phải đợi 1 phút giữa các giao dịch',
                 penalty: 0
             });
         }

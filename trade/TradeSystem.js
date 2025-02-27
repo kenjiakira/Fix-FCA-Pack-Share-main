@@ -3,6 +3,11 @@ const path = require('path');
 const { getBalance, updateBalance } = require('../utils/currencies');
 const MarketAlgorithms = require('../config/trade/marketAlgorithms');
 const { TradingMonitor } = require('../config/trade/tradingRestrictions');
+const OrderManager = require('./OrderManager');
+const OrderBook = require('./OrderBook');
+const OrderMatcher = require('./OrderMatcher');
+const TransactionManager = require('./TransactionManager');
+const OrderProcessor = require('./OrderProcessor');
 
 const USER_PORTFOLIO_PATH = path.join(__dirname, '../commands/json/trade/portfolios.json');
 const EXCHANGE_RATE_PATH = path.join(__dirname, '../commands/json/trade/exchange_rate.json');
@@ -71,16 +76,196 @@ const MARGIN_CONFIG = {
 
 class TradeSystem {
     constructor() {
-        this.orders = {};
         this.marginPositions = {};
         this.portfolios = {};
         this.stocks = {};
+        this.orderBook = new OrderBook();
+        this.orderManager = new OrderManager(this.orderBook);
+        this.orderMatcher = new OrderMatcher(this.orderBook);
+        this.transactionManager = new TransactionManager();
+        this.orderProcessor = new OrderProcessor(this.orderBook, this.orderManager, this.orderMatcher);
         this.xuRate = this.generateInitialRate();
+        
+        this.setupTransactionHandlers();
+        
         this.ensureJsonPaths();
         this.loadStocks();
         this.loadPortfolios();
         this.startUpdates();
         this.startExchangeRateUpdates();
+        this.setupOrderBookHandlers();
+    }
+
+    setupTransactionHandlers() {
+        // Handle transaction completion
+        this.transactionManager.on('transactionCompleted', (event) => {
+            console.log(`Transaction ${event.transactionId} completed successfully`);
+            this.notifyUser(event.userId, {
+                type: 'TRANSACTION_COMPLETED',
+                message: 'Giao dịch thành công',
+                data: event.data
+            });
+        });
+
+        // Handle transaction timeout
+        this.transactionManager.on('transactionTimeout', (event) => {
+            console.log(`Transaction ${event.transactionId} timed out`);
+            this.notifyUser(event.userId, {
+                type: 'TRANSACTION_TIMEOUT',
+                message: 'Giao dịch hết thời gian chờ',
+                data: event.data
+            });
+        });
+
+        // Handle transaction rollback
+        this.transactionManager.on('transactionRolledBack', (event) => {
+            console.log(`Transaction ${event.transactionId} rolled back`);
+            this.notifyUser(event.userId, {
+                type: 'TRANSACTION_ROLLBACK',
+                message: 'Giao dịch thất bại và đã được hoàn tác',
+                data: event.data
+            });
+        });
+
+        // Handle step completion
+        this.transactionManager.on('stepCompleted', (event) => {
+            console.log(`Step ${event.step}/${event.totalSteps} completed for transaction ${event.transactionId}`);
+        });
+    }
+
+    // Helper method to notify users
+    notifyUser(userId, notification) {
+        const portfolio = this.getUserPortfolio(userId);
+        if (!portfolio.notifications) {
+            portfolio.notifications = [];
+        }
+        portfolio.notifications.push({
+            ...notification,
+            timestamp: Date.now()
+        });
+        this.savePortfolios();
+    }
+
+    setupOrderBookHandlers() {
+        // Handle trade events
+        this.orderBook.on('trade', async (trade) => {
+            try {
+                const { symbol, price, quantity, buyerId, sellerId } = trade;
+                
+                // Get portfolios
+                const buyerPortfolio = this.getUserPortfolio(buyerId);
+                const sellerPortfolio = this.getUserPortfolio(sellerId);
+
+                // Save original state for rollback
+                const originalBuyerState = JSON.parse(JSON.stringify(buyerPortfolio));
+                const originalSellerState = JSON.parse(JSON.stringify(sellerPortfolio));
+
+                try {
+                    // Update buyer's portfolio
+                    if (!buyerPortfolio.stocks[symbol]) {
+                        buyerPortfolio.stocks[symbol] = { quantity: 0, averagePrice: 0 };
+                    }
+                    const oldValue = buyerPortfolio.stocks[symbol].quantity * buyerPortfolio.stocks[symbol].averagePrice;
+                    const newValue = price * quantity;
+                    const totalQuantity = buyerPortfolio.stocks[symbol].quantity + quantity;
+                    buyerPortfolio.stocks[symbol].averagePrice = Math.floor((oldValue + newValue) / totalQuantity);
+                    buyerPortfolio.stocks[symbol].quantity = totalQuantity;
+
+                    // Update seller's portfolio
+                    if (!sellerPortfolio.stocks[symbol]) {
+                        sellerPortfolio.stocks[symbol] = { quantity: 0, averagePrice: 0 };
+                    }
+                    sellerPortfolio.stocks[symbol].quantity -= quantity;
+                    if (sellerPortfolio.stocks[symbol].quantity <= 0) {
+                        delete sellerPortfolio.stocks[symbol];
+                    }
+
+                    // Record transaction in both portfolios
+                    if (!buyerPortfolio.transactions) buyerPortfolio.transactions = [];
+                    if (!sellerPortfolio.transactions) sellerPortfolio.transactions = [];
+
+                    const timestamp = Date.now();
+                    
+                    buyerPortfolio.transactions.push({
+                        type: 'buy',
+                        symbol,
+                        quantity,
+                        price: Math.floor(price),
+                        timestamp,
+                        counterpartyId: sellerId
+                    });
+
+                    sellerPortfolio.transactions.push({
+                        type: 'sell', 
+                        symbol,
+                        quantity,
+                        price: Math.floor(price),
+                        timestamp,
+                        counterpartyId: buyerId
+                    });
+
+                    // Save portfolios
+                    await this.savePortfolios();
+
+                    // Log successful trade
+                    console.log(`Trade executed: ${symbol} - ${quantity} @ ${price}`);
+                    console.log(`Buyer: ${buyerId}, Seller: ${sellerId}`);
+
+                } catch (error) {
+                    // Rollback on error
+                    this.portfolios[buyerId] = originalBuyerState;
+                    this.portfolios[sellerId] = originalSellerState;
+                    await this.savePortfolios();
+                    throw error;
+                }
+
+            } catch (error) {
+                console.error('Error processing trade:', error);
+                throw error;
+            }
+        });
+
+        // Handle order status updates
+        this.orderBook.on('orderAdded', async (order) => {
+            try {
+                const portfolio = this.getUserPortfolio(order.userId);
+                if (!portfolio.orders) portfolio.orders = [];
+                
+                portfolio.orders.push({
+                    orderId: order.orderId,
+                    symbol: order.symbol,
+                    side: order.side,
+                    price: order.price,
+                    quantity: order.quantity,
+                    remainingQuantity: order.remainingQuantity,
+                    status: 'open',
+                    timestamp: order.timestamp
+                });
+
+                await this.savePortfolios();
+                console.log(`Order added: ${order.orderId}`);
+            } catch (error) {
+                console.error('Error adding order:', error);
+                throw error;
+            }
+        });
+
+        this.orderBook.on('orderCancelled', async (order) => {
+            try {
+                const portfolio = this.getUserPortfolio(order.userId);
+                if (portfolio.orders) {
+                    const orderIndex = portfolio.orders.findIndex(o => o.orderId === order.orderId);
+                    if (orderIndex !== -1) {
+                        portfolio.orders[orderIndex].status = 'cancelled';
+                        await this.savePortfolios();
+                        console.log(`Order cancelled: ${order.orderId}`);
+                    }
+                }
+            } catch (error) {
+                console.error('Error cancelling order:', error);
+                throw error;
+            }
+        });
     }
 
     ensureJsonPaths() {
@@ -109,10 +294,9 @@ class TradeSystem {
     }
 
     updateExchangeRate() {
-        const maxChange = 0.02; // Increased to 2% max change
+        const maxChange = 0.02;
         const change = (Math.random() * maxChange * 2) - maxChange;
         
-        // Add market sentiment influence
         const marketSentiment = this.getMarketAnalysis().marketSentiment;
         const sentimentMultiplier = marketSentiment === 'Bullish' ? 1.2 : 
                                   marketSentiment === 'Bearish' ? 0.8 : 1;
@@ -121,8 +305,7 @@ class TradeSystem {
             this.xuRate * (1 + change * sentimentMultiplier)
         ));
         
-        // Less smoothing for more dynamic changes
-        this.xuRate = Math.floor(this.xuRate * 0.5 + newRate * 0.5); // Less smoothing for more dynamic changes
+        this.xuRate = Math.floor(this.xuRate * 0.5 + newRate * 0.5); 
         
         Object.keys(this.stocks).forEach(symbol => {
             const stock = this.stocks[symbol];
@@ -266,7 +449,7 @@ class TradeSystem {
             if (hour >= MARKET_HOURS.open && hour < MARKET_HOURS.close) {
                 this.updatePrices();
             }
-        }, 2000); // Update every 2 seconds for more frequent changes
+        }, 2000); 
     }
 
     saveStocks() {
@@ -316,92 +499,66 @@ class TradeSystem {
         return this.portfolios[userId];
     }
 
-    async buyStock(userId, symbol, quantity) {
-        const now = new Date();
-        const hour = now.getHours();
-        
-        if (hour < MARKET_HOURS.open || hour >= MARKET_HOURS.close) {
-            throw new Error(`Market is closed! Trading hours: ${MARKET_HOURS.open}:00 - ${MARKET_HOURS.close}:00`);
-        }
+    getAllPortfolios() {
+        return this.portfolios;
+    }
 
-        const stockData = this.getStockPrice(symbol);
-        const totalCost = Math.floor(stockData.price * quantity);
+    async giftStock(userId, symbol, quantity) {
         
-        const transactionFee = Math.floor(Math.min(
-            Math.max(totalCost * FEES.transaction, FEES.minFee),
-            FEES.maxFee
-        ));
-        const tax = Math.floor(Math.min(
-            Math.max(totalCost * FEES.tax, FEES.minFee),
-            FEES.maxFee
-        ));
-        const totalWithFees = Math.floor(totalCost + transactionFee + tax);
-        
-        const balance = await getBalance(userId);
-        
-        if (balance < totalWithFees) {
-            throw new Error(`Không đủ tiền! Cần ${this.formatNumber(totalWithFees)} Xu (Phí: ${this.formatNumber(transactionFee)} Xu, Thuế: ${this.formatNumber(tax)} Xu)`);
-        }
+        const stock = this.getStockPrice(symbol);
+        if (!stock) throw new Error('Invalid stock symbol');
 
         const portfolio = this.getUserPortfolio(userId);
         
         if (!portfolio.stocks[symbol]) {
             portfolio.stocks[symbol] = {
                 quantity: 0,
-                averagePrice: 0
+                averagePrice: stock.price
             };
         }
 
-        const oldValue = portfolio.stocks[symbol].quantity * portfolio.stocks[symbol].averagePrice;
-        const newValue = totalCost;
-        const totalQuantity = portfolio.stocks[symbol].quantity + quantity;
-        
-        portfolio.stocks[symbol].averagePrice = (oldValue + newValue) / totalQuantity;
-        portfolio.stocks[symbol].quantity = totalQuantity;
+        portfolio.stocks[symbol].quantity += quantity;
 
         portfolio.transactions.push({
-            type: 'buy',
-            symbol: symbol,
-            quantity: quantity,
-            price: stockData.price,
+            type: 'gift',
+            symbol,
+            quantity,
+            price: stock.price,
             timestamp: Date.now()
         });
 
-        await updateBalance(userId, -totalWithFees);
-        this.savePortfolios();
+        await this.savePortfolios();
 
         return {
+            userId,
             symbol,
             quantity,
-            price: stockData.price,
-            total: totalCost,
-            transactionFee,
-            tax,
-            totalWithFees
+            price: stock.price
         };
     }
 
+
+
     async sellStock(userId, symbol, quantity) {
-        // Market hours check
-        const now = new Date();
-        const hour = now.getHours();
-        if (hour < MARKET_HOURS.open || hour >= MARKET_HOURS.close) {
-            throw new Error(`Market is closed! Trading hours: ${MARKET_HOURS.open}:00 - ${MARKET_HOURS.close}:00`);
+        if (!this.isMarketOpen()) {
+            throw new Error(`Thị trường đã đóng! Giờ giao dịch: ${MARKET_HOURS.open}:00 - ${MARKET_HOURS.close}:00`);
         }
 
-        // Get user data and check stock availability
+        // Verify stock ownership
         const portfolio = this.getUserPortfolio(userId);
         if (!portfolio.stocks[symbol] || portfolio.stocks[symbol].quantity < quantity) {
-            throw new Error("Insufficient stocks to sell");
+            throw new Error("Không đủ cổ phiếu để bán");
         }
 
-        // Get stock info and validate trade
         const stockData = this.getStockPrice(symbol);
+        const marketPrice = Math.floor(stockData.price);
+
+        // Validate trade
         const validation = TradingMonitor.isValidTrade({
             symbol,
             type: 'sell',
             quantity,
-            price: stockData.price,
+            price: marketPrice,
             priceChange: stockData.changePercent,
             timestamp: Date.now()
         }, portfolio.transactions || []);
@@ -411,58 +568,357 @@ class TradeSystem {
             throw new Error(`Giao dịch không hợp lệ:\n${violations}`);
         }
 
-        // Calculate values and fees
-        const totalValue = Math.floor(stockData.price * quantity);
-        const entryValue = Math.floor(portfolio.stocks[symbol].averagePrice * quantity);
-        const profitAmount = Math.max(0, totalValue - entryValue);
+        // Create sell order
+        const sellOrder = {
+            orderId: `${userId}-${symbol}-${Date.now()}`,
+            userId,
+            symbol,
+            side: 'sell',
+            quantity,
+            price: marketPrice,
+            timestamp: Date.now(),
+            validation
+        };
 
-        // Calculate penalties if any
-        const penalties = TradingMonitor.calculatePenalties(validation.violations, profitAmount);
+        try {
+            // Lock stocks
+            portfolio.stocks[symbol].quantity -= quantity;
+            if (portfolio.stocks[symbol].quantity === 0) {
+                delete portfolio.stocks[symbol];
+            }
+            this.savePortfolios();
+
+            // Process order
+            const result = await this.orderProcessor.processSellOrder(sellOrder);
+
+            if (result.status === 'filled') {
+                return {
+                    ...result,
+                    symbol,
+                    quantity,
+                    price: marketPrice
+                };
+            } else {
+                return {
+                    ...result,
+                    symbol,
+                    quantity,
+                    price: marketPrice
+                };
+            }
+        } catch (error) {
+            // Rollback on error
+            if (!portfolio.stocks[symbol]) {
+                portfolio.stocks[symbol] = { quantity: 0, averagePrice: 0 };
+            }
+            portfolio.stocks[symbol].quantity += quantity;
+            this.savePortfolios();
+            
+            throw error;
+        }
+    }
+
+    async processFill(execution) {
+        const { buyOrderId, sellOrderId, price, quantity, timestamp } = execution;
+        const buyOrder = this.orderBook.orders.get(buyOrderId);
+        const sellOrder = this.orderBook.orders.get(sellOrderId);
+
+        if (!buyOrder || !sellOrder) {
+            throw new Error('Invalid order in fill execution');
+        }
+
+        try {
+            const totalValue = Math.floor(price * quantity);
+            
+            const buyerFees = {
+                transaction: Math.floor(Math.min(
+                    Math.max(totalValue * FEES.transaction, FEES.minFee),
+                    FEES.maxFee
+                )),
+                tax: Math.floor(Math.min(
+                    Math.max(totalValue * FEES.tax, FEES.minFee),
+                    FEES.maxFee
+                ))
+            };
+
+            const sellerFees = {
+                transaction: Math.floor(Math.min(
+                    Math.max(totalValue * FEES.transaction, FEES.minFee),
+                    FEES.maxFee
+                )),
+                tax: Math.floor(Math.min(
+                    Math.max(totalValue * FEES.tax, FEES.minFee),
+                    FEES.maxFee
+                ))
+            };
+
+            await this.updatePortfolios(buyOrder, sellOrder, {
+                price,
+                quantity,
+                buyerFees,
+                sellerFees,
+                timestamp
+            });
+
+            this.orderManager.notifyOrderUpdate({
+                type: 'fill',
+                buyOrderId,
+                sellOrderId,
+                price,
+                quantity,
+                timestamp
+            });
+
+            console.log(`Processed fill: ${buyOrder.symbol} - ${quantity} @ ${price}`);
+        } catch (error) {
+            console.error('Error processing fill:', error);
+            throw error; 
+        }
+    }
+
+    async updatePortfolios(buyOrder, sellOrder, tradeDetails) {
+        const { price, quantity, buyerFees, sellerFees, timestamp } = tradeDetails;
+        const totalValue = Math.floor(price * quantity);
+
+        const buyerPortfolio = this.getUserPortfolio(buyOrder.userId);
+        if (!buyerPortfolio.stocks[buyOrder.symbol]) {
+            buyerPortfolio.stocks[buyOrder.symbol] = { quantity: 0, averagePrice: 0 };
+        }
+
+        const oldBuyerValue = buyerPortfolio.stocks[buyOrder.symbol].quantity * 
+                             buyerPortfolio.stocks[buyOrder.symbol].averagePrice;
+        const newBuyerValue = totalValue;
+        const totalBuyerQuantity = buyerPortfolio.stocks[buyOrder.symbol].quantity + quantity;
+
+        buyerPortfolio.stocks[buyOrder.symbol].averagePrice = 
+            Math.floor((oldBuyerValue + newBuyerValue) / totalBuyerQuantity);
+        buyerPortfolio.stocks[buyOrder.symbol].quantity = totalBuyerQuantity;
+
+        const sellerPortfolio = this.getUserPortfolio(sellOrder.userId);
+        if (!sellerPortfolio.stocks[sellOrder.symbol]) {
+            sellerPortfolio.stocks[sellOrder.symbol] = { quantity: 0, averagePrice: 0 };
+        }
+
+        sellerPortfolio.stocks[sellOrder.symbol].quantity -= quantity;
+        if (sellerPortfolio.stocks[sellOrder.symbol].quantity <= 0) {
+            delete sellerPortfolio.stocks[sellOrder.symbol];
+        }
+
+        buyerPortfolio.transactions.push({
+            type: 'buy',
+            symbol: buyOrder.symbol,
+            quantity,
+            price: Math.floor(price),
+            fees: buyerFees,
+            timestamp,
+            counterpartyId: sellOrder.userId
+        });
+
+        sellerPortfolio.transactions.push({
+            type: 'sell',
+            symbol: sellOrder.symbol,
+            quantity,
+            price: Math.floor(price),
+            fees: sellerFees,
+            timestamp,
+            counterpartyId: buyOrder.userId
+        });
+
+        const buyerTotal = totalValue + buyerFees.transaction + buyerFees.tax;
+        const sellerTotal = totalValue - sellerFees.transaction - sellerFees.tax;
+
+        await updateBalance(buyOrder.userId, -buyerTotal);
+        await updateBalance(sellOrder.userId, sellerTotal);
+
+        this.savePortfolios();
+    }
+
+
+    async buyStock(userId, symbol, quantity) {
+        if (!this.isMarketOpen()) {
+            throw new Error(`Thị trường đã đóng! Giờ giao dịch: ${MARKET_HOURS.open}:00 - ${MARKET_HOURS.close}:00`);
+        }
+
+        const stockData = this.getStockPrice(symbol);
+        const marketPrice = Math.floor(stockData.price);
+        const totalCost = marketPrice * quantity;
         
+        // Calculate fees
         const transactionFee = Math.floor(Math.min(
-            Math.max(totalValue * FEES.transaction, FEES.minFee),
+            Math.max(totalCost * FEES.transaction, FEES.minFee),
             FEES.maxFee
         ));
         const tax = Math.floor(Math.min(
-            Math.max(totalValue * (FEES.tax + penalties.additionalTax), FEES.minFee),
+            Math.max(totalCost * FEES.tax, FEES.minFee),
             FEES.maxFee
         ));
-        const finalValue = Math.floor(totalValue - transactionFee - tax - penalties.penaltyAmount);
+        const totalWithFees = totalCost + transactionFee + tax;
 
-        // Log violations if any
-        if (validation.violations.length > 0) {
-            validation.violations.forEach(violation => {
-                const log = TradingMonitor.logViolation(userId, violation);
-                if (!portfolio.violations) portfolio.violations = [];
-                portfolio.violations.push(log);
-            });
-        }
-
-        portfolio.stocks[symbol].quantity -= quantity;
-        if (portfolio.stocks[symbol].quantity === 0) {
-            delete portfolio.stocks[symbol];
-        }
-
-        portfolio.transactions.push({
-            type: 'sell',
-            symbol: symbol,
-            quantity: quantity,
-            price: Math.floor(stockData.price),
+        // Create buy order
+        const buyOrder = {
+            orderId: `${userId}-${symbol}-${Date.now()}`,
+            userId,
+            symbol,
+            side: 'buy',
+            quantity,
+            price: marketPrice,
+            totalWithFees,
             timestamp: Date.now()
-        });
+        };
 
-        await updateBalance(userId, finalValue);
-        this.savePortfolios();
-
-        return {
+        // Start transaction
+        const transactionId = await this.transactionManager.startTransaction(userId, {
+            type: 'buy',
             symbol,
             quantity,
-            price: Math.floor(stockData.price),
-            total: totalValue,
+            price: marketPrice,
+            totalCost,
             transactionFee,
             tax,
-            finalValue
-        };
+            totalWithFees,
+            order: buyOrder
+        });
+
+        try {
+            await this.transactionManager.addStep(
+                transactionId,
+                async (data) => {
+                    const balance = await getBalance(userId);
+                    if (balance < data.totalWithFees) {
+                        throw new Error(`Không đủ tiền! Cần ${this.formatNumber(data.totalWithFees)} Xu`);
+                    }
+                },
+                async () => {} 
+            );
+
+            await this.transactionManager.addStep(
+                transactionId,
+                async (data) => {
+                    await this.lockUserFunds(userId, data.totalWithFees);
+                },
+                async (data) => {
+                    await this.unlockUserFunds(userId, data.totalWithFees);
+                }
+            );
+
+            await this.transactionManager.addStep(
+                transactionId,
+                async (data) => {
+                    const order = {
+                        orderId: `${userId}-${symbol}-${Date.now()}`,
+                        userId,
+                        symbol,
+                        side: 'buy',
+                        quantity: data.quantity,
+                        price: data.price,
+                        timestamp: Date.now(),
+                        fees: {
+                            transaction: data.transactionFee,
+                            tax: data.tax
+                        }
+                    };
+                    return await this.orderManager.placeOrder(order);
+                },
+                async (data) => {
+                    await this.orderManager.cancelOrder(data.orderId, userId);
+                }
+            );
+
+            await this.transactionManager.addStep(
+                transactionId,
+                async (data) => {
+                    const portfolio = this.getUserPortfolio(userId);
+                    if (!portfolio.stocks[symbol]) {
+                        portfolio.stocks[symbol] = {
+                            quantity: 0,
+                            averagePrice: 0
+                        };
+                    }
+
+                    const oldValue = portfolio.stocks[symbol].quantity * portfolio.stocks[symbol].averagePrice;
+                    const newValue = data.totalCost;
+                    const totalQuantity = portfolio.stocks[symbol].quantity + data.quantity;
+                    
+                    portfolio.stocks[symbol].quantity = totalQuantity;
+                    portfolio.stocks[symbol].averagePrice = Math.floor((oldValue + newValue) / totalQuantity);
+
+                    if (!portfolio.transactions) portfolio.transactions = [];
+                    portfolio.transactions.push({
+                        type: 'buy',
+                        symbol,
+                        quantity: data.quantity,
+                        price: data.price,
+                        total: data.totalCost,
+                        fees: {
+                            transaction: data.transactionFee,
+                            tax: data.tax
+                        },
+                        timestamp: Date.now()
+                    });
+
+                    await this.savePortfolios();
+                },
+                async (data) => {
+                    const portfolio = this.getUserPortfolio(userId);
+                    if (portfolio.stocks[symbol]) {
+                        portfolio.stocks[symbol].quantity -= data.quantity;
+                        if (portfolio.stocks[symbol].quantity <= 0) {
+                            delete portfolio.stocks[symbol];
+                        }
+                    }
+                    await this.savePortfolios();
+                }
+            );
+
+            await this.transactionManager.addStep(
+                transactionId,
+                async (data) => {
+                    await updateBalance(userId, -data.totalWithFees);
+                },
+                async (data) => {
+                    await updateBalance(userId, data.totalWithFees);
+                }
+            );
+
+            await this.transactionManager.executeTransaction(transactionId);
+
+            return {
+                transactionId,
+                symbol,
+                quantity,
+                price: stockData.price,
+                total: totalCost,
+                transactionFee,
+                tax,
+                totalWithFees,
+                status: "completed"
+            };
+
+        } catch (error) {
+            throw error;
+        }
+    }
+
+    async lockUserFunds(userId, amount) {
+       
+        console.log(`Locked ${amount} funds for user ${userId}`);
+    }
+
+    async unlockUserFunds(userId, amount) {
+        
+        console.log(`Unlocked ${amount} funds for user ${userId}`);
+    }
+
+    getOrderBookDepth(symbol) {
+        return this.orderBook.getOrderBook(symbol);
+    }
+
+    getUserOrders(userId, symbol = null) {
+        return this.orderBook.getUserOrders(userId, symbol);
+    }
+
+    cancelOrder(orderId, userId) {
+        return this.orderBook.cancelOrder(orderId, userId);
     }
 
     getMarketOverview() {

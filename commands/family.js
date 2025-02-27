@@ -1,6 +1,6 @@
 const { updateBalance, getBalance } = require('../utils/currencies');
 const FamilySystem = require('../family/FamilySystem');
-const { MARRIAGE_COST, CHILD_COST, DIVORCE_COST } = require('../config/family/familyConfig');
+const { MARRIAGE_COST, DIVORCE_COST } = require('../config/family/familyConfig');
 const fs = require('fs');
 const path = require('path');
 
@@ -181,7 +181,7 @@ module.exports = {
                         
                         if (!familySystem.canHaveNewBaby(senderID)) {
                             return api.sendMessage(
-                                "❌ Vợ chồng cần nghỉ ngơi 3 ngày sau mỗi lần sinh con!",
+                                "❌ Vợ chồng cần nghỉ ngơi 10 phút sau mỗi lần!",
                                 threadID
                             );
                         }

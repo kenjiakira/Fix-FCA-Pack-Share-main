@@ -1,3 +1,8 @@
+const threadInfoCache = new Map();
+const userInfoCache = new Map();
+const MAX_RETRIES = 3;
+const INITIAL_RETRY_DELAY = 2000; // 2 seconds
+
 module.exports = {
     name: "adduser",
     dev: "HNT",
@@ -12,15 +17,81 @@ module.exports = {
       const botID = api.getCurrentUserID();
       const out = msg => api.sendMessage(msg, threadID, messageID);
       
+      async function getUID(url, api) {
+        try {
+          if (!isNaN(url)) {
+            return [url, null, false];
+          }
+
+          url = url.replace(/\/$/, ''); 
+          const segments = url.split('/');
+          const lastSegment = segments[segments.length - 1];
+
+          try {
+            const userInfo = await api.getUserID(lastSegment);
+            if (userInfo && userInfo[0]) {
+              return [userInfo[0].userID.toString(), userInfo[0].name, false];
+            }
+          } catch (err) {
+            console.error("Error getting user info:", err);
+            return [null, null, true];
+          }
+
+          return [null, null, true];
+        } catch (err) {
+          console.error("Error in getUID:", err);
+          return [null, null, true];
+        }
+      }
+
+      async function getThreadInfoWithRetry(threadID, retryCount = 0) {
+        try {
+          const cachedInfo = threadInfoCache.get(threadID);
+          if (cachedInfo && Date.now() - cachedInfo.timestamp < 300000) { 
+            return cachedInfo.data;
+          }
+
+          const delay = retryCount > 0 ? INITIAL_RETRY_DELAY * Math.pow(2, retryCount - 1) : 0;
+          if (delay > 0) {
+            await new Promise(resolve => setTimeout(resolve, delay));
+          }
+
+          const threadInfo = await api.getThreadInfo(threadID);
+          if (!threadInfo) {
+            throw new Error("Không thể lấy thông tin nhóm");
+          }
+
+          threadInfoCache.set(threadID, {
+            data: threadInfo,
+            timestamp: Date.now()
+          });
+
+          return threadInfo;
+
+        } catch (error) {
+          console.error(`Lỗi lấy thông tin nhóm (Lần thử ${retryCount + 1}):`, error);
+
+          if (error.message?.includes("blocked") || 
+              error.error?.includes("blocked") ||
+              error.error?.includes("limit") ||
+              error.message?.includes("limit")) {
+            throw new Error("Facebook đang tạm thời chặn bot. Vui lòng thử lại sau 1-2 phút.");
+          }
+
+          if (retryCount < MAX_RETRIES) {
+            return getThreadInfoWithRetry(threadID, retryCount + 1);
+          }
+
+          throw new Error(`Không thể lấy thông tin nhóm sau ${MAX_RETRIES} lần thử. Vui lòng thử lại sau.`);
+        }
+      }
+
       let threadInfo;
       try {
-        threadInfo = await api.getThreadInfo(threadID);
-        if (!threadInfo) {
-          return out("❌ Không thể lấy thông tin nhóm. Vui lòng thử lại sau!");
-        }
+        threadInfo = await getThreadInfoWithRetry(threadID);
       } catch (error) {
         console.error("Thread info error:", error);
-        return out("❌ Đã xảy ra lỗi khi lấy thông tin nhóm!");
+        return out(`❌ ${error.message}`);
       }
 
       const participantIDs = threadInfo.participantIDs || [];
@@ -30,38 +101,53 @@ module.exports = {
       const parsedParticipantIDs = participantIDs.map(e => parseInt(e));
 
       if (!target[0]) return out("⚠️ Vui lòng nhập ID hoặc link profile người dùng cần thêm!");
-      if (!isNaN(target[0])) return adduser(target[0], undefined);
-      else {
-        try {
-          var [id, name, fail] = await getUID(target[0], api);
-          if (fail == true && id != null) return out(id);
-          else if (fail == true && id == null) return out("❌ Không tìm thấy ID người dùng!");
-          else {
-            await adduser(id, name || "Người dùng Facebook");
-          }
-        } catch (e) {
-          return out(`❌ Lỗi: ${e.message}`);
-        }
-      }
       
       async function adduser(id, name) {
         id = parseInt(id);
         if (parsedParticipantIDs.includes(id)) {
           return out(`⚠️ ${name ? name : "Người dùng"} đã có trong nhóm!`);
-        } else {
-          var admins = adminIDs.map(e => parseInt(e.id));
-          try {
-            await api.addUserToGroup(id, threadID);
-            if (approvalMode === true && !admins.includes(botID)) {
-              return out(`✅ Đã thêm ${name ? name : "người dùng"} vào danh sách phê duyệt!`);
-            } else {
-              return out(`✅ Đã thêm ${name ? name : "người dùng"} vào nhóm!`);
-            }
-          } catch (error) {
-            console.error("Add user error:", error);
-            return out(`❌ Không thể thêm ${name ? name : "người dùng"} vào nhóm!\nCó thể do người dùng đã chặn bot hoặc bot không phải là quản trị viên.`);
+        }
+
+        var admins = adminIDs.map(e => parseInt(e.id));
+        try {
+          await new Promise(resolve => setTimeout(resolve, 1000));
+          await api.addUserToGroup(id, threadID);
+          
+          threadInfoCache.delete(threadID);
+          
+          if (approvalMode === true && !admins.includes(botID)) {
+            return out(`✅ Đã thêm ${name ? name : "người dùng"} vào danh sách phê duyệt!`);
+          } else {
+            return out(`✅ Đã thêm ${name ? name : "người dùng"} vào nhóm!`);
           }
+        } catch (error) {
+          console.error("Add user error:", error);
+          
+          if (error.message?.includes("blocked") || 
+              error.error?.includes("blocked") ||
+              error.error?.includes("limit") ||
+              error.message?.includes("limit")) {
+            return out(`❌ Facebook đang tạm thời chặn bot. Vui lòng thử lại sau 1-2 phút.`);
+          }
+
+          return out(`❌ Không thể thêm ${name ? name : "người dùng"} vào nhóm!\nCó thể do:\n- Người dùng đã chặn bot\n- Bot không phải là quản trị viên\n- Facebook đang giới hạn tính năng này\n- Người dùng đã chặn yêu cầu vào nhóm`);
+        }
+      }
+
+      if (!isNaN(target[0])) {
+        return adduser(target[0], undefined);
+      } else {
+        try {
+          var [id, name, fail] = await getUID(target[0], api);
+          if (fail == true && id != null) return out(id);
+          else if (fail == true && id == null) return out("❌ Không tìm thấy ID người dùng! Vui lòng kiểm tra lại link profile.");
+          else {
+            await adduser(id, name || "Người dùng Facebook");
+          }
+        } catch (e) {
+          console.error("Error processing user input:", e);
+          return out(`❌ Lỗi xử lý: ${e.message || "Không xác định"}. Vui lòng thử lại sau.`);
         }
       }
     }
-  };
+};

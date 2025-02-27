@@ -244,7 +244,7 @@ class JobSystem {
     quitJob(userID) {
         const jobData = this.getJob(userID);
         if (!jobData.currentJob) {
-            throw new Error("Bạn chưa có việc làm!");
+            throw new Error("❌ Bạn chưa có việc làm!/n vui lòng apply job trước bằng cách gõ\njob apply [mã job]");
         }
 
         const oldJob = {...jobData.currentJob};
@@ -291,7 +291,7 @@ class JobSystem {
             const jobData = this.data[userID];
             
             if (!jobData.currentJob || !jobData.currentJob.id) {
-                throw new Error("Bạn chưa có việc làm!");
+                throw new Error("❌ Bạn chưa có việc làm!/n vui lòng apply job trước bằng cách gõ\njob apply [mã job]");
             }
 
             const cooldown = this.getWorkCooldown(userID, vipBenefits);

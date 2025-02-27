@@ -1,5 +1,13 @@
 const TradeSystem = require('../trade/TradeSystem');
+const StockChart = require('../trade/stockChart');
+const path = require('path');
+const fs = require('fs');
+
 const tradeSystem = new TradeSystem();
+const CHART_DIR = path.join(__dirname, '../cache/charts');
+if (!fs.existsSync(CHART_DIR)) {
+    fs.mkdirSync(CHART_DIR, { recursive: true });
+}
 
 module.exports = {
     name: "trade",
@@ -14,22 +22,23 @@ module.exports = {
 
         try {
             if (!target[0]) {
-                return api.sendMessage(
-                    "💎 CHỨNG KHOÁN AKI 💎\n" +
-                    "━━━━━━━━━━━━━━━━━━\n\n" +
-                    "Lệnh:\n" +
-                    "1. .trade check - Xem thị trường\n" +
-                    "2. .trade buy [mã] [số lượng] - Mua thị trường\n" +
-                    "3. .trade sell [mã] [số lượng] - Bán thị trường\n" +
-                    "4. .trade portfolio - Xem danh mục\n" +
-                    "5. .trade info [mã] - Thông tin CP\n" +
-                    "6. .trade order [mã] [số lượng] [limit/stop] [giá] [buy/sell] - Đặt lệnh\n" +
-                    "7. .trade margin [mã] [số lượng] [đòn bẩy] [open/close] - Giao dịch margin\n" +
-                    "8. .trade analysis [mã] - Phân tích kỹ thuật\n" +
-                    "9. .trade guide - Xem hướng dẫn chi tiết\n" +
-                    "10. .trade risk - Xem cảnh báo rủi ro",
-                    threadID, messageID
-                );
+                    return api.sendMessage(
+                        "💎 CHỨNG KHOÁN AKI 💎\n" +
+                        "━━━━━━━━━━━━━━━━━━\n\n" +
+                        "Lệnh:\n" +
+                        "1. .trade check - Xem thị trường\n" +
+                        "2. .trade buy [mã] [số lượng] - Mua thị trường\n" +
+                        "3. .trade sell [mã] [số lượng] - Bán thị trường\n" +
+                        "4. .trade portfolio - Xem danh mục\n" +
+                        "5. .trade info [mã] - Thông tin CP\n" +
+                        "6. .trade order [mã] [số lượng] [limit/stop] [giá] [buy/sell] - Đặt lệnh\n" +
+                        "7. .trade margin [mã] [số lượng] [đòn bẩy] [open/close] - Giao dịch margin\n" +
+                        "8. .trade analysis [mã] - Phân tích kỹ thuật\n" +
+                        "9. .trade guide - Xem hướng dẫn chi tiết\n" +
+                        "10. .trade risk - Xem cảnh báo rủi ro\n" +
+                        "11. .trade gift - Tặng CP cho người chơi tích cực",
+                        threadID, messageID
+                    );
             }
 
             const command = target[0].toLowerCase();
@@ -37,6 +46,65 @@ module.exports = {
             const MARKET_HOURS = { open: 9, close: 19 };
 
             switch (command) {
+                case "gift": {
+                    // Load admin config
+                    const adminConfig = JSON.parse(fs.readFileSync('./admin.json'));
+                    if (!adminConfig.adminUIDs.includes(senderID)) {
+                        return api.sendMessage("❌ Chỉ ADMIN mới được sử dụng lệnh này!", threadID, messageID);
+                    }
+
+                    try {
+                        const allPortfolios = tradeSystem.getAllPortfolios();
+                        const eligibleUsers = [];
+
+                        for (const [userId, portfolio] of Object.entries(allPortfolios)) {
+                            if (!portfolio.transactions) continue;
+
+                            const buyCount = portfolio.transactions.filter(t => t.type === 'buy').length;
+                            const sellCount = portfolio.transactions.filter(t => t.type === 'sell').length;
+
+                            if (buyCount >= 2 && sellCount >= 2) {
+                                eligibleUsers.push(userId);
+                            }
+                        }
+
+                        const selectedUsers = eligibleUsers
+                            .sort(() => Math.random() - 0.5)
+                            .slice(0, 100);
+
+                        if (selectedUsers.length === 0) {
+                            return api.sendMessage("❌ Không có người chơi nào đủ điều kiện!", threadID, messageID);
+                        }
+
+                        const overview = tradeSystem.getMarketOverview();
+                        const symbols = Object.keys(overview.stocks);
+                        const randomSymbol = symbols[Math.floor(Math.random() * symbols.length)];
+
+                        let successCount = 0;
+                        for (const userId of selectedUsers) {
+                            try {
+                                await tradeSystem.giftStock(userId, randomSymbol, 1000);
+                                successCount++;
+                            } catch (error) {
+                                console.error(`Error gifting to ${userId}:`, error);
+                            }
+                        }
+
+                        return api.sendMessage(
+                            "🎁 TẶNG CP THÀNH CÔNG\n" +
+                            "━━━━━━━━━━━━━━━━━━\n\n" +
+                            `🏢 Mã CP: ${randomSymbol}\n` +
+                            `🔢 Số lượng: 1000 CP/người\n` +
+                            `👥 Số người nhận: ${successCount}\n` +
+                            `ℹ️ Điều kiện: Tối thiểu 2 lần mua và 2 lần bán`,
+                            threadID, messageID
+                        );
+
+                    } catch (error) {
+                        return api.sendMessage(`❌ Lỗi: ${error.message}`, threadID, messageID);
+                    }
+                }
+
                 case "guide": {
                     const fs = require('fs');
                     const path = require('path');
@@ -204,17 +272,20 @@ module.exports = {
 
                     try {
                         const result = await tradeSystem.buyStock(senderID, symbol, quantity);
-                        return api.sendMessage(
-                            "✅ GIAO DỊCH THÀNH CÔNG\n" +
+                        const message = "✅ GIAO DỊCH THÀNH CÔNG\n" +
                             `🏢 Mã CP: ${result.symbol}\n` +
                             `🔢 Số lượng: ${result.quantity}\n` +
                             `💰 Giá: ${tradeSystem.formatNumber(result.price)} Xu\n` +
                             `💵 Tổng: ${tradeSystem.formatNumber(result.total)} Xu\n` +
                             `📋 Phí GD: ${tradeSystem.formatNumber(result.transactionFee)} Xu\n` +
                             `🏷️ Thuế: ${tradeSystem.formatNumber(result.tax)} Xu\n` +
-                            `💶 Tổng cộng: ${tradeSystem.formatNumber(result.totalWithFees)} Xu`,
-                            threadID, messageID
-                        );
+                            `💶 Tổng cộng: ${tradeSystem.formatNumber(result.totalWithFees)} Xu`;
+
+                        if (result.matchedOrder) {
+                            message += "\n\n📢 Đã khớp với lệnh bán có sẵn!";
+                        }
+
+                        return api.sendMessage(message, threadID, messageID);
                     } catch (error) {
                         return api.sendMessage(`❌ Lỗi: ${error.message}`, threadID, messageID);
                     }
@@ -230,17 +301,31 @@ module.exports = {
 
                     try {
                         const result = await tradeSystem.sellStock(senderID, symbol, quantity);
-                        return api.sendMessage(
-                            "✅ GIAO DỊCH THÀNH CÔNG\n" +
-                            `🏢 Mã CP: ${result.symbol}\n` +
-                            `🔢 Số lượng: ${result.quantity}\n` +
-                            `💰 Giá: ${tradeSystem.formatNumber(result.price)} Xu\n` +
-                            `💵 Tổng: ${tradeSystem.formatNumber(result.total)} Xu\n` +
-                            `📋 Phí GD: ${tradeSystem.formatNumber(result.transactionFee)} Xu\n` +
-                            `🏷️ Thuế: ${tradeSystem.formatNumber(result.tax)} Xu\n` +
-                            `💶 Thực nhận: ${tradeSystem.formatNumber(result.finalValue)} Xu`,
-                            threadID, messageID
-                        );
+                        
+                        if (result.status === "pending") {
+                            return api.sendMessage(
+                                "📝 ĐẶT LỆNH BÁN THÀNH CÔNG\n" +
+                                `🏢 Mã CP: ${result.symbol}\n` +
+                                `🔢 Số lượng: ${result.quantity}\n` +
+                                `💰 Giá đặt: ${tradeSystem.formatNumber(result.price)} Xu\n` +
+                                `📊 Trạng thái: Đang chờ khớp lệnh\n` +
+                                `ℹ️ Lệnh của bạn sẽ được thực hiện khi có người mua\n` +
+                                `🔖 Mã lệnh: ${result.orderId}`,
+                                threadID, messageID
+                            );
+                        } else {
+                            return api.sendMessage(
+                                "✅ GIAO DỊCH THÀNH CÔNG\n" +
+                                `🏢 Mã CP: ${result.symbol}\n` +
+                                `🔢 Số lượng: ${result.quantity}\n` +
+                                `💰 Giá: ${tradeSystem.formatNumber(result.price)} Xu\n` +
+                                `💵 Tổng: ${tradeSystem.formatNumber(result.total)} Xu\n` +
+                                `📋 Phí GD: ${tradeSystem.formatNumber(result.transactionFee)} Xu\n` +
+                                `🏷️ Thuế: ${tradeSystem.formatNumber(result.tax)} Xu\n` +
+                                `💶 Thực nhận: ${tradeSystem.formatNumber(result.finalValue)} Xu`,
+                                threadID, messageID
+                            );
+                        }
                     } catch (error) {
                         return api.sendMessage(`❌ Lỗi: ${error.message}`, threadID, messageID);
                     }
@@ -260,7 +345,6 @@ module.exports = {
                     message += `Độ biến động: ${marketVolatility.toFixed(1)}%\n`;
                     message += `Xu hướng: ${marketAnalysis.marketSentiment}\n\n`;
                     
-                    // Margin Positions
                     if (marginPositions.length > 0) {
                         message += "📈 VỊ THẾ MARGIN:\n";
                         marginPositions.forEach(([id, pos]) => {
@@ -278,7 +362,7 @@ module.exports = {
                     
                     return api.sendMessage(message, threadID, messageID);
                 }
-
+                case "wallet":
                 case "portfolio": {
                     const portfolio = tradeSystem.getUserPortfolio(senderID);
                     let totalValue = 0;
@@ -317,6 +401,17 @@ module.exports = {
                         const stock = tradeSystem.getStockPrice(symbol);
                         const overview = tradeSystem.getMarketOverview();
 
+                        // Generate chart
+                        const chartData = {
+                            symbol,
+                            name: stock.name,
+                            timestamps: stock.history.map(h => h.timestamp),
+                            prices: stock.history.map(h => h.price),
+                            outputDir: CHART_DIR
+                        };
+
+                        const chartPath = await StockChart.generate(chartData);
+
                         const message = 
                             `🏢 ${symbol} - ${stock.name}\n` +
                             `━━━━━━━━━━━━━━━━━━\n\n` +
@@ -332,7 +427,19 @@ module.exports = {
                             ).join('\n')}\n\n` +
                             `⏰ Cập nhật: ${new Date().toLocaleString()}`;
 
-                        return api.sendMessage(message, threadID, messageID);
+              
+                        return api.sendMessage(
+                            { 
+                                body: message,
+                                attachment: fs.createReadStream(chartPath)
+                            },
+                            threadID,
+                            (err) => {
+                                if (err) return api.sendMessage(`❌ Lỗi: ${err.message}`, threadID, messageID);
+                             
+                                fs.unlinkSync(chartPath);
+                            }
+                        );
                     } catch (error) {
                         return api.sendMessage(`❌ Lỗi: ${error.message}`, threadID, messageID);
                     }
