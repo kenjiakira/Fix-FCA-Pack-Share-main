@@ -14,7 +14,7 @@ function loadConfig(filePath, defaultValue = {}) {
 module.exports = {
     name: "notify",
     dev: "HNT",
-    usedby: 1, 
+    usedby: 5, 
     info: "Quản lý cài đặt thông báo nhóm",
     onPrefix: true,
     usages: "notify [loại] [tùy chọn]",

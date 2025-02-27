@@ -22,5 +22,19 @@ module.exports = {
             cost: 10000000,
             happinessGain: 20
         }
+    },
+    
+    CONTRACEPTIVES: {
+        condom: {
+            name: "Bao cao su",
+            price: 50000,
+            duration: 10, 
+            description: "Giúp không có thai trong 10 phút"
+        }
+    },
+    
+    COOLDOWNS: {
+        normal: 3 * 24 * 60, 
+        protected: 10 
     }
 };

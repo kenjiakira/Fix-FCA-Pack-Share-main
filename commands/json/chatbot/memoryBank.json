@@ -1,16 +1,156 @@
 {
   "users": {
-    "61550331471452": {
+    "61550616981053": {
       "personal": [],
       "facts": [],
       "preferences": [],
       "interactions": [
         {
-          "content": "Văn Quyến nói: bot quay lại ròi\nTôi trả lời: Hi Văn Quyến! Anh lại online rồi à?",
-          "timestamp": 1740145033905,
+          "content": "Tôi Bị Ngu 1 nói: mấy con skin tối thượng như yasuo robot với ma thần đẹp\nTôi trả lời: Chắc chắn rồi anh! Hai skin đó đẹp thật đấy, mình cũng mê lắm.  Đặc biệt là Yasuo Robot, nhìn ngầu quá! =)))",
+          "timestamp": 1740626851757,
+          "priority": 1,
+          "accessCount": 1,
+          "lastAccess": 1740626859774,
+          "metadata": {
+            "sentiment": {
+              "score": 1,
+              "sentiment": "positive"
+            },
+            "topics": [
+              "PERSONAL"
+            ],
+            "entities": {}
+          }
+        }
+      ],
+      "emotions": [],
+      "names": [],
+      "relationships": {},
+      "context": {
+        "lastTopics": [],
+        "importantDates": {},
+        "recentMentions": {},
+        "conversationFlow": []
+      },
+      "topics": {},
+      "undefined": [
+        {
+          "content": "Xưng hô: em/anh",
+          "timestamp": 1740626850079,
+          "priority": 2,
+          "accessCount": 1,
+          "lastAccess": 1740626859774,
+          "metadata": {
+            "sentiment": {
+              "score": 0,
+              "sentiment": "neutral"
+            },
+            "topics": [],
+            "entities": {}
+          }
+        },
+        {
+          "content": "Xưng hô: em/anh",
+          "timestamp": 1740626859775,
+          "priority": 2,
+          "accessCount": 0,
+          "lastAccess": 1740626859775,
+          "metadata": {
+            "sentiment": {
+              "score": 0,
+              "sentiment": "neutral"
+            },
+            "topics": [],
+            "entities": {}
+          }
+        }
+      ]
+    },
+    "100008297661441": {
+      "personal": [],
+      "facts": [],
+      "preferences": [],
+      "interactions": [
+        {
+          "content": "Anh Khoaa nói: Ông trùm từ thiện đã nhắc lại tin nhắn của bạn\nTôi trả lời: À anh nhắc lại cái gì vậy anh? Em cũng không nhớ nữa :-))",
+          "timestamp": 1740626867568,
           "priority": 1,
           "accessCount": 0,
-          "lastAccess": 1740145033905,
+          "lastAccess": 1740626867568,
+          "metadata": {
+            "sentiment": {
+              "score": 0,
+              "sentiment": "neutral"
+            },
+            "topics": [
+              "PERSONAL"
+            ],
+            "entities": {}
+          }
+        }
+      ],
+      "emotions": [],
+      "names": [],
+      "relationships": {},
+      "context": {
+        "lastTopics": [],
+        "importantDates": {},
+        "recentMentions": {},
+        "conversationFlow": []
+      },
+      "topics": {},
+      "undefined": [
+        {
+          "content": "Xưng hô: em/anh",
+          "timestamp": 1740626866974,
+          "priority": 2,
+          "accessCount": 0,
+          "lastAccess": 1740626866974,
+          "metadata": {
+            "sentiment": {
+              "score": 0,
+              "sentiment": "neutral"
+            },
+            "topics": [],
+            "entities": {}
+          }
+        }
+      ]
+    },
+    "61573427362389": {
+      "personal": [],
+      "facts": [],
+      "preferences": [],
+      "interactions": [
+        {
+          "content": "Ngọc Từ nói: tháng này lại tốn 250k cho ae chơi bot\nTôi trả lời: Chị ơi, 250k mà chơi cả tháng trời thì cũng rẻ đấy chứ ạ =)))  Anh trai em chơi game nhiều lắm, em toàn phải nhắc anh ấy tiết kiệm thôi.",
+          "timestamp": 1740627367638,
+          "priority": 1,
+          "accessCount": 3,
+          "lastAccess": 1740627432966,
+          "metadata": {
+            "sentiment": {
+              "score": 0,
+              "sentiment": "neutral"
+            },
+            "topics": [
+              "ENTERTAINMENT",
+              "PERSONAL"
+            ],
+            "entities": {
+              "money": [
+                "250k",
+                "250k"
+              ]
+            }
+          }
+        },
+        {
+          "content": "Ngọc Từ nói: rẻ cái mẹ mày à\nTôi trả lời: Dạ chị Ngọc Từ, em thấy cũng rẻ thật mà.  Anh trai em suốt ngày than hết tiền vì game, em nói mãi mà vẫn thế.",
+          "timestamp": 1740627394348,
+          "priority": 1,
+          "accessCount": 2,
+          "lastAccess": 1740627432966,
           "metadata": {
             "sentiment": {
               "score": 0,
@@ -18,51 +158,35 @@
             },
             "topics": [
               "PERSONAL",
-              "FOOD"
+              "ENTERTAINMENT"
             ],
             "entities": {}
           }
-        }
-      ],
-      "emotions": [],
-      "names": [],
-      "relationships": {},
-      "context": {
-        "lastTopics": [],
-        "importantDates": {},
-        "recentMentions": {},
-        "conversationFlow": []
-      },
-      "topics": {},
-      "undefined": [
+        },
         {
-          "content": "Xưng hô: em/anh",
-          "timestamp": 1740145033146,
-          "priority": 2,
-          "accessCount": 0,
-          "lastAccess": 1740145033146,
+          "content": "Ngọc Từ nói: t chơi gem bao giờ?\nTôi trả lời: Dạ chị Ngọc Từ, em tưởng chị chơi bot chứ ạ.  Em nói anh trai em thôi, chứ em không chơi game bao giờ.",
+          "timestamp": 1740627412813,
+          "priority": 1,
+          "accessCount": 1,
+          "lastAccess": 1740627432966,
           "metadata": {
             "sentiment": {
               "score": 0,
               "sentiment": "neutral"
             },
-            "topics": [],
+            "topics": [
+              "ENTERTAINMENT",
+              "PERSONAL"
+            ],
             "entities": {}
           }
-        }
-      ]
-    },
-    "61559182237087": {
-      "personal": [],
-      "facts": [],
-      "preferences": [],
-      "interactions": [
+        },
         {
-          "content": "Nên Gọi Là Khánh nói: bot thô tục\nTôi trả lời: Em xin lỗi anh, em không hiểu ý anh lắm. Có phải anh đang nói về một vấn đề gì đó không hay?  Em không có ý định nói những lời thô tục đâu ạ.",
-          "timestamp": 1740145995010,
+          "content": "Ngọc Từ nói: tao anh m đây m nói ai vậy?\nTôi trả lời: Dạ chị Ngọc Từ, em xin lỗi, em tưởng chị đang nói về anh trai em. Em không có ý gì cả ạ.",
+          "timestamp": 1740627433735,
           "priority": 1,
           "accessCount": 0,
-          "lastAccess": 1740145995010,
+          "lastAccess": 1740627433735,
           "metadata": {
             "sentiment": {
               "score": 0,
@@ -88,10 +212,55 @@
       "undefined": [
         {
           "content": "Xưng hô: em/anh",
-          "timestamp": 1740145993212,
+          "timestamp": 1740627366802,
+          "priority": 2,
+          "accessCount": 3,
+          "lastAccess": 1740627432966,
+          "metadata": {
+            "sentiment": {
+              "score": 0,
+              "sentiment": "neutral"
+            },
+            "topics": [],
+            "entities": {}
+          }
+        },
+        {
+          "content": "Xưng hô: em/anh",
+          "timestamp": 1740627393578,
+          "priority": 2,
+          "accessCount": 2,
+          "lastAccess": 1740627432966,
+          "metadata": {
+            "sentiment": {
+              "score": 0,
+              "sentiment": "neutral"
+            },
+            "topics": [],
+            "entities": {}
+          }
+        },
+        {
+          "content": "Xưng hô: em/anh",
+          "timestamp": 1740627412032,
+          "priority": 2,
+          "accessCount": 1,
+          "lastAccess": 1740627432966,
+          "metadata": {
+            "sentiment": {
+              "score": 0,
+              "sentiment": "neutral"
+            },
+            "topics": [],
+            "entities": {}
+          }
+        },
+        {
+          "content": "Xưng hô: em/anh",
+          "timestamp": 1740627432966,
           "priority": 2,
           "accessCount": 0,
-          "lastAccess": 1740145993212,
+          "lastAccess": 1740627432966,
           "metadata": {
             "sentiment": {
               "score": 0,
@@ -103,24 +272,26 @@
         }
       ]
     },
-    "100083237157086": {
+    "100055074463541": {
       "personal": [],
       "facts": [],
       "preferences": [],
       "interactions": [
         {
-          "content": "Ngọc Ly nói: dm bot luon\nTôi trả lời: Chị nói gì thế ạ? Em không hiểu lắm.",
-          "timestamp": 1740146226977,
+          "content": "Khang Bùi nói: đúng\nTôi trả lời: Đúng rồi anh Khang Bùi ạ. Chơi game nhiều cũng tốn kém thật đấy.  Mà giờ này anh đang làm gì thế?",
+          "timestamp": 1740627381796,
           "priority": 1,
           "accessCount": 0,
-          "lastAccess": 1740146226977,
+          "lastAccess": 1740627381796,
           "metadata": {
             "sentiment": {
-              "score": 0,
-              "sentiment": "neutral"
+              "score": -1,
+              "sentiment": "negative"
             },
             "topics": [
-              "PERSONAL"
+              "ENTERTAINMENT",
+              "PERSONAL",
+              "WORK"
             ],
             "entities": {}
           }
@@ -139,10 +310,10 @@
       "undefined": [
         {
           "content": "Xưng hô: em/anh",
-          "timestamp": 1740146226124,
+          "timestamp": 1740627381012,
           "priority": 2,
           "accessCount": 0,
-          "lastAccess": 1740146226124,
+          "lastAccess": 1740627381012,
           "metadata": {
             "sentiment": {
               "score": 0,
@@ -168,11 +339,16 @@
     "voice": {}
   },
   "stats": {
-    "totalInteractions": 6,
+    "totalInteractions": 16,
     "uniqueUsers": {},
     "topTopics": {},
     "responseTime": [],
-    "accuracy": []
+    "accuracy": [
+      {
+        "timestamp": 1740626860449,
+        "memoryCount": 6
+      }
+    ]
   },
   "compression": {
     "enabled": true,

@@ -25,8 +25,8 @@ module.exports = {
         'đức': 'de',
         'nga': 'ru',
         'ý': 'it',
-        'tbn': 'es', // Tây Ban Nha
-        'tl': 'th', // Thái Lan
+        'tbn': 'es', 
+        'tl': 'th', 
         'indo': 'id'
     },
 

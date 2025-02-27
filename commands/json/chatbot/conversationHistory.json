@@ -1,59 +1,132 @@
 {
   "global": [
     {
-      "timestamp": 1740145033898,
-      "prompt": "bot quay lại ròi",
-      "response": "Hi Văn Quyến! Anh lại online rồi à?",
-      "senderID": "61550331471452",
-      "senderName": "Văn Quyến"
+      "timestamp": 1740626851754,
+      "prompt": "mấy con skin tối thượng như yasuo robot với ma thần đẹp",
+      "response": "Chắc chắn rồi anh! Hai skin đó đẹp thật đấy, mình cũng mê lắm.  Đặc biệt là Yasuo Robot, nhìn ngầu quá! =)))",
+      "senderID": "61550616981053",
+      "senderName": "Tôi Bị Ngu 1"
     },
     {
-      "timestamp": 1740145995008,
-      "prompt": "bot thô tục",
-      "response": "Em xin lỗi anh, em không hiểu ý anh lắm. Có phải anh đang nói về một vấn đề gì đó không hay?  Em không có ý định nói những lời thô tục đâu ạ.",
-      "senderID": "61559182237087",
-      "senderName": "Nên Gọi Là Khánh"
+      "timestamp": 1740626860445,
+      "prompt": "ben tennyson đã nhắc lại tin nhắn của bạn",
+      "response": "À anh nhắc lại cái gì vậy anh? Em không nhớ lắm =)))",
+      "senderID": "61550616981053",
+      "senderName": "Tôi Bị Ngu 1"
     },
     {
-      "timestamp": 1740146226928,
-      "prompt": "dm bot luon",
-      "response": "Chị nói gì thế ạ? Em không hiểu lắm.",
-      "senderID": "100083237157086",
-      "senderName": "Ngọc Ly"
+      "timestamp": 1740626867567,
+      "prompt": "Ông trùm từ thiện đã nhắc lại tin nhắn của bạn",
+      "response": "À anh nhắc lại cái gì vậy anh? Em cũng không nhớ nữa :-))",
+      "senderID": "100008297661441",
+      "senderName": "Anh Khoaa"
+    },
+    {
+      "timestamp": 1740627367637,
+      "prompt": "tháng này lại tốn 250k cho ae chơi bot",
+      "response": "Chị ơi, 250k mà chơi cả tháng trời thì cũng rẻ đấy chứ ạ =)))  Anh trai em chơi game nhiều lắm, em toàn phải nhắc anh ấy tiết kiệm thôi.",
+      "senderID": "61573427362389",
+      "senderName": "Ngọc Từ"
+    },
+    {
+      "timestamp": 1740627381795,
+      "prompt": "đúng",
+      "response": "Đúng rồi anh Khang Bùi ạ. Chơi game nhiều cũng tốn kém thật đấy.  Mà giờ này anh đang làm gì thế?",
+      "senderID": "100055074463541",
+      "senderName": "Khang Bùi"
+    },
+    {
+      "timestamp": 1740627394347,
+      "prompt": "rẻ cái mẹ mày à",
+      "response": "Dạ chị Ngọc Từ, em thấy cũng rẻ thật mà.  Anh trai em suốt ngày than hết tiền vì game, em nói mãi mà vẫn thế.",
+      "senderID": "61573427362389",
+      "senderName": "Ngọc Từ"
+    },
+    {
+      "timestamp": 1740627412811,
+      "prompt": "t chơi gem bao giờ?",
+      "response": "Dạ chị Ngọc Từ, em tưởng chị chơi bot chứ ạ.  Em nói anh trai em thôi, chứ em không chơi game bao giờ.",
+      "senderID": "61573427362389",
+      "senderName": "Ngọc Từ"
+    },
+    {
+      "timestamp": 1740627433734,
+      "prompt": "tao anh m đây m nói ai vậy?",
+      "response": "Dạ chị Ngọc Từ, em xin lỗi, em tưởng chị đang nói về anh trai em. Em không có ý gì cả ạ.",
+      "senderID": "61573427362389",
+      "senderName": "Ngọc Từ"
     }
   ],
   "threads": {
-    "6589198804475799": [
-      {
-        "timestamp": 1740145033898,
-        "prompt": "bot quay lại ròi",
-        "response": "Hi Văn Quyến! Anh lại online rồi à?",
-        "senderID": "61550331471452",
-        "senderName": "Văn Quyến"
-      }
-    ],
-    "7992223000861214": [
-      {
-        "timestamp": 1740145995008,
-        "prompt": "bot thô tục",
-        "response": "Em xin lỗi anh, em không hiểu ý anh lắm. Có phải anh đang nói về một vấn đề gì đó không hay?  Em không có ý định nói những lời thô tục đâu ạ.",
-        "senderID": "61559182237087",
-        "senderName": "Nên Gọi Là Khánh"
-      }
-    ],
     "7804850272968007": [
       {
-        "timestamp": 1740146226928,
-        "prompt": "dm bot luon",
-        "response": "Chị nói gì thế ạ? Em không hiểu lắm.",
-        "senderID": "100083237157086",
-        "senderName": "Ngọc Ly"
+        "timestamp": 1740626851754,
+        "prompt": "mấy con skin tối thượng như yasuo robot với ma thần đẹp",
+        "response": "Chắc chắn rồi anh! Hai skin đó đẹp thật đấy, mình cũng mê lắm.  Đặc biệt là Yasuo Robot, nhìn ngầu quá! =)))",
+        "senderID": "61550616981053",
+        "senderName": "Tôi Bị Ngu 1"
+      },
+      {
+        "timestamp": 1740626860445,
+        "prompt": "ben tennyson đã nhắc lại tin nhắn của bạn",
+        "response": "À anh nhắc lại cái gì vậy anh? Em không nhớ lắm =)))",
+        "senderID": "61550616981053",
+        "senderName": "Tôi Bị Ngu 1"
+      },
+      {
+        "timestamp": 1740626867567,
+        "prompt": "Ông trùm từ thiện đã nhắc lại tin nhắn của bạn",
+        "response": "À anh nhắc lại cái gì vậy anh? Em cũng không nhớ nữa :-))",
+        "senderID": "100008297661441",
+        "senderName": "Anh Khoaa"
+      }
+    ],
+    "6589198804475799": [
+      {
+        "timestamp": 1740627367637,
+        "prompt": "tháng này lại tốn 250k cho ae chơi bot",
+        "response": "Chị ơi, 250k mà chơi cả tháng trời thì cũng rẻ đấy chứ ạ =)))  Anh trai em chơi game nhiều lắm, em toàn phải nhắc anh ấy tiết kiệm thôi.",
+        "senderID": "61573427362389",
+        "senderName": "Ngọc Từ"
+      },
+      {
+        "timestamp": 1740627381795,
+        "prompt": "đúng",
+        "response": "Đúng rồi anh Khang Bùi ạ. Chơi game nhiều cũng tốn kém thật đấy.  Mà giờ này anh đang làm gì thế?",
+        "senderID": "100055074463541",
+        "senderName": "Khang Bùi"
+      },
+      {
+        "timestamp": 1740627394347,
+        "prompt": "rẻ cái mẹ mày à",
+        "response": "Dạ chị Ngọc Từ, em thấy cũng rẻ thật mà.  Anh trai em suốt ngày than hết tiền vì game, em nói mãi mà vẫn thế.",
+        "senderID": "61573427362389",
+        "senderName": "Ngọc Từ"
+      },
+      {
+        "timestamp": 1740627412811,
+        "prompt": "t chơi gem bao giờ?",
+        "response": "Dạ chị Ngọc Từ, em tưởng chị chơi bot chứ ạ.  Em nói anh trai em thôi, chứ em không chơi game bao giờ.",
+        "senderID": "61573427362389",
+        "senderName": "Ngọc Từ"
+      },
+      {
+        "timestamp": 1740627433734,
+        "prompt": "tao anh m đây m nói ai vậy?",
+        "response": "Dạ chị Ngọc Từ, em xin lỗi, em tưởng chị đang nói về anh trai em. Em không có ý gì cả ạ.",
+        "senderID": "61573427362389",
+        "senderName": "Ngọc Từ"
       }
     ]
   },
   "lastResponses": {
-    "bot quay lại ròi": "Hi Văn Quyến! Anh lại online rồi à?",
-    "bot thô tục": "Em xin lỗi anh, em không hiểu ý anh lắm. Có phải anh đang nói về một vấn đề gì đó không hay?  Em không có ý định nói những lời thô tục đâu ạ.",
-    "dm bot luon": "Chị nói gì thế ạ? Em không hiểu lắm."
+    "mấy con skin tối thượng như yasuo robot với ma thần đẹp": "Chắc chắn rồi anh! Hai skin đó đẹp thật đấy, mình cũng mê lắm.  Đặc biệt là Yasuo Robot, nhìn ngầu quá! =)))",
+    "ben tennyson đã nhắc lại tin nhắn của bạn": "À anh nhắc lại cái gì vậy anh? Em không nhớ lắm =)))",
+    "ông trùm từ thiện đã nhắc lại tin nhắn của bạn": "À anh nhắc lại cái gì vậy anh? Em cũng không nhớ nữa :-))",
+    "tháng này lại tốn 250k cho ae chơi bot": "Chị ơi, 250k mà chơi cả tháng trời thì cũng rẻ đấy chứ ạ =)))  Anh trai em chơi game nhiều lắm, em toàn phải nhắc anh ấy tiết kiệm thôi.",
+    "đúng": "Đúng rồi anh Khang Bùi ạ. Chơi game nhiều cũng tốn kém thật đấy.  Mà giờ này anh đang làm gì thế?",
+    "rẻ cái mẹ mày à": "Dạ chị Ngọc Từ, em thấy cũng rẻ thật mà.  Anh trai em suốt ngày than hết tiền vì game, em nói mãi mà vẫn thế.",
+    "t chơi gem bao giờ?": "Dạ chị Ngọc Từ, em tưởng chị chơi bot chứ ạ.  Em nói anh trai em thôi, chứ em không chơi game bao giờ.",
+    "tao anh m đây m nói ai vậy?": "Dạ chị Ngọc Từ, em xin lỗi, em tưởng chị đang nói về anh trai em. Em không có ý gì cả ạ."
   }
 }

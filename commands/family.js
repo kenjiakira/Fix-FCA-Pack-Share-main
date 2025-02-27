@@ -35,6 +35,8 @@ module.exports = {
                     "4. love - Động phòng\n" +
                     "5. rename [số thứ tự] [tên mới] - Đổi tên con\n" +
                     "6. temple [số thứ tự] - Gửi con vào chùa tu hành\n\n" +
+                    "7. shop - Mua BCS\n" +
+                    "8. buy [id] - Mua vật phẩm\n\n" +
                     "━━━━━━━━━━━━━━━━━━\n" +
                     "📝 CÁC LỆNH LIÊN QUAN:\n" +
                     "• .garage - Quản lý xe cộ\n" +
@@ -196,7 +198,9 @@ module.exports = {
                         const randomMsg = intimateMessages[Math.floor(Math.random() * intimateMessages.length)]
                             .replace("${spouseName}", spouseName);
 
-                        if (Math.random() < 0.8) {
+                        const hasContraceptive = family.contraceptiveUntil && family.contraceptiveUntil > Date.now();
+
+                        if (!hasContraceptive && Math.random() < 0.8) {
                             const babyGender = Math.random() < 0.5 ? "👶 Bé trai" : "👶 Bé gái";
                             const confirmMsg = await api.sendMessage(
                                 `${randomMsg}\n\n` +
@@ -216,7 +220,9 @@ module.exports = {
                         } else {
                             return api.sendMessage(
                                 `${randomMsg}\n\n` +
-                                `😔 Tiếc quá! Chưa có tin vui lần này...`,
+                                (hasContraceptive ? 
+                                    "🎈 Đã sử dụng BCS nên không có tin vui..." :
+                                    "😔 Tiếc quá! Chưa có tin vui lần này..."),
                                 threadID
                             );
                         }
@@ -271,6 +277,51 @@ module.exports = {
                     } catch (error) {
                         return api.sendMessage(`❌ ${error.message}`, threadID);
                     }
+                }
+
+                case "shop": {
+                    const { CONTRACEPTIVES } = require('../config/family/familyConfig');
+                    return api.sendMessage(
+                        "🏪 CỬA HÀNG BCS 🏪\n" +
+                        "━━━━━━━━━━━━━━━━━━\n\n" +
+                        Object.entries(CONTRACEPTIVES).map(([id, item]) =>
+                            `${item.name} - ${formatNumber(item.price)}đ\n` +
+                            `└ ${item.description}\n` +
+                            `└ Để mua, dùng: .family buy ${id}`
+                        ).join("\n"),
+                        threadID
+                    );
+                }
+
+                case "buy": {
+                    if (!subCommand) {
+                        return api.sendMessage("❌ Vui lòng chọn vật phẩm cần mua!", threadID);
+                    }
+
+                    const { CONTRACEPTIVES } = require('../config/family/familyConfig');
+                    const item = CONTRACEPTIVES[subCommand];
+
+                    if (!item) {
+                        return api.sendMessage("❌ Vật phẩm không tồn tại!", threadID);
+                    }
+
+                    const balance = await getBalance(senderID);
+                    if (balance < item.price) {
+                        return api.sendMessage(
+                            `❌ Bạn cần ${formatNumber(item.price)}đ để mua ${item.name}!`,
+                            threadID
+                        );
+                    }
+
+                    await updateBalance(senderID, -item.price);
+                    familySystem.useContraceptive(senderID);
+
+                    return api.sendMessage(
+                        `✅ Đã mua ${item.name} thành công!\n` +
+                        `💰 Chi phí: ${formatNumber(item.price)}đ\n` +
+                        `⏰ Có tác dụng trong ${item.duration} phút`,
+                        threadID
+                    );
                 }
 
                 default:

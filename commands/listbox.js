@@ -1,6 +1,6 @@
 module.exports = {
     name: "listbox",
-    usedby: 2,
+    usedby: 4,
     dmUser: true,
     dev: "HNT",
     nickName: ["listbox", "boxes", "nhom"],

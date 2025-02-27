@@ -1,100 +1,96 @@
 const fs = require("fs");
-const adminConfig = JSON.parse(fs.readFileSync("admin.json", "utf8"));
 
 module.exports = {
-  name: "admin",
-  usedby: 4,
-  dev: "Jonell Magallanes",
-  onPrefix: true,
-  cooldowns: 1,
-  info: "Danh sách Quản trị viên và Điều hành viên",
-  hide: true,
+    name: "admin",
+    usedby: 0,
+    dev: "HNT",
+    onPrefix: true,
+    cooldowns: 1,
+    info: "Danh sách Quản trị viên và Điều hành viên",
+    hide: false,
 
-  onLaunch: async function ({ api, event, target }) {
-    let getUserName = (userID) => {
-      return new Promise((resolve) => {
-        api.getUserInfo(userID, (err, info) => {
-          if (err || !info[userID]) return resolve("");
-          resolve(info[userID].name || `User ID: ${userID}`);
-        });
-      });
-    };
+    onLaunch: async function ({ api, event, target }) {
+        const { threadID } = event;
+        
+        try {
+            const adminConfig = JSON.parse(fs.readFileSync("./admin.json", "utf8"));
+            const userData = JSON.parse(fs.readFileSync("./events/cache/userData.json", "utf8"));
+            
+            const getUserInfo = async (uid) => {
+                try {
+                    const info = await api.getUserInfo(uid);
+                    return info[uid]?.name || userData[uid]?.name || `Facebook User (${uid})`;
+                } catch (e) {
+                    return userData[uid]?.name || `Facebook User (${uid})`;
+                }
+            };
 
-    if (adminConfig.adminUIDs.includes(event.senderID)) {
-      let replyUser = event.messageReply ? event.messageReply.senderID : null;
-      let action = target[0];
-      let role = target[1];
-      let targetUID = target[2] || replyUser;
+            if (adminConfig.adminUIDs.includes(event.senderID) && target.length > 0) {
+                const [action, role, targetID] = target;
+                const replyID = event.messageReply?.senderID;
+                const finalTargetID = targetID || replyID;
 
-      if ((action === "add" || action === "remove") && !targetUID) {
-        return api.sendMessage("Vui lòng chỉ định một UID hoặc phản hồi tới một người dùng.", event.threadID);
-      }
+                if ((action === "add" || action === "remove") && role && finalTargetID) {
+                    if (role === "admin") {
+                        if (action === "add") {
+                            if (!adminConfig.adminUIDs.includes(finalTargetID)) {
+                                adminConfig.adminUIDs.push(finalTargetID);
+                                fs.writeFileSync("./admin.json", JSON.stringify(adminConfig, null, 2));
+                                return api.sendMessage(`✅ Đã thêm Quản trị viên mới!`, threadID);
+                            }
+                        } else {
+                            adminConfig.adminUIDs = adminConfig.adminUIDs.filter(id => id !== finalTargetID);
+                            fs.writeFileSync("./admin.json", JSON.stringify(adminConfig, null, 2));
+                            return api.sendMessage(`✅ Đã xóa Quản trị viên!`, threadID);
+                        }
+                    } else if (role === "mod") {
+                        if (action === "add") {
+                            if (!adminConfig.moderatorUIDs) adminConfig.moderatorUIDs = [];
+                            if (!adminConfig.moderatorUIDs.includes(finalTargetID)) {
+                                adminConfig.moderatorUIDs.push(finalTargetID);
+                                fs.writeFileSync("./admin.json", JSON.stringify(adminConfig, null, 2));
+                                return api.sendMessage(`✅ Đã thêm Điều hành viên mới!`, threadID);
+                            }
+                        } else {
+                            if (adminConfig.moderatorUIDs) {
+                                adminConfig.moderatorUIDs = adminConfig.moderatorUIDs.filter(id => id !== finalTargetID);
+                                fs.writeFileSync("./admin.json", JSON.stringify(adminConfig, null, 2));
+                                return api.sendMessage(`✅ Đã xóa Điều hành viên!`, threadID);
+                            }
+                        }
+                    }
+                }
+            }
 
-      if (action === "add") {
-        if (role === "admin" && !adminConfig.adminUIDs.includes(targetUID)) {
-          adminConfig.adminUIDs.push(targetUID);
-          fs.writeFileSync("admin.json", JSON.stringify(adminConfig, null, 2), "utf8");
-          let userName = await getUserName(targetUID);
-          if (userName) {
-            return api.sendMessage(`🛡️ 𝗔𝗱𝗺𝗶𝗻 𝗔𝗱𝗱𝗲𝗱\n${global.line}\nĐã thêm quản trị viên mới ${userName}`, event.threadID, () => {
-              process.exit(1);
-            });
-          }
-        } else if (role === "mod" && (!adminConfig.moderatorUIDs || !adminConfig.moderatorUIDs.includes(targetUID))) {
-          adminConfig.moderatorUIDs = adminConfig.moderatorUIDs || [];
-          adminConfig.moderatorUIDs.push(targetUID);
-          fs.writeFileSync("admin.json", JSON.stringify(adminConfig, null, 2), "utf8");
-          let userName = await getUserName(targetUID);
-          if (userName) {
-            return api.sendMessage(`👮 𝗠𝗼𝗱𝗲𝗿𝗮𝘁𝗼𝗿 𝗔𝗱𝗱𝗲𝗱\n${global.line}\nĐã thêm điều hành viên mới ${userName}`, event.threadID, () => {
-              process.exit(1);
-            });
-          }
-        } else {
-          let userName = await getUserName(targetUID);
-          if (userName) {
-            return api.sendMessage(`${userName} đã là một ${role}.`, event.threadID);
-          }
+            let adminList = await Promise.all(adminConfig.adminUIDs.map(async uid => {
+                const name = await getUserInfo(uid);
+                return `👤 ${name}\n📍 ID: ${uid}`;
+            }));
+
+            let modList = [];
+            if (adminConfig.moderatorUIDs && adminConfig.moderatorUIDs.length > 0) {
+                modList = await Promise.all(adminConfig.moderatorUIDs.map(async uid => {
+                    const name = await getUserInfo(uid);
+                    return `👤 ${name}\n📍 ID: ${uid}`;
+                }));
+            }
+
+            let message = ' [ ADMIN LIST ] \n\n';
+            message += '👑 QUẢN TRỊ VIÊN:\n';
+            message += adminList.join('\n') + '\n\n';
+            
+            if (modList.length > 0) {
+                message += '👮 ĐIỀU HÀNH VIÊN:\n';
+                message += modList.join('\n');
+            }
+            
+            message += '\n════════════';
+
+            return api.sendMessage(message, threadID);
+
+        } catch (error) {
+            console.error("Error in admin command:", error);
+            return api.sendMessage("❌ Đã xảy ra lỗi khi lấy danh sách admin!", threadID);
         }
-      }
-
-      if (action === "remove" && role === "admin") {
-        if (adminConfig.adminUIDs.includes(targetUID)) {
-          adminConfig.adminUIDs = adminConfig.adminUIDs.filter(uid => uid !== targetUID);
-          fs.writeFileSync("admin.json", JSON.stringify(adminConfig, null, 2), "utf8");
-          let userName = await getUserName(targetUID);
-          if (userName) {
-            return api.sendMessage(`🛡️ 𝗔𝗱𝗺𝗶𝗻 𝗥𝗲𝗺𝗼𝘃𝗲𝗱\n${global.line}\nĐã xóa quản trị viên ${userName}`, event.threadID, () => {
-              process.exit(1);
-            });
-          }
-        }
-      }
-
-      let adminList = [];
-      for (let adminUID of adminConfig.adminUIDs) {
-        let adminName = await getUserName(adminUID);
-        if (adminName) adminList.push(`[ ${adminUID} ] ${adminName}`);
-      }
-
-      let moderatorList = [];
-      if (adminConfig.moderatorUIDs) {
-        for (let modUID of adminConfig.moderatorUIDs) {
-          let modName = await getUserName(modUID);
-          if (modName) moderatorList.push(`[ ${modUID} ] ${modName}`);
-        }
-      }
-
-      let message = `🛡️ Quản trị viên:\n${adminList.join("\n")}\n\n`;
-      if (moderatorList.length > 0) {
-        message += `👮 Điều hành viên:\n${moderatorList.join("\n")}`;
-      } else {
-        message += `👮 Không có điều hành viên nào được chỉ định.`;
-      }
-
-      api.sendMessage(message, event.threadID);
-    } else {
-      api.sendMessage(`🛡️Bạn không có quyền sử dụng lệnh này.`, event.threadID);
     }
-  }
 };

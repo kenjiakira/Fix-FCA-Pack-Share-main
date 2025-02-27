@@ -5,7 +5,7 @@ const moment = require('moment-timezone');
 
 module.exports = {
   name: "noti",
-  usedby: 2,
+  usedby: 4,
   onPrefix: true,
   dev: "HNT",
   info: "Gửi thông báo",

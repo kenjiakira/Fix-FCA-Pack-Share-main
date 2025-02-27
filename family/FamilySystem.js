@@ -255,8 +255,15 @@ class FamilySystem {
             return true;
         }
         
-        const daysSinceLastBaby = (Date.now() - family.lastBaby) / (1000 * 60 * 60 * 24);
-        return daysSinceLastBaby >= 3;
+        const { COOLDOWNS } = require('../config/family/familyConfig');
+        const minutesSinceLastBaby = (Date.now() - family.lastBaby) / (1000 * 60);
+        
+        // Check if using contraceptive
+        if (family.contraceptiveUntil && family.contraceptiveUntil > Date.now()) {
+            return false;
+        }
+
+        return minutesSinceLastBaby >= (family.contraceptiveUntil ? COOLDOWNS.protected : COOLDOWNS.normal);
     }
 
     intimate(userID) {
@@ -409,6 +416,21 @@ class FamilySystem {
             name: child.name,
             gender: child.gender
         };
+    }
+
+    useContraceptive(userID) {
+        const family = this.getFamily(userID);
+        const { COOLDOWNS } = require('../config/family/familyConfig');
+        
+        family.contraceptiveUntil = Date.now() + (COOLDOWNS.protected * 60 * 1000);
+        
+        if (family.spouse) {
+            const spouseFamily = this.getFamily(family.spouse);
+            spouseFamily.contraceptiveUntil = family.contraceptiveUntil;
+        }
+        
+        this.saveData();
+        return true;
     }
 }
 

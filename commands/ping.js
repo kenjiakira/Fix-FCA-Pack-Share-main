@@ -1,10 +1,5 @@
-const os = require('os');
 const { exec } = require('child_process');
 const util = require('util');
-const axios = require('axios');
-const fast = require('fast-speedtest-api');
-const execPromise = util.promisify(exec);
-
 module.exports = {
     name: "ping",
     usedby: 0,

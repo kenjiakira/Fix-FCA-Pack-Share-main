@@ -394,7 +394,11 @@
       "e1",
       "e2"
     ],
-    "currentDegree": null
+    "currentDegree": {
+      "id": "e3",
+      "startTime": 1740570389815,
+      "progress": 0
+    }
   },
   "61553559136029": {
     "degrees": [

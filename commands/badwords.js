@@ -73,7 +73,7 @@ function containsBadWord(message, threadID) {
 
 module.exports = {
     name: "badwords", 
-    usedby: 1, 
+    usedby: 5, 
     info: "Quản lý danh sách từ bị cấm",
     onPrefix: true,
     dev: "HNT",

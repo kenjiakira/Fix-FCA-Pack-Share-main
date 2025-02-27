@@ -1,6 +1,6 @@
 module.exports = {
     name: "unsend",
-    usedby: 1,
+    usedby: 5,
     dev: "HNT",
     onPrefix: false,
     cooldowns: 1,

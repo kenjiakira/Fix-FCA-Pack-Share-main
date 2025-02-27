@@ -20,7 +20,8 @@ const levelRequirements = {
     river: 3,      
     ocean: 5,     
     deepSea: 10,
-    abyss: 20,      
+    abyss: 20,
+    goldlake: 30,      
     atlantis: 50, 
     spaceOcean: 100, 
     dragonRealm: 200 
@@ -442,6 +443,7 @@ module.exports = {
             ocean: 5,
             deepSea: 10,
             abyss: 20,
+            goldlake: 30,
             atlantis: 50,
             spaceOcean: 100,
             dragonRealm: 200
@@ -463,7 +465,7 @@ module.exports = {
 
             setTimeout(() => {
                 api.unsendMessage(errorMsg.messageID);
-            }, 20000); // Tự động gỡ sau 20 giây
+            }, 20000); 
 
             global.client.onReply.push({
                 name: this.name,

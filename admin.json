@@ -1,14 +1,10 @@
 {
   "prefix": ".",
   "adminUIDs": [
-    "61561753304881",
-    "61563982612558",
-    "100040203282108",
-    "61573427362389"  
+    "61573427362389"
   ],
   "moderatorUIDs": [
-    "61561753304881",
-    "61563982612558"
+    "61573075153597"
   ],
   "botName": "AKI BOT",
   "ownerName": "Kenji Akira",
@@ -18,5 +14,6 @@
   "appstate": "./appstate.json",
   "restart": true,
   "restartTime": 50,
-  "FCA": "hut-chat-api"
+  "FCA": "hut-chat-api",
+  "mtnMode": false
 }

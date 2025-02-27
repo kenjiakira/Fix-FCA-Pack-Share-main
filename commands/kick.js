@@ -1,7 +1,7 @@
 module.exports = {
     name: "kick",
     dev: "HNT",
-    usedby: 1, 
+    usedby: 5, 
     info: "Kick thành viên khỏi nhóm",
     onPrefix: true,
     usages: "[reply/tag/uid]",
@@ -26,6 +26,10 @@ module.exports = {
                 console.error("Thread info fetch error:", error);
             }
 
+            const fs = require("fs");
+            const adminConfig = JSON.parse(fs.readFileSync("./admin.json", "utf8"));
+            const botAdmins = adminConfig.adminUIDs || [];
+
             let userIDs = [];
             if (messageReply) {
                 userIDs.push(messageReply.senderID);
@@ -48,7 +52,14 @@ module.exports = {
             }
 
             for (const uid of userIDs) {
+              
+                if (botAdmins.includes(uid)) {
+                    api.sendMessage("⚠️ Không thể kick Admin Bot!", threadID);
+                    continue;
+                }
+                
                 if (uid == botID || threadAdmins.includes(uid)) continue;
+                
                 try {
                     await api.removeUserFromGroup(uid, threadID);
                 } catch (error) {

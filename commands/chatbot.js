@@ -9,7 +9,7 @@ const MemoryCompression = {
     },
 
     compress: async (memories) => {
-        // Group similar memories
+        
         const groups = new Map();
         
         memories.forEach(memory => {
@@ -20,7 +20,6 @@ const MemoryCompression = {
             groups.get(key).push(memory);
         });
 
-        // Summarize each group
         const compressed = [];
         groups.forEach((groupMemories, topic) => {
             if (groupMemories.length > 1) {

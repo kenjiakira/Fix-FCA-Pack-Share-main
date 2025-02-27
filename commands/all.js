@@ -3,7 +3,7 @@ module.exports = {
     dev: "Hoàng Ngọc Từ",
     info: "tag toàn bộ thành viên",
     onPrefix: true,
-    usedby: 1,
+    usedby: 5,
     usages: "Tag mọi người bằng cách gõ .all <văn bản>",
     cooldowns: 60,
   

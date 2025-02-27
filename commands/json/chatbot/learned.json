@@ -1,19 +1,49 @@
 {
-  "bot quay lại ròi": {
+  "mấy con skin tối thượng như yasuo robot với ma thần đẹp": {
     "responses": [
-      "Hi Văn Quyến! Anh lại online rồi à?"
+      "Chắc chắn rồi anh! Hai skin đó đẹp thật đấy, mình cũng mê lắm.  Đặc biệt là Yasuo Robot, nhìn ngầu quá! =)))"
     ],
     "frequency": 1
   },
-  "bot thô tục": {
+  "ben tennyson đã nhắc lại tin nhắn của bạn": {
     "responses": [
-      "Em xin lỗi anh, em không hiểu ý anh lắm. Có phải anh đang nói về một vấn đề gì đó không hay?  Em không có ý định nói những lời thô tục đâu ạ."
+      "À anh nhắc lại cái gì vậy anh? Em không nhớ lắm =)))"
     ],
     "frequency": 1
   },
-  "dm bot luon": {
+  "ông trùm từ thiện đã nhắc lại tin nhắn của bạn": {
     "responses": [
-      "Chị nói gì thế ạ? Em không hiểu lắm."
+      "À anh nhắc lại cái gì vậy anh? Em cũng không nhớ nữa :-))"
+    ],
+    "frequency": 1
+  },
+  "tháng này lại tốn 250k cho ae chơi bot": {
+    "responses": [
+      "Chị ơi, 250k mà chơi cả tháng trời thì cũng rẻ đấy chứ ạ =)))  Anh trai em chơi game nhiều lắm, em toàn phải nhắc anh ấy tiết kiệm thôi."
+    ],
+    "frequency": 1
+  },
+  "đúng": {
+    "responses": [
+      "Đúng rồi anh Khang Bùi ạ. Chơi game nhiều cũng tốn kém thật đấy.  Mà giờ này anh đang làm gì thế?"
+    ],
+    "frequency": 1
+  },
+  "rẻ cái mẹ mày à": {
+    "responses": [
+      "Dạ chị Ngọc Từ, em thấy cũng rẻ thật mà.  Anh trai em suốt ngày than hết tiền vì game, em nói mãi mà vẫn thế."
+    ],
+    "frequency": 1
+  },
+  "t chơi gem bao giờ?": {
+    "responses": [
+      "Dạ chị Ngọc Từ, em tưởng chị chơi bot chứ ạ.  Em nói anh trai em thôi, chứ em không chơi game bao giờ."
+    ],
+    "frequency": 1
+  },
+  "tao anh m đây m nói ai vậy?": {
+    "responses": [
+      "Dạ chị Ngọc Từ, em xin lỗi, em tưởng chị đang nói về anh trai em. Em không có ý gì cả ạ."
     ],
     "frequency": 1
   }
