@@ -1,63 +1,59 @@
 {
   "AAPL": {
     "name": "Apple Inc.",
-    "priceUSD": 371.6612130995763,
-    "price": 6318.240622692797,
-    "change": 0.1512758614185008,
-    "changePercent": 0.1512758614185008,
-    "volume": 24974,
+    "priceUSD": 371.6241610981479,
+    "price": 6317.610738668514,
+    "change": -0.009969294648578632,
+    "changePercent": -0.009969294648578632,
+    "volume": 10595,
     "depth": {
       "bids": [
         {
           "price": 360,
-          "volume": 9490
+          "volume": 4068
         },
         {
           "price": 349,
-          "volume": 6034
+          "volume": 2006
         },
         {
           "price": 338,
-          "volume": 11352
+          "volume": 17757
         },
         {
           "price": 327,
-          "volume": 1222
+          "volume": 1277
         },
         {
           "price": 315,
-          "volume": 17922
+          "volume": 15913
         }
       ],
       "asks": [
         {
           "price": 382,
-          "volume": 11461
+          "volume": 7540
         },
         {
           "price": 393,
-          "volume": 2139
+          "volume": 3547
         },
         {
           "price": 405,
-          "volume": 1118
+          "volume": 3434
         },
         {
           "price": 416,
-          "volume": 2671
+          "volume": 7403
         },
         {
           "price": 427,
-          "volume": 5051
+          "volume": 453
         }
       ]
     },
-    "lastUpdate": 1740650735245,
+    "lastUpdate": 1740650737251,
     "history": [
-      {
-        "price": 6082.559889783212,
-        "timestamp": 1740650536391
-      },
       {
         "price": 6072.466774278562,
         "timestamp": 1740650538397
@@ -453,68 +449,68 @@
       {
         "price": 6318.240622692797,
         "timestamp": 1740650735245
+      },
+      {
+        "price": 6317.610738668514,
+        "timestamp": 1740650737251
       }
     ]
   },
   "MSFT": {
     "name": "Microsoft",
-    "priceUSD": 546.845729097799,
-    "price": 9296.377394662582,
-    "change": 0.352246999055293,
-    "changePercent": 0.352246999055293,
-    "volume": 14452,
+    "priceUSD": 549.9485627844829,
+    "price": 9349.125567336208,
+    "change": 0.5674056724924909,
+    "changePercent": 0.5674056724924909,
+    "volume": 23933,
     "depth": {
       "bids": [
         {
-          "price": 530,
-          "volume": 4208
+          "price": 533,
+          "volume": 4666
         },
         {
-          "price": 514,
-          "volume": 3283
+          "price": 516,
+          "volume": 5061
         },
         {
-          "price": 497,
-          "volume": 8166
+          "price": 500,
+          "volume": 3436
         },
         {
-          "price": 481,
-          "volume": 2661
+          "price": 483,
+          "volume": 7645
         },
         {
-          "price": 464,
-          "volume": 962
+          "price": 467,
+          "volume": 2929
         }
       ],
       "asks": [
         {
-          "price": 563,
-          "volume": 1684
+          "price": 566,
+          "volume": 4979
         },
         {
-          "price": 579,
-          "volume": 10034
+          "price": 582,
+          "volume": 8951
         },
         {
-          "price": 596,
-          "volume": 2873
+          "price": 599,
+          "volume": 10402
         },
         {
-          "price": 612,
-          "volume": 8709
+          "price": 615,
+          "volume": 4580
         },
         {
-          "price": 628,
-          "volume": 3144
+          "price": 632,
+          "volume": 5189
         }
       ]
     },
-    "lastUpdate": 1740650735245,
+    "lastUpdate": 1740650737251,
     "history": [
-      {
-        "price": 9352.353077455416,
-        "timestamp": 1740650536391
-      },
       {
         "price": 9320.612342284421,
         "timestamp": 1740650538398
@@ -910,68 +906,68 @@
       {
         "price": 9296.377394662582,
         "timestamp": 1740650735245
+      },
+      {
+        "price": 9349.125567336208,
+        "timestamp": 1740650737251
       }
     ]
   },
   "GOOGL": {
     "name": "Google",
-    "priceUSD": 304.3594803550547,
-    "price": 5174.11116603593,
-    "change": 0.3253099235390049,
-    "changePercent": 0.3253099235390049,
-    "volume": 43562,
+    "priceUSD": 305.12970469077555,
+    "price": 5187.204979743185,
+    "change": 0.25306401983021376,
+    "changePercent": 0.25306401983021376,
+    "volume": 56405,
     "depth": {
       "bids": [
         {
           "price": 295,
-          "volume": 12861
+          "volume": 9392
         },
         {
           "price": 286,
-          "volume": 8964
+          "volume": 2407
         },
         {
-          "price": 276,
-          "volume": 9273
+          "price": 277,
+          "volume": 6451
         },
         {
-          "price": 267,
-          "volume": 2365
+          "price": 268,
+          "volume": 4126
         },
         {
-          "price": 258,
-          "volume": 1149
+          "price": 259,
+          "volume": 3581
         }
       ],
       "asks": [
         {
-          "price": 313,
-          "volume": 1252
+          "price": 314,
+          "volume": 545
         },
         {
-          "price": 322,
-          "volume": 8372
+          "price": 323,
+          "volume": 5193
         },
         {
-          "price": 331,
-          "volume": 598
+          "price": 332,
+          "volume": 8084
         },
         {
-          "price": 340,
-          "volume": 5936
+          "price": 341,
+          "volume": 14692
         },
         {
           "price": 350,
-          "volume": 7487
+          "volume": 15597
         }
       ]
     },
-    "lastUpdate": 1740650735245,
+    "lastUpdate": 1740650737251,
     "history": [
-      {
-        "price": 5059.849492826321,
-        "timestamp": 1740650536391
-      },
       {
         "price": 5037.3301942244125,
         "timestamp": 1740650538398
@@ -1367,68 +1363,68 @@
       {
         "price": 5174.11116603593,
         "timestamp": 1740650735245
+      },
+      {
+        "price": 5187.204979743185,
+        "timestamp": 1740650737251
       }
     ]
   },
   "AMZN": {
     "name": "Amazon",
-    "priceUSD": 240.5789881426348,
-    "price": 4089.842798424792,
-    "change": 0.04968417063713226,
-    "changePercent": 0.04968417063713226,
-    "volume": 17510,
+    "priceUSD": 241.03751182542342,
+    "price": 4097.6377010321985,
+    "change": 0.1905917413356032,
+    "changePercent": 0.1905917413356032,
+    "volume": 52877,
     "depth": {
       "bids": [
         {
           "price": 233,
-          "volume": 12354
+          "volume": 17239
         },
         {
           "price": 226,
-          "volume": 7191
+          "volume": 2900
         },
         {
-          "price": 218,
-          "volume": 3076
+          "price": 219,
+          "volume": 7134
         },
         {
-          "price": 211,
-          "volume": 5975
+          "price": 212,
+          "volume": 2165
         },
         {
           "price": 204,
-          "volume": 2391
+          "volume": 1928
         }
       ],
       "asks": [
         {
-          "price": 247,
-          "volume": 1013
+          "price": 248,
+          "volume": 457
         },
         {
           "price": 255,
-          "volume": 2900
+          "volume": 3912
         },
         {
           "price": 262,
-          "volume": 6497
+          "volume": 2476
         },
         {
           "price": 269,
-          "volume": 1105
+          "volume": 2510
         },
         {
-          "price": 276,
-          "volume": 15223
+          "price": 277,
+          "volume": 4923
         }
       ]
     },
-    "lastUpdate": 1740650735245,
+    "lastUpdate": 1740650737251,
     "history": [
-      {
-        "price": 3906.2283209500506,
-        "timestamp": 1740650536391
-      },
       {
         "price": 3913.0418162694996,
         "timestamp": 1740650538398
@@ -1824,68 +1820,68 @@
       {
         "price": 4089.842798424792,
         "timestamp": 1740650735245
+      },
+      {
+        "price": 4097.6377010321985,
+        "timestamp": 1740650737251
       }
     ]
   },
   "META": {
     "name": "Meta/Facebook",
-    "priceUSD": 477.5558971217225,
-    "price": 8118.450251069283,
-    "change": 0.023730139634102865,
-    "changePercent": 0.023730139634102865,
-    "volume": 19088,
+    "priceUSD": 476.47560048687023,
+    "price": 8100.085208276794,
+    "change": -0.22621365192290932,
+    "changePercent": -0.22621365192290932,
+    "volume": 20155,
     "depth": {
       "bids": [
         {
-          "price": 463,
-          "volume": 8258
+          "price": 462,
+          "volume": 12108
         },
         {
-          "price": 448,
-          "volume": 7543
+          "price": 447,
+          "volume": 2482
         },
         {
-          "price": 434,
-          "volume": 11948
+          "price": 433,
+          "volume": 7561
         },
         {
-          "price": 420,
-          "volume": 1158
+          "price": 419,
+          "volume": 4581
         },
         {
           "price": 405,
-          "volume": 1533
+          "volume": 8875
         }
       ],
       "asks": [
         {
-          "price": 491,
-          "volume": 14277
+          "price": 490,
+          "volume": 14868
         },
         {
-          "price": 506,
-          "volume": 8925
+          "price": 505,
+          "volume": 15654
         },
         {
-          "price": 520,
-          "volume": 1028
+          "price": 519,
+          "volume": 2249
         },
         {
-          "price": 534,
-          "volume": 3602
+          "price": 533,
+          "volume": 3869
         },
         {
-          "price": 549,
-          "volume": 8143
+          "price": 547,
+          "volume": 2267
         }
       ]
     },
-    "lastUpdate": 1740650735245,
+    "lastUpdate": 1740650737251,
     "history": [
-      {
-        "price": 7618.361527318094,
-        "timestamp": 1740650536391
-      },
       {
         "price": 7614.969572933357,
         "timestamp": 1740650538398
@@ -2281,68 +2277,68 @@
       {
         "price": 8118.450251069283,
         "timestamp": 1740650735245
+      },
+      {
+        "price": 8100.085208276794,
+        "timestamp": 1740650737251
       }
     ]
   },
   "TSLA": {
     "name": "Tesla",
-    "priceUSD": 757.4088884229005,
-    "price": 12875.951103189309,
-    "change": -0.32977607184574775,
-    "changePercent": -0.32977607184574775,
-    "volume": 30730,
+    "priceUSD": 761.0341513381284,
+    "price": 12937.580572748182,
+    "change": 0.4786401335712406,
+    "changePercent": 0.4786401335712406,
+    "volume": 21535,
     "depth": {
       "bids": [
         {
-          "price": 734,
-          "volume": 2956
+          "price": 738,
+          "volume": 5981
         },
         {
-          "price": 711,
-          "volume": 2066
+          "price": 715,
+          "volume": 2585
         },
         {
-          "price": 689,
-          "volume": 3889
+          "price": 692,
+          "volume": 2656
         },
         {
-          "price": 666,
-          "volume": 4673
+          "price": 669,
+          "volume": 415
         },
         {
-          "price": 643,
-          "volume": 1699
+          "price": 646,
+          "volume": 3448
         }
       ],
       "asks": [
         {
-          "price": 780,
-          "volume": 3170
+          "price": 783,
+          "volume": 15038
         },
         {
-          "price": 802,
-          "volume": 4472
+          "price": 806,
+          "volume": 3475
         },
         {
-          "price": 825,
-          "volume": 8432
+          "price": 829,
+          "volume": 13146
         },
         {
-          "price": 848,
-          "volume": 8432
+          "price": 852,
+          "volume": 8063
         },
         {
-          "price": 871,
-          "volume": 6315
+          "price": 875,
+          "volume": 2256
         }
       ]
     },
-    "lastUpdate": 1740650735245,
+    "lastUpdate": 1740650737251,
     "history": [
-      {
-        "price": 13385.389361138377,
-        "timestamp": 1740650536391
-      },
       {
         "price": 13391.993397118124,
         "timestamp": 1740650538398
@@ -2738,68 +2734,68 @@
       {
         "price": 12875.951103189309,
         "timestamp": 1740650735245
+      },
+      {
+        "price": 12937.580572748182,
+        "timestamp": 1740650737251
       }
     ]
   },
   "NVDA": {
     "name": "NVIDIA",
-    "priceUSD": 1492.671408964772,
-    "price": 25375.413952401123,
-    "change": 0.21387995308900376,
-    "changePercent": 0.21387995308900376,
-    "volume": 11778,
+    "priceUSD": 1487.1293399522606,
+    "price": 25281.19877918843,
+    "change": -0.3712852660824473,
+    "changePercent": -0.3712852660824473,
+    "volume": 13479,
     "depth": {
       "bids": [
         {
-          "price": 1447,
-          "volume": 1835
+          "price": 1442,
+          "volume": 2184
         },
         {
-          "price": 1403,
-          "volume": 1506
+          "price": 1397,
+          "volume": 7787
         },
         {
-          "price": 1358,
-          "volume": 9285
+          "price": 1353,
+          "volume": 7135
         },
         {
-          "price": 1313,
-          "volume": 8869
+          "price": 1308,
+          "volume": 4989
         },
         {
-          "price": 1268,
-          "volume": 5299
+          "price": 1264,
+          "volume": 7144
         }
       ],
       "asks": [
         {
-          "price": 1537,
-          "volume": 15723
+          "price": 1531,
+          "volume": 3396
         },
         {
-          "price": 1582,
-          "volume": 3847
+          "price": 1576,
+          "volume": 2984
         },
         {
-          "price": 1627,
-          "volume": 722
+          "price": 1620,
+          "volume": 6440
         },
         {
-          "price": 1671,
-          "volume": 1224
+          "price": 1665,
+          "volume": 1989
         },
         {
-          "price": 1716,
-          "volume": 8579
+          "price": 1710,
+          "volume": 860
         }
       ]
     },
-    "lastUpdate": 1740650735245,
+    "lastUpdate": 1740650737251,
     "history": [
-      {
-        "price": 25973.840923098884,
-        "timestamp": 1740650536391
-      },
       {
         "price": 26005.00603334809,
         "timestamp": 1740650538398
@@ -3195,68 +3191,68 @@
       {
         "price": 25375.413952401123,
         "timestamp": 1740650735245
+      },
+      {
+        "price": 25281.19877918843,
+        "timestamp": 1740650737251
       }
     ]
   },
   "JPM": {
     "name": "JPMorgan",
-    "priceUSD": 322.11830183175147,
-    "price": 5476.011131139775,
-    "change": 0.5581764446695797,
-    "changePercent": 0.5581764446695797,
-    "volume": 43644,
+    "priceUSD": 321.11508524703197,
+    "price": 5458.956449199543,
+    "change": -0.31144352215151877,
+    "changePercent": -0.31144352215151877,
+    "volume": 16162,
     "depth": {
       "bids": [
         {
-          "price": 312,
-          "volume": 3952
+          "price": 311,
+          "volume": 6664
         },
         {
-          "price": 302,
-          "volume": 1722
+          "price": 301,
+          "volume": 1898
         },
         {
-          "price": 293,
-          "volume": 2489
+          "price": 292,
+          "volume": 7678
         },
         {
-          "price": 283,
-          "volume": 13330
+          "price": 282,
+          "volume": 12341
         },
         {
-          "price": 273,
-          "volume": 7798
+          "price": 272,
+          "volume": 2903
         }
       ],
       "asks": [
         {
-          "price": 331,
-          "volume": 7424
+          "price": 330,
+          "volume": 9687
         },
         {
-          "price": 341,
-          "volume": 15191
+          "price": 340,
+          "volume": 2269
         },
         {
-          "price": 351,
-          "volume": 6113
+          "price": 350,
+          "volume": 13498
         },
         {
-          "price": 360,
-          "volume": 3324
+          "price": 359,
+          "volume": 4536
         },
         {
-          "price": 370,
-          "volume": 4002
+          "price": 369,
+          "volume": 2836
         }
       ]
     },
-    "lastUpdate": 1740650735245,
+    "lastUpdate": 1740650737251,
     "history": [
-      {
-        "price": 5150.422620266745,
-        "timestamp": 1740650536391
-      },
       {
         "price": 5158.344712910224,
         "timestamp": 1740650538398
@@ -3652,68 +3648,68 @@
       {
         "price": 5476.011131139775,
         "timestamp": 1740650735245
+      },
+      {
+        "price": 5458.956449199543,
+        "timestamp": 1740650737251
       }
     ]
   },
   "V": {
     "name": "Visa",
-    "priceUSD": 433.11486397944014,
-    "price": 7362.952687650482,
-    "change": -0.2471142182376223,
-    "changePercent": -0.2471142182376223,
-    "volume": 17994,
+    "priceUSD": 431.28020823468404,
+    "price": 7331.763539989629,
+    "change": -0.4235956549492205,
+    "changePercent": -0.4235956549492205,
+    "volume": 48025,
     "depth": {
       "bids": [
         {
-          "price": 420,
-          "volume": 11667
+          "price": 418,
+          "volume": 2306
         },
         {
-          "price": 407,
-          "volume": 1638
+          "price": 405,
+          "volume": 13237
         },
         {
-          "price": 394,
-          "volume": 2815
+          "price": 392,
+          "volume": 8862
         },
         {
-          "price": 381,
-          "volume": 4972
+          "price": 379,
+          "volume": 7897
         },
         {
-          "price": 368,
-          "volume": 12200
+          "price": 366,
+          "volume": 1687
         }
       ],
       "asks": [
         {
-          "price": 446,
-          "volume": 6599
+          "price": 444,
+          "volume": 5526
         },
         {
-          "price": 459,
-          "volume": 7399
+          "price": 457,
+          "volume": 17361
         },
         {
-          "price": 472,
-          "volume": 2329
+          "price": 470,
+          "volume": 1285
         },
         {
-          "price": 485,
-          "volume": 1949
+          "price": 483,
+          "volume": 2216
         },
         {
-          "price": 498,
-          "volume": 1880
+          "price": 495,
+          "volume": 1763
         }
       ]
     },
-    "lastUpdate": 1740650735245,
+    "lastUpdate": 1740650737251,
     "history": [
-      {
-        "price": 7534.79864107893,
-        "timestamp": 1740650536391
-      },
       {
         "price": 7540.638836240943,
         "timestamp": 1740650538398
@@ -4109,6 +4105,10 @@
       {
         "price": 7362.952687650482,
         "timestamp": 1740650735245
+      },
+      {
+        "price": 7331.763539989629,
+        "timestamp": 1740650737251
       }
     ]
   }
