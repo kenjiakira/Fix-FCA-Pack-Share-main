@@ -4,6 +4,7 @@ module.exports = {
     name: "shorten",
     info: "Rút gọn liên kết dài thành liên kết ngắn.",
     dev: "HNT",
+    category: "Tiện Ích",
     usedby: 0,
     onPrefix: true,
     dmUser: false,

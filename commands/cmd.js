@@ -4,6 +4,7 @@ const path = require('path');
 module.exports = {
     name: "cmd",
     dev: "HNT",
+    category: "Admin Commands",
     info: "Thay đổi cài đặt của lệnh",
     usedby: 2,
     onPrefix: true,

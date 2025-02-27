@@ -5,6 +5,7 @@ module.exports = {
     info: "Quét cổng mở của server",
     usages: "portscan [host]",
     usedby: 0,
+    category: "Tools",
     onPrefix: true,
     dev: "HNT",
     cooldowns: 15,

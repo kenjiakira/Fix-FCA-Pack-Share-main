@@ -161,6 +161,7 @@ module.exports = {
     name: "daily",
     dev: "HNT",
     usedby: 0,
+    category: "Tài Chính",
     info: "Nhận Xu và EXP mỗi ngày",
     onPrefix: true,
     usages: ".daily: Nhận thưởng hàng ngày. Nhận thưởng thêm khi duy trì streak!",

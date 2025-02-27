@@ -39,6 +39,7 @@ async function getUserName(api, senderID) {
 
 module.exports = {
     name: 'rank',
+    category: "Khác",
     info: 'Xem xếp hạng hiện tại của bạn',
     dev: 'HNT',
     usedby: 0,

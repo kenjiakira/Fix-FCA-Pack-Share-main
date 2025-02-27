@@ -5,6 +5,7 @@ module.exports = {
     name: "finance",
     nickName: ["fin", "money"],
     dev: "HNT",
+    category: "Tiện Ích",
     info: "Quản lý chi tiêu cá nhân",
     usages: "finance [command] [options]",
     usedby: 0,

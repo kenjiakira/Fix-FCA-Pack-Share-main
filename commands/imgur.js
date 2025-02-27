@@ -9,6 +9,7 @@ module.exports = {
     name: "imgur",
     info: "Tải ảnh để lấy link Imgur",
     usedby: 2,
+    category: "Admin Commands",
     dev: "Hoàng Ngọc Từ",
     onPrefix: true,
     dmUser: false,

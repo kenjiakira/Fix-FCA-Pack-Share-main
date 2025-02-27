@@ -42,6 +42,7 @@ const VIP_REWARDS = {
 module.exports = {
     name: "setvip",
     dev: "HNT",
+    category: "Admin Commands",
     info: "Quản lý người dùng VIP",
     onPrefix: true,
     usages: [

@@ -15,5 +15,5 @@
   "restart": true,
   "restartTime": 50,
   "FCA": "hut-chat-api",
-  "mtnMode": false
+  "mtnMode": true
 }

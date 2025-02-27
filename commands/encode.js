@@ -3,7 +3,9 @@ const crypto = require('crypto');
 module.exports = {
     name: "encode",
     info: "Mã hóa văn bản",
+    category: "Tiện Ích",
     usages: "encode [method] [text]",
+    usedby: 0,
     cooldowns: 5,
     dev: "HNT",
     onPrefix: true,

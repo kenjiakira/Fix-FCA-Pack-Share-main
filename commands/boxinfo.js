@@ -25,6 +25,7 @@ const getCachedThreadInfo = (threadID) => {
 
 module.exports = {
     name: "boxinfo",
+    category: "Groups",
     info: "Hiển thị thông tin chi tiết về nhóm chat",
     onPrefix: true,
     dev: "HNT",

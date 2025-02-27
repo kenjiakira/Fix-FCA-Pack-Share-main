@@ -2,6 +2,7 @@ module.exports = {
     name: "perm",
     dev: "HNT",
     usedby: 0, 
+    category: "Khác",
     nickName: ["perm", "quyền", "role"],
     info: "Xem quyền hạn của bản thân hoặc người được tag",
     onPrefix: true,

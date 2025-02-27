@@ -7,6 +7,7 @@ const path = require('path');
 
 module.exports = {
     name: "anime",
+    category: "Anime",
     info: "Tìm kiếm thông tin Anime.",
     dev: "ZiaRein",
     onPrefix: true,

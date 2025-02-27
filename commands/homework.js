@@ -232,6 +232,7 @@ module.exports = {
   name: "homework",
   info: "Giải bài tập qua hình ảnh",
   dev: "HNT",
+  category: "Tiện Ích",
   usedby: 0,
   onPrefix: true,
   dmUser: false,

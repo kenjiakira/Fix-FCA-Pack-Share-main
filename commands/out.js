@@ -1,6 +1,7 @@
 module.exports = {
   name: "out",
   onPrefix: true,
+  category: "Admin Commands",
   info: "Out of the group",
   dev: "Jonell Magallanes",
   usedby: 2,

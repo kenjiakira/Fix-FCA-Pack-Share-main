@@ -2,6 +2,7 @@ module.exports = {
     name: "donate",
     dev: "HNT",
     usedby: 0,
+    category: "Khác",
     info: "Thông tin về cách ủng hộ bot",
     usages: "donate",
     onPrefix: true,

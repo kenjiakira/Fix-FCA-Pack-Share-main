@@ -4,6 +4,7 @@ const fs = require('fs');
 module.exports = {
     name: "ig",
     dev: "HNT",
+    category: "Tiện Ích",
     info: "Tải media từ Instagram",
     usages: "instagram [link]",
     cooldowns: 5,

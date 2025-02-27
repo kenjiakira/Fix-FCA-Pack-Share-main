@@ -14,6 +14,7 @@ if (!fs.existsSync(setnameStatusPath)) {
 module.exports = {
   name: "setname",
   dev: "HNT",
+  category: "Groups",
   info: "Đặt biệt danh cho thành viên trong nhóm",
   onPrefix: true,
   dmUser: false,

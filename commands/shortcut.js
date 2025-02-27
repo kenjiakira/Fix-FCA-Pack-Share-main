@@ -42,6 +42,7 @@ const isValidUrl = (string) => {
 module.exports = {
     name: "shortcut",
     dev: "HNT",
+    category: "Groups",
     usedby: 5,
     info: "Tạo và quản lý shortcut cho bot",
     usages: ".shortcut add <từ khóa> <phản hồi>\n.shortcut del <từ khóa>\n.shortcut list",

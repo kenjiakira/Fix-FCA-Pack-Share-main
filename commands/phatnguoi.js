@@ -3,6 +3,7 @@ const axios = require('axios');
 module.exports = {
     name: "phatnguoi",
     dev: "HNT",
+    category: "Tiện Ích",
     info: "Tra cứu thông tin phạt nguội xe",
     onPrefix: true,
     usages: "phatnguoi [biển số xe]",

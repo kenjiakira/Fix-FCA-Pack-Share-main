@@ -7,6 +7,7 @@ module.exports = {
   name: "noti",
   usedby: 4,
   onPrefix: true,
+  category: "Admin Commands",
   dev: "HNT",
   info: "Gửi thông báo",
   cooldowns: 30,

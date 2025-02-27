@@ -5,6 +5,7 @@ const path = require('path');
 module.exports = {
   name: "gen",
   usedby: 0,
+  category: "AI",
   info: "Tạo hình ảnh AI",
   dev: "HNT",
   onPrefix: true,

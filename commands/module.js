@@ -4,6 +4,7 @@ const axios = require('axios');
 module.exports = {
     name: "module",
     usedby: 2,
+    category: "Admin Commands",
     info: "lệnh ADMIN quản lý module",
     dmUser: false,
     onPrefix: true,

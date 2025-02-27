@@ -6,6 +6,7 @@ module.exports = {
     name: "top",
     dev: "HNT",
     usedby: 0,
+    category: "Tài Chính",
     info: "Xem top 10 người giàu nhất server.",
     onPrefix: true,
     usages: ".top: Xem top 10 người chơi giàu nhất.\n.top anon: Ẩn danh tên của bạn\n.top unanon: Hiện lại tên của bạn",

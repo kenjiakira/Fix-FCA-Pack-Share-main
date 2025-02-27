@@ -17,6 +17,7 @@ const PLATFORM_INFO = {
 module.exports = {
     name: "down",
     dev: "HNT",
+    category: "Tiện Ích",
     info: "Tải media từ nhiều nền tảng xã hội",
     usages: "down [link]",
     cooldowns: 5,

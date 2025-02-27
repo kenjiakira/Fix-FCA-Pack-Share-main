@@ -5,6 +5,7 @@ module.exports = {
     name: "dich",
     dev: "HNT",
     usedby: 0,
+    category: "Tiện Ích",
     info: "Dịch văn bản qua nhiều ngôn ngữ", 
     usages: "dich [ngôn ngữ] [nội dung] hoặc reply",
     cooldowns: 5,

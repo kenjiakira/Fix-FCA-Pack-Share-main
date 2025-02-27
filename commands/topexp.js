@@ -5,6 +5,7 @@ module.exports = {
     name: "topexp",
     dev: "HNT",
     usedby: 0,
+    category: "Khác",
     info: "Xem top 10 người tương tác nhiều nhất.",
     onPrefix: true,
     usages: ".topexp: Xem top 10 người tương tác nhiều nhất\n.topexp on: Ẩn danh tên của bạn\n.topexp unon: Hiện lại tên của bạn",

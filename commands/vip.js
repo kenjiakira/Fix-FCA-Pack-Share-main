@@ -130,6 +130,7 @@ function checkVouchers(senderID) {
 module.exports = {
     name: "vip",
     dev: "HNT",
+    category: "MUA VIP",
     info: "Xem thông tin & mua VIP",
     usages: [".vip", ".vip check", ".vip check [@tag]"],
     cooldowns: 10,

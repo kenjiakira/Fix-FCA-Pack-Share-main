@@ -11,6 +11,7 @@ function formatNumber(number) {
 module.exports = {
     name: "bctc",
     dev: "HNT",
+    category: "Games",
     info: "Chơi Bầu Cua Tôm Cá",
     onPrefix: true,
     usages: "bctc [bầu/cua/tôm/cá/mèo/nai] [số tiền/allin]",

@@ -15,6 +15,7 @@ module.exports = {
   name: "age",
   dev: "HNT",
   usedby: 0,
+  category: "Image",
   info: "Đoán tuổi và cảm xúc của người trong ảnh",
   usages: "[reply ảnh]",
   onPrefix: true,

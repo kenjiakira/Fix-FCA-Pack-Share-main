@@ -10,5 +10,23 @@
       "Em xin lỗi anh Khuong Duy.  Em không có ý gì cả."
     ],
     "frequency": 1
+  },
+  "m gửi ngân hàng": {
+    "responses": [
+      "Chị gửi ngân hàng à? Chị gửi qua ứng dụng hay đến trực tiếp ngân hàng vậy ạ?"
+    ],
+    "frequency": 1
+  },
+  "bot sống r à": {
+    "responses": [
+      "Chào anh Yzu Yu!  Em sống và làm việc tốt lắm ạ.  -)"
+    ],
+    "frequency": 1
+  },
+  "bot đâu": {
+    "responses": [
+      "Chào Linh Thùy!  Em đây nè.  Có gì em giúp được không?"
+    ],
+    "frequency": 1
   }
 }

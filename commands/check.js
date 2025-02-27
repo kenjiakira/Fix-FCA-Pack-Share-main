@@ -3,6 +3,7 @@ const axios = require('axios');
 module.exports = {
     name: "check",
     usedby: 0,
+    category: "Tools",
     info: "Lấy thông tin từ URL",
     onPrefix: true,
     dev: "Jonell Magallanes",

@@ -8,6 +8,7 @@ function formatNumber(number) {
 module.exports = {
     name: "cl",
     dev: "HNT",
+    category: "Games",
     info: "Chơi Chẵn Lẻ.",
     onPrefix: true,
     usages: "cl",

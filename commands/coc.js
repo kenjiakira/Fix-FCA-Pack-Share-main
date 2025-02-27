@@ -6,6 +6,7 @@ const path = require('path');
 module.exports = {
     name: "coc",
     dev: "HNT",
+    category: "Tiện Ích",
     info: "Xem thông tin Clash of Clans",
     usages: "coc [player/clan] [tag]",
     cooldowns: 5,

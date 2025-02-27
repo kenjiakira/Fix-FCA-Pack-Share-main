@@ -44,6 +44,7 @@ function applyEffects(ctx, x, y, width, height, effects) {
 module.exports = {
     name: "album",
     dev: "HNT",
+    category: "Image",
     info: "Ghép nhiều ảnh thành album",
     usages: "[Reply ảnh cần ghép]",
     cooldowns: 5,

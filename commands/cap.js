@@ -6,6 +6,7 @@ module.exports = {
     name: "cap",
     dev: "Mirai Team",
     onPrefix: true,
+    category: "Tiện Ích",
     nickName: ["screenshot"],
     usedby: 0,
     info: "Screenshot một trang web nào đó",

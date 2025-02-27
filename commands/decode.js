@@ -3,6 +3,7 @@ const crypto = require('crypto');
 module.exports = {
     name: "decode",
     info: "Giải mã văn bản",
+    category: "Tools",
     usages: "decode [method] [text]",
     cooldowns: 5,
     dev: "HNT",

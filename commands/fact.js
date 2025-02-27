@@ -6,6 +6,7 @@ module.exports = {
     usedby: 0,
     info: "sự thật ngẫu nhiên",
     dev: "HNT",
+    category: "Giải Trí",
     onPrefix: true,
     usages: "fact",
     cooldowns: 5,

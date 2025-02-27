@@ -1267,10 +1267,10 @@
       "performance": 100
     },
     "jobHistory": [],
-    "lastWorked": 1740641647279,
+    "lastWorked": 1740652903464,
     "lastQuit": 0,
-    "totalEarned": 252000,
-    "workCount": 3
+    "totalEarned": 336000,
+    "workCount": 4
   },
   "100090503472617": {
     "currentJob": null,
@@ -1281,7 +1281,11 @@
     "workCount": 0
   },
   "61573656233995": {
-    "currentJob": null,
+    "currentJob": {
+      "id": "j4",
+      "startDate": 1740650934374,
+      "performance": 100
+    },
     "jobHistory": [],
     "lastWorked": 0,
     "lastQuit": 0,

@@ -7,6 +7,7 @@ const sharp = require('sharp');
 module.exports = {
     name: "qrscan",
     dev: "HNT",
+    category: "Tiện Ích",
     info: "Quét mã QR từ hình ảnh",
     usages: "[Reply hình ảnh chứa mã QR]",
     usedby: 0,

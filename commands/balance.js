@@ -28,6 +28,7 @@ module.exports = {
     name: "balance",
     dev: "HNT",
     usedby: 0,
+    category: "Tài Chính",
     info: "Kiểm tra số dư tài khoản của bạn",
     onPrefix: true,
     usages: ".balance: Kiểm tra số dư tài khoản của bạn.",

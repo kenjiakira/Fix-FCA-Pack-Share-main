@@ -11,6 +11,7 @@ module.exports = {
     name: "say",
     info: "Chuyển văn bản thành giọng nó",
     dev: "HNT",
+    category: "Giải Trí",
     usedby: 0,
     onPrefix: true,
     dmUser: false,

@@ -12,6 +12,7 @@ if (!fs.existsSync(CHART_DIR)) {
 module.exports = {
     name: "trade",
     dev: "HNT",
+    category: "Tài Chính",
     info: "Giao dịch chứng khoán",
     onPrefix: true,
     usages: ".trade [check/buy/sell/portfolio/info/margin/order/analysis/guide] [mã CP] [số lượng] [tùy chọn]",

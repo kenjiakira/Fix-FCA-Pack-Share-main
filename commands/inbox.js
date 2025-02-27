@@ -18,6 +18,7 @@ function loadInboxThreads() {
 module.exports = {
     name: "inbox",
     usedby: 2,
+    category: "Admin Commands",
     info: "Quản lý nhóm chat trong hộp thư",
     onPrefix: true,
     dev: "Jonell Magallanes",

@@ -6,6 +6,7 @@ const { getDiscordClient } = require('../utils/discord');
 module.exports = {
     name: "claim",
     dev: "HNT",
+    category: "Khác",
     info: "Nhận xu từ giao dịch đổi Nitro",
     usedby: 0,
     onPrefix: true,

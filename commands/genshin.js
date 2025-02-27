@@ -3,6 +3,7 @@ const axios = require('axios');
 module.exports = {
     name: "genshin",
     dev: "HNT",
+    category: "Tiện Ích",
     info: "Xem thông tin về Genshin Impact",
     usages: "genshin [character/search/voices]",
     cooldowns: 5,

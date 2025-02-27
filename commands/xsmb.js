@@ -4,6 +4,7 @@ module.exports = {
     name: "xsmb",
     info: "Xem xổ số miền Bắc",
     dev: "HNT",
+    category: "Tin Tức",
     usedby: 0,
     onPrefix: true,
     cooldowns: 5,

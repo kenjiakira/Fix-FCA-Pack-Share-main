@@ -1,6 +1,7 @@
 module.exports = {
   name: "tid",
   usedby: 0,
+  category: "Khác",
   info: "Lấy ID nhóm chat hiện tại",
   dev: "HNT",
   onPrefix: false,

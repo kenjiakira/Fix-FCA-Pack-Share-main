@@ -3,6 +3,7 @@ const fs = require('fs');
 module.exports = {
     name: "setprefix",
     usedby: 5,
+    category: "Admin Commands",
     info: "Thay đổi dấu lệnh riêng cho nhóm",
     dev: "HNT, Jonell Magallanes, Nerver Give Up",
     usages: "setprefix <prefix mới>",

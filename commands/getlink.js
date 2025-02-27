@@ -2,6 +2,7 @@ module.exports = {
     name: "getlink",
     usedby: 0,
     dev: "Mirai Team and CC PROJECT TEAM",
+    category: "Tiện Ích",
     info: "Lấy URL Tải xuống từ Video, Âm thanh được gửi từ nhóm",
     onPrefix: false,
     dmUser: false,

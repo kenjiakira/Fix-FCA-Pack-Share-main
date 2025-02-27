@@ -6,6 +6,7 @@ module.exports = {
   name: "tikinfo",
   dev: "Jonell Magallanes",
   usedby: 0,
+  category: "Tiện Ích",
   info: "Công cụ theo dõi người dùng TikTok",
   onPrefix: true,
   usage: "[tikinfo username]",

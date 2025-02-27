@@ -1315,6 +1315,7 @@ module.exports = {
     usedby: 0,
     dmUser: false,
     dev: "HNT",
+    category: "AI",
     nickName: ["bot", "ngân"],
     info: "Chat với AI",
     onPrefix: false,

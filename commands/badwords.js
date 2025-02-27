@@ -74,6 +74,7 @@ function containsBadWord(message, threadID) {
 module.exports = {
     name: "badwords", 
     usedby: 5, 
+    category: "Groups",
     info: "Quản lý danh sách từ bị cấm",
     onPrefix: true,
     dev: "HNT",

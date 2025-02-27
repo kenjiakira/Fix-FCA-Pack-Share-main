@@ -3,6 +3,7 @@ const axios = require('axios');
 module.exports = {
   name: "holiday",
   dev: "HNT",
+  category: "Tiện Ích",
   info: "Xem ngày lễ của các quốc gia",
   onPrefix: true,
   dmUser: false,

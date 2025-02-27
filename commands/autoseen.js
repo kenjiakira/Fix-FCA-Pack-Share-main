@@ -4,6 +4,7 @@ const path = require('path');
 module.exports = {
     name: "autoseen",
     dev: "HNT",
+    category: "Admin Commands",
     cooldowns: 5,
     usebBy: 2,
     info: "Bật/tắt tự động seen tin nhắn",

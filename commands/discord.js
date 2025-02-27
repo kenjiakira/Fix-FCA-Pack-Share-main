@@ -19,6 +19,7 @@ let guild = null;
 module.exports = {
     name: "discord",
     dev: "HNT",
+    category: "Admin Commands",
     info: "Tương tác với Discord Server",
     usages: "discord [info/chat/send/invite]", // Updated usages
     cooldowns: 5,

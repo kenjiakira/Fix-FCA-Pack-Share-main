@@ -15,6 +15,7 @@ module.exports = {
     name: "notify",
     dev: "HNT",
     usedby: 5, 
+    category: "Groups",
     info: "Quản lý cài đặt thông báo nhóm",
     onPrefix: true,
     usages: "notify [loại] [tùy chọn]",

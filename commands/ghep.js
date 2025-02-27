@@ -5,6 +5,7 @@ const { createCanvas, loadImage } = require('canvas');
 
 module.exports = {
   name: "ghep",
+  category: "Giải Trí",
   info: "Ghép đôi ngẫu nhiên với nhiều tính năng thú vị",
   onPrefix: true,
   usages: "ghep",

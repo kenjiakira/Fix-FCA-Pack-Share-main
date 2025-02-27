@@ -40,6 +40,7 @@ function saveLink(messengerId, discordId) {
 
 module.exports = {
     name: "link",
+    category: "Khác",
     info: "Liên kết tài khoản Discord",
     usedby: 0,
     onPrefix: true,

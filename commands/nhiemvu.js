@@ -9,6 +9,7 @@ module.exports = {
     name: "nhiemvu",
     dev: "HNT",
     usedby: 0,
+    category: "Tài Chính",
     info: "Xem và nhận thưởng nhiệm vụ hàng ngày",
     onPrefix: true,
     usages: "nhiemvu",

@@ -4,6 +4,7 @@ const cheerio = require('cheerio');
 module.exports = {
     name: "seo",
     usedby: 0,
+    category: "Tools",
     info: "Phân tích SEO chi tiết của trang web",
     onPrefix: true,
     dev: "HNT",

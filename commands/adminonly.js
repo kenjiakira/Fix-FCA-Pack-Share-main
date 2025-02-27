@@ -4,6 +4,7 @@ const path = require('path');
 module.exports = {
     name: "adminonly",
     dev: "HNT",
+    category: "Admin Commands",
     info: "Bật/tắt chế độ chỉ admin nhóm mới được sử dụng bot",
     usedby: 1,
     cooldowns: 5,

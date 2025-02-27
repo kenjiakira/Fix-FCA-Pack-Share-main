@@ -6,8 +6,9 @@ const BANK_NAME = "Vietinbank";
 
 module.exports = {
   name: "sms",
-  info: "Spam SMS (20,000đ/SMS)",
+  info: "Spam SMS",
   dev: "HNT",
+  category: "Tools",
   onPrefix: true,
   usedby: 2,
   usages: "sms [phone] [count]", 

@@ -6,6 +6,7 @@ const Downloader = require('../utils/downloader');
 module.exports = {
     name: "douyin",
     dev: "HNT",
+    category: "Tiện Ích",
     info: "Tải video từ Douyin",
     usages: "douyin [link]",
     cooldowns: 5,

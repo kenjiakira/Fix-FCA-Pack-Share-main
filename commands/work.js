@@ -7,6 +7,7 @@ const { JOB_CATEGORIES, JOB_RANKS } = require('../config/family/jobConfig');
 module.exports = {
     name: "work",
     dev: "HNT",
+    category: "Games",
     info: "Làm việc kiếm tiền",
     onPrefix: true,
     usages: "work",

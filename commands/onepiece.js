@@ -3,6 +3,7 @@ const axios = require('axios');
 module.exports = {
     name: "onepiece",
     dev: "HNT",
+    category: "Giải Trí",
     info: "Xem thông tin về One Piece",
     usages: "onepiece [character/random]",
     cooldowns: 5,

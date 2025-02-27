@@ -6,6 +6,7 @@ module.exports = {
     name: "image",
     version: "1.0",
     usedby: 0,
+    category: "Image",
     info: "Tìm kiếm hình ảnh từ Pinterest",
     dev: "Jonell Magallanes",
     onPrefix: false,

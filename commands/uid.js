@@ -4,6 +4,7 @@ module.exports = {
   name: "uid",
   dev: "HNT",
   usedby: 0,
+  category: "Khác",
   info: "lấy UID facebook của người nào đó",
   onPrefix: false,
   dmUser: false,

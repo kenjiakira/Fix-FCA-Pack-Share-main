@@ -2,6 +2,7 @@ module.exports = {
     name: "idst",
     info: "lấy ID sticker", 
     dev: "HNT",
+    category: "Tiện Ích",
     usedby: 4,
     onPrefix: true,
     dmUser: true,

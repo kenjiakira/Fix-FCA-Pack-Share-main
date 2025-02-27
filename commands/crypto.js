@@ -10,6 +10,7 @@ module.exports = {
     info: 'Xem giá tiền điện tử',
     dev: 'Hoàng Ngọc Từ',
     onPrefix: true,
+    category: "Tiện Ích",
     usedby: 0,
     dmUser: false,
     nickName: ['crypto', 'bitcoin', 'coin'],

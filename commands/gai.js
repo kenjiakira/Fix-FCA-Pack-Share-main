@@ -5,6 +5,7 @@ const path = require('path');
 module.exports = {
     name: "gai",
     usedby: 0,
+    category: "Giải Trí",
     info: "xem ảnh gái",
     onPrefix: true,
     dev: "HNT",

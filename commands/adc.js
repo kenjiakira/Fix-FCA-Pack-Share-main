@@ -1,6 +1,8 @@
 module.exports = {
   name: "adc",
   usedby: 2,
+  dev: "HNT",
+  category: "Admin Commands",
   info: "Thêm lệnh và chia sẻ code qua pastebin/drive/buildtool links",
   onPrefix: true,
   cooldowns: 10,

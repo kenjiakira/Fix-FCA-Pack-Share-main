@@ -6,6 +6,7 @@ const { ZM_API } = require('../config/api');
 module.exports = {
     name: "pinterest",
     dev: "HNT",
+    category: "Image",
     info: "Tải media từ Pinterest",
     usages: "pinterest [link]",
     cooldowns: 5,

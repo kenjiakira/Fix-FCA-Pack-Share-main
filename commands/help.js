@@ -18,9 +18,17 @@ module.exports = {
 
             const delay = ms => new Promise(resolve => setTimeout(resolve, ms));
 
+            const categories = {};
             const visibleCommandFiles = commandFiles.filter(file => {
                 try {
                     const command = require(path.join(cmdsPath, file));
+                    if (!command.hide) {
+                        const category = command.category || "Khác";
+                        if (!categories[category]) {
+                            categories[category] = [];
+                        }
+                        categories[category].push(command);
+                    }
                     return !command.hide;
                 } catch (err) {
                     console.error(`Error loading command ${file}:`, err);
@@ -28,21 +36,32 @@ module.exports = {
                 }
             });
 
-            const totalCommands = visibleCommandFiles.length;
+            const sortedCategories = Object.keys(categories).sort((a, b) => {
+                if (a === "Khác") return 1;
+                if (b === "Khác") return -1;
+                return a.localeCompare(b);
+            });
+
+            const totalCommands = Object.values(categories).reduce((sum, cmds) => sum + cmds.length, 0);
 
             if (target[0] === "all") {
                 let allCommandsMessage = `⚡️ 𝗞𝗘𝗡𝗝𝗜 𝗕𝗢𝗧 𝗦𝗬𝗦𝗧𝗘𝗠 ⚡️\n`;
                 allCommandsMessage += `▱▱▱▱▱▱▱▱▱▱▱▱▱▱\n\n`;
-                visibleCommandFiles.forEach((file, index) => {
-                    const commandInfo = require(path.join(cmdsPath, file));
-                    allCommandsMessage += `│ ${index + 1}. ⟩ ${commandInfo.name || "Không xác định"}\n└❈ ${commandInfo.info || "Không có mô tả"}\n`;
+
+                sortedCategories.forEach(category => {
+                    allCommandsMessage += `『 𝗖𝗔𝗧𝗘𝗚𝗢𝗥𝗬: ${category.toUpperCase()} 』\n`;
+                    categories[category].forEach((cmd, index) => {
+                        allCommandsMessage += `│ ${index + 1}. ⟩ ${cmd.name || "Không xác định"}\n└❈ ${cmd.info || "Không có mô tả"}\n`;
+                    });
+                    allCommandsMessage += "\n";
                 });
-                allCommandsMessage += `\n▱▱▱▱▱▱▱▱▱▱▱▱▱▱\n`;
+
+                allCommandsMessage += `▱▱▱▱▱▱▱▱▱▱▱▱▱▱\n`;
                 allCommandsMessage += `⌬ Trang: Toàn bộ\n`;
                 allCommandsMessage += `⌬ Tổng lệnh: ${totalCommands}\n`;
                 allCommandsMessage += `⌬ Hướng dẫn: ${adminConfig.prefix}help <số trang>\n`;
-                allCommandsMessage += `⌬ Xem toàn bộ:  ${adminConfig.prefix}help all\n`;
-                allCommandsMessage += `⌬ Developer: ${adminConfig.ownerName}`;
+                allCommandsMessage += `⌬ Xem toàn bộ: ${adminConfig.prefix}help all\n`;
+                allCommandsMessage += `⌬ Developer: 『 ${adminConfig.ownerName} 』`;
                 return api.sendMessage(allCommandsMessage, event.threadID, event.messageID);
             }
 
@@ -71,10 +90,10 @@ module.exports = {
 
                 helpMessage += `\n▱▱▱▱▱▱▱▱▱▱▱▱▱▱\n`;
                 helpMessage += `⌬ Trang: ${page}/${totalPages}\n`;
-                helpMessage += `⌬ Tổng lệnh: 9999999999999999\n`;
+                helpMessage += `⌬ Tổng lệnh: ${totalCommands}\n`;
                 helpMessage += `⌬ Hướng dẫn: ${adminConfig.prefix}help <số trang>\n`;
                 helpMessage += `⌬ Xem toàn bộ: ${adminConfig.prefix}help all\n`;
-                helpMessage += `⌬ Developer: ${adminConfig.ownerName}`;
+                helpMessage += `⌬ Developer: 『 ${adminConfig.ownerName} 』`;
                 return api.sendMessage(helpMessage, event.threadID, event.messageID);
             }
 

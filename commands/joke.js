@@ -4,6 +4,7 @@ const config = require('../config/api');
 module.exports = {
     name: "joke",
     usedby: 0,
+    category: "Giải Trí",
     info: "xem truyện cười ngẫu nhiên",
     dev: "HNT",
     onPrefix: true,

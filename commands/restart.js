@@ -4,6 +4,7 @@ const { nickName } = require('./chatbot');
 module.exports = {
     name: "restart",
     usedby: 2,
+    category: "Admin Commands",
     info: "Khởi động lại bot",
     onPrefix: false,
     nickName: ["reboot", "rs"],

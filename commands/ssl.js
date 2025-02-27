@@ -6,6 +6,7 @@ const https = require('https');
 module.exports = {
     name: "ssl",
     usedby: 0,
+    category: "Tiện Ích",
     info: "kiểm tra bảo mật SSL",
     onPrefix: true,
     dev: "HNT",

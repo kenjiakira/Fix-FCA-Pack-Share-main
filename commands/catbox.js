@@ -7,6 +7,7 @@ module.exports = {
     name: "catbox",
     dev: "HNT",
     usedby: 2,
+    category: "Tiện Ích",
     info: "Lấy link Catbox từ video/gif",
     usages: "Reply một video/gif để lấy link",
     onPrefix: true,

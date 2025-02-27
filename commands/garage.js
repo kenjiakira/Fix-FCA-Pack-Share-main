@@ -11,6 +11,7 @@ module.exports = {
     name: "garage",
     dev: "HNT",
     usedby: 0,
+    category: "Games",
     usages: ".garage [list/buy/sell/repair/info]",
     info: "Quản lý xe cộ của bạn",
     onPrefix: true,

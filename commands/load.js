@@ -2,6 +2,7 @@ module.exports = {
     name: "load",
     info: "Load lệnh và events",
     onPrefix: true,
+    category: "Admin Commands",
     usedby: 2,
     cooldowns: 0,
     hide: true,

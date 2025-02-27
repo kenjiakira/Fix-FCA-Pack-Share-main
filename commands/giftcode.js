@@ -10,6 +10,7 @@ function formatNumber(number) {
 module.exports = {
     name: "giftcode",
     dev: "HNT",
+    category: "Tài Chính",
     info: "Hệ thống giftcode",
     onPrefix: true,
     usages: "[redeem/create/list] [code]",

@@ -4,6 +4,7 @@ const path = require('path');
 module.exports = {
     name: "anti",
     dev: "HNT",
+    category: "Groups",
     usedby: 5,
     cooldowns: 5,
     info: "Quản lý các tính năng bảo vệ nhóm",

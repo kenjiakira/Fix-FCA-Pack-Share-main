@@ -13,6 +13,7 @@ module.exports = {
   info: 'Tải video TikTok',
   dev: 'HNT',
   usedby: 0,
+  category: 'Tiện Ích',
   onPrefix: true, 
   dmUser: false, 
   nickName: ['tiktok', 'tảivideo'],

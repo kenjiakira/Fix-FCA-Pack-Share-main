@@ -8,6 +8,7 @@ module.exports = {
     dev: "HNT",
     info: "Chơi cờ vua với người khác",
     usedby: 0,
+    category: "Games",
     cooldowns: 5, 
     dmUser: false,
     onPrefix: true,

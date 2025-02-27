@@ -8,6 +8,7 @@ function formatNumber(number) {
 module.exports = {
     name: "coinflip",
     dev: "HNT",
+    category: "Games",
     info: "Tung đồng xu.",
     onPrefix: true,
     usages: "coinflip",

@@ -200,6 +200,7 @@ module.exports = {
     name: "pay",
     dev: "HNT",
     usedby: 0,
+    category: "Tài Chính",
     info: "Chuyển tiền cho người khác.",
     onPrefix: true,
     usages: ".pay <số tiền>: Chuyển tiền cho người dùng được reply.",

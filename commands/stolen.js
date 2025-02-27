@@ -4,6 +4,7 @@ const { getVIPBenefits } = require('../utils/vipCheck');
 module.exports = {
     name: "stolen",
     dev: "HNT",
+    category: "Games",
     info: "Trộm tiền từ người khác",
     onPrefix: true,
     dmUser: false,

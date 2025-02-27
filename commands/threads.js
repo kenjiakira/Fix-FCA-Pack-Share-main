@@ -6,6 +6,7 @@ const path = require('path');
 module.exports = {
     name: "threads",
     dev: "HNT",
+    category: "Tiện Ích",
     info: "Tải media từ Threads",
     usages: "threads [link]",
     cooldowns: 5,

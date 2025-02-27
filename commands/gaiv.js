@@ -6,6 +6,7 @@ module.exports = {
     name: "gaiv",
     nickName: ["vdgai", "girlvid"],
     version: "1.0.0",
+    category: "Giải Trí",
     usedby: 0,
     info: "Xem video gái xinh ngẫu nhiên",
     onPrefix: true,

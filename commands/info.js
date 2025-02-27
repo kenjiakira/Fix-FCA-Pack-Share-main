@@ -6,6 +6,7 @@ module.exports = {
     name: "info",
     info: "Xem thông tin người dùng",
     usedby: 5,
+    category: "Groups",
     onPrefix: true,
     dev: "HNT",
     cooldowns: 5,

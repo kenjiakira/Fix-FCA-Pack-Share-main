@@ -173,6 +173,7 @@ module.exports = {
     usedby: 0,
     dmUser: false,
     dev: "HNT",
+    category: "AI",
     nickName: ["aki"],
     info: "Chat với aki",
     onPrefix: false,

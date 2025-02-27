@@ -4,6 +4,7 @@ module.exports = {
     name: "npm",
     info: "Quản lý thư viện NPM",
     dev: "HNT",
+    category: "Admin Commands",
     usedBy: 2,
     onPrefix: true,
     usages: "npm [list | install | uninstall] <tên_gói>",

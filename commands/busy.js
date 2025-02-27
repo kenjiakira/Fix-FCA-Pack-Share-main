@@ -5,6 +5,7 @@ module.exports = {
     name: "busy",
     dev: "HNT",
     usedby: 0,
+    category: "Tiện Ích",
     info: "Bật chế độ bận - bot sẽ thông báo khi có người tag",
     usages: "[lý do]",
     onPrefix: true,

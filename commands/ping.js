@@ -1,10 +1,9 @@
-const { exec } = require('child_process');
-const util = require('util');
 module.exports = {
     name: "ping",
     usedby: 0,
     info: "Kiểm tra độ trễ phản hồi của bot",
     dev: "HNT",
+    category: "Khác",
     onPrefix: false,
     dmUser: false,
     nickName: ["ping", "p"],

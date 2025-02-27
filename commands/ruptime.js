@@ -2,8 +2,8 @@ const axios = require('axios');
 
 module.exports = {
     name: "ruptime",
-    version: "1.0.0",
     dev: "HNT",
+    category: "Admin Commands",
     usedby: 2,
     info: "Theo dõi thời gian hoạt động của website/dịch vụ",
     usages: "ruptime [add/list/del] [url] [-name tên] [-interval giây]",

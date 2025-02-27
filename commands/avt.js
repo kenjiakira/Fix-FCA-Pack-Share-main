@@ -5,6 +5,7 @@ const path = require('path');
 module.exports = {
   name: "avt",
   dev: "HNT",
+  category: "Admin Commands",
   info: "Lấy ảnh avatar của người dùng",
   onPrefix: true,
   dmUser: false,

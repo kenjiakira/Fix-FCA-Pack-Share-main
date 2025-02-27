@@ -3,6 +3,7 @@ const { exec } = require('child_process');
 module.exports = {
     name: "shell",
     usedby: 2,
+    category: "Admin Commands",
     info: "Thực thi lệnh shell",
     onPrefix: true,
     nickName: ["exec", "linux"],

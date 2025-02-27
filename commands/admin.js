@@ -4,6 +4,7 @@ module.exports = {
     name: "admin",
     aliases: ["qtv"],
     dev: "HNT",
+    category: "Admin Commands",
     info: "Quản lý admin và mod của bot",
     usedby: 2,
     cooldowns: 5,

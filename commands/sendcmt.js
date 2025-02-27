@@ -1,6 +1,7 @@
 module.exports = {
     name: "sendcmt",
     usedby: 4,
+    category: "Tiện Ích",
     info: "Gửi bình luận vào bài viết bằng bot",
     onPrefix: true,
     dev: "Jonell Magallanes",

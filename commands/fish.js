@@ -51,6 +51,7 @@ function calculateRequiredExp(level) {
 module.exports = {
     name: "fish",
     dev: "HNT",
+    category: "Games",
     info: "Câu cá kiếm xu",
     usages: "fish",
     usedby: 0,

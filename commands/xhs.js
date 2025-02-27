@@ -5,6 +5,7 @@ module.exports = {
     name: "xhs",
     nickName: ["xhs"],
     dev: "HNT",
+    category: "Tiện Ích",
     info: "Tải media từ Xiaohongshu",
     usages: "xhs [link]",
     cooldowns: 5,

@@ -2,6 +2,7 @@ module.exports = {
     name: "kick",
     dev: "HNT",
     usedby: 5, 
+    category: "Groups",
     info: "Kick thành viên khỏi nhóm",
     onPrefix: true,
     usages: "[reply/tag/uid]",

@@ -3,6 +3,7 @@ module.exports = {
     usedby: 4,
     dmUser: true,
     dev: "HNT",
+    category: "Admin Commands",
     nickName: ["listbox", "boxes", "nhom"],
     info: "Xem danh sách các nhóm trong hệ thống",
     onPrefix: true,

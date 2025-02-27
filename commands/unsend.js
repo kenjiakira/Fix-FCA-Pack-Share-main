@@ -1,6 +1,7 @@
 module.exports = {
     name: "unsend",
     usedby: 5,
+    category: "Groups",
     dev: "HNT",
     onPrefix: false,
     cooldowns: 1,

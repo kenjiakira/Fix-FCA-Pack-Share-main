@@ -1,6 +1,7 @@
 module.exports = {
     name: "all",
     dev: "Hoàng Ngọc Từ",
+    category: "Groups",
     info: "tag toàn bộ thành viên",
     onPrefix: true,
     usedby: 5,

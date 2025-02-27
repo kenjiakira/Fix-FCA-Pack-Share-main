@@ -14,6 +14,7 @@ module.exports = {
     name: "family",
     dev: "HNT",
     usedby: 0,
+    category: "Giải Trí",
     info: "Hệ thống gia đình",
     onPrefix: true,
     usages: ".family [info/marry/divorce/child/temple]",

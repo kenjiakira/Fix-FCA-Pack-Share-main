@@ -6,6 +6,7 @@ const path = require('path');
 module.exports = {
     name: "capcut",
     dev: "HNT",
+    category: "Tiện Ích",
     info: "Tải template từ Capcut",
     usages: "capcut [link]",
     cooldowns: 5,

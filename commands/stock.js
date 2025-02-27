@@ -2,7 +2,8 @@ const axios = require('axios');
 
 module.exports = {
     name: "stock",
-    dev: "HNT", 
+    dev: "HNT",
+    category: "Tiện Ích", 
     usedby: 0,
     info: "Cung cấp thông tin về cổ phiếu.",
     onPrefix: true, 

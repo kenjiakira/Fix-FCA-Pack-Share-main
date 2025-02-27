@@ -24,6 +24,7 @@ function removeReminder(reminderTime) {
 
 module.exports = {
     name: "remind",
+    category: "Tiện Ích",
     info: "Tạo nhắc nhở cho các công việc cần làm.",
     dev: "HNT",
     usedby: 0,

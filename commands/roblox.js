@@ -26,6 +26,7 @@ module.exports = {
     name: 'roblox',
     dev: 'HNT',
     usedby: 0,
+    category: "Tiện Ích",
     info: 'Lấy thông tin chi tiết người dùng Roblox',
     usages: 'roblox [Tên người dùng]',
     dmUser: false,

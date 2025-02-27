@@ -7,6 +7,7 @@ module.exports = {
   name: "setavt",
   dev: "HNT",
   usedby: 2,
+  category: "Admin Commands",
   info: "Thay đổi avatar của bot",
   onPrefix: true,
   usages: "[caption] + reply hình ảnh hoặc nhập link",

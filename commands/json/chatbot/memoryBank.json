@@ -65,6 +65,160 @@
           }
         }
       ]
+    },
+    "100076957299243": {
+      "personal": [],
+      "facts": [],
+      "preferences": [],
+      "interactions": [
+        {
+          "content": "Tran Thu Huyen nói: m gửi ngân hàng\nTôi trả lời: Chị gửi ngân hàng à? Chị gửi qua ứng dụng hay đến trực tiếp ngân hàng vậy ạ?",
+          "timestamp": 1740651041258,
+          "priority": 1,
+          "accessCount": 0,
+          "lastAccess": 1740651041258,
+          "metadata": {
+            "sentiment": {
+              "score": 1,
+              "sentiment": "positive"
+            },
+            "topics": [
+              "PERSONAL"
+            ],
+            "entities": {}
+          }
+        }
+      ],
+      "emotions": [],
+      "names": [],
+      "relationships": {},
+      "context": {
+        "lastTopics": [],
+        "importantDates": {},
+        "recentMentions": {},
+        "conversationFlow": []
+      },
+      "topics": {},
+      "undefined": [
+        {
+          "content": "Xưng hô: em/anh",
+          "timestamp": 1740651039392,
+          "priority": 2,
+          "accessCount": 0,
+          "lastAccess": 1740651039392,
+          "metadata": {
+            "sentiment": {
+              "score": 0,
+              "sentiment": "neutral"
+            },
+            "topics": [],
+            "entities": {}
+          }
+        }
+      ]
+    },
+    "61558946907944": {
+      "personal": [],
+      "facts": [],
+      "preferences": [],
+      "interactions": [
+        {
+          "content": "Yzu Yu nói: bot sống r à\nTôi trả lời: Chào anh Yzu Yu!  Em sống và làm việc tốt lắm ạ.  -)",
+          "timestamp": 1740651090782,
+          "priority": 1,
+          "accessCount": 0,
+          "lastAccess": 1740651090782,
+          "metadata": {
+            "sentiment": {
+              "score": 1,
+              "sentiment": "positive"
+            },
+            "topics": [
+              "PERSONAL",
+              "WORK"
+            ],
+            "entities": {}
+          }
+        }
+      ],
+      "emotions": [],
+      "names": [],
+      "relationships": {},
+      "context": {
+        "lastTopics": [],
+        "importantDates": {},
+        "recentMentions": {},
+        "conversationFlow": []
+      },
+      "topics": {},
+      "undefined": [
+        {
+          "content": "Xưng hô: em/anh",
+          "timestamp": 1740651089082,
+          "priority": 2,
+          "accessCount": 0,
+          "lastAccess": 1740651089082,
+          "metadata": {
+            "sentiment": {
+              "score": 0,
+              "sentiment": "neutral"
+            },
+            "topics": [],
+            "entities": {}
+          }
+        }
+      ]
+    },
+    "61573075153597": {
+      "personal": [],
+      "facts": [],
+      "preferences": [],
+      "interactions": [
+        {
+          "content": "Linh Thùy nói: bot đâu\nTôi trả lời: Chào Linh Thùy!  Em đây nè.  Có gì em giúp được không?",
+          "timestamp": 1740652893385,
+          "priority": 1,
+          "accessCount": 0,
+          "lastAccess": 1740652893385,
+          "metadata": {
+            "sentiment": {
+              "score": 0,
+              "sentiment": "neutral"
+            },
+            "topics": [
+              "PERSONAL"
+            ],
+            "entities": {}
+          }
+        }
+      ],
+      "emotions": [],
+      "names": [],
+      "relationships": {},
+      "context": {
+        "lastTopics": [],
+        "importantDates": {},
+        "recentMentions": {},
+        "conversationFlow": []
+      },
+      "topics": {},
+      "undefined": [
+        {
+          "content": "Xưng hô: em/anh",
+          "timestamp": 1740652891583,
+          "priority": 2,
+          "accessCount": 0,
+          "lastAccess": 1740652891583,
+          "metadata": {
+            "sentiment": {
+              "score": 0,
+              "sentiment": "neutral"
+            },
+            "topics": [],
+            "entities": {}
+          }
+        }
+      ]
     }
   },
   "global": {
@@ -80,7 +234,7 @@
     "voice": {}
   },
   "stats": {
-    "totalInteractions": 4,
+    "totalInteractions": 10,
     "uniqueUsers": {},
     "topTopics": {},
     "responseTime": [],
@@ -88,6 +242,10 @@
       {
         "timestamp": 1740650250510,
         "memoryCount": 4
+      },
+      {
+        "timestamp": 1740651090783,
+        "memoryCount": 5
       }
     ]
   },

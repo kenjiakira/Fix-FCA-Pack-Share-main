@@ -3,6 +3,7 @@ const axios = require('axios');
 module.exports = {
     name: "anon",
     usedby: 0,
+    category: "Tools",
     info: "Gửi tin nhắn ẩn danh đến người dùng qua ngl.link",
     dev: "HNT",
     onPrefix: true,

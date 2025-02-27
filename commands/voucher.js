@@ -40,6 +40,7 @@ const lastHunted = new Map();
 module.exports = {
     name: "voucher",
     dev: "HNT",
+    category: "MUA VIP",
     info: "Săn voucher giảm giá VIP",
     onPrefix: true,
     usages: "voucher",

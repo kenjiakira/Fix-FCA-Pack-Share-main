@@ -4,6 +4,7 @@ module.exports = {
     name: "ip",
     info: "Kiểm tra thông tin IP",
     usedby: 0,
+    category: "Tools",
     dev: "NTKhang, Nguyên Blue [convert]",
     onPrefix: true,
     dmUser: false,

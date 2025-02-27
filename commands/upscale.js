@@ -64,6 +64,7 @@ const processImage = async (imagePath) => {
 module.exports = {
   name: "upscale",
   dev: "HNT",
+  category: "Image",
   usedby: 0,
   description: "Làm nét ảnh",
   usages: "[reply ảnh]",

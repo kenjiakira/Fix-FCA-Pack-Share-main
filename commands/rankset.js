@@ -42,6 +42,7 @@ async function uploadToImgur(filePath) {
 
 module.exports = {
     name: 'rankset',
+    category: "Khác",
     info: 'Tùy chỉnh thẻ xếp hạng của bạn',
     dev: 'HNT',
     usedby: 0,

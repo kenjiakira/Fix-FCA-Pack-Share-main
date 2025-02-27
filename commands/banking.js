@@ -466,6 +466,7 @@ const getBankingHelp = () => {
 module.exports = {
     name: "banking",
     dev: "HNT",
+    category: "Tài Chính",
     onPrefix: true,
     usages: ".banking [gửi/rút/check/vay/trả/khoản_vay]\n",
     info: "Hệ thống ngân hàng trực tuyến với dịch vụ cho vay",

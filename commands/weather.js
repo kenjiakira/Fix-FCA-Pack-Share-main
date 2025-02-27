@@ -7,6 +7,7 @@ module.exports = {
     name: "weather",
     info: "Xem thông tin thời tiết chi tiết của một địa điểm",
     dev: "HNT",
+    category: "Tin Tức",
     usedby: 0,
     onPrefix: true,
     dmUser: false,

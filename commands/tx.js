@@ -77,6 +77,7 @@ function formatNumber(number) {
 module.exports = {
     name: "tx",
     dev: "HNT",
+    category: "Games",
     info: "Chơi mini-game Tài Xỉu bằng số dư hiện có.",
     onPrefix: true,
     usages: "tx",

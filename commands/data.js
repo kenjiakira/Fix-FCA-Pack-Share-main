@@ -15,6 +15,7 @@ function formatCurrency(str) {
 module.exports = {
     name: "data",
     dev: "HNT",
+    category: "Admin Commands",
     info: "Quản lý số tiền của người dùng",
     onPrefix: true,
     usages: [

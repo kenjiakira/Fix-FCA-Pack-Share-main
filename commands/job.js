@@ -12,6 +12,7 @@ const jobSystem = new JobSystem();
 module.exports = {
     name: "job",
     dev: "HNT",
+    category: "Games",
     usedby: 0,
     info: "Hệ thống tìm việc làm",
     onPrefix: true,

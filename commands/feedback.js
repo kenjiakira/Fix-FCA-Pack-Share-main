@@ -19,6 +19,7 @@ module.exports = {
     usedby: 0,
     dmUser: false,
     dev: "HNT",
+    category: "Khác",
     nickName: ["feedback", "fb", "report"],
     info: "Gửi phản hồi đến admin",
     usages: "feedback [nội dung]\n" +

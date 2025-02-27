@@ -13,6 +13,7 @@ const botStartTime = Date.now();
 module.exports = {
     name: "uptime",
     usedby: 0,
+    category: "Khác",
     info: "Xem thời gian bot.",
     dev: "HNT",
     onPrefix: false,

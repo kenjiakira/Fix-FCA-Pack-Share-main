@@ -20,6 +20,7 @@ const VIP_PRICES = {
 module.exports = {
     name: "qr",
     dev: "HNT",
+    category: "Tiện Ích",
     info: "Tạo mã QR chuyển khoản ngân hàng",
     usages: "qr [STK] [Mã bank] [Số tiền] [Nội dung]",
     usedby: 0,

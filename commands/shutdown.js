@@ -3,6 +3,7 @@ const fs = require('fs');
 module.exports = {
     name: "shutdown",
     usedby: 2,
+    category: "Admin Commands",
     dev:"HNT",
     info: "Tắt bot",
     onPrefix: false,

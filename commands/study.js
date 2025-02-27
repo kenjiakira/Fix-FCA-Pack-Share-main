@@ -10,6 +10,7 @@ function formatNumber(number) {
 module.exports = {
     name: "study",
     dev: "HNT",
+    category: "Games",
     usedby: 0,
     info: "Hệ thống học tập",
     onPrefix: true,

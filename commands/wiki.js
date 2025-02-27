@@ -14,6 +14,7 @@ module.exports = {
     name: "wiki",
     info: "Tra cứu thông tin từ Wikipedia",
     dev: "HNT",
+    category: "Tin Tức",
     onPrefix: true,
     usedby: 0,
     dmUser: false,
