@@ -135,7 +135,7 @@ module.exports = {
 
                 case "info": {
                     if (!job.currentJob) {
-                        return api.sendMessage("❌ Bạn chưa có việc làm!/n vui lòng apply job trước bằng cách gõ\njob apply [mã job]", threadID);
+                        return api.sendMessage("❌ Bạn chưa có việc làm!\n vui lòng apply job trước bằng cách gõ\njob apply [mã job]", threadID);
                     }
 
                     const currentJob = JOBS[job.currentJob.id];
@@ -174,7 +174,7 @@ module.exports = {
 
                 case "quit": {
                     if (!job.currentJob) {
-                        return api.sendMessage("❌ Bạn chưa có việc làm!/n vui lòng apply job trước bằng cách gõ\njob apply [mã job]", threadID);
+                        return api.sendMessage("❌ Bạn chưa có việc làm!\n vui lòng apply job trước bằng cách gõ\njob apply [mã job]", threadID);
                     }
 
                     try {

@@ -5,7 +5,7 @@ module.exports = {
   name: "vnx",
   dev: "Hoàng Ngọc Từ",
   usedby: 0,
-  category: "Tin Tức",
+  category: "Tiện Ích",
   info: "Xem tin tức",
   onPrefix: false,
   usages: "vnx",

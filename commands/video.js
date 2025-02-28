@@ -6,7 +6,7 @@ const ytdl = require('@distube/ytdl-core');
 module.exports = {
     name: "video",
     usedby: 0,
-    category: "Tiện Ích",
+    category: "Media",
     info: "Tải video từ Youtube",
     onPrefix: true,
     dev: "HNT",

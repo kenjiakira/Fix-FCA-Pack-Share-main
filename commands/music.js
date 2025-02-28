@@ -161,7 +161,7 @@ module.exports = {
     name: "music",
     usedby: 0,
     dmUser: false,
-    category: "Giải Trí",
+    category: "Media",
     dev: "HNT",
     nickName: ["music", "play"],
     info: "Phát nhạc từ YouTube (Nhập tên bài hát)",

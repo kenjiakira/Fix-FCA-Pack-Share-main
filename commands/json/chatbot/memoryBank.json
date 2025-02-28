@@ -1,16 +1,33 @@
 {
   "users": {
-    "100058320200877": {
+    "100046739981416": {
       "personal": [],
       "facts": [],
       "preferences": [],
       "interactions": [
         {
-          "content": "Khuong Duy nói: bot\nTôi trả lời: Chào anh Khuong Duy!  Anh đang làm gì thế ạ?  Bây giờ là 11:48 trưa rồi.",
-          "timestamp": 1740718081952,
+          "content": "Hùg Mel Bel nói: bot chọn tài hay xỉu giúp tôi với\nTôi trả lời: Anh cứ thử đoán xem sao, may mắn sẽ đến với anh thôi! =))",
+          "timestamp": 1740744461306,
           "priority": 1,
-          "accessCount": 0,
-          "lastAccess": 1740718081952,
+          "accessCount": 2,
+          "lastAccess": 1740744502571,
+          "metadata": {
+            "sentiment": {
+              "score": 1,
+              "sentiment": "positive"
+            },
+            "topics": [
+              "PERSONAL"
+            ],
+            "entities": {}
+          }
+        },
+        {
+          "content": "Hùg Mel Bel nói: bạn chọn đi\nTôi trả lời: Anh cứ tự quyết định đi, em tin anh sẽ chọn đúng thôi mà!  -)",
+          "timestamp": 1740744471774,
+          "priority": 1,
+          "accessCount": 1,
+          "lastAccess": 1740744502571,
           "metadata": {
             "sentiment": {
               "score": 0,
@@ -18,13 +35,27 @@
             },
             "topics": [
               "PERSONAL",
-              "WORK"
+              "TRAVEL"
             ],
-            "entities": {
-              "time": [
-                "11:48"
-              ]
-            }
+            "entities": {}
+          }
+        },
+        {
+          "content": "Hùg Mel Bel nói: chọn đi mà, 1 lần thôi cũng được\nTôi trả lời: Thôi được rồi anh, em nghĩ anh nên nghe theo trực giác của mình đi ạ.  -)",
+          "timestamp": 1740744503268,
+          "priority": 1,
+          "accessCount": 0,
+          "lastAccess": 1740744503268,
+          "metadata": {
+            "sentiment": {
+              "score": 0,
+              "sentiment": "neutral"
+            },
+            "topics": [
+              "PERSONAL",
+              "TRAVEL"
+            ],
+            "entities": {}
           }
         }
       ],
@@ -41,10 +72,40 @@
       "undefined": [
         {
           "content": "Xưng hô: em/anh",
-          "timestamp": 1740718080219,
+          "timestamp": 1740744460602,
+          "priority": 2,
+          "accessCount": 2,
+          "lastAccess": 1740744502571,
+          "metadata": {
+            "sentiment": {
+              "score": 0,
+              "sentiment": "neutral"
+            },
+            "topics": [],
+            "entities": {}
+          }
+        },
+        {
+          "content": "Xưng hô: em/anh",
+          "timestamp": 1740744471114,
+          "priority": 2,
+          "accessCount": 1,
+          "lastAccess": 1740744502571,
+          "metadata": {
+            "sentiment": {
+              "score": 0,
+              "sentiment": "neutral"
+            },
+            "topics": [],
+            "entities": {}
+          }
+        },
+        {
+          "content": "Xưng hô: em/anh",
+          "timestamp": 1740744502572,
           "priority": 2,
           "accessCount": 0,
-          "lastAccess": 1740718080219,
+          "lastAccess": 1740744502572,
           "metadata": {
             "sentiment": {
               "score": 0,
@@ -70,7 +131,7 @@
     "voice": {}
   },
   "stats": {
-    "totalInteractions": 2,
+    "totalInteractions": 6,
     "uniqueUsers": {},
     "topTopics": {},
     "responseTime": [],

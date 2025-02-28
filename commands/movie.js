@@ -5,7 +5,7 @@ const translate = require("translate-google");
 module.exports = {
   name: "movie",
   dev: "HNT",
-  category: "Giải Trí",
+  category: "Media",
   usedby: 0,
   info: "Xem thông tin về phim",
   onPrefix: true,

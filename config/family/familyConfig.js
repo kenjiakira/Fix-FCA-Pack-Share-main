@@ -1,40 +1,103 @@
-module.exports = {
-    MARRIAGE_COST: 1000000,
-    CHILD_COST: 500000,
-    DIVORCE_COST: 2000000,
-    
-    DAILY_HAPPINESS_DECAY: 5,
-    DAILY_CHILD_HAPPINESS_DECAY: 3,
+const COOLDOWNS = {
+    normal: 4320, 
+    protected: 10 
+};
 
-    ACTIVITIES: {
-        date: {
-            name: "Hẹn hò",
-            cost: 5000000,
-            happinessGain: 15
-        },
-        vacation: {
-            name: "Du lịch",
-            cost: 20000000, 
-            happinessGain: 30
-        },
-        party: {
-            name: "Tiệc gia đình",
-            cost: 10000000,
-            happinessGain: 20
-        }
+const MARRIAGE_COST = 1000000;
+const DIVORCE_COST = 2000000;
+
+const CONTRACEPTIVES = {
+    "bcs": {
+        name: "🎈 Bao cao su",
+        price: 50000,
+        description: "Tránh thai an toàn",
+        duration: 30 
     },
-    
-    CONTRACEPTIVES: {
-        condom: {
-            name: "Bao cao su",
-            price: 50000,
-            duration: 10, 
-            description: "Giúp không có thai trong 10 phút"
-        }
-    },
-    
-    COOLDOWNS: {
-        normal: 10, 
-        protected: 10 
+    "vt": {
+        name: "💊 Viên tránh thai",
+        price: 100000,
+        description: "Tránh thai hiệu quả",
+        duration: 60
     }
+};
+
+const MEDICINES = {
+    "thuoc_bo": {
+        name: "💊 Thuốc bổ",
+        price: 100000,
+        description: "Tăng sức khỏe +20%",
+        healthBoost: 20
+    },
+    "thuoc_ho": {
+        name: "💊 Thuốc ho",
+        price: 50000,
+        description: "Tăng sức khỏe +10%",
+        healthBoost: 10
+    },
+    "vitamin": {
+        name: "💊 Vitamin tổng hợp",
+        price: 200000,
+        description: "Tăng sức khỏe +30%",
+        healthBoost: 30
+    }
+};
+
+const INSURANCE = {
+    "bhyt_basic": {
+        name: "🏥 BHYT Cơ bản",
+        price: 5000000,
+        description: "Giảm 30% chi phí khám chữa bệnh",
+        duration: 30, 
+        discount: 30,
+        type: "health"
+    },
+    "bhyt_premium": {
+        name: "🏥 BHYT Cao cấp",
+        price: 100000000,
+        description: "Giảm 50% chi phí khám chữa bệnh",
+        duration: 30, 
+        discount: 50,
+        type: "health"
+    },
+    "car_basic": {
+        name: "🚗 Bảo hiểm ô tô cơ bản",
+        price: 10000000,
+        description: "Giảm 30% chi phí sửa chữa ô tô",
+        duration: 30,
+        discount: 30,
+        type: "car"
+    },
+    "car_premium": {
+        name: "🚗 Bảo hiểm ô tô cao cấp",
+        price: 20000000,
+        description: "Giảm 50% chi phí sửa chữa ô tô",
+        duration: 30,
+        discount: 50,
+        type: "car"
+    },
+    "bike_basic": {
+        name: "🛵 Bảo hiểm xe máy cơ bản",
+        price: 5000000,
+        description: "Giảm 30% chi phí sửa chữa xe máy",
+        duration: 30,
+        discount: 30,
+        type: "bike"
+    },
+    "bike_premium": {
+        name: "🛵 Bảo hiểm xe máy cao cấp",
+        price: 10000000,
+        description: "Giảm 50% chi phí sửa chữa xe máy",
+        duration: 30,
+        discount: 50,
+        type: "bike"
+    }
+};
+
+module.exports = {
+    MARRIAGE_COST,
+    DIVORCE_COST,
+    CONTRACEPTIVES,
+    MEDICINES,
+    INSURANCE,
+    COOLDOWNS
 };

@@ -161,7 +161,7 @@ module.exports = {
         },
         j9: {
             name: "Giáo viên",
-            salary: 630000,
+            salary: 1030000,
             type: "teacher",
             requirements: ["e3", "eng2"],
             description: "Giảng dạy và đào tạo học sinh"

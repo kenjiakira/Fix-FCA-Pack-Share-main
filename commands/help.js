@@ -177,7 +177,7 @@ module.exports = {
                 commands.forEach((cmd, index) => {
                     const icon = this.getCommandIcon(cmd);
                     msg += `${index + 1}. ${icon} ${cmd.name}\n`;
-                    msg += `➣ ${cmd.info || "Không có mô tả"}\n`;t
+                    msg += `➣ ${cmd.info || "Không có mô tả"}\n`;
                 });
 
                 msg += "╚═══════════════════════╝\n\n";
@@ -234,14 +234,17 @@ module.exports = {
     getCategoryPriority(category) {
         const priorities = {
             "System": 1,
-            "Admin": 2, 
-            "Box": 3,
-            "Game": 4,
+            "Admin Commands": 2, 
+            "Groups": 3,
+            "Games": 4,
             "Media": 5,
-            "Economy": 6,
-            "Utility": 7,
-            "Fun": 8,
-            "Khác": 9
+            "Tài Chính": 6,
+            "Tools": 7,
+            "Giải Trí": 8,
+            "Tiện Ích": 9,
+            "AI": 10,
+            "VIP": 11,
+            "Khác": 12
         };
         return priorities[category] || 10;
     },
@@ -249,13 +252,16 @@ module.exports = {
     getCategoryIcon(category) {
         const icons = {
             "System": "⚙️",
-            "Admin": "👑",
-            "Box": "📦",
-            "Game": "🎮",
+            "Admin Commands": "👑",
+            "Groups": "📦",
+            "Games": "🎮",
             "Media": "🎵",
-            "Economy": "💰",
-            "Utility": "🛠️",
-            "Fun": "🎯",
+            "Tài Chính": "💰",
+            "Tools": "🛠️",
+            "Giải Trí": "🎯",
+            "Tiện Ích": "🔧",
+            "AI": "🤖",
+            "VIP": "👑",
             "Khác": "📌"
         };
         return icons[category] || "📍";

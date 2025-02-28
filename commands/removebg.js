@@ -8,7 +8,7 @@ module.exports = {
   name: 'removebg',
   info: 'Tách nền ảnh',
   dev: 'HNT',
-  category: "Image",
+  category: "Media",
   usedby: 0,
   onPrefix: false,
   dmUser: false,

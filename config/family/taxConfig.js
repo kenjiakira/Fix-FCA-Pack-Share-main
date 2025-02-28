@@ -1,0 +1,6 @@
+module.exports = {
+    SINGLE_TAX_RATE: 0.02,  
+    WEALTH_TAX_RATE: 0.05,  
+    WEALTH_THRESHOLD: 500000000, 
+    TAX_INTERVAL: 86400000  
+};

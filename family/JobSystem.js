@@ -8,10 +8,10 @@ class JobSystem {
         this.educationPath = path.join(__dirname, '../database/json/family/familyeducation.json');
         this.data = this.loadData();
         this.TAX_BRACKETS = [
-            { threshold: 1000000, rate: 0.05 },  
-            { threshold: 5000000, rate: 0.10 }, 
-            { threshold: 10000000, rate: 0.15 },
-            { threshold: Infinity, rate: 0.20 }  
+            { threshold: 1000000, rate: 0.10 },  
+            { threshold: 5000000, rate: 0.15 }, 
+            { threshold: 10000000, rate: 0.20 },
+            { threshold: Infinity, rate: 0.25 }  
         ];
         
         this.CLASSIC_JOBS = [
@@ -244,7 +244,7 @@ class JobSystem {
     quitJob(userID) {
         const jobData = this.getJob(userID);
         if (!jobData.currentJob) {
-            throw new Error("❌ Bạn chưa có việc làm!/n vui lòng apply job trước bằng cách gõ\njob apply [mã job]");
+            throw new Error("❌ Bạn chưa có việc làm!\n vui lòng apply job trước bằng cách gõ\njob apply [mã job]");
         }
 
         const oldJob = {...jobData.currentJob};
@@ -254,7 +254,7 @@ class JobSystem {
             ...oldJob,
             endDate: quitTime
         });
-        // Log the quit time to a JSON file
+        
         const quitLogPath = path.join(__dirname, '../database/json/family/quitLog.json');
         const quitLog = fs.existsSync(quitLogPath) ? JSON.parse(fs.readFileSync(quitLogPath)) : {};
         quitLog[userID] = quitTime;
@@ -291,7 +291,7 @@ class JobSystem {
             const jobData = this.data[userID];
             
             if (!jobData.currentJob || !jobData.currentJob.id) {
-                throw new Error("❌ Bạn chưa có việc làm!/n vui lòng apply job trước bằng cách gõ\njob apply [mã job]");
+                throw new Error("❌ Bạn chưa có việc làm!\n vui lòng apply job trước bằng cách gõ\njob apply [mã job]");
             }
 
             const cooldown = this.getWorkCooldown(userID, vipBenefits);

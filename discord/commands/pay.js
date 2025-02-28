@@ -1,5 +1,5 @@
 const { EmbedBuilder, ButtonBuilder, ButtonStyle, ActionRowBuilder } = require('discord.js');
-const { getBalance, addBalance } = require('../utils/currencies');
+const { getBalance, updateBalance } = require('../utils/currencies');
 
 module.exports = {
     name: 'pay',
@@ -82,8 +82,8 @@ module.exports = {
                         return;
                     }
 
-                    addBalance(message.author.id, -amount);
-                    addBalance(recipient.id, amount);
+                    updateBalance(message.author.id, -amount);
+                    updateBalance(recipient.id, amount);
 
                     const successEmbed = new EmbedBuilder()
                         .setColor(0x57F287)

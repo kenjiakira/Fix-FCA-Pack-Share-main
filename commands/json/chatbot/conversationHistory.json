@@ -1,25 +1,55 @@
 {
   "global": [
     {
-      "timestamp": 1740718081950,
-      "prompt": "bot",
-      "response": "Chào anh Khuong Duy!  Anh đang làm gì thế ạ?  Bây giờ là 11:48 trưa rồi.",
-      "senderID": "100058320200877",
-      "senderName": "Khuong Duy"
+      "timestamp": 1740744461305,
+      "prompt": "bot chọn tài hay xỉu giúp tôi với",
+      "response": "Anh cứ thử đoán xem sao, may mắn sẽ đến với anh thôi! =))",
+      "senderID": "100046739981416",
+      "senderName": "Hùg Mel Bel"
+    },
+    {
+      "timestamp": 1740744471773,
+      "prompt": "bạn chọn đi",
+      "response": "Anh cứ tự quyết định đi, em tin anh sẽ chọn đúng thôi mà!  -)",
+      "senderID": "100046739981416",
+      "senderName": "Hùg Mel Bel"
+    },
+    {
+      "timestamp": 1740744503264,
+      "prompt": "chọn đi mà, 1 lần thôi cũng được",
+      "response": "Thôi được rồi anh, em nghĩ anh nên nghe theo trực giác của mình đi ạ.  -)",
+      "senderID": "100046739981416",
+      "senderName": "Hùg Mel Bel"
     }
   ],
   "threads": {
     "6589198804475799": [
       {
-        "timestamp": 1740718081950,
-        "prompt": "bot",
-        "response": "Chào anh Khuong Duy!  Anh đang làm gì thế ạ?  Bây giờ là 11:48 trưa rồi.",
-        "senderID": "100058320200877",
-        "senderName": "Khuong Duy"
+        "timestamp": 1740744461305,
+        "prompt": "bot chọn tài hay xỉu giúp tôi với",
+        "response": "Anh cứ thử đoán xem sao, may mắn sẽ đến với anh thôi! =))",
+        "senderID": "100046739981416",
+        "senderName": "Hùg Mel Bel"
+      },
+      {
+        "timestamp": 1740744471773,
+        "prompt": "bạn chọn đi",
+        "response": "Anh cứ tự quyết định đi, em tin anh sẽ chọn đúng thôi mà!  -)",
+        "senderID": "100046739981416",
+        "senderName": "Hùg Mel Bel"
+      },
+      {
+        "timestamp": 1740744503264,
+        "prompt": "chọn đi mà, 1 lần thôi cũng được",
+        "response": "Thôi được rồi anh, em nghĩ anh nên nghe theo trực giác của mình đi ạ.  -)",
+        "senderID": "100046739981416",
+        "senderName": "Hùg Mel Bel"
       }
     ]
   },
   "lastResponses": {
-    "bot": "Chào anh Khuong Duy!  Anh đang làm gì thế ạ?  Bây giờ là 11:48 trưa rồi."
+    "bot chọn tài hay xỉu giúp tôi với": "Anh cứ thử đoán xem sao, may mắn sẽ đến với anh thôi! =))",
+    "bạn chọn đi": "Anh cứ tự quyết định đi, em tin anh sẽ chọn đúng thôi mà!  -)",
+    "chọn đi mà, 1 lần thôi cũng được": "Thôi được rồi anh, em nghĩ anh nên nghe theo trực giác của mình đi ạ.  -)"
   }
 }

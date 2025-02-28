@@ -1,7 +1,7 @@
 module.exports = {
     ZM_API: {
         BASE_URL: 'https://api.zm.io.vn/v1',
-        KEY: 'rENebG1kPY2'
+        KEY: 'rgsbyZpGpnUWpVfc'
     },
     CAPCUT_API: {
         BASE_URL: 'https://jonellccapisprojectv2-a62001f39859.herokuapp.com/api/capcut'

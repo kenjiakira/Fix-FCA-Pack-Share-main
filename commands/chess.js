@@ -142,6 +142,10 @@ module.exports = {
     onLaunch: async function({ api, event }) {
         const { threadID, senderID, messageID } = event;
 
+        if (this.activeGames.has(threadID)) {
+            return api.sendMessage("⚠️ Nhóm này đang có ván cờ đang diễn ra. Vui lòng đợi ván hiện tại kết thúc!", threadID, messageID);
+        }
+
         if (Object.keys(event.mentions).length !== 1) {
             return api.sendMessage("⚠️ Vui lòng tag một người để bắt đầu ván cờ!", threadID, messageID);
         }
@@ -159,8 +163,22 @@ module.exports = {
         const gameState = {
             players: [senderID, opponent],
             currentTurn: senderID,
-            moves: []
+            moves: [],
+            startTime: Date.now(),
+            lastMoveTime: Date.now(), 
+            checkInactivityInterval: null 
         };
+
+        gameState.checkInactivityInterval = setInterval(() => {
+            const now = Date.now();
+            const idleTime = now - gameState.lastMoveTime;
+            
+            if (idleTime >= 5 * 60 * 1000) { 
+                clearInterval(gameState.checkInactivityInterval);
+                this.activeGames.delete(threadID);
+                api.sendMessage("⌛ Ván cờ đã bị hủy do không có nước đi nào trong 5 phút!", threadID);
+            }
+        }, 30000);
 
         this.activeGames.set(threadID, gameState);
 
@@ -211,27 +229,57 @@ module.exports = {
 
         const move = event.body.trim().toLowerCase();
         try {
-            if (!game.chess.move(move)) {
-                return api.sendMessage("❌ Nước đi không hợp lệ!", threadID, messageID);
+            if (!move.match(/^[a-h][1-8][a-h][1-8]$/)) {
+                return api.sendMessage("❌ Nước đi không đúng định dạng! Ví dụ đúng: e2e4", threadID, messageID);
+            }
+
+            const moveResult = game.chess.move({
+                from: move.substring(0, 2),
+                to: move.substring(2, 4)
+            });
+
+            if (!moveResult) {
+                return api.sendMessage("❌ Nước đi không hợp lệ! Vui lòng kiểm tra lại.", threadID, messageID);
             }
 
             game.moves.push(move);
             game.currentTurn = game.players.find(p => p !== senderID);
             const nextPlayerName = this.getUserName(game.currentTurn);
 
+            game.lastMoveTime = Date.now();
+
+            if (Date.now() - game.startTime > 30 * 60 * 1000) {
+                this.activeGames.delete(threadID);
+                return api.sendMessage("⌛ Ván cờ đã hết thời gian (30 phút). Trò chơi kết thúc!", threadID);
+            }
+
             const boardImage = await this.drawChessBoard(game.chess);
             
             let status = "";
-            if (game.chess.isCheckmate()) status = "⚡ Chiếu hết!";
-            else if (game.chess.isDraw()) status = "🤝 Hòa!";
+            if (game.chess.isCheckmate()) {
+                status = `⚡ Chiếu hết! ${this.getUserName(senderID)} thắng!`;
+                this.activeGames.delete(threadID);
+            }
+            else if (game.chess.isDraw()) {
+                status = "🤝 Hòa!";
+                this.activeGames.delete(threadID);
+            }
             else if (game.chess.isCheck()) status = "⚠️ Chiếu!";
 
             await api.sendMessage({
-                body: `Nước đi: ${move}\n${status}\nĐến lượt: ${nextPlayerName}`,
+                body: `Nước đi: ${move}\n${status}${!game.chess.isGameOver() ? `\nĐến lượt: ${nextPlayerName}` : ''}`,
                 attachment: fs.createReadStream(boardImage)
             }, threadID, (err, msg) => {
-                if (err) return console.error(err);
-                fs.unlinkSync(boardImage);
+                if (err) {
+                    console.error(err);
+                    return api.sendMessage("❌ Có lỗi khi gửi bàn cờ!", threadID);
+                }
+                
+                try {
+                    fs.unlinkSync(boardImage);
+                } catch (e) {
+                    console.error("Error deleting board image:", e);
+                }
 
                 if (!game.chess.isGameOver()) {
                     global.client.onReply.push({
@@ -242,12 +290,20 @@ module.exports = {
                         threadID: threadID
                     });
                 } else {
+                    clearInterval(game.checkInactivityInterval);
                     this.activeGames.delete(threadID);
                 }
             });
         } catch (err) {
-            console.error(err);
-            return api.sendMessage("❌ Có lỗi xảy ra!", threadID, messageID);
+            console.error("Chess error:", err);
+            if (err.message.includes("Invalid move")) {
+                return api.sendMessage("❌ Nước đi không hợp lệ! Vui lòng kiểm tra lại.", threadID, messageID);
+            }
+            if (game.checkInactivityInterval) {
+                clearInterval(game.checkInactivityInterval);
+            }
+            this.activeGames.delete(threadID);
+            return api.sendMessage("❌ Có lỗi xảy ra! Ván cờ đã bị hủy.", threadID, messageID);
         }
     },
 
@@ -258,5 +314,14 @@ module.exports = {
             }
         }
         return false;
+    },
+
+    onLoad: function() {
+        for (const [threadID, game] of this.activeGames) {
+            if (game.checkInactivityInterval) {
+                clearInterval(game.checkInactivityInterval);
+            }
+        }
+        this.activeGames.clear();
     }
 };

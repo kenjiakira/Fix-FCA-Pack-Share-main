@@ -669,11 +669,11 @@ class GameLogic {
 
     calculateFeeRate(winAmount) {
         // Tăng phí theo mức thắng
-        if (winAmount > 1000000) return 0.18;
-        if (winAmount > 500000) return 0.15;
-        if (winAmount > 200000) return 0.12;
-        if (winAmount > 100000) return 0.08;
-        return 0.05;
+        if (winAmount > 1000000) return 0.25
+        if (winAmount > 500000) return 0.18;
+        if (winAmount > 200000) return 0.16;
+        if (winAmount > 100000) return 0.13;
+        return 0.10;
 
         // Tăng phí dựa trên thời gian và volume
         const hour = new Date().getHours();

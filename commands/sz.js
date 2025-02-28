@@ -6,7 +6,7 @@ const { Shazam } = require('node-shazam');
 module.exports = {
     name: "sz",
     dev: "HNT",
-    category: "Music",
+    category: "Media",
     info: "Nhận diện bài hát từ audio/video",
     usages: "[reply audio/video]",
     cooldowns: 5,

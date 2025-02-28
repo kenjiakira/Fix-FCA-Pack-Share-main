@@ -64,15 +64,23 @@ const processImage = async (imagePath) => {
 module.exports = {
   name: "upscale",
   dev: "HNT",
-  category: "Image",
+  category: "VIP",
   usedby: 0,
   description: "Làm nét ảnh",
   usages: "[reply ảnh]",
   onPrefix: false,
+  VIP: true,
+  requiredVIP: 2, 
   cooldowns: 5,
 
   onLaunch: async function({ api, event }) {
     const { threadID, messageID, messageReply } = event;
+    const { getVIPBenefits } = require('../utils/vipCheck');
+    
+    const vipStatus = getVIPBenefits(event.senderID);
+    if (!vipStatus || vipStatus.packageId < 2) {
+      return api.sendMessage("⚠️ Lệnh này yêu cầu gói VIP SILVER trở lên!", threadID, messageID);
+    }
 
     if (!messageReply || !messageReply.attachments || messageReply.attachments.length === 0 || messageReply.attachments[0].type !== 'photo') {
       return api.sendMessage("Vui lòng reply một ảnh để làm nét.", threadID, messageID);

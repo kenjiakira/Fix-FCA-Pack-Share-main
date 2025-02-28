@@ -5,19 +5,127 @@ module.exports = {
     name: "admin",
     dev: "HNT",
     category: "Khác",
-    info: "Xem danh sách admin và mod bot",
-    usages: "",
+    info: "Xem danh sách admin và mod bot, thêm/xóa DHV",
+    usages: [
+        "/admin - Xem danh sách",
+        "/admin add dhv @tag - Thêm DHV bằng tag",
+        "/admin add dhv <ID> - Thêm DHV bằng ID",
+        "/admin del dhv @tag - Xóa DHV bằng tag",
+        "/admin del dhv <ID> - Xóa DHV bằng ID"
+    ],
     cooldowns: 5,
     onPrefix: true,
 
-    onLaunch: async function({ api, event }) {
-        const { threadID, messageID } = event;
+    onLaunch: async function({ api, event, target }) {
+        const { threadID, messageID, mentions, senderID } = event;
+        const adminPath = path.join(__dirname, '..', 'admin.json');
         
         try {
-            const adminPath = path.join(__dirname, '..', 'admin.json');
+            const adminData = JSON.parse(fs.readFileSync(adminPath, 'utf8'));
+
+            if (target[0]?.toLowerCase() === "add" && target[1]?.toLowerCase() === "dhv") {
+                if (!adminData.adminUIDs.includes(senderID)) {
+                    return api.sendMessage("❌ Chỉ ADMIN mới có thể thêm DHV!", threadID, messageID);
+                }
+
+                let newModUID;
+                if (event.type === 'message_reply') {
+                    newModUID = event.messageReply.senderID;
+                } 
+                else if (Object.keys(mentions).length > 0) {
+                    newModUID = Object.keys(mentions)[0];
+                }
+                else if (target[2]) {
+                    newModUID = target[2];
+                    if (!/^\d+$/.test(newModUID)) {
+                        return api.sendMessage(
+                            "📌 Cú pháp: add dhv [ID/Reply/@Tag]\n" +
+                            "- ID: add dhv 100000123456789\n" +
+                            "- Reply: Reply tin nhắn + add dhv\n" +
+                            "- Tag: @mention + add dhv", 
+                            threadID, messageID
+                        );
+                    }
+                } else {
+                    return api.sendMessage(
+                        "📌 Cú pháp: add dhv [ID/Reply/@Tag]\n" +
+                        "- ID: add dhv 100000123456789\n" +
+                        "- Reply: Reply tin nhắn + add dhv\n" +
+                        "- Tag: @mention + add dhv", 
+                        threadID, messageID
+                    );
+                }
+
+                if (adminData.moderatorUIDs.includes(newModUID)) {
+                    return api.sendMessage("❌ Người này đã là DHV!", threadID, messageID);
+                }
+
+                try {
+                    const userInfo = await api.getUserInfo(newModUID);
+                    if (!userInfo[newModUID]) {
+                        return api.sendMessage("❌ Không tìm thấy người dùng với ID này!", threadID, messageID);
+                    }
+                    
+                    adminData.moderatorUIDs.push(newModUID);
+                    fs.writeFileSync(adminPath, JSON.stringify(adminData, null, 2));
+                    return api.sendMessage(`✅ Đã thêm ${userInfo[newModUID].name} làm Điều hành viên thành công!`, threadID, messageID);
+                } catch (err) {
+                    return api.sendMessage("❌ Không tìm thấy người dùng với ID này!", threadID, messageID);
+                }
+            }
+
+            if (target[0]?.toLowerCase() === "del" && target[1]?.toLowerCase() === "dhv") {
+                if (!adminData.adminUIDs.includes(senderID)) {
+                    return api.sendMessage("❌ Chỉ ADMIN mới có thể xóa DHV!", threadID, messageID);
+                }
+
+                let modUID;
+                if (event.type === 'message_reply') {
+                    modUID = event.messageReply.senderID;
+                } 
+                else if (Object.keys(mentions).length > 0) {
+                    modUID = Object.keys(mentions)[0];
+                }
+                else if (target[2]) {
+                    modUID = target[2];
+                    if (!/^\d+$/.test(modUID)) {
+                        return api.sendMessage(
+                            "📌 Cú pháp: del dhv [ID/Reply/@Tag]\n" +
+                            "- ID: del dhv 100000123456789\n" +
+                            "- Reply: Reply tin nhắn + del dhv\n" +
+                            "- Tag: @mention + del dhv", 
+                            threadID, messageID
+                        );
+                    }
+                } else {
+                    return api.sendMessage(
+                        "📌 Cú pháp: del dhv [ID/Reply/@Tag]\n" +
+                        "- ID: del dhv 100000123456789\n" +
+                        "- Reply: Reply tin nhắn + del dhv\n" +
+                        "- Tag: @mention + del dhv", 
+                        threadID, messageID
+                    );
+                }
+
+                const modIndex = adminData.moderatorUIDs.indexOf(modUID);
+                if (modIndex === -1) {
+                    return api.sendMessage("❌ Người này không phải là DHV!", threadID, messageID);
+                }
+
+                try {
+                    const userInfo = await api.getUserInfo(modUID);
+                    adminData.moderatorUIDs.splice(modIndex, 1);
+                    fs.writeFileSync(adminPath, JSON.stringify(adminData, null, 2));
+                    return api.sendMessage(`✅ Đã xóa ${userInfo[modUID].name} khỏi danh sách Điều hành viên!`, threadID, messageID);
+                } catch (err) {
+                    adminData.moderatorUIDs.splice(modIndex, 1);
+                    fs.writeFileSync(adminPath, JSON.stringify(adminData, null, 2));
+                    return api.sendMessage(`✅ Đã xóa ID: ${modUID} khỏi danh sách Điều hành viên!`, threadID, messageID);
+                }
+            }
+
             const userDataPath = path.join(__dirname, '..', 'events/cache/userData.json');
             
-            const adminData = JSON.parse(fs.readFileSync(adminPath, 'utf8'));
             const userData = JSON.parse(fs.readFileSync(userDataPath, 'utf8'));
             
             const adminList = [];
@@ -111,8 +219,8 @@ module.exports = {
             return api.sendMessage(msg, threadID, messageID);
             
         } catch (error) {
-            console.error('Lỗi đọc danh sách quản lý:', error);
-            return api.sendMessage("❌ Đã xảy ra lỗi khi đọc danh sách quản lý!", threadID, messageID);
+            console.error('Lỗi:', error);
+            return api.sendMessage("❌ Đã xảy ra lỗi!", threadID, messageID);
         }
     }
 };

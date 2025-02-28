@@ -1,292 +1,148 @@
 const fs = require('fs');
 const path = require('path');
-const { HOME_PRICES, HOME_UPGRADES } = require('../config/family/familyConfig');
-const { getBalance, updateBalance } = require('../utils/currencies');
+const { HOMES } = require('../config/family/homeConfig');
 
 class HomeSystem {
     constructor() {
-        this.path = path.join(__dirname, '../database/json/family/homes.json');
-        this.data = this.loadData();
-        this.statNames = {
-            security: "An ninh",
-            comfort: "Tiện nghi",
-            environment: "Môi trường",
-            luxury: "Sang trọng"
-        };
+        this.homePath = path.join(__dirname, '../database/json/family/homes.json');
+        this.homes = this.loadHomes();
     }
 
-    calculateSellPrice(homeType, condition) {
-        return Math.floor(HOME_PRICES[homeType].xu * (condition / 100) * 0.7);
-    }
-
-    calculateMaintenanceCost(homeType) {
-        return Math.floor(HOME_PRICES[homeType].xu * 0.05);
-    }
-
-    calculateUpgradeCost(homeType, upgrade) {
-        return upgrade.cost || Math.floor(HOME_PRICES[homeType].xu * 0.2);
-    }
-
-    loadData() {
+    loadHomes() {
         try {
-            if (!fs.existsSync(this.path)) {
-                fs.writeFileSync(this.path, '{}');
+            if (!fs.existsSync(this.homePath)) {
+                fs.writeFileSync(this.homePath, JSON.stringify({}, null, 2));
                 return {};
             }
-            return JSON.parse(fs.readFileSync(this.path));
+            return JSON.parse(fs.readFileSync(this.homePath, 'utf8'));
         } catch (error) {
-            console.error('Error loading home data:', error);
+            console.error('Error loading homes:', error);
             return {};
         }
     }
 
-    saveData() {
+    saveHomes() {
         try {
-            fs.writeFileSync(this.path, JSON.stringify(this.data, null, 2));
-            return true;
+            fs.writeFileSync(this.homePath, JSON.stringify(this.homes, null, 2));
         } catch (error) {
-            console.error('Error saving home data:', error);
-            return false;
+            console.error('Error saving homes:', error);
         }
     }
 
-    updateHomeCondition() {
-        Object.keys(this.data).forEach(userID => {
-            const home = this.data[userID];
-            if (!home || !home.lastMaintenance) return;
-            
-            const timePassed = (Date.now() - home.lastMaintenance) / (1000 * 60 * 60 * 24); // Days
-            if (timePassed >= 1) {
-                home.condition = Math.max(0, home.condition - (timePassed * 5));
-                home.lastMaintenance = Date.now();
-            }
-        });
-        this.saveData();
+    getHome(userId) {
+        return this.homes[userId] || null;
     }
 
-    getHome(userID) {
-        this.updateHomeCondition(); 
-        return this.data[userID] || null;
-    }
-
-    async buyHome(userID, type) {
-        if (!HOME_PRICES[type]) {
+    buyHome(userId, homeType) {
+        if (!HOMES[homeType]) {
             throw new Error("Loại nhà không hợp lệ!");
         }
 
-        if (this.data[userID]) {
-            throw new Error("Bạn đã có nhà rồi! Hãy bán nhà cũ trước.");
+        if (this.homes[userId]) {
+            throw new Error("Bạn đã có nhà rồi! Hãy bán nhà cũ trước khi mua nhà mới.");
         }
 
-        const homeConfig = HOME_PRICES[type];
-        const balance = await getBalance(userID);
-        if (balance < homeConfig.xu) {
-            throw new Error(`Bạn cần thêm ${(homeConfig.xu - balance).toLocaleString()} Xu để mua nhà này!`);
-        }
+        this.homes[userId] = {
+            type: homeType,
+            purchaseDate: Date.now(),
+            condition: 100,
+            lastMaintenance: Date.now()
+        };
 
-        try {
-            // Deduct money first
-            await updateBalance(userID, -homeConfig.xu);
-
-            // Create new home data
-            const newHome = {
-                type: type,
-                name: homeConfig.name,
-                purchaseDate: Date.now(),
-                condition: 100,
-                lastMaintenance: Date.now(),
-                upgrades: [],
-                stats: {...(homeConfig.baseStats || {
-                    security: 0,
-                    comfort: 0,
-                    environment: 0,
-                    luxury: 0
-                })}
-            };
-
-            // Add rental end date if applicable
-            if (homeConfig.isRental) {
-                newHome.rentEndDate = Date.now() + (homeConfig.rentPeriod * 24 * 60 * 60 * 1000);
-            }
-
-            // Save to homes.json
-            this.data[userID] = newHome;
-            const savedHome = this.saveData();
-            
-            if (!savedHome) {
-                // If save fails, refund the money
-                await updateBalance(userID, homeConfig.xu);
-                throw new Error("Không thể lưu dữ liệu nhà. Vui lòng thử lại!");
-            }
-
-            // Update family record to match homes.json
-            const familyPath = path.join(__dirname, '../database/json/family/family.json');
-            try {
-                let familyData = {};
-                if (fs.existsSync(familyPath)) {
-                    familyData = JSON.parse(fs.readFileSync(familyPath));
-                }
-
-                if (!familyData[userID]) {
-                    familyData[userID] = {};
-                }
-
-                familyData[userID].home = {
-                    type: type,
-                    name: homeConfig.name,
-                    condition: 100,
-                    purchaseDate: newHome.purchaseDate,
-                    lastMaintenance: newHome.lastMaintenance
-                };
-
-                fs.writeFileSync(familyPath, JSON.stringify(familyData, null, 2));
-            } catch (error) {
-                console.error('Error updating family data:', error);
-            }
-
-            return newHome;
-        } catch (error) {
-            // If any error occurs, attempt to refund
-            try {
-                await updateBalance(userID, homeConfig.xu);
-                // Also clean up any partial data
-                if (this.data[userID]) {
-                    delete this.data[userID];
-                    this.saveData();
-                }
-            } catch (refundError) {
-                console.error('Error refunding after failed home purchase:', refundError);
-            }
-            throw error;
-        }
+        this.saveHomes();
+        return HOMES[homeType];
     }
 
-    async sellHome(userID) {
-        const home = this.getHome(userID);
+    sellHome(userId) {
+        const home = this.getHome(userId);
         if (!home) {
-            throw new Error("Bạn chưa có nhà!");
+            throw new Error("Bạn chưa có nhà để bán!");
         }
 
-        if (home.condition < 20) {
-            const repairCost = this.calculateMaintenanceCost(home.type);
-            const currentSellPrice = this.calculateSellPrice(home.type, home.condition);
-            const newSellPrice = this.calculateSellPrice(home.type, 100);
-            const profit = newSellPrice - currentSellPrice - repairCost;
-            const roi = Math.floor((profit / repairCost) * 100);
-            throw new Error(`Nhà của bạn hư hỏng quá nặng (${Math.floor(home.condition)}%), hãy sửa chữa trước khi bán!\nChi phí sửa chữa: ${repairCost.toLocaleString()} Xu\nGiá bán: ${currentSellPrice.toLocaleString()} → ${newSellPrice.toLocaleString()} Xu\nLợi nhuận sau sửa chữa: ${profit.toLocaleString()} Xu (ROI: ${roi}%)`);
-        }
-
-        const homeConfig = HOME_PRICES[home.type];
-        const sellPrice = this.calculateSellPrice(home.type, home.condition);
-
-        await updateBalance(userID, sellPrice); 
-
-        delete this.data[userID];
-        this.saveData();
-
-        // Update family record when selling home
-        const familyPath = path.join(__dirname, '../database/json/family/family.json');
-        try {
-            const familyData = JSON.parse(fs.readFileSync(familyPath));
-            if (familyData[userID]) {
-                familyData[userID].home = null;
-                fs.writeFileSync(familyPath, JSON.stringify(familyData, null, 2));
-            }
-        } catch (error) {
-            console.error('Error updating family data:', error);
-        }
+        const homeInfo = HOMES[home.type];
+        // Calculate sell price based on condition and depreciation
+        const ageInDays = (Date.now() - home.purchaseDate) / (1000 * 60 * 60 * 24);
+        const depreciation = Math.min(0.3, ageInDays * 0.001); // Max 30% depreciation
+        const sellPrice = Math.floor(homeInfo.price * (0.7 - depreciation) * (home.condition / 100));
+        
+        delete this.homes[userId];
+        this.saveHomes();
 
         return sellPrice;
     }
 
-    async maintainHome(userID) {
-        const home = this.getHome(userID);
-        if (!home) {
-            throw new Error("Bạn chưa có nhà!");
-        }
-
-        if (home.condition >= 100) {
-            throw new Error(`Nhà của bạn vẫn còn tốt (${Math.floor(home.condition)}%), không cần sửa chữa!`);
-        }
-
-        const maintenanceCost = this.calculateMaintenanceCost(home.type);
-        const balance = await getBalance(userID);
+    getHomeHappiness(userId) {
+        const home = this.getHome(userId);
+        if (!home) return 0;
         
-        if (balance < maintenanceCost) {
-            const currentSellPrice = this.calculateSellPrice(home.type, home.condition);
-            const newSellPrice = this.calculateSellPrice(home.type, 100);
-            const profit = newSellPrice - currentSellPrice - maintenanceCost;
-            const roi = Math.floor((profit / maintenanceCost) * 100);
-            throw new Error(`Bạn cần ${maintenanceCost.toLocaleString()} Xu để sửa chữa nhà!\nTình trạng hiện tại: ${Math.floor(home.condition)}% → 100%\nGiá bán: ${currentSellPrice.toLocaleString()} → ${newSellPrice.toLocaleString()} Xu\nLợi nhuận sau sửa chữa: ${profit.toLocaleString()} Xu (ROI: ${roi}%)\nSố dư: ${balance.toLocaleString()} Xu`);
-        }
-
-        await updateBalance(userID, -maintenanceCost);
-        home.condition = 100;
-        home.lastMaintenance = Date.now();
-        this.saveData();
-
-        return maintenanceCost;
+        // Calculate happiness based on condition and maintenance
+        const baseHappiness = HOMES[home.type].happiness;
+        const conditionFactor = home.condition / 100;
+        const daysSinceLastMaintenance = (Date.now() - home.lastMaintenance) / (1000 * 60 * 60 * 24);
+        const maintenancePenalty = Math.min(0.5, daysSinceLastMaintenance * 0.01); // Max 50% penalty
+        
+        return baseHappiness * (conditionFactor - maintenancePenalty);
     }
 
-    async upgradeHome(userID, upgradeType) {
-        const home = this.getHome(userID);
+    decreaseCondition(userId, amount = 0.1) {
+        const home = this.getHome(userId);
+        if (home) {
+            home.condition = Math.max(0, home.condition - amount);
+            this.saveHomes();
+        }
+    }
+
+    repair(userId) {
+        const home = this.getHome(userId);
         if (!home) {
-            throw new Error("Bạn chưa có nhà!");
+            throw new Error("Bạn chưa có nhà để sửa chữa!");
         }
 
-        if (!HOME_UPGRADES[upgradeType]) {
-            throw new Error("Gói nâng cấp không hợp lệ!");
-        }
-
-        if (home.upgrades.includes(upgradeType)) {
-            throw new Error("Bạn đã có gói nâng cấp này rồi!");
-        }
-
-        const upgrade = HOME_UPGRADES[upgradeType];
-        const upgradeCost = this.calculateUpgradeCost(home.type, upgrade);
-        const balance = await getBalance(userID);
+        // Calculate repair cost based on damage and home value
+        const damagePercent = 100 - home.condition;
+        const repairCost = Math.floor(HOMES[home.type].price * (damagePercent / 100) * 0.1);
         
-        if (balance < upgradeCost) {
-            const effectsList = Object.entries(upgrade.effects)
-                .map(([stat, value]) => {
-                    const currentValue = home.stats[stat] || 0;
-                    const newValue = Math.min(100, currentValue + value);
-                    return `${this.statNames[stat] || stat}: ${currentValue}% → ${newValue}%`;
-                })
-                .join('\n   ');
-            throw new Error(`Bạn cần ${upgradeCost.toLocaleString()} Xu để nâng cấp nhà!\nChỉ số nâng cấp:\n   ${effectsList}\nSố dư: ${balance.toLocaleString()} Xu`);
+        if (repairCost < 1000) {
+            throw new Error("Nhà của bạn vẫn còn tốt, chưa cần sửa chữa!");
         }
 
-        await updateBalance(userID, -upgradeCost);
-        home.upgrades.push(upgradeType);
+        home.condition = 100;
+        home.lastMaintenance = Date.now();
+        this.saveHomes();
 
-        Object.entries(upgrade.effects).forEach(([stat, value]) => {
-            if (home.stats[stat] !== undefined) {
-                home.stats[stat] = Math.min(100, (home.stats[stat] || 0) + value);
-            }
-        });
+        return repairCost;
+    }
 
-        this.saveData();
+    getHomeInfo(userId) {
+        const home = this.getHome(userId);
+        if (!home) return null;
+
+        const homeType = HOMES[home.type];
+        const daysSinceLastMaintenance = Math.floor((Date.now() - home.lastMaintenance) / (1000 * 60 * 60 * 24));
+        
         return {
-            ...upgrade,
-            cost: upgradeCost
+            name: homeType.name,
+            condition: home.condition.toFixed(1),
+            happiness: this.getHomeHappiness(userId).toFixed(1),
+            capacity: homeType.capacity,
+            maintenanceNeeded: daysSinceLastMaintenance > 30,
+            daysSinceLastMaintenance
         };
     }
 
-    getOwnerName(userID) {
-        try {
-            const userDataPath = path.join(__dirname, '../events/cache/userData.json');
-            const userData = JSON.parse(fs.readFileSync(userDataPath, 'utf8'));
-            return userData[userID]?.name || userID;
-        } catch (error) {
-            console.error('Error reading userData:', error);
-            return userID;
+    dailyUpdate(userId) {
+        const home = this.getHome(userId);
+        if (home) {
+            // Natural degradation
+            const degradation = Math.random() * 0.5 + 0.5; // 0.5-1.0% per day
+            this.decreaseCondition(userId, degradation);
+            
+            // Extra degradation if maintenance is overdue
+            const daysSinceLastMaintenance = (Date.now() - home.lastMaintenance) / (1000 * 60 * 60 * 24);
+            if (daysSinceLastMaintenance > 30) {
+                this.decreaseCondition(userId, degradation);
+            }
         }
-    }
-
-    getHomeStats(home) {
-        if (!home) return null;
-        return home.stats;
     }
 }
 

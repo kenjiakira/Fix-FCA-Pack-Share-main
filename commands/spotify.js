@@ -75,7 +75,7 @@ module.exports = {
     info: "thông tin bài hát Spotify.",
     dev: "HNT",
     usedby: 0,
-    category: "Music",
+    category: "Media",
     onPrefix: true,
     dmUser: false,
     nickName: ["sp", "spot"],

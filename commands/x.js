@@ -5,7 +5,7 @@ module.exports = {
     name: "x",
     nickName: ["twitter"],
     dev: "HNT",
-    category: "Tiện Ích",
+    category: "Media",
     info: "Tải media từ X Twitter",
     usages: "x [link]",
     cooldowns: 5,

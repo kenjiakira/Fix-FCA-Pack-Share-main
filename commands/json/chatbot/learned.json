@@ -1,7 +1,19 @@
 {
-  "bot": {
+  "bot chọn tài hay xỉu giúp tôi với": {
     "responses": [
-      "Chào anh Khuong Duy!  Anh đang làm gì thế ạ?  Bây giờ là 11:48 trưa rồi."
+      "Anh cứ thử đoán xem sao, may mắn sẽ đến với anh thôi! =))"
+    ],
+    "frequency": 1
+  },
+  "bạn chọn đi": {
+    "responses": [
+      "Anh cứ tự quyết định đi, em tin anh sẽ chọn đúng thôi mà!  -)"
+    ],
+    "frequency": 1
+  },
+  "chọn đi mà, 1 lần thôi cũng được": {
+    "responses": [
+      "Thôi được rồi anh, em nghĩ anh nên nghe theo trực giác của mình đi ạ.  -)"
     ],
     "frequency": 1
   }

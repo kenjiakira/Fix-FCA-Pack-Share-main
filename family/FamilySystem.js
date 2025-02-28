@@ -1,10 +1,18 @@
 const fs = require('fs');
 const path = require('path');
+const HomeSystem = require('./HomeSystem');
+const TravelSystem = require('./TravelSystem');
 
 class FamilySystem {
     constructor() {
+        this.homeSystem = new HomeSystem();
+        this.travelSystem = new TravelSystem();
+        this.healthDecayInterval = 24 * 60 * 60 * 1000; 
+        this.healthDecayAmount = 5;
         this.path = path.join(__dirname, '../database/json/family/family.json');
         this.data = this.loadData();
+        this.startHealthMonitoring();
+        this.startInsuranceMonitoring();
     }
 
     loadData() {
@@ -37,9 +45,15 @@ class FamilySystem {
                 spouse: null,
                 children: [],
                 happiness: 50,
+                health: 100,
                 lastChecked: Date.now(),
                 lastBaby: 0,
-                lastIntimate: 0
+                lastIntimate: 0,
+                insurance: {
+                    active: false,
+                    expiresAt: 0,
+                    discount: 0
+                }
             };
             this.saveData();
         }
@@ -382,7 +396,8 @@ class FamilySystem {
                 spouse: "Độc thân",
                 happiness: 0,
                 childCount: 0,
-                children: []
+                children: [],
+                home: null
             };
         }
 
@@ -390,7 +405,8 @@ class FamilySystem {
             spouse: family.spouse ? this.getUserName(family.spouse) : "Độc thân",
             happiness: Math.round(family.happiness || 0),
             childCount: (family.children || []).length,
-            children: family.children || []
+            children: family.children || [],
+            home: this.homeSystem.getHomeInfo(userID)
         };
     }
 
@@ -431,6 +447,180 @@ class FamilySystem {
         
         this.saveData();
         return true;
+    }
+
+    getAllFamilies() {
+        return this.data;
+    }
+
+    startHealthMonitoring() {
+        setInterval(() => {
+            for (const [userId, family] of Object.entries(this.data)) {
+                if (!family.health) family.health = 100;
+                family.health = Math.max(0, family.health - this.healthDecayAmount);
+            }
+            this.saveData();
+        }, this.healthDecayInterval);
+    }
+
+    startInsuranceMonitoring() {
+        setInterval(() => {
+            const now = Date.now();
+            for (const [userId, family] of Object.entries(this.data)) {
+                if (family.insurance && family.insurance.active && now > family.insurance.expiresAt) {
+                    family.insurance.active = false;
+                    family.insurance.discount = 0;
+                }
+            }
+            this.saveData();
+        }, 60 * 60 * 1000);
+    }
+
+    activateInsurance(userID, insuranceType, duration, discount) {
+        const family = this.getFamily(userID);
+        const expiresAt = Date.now() + (duration * 24 * 60 * 60 * 1000);
+        
+        if (!family.insurances) {
+            family.insurances = {};
+        }
+
+        family.insurances[insuranceType] = {
+            active: true,
+            expiresAt: expiresAt,
+            discount: discount
+        };
+
+        if (insuranceType === 'health') {
+            family.insurance = family.insurances[insuranceType];
+        }
+        
+        this.saveData();
+        return family.insurances[insuranceType];
+    }
+
+    hasActiveInsurance(userID, type = 'health') {
+        const family = this.getFamily(userID);
+        if (!family.insurances || !family.insurances[type]) return false;
+        
+        const now = Date.now();
+        if (family.insurances[type].expiresAt < now) {
+            family.insurances[type].active = false;
+            this.saveData();
+            return false;
+        }
+        
+        return family.insurances[type].active;
+    }
+
+    getInsuranceDiscount(userID, type = 'health') {
+        const family = this.getFamily(userID);
+        if (!this.hasActiveInsurance(userID, type)) return 0;
+        return family.insurances[type]?.discount || 0;
+    }
+
+    getVehicleInsuranceInfo(userID) {
+        const family = this.getFamily(userID);
+        if (!family.insurances) return {};
+
+        return {
+            car: family.insurances.car || null,
+            bike: family.insurances.bike || null
+        };
+    }
+
+    getInsuranceStatus(userID) {
+        const family = this.getFamily(userID);
+        if (!family.insurances) return {};
+
+        const now = Date.now();
+        const status = {};
+
+        for (const [type, insurance] of Object.entries(family.insurances)) {
+            if (insurance.active && insurance.expiresAt > now) {
+                const daysLeft = Math.ceil((insurance.expiresAt - now) / (24 * 60 * 60 * 1000));
+                status[type] = {
+                    active: true,
+                    discount: insurance.discount,
+                    daysLeft: daysLeft
+                };
+            }
+        }
+
+        return status;
+    }
+
+    getHealth(userId) {
+        const family = this.getFamily(userId);
+        if (!family.health) family.health = 100;
+        return Math.round(family.health);
+    }
+
+    increaseHealth(userId, amount) {
+        const family = this.getFamily(userId);
+        if (!family.health) family.health = 100;
+        family.health = Math.min(100, family.health + amount);
+        this.saveData();
+        return Math.round(family.health);
+    }
+
+    decreaseHealth(userId, amount) {
+        const family = this.getFamily(userId);
+        if (!family.health) family.health = 100;
+        family.health = Math.max(0, family.health - amount);
+        this.saveData();
+        return Math.round(family.health);
+    }
+
+    getHomeInfo(userID) {
+        return this.homeSystem.getHomeInfo(userID);
+    }
+
+    buyHome(userID, homeType) {
+        return this.homeSystem.buyHome(userID, homeType);
+    }
+
+    sellHome(userID) {
+        return this.homeSystem.sellHome(userID);
+    }
+
+    repairHome(userID) {
+        return this.homeSystem.repair(userID);
+    }
+
+    // Travel System Methods
+    calculateTravelCost(userID, destination) {
+        const family = this.getFamily(userID);
+        const familySize = {
+            type: family.spouse ? 'couple' : 'single',
+            children: family.children ? family.children.length : 0
+        };
+        return this.travelSystem.calculateTravelCost(userID, destination, familySize);
+    }
+
+    canTravel(userID) {
+        return this.travelSystem.canTravel(userID);
+    }
+
+    startTravel(userID, destination) {
+        return this.travelSystem.startTravel(userID, destination);
+    }
+
+    endTravel(userID) {
+        const happinessIncrease = this.travelSystem.endTravel(userID);
+        this.increaseHappiness(userID, happinessIncrease);
+        return happinessIncrease;
+    }
+
+    getTravelStatus(userID) {
+        return this.travelSystem.getTravelStatus(userID);
+    }
+
+    getDestinationInfo(destination) {
+        return this.travelSystem.getDestinationInfo(destination);
+    }
+
+    getAllDestinations() {
+        return this.travelSystem.getAllDestinations();
     }
 }
 

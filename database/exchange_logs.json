@@ -1,1 +1,43 @@
-{}
+{
+  "exchanges": [
+    {
+      "transactionId": "EX1740721007329rjiwv",
+      "timestamp": "2025-02-28T05:36:47.329Z",
+      "discordId": "726340876313296998",
+      "discordUsername": ".kenjiakira",
+      "messengerId": "61573427362389",
+      "nitroAmount": 1000,
+      "xuAmount": 100000,
+      "status": "completed",
+      "createdAt": "2025-02-28T05:36:47.330Z",
+      "expiresAt": "2025-03-01T05:36:47.330Z",
+      "claimedAt": "2025-02-28T05:37:02.905Z"
+    },
+    {
+      "transactionId": "EX1740721729748m9rx9",
+      "timestamp": "2025-02-28T05:48:49.749Z",
+      "discordId": "1300084555192991754",
+      "discordUsername": "_whoislouis",
+      "messengerId": "100058320200877",
+      "nitroAmount": 20000000,
+      "xuAmount": 2000000000,
+      "status": "completed",
+      "createdAt": "2025-02-28T05:48:49.749Z",
+      "expiresAt": "2025-03-01T05:48:49.749Z",
+      "claimedAt": "2025-02-28T05:51:28.774Z"
+    },
+    {
+      "transactionId": "EX1740721836244zv96j",
+      "timestamp": "2025-02-28T05:50:36.244Z",
+      "discordId": "884766804117958697",
+      "discordUsername": "anhbabeo142",
+      "messengerId": "100055074463541",
+      "nitroAmount": 34150000,
+      "xuAmount": 3415000000,
+      "status": "completed",
+      "createdAt": "2025-02-28T05:50:36.245Z",
+      "expiresAt": "2025-03-01T05:50:36.245Z",
+      "claimedAt": "2025-02-28T05:51:23.650Z"
+    }
+  ]
+}

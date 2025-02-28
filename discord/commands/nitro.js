@@ -6,7 +6,7 @@ const path = require('path');
 const exchangeLogFile = path.join(__dirname, '../../database/exchange_logs.json');
 const linksFile = path.join(__dirname, '../../database/discord_links.json');
 const NITRO_CHANNEL_ID = '1341744524338135125';
-const EXCHANGE_RATE = 100;
+const EXCHANGE_RATE = 10;
 
 const STATUS = {
     PENDING: 'pending',
@@ -236,7 +236,7 @@ async function initNitroChannel(channel) {
                 '5️⃣ Vào Messenger gõ `.claim <mã_giao_dịch>` để nhận xu',
                 '',
                 '📌 **Lưu ý quan trọng:**',
-                '• Tỉ lệ đổi: 1 Nitro = 100 Xu',
+                '• Tỉ lệ đổi: 1 Nitro = 10 Xu',
                 '• Giao dịch hoàn toàn tự động và an toàn',
                 '• Mã giao dịch chỉ sử dụng được 1 lần',
                 '• Bot sẽ gửi mã giao dịch qua tin nhắn riêng',
@@ -284,7 +284,7 @@ module.exports = {
             .setTitle('🔄 Đổi Nitro sang Xu')
             .setDescription('Vui lòng chọn số lượng Nitro muốn đổi')
             .addFields([
-                { name: 'Tỉ lệ đổi', value: '1 Nitro = 100 Xu', inline: true },
+                { name: 'Tỉ lệ đổi', value: '1 Nitro = 10 Xu', inline: true },
                 { name: 'Số dư hiện tại', value: `${getBalance(message.author.id)} Nitro`, inline: true }
             ]);
 
