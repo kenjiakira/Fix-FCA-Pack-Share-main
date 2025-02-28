@@ -9,8 +9,8 @@
           "content": "Khang Bùi nói: bật bot dis\nTôi trả lời: Chào Khang Bùi! Có gì cần em giúp không ạ?  Buổi tối tốt lành nhé!",
           "timestamp": 1740751970134,
           "priority": 1,
-          "accessCount": 0,
-          "lastAccess": 1740751970134,
+          "accessCount": 1,
+          "lastAccess": 1740752033740,
           "metadata": {
             "sentiment": {
               "score": 1,
@@ -18,6 +18,24 @@
             },
             "topics": [
               "PERSONAL"
+            ],
+            "entities": {}
+          }
+        },
+        {
+          "content": "Khang Bùi nói: bật bot disco đi\nTôi trả lời: Chào Khang Bùi!  Có vẻ như bạn đang muốn bật bot trên Discord nhỉ?  Em đoán chắc là có chút rắc rối gì đó rồi?  Có gì cứ nói em nghe,  em sẽ cố gắng giúp bạn hết sức.  Buổi tối của bạn thế nào rồi?",
+          "timestamp": 1740752035620,
+          "priority": 1,
+          "accessCount": 0,
+          "lastAccess": 1740752035620,
+          "metadata": {
+            "sentiment": {
+              "score": 0,
+              "sentiment": "neutral"
+            },
+            "topics": [
+              "PERSONAL",
+              "TRAVEL"
             ],
             "entities": {}
           }
@@ -38,8 +56,25 @@
           "content": "Xưng hô: em/bạn",
           "timestamp": 1740751968276,
           "priority": 2,
+          "accessCount": 1,
+          "lastAccess": 1740752033740,
+          "metadata": {
+            "sentiment": {
+              "score": 0,
+              "sentiment": "neutral"
+            },
+            "topics": [
+              "PERSONAL"
+            ],
+            "entities": {}
+          }
+        },
+        {
+          "content": "Xưng hô: em/bạn",
+          "timestamp": 1740752033742,
+          "priority": 2,
           "accessCount": 0,
-          "lastAccess": 1740751968276,
+          "lastAccess": 1740752033742,
           "metadata": {
             "sentiment": {
               "score": 0,
@@ -120,7 +155,7 @@
     "voice": {}
   },
   "stats": {
-    "totalInteractions": 4,
+    "totalInteractions": 6,
     "uniqueUsers": {},
     "topTopics": {},
     "responseTime": [],
