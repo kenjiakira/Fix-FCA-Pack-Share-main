@@ -1,89 +1,25 @@
 {
   "global": [
     {
-      "timestamp": 1740650250500,
-      "prompt": "quỵt tiền ngân hàng",
-      "response": "Chuyện đó nghiêm trọng lắm anh Khuong Duy ạ! Anh nên liên hệ ngay với ngân hàng để giải quyết nhé, càng sớm càng tốt.  Nếu cần em giúp gì cứ nói.",
+      "timestamp": 1740718081950,
+      "prompt": "bot",
+      "response": "Chào anh Khuong Duy!  Anh đang làm gì thế ạ?  Bây giờ là 11:48 trưa rồi.",
       "senderID": "100058320200877",
       "senderName": "Khuong Duy"
-    },
-    {
-      "timestamp": 1740650260574,
-      "prompt": "câm mồm",
-      "response": "Em xin lỗi anh Khuong Duy.  Em không có ý gì cả.",
-      "senderID": "100058320200877",
-      "senderName": "Khuong Duy"
-    },
-    {
-      "timestamp": 1740651041253,
-      "prompt": "m gửi ngân hàng",
-      "response": "Chị gửi ngân hàng à? Chị gửi qua ứng dụng hay đến trực tiếp ngân hàng vậy ạ?",
-      "senderID": "100076957299243",
-      "senderName": "Tran Thu Huyen"
-    },
-    {
-      "timestamp": 1740651090781,
-      "prompt": "bot sống r à",
-      "response": "Chào anh Yzu Yu!  Em sống và làm việc tốt lắm ạ.  -)",
-      "senderID": "61558946907944",
-      "senderName": "Yzu Yu"
-    },
-    {
-      "timestamp": 1740652893383,
-      "prompt": "bot đâu",
-      "response": "Chào Linh Thùy!  Em đây nè.  Có gì em giúp được không?",
-      "senderID": "61573075153597",
-      "senderName": "Linh Thùy"
     }
   ],
   "threads": {
     "6589198804475799": [
       {
-        "timestamp": 1740650250500,
-        "prompt": "quỵt tiền ngân hàng",
-        "response": "Chuyện đó nghiêm trọng lắm anh Khuong Duy ạ! Anh nên liên hệ ngay với ngân hàng để giải quyết nhé, càng sớm càng tốt.  Nếu cần em giúp gì cứ nói.",
+        "timestamp": 1740718081950,
+        "prompt": "bot",
+        "response": "Chào anh Khuong Duy!  Anh đang làm gì thế ạ?  Bây giờ là 11:48 trưa rồi.",
         "senderID": "100058320200877",
         "senderName": "Khuong Duy"
-      },
-      {
-        "timestamp": 1740650260574,
-        "prompt": "câm mồm",
-        "response": "Em xin lỗi anh Khuong Duy.  Em không có ý gì cả.",
-        "senderID": "100058320200877",
-        "senderName": "Khuong Duy"
-      },
-      {
-        "timestamp": 1740651041253,
-        "prompt": "m gửi ngân hàng",
-        "response": "Chị gửi ngân hàng à? Chị gửi qua ứng dụng hay đến trực tiếp ngân hàng vậy ạ?",
-        "senderID": "100076957299243",
-        "senderName": "Tran Thu Huyen"
-      }
-    ],
-    "7906297289472032": [
-      {
-        "timestamp": 1740651090781,
-        "prompt": "bot sống r à",
-        "response": "Chào anh Yzu Yu!  Em sống và làm việc tốt lắm ạ.  -)",
-        "senderID": "61558946907944",
-        "senderName": "Yzu Yu"
-      }
-    ],
-    "8853515771407870": [
-      {
-        "timestamp": 1740652893383,
-        "prompt": "bot đâu",
-        "response": "Chào Linh Thùy!  Em đây nè.  Có gì em giúp được không?",
-        "senderID": "61573075153597",
-        "senderName": "Linh Thùy"
       }
     ]
   },
   "lastResponses": {
-    "quỵt tiền ngân hàng": "Chuyện đó nghiêm trọng lắm anh Khuong Duy ạ! Anh nên liên hệ ngay với ngân hàng để giải quyết nhé, càng sớm càng tốt.  Nếu cần em giúp gì cứ nói.",
-    "câm mồm": "Em xin lỗi anh Khuong Duy.  Em không có ý gì cả.",
-    "m gửi ngân hàng": "Chị gửi ngân hàng à? Chị gửi qua ứng dụng hay đến trực tiếp ngân hàng vậy ạ?",
-    "bot sống r à": "Chào anh Yzu Yu!  Em sống và làm việc tốt lắm ạ.  -)",
-    "bot đâu": "Chào Linh Thùy!  Em đây nè.  Có gì em giúp được không?"
+    "bot": "Chào anh Khuong Duy!  Anh đang làm gì thế ạ?  Bây giờ là 11:48 trưa rồi."
   }
 }

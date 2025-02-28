@@ -5,7 +5,7 @@ module.exports = {
     name: "mtn",
     aliases: ["maintain", "mt"],
     dev: "HNT",
-    category: "Admin Commands",
+    category: "System",
     info: "Bật/tắt chế độ bảo trì bot - chỉ admin và moderator mới sử dụng được bot",
     usedby: 4,
     cooldowns: 5,

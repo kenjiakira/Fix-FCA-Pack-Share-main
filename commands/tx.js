@@ -78,7 +78,7 @@ module.exports = {
     name: "tx",
     dev: "HNT",
     category: "Games",
-    info: "Chơi mini-game Tài Xỉu bằng số dư hiện có.",
+    info: "Chơi mini-game Tài Xỉu.",
     onPrefix: true,
     usages: "tx",
     cooldowns: 0,

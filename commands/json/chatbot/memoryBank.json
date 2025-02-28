@@ -6,20 +6,25 @@
       "preferences": [],
       "interactions": [
         {
-          "content": "Khuong Duy nói: câm mồm\nTôi trả lời: Em xin lỗi anh Khuong Duy.  Em không có ý gì cả.",
-          "timestamp": 1740650260578,
+          "content": "Khuong Duy nói: bot\nTôi trả lời: Chào anh Khuong Duy!  Anh đang làm gì thế ạ?  Bây giờ là 11:48 trưa rồi.",
+          "timestamp": 1740718081952,
           "priority": 1,
           "accessCount": 0,
-          "lastAccess": 1740650260578,
+          "lastAccess": 1740718081952,
           "metadata": {
             "sentiment": {
               "score": 0,
               "sentiment": "neutral"
             },
             "topics": [
-              "PERSONAL"
+              "PERSONAL",
+              "WORK"
             ],
-            "entities": {}
+            "entities": {
+              "time": [
+                "11:48"
+              ]
+            }
           }
         }
       ],
@@ -36,179 +41,10 @@
       "undefined": [
         {
           "content": "Xưng hô: em/anh",
-          "timestamp": 1740650248701,
-          "priority": 2,
-          "accessCount": 1,
-          "lastAccess": 1740650258895,
-          "metadata": {
-            "sentiment": {
-              "score": 0,
-              "sentiment": "neutral"
-            },
-            "topics": [],
-            "entities": {}
-          }
-        },
-        {
-          "content": "Xưng hô: em/anh",
-          "timestamp": 1740650258896,
+          "timestamp": 1740718080219,
           "priority": 2,
           "accessCount": 0,
-          "lastAccess": 1740650258896,
-          "metadata": {
-            "sentiment": {
-              "score": 0,
-              "sentiment": "neutral"
-            },
-            "topics": [],
-            "entities": {}
-          }
-        }
-      ]
-    },
-    "100076957299243": {
-      "personal": [],
-      "facts": [],
-      "preferences": [],
-      "interactions": [
-        {
-          "content": "Tran Thu Huyen nói: m gửi ngân hàng\nTôi trả lời: Chị gửi ngân hàng à? Chị gửi qua ứng dụng hay đến trực tiếp ngân hàng vậy ạ?",
-          "timestamp": 1740651041258,
-          "priority": 1,
-          "accessCount": 0,
-          "lastAccess": 1740651041258,
-          "metadata": {
-            "sentiment": {
-              "score": 1,
-              "sentiment": "positive"
-            },
-            "topics": [
-              "PERSONAL"
-            ],
-            "entities": {}
-          }
-        }
-      ],
-      "emotions": [],
-      "names": [],
-      "relationships": {},
-      "context": {
-        "lastTopics": [],
-        "importantDates": {},
-        "recentMentions": {},
-        "conversationFlow": []
-      },
-      "topics": {},
-      "undefined": [
-        {
-          "content": "Xưng hô: em/anh",
-          "timestamp": 1740651039392,
-          "priority": 2,
-          "accessCount": 0,
-          "lastAccess": 1740651039392,
-          "metadata": {
-            "sentiment": {
-              "score": 0,
-              "sentiment": "neutral"
-            },
-            "topics": [],
-            "entities": {}
-          }
-        }
-      ]
-    },
-    "61558946907944": {
-      "personal": [],
-      "facts": [],
-      "preferences": [],
-      "interactions": [
-        {
-          "content": "Yzu Yu nói: bot sống r à\nTôi trả lời: Chào anh Yzu Yu!  Em sống và làm việc tốt lắm ạ.  -)",
-          "timestamp": 1740651090782,
-          "priority": 1,
-          "accessCount": 0,
-          "lastAccess": 1740651090782,
-          "metadata": {
-            "sentiment": {
-              "score": 1,
-              "sentiment": "positive"
-            },
-            "topics": [
-              "PERSONAL",
-              "WORK"
-            ],
-            "entities": {}
-          }
-        }
-      ],
-      "emotions": [],
-      "names": [],
-      "relationships": {},
-      "context": {
-        "lastTopics": [],
-        "importantDates": {},
-        "recentMentions": {},
-        "conversationFlow": []
-      },
-      "topics": {},
-      "undefined": [
-        {
-          "content": "Xưng hô: em/anh",
-          "timestamp": 1740651089082,
-          "priority": 2,
-          "accessCount": 0,
-          "lastAccess": 1740651089082,
-          "metadata": {
-            "sentiment": {
-              "score": 0,
-              "sentiment": "neutral"
-            },
-            "topics": [],
-            "entities": {}
-          }
-        }
-      ]
-    },
-    "61573075153597": {
-      "personal": [],
-      "facts": [],
-      "preferences": [],
-      "interactions": [
-        {
-          "content": "Linh Thùy nói: bot đâu\nTôi trả lời: Chào Linh Thùy!  Em đây nè.  Có gì em giúp được không?",
-          "timestamp": 1740652893385,
-          "priority": 1,
-          "accessCount": 0,
-          "lastAccess": 1740652893385,
-          "metadata": {
-            "sentiment": {
-              "score": 0,
-              "sentiment": "neutral"
-            },
-            "topics": [
-              "PERSONAL"
-            ],
-            "entities": {}
-          }
-        }
-      ],
-      "emotions": [],
-      "names": [],
-      "relationships": {},
-      "context": {
-        "lastTopics": [],
-        "importantDates": {},
-        "recentMentions": {},
-        "conversationFlow": []
-      },
-      "topics": {},
-      "undefined": [
-        {
-          "content": "Xưng hô: em/anh",
-          "timestamp": 1740652891583,
-          "priority": 2,
-          "accessCount": 0,
-          "lastAccess": 1740652891583,
+          "lastAccess": 1740718080219,
           "metadata": {
             "sentiment": {
               "score": 0,
@@ -234,20 +70,11 @@
     "voice": {}
   },
   "stats": {
-    "totalInteractions": 10,
+    "totalInteractions": 2,
     "uniqueUsers": {},
     "topTopics": {},
     "responseTime": [],
-    "accuracy": [
-      {
-        "timestamp": 1740650250510,
-        "memoryCount": 4
-      },
-      {
-        "timestamp": 1740651090783,
-        "memoryCount": 5
-      }
-    ]
+    "accuracy": []
   },
   "compression": {
     "enabled": true,

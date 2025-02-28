@@ -4,7 +4,7 @@ const path = require('path');
 module.exports = {
     name: "onprefix",
     usedby: 2,
-    category: "Admin Commands",
+    category: "System",
     dmUser: false,
     dev: "Jonell Magallanes",
     info: "Chuyển trạng thái onPrefix của bất kỳ lệnh nào đó",

@@ -5,133 +5,276 @@ const adminConfig = JSON.parse(fs.readFileSync("admin.json", "utf8"));
 module.exports = {
     name: "help",
     usedby: 0,
-    info: "Hiển thị các lệnh có sẵn và thông tin chi tiết. Sử dụng: help [số trang | all | tên lệnh]",
+    info: "Hiển thị danh sách lệnh bot",
     dev: "HNT",
     onPrefix: true,
-    usages: "help [số trang | all | tên lệnh]",
-    cooldowns: 10,
+    usages: "[tên lệnh/số trang]",
+    cooldowns: 5,
+
+    onLoad: function() {
+        if (!global.client) global.client = {};
+        if (!global.client.onReply) global.client.onReply = [];
+    },
 
     onLaunch: async function ({ api, event, target = [] }) {
-        try {
-            const cmdsPath = path.join(__dirname, '');
-            const commandFiles = fs.readdirSync(cmdsPath).filter(file => file.endsWith('.js'));
+        const { threadID, messageID, senderID } = event;
+        const prefix = adminConfig.prefix;
 
-            const delay = ms => new Promise(resolve => setTimeout(resolve, ms));
+        try {
+            const cmdsPath = __dirname;
+            const commandFiles = fs.readdirSync(cmdsPath).filter(file => file.endsWith('.js'));
+            const totalCommands = commandFiles.length;
 
             const categories = {};
-            const visibleCommandFiles = commandFiles.filter(file => {
+            for (const file of commandFiles) {
                 try {
                     const command = require(path.join(cmdsPath, file));
                     if (!command.hide) {
                         const category = command.category || "Khác";
                         if (!categories[category]) {
-                            categories[category] = [];
+                            categories[category] = {
+                                name: category,
+                                commands: [],
+                                priority: this.getCategoryPriority(category)
+                            };
                         }
-                        categories[category].push(command);
+                        categories[category].commands.push(command);
                     }
-                    return !command.hide;
+                } catch (err) {
+                    console.error(`Error loading command ${file}:`, err);
+                }
+            }
+
+            if (!target[0]) {
+                let msg = "╔════ DANH SÁCH LỆNH ════╗\n\n";
+                
+                const sortedCategories = Object.values(categories)
+                    .sort((a, b) => a.priority - b.priority);
+
+                sortedCategories.forEach((category, index) => {
+                    const icon = this.getCategoryIcon(category.name);
+                    msg += `${index + 1}. ${icon} ${category.name}\n`;
+                    msg += `➣ Số lệnh: ${category.commands.length}\n\n`;
+                });
+
+                msg += "╚═══════════════════════╝\n\n";
+                msg += "📌 Hướng dẫn sử dụng:\n";
+                msg += "• Reply số để xem chi tiết\n";
+                msg += `• ${prefix}help <tên lệnh>\n`;
+                msg += `• ${prefix}help <số trang>\n\n`;
+                msg += `📊 Tổng số lệnh: ${totalCommands}`;
+
+                const sent = await api.sendMessage(msg, threadID);
+
+                if (sent) {
+                    global.client.onReply.push({
+                        name: this.name,
+                        messageID: sent.messageID,
+                        author: senderID,
+                        data: sortedCategories,
+                        type: "categories"
+                    });
+                }
+                return;
+            }
+
+            const commandName = target[0].toLowerCase();
+            const command = commandFiles.find(file => {
+                try {
+                    const cmd = require(path.join(cmdsPath, file));
+                    return cmd.name?.toLowerCase() === commandName;
                 } catch (err) {
                     console.error(`Error loading command ${file}:`, err);
                     return false;
                 }
             });
 
-            const sortedCategories = Object.keys(categories).sort((a, b) => {
-                if (a === "Khác") return 1;
-                if (b === "Khác") return -1;
-                return a.localeCompare(b);
-            });
-
-            const totalCommands = Object.values(categories).reduce((sum, cmds) => sum + cmds.length, 0);
-
-            if (target[0] === "all") {
-                let allCommandsMessage = `⚡️ 𝗞𝗘𝗡𝗝𝗜 𝗕𝗢𝗧 𝗦𝗬𝗦𝗧𝗘𝗠 ⚡️\n`;
-                allCommandsMessage += `▱▱▱▱▱▱▱▱▱▱▱▱▱▱\n\n`;
-
-                sortedCategories.forEach(category => {
-                    allCommandsMessage += `『 𝗖𝗔𝗧𝗘𝗚𝗢𝗥𝗬: ${category.toUpperCase()} 』\n`;
-                    categories[category].forEach((cmd, index) => {
-                        allCommandsMessage += `│ ${index + 1}. ⟩ ${cmd.name || "Không xác định"}\n└❈ ${cmd.info || "Không có mô tả"}\n`;
-                    });
-                    allCommandsMessage += "\n";
-                });
-
-                allCommandsMessage += `▱▱▱▱▱▱▱▱▱▱▱▱▱▱\n`;
-                allCommandsMessage += `⌬ Trang: Toàn bộ\n`;
-                allCommandsMessage += `⌬ Tổng lệnh: ${totalCommands}\n`;
-                allCommandsMessage += `⌬ Hướng dẫn: ${adminConfig.prefix}help <số trang>\n`;
-                allCommandsMessage += `⌬ Xem toàn bộ: ${adminConfig.prefix}help all\n`;
-                allCommandsMessage += `⌬ Developer: 『 ${adminConfig.ownerName} 』`;
-                return api.sendMessage(allCommandsMessage, event.threadID, event.messageID);
+            if (command) {
+                const cmd = require(path.join(cmdsPath, command));
+                return api.sendMessage(
+                    this.getCommandInfo(cmd, prefix),
+                    threadID, messageID
+                );
             }
 
-            const commandsPerPage = 10;
-            const totalPages = Math.ceil(visibleCommandFiles.length / commandsPerPage);
-            
-            let page = target[0] ? parseInt(target[0]) : 1;
-
+            const page = parseInt(target[0]);
             if (!isNaN(page)) {
-                if (page <= 0 || page > totalPages) {
-                    return api.sendMessage(`Trang không tồn tại. Vui lòng chọn từ 1 đến ${totalPages}.`, event.threadID, event.messageID);
+                const cmdsPerPage = 10;
+                const totalPages = Math.ceil(totalCommands / cmdsPerPage);
+
+                if (page < 1 || page > totalPages) {
+                    return api.sendMessage(
+                        `⚠️ Số trang phải từ 1 đến ${totalPages}`, 
+                        threadID, messageID
+                    );
                 }
 
-                const startIndex = (page - 1) * commandsPerPage;
-                const endIndex = Math.min(startIndex + commandsPerPage, visibleCommandFiles.length);
+                let msg = `╔═══ TRANG ${page}/${totalPages} ═══╗\n\n`;
+                const start = (page - 1) * cmdsPerPage;
+                const end = start + cmdsPerPage;
+                
+                const cmds = commandFiles.slice(start, end).map(file => {
+                    try {
+                        return require(path.join(cmdsPath, file));
+                    } catch (err) {
+                        console.error(`Error loading command ${file}:`, err);
+                        return null;
+                    }
+                }).filter(cmd => cmd !== null);
 
-                let helpMessage = `⚡️ 𝗞𝗘𝗡𝗝𝗜 𝗕𝗢𝗧 𝗦𝗬𝗦𝗧𝗘𝗠 ⚡️\n`;
-                helpMessage += `▱▱▱▱▱▱▱▱▱▱▱▱▱▱\n\n`;
-
-                const displayedCommands = visibleCommandFiles.slice(startIndex, endIndex);
-
-                displayedCommands.forEach((file, index) => {
-                    const commandInfo = require(path.join(cmdsPath, file));
-                    helpMessage += `│ ${startIndex + index + 1}. ⟩ ${commandInfo.name || "Không xác định"}\n└❈ ${commandInfo.info || "Không có mô tả"}\n`;
+                cmds.forEach((cmd, index) => {
+                    if (!cmd.hide) {
+                        const icon = this.getCommandIcon(cmd);
+                        msg += `${start + index + 1}. ${icon} ${cmd.name}\n`;
+                        msg += `➣ ${cmd.info || "Không có mô tả"}\n\n`;
+                    }
                 });
 
-                helpMessage += `\n▱▱▱▱▱▱▱▱▱▱▱▱▱▱\n`;
-                helpMessage += `⌬ Trang: ${page}/${totalPages}\n`;
-                helpMessage += `⌬ Tổng lệnh: ${totalCommands}\n`;
-                helpMessage += `⌬ Hướng dẫn: ${adminConfig.prefix}help <số trang>\n`;
-                helpMessage += `⌬ Xem toàn bộ: ${adminConfig.prefix}help all\n`;
-                helpMessage += `⌬ Developer: 『 ${adminConfig.ownerName} 』`;
-                return api.sendMessage(helpMessage, event.threadID, event.messageID);
+                msg += "╚═══════════════════════╝\n\n";
+                msg += "📌 Hướng dẫn:\n";
+                msg += `• ${prefix}help <tên lệnh> để xem chi tiết\n`;
+                msg += `• Trang ${page - 1 > 0 ? `${page - 1}, ` : ""}${page + 1 <= totalPages ? `${page + 1}` : ""}`;
+
+                return api.sendMessage(msg, threadID, messageID);
             }
 
-            if (target[0]) {
-                const commandName = target[0];
-                const commandFile = commandFiles.find(file => file === `${commandName}.js`);
-                if (commandFile) {
-                    try {
-                        const commandInfo = require(path.join(cmdsPath, commandFile));
-                        await delay(1000); 
+            return api.sendMessage(
+                "⚠️ Lệnh không hợp lệ!\n\n" +
+                "📌 Sử dụng:\n" +
+                `• ${prefix}help để xem danh mục\n` +
+                `• ${prefix}help <tên lệnh> để xem chi tiết\n` +
+                `• ${prefix}help <số trang> để xem theo trang`,
+                threadID, messageID
+            );
 
-                        const permissionText = commandInfo.usedby === undefined ? "Không xác định" :
-                            commandInfo.usedby === 0 ? "Thành viên" :
-                            commandInfo.usedby === 1 ? "Quản trị viên nhóm" :
-                            commandInfo.usedby === 2 ? "Quản trị viên bot" :
-                            commandInfo.usedby === 3 ? "Người điều hành" :
-                            commandInfo.usedby === 4 ? "Quản trị viên và Người điều hành" : "Không xác định";
+        } catch (error) {
+            console.error("Help command error:", error);
+            return api.sendMessage("❌ Đã xảy ra lỗi!", threadID, messageID);
+        }
+    },
 
-                        const helpMessage = `⚡️ 𝗧𝗛𝗢̂𝗡𝗚 𝗧𝗜𝗡 𝗟𝗘̣̂𝗡𝗛 ⚡️\n` +
-                            `▱▱▱▱▱▱▱▱▱▱▱▱▱▱\n\n` +
-                            `│ Tên lệnh ⟩ ${commandInfo.name || "Không xác định"}\n` +
-                            `│ Quyền hạn ⟩ ${permissionText}\n` +
-                            `│ Developer ⟩ ${commandInfo.dev || "Không xác định"}\n` +
-                            `│ Thời gian chờ ⟩ ${commandInfo.cooldowns || "0"}s\n` +
-                            `│ Prefix ⟩ ${commandInfo.onPrefix ? "Cần" : "Không cần"}\n` +
-                            `└❈ Cách dùng: ${commandInfo.usages || "Không có"}\n\n` +
-                            `✎ Mô tả: ${commandInfo.info || "Không có mô tả"}\n` +
-                            `▱▱▱▱▱▱▱▱▱▱▱▱▱▱`;
-                        return api.sendMessage(helpMessage, event.threadID, event.messageID);
-                    } catch (err) {
-                        console.error(`Error processing command ${commandName}:`, err);
-                        return api.sendMessage(`Có lỗi xảy ra khi xử lý lệnh "${commandName}".`, event.threadID, event.messageID);
-                    }
+    onReply: async function({ api, event }) {
+        const { threadID, messageID, senderID, body, messageReply } = event;
+        
+        try {
+            if (!messageReply) return;
+
+            const input = parseInt(body);
+            if (!input) return;
+
+            const replyData = global.client.onReply.find(r => r.messageID === messageReply.messageID);
+            if (!replyData || senderID != replyData.author) return;
+
+            if (replyData.type === "categories") {
+                const categories = replyData.data;
+                if (input > categories.length) return;
+
+                const category = categories[input - 1];
+                const commands = category.commands;
+                
+                let msg = `╔═══ ${category.name.toUpperCase()} ═══╗\n\n`;
+                
+                commands.forEach((cmd, index) => {
+                    const icon = this.getCommandIcon(cmd);
+                    msg += `${index + 1}. ${icon} ${cmd.name}\n`;
+                    msg += `➣ ${cmd.info || "Không có mô tả"}\n`;t
+                });
+
+                msg += "╚═══════════════════════╝\n\n";
+                msg += "📌 Reply số thứ tự để xem chi tiết lệnh";
+
+                const sent = await api.sendMessage(msg, threadID);
+
+                if (sent) {
+                    global.client.onReply.push({
+                        name: this.name,
+                        messageID: sent.messageID,
+                        author: senderID,
+                        data: commands,
+                        type: "commands"
+                    });
                 }
             }
-        } catch (err) {
-            console.error("Help command error:", err);
-            return api.sendMessage("Có lỗi xảy ra khi thực hiện lệnh help.", event.threadID, event.messageID);
+            else if (replyData.type === "commands") {
+                const commands = replyData.data;
+                if (input > commands.length) return;
+                
+                const cmd = commands[input - 1];
+                const msg = this.getCommandInfo(cmd, adminConfig.prefix);
+                
+                const sent = await api.sendMessage(msg, threadID);
+
+                if (sent) {
+                    global.client.onReply.push({
+                        name: this.name,
+                        messageID: sent.messageID,
+                        author: senderID
+                    });
+                }
+            }
+
+        } catch (error) {
+            console.error("Help reply error:", error);
+            return api.sendMessage("❌ Đã xảy ra lỗi!", threadID);
+        }
+    },
+
+    getCommandInfo(cmd, prefix) {
+        const icon = this.getCommandIcon(cmd);
+        return `╔═══ ${cmd.name.toUpperCase()} ═══╗\n\n` +
+               `${icon} Tên: ${cmd.name}\n` +
+               `📝 Mô tả: ${cmd.info || "Không có"}\n` +
+               `💡 Cách dùng: ${cmd.usages || prefix + cmd.name}\n` +
+               `👥 Quyền hạn: ${this.getPermissionText(cmd.usedby)}\n` +
+               `⏱️ Cooldown: ${cmd.cooldowns || 0}s\n` +
+               `👨‍💻 Author: ${cmd.dev || "Không có"}\n\n` +
+               `╚═══════════════════════╝`;
+    },
+
+    getCategoryPriority(category) {
+        const priorities = {
+            "System": 1,
+            "Admin": 2, 
+            "Box": 3,
+            "Game": 4,
+            "Media": 5,
+            "Economy": 6,
+            "Utility": 7,
+            "Fun": 8,
+            "Khác": 9
+        };
+        return priorities[category] || 10;
+    },
+
+    getCategoryIcon(category) {
+        const icons = {
+            "System": "⚙️",
+            "Admin": "👑",
+            "Box": "📦",
+            "Game": "🎮",
+            "Media": "🎵",
+            "Economy": "💰",
+            "Utility": "🛠️",
+            "Fun": "🎯",
+            "Khác": "📌"
+        };
+        return icons[category] || "📍";
+    },
+
+    getCommandIcon(cmd) {
+        if (cmd.usedby === 2) return "👑";
+        if (cmd.usedby === 1) return "👥";
+        return "👤";
+    },
+
+    getPermissionText(permission) {
+        switch (permission) {
+            case 0: return "Thành viên";
+            case 1: return "Quản trị viên nhóm";
+            case 2: return "Quản trị viên bot";
+            case 3: return "Điều hành viên";
+            case 4: return "Quản trị viên & Điều hành viên"; 
+            default: return "Không xác định";
         }
     }
 };

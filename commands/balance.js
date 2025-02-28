@@ -4,24 +4,27 @@ const TradeSystem = require('../trade/TradeSystem');
 const tradeSystem = new TradeSystem();
 
 const userDataFile = path.join(__dirname,'../events/cache/userData.json');
-const transactionsPath = path.join(__dirname, '../commands/json/transactions.json');
 const bankingDataPath = path.join(__dirname, './json/banking.json');
 let userData = {};
-let transactions = {};
-let bankingData = {};
+
+function loadBankingData() {
+    try {
+        if (fs.existsSync(bankingDataPath)) {
+            return JSON.parse(fs.readFileSync(bankingDataPath, 'utf8'));
+        }
+        return { users: {}, transactions: {}, loans: {}, blacklist: {}, dailyLoans: {} };
+    } catch (error) {
+        console.error("Error loading banking data:", error);
+        return { users: {}, transactions: {}, loans: {}, blacklist: {}, dailyLoans: {} };
+    }
+}
 
 try {
     if (fs.existsSync(userDataFile)) {
         userData = JSON.parse(fs.readFileSync(userDataFile, 'utf8'));
     }
-    if (fs.existsSync(transactionsPath)) {
-        transactions = JSON.parse(fs.readFileSync(transactionsPath, 'utf8'));
-    }
-    if (fs.existsSync(bankingDataPath)) {
-        bankingData = JSON.parse(fs.readFileSync(bankingDataPath, 'utf8'));
-    }
 } catch (error) {
-    console.error("Error loading files:", error);
+    console.error("Error loading user data:", error);
 }
 
 module.exports = {
@@ -43,26 +46,21 @@ module.exports = {
             const userName = userInfo.name || "Người dùng";
 
             const balance = global.balance[userID] || 0;
+            const bankingData = loadBankingData();
             const bankUserData = bankingData.users?.[userID] || {};
             const bankBalance = bankUserData.bankBalance || 0;
             const totalWealth = balance + bankBalance;
 
             let transHistory = 'Chưa có';
-            try {
-                if (fs.existsSync(transactionsPath)) {
-                    transactions = JSON.parse(fs.readFileSync(transactionsPath, 'utf8'));
-                    const recentTrans = transactions[userID]?.slice(-2) || [];
-                    if (recentTrans.length > 0) {
-                        transHistory = recentTrans.map(t => {
-                            const date = new Date(t.timestamp);
-                            const time = `${date.getHours()}:${String(date.getMinutes()).padStart(2, '0')}`;
-                            const icon = t.type === 'in' ? '📥' : '📤';
-                            return `${icon} ${time}: ${t.description}`;
-                        }).reverse().join('\n');
-                    }
-                }
-            } catch (error) {
-                transHistory = 'Không thể tải';
+            const transactions = bankingData.transactions[userID] || [];
+            const recentTrans = transactions.slice(-2);
+            if (recentTrans.length > 0) {
+                transHistory = recentTrans.map(t => {
+                    const date = new Date(t.timestamp);
+                    const time = `${date.getHours()}:${String(date.getMinutes()).padStart(2, '0')}`;
+                    const icon = t.type === 'in' ? '📥' : '📤';
+                    return `${icon} ${time}: ${t.description}`;
+                }).reverse().join('\n');
             }
 
             let marketAlert = '';

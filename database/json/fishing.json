@@ -871,7 +871,7 @@
   },
   "100053970942155": {
     "rod": "Cần jig Daiwa Saltiga SJ",
-    "rodDurability": 181,
+    "rodDurability": 180,
     "inventory": [
       "Cần trúc",
       "Cần Câu tay",
@@ -962,7 +962,8 @@
           "Cá Mập Tre": 10,
           "Cá Mú": 11,
           "Cá Song": 11,
-          "Cá Tầm": 5
+          "Cá Tầm": 5,
+          "Cá Mập Báo": 1
         },
         "legendary": {
           "Cá Voi Lưng Gù": 10,
@@ -990,24 +991,24 @@
         }
       },
       "stats": {
-        "totalCaught": 411,
-        "totalValue": 1104836659,
+        "totalCaught": 412,
+        "totalValue": 1105058199,
         "bestCatch": {
           "name": "Leviathan",
           "value": 106000000
         }
       }
     },
-    "exp": 156451,
+    "exp": 158341,
     "level": 31,
-    "fishingStreak": 411,
+    "fishingStreak": 412,
     "stats": {
-      "totalExp": 1338320,
-      "highestStreak": 411,
-      "totalFishes": 411
+      "totalExp": 1340210,
+      "highestStreak": 412,
+      "totalFishes": 412
     },
     "activeBuffs": {},
-    "lastFished": 1740585398601,
+    "lastFished": 1740664576804,
     "userID": "100053970942155"
   },
   "61566015353601": {
@@ -1530,7 +1531,7 @@
   },
   "100058320200877": {
     "rod": "Cần lure Bulava Titanium",
-    "rodDurability": 137,
+    "rodDurability": 134,
     "inventory": [
       "Cần trúc",
       "Cần Câu tay",
@@ -1592,7 +1593,7 @@
         },
         "rare": {
           "Cá Tầm": 4,
-          "Cá Kiếm": 2,
+          "Cá Kiếm": 3,
           "Cá Mú": 4,
           "Cá Chình": 2,
           "Cá Hố": 3,
@@ -1604,7 +1605,7 @@
         "legendary": {
           "Cá Nhám Voi": 1,
           "Cá Vây Xanh": 2,
-          "Cá Mập Đầu Búa": 2,
+          "Cá Mập Đầu Búa": 3,
           "Cá Mập Trắng": 6,
           "Cá Đuối Khổng Lồ": 3,
           "Cá Voi Sát Thủ": 1,
@@ -1616,28 +1617,29 @@
           "Phượng Hoàng Nước": 1,
           "Hydra Biển Sâu": 1,
           "Thủy Quái Vũ Trụ": 1,
-          "Kraken": 1
+          "Kraken": 1,
+          "Rồng Biển Cổ Đại": 1
         }
       },
       "stats": {
-        "totalCaught": 216,
-        "totalValue": 41515116,
+        "totalCaught": 219,
+        "totalValue": 49525516,
         "bestCatch": {
           "name": "Hydra Biển Sâu",
           "value": 9500000
         }
       }
     },
-    "exp": 5932,
+    "exp": 14637,
     "level": 17,
-    "fishingStreak": 216,
+    "fishingStreak": 219,
     "stats": {
-      "totalExp": 93368,
-      "highestStreak": 216,
-      "totalFishes": 216
+      "totalExp": 102073,
+      "highestStreak": 219,
+      "totalFishes": 219
     },
     "activeBuffs": {},
-    "lastFished": 1740650820923,
+    "lastFished": 1740718113441,
     "userID": "100058320200877"
   },
   "61566511812608": {
@@ -2223,7 +2225,7 @@
   },
   "100008297661441": {
     "rod": "Cần câu Daiwa Crossfire",
-    "rodDurability": 95,
+    "rodDurability": 93,
     "inventory": [
       "Cần trúc",
       "Cần Câu Daiwa",
@@ -2243,7 +2245,7 @@
           "Hòm gỗ": 3,
           "Cá Diếc": 5,
           "Cá Tra": 3,
-          "Cá Chép": 8,
+          "Cá Chép": 9,
           "Kho báu cổ đại": 2,
           "Cá Mè Trắng": 6,
           "Rương bạc": 2,
@@ -2259,7 +2261,8 @@
           "Cá Linh": 2,
           "Cá Mương": 3,
           "Cá Rô Đồng": 1,
-          "Cá Chuối": 2
+          "Cá Chuối": 2,
+          "Rương kim cương": 1
         },
         "uncommon": {
           "Cá Lóc": 1,
@@ -2308,24 +2311,24 @@
         }
       },
       "stats": {
-        "totalCaught": 162,
-        "totalValue": 10113602,
+        "totalCaught": 164,
+        "totalValue": 11306982,
         "bestCatch": {
           "name": "Thủy Quái Vũ Trụ",
           "value": 5700000
         }
       }
     },
-    "exp": 6527,
+    "exp": 7151,
     "level": 13,
-    "fishingStreak": 162,
+    "fishingStreak": 164,
     "stats": {
-      "totalExp": 46102,
-      "highestStreak": 162,
-      "totalFishes": 162
+      "totalExp": 46726,
+      "highestStreak": 164,
+      "totalFishes": 164
     },
     "activeBuffs": {},
-    "lastFished": 1740650397317,
+    "lastFished": 1740679415585,
     "userID": "100008297661441"
   },
   "100055074463541": {
@@ -2741,7 +2744,7 @@
   },
   "100071151188537": {
     "rod": "Cần Câu Daiwa",
-    "rodDurability": 43,
+    "rodDurability": 42,
     "inventory": [
       "Cần trúc",
       "Cần Câu Daiwa",
@@ -2796,7 +2799,8 @@
           "Cá Chim Trắng": 1,
           "Cá Chép Giòn": 1,
           "Cá Lóc Đồng": 1,
-          "Cá Sặc Rằn": 1
+          "Cá Sặc Rằn": 1,
+          "Cá Ngạnh": 1
         },
         "rare": {
           "Cá Kiếm": 3,
@@ -2824,24 +2828,24 @@
         "cosmic": {}
       },
       "stats": {
-        "totalCaught": 280,
-        "totalValue": 32324375,
+        "totalCaught": 281,
+        "totalValue": 32336471,
         "bestCatch": {
           "name": "Kỳ Lân Biển",
           "value": 8550000
         }
       }
     },
-    "exp": 1397,
+    "exp": 1509,
     "level": 16,
-    "fishingStreak": 280,
+    "fishingStreak": 281,
     "stats": {
-      "totalExp": 73426,
-      "highestStreak": 280,
-      "totalFishes": 280
+      "totalExp": 73538,
+      "highestStreak": 281,
+      "totalFishes": 281
     },
     "activeBuffs": {},
-    "lastFished": 1740643562021,
+    "lastFished": 1740654621133,
     "userID": "100071151188537"
   },
   "100006842495827": {
@@ -4345,7 +4349,7 @@
   },
   "61550331471452": {
     "rod": "Cần câu Daiwa Gekkabijin MX",
-    "rodDurability": 161,
+    "rodDurability": 160,
     "inventory": [
       "Cần trúc",
       "Cần câu Bulava Durga Ultra",
@@ -4406,7 +4410,7 @@
         },
         "rare": {
           "Cá Kiếm": 5,
-          "Cá Hồi": 5,
+          "Cá Hồi": 6,
           "Cá Chình": 4,
           "Cá Song": 7,
           "Cá Tầm": 8,
@@ -4433,24 +4437,24 @@
         "cosmic": {}
       },
       "stats": {
-        "totalCaught": 166,
-        "totalValue": 99970212,
+        "totalCaught": 167,
+        "totalValue": 100045737,
         "bestCatch": {
           "name": "Thủy Quái Vũ Trụ",
           "value": 22657500
         }
       }
     },
-    "exp": 10263,
+    "exp": 11163,
     "level": 24,
-    "fishingStreak": 166,
+    "fishingStreak": 167,
     "stats": {
-      "totalExp": 336491,
-      "highestStreak": 166,
-      "totalFishes": 166
+      "totalExp": 337391,
+      "highestStreak": 167,
+      "totalFishes": 167
     },
     "activeBuffs": {},
-    "lastFished": 1740585374756,
+    "lastFished": 1740655642084,
     "userID": "61550331471452"
   },
   "100041316051795": {
@@ -4932,7 +4936,7 @@
   },
   "100035610181048": {
     "rod": "Cần câu Daiwa Gekkabijin MX",
-    "rodDurability": 278,
+    "rodDurability": 277,
     "inventory": [
       "Cần trúc",
       "Cần Câu Shimano",
@@ -4960,7 +4964,7 @@
           "Cá Rô Đồng": 4,
           "Cá Mè Trắng": 2,
           "Cá Mương": 1,
-          "Kho báu cổ đại": 5,
+          "Kho báu cổ đại": 6,
           "Cá Bống Tượng": 4,
           "Cá Út": 3,
           "Rương bạc": 6,
@@ -5027,24 +5031,24 @@
         "cosmic": {}
       },
       "stats": {
-        "totalCaught": 315,
-        "totalValue": 152518159,
+        "totalCaught": 316,
+        "totalValue": 153943159,
         "bestCatch": {
           "name": "Leviathan",
           "value": 19000000
         }
       }
     },
-    "exp": 16389,
+    "exp": 17089,
     "level": 22,
-    "fishingStreak": 314,
+    "fishingStreak": 315,
     "stats": {
-      "totalExp": 241406,
-      "highestStreak": 314,
-      "totalFishes": 314
+      "totalExp": 242106,
+      "highestStreak": 315,
+      "totalFishes": 315
     },
     "activeBuffs": {},
-    "lastFished": 1740650475938,
+    "lastFished": 1740666133111,
     "userID": "100035610181048"
   },
   "100085405731662": {
@@ -5316,7 +5320,7 @@
   },
   "100023894737975": {
     "rod": "Cần lure Bulava Titanium",
-    "rodDurability": 113,
+    "rodDurability": 112,
     "inventory": [
       "Cần trúc",
       "Cần Câu Shimano",
@@ -5368,7 +5372,7 @@
           "Cá Hú": 2,
           "Cá Lóc Đồng": 2,
           "Cá Lăng": 2,
-          "Cá Điêu Hồng": 2,
+          "Cá Điêu Hồng": 3,
           "Cá Ngạnh": 1
         },
         "rare": {
@@ -5391,24 +5395,24 @@
         "cosmic": {}
       },
       "stats": {
-        "totalCaught": 124,
-        "totalValue": 12904371,
+        "totalCaught": 125,
+        "totalValue": 12933555,
         "bestCatch": {
           "name": "Rồng Biển Cổ Đại",
           "value": 7600000
         }
       }
     },
-    "exp": 4065,
+    "exp": 4149,
     "level": 11,
-    "fishingStreak": 124,
+    "fishingStreak": 125,
     "stats": {
-      "totalExp": 30019,
-      "highestStreak": 124,
-      "totalFishes": 124
+      "totalExp": 30103,
+      "highestStreak": 125,
+      "totalFishes": 125
     },
     "activeBuffs": {},
-    "lastFished": 1740652110037,
+    "lastFished": 1740654601304,
     "userID": "100023894737975"
   },
   "100040203282108": {
@@ -7880,7 +7884,7 @@
   },
   "61568641631000": {
     "rod": "Cần trúc",
-    "rodDurability": 7,
+    "rodDurability": 4,
     "inventory": [
       "Cần trúc"
     ],
@@ -7888,37 +7892,40 @@
       "byRarity": {
         "trash": {},
         "common": {
-          "Cá Rô Biển": 1
+          "Cá Rô Biển": 1,
+          "Cá Tra": 1
         },
         "uncommon": {
-          "Cá Hú": 1
+          "Cá Hú": 1,
+          "Cá Thu": 1
         },
         "rare": {
-          "Cá Kiếm": 1
+          "Cá Kiếm": 1,
+          "Cá Mập Báo": 1
         },
         "legendary": {},
         "mythical": {},
         "cosmic": {}
       },
       "stats": {
-        "totalCaught": 3,
-        "totalValue": 12685,
+        "totalCaught": 6,
+        "totalValue": 27710,
         "bestCatch": {
-          "name": "Cá Kiếm",
-          "value": 8550
+          "name": "Cá Mập Báo",
+          "value": 10450
         }
       }
     },
-    "exp": 561,
+    "exp": 908,
     "level": 1,
-    "fishingStreak": 3,
+    "fishingStreak": 6,
     "stats": {
-      "totalExp": 561,
-      "highestStreak": 3,
-      "totalFishes": 3
+      "totalExp": 908,
+      "highestStreak": 6,
+      "totalFishes": 6
     },
     "activeBuffs": {},
-    "lastFished": 1740630163926,
+    "lastFished": 1740663751873,
     "userID": "61568641631000"
   },
   "61556258566916": {
@@ -8050,14 +8057,16 @@
   },
   "61573656233995": {
     "rod": "Cần trúc",
-    "rodDurability": 9,
+    "rodDurability": 8,
     "inventory": [
       "Cần trúc"
     ],
     "collection": {
       "byRarity": {
         "trash": {},
-        "common": {},
+        "common": {
+          "Cá Rô Đồng": 1
+        },
         "uncommon": {
           "Cá Thu": 1
         },
@@ -8067,24 +8076,24 @@
         "cosmic": {}
       },
       "stats": {
-        "totalCaught": 1,
-        "totalValue": 3840,
+        "totalCaught": 2,
+        "totalValue": 4477,
         "bestCatch": {
           "name": "Cá Thu",
           "value": 3840
         }
       }
     },
-    "exp": 64,
+    "exp": 76,
     "level": 1,
-    "fishingStreak": 1,
+    "fishingStreak": 2,
     "stats": {
-      "totalExp": 64,
-      "highestStreak": 1,
-      "totalFishes": 1
+      "totalExp": 76,
+      "highestStreak": 2,
+      "totalFishes": 2
     },
     "activeBuffs": {},
-    "lastFished": 1740651006043,
+    "lastFished": 1740666716326,
     "userID": "61573656233995"
   }
 }

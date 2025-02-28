@@ -1,13 +1,13 @@
 const threadInfoCache = new Map();
 const userInfoCache = new Map();
 const MAX_RETRIES = 3;
-const INITIAL_RETRY_DELAY = 2000; // 2 seconds
+const INITIAL_RETRY_DELAY = 2000;
 
 module.exports = {
     name: "adduser",
     dev: "HNT",
     usedby: 5,
-    category: "Groups ",
+    category: "Groups",
     info: "add người dùng vào nhóm theo ID FB",
     onPrefix: true,
     usages: "thêm người dùng vào nhóm bằng cách thêm ID\nVD: bạn muốn thêm người A có ID 123456 vào nhóm\n gõ [.adduser 123456]\n\n Bạn muốn thêm qua Liên kết\nhãy lên Facebook copy liên kết của người đó rồi sử dụng lệnh\n\nvd: người tên A có link là fb.com/1234 ta sử dụng lệnh \n [.adduser fb.com/1234]",

@@ -4,7 +4,7 @@
     "61573427362389"
   ],
   "moderatorUIDs": [
-    "61573075153597"
+    ""
   ],
   "botName": "AKI BOT",
   "ownerName": "Kenji Akira",
@@ -15,5 +15,5 @@
   "restart": true,
   "restartTime": 50,
   "FCA": "hut-chat-api",
-  "mtnMode": true
+  "mtnMode": false
 }

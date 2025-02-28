@@ -14,34 +14,31 @@ module.exports = {
   onLaunch: async ({ api, event }) => {
     try {
       const { threadID, senderID } = event;
-      const waitingMsg = await api.sendMessage("⏳ Vui lòng chờ một chút, tôi đang tìm người phù hợp để ghép đôi với bạn...", threadID);
       
-      let threadInfo;
-      try {
-        threadInfo = await api.getThreadInfo(threadID);
-      } catch (err) {
-        console.error("Error getting thread info:", err);
-        api.unsendMessage(waitingMsg.messageID);
-        return api.sendMessage("❌ Không thể lấy thông tin nhóm chat. Vui lòng thử lại sau!", threadID);
+      // Send initial waiting message
+      const waitingMsg = await api.sendMessage("⏳ Đang ghép đôi...", threadID);
+      
+      let partnerId;
+      
+      if (event.type === 'message_reply') {
+        partnerId = event.messageReply.senderID;
+      } 
+      else if (Object.keys(event.mentions).length > 0) {
+        partnerId = Object.keys(event.mentions)[0];
+      }
+      else {
+        return api.sendMessage(
+          "Cú pháp: ghép [@Tag/Reply]\n" +
+          "- Reply: Reply tin nhắn người muốn ghép\n" +
+          "- Tag: @mention người muốn ghép",
+          threadID
+        );
       }
 
-      if (!threadInfo || !threadInfo.participantIDs) {
-        api.unsendMessage(waitingMsg.messageID);
-        return api.sendMessage("❌ Không thể lấy danh sách thành viên. Vui lòng thử lại!", threadID);
+      if (partnerId === senderID) {
+        return api.sendMessage("❌ Không thể tự ghép đôi với chính mình!", threadID);
       }
 
-      const members = threadInfo.participantIDs.filter(id => 
-        id !== senderID && 
-        id !== api.getCurrentUserID() &&
-        id.toString().length > 5 
-      );
-
-      if (members.length === 0) {
-        api.unsendMessage(waitingMsg.messageID);
-        return api.sendMessage("❌ Không đủ thành viên để ghép đôi!", threadID);
-      }
-
-      const partner = members[Math.floor(Math.random() * members.length)];
       const compatibility = Math.floor(Math.random() * 100) + 1;
       const zodiacSigns = ['Bạch Dương', 'Kim Ngưu', 'Song Tử', 'Cự Giải', 'Sư Tử', 'Xử Nữ', 'Thiên Bình', 'Bọ Cạp', 'Nhân Mã', 'Ma Kết', 'Bảo Bình', 'Song Ngư'];
       const userZodiac = zodiacSigns[Math.floor(Math.random() * zodiacSigns.length)];
@@ -80,45 +77,52 @@ module.exports = {
         "Tương lai: Trở thành cặp đôi hoàn hảo trong mắt mọi người 💑"
       ];
 
-      const getAvatarUrl = (uid) => [
-        `https://graph.facebook.com/${uid}/picture?width=512&height=512&access_token=6628568379%7Cc1e620fa708a1d5696fb991c1bde5662`,
-        `https://graph.facebook.com/v12.0/${uid}/picture?height=720&width=720&access_token=6628568379%7Cc1e620fa708a1d5696fb991c1bde5662`,
-        `https://graph.facebook.com/v10.0/${uid}/picture?height=1080&width=1080&access_token=6628568379%7Cc1e620fa708a1d5696fb991c1bde5662`
-      ];
-
-      async function tryGetAvatar(uid) {
-        const urls = getAvatarUrl(uid);
-        for (const url of urls) {
-          try {
-            const response = await axios.get(url, { responseType: 'arraybuffer' });
-            return response.data;
-          } catch (err) {
-            continue;
-          }
+      // Replace the getAvatarUrl and tryGetAvatar functions with single URL like avt command
+      const getAvatar = async (uid) => {
+        const avatarUrl = `https://graph.facebook.com/${uid}/picture?width=512&height=512&access_token=6628568379%7Cc1e620fa708a1d5696fb991c1bde5662`;
+        try {
+          const response = await axios.get(avatarUrl, { responseType: 'arraybuffer' });
+          return response.data;
+        } catch (err) {
+          throw new Error('Failed to get avatar');
         }
-        throw new Error('Failed to get avatar');
-      }
+      };
 
       const [userImg, partnerImg] = await Promise.all([
-        tryGetAvatar(event.senderID),
-        tryGetAvatar(partner)
+        getAvatar(senderID),
+        getAvatar(partnerId)
       ]);
 
-      const pathUser = path.join(__dirname, '../commands/cache/avatar/user.jpg');
-      const pathPartner = path.join(__dirname, '../commands/cache/avatar/partner.jpg');
+      // Ensure cache directory exists
+      const avatarCacheDir = path.join(__dirname, './cache/avatar');
+      if (!fs.existsSync(avatarCacheDir)) {
+        fs.mkdirSync(avatarCacheDir, { recursive: true });
+      }
+
+      const pathUser = path.join(avatarCacheDir, 'user.jpg');
+      const pathPartner = path.join(avatarCacheDir, 'partner.jpg');
       
       fs.writeFileSync(pathUser, userImg);
       fs.writeFileSync(pathPartner, partnerImg);
 
+      const userDataPath = path.join(__dirname, '../events/cache/userData.json');
       let userName, partnerName;
+      
       try {
-        const userData = await api.getUserInfo([senderID, partner]);
+        const userData = await api.getUserInfo([senderID, partnerId]);
         userName = userData[senderID]?.name || "Người dùng";
-        partnerName = userData[partner]?.name || "Người ấy";
+        partnerName = userData[partnerId]?.name || "Người ấy";
       } catch (err) {
-        console.error("Error getting user info:", err);
-        userName = "Người dùng";
-        partnerName = "Người ấy";
+        console.error("Error getting user info from API, trying userData.json");
+        try {
+          const userDataJson = JSON.parse(fs.readFileSync(userDataPath, 'utf8'));
+          userName = userDataJson[senderID]?.name || "Người dùng";
+          partnerName = userDataJson[partnerId]?.name || "Người ấy";
+        } catch (jsonErr) {
+          console.error("Error reading from userData.json:", jsonErr);
+          userName = "Người dùng";
+          partnerName = "Người ấy";
+        }
       }
 
       const canvas = createCanvas(1024, 512);
@@ -162,11 +166,13 @@ module.exports = {
         attachment: fs.createReadStream(mergedPath)
       }, event.threadID, event.messageID);
 
-      await api.unsendMessage(waitingMsg.messageID);
-
-      fs.unlinkSync(mergedPath);
-      fs.unlinkSync(pathUser);
-      fs.unlinkSync(pathPartner);
+      try {
+        fs.unlinkSync(mergedPath);
+        fs.unlinkSync(pathUser);
+        fs.unlinkSync(pathPartner);
+      } catch (err) {
+        console.error("Error cleaning up files:", err);
+      }
 
     } catch (error) {
       console.error("Main error:", error);

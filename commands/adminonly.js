@@ -6,7 +6,7 @@ module.exports = {
     dev: "HNT",
     category: "Admin Commands",
     info: "Bật/tắt chế độ chỉ admin nhóm mới được sử dụng bot",
-    usedby: 1,
+    usedby: 5,
     cooldowns: 5,
     onPrefix: true,
     usages: [
@@ -60,18 +60,6 @@ module.exports = {
                     threads: {},
                     enable: true
                 };
-            }
-
-            const threadsDB = JSON.parse(fs.readFileSync("./database/threads.json", "utf8"));
-            const adminConfig = JSON.parse(fs.readFileSync('./admin.json', 'utf8'));
-            
-            const isAdminBot = adminConfig.adminUIDs.includes(senderID);
-            const isGroupAdmin = threadsDB[threadID]?.adminIDs?.some(admin => 
-                admin.id === senderID || admin === senderID
-            );
-
-            if (!isAdminBot && !isGroupAdmin) {
-                return api.sendMessage("⚠️ Chỉ Admin bot hoặc Quản trị viên nhóm mới có thể sử dụng lệnh này!", threadID);
             }
 
             const action = target[0]?.toLowerCase();

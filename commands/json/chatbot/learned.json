@@ -1,31 +1,7 @@
 {
-  "quỵt tiền ngân hàng": {
+  "bot": {
     "responses": [
-      "Chuyện đó nghiêm trọng lắm anh Khuong Duy ạ! Anh nên liên hệ ngay với ngân hàng để giải quyết nhé, càng sớm càng tốt.  Nếu cần em giúp gì cứ nói."
-    ],
-    "frequency": 1
-  },
-  "câm mồm": {
-    "responses": [
-      "Em xin lỗi anh Khuong Duy.  Em không có ý gì cả."
-    ],
-    "frequency": 1
-  },
-  "m gửi ngân hàng": {
-    "responses": [
-      "Chị gửi ngân hàng à? Chị gửi qua ứng dụng hay đến trực tiếp ngân hàng vậy ạ?"
-    ],
-    "frequency": 1
-  },
-  "bot sống r à": {
-    "responses": [
-      "Chào anh Yzu Yu!  Em sống và làm việc tốt lắm ạ.  -)"
-    ],
-    "frequency": 1
-  },
-  "bot đâu": {
-    "responses": [
-      "Chào Linh Thùy!  Em đây nè.  Có gì em giúp được không?"
+      "Chào anh Khuong Duy!  Anh đang làm gì thế ạ?  Bây giờ là 11:48 trưa rồi."
     ],
     "frequency": 1
   }

@@ -65,12 +65,6 @@
   ],
   "100050363228652": [
     {
-      "type": "out",
-      "amount": 100800,
-      "timestamp": 1738941009968,
-      "description": "Chuyển 100000 Xu cho Người nhận"
-    },
-    {
       "type": "in",
       "amount": 10000000,
       "timestamp": 1739338770182,
@@ -93,6 +87,12 @@
       "amount": 50000000,
       "timestamp": 1739362036152,
       "description": "Nhận 50000000 Xu từ Người gửi"
+    },
+    {
+      "type": "in",
+      "amount": 555555,
+      "timestamp": 1740665711427,
+      "description": "Nhận 555555 Xu từ Người gửi"
     }
   ],
   "100068382888605": [
@@ -2309,12 +2309,6 @@
     {
       "type": "out",
       "amount": 50150000,
-      "timestamp": 1740032632691,
-      "description": "Chuyển 50000000 Xu cho Người nhận"
-    },
-    {
-      "type": "out",
-      "amount": 50150000,
       "timestamp": 1740033450403,
       "description": "Chuyển 50000000 Xu cho Người nhận"
     },
@@ -2335,6 +2329,12 @@
       "amount": 25075000,
       "timestamp": 1740647415376,
       "description": "Chuyển 25000000 Xu cho Người nhận"
+    },
+    {
+      "type": "in",
+      "amount": 2939499,
+      "timestamp": 1740665740011,
+      "description": "Nhận 2939499 Xu từ Người gửi"
     }
   ],
   "61563665666655": [
@@ -5550,18 +5550,6 @@
   "61573427362389": [
     {
       "type": "out",
-      "amount": 5015000,
-      "timestamp": 1739763527907,
-      "description": "Chuyển 5000000 Xu cho Người nhận"
-    },
-    {
-      "type": "out",
-      "amount": 15045000,
-      "timestamp": 1739768802025,
-      "description": "Chuyển 15000000 Xu cho Người nhận"
-    },
-    {
-      "type": "out",
       "amount": 9528500,
       "timestamp": 1740586255738,
       "description": "Chuyển 9500000 Xu cho Người nhận"
@@ -5577,6 +5565,18 @@
       "amount": 5015000,
       "timestamp": 1740632820600,
       "description": "Chuyển 5000000 Xu cho Người nhận"
+    },
+    {
+      "type": "out",
+      "amount": 558333,
+      "timestamp": 1740665711427,
+      "description": "Chuyển 555555 Xu cho Người nhận"
+    },
+    {
+      "type": "out",
+      "amount": 2948318,
+      "timestamp": 1740665740011,
+      "description": "Chuyển 2939499 Xu cho Người nhận"
     }
   ],
   "61557772060014": [

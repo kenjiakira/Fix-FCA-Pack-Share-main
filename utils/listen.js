@@ -228,9 +228,10 @@ const fs = require("fs");
                                 const isGroupAdmin = threadsDB[threadID]?.adminIDs?.some(admin => 
                                     (admin.id === senderID || admin === senderID)
                                 );
+                                const isDHV = adminConfig?.moderatorUIDs?.includes(senderID);
                                 
-                                if (!isAdminBot && !isGroupAdmin) {
-                                    return api.sendMessage("⚠️ Hiện tại nhóm đang bật chế độ chỉ Quản trị viên mới có thể sử dụng bot!", threadID);
+                                if (!isAdminBot && !isGroupAdmin && !isDHV) {
+                                    return api.sendMessage("⚠️ Hiện tại nhóm đang bật chế độ chỉ Quản trị viên hoặc Điều hành viên mới có thể sử dụng bot!", threadID);
                                 }
                             }
                         }

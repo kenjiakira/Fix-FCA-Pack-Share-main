@@ -65,7 +65,7 @@ function startBotProcess(script, label) {
 }
 
 startBotProcess("main.js", "Messenger Bot");
-startBotProcess("discord.js", "Discord Bot");
+startBotProcess("discord/index.js", "Discord Bot");
 
 process.on('SIGINT', () => {
     try {
