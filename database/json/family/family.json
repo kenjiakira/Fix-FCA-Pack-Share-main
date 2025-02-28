@@ -191,12 +191,21 @@
   "61573427362389": {
     "name": null,
     "spouse": "100028202556430",
-    "children": [],
+    "children": [
+      {
+        "id": "1740751646336",
+        "name": "Hoàng Ngọc Trai",
+        "birthDate": 1740751646336,
+        "happiness": 100,
+        "gender": "👦",
+        "nickname": "Bé Hoàng Ngọc Trai"
+      }
+    ],
     "home": null,
     "happiness": 100,
     "lastChecked": 1740679043961,
-    "lastBaby": 1739985557607,
-    "lastIntimate": 1740737042136,
+    "lastBaby": 1740751646337,
+    "lastIntimate": 1740751629604,
     "isProposer": true,
     "proposedBy": null,
     "hasCustody": false,
@@ -250,46 +259,47 @@
       {
         "name": "Vũ Wag",
         "birthDate": 1739292398290,
-        "happiness": 29.215931597222223,
+        "happiness": 25.6410559375,
         "gender": "👦",
         "nickname": "Sunshine Vũ Wag"
       },
       {
         "name": "Thanh Kiều so much",
         "birthDate": 1739551711051,
-        "happiness": 36.510488958333326,
+        "happiness": 32.9356132986111,
         "gender": "👦",
         "nickname": "Sunshine Thanh Kiều so much"
       },
       {
         "name": "Tú Linh",
         "birthDate": 1739849120290,
-        "happiness": 48.556181597222235,
+        "happiness": 44.98130593750001,
         "gender": "👦",
         "nickname": "Sunshine Tú Linh"
       },
       {
         "name": "Huỳnh Khang",
         "birthDate": 1740113900211,
-        "happiness": 77.09776232638889,
+        "happiness": 73.52288666666666,
         "gender": "👦",
         "nickname": "Sunshine Huỳnh Khang"
       },
       {
         "name": "Như Ngọc",
         "birthDate": 1740646417072,
-        "happiness": 100,
+        "happiness": 96.42512434027778,
         "gender": "👦",
         "nickname": "Cưng Như Ngọc"
       }
     ],
     "home": null,
-    "happiness": 21.627554224537036,
-    "lastChecked": 1740646389143,
+    "happiness": 15.669428125,
+    "lastChecked": 1740749345562,
     "lastBaby": 1740646417072,
     "lastIntimate": 1740722738625,
     "isProposer": false,
-    "proposedBy": "Pham Minh Dang"
+    "proposedBy": "Pham Minh Dang",
+    "health": 100
   },
   "61564482366941": {
     "name": null,
@@ -393,7 +403,8 @@
     "lastBaby": 1740736513405,
     "lastIntimate": 1740737237262,
     "isProposer": false,
-    "proposedBy": "Dat Lee"
+    "proposedBy": "Dat Lee",
+    "health": 100
   },
   "100053857386814": {
     "name": null,
@@ -527,21 +538,21 @@
       {
         "name": "minh ngọc",
         "birthDate": 1739421084843,
-        "happiness": 51.376009861111115,
+        "happiness": 56.83877027777778,
         "gender": "👧",
         "nickname": "Sunshine minh ngọc"
       },
       {
         "name": "zeni junior",
         "birthDate": 1739706403460,
-        "happiness": 64.52197114583333,
+        "happiness": 69.9847315625,
         "gender": "👦",
         "nickname": "Bé zeni junior"
       },
       {
         "name": "tiểu Lai Bâng",
         "birthDate": 1740570684291,
-        "happiness": 94.53723958333333,
+        "happiness": 100,
         "gender": "👦",
         "nickname": "Sunshine tiểu Lai Bâng"
       }
@@ -552,7 +563,8 @@
     "lastBaby": 1740570684291,
     "lastIntimate": 1740570655924,
     "isProposer": true,
-    "proposedBy": null
+    "proposedBy": null,
+    "health": 100
   },
   "100089981373051": {
     "name": null,
@@ -648,7 +660,8 @@
     "lastBaby": 1740729768623,
     "lastIntimate": 1740729749575,
     "isProposer": false,
-    "proposedBy": "Mỹ Lệ"
+    "proposedBy": "Mỹ Lệ",
+    "health": 100
   },
   "100041316051795": {
     "name": null,
@@ -804,107 +817,164 @@
       {
         "name": "Lê Nguyên Vũ",
         "birthDate": 1739415566794,
-        "happiness": 44.39660562500001,
+        "happiness": 41.393823125000004,
         "gender": "👦",
         "nickname": "Yêu Lê Nguyên Vũ"
       },
       {
         "name": "Lê Như Nghĩa",
         "birthDate": 1739681664458,
-        "happiness": 56.710458923611114,
+        "happiness": 53.70767642361111,
         "gender": "👦",
         "nickname": "Yêu Lê Như Nghĩa"
       },
       {
         "name": "Lê Hạnh",
         "birthDate": 1740113913941,
-        "happiness": 71.71898986111111,
+        "happiness": 68.71620736111112,
         "gender": "👧",
         "nickname": "Yêu Lê Hạnh"
       },
       {
         "name": "Lê Bảo",
         "birthDate": 1740570170884,
-        "happiness": 96.74169104166667,
+        "happiness": 93.73890854166667,
         "gender": "👧",
         "nickname": "Cưng Lê Bảo"
       },
       {
         "name": "Lê Hùng",
         "birthDate": 1740629153060,
-        "happiness": 96.74169104166667,
+        "happiness": 93.73890854166667,
         "gender": "👦",
         "nickname": "Bé Lê Hùng"
       },
       {
         "name": "Lê Lếch",
         "birthDate": 1740635222606,
-        "happiness": 96.74169104166667,
+        "happiness": 93.73890854166667,
         "gender": "👧",
         "nickname": "Bé Lê Lếch"
       },
       {
         "name": "Lê Thô Sơ",
         "birthDate": 1740646459878,
-        "happiness": 96.74169104166667,
+        "happiness": 93.73890854166667,
         "gender": "👧",
         "nickname": "Cưng Lê Thô Sơ"
       },
       {
         "name": "Lê Tuấn Khang",
         "birthDate": 1740647355784,
-        "happiness": 96.74169104166667,
+        "happiness": 93.73890854166667,
         "gender": "👦",
         "nickname": "Cưng Lê Tuấn Khang"
       },
       {
         "name": "Lê Thị Bé Hai",
         "birthDate": 1740664007425,
-        "happiness": 100,
+        "happiness": 96.9972175,
         "gender": "👦",
         "nickname": "Angel Lê Thị Bé Hai"
       },
       {
         "name": "Lê Văn Tèo",
         "birthDate": 1740722094315,
-        "happiness": 100,
+        "happiness": 96.9972175,
         "gender": "👦",
         "nickname": "Angel Lê Văn Tèo"
       },
       {
         "name": "Lê Yellow",
         "birthDate": 1740733666846,
-        "happiness": 100,
+        "happiness": 96.9972175,
         "gender": "👧",
         "nickname": "Cưng Lê Yellow"
       },
       {
         "name": "Lê Thủ",
         "birthDate": 1740736293776,
-        "happiness": 100,
+        "happiness": 96.9972175,
         "gender": "👦",
         "nickname": "Angel Lê Thủ"
       },
       {
         "name": "Lê Văn Tèo",
         "birthDate": 1740738862304,
-        "happiness": 100,
+        "happiness": 96.9972175,
         "gender": "👦",
         "nickname": "Bé Lê Văn Tèo"
       },
       {
         "name": "Lê Min Ho",
         "birthDate": 1740743843213,
-        "happiness": 100,
+        "happiness": 96.9972175,
         "gender": "👦",
         "nickname": "Sunshine Lê Min Ho"
+      },
+      {
+        "name": "Lê Lợi",
+        "birthDate": 1740744681127,
+        "happiness": 96.9972175,
+        "gender": "👦",
+        "nickname": "Cưng Lê Lợi"
+      },
+      {
+        "name": "Lê Què",
+        "birthDate": 1740746190422,
+        "happiness": 96.9972175,
+        "gender": "👦",
+        "nickname": "Yêu Lê Què"
+      },
+      {
+        "name": "Lê Hàn Quốc",
+        "birthDate": 1740747188572,
+        "happiness": 96.9972175,
+        "gender": "👦",
+        "nickname": "Angel Lê Hàn Quốc"
+      },
+      {
+        "name": "Lê Việt Nam",
+        "birthDate": 1740747982132,
+        "happiness": 96.9972175,
+        "gender": "👦",
+        "nickname": "Cưng Lê Việt Nam"
+      },
+      {
+        "name": "Lê Nhật Bản",
+        "birthDate": 1740748864670,
+        "happiness": 96.9972175,
+        "gender": "👦",
+        "nickname": "Sunshine Lê Nhật Bản"
+      },
+      {
+        "name": "Lê KiWi",
+        "birthDate": 1740749992447,
+        "happiness": 96.9972175,
+        "gender": "👦",
+        "nickname": "Bé Lê KiWi"
+      },
+      {
+        "name": "Lê Vũ Phu",
+        "birthDate": 1740750643332,
+        "happiness": 100,
+        "gender": "👦",
+        "nickname": "Cưng Lê Vũ Phu"
+      },
+      {
+        "id": "1740751486931",
+        "name": "Lê Trung Quốc",
+        "birthDate": 1740751486931,
+        "happiness": 100,
+        "gender": "👦",
+        "nickname": "Bé Lê Trung Quốc"
       }
     ],
     "home": null,
-    "happiness": 75.49668298611113,
-    "lastChecked": 1740663983255,
-    "lastBaby": 1740743843213,
-    "lastIntimate": 1740743822429,
+    "happiness": 100,
+    "lastChecked": 1740750463392,
+    "lastBaby": 1740751486932,
+    "lastIntimate": 1740751477090,
     "isProposer": true,
     "proposedBy": null,
     "contraceptiveUntil": 1740647924221,
@@ -998,107 +1068,164 @@
       {
         "name": "Lê Nguyên Vũ",
         "birthDate": 1739415566794,
-        "happiness": 44.39660562500001,
+        "happiness": 41.393823125000004,
         "gender": "👦",
         "nickname": "Yêu Lê Nguyên Vũ"
       },
       {
         "name": "Lê Như Nghĩa",
         "birthDate": 1739681664458,
-        "happiness": 56.710458923611114,
+        "happiness": 53.70767642361111,
         "gender": "👦",
         "nickname": "Yêu Lê Như Nghĩa"
       },
       {
         "name": "Lê Hạnh",
         "birthDate": 1740113913941,
-        "happiness": 71.71898986111111,
+        "happiness": 68.71620736111112,
         "gender": "👧",
         "nickname": "Yêu Lê Hạnh"
       },
       {
         "name": "Lê Bảo",
         "birthDate": 1740570170884,
-        "happiness": 96.74169104166667,
+        "happiness": 93.73890854166667,
         "gender": "👧",
         "nickname": "Cưng Lê Bảo"
       },
       {
         "name": "Lê Hùng",
         "birthDate": 1740629153060,
-        "happiness": 96.74169104166667,
+        "happiness": 93.73890854166667,
         "gender": "👦",
         "nickname": "Bé Lê Hùng"
       },
       {
         "name": "Lê Lếch",
         "birthDate": 1740635222606,
-        "happiness": 96.74169104166667,
+        "happiness": 93.73890854166667,
         "gender": "👧",
         "nickname": "Bé Lê Lếch"
       },
       {
         "name": "Lê Thô Sơ",
         "birthDate": 1740646459878,
-        "happiness": 96.74169104166667,
+        "happiness": 93.73890854166667,
         "gender": "👧",
         "nickname": "Cưng Lê Thô Sơ"
       },
       {
         "name": "Lê Tuấn Khang",
         "birthDate": 1740647355784,
-        "happiness": 96.74169104166667,
+        "happiness": 93.73890854166667,
         "gender": "👦",
         "nickname": "Cưng Lê Tuấn Khang"
       },
       {
         "name": "Lê Thị Bé Hai",
         "birthDate": 1740664007425,
-        "happiness": 100,
+        "happiness": 96.9972175,
         "gender": "👦",
         "nickname": "Angel Lê Thị Bé Hai"
       },
       {
         "name": "Lê Văn Tèo",
         "birthDate": 1740722094315,
-        "happiness": 100,
+        "happiness": 96.9972175,
         "gender": "👦",
         "nickname": "Angel Lê Văn Tèo"
       },
       {
         "name": "Lê Yellow",
         "birthDate": 1740733666846,
-        "happiness": 100,
+        "happiness": 96.9972175,
         "gender": "👧",
         "nickname": "Cưng Lê Yellow"
       },
       {
         "name": "Lê Thủ",
         "birthDate": 1740736293776,
-        "happiness": 100,
+        "happiness": 96.9972175,
         "gender": "👦",
         "nickname": "Angel Lê Thủ"
       },
       {
         "name": "Lê Văn Tèo",
         "birthDate": 1740738862304,
-        "happiness": 100,
+        "happiness": 96.9972175,
         "gender": "👦",
         "nickname": "Bé Lê Văn Tèo"
       },
       {
         "name": "Lê Min Ho",
         "birthDate": 1740743843213,
-        "happiness": 100,
+        "happiness": 96.9972175,
         "gender": "👦",
         "nickname": "Sunshine Lê Min Ho"
+      },
+      {
+        "name": "Lê Lợi",
+        "birthDate": 1740744681127,
+        "happiness": 96.9972175,
+        "gender": "👦",
+        "nickname": "Cưng Lê Lợi"
+      },
+      {
+        "name": "Lê Què",
+        "birthDate": 1740746190422,
+        "happiness": 96.9972175,
+        "gender": "👦",
+        "nickname": "Yêu Lê Què"
+      },
+      {
+        "name": "Lê Hàn Quốc",
+        "birthDate": 1740747188572,
+        "happiness": 96.9972175,
+        "gender": "👦",
+        "nickname": "Angel Lê Hàn Quốc"
+      },
+      {
+        "name": "Lê Việt Nam",
+        "birthDate": 1740747982132,
+        "happiness": 96.9972175,
+        "gender": "👦",
+        "nickname": "Cưng Lê Việt Nam"
+      },
+      {
+        "name": "Lê Nhật Bản",
+        "birthDate": 1740748864670,
+        "happiness": 96.9972175,
+        "gender": "👦",
+        "nickname": "Sunshine Lê Nhật Bản"
+      },
+      {
+        "name": "Lê KiWi",
+        "birthDate": 1740749992447,
+        "happiness": 96.9972175,
+        "gender": "👦",
+        "nickname": "Bé Lê KiWi"
+      },
+      {
+        "name": "Lê Vũ Phu",
+        "birthDate": 1740750643332,
+        "happiness": 100,
+        "gender": "👦",
+        "nickname": "Cưng Lê Vũ Phu"
+      },
+      {
+        "id": "1740751486931",
+        "name": "Lê Trung Quốc",
+        "birthDate": 1740751486931,
+        "happiness": 100,
+        "gender": "👦",
+        "nickname": "Bé Lê Trung Quốc"
       }
     ],
     "home": null,
-    "happiness": 75.49668298611113,
+    "happiness": 100,
     "lastChecked": 1740113893772,
-    "lastBaby": 1740743843213,
-    "lastIntimate": 1740743822438,
+    "lastBaby": 1740751486932,
+    "lastIntimate": 1740751477100,
     "isProposer": false,
     "proposedBy": "Ủa Alo",
     "contraceptiveUntil": 1740647924221,
@@ -1161,13 +1288,6 @@
     "name": null,
     "spouse": "100000349406075",
     "children": [
-      {
-        "name": "minh ngọc",
-        "birthDate": 1739421084843,
-        "happiness": 56.83877027777778,
-        "gender": "👧",
-        "nickname": "Sunshine minh ngọc"
-      },
       {
         "name": "zeni junior",
         "birthDate": 1739706403460,
@@ -1426,7 +1546,8 @@
     "lastBaby": 1740719760039,
     "lastIntimate": 1740719748454,
     "isProposer": true,
-    "proposedBy": null
+    "proposedBy": null,
+    "health": 100
   },
   "100081531933825": {
     "name": null,
@@ -1505,20 +1626,20 @@
       {
         "name": "hoàng mỹ ngọc",
         "birthDate": 1739987140283,
-        "happiness": 74.5537392013889,
+        "happiness": 48.087023645833334,
         "gender": "👧",
         "nickname": "Angel hoàng mỹ ngọc"
       },
       {
         "name": "hoàng trúc",
         "birthDate": 1740719760039,
-        "happiness": 100,
+        "happiness": 73.53328444444443,
         "gender": "👦",
         "nickname": "Angel hoàng trúc"
       }
     ],
-    "happiness": 100,
-    "lastChecked": 1739987015161,
+    "happiness": 55.888807407407405,
+    "lastChecked": 1740749256569,
     "lastBaby": 1740719760039,
     "lastIntimate": 1740719748461,
     "isProposer": false,
@@ -1535,7 +1656,8 @@
     "isProposer": false,
     "proposedBy": "Anh Khoaa",
     "hasCustody": true,
-    "contraceptiveUntil": 1740739537540
+    "contraceptiveUntil": 1740739537540,
+    "health": 100
   },
   "100084029703152": {
     "name": null,
@@ -1613,14 +1735,24 @@
   "100028202556430": {
     "name": null,
     "spouse": "61573427362389",
-    "children": [],
+    "children": [
+      {
+        "id": "1740751646336",
+        "name": "Hoàng Ngọc Trai",
+        "birthDate": 1740751646336,
+        "happiness": 100,
+        "gender": "👦",
+        "nickname": "Bé Hoàng Ngọc Trai"
+      }
+    ],
     "happiness": 100,
     "lastChecked": 1740735443052,
-    "lastBaby": 1739985557607,
-    "lastIntimate": 1740737042146,
+    "lastBaby": 1740751646337,
+    "lastIntimate": 1740751629611,
     "isProposer": false,
     "proposedBy": "Ngọc Từ",
-    "contraceptiveUntil": 1740737636193
+    "contraceptiveUntil": 1740737636193,
+    "health": 100
   },
   "61565876274721": {
     "name": null,
@@ -1646,5 +1778,20 @@
     },
     "isProposer": false,
     "proposedBy": "Jehug Wrey"
+  },
+  "6589198804475799": {
+    "name": null,
+    "spouse": null,
+    "children": [],
+    "happiness": 50,
+    "health": 100,
+    "lastChecked": 1740749094098,
+    "lastBaby": 0,
+    "lastIntimate": 0,
+    "insurance": {
+      "active": false,
+      "expiresAt": 0,
+      "discount": 0
+    }
   }
 }

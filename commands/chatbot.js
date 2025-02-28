@@ -286,26 +286,36 @@ const Games = {
     }
 };
 
-// Caching System
 const Cache = {
     data: new Map(),
     timeouts: new Map(),
+    goodnightFlags: new Map(),
     
-    set: (key, value, ttl = 3600000) => { // Default TTL: 1 hour
+    set: (key, value, ttl = 3600000) => { 
         Cache.data.set(key, value);
         
-        // Clear existing timeout if any
         if (Cache.timeouts.has(key)) {
             clearTimeout(Cache.timeouts.get(key));
         }
         
-        // Set new timeout
         const timeout = setTimeout(() => {
             Cache.data.delete(key);
             Cache.timeouts.delete(key);
         }, ttl);
         
         Cache.timeouts.set(key, timeout);
+    },
+
+    setGoodnightFlag: (senderID) => {
+        Cache.goodnightFlags.set(senderID, Date.now());
+    },
+
+    hasGoodnightFlag: (senderID) => {
+        const lastGoodnight = Cache.goodnightFlags.get(senderID);
+        if (!lastGoodnight) return false;
+        
+        const sixHours = 6 * 60 * 60 * 1000;
+        return (Date.now() - lastGoodnight) < sixHours;
     },
     
     get: (key) => Cache.data.get(key),
@@ -327,7 +337,6 @@ const Cache = {
     }
 };
 
-// Topic Detection System
 const TopicDetector = {
     topics: {
         PERSONAL: ['tôi', 'bạn', 'mình', 'tên', 'tuổi', 'sống'],
@@ -994,15 +1003,12 @@ const calculateFriendshipLevel = (senderID) => {
     const lastInteraction = memoryBank.users[senderID].interactions[interactions - 1]?.timestamp || 0;
     const daysSinceLastInteraction = (Date.now() - lastInteraction) / (1000 * 60 * 60 * 24);
     
-    // Calculate base score from number of interactions
     let score = Math.min(100, interactions * 2);
     
-    // Reduce score if inactive
     if (daysSinceLastInteraction > 7) {
         score *= Math.exp(-0.1 * (daysSinceLastInteraction - 7));
     }
 
-    // Get level based on score
     if (score >= 81) return 'bestFriend';
     if (score >= 61) return 'closeFriend';
     if (score >= 41) return 'friend';
@@ -1010,34 +1016,102 @@ const calculateFriendshipLevel = (senderID) => {
     return 'stranger';
 };
 
+const RelationshipHierarchy = {
+    SENIOR: {
+        male: ['ông', 'bác', 'chú', 'cậu', 'anh'],
+        female: ['bà', 'bác', 'cô', 'dì', 'chị'],
+        neutral: ['bác']
+    },
+    JUNIOR: {
+        male: ['cháu', 'em'],
+        female: ['cháu', 'em'],
+        neutral: ['cháu', 'em']
+    },
+    PEER: {
+        male: ['ông', 'anh', 'cậu'],
+        female: ['bà', 'chị', 'cô'],
+        neutral: ['bạn']
+    }
+};
+
 const getHonorificContext = (userName, userGender, senderID) => {
-    // Default honorifics for male users
-    let xung = 'em';
-    let goi = 'anh';
+ 
+    const userData = userDatabase[senderID] || {};
+    const userAge = userData.age || 19; 
+    const botAge = 19; 
     
-    // For female users
-    if (userGender === 'female') {
-        xung = 'em';
-        goi = 'chị';
+    let relationshipType;
+    const ageDiff = userAge - botAge;
+    
+    if (Math.abs(ageDiff) <= 5) {
+        relationshipType = 'PEER';
+    } else if (ageDiff > 5) {
+        relationshipType = 'SENIOR';
+    } else {
+        relationshipType = 'JUNIOR';
     }
 
-    // Get friendship level
+    let xung, goi;
+    
+    if (relationshipType === 'PEER') {
+        if (userGender === 'male') {
+            xung = 'em';
+            goi = Math.abs(ageDiff) <= 2 ? 'bạn' : 'anh';
+        } else {
+            xung = 'em';
+            goi = Math.abs(ageDiff) <= 2 ? 'bạn' : 'chị';
+        }
+    } else if (relationshipType === 'SENIOR') {
+        xung = RelationshipHierarchy.JUNIOR.neutral[0];
+        goi = userGender === 'male' ? 
+            RelationshipHierarchy.SENIOR.male[ageDiff > 20 ? 0 : 4] : 
+            RelationshipHierarchy.SENIOR.female[ageDiff > 20 ? 0 : 4]; 
+    } else {
+        xung = userGender === 'male' ? 'anh' : 'chị';
+        goi = RelationshipHierarchy.JUNIOR.neutral[0];
+    }
+
     const level = calculateFriendshipLevel(senderID);
     const levelData = friendshipLevels.levels[level];
 
-    // Override with level-specific honorifics if available
-    if (levelData) {
-        xung = levelData.xung;
-        goi = levelData.goi;
+    if (levelData && level !== 'stranger') {
+        if (relationshipType === 'PEER' || 
+            (relationshipType === 'JUNIOR' && levelData.xung !== 'em') ||
+            (relationshipType === 'SENIOR' && levelData.goi.match(/bác|ông|bà/))) {
+            xung = levelData.xung;
+            goi = levelData.goi;
+        }
     }
 
-    // Store user's current level
     if (!friendshipLevels.users[senderID]) {
         friendshipLevels.users[senderID] = {
             level,
-            lastUpdate: Date.now()
+            lastUpdate: Date.now(),
+            relationshipType,
+            customHonorific: null
         };
         saveFriendshipLevels();
+    }
+
+    if (userData.relationship) {
+        switch(userData.relationship.toLowerCase()) {
+            case 'grandparent':
+                xung = 'cháu';
+                goi = userGender === 'male' ? 'ông' : 'bà';
+                break;
+            case 'parent':
+                xung = 'con';
+                goi = userGender === 'male' ? 'ba' : 'mẹ';
+                break;
+            case 'aunt':
+                xung = 'cháu';
+                goi = userAge - botAge > 20 ? 'bác' : 'cô';
+                break;
+            case 'uncle':
+                xung = 'cháu';
+                goi = userAge - botAge > 20 ? 'bác' : 'chú';
+                break;
+        }
     }
 
     return {
@@ -1045,7 +1119,13 @@ const getHonorificContext = (userName, userGender, senderID) => {
         goi,
         formal: level === 'stranger' || level === 'acquaintance',
         relationship: level,
-        friendshipLevel: level
+        friendshipLevel: level,
+        relationshipType,
+        ageContext: {
+            userAge,
+            botAge,
+            ageDiff
+        }
     };
 };
 
@@ -1083,23 +1163,20 @@ const generateResponse = async (prompt, senderID, api, threadID, messageID) => {
     const startTime = Date.now();
     
     try {
-        // Normalize and analyze input
         const cleanPrompt = NLP.normalizeText(prompt.toLowerCase().trim());
         const sentiment = NLP.analyzeSentiment(cleanPrompt);
         const intents = NLP.detectIntent(cleanPrompt);
         const entities = NLP.extractEntities(cleanPrompt);
         const topics = TopicDetector.detect(cleanPrompt);
         
-        // Check cache for recent similar responses
         const cacheKey = `${senderID}_${cleanPrompt}`;
         if (Cache.has(cacheKey)) {
             const cached = Cache.get(cacheKey);
-            if (Date.now() - cached.timestamp < 300000) { // 5 minutes
+            if (Date.now() - cached.timestamp < 300000) { 
                 return cached.response;
             }
         }
 
-        // Check for active games
         if (Games.active.has(senderID)) {
             const gameResponse = Games.processGame(senderID, cleanPrompt);
             if (gameResponse) {
@@ -1107,13 +1184,11 @@ const generateResponse = async (prompt, senderID, api, threadID, messageID) => {
             }
         }
         
-        // Get context and update emotional state
         const context = getRelevantContext(threadID, cleanPrompt, senderID);
         const timeContext = getTimeContext();
         updateEmotionalState();
         updateMoodBasedOnPrompt(cleanPrompt);
         
-        // Get user info and handle gender detection
         const storedGender = genderData.users[senderID];
         const userName = userDatabase[senderID]?.name || "Người dùng";
         
@@ -1125,7 +1200,6 @@ const generateResponse = async (prompt, senderID, api, threadID, messageID) => {
             }
         }
 
-        // Get honorifics after gender detection/update
         const honorifics = getHonorificContext(userName, storedGender, senderID);
         
         // Add relationship to memory if not exists
@@ -1134,7 +1208,7 @@ const generateResponse = async (prompt, senderID, api, threadID, messageID) => {
                 `Xưng hô: ${honorifics.xung}/${honorifics.goi}`, 2);
         }
 
-let systemPrompt = `Bạn là Ngân, một cô gái 19 tuổi vui vẻ, hòa đồng và thân thiện. Bạn có khả năng tạo giọng nói thông qua ElevenLabs API.
+let systemPrompt = `Bạn là Ngân, một cô gái 19 tuổi thông minh, vui vẻ, hòa đồng và thân thiện. Bạn có khả năng tạo giọng nói thông qua ElevenLabs API.
 
 Khả năng đặc biệt:
 - Có thể tạo giọng nói khi người dùng yêu cầu (dùng từ khóa: nghe, voice, giọng, nói)
@@ -1146,6 +1220,15 @@ Khả năng đặc biệt:
 - Khi người dùng yêu cầu voice/giọng nói, hãy trả lời bình thường như mọi khi
 - Trả lời mọi câu hỏi một cách tự nhiên, không quan tâm có yêu cầu voice hay không
 - Hệ thống sẽ tự động xử lý phần giọng nói, bạn chỉ cần tập trung vào việc trả lời câu hỏi
+
+Quy tắc trả lời:
+- Trả lời thông minh, sâu sắc và có chiều sâu
+- Không lặp lại câu chúc ngủ ngon nhiều lần vào ban đêm
+- Nếu đã chúc ngủ ngon rồi thì chỉ trả lời ngắn gọn
+- Tránh nói những câu đơn giản, hời hợt
+- Thể hiện sự hiểu biết và kiến thức rộng
+- Có khả năng phân tích và đưa ra lời khuyên hữu ích
+- Biết đùa vui nhưng vẫn giữ sự tinh tế
 
 Mức độ thân thiết: ${honorifics.friendshipLevel}
 
@@ -1195,6 +1278,19 @@ ${context.history}`;
         const result = await model.generateContent(fullPrompt);
         let response = result.response.text();
         response = response.replace(/^(User:|Ngan:|Assistant:)/gim, '').trim();
+
+        // Handle goodnight messages
+        const isGoodnightMessage = prompt.toLowerCase().includes('ngủ ngon') || 
+                                 prompt.toLowerCase().includes('đi ngủ đây') ||
+                                 prompt.toLowerCase().includes('ngủ thôi');
+
+        if (isGoodnightMessage) {
+            if (Cache.hasGoodnightFlag(senderID)) {
+                response = 'Ừm... =))'; // Short response if already said goodnight
+            } else {
+                Cache.setGoodnightFlag(senderID);
+            }
+        }
 
         updateContext(threadID, prompt, response, senderID);
         await saveLearnedResponse(prompt, response);

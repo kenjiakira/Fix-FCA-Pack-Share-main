@@ -1,11 +1,15 @@
 const fs = require('fs');
 const path = require('path');
 const HomeSystem = require('./HomeSystem');
+const EducationSystem = require('./EducationSystem');
+const ChildJobSystem = require('./ChildJobSystem');
 const TravelSystem = require('./TravelSystem');
 
 class FamilySystem {
     constructor() {
         this.homeSystem = new HomeSystem();
+        this.educationSystem = new EducationSystem();
+        this.childJobSystem = new ChildJobSystem();
         this.travelSystem = new TravelSystem();
         this.healthDecayInterval = 24 * 60 * 60 * 1000; 
         this.healthDecayAmount = 5;
@@ -194,12 +198,16 @@ class FamilySystem {
         if (!family.spouse) throw new Error("Bạn cần kết hôn trước!");
         
         const child = {
+            id: Date.now().toString(),
             name: childName,
             birthDate: Date.now(),
             happiness: 100,
             gender: Math.random() < 0.5 ? "👦" : "👧",
             nickname: this.generateNickname(childName)
         };
+
+        // Register child for passive income
+        this.childJobSystem.registerChild(child);
 
         family.children.push(child);
         family.lastBaby = Date.now();

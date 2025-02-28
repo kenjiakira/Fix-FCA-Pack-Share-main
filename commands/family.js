@@ -35,12 +35,15 @@ module.exports = {
                     "3. divorce - Ly hôn\n" +
                     "4. love - Động phòng\n" +
                     "5. rename [số thứ tự] [tên mới] - Đổi tên con\n" +
-                    "6. temple [số thứ tự] - Gửi con vào chùa tu hành\n\n" +
+                    "6. temple [số thứ tự] - Gửi con vào chùa tu hành\n" +
                     "7. shop - Mua thuốc, BHYT và BCS\n" +
                     "8. buy [id] - Mua vật phẩm\n" +
                     "9. health - Xem tình trạng sức khỏe\n" +
                     "10. home - Quản lý nhà cửa\n" +
-                    "11. travel - Du lịch cùng gia đình\n\n" +
+                    "11. travel - Du lịch cùng gia đình\n" +
+                    "12. collect [số thứ tự] - Thu tiền cho con\n" +
+                    "13. study - Học hành cho con cái\n" +
+                    "14. work [số thứ tự] - Xin việc cho con\n\n" +
                     "━━━━━━━━━━━━━━━━━━\n" +
                     "📝 CÁC LỆNH LIÊN QUAN:\n" +
                     "• .garage - Quản lý xe cộ\n" +
@@ -81,11 +84,22 @@ module.exports = {
                     let childrenDisplay = "";
                     if (Array.isArray(childrenInfo) && childrenInfo.length > 0) {
                         childrenDisplay = "╠═ 👶CON CÁI\n" +
-                            childrenInfo.map((child, index) => 
-                                `║  ▸ ${index + 1}. ${child.gender} ${child.name}\n` +
-                                `║    └ Tuổi: ${child.age}\n` +
-                                `║    └ Hạnh phúc: ${child.happiness}%`
-                            ).join("\n") + "\n║\n";
+                            childrenInfo.map((child, index) => {
+                                const jobInfo = familySystem.childJobSystem.getChildJobInfo(child.id);
+                                let display = `║  ▸ ${index + 1}. ${child.gender} ${child.name}\n` +
+                                            `║    └ Tuổi: ${child.age}\n` +
+                                            `║    └ Hạnh phúc: ${child.happiness}%`;
+                                
+                                if (jobInfo) {
+                                    display += `\n║    └ Thu nhập: ${formatNumber(jobInfo.baseIncome)} xu/6h`;
+                                    if (jobInfo.pendingIncome > 0) {
+                                        display += `\n║    └ Đang chờ: ${formatNumber(jobInfo.pendingIncome)} xu`;
+                                        display += `\n║    └ Cập nhật sau: ${jobInfo.nextUpdate} phút`;
+                                    }
+                                }
+                                
+                                return display;
+                            }).join("\n") + "\n║\n";
                     }
 
                     return api.sendMessage(
@@ -338,6 +352,180 @@ module.exports = {
                     }
                 }
 
+                case "study": {
+                    if (!subCommand) {
+                        return api.sendMessage(
+                            "📚 GIÁO DỤC CON CÁI 📚\n" +
+                            "━━━━━━━━━━━━━━━━━━\n\n" +
+                            "1. .family study list - Xem danh sách trường\n" +
+                            "2. .family study enroll [số thứ tự] [trường] - Đăng ký học\n" +
+                            "3. .family study learn [số thứ tự] - Cho con học bài\n" +
+                            "4. .family study report [số thứ tự] - Xem học bạ\n" +
+                            "5. .family study graduate [số thứ tự] - Xét tốt nghiệp\n\n" +
+                            "💡 Các cấp học:\n" +
+                            "• primary - Tiểu học (6-11 tuổi)\n" +
+                            "• secondary - THCS (11-15 tuổi)\n" +
+                            "• highschool - THPT (15-18 tuổi)",
+                            threadID
+                        );
+                    }
+
+                    const childIndex = parseInt(target[2]) - 1;
+                    const children = familySystem.getChildInfo(senderID);
+
+                    if (["enroll", "learn", "report", "graduate"].includes(subCommand) && 
+                        (isNaN(childIndex) || !children || childIndex < 0 || childIndex >= children.length)) {
+                        return api.sendMessage(
+                            "❌ Số thứ tự con không hợp lệ!\n" +
+                            "💡 Xem danh sách: .family info",
+                            threadID
+                        );
+                    }
+
+                    switch (subCommand) {
+                        case "list": {
+                            const schools = familySystem.educationSystem.schools;
+                            let message = "🏫 DANH SÁCH TRƯỜNG HỌC 🏫\n━━━━━━━━━━━━━━━━━━\n\n";
+                            
+                            Object.entries(schools).forEach(([type, school]) => {
+                                message += `${school.name}\n`;
+                                message += `📝 Độ tuổi: ${school.minAge}-${school.maxAge}\n`;
+                                message += `⏰ Thời gian học: ${school.duration} năm\n`;
+                                message += `💰 Học phí: ${formatNumber(school.cost)} xu/năm\n`;
+                                message += `📚 Môn học: ${school.subjects.join(", ")}\n`;
+                                message += `💡 Đăng ký: .family study enroll [số thứ tự] ${type}\n\n`;
+                            });
+
+                            return api.sendMessage(message, threadID);
+                        }
+
+                        case "enroll": {
+                            const schoolType = target[3]?.toLowerCase();
+                            if (!schoolType) {
+                                return api.sendMessage(
+                                    "❌ Vui lòng chọn trường!\n" +
+                                    "💡 Xem danh sách: .family study list",
+                                    threadID
+                                );
+                            }
+
+                            try {
+                                const child = children[childIndex];
+                                const school = familySystem.educationSystem.schools[schoolType];
+                                
+                                if (!school) {
+                                    return api.sendMessage("❌ Trường học không hợp lệ!", threadID);
+                                }
+
+                                const balance = await getBalance(senderID);
+                                if (balance < school.cost) {
+                                    return api.sendMessage(
+                                        `❌ Bạn cần ${formatNumber(school.cost)} xu để đóng học phí!\n` +
+                                        `💰 Hiện có: ${formatNumber(balance)} xu`,
+                                        threadID
+                                    );
+                                }
+
+                                const education = await familySystem.educationSystem.enrollInSchool(child, schoolType);
+                                await updateBalance(senderID, -school.cost);
+
+                                return api.sendMessage(
+                                    `📚 Đã đăng ký cho ${child.gender} ${child.name} vào ${school.name}!\n` +
+                                    `💰 Học phí: ${formatNumber(school.cost)} xu/năm\n` +
+                                    `⏰ Thời gian học: ${school.duration} năm\n` +
+                                    `📝 Các môn học: ${school.subjects.join(", ")}\n\n` +
+                                    `💡 Kiểm tra: .family study report ${childIndex + 1}`,
+                                    threadID
+                                );
+                            } catch (error) {
+                                return api.sendMessage(`❌ ${error.message}`, threadID);
+                            }
+                        }
+
+                        case "learn": {
+                            try {
+                                const child = children[childIndex];
+                                const result = await familySystem.educationSystem.study(child);
+                                
+                                let message = `📚 ${child.gender} ${child.name} đã học bài!\n\n`;
+                                
+                                if (result.grades) {
+                                    const subject = Object.values(result.grades)[0];
+                                    message += `📖 Môn ${subject.name}: +${subject.improvement} điểm\n`;
+                                }
+                                
+                                message += `🧠 Trí tuệ: +${result.intelligence.toFixed(1)}%\n`;
+                                message += `💕 Hạnh phúc: +${result.happiness.toFixed(1)}%`;
+                                
+                                return api.sendMessage(message, threadID);
+                            } catch (error) {
+                                return api.sendMessage(`❌ ${error.message}`, threadID);
+                            }
+                        }
+
+                        case "report": {
+                            try {
+                                const child = children[childIndex];
+                                const report = familySystem.educationSystem.getReport(child);
+                                
+                                if (!report) {
+                                    return api.sendMessage(
+                                        `❌ ${child.gender} ${child.name} chưa đi học!`,
+                                        threadID
+                                    );
+                                }
+
+                                let message = `📚 HỌC BẠ 📚\n`;
+                                message += `👶 ${child.gender} ${child.name}\n`;
+                                message += `🏫 ${report.schoolName}\n`;
+                                message += `📖 Năm học thứ ${report.year}\n\n`;
+                                message += "╔═ BẢNG ĐIỂM ═╗\n";
+                                
+                                Object.entries(report.grades).forEach(([subject, grade]) => {
+                                    message += `║ ${subject}: ${grade.score.toFixed(1)}\n`;
+                                });
+                                
+                                message += "╠═════════════╣\n";
+                                message += `║ Trung bình: ${report.averageGrade}\n`;
+                                message += `║ Xếp loại: ${report.ranking}\n`;
+                                message += `║ Chuyên cần: ${report.attendance}%\n`;
+                                message += `║ Hạnh kiểm: ${report.behavior}\n`;
+                                message += "╚═════════════╝";
+                                
+                                return api.sendMessage(message, threadID);
+                            } catch (error) {
+                                return api.sendMessage(`❌ ${error.message}`, threadID);
+                            }
+                        }
+
+                        case "graduate": {
+                            try {
+                                const child = children[childIndex];
+                                const result = await familySystem.educationSystem.graduate(child);
+                                
+                                return api.sendMessage(
+                                    `🎓 CHÚC MỪNG TỐT NGHIỆP! 🎓\n\n` +
+                                    `👶 ${child.gender} ${child.name}\n` +
+                                    `🏫 ${result.schoolName}\n` +
+                                    `📖 Thời gian học: ${result.duration} năm\n` +
+                                    `📊 Điểm trung bình: ${result.averageGrade}\n\n` +
+                                    `💝 Chúc mừng con đã hoàn thành chương trình học!`,
+                                    threadID
+                                );
+                            } catch (error) {
+                                return api.sendMessage(`❌ ${error.message}`, threadID);
+                            }
+                        }
+
+                        default:
+                            return api.sendMessage(
+                                "❌ Lệnh không hợp lệ!\n" +
+                                "💡 Sử dụng: .family study [list/enroll/learn/report/graduate]",
+                                threadID
+                            );
+                    }
+                }
+
                 case "shop": {
                     const { CONTRACEPTIVES, MEDICINES, INSURANCE } = require('../config/family/familyConfig');
                     
@@ -521,6 +709,146 @@ module.exports = {
                             }
                             
                             return api.sendMessage(message, threadID);
+                    }
+                }
+
+                case "work": {
+                    if (!subCommand) {
+                        return api.sendMessage(
+                            "💼 VIỆC LÀM CHO CON 💼\n" +
+                            "━━━━━━━━━━━━━━━━━━\n\n" +
+                            "1. .family work list - Xem danh sách việc làm\n" +
+                            "2. .family work [số thứ tự] - Xem việc làm cho con\n" +
+                            "3. .family work [số thứ tự] [id việc] - Nhận việc cho con\n\n" +
+                            "💡 Các loại việc làm:\n" +
+                            "• Phụ bán hàng (13-15 tuổi)\n" +
+                            "• Phụ việc nhà (13-16 tuổi)\n" +
+                            "• Gia sư (16-18 tuổi)\n" +
+                            "• Phụ việc văn phòng (16-18 tuổi)\n\n" +
+                            "💡 Lưu ý:\n" +
+                            "• Con cần đủ 13 tuổi để đi làm\n" +
+                            "• Thu nhập được trả mỗi 6 giờ\n" +
+                            "• Thu tiền bằng lệnh .family collect",
+                            threadID
+                        );
+                    }
+
+                    if (subCommand === "list") {
+                        const jobs = familySystem.childJobSystem.getAllJobs();
+                        let message = "💼 DANH SÁCH VIỆC LÀM 💼\n━━━━━━━━━━━━━━━━━━\n\n";
+                        
+                        Object.entries(jobs).forEach(([id, job], idx) => {
+                            message += `${idx + 1}. ${job.name}\n`;
+                            message += `💰 Thu nhập: ${formatNumber(job.baseIncome)} xu/6h\n`;
+                            message += `📝 ${job.description}\n`;
+                            message += `⏰ Độ tuổi: ${job.minAge}-${job.maxAge}\n`;
+                            message += `💡 ID: ${id}\n\n`;
+                        });
+
+                        message += "Cách sử dụng:\n";
+                        message += "• Xem việc: .family work [số thứ tự con]\n";
+                        message += "• Nhận việc: .family work [số thứ tự con] [id việc]";
+
+                        return api.sendMessage(message, threadID);
+                    }
+
+                    const index = parseInt(subCommand) - 1;
+                    const children = familySystem.getChildInfo(senderID);
+
+                    if (isNaN(index) || !children || index < 0 || index >= children.length) {
+                        return api.sendMessage(
+                            "❌ Số thứ tự con không hợp lệ!\n" +
+                            "💡 Xem danh sách: .family info",
+                            threadID
+                        );
+                    }
+
+                    try {
+                        const child = children[index];
+                        const jobs = familySystem.childJobSystem.getAvailableJobs(child.age);
+                        
+                        if (!jobs || jobs.length === 0) {
+                            return api.sendMessage(
+                                `❌ ${child.gender} ${child.name} chưa đủ tuổi để đi làm!\n` +
+                                `💡 Con cần đủ 13 tuổi để đi làm`,
+                                threadID
+                            );
+                        }
+
+                        let message = `💼 DANH SÁCH CÔNG VIỆC 💼\n`;
+                        message += `👶 ${child.gender} ${child.name} (${child.age} tuổi)\n\n`;
+                        
+                        jobs.forEach((job, idx) => {
+                            message += `${idx + 1}. ${job.name}\n`;
+                            message += `💰 Thu nhập: ${formatNumber(job.baseIncome)} xu/6h\n`;
+                            message += `📝 ${job.description}\n`;
+                            message += `⏰ Độ tuổi: ${job.minAge}-${job.maxAge}\n`;
+                            message += `💡 Nhận việc: .family work ${index + 1} ${idx + 1}\n\n`;
+                        });
+
+                        if (target[2]) {
+                            const jobIndex = parseInt(target[2]) - 1;
+                            if (isNaN(jobIndex) || jobIndex < 0 || jobIndex >= jobs.length) {
+                                return api.sendMessage(
+                                    "❌ Công việc không hợp lệ!\n" +
+                                    "💡 Vui lòng chọn công việc từ danh sách",
+                                    threadID
+                                );
+                            }
+
+                            const job = jobs[jobIndex];
+                            await familySystem.childJobSystem.assignJob(child.id, job);
+
+                            return api.sendMessage(
+                                `✨ ${child.gender} ${child.name} đã nhận việc ${job.name}!\n` +
+                                `💰 Thu nhập: ${formatNumber(job.baseIncome)} xu/6h\n` +
+                                `⏰ Thu nhập đầu tiên sau: 6 giờ\n` +
+                                `💡 Thu tiền: .family collect ${index + 1}`,
+                                threadID
+                            );
+                        }
+
+                        return api.sendMessage(message, threadID);
+                    } catch (error) {
+                        return api.sendMessage(`❌ ${error.message}`, threadID);
+                    }
+                }
+
+                case "collect": {
+                    const index = parseInt(subCommand) - 1;
+                    const children = familySystem.getChildInfo(senderID);
+
+                    if (isNaN(index) || !children || index < 0 || index >= children.length) {
+                        return api.sendMessage(
+                            "❌ Số thứ tự con không hợp lệ!\n" +
+                            "💡 Xem danh sách: .family info",
+                            threadID
+                        );
+                    }
+
+                    try {
+                        const child = children[index];
+                        const jobInfo = familySystem.childJobSystem.getChildJobInfo(child.id);
+                        
+                        if (!jobInfo || !jobInfo.pendingIncome) {
+                            return api.sendMessage(
+                                `❌ ${child.gender} ${child.name} chưa có thu nhập để thu!\n` +
+                                `💡 Thu nhập sẽ được cập nhật mỗi 6 giờ`,
+                                threadID
+                            );
+                        }
+
+                        const result = await familySystem.childJobSystem.collectIncome(child.id);
+                        await updateBalance(senderID, result.collected);
+
+                        return api.sendMessage(
+                            `💰 Thu thành công ${formatNumber(result.collected)} xu từ ${child.gender} ${child.name}!\n` +
+                            `⏰ Thu nhập tiếp theo sau: ${result.nextUpdate} phút\n` +
+                            `💵 Tổng thu nhập: ${formatNumber(result.total)} xu`,
+                            threadID
+                        );
+                    } catch (error) {
+                        return api.sendMessage(`❌ ${error.message}`, threadID);
                     }
                 }
 

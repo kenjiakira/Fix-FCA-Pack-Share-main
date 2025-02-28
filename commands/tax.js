@@ -15,24 +15,54 @@ async function collectTax(userId) {
         const balance = await getBalance(userId);
         if (balance > 0) {
             let taxAmount = 0;
+            let taxBreakdown = {
+                single: 0,
+                wealth: 0,
+                children: 0
+            };
             
             if (!familySystem.hasSpouse(userId)) {
-                taxAmount += Math.floor(balance * SINGLE_TAX_RATE);
+                const singleTax = Math.floor(balance * SINGLE_TAX_RATE);
+                taxAmount += singleTax;
+                taxBreakdown.single = singleTax;
             }
             
             if (balance > WEALTH_THRESHOLD) {
-                taxAmount += Math.floor(balance * WEALTH_TAX_RATE);
+                const wealthTax = Math.floor(balance * WEALTH_TAX_RATE);
+                taxAmount += wealthTax;
+                taxBreakdown.wealth = wealthTax;
+            }
+
+            const family = familySystem.getFamily(userId);
+            if (family && family.children && family.children.length > 3) {
+                const extraChildren = family.children.length - 3;
+                const childTaxRate = extraChildren * 0.01;
+                const childTax = Math.floor(balance * childTaxRate);
+                taxAmount += childTax;
+                taxBreakdown.children = childTax;
             }
             
             if (taxAmount > 0) {
                 await updateBalance(userId, -taxAmount);
             }
-            return taxAmount;
+            return {
+                total: taxAmount,
+                breakdown: taxBreakdown,
+                childCount: family?.children?.length || 0
+            };
         }
-        return 0;
+        return {
+            total: 0,
+            breakdown: {single: 0, wealth: 0, children: 0},
+            childCount: 0
+        };
     } catch (error) {
         console.error(`Error collecting tax from user ${userId}:`, error);
-        return 0;
+        return {
+            total: 0,
+            breakdown: {single: 0, wealth: 0, children: 0},
+            childCount: 0
+        };
     }
 }
 
@@ -58,20 +88,25 @@ module.exports = {
 
             const now = Date.now();
             let totalTaxCollected = 0;
+            let totalChildTax = 0;
             let taxedUsers = 0;
+            let usersWithManyChildren = 0;
 
             const families = familySystem.getAllFamilies();
             for (const [userId, family] of Object.entries(families)) {
-             
                 if (family.spouse) continue;
 
                 const lastCollection = taxData.lastCollection[userId] || 0;
                 if (now - lastCollection < TAX_INTERVAL) continue;
 
-                const taxAmount = await collectTax(userId);
-                if (taxAmount > 0) {
-                    totalTaxCollected += taxAmount;
+                const taxResult = await collectTax(userId);
+                if (taxResult.total > 0) {
+                    totalTaxCollected += taxResult.total;
                     taxedUsers++;
+                    if (taxResult.breakdown.children > 0) {
+                        totalChildTax += taxResult.breakdown.children;
+                        usersWithManyChildren++;
+                    }
                     taxData.lastCollection[userId] = now;
                 }
             }
@@ -83,7 +118,10 @@ module.exports = {
                 `👥 Số người nộp thuế: ${taxedUsers}\n` +
                 `💰 Tổng thu: ${formatNumber(totalTaxCollected)} Xu\n` +
                 `💸 Thuế độc thân: ${SINGLE_TAX_RATE * 100}%/ngày\n` +
-                `💎 Thuế người giàu (>500M): ${WEALTH_TAX_RATE * 100}%/ngày`,
+                `💎 Thuế người giàu (>500M): ${WEALTH_TAX_RATE * 100}%/ngày\n` +
+                `👶 Thuế con cái (>3 con): +1%/con/ngày\n` +
+                `   • Số người nộp: ${usersWithManyChildren}\n` +
+                `   • Tổng thu: ${formatNumber(totalChildTax)} Xu`,
                 threadID
             );
 

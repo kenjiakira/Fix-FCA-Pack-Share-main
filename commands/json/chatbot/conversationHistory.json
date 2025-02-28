@@ -1,55 +1,25 @@
 {
   "global": [
     {
-      "timestamp": 1740744461305,
-      "prompt": "bot chọn tài hay xỉu giúp tôi với",
-      "response": "Anh cứ thử đoán xem sao, may mắn sẽ đến với anh thôi! =))",
-      "senderID": "100046739981416",
-      "senderName": "Hùg Mel Bel"
-    },
-    {
-      "timestamp": 1740744471773,
-      "prompt": "bạn chọn đi",
-      "response": "Anh cứ tự quyết định đi, em tin anh sẽ chọn đúng thôi mà!  -)",
-      "senderID": "100046739981416",
-      "senderName": "Hùg Mel Bel"
-    },
-    {
-      "timestamp": 1740744503264,
-      "prompt": "chọn đi mà, 1 lần thôi cũng được",
-      "response": "Thôi được rồi anh, em nghĩ anh nên nghe theo trực giác của mình đi ạ.  -)",
-      "senderID": "100046739981416",
-      "senderName": "Hùg Mel Bel"
+      "timestamp": 1740751970130,
+      "prompt": "bật bot dis",
+      "response": "Chào Khang Bùi! Có gì cần em giúp không ạ?  Buổi tối tốt lành nhé!",
+      "senderID": "100055074463541",
+      "senderName": "Khang Bùi"
     }
   ],
   "threads": {
     "6589198804475799": [
       {
-        "timestamp": 1740744461305,
-        "prompt": "bot chọn tài hay xỉu giúp tôi với",
-        "response": "Anh cứ thử đoán xem sao, may mắn sẽ đến với anh thôi! =))",
-        "senderID": "100046739981416",
-        "senderName": "Hùg Mel Bel"
-      },
-      {
-        "timestamp": 1740744471773,
-        "prompt": "bạn chọn đi",
-        "response": "Anh cứ tự quyết định đi, em tin anh sẽ chọn đúng thôi mà!  -)",
-        "senderID": "100046739981416",
-        "senderName": "Hùg Mel Bel"
-      },
-      {
-        "timestamp": 1740744503264,
-        "prompt": "chọn đi mà, 1 lần thôi cũng được",
-        "response": "Thôi được rồi anh, em nghĩ anh nên nghe theo trực giác của mình đi ạ.  -)",
-        "senderID": "100046739981416",
-        "senderName": "Hùg Mel Bel"
+        "timestamp": 1740751970130,
+        "prompt": "bật bot dis",
+        "response": "Chào Khang Bùi! Có gì cần em giúp không ạ?  Buổi tối tốt lành nhé!",
+        "senderID": "100055074463541",
+        "senderName": "Khang Bùi"
       }
     ]
   },
   "lastResponses": {
-    "bot chọn tài hay xỉu giúp tôi với": "Anh cứ thử đoán xem sao, may mắn sẽ đến với anh thôi! =))",
-    "bạn chọn đi": "Anh cứ tự quyết định đi, em tin anh sẽ chọn đúng thôi mà!  -)",
-    "chọn đi mà, 1 lần thôi cũng được": "Thôi được rồi anh, em nghĩ anh nên nghe theo trực giác của mình đi ạ.  -)"
+    "bật bot dis": "Chào Khang Bùi! Có gì cần em giúp không ạ?  Buổi tối tốt lành nhé!"
   }
 }

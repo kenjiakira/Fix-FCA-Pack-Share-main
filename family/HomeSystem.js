@@ -30,7 +30,17 @@ class HomeSystem {
     }
 
     getHome(userId) {
-        return this.homes[userId] || null;
+        if (this.homes[userId]) {
+            return this.homes[userId];
+        }
+        
+        const familySystem = new (require('./FamilySystem'))();
+        const family = familySystem.getFamily(userId);
+        if (family && family.spouse && this.homes[family.spouse]) {
+            return this.homes[family.spouse];
+        }
+        
+        return null;
     }
 
     buyHome(userId, homeType) {
@@ -38,8 +48,15 @@ class HomeSystem {
             throw new Error("Loại nhà không hợp lệ!");
         }
 
+        const familySystem = new (require('./FamilySystem'))();
+        const family = familySystem.getFamily(userId);
+        
         if (this.homes[userId]) {
             throw new Error("Bạn đã có nhà rồi! Hãy bán nhà cũ trước khi mua nhà mới.");
+        }
+        
+        if (family && family.spouse && this.homes[family.spouse]) {
+            throw new Error("Vợ/chồng bạn đã có nhà rồi! Hãy bán nhà cũ trước khi mua nhà mới.");
         }
 
         this.homes[userId] = {
@@ -54,15 +71,20 @@ class HomeSystem {
     }
 
     sellHome(userId) {
-        const home = this.getHome(userId);
-        if (!home) {
-            throw new Error("Bạn chưa có nhà để bán!");
+        if (!this.homes[userId]) {
+            const familySystem = new (require('./FamilySystem'))();
+            const family = familySystem.getFamily(userId);
+            const spouseName = family?.spouse ? familySystem.getUserName(family.spouse) : null;
+            throw new Error(spouseName ? 
+                `Bạn không phải chủ sở hữu ngôi nhà này! Ngôi nhà thuộc về ${spouseName}.` :
+                "Bạn không phải chủ sở hữu ngôi nhà này!");
         }
 
+        const home = this.homes[userId];
+
         const homeInfo = HOMES[home.type];
-        // Calculate sell price based on condition and depreciation
         const ageInDays = (Date.now() - home.purchaseDate) / (1000 * 60 * 60 * 24);
-        const depreciation = Math.min(0.3, ageInDays * 0.001); // Max 30% depreciation
+        const depreciation = Math.min(0.3, ageInDays * 0.001);
         const sellPrice = Math.floor(homeInfo.price * (0.7 - depreciation) * (home.condition / 100));
         
         delete this.homes[userId];
@@ -75,7 +97,6 @@ class HomeSystem {
         const home = this.getHome(userId);
         if (!home) return 0;
         
-        // Calculate happiness based on condition and maintenance
         const baseHappiness = HOMES[home.type].happiness;
         const conditionFactor = home.condition / 100;
         const daysSinceLastMaintenance = (Date.now() - home.lastMaintenance) / (1000 * 60 * 60 * 24);
@@ -85,29 +106,49 @@ class HomeSystem {
     }
 
     decreaseCondition(userId, amount = 0.1) {
-        const home = this.getHome(userId);
+        // Find the actual home owner
+        let homeOwner = userId;
+        let home = this.homes[userId];
+        
+        if (!home) {
+            const familySystem = new (require('./FamilySystem'))();
+            const family = familySystem.getFamily(userId);
+            if (family && family.spouse && this.homes[family.spouse]) {
+                home = this.homes[family.spouse];
+                homeOwner = family.spouse;
+            }
+        }
+
         if (home) {
-            home.condition = Math.max(0, home.condition - amount);
+            this.homes[homeOwner].condition = Math.max(0, home.condition - amount);
             this.saveHomes();
         }
     }
 
     repair(userId) {
-        const home = this.getHome(userId);
+        let homeOwner = userId;
+        let home = this.homes[userId];
+        
         if (!home) {
-            throw new Error("Bạn chưa có nhà để sửa chữa!");
+            const familySystem = new (require('./FamilySystem'))();
+            const family = familySystem.getFamily(userId);
+            if (family && family.spouse && this.homes[family.spouse]) {
+                home = this.homes[family.spouse];
+                homeOwner = family.spouse;
+            } else {
+                throw new Error("Bạn chưa có nhà để sửa chữa!");
+            }
         }
 
-        // Calculate repair cost based on damage and home value
         const damagePercent = 100 - home.condition;
         const repairCost = Math.floor(HOMES[home.type].price * (damagePercent / 100) * 0.1);
         
         if (repairCost < 1000) {
-            throw new Error("Nhà của bạn vẫn còn tốt, chưa cần sửa chữa!");
+            throw new Error("Nhà vẫn còn tốt, chưa cần sửa chữa!");
         }
 
-        home.condition = 100;
-        home.lastMaintenance = Date.now();
+        this.homes[homeOwner].condition = 100;
+        this.homes[homeOwner].lastMaintenance = Date.now();
         this.saveHomes();
 
         return repairCost;
@@ -116,6 +157,17 @@ class HomeSystem {
     getHomeInfo(userId) {
         const home = this.getHome(userId);
         if (!home) return null;
+
+        const isOwner = this.homes[userId] !== undefined;
+        let ownerInfo = null;
+        
+        if (!isOwner) {
+            const familySystem = new (require('./FamilySystem'))();
+            const family = familySystem.getFamily(userId);
+            if (family && family.spouse && this.homes[family.spouse]) {
+                ownerInfo = family.spouse;
+            }
+        }
 
         const homeType = HOMES[home.type];
         const daysSinceLastMaintenance = Math.floor((Date.now() - home.lastMaintenance) / (1000 * 60 * 60 * 24));
@@ -126,18 +178,18 @@ class HomeSystem {
             happiness: this.getHomeHappiness(userId).toFixed(1),
             capacity: homeType.capacity,
             maintenanceNeeded: daysSinceLastMaintenance > 30,
-            daysSinceLastMaintenance
+            daysSinceLastMaintenance,
+            isOwner,
+            ownerInfo
         };
     }
 
     dailyUpdate(userId) {
         const home = this.getHome(userId);
         if (home) {
-            // Natural degradation
-            const degradation = Math.random() * 0.5 + 0.5; // 0.5-1.0% per day
+            const degradation = Math.random() * 0.5 + 0.5; 
             this.decreaseCondition(userId, degradation);
             
-            // Extra degradation if maintenance is overdue
             const daysSinceLastMaintenance = (Date.now() - home.lastMaintenance) / (1000 * 60 * 60 * 24);
             if (daysSinceLastMaintenance > 30) {
                 this.decreaseCondition(userId, degradation);
