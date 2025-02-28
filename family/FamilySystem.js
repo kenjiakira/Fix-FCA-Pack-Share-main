@@ -1,6 +1,7 @@
 const fs = require('fs');
 const path = require('path');
 const HomeSystem = require('./HomeSystem');
+const EventSystem = require('./EventSystem');
 const EducationSystem = require('./EducationSystem');
 const ChildJobSystem = require('./ChildJobSystem');
 const TravelSystem = require('./TravelSystem');
@@ -8,6 +9,7 @@ const TravelSystem = require('./TravelSystem');
 class FamilySystem {
     constructor() {
         this.homeSystem = new HomeSystem();
+        this.eventSystem = new EventSystem();
         this.educationSystem = new EducationSystem();
         this.childJobSystem = new ChildJobSystem();
         this.travelSystem = new TravelSystem();

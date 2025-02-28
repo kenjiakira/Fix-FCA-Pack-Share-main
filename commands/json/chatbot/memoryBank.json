@@ -52,6 +52,59 @@
           }
         }
       ]
+    },
+    "100058320200877": {
+      "personal": [],
+      "facts": [],
+      "preferences": [],
+      "interactions": [
+        {
+          "content": "Khuong Duy nói: bật bot discord\nTôi trả lời: Chào Khuong Duy!  Buổi tối tốt lành nha! Có gì em giúp được không?",
+          "timestamp": 1740752026917,
+          "priority": 1,
+          "accessCount": 0,
+          "lastAccess": 1740752026917,
+          "metadata": {
+            "sentiment": {
+              "score": 1,
+              "sentiment": "positive"
+            },
+            "topics": [
+              "PERSONAL"
+            ],
+            "entities": {}
+          }
+        }
+      ],
+      "emotions": [],
+      "names": [],
+      "relationships": {},
+      "context": {
+        "lastTopics": [],
+        "importantDates": {},
+        "recentMentions": {},
+        "conversationFlow": []
+      },
+      "topics": {},
+      "undefined": [
+        {
+          "content": "Xưng hô: em/bạn",
+          "timestamp": 1740752025817,
+          "priority": 2,
+          "accessCount": 0,
+          "lastAccess": 1740752025817,
+          "metadata": {
+            "sentiment": {
+              "score": 0,
+              "sentiment": "neutral"
+            },
+            "topics": [
+              "PERSONAL"
+            ],
+            "entities": {}
+          }
+        }
+      ]
     }
   },
   "global": {
@@ -67,7 +120,7 @@
     "voice": {}
   },
   "stats": {
-    "totalInteractions": 2,
+    "totalInteractions": 4,
     "uniqueUsers": {},
     "topTopics": {},
     "responseTime": [],

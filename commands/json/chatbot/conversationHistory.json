@@ -6,6 +6,13 @@
       "response": "Chào Khang Bùi! Có gì cần em giúp không ạ?  Buổi tối tốt lành nhé!",
       "senderID": "100055074463541",
       "senderName": "Khang Bùi"
+    },
+    {
+      "timestamp": 1740752026906,
+      "prompt": "bật bot discord",
+      "response": "Chào Khuong Duy!  Buổi tối tốt lành nha! Có gì em giúp được không?",
+      "senderID": "100058320200877",
+      "senderName": "Khuong Duy"
     }
   ],
   "threads": {
@@ -16,10 +23,18 @@
         "response": "Chào Khang Bùi! Có gì cần em giúp không ạ?  Buổi tối tốt lành nhé!",
         "senderID": "100055074463541",
         "senderName": "Khang Bùi"
+      },
+      {
+        "timestamp": 1740752026906,
+        "prompt": "bật bot discord",
+        "response": "Chào Khuong Duy!  Buổi tối tốt lành nha! Có gì em giúp được không?",
+        "senderID": "100058320200877",
+        "senderName": "Khuong Duy"
       }
     ]
   },
   "lastResponses": {
-    "bật bot dis": "Chào Khang Bùi! Có gì cần em giúp không ạ?  Buổi tối tốt lành nhé!"
+    "bật bot dis": "Chào Khang Bùi! Có gì cần em giúp không ạ?  Buổi tối tốt lành nhé!",
+    "bật bot discord": "Chào Khuong Duy!  Buổi tối tốt lành nha! Có gì em giúp được không?"
   }
 }
