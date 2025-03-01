@@ -7982,7 +7982,7 @@
   },
   "61568641631000": {
     "rod": "Cần trúc",
-    "rodDurability": 3,
+    "rodDurability": 2,
     "inventory": [
       "Cần trúc"
     ],
@@ -7997,7 +7997,7 @@
           "Cá Trê Đen": 1,
           "Cá Út": 1,
           "Cá Duồng": 1,
-          "Cá Mè Trắng": 1,
+          "Cá Mè Trắng": 2,
           "Cá Bống Tượng": 1,
           "Cá Diếc": 1
         },
@@ -8018,24 +8018,24 @@
         "cosmic": {}
       },
       "stats": {
-        "totalCaught": 17,
-        "totalValue": 47071,
+        "totalCaught": 18,
+        "totalValue": 47953,
         "bestCatch": {
           "name": "Cá Mập Báo",
           "value": 10450
         }
       }
     },
-    "exp": 359,
+    "exp": 372,
     "level": 2,
-    "fishingStreak": 17,
+    "fishingStreak": 18,
     "stats": {
-      "totalExp": 1359,
-      "highestStreak": 17,
-      "totalFishes": 17
+      "totalExp": 1372,
+      "highestStreak": 18,
+      "totalFishes": 18
     },
     "activeBuffs": {},
-    "lastFished": 1740835408119,
+    "lastFished": 1740839280182,
     "userID": "61568641631000"
   },
   "61556258566916": {
