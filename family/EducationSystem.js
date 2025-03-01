@@ -113,6 +113,13 @@ class EducationSystem {
                 if (!hasSecondary) {
                     return { canEnroll: false, reason: "Cần tốt nghiệp THCS trước" };
                 }
+            } else  if (schoolType === "university") {
+                const hasHighschool = studentData.history.some(edu => 
+                    edu.schoolType === "highschool" && edu.status === "graduated"
+                );
+                if (!hasHighschool) {
+                    return { canEnroll: false, reason: "Cần tốt nghiệp THPT trước" };
+                }
             }
         }
     
@@ -418,8 +425,9 @@ class EducationSystem {
             nextSchool = "secondary";
         } else if (education.schoolType === "secondary" && child.age >= 15) {
             nextSchool = "highschool";
+        } else if (education.schoolType === "highschool" && child.age >= 18) {
+            nextSchool = "university"; 
         }
-
         let nextEnrollment = null;
         if (nextSchool) {
             const check = this.canEnrollInSchool(child, nextSchool);

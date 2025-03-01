@@ -20,7 +20,6 @@ module.exports = {
         }
         
         try {
-            // First search for the anime
             const animeResponse = await axios.get(
                 `https://api.jikan.moe/v4/anime?q=${encodeURIComponent(query)}&limit=1`
             );
@@ -32,7 +31,6 @@ module.exports = {
             const anime = animeResponse.data.data[0];
             const animeId = anime.mal_id;
             
-            // Get themes (openings and endings)
             const themesResponse = await axios.get(
                 `https://api.jikan.moe/v4/anime/${animeId}/themes`
             );

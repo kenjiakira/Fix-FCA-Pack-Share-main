@@ -4,6 +4,13 @@ const schedule = require('node-schedule');
 
 const GIFTCODES_PATH = path.join(__dirname, '..', 'database', 'json', 'giftcodes.json');
 
+function ensureDirectoryExists(filePath) {
+    const dirname = path.dirname(filePath);
+    if (!fs.existsSync(dirname)) {
+        fs.mkdirSync(dirname, { recursive: true });
+    }
+}
+
 function generateCode(length = 12) {
     const chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
     let code = '';
@@ -30,12 +37,29 @@ function createGiftcode(reward, description, expiryHours = 24) {
 }
 
 function loadGiftcodes() {
+    ensureDirectoryExists(GIFTCODES_PATH);
+    
     if (!fs.existsSync(GIFTCODES_PATH)) {
         const defaultData = { codes: {}, settings: { autoGiftcode: true } };
         fs.writeFileSync(GIFTCODES_PATH, JSON.stringify(defaultData, null, 2));
         return defaultData;
     }
-    return JSON.parse(fs.readFileSync(GIFTCODES_PATH));
+    try {
+        const data = fs.readFileSync(GIFTCODES_PATH, 'utf8');
+        const parsed = JSON.parse(data);
+        
+        if (!parsed.codes) {
+            parsed.codes = {};
+            fs.writeFileSync(GIFTCODES_PATH, JSON.stringify(parsed, null, 2));
+        }
+        
+        return parsed;
+    } catch (error) {
+        console.error('Error loading giftcodes:', error);
+        const initialData = { codes: {} };
+        fs.writeFileSync(GIFTCODES_PATH, JSON.stringify(initialData, null, 2));
+        return initialData;
+    }
 }
 
 function saveGiftcodes(data) {

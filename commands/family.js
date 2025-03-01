@@ -45,7 +45,10 @@ module.exports = {
             "11. travel - Du lịch cùng gia đình\n" +
             "12. collect [số thứ tự] - Thu tiền cho con\n" +
             "13. study - Học hành cho con cái\n" +
-            "14. work [số thứ tự] - Xin việc cho con\n\n" +
+            "14. work [số thứ tự] - Xin việc cho con\n" +
+            "15. marry-child [số thứ tự] [tên] - Tổ chức hôn lễ cho con\n" +
+            "16. marry-child - Xem thông tin gia đình con cái\n" +
+            "17. family tree - Xem cây gia phả\n" +
             "━━━━━━━━━━━━━━━━━━\n" +
             "📝 CÁC LỆNH LIÊN QUAN:\n" +
             "• .garage - Quản lý xe cộ\n" +
@@ -69,34 +72,32 @@ module.exports = {
             const balance = await getBalance(senderID);
             const incomeLevel = familySystem.getFamilyIncomeLevel(senderID); 
         
+
             let childrenDisplay = "";
             if (Array.isArray(childrenInfo) && childrenInfo.length > 0) {
-                childrenDisplay =
-                    "╠═ 👶CON CÁI\n" +
+                childrenDisplay = "╠═ 👶CON CÁI\n" +
                     childrenInfo
                         .map((child, index) => {
-                            const jobInfo = familySystem.childJobSystem.getChildJobInfo(
-                                child.id
-                            );
+                            if (!child) return "";
+                            
+                            const jobInfo = familySystem.childJobSystem.getChildJobInfo(child.id);
                             let display =
                                 `║  ▸ ${index + 1}. ${child.gender} ${child.name}\n` +
                                 `║    └ Tuổi: ${child.age}\n` +
                                 `║    └ Hạnh phúc: ${child.happiness}%`;
-        
+            
                             if (jobInfo) {
-                                display += `\n║    └ Thu nhập: ${formatNumber(
-                                    jobInfo.baseIncome
-                                )} xu/6h`;
+                                display += `\n║    └ Công việc: ${jobInfo.name}`;
+                                display += `\n║    └ Thu nhập: ${formatNumber(jobInfo.baseIncome)} xu/6h`;
                                 if (jobInfo.pendingIncome > 0) {
-                                    display += `\n║    └ Đang chờ: ${formatNumber(
-                                        jobInfo.pendingIncome
-                                    )} xu`;
+                                    display += `\n║    └ Đang chờ: ${formatNumber(jobInfo.pendingIncome)} xu`;
                                     display += `\n║    └ Cập nhật sau: ${jobInfo.nextUpdate} phút`;
                                 }
                             }
-        
+            
                             return display;
                         })
+                        .filter(display => display) 
                         .join("\n") +
                     "\n║\n";
             }
@@ -402,7 +403,9 @@ module.exports = {
                 "• kindergarten - Mẫu giáo (3-6 tuổi)\n" +
                 "• primary - Tiểu học (6-11 tuổi)\n" +
                 "• secondary - THCS (11-15 tuổi)\n" +
-                "• highschool - THPT (15-18 tuổi)",
+                "• highschool - THPT (15-18 tuổi)\n" +
+                "• university - Đại học (18+ tuổi)",
+                
               threadID
             );
           }     
@@ -568,7 +571,32 @@ module.exports = {
                 }
             }
             
-
+            case "children-family": {
+              const marriedChildren = familySystem.getMarriedChildrenInfo(senderID);
+              
+              if (!marriedChildren || marriedChildren.length === 0) {
+                  return api.sendMessage("❌ Bạn chưa có con nào đã kết hôn!", threadID);
+              }
+          
+              let message = "👨‍👩‍👧‍👦 GIA ĐÌNH CỦA CON CÁI 👨‍👩‍👧‍👦\n";
+              message += "━━━━━━━━━━━━━━━━━━\n\n";
+          
+              marriedChildren.forEach((child, index) => {
+                  message += `${index + 1}. ${child.gender} ${child.name}\n`;
+                  message += `💑 Kết hôn với: ${child.spouseName}\n`;
+                  message += `📅 Ngày cưới: ${new Date(child.marriageDate).toLocaleDateString()}\n`;
+                  if (child.children && child.children.length > 0) {
+                      message += `👶 Các cháu:\n`;
+                      child.children.forEach(grandchild => {
+                          message += `  • ${grandchild.gender} ${grandchild.name} (${grandchild.age} tuổi)\n`;
+                      });
+                  }
+                  message += `💕 Hạnh phúc: ${child.happiness}%\n`;
+                  message += `🏠 Nơi ở: ${child.residence || "Chưa có thông tin"}\n\n`;
+              });
+          
+              return api.sendMessage(message, threadID);
+          }
 
             case "report": {
               try {
@@ -968,6 +996,110 @@ module.exports = {
           }
         }
 
+case "tree": {
+  try {
+    const familyData = familySystem.getFamily(senderID);
+    if (!familyData) {
+        return api.sendMessage("❌ Không tìm thấy thông tin gia đình!", threadID);
+    }
+
+    let treeMessage = "🌳 CÂY GIA PHẢ 🌳\n";
+    treeMessage += "━━━━━━━━━━━━━━━━━━\n\n";
+
+      treeMessage += "👤 Chủ hộ: " + familySystem.getUserName(senderID) + "\n";
+      if (familyData.spouse) {
+          treeMessage += "├─💑 Bạn đời: " + familySystem.getUserName(familyData.spouse) + "\n";
+      }
+
+      if (familyData.children && familyData.children.length > 0) {
+          treeMessage += "│\n├─👶 Con cái:\n";
+          familyData.children.forEach((child, index) => {
+              const prefix = index === familyData.children.length - 1 ? "└──" : "├──";
+              treeMessage += `│  ${prefix} ${child.gender} ${child.name}`;
+              
+              if (child.isMarried) {
+                  treeMessage += ` 💑 ∞ ${child.spouseName}`;
+              }
+              treeMessage += `\n`;
+
+              if (child.children && child.children.length > 0) {
+                  const lastChildPrefix = index === familyData.children.length - 1 ? "    " : "│   ";
+                  child.children.forEach((grandchild, gIndex) => {
+                      const gPrefix = gIndex === child.children.length - 1 ? "└───" : "├───";
+                      treeMessage += `│  ${lastChildPrefix}${gPrefix} ${grandchild.gender} ${grandchild.name} (${grandchild.age} tuổi)\n`;
+                  });
+              }
+          });
+      }
+      treeMessage += "\n📊 THỐNG KÊ GIA ĐÌNH:\n";
+      treeMessage += `💑 Tình trạng: ${familyData.spouse ? "Đã kết hôn" : "Độc thân"}\n`;
+      treeMessage += `👶 Số con: ${familyData.children ? familyData.children.length : 0}\n`;
+      
+      let grandChildCount = 0;
+      if (familyData.children) {
+          familyData.children.forEach(child => {
+              if (child.children) {
+                  grandChildCount += child.children.length;
+              }
+          });
+      }
+      treeMessage += `🍼 Số cháu: ${grandChildCount}\n`;
+      treeMessage += `💝 Độ hạnh phúc: ${Math.round(familyData.happiness * 100) / 100}%\n`;
+      
+      return api.sendMessage(treeMessage, threadID);
+  } catch (error) {
+      console.error("Family tree error:", error);
+      return api.sendMessage("❌ Đã xảy ra lỗi khi tạo cây gia phả!", threadID);
+  }
+}
+        case "marry-child": {
+          const childIndex = parseInt(subCommand) - 1;
+          const targetParentId = Object.keys(event.mentions)[0];
+          const targetChildIndex = parseInt(target[2]) - 1;
+      
+          if (isNaN(childIndex) || !targetParentId || isNaN(targetChildIndex)) {
+              return api.sendMessage(
+                  "❌ Vui lòng nhập đúng cú pháp:\n" +
+                  ".family marry-child [số thứ tự con] [số thứ tự con người được tag] [@tag người là bố/mẹ]",
+                  threadID
+              );
+          }
+      
+          try {
+              const proposal = await familySystem.arrangeMarriage(
+                  childIndex,
+                  senderID,
+                  targetChildIndex,
+                  targetParentId
+              );
+      
+              const confirmMsg = await api.sendMessage(
+                  `💒 ĐỀ NGHỊ KẾT HÔN 💒\n\n` +
+                  `👨‍👩‍👧‍👦 Nhà trai: ${proposal.child1.name} (${proposal.child1.age} tuổi)\n` +
+                  `👨‍👩‍👧‍👦 Nhà gái: ${proposal.child2.name} (${proposal.child2.age} tuổi)\n\n` +
+                  `⏳ Chờ phản hồi từ phía nhà gái...\n` +
+                  `💌 Reply "yes" để đồng ý, "no" để từ chối`,
+                  threadID
+              );
+      
+              global.client.onReply.push({
+                  name: this.name,
+                  messageID: confirmMsg.messageID,
+                  author: targetParentId,
+                  type: "child-marriage-confirmation",
+                  data: {
+                      childIndex1: childIndex,
+                      parentId1: senderID,
+                      targetChildIndex: targetChildIndex,
+                      targetParentId: targetParentId
+                  }
+              });
+      
+          } catch (error) {
+              return api.sendMessage(`❌ ${error.message}`, threadID);
+          }
+      }
+
         case "work": {
           if (!subCommand) {
             return api.sendMessage(
@@ -976,11 +1108,6 @@ module.exports = {
                 "1. .family work list - Xem danh sách việc làm\n" +
                 "2. .family work [số thứ tự] - Xem việc làm cho con\n" +
                 "3. .family work [số thứ tự] [id việc] - Nhận việc cho con\n\n" +
-                "💡 Các loại việc làm:\n" +
-                "• Phụ bán hàng (13-15 tuổi)\n" +
-                "• Phụ việc nhà (13-16 tuổi)\n" +
-                "• Gia sư (16-18 tuổi)\n" +
-                "• Phụ việc văn phòng (16-18 tuổi)\n\n" +
                 "💡 Lưu ý:\n" +
                 "• Con cần đủ 13 tuổi để đi làm\n" +
                 "• Thu nhập được trả mỗi 6 giờ\n" +
@@ -988,6 +1115,16 @@ module.exports = {
               threadID
             );
           }
+
+          const children = familySystem.getChildInfo(senderID);
+          if (!children || children.length === 0) {
+              return api.sendMessage(
+                  "❌ Bạn chưa có con!\n" +
+                  "💡 Hãy kết hôn và sinh con trước khi cho con đi làm",
+                  threadID
+              );
+          }
+      
 
           if (subCommand === "list") {
             const jobs = familySystem.childJobSystem.getAllJobs();
@@ -1007,26 +1144,17 @@ module.exports = {
           }
 
           const index = parseInt(subCommand) - 1;
-          const children = familySystem.getChildInfo(senderID);
-
-          if (
-            isNaN(index) ||
-            !children ||
-            index < 0 ||
-            index >= children.length
-          ) {
-            return api.sendMessage(
-              "❌ Số thứ tự con không hợp lệ!\n" +
-                "💡 Xem danh sách: .family info",
-              threadID
-            );
+          if (isNaN(index) || index < 0 || index >= children.length) {
+              return api.sendMessage(
+                  "❌ Số thứ tự con không hợp lệ!\n" +
+                  "💡 Xem danh sách con: .family info",
+                  threadID
+              );
           }
 
           try {
             const child = children[index];
-            const jobs = familySystem.childJobSystem.getAvailableJobs(
-              child.age
-            );
+            const jobs = familySystem.childJobSystem.getAvailableJobs(child);
 
             if (!jobs || jobs.length === 0) {
               return api.sendMessage(
@@ -1044,32 +1172,59 @@ module.exports = {
               message += `💰 Thu nhập: ${formatNumber(job.baseIncome)} xu/6h\n`;
               message += `📝 ${job.description}\n`;
               message += `⏰ Độ tuổi: ${job.minAge}-${job.maxAge}\n`;
-              message += `💡 Nhận việc: .family work ${index + 1} ${
-                idx + 1
-              }\n\n`;
+                
+              if (job.education) {
+                  const educationName = {
+                      'primary': 'Tiểu học',
+                      'secondary': 'THCS',
+                      'highschool': 'THPT',
+                      'university': 'Đại học'
+                  }[job.education] || job.education;
+                  message += `🎓 Yêu cầu học vấn: Tốt nghiệp ${educationName}\n`;
+              }
+              
+              message += `💡 Nhận việc: .family work ${index + 1} ${idx + 1}\n\n`;
             });
+            
+          
 
             if (target[2]) {
               const jobIndex = parseInt(target[2]) - 1;
               if (isNaN(jobIndex) || jobIndex < 0 || jobIndex >= jobs.length) {
-                return api.sendMessage(
-                  "❌ Công việc không hợp lệ!\n" +
-                    "💡 Vui lòng chọn công việc từ danh sách",
-                  threadID
-                );
+                  return api.sendMessage(
+                      "❌ Công việc không hợp lệ!\n" +
+                      "💡 Vui lòng chọn công việc từ danh sách",
+                      threadID
+                  );
               }
-
+          
               const job = jobs[jobIndex];
-              await familySystem.childJobSystem.assignJob(child.id, job);
-
+              const jobId = Object.keys(familySystem.childJobSystem.getAllJobs()).find(id => 
+                  familySystem.childJobSystem.getAllJobs()[id].name === job.name
+              );
+              
+              if (!child.id) {
+                  child.id = Date.now().toString() + "_" + Math.floor(Math.random() * 1000000);
+                  
+                  const family = familySystem.getFamily(senderID);
+                  if (family.children && family.children[index]) {
+                      family.children[index].id = child.id;
+                      familySystem.saveData();
+                      console.log("Đã tạo ID mới cho con:", child.id);
+                  }
+              }
+              
+              await familySystem.childJobSystem.assignJob(child.id, jobId);
+              
               return api.sendMessage(
-                `✨ ${child.gender} ${child.name} đã nhận việc ${job.name}!\n` +
+                  `✨ ${child.gender} ${child.name} đã nhận việc ${job.name}!\n` +
                   `💰 Thu nhập: ${formatNumber(job.baseIncome)} xu/6h\n` +
                   `⏰ Thu nhập đầu tiên sau: 6 giờ\n` +
                   `💡 Thu tiền: .family collect ${index + 1}`,
-                threadID
+                  threadID
               );
-            }
+          }
+          
 
             return api.sendMessage(message, threadID);
           } catch (error) {
@@ -1422,18 +1577,29 @@ module.exports = {
 
     const reply = global.client.onReply.find((r) => {
       if (r.messageID !== event.messageReply.messageID) return false;
-
-      if (
-        r.type === "marriage-confirmation" ||
-        r.type === "divorce-confirmation"
-      ) {
-        return r.author === senderID;
-      } else if (r.type === "baby-confirmation" || r.type === "baby-naming") {
-        const family = familySystem.getFamily(senderID);
-        return senderID === r.author || senderID === family.spouse;
+  
+      switch (r.type) {
+          case "marriage-confirmation":
+          case "divorce-confirmation":
+              return r.author === senderID;
+          
+          case "child-marriage-confirmation":
+              return r.author === senderID || r.data.targetParentId === senderID;
+              
+          case "intimate-confirmation":
+              const family = familySystem.getFamily(senderID);
+            
+              return senderID === r.author || senderID === r.requesterID;
+              
+          case "baby-confirmation":
+          case "baby-naming":
+              const babyFamily = familySystem.getFamily(senderID);
+              return senderID === r.author || senderID === babyFamily.spouse;
+              
+          default:
+              return false;
       }
-      return false;
-    });
+  });
 
     if (!reply) return;
 
@@ -1468,6 +1634,44 @@ module.exports = {
         }
         break;
 
+        case "child-marriage-confirmation": {
+          try {
+              const response = body.toLowerCase().trim();
+       
+              if (["yes", "y", "ok", "đồng ý", "ừ", "accept"].includes(response)) {
+                  const result = await familySystem.confirmChildMarriage(
+                      reply.data.childIndex1,
+                      reply.data.parentId1,
+                      reply.data.targetChildIndex,
+                      reply.data.targetParentId
+                  );
+
+                  return api.sendMessage(
+                      `💒 CHÚC MỪNG ĐÁM CƯỚI 💒\n\n` +
+                      `${result.couple.spouse1.gender} ${result.couple.spouse1.name} ` +
+                      `(con của ${result.couple.spouse1.parentName})\n` +
+                      `💝 đã kết hôn với 💝\n` +
+                      `${result.couple.spouse2.gender} ${result.couple.spouse2.name} ` +
+                      `(con của ${result.couple.spouse2.parentName})\n\n` +
+                      `🏠 Hai con đã dọn ra ở riêng và lập gia đình mới.`,
+                      threadID
+                  );
+              } else {
+                  return api.sendMessage(
+                      "💔 Đề nghị kết hôn đã bị từ chối!\n" +
+                      "💌 Có thể thử lại sau khi hai bên gia đình đồng thuận.",
+                      threadID
+                  );
+              }
+          } catch (error) {
+              console.error("Child marriage confirmation error:", error);
+              return api.sendMessage(
+                  `❌ Đã xảy ra lỗi: ${error.message}`,
+                  threadID
+              );
+          }
+      }
+
       case "divorce-confirmation":
         try {
           const response = body.toLowerCase().trim();
@@ -1500,15 +1704,27 @@ module.exports = {
           return api.sendMessage(`❌ Lỗi: ${error.message}`, threadID);
         }
         break;
-        case "intimate-confirmation":
+        case "intimate-confirmation": {
           try {
-            const response = body.toLowerCase().trim();
-            if (response === "yes" || response === "accept" || response === "1" || response === "đồng ý") {
-              const requesterID = reply.requesterID;
-              const family = familySystem.getFamily(requesterID);
-              
-              await familySystem.intimate(requesterID);
-              
+              const response = body.toLowerCase().trim();
+         
+              if (["yes", "y", "ok", "đồng ý", "ừ", "accept", "1", "ok"].includes(response)) {
+                  const requesterID = reply.requesterID;
+                  const family = familySystem.getFamily(requesterID);
+                  
+                  if (!family || !family.spouse) {
+                      return api.sendMessage("❌ Có lỗi xảy ra với thông tin gia đình!", threadID);
+                  }
+      
+                  if (!familySystem.canHaveNewBaby(requesterID)) {
+                      return api.sendMessage(
+                          "❌ Vợ chồng cần nghỉ ngơi 10 phút sau mỗi lần!",
+                          threadID
+                      );
+                  }
+      
+                  await familySystem.intimate(requesterID);
+                  
               const happinessIncrease = Math.floor(Math.random() * 5) + 5; // Random 5-10%
               const healthIncrease = Math.floor(Math.random() * 3) + 3; // Random 3-5%
               await familySystem.increaseHappiness(requesterID, happinessIncrease);
@@ -1565,16 +1781,15 @@ module.exports = {
               }
             } else {
               return api.sendMessage(
-                `💔 ${getUserName(senderID)} đã từ chối lời mời của ${reply.requesterName}!`,
-                threadID
+                  `💔 ${getUserName(senderID)} đã từ chối lời mời của ${reply.requesterName}!`,
+                  threadID
               );
-            }
-          } catch (error) {
-            console.error("Intimate confirmation error:", error);
-            return api.sendMessage(`❌ Lỗi: ${error.message}`, threadID);
           }
-          break;
-        
+      } catch (error) {
+          console.error("Intimate confirmation error:", error);
+          return api.sendMessage(`❌ Đã xảy ra lỗi: ${error.message}`, threadID);
+      }
+  }
 
       case "baby-naming":
         {

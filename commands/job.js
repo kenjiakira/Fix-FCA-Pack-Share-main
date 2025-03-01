@@ -1,4 +1,4 @@
-const { JOB_CATEGORIES, JOBS } = require('../config/family/jobConfig');
+const { JOB_CATEGORIES, JOBS, JOB_RANKS } = require('../config/family/jobConfig');
 const fs = require('fs');
 const path = require('path');
 
@@ -139,7 +139,7 @@ module.exports = {
 
                     const currentJob = JOBS[job.currentJob.id];
                     const jobType = currentJob.type || 'shipper';
-                    const levels = jobSystem.JOB_LEVELS[jobType] || [];
+                    const levels = JOB_RANKS[jobType] || []; 
                     const currentLevel = jobSystem.getJobLevel(jobType, job.workCount);
 
                     let levelInfo = "\n📊 THÔNG TIN CẤP BẬC:\n";

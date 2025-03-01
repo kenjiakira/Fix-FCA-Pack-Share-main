@@ -122,21 +122,27 @@ class JobSystem {
 
             const userDegrees = education.degrees.map(d => d === "highschool" ? "e1" : d);
 
-            const hasQualification = job.requirements.some(req => {
+            let missingDegrees = [];
+            
+            for (const req of job.requirements) {
                 const requiredLevel = DEGREES[req].level;
-                return userDegrees.some(degree => {
+                const requiredCategory = this.getDegreeCategory(req);
+                
+                const hasDegree = userDegrees.some(degree => {
                     const userDegreeLevel = DEGREES[degree]?.level || 0;
-                    return userDegreeLevel >= requiredLevel;
+                    const userDegreeCategory = this.getDegreeCategory(degree);
+                    return userDegreeCategory === requiredCategory && userDegreeLevel >= requiredLevel;
                 });
-            });
+                
+                if (!hasDegree) {
+                    missingDegrees.push(DEGREES[req].name);
+                }
+            }
 
-            if (!hasQualification) {
-                const missingDegrees = job.requirements
-                    .map(req => DEGREES[req].name)
-                    .join(" hoặc ");
+            if (missingDegrees.length > 0) {
                 return { 
                     qualified: false, 
-                    reason: `Bạn cần có bằng tương đương ${missingDegrees} trở lên`
+                    reason: `Bạn cần có ${missingDegrees.join(", ")} để đủ điều kiện làm công việc này`
                 };
             }
 
@@ -147,10 +153,21 @@ class JobSystem {
         }
     }
 
+    getDegreeCategory(degreeId) {
+        const DEGREE_CATEGORIES = require('../config/family/educationConfig').DEGREE_CATEGORIES;
+        
+        for (const [categoryId, category] of Object.entries(DEGREE_CATEGORIES)) {
+            if (category.degrees.includes(degreeId)) {
+                return categoryId;
+            }
+        }
+        return null;
+    }
+
     async applyForJob(userID, jobId) {
         try {
             if (!JOBS[jobId]) {
-                throw new Error("Công việc không tồn tại!");
+                throw new ExpectedError("Công việc không tồn tại!");
             }
 
             const jobData = this.getJob(userID);
@@ -192,7 +209,9 @@ class JobSystem {
 
             return JOBS[jobId];
         } catch (error) {
-            console.error('Apply job error:', error);
+            if (!error.isExpected) {
+                console.error('Apply job error:', error);
+            }
             throw error;
         }
     }
@@ -200,7 +219,7 @@ class JobSystem {
     quitJob(userID) {
         const jobData = this.getJob(userID);
         if (!jobData.currentJob) {
-            throw new Error("❌ Bạn chưa có việc làm!\n vui lòng apply job trước bằng cách gõ\njob apply [mã job]");
+            throw new ExpectedError("❌ Bạn chưa có việc làm!\n vui lòng apply job trước bằng cách gõ\njob apply [mã job]");
         }
 
         const oldJob = {...jobData.currentJob};
@@ -243,18 +262,25 @@ class JobSystem {
             if (!this.data[userID]) {
                 throw new Error("Không tìm thấy thông tin người dùng!");
             }
-
+    
             const jobData = this.data[userID];
             
-            if (!jobData.currentJob || !jobData.currentJob.id) {
-                throw new Error("❌ Bạn chưa có việc làm!\n vui lòng apply job trước bằng cách gõ\njob apply [mã job]");
+            class ExpectedError extends Error {
+                constructor(message) {
+                    super(message);
+                    this.isExpected = true;
+                }
             }
-
+    
+            if (!jobData.currentJob || !jobData.currentJob.id) {
+                throw new ExpectedError("❌ Bạn chưa có việc làm!\n vui lòng apply job trước bằng cách gõ\njob apply [mã job]");
+            }
+    
             const cooldown = this.getWorkCooldown(userID, vipBenefits);
             if (cooldown > 0) {
                 const minutes = Math.floor(cooldown / 60000);
                 const seconds = Math.ceil((cooldown % 60000) / 1000);
-                throw new Error(`Bạn cần nghỉ ngơi ${minutes > 0 ? `${minutes} phút ` : ''}${seconds} giây nữa!`);
+                throw new ExpectedError(`Bạn cần nghỉ ngơi ${minutes > 0 ? `${minutes} phút ` : ''}${seconds} giây nữa!`);
             }
 
             if (!JOBS[jobData.currentJob.id]) {
@@ -299,7 +325,7 @@ class JobSystem {
                 type: jobType
             };
         } catch (error) {
-            if (!error.isWaitError) {
+            if (!error.isExpected) {
                 console.error('Work error:', error);
             }
             throw error;
@@ -310,21 +336,18 @@ class JobSystem {
         const jobData = this.getJob(userID);
         let cooldown = 0;
 
-        // Calculate work cooldown
         if (jobData.lastWorked) {
             const timeSinceLastWork = Date.now() - jobData.lastWorked;
             const workTimeLeft = Math.max(0, this.WORK_COOLDOWN - timeSinceLastWork);
             cooldown = Math.max(cooldown, workTimeLeft);
         }
 
-        // Calculate quit cooldown
         if (jobData.lastQuit) {
             const timeSinceQuit = Date.now() - jobData.lastQuit;
             const quitTimeLeft = Math.max(0, this.QUIT_COOLDOWN - timeSinceQuit);
             cooldown = Math.max(cooldown, quitTimeLeft);
         }
 
-        // Apply VIP benefits
         if (vipBenefits && vipBenefits.cooldownReduction) {
             cooldown = cooldown * (100 - vipBenefits.cooldownReduction) / 100;
         }
@@ -334,12 +357,23 @@ class JobSystem {
 
     checkRequirements(requirements, degrees) {
         if (!requirements || requirements.length === 0) return true;
-    
-        console.log('Checking requirements:', requirements);
-        console.log('User degrees:', degrees);
-        const result = requirements.some(req => degrees.includes(req));
-        console.log('Check result:', result);
-        return result;
+
+        const DEGREES = require('../config/family/educationConfig').DEGREES;
+        
+        for (const req of requirements) {
+            const requiredLevel = DEGREES[req]?.level || 0;
+            const requiredCategory = this.getDegreeCategory(req);
+
+            const hasDegree = degrees.some(degreeId => {
+                const userDegreeLevel = DEGREES[degreeId]?.level || 0;
+                const userDegreeCategory = this.getDegreeCategory(degreeId);
+                return userDegreeCategory === requiredCategory && userDegreeLevel >= requiredLevel;
+            });
+            
+            if (!hasDegree) return false;
+        }
+        
+        return true;
     }
 
     calculateTax(amount) {

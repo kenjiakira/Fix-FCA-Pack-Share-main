@@ -63,8 +63,8 @@ module.exports = {
                 }
 
                 giftcode.usedBy.push(senderID);
-                fs.writeFileSync(path.join(__dirname, '../database/json/giftcodes.json'), 
-                    JSON.stringify(giftcodeData, null, 2));
+                const giftcodesPath = path.join(__dirname, '../database/json/giftcodes.json');
+                fs.writeFileSync(giftcodesPath, JSON.stringify(giftcodeData, null, 2));
 
                 updateBalance(senderID, giftcode.reward);
 

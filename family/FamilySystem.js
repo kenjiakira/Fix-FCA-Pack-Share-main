@@ -11,12 +11,23 @@ class FamilySystem {
         this.educationSystem = new EducationSystem();
         this.childJobSystem = new ChildJobSystem();
         this.travelSystem = new TravelSystem();
+        this.childJobSystem.familySystem = this; 
         this.healthDecayInterval = 24 * 60 * 60 * 1000; 
         this.healthDecayAmount = 5;
         this.path = path.join(__dirname, '../database/json/family/family.json');
         this.data = this.loadData();
         this.startHealthMonitoring();
         this.startInsuranceMonitoring();
+    }
+
+    getChildById(childId) {
+        for (const family of Object.values(this.data)) {
+            if (family.children) {
+                const child = family.children.find(c => c.id === childId);
+                if (child) return child;
+            }
+        }
+        return null;
     }
 
     loadData() {
@@ -254,33 +265,144 @@ getFamilyIncomeLevel(userID) {
     }
 }
 
-    
 getMarriageInfo(userID) {
     const family = this.getFamily(userID);
-    if (!family) {
-        return {
-            spouse: "Độc thân",
-            happiness: 0,
-            childCount: 0,
-            children: [],
-            home: null,
-            incomeLevel: {
-                level: "Không xác định",
-                income: 0,
-                description: "Chưa có thông tin"
-            }
-        };
+    const incomeLevel = this.getFamilyIncomeLevel(userID);
+    const home = this.getHomeInfo(userID);
+
+    let spouseName = "Chưa kết hôn";
+    if (family.spouse) {
+        spouseName = this.getUserName(family.spouse);
     }
 
-    const incomeLevel = this.getFamilyIncomeLevel(userID);
+    return {
+        spouse: spouseName,
+        happiness: Math.round(family.happiness),
+        childCount: family.children ? family.children.length : 0,
+        home: home,
+        incomeLevel: {
+            level: incomeLevel.level,
+            income: incomeLevel.income,
+            description: incomeLevel.description,
+            benefits: incomeLevel.benefits || []
+        },
+        isMarried: !!family.spouse,
+        lastIntimate: family.lastIntimate || 0,
+        insurance: family.insurance || {
+            active: false,
+            expiresAt: 0,
+            discount: 0
+        }
+    };
+}
+
+async arrangeMarriage(childIndex1, parentId1, targetChildIndex, targetParentId) {
+    const family1 = this.getFamily(parentId1);
+    const family2 = this.getFamily(targetParentId);
+
+    if (!family1.children?.[childIndex1] || !family2.children?.[targetChildIndex]) {
+        throw new Error("❌ Không tìm thấy thông tin của một trong hai đứa con!");
+    }
+
+    const child1 = family1.children[childIndex1];
+    const child2 = family2.children[targetChildIndex];
+
+    if (child1.isMarried) {
+        throw new Error(`❌ ${child1.name} đã kết hôn rồi!`);
+    }
+    if (child2.isMarried) {
+        throw new Error(`❌ ${child2.name} đã kết hôn rồi!`);
+    }
+
+    const getMarriageAge = (birthDate) => {
+        const hours = Math.floor((Date.now() - birthDate) / (1000 * 60 * 60));
+        return Math.floor(hours / 12);
+    };
+
+    const age1 = getMarriageAge(child1.birthDate);
+    const age2 = getMarriageAge(child2.birthDate);
+
+    const minMarriageAge = {
+        "👦": 20, 
+        "👧": 18 
+    };
+
+    if (age1 < minMarriageAge[child1.gender]) {
+        throw new Error(
+            `❌ ${child1.name} chưa đủ tuổi kết hôn! ` +
+            `(${age1}/${minMarriageAge[child1.gender]} tuổi)`
+        );
+    }
+
+    if (age2 < minMarriageAge[child2.gender]) {
+        throw new Error(
+            `❌ ${child2.name} chưa đủ tuổi kết hôn! ` +
+            `(${age2}/${minMarriageAge[child2.gender]} tuổi)`
+        );
+    }
+
+    if (child1.gender === child2.gender) {
+        throw new Error("❌ Gay à !");
+    }
 
     return {
-        spouse: family.spouse ? this.getUserName(family.spouse) : "Độc thân",
-        happiness: Math.round(family.happiness || 0),
-        childCount: (family.children || []).length,
-        children: family.children || [],
-        home: this.homeSystem.getHomeInfo(userID),
-        incomeLevel: incomeLevel
+        child1: {
+            name: child1.name,
+            gender: child1.gender,
+            age: age1,
+            parent: parentId1
+        },
+        child2: {
+            name: child2.name,
+            gender: child2.gender,
+            age: age2,
+            parent: targetParentId
+        }
+    };
+}
+
+canWorkByAge(birthDate) {
+    const hours = Math.floor((Date.now() - birthDate) / (1000 * 60 * 60));
+    const age = Math.floor(hours / 12);
+    return age >= 13; 
+}
+
+async confirmChildMarriage(childIndex1, parentId1, targetChildIndex, targetParentId) {
+    const marriage = await this.arrangeMarriage(childIndex1, parentId1, targetChildIndex, targetParentId);
+    const family1 = this.getFamily(parentId1);
+    const family2 = this.getFamily(targetParentId);
+
+    const child1 = family1.children[childIndex1];
+    const child2 = family2.children[targetChildIndex];
+
+    child1.isMarried = true;
+    child1.spouseName = child2.name;
+    child1.spouseParentId = targetParentId;
+    child1.marriageDate = Date.now();
+    child1.movedOut = true;
+
+    child2.isMarried = true;
+    child2.spouseName = child1.name;
+    child2.spouseParentId = parentId1;
+    child2.marriageDate = Date.now();
+    child2.movedOut = true;
+
+    this.saveData();
+
+    return {
+        success: true,
+        couple: {
+            spouse1: {
+                name: child1.name,
+                gender: child1.gender,
+                parentName: this.getUserName(parentId1)
+            },
+            spouse2: {
+                name: child2.name,
+                gender: child2.gender,
+                parentName: this.getUserName(targetParentId)
+            }
+        }
     };
 }
 
@@ -386,6 +508,8 @@ confirmMarriage(proposerID, acceptorID) {
             gender: Math.random() < 0.5 ? "👦" : "👧",
             nickname: this.generateNickname(childName)
         };
+
+        
     
         this.childJobSystem.registerChild(child);
     
@@ -407,23 +531,21 @@ confirmMarriage(proposerID, acceptorID) {
     }
     calculateAge(birthDate) {
         const hours = Math.floor((Date.now() - birthDate) / (1000 * 60 * 60));
-        const months = hours;
-        const years = Math.floor(months / 12);
-        const remainingMonths = months % 12;
+        const years = Math.floor(hours / 12); 
+        const remainingMonths = hours % 12;
         
         if (years > 0) {
             return `${years} tuổi ${remainingMonths} tháng`;
         }
-        return `${months} tháng`;
+        return `${remainingMonths} tháng`;
     }
+    
     
     getAgeInYears(birthDate) {
         const hours = Math.floor((Date.now() - birthDate) / (1000 * 60 * 60));
-        const months = hours;
-        return Math.floor(months / 12);
+        return Math.floor(hours / 12);
     }
     
-
     updateHappiness(userID) {
         const family = this.getFamily(userID);
         const timePassed = (Date.now() - family.lastChecked) / (1000 * 60 * 60 * 24);

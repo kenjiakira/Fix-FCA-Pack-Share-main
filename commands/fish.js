@@ -20,8 +20,7 @@ const levelRequirements = {
     river: 3,      
     ocean: 5,     
     deepSea: 10,
-    abyss: 20,
-    goldlake: 30,      
+    abyss: 20,   
     atlantis: 50, 
     spaceOcean: 100, 
     dragonRealm: 200 
@@ -444,7 +443,6 @@ module.exports = {
             ocean: 5,
             deepSea: 10,
             abyss: 20,
-            goldlake: 30,
             atlantis: 50,
             spaceOcean: 100,
             dragonRealm: 200

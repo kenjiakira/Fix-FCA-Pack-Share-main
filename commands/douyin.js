@@ -1,6 +1,4 @@
-const axios = require('axios');
 const fs = require('fs');
-const path = require('path');
 const Downloader = require('../utils/downloader');
 
 module.exports = {

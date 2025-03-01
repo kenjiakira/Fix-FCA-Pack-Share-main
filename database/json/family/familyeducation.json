@@ -1,13 +1,10 @@
 {
   "584291935": {
     "degrees": [
-      "e1"
+      "e1",
+      "eng1"
     ],
-    "currentDegree": {
-      "id": "eng1",
-      "startTime": 1740022731934,
-      "progress": 0
-    }
+    "currentDegree": null
   },
   "100040203282108": {
     "degrees": [
@@ -165,7 +162,11 @@
       "e1",
       "e2"
     ],
-    "currentDegree": null
+    "currentDegree": {
+      "id": "be",
+      "startTime": 1740826934863,
+      "progress": 0
+    }
   },
   "100048502504358": {
     "degrees": [
@@ -175,13 +176,10 @@
   },
   "100058320200877": {
     "degrees": [
-      "e1"
+      "e1",
+      "e3"
     ],
-    "currentDegree": {
-      "id": "e3",
-      "startTime": 1740722234369,
-      "progress": 0
-    }
+    "currentDegree": null
   },
   "61566789515977": {
     "degrees": [
@@ -217,11 +215,12 @@
   "100048267517770": {
     "degrees": [
       "e1",
-      "e3"
+      "e3",
+      "e2"
     ],
     "currentDegree": {
-      "id": "e2",
-      "startTime": 1740726191731,
+      "id": "be",
+      "startTime": 1740826829508,
       "progress": 0
     }
   },
@@ -264,7 +263,11 @@
       "e2",
       "e3"
     ],
-    "currentDegree": null
+    "currentDegree": {
+      "id": "be",
+      "startTime": 1740826855665,
+      "progress": 0
+    }
   },
   "100072567218546": {
     "degrees": [
@@ -335,7 +338,11 @@
       "e1",
       "e3"
     ],
-    "currentDegree": null
+    "currentDegree": {
+      "id": "be",
+      "startTime": 1740826428049,
+      "progress": 0
+    }
   },
   "100080149704587": {
     "degrees": [
@@ -475,7 +482,8 @@
   "100055074463541": {
     "degrees": [
       "e1",
-      "e2"
+      "e2",
+      "e1"
     ],
     "currentDegree": null
   },
@@ -493,13 +501,10 @@
   },
   "61552144357464": {
     "degrees": [
-      "e1"
+      "e1",
+      "eng1"
     ],
-    "currentDegree": {
-      "id": "eng1",
-      "startTime": 1739958330827,
-      "progress": 0
-    }
+    "currentDegree": null
   },
   "100055174196748": {
     "degrees": [
@@ -517,7 +522,11 @@
     "degrees": [
       "e1"
     ],
-    "currentDegree": null
+    "currentDegree": {
+      "id": "be",
+      "startTime": 1740826760902,
+      "progress": 0
+    }
   },
   "61553593760589": {
     "degrees": [
@@ -527,6 +536,7 @@
   },
   "61550675833089": {
     "degrees": [
+      "e1",
       "e1"
     ],
     "currentDegree": null
@@ -563,24 +573,28 @@
     "degrees": [
       "e1"
     ],
-    "currentDegree": null
+    "currentDegree": {
+      "id": "be",
+      "startTime": 1740827287479,
+      "progress": 0
+    }
   },
   "100028202556430": {
     "degrees": [
       "e1",
       "e3",
-      "e4"
+      "e4",
+      "eng1",
+      "eng2",
+      "eng3"
     ]
   },
   "61568522233427": {
     "degrees": [
-      "e1"
+      "e1",
+      "be"
     ],
-    "currentDegree": {
-      "id": "be",
-      "startTime": 1740759609838,
-      "progress": 0
-    }
+    "currentDegree": null
   },
   "61561277064921": {
     "degrees": [

@@ -4,7 +4,7 @@ const axios = require('axios');
 
 module.exports = {
     name: "sms",
-    info: "Spam SMS using dec.py script",
+    info: "Spam SMS",
     dev: "HNT",
     category: "Tools",
     onPrefix: true,

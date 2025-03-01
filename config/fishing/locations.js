@@ -90,19 +90,6 @@ module.exports = {
           cosmic: 1
       }
   },
-  GoldLake: {
-      name: "Hồ Vàng", 
-      cost: 700000, 
-      fish: {
-          trash: 0,
-          common: 0,
-          uncommon: 5,
-          rare: 31,
-          legendary: 60,
-          mythical: 40,
-          cosmic: 2
-      }
-  },
   dragonRealm: {
       name: "Thủy Cung Rồng",
       cost: 1000000,
