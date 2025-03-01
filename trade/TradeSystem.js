@@ -543,17 +543,15 @@ class TradeSystem {
         if (!this.isMarketOpen()) {
             throw new Error(`Thị trường đã đóng! Giờ giao dịch: ${MARKET_HOURS.open}:00 - ${MARKET_HOURS.close}:00`);
         }
-
-        // Verify stock ownership
+    
         const portfolio = this.getUserPortfolio(userId);
         if (!portfolio.stocks[symbol] || portfolio.stocks[symbol].quantity < quantity) {
             throw new Error("Không đủ cổ phiếu để bán");
         }
-
+    
         const stockData = this.getStockPrice(symbol);
         const marketPrice = Math.floor(stockData.price);
 
-        // Validate trade
         const validation = TradingMonitor.isValidTrade({
             symbol,
             type: 'sell',
@@ -562,52 +560,57 @@ class TradeSystem {
             priceChange: stockData.changePercent,
             timestamp: Date.now()
         }, portfolio.transactions || []);
-
+    
         if (!validation.isValid) {
             const violations = validation.violations.map(v => v.message).join('\n');
             throw new Error(`Giao dịch không hợp lệ:\n${violations}`);
         }
-
-        // Create sell order
-        const sellOrder = {
-            orderId: `${userId}-${symbol}-${Date.now()}`,
-            userId,
-            symbol,
-            side: 'sell',
-            quantity,
-            price: marketPrice,
-            timestamp: Date.now(),
-            validation
-        };
-
+    
+        const totalValue = marketPrice * quantity;
+        const transactionFee = Math.floor(Math.min(
+            Math.max(totalValue * FEES.transaction, FEES.minFee),
+            FEES.maxFee
+        ));
+        const tax = Math.floor(Math.min(
+            Math.max(totalValue * FEES.tax, FEES.minFee),
+            FEES.maxFee
+        ));
+        const finalValue = totalValue - transactionFee - tax;
+    
         try {
-            // Lock stocks
             portfolio.stocks[symbol].quantity -= quantity;
-            if (portfolio.stocks[symbol].quantity === 0) {
+            if (portfolio.stocks[symbol].quantity <= 0) {
                 delete portfolio.stocks[symbol];
             }
+    
+            if (!portfolio.transactions) portfolio.transactions = [];
+            portfolio.transactions.push({
+                type: 'sell',
+                symbol,
+                quantity,
+                price: marketPrice,
+                total: totalValue,
+                fees: {
+                    transaction: transactionFee,
+                    tax: tax
+                },
+                timestamp: Date.now()
+            });
+    
+            await updateBalance(userId, finalValue);
             this.savePortfolios();
-
-            // Process order
-            const result = await this.orderProcessor.processSellOrder(sellOrder);
-
-            if (result.status === 'filled') {
-                return {
-                    ...result,
-                    symbol,
-                    quantity,
-                    price: marketPrice
-                };
-            } else {
-                return {
-                    ...result,
-                    symbol,
-                    quantity,
-                    price: marketPrice
-                };
-            }
+    
+            return {
+                status: "filled",
+                symbol,
+                quantity,
+                price: marketPrice,
+                total: totalValue,
+                transactionFee,
+                tax,
+                finalValue
+            };
         } catch (error) {
-            // Rollback on error
             if (!portfolio.stocks[symbol]) {
                 portfolio.stocks[symbol] = { quantity: 0, averagePrice: 0 };
             }
@@ -617,6 +620,7 @@ class TradeSystem {
             throw error;
         }
     }
+    
 
     async processFill(execution) {
         const { buyOrderId, sellOrderId, price, quantity, timestamp } = execution;
@@ -738,7 +742,7 @@ class TradeSystem {
         if (!this.isMarketOpen()) {
             throw new Error(`Thị trường đã đóng! Giờ giao dịch: ${MARKET_HOURS.open}:00 - ${MARKET_HOURS.close}:00`);
         }
-
+    
         const stockData = this.getStockPrice(symbol);
         const marketPrice = Math.floor(stockData.price);
         const totalCost = marketPrice * quantity;
@@ -753,151 +757,64 @@ class TradeSystem {
             FEES.maxFee
         ));
         const totalWithFees = totalCost + transactionFee + tax;
-
-        // Create buy order
-        const buyOrder = {
-            orderId: `${userId}-${symbol}-${Date.now()}`,
-            userId,
-            symbol,
-            side: 'buy',
-            quantity,
-            price: marketPrice,
-            totalWithFees,
-            timestamp: Date.now()
-        };
-
-        // Start transaction
-        const transactionId = await this.transactionManager.startTransaction(userId, {
-            type: 'buy',
-            symbol,
-            quantity,
-            price: marketPrice,
-            totalCost,
-            transactionFee,
-            tax,
-            totalWithFees,
-            order: buyOrder
-        });
-
+    
+        // Check if user has enough balance
+        const balance = await getBalance(userId);
+        if (balance < totalWithFees) {
+            throw new Error(`Không đủ tiền! Cần ${this.formatNumber(totalWithFees)} Xu`);
+        }
+    
         try {
-            await this.transactionManager.addStep(
-                transactionId,
-                async (data) => {
-                    const balance = await getBalance(userId);
-                    if (balance < data.totalWithFees) {
-                        throw new Error(`Không đủ tiền! Cần ${this.formatNumber(data.totalWithFees)} Xu`);
-                    }
-                },
-                async () => {} 
-            );
-
-            await this.transactionManager.addStep(
-                transactionId,
-                async (data) => {
-                    await this.lockUserFunds(userId, data.totalWithFees);
-                },
-                async (data) => {
-                    await this.unlockUserFunds(userId, data.totalWithFees);
-                }
-            );
-
-            await this.transactionManager.addStep(
-                transactionId,
-                async (data) => {
-                    const order = {
-                        orderId: `${userId}-${symbol}-${Date.now()}`,
-                        userId,
-                        symbol,
-                        side: 'buy',
-                        quantity: data.quantity,
-                        price: data.price,
-                        timestamp: Date.now(),
-                        fees: {
-                            transaction: data.transactionFee,
-                            tax: data.tax
-                        }
-                    };
-                    return await this.orderManager.placeOrder(order);
-                },
-                async (data) => {
-                    await this.orderManager.cancelOrder(data.orderId, userId);
-                }
-            );
-
-            await this.transactionManager.addStep(
-                transactionId,
-                async (data) => {
-                    const portfolio = this.getUserPortfolio(userId);
-                    if (!portfolio.stocks[symbol]) {
-                        portfolio.stocks[symbol] = {
-                            quantity: 0,
-                            averagePrice: 0
-                        };
-                    }
-
-                    const oldValue = portfolio.stocks[symbol].quantity * portfolio.stocks[symbol].averagePrice;
-                    const newValue = data.totalCost;
-                    const totalQuantity = portfolio.stocks[symbol].quantity + data.quantity;
-                    
-                    portfolio.stocks[symbol].quantity = totalQuantity;
-                    portfolio.stocks[symbol].averagePrice = Math.floor((oldValue + newValue) / totalQuantity);
-
-                    if (!portfolio.transactions) portfolio.transactions = [];
-                    portfolio.transactions.push({
-                        type: 'buy',
-                        symbol,
-                        quantity: data.quantity,
-                        price: data.price,
-                        total: data.totalCost,
-                        fees: {
-                            transaction: data.transactionFee,
-                            tax: data.tax
-                        },
-                        timestamp: Date.now()
-                    });
-
-                    await this.savePortfolios();
-                },
-                async (data) => {
-                    const portfolio = this.getUserPortfolio(userId);
-                    if (portfolio.stocks[symbol]) {
-                        portfolio.stocks[symbol].quantity -= data.quantity;
-                        if (portfolio.stocks[symbol].quantity <= 0) {
-                            delete portfolio.stocks[symbol];
-                        }
-                    }
-                    await this.savePortfolios();
-                }
-            );
-
-            await this.transactionManager.addStep(
-                transactionId,
-                async (data) => {
-                    await updateBalance(userId, -data.totalWithFees);
-                },
-                async (data) => {
-                    await updateBalance(userId, data.totalWithFees);
-                }
-            );
-
-            await this.transactionManager.executeTransaction(transactionId);
-
-            return {
-                transactionId,
+            // Update user portfolio
+            const portfolio = this.getUserPortfolio(userId);
+            if (!portfolio.stocks[symbol]) {
+                portfolio.stocks[symbol] = {
+                    quantity: 0,
+                    averagePrice: 0
+                };
+            }
+    
+            const oldValue = portfolio.stocks[symbol].quantity * portfolio.stocks[symbol].averagePrice;
+            const newValue = totalCost;
+            const totalQuantity = portfolio.stocks[symbol].quantity + quantity;
+            
+            portfolio.stocks[symbol].quantity = totalQuantity;
+            portfolio.stocks[symbol].averagePrice = Math.floor((oldValue + newValue) / totalQuantity);
+    
+            // Record transaction
+            if (!portfolio.transactions) portfolio.transactions = [];
+            portfolio.transactions.push({
+                type: 'buy',
                 symbol,
                 quantity,
-                price: stockData.price,
+                price: marketPrice,
+                total: totalCost,
+                fees: {
+                    transaction: transactionFee,
+                    tax: tax
+                },
+                timestamp: Date.now()
+            });
+    
+            // Update user balance
+            await updateBalance(userId, -totalWithFees);
+            this.savePortfolios();
+    
+            return {
+                symbol,
+                quantity,
+                price: marketPrice,
                 total: totalCost,
                 transactionFee,
                 tax,
                 totalWithFees,
                 status: "completed"
             };
-
         } catch (error) {
             throw error;
         }
     }
+    
 
     async lockUserFunds(userId, amount) {
        

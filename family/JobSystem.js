@@ -8,57 +8,13 @@ class JobSystem {
         this.educationPath = path.join(__dirname, '../database/json/family/familyeducation.json');
         this.data = this.loadData();
         this.TAX_BRACKETS = [
-            { threshold: 1000000, rate: 0.10 },  
-            { threshold: 5000000, rate: 0.15 }, 
-            { threshold: 10000000, rate: 0.20 },
-            { threshold: Infinity, rate: 0.25 }  
+            { threshold: 1000000, rate: 0.01 },  
+            { threshold: 5000000, rate: 0.03 }, 
+            { threshold: 10000000, rate: 0.05 },
+            { threshold: Infinity, rate: 0.10 }  
         ];
-        
-        this.CLASSIC_JOBS = [
-            {
-                name: "Shipper",
-                description: "Bạn đã giao {count} đơn hàng",
-                minPay: 20000,
-                maxPay: 45000,
-                countRange: [3, 8]
-            },
-            {
-                name: "Rửa xe",
-                description: "Bạn đã rửa {count} chiếc xe",
-                minPay: 25000,
-                maxPay: 50000,
-                countRange: [2, 5]
-            },
-            {
-                name: "Đầu bếp",
-                description: "Bạn đã nấu {count} món ăn",
-                minPay: 35000,
-                maxPay: 70000,
-                countRange: [4, 8]
-            },
-            {
-                name: "Bảo vệ",
-                description: "Bạn đã làm việc {count} giờ",
-                minPay: 20000,
-                maxPay: 40000,
-                countRange: [4, 8]
-            },
-            {
-                name: "Lập trình viên",
-                description: "Bạn đã fix {count} bug",
-                minPay: 50000,
-                maxPay: 100000,
-                countRange: [2, 5]
-            },
-            {
-                name: "Streamer",
-                description: "Bạn đã stream {count} giờ",
-                minPay: 40000,
-                maxPay: 80000,
-                countRange: [3, 6]
-            }
-        ];
-        this.QUIT_COOLDOWN = 24 * 60 * 60 * 1000; 
+
+        this.QUIT_COOLDOWN = 60 * 60 * 1000; 
         this.WORK_COOLDOWN = 10 * 60 * 1000; 
     }
 
@@ -394,20 +350,7 @@ class JobSystem {
         }
         return Math.floor(amount * this.TAX_BRACKETS[this.TAX_BRACKETS.length - 1].rate);
     }
-
-    getRandomClassicJob() {
-        const job = this.CLASSIC_JOBS[Math.floor(Math.random() * this.CLASSIC_JOBS.length)];
-        const count = Math.floor(Math.random() * (job.countRange[1] - job.countRange[0] + 1)) + job.countRange[0];
-        const earned = Math.floor(Math.random() * (job.maxPay - job.minPay + 1)) + job.minPay;
-        
-        return {
-            ...job,
-            count,
-            earned,
-            description: job.description.replace("{count}", count)
-        };
-    }
-
+    
     getJobLevel(jobType, workCount) {
         const ranks = JOB_RANKS[jobType] || [];
         for (let i = ranks.length - 1; i >= 0; i--) {
@@ -420,4 +363,3 @@ class JobSystem {
 }
 
 module.exports = JobSystem;
-     

@@ -1,5 +1,5 @@
 const COOLDOWNS = {
-    normal: 4320, 
+    normal: 10, 
     protected: 10 
 };
 

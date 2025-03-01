@@ -6,6 +6,18 @@ class EducationSystem {
         this.educationDataPath = path.join(__dirname, '..', 'database', 'json', 'family', 'education.json');
         this.educationData = this.loadEducationData();
         this.schools = {
+            kindergarten: {
+                name: "Trường Mẫu giáo",
+                minAge: 3,
+                maxAge: 6,
+                cost: 2000000,
+                duration: 3,
+                subjects: ["Kỹ năng sống", "Vận động", "Âm nhạc", "Mỹ thuật"],
+                benefits: {
+                    happiness: 3,
+                    intelligence: 5
+                }
+            },
             primary: {
                 name: "Trường Tiểu học",
                 minAge: 6,
@@ -44,6 +56,7 @@ class EducationSystem {
             }
         };
     }
+    
 
     loadEducationData() {
         try {
@@ -59,30 +72,111 @@ class EducationSystem {
         fs.writeJsonSync(this.educationDataPath, this.educationData);
     }
 
-    getChildEducation(childId) {
-        return this.educationData.students[childId] || null;
+    debug(message, error = null) {
+        console.log(`[EducationSystem Debug] ${message}`);
+        if (error) {
+            console.error(error);
+        }
     }
-
     canEnrollInSchool(child, schoolType) {
         const school = this.schools[schoolType];
         if (!school) return { canEnroll: false, reason: "Trường học không tồn tại" };
-
+    
         if (child.age < school.minAge) {
             return { canEnroll: false, reason: `Cần ${school.minAge} tuổi để vào ${school.name}` };
         }
-
+    
         if (child.age > school.maxAge) {
             return { canEnroll: false, reason: `Quá tuổi để vào ${school.name}` };
         }
-
+    
         const currentEducation = this.getChildEducation(child.id);
         if (currentEducation && currentEducation.status === "enrolled") {
             return { canEnroll: false, reason: "Đang học tại trường khác" };
         }
+    
+        const studentData = this.educationData.students[child.id];
+        if (studentData && studentData.history && Array.isArray(studentData.history)) {
+            if (schoolType === "primary") {
 
+            } else if (schoolType === "secondary") {
+                const hasPrimary = studentData.history.some(edu => 
+                    edu.schoolType === "primary" && edu.status === "graduated"
+                );
+                if (!hasPrimary) {
+                    return { canEnroll: false, reason: "Cần tốt nghiệp tiểu học trước" };
+                }
+            } else if (schoolType === "highschool") {
+                const hasSecondary = studentData.history.some(edu => 
+                    edu.schoolType === "secondary" && edu.status === "graduated"
+                );
+                if (!hasSecondary) {
+                    return { canEnroll: false, reason: "Cần tốt nghiệp THCS trước" };
+                }
+            }
+        }
+    
         return { canEnroll: true };
     }
-
+    
+    checkAndAutoEnroll(child) {
+        if (!this.educationData.students[child.id]) {
+            this.educationData.students[child.id] = {
+                history: [],
+                current: null
+            };
+        }
+    
+        const currentEducation = this.getChildEducation(child.id);
+        if (currentEducation && currentEducation.status === "enrolled") {
+            return null;
+        }
+    
+        if (child.age === 3) {
+            const check = this.canEnrollInSchool(child, "kindergarten");
+            if (check.canEnroll) {
+                return this.enrollInSchool(child, "kindergarten");
+            }
+        }
+    
+        if (child.age === 6) {
+            const check = this.canEnrollInSchool(child, "primary");
+            if (check.canEnroll) {
+                return this.enrollInSchool(child, "primary");
+            }
+        }
+    
+        const studentData = this.educationData.students[child.id];
+        
+        if (child.age === 11) {
+            const hasPrimary = studentData && studentData.history && 
+                studentData.history.some(edu => 
+                    edu.schoolType === "primary" && edu.status === "graduated"
+                );
+            if (hasPrimary) {
+                const check = this.canEnrollInSchool(child, "secondary");
+                if (check.canEnroll) {
+                    return this.enrollInSchool(child, "secondary");
+                }
+            }
+        }
+    
+        if (child.age === 15) {
+            const hasSecondary = studentData && studentData.history && 
+                studentData.history.some(edu => 
+                    edu.schoolType === "secondary" && edu.status === "graduated"
+                );
+            if (hasSecondary) {
+                const check = this.canEnrollInSchool(child, "highschool");
+                if (check.canEnroll) {
+                    return this.enrollInSchool(child, "highschool");
+                }
+            }
+        }
+    
+        return null;
+    }
+    
     enrollInSchool(child, schoolType) {
         const check = this.canEnrollInSchool(child, schoolType);
         if (!check.canEnroll) {
@@ -110,12 +204,65 @@ class EducationSystem {
         });
 
         if (!this.educationData.students[child.id]) {
-            this.educationData.students[child.id] = [];
+            this.educationData.students[child.id] = {
+                history: [],
+                current: null
+            };
         }
-        this.educationData.students[child.id] = education;
+
+        const currentEducation = this.getChildEducation(child.id);
+        if (currentEducation) {
+            if (currentEducation.status === "graduated") {
+                if (!this.educationData.students[child.id].history) {
+                    this.educationData.students[child.id].history = [];
+                }
+                this.educationData.students[child.id].history.push(currentEducation);
+            } else {
+                throw new Error("Đang học tại trường khác");
+            }
+        }
+
+        this.educationData.students[child.id].current = education;
         this.saveEducationData();
 
         return education;
+    }
+
+    getChildEducation(childId) {
+        try {
+            if (!childId) {
+                this.debug("getChildEducation called with null/undefined childId");
+                return null;
+            }
+            
+            if (!this.educationData.students) {
+                this.debug("educationData.students is undefined");
+                this.educationData.students = {};
+                this.saveEducationData();
+                return null;
+            }
+            
+            if (!this.educationData.students[childId]) {
+                this.debug(`No education data for child ${childId}`);
+                return null;
+            }
+            
+            return this.educationData.students[childId].current || null;
+        } catch (error) {
+            this.debug(`Error in getChildEducation: ${error.message}`, error);
+            return null;
+        }
+    }
+
+    getEducationHistory(childId) {
+        if (!this.educationData.students[childId]) return [];
+        
+        const studentData = this.educationData.students[childId];
+        if (studentData.history && Array.isArray(studentData.history)) {
+            return studentData.history;
+        }
+        
+        return [];
     }
 
     study(child) {
@@ -138,21 +285,63 @@ class EducationSystem {
             grades: {}
         };
 
-        const subjects = Object.keys(education.grades);
-        const subject = subjects[Math.floor(Math.random() * subjects.length)];
-        const improvement = Math.random() * 2 + 1;
+        // Initialize study streak if not exists
+        if (!education.studyStreak) {
+            education.studyStreak = {
+                count: 0,
+                lastStudyDate: null
+            };
+        }
+
+        const today = new Date().toDateString();
+        if (education.studyStreak.lastStudyDate === today) {
+    
+        } else if (education.studyStreak.lastStudyDate && 
+                   new Date(education.studyStreak.lastStudyDate).toDateString() === 
+                   new Date(Date.now() - 86400000).toDateString()) {
+            education.studyStreak.count++;
+        } else {
+            education.studyStreak.count = 1;
+        }
+
+        const streakBonus = Math.min(education.studyStreak.count * 0.1, 0.5);
+
+        const subjects = Object.entries(education.grades)
+            .sort(([,a], [,b]) => a.score - b.score)
+            .map(([subject]) => subject);
+        const subject = subjects[0];
+
+        let improvement = Math.random() * 2 + 2;
+
+        improvement *= (1 + streakBonus);
+
+        if (child.happiness) {
+            const happinessBonus = child.happiness / 500; 
+            improvement *= (1 + happinessBonus);
+        }
+
+        if (child.intelligence) {
+            const intelligenceBonus = child.intelligence / 333; 
+            improvement *= (1 + intelligenceBonus);
+        }
+
+        const currentScore = education.grades[subject].score;
+        const diminishingFactor = Math.max(0.1, (10 - currentScore) / 10);
+        improvement *= diminishingFactor;
         
-        education.grades[subject].score = Math.min(10, education.grades[subject].score + improvement);
+        education.grades[subject].score = Math.min(10, currentScore + improvement);
         education.grades[subject].lastStudy = now;
         education.lastStudyTime = now;
 
         results.grades[subject] = {
             name: subject,
-            improvement: improvement.toFixed(1)
+            improvement: improvement.toFixed(1),
+            streak: education.studyStreak.count,
+            streakBonus: `+${(streakBonus * 100).toFixed(0)}%`
         };
 
-        results.intelligence = school.benefits.intelligence * (Math.random() * 0.5 + 0.5); // 50-100% of benefit
-        results.happiness = school.benefits.happiness * (Math.random() * 0.8 + 0.2); // 20-100% of benefit
+        results.intelligence = school.benefits.intelligence * (Math.random() * 0.3 + 0.7); // 70-100% of benefit
+        results.happiness = school.benefits.happiness * (Math.random() * 0.2 + 0.8); // 80-100% of benefit
 
         this.saveEducationData();
 
@@ -208,14 +397,54 @@ class EducationSystem {
         }
 
         education.status = "graduated";
+        education.graduationDate = Date.now();
+
+        if (!this.educationData.students[child.id]) {
+            this.educationData.students[child.id] = {
+                history: [],
+                current: null
+            };
+        }
+        
+        if (!this.educationData.students[child.id].history) {
+            this.educationData.students[child.id].history = [];
+        }
+            
+        this.educationData.students[child.id].history.push(education);
+        this.educationData.students[child.id].current = null;
+
+        let nextSchool = null;
+        if (education.schoolType === "primary" && child.age >= 11) {
+            nextSchool = "secondary";
+        } else if (education.schoolType === "secondary" && child.age >= 15) {
+            nextSchool = "highschool";
+        }
+
+        let nextEnrollment = null;
+        if (nextSchool) {
+            const check = this.canEnrollInSchool(child, nextSchool);
+            if (check.canEnroll) {
+                nextEnrollment = this.enrollInSchool(child, nextSchool);
+            }
+        }
+
         this.saveEducationData();
 
-        return {
+        const result = {
             schoolName: school.name,
             averageGrade: averageGrade.toFixed(1),
             duration: school.duration,
-            graduationDate: Date.now()
+            graduationDate: education.graduationDate
         };
+
+        if (nextEnrollment) {
+            result.nextSchool = {
+                name: nextEnrollment.schoolName,
+                type: nextEnrollment.schoolType
+            };
+        }
+
+        return result;
     }
 }
 

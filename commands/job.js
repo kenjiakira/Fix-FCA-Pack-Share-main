@@ -107,7 +107,6 @@ module.exports = {
                         return api.sendMessage("❌ Vui lòng nhập mã công việc hợp lệ!", threadID);
                     }
 
-                    // Check for quit cooldown
                     const jobData = jobSystem.getJob(senderID);
                     if (jobData.lastQuit) {
                         const timeSinceQuit = Date.now() - jobData.lastQuit;
@@ -115,7 +114,7 @@ module.exports = {
                             const timeLeft = jobSystem.QUIT_COOLDOWN - timeSinceQuit;
                             const hours = Math.floor(timeLeft / 3600000);
                             const minutes = Math.floor((timeLeft % 3600000) / 60000);
-                            return api.sendMessage(`❌ Bạn vừa nghỉ việc! Vui lòng đợi ${hours} giờ ${minutes} phút nữa để xin việc mới!`, threadID);
+                            return api.sendMessage(`❌ Bạn vừa nghỉ việc! Vui lòng đợi ${minutes} phút nữa để xin việc mới!`, threadID);
                         }
                     }
 
@@ -181,7 +180,7 @@ module.exports = {
                         const oldJob = jobSystem.quitJob(senderID);
                         return api.sendMessage(
                             `💼 Bạn đã nghỉ việc ${oldJob.name} thành công!\n` +
-                            "⏳ Bạn cần đợi 24 giờ để có thể xin việc lại.\n" +
+                                "⏳ Bạn cần đợi 1 giờ để có thể xin việc lại.\n" +
                             "💡 Dùng .job list để xem danh sách việc làm",
                             threadID
                         );

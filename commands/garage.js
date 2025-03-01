@@ -206,7 +206,7 @@ module.exports = {
                         "┏━━『 THÔNG TIN XE 』━━┓\n\n" +
                         `🚗 Tên: ${car.name}\n` +
                         `🏢 Hãng: ${car.brand} ${BRANDS[car.brand]}\n` +
-                        `👤 Chủ sở hữu: ${getUserName(vehicle.ownerID)}\n` +
+                        `👤 Chủ sở hữu: ${this.getUserName(vehicle.ownerID)}\n` +
                         `📑 Loại: ${VEHICLE_TYPES[car.type]}\n` +
                         `⚡ Tốc độ: ${car.speed} km/h\n` +
                         `🛠️ Độ bền: ${vehicle.durability.toFixed(1)}%\n` +

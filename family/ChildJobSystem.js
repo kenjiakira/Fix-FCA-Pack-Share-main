@@ -117,8 +117,8 @@ class ChildJobSystem {
             totalEarnings: data.totalEarnings,
             pendingIncome,
             happiness: data.happiness,
-            nextUpdate: Math.ceil((6 - (hoursSinceUpdate % 6)) * 60), // Minutes until next income
-            incomePerDay: data.baseIncome * 4 // 4 updates per day
+            nextUpdate: Math.ceil((6 - (hoursSinceUpdate % 6)) * 60), 
+            incomePerDay: data.baseIncome * 4
         };
     }
 

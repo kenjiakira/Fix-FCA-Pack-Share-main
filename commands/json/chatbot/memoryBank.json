@@ -1,108 +1,20 @@
 {
   "users": {
-    "100055074463541": {
+    "61573427362389": {
       "personal": [],
       "facts": [],
       "preferences": [],
       "interactions": [
         {
-          "content": "Khang Bùi nói: bật bot dis\nTôi trả lời: Chào Khang Bùi! Có gì cần em giúp không ạ?  Buổi tối tốt lành nhé!",
-          "timestamp": 1740751970134,
-          "priority": 1,
-          "accessCount": 1,
-          "lastAccess": 1740752033740,
-          "metadata": {
-            "sentiment": {
-              "score": 1,
-              "sentiment": "positive"
-            },
-            "topics": [
-              "PERSONAL"
-            ],
-            "entities": {}
-          }
-        },
-        {
-          "content": "Khang Bùi nói: bật bot disco đi\nTôi trả lời: Chào Khang Bùi!  Có vẻ như bạn đang muốn bật bot trên Discord nhỉ?  Em đoán chắc là có chút rắc rối gì đó rồi?  Có gì cứ nói em nghe,  em sẽ cố gắng giúp bạn hết sức.  Buổi tối của bạn thế nào rồi?",
-          "timestamp": 1740752035620,
+          "content": "Ngọc Từ nói: kcj\nTôi trả lời: Dạ không có gì ạ!  Chị cần em giúp gì nữa không?",
+          "timestamp": 1740812276455,
           "priority": 1,
           "accessCount": 0,
-          "lastAccess": 1740752035620,
+          "lastAccess": 1740812276455,
           "metadata": {
             "sentiment": {
               "score": 0,
               "sentiment": "neutral"
-            },
-            "topics": [
-              "PERSONAL",
-              "TRAVEL"
-            ],
-            "entities": {}
-          }
-        }
-      ],
-      "emotions": [],
-      "names": [],
-      "relationships": {},
-      "context": {
-        "lastTopics": [],
-        "importantDates": {},
-        "recentMentions": {},
-        "conversationFlow": []
-      },
-      "topics": {},
-      "undefined": [
-        {
-          "content": "Xưng hô: em/bạn",
-          "timestamp": 1740751968276,
-          "priority": 2,
-          "accessCount": 1,
-          "lastAccess": 1740752033740,
-          "metadata": {
-            "sentiment": {
-              "score": 0,
-              "sentiment": "neutral"
-            },
-            "topics": [
-              "PERSONAL"
-            ],
-            "entities": {}
-          }
-        },
-        {
-          "content": "Xưng hô: em/bạn",
-          "timestamp": 1740752033742,
-          "priority": 2,
-          "accessCount": 0,
-          "lastAccess": 1740752033742,
-          "metadata": {
-            "sentiment": {
-              "score": 0,
-              "sentiment": "neutral"
-            },
-            "topics": [
-              "PERSONAL"
-            ],
-            "entities": {}
-          }
-        }
-      ]
-    },
-    "100058320200877": {
-      "personal": [],
-      "facts": [],
-      "preferences": [],
-      "interactions": [
-        {
-          "content": "Khuong Duy nói: bật bot discord\nTôi trả lời: Chào Khuong Duy!  Buổi tối tốt lành nha! Có gì em giúp được không?",
-          "timestamp": 1740752026917,
-          "priority": 1,
-          "accessCount": 0,
-          "lastAccess": 1740752026917,
-          "metadata": {
-            "sentiment": {
-              "score": 1,
-              "sentiment": "positive"
             },
             "topics": [
               "PERSONAL"
@@ -124,10 +36,10 @@
       "undefined": [
         {
           "content": "Xưng hô: em/bạn",
-          "timestamp": 1740752025817,
+          "timestamp": 1740812274778,
           "priority": 2,
           "accessCount": 0,
-          "lastAccess": 1740752025817,
+          "lastAccess": 1740812274778,
           "metadata": {
             "sentiment": {
               "score": 0,
@@ -155,16 +67,11 @@
     "voice": {}
   },
   "stats": {
-    "totalInteractions": 6,
+    "totalInteractions": 2,
     "uniqueUsers": {},
     "topTopics": {},
     "responseTime": [],
-    "accuracy": [
-      {
-        "timestamp": 1740751970135,
-        "memoryCount": 5
-      }
-    ]
+    "accuracy": []
   },
   "compression": {
     "enabled": true,

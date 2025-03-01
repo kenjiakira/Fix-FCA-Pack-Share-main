@@ -106,7 +106,7 @@ class HomeSystem {
     }
 
     decreaseCondition(userId, amount = 0.1) {
-        // Find the actual home owner
+ 
         let homeOwner = userId;
         let home = this.homes[userId];
         

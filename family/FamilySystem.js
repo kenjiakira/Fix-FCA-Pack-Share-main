@@ -1,7 +1,6 @@
 const fs = require('fs');
 const path = require('path');
 const HomeSystem = require('./HomeSystem');
-const EventSystem = require('./EventSystem');
 const EducationSystem = require('./EducationSystem');
 const ChildJobSystem = require('./ChildJobSystem');
 const TravelSystem = require('./TravelSystem');
@@ -9,7 +8,6 @@ const TravelSystem = require('./TravelSystem');
 class FamilySystem {
     constructor() {
         this.homeSystem = new HomeSystem();
-        this.eventSystem = new EventSystem();
         this.educationSystem = new EducationSystem();
         this.childJobSystem = new ChildJobSystem();
         this.travelSystem = new TravelSystem();
@@ -111,7 +109,182 @@ class FamilySystem {
         return true;
     }
 
-    confirmMarriage(proposerID, acceptorID) {
+hasChildrenUnderSix(userID) {
+    const family = this.getFamily(userID);
+    if (!family.children || family.children.length === 0) {
+        return false;
+    }
+    
+    return family.children.some(child => {
+        const ageInYears = (Date.now() - child.birthDate) / (1000 * 60 * 60 * 24 * 365);
+        return ageInYears < 6;
+    });
+}
+
+getFamilyIncomeLevel(userID) {
+    try {
+        const jobPath = path.join(__dirname, '../database/json/family/job.json');
+        let totalIncome = 0;
+        
+        const jobData = JSON.parse(fs.readFileSync(jobPath));
+        const userJob = jobData[userID];
+        
+        if (userJob && userJob.currentJob) {
+            const { JOBS } = require('../config/family/jobConfig');
+            const job = JOBS[userJob.currentJob.id];
+            totalIncome += job.salary || 0;
+        }
+        
+        const family = this.getFamily(userID);
+        
+        if (family.children && family.children.length > 0) {
+            family.children.forEach(child => {
+                const childJobInfo = this.childJobSystem.getChildJobInfo(child.id);
+                if (childJobInfo) {
+                    totalIncome += childJobInfo.baseIncome || 0;
+                }
+            });
+        }
+        
+        if (family.spouse) {
+            const spouseJob = jobData[family.spouse];
+            if (spouseJob && spouseJob.currentJob) {
+                const { JOBS } = require('../config/family/jobConfig');
+                const job = JOBS[spouseJob.currentJob.id];
+                totalIncome += job.salary || 0;
+            }
+        }
+        
+        let assetPoints = 0;
+        const homeInfo = this.homeSystem.getHomeInfo(userID);
+        if (homeInfo) {
+            const { HOMES } = require('../config/family/homeConfig');
+            const homeType = Object.keys(HOMES).find(type => HOMES[type].name === homeInfo.name);
+            if (homeType) {
+                const homeValue = HOMES[homeType].price;
+     
+                if (homeValue >= 500000000) assetPoints += 5;
+                else if (homeValue >= 200000000) assetPoints += 3;
+                else if (homeValue >= 100000000) assetPoints += 2;
+                else assetPoints += 1;
+            }
+        }
+        
+        const sharedVehicles = this.getSharedVehicles(userID);
+        if (Object.keys(sharedVehicles).length > 0) {
+            const { CARS } = require('../config/family/carConfig');
+            Object.keys(sharedVehicles).forEach(carId => {
+                const car = CARS[carId];
+                if (car) {
+                    if (car.price >= 1000000000) assetPoints += 5;
+                    else if (car.price >= 500000000) assetPoints += 3;
+                    else if (car.price >= 200000000) assetPoints += 2;
+                    else assetPoints += 1;
+                }
+            });
+        }
+        
+        let level, description;
+        let benefits = [];
+        
+        if (totalIncome <= 5000000 && assetPoints <= 1) {
+            level = "Hộ nghèo";
+            description = "Thu nhập thấp, cần hỗ trợ";
+            benefits = [
+                "Miễn phí BHYT 100%",
+                "Miễn phí thuốc men 50%",
+                "Miễn học phí cho con cái",
+                "Giảm 50% chi phí sửa chữa nhà"
+            ];
+        } else if (totalIncome <= 10000000 && assetPoints <= 2) {
+            level = "Hộ cận nghèo";
+            description = "Thu nhập trung bình thấp";
+            benefits = [
+                "Giảm 70% chi phí BHYT",
+                "Miễn phí thuốc men 50%",
+                "Giảm 50% học phí cho con cái"
+            ];
+        } else if (totalIncome <= 20000000 && assetPoints <= 3) {
+            level = "Hộ trung bình";
+            description = "Thu nhập ổn định";
+            benefits = [];
+        } else if (totalIncome <= 50000000 || assetPoints <= 5) {
+            level = "Hộ khá giả";
+            description = "Thu nhập cao";
+            benefits = [];
+        } else {
+            level = "Hộ giàu có";
+            description = "Thu nhập rất cao, nhiều tài sản";
+            benefits = [];
+        }
+        
+        if (assetPoints >= 8) {
+            level = "Hộ giàu có";
+            description = "Sở hữu nhiều tài sản giá trị";
+            benefits = [];
+        } else if (assetPoints >= 5 && level !== "Hộ giàu có") {
+            level = "Hộ khá giả";
+            description = "Thu nhập ổn định, có tài sản";
+            benefits = [];
+        }
+        
+        const hasChildrenUnder6 = this.hasChildrenUnderSix(userID);
+        if (hasChildrenUnder6) {
+            benefits.push("Miễn phí thuốc men cho trẻ em dưới 6 tuổi");
+            benefits.push("Miễn phí khám chữa bệnh cho trẻ em dưới 6 tuổi");
+        }
+        
+        return {
+            level: level,
+            income: totalIncome,
+            description: description,
+            assetPoints: assetPoints,
+            benefits: benefits,
+            hasChildrenUnder6: hasChildrenUnder6
+        };
+    } catch (error) {
+        console.error("Error calculating family income level:", error);
+        return {
+            level: "Không xác định",
+            income: 0,
+            description: "Không thể xác định thu nhập",
+            assetPoints: 0,
+            benefits: []
+        };
+    }
+}
+
+    
+getMarriageInfo(userID) {
+    const family = this.getFamily(userID);
+    if (!family) {
+        return {
+            spouse: "Độc thân",
+            happiness: 0,
+            childCount: 0,
+            children: [],
+            home: null,
+            incomeLevel: {
+                level: "Không xác định",
+                income: 0,
+                description: "Chưa có thông tin"
+            }
+        };
+    }
+
+    const incomeLevel = this.getFamilyIncomeLevel(userID);
+
+    return {
+        spouse: family.spouse ? this.getUserName(family.spouse) : "Độc thân",
+        happiness: Math.round(family.happiness || 0),
+        childCount: (family.children || []).length,
+        children: family.children || [],
+        home: this.homeSystem.getHomeInfo(userID),
+        incomeLevel: incomeLevel
+    };
+}
+
+confirmMarriage(proposerID, acceptorID) {
         const proposer = this.getFamily(proposerID);
         const acceptor = this.getFamily(acceptorID);
 
@@ -194,39 +367,44 @@ class FamilySystem {
             } : null
         };
     }
-
     addChild(userID, childName) {
         const family = this.getFamily(userID);
         if (!family.spouse) throw new Error("Bạn cần kết hôn trước!");
         
+        if (family.children && family.children.length >= 7) {
+            throw new Error("Gia đình đã có đủ 7 con, không thể sinh thêm!");
+        }
+        
+        const oneYearInMs = 12 * 30 * 24 * 60 * 60 * 1000;
+        const birthDate = Date.now() - oneYearInMs;
+        
         const child = {
             id: Date.now().toString(),
             name: childName,
-            birthDate: Date.now(),
+            birthDate: birthDate,
             happiness: 100,
             gender: Math.random() < 0.5 ? "👦" : "👧",
             nickname: this.generateNickname(childName)
         };
-
-        // Register child for passive income
+    
         this.childJobSystem.registerChild(child);
-
+    
         family.children.push(child);
         family.lastBaby = Date.now();
         
         const spouseFamily = this.getFamily(family.spouse);
         spouseFamily.children = [...family.children];
         spouseFamily.lastBaby = family.lastBaby;
-
+    
         this.saveData();
         return child;
     }
+    
 
     generateNickname(name) {
         const nicknames = ["Bé", "Cưng", "Yêu", "Sunshine", "Angel"];
         return `${nicknames[Math.floor(Math.random() * nicknames.length)]} ${name}`;
     }
-
     calculateAge(birthDate) {
         const hours = Math.floor((Date.now() - birthDate) / (1000 * 60 * 60));
         const months = hours;
@@ -238,6 +416,13 @@ class FamilySystem {
         }
         return `${months} tháng`;
     }
+    
+    getAgeInYears(birthDate) {
+        const hours = Math.floor((Date.now() - birthDate) / (1000 * 60 * 60));
+        const months = hours;
+        return Math.floor(months / 12);
+    }
+    
 
     updateHappiness(userID) {
         const family = this.getFamily(userID);
@@ -282,7 +467,6 @@ class FamilySystem {
         const { COOLDOWNS } = require('../config/family/familyConfig');
         const minutesSinceLastBaby = (Date.now() - family.lastBaby) / (1000 * 60);
         
-        // Check if using contraceptive
         if (family.contraceptiveUntil && family.contraceptiveUntil > Date.now()) {
             return false;
         }
@@ -348,13 +532,29 @@ class FamilySystem {
     }
 
     getUserName(userID) {
+        if (!userID) return "Người dùng không xác định";
+        
         const userDataPath = path.join(__dirname, '../events/cache/userData.json');
         try {
-            const userData = JSON.parse(fs.readFileSync(userDataPath, 'utf8'));
-            return userData[userID]?.name || userID;
+            if (!fs.existsSync(userDataPath)) {
+                return userID.toString();
+            }
+            
+            const rawData = fs.readFileSync(userDataPath, 'utf8');
+            if (!rawData || rawData.trim() === '') {
+                return userID.toString();
+            }
+            
+            const userData = JSON.parse(rawData);
+            
+            if (!userData || !userData[userID] || !userData[userID].name) {
+                return userID.toString();
+            }
+            
+            return userData[userID].name;
         } catch (error) {
             console.error('Error reading userData:', error);
-            return userID;
+            return userID.toString();
         }
     }
 
@@ -382,44 +582,30 @@ class FamilySystem {
         this.saveData();
         return child;
     }
-
     getChildInfo(userID) {
         const family = this.getFamily(userID);
         if (!family.children || family.children.length === 0) {
             return "Chưa có con";
         }
-
-        return family.children.map((child, index) => ({
-            index,
-            name: child.name,
-            gender: child.gender,
-            nickname: child.nickname,
-            age: this.calculateAge(child.birthDate),
-            happiness: Math.round(child.happiness)
-        }));
-    }
-
-    getMarriageInfo(userID) {
-        const family = this.getFamily(userID);
-        if (!family) {
+    
+        return family.children.map((child, index) => {
+       
+            const ageInYears = Math.floor((Date.now() - child.birthDate) / (1000 * 60 * 60 * 24 * 365));
+            
             return {
-                spouse: "Độc thân",
-                happiness: 0,
-                childCount: 0,
-                children: [],
-                home: null
+                index,
+                id: child.id,
+                name: child.name,
+                gender: child.gender,
+                nickname: child.nickname,
+                age: this.calculateAge(child.birthDate),
+                ageInYears: ageInYears, 
+                birthDate: child.birthDate,
+                happiness: Math.round(child.happiness)
             };
-        }
-
-        return {
-            spouse: family.spouse ? this.getUserName(family.spouse) : "Độc thân",
-            happiness: Math.round(family.happiness || 0),
-            childCount: (family.children || []).length,
-            children: family.children || [],
-            home: this.homeSystem.getHomeInfo(userID)
-        };
+        });
     }
-
+    
     sendChildToTemple(userID, childIndex) {
         const family = this.getFamily(userID);
         if (!family.children || !family.children[childIndex]) {

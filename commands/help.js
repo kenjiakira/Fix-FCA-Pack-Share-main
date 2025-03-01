@@ -46,7 +46,7 @@ module.exports = {
             }
 
             if (!target[0]) {
-                let msg = "╔════ DANH SÁCH LỆNH ════╗\n\n";
+                let msg = "DANH SÁCH LỆNH\n\n";
                 
                 const sortedCategories = Object.values(categories)
                     .sort((a, b) => a.priority - b.priority);
@@ -57,7 +57,7 @@ module.exports = {
                     msg += `➣ Số lệnh: ${category.commands.length}\n\n`;
                 });
 
-                msg += "╚═══════════════════════╝\n\n";
+                msg += "╚═══════════════╝\n\n";
                 msg += "📌 Hướng dẫn sử dụng:\n";
                 msg += "• Reply số để xem chi tiết\n";
                 msg += `• ${prefix}help <tên lệnh>\n`;
@@ -109,7 +109,7 @@ module.exports = {
                     );
                 }
 
-                let msg = `╔═══ TRANG ${page}/${totalPages} ═══╗\n\n`;
+                let msg = `TRANG ${page}/${totalPages}\n\n`;
                 const start = (page - 1) * cmdsPerPage;
                 const end = start + cmdsPerPage;
                 
@@ -130,7 +130,7 @@ module.exports = {
                     }
                 });
 
-                msg += "╚═══════════════════════╝\n\n";
+                msg += "╚════════════════╝\n\n";
                 msg += "📌 Hướng dẫn:\n";
                 msg += `• ${prefix}help <tên lệnh> để xem chi tiết\n`;
                 msg += `• Trang ${page - 1 > 0 ? `${page - 1}, ` : ""}${page + 1 <= totalPages ? `${page + 1}` : ""}`;
@@ -172,7 +172,7 @@ module.exports = {
                 const category = categories[input - 1];
                 const commands = category.commands;
                 
-                let msg = `╔═══ ${category.name.toUpperCase()} ═══╗\n\n`;
+                let msg = `${category.name.toUpperCase()}\n\n`;
                 
                 commands.forEach((cmd, index) => {
                     const icon = this.getCommandIcon(cmd);
@@ -180,7 +180,7 @@ module.exports = {
                     msg += `➣ ${cmd.info || "Không có mô tả"}\n`;
                 });
 
-                msg += "╚═══════════════════════╝\n\n";
+                msg += "╚═════════Basketball══════╝\n\n";
                 msg += "📌 Reply số thứ tự để xem chi tiết lệnh";
 
                 const sent = await api.sendMessage(msg, threadID);
@@ -221,14 +221,14 @@ module.exports = {
 
     getCommandInfo(cmd, prefix) {
         const icon = this.getCommandIcon(cmd);
-        return `╔═══ ${cmd.name.toUpperCase()} ═══╗\n\n` +
+        return `╔═${cmd.name.toUpperCase()}═╗\n\n` +
                `${icon} Tên: ${cmd.name}\n` +
                `📝 Mô tả: ${cmd.info || "Không có"}\n` +
                `💡 Cách dùng: ${cmd.usages || prefix + cmd.name}\n` +
                `👥 Quyền hạn: ${this.getPermissionText(cmd.usedby)}\n` +
                `⏱️ Cooldown: ${cmd.cooldowns || 0}s\n` +
                `👨‍💻 Author: ${cmd.dev || "Không có"}\n\n` +
-               `╚═══════════════════════╝`;
+               `╚════════════════╝`;
     },
 
     getCategoryPriority(category) {

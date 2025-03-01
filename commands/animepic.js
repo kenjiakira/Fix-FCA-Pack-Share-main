@@ -4,7 +4,6 @@ const path = require('path');
 
 module.exports = {
     name: "animepic",
-    version: "1.0.0",
     dev: "HNT",
     category: "Anime",
     info: "Xem ảnh Anime ngẫu nhiên",
