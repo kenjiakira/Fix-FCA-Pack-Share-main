@@ -81,7 +81,7 @@
       "creditScore": 13
     },
     "100063719077878": {
-      "bankBalance": 0,
+      "bankBalance": 5000000,
       "lastInterest": 1740831857859,
       "createdAt": 1740831857859,
       "balanceHistory": [],
@@ -183,6 +183,22 @@
       "balanceHistory": [],
       "penalties": [],
       "creditScore": 64
+    },
+    "61556258566916": {
+      "bankBalance": 3000000,
+      "lastInterest": 1740896859054,
+      "createdAt": 1740896859054,
+      "balanceHistory": [],
+      "penalties": [],
+      "creditScore": 13
+    },
+    "100089981373051": {
+      "bankBalance": 0,
+      "lastInterest": 1740899111537,
+      "createdAt": 1740899111537,
+      "balanceHistory": [],
+      "penalties": [],
+      "creditScore": 13
     }
   },
   "transactions": {
@@ -224,6 +240,12 @@
         "description": "Nhận 2,350,000 Xu từ Người gửi",
         "amount": 2350000,
         "timestamp": 1740894183073
+      },
+      {
+        "type": "in",
+        "description": "Nhận 500,000 Xu từ Người gửi",
+        "amount": 500000,
+        "timestamp": 1740897545864
       }
     ],
     "100024533820832": [
@@ -878,6 +900,12 @@
         "description": "Chuyển 1,000,000 Xu cho Người nhận",
         "amount": 1000000,
         "timestamp": 1740855004274
+      },
+      {
+        "type": "out",
+        "description": "Chuyển 500,000 Xu cho Người nhận",
+        "amount": 500000,
+        "timestamp": 1740897545834
       }
     ],
     "61561277064921": [

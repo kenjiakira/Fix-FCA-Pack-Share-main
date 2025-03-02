@@ -134,13 +134,10 @@
     "degrees": [
       "e1",
       "e1",
-      "e2"
+      "e2",
+      "e3"
     ],
-    "currentDegree": {
-      "id": "e3",
-      "startTime": 1740755783487,
-      "progress": 0
-    }
+    "currentDegree": null
   },
   "100006842495827": {
     "degrees": [
@@ -195,13 +192,10 @@
   },
   "100080964828004": {
     "degrees": [
-      "e1"
+      "e1",
+      "e3"
     ],
-    "currentDegree": {
-      "id": "e3",
-      "startTime": 1740029822811,
-      "progress": 0
-    }
+    "currentDegree": null
   },
   "61568733064572": {
     "degrees": [
