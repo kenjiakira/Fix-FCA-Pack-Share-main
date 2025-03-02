@@ -1580,21 +1580,23 @@ case "tree": {
   
       switch (r.type) {
           case "marriage-confirmation":
+              return r.author === senderID;
+          
           case "divorce-confirmation":
               return r.author === senderID;
           
           case "child-marriage-confirmation":
-              return r.author === senderID || r.data.targetParentId === senderID;
+         
+              return r.author === senderID;
               
           case "intimate-confirmation":
-              const family = familySystem.getFamily(senderID);
-            
-              return senderID === r.author || senderID === r.requesterID;
+  
+              return senderID === r.author;
               
-          case "baby-confirmation":
           case "baby-naming":
-              const babyFamily = familySystem.getFamily(senderID);
-              return senderID === r.author || senderID === babyFamily.spouse;
+              const family = familySystem.getFamily(r.author);
+     
+              return senderID === r.author || senderID === family.spouse;
               
           default:
               return false;
@@ -1632,6 +1634,7 @@ case "tree": {
           console.error("Marriage confirmation error:", error);
           return api.sendMessage(`❌ Lỗi: ${error.message}`, threadID);
         }
+
         break;
 
         case "child-marriage-confirmation": {
@@ -1748,26 +1751,25 @@ case "tree": {
                 family.contraceptiveUntil &&
                 family.contraceptiveUntil > Date.now();
               
-              if (!hasContraceptive && Math.random() < 0.8) {
-                const babyGender =
-                  Math.random() < 0.5 ? "👶 Bé trai" : "👶 Bé gái";
-                const confirmMsg = await api.sendMessage(
-                  `${randomMsg}\n\n` +
-                    `🎊 CHÚC MỪNG! Gia đình có thêm ${babyGender}!\n` +
-                    `💝 Hãy reply tin nhắn này để đặt tên cho bé\n` +
-                    `💕 Độ hạnh phúc tăng ${happinessIncrease}%\n` +
-                    `❤️ Sức khỏe tăng ${healthIncrease}%`,
-                  threadID
-                );
-                
-                global.client.onReply.push({
-                  name: reply.name,
-                  messageID: confirmMsg.messageID,
-                  author: requesterID,
-                  type: "baby-naming",
-                  spouseName: spouseName,
-                  isSpouse: senderID
-                });
+                if (!hasContraceptive && Math.random() < 0.8) {
+                  const babyGender = Math.random() < 0.5 ? "👶 Bé trai" : "👶 Bé gái";
+                  const confirmMsg = await api.sendMessage(
+                      `${randomMsg}\n\n` +
+                      `🎊 CHÚC MỪNG! Gia đình có thêm ${babyGender}!\n` +
+                      `💝 Hãy đặt tên cho bé (không được dùng yes/no/ok...)\n` + // Thêm cảnh báo
+                      `💕 Độ hạnh phúc tăng ${happinessIncrease}%\n` +
+                      `❤️ Sức khỏe tăng ${healthIncrease}%`,
+                      threadID
+                  );
+              
+                  global.client.onReply.push({
+                      name: reply.name,
+                      messageID: confirmMsg.messageID,
+                      author: requesterID,
+                      type: "baby-naming",
+                      spouseName: spouseName,
+                      isSpouse: senderID
+                  });
               } else {
                 return api.sendMessage(
                   `${randomMsg}\n\n` +
@@ -1791,36 +1793,60 @@ case "tree": {
       }
   }
 
-      case "baby-naming":
-        {
-          const babyName = body.trim();
-          if (!familySystem.validateBabyName(babyName)) {
+  case "baby-naming": {
+    try {
+        const babyName = body.trim();
+        
+        const commonReplies = ["yes", "no", "ok", "đồng ý", "ừ", "accept", "1"];
+        if (commonReplies.includes(babyName.toLowerCase())) {
             return api.sendMessage(
-              "❌ Tên không hợp lệ! Tên phải từ 2-20 ký tự và không chứa số hoặc ký tự đặc biệt",
-              threadID
+                "❌ Không thể đặt tên con là từ phản hồi đơn giản!\n" +
+                "💝 Vui lòng đặt một cái tên ý nghĩa cho bé",
+                threadID
             );
-          }
+        }
 
-          try {
-            if (senderID !== reply.author && senderID !== reply.isSpouse) {
-              return api.sendMessage(
+        if (!familySystem.validateBabyName(babyName)) {
+            return api.sendMessage(
+                "❌ Tên không hợp lệ!\n" +
+                "• Tên phải từ 2-20 ký tự\n" +
+                "• Không chứa số hoặc ký tự đặc biệt\n" +
+                "• Không được dùng yes/no/ok...",
+                threadID
+            );
+        }
+
+        const parentId = reply.author;
+        const family = familySystem.getFamily(parentId);
+        
+        if (!family) {
+            throw new Error("Không tìm thấy thông tin gia đình!");
+        }
+
+        if (senderID !== parentId && senderID !== family.spouse) {
+            return api.sendMessage(
                 "❌ Chỉ vợ/chồng mới có thể đặt tên cho bé!",
                 threadID
-              );
-            }
-
-            const child = await familySystem.addChild(senderID, babyName);
-            return api.sendMessage(
-              `👶 Chúc mừng gia đình có thêm thành viên mới!\n` +
-                `${child.gender} Tên bé: ${child.name}\n` +
-                `💝 Biệt danh: ${child.nickname}\n` +
-                `💖 Chúc bé luôn khỏe mạnh và hạnh phúc!`,
-              threadID
             );
-          } catch (error) {
-            return api.sendMessage(`❌ Lỗi: ${error.message}`, threadID);
-          }
         }
+
+        const child = await familySystem.addChild(parentId, babyName);
+        
+        return api.sendMessage(
+            `👶 Chúc mừng gia đình có thêm thành viên mới!\n` +
+            `${child.gender} Tên bé: ${child.name}\n` +
+            `💝 Biệt danh: ${child.nickname}\n` +
+            `💖 Chúc bé luôn khỏe mạnh và hạnh phúc!`,
+            threadID
+        );
+    } catch (error) {
+        console.error("Baby naming error:", error);
+        return api.sendMessage(
+            `❌ Đã xảy ra lỗi khi đặt tên cho bé: ${error.message}`,
+            threadID
+        );
+    }
+}
         break;
     }
   },

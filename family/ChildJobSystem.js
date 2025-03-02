@@ -5,6 +5,7 @@ class ChildJobSystem {
     constructor() {
         this.path = path.join(__dirname, '../database/json/family/childJobs.json');
         this.data = this.loadData();
+        this.familySystem = null;
         
         if (!this.data || typeof this.data !== 'object') {
             this.data = {};
@@ -113,16 +114,20 @@ class ChildJobSystem {
     }
 
     registerChild(child) {
-        if (!this.jobData.children[child.id]) {
-            this.jobData.children[child.id] = {
-                baseIncome: this.calculateBaseIncome(child),
-                totalEarnings: 0,
-                lastUpdate: Date.now(),
-                happiness: 50
-            };
-            this.saveJobData();
+        if (!child || !child.id) {
+            console.error("Invalid child data:", child);
+            return;
         }
-        return this.jobData.children[child.id];
+
+        if (!this.data[child.id]) {
+            this.data[child.id] = {
+                currentJob: null,
+                lastUpdate: null,
+                pendingIncome: 0,
+                totalIncome: 0
+            };
+            this.saveData();
+        }
     }
 
     updateChildIncome(child) {

@@ -1,0 +1,53 @@
+{
+  "farms": {
+    "61573427362389": {
+      "id": "61573427362389",
+      "exp": 0,
+      "plots": [
+        {
+          "id": 0,
+          "status": "growing",
+          "crop": "lua",
+          "plantedAt": 1740892343999,
+          "water": 3,
+          "lastWatered": 1740892646000
+        },
+        {
+          "id": 1,
+          "status": "empty",
+          "crop": null,
+          "plantedAt": null,
+          "water": 0,
+          "lastWatered": null
+        },
+        {
+          "id": 2,
+          "status": "empty",
+          "crop": null,
+          "plantedAt": null,
+          "water": 0,
+          "lastWatered": null
+        },
+        {
+          "id": 3,
+          "status": "empty",
+          "crop": null,
+          "plantedAt": null,
+          "water": 0,
+          "lastWatered": null
+        }
+      ],
+      "inventory": {},
+      "animals": {},
+      "items": {},
+      "lastActive": 1740891826851,
+      "createdAt": 1740891826851,
+      "autoHarvest": false,
+      "weather": {
+        "type": "sunny",
+        "nextChange": 1740913426852
+      }
+    }
+  },
+  "lastUpdate": 1740893576042
+}

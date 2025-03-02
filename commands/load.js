@@ -29,6 +29,42 @@ module.exports = {
         const loadingMsg = await actions.reply("⏳ Đang tải lại Module...");
         let msg = "📋 Kết quả tải lại module:\n";
         
+        function extractErrorLocation(error, moduleName, type = 'command') {
+            try {
+                let stackLines = error.stack.split('\n');
+                let modulePattern = type === 'command' ? 
+                    new RegExp(`${moduleName}\\.js:(\\d+):(\\d+)`) : 
+                    new RegExp(`events[\\\\/]${moduleName}\\.js:(\\d+):(\\d+)`);
+                
+                let locationLine = stackLines.find(line => modulePattern.test(line));
+                
+                if (locationLine) {
+                    let matches = locationLine.match(modulePattern);
+                    if (matches && matches.length >= 3) {
+                        return {
+                            line: parseInt(matches[1]),
+                            column: parseInt(matches[2]),
+                            snippet: locationLine.trim()
+                        };
+                    }
+                }
+                
+                locationLine = stackLines.find(line => 
+                    line.includes('.js:') && 
+                    !line.includes('internal') && 
+                    !line.includes('node:')
+                );
+                
+                if (locationLine) {
+                    return { snippet: locationLine.trim() };
+                }
+                
+                return { snippet: 'Location not available' };
+            } catch (err) {
+                return { snippet: 'Error parsing location' };
+            }
+        }
+
         const loadCommand = (cmdName) => {
             try {
                 const cmdPath = require.resolve(__dirname + `/${cmdName}.js`);
@@ -50,7 +86,13 @@ module.exports = {
                 return { success: true };
 
             } catch (error) {
-                return { success: false, error: 'RUNTIME_ERROR', details: error.message };
+                const locationInfo = extractErrorLocation(error, cmdName);
+                return { 
+                    success: false, 
+                    error: 'RUNTIME_ERROR', 
+                    details: error.message,
+                    location: locationInfo
+                };
             }
         };
 
@@ -75,83 +117,142 @@ module.exports = {
                 return { success: true };
 
             } catch (error) {
-                return { success: false, error: 'RUNTIME_ERROR', details: error.message };
+                const locationInfo = extractErrorLocation(error, evtName, 'event');
+                return { 
+                    success: false, 
+                    error: 'RUNTIME_ERROR', 
+                    details: error.message,
+                    location: locationInfo
+                };
             }
         };
 
-        const loadAll = async (type) => {
-            let results = { success: [], errors: [] };
-            
-            if (type === 'cmd' || type === 'all') {
-                const cmdFiles = fs.readdirSync(__dirname).filter(file => file.endsWith('.js'));
-                for (const file of cmdFiles) {
-                    if (file === 'load.js') continue;
-                    const cmdName = file.slice(0, -3);
-                    const result = loadCommand(cmdName);
-                    if (result.success) results.success.push({ type: 'cmd', name: cmdName });
-                    else results.errors.push({ type: 'cmd', name: cmdName, ...result });
-                }
-            }
-            
-            if (type === 'evt' || type === 'all') {
-                const evtPath = path.join(__dirname, '../events');
-                const evtFiles = fs.readdirSync(evtPath).filter(file => file.endsWith('.js'));
-                for (const file of evtFiles) {
-                    const evtName = file.slice(0, -3);
-                    const result = loadEvent(evtName);
-                    if (result.success) results.success.push({ type: 'evt', name: evtName });
-                    else results.errors.push({ type: 'evt', name: evtName, ...result });
-                }
-            }
-            
-            return results;
+        const results = {
+            success: [],
+            errors: []
         };
 
-        if (['all', 'allcmd', 'allevt'].includes(target[0].toLowerCase())) {
-            const type = target[0].toLowerCase() === 'allcmd' ? 'cmd' : 
-                        target[0].toLowerCase() === 'allevt' ? 'evt' : 'all';
+        if (target[0] === 'Allcmd') {
+            const commandFiles = fs.readdirSync(__dirname).filter(file => file.endsWith('.js'));
             
-            const results = await loadAll(type);
+            for (const file of commandFiles) {
+                const cmdName = file.replace('.js', '');
+                const result = loadCommand(cmdName);
+                
+                if (result.success) {
+                    results.success.push({ type: 'cmd', name: cmdName });
+                } else {
+                    results.errors.push({ type: 'cmd', name: cmdName, ...result });
+                }
+            }
             
-            if (results.success.length > 0) {
-                const cmdCount = results.success.filter(r => r.type === 'cmd').length;
-                const evtCount = results.success.filter(r => r.type === 'evt').length;
-                msg += `✅ Đã tải thành công:\n`;
-                if (cmdCount > 0) msg += `- ${cmdCount} lệnh\n`;
-                if (evtCount > 0) msg += `- ${evtCount} event\n\n`;
+            msg += `✅ Đã tải lại thành công ${results.success.length} lệnh!\n`;
+            
+        } else if (target[0] === 'Allevt') {
+            const eventFiles = fs.readdirSync(path.join(__dirname, '../events')).filter(file => file.endsWith('.js'));
+            
+            for (const file of eventFiles) {
+                const evtName = file.replace('.js', '');
+                const result = loadEvent(evtName);
+                
+                if (result.success) {
+                    results.success.push({ type: 'evt', name: evtName });
+                } else {
+                    results.errors.push({ type: 'evt', name: evtName, ...result });
+                }
             }
-
-            if (results.errors.length > 0) {
-                msg += `❌ Lỗi ${results.errors.length} module:\n`;
-                results.errors.forEach(err => {
-                    const errorMsg = {
-                        'NOT_FOUND': 'Không tìm thấy file',
-                        'INVALID_STRUCTURE': 'Thiếu thuộc tính name',
-                        'RUNTIME_ERROR': err.details
-                    }[err.error];
-                    msg += `- ${err.type === 'cmd' ? 'Lệnh' : 'Event'} ${err.name}: ${errorMsg}\n`;
-                });
+            
+            msg += `✅ Đã tải lại thành công ${results.success.length} events!\n`;
+            
+        } else if (target[0] === 'All') {
+         
+            const commandFiles = fs.readdirSync(__dirname).filter(file => file.endsWith('.js'));
+            
+            for (const file of commandFiles) {
+                const cmdName = file.replace('.js', '');
+                const result = loadCommand(cmdName);
+                
+                if (result.success) {
+                    results.success.push({ type: 'cmd', name: cmdName });
+                } else {
+                    results.errors.push({ type: 'cmd', name: cmdName, ...result });
+                }
             }
+            
+            const eventFiles = fs.readdirSync(path.join(__dirname, '../events')).filter(file => file.endsWith('.js'));
+            
+            for (const file of eventFiles) {
+                const evtName = file.replace('.js', '');
+                const result = loadEvent(evtName);
+                
+                if (result.success) {
+                    results.success.push({ type: 'evt', name: evtName });
+                } else {
+                    results.errors.push({ type: 'evt', name: evtName, ...result });
+                }
+            }
+            
+            msg += `✅ Đã tải lại thành công ${results.success.length} modules!\n`;
+            
         } else {
             for (const name of target) {
-                // Try loading as command first
-                let result = loadCommand(name);
+                let result;
                 
-                // If command not found, try loading as event
-                if (result.error === 'NOT_FOUND') {
+                if (fs.existsSync(path.join(__dirname, '../events', `${name}.js`))) {
                     result = loadEvent(name);
-                }
-
-                if (result.success) {
-                    msg += `✅ Đã tải lại thành công: ${name}\n`;
+                    if (result.success) {
+                        msg += `✅ Đã tải lại event "${name}"\n`;
+                    }
                 } else {
+                    result = loadCommand(name);
+                    if (result.success) {
+                        msg += `✅ Đã tải lại lệnh "${name}"\n`;
+                    }
+                }
+                
+                if (!result.success) {
                     const errorMsg = {
                         'NOT_FOUND': 'Không tìm thấy module',
                         'INVALID_STRUCTURE': 'Thiếu thuộc tính name',
                         'RUNTIME_ERROR': result.details
                     }[result.error];
-                    msg += `❌ Lỗi khi tải ${name}: ${errorMsg}\n`;
+                    
+                    let locationInfo = '';
+                    if (result.error === 'RUNTIME_ERROR' && result.location) {
+                        if (result.location.line) {
+                            locationInfo = ` (dòng ${result.location.line})`;
+                        }
+                        if (result.location.snippet) {
+                            locationInfo += `\n   → ${result.location.snippet}`;
+                        }
+                    }
+                    
+                    msg += `❌ Lỗi khi tải ${name}: ${errorMsg}${locationInfo}\n`;
                 }
+            }
+        }
+        
+        if (target[0] === 'Allcmd' || target[0] === 'Allevt' || target[0] === 'All') {
+            if (results.errors.length > 0) {
+                msg += `❌ Lỗi ${results.errors.length} module:\n`;
+                results.errors.forEach(err => {
+                    let errorMsg = {
+                        'NOT_FOUND': 'Không tìm thấy file',
+                        'INVALID_STRUCTURE': 'Thiếu thuộc tính name',
+                        'RUNTIME_ERROR': err.details
+                    }[err.error];
+                    
+                    if (err.error === 'RUNTIME_ERROR' && err.location) {
+                        if (err.location.line) {
+                            errorMsg += ` (dòng ${err.location.line})`;
+                        }
+                        if (err.location.snippet) {
+                            errorMsg += `\n   → ${err.location.snippet}`;
+                        }
+                    }
+                    
+                    msg += `- ${err.type === 'cmd' ? 'Lệnh' : 'Event'} ${err.name}: ${errorMsg}\n`;
+                });
             }
         }
 

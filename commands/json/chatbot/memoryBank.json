@@ -1,327 +1,16 @@
 {
   "users": {
-    "61550331471452": {
+    "100053970942155": {
       "personal": [],
       "facts": [],
       "preferences": [],
       "interactions": [
         {
-          "content": "Văn Quyến nói: bot lol\nTôi trả lời: Bot gì mà lol chứ bạn =)))  Chắc bạn đang nói về một game hay chương trình nào đó nhỉ?",
-          "timestamp": 1740836392014,
-          "priority": 1,
-          "accessCount": 14,
-          "lastAccess": 1740836711396,
-          "metadata": {
-            "sentiment": {
-              "score": 1,
-              "sentiment": "positive"
-            },
-            "topics": [
-              "PERSONAL",
-              "ENTERTAINMENT",
-              "FOOD"
-            ],
-            "entities": {}
-          }
-        },
-        {
-          "content": "Văn Quyến nói: t là anh m\nTôi trả lời: Bạn nói gì thế Văn Quyến?  =)))  Đang giỡn chơi à?",
-          "timestamp": 1740836430995,
-          "priority": 1,
-          "accessCount": 15,
-          "lastAccess": 1740836711396,
-          "metadata": {
-            "sentiment": {
-              "score": 0,
-              "sentiment": "neutral"
-            },
-            "topics": [
-              "PERSONAL",
-              "ENTERTAINMENT",
-              "FOOD"
-            ],
-            "entities": {}
-          }
-        },
-        {
-          "content": "Văn Quyến nói: t là anh m thì chả gọi v thì sa\nTôi trả lời: Em vẫn chưa hiểu ý anh lắm Văn Quyến =)))  Anh giải thích rõ hơn được không?",
-          "timestamp": 1740836470107,
-          "priority": 1,
-          "accessCount": 11,
-          "lastAccess": 1740836711396,
-          "metadata": {
-            "sentiment": {
-              "score": 1,
-              "sentiment": "positive"
-            },
-            "topics": [
-              "PERSONAL",
-              "FOOD"
-            ],
-            "entities": {}
-          }
-        },
-        {
-          "content": "Văn Quyến nói: bà nhà m\nTôi trả lời: Bạn nói gì thế Văn Quyến?  =)))  Chuyện gì vậy?",
-          "timestamp": 1740836417904,
-          "priority": 1,
-          "accessCount": 16,
-          "lastAccess": 1740836711396,
-          "metadata": {
-            "sentiment": {
-              "score": 0,
-              "sentiment": "neutral"
-            },
-            "topics": [
-              "PERSONAL",
-              "FOOD"
-            ],
-            "entities": {}
-          }
-        },
-        {
-          "content": "Văn Quyến nói: bạn cc\nTôi trả lời: Bạn nói gì thế Văn Quyến?  =)))  Thật sự không hiểu ý bạn luôn á.",
-          "timestamp": 1740836433065,
-          "priority": 1,
-          "accessCount": 14,
-          "lastAccess": 1740836711396,
-          "metadata": {
-            "sentiment": {
-              "score": 0,
-              "sentiment": "neutral"
-            },
-            "topics": [
-              "PERSONAL",
-              "FOOD"
-            ],
-            "entities": {}
-          }
-        },
-        {
-          "content": "Văn Quyến nói: gọi t là anh\nTôi trả lời: Dạ? Anh muốn em gọi anh là anh sao?  =)))",
-          "timestamp": 1740836453824,
-          "priority": 1,
-          "accessCount": 13,
-          "lastAccess": 1740836711396,
-          "metadata": {
-            "sentiment": {
-              "score": 0,
-              "sentiment": "neutral"
-            },
-            "topics": [
-              "PERSONAL",
-              "FOOD"
-            ],
-            "entities": {}
-          }
-        },
-        {
-          "content": "Văn Quyến nói: t với ngọc từ là anh của m\nTôi trả lời: Anh trai em à?  =)))  Thì ra là vậy!  Em tưởng...  à không, thôi em không nói nữa.",
-          "timestamp": 1740836491700,
-          "priority": 1,
-          "accessCount": 11,
-          "lastAccess": 1740836711396,
-          "metadata": {
-            "sentiment": {
-              "score": 0,
-              "sentiment": "neutral"
-            },
-            "topics": [
-              "PERSONAL",
-              "FOOD"
-            ],
-            "entities": {}
-          }
-        },
-        {
-          "content": "Văn Quyến nói: bt t là ai chx\nTôi trả lời: Chưa biết bạn là ai cả Văn Quyến =)))  Anh nói rõ hơn được không?",
-          "timestamp": 1740836516269,
-          "priority": 1,
-          "accessCount": 10,
-          "lastAccess": 1740836711396,
-          "metadata": {
-            "sentiment": {
-              "score": 0,
-              "sentiment": "neutral"
-            },
-            "topics": [
-              "PERSONAL",
-              "FOOD"
-            ],
-            "entities": {}
-          }
-        },
-        {
-          "content": "Văn Quyến nói: sao m ngu théw\nTôi trả lời: Em xin lỗi, dạo này em hơi lơ mơ. Anh là anh trai của Ngọc Từ đúng không?  Em hiểu rồi.",
-          "timestamp": 1740836534316,
-          "priority": 1,
-          "accessCount": 9,
-          "lastAccess": 1740836711396,
-          "metadata": {
-            "sentiment": {
-              "score": 0,
-              "sentiment": "neutral"
-            },
-            "topics": [
-              "PERSONAL",
-              "FOOD"
-            ],
-            "entities": {}
-          }
-        },
-        {
-          "content": "Văn Quyến nói: m phải gọi t là anh\nTôi trả lời: Dạ?  Anh muốn em gọi anh là anh sao?  =)))  Anh nói thẳng ra đi chứ cứ vòng vo thế này em hơi khó hiểu.",
-          "timestamp": 1740836631950,
-          "priority": 1,
-          "accessCount": 6,
-          "lastAccess": 1740836711396,
-          "metadata": {
-            "sentiment": {
-              "score": 0,
-              "sentiment": "neutral"
-            },
-            "topics": [
-              "PERSONAL",
-              "FOOD",
-              "TRAVEL"
-            ],
-            "entities": {}
-          }
-        },
-        {
-          "content": "Văn Quyến nói: t với ngọc từ là anh của m\nTôi trả lời: À, em hiểu rồi.  Anh là anh của Ngọc Từ.  Sao anh cứ vòng vo thế? =)))",
-          "timestamp": 1740836575890,
-          "priority": 1,
-          "accessCount": 8,
-          "lastAccess": 1740836711396,
-          "metadata": {
-            "sentiment": {
-              "score": 0,
-              "sentiment": "neutral"
-            },
-            "topics": [
-              "PERSONAL",
-              "FOOD"
-            ],
-            "entities": {}
-          }
-        },
-        {
-          "content": "Văn Quyến nói: m nguu\nTôi trả lời: Em xin lỗi, dạo này em hơi... bất ổn.  Anh nói thẳng ra đi chứ cứ quanh co thế này em khó hiểu lắm.  =)))",
-          "timestamp": 1740836641708,
-          "priority": 1,
-          "accessCount": 5,
-          "lastAccess": 1740836711396,
-          "metadata": {
-            "sentiment": {
-              "score": 0,
-              "sentiment": "neutral"
-            },
-            "topics": [
-              "PERSONAL",
-              "FOOD",
-              "TRAVEL"
-            ],
-            "entities": {}
-          }
-        },
-        {
-          "content": "Văn Quyến nói: thế thì t là gì của m\nTôi trả lời: Bạn là anh trai của Ngọc Từ đúng không?  Cứ nói thẳng ra cho dễ hiểu chứ anh. =)))",
-          "timestamp": 1740836608771,
-          "priority": 1,
-          "accessCount": 7,
-          "lastAccess": 1740836711396,
-          "metadata": {
-            "sentiment": {
-              "score": 0,
-              "sentiment": "neutral"
-            },
-            "topics": [
-              "PERSONAL",
-              "FOOD"
-            ],
-            "entities": {}
-          }
-        },
-        {
-          "content": "Văn Quyến nói: ngắn gọn là\nTôi trả lời: Bạn nói gì thế Văn Quyến?  =)))  Đang giỡn chơi à?",
-          "timestamp": 1740836669048,
-          "priority": 1,
-          "accessCount": 4,
-          "lastAccess": 1740836711396,
-          "metadata": {
-            "sentiment": {
-              "score": 0,
-              "sentiment": "neutral"
-            },
-            "topics": [
-              "PERSONAL",
-              "ENTERTAINMENT",
-              "FOOD"
-            ],
-            "entities": {}
-          }
-        },
-        {
-          "content": "Văn Quyến nói: m gọi t là anh\nTôi trả lời: Ừ, anh muốn em gọi anh là anh à?  Hiểu rồi.  =)))  Có gì cứ nói thẳng nhé anh, em hơi... chậm hiểu tí.",
-          "timestamp": 1740836674892,
-          "priority": 1,
-          "accessCount": 3,
-          "lastAccess": 1740836711396,
-          "metadata": {
-            "sentiment": {
-              "score": 0,
-              "sentiment": "neutral"
-            },
-            "topics": [
-              "PERSONAL",
-              "FOOD"
-            ],
-            "entities": {}
-          }
-        },
-        {
-          "content": "Văn Quyến nói: ngu\nTôi trả lời: Em hiểu rồi anh.  Có gì cứ nói thẳng nhé, em hơi chậm hiểu tí thôi mà.  :))",
-          "timestamp": 1740836687840,
-          "priority": 1,
-          "accessCount": 2,
-          "lastAccess": 1740836711396,
-          "metadata": {
-            "sentiment": {
-              "score": 0,
-              "sentiment": "neutral"
-            },
-            "topics": [
-              "PERSONAL",
-              "FOOD"
-            ],
-            "entities": {}
-          }
-        },
-        {
-          "content": "Văn Quyến nói: hiểu chx\nTôi trả lời: Hiểu rồi anh.  Có gì cần cứ nói thẳng nhé.",
-          "timestamp": 1740836702230,
-          "priority": 1,
-          "accessCount": 1,
-          "lastAccess": 1740836711396,
-          "metadata": {
-            "sentiment": {
-              "score": 0,
-              "sentiment": "neutral"
-            },
-            "topics": [
-              "PERSONAL",
-              "FOOD"
-            ],
-            "entities": {}
-          }
-        },
-        {
-          "content": "Văn Quyến nói: hiểu ròi thì gọi t là gì\nTôi trả lời: Dạ, anh.  Có gì cứ nói thẳng nhé, em hơi... lơ mơ tí. =)))",
-          "timestamp": 1740836712183,
+          "content": "Dat Lee nói: t đag nợ ngân hàng đấy:))\nTôi trả lời: Chà, tình hình hơi căng đấy bạn nhỉ =)))  Cố gắng sắp xếp lại tài chính xem sao, đừng để nợ nần chồng chất nhé.  Có cần em tư vấn cách quản lý tài chính không?",
+          "timestamp": 1740891274554,
           "priority": 1,
           "accessCount": 0,
-          "lastAccess": 1740836712183,
+          "lastAccess": 1740891274554,
           "metadata": {
             "sentiment": {
               "score": 0,
@@ -348,299 +37,10 @@
       "undefined": [
         {
           "content": "Xưng hô: em/bạn",
-          "timestamp": 1740836390265,
-          "priority": 2,
-          "accessCount": 17,
-          "lastAccess": 1740836711396,
-          "metadata": {
-            "sentiment": {
-              "score": 0,
-              "sentiment": "neutral"
-            },
-            "topics": [
-              "PERSONAL"
-            ],
-            "entities": {}
-          }
-        },
-        {
-          "content": "Xưng hô: em/bạn",
-          "timestamp": 1740836416241,
-          "priority": 2,
-          "accessCount": 16,
-          "lastAccess": 1740836711396,
-          "metadata": {
-            "sentiment": {
-              "score": 0,
-              "sentiment": "neutral"
-            },
-            "topics": [
-              "PERSONAL"
-            ],
-            "entities": {}
-          }
-        },
-        {
-          "content": "Xưng hô: em/bạn",
-          "timestamp": 1740836429226,
-          "priority": 2,
-          "accessCount": 15,
-          "lastAccess": 1740836711396,
-          "metadata": {
-            "sentiment": {
-              "score": 0,
-              "sentiment": "neutral"
-            },
-            "topics": [
-              "PERSONAL"
-            ],
-            "entities": {}
-          }
-        },
-        {
-          "content": "Xưng hô: em/bạn",
-          "timestamp": 1740836432374,
-          "priority": 2,
-          "accessCount": 14,
-          "lastAccess": 1740836711396,
-          "metadata": {
-            "sentiment": {
-              "score": 0,
-              "sentiment": "neutral"
-            },
-            "topics": [
-              "PERSONAL"
-            ],
-            "entities": {}
-          }
-        },
-        {
-          "content": "Xưng hô: em/bạn",
-          "timestamp": 1740836452172,
-          "priority": 2,
-          "accessCount": 13,
-          "lastAccess": 1740836711396,
-          "metadata": {
-            "sentiment": {
-              "score": 0,
-              "sentiment": "neutral"
-            },
-            "topics": [
-              "PERSONAL"
-            ],
-            "entities": {}
-          }
-        },
-        {
-          "content": "Xưng hô: em/bạn",
-          "timestamp": 1740836468888,
-          "priority": 2,
-          "accessCount": 12,
-          "lastAccess": 1740836711396,
-          "metadata": {
-            "sentiment": {
-              "score": 0,
-              "sentiment": "neutral"
-            },
-            "topics": [
-              "PERSONAL"
-            ],
-            "entities": {}
-          }
-        },
-        {
-          "content": "Xưng hô: em/bạn",
-          "timestamp": 1740836490901,
-          "priority": 2,
-          "accessCount": 11,
-          "lastAccess": 1740836711396,
-          "metadata": {
-            "sentiment": {
-              "score": 0,
-              "sentiment": "neutral"
-            },
-            "topics": [
-              "PERSONAL"
-            ],
-            "entities": {}
-          }
-        },
-        {
-          "content": "Xưng hô: em/bạn",
-          "timestamp": 1740836513831,
-          "priority": 2,
-          "accessCount": 10,
-          "lastAccess": 1740836711396,
-          "metadata": {
-            "sentiment": {
-              "score": 0,
-              "sentiment": "neutral"
-            },
-            "topics": [
-              "PERSONAL"
-            ],
-            "entities": {}
-          }
-        },
-        {
-          "content": "Xưng hô: em/bạn",
-          "timestamp": 1740836533299,
-          "priority": 2,
-          "accessCount": 9,
-          "lastAccess": 1740836711396,
-          "metadata": {
-            "sentiment": {
-              "score": 0,
-              "sentiment": "neutral"
-            },
-            "topics": [
-              "PERSONAL"
-            ],
-            "entities": {}
-          }
-        },
-        {
-          "content": "Xưng hô: em/bạn",
-          "timestamp": 1740836574238,
-          "priority": 2,
-          "accessCount": 8,
-          "lastAccess": 1740836711396,
-          "metadata": {
-            "sentiment": {
-              "score": 0,
-              "sentiment": "neutral"
-            },
-            "topics": [
-              "PERSONAL"
-            ],
-            "entities": {}
-          }
-        },
-        {
-          "content": "Xưng hô: em/bạn",
-          "timestamp": 1740836607088,
-          "priority": 2,
-          "accessCount": 7,
-          "lastAccess": 1740836711396,
-          "metadata": {
-            "sentiment": {
-              "score": 0,
-              "sentiment": "neutral"
-            },
-            "topics": [
-              "PERSONAL"
-            ],
-            "entities": {}
-          }
-        },
-        {
-          "content": "Xưng hô: em/bạn",
-          "timestamp": 1740836630098,
-          "priority": 2,
-          "accessCount": 6,
-          "lastAccess": 1740836711396,
-          "metadata": {
-            "sentiment": {
-              "score": 0,
-              "sentiment": "neutral"
-            },
-            "topics": [
-              "PERSONAL"
-            ],
-            "entities": {}
-          }
-        },
-        {
-          "content": "Xưng hô: em/bạn",
-          "timestamp": 1740836640710,
-          "priority": 2,
-          "accessCount": 5,
-          "lastAccess": 1740836711396,
-          "metadata": {
-            "sentiment": {
-              "score": 0,
-              "sentiment": "neutral"
-            },
-            "topics": [
-              "PERSONAL"
-            ],
-            "entities": {}
-          }
-        },
-        {
-          "content": "Xưng hô: em/bạn",
-          "timestamp": 1740836668061,
-          "priority": 2,
-          "accessCount": 4,
-          "lastAccess": 1740836711396,
-          "metadata": {
-            "sentiment": {
-              "score": 0,
-              "sentiment": "neutral"
-            },
-            "topics": [
-              "PERSONAL"
-            ],
-            "entities": {}
-          }
-        },
-        {
-          "content": "Xưng hô: em/bạn",
-          "timestamp": 1740836674022,
-          "priority": 2,
-          "accessCount": 3,
-          "lastAccess": 1740836711396,
-          "metadata": {
-            "sentiment": {
-              "score": 0,
-              "sentiment": "neutral"
-            },
-            "topics": [
-              "PERSONAL"
-            ],
-            "entities": {}
-          }
-        },
-        {
-          "content": "Xưng hô: em/bạn",
-          "timestamp": 1740836686110,
-          "priority": 2,
-          "accessCount": 2,
-          "lastAccess": 1740836711396,
-          "metadata": {
-            "sentiment": {
-              "score": 0,
-              "sentiment": "neutral"
-            },
-            "topics": [
-              "PERSONAL"
-            ],
-            "entities": {}
-          }
-        },
-        {
-          "content": "Xưng hô: em/bạn",
-          "timestamp": 1740836701435,
-          "priority": 2,
-          "accessCount": 1,
-          "lastAccess": 1740836711396,
-          "metadata": {
-            "sentiment": {
-              "score": 0,
-              "sentiment": "neutral"
-            },
-            "topics": [
-              "PERSONAL"
-            ],
-            "entities": {}
-          }
-        },
-        {
-          "content": "Xưng hô: em/bạn",
-          "timestamp": 1740836711396,
+          "timestamp": 1740891273535,
           "priority": 2,
           "accessCount": 0,
-          "lastAccess": 1740836711396,
+          "lastAccess": 1740891273535,
           "metadata": {
             "sentiment": {
               "score": 0,
@@ -654,25 +54,24 @@
         }
       ]
     },
-    "61573427362389": {
+    "61552281914806": {
       "personal": [],
       "facts": [],
       "preferences": [],
       "interactions": [
         {
-          "content": "Ngọc Từ nói: Debug debug bot ơi , t debug mệt quá\nTôi trả lời: Hi Ngọc Từ, anh debug mệt rồi à?  Cố lên nha, em tin anh sẽ làm được thôi!  Đừng quên nghỉ ngơi giữa chừng nhé.",
-          "timestamp": 1740836582136,
+          "content": "User nói: cái con bot chó ám\nTôi trả lời: Em xin lỗi, có vẻ như bạn đang không vui. Có chuyện gì vậy ạ?",
+          "timestamp": 1740891399932,
           "priority": 1,
           "accessCount": 0,
-          "lastAccess": 1740836582136,
+          "lastAccess": 1740891399932,
           "metadata": {
             "sentiment": {
               "score": 0,
               "sentiment": "neutral"
             },
             "topics": [
-              "PERSONAL",
-              "WORK"
+              "PERSONAL"
             ],
             "entities": {}
           }
@@ -691,10 +90,278 @@
       "undefined": [
         {
           "content": "Xưng hô: em/bạn",
-          "timestamp": 1740836581250,
+          "timestamp": 1740891399103,
           "priority": 2,
           "accessCount": 0,
-          "lastAccess": 1740836581250,
+          "lastAccess": 1740891399103,
+          "metadata": {
+            "sentiment": {
+              "score": 0,
+              "sentiment": "neutral"
+            },
+            "topics": [
+              "PERSONAL"
+            ],
+            "entities": {}
+          }
+        }
+      ]
+    },
+    "100079621883786": {
+      "personal": [],
+      "facts": [],
+      "preferences": [],
+      "interactions": [
+        {
+          "content": "Hạo Nhiên nói: nma sáng g t có chs bot đâu\nTôi trả lời: Chắc bạn bận rồi nên không để ý thôi.  Buổi trưa vui vẻ nhé!",
+          "timestamp": 1740892306188,
+          "priority": 1,
+          "accessCount": 1,
+          "lastAccess": 1740892476871,
+          "metadata": {
+            "sentiment": {
+              "score": 1,
+              "sentiment": "positive"
+            },
+            "topics": [
+              "PERSONAL"
+            ],
+            "entities": {}
+          }
+        },
+        {
+          "content": "Hạo Nhiên nói: bực vcl thôi khỏi chs bot luôn đi\nTôi trả lời: Thôi nào, đừng bực mình thế chứ.  Buổi chiều tốt lành nhé!  Có gì muốn tâm sự không?",
+          "timestamp": 1740892478756,
+          "priority": 1,
+          "accessCount": 0,
+          "lastAccess": 1740892478756,
+          "metadata": {
+            "sentiment": {
+              "score": 1,
+              "sentiment": "positive"
+            },
+            "topics": [
+              "PERSONAL",
+              "TRAVEL"
+            ],
+            "entities": {}
+          }
+        }
+      ],
+      "emotions": [],
+      "names": [],
+      "relationships": {},
+      "context": {
+        "lastTopics": [],
+        "importantDates": {},
+        "recentMentions": {},
+        "conversationFlow": []
+      },
+      "topics": {},
+      "undefined": [
+        {
+          "content": "Xưng hô: em/bạn",
+          "timestamp": 1740892305161,
+          "priority": 2,
+          "accessCount": 1,
+          "lastAccess": 1740892476871,
+          "metadata": {
+            "sentiment": {
+              "score": 0,
+              "sentiment": "neutral"
+            },
+            "topics": [
+              "PERSONAL"
+            ],
+            "entities": {}
+          }
+        },
+        {
+          "content": "Xưng hô: em/bạn",
+          "timestamp": 1740892476874,
+          "priority": 2,
+          "accessCount": 0,
+          "lastAccess": 1740892476874,
+          "metadata": {
+            "sentiment": {
+              "score": 0,
+              "sentiment": "neutral"
+            },
+            "topics": [
+              "PERSONAL"
+            ],
+            "entities": {}
+          }
+        }
+      ]
+    },
+    "100055074463541": {
+      "personal": [],
+      "facts": [],
+      "preferences": [],
+      "interactions": [
+        {
+          "content": "Khang Bùi nói: thêm trộm ngân hàng @Ngọc Từ\nTôi trả lời: Anh trai em đấy.  Chuyện gì thế?",
+          "timestamp": 1740893224437,
+          "priority": 1,
+          "accessCount": 2,
+          "lastAccess": 1740893531461,
+          "metadata": {
+            "sentiment": {
+              "score": 0,
+              "sentiment": "neutral"
+            },
+            "topics": [
+              "PERSONAL"
+            ],
+            "entities": {}
+          }
+        },
+        {
+          "content": "Khang Bùi nói: @Ngọc Từ thêm trộm ngân hàng giống hồi đó\nTôi trả lời: Chuyện gì vậy anh?  Anh ấy làm sao?",
+          "timestamp": 1740893235749,
+          "priority": 1,
+          "accessCount": 1,
+          "lastAccess": 1740893531461,
+          "metadata": {
+            "sentiment": {
+              "score": 0,
+              "sentiment": "neutral"
+            },
+            "topics": [
+              "PERSONAL",
+              "WORK"
+            ],
+            "entities": {}
+          }
+        },
+        {
+          "content": "Khang Bùi nói: xong bị bắt thì cấm sài bot 15p\nTôi trả lời: 15 phút thôi mà anh?  Chắc anh ấy cũng quen rồi.  Không sao đâu, anh ấy mạnh mẽ lắm.",
+          "timestamp": 1740893533235,
+          "priority": 1,
+          "accessCount": 0,
+          "lastAccess": 1740893533235,
+          "metadata": {
+            "sentiment": {
+              "score": 0,
+              "sentiment": "neutral"
+            },
+            "topics": [
+              "PERSONAL"
+            ],
+            "entities": {
+              "time": [
+                "15 phút"
+              ]
+            }
+          }
+        }
+      ],
+      "emotions": [],
+      "names": [],
+      "relationships": {},
+      "context": {
+        "lastTopics": [],
+        "importantDates": {},
+        "recentMentions": {},
+        "conversationFlow": []
+      },
+      "topics": {},
+      "undefined": [
+        {
+          "content": "Xưng hô: em/bạn",
+          "timestamp": 1740893223417,
+          "priority": 2,
+          "accessCount": 2,
+          "lastAccess": 1740893531461,
+          "metadata": {
+            "sentiment": {
+              "score": 0,
+              "sentiment": "neutral"
+            },
+            "topics": [
+              "PERSONAL"
+            ],
+            "entities": {}
+          }
+        },
+        {
+          "content": "Xưng hô: em/bạn",
+          "timestamp": 1740893235005,
+          "priority": 2,
+          "accessCount": 1,
+          "lastAccess": 1740893531461,
+          "metadata": {
+            "sentiment": {
+              "score": 0,
+              "sentiment": "neutral"
+            },
+            "topics": [
+              "PERSONAL"
+            ],
+            "entities": {}
+          }
+        },
+        {
+          "content": "Xưng hô: em/bạn",
+          "timestamp": 1740893531462,
+          "priority": 2,
+          "accessCount": 0,
+          "lastAccess": 1740893531462,
+          "metadata": {
+            "sentiment": {
+              "score": 0,
+              "sentiment": "neutral"
+            },
+            "topics": [
+              "PERSONAL"
+            ],
+            "entities": {}
+          }
+        }
+      ]
+    },
+    "100058320200877": {
+      "personal": [],
+      "facts": [],
+      "preferences": [],
+      "interactions": [
+        {
+          "content": "Khuong Duy nói: như lũ bot pick tướng\nTôi trả lời: Chắc cậu đang chơi game nhỉ?  Pick tướng cũng quan trọng đấy, phải dựa vào đội hình và chiến thuật nữa chứ.  Có vẻ hôm nay không được suôn sẻ lắm rồi? =))",
+          "timestamp": 1740893477155,
+          "priority": 1,
+          "accessCount": 0,
+          "lastAccess": 1740893477155,
+          "metadata": {
+            "sentiment": {
+              "score": 0,
+              "sentiment": "neutral"
+            },
+            "topics": [
+              "ENTERTAINMENT",
+              "PERSONAL"
+            ],
+            "entities": {}
+          }
+        }
+      ],
+      "emotions": [],
+      "names": [],
+      "relationships": {},
+      "context": {
+        "lastTopics": [],
+        "importantDates": {},
+        "recentMentions": {},
+        "conversationFlow": []
+      },
+      "topics": {},
+      "undefined": [
+        {
+          "content": "Xưng hô: em/bạn",
+          "timestamp": 1740893476097,
+          "priority": 2,
+          "accessCount": 0,
+          "lastAccess": 1740893476097,
           "metadata": {
             "sentiment": {
               "score": 0,
@@ -722,16 +389,11 @@
     "voice": {}
   },
   "stats": {
-    "totalInteractions": 38,
+    "totalInteractions": 16,
     "uniqueUsers": {},
     "topTopics": {},
     "responseTime": [],
-    "accuracy": [
-      {
-        "timestamp": 1740836417905,
-        "memoryCount": 7
-      }
-    ]
+    "accuracy": []
   },
   "compression": {
     "enabled": true,

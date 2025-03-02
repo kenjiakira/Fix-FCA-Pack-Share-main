@@ -44,11 +44,10 @@ module.exports = {
 
             const command = target[0].toLowerCase();
             const isMarketOpen = tradeSystem.isMarketOpen();
-            const MARKET_HOURS = { open: 9, close: 19 };
+            const MARKET_HOURS = { open: 9, close: 17 };
 
             switch (command) {
                 case "gift": {
-                    // Load admin config
                     const adminConfig = JSON.parse(fs.readFileSync('./admin.json'));
                     if (!adminConfig.adminUIDs.includes(senderID)) {
                         return api.sendMessage("❌ Chỉ ADMIN mới được sử dụng lệnh này!", threadID, messageID);

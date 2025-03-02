@@ -1,110 +1,49 @@
 {
-  "bot lol": {
+  "t đag nợ ngân hàng đấy:))": {
     "responses": [
-      "Bot gì mà lol chứ bạn =)))  Chắc bạn đang nói về một game hay chương trình nào đó nhỉ?"
+      "Chà, tình hình hơi căng đấy bạn nhỉ =)))  Cố gắng sắp xếp lại tài chính xem sao, đừng để nợ nần chồng chất nhé.  Có cần em tư vấn cách quản lý tài chính không?"
     ],
     "frequency": 1
   },
-  "bà nhà m": {
+  "cái con bot chó ám": {
     "responses": [
-      "Bạn nói gì thế Văn Quyến?  =)))  Chuyện gì vậy?"
+      "Em xin lỗi, có vẻ như bạn đang không vui. Có chuyện gì vậy ạ?"
     ],
     "frequency": 1
   },
-  "t là anh m": {
+  "nma sáng g t có chs bot đâu": {
     "responses": [
-      "Bạn nói gì thế Văn Quyến?  =)))  Đang giỡn chơi à?"
+      "Chắc bạn bận rồi nên không để ý thôi.  Buổi trưa vui vẻ nhé!"
     ],
     "frequency": 1
   },
-  "bạn cc": {
+  "bực vcl thôi khỏi chs bot luôn đi": {
     "responses": [
-      "Bạn nói gì thế Văn Quyến?  =)))  Thật sự không hiểu ý bạn luôn á."
+      "Thôi nào, đừng bực mình thế chứ.  Buổi chiều tốt lành nhé!  Có gì muốn tâm sự không?"
     ],
     "frequency": 1
   },
-  "gọi t là anh": {
+  "thêm trộm ngân hàng @ngọc từ": {
     "responses": [
-      "Dạ? Anh muốn em gọi anh là anh sao?  =)))"
+      "Anh trai em đấy.  Chuyện gì thế?"
     ],
     "frequency": 1
   },
-  "t là anh m thì chả gọi v thì sa": {
+  "@ngọc từ thêm trộm ngân hàng giống hồi đó": {
     "responses": [
-      "Em vẫn chưa hiểu ý anh lắm Văn Quyến =)))  Anh giải thích rõ hơn được không?"
+      "Chuyện gì vậy anh?  Anh ấy làm sao?"
     ],
     "frequency": 1
   },
-  "t với ngọc từ là anh của m": {
+  "như lũ bot pick tướng": {
     "responses": [
-      "Anh trai em à?  =)))  Thì ra là vậy!  Em tưởng...  à không, thôi em không nói nữa.",
-      "À, em hiểu rồi.  Anh là anh của Ngọc Từ.  Sao anh cứ vòng vo thế? =)))"
-    ],
-    "frequency": 2
-  },
-  "bt t là ai chx": {
-    "responses": [
-      "Chưa biết bạn là ai cả Văn Quyến =)))  Anh nói rõ hơn được không?"
+      "Chắc cậu đang chơi game nhỉ?  Pick tướng cũng quan trọng đấy, phải dựa vào đội hình và chiến thuật nữa chứ.  Có vẻ hôm nay không được suôn sẻ lắm rồi? =))"
     ],
     "frequency": 1
   },
-  "sao m ngu théw": {
+  "xong bị bắt thì cấm sài bot 15p": {
     "responses": [
-      "Em xin lỗi, dạo này em hơi lơ mơ. Anh là anh trai của Ngọc Từ đúng không?  Em hiểu rồi."
-    ],
-    "frequency": 1
-  },
-  "debug debug bot ơi , t debug mệt quá": {
-    "responses": [
-      "Hi Ngọc Từ, anh debug mệt rồi à?  Cố lên nha, em tin anh sẽ làm được thôi!  Đừng quên nghỉ ngơi giữa chừng nhé."
-    ],
-    "frequency": 1
-  },
-  "thế thì t là gì của m": {
-    "responses": [
-      "Bạn là anh trai của Ngọc Từ đúng không?  Cứ nói thẳng ra cho dễ hiểu chứ anh. =)))"
-    ],
-    "frequency": 1
-  },
-  "m phải gọi t là anh": {
-    "responses": [
-      "Dạ?  Anh muốn em gọi anh là anh sao?  =)))  Anh nói thẳng ra đi chứ cứ vòng vo thế này em hơi khó hiểu."
-    ],
-    "frequency": 1
-  },
-  "m nguu": {
-    "responses": [
-      "Em xin lỗi, dạo này em hơi... bất ổn.  Anh nói thẳng ra đi chứ cứ quanh co thế này em khó hiểu lắm.  =)))"
-    ],
-    "frequency": 1
-  },
-  "ngắn gọn là": {
-    "responses": [
-      "Bạn nói gì thế Văn Quyến?  =)))  Đang giỡn chơi à?"
-    ],
-    "frequency": 1
-  },
-  "m gọi t là anh": {
-    "responses": [
-      "Ừ, anh muốn em gọi anh là anh à?  Hiểu rồi.  =)))  Có gì cứ nói thẳng nhé anh, em hơi... chậm hiểu tí."
-    ],
-    "frequency": 1
-  },
-  "ngu": {
-    "responses": [
-      "Em hiểu rồi anh.  Có gì cứ nói thẳng nhé, em hơi chậm hiểu tí thôi mà.  :))"
-    ],
-    "frequency": 1
-  },
-  "hiểu chx": {
-    "responses": [
-      "Hiểu rồi anh.  Có gì cần cứ nói thẳng nhé."
-    ],
-    "frequency": 1
-  },
-  "hiểu ròi thì gọi t là gì": {
-    "responses": [
-      "Dạ, anh.  Có gì cứ nói thẳng nhé, em hơi... lơ mơ tí. =)))"
+      "15 phút thôi mà anh?  Chắc anh ấy cũng quen rồi.  Không sao đâu, anh ấy mạnh mẽ lắm."
     ],
     "frequency": 1
   }

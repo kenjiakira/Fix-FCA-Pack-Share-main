@@ -2,7 +2,7 @@ const { EmbedBuilder } = require('discord.js');
 const TradeSystem = require('../../trade/TradeSystem');
 const tradeSystem = new TradeSystem();
 
-const MARKET_HOURS = { open: 9, close: 19 };
+const MARKET_HOURS = { open: 9, close: 17 };
 const NITRO_TO_XU_RATE = 100; // 1 Nitro = 100 Xu
 
 function convertXuToNitro(xu) {

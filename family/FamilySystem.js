@@ -489,46 +489,48 @@ confirmMarriage(proposerID, acceptorID) {
             } : null
         };
     }
-    addChild(userID, childName) {
-        const family = this.getFamily(userID);
-        if (!family.spouse) throw new Error("Bạn cần kết hôn trước!");
-        
-        if (family.children && family.children.length >= 7) {
-            throw new Error("Gia đình đã có đủ 7 con, không thể sinh thêm!");
-        }
-        
-        const oneYearInMs = 12 * 30 * 24 * 60 * 60 * 1000;
-        const birthDate = Date.now() - oneYearInMs;
-        
-        const child = {
-            id: Date.now().toString(),
-            name: childName,
-            birthDate: birthDate,
-            happiness: 100,
-            gender: Math.random() < 0.5 ? "👦" : "👧",
-            nickname: this.generateNickname(childName)
-        };
+    
+    async addChild(parentId, babyName) {
+        try {
+            const family = this.getFamily(parentId);
+            if (!family) {
+                throw new Error("Không tìm thấy thông tin gia đình!");
+            }
 
-        
-    
-        this.childJobSystem.registerChild(child);
-    
-        family.children.push(child);
-        family.lastBaby = Date.now();
-        
-        const spouseFamily = this.getFamily(family.spouse);
-        spouseFamily.children = [...family.children];
-        spouseFamily.lastBaby = family.lastBaby;
-    
-        this.saveData();
-        return child;
+            if (!family.children) {
+                family.children = [];
+            }
+
+            const child = {
+                id: Date.now().toString(),
+                name: babyName,
+                gender: Math.random() < 0.5 ? "👦" : "👧",
+                birthDate: Date.now(),
+                happiness: 100,
+                nickname: this.generateNickname(babyName),
+                isMarried: false,
+                movedOut: false
+            };
+
+            family.children.push(child);
+
+            this.childJobSystem.registerChild(child);
+
+            this.saveData();
+
+            return child;
+        } catch (error) {
+            console.error("Add child error:", error);
+            throw error;
+        }
     }
-    
+
 
     generateNickname(name) {
-        const nicknames = ["Bé", "Cưng", "Yêu", "Sunshine", "Angel"];
+        const nicknames = ["Bé", "Cưng", "Yêu", "Pin", "Bo", "Tí"];
         return `${nicknames[Math.floor(Math.random() * nicknames.length)]} ${name}`;
     }
+
     calculateAge(birthDate) {
         const hours = Math.floor((Date.now() - birthDate) / (1000 * 60 * 60));
         const years = Math.floor(hours / 12); 

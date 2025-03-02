@@ -126,7 +126,6 @@ module.exports = {
                     attachment: attachments
                 }, replyInfo.threadID);
 
-                // Update feedback status
                 this.logFeedback({
                     ...replyData,
                     status: FEEDBACK_STATUS.REPLIED,
@@ -144,7 +143,6 @@ module.exports = {
                     feedbackCode: replyInfo.feedbackCode
                 });
             } else {
-                // Check rate limit for user replies
                 if (this.checkRateLimit(senderID)) {
                     return api.sendMessage(
                         "⚠️ Bạn đã gửi quá nhiều phản hồi. Vui lòng thử lại sau 1 giờ.",
@@ -194,7 +192,6 @@ module.exports = {
             const feedback = target.join(" ");
             const feedbackCode = `#${this.dev}${Date.now().toString(36)}`;
 
-            // Basic validation
             if (!feedback && attachments.length === 0) {
                 return api.sendMessage(
                     "⚠️ Vui lòng nhập nội dung hoặc gửi file đính kèm!",
@@ -203,7 +200,6 @@ module.exports = {
                 );
             }
 
-            // Check rate limit
             if (this.checkRateLimit(senderID)) {
                 return api.sendMessage(
                     "⚠️ Bạn đã gửi quá nhiều phản hồi. Vui lòng thử lại sau 1 giờ.",
@@ -233,7 +229,6 @@ module.exports = {
             let sentSuccessfully = false;
             let successfulAdminID;
 
-            // Try sending to individual admins
             for (const adminID of adminIDs) {
                 try {
                     const msg = await api.sendMessage({
@@ -244,14 +239,12 @@ module.exports = {
                     sentSuccessfully = true;
                     successfulAdminID = adminID;
                     
-                    // Log successful feedback
                     this.logFeedback({
                         ...feedbackData,
                         adminID,
                         status: FEEDBACK_STATUS.PENDING
                     });
 
-                    // Track user feedback count
                     if (!this.userFeedbackCount.has(senderID)) {
                         this.userFeedbackCount.set(senderID, []);
                     }
@@ -275,7 +268,6 @@ module.exports = {
                 }
             }
 
-            // Try sending to feedback group if individual admin messaging fails
             if (!sentSuccessfully) {
                 const feedbackGroupID = adminConfig.feedbackGroupID;
                 
@@ -310,6 +302,7 @@ module.exports = {
                         console.error("Failed to send to feedback group:", err);
                     }
                 }
+            
             }
 
             if (sentSuccessfully) {
@@ -327,8 +320,7 @@ module.exports = {
             if (error.error === 1545116) {
                 errorMsg += "- Không thể gửi trực tiếp đến admin do hạn chế của Facebook.\n";
                 errorMsg += "- Vui lòng liên hệ admin qua các phương thức khác:\n";
-                errorMsg += "1. Liên hệ qua Facebook: [https://www.facebook.com/KenjiDevv]\n";
-                errorMsg += "2. Gửi email tới: [akistudio@gmail.com]";
+                errorMsg += "1. Liên hệ qua Facebook: [https://www.facebook.com/61573427362389]\n";
             } else {
                 errorMsg += `- Lỗi: ${error.message}\n`;
                 errorMsg += "- Vui lòng thử lại sau hoặc liên hệ admin qua phương thức khác.";
