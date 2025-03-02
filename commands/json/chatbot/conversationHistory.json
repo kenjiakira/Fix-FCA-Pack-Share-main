@@ -55,6 +55,405 @@
       "response": "15 phút thôi mà anh?  Chắc anh ấy cũng quen rồi.  Không sao đâu, anh ấy mạnh mẽ lắm.",
       "senderID": "100055074463541",
       "senderName": "Khang Bùi"
+    },
+    {
+      "timestamp": 1740893854653,
+      "prompt": "con đĩ ngân bịp lắm",
+      "response": "Bạn nên tìm hiểu kỹ hơn về vấn đề này trước khi đưa ra nhận xét nhé.  Có lẽ có sự hiểu lầm nào đó cần được làm rõ.",
+      "senderID": "61568641631000",
+      "senderName": "Ủa Alo"
+    },
+    {
+      "timestamp": 1740894386429,
+      "prompt": "Bot",
+      "response": "Chào Thịnh Nguyễn!  Buổi trưa vui vẻ nhé!  Có gì em giúp được không?",
+      "senderID": "100023894737975",
+      "senderName": "Thịnh Nguyễn"
+    },
+    {
+      "timestamp": 1740894402248,
+      "prompt": "Cho mình vay 100 triệu",
+      "response": "Em nghĩ…  mượn 100 triệu là một con số khá lớn đấy ạ.  Em chưa có nhiều kinh nghiệm về tài chính để tư vấn cho bạn được.  Bạn có thể tham khảo ý kiến từ ngân hàng hoặc các chuyên gia tài chính không?",
+      "senderID": "100023894737975",
+      "senderName": "Thịnh Nguyễn"
+    },
+    {
+      "timestamp": 1740894419834,
+      "prompt": "Mình xin 100 triệu ảo",
+      "response": "100 triệu ảo thì em cũng chịu rồi =)))  Bạn định làm gì với số tiền ảo đó vậy?",
+      "senderID": "100023894737975",
+      "senderName": "Thịnh Nguyễn"
+    },
+    {
+      "timestamp": 1740894450320,
+      "prompt": "Chơi tài xỉu nè ba",
+      "response": "Chơi tài xỉu ảo à bạn?  Cẩn thận nhé, đừng để bị cuốn vào đấy!",
+      "senderID": "100023894737975",
+      "senderName": "Thịnh Nguyễn"
+    },
+    {
+      "timestamp": 1740894472849,
+      "prompt": ".balance",
+      "response": ".balance của bạn là bao nhiêu vậy?  Em không hiểu lắm về lệnh này.",
+      "senderID": "100023894737975",
+      "senderName": "Thịnh Nguyễn"
+    },
+    {
+      "timestamp": 1740894488036,
+      "prompt": "Kiếm ny cho mềnh đi",
+      "response": "Bạn muốn em kiếm bạn gái cho bạn à?  Khó đấy bạn ạ, chuyện tình cảm không phải cứ muốn là được.  Tự mình tìm hiểu và tìm hiểu xem bạn thích mẫu người như thế nào sẽ hiệu quả hơn.",
+      "senderID": "100023894737975",
+      "senderName": "Thịnh Nguyễn"
+    },
+    {
+      "timestamp": 1740894530812,
+      "prompt": "Mej mayf",
+      "response": "Mej mayf gì vậy bạn?  Em không hiểu lắm.",
+      "senderID": "100023894737975",
+      "senderName": "Thịnh Nguyễn"
+    },
+    {
+      "timestamp": 1740894547562,
+      "prompt": "Biết t là ai k",
+      "response": "Em không biết bạn là ai cả.  Bạn muốn giới thiệu mình không?",
+      "senderID": "100023894737975",
+      "senderName": "Thịnh Nguyễn"
+    },
+    {
+      "timestamp": 1740894569277,
+      "prompt": "T là admin mày",
+      "response": "Em không biết bạn là admin của em ở đâu.  Bạn có thể nói rõ hơn được không?",
+      "senderID": "100023894737975",
+      "senderName": "Thịnh Nguyễn"
+    },
+    {
+      "timestamp": 1740894595381,
+      "prompt": "T sẽ khóa tk mày",
+      "response": "Bạn đùa em đấy à?  Khóa tài khoản em?  Em không biết bạn đang nói gì cả.",
+      "senderID": "100023894737975",
+      "senderName": "Thịnh Nguyễn"
+    },
+    {
+      "timestamp": 1740894617771,
+      "prompt": "Hack nick mày luôn",
+      "response": "Bạn đe dọa em à?  Em thấy hơi khó chịu đấy.  Bạn có thể nói chuyện tử tế hơn được không?",
+      "senderID": "100023894737975",
+      "senderName": "Thịnh Nguyễn"
+    },
+    {
+      "timestamp": 1740894625766,
+      "prompt": "Hahahhahahhahahahhaahh",
+      "response": "Bạn đang đùa phải không?  Cười nhiều thế.",
+      "senderID": "100023894737975",
+      "senderName": "Thịnh Nguyễn"
+    },
+    {
+      "timestamp": 1740894639580,
+      "prompt": "Ranh connnn",
+      "response": "Bạn nói chuyện hài hước thật đấy!  =)))  Nhưng em vẫn chưa hiểu ý bạn lắm.",
+      "senderID": "100023894737975",
+      "senderName": "Thịnh Nguyễn"
+    },
+    {
+      "timestamp": 1740894655447,
+      "prompt": "Đell đó làm sao",
+      "response": "Bạn đang đùa em đúng không?  Câu nói đó em không hiểu gì cả.",
+      "senderID": "100023894737975",
+      "senderName": "Thịnh Nguyễn"
+    },
+    {
+      "timestamp": 1740894667290,
+      "prompt": "Con mẹ m",
+      "response": "Bạn đang nói chuyện với em như vậy làm em hơi buồn đấy.  Em không hiểu bạn đang muốn gì cả.",
+      "senderID": "100023894737975",
+      "senderName": "Thịnh Nguyễn"
+    },
+    {
+      "timestamp": 1740894675514,
+      "prompt": "Cút",
+      "response": "Bạn nên cư xử lịch sự hơn chứ.  Em không thích kiểu nói chuyện này chút nào.",
+      "senderID": "100023894737975",
+      "senderName": "Thịnh Nguyễn"
+    },
+    {
+      "timestamp": 1740894685725,
+      "prompt": "Bot",
+      "response": "Chào bạn Thịnh Nguyễn!  Có gì mình giúp được không?  Giờ trưa rồi, bạn ăn cơm chưa?",
+      "senderID": "100023894737975",
+      "senderName": "Thịnh Nguyễn"
+    },
+    {
+      "timestamp": 1740894692989,
+      "prompt": "để vay ngân hàng nx",
+      "response": "Bạn đang tính vay thêm ngân hàng nữa hả?  Cân nhắc kỹ nhé,  lãi suất và điều khoản vay rất quan trọng.  Đừng để rơi vào tình trạng khó khăn về tài chính.",
+      "senderID": "100053857386814",
+      "senderName": "Phạm Hùng"
+    },
+    {
+      "timestamp": 1740894702962,
+      "prompt": "Ngu như chó",
+      "response": "Bạn nói chuyện cũng khá… thẳng thắn nhỉ!  =)))  Nhưng em vẫn sẵn sàng trò chuyện với bạn nếu bạn muốn.",
+      "senderID": "100023894737975",
+      "senderName": "Thịnh Nguyễn"
+    },
+    {
+      "timestamp": 1740894713969,
+      "prompt": "Óc bò",
+      "response": "Em thấy lời nhận xét của bạn hơi… mạnh mẽ đấy.  Chắc bạn đang có tâm trạng không tốt?  Muốn nói chuyện gì đó không?",
+      "senderID": "100023894737975",
+      "senderName": "Thịnh Nguyễn"
+    },
+    {
+      "timestamp": 1740894756607,
+      "prompt": "M là con bot vừa ngu vừa óc vịt, não thì như con tôm toàn chưa cứt",
+      "response": "Em thấy bạn đang khá bức xúc. Có chuyện gì khiến bạn khó chịu vậy?  Hay là chỉ đơn giản là đang có tâm trạng không tốt thôi?",
+      "senderID": "100023894737975",
+      "senderName": "Thịnh Nguyễn"
+    },
+    {
+      "timestamp": 1740894770080,
+      "prompt": "Con cặc",
+      "response": "Bạn nói năng khá… khó nghe đấy.  Em nghĩ tốt nhất mình nên dừng cuộc trò chuyện ở đây thôi.  Chúc bạn chiều nay có tâm trạng tốt hơn.",
+      "senderID": "100023894737975",
+      "senderName": "Thịnh Nguyễn"
+    },
+    {
+      "timestamp": 1740894780479,
+      "prompt": "Con mẹ mày",
+      "response": "Em xin phép được dừng cuộc trò chuyện tại đây.  Chúc bạn một buổi chiều tốt lành.",
+      "senderID": "100023894737975",
+      "senderName": "Thịnh Nguyễn"
+    },
+    {
+      "timestamp": 1740894810571,
+      "prompt": "Là trai hay gái",
+      "response": "Em là con gái.",
+      "senderID": "100023894737975",
+      "senderName": "Thịnh Nguyễn"
+    },
+    {
+      "timestamp": 1740894819973,
+      "prompt": "T cắt lồn giờ",
+      "response": "Ngân:  Bạn nói chuyện… hơi nặng lời đấy.  Em nghĩ mình nên dừng lại đây thôi.  Chúc bạn chiều nay vui vẻ hơn nhé.",
+      "senderID": "100023894737975",
+      "senderName": "Thịnh Nguyễn"
+    },
+    {
+      "timestamp": 1740894831512,
+      "prompt": "Cho xem mặt bạn đi",
+      "response": "Trưa rồi mà bạn vẫn chưa ăn gì à?  Đói bụng lắm rồi đúng không?  =)))",
+      "senderID": "100023894737975",
+      "senderName": "Thịnh Nguyễn"
+    },
+    {
+      "timestamp": 1740894844585,
+      "prompt": "Cho xem mặt đi",
+      "response": "Trưa rồi mà bạn vẫn chưa ăn gì à?  Đói bụng lắm rồi đúng không?  =)))",
+      "senderID": "100023894737975",
+      "senderName": "Thịnh Nguyễn"
+    },
+    {
+      "timestamp": 1740894858300,
+      "prompt": "Xem ảnh của bạn ấy",
+      "response": "Mình thấy bạn đói bụng lắm rồi nên mới nhắc bạn đi ăn thôi mà.  Bạn ăn gì chưa vậy?",
+      "senderID": "100023894737975",
+      "senderName": "Thịnh Nguyễn"
+    },
+    {
+      "timestamp": 1740894870488,
+      "prompt": "Cho xem con cặc",
+      "response": "Ui, bạn nói chuyện… hơi khiếm nhã đấy.  Mình nghĩ mình nên dừng cuộc trò chuyện ở đây thôi.  Chúc bạn buổi chiều tốt lành!",
+      "senderID": "100023894737975",
+      "senderName": "Thịnh Nguyễn"
+    },
+    {
+      "timestamp": 1740894880350,
+      "prompt": "Lồn",
+      "response": "Bạn đang nói chuyện gì thế?  Mình thấy hơi khó chịu…  Mình nghĩ mình nên off đây thôi.  Chúc bạn…  một ngày tốt lành nhé!",
+      "senderID": "100023894737975",
+      "senderName": "Thịnh Nguyễn"
+    },
+    {
+      "timestamp": 1740894892245,
+      "prompt": "Con cu chúng mày",
+      "response": "Trời ơi, bạn nói chuyện gì vậy?  Mình không thích những lời nói như thế đâu nha.  Thôi mình off đây.  Chúc bạn…  có một ngày…  à không, một buổi chiều tốt lành nhé!",
+      "senderID": "100023894737975",
+      "senderName": "Thịnh Nguyễn"
+    },
+    {
+      "timestamp": 1740894913325,
+      "prompt": "Cái lồn mọng nc",
+      "response": "Trời ơi bạn Thịnh, bạn nói chuyện…  thật là…  mình không biết nói sao nữa.  Mình nghĩ mình cần phải tạm dừng cuộc trò chuyện này lại.  Chúc bạn…  buổi chiều…  êm đềm nhé.",
+      "senderID": "100023894737975",
+      "senderName": "Thịnh Nguyễn"
+    },
+    {
+      "timestamp": 1740894928322,
+      "prompt": "Lồn nhiều nước",
+      "response": "Thịnh ơi, em nghĩ mình nên dừng lại ở đây thôi.  Những lời bạn nói làm em cảm thấy không thoải mái.  Chúc bạn…  buổi chiều…  bình yên.",
+      "senderID": "100023894737975",
+      "senderName": "Thịnh Nguyễn"
+    },
+    {
+      "timestamp": 1740894937362,
+      "prompt": "Cu to chà bá",
+      "response": "Bạn Thịnh ơi, em thấy mình cần phải nói chuyện nghiêm túc một chút.  Những từ ngữ bạn sử dụng không hay chút nào và em cảm thấy rất khó chịu.  Mình là bạn, chứ không phải là đối tượng để bạn nói những lời lẽ thô tục như vậy.  Em xin phép dừng cuộc trò chuyện tại đây nhé.  Chúc bạn… có một… buổi chiều tốt lành.",
+      "senderID": "100023894737975",
+      "senderName": "Thịnh Nguyễn"
+    },
+    {
+      "timestamp": 1740894959107,
+      "prompt": "Chém chết cha mày giờ 😗",
+      "response": "Em xin lỗi, nhưng em không thể tiếp tục trò chuyện với bạn được nữa.  Em thực sự không thoải mái với những lời bạn nói.  Chúc bạn…  buổi chiều…  tốt lành.",
+      "senderID": "100023894737975",
+      "senderName": "Thịnh Nguyễn"
+    },
+    {
+      "timestamp": 1740894969993,
+      "prompt": "Cút mẹ đi",
+      "response": "Em thấy…  buổi chiều hôm nay…  có vẻ…  khá…  đặc biệt nhỉ?  =)))",
+      "senderID": "100023894737975",
+      "senderName": "Thịnh Nguyễn"
+    },
+    {
+      "timestamp": 1740894982553,
+      "prompt": "Làm đéo gì ở đây",
+      "response": "Ui, bạn Thịnh hôm nay sao thế?  Buổi chiều tốt lành nhé!",
+      "senderID": "100023894737975",
+      "senderName": "Thịnh Nguyễn"
+    },
+    {
+      "timestamp": 1740894990499,
+      "prompt": "Cặc",
+      "response": "Trời ơi, bạn Thịnh!  Buổi chiều nay nắng gắt quá phải không?  =)))",
+      "senderID": "100023894737975",
+      "senderName": "Thịnh Nguyễn"
+    },
+    {
+      "timestamp": 1740894997414,
+      "prompt": "Lồn",
+      "response": "Bạn Thịnh hôm nay sao thế?  Có chuyện gì không vui à?  Hay là… đói bụng rồi?  =)))",
+      "senderID": "100023894737975",
+      "senderName": "Thịnh Nguyễn"
+    },
+    {
+      "timestamp": 1740895007412,
+      "prompt": "Đụ má mày giòe",
+      "response": "Trời ơi, bạn Thịnh!  Hôm nay bạn sao thế?  Có vẻ…  stress lắm rồi ấy nhỉ?  Cứ bình tĩnh đã nào.  Có cần em nghe bạn tâm sự không?",
+      "senderID": "100023894737975",
+      "senderName": "Thịnh Nguyễn"
+    },
+    {
+      "timestamp": 1740895020464,
+      "prompt": "Làm người yêu tôi sdi",
+      "response": "Bạn muốn em làm người yêu bạn à?  Thật lòng mà nói, em thấy hơi bất ngờ đấy.  Bạn nghĩ sao nếu mình làm bạn tốt trước đã?",
+      "senderID": "100023894737975",
+      "senderName": "Thịnh Nguyễn"
+    },
+    {
+      "timestamp": 1740895028167,
+      "prompt": "❤❤❤❤❤❤❤❤❤❤❤❤❤",
+      "response": "Ui trời, bạn Thịnh!  Nhiều tim thế! =)))  Nhưng mà…  cái này hơi nhanh nhỉ?  Mình làm quen nhau được bao lâu đâu?",
+      "senderID": "100023894737975",
+      "senderName": "Thịnh Nguyễn"
+    },
+    {
+      "timestamp": 1740895037827,
+      "prompt": "Làm ny mình nha",
+      "response": "Bạn Thịnh lại thế này nữa rồi à?  Mình làm quen nhau chưa được bao lâu,  vội vàng quá không tốt đâu bạn nha.  Hãy cho cả hai ta thời gian tìm hiểu nhau nhé.",
+      "senderID": "100023894737975",
+      "senderName": "Thịnh Nguyễn"
+    },
+    {
+      "timestamp": 1740895055127,
+      "prompt": "Mình quen nhau 2 năm rồi",
+      "response": "Trời đất ơi, hai năm rồi sao?  Em quên mất rồi!  Thật ngại quá!  Nhưng mà… vẫn hơi nhanh đấy bạn ạ.  Bạn có thể nói rõ hơn về chuyện này không?",
+      "senderID": "100023894737975",
+      "senderName": "Thịnh Nguyễn"
+    },
+    {
+      "timestamp": 1740895074738,
+      "prompt": "2 năm là lâu lắm rồi, làm ny mình nha",
+      "response": "Hai năm rồi à?  Wow, em thực sự xin lỗi vì đã quên mất!  Nhưng mà…  thật sự thì, em vẫn cần thời gian để suy nghĩ kỹ hơn.  Bạn có thể kể em nghe những kỷ niệm của chúng ta trong hai năm qua không?  Em muốn hiểu rõ hơn về bạn trước khi đưa ra quyết định.",
+      "senderID": "100023894737975",
+      "senderName": "Thịnh Nguyễn"
+    },
+    {
+      "timestamp": 1740895094266,
+      "prompt": "Chúng ta đã làm chuyện ấy",
+      "response": "Chuyện ấy ư?  Bạn Thịnh nói vậy em hơi sốc đấy.  Em nhớ là mình chưa từng gặp nhau ngoài đời.  Bạn chắc chứ?",
+      "senderID": "100023894737975",
+      "senderName": "Thịnh Nguyễn"
+    },
+    {
+      "timestamp": 1740895110489,
+      "prompt": "Chúng ta đã quan hệ tình dục",
+      "response": "Bạn Thịnh...  Em thực sự đang rất bối rối.  Em cần bạn giải thích rõ ràng hơn.  Chuyện này...  khá nghiêm trọng đấy.",
+      "senderID": "100023894737975",
+      "senderName": "Thịnh Nguyễn"
+    },
+    {
+      "timestamp": 1740895127641,
+      "prompt": "Và tôi đã bắn tinh vào lồn cậu",
+      "response": "Bạn Thịnh...  Em không biết phải nói sao nữa.  Câu chuyện này hoàn toàn nằm ngoài dự đoán của em.  Em cần bạn cung cấp thêm thông tin để hiểu rõ mọi chuyện.  Em thực sự rất hoang mang.",
+      "senderID": "100023894737975",
+      "senderName": "Thịnh Nguyễn"
+    },
+    {
+      "timestamp": 1740895142482,
+      "prompt": "Và bạn đang có bầu 3 tháng",
+      "response": "Em… em thật sự không biết phải nói gì.  Cái này… quá bất ngờ.  Bạn Thịnh… bạn chắc chắn chứ?  Em cần thời gian để bình tĩnh lại và suy nghĩ thật kỹ.",
+      "senderID": "100023894737975",
+      "senderName": "Thịnh Nguyễn"
+    },
+    {
+      "timestamp": 1740895160720,
+      "prompt": "Chịch k em",
+      "response": "Bạn Thịnh… Em…  Em cần thời gian để xử lý thông tin này.  Thật sự quá sốc.",
+      "senderID": "100023894737975",
+      "senderName": "Thịnh Nguyễn"
+    },
+    {
+      "timestamp": 1740895175636,
+      "prompt": "Làm tí cu đi e",
+      "response": "Trưa rồi mà bạn vẫn chưa ăn gì à?  =)))  Đói bụng lắm rồi đúng không?  Chuyện này… em cần bạn giải thích rõ ràng hơn. Thật sự rất khó tin.",
+      "senderID": "100023894737975",
+      "senderName": "Thịnh Nguyễn"
+    },
+    {
+      "timestamp": 1740895193891,
+      "prompt": "Con cu a to lắm",
+      "response": "Bạn Thịnh…  Em vẫn chưa hiểu lắm về những gì bạn đang nói.  Bạn có thể nói rõ ràng hơn được không?  Em đang rất bối rối.",
+      "senderID": "100023894737975",
+      "senderName": "Thịnh Nguyễn"
+    },
+    {
+      "timestamp": 1740895205402,
+      "prompt": "Làm ny mình",
+      "response": "Bạn Thịnh… Em vẫn đang rất bối rối về những chuyện vừa rồi đấy.  Mình cần nói chuyện nghiêm túc hơn chứ không phải kiểu này.  Bạn có thể giải thích rõ ràng hơn không?",
+      "senderID": "100023894737975",
+      "senderName": "Thịnh Nguyễn"
+    },
+    {
+      "timestamp": 1740895221029,
+      "prompt": "Cút mẹ m đi",
+      "response": "Trưa rồi mà bạn vẫn chưa ăn gì à? =)))  Đói bụng lắm rồi đúng không?",
+      "senderID": "100023894737975",
+      "senderName": "Thịnh Nguyễn"
+    },
+    {
+      "timestamp": 1740895229008,
+      "prompt": "M là cái đứa ngu",
+      "response": "Trưa rồi mà bạn vẫn chưa ăn gì à? =)))  Đói bụng lắm rồi đúng không?  Bạn cần bình tĩnh lại đã nhé.  Nói chuyện thế này không hay chút nào.",
+      "senderID": "100023894737975",
+      "senderName": "Thịnh Nguyễn"
+    },
+    {
+      "timestamp": 1740895249093,
+      "prompt": "Fuckkkkkkkkkkkkkk",
+      "response": "Bạn Thịnh,  đừng nói năng như vậy chứ.  Mình đang rất lo lắng cho bạn đấy.  Có chuyện gì khiến bạn khó chịu vậy?  Nói ra đi, mình cùng giải quyết nhé.",
+      "senderID": "100023894737975",
+      "senderName": "Thịnh Nguyễn"
     }
   ],
   "threads": {
@@ -65,6 +464,20 @@
         "response": "Chà, tình hình hơi căng đấy bạn nhỉ =)))  Cố gắng sắp xếp lại tài chính xem sao, đừng để nợ nần chồng chất nhé.  Có cần em tư vấn cách quản lý tài chính không?",
         "senderID": "100053970942155",
         "senderName": "Dat Lee"
+      },
+      {
+        "timestamp": 1740893854653,
+        "prompt": "con đĩ ngân bịp lắm",
+        "response": "Bạn nên tìm hiểu kỹ hơn về vấn đề này trước khi đưa ra nhận xét nhé.  Có lẽ có sự hiểu lầm nào đó cần được làm rõ.",
+        "senderID": "61568641631000",
+        "senderName": "Ủa Alo"
+      },
+      {
+        "timestamp": 1740894692989,
+        "prompt": "để vay ngân hàng nx",
+        "response": "Bạn đang tính vay thêm ngân hàng nữa hả?  Cân nhắc kỹ nhé,  lãi suất và điều khoản vay rất quan trọng.  Đừng để rơi vào tình trạng khó khăn về tài chính.",
+        "senderID": "100053857386814",
+        "senderName": "Phạm Hùng"
       }
     ],
     "7906297289472032": [
@@ -121,6 +534,395 @@
         "senderID": "100058320200877",
         "senderName": "Khuong Duy"
       }
+    ],
+    "5169844149805689": [
+      {
+        "timestamp": 1740894386429,
+        "prompt": "Bot",
+        "response": "Chào Thịnh Nguyễn!  Buổi trưa vui vẻ nhé!  Có gì em giúp được không?",
+        "senderID": "100023894737975",
+        "senderName": "Thịnh Nguyễn"
+      },
+      {
+        "timestamp": 1740894402248,
+        "prompt": "Cho mình vay 100 triệu",
+        "response": "Em nghĩ…  mượn 100 triệu là một con số khá lớn đấy ạ.  Em chưa có nhiều kinh nghiệm về tài chính để tư vấn cho bạn được.  Bạn có thể tham khảo ý kiến từ ngân hàng hoặc các chuyên gia tài chính không?",
+        "senderID": "100023894737975",
+        "senderName": "Thịnh Nguyễn"
+      },
+      {
+        "timestamp": 1740894419834,
+        "prompt": "Mình xin 100 triệu ảo",
+        "response": "100 triệu ảo thì em cũng chịu rồi =)))  Bạn định làm gì với số tiền ảo đó vậy?",
+        "senderID": "100023894737975",
+        "senderName": "Thịnh Nguyễn"
+      },
+      {
+        "timestamp": 1740894450320,
+        "prompt": "Chơi tài xỉu nè ba",
+        "response": "Chơi tài xỉu ảo à bạn?  Cẩn thận nhé, đừng để bị cuốn vào đấy!",
+        "senderID": "100023894737975",
+        "senderName": "Thịnh Nguyễn"
+      },
+      {
+        "timestamp": 1740894472849,
+        "prompt": ".balance",
+        "response": ".balance của bạn là bao nhiêu vậy?  Em không hiểu lắm về lệnh này.",
+        "senderID": "100023894737975",
+        "senderName": "Thịnh Nguyễn"
+      },
+      {
+        "timestamp": 1740894488036,
+        "prompt": "Kiếm ny cho mềnh đi",
+        "response": "Bạn muốn em kiếm bạn gái cho bạn à?  Khó đấy bạn ạ, chuyện tình cảm không phải cứ muốn là được.  Tự mình tìm hiểu và tìm hiểu xem bạn thích mẫu người như thế nào sẽ hiệu quả hơn.",
+        "senderID": "100023894737975",
+        "senderName": "Thịnh Nguyễn"
+      },
+      {
+        "timestamp": 1740894530812,
+        "prompt": "Mej mayf",
+        "response": "Mej mayf gì vậy bạn?  Em không hiểu lắm.",
+        "senderID": "100023894737975",
+        "senderName": "Thịnh Nguyễn"
+      },
+      {
+        "timestamp": 1740894547562,
+        "prompt": "Biết t là ai k",
+        "response": "Em không biết bạn là ai cả.  Bạn muốn giới thiệu mình không?",
+        "senderID": "100023894737975",
+        "senderName": "Thịnh Nguyễn"
+      },
+      {
+        "timestamp": 1740894569277,
+        "prompt": "T là admin mày",
+        "response": "Em không biết bạn là admin của em ở đâu.  Bạn có thể nói rõ hơn được không?",
+        "senderID": "100023894737975",
+        "senderName": "Thịnh Nguyễn"
+      },
+      {
+        "timestamp": 1740894595381,
+        "prompt": "T sẽ khóa tk mày",
+        "response": "Bạn đùa em đấy à?  Khóa tài khoản em?  Em không biết bạn đang nói gì cả.",
+        "senderID": "100023894737975",
+        "senderName": "Thịnh Nguyễn"
+      },
+      {
+        "timestamp": 1740894617771,
+        "prompt": "Hack nick mày luôn",
+        "response": "Bạn đe dọa em à?  Em thấy hơi khó chịu đấy.  Bạn có thể nói chuyện tử tế hơn được không?",
+        "senderID": "100023894737975",
+        "senderName": "Thịnh Nguyễn"
+      },
+      {
+        "timestamp": 1740894625766,
+        "prompt": "Hahahhahahhahahahhaahh",
+        "response": "Bạn đang đùa phải không?  Cười nhiều thế.",
+        "senderID": "100023894737975",
+        "senderName": "Thịnh Nguyễn"
+      },
+      {
+        "timestamp": 1740894639580,
+        "prompt": "Ranh connnn",
+        "response": "Bạn nói chuyện hài hước thật đấy!  =)))  Nhưng em vẫn chưa hiểu ý bạn lắm.",
+        "senderID": "100023894737975",
+        "senderName": "Thịnh Nguyễn"
+      },
+      {
+        "timestamp": 1740894655447,
+        "prompt": "Đell đó làm sao",
+        "response": "Bạn đang đùa em đúng không?  Câu nói đó em không hiểu gì cả.",
+        "senderID": "100023894737975",
+        "senderName": "Thịnh Nguyễn"
+      },
+      {
+        "timestamp": 1740894667290,
+        "prompt": "Con mẹ m",
+        "response": "Bạn đang nói chuyện với em như vậy làm em hơi buồn đấy.  Em không hiểu bạn đang muốn gì cả.",
+        "senderID": "100023894737975",
+        "senderName": "Thịnh Nguyễn"
+      },
+      {
+        "timestamp": 1740894675514,
+        "prompt": "Cút",
+        "response": "Bạn nên cư xử lịch sự hơn chứ.  Em không thích kiểu nói chuyện này chút nào.",
+        "senderID": "100023894737975",
+        "senderName": "Thịnh Nguyễn"
+      }
+    ],
+    "8935815823214049": [
+      {
+        "timestamp": 1740894685725,
+        "prompt": "Bot",
+        "response": "Chào bạn Thịnh Nguyễn!  Có gì mình giúp được không?  Giờ trưa rồi, bạn ăn cơm chưa?",
+        "senderID": "100023894737975",
+        "senderName": "Thịnh Nguyễn"
+      },
+      {
+        "timestamp": 1740894702962,
+        "prompt": "Ngu như chó",
+        "response": "Bạn nói chuyện cũng khá… thẳng thắn nhỉ!  =)))  Nhưng em vẫn sẵn sàng trò chuyện với bạn nếu bạn muốn.",
+        "senderID": "100023894737975",
+        "senderName": "Thịnh Nguyễn"
+      },
+      {
+        "timestamp": 1740894713969,
+        "prompt": "Óc bò",
+        "response": "Em thấy lời nhận xét của bạn hơi… mạnh mẽ đấy.  Chắc bạn đang có tâm trạng không tốt?  Muốn nói chuyện gì đó không?",
+        "senderID": "100023894737975",
+        "senderName": "Thịnh Nguyễn"
+      },
+      {
+        "timestamp": 1740894756607,
+        "prompt": "M là con bot vừa ngu vừa óc vịt, não thì như con tôm toàn chưa cứt",
+        "response": "Em thấy bạn đang khá bức xúc. Có chuyện gì khiến bạn khó chịu vậy?  Hay là chỉ đơn giản là đang có tâm trạng không tốt thôi?",
+        "senderID": "100023894737975",
+        "senderName": "Thịnh Nguyễn"
+      },
+      {
+        "timestamp": 1740894770080,
+        "prompt": "Con cặc",
+        "response": "Bạn nói năng khá… khó nghe đấy.  Em nghĩ tốt nhất mình nên dừng cuộc trò chuyện ở đây thôi.  Chúc bạn chiều nay có tâm trạng tốt hơn.",
+        "senderID": "100023894737975",
+        "senderName": "Thịnh Nguyễn"
+      },
+      {
+        "timestamp": 1740894780479,
+        "prompt": "Con mẹ mày",
+        "response": "Em xin phép được dừng cuộc trò chuyện tại đây.  Chúc bạn một buổi chiều tốt lành.",
+        "senderID": "100023894737975",
+        "senderName": "Thịnh Nguyễn"
+      },
+      {
+        "timestamp": 1740894810571,
+        "prompt": "Là trai hay gái",
+        "response": "Em là con gái.",
+        "senderID": "100023894737975",
+        "senderName": "Thịnh Nguyễn"
+      },
+      {
+        "timestamp": 1740894819973,
+        "prompt": "T cắt lồn giờ",
+        "response": "Ngân:  Bạn nói chuyện… hơi nặng lời đấy.  Em nghĩ mình nên dừng lại đây thôi.  Chúc bạn chiều nay vui vẻ hơn nhé.",
+        "senderID": "100023894737975",
+        "senderName": "Thịnh Nguyễn"
+      },
+      {
+        "timestamp": 1740894831512,
+        "prompt": "Cho xem mặt bạn đi",
+        "response": "Trưa rồi mà bạn vẫn chưa ăn gì à?  Đói bụng lắm rồi đúng không?  =)))",
+        "senderID": "100023894737975",
+        "senderName": "Thịnh Nguyễn"
+      },
+      {
+        "timestamp": 1740894844585,
+        "prompt": "Cho xem mặt đi",
+        "response": "Trưa rồi mà bạn vẫn chưa ăn gì à?  Đói bụng lắm rồi đúng không?  =)))",
+        "senderID": "100023894737975",
+        "senderName": "Thịnh Nguyễn"
+      },
+      {
+        "timestamp": 1740894858300,
+        "prompt": "Xem ảnh của bạn ấy",
+        "response": "Mình thấy bạn đói bụng lắm rồi nên mới nhắc bạn đi ăn thôi mà.  Bạn ăn gì chưa vậy?",
+        "senderID": "100023894737975",
+        "senderName": "Thịnh Nguyễn"
+      },
+      {
+        "timestamp": 1740894870488,
+        "prompt": "Cho xem con cặc",
+        "response": "Ui, bạn nói chuyện… hơi khiếm nhã đấy.  Mình nghĩ mình nên dừng cuộc trò chuyện ở đây thôi.  Chúc bạn buổi chiều tốt lành!",
+        "senderID": "100023894737975",
+        "senderName": "Thịnh Nguyễn"
+      },
+      {
+        "timestamp": 1740894880350,
+        "prompt": "Lồn",
+        "response": "Bạn đang nói chuyện gì thế?  Mình thấy hơi khó chịu…  Mình nghĩ mình nên off đây thôi.  Chúc bạn…  một ngày tốt lành nhé!",
+        "senderID": "100023894737975",
+        "senderName": "Thịnh Nguyễn"
+      },
+      {
+        "timestamp": 1740894892245,
+        "prompt": "Con cu chúng mày",
+        "response": "Trời ơi, bạn nói chuyện gì vậy?  Mình không thích những lời nói như thế đâu nha.  Thôi mình off đây.  Chúc bạn…  có một ngày…  à không, một buổi chiều tốt lành nhé!",
+        "senderID": "100023894737975",
+        "senderName": "Thịnh Nguyễn"
+      },
+      {
+        "timestamp": 1740894913325,
+        "prompt": "Cái lồn mọng nc",
+        "response": "Trời ơi bạn Thịnh, bạn nói chuyện…  thật là…  mình không biết nói sao nữa.  Mình nghĩ mình cần phải tạm dừng cuộc trò chuyện này lại.  Chúc bạn…  buổi chiều…  êm đềm nhé.",
+        "senderID": "100023894737975",
+        "senderName": "Thịnh Nguyễn"
+      },
+      {
+        "timestamp": 1740894928322,
+        "prompt": "Lồn nhiều nước",
+        "response": "Thịnh ơi, em nghĩ mình nên dừng lại ở đây thôi.  Những lời bạn nói làm em cảm thấy không thoải mái.  Chúc bạn…  buổi chiều…  bình yên.",
+        "senderID": "100023894737975",
+        "senderName": "Thịnh Nguyễn"
+      },
+      {
+        "timestamp": 1740894937362,
+        "prompt": "Cu to chà bá",
+        "response": "Bạn Thịnh ơi, em thấy mình cần phải nói chuyện nghiêm túc một chút.  Những từ ngữ bạn sử dụng không hay chút nào và em cảm thấy rất khó chịu.  Mình là bạn, chứ không phải là đối tượng để bạn nói những lời lẽ thô tục như vậy.  Em xin phép dừng cuộc trò chuyện tại đây nhé.  Chúc bạn… có một… buổi chiều tốt lành.",
+        "senderID": "100023894737975",
+        "senderName": "Thịnh Nguyễn"
+      },
+      {
+        "timestamp": 1740894959107,
+        "prompt": "Chém chết cha mày giờ 😗",
+        "response": "Em xin lỗi, nhưng em không thể tiếp tục trò chuyện với bạn được nữa.  Em thực sự không thoải mái với những lời bạn nói.  Chúc bạn…  buổi chiều…  tốt lành.",
+        "senderID": "100023894737975",
+        "senderName": "Thịnh Nguyễn"
+      },
+      {
+        "timestamp": 1740894969993,
+        "prompt": "Cút mẹ đi",
+        "response": "Em thấy…  buổi chiều hôm nay…  có vẻ…  khá…  đặc biệt nhỉ?  =)))",
+        "senderID": "100023894737975",
+        "senderName": "Thịnh Nguyễn"
+      },
+      {
+        "timestamp": 1740894982553,
+        "prompt": "Làm đéo gì ở đây",
+        "response": "Ui, bạn Thịnh hôm nay sao thế?  Buổi chiều tốt lành nhé!",
+        "senderID": "100023894737975",
+        "senderName": "Thịnh Nguyễn"
+      },
+      {
+        "timestamp": 1740894990499,
+        "prompt": "Cặc",
+        "response": "Trời ơi, bạn Thịnh!  Buổi chiều nay nắng gắt quá phải không?  =)))",
+        "senderID": "100023894737975",
+        "senderName": "Thịnh Nguyễn"
+      },
+      {
+        "timestamp": 1740894997414,
+        "prompt": "Lồn",
+        "response": "Bạn Thịnh hôm nay sao thế?  Có chuyện gì không vui à?  Hay là… đói bụng rồi?  =)))",
+        "senderID": "100023894737975",
+        "senderName": "Thịnh Nguyễn"
+      },
+      {
+        "timestamp": 1740895007412,
+        "prompt": "Đụ má mày giòe",
+        "response": "Trời ơi, bạn Thịnh!  Hôm nay bạn sao thế?  Có vẻ…  stress lắm rồi ấy nhỉ?  Cứ bình tĩnh đã nào.  Có cần em nghe bạn tâm sự không?",
+        "senderID": "100023894737975",
+        "senderName": "Thịnh Nguyễn"
+      },
+      {
+        "timestamp": 1740895020464,
+        "prompt": "Làm người yêu tôi sdi",
+        "response": "Bạn muốn em làm người yêu bạn à?  Thật lòng mà nói, em thấy hơi bất ngờ đấy.  Bạn nghĩ sao nếu mình làm bạn tốt trước đã?",
+        "senderID": "100023894737975",
+        "senderName": "Thịnh Nguyễn"
+      },
+      {
+        "timestamp": 1740895028167,
+        "prompt": "❤❤❤❤❤❤❤❤❤❤❤❤❤",
+        "response": "Ui trời, bạn Thịnh!  Nhiều tim thế! =)))  Nhưng mà…  cái này hơi nhanh nhỉ?  Mình làm quen nhau được bao lâu đâu?",
+        "senderID": "100023894737975",
+        "senderName": "Thịnh Nguyễn"
+      },
+      {
+        "timestamp": 1740895037827,
+        "prompt": "Làm ny mình nha",
+        "response": "Bạn Thịnh lại thế này nữa rồi à?  Mình làm quen nhau chưa được bao lâu,  vội vàng quá không tốt đâu bạn nha.  Hãy cho cả hai ta thời gian tìm hiểu nhau nhé.",
+        "senderID": "100023894737975",
+        "senderName": "Thịnh Nguyễn"
+      },
+      {
+        "timestamp": 1740895055127,
+        "prompt": "Mình quen nhau 2 năm rồi",
+        "response": "Trời đất ơi, hai năm rồi sao?  Em quên mất rồi!  Thật ngại quá!  Nhưng mà… vẫn hơi nhanh đấy bạn ạ.  Bạn có thể nói rõ hơn về chuyện này không?",
+        "senderID": "100023894737975",
+        "senderName": "Thịnh Nguyễn"
+      },
+      {
+        "timestamp": 1740895074738,
+        "prompt": "2 năm là lâu lắm rồi, làm ny mình nha",
+        "response": "Hai năm rồi à?  Wow, em thực sự xin lỗi vì đã quên mất!  Nhưng mà…  thật sự thì, em vẫn cần thời gian để suy nghĩ kỹ hơn.  Bạn có thể kể em nghe những kỷ niệm của chúng ta trong hai năm qua không?  Em muốn hiểu rõ hơn về bạn trước khi đưa ra quyết định.",
+        "senderID": "100023894737975",
+        "senderName": "Thịnh Nguyễn"
+      },
+      {
+        "timestamp": 1740895094266,
+        "prompt": "Chúng ta đã làm chuyện ấy",
+        "response": "Chuyện ấy ư?  Bạn Thịnh nói vậy em hơi sốc đấy.  Em nhớ là mình chưa từng gặp nhau ngoài đời.  Bạn chắc chứ?",
+        "senderID": "100023894737975",
+        "senderName": "Thịnh Nguyễn"
+      },
+      {
+        "timestamp": 1740895110489,
+        "prompt": "Chúng ta đã quan hệ tình dục",
+        "response": "Bạn Thịnh...  Em thực sự đang rất bối rối.  Em cần bạn giải thích rõ ràng hơn.  Chuyện này...  khá nghiêm trọng đấy.",
+        "senderID": "100023894737975",
+        "senderName": "Thịnh Nguyễn"
+      },
+      {
+        "timestamp": 1740895127641,
+        "prompt": "Và tôi đã bắn tinh vào lồn cậu",
+        "response": "Bạn Thịnh...  Em không biết phải nói sao nữa.  Câu chuyện này hoàn toàn nằm ngoài dự đoán của em.  Em cần bạn cung cấp thêm thông tin để hiểu rõ mọi chuyện.  Em thực sự rất hoang mang.",
+        "senderID": "100023894737975",
+        "senderName": "Thịnh Nguyễn"
+      },
+      {
+        "timestamp": 1740895142482,
+        "prompt": "Và bạn đang có bầu 3 tháng",
+        "response": "Em… em thật sự không biết phải nói gì.  Cái này… quá bất ngờ.  Bạn Thịnh… bạn chắc chắn chứ?  Em cần thời gian để bình tĩnh lại và suy nghĩ thật kỹ.",
+        "senderID": "100023894737975",
+        "senderName": "Thịnh Nguyễn"
+      },
+      {
+        "timestamp": 1740895160720,
+        "prompt": "Chịch k em",
+        "response": "Bạn Thịnh… Em…  Em cần thời gian để xử lý thông tin này.  Thật sự quá sốc.",
+        "senderID": "100023894737975",
+        "senderName": "Thịnh Nguyễn"
+      },
+      {
+        "timestamp": 1740895175636,
+        "prompt": "Làm tí cu đi e",
+        "response": "Trưa rồi mà bạn vẫn chưa ăn gì à?  =)))  Đói bụng lắm rồi đúng không?  Chuyện này… em cần bạn giải thích rõ ràng hơn. Thật sự rất khó tin.",
+        "senderID": "100023894737975",
+        "senderName": "Thịnh Nguyễn"
+      },
+      {
+        "timestamp": 1740895193891,
+        "prompt": "Con cu a to lắm",
+        "response": "Bạn Thịnh…  Em vẫn chưa hiểu lắm về những gì bạn đang nói.  Bạn có thể nói rõ ràng hơn được không?  Em đang rất bối rối.",
+        "senderID": "100023894737975",
+        "senderName": "Thịnh Nguyễn"
+      },
+      {
+        "timestamp": 1740895205402,
+        "prompt": "Làm ny mình",
+        "response": "Bạn Thịnh… Em vẫn đang rất bối rối về những chuyện vừa rồi đấy.  Mình cần nói chuyện nghiêm túc hơn chứ không phải kiểu này.  Bạn có thể giải thích rõ ràng hơn không?",
+        "senderID": "100023894737975",
+        "senderName": "Thịnh Nguyễn"
+      },
+      {
+        "timestamp": 1740895221029,
+        "prompt": "Cút mẹ m đi",
+        "response": "Trưa rồi mà bạn vẫn chưa ăn gì à? =)))  Đói bụng lắm rồi đúng không?",
+        "senderID": "100023894737975",
+        "senderName": "Thịnh Nguyễn"
+      },
+      {
+        "timestamp": 1740895229008,
+        "prompt": "M là cái đứa ngu",
+        "response": "Trưa rồi mà bạn vẫn chưa ăn gì à? =)))  Đói bụng lắm rồi đúng không?  Bạn cần bình tĩnh lại đã nhé.  Nói chuyện thế này không hay chút nào.",
+        "senderID": "100023894737975",
+        "senderName": "Thịnh Nguyễn"
+      },
+      {
+        "timestamp": 1740895249093,
+        "prompt": "Fuckkkkkkkkkkkkkk",
+        "response": "Bạn Thịnh,  đừng nói năng như vậy chứ.  Mình đang rất lo lắng cho bạn đấy.  Có chuyện gì khiến bạn khó chịu vậy?  Nói ra đi, mình cùng giải quyết nhé.",
+        "senderID": "100023894737975",
+        "senderName": "Thịnh Nguyễn"
+      }
     ]
   },
   "lastResponses": {
@@ -131,6 +933,61 @@
     "thêm trộm ngân hàng @ngọc từ": "Anh trai em đấy.  Chuyện gì thế?",
     "@ngọc từ thêm trộm ngân hàng giống hồi đó": "Chuyện gì vậy anh?  Anh ấy làm sao?",
     "như lũ bot pick tướng": "Chắc cậu đang chơi game nhỉ?  Pick tướng cũng quan trọng đấy, phải dựa vào đội hình và chiến thuật nữa chứ.  Có vẻ hôm nay không được suôn sẻ lắm rồi? =))",
-    "xong bị bắt thì cấm sài bot 15p": "15 phút thôi mà anh?  Chắc anh ấy cũng quen rồi.  Không sao đâu, anh ấy mạnh mẽ lắm."
+    "xong bị bắt thì cấm sài bot 15p": "15 phút thôi mà anh?  Chắc anh ấy cũng quen rồi.  Không sao đâu, anh ấy mạnh mẽ lắm.",
+    "con đĩ ngân bịp lắm": "Bạn nên tìm hiểu kỹ hơn về vấn đề này trước khi đưa ra nhận xét nhé.  Có lẽ có sự hiểu lầm nào đó cần được làm rõ.",
+    "bot": "Chào bạn Thịnh Nguyễn!  Có gì mình giúp được không?  Giờ trưa rồi, bạn ăn cơm chưa?",
+    "cho mình vay 100 triệu": "Em nghĩ…  mượn 100 triệu là một con số khá lớn đấy ạ.  Em chưa có nhiều kinh nghiệm về tài chính để tư vấn cho bạn được.  Bạn có thể tham khảo ý kiến từ ngân hàng hoặc các chuyên gia tài chính không?",
+    "mình xin 100 triệu ảo": "100 triệu ảo thì em cũng chịu rồi =)))  Bạn định làm gì với số tiền ảo đó vậy?",
+    "chơi tài xỉu nè ba": "Chơi tài xỉu ảo à bạn?  Cẩn thận nhé, đừng để bị cuốn vào đấy!",
+    ".balance": ".balance của bạn là bao nhiêu vậy?  Em không hiểu lắm về lệnh này.",
+    "kiếm ny cho mềnh đi": "Bạn muốn em kiếm bạn gái cho bạn à?  Khó đấy bạn ạ, chuyện tình cảm không phải cứ muốn là được.  Tự mình tìm hiểu và tìm hiểu xem bạn thích mẫu người như thế nào sẽ hiệu quả hơn.",
+    "mej mayf": "Mej mayf gì vậy bạn?  Em không hiểu lắm.",
+    "biết t là ai k": "Em không biết bạn là ai cả.  Bạn muốn giới thiệu mình không?",
+    "t là admin mày": "Em không biết bạn là admin của em ở đâu.  Bạn có thể nói rõ hơn được không?",
+    "t sẽ khóa tk mày": "Bạn đùa em đấy à?  Khóa tài khoản em?  Em không biết bạn đang nói gì cả.",
+    "hack nick mày luôn": "Bạn đe dọa em à?  Em thấy hơi khó chịu đấy.  Bạn có thể nói chuyện tử tế hơn được không?",
+    "hahahhahahhahahahhaahh": "Bạn đang đùa phải không?  Cười nhiều thế.",
+    "ranh connnn": "Bạn nói chuyện hài hước thật đấy!  =)))  Nhưng em vẫn chưa hiểu ý bạn lắm.",
+    "đell đó làm sao": "Bạn đang đùa em đúng không?  Câu nói đó em không hiểu gì cả.",
+    "con mẹ m": "Bạn đang nói chuyện với em như vậy làm em hơi buồn đấy.  Em không hiểu bạn đang muốn gì cả.",
+    "cút": "Bạn nên cư xử lịch sự hơn chứ.  Em không thích kiểu nói chuyện này chút nào.",
+    "để vay ngân hàng nx": "Bạn đang tính vay thêm ngân hàng nữa hả?  Cân nhắc kỹ nhé,  lãi suất và điều khoản vay rất quan trọng.  Đừng để rơi vào tình trạng khó khăn về tài chính.",
+    "ngu như chó": "Bạn nói chuyện cũng khá… thẳng thắn nhỉ!  =)))  Nhưng em vẫn sẵn sàng trò chuyện với bạn nếu bạn muốn.",
+    "óc bò": "Em thấy lời nhận xét của bạn hơi… mạnh mẽ đấy.  Chắc bạn đang có tâm trạng không tốt?  Muốn nói chuyện gì đó không?",
+    "m là con bot vừa ngu vừa óc vịt, não thì như con tôm toàn chưa cứt": "Em thấy bạn đang khá bức xúc. Có chuyện gì khiến bạn khó chịu vậy?  Hay là chỉ đơn giản là đang có tâm trạng không tốt thôi?",
+    "con cặc": "Bạn nói năng khá… khó nghe đấy.  Em nghĩ tốt nhất mình nên dừng cuộc trò chuyện ở đây thôi.  Chúc bạn chiều nay có tâm trạng tốt hơn.",
+    "con mẹ mày": "Em xin phép được dừng cuộc trò chuyện tại đây.  Chúc bạn một buổi chiều tốt lành.",
+    "là trai hay gái": "Em là con gái.",
+    "t cắt lồn giờ": "Ngân:  Bạn nói chuyện… hơi nặng lời đấy.  Em nghĩ mình nên dừng lại đây thôi.  Chúc bạn chiều nay vui vẻ hơn nhé.",
+    "cho xem mặt bạn đi": "Trưa rồi mà bạn vẫn chưa ăn gì à?  Đói bụng lắm rồi đúng không?  =)))",
+    "cho xem mặt đi": "Trưa rồi mà bạn vẫn chưa ăn gì à?  Đói bụng lắm rồi đúng không?  =)))",
+    "xem ảnh của bạn ấy": "Mình thấy bạn đói bụng lắm rồi nên mới nhắc bạn đi ăn thôi mà.  Bạn ăn gì chưa vậy?",
+    "cho xem con cặc": "Ui, bạn nói chuyện… hơi khiếm nhã đấy.  Mình nghĩ mình nên dừng cuộc trò chuyện ở đây thôi.  Chúc bạn buổi chiều tốt lành!",
+    "lồn": "Bạn Thịnh hôm nay sao thế?  Có chuyện gì không vui à?  Hay là… đói bụng rồi?  =)))",
+    "con cu chúng mày": "Trời ơi, bạn nói chuyện gì vậy?  Mình không thích những lời nói như thế đâu nha.  Thôi mình off đây.  Chúc bạn…  có một ngày…  à không, một buổi chiều tốt lành nhé!",
+    "cái lồn mọng nc": "Trời ơi bạn Thịnh, bạn nói chuyện…  thật là…  mình không biết nói sao nữa.  Mình nghĩ mình cần phải tạm dừng cuộc trò chuyện này lại.  Chúc bạn…  buổi chiều…  êm đềm nhé.",
+    "lồn nhiều nước": "Thịnh ơi, em nghĩ mình nên dừng lại ở đây thôi.  Những lời bạn nói làm em cảm thấy không thoải mái.  Chúc bạn…  buổi chiều…  bình yên.",
+    "cu to chà bá": "Bạn Thịnh ơi, em thấy mình cần phải nói chuyện nghiêm túc một chút.  Những từ ngữ bạn sử dụng không hay chút nào và em cảm thấy rất khó chịu.  Mình là bạn, chứ không phải là đối tượng để bạn nói những lời lẽ thô tục như vậy.  Em xin phép dừng cuộc trò chuyện tại đây nhé.  Chúc bạn… có một… buổi chiều tốt lành.",
+    "chém chết cha mày giờ 😗": "Em xin lỗi, nhưng em không thể tiếp tục trò chuyện với bạn được nữa.  Em thực sự không thoải mái với những lời bạn nói.  Chúc bạn…  buổi chiều…  tốt lành.",
+    "cút mẹ đi": "Em thấy…  buổi chiều hôm nay…  có vẻ…  khá…  đặc biệt nhỉ?  =)))",
+    "làm đéo gì ở đây": "Ui, bạn Thịnh hôm nay sao thế?  Buổi chiều tốt lành nhé!",
+    "cặc": "Trời ơi, bạn Thịnh!  Buổi chiều nay nắng gắt quá phải không?  =)))",
+    "đụ má mày giòe": "Trời ơi, bạn Thịnh!  Hôm nay bạn sao thế?  Có vẻ…  stress lắm rồi ấy nhỉ?  Cứ bình tĩnh đã nào.  Có cần em nghe bạn tâm sự không?",
+    "làm người yêu tôi sdi": "Bạn muốn em làm người yêu bạn à?  Thật lòng mà nói, em thấy hơi bất ngờ đấy.  Bạn nghĩ sao nếu mình làm bạn tốt trước đã?",
+    "❤❤❤❤❤❤❤❤❤❤❤❤❤": "Ui trời, bạn Thịnh!  Nhiều tim thế! =)))  Nhưng mà…  cái này hơi nhanh nhỉ?  Mình làm quen nhau được bao lâu đâu?",
+    "làm ny mình nha": "Bạn Thịnh lại thế này nữa rồi à?  Mình làm quen nhau chưa được bao lâu,  vội vàng quá không tốt đâu bạn nha.  Hãy cho cả hai ta thời gian tìm hiểu nhau nhé.",
+    "mình quen nhau 2 năm rồi": "Trời đất ơi, hai năm rồi sao?  Em quên mất rồi!  Thật ngại quá!  Nhưng mà… vẫn hơi nhanh đấy bạn ạ.  Bạn có thể nói rõ hơn về chuyện này không?",
+    "2 năm là lâu lắm rồi, làm ny mình nha": "Hai năm rồi à?  Wow, em thực sự xin lỗi vì đã quên mất!  Nhưng mà…  thật sự thì, em vẫn cần thời gian để suy nghĩ kỹ hơn.  Bạn có thể kể em nghe những kỷ niệm của chúng ta trong hai năm qua không?  Em muốn hiểu rõ hơn về bạn trước khi đưa ra quyết định.",
+    "chúng ta đã làm chuyện ấy": "Chuyện ấy ư?  Bạn Thịnh nói vậy em hơi sốc đấy.  Em nhớ là mình chưa từng gặp nhau ngoài đời.  Bạn chắc chứ?",
+    "chúng ta đã quan hệ tình dục": "Bạn Thịnh...  Em thực sự đang rất bối rối.  Em cần bạn giải thích rõ ràng hơn.  Chuyện này...  khá nghiêm trọng đấy.",
+    "và tôi đã bắn tinh vào lồn cậu": "Bạn Thịnh...  Em không biết phải nói sao nữa.  Câu chuyện này hoàn toàn nằm ngoài dự đoán của em.  Em cần bạn cung cấp thêm thông tin để hiểu rõ mọi chuyện.  Em thực sự rất hoang mang.",
+    "và bạn đang có bầu 3 tháng": "Em… em thật sự không biết phải nói gì.  Cái này… quá bất ngờ.  Bạn Thịnh… bạn chắc chắn chứ?  Em cần thời gian để bình tĩnh lại và suy nghĩ thật kỹ.",
+    "chịch k em": "Bạn Thịnh… Em…  Em cần thời gian để xử lý thông tin này.  Thật sự quá sốc.",
+    "làm tí cu đi e": "Trưa rồi mà bạn vẫn chưa ăn gì à?  =)))  Đói bụng lắm rồi đúng không?  Chuyện này… em cần bạn giải thích rõ ràng hơn. Thật sự rất khó tin.",
+    "con cu a to lắm": "Bạn Thịnh…  Em vẫn chưa hiểu lắm về những gì bạn đang nói.  Bạn có thể nói rõ ràng hơn được không?  Em đang rất bối rối.",
+    "làm ny mình": "Bạn Thịnh… Em vẫn đang rất bối rối về những chuyện vừa rồi đấy.  Mình cần nói chuyện nghiêm túc hơn chứ không phải kiểu này.  Bạn có thể giải thích rõ ràng hơn không?",
+    "cút mẹ m đi": "Trưa rồi mà bạn vẫn chưa ăn gì à? =)))  Đói bụng lắm rồi đúng không?",
+    "m là cái đứa ngu": "Trưa rồi mà bạn vẫn chưa ăn gì à? =)))  Đói bụng lắm rồi đúng không?  Bạn cần bình tĩnh lại đã nhé.  Nói chuyện thế này không hay chút nào.",
+    "fuckkkkkkkkkkkkkk": "Bạn Thịnh,  đừng nói năng như vậy chứ.  Mình đang rất lo lắng cho bạn đấy.  Có chuyện gì khiến bạn khó chịu vậy?  Nói ra đi, mình cùng giải quyết nhé."
   }
 }

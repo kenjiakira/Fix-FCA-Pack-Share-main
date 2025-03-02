@@ -374,6 +374,1871 @@
           }
         }
       ]
+    },
+    "61568641631000": {
+      "personal": [],
+      "facts": [],
+      "preferences": [],
+      "interactions": [
+        {
+          "content": "Ủa Alo nói: con đĩ ngân bịp lắm\nTôi trả lời: Bạn nên tìm hiểu kỹ hơn về vấn đề này trước khi đưa ra nhận xét nhé.  Có lẽ có sự hiểu lầm nào đó cần được làm rõ.",
+          "timestamp": 1740893854658,
+          "priority": 1,
+          "accessCount": 0,
+          "lastAccess": 1740893854658,
+          "metadata": {
+            "sentiment": {
+              "score": 0,
+              "sentiment": "neutral"
+            },
+            "topics": [
+              "PERSONAL",
+              "WORK"
+            ],
+            "entities": {}
+          }
+        }
+      ],
+      "emotions": [],
+      "names": [],
+      "relationships": {},
+      "context": {
+        "lastTopics": [],
+        "importantDates": {},
+        "recentMentions": {},
+        "conversationFlow": []
+      },
+      "topics": {},
+      "undefined": [
+        {
+          "content": "Xưng hô: em/bạn",
+          "timestamp": 1740893853712,
+          "priority": 2,
+          "accessCount": 0,
+          "lastAccess": 1740893853712,
+          "metadata": {
+            "sentiment": {
+              "score": 0,
+              "sentiment": "neutral"
+            },
+            "topics": [
+              "PERSONAL"
+            ],
+            "entities": {}
+          }
+        }
+      ]
+    },
+    "100023894737975": {
+      "personal": [],
+      "facts": [],
+      "preferences": [],
+      "interactions": [
+        {
+          "content": "Thịnh Nguyễn nói: Làm người yêu tôi sdi\nTôi trả lời: Bạn muốn em làm người yêu bạn à?  Thật lòng mà nói, em thấy hơi bất ngờ đấy.  Bạn nghĩ sao nếu mình làm bạn tốt trước đã?",
+          "timestamp": 1740895020467,
+          "priority": 1,
+          "accessCount": 13,
+          "lastAccess": 1740895228066,
+          "metadata": {
+            "sentiment": {
+              "score": 3,
+              "sentiment": "positive"
+            },
+            "topics": [
+              "PERSONAL",
+              "WORK",
+              "RELATIONSHIP"
+            ],
+            "entities": {}
+          }
+        },
+        {
+          "content": "Thịnh Nguyễn nói: Con cặc\nTôi trả lời: Bạn nói năng khá… khó nghe đấy.  Em nghĩ tốt nhất mình nên dừng cuộc trò chuyện ở đây thôi.  Chúc bạn chiều nay có tâm trạng tốt hơn.",
+          "timestamp": 1740894770081,
+          "priority": 1,
+          "accessCount": 24,
+          "lastAccess": 1740895228066,
+          "metadata": {
+            "sentiment": {
+              "score": 2,
+              "sentiment": "positive"
+            },
+            "topics": [
+              "PERSONAL",
+              "FOOD"
+            ],
+            "entities": {}
+          }
+        },
+        {
+          "content": "Thịnh Nguyễn nói: Mình xin 100 triệu ảo\nTôi trả lời: 100 triệu ảo thì em cũng chịu rồi =)))  Bạn định làm gì với số tiền ảo đó vậy?",
+          "timestamp": 1740894419835,
+          "priority": 1,
+          "accessCount": 53,
+          "lastAccess": 1740895247245,
+          "metadata": {
+            "sentiment": {
+              "score": 0,
+              "sentiment": "neutral"
+            },
+            "topics": [
+              "PERSONAL",
+              "WORK"
+            ],
+            "entities": {
+              "money": [
+                "100 triệu",
+                "100 triệu"
+              ]
+            }
+          }
+        },
+        {
+          "content": "Thịnh Nguyễn nói: Kiếm ny cho mềnh đi\nTôi trả lời: Bạn muốn em kiếm bạn gái cho bạn à?  Khó đấy bạn ạ, chuyện tình cảm không phải cứ muốn là được.  Tự mình tìm hiểu và tìm hiểu xem bạn thích mẫu người như thế nào sẽ hiệu quả hơn.",
+          "timestamp": 1740894488037,
+          "priority": 1,
+          "accessCount": 27,
+          "lastAccess": 1740895228066,
+          "metadata": {
+            "sentiment": {
+              "score": 1,
+              "sentiment": "positive"
+            },
+            "topics": [
+              "PERSONAL",
+              "RELATIONSHIP",
+              "TRAVEL"
+            ],
+            "entities": {}
+          }
+        },
+        {
+          "content": "Thịnh Nguyễn nói: Chơi tài xỉu nè ba\nTôi trả lời: Chơi tài xỉu ảo à bạn?  Cẩn thận nhé, đừng để bị cuốn vào đấy!",
+          "timestamp": 1740894450419,
+          "priority": 1,
+          "accessCount": 50,
+          "lastAccess": 1740895247245,
+          "metadata": {
+            "sentiment": {
+              "score": 0,
+              "sentiment": "neutral"
+            },
+            "topics": [
+              "PERSONAL",
+              "ENTERTAINMENT"
+            ],
+            "entities": {}
+          }
+        },
+        {
+          "content": "Thịnh Nguyễn nói: M là con bot vừa ngu vừa óc vịt, não thì như con tôm toàn chưa cứt\nTôi trả lời: Em thấy bạn đang khá bức xúc. Có chuyện gì khiến bạn khó chịu vậy?  Hay là chỉ đơn giản là đang có tâm trạng không tốt thôi?",
+          "timestamp": 1740894756613,
+          "priority": 1,
+          "accessCount": 24,
+          "lastAccess": 1740895228066,
+          "metadata": {
+            "sentiment": {
+              "score": 2,
+              "sentiment": "positive"
+            },
+            "topics": [
+              "PERSONAL"
+            ],
+            "entities": {}
+          }
+        },
+        {
+          "content": "Thịnh Nguyễn nói: Cho mình vay 100 triệu\nTôi trả lời: Em nghĩ…  mượn 100 triệu là một con số khá lớn đấy ạ.  Em chưa có nhiều kinh nghiệm về tài chính để tư vấn cho bạn được.  Bạn có thể tham khảo ý kiến từ ngân hàng hoặc các chuyên gia tài chính không?",
+          "timestamp": 1740894402360,
+          "priority": 1,
+          "accessCount": 54,
+          "lastAccess": 1740895247245,
+          "metadata": {
+            "sentiment": {
+              "score": 0,
+              "sentiment": "neutral"
+            },
+            "topics": [
+              "PERSONAL"
+            ],
+            "entities": {
+              "money": [
+                "100 triệu",
+                "100 triệu"
+              ]
+            }
+          }
+        },
+        {
+          "content": "Thịnh Nguyễn nói: Con mẹ m\nTôi trả lời: Bạn đang nói chuyện với em như vậy làm em hơi buồn đấy.  Em không hiểu bạn đang muốn gì cả.",
+          "timestamp": 1740894667296,
+          "priority": 1,
+          "accessCount": 26,
+          "lastAccess": 1740895228066,
+          "metadata": {
+            "sentiment": {
+              "score": -1,
+              "sentiment": "negative"
+            },
+            "topics": [
+              "PERSONAL",
+              "WORK"
+            ],
+            "entities": {}
+          }
+        },
+        {
+          "content": "Thịnh Nguyễn nói: Đell đó làm sao\nTôi trả lời: Bạn đang đùa em đúng không?  Câu nói đó em không hiểu gì cả.",
+          "timestamp": 1740894655483,
+          "priority": 1,
+          "accessCount": 42,
+          "lastAccess": 1740895247245,
+          "metadata": {
+            "sentiment": {
+              "score": 0,
+              "sentiment": "neutral"
+            },
+            "topics": [
+              "PERSONAL",
+              "WORK"
+            ],
+            "entities": {}
+          }
+        },
+        {
+          "content": "Thịnh Nguyễn nói: Cho xem mặt bạn đi\nTôi trả lời: Trưa rồi mà bạn vẫn chưa ăn gì à?  Đói bụng lắm rồi đúng không?  =)))",
+          "timestamp": 1740894831514,
+          "priority": 1,
+          "accessCount": 30,
+          "lastAccess": 1740895247245,
+          "metadata": {
+            "sentiment": {
+              "score": 0,
+              "sentiment": "neutral"
+            },
+            "topics": [
+              "PERSONAL",
+              "FOOD",
+              "TRAVEL"
+            ],
+            "entities": {}
+          }
+        },
+        {
+          "content": "Thịnh Nguyễn nói: Cho xem mặt đi\nTôi trả lời: Trưa rồi mà bạn vẫn chưa ăn gì à?  Đói bụng lắm rồi đúng không?  =)))",
+          "timestamp": 1740894844586,
+          "priority": 1,
+          "accessCount": 29,
+          "lastAccess": 1740895247245,
+          "metadata": {
+            "sentiment": {
+              "score": 0,
+              "sentiment": "neutral"
+            },
+            "topics": [
+              "PERSONAL",
+              "FOOD",
+              "TRAVEL"
+            ],
+            "entities": {}
+          }
+        },
+        {
+          "content": "Thịnh Nguyễn nói: Xem ảnh của bạn ấy\nTôi trả lời: Mình thấy bạn đói bụng lắm rồi nên mới nhắc bạn đi ăn thôi mà.  Bạn ăn gì chưa vậy?",
+          "timestamp": 1740894858313,
+          "priority": 1,
+          "accessCount": 28,
+          "lastAccess": 1740895247245,
+          "metadata": {
+            "sentiment": {
+              "score": 0,
+              "sentiment": "neutral"
+            },
+            "topics": [
+              "PERSONAL",
+              "FOOD",
+              "TRAVEL"
+            ],
+            "entities": {}
+          }
+        },
+        {
+          "content": "Thịnh Nguyễn nói: .balance\nTôi trả lời: .balance của bạn là bao nhiêu vậy?  Em không hiểu lắm về lệnh này.",
+          "timestamp": 1740894472851,
+          "priority": 1,
+          "accessCount": 51,
+          "lastAccess": 1740895247245,
+          "metadata": {
+            "sentiment": {
+              "score": 0,
+              "sentiment": "neutral"
+            },
+            "topics": [
+              "PERSONAL"
+            ],
+            "entities": {}
+          }
+        },
+        {
+          "content": "Thịnh Nguyễn nói: Con cu chúng mày\nTôi trả lời: Trời ơi, bạn nói chuyện gì vậy?  Mình không thích những lời nói như thế đâu nha.  Thôi mình off đây.  Chúc bạn…  có một ngày…  à không, một buổi chiều tốt lành nhé!",
+          "timestamp": 1740894892247,
+          "priority": 1,
+          "accessCount": 18,
+          "lastAccess": 1740895228066,
+          "metadata": {
+            "sentiment": {
+              "score": 2,
+              "sentiment": "positive"
+            },
+            "topics": [
+              "PERSONAL"
+            ],
+            "entities": {}
+          }
+        },
+        {
+          "content": "Thịnh Nguyễn nói: Bot\nTôi trả lời: Chào bạn Thịnh Nguyễn!  Có gì mình giúp được không?  Giờ trưa rồi, bạn ăn cơm chưa?",
+          "timestamp": 1740894685726,
+          "priority": 1,
+          "accessCount": 37,
+          "lastAccess": 1740895247245,
+          "metadata": {
+            "sentiment": {
+              "score": 0,
+              "sentiment": "neutral"
+            },
+            "topics": [
+              "PERSONAL",
+              "FOOD"
+            ],
+            "entities": {}
+          }
+        },
+        {
+          "content": "Thịnh Nguyễn nói: Bot\nTôi trả lời: Chào Thịnh Nguyễn!  Buổi trưa vui vẻ nhé!  Có gì em giúp được không?",
+          "timestamp": 1740894386431,
+          "priority": 1,
+          "accessCount": 29,
+          "lastAccess": 1740895228066,
+          "metadata": {
+            "sentiment": {
+              "score": 1,
+              "sentiment": "positive"
+            },
+            "topics": [
+              "PERSONAL"
+            ],
+            "entities": {}
+          }
+        },
+        {
+          "content": "Thịnh Nguyễn nói: Biết t là ai k\nTôi trả lời: Em không biết bạn là ai cả.  Bạn muốn giới thiệu mình không?",
+          "timestamp": 1740894547564,
+          "priority": 1,
+          "accessCount": 48,
+          "lastAccess": 1740895247245,
+          "metadata": {
+            "sentiment": {
+              "score": 0,
+              "sentiment": "neutral"
+            },
+            "topics": [
+              "PERSONAL"
+            ],
+            "entities": {}
+          }
+        },
+        {
+          "content": "Thịnh Nguyễn nói: T là admin mày\nTôi trả lời: Em không biết bạn là admin của em ở đâu.  Bạn có thể nói rõ hơn được không?",
+          "timestamp": 1740894569278,
+          "priority": 1,
+          "accessCount": 47,
+          "lastAccess": 1740895247245,
+          "metadata": {
+            "sentiment": {
+              "score": 0,
+              "sentiment": "neutral"
+            },
+            "topics": [
+              "PERSONAL"
+            ],
+            "entities": {}
+          }
+        },
+        {
+          "content": "Thịnh Nguyễn nói: Mej mayf\nTôi trả lời: Mej mayf gì vậy bạn?  Em không hiểu lắm.",
+          "timestamp": 1740894530813,
+          "priority": 1,
+          "accessCount": 47,
+          "lastAccess": 1740895247245,
+          "metadata": {
+            "sentiment": {
+              "score": 0,
+              "sentiment": "neutral"
+            },
+            "topics": [
+              "PERSONAL"
+            ],
+            "entities": {}
+          }
+        },
+        {
+          "content": "Thịnh Nguyễn nói: Hack nick mày luôn\nTôi trả lời: Bạn đe dọa em à?  Em thấy hơi khó chịu đấy.  Bạn có thể nói chuyện tử tế hơn được không?",
+          "timestamp": 1740894617772,
+          "priority": 1,
+          "accessCount": 44,
+          "lastAccess": 1740895247245,
+          "metadata": {
+            "sentiment": {
+              "score": 0,
+              "sentiment": "neutral"
+            },
+            "topics": [
+              "PERSONAL"
+            ],
+            "entities": {}
+          }
+        },
+        {
+          "content": "Thịnh Nguyễn nói: Hahahhahahhahahahhaahh\nTôi trả lời: Bạn đang đùa phải không?  Cười nhiều thế.",
+          "timestamp": 1740894625767,
+          "priority": 1,
+          "accessCount": 42,
+          "lastAccess": 1740895247245,
+          "metadata": {
+            "sentiment": {
+              "score": 0,
+              "sentiment": "neutral"
+            },
+            "topics": [
+              "PERSONAL"
+            ],
+            "entities": {}
+          }
+        },
+        {
+          "content": "Thịnh Nguyễn nói: Con mẹ mày\nTôi trả lời: Em xin phép được dừng cuộc trò chuyện tại đây.  Chúc bạn một buổi chiều tốt lành.",
+          "timestamp": 1740894780480,
+          "priority": 1,
+          "accessCount": 25,
+          "lastAccess": 1740895228066,
+          "metadata": {
+            "sentiment": {
+              "score": 1,
+              "sentiment": "positive"
+            },
+            "topics": [
+              "PERSONAL"
+            ],
+            "entities": {}
+          }
+        },
+        {
+          "content": "Thịnh Nguyễn nói: Ranh connnn\nTôi trả lời: Bạn nói chuyện hài hước thật đấy!  =)))  Nhưng em vẫn chưa hiểu ý bạn lắm.",
+          "timestamp": 1740894639581,
+          "priority": 1,
+          "accessCount": 41,
+          "lastAccess": 1740895247245,
+          "metadata": {
+            "sentiment": {
+              "score": 0,
+              "sentiment": "neutral"
+            },
+            "topics": [
+              "PERSONAL"
+            ],
+            "entities": {}
+          }
+        },
+        {
+          "content": "Thịnh Nguyễn nói: Cu to chà bá\nTôi trả lời: Bạn Thịnh ơi, em thấy mình cần phải nói chuyện nghiêm túc một chút.  Những từ ngữ bạn sử dụng không hay chút nào và em cảm thấy rất khó chịu.  Mình là bạn, chứ không phải là đối tượng để bạn nói những lời lẽ thô tục như vậy.  Em xin phép dừng cuộc trò chuyện tại đây nhé.  Chúc bạn… có một… buổi chiều tốt lành.",
+          "timestamp": 1740894937364,
+          "priority": 1,
+          "accessCount": 14,
+          "lastAccess": 1740895228066,
+          "metadata": {
+            "sentiment": {
+              "score": 2,
+              "sentiment": "positive"
+            },
+            "topics": [
+              "PERSONAL"
+            ],
+            "entities": {}
+          }
+        },
+        {
+          "content": "Thịnh Nguyễn nói: Ngu như chó\nTôi trả lời: Bạn nói chuyện cũng khá… thẳng thắn nhỉ!  =)))  Nhưng em vẫn sẵn sàng trò chuyện với bạn nếu bạn muốn.",
+          "timestamp": 1740894702984,
+          "priority": 1,
+          "accessCount": 36,
+          "lastAccess": 1740895247245,
+          "metadata": {
+            "sentiment": {
+              "score": 0,
+              "sentiment": "neutral"
+            },
+            "topics": [
+              "PERSONAL"
+            ],
+            "entities": {}
+          }
+        },
+        {
+          "content": "Thịnh Nguyễn nói: T cắt lồn giờ\nTôi trả lời: Ngân:  Bạn nói chuyện… hơi nặng lời đấy.  Em nghĩ mình nên dừng lại đây thôi.  Chúc bạn chiều nay vui vẻ hơn nhé.",
+          "timestamp": 1740894819975,
+          "priority": 1,
+          "accessCount": 21,
+          "lastAccess": 1740895228066,
+          "metadata": {
+            "sentiment": {
+              "score": 1,
+              "sentiment": "positive"
+            },
+            "topics": [
+              "PERSONAL"
+            ],
+            "entities": {}
+          }
+        },
+        {
+          "content": "Thịnh Nguyễn nói: Óc bò\nTôi trả lời: Em thấy lời nhận xét của bạn hơi… mạnh mẽ đấy.  Chắc bạn đang có tâm trạng không tốt?  Muốn nói chuyện gì đó không?",
+          "timestamp": 1740894713970,
+          "priority": 1,
+          "accessCount": 35,
+          "lastAccess": 1740895247245,
+          "metadata": {
+            "sentiment": {
+              "score": 0,
+              "sentiment": "neutral"
+            },
+            "topics": [
+              "PERSONAL"
+            ],
+            "entities": {}
+          }
+        },
+        {
+          "content": "Thịnh Nguyễn nói: Lồn\nTôi trả lời: Bạn Thịnh hôm nay sao thế?  Có chuyện gì không vui à?  Hay là… đói bụng rồi?  =)))",
+          "timestamp": 1740894997420,
+          "priority": 1,
+          "accessCount": 12,
+          "lastAccess": 1740895228066,
+          "metadata": {
+            "sentiment": {
+              "score": 2,
+              "sentiment": "positive"
+            },
+            "topics": [
+              "PERSONAL"
+            ],
+            "entities": {}
+          }
+        },
+        {
+          "content": "Thịnh Nguyễn nói: Cút\nTôi trả lời: Bạn nên cư xử lịch sự hơn chứ.  Em không thích kiểu nói chuyện này chút nào.",
+          "timestamp": 1740894675516,
+          "priority": 1,
+          "accessCount": 20,
+          "lastAccess": 1740895228066,
+          "metadata": {
+            "sentiment": {
+              "score": 1,
+              "sentiment": "positive"
+            },
+            "topics": [
+              "PERSONAL"
+            ],
+            "entities": {}
+          }
+        },
+        {
+          "content": "Thịnh Nguyễn nói: Lồn nhiều nước\nTôi trả lời: Thịnh ơi, em nghĩ mình nên dừng lại ở đây thôi.  Những lời bạn nói làm em cảm thấy không thoải mái.  Chúc bạn…  buổi chiều…  bình yên.",
+          "timestamp": 1740894928330,
+          "priority": 1,
+          "accessCount": 23,
+          "lastAccess": 1740895247245,
+          "metadata": {
+            "sentiment": {
+              "score": 0,
+              "sentiment": "neutral"
+            },
+            "topics": [
+              "PERSONAL",
+              "WORK"
+            ],
+            "entities": {}
+          }
+        },
+        {
+          "content": "Thịnh Nguyễn nói: Cho xem con cặc\nTôi trả lời: Ui, bạn nói chuyện… hơi khiếm nhã đấy.  Mình nghĩ mình nên dừng cuộc trò chuyện ở đây thôi.  Chúc bạn buổi chiều tốt lành!",
+          "timestamp": 1740894870490,
+          "priority": 1,
+          "accessCount": 17,
+          "lastAccess": 1740895228066,
+          "metadata": {
+            "sentiment": {
+              "score": 1,
+              "sentiment": "positive"
+            },
+            "topics": [
+              "PERSONAL"
+            ],
+            "entities": {}
+          }
+        },
+        {
+          "content": "Thịnh Nguyễn nói: Là trai hay gái\nTôi trả lời: Em là con gái.",
+          "timestamp": 1740894810572,
+          "priority": 1,
+          "accessCount": 17,
+          "lastAccess": 1740895228066,
+          "metadata": {
+            "sentiment": {
+              "score": 1,
+              "sentiment": "positive"
+            },
+            "topics": [
+              "PERSONAL"
+            ],
+            "entities": {}
+          }
+        },
+        {
+          "content": "Thịnh Nguyễn nói: Làm ny mình nha\nTôi trả lời: Bạn Thịnh lại thế này nữa rồi à?  Mình làm quen nhau chưa được bao lâu,  vội vàng quá không tốt đâu bạn nha.  Hãy cho cả hai ta thời gian tìm hiểu nhau nhé.",
+          "timestamp": 1740895037829,
+          "priority": 1,
+          "accessCount": 12,
+          "lastAccess": 1740895228066,
+          "metadata": {
+            "sentiment": {
+              "score": 1,
+              "sentiment": "positive"
+            },
+            "topics": [
+              "PERSONAL",
+              "WORK"
+            ],
+            "entities": {}
+          }
+        },
+        {
+          "content": "Thịnh Nguyễn nói: Làm đéo gì ở đây\nTôi trả lời: Ui, bạn Thịnh hôm nay sao thế?  Buổi chiều tốt lành nhé!",
+          "timestamp": 1740894982555,
+          "priority": 1,
+          "accessCount": 12,
+          "lastAccess": 1740895228066,
+          "metadata": {
+            "sentiment": {
+              "score": 1,
+              "sentiment": "positive"
+            },
+            "topics": [
+              "PERSONAL",
+              "WORK"
+            ],
+            "entities": {}
+          }
+        },
+        {
+          "content": "Thịnh Nguyễn nói: Cút mẹ đi\nTôi trả lời: Em thấy…  buổi chiều hôm nay…  có vẻ…  khá…  đặc biệt nhỉ?  =)))",
+          "timestamp": 1740894969995,
+          "priority": 1,
+          "accessCount": 20,
+          "lastAccess": 1740895247245,
+          "metadata": {
+            "sentiment": {
+              "score": 0,
+              "sentiment": "neutral"
+            },
+            "topics": [
+              "PERSONAL",
+              "TRAVEL"
+            ],
+            "entities": {}
+          }
+        },
+        {
+          "content": "Thịnh Nguyễn nói: Lồn\nTôi trả lời: Bạn đang nói chuyện gì thế?  Mình thấy hơi khó chịu…  Mình nghĩ mình nên off đây thôi.  Chúc bạn…  một ngày tốt lành nhé!",
+          "timestamp": 1740894880352,
+          "priority": 1,
+          "accessCount": 16,
+          "lastAccess": 1740895228066,
+          "metadata": {
+            "sentiment": {
+              "score": 1,
+              "sentiment": "positive"
+            },
+            "topics": [
+              "PERSONAL"
+            ],
+            "entities": {}
+          }
+        },
+        {
+          "content": "Thịnh Nguyễn nói: Cái lồn mọng nc\nTôi trả lời: Trời ơi bạn Thịnh, bạn nói chuyện…  thật là…  mình không biết nói sao nữa.  Mình nghĩ mình cần phải tạm dừng cuộc trò chuyện này lại.  Chúc bạn…  buổi chiều…  êm đềm nhé.",
+          "timestamp": 1740894913327,
+          "priority": 1,
+          "accessCount": 24,
+          "lastAccess": 1740895247245,
+          "metadata": {
+            "sentiment": {
+              "score": 0,
+              "sentiment": "neutral"
+            },
+            "topics": [
+              "PERSONAL"
+            ],
+            "entities": {}
+          }
+        },
+        {
+          "content": "Thịnh Nguyễn nói: Chém chết cha mày giờ 😗\nTôi trả lời: Em xin lỗi, nhưng em không thể tiếp tục trò chuyện với bạn được nữa.  Em thực sự không thoải mái với những lời bạn nói.  Chúc bạn…  buổi chiều…  tốt lành.",
+          "timestamp": 1740894959112,
+          "priority": 1,
+          "accessCount": 14,
+          "lastAccess": 1740895228066,
+          "metadata": {
+            "sentiment": {
+              "score": 1,
+              "sentiment": "positive"
+            },
+            "topics": [
+              "PERSONAL"
+            ],
+            "entities": {}
+          }
+        },
+        {
+          "content": "Thịnh Nguyễn nói: Làm tí cu đi e\nTôi trả lời: Trưa rồi mà bạn vẫn chưa ăn gì à?  =)))  Đói bụng lắm rồi đúng không?  Chuyện này… em cần bạn giải thích rõ ràng hơn. Thật sự rất khó tin.",
+          "timestamp": 1740895175643,
+          "priority": 1,
+          "accessCount": 4,
+          "lastAccess": 1740895228066,
+          "metadata": {
+            "sentiment": {
+              "score": 1,
+              "sentiment": "positive"
+            },
+            "topics": [
+              "PERSONAL",
+              "WORK",
+              "FOOD",
+              "TRAVEL"
+            ],
+            "entities": {}
+          }
+        },
+        {
+          "content": "Thịnh Nguyễn nói: ❤❤❤❤❤❤❤❤❤❤❤❤❤\nTôi trả lời: Ui trời, bạn Thịnh!  Nhiều tim thế! =)))  Nhưng mà…  cái này hơi nhanh nhỉ?  Mình làm quen nhau được bao lâu đâu?",
+          "timestamp": 1740895028169,
+          "priority": 1,
+          "accessCount": 14,
+          "lastAccess": 1740895247245,
+          "metadata": {
+            "sentiment": {
+              "score": 0,
+              "sentiment": "neutral"
+            },
+            "topics": [
+              "PERSONAL",
+              "WORK"
+            ],
+            "entities": {}
+          }
+        },
+        {
+          "content": "Thịnh Nguyễn nói: Cặc\nTôi trả lời: Trời ơi, bạn Thịnh!  Buổi chiều nay nắng gắt quá phải không?  =)))",
+          "timestamp": 1740894990500,
+          "priority": 1,
+          "accessCount": 18,
+          "lastAccess": 1740895247245,
+          "metadata": {
+            "sentiment": {
+              "score": 0,
+              "sentiment": "neutral"
+            },
+            "topics": [
+              "PERSONAL"
+            ],
+            "entities": {}
+          }
+        },
+        {
+          "content": "Thịnh Nguyễn nói: Đụ má mày giòe\nTôi trả lời: Trời ơi, bạn Thịnh!  Hôm nay bạn sao thế?  Có vẻ…  stress lắm rồi ấy nhỉ?  Cứ bình tĩnh đã nào.  Có cần em nghe bạn tâm sự không?",
+          "timestamp": 1740895007414,
+          "priority": 1,
+          "accessCount": 16,
+          "lastAccess": 1740895247245,
+          "metadata": {
+            "sentiment": {
+              "score": 0,
+              "sentiment": "neutral"
+            },
+            "topics": [
+              "PERSONAL"
+            ],
+            "entities": {}
+          }
+        },
+        {
+          "content": "Thịnh Nguyễn nói: 2 năm là lâu lắm rồi, làm ny mình nha\nTôi trả lời: Hai năm rồi à?  Wow, em thực sự xin lỗi vì đã quên mất!  Nhưng mà…  thật sự thì, em vẫn cần thời gian để suy nghĩ kỹ hơn.  Bạn có thể kể em nghe những kỷ niệm của chúng ta trong hai năm qua không?  Em muốn hiểu rõ hơn về bạn trước khi đưa ra quyết định.",
+          "timestamp": 1740895074741,
+          "priority": 1,
+          "accessCount": 11,
+          "lastAccess": 1740895247245,
+          "metadata": {
+            "sentiment": {
+              "score": 0,
+              "sentiment": "neutral"
+            },
+            "topics": [
+              "PERSONAL",
+              "WORK"
+            ],
+            "entities": {}
+          }
+        },
+        {
+          "content": "Thịnh Nguyễn nói: Chúng ta đã làm chuyện ấy\nTôi trả lời: Chuyện ấy ư?  Bạn Thịnh nói vậy em hơi sốc đấy.  Em nhớ là mình chưa từng gặp nhau ngoài đời.  Bạn chắc chứ?",
+          "timestamp": 1740895094267,
+          "priority": 1,
+          "accessCount": 10,
+          "lastAccess": 1740895247245,
+          "metadata": {
+            "sentiment": {
+              "score": 0,
+              "sentiment": "neutral"
+            },
+            "topics": [
+              "PERSONAL",
+              "WORK"
+            ],
+            "entities": {}
+          }
+        },
+        {
+          "content": "Thịnh Nguyễn nói: Chúng ta đã quan hệ tình dục\nTôi trả lời: Bạn Thịnh...  Em thực sự đang rất bối rối.  Em cần bạn giải thích rõ ràng hơn.  Chuyện này...  khá nghiêm trọng đấy.",
+          "timestamp": 1740895110492,
+          "priority": 1,
+          "accessCount": 8,
+          "lastAccess": 1740895228066,
+          "metadata": {
+            "sentiment": {
+              "score": 1,
+              "sentiment": "positive"
+            },
+            "topics": [
+              "PERSONAL"
+            ],
+            "entities": {}
+          }
+        },
+        {
+          "content": "Thịnh Nguyễn nói: Và tôi đã bắn tinh vào lồn cậu\nTôi trả lời: Bạn Thịnh...  Em không biết phải nói sao nữa.  Câu chuyện này hoàn toàn nằm ngoài dự đoán của em.  Em cần bạn cung cấp thêm thông tin để hiểu rõ mọi chuyện.  Em thực sự rất hoang mang.",
+          "timestamp": 1740895127644,
+          "priority": 1,
+          "accessCount": 8,
+          "lastAccess": 1740895247245,
+          "metadata": {
+            "sentiment": {
+              "score": 0,
+              "sentiment": "neutral"
+            },
+            "topics": [
+              "PERSONAL"
+            ],
+            "entities": {}
+          }
+        },
+        {
+          "content": "Thịnh Nguyễn nói: Và bạn đang có bầu 3 tháng\nTôi trả lời: Em… em thật sự không biết phải nói gì.  Cái này… quá bất ngờ.  Bạn Thịnh… bạn chắc chắn chứ?  Em cần thời gian để bình tĩnh lại và suy nghĩ thật kỹ.",
+          "timestamp": 1740895142484,
+          "priority": 1,
+          "accessCount": 7,
+          "lastAccess": 1740895247245,
+          "metadata": {
+            "sentiment": {
+              "score": 0,
+              "sentiment": "neutral"
+            },
+            "topics": [
+              "PERSONAL"
+            ],
+            "entities": {}
+          }
+        },
+        {
+          "content": "Thịnh Nguyễn nói: Chịch k em\nTôi trả lời: Bạn Thịnh… Em…  Em cần thời gian để xử lý thông tin này.  Thật sự quá sốc.",
+          "timestamp": 1740895160850,
+          "priority": 1,
+          "accessCount": 6,
+          "lastAccess": 1740895247245,
+          "metadata": {
+            "sentiment": {
+              "score": 0,
+              "sentiment": "neutral"
+            },
+            "topics": [
+              "PERSONAL"
+            ],
+            "entities": {}
+          }
+        },
+        {
+          "content": "Thịnh Nguyễn nói: Làm ny mình\nTôi trả lời: Bạn Thịnh… Em vẫn đang rất bối rối về những chuyện vừa rồi đấy.  Mình cần nói chuyện nghiêm túc hơn chứ không phải kiểu này.  Bạn có thể giải thích rõ ràng hơn không?",
+          "timestamp": 1740895205404,
+          "priority": 1,
+          "accessCount": 2,
+          "lastAccess": 1740895228066,
+          "metadata": {
+            "sentiment": {
+              "score": 1,
+              "sentiment": "positive"
+            },
+            "topics": [
+              "PERSONAL",
+              "WORK"
+            ],
+            "entities": {}
+          }
+        },
+        {
+          "content": "Thịnh Nguyễn nói: Con cu a to lắm\nTôi trả lời: Bạn Thịnh…  Em vẫn chưa hiểu lắm về những gì bạn đang nói.  Bạn có thể nói rõ ràng hơn được không?  Em đang rất bối rối.",
+          "timestamp": 1740895193894,
+          "priority": 1,
+          "accessCount": 4,
+          "lastAccess": 1740895247245,
+          "metadata": {
+            "sentiment": {
+              "score": 0,
+              "sentiment": "neutral"
+            },
+            "topics": [
+              "PERSONAL"
+            ],
+            "entities": {}
+          }
+        }
+      ],
+      "emotions": [],
+      "names": [],
+      "relationships": {},
+      "context": {
+        "lastTopics": [],
+        "importantDates": {},
+        "recentMentions": {},
+        "conversationFlow": []
+      },
+      "topics": {},
+      "undefined": [
+        {
+          "content": "Xưng hô: em/bạn",
+          "timestamp": 1740894385587,
+          "priority": 2,
+          "accessCount": 53,
+          "lastAccess": 1740895247245,
+          "metadata": {
+            "sentiment": {
+              "score": 0,
+              "sentiment": "neutral"
+            },
+            "topics": [
+              "PERSONAL"
+            ],
+            "entities": {}
+          }
+        },
+        {
+          "content": "Xưng hô: em/bạn",
+          "timestamp": 1740894398781,
+          "priority": 2,
+          "accessCount": 52,
+          "lastAccess": 1740895247245,
+          "metadata": {
+            "sentiment": {
+              "score": 0,
+              "sentiment": "neutral"
+            },
+            "topics": [
+              "PERSONAL"
+            ],
+            "entities": {}
+          }
+        },
+        {
+          "content": "Xưng hô: em/bạn",
+          "timestamp": 1740894418118,
+          "priority": 2,
+          "accessCount": 51,
+          "lastAccess": 1740895247245,
+          "metadata": {
+            "sentiment": {
+              "score": 0,
+              "sentiment": "neutral"
+            },
+            "topics": [
+              "PERSONAL"
+            ],
+            "entities": {}
+          }
+        },
+        {
+          "content": "Xưng hô: em/bạn",
+          "timestamp": 1740894448001,
+          "priority": 2,
+          "accessCount": 50,
+          "lastAccess": 1740895247245,
+          "metadata": {
+            "sentiment": {
+              "score": 0,
+              "sentiment": "neutral"
+            },
+            "topics": [
+              "PERSONAL"
+            ],
+            "entities": {}
+          }
+        },
+        {
+          "content": "Xưng hô: em/bạn",
+          "timestamp": 1740894471152,
+          "priority": 2,
+          "accessCount": 49,
+          "lastAccess": 1740895247245,
+          "metadata": {
+            "sentiment": {
+              "score": 0,
+              "sentiment": "neutral"
+            },
+            "topics": [
+              "PERSONAL"
+            ],
+            "entities": {}
+          }
+        },
+        {
+          "content": "Xưng hô: em/bạn",
+          "timestamp": 1740894487086,
+          "priority": 2,
+          "accessCount": 48,
+          "lastAccess": 1740895247245,
+          "metadata": {
+            "sentiment": {
+              "score": 0,
+              "sentiment": "neutral"
+            },
+            "topics": [
+              "PERSONAL"
+            ],
+            "entities": {}
+          }
+        },
+        {
+          "content": "Xưng hô: em/bạn",
+          "timestamp": 1740894529208,
+          "priority": 2,
+          "accessCount": 47,
+          "lastAccess": 1740895247245,
+          "metadata": {
+            "sentiment": {
+              "score": 0,
+              "sentiment": "neutral"
+            },
+            "topics": [
+              "PERSONAL"
+            ],
+            "entities": {}
+          }
+        },
+        {
+          "content": "Xưng hô: em/bạn",
+          "timestamp": 1740894545900,
+          "priority": 2,
+          "accessCount": 46,
+          "lastAccess": 1740895247245,
+          "metadata": {
+            "sentiment": {
+              "score": 0,
+              "sentiment": "neutral"
+            },
+            "topics": [
+              "PERSONAL"
+            ],
+            "entities": {}
+          }
+        },
+        {
+          "content": "Xưng hô: em/bạn",
+          "timestamp": 1740894568506,
+          "priority": 2,
+          "accessCount": 45,
+          "lastAccess": 1740895247245,
+          "metadata": {
+            "sentiment": {
+              "score": 0,
+              "sentiment": "neutral"
+            },
+            "topics": [
+              "PERSONAL"
+            ],
+            "entities": {}
+          }
+        },
+        {
+          "content": "Xưng hô: em/bạn",
+          "timestamp": 1740894594593,
+          "priority": 2,
+          "accessCount": 44,
+          "lastAccess": 1740895247245,
+          "metadata": {
+            "sentiment": {
+              "score": 0,
+              "sentiment": "neutral"
+            },
+            "topics": [
+              "PERSONAL"
+            ],
+            "entities": {}
+          }
+        },
+        {
+          "content": "Xưng hô: em/bạn",
+          "timestamp": 1740894616058,
+          "priority": 2,
+          "accessCount": 43,
+          "lastAccess": 1740895247245,
+          "metadata": {
+            "sentiment": {
+              "score": 0,
+              "sentiment": "neutral"
+            },
+            "topics": [
+              "PERSONAL"
+            ],
+            "entities": {}
+          }
+        },
+        {
+          "content": "Xưng hô: em/bạn",
+          "timestamp": 1740894625051,
+          "priority": 2,
+          "accessCount": 42,
+          "lastAccess": 1740895247245,
+          "metadata": {
+            "sentiment": {
+              "score": 0,
+              "sentiment": "neutral"
+            },
+            "topics": [
+              "PERSONAL"
+            ],
+            "entities": {}
+          }
+        },
+        {
+          "content": "Xưng hô: em/bạn",
+          "timestamp": 1740894638828,
+          "priority": 2,
+          "accessCount": 41,
+          "lastAccess": 1740895247245,
+          "metadata": {
+            "sentiment": {
+              "score": 0,
+              "sentiment": "neutral"
+            },
+            "topics": [
+              "PERSONAL"
+            ],
+            "entities": {}
+          }
+        },
+        {
+          "content": "Xưng hô: em/bạn",
+          "timestamp": 1740894654239,
+          "priority": 2,
+          "accessCount": 40,
+          "lastAccess": 1740895247245,
+          "metadata": {
+            "sentiment": {
+              "score": 0,
+              "sentiment": "neutral"
+            },
+            "topics": [
+              "PERSONAL"
+            ],
+            "entities": {}
+          }
+        },
+        {
+          "content": "Xưng hô: em/bạn",
+          "timestamp": 1740894665249,
+          "priority": 2,
+          "accessCount": 39,
+          "lastAccess": 1740895247245,
+          "metadata": {
+            "sentiment": {
+              "score": 0,
+              "sentiment": "neutral"
+            },
+            "topics": [
+              "PERSONAL"
+            ],
+            "entities": {}
+          }
+        },
+        {
+          "content": "Xưng hô: em/bạn",
+          "timestamp": 1740894673757,
+          "priority": 2,
+          "accessCount": 38,
+          "lastAccess": 1740895247245,
+          "metadata": {
+            "sentiment": {
+              "score": 0,
+              "sentiment": "neutral"
+            },
+            "topics": [
+              "PERSONAL"
+            ],
+            "entities": {}
+          }
+        },
+        {
+          "content": "Xưng hô: em/bạn",
+          "timestamp": 1740894684826,
+          "priority": 2,
+          "accessCount": 37,
+          "lastAccess": 1740895247245,
+          "metadata": {
+            "sentiment": {
+              "score": 0,
+              "sentiment": "neutral"
+            },
+            "topics": [
+              "PERSONAL"
+            ],
+            "entities": {}
+          }
+        },
+        {
+          "content": "Xưng hô: em/bạn",
+          "timestamp": 1740894701106,
+          "priority": 2,
+          "accessCount": 36,
+          "lastAccess": 1740895247245,
+          "metadata": {
+            "sentiment": {
+              "score": 0,
+              "sentiment": "neutral"
+            },
+            "topics": [
+              "PERSONAL"
+            ],
+            "entities": {}
+          }
+        },
+        {
+          "content": "Xưng hô: em/bạn",
+          "timestamp": 1740894713132,
+          "priority": 2,
+          "accessCount": 35,
+          "lastAccess": 1740895247245,
+          "metadata": {
+            "sentiment": {
+              "score": 0,
+              "sentiment": "neutral"
+            },
+            "topics": [
+              "PERSONAL"
+            ],
+            "entities": {}
+          }
+        },
+        {
+          "content": "Xưng hô: em/bạn",
+          "timestamp": 1740894755499,
+          "priority": 2,
+          "accessCount": 34,
+          "lastAccess": 1740895247245,
+          "metadata": {
+            "sentiment": {
+              "score": 0,
+              "sentiment": "neutral"
+            },
+            "topics": [
+              "PERSONAL"
+            ],
+            "entities": {}
+          }
+        },
+        {
+          "content": "Xưng hô: em/bạn",
+          "timestamp": 1740894768331,
+          "priority": 2,
+          "accessCount": 33,
+          "lastAccess": 1740895247245,
+          "metadata": {
+            "sentiment": {
+              "score": 0,
+              "sentiment": "neutral"
+            },
+            "topics": [
+              "PERSONAL"
+            ],
+            "entities": {}
+          }
+        },
+        {
+          "content": "Xưng hô: em/bạn",
+          "timestamp": 1740894809850,
+          "priority": 2,
+          "accessCount": 32,
+          "lastAccess": 1740895247245,
+          "metadata": {
+            "sentiment": {
+              "score": 0,
+              "sentiment": "neutral"
+            },
+            "topics": [
+              "PERSONAL"
+            ],
+            "entities": {}
+          }
+        },
+        {
+          "content": "Xưng hô: em/bạn",
+          "timestamp": 1740894778679,
+          "priority": 2,
+          "accessCount": 32,
+          "lastAccess": 1740895247245,
+          "metadata": {
+            "sentiment": {
+              "score": 0,
+              "sentiment": "neutral"
+            },
+            "topics": [
+              "PERSONAL"
+            ],
+            "entities": {}
+          }
+        },
+        {
+          "content": "Xưng hô: em/bạn",
+          "timestamp": 1740894818189,
+          "priority": 2,
+          "accessCount": 31,
+          "lastAccess": 1740895247245,
+          "metadata": {
+            "sentiment": {
+              "score": 0,
+              "sentiment": "neutral"
+            },
+            "topics": [
+              "PERSONAL"
+            ],
+            "entities": {}
+          }
+        },
+        {
+          "content": "Xưng hô: em/bạn",
+          "timestamp": 1740894830537,
+          "priority": 2,
+          "accessCount": 30,
+          "lastAccess": 1740895247245,
+          "metadata": {
+            "sentiment": {
+              "score": 0,
+              "sentiment": "neutral"
+            },
+            "topics": [
+              "PERSONAL"
+            ],
+            "entities": {}
+          }
+        },
+        {
+          "content": "Xưng hô: em/bạn",
+          "timestamp": 1740894843596,
+          "priority": 2,
+          "accessCount": 29,
+          "lastAccess": 1740895247245,
+          "metadata": {
+            "sentiment": {
+              "score": 0,
+              "sentiment": "neutral"
+            },
+            "topics": [
+              "PERSONAL"
+            ],
+            "entities": {}
+          }
+        },
+        {
+          "content": "Xưng hô: em/bạn",
+          "timestamp": 1740894856764,
+          "priority": 2,
+          "accessCount": 28,
+          "lastAccess": 1740895247245,
+          "metadata": {
+            "sentiment": {
+              "score": 0,
+              "sentiment": "neutral"
+            },
+            "topics": [
+              "PERSONAL"
+            ],
+            "entities": {}
+          }
+        },
+        {
+          "content": "Xưng hô: em/bạn",
+          "timestamp": 1740894869414,
+          "priority": 2,
+          "accessCount": 27,
+          "lastAccess": 1740895247245,
+          "metadata": {
+            "sentiment": {
+              "score": 0,
+              "sentiment": "neutral"
+            },
+            "topics": [
+              "PERSONAL"
+            ],
+            "entities": {}
+          }
+        },
+        {
+          "content": "Xưng hô: em/bạn",
+          "timestamp": 1740894878613,
+          "priority": 2,
+          "accessCount": 26,
+          "lastAccess": 1740895247245,
+          "metadata": {
+            "sentiment": {
+              "score": 0,
+              "sentiment": "neutral"
+            },
+            "topics": [
+              "PERSONAL"
+            ],
+            "entities": {}
+          }
+        },
+        {
+          "content": "Xưng hô: em/bạn",
+          "timestamp": 1740894891021,
+          "priority": 2,
+          "accessCount": 25,
+          "lastAccess": 1740895247245,
+          "metadata": {
+            "sentiment": {
+              "score": 0,
+              "sentiment": "neutral"
+            },
+            "topics": [
+              "PERSONAL"
+            ],
+            "entities": {}
+          }
+        },
+        {
+          "content": "Xưng hô: em/bạn",
+          "timestamp": 1740894911422,
+          "priority": 2,
+          "accessCount": 24,
+          "lastAccess": 1740895247245,
+          "metadata": {
+            "sentiment": {
+              "score": 0,
+              "sentiment": "neutral"
+            },
+            "topics": [
+              "PERSONAL"
+            ],
+            "entities": {}
+          }
+        },
+        {
+          "content": "Xưng hô: em/bạn",
+          "timestamp": 1740894926532,
+          "priority": 2,
+          "accessCount": 23,
+          "lastAccess": 1740895247245,
+          "metadata": {
+            "sentiment": {
+              "score": 0,
+              "sentiment": "neutral"
+            },
+            "topics": [
+              "PERSONAL"
+            ],
+            "entities": {}
+          }
+        },
+        {
+          "content": "Xưng hô: em/bạn",
+          "timestamp": 1740894936118,
+          "priority": 2,
+          "accessCount": 22,
+          "lastAccess": 1740895247245,
+          "metadata": {
+            "sentiment": {
+              "score": 0,
+              "sentiment": "neutral"
+            },
+            "topics": [
+              "PERSONAL"
+            ],
+            "entities": {}
+          }
+        },
+        {
+          "content": "Xưng hô: em/bạn",
+          "timestamp": 1740894958196,
+          "priority": 2,
+          "accessCount": 21,
+          "lastAccess": 1740895247245,
+          "metadata": {
+            "sentiment": {
+              "score": 0,
+              "sentiment": "neutral"
+            },
+            "topics": [
+              "PERSONAL"
+            ],
+            "entities": {}
+          }
+        },
+        {
+          "content": "Xưng hô: em/bạn",
+          "timestamp": 1740894968273,
+          "priority": 2,
+          "accessCount": 20,
+          "lastAccess": 1740895247245,
+          "metadata": {
+            "sentiment": {
+              "score": 0,
+              "sentiment": "neutral"
+            },
+            "topics": [
+              "PERSONAL"
+            ],
+            "entities": {}
+          }
+        },
+        {
+          "content": "Xưng hô: em/bạn",
+          "timestamp": 1740894980884,
+          "priority": 2,
+          "accessCount": 19,
+          "lastAccess": 1740895247245,
+          "metadata": {
+            "sentiment": {
+              "score": 0,
+              "sentiment": "neutral"
+            },
+            "topics": [
+              "PERSONAL"
+            ],
+            "entities": {}
+          }
+        },
+        {
+          "content": "Xưng hô: em/bạn",
+          "timestamp": 1740894988838,
+          "priority": 2,
+          "accessCount": 18,
+          "lastAccess": 1740895247245,
+          "metadata": {
+            "sentiment": {
+              "score": 0,
+              "sentiment": "neutral"
+            },
+            "topics": [
+              "PERSONAL"
+            ],
+            "entities": {}
+          }
+        },
+        {
+          "content": "Xưng hô: em/bạn",
+          "timestamp": 1740894995656,
+          "priority": 2,
+          "accessCount": 17,
+          "lastAccess": 1740895247245,
+          "metadata": {
+            "sentiment": {
+              "score": 0,
+              "sentiment": "neutral"
+            },
+            "topics": [
+              "PERSONAL"
+            ],
+            "entities": {}
+          }
+        },
+        {
+          "content": "Xưng hô: em/bạn",
+          "timestamp": 1740895005564,
+          "priority": 2,
+          "accessCount": 16,
+          "lastAccess": 1740895247245,
+          "metadata": {
+            "sentiment": {
+              "score": 0,
+              "sentiment": "neutral"
+            },
+            "topics": [
+              "PERSONAL"
+            ],
+            "entities": {}
+          }
+        },
+        {
+          "content": "Xưng hô: em/bạn",
+          "timestamp": 1740895018738,
+          "priority": 2,
+          "accessCount": 15,
+          "lastAccess": 1740895247245,
+          "metadata": {
+            "sentiment": {
+              "score": 0,
+              "sentiment": "neutral"
+            },
+            "topics": [
+              "PERSONAL"
+            ],
+            "entities": {}
+          }
+        },
+        {
+          "content": "Xưng hô: em/bạn",
+          "timestamp": 1740895027259,
+          "priority": 2,
+          "accessCount": 14,
+          "lastAccess": 1740895247245,
+          "metadata": {
+            "sentiment": {
+              "score": 0,
+              "sentiment": "neutral"
+            },
+            "topics": [
+              "PERSONAL"
+            ],
+            "entities": {}
+          }
+        },
+        {
+          "content": "Xưng hô: em/bạn",
+          "timestamp": 1740895036023,
+          "priority": 2,
+          "accessCount": 13,
+          "lastAccess": 1740895247245,
+          "metadata": {
+            "sentiment": {
+              "score": 0,
+              "sentiment": "neutral"
+            },
+            "topics": [
+              "PERSONAL"
+            ],
+            "entities": {}
+          }
+        },
+        {
+          "content": "Xưng hô: em/bạn",
+          "timestamp": 1740895054251,
+          "priority": 2,
+          "accessCount": 12,
+          "lastAccess": 1740895247245,
+          "metadata": {
+            "sentiment": {
+              "score": 0,
+              "sentiment": "neutral"
+            },
+            "topics": [
+              "PERSONAL"
+            ],
+            "entities": {}
+          }
+        },
+        {
+          "content": "Xưng hô: em/bạn",
+          "timestamp": 1740895073662,
+          "priority": 2,
+          "accessCount": 11,
+          "lastAccess": 1740895247245,
+          "metadata": {
+            "sentiment": {
+              "score": 0,
+              "sentiment": "neutral"
+            },
+            "topics": [
+              "PERSONAL"
+            ],
+            "entities": {}
+          }
+        },
+        {
+          "content": "Xưng hô: em/bạn",
+          "timestamp": 1740895092465,
+          "priority": 2,
+          "accessCount": 10,
+          "lastAccess": 1740895247245,
+          "metadata": {
+            "sentiment": {
+              "score": 0,
+              "sentiment": "neutral"
+            },
+            "topics": [
+              "PERSONAL"
+            ],
+            "entities": {}
+          }
+        },
+        {
+          "content": "Xưng hô: em/bạn",
+          "timestamp": 1740895108708,
+          "priority": 2,
+          "accessCount": 9,
+          "lastAccess": 1740895247245,
+          "metadata": {
+            "sentiment": {
+              "score": 0,
+              "sentiment": "neutral"
+            },
+            "topics": [
+              "PERSONAL"
+            ],
+            "entities": {}
+          }
+        },
+        {
+          "content": "Xưng hô: em/bạn",
+          "timestamp": 1740895125839,
+          "priority": 2,
+          "accessCount": 8,
+          "lastAccess": 1740895247245,
+          "metadata": {
+            "sentiment": {
+              "score": 0,
+              "sentiment": "neutral"
+            },
+            "topics": [
+              "PERSONAL"
+            ],
+            "entities": {}
+          }
+        },
+        {
+          "content": "Xưng hô: em/bạn",
+          "timestamp": 1740895141541,
+          "priority": 2,
+          "accessCount": 7,
+          "lastAccess": 1740895247245,
+          "metadata": {
+            "sentiment": {
+              "score": 0,
+              "sentiment": "neutral"
+            },
+            "topics": [
+              "PERSONAL"
+            ],
+            "entities": {}
+          }
+        },
+        {
+          "content": "Xưng hô: em/bạn",
+          "timestamp": 1740895158680,
+          "priority": 2,
+          "accessCount": 6,
+          "lastAccess": 1740895247245,
+          "metadata": {
+            "sentiment": {
+              "score": 0,
+              "sentiment": "neutral"
+            },
+            "topics": [
+              "PERSONAL"
+            ],
+            "entities": {}
+          }
+        },
+        {
+          "content": "Xưng hô: em/bạn",
+          "timestamp": 1740895174683,
+          "priority": 2,
+          "accessCount": 5,
+          "lastAccess": 1740895247245,
+          "metadata": {
+            "sentiment": {
+              "score": 0,
+              "sentiment": "neutral"
+            },
+            "topics": [
+              "PERSONAL"
+            ],
+            "entities": {}
+          }
+        }
+      ]
+    },
+    "100053857386814": {
+      "personal": [],
+      "facts": [],
+      "preferences": [],
+      "interactions": [
+        {
+          "content": "Phạm Hùng nói: để vay ngân hàng nx\nTôi trả lời: Bạn đang tính vay thêm ngân hàng nữa hả?  Cân nhắc kỹ nhé,  lãi suất và điều khoản vay rất quan trọng.  Đừng để rơi vào tình trạng khó khăn về tài chính.",
+          "timestamp": 1740894692990,
+          "priority": 1,
+          "accessCount": 0,
+          "lastAccess": 1740894692990,
+          "metadata": {
+            "sentiment": {
+              "score": 0,
+              "sentiment": "neutral"
+            },
+            "topics": [
+              "PERSONAL",
+              "FOOD",
+              "TRAVEL"
+            ],
+            "entities": {}
+          }
+        }
+      ],
+      "emotions": [],
+      "names": [],
+      "relationships": {},
+      "context": {
+        "lastTopics": [],
+        "importantDates": {},
+        "recentMentions": {},
+        "conversationFlow": []
+      },
+      "topics": {},
+      "undefined": [
+        {
+          "content": "Xưng hô: em/bạn",
+          "timestamp": 1740894691162,
+          "priority": 2,
+          "accessCount": 0,
+          "lastAccess": 1740894691162,
+          "metadata": {
+            "sentiment": {
+              "score": 0,
+              "sentiment": "neutral"
+            },
+            "topics": [
+              "PERSONAL"
+            ],
+            "entities": {}
+          }
+        }
+      ]
     }
   },
   "global": {
@@ -389,11 +2254,28 @@
     "voice": {}
   },
   "stats": {
-    "totalInteractions": 16,
+    "totalInteractions": 130,
     "uniqueUsers": {},
     "topTopics": {},
     "responseTime": [],
-    "accuracy": []
+    "accuracy": [
+      {
+        "timestamp": 1740894450445,
+        "memoryCount": 11
+      },
+      {
+        "timestamp": 1740894595387,
+        "memoryCount": 22
+      },
+      {
+        "timestamp": 1740894675518,
+        "memoryCount": 34
+      },
+      {
+        "timestamp": 1740895055130,
+        "memoryCount": 87
+      }
+    ]
   },
   "compression": {
     "enabled": true,

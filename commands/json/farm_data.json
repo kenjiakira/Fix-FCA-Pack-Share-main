@@ -2,15 +2,15 @@
   "farms": {
     "61573427362389": {
       "id": "61573427362389",
-      "exp": 0,
+      "exp": 10,
       "plots": [
         {
           "id": 0,
           "status": "growing",
           "crop": "lua",
-          "plantedAt": 1740892343999,
+          "plantedAt": 1740894769881,
           "water": 3,
-          "lastWatered": 1740892646000
+          "lastWatered": 1740894780430
         },
         {
           "id": 1,
@@ -49,5 +49,5 @@
       }
     }
   },
-  "lastUpdate": 1740893576042
+  "lastUpdate": 1740896268204
 }

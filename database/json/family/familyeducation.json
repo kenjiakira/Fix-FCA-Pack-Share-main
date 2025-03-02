@@ -520,13 +520,10 @@
   },
   "61555903228492": {
     "degrees": [
-      "e1"
+      "e1",
+      "be"
     ],
-    "currentDegree": {
-      "id": "be",
-      "startTime": 1740826760902,
-      "progress": 0
-    }
+    "currentDegree": null
   },
   "61553593760589": {
     "degrees": [

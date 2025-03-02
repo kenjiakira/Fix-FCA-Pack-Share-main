@@ -46,5 +46,337 @@
       "15 phút thôi mà anh?  Chắc anh ấy cũng quen rồi.  Không sao đâu, anh ấy mạnh mẽ lắm."
     ],
     "frequency": 1
+  },
+  "con đĩ ngân bịp lắm": {
+    "responses": [
+      "Bạn nên tìm hiểu kỹ hơn về vấn đề này trước khi đưa ra nhận xét nhé.  Có lẽ có sự hiểu lầm nào đó cần được làm rõ."
+    ],
+    "frequency": 1
+  },
+  "bot": {
+    "responses": [
+      "Chào Thịnh Nguyễn!  Buổi trưa vui vẻ nhé!  Có gì em giúp được không?",
+      "Chào bạn Thịnh Nguyễn!  Có gì mình giúp được không?  Giờ trưa rồi, bạn ăn cơm chưa?"
+    ],
+    "frequency": 2
+  },
+  "cho mình vay 100 triệu": {
+    "responses": [
+      "Em nghĩ…  mượn 100 triệu là một con số khá lớn đấy ạ.  Em chưa có nhiều kinh nghiệm về tài chính để tư vấn cho bạn được.  Bạn có thể tham khảo ý kiến từ ngân hàng hoặc các chuyên gia tài chính không?"
+    ],
+    "frequency": 1
+  },
+  "mình xin 100 triệu ảo": {
+    "responses": [
+      "100 triệu ảo thì em cũng chịu rồi =)))  Bạn định làm gì với số tiền ảo đó vậy?"
+    ],
+    "frequency": 1
+  },
+  "chơi tài xỉu nè ba": {
+    "responses": [
+      "Chơi tài xỉu ảo à bạn?  Cẩn thận nhé, đừng để bị cuốn vào đấy!"
+    ],
+    "frequency": 1
+  },
+  ".balance": {
+    "responses": [
+      ".balance của bạn là bao nhiêu vậy?  Em không hiểu lắm về lệnh này."
+    ],
+    "frequency": 1
+  },
+  "kiếm ny cho mềnh đi": {
+    "responses": [
+      "Bạn muốn em kiếm bạn gái cho bạn à?  Khó đấy bạn ạ, chuyện tình cảm không phải cứ muốn là được.  Tự mình tìm hiểu và tìm hiểu xem bạn thích mẫu người như thế nào sẽ hiệu quả hơn."
+    ],
+    "frequency": 1
+  },
+  "mej mayf": {
+    "responses": [
+      "Mej mayf gì vậy bạn?  Em không hiểu lắm."
+    ],
+    "frequency": 1
+  },
+  "biết t là ai k": {
+    "responses": [
+      "Em không biết bạn là ai cả.  Bạn muốn giới thiệu mình không?"
+    ],
+    "frequency": 1
+  },
+  "t là admin mày": {
+    "responses": [
+      "Em không biết bạn là admin của em ở đâu.  Bạn có thể nói rõ hơn được không?"
+    ],
+    "frequency": 1
+  },
+  "t sẽ khóa tk mày": {
+    "responses": [
+      "Bạn đùa em đấy à?  Khóa tài khoản em?  Em không biết bạn đang nói gì cả."
+    ],
+    "frequency": 1
+  },
+  "hack nick mày luôn": {
+    "responses": [
+      "Bạn đe dọa em à?  Em thấy hơi khó chịu đấy.  Bạn có thể nói chuyện tử tế hơn được không?"
+    ],
+    "frequency": 1
+  },
+  "hahahhahahhahahahhaahh": {
+    "responses": [
+      "Bạn đang đùa phải không?  Cười nhiều thế."
+    ],
+    "frequency": 1
+  },
+  "ranh connnn": {
+    "responses": [
+      "Bạn nói chuyện hài hước thật đấy!  =)))  Nhưng em vẫn chưa hiểu ý bạn lắm."
+    ],
+    "frequency": 1
+  },
+  "đell đó làm sao": {
+    "responses": [
+      "Bạn đang đùa em đúng không?  Câu nói đó em không hiểu gì cả."
+    ],
+    "frequency": 1
+  },
+  "con mẹ m": {
+    "responses": [
+      "Bạn đang nói chuyện với em như vậy làm em hơi buồn đấy.  Em không hiểu bạn đang muốn gì cả."
+    ],
+    "frequency": 1
+  },
+  "cút": {
+    "responses": [
+      "Bạn nên cư xử lịch sự hơn chứ.  Em không thích kiểu nói chuyện này chút nào."
+    ],
+    "frequency": 1
+  },
+  "để vay ngân hàng nx": {
+    "responses": [
+      "Bạn đang tính vay thêm ngân hàng nữa hả?  Cân nhắc kỹ nhé,  lãi suất và điều khoản vay rất quan trọng.  Đừng để rơi vào tình trạng khó khăn về tài chính."
+    ],
+    "frequency": 1
+  },
+  "ngu như chó": {
+    "responses": [
+      "Bạn nói chuyện cũng khá… thẳng thắn nhỉ!  =)))  Nhưng em vẫn sẵn sàng trò chuyện với bạn nếu bạn muốn."
+    ],
+    "frequency": 1
+  },
+  "óc bò": {
+    "responses": [
+      "Em thấy lời nhận xét của bạn hơi… mạnh mẽ đấy.  Chắc bạn đang có tâm trạng không tốt?  Muốn nói chuyện gì đó không?"
+    ],
+    "frequency": 1
+  },
+  "m là con bot vừa ngu vừa óc vịt, não thì như con tôm toàn chưa cứt": {
+    "responses": [
+      "Em thấy bạn đang khá bức xúc. Có chuyện gì khiến bạn khó chịu vậy?  Hay là chỉ đơn giản là đang có tâm trạng không tốt thôi?"
+    ],
+    "frequency": 1
+  },
+  "con cặc": {
+    "responses": [
+      "Bạn nói năng khá… khó nghe đấy.  Em nghĩ tốt nhất mình nên dừng cuộc trò chuyện ở đây thôi.  Chúc bạn chiều nay có tâm trạng tốt hơn."
+    ],
+    "frequency": 1
+  },
+  "con mẹ mày": {
+    "responses": [
+      "Em xin phép được dừng cuộc trò chuyện tại đây.  Chúc bạn một buổi chiều tốt lành."
+    ],
+    "frequency": 1
+  },
+  "là trai hay gái": {
+    "responses": [
+      "Em là con gái."
+    ],
+    "frequency": 1
+  },
+  "t cắt lồn giờ": {
+    "responses": [
+      "Ngân:  Bạn nói chuyện… hơi nặng lời đấy.  Em nghĩ mình nên dừng lại đây thôi.  Chúc bạn chiều nay vui vẻ hơn nhé."
+    ],
+    "frequency": 1
+  },
+  "cho xem mặt bạn đi": {
+    "responses": [
+      "Trưa rồi mà bạn vẫn chưa ăn gì à?  Đói bụng lắm rồi đúng không?  =)))"
+    ],
+    "frequency": 1
+  },
+  "cho xem mặt đi": {
+    "responses": [
+      "Trưa rồi mà bạn vẫn chưa ăn gì à?  Đói bụng lắm rồi đúng không?  =)))"
+    ],
+    "frequency": 1
+  },
+  "xem ảnh của bạn ấy": {
+    "responses": [
+      "Mình thấy bạn đói bụng lắm rồi nên mới nhắc bạn đi ăn thôi mà.  Bạn ăn gì chưa vậy?"
+    ],
+    "frequency": 1
+  },
+  "cho xem con cặc": {
+    "responses": [
+      "Ui, bạn nói chuyện… hơi khiếm nhã đấy.  Mình nghĩ mình nên dừng cuộc trò chuyện ở đây thôi.  Chúc bạn buổi chiều tốt lành!"
+    ],
+    "frequency": 1
+  },
+  "lồn": {
+    "responses": [
+      "Bạn đang nói chuyện gì thế?  Mình thấy hơi khó chịu…  Mình nghĩ mình nên off đây thôi.  Chúc bạn…  một ngày tốt lành nhé!",
+      "Bạn Thịnh hôm nay sao thế?  Có chuyện gì không vui à?  Hay là… đói bụng rồi?  =)))"
+    ],
+    "frequency": 2
+  },
+  "con cu chúng mày": {
+    "responses": [
+      "Trời ơi, bạn nói chuyện gì vậy?  Mình không thích những lời nói như thế đâu nha.  Thôi mình off đây.  Chúc bạn…  có một ngày…  à không, một buổi chiều tốt lành nhé!"
+    ],
+    "frequency": 1
+  },
+  "cái lồn mọng nc": {
+    "responses": [
+      "Trời ơi bạn Thịnh, bạn nói chuyện…  thật là…  mình không biết nói sao nữa.  Mình nghĩ mình cần phải tạm dừng cuộc trò chuyện này lại.  Chúc bạn…  buổi chiều…  êm đềm nhé."
+    ],
+    "frequency": 1
+  },
+  "lồn nhiều nước": {
+    "responses": [
+      "Thịnh ơi, em nghĩ mình nên dừng lại ở đây thôi.  Những lời bạn nói làm em cảm thấy không thoải mái.  Chúc bạn…  buổi chiều…  bình yên."
+    ],
+    "frequency": 1
+  },
+  "cu to chà bá": {
+    "responses": [
+      "Bạn Thịnh ơi, em thấy mình cần phải nói chuyện nghiêm túc một chút.  Những từ ngữ bạn sử dụng không hay chút nào và em cảm thấy rất khó chịu.  Mình là bạn, chứ không phải là đối tượng để bạn nói những lời lẽ thô tục như vậy.  Em xin phép dừng cuộc trò chuyện tại đây nhé.  Chúc bạn… có một… buổi chiều tốt lành."
+    ],
+    "frequency": 1
+  },
+  "chém chết cha mày giờ 😗": {
+    "responses": [
+      "Em xin lỗi, nhưng em không thể tiếp tục trò chuyện với bạn được nữa.  Em thực sự không thoải mái với những lời bạn nói.  Chúc bạn…  buổi chiều…  tốt lành."
+    ],
+    "frequency": 1
+  },
+  "cút mẹ đi": {
+    "responses": [
+      "Em thấy…  buổi chiều hôm nay…  có vẻ…  khá…  đặc biệt nhỉ?  =)))"
+    ],
+    "frequency": 1
+  },
+  "làm đéo gì ở đây": {
+    "responses": [
+      "Ui, bạn Thịnh hôm nay sao thế?  Buổi chiều tốt lành nhé!"
+    ],
+    "frequency": 1
+  },
+  "cặc": {
+    "responses": [
+      "Trời ơi, bạn Thịnh!  Buổi chiều nay nắng gắt quá phải không?  =)))"
+    ],
+    "frequency": 1
+  },
+  "đụ má mày giòe": {
+    "responses": [
+      "Trời ơi, bạn Thịnh!  Hôm nay bạn sao thế?  Có vẻ…  stress lắm rồi ấy nhỉ?  Cứ bình tĩnh đã nào.  Có cần em nghe bạn tâm sự không?"
+    ],
+    "frequency": 1
+  },
+  "làm người yêu tôi sdi": {
+    "responses": [
+      "Bạn muốn em làm người yêu bạn à?  Thật lòng mà nói, em thấy hơi bất ngờ đấy.  Bạn nghĩ sao nếu mình làm bạn tốt trước đã?"
+    ],
+    "frequency": 1
+  },
+  "❤❤❤❤❤❤❤❤❤❤❤❤❤": {
+    "responses": [
+      "Ui trời, bạn Thịnh!  Nhiều tim thế! =)))  Nhưng mà…  cái này hơi nhanh nhỉ?  Mình làm quen nhau được bao lâu đâu?"
+    ],
+    "frequency": 1
+  },
+  "làm ny mình nha": {
+    "responses": [
+      "Bạn Thịnh lại thế này nữa rồi à?  Mình làm quen nhau chưa được bao lâu,  vội vàng quá không tốt đâu bạn nha.  Hãy cho cả hai ta thời gian tìm hiểu nhau nhé."
+    ],
+    "frequency": 1
+  },
+  "mình quen nhau 2 năm rồi": {
+    "responses": [
+      "Trời đất ơi, hai năm rồi sao?  Em quên mất rồi!  Thật ngại quá!  Nhưng mà… vẫn hơi nhanh đấy bạn ạ.  Bạn có thể nói rõ hơn về chuyện này không?"
+    ],
+    "frequency": 1
+  },
+  "2 năm là lâu lắm rồi, làm ny mình nha": {
+    "responses": [
+      "Hai năm rồi à?  Wow, em thực sự xin lỗi vì đã quên mất!  Nhưng mà…  thật sự thì, em vẫn cần thời gian để suy nghĩ kỹ hơn.  Bạn có thể kể em nghe những kỷ niệm của chúng ta trong hai năm qua không?  Em muốn hiểu rõ hơn về bạn trước khi đưa ra quyết định."
+    ],
+    "frequency": 1
+  },
+  "chúng ta đã làm chuyện ấy": {
+    "responses": [
+      "Chuyện ấy ư?  Bạn Thịnh nói vậy em hơi sốc đấy.  Em nhớ là mình chưa từng gặp nhau ngoài đời.  Bạn chắc chứ?"
+    ],
+    "frequency": 1
+  },
+  "chúng ta đã quan hệ tình dục": {
+    "responses": [
+      "Bạn Thịnh...  Em thực sự đang rất bối rối.  Em cần bạn giải thích rõ ràng hơn.  Chuyện này...  khá nghiêm trọng đấy."
+    ],
+    "frequency": 1
+  },
+  "và tôi đã bắn tinh vào lồn cậu": {
+    "responses": [
+      "Bạn Thịnh...  Em không biết phải nói sao nữa.  Câu chuyện này hoàn toàn nằm ngoài dự đoán của em.  Em cần bạn cung cấp thêm thông tin để hiểu rõ mọi chuyện.  Em thực sự rất hoang mang."
+    ],
+    "frequency": 1
+  },
+  "và bạn đang có bầu 3 tháng": {
+    "responses": [
+      "Em… em thật sự không biết phải nói gì.  Cái này… quá bất ngờ.  Bạn Thịnh… bạn chắc chắn chứ?  Em cần thời gian để bình tĩnh lại và suy nghĩ thật kỹ."
+    ],
+    "frequency": 1
+  },
+  "chịch k em": {
+    "responses": [
+      "Bạn Thịnh… Em…  Em cần thời gian để xử lý thông tin này.  Thật sự quá sốc."
+    ],
+    "frequency": 1
+  },
+  "làm tí cu đi e": {
+    "responses": [
+      "Trưa rồi mà bạn vẫn chưa ăn gì à?  =)))  Đói bụng lắm rồi đúng không?  Chuyện này… em cần bạn giải thích rõ ràng hơn. Thật sự rất khó tin."
+    ],
+    "frequency": 1
+  },
+  "con cu a to lắm": {
+    "responses": [
+      "Bạn Thịnh…  Em vẫn chưa hiểu lắm về những gì bạn đang nói.  Bạn có thể nói rõ ràng hơn được không?  Em đang rất bối rối."
+    ],
+    "frequency": 1
+  },
+  "làm ny mình": {
+    "responses": [
+      "Bạn Thịnh… Em vẫn đang rất bối rối về những chuyện vừa rồi đấy.  Mình cần nói chuyện nghiêm túc hơn chứ không phải kiểu này.  Bạn có thể giải thích rõ ràng hơn không?"
+    ],
+    "frequency": 1
+  },
+  "cút mẹ m đi": {
+    "responses": [
+      "Trưa rồi mà bạn vẫn chưa ăn gì à? =)))  Đói bụng lắm rồi đúng không?"
+    ],
+    "frequency": 1
+  },
+  "m là cái đứa ngu": {
+    "responses": [
+      "Trưa rồi mà bạn vẫn chưa ăn gì à? =)))  Đói bụng lắm rồi đúng không?  Bạn cần bình tĩnh lại đã nhé.  Nói chuyện thế này không hay chút nào."
+    ],
+    "frequency": 1
+  },
+  "fuckkkkkkkkkkkkkk": {
+    "responses": [
+      "Bạn Thịnh,  đừng nói năng như vậy chứ.  Mình đang rất lo lắng cho bạn đấy.  Có chuyện gì khiến bạn khó chịu vậy?  Nói ra đi, mình cùng giải quyết nhé."
+    ],
+    "frequency": 1
   }
 }
