@@ -13,12 +13,12 @@ module.exports = {
         professional: {
             name: "Công việc chuyên môn",
             desc: "Yêu cầu bằng Cao đẳng/Đại học",
-            jobs: ["j7", "j8", "j9"]
+            jobs: ["j7", "j8", "j9", "j14", "j15", "j16", "j17", "j18", "j19", "j20"]
         },
         expert: {
             name: "Chuyên gia",
             desc: "Yêu cầu bằng Thạc sĩ trở lên",
-            jobs: ["j10", "j11", "j12", "j13"]
+            jobs: ["j10", "j11", "j12", "j13", "j21", "j22"]
         }
     },
 
@@ -100,12 +100,33 @@ module.exports = {
             { name: "Senior", minWork: 450, bonus: 3.3 },
             { name: "Architect", minWork: 1000, bonus: 4.8 }
         ],
-        researcher: [
+        medical: [
+            { name: "Bác Sĩ Thực Tập", minWork: 0, bonus: 1.0 },
+            { name: "Bác Sĩ", minWork: 60, bonus: 1.5 },
+            { name: "Bác Sĩ Chuyên Khoa", minWork: 150, bonus: 2.0 },
+            { name: "Trưởng Khoa", minWork: 300, bonus: 3.0 },
+            { name: "Giám Đốc Y Khoa", minWork: 700, bonus: 4.0 }
+        ],
+        agriculture: [
+            { name: "Kỹ Thuật Viên", minWork: 0, bonus: 1.0 },
+            { name: "Kỹ Sư Nông Nghiệp", minWork: 50, bonus: 1.4 },
+            { name: "Chuyên Gia Nông Nghiệp", minWork: 120, bonus: 1.9 },
+            { name: "Giám Đốc Sản Xuất", minWork: 250, bonus: 2.5 },
+            { name: "Chuyên Gia Cao Cấp", minWork: 500, bonus: 3.2 }
+        ],
+        marine: [
             { name: "Nghiên Cứu Viên", minWork: 0, bonus: 1.0 },
-            { name: "Nghiên Cứu Viên Chính", minWork: 100, bonus: 1.8 },
-            { name: "Trưởng Nhóm Nghiên Cứu", minWork: 250, bonus: 2.5 },
-            { name: "Giám Đốc Nghiên Cứu", minWork: 500, bonus: 3.5 },
-            { name: "Chuyên Gia Đầu Ngành", minWork: 1200, bonus: 5.0 }
+            { name: "Chuyên Viên Hải Sản", minWork: 50, bonus: 1.4 },
+            { name: "Chuyên Gia Ngành Cá", minWork: 120, bonus: 1.8 },
+            { name: "Trưởng Phòng Nghiên Cứu", minWork: 250, bonus: 2.3 },
+            { name: "Giám Đốc Phát Triển", minWork: 500, bonus: 3.0 }
+        ],
+        analyst: [
+            { name: "Chuyên Viên Junior", minWork: 0, bonus: 1.0 },
+            { name: "Chuyên Viên Senior", minWork: 60, bonus: 1.5 },
+            { name: "Trưởng Nhóm Phân Tích", minWork: 150, bonus: 2.0 },
+            { name: "Giám Đốc Phân Tích", minWork: 300, bonus: 2.8 },
+            { name: "Chuyên Gia Tư Vấn", minWork: 600, bonus: 3.5 }
         ]
     },
 
@@ -154,23 +175,23 @@ module.exports = {
         },
         j7: {
             name: "Kế toán",
-            salary: 820000,
+            salary: 12000000,
             type: "accountant",
-            requirements: ["e3"],
+            requirements: ["ueh", "neu"],
             description: "Quản lý tài chính và sổ sách"
         },
         j8: {
             name: "Lập trình viên",
             salary: 22000000,
             type: "developer",
-            requirements: ["e3", "fe", "be"],
+            requirements: ["hcmut", "hust", "fe", "be"],
             description: "Phát triển phần mềm và ứng dụng"
         },
         j9: {
             name: "Giáo viên",
             salary: 15000000,
             type: "teacher",
-            requirements: ["e3", "eng2"],
+            requirements: ["hnue", "eng2"],
             description: "Giảng dạy và đào tạo học sinh"
         },
         j10: {
@@ -191,7 +212,7 @@ module.exports = {
             name: "Chuyên gia IT",
             salary: 50000000,
             type: "consultant",
-            requirements: ["e4", "aws", "azure", "ccna"],
+            requirements: ["e4", "aws", "azure", "ccna", "hcmut"],
             description: "Tư vấn giải pháp công nghệ cấp cao"
         },
         j13: {
@@ -200,6 +221,69 @@ module.exports = {
             type: "researcher",
             requirements: ["e5", "eng3", "research1"],
             description: "Lãnh đạo nhóm nghiên cứu đỉnh cao, công bố quốc tế"
+        },
+        j14: {
+            name: "Chuyên viên thương mại",
+            salary: 18000000,
+            type: "sales",
+            requirements: ["ftu", "eng2"],
+            description: "Phát triển thị trường và quan hệ thương mại quốc tế"
+        },
+        j15: {
+            name: "Bác sĩ",
+            salary: 25000000,
+            type: "medical",
+            requirements: ["hmu"],
+            description: "Khám chữa bệnh và chăm sóc sức khỏe"
+        },
+        j16: {
+            name: "Kỹ sư nông nghiệp",
+            salary: 16000000,
+            type: "agriculture",
+            requirements: ["tuaf"],
+            description: "Phát triển và ứng dụng kỹ thuật nông nghiệp"
+        },
+        j17: {
+            name: "Chuyên gia hải sản",
+            salary: 17000000,
+            type: "marine",
+            requirements: ["ntu"],
+            description: "Nghiên cứu và phát triển ngành hải sản"
+        },
+        j18: {
+            name: "Nhà nghiên cứu xã hội",
+            salary: 16500000,
+            type: "researcher",
+            requirements: ["vnuhn", "eng2"],
+            description: "Nghiên cứu các vấn đề xã hội và nhân văn"
+        },
+        j19: {
+            name: "Chuyên viên phân tích",
+            salary: 19000000,
+            type: "analyst",
+            requirements: ["vnuhcm", "eng2"],
+            description: "Phân tích dữ liệu và đưa ra giải pháp"
+        },
+        j20: {
+            name: "Kiến trúc sư phần mềm",
+            salary: 28000000,
+            type: "developer",
+            requirements: ["hcmut", "hust", "aws"],
+            description: "Thiết kế và phát triển kiến trúc phần mềm"
+        },
+        j21: {
+            name: "Giáo sư y khoa",
+            salary: 60000000,
+            type: "medical",
+            requirements: ["e4", "hmu", "research1"],
+            description: "Nghiên cứu và giảng dạy y khoa cấp cao"
+        },
+        j22: {
+            name: "Chuyên gia kinh tế",
+            salary: 55000000,
+            type: "consultant",
+            requirements: ["e4", "neu", "ueh", "eng3"],
+            description: "Tư vấn và hoạch định chính sách kinh tế"
         }
     }
 };

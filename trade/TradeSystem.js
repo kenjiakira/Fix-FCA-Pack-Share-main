@@ -15,7 +15,7 @@ const STOCKS_DATA_PATH = path.join(__dirname, '../commands/json/trade/stocks_dat
 
 const MARKET_HOURS = {
     open: 9,  
-    close: 17
+    close: 19
 };
 
 const RISK_CONFIG = {
@@ -34,11 +34,6 @@ const RISK_CONFIG = {
         threshold: 0.10,     
         maxDrop: 0.20,  
         recoveryDays: 1     
-    },
-    margin: {
-        callThreshold: 0.5,  
-        callDuration: 6 * 3600000,
-        volatilityFeeMultiplier: 1.2 
     }
 };
 
@@ -55,11 +50,11 @@ const DEFAULT_STOCKS = {
 };
 
 const FEES = {
-    transaction: 0.001, 
-    tax: 0.001,      
-    minFee: 1000,    
-    maxFee: 1000000,
-    margin: 0.01     
+    transaction: 0.01,  
+    tax: 0.005,        
+    minFee: 1000,      
+    maxFee: 1000000,  
+    largeTrade: 0.005  
 };
 
 const ORDER_TYPES = {
@@ -68,15 +63,65 @@ const ORDER_TYPES = {
     STOP: 'stop'
 };
 
-const MARGIN_CONFIG = {
-    maxLeverage: 5,  
-    maintenanceMargin: 0.1,
-    initialMargin: 0.2      
+
+const TRADING_LIMITS = {
+    dailyTradeLimit: 20,           
+    tradeCooldown: 60 * 1000,      
+    maxVolumePercent: 0.25,        
+    largeTradeThreshold: 50000000  
+};
+
+
+const NEWS_EVENTS = [
+    { type: 'positive', impact: 0.05, probability: 0.03, description: "Báo cáo tài chính vượt kỳ vọng", affectedStocks: 1 },
+    { type: 'negative', impact: -0.06, probability: 0.03, description: "Doanh thu thấp hơn dự kiến", affectedStocks: 1 },
+    { type: 'positive', impact: 0.08, probability: 0.02, description: "Công bố sản phẩm mới đột phá", affectedStocks: 1 },
+    { type: 'negative', impact: -0.07, probability: 0.02, description: "Điều tra pháp lý", affectedStocks: 1 },
+    { type: 'positive', impact: 0.03, probability: 0.05, description: "Nhà phân tích nâng đánh giá", affectedStocks: 2 },
+    { type: 'negative', impact: -0.04, probability: 0.04, description: "Tăng trưởng chậm lại", affectedStocks: 2 },
+    { type: 'sector', impact: 0.06, probability: 0.015, description: "Chính sách mới có lợi cho ngành", affectedStocks: 3 },
+    { type: 'sector', impact: -0.06, probability: 0.015, description: "Quy định mới gây bất lợi cho ngành", affectedStocks: 3 },
+    { type: 'market', impact: 0.04, probability: 0.01, description: "Chỉ số kinh tế vĩ mô tích cực", affectedStocks: 'all' },
+    { type: 'market', impact: -0.05, probability: 0.01, description: "Lo ngại về suy thoái kinh tế", affectedStocks: 'all' },
+    { type: 'crash', impact: -0.15, probability: 0.002, description: "Khủng hoảng thị trường bất ngờ", affectedStocks: 'all' },
+    { type: 'rally', impact: 0.12, probability: 0.002, description: "Thị trường tăng đột biến", affectedStocks: 'all' }
+];
+
+
+const MARKET_SENTIMENT = {
+    states: ['Bearish', 'Slightly Bearish', 'Neutral', 'Slightly Bullish', 'Bullish'],
+    currentState: 2, 
+    changeChance: 0.10, 
+    impactMultiplier: {
+        'Bearish': -1.5,
+        'Slightly Bearish': -0.8,
+        'Neutral': 0,
+        'Slightly Bullish': 0.8,
+        'Bullish': 1.5
+    }
+};
+
+
+const ECONOMY_BALANCE = {
+    wealthTax: {
+        threshold: 1000000000, 
+        rate: 0.001, 
+        applyInterval: 24 * 60 * 60 * 1000 
+    },
+    maintenanceCost: {
+        threshold: 10, 
+        rate: 0.0005, 
+        applyInterval: 24 * 60 * 60 * 1000 
+    },
+    marketReset: {
+        enabled: false,
+        interval: 30 * 24 * 60 * 60 * 1000, 
+        preserveUserPercentage: 0.8 
+    }
 };
 
 class TradeSystem {
     constructor() {
-        this.marginPositions = {};
         this.portfolios = {};
         this.stocks = {};
         this.orderBook = new OrderBook();
@@ -94,10 +139,19 @@ class TradeSystem {
         this.startUpdates();
         this.startExchangeRateUpdates();
         this.setupOrderBookHandlers();
+        
+        
+        this.tradingHistory = {};
+        this.activeNews = [];
+        this.lastMarketSentimentChange = Date.now();
+        
+        
+        this.startEconomicBalancing();
+        this.generateMarketNews();
     }
 
     setupTransactionHandlers() {
-        // Handle transaction completion
+        
         this.transactionManager.on('transactionCompleted', (event) => {
             console.log(`Transaction ${event.transactionId} completed successfully`);
             this.notifyUser(event.userId, {
@@ -107,7 +161,7 @@ class TradeSystem {
             });
         });
 
-        // Handle transaction timeout
+        
         this.transactionManager.on('transactionTimeout', (event) => {
             console.log(`Transaction ${event.transactionId} timed out`);
             this.notifyUser(event.userId, {
@@ -117,7 +171,7 @@ class TradeSystem {
             });
         });
 
-        // Handle transaction rollback
+        
         this.transactionManager.on('transactionRolledBack', (event) => {
             console.log(`Transaction ${event.transactionId} rolled back`);
             this.notifyUser(event.userId, {
@@ -127,13 +181,13 @@ class TradeSystem {
             });
         });
 
-        // Handle step completion
+        
         this.transactionManager.on('stepCompleted', (event) => {
             console.log(`Step ${event.step}/${event.totalSteps} completed for transaction ${event.transactionId}`);
         });
     }
 
-    // Helper method to notify users
+    
     notifyUser(userId, notification) {
         const portfolio = this.getUserPortfolio(userId);
         if (!portfolio.notifications) {
@@ -147,21 +201,21 @@ class TradeSystem {
     }
 
     setupOrderBookHandlers() {
-        // Handle trade events
+        
         this.orderBook.on('trade', async (trade) => {
             try {
                 const { symbol, price, quantity, buyerId, sellerId } = trade;
                 
-                // Get portfolios
+                
                 const buyerPortfolio = this.getUserPortfolio(buyerId);
                 const sellerPortfolio = this.getUserPortfolio(sellerId);
 
-                // Save original state for rollback
+                
                 const originalBuyerState = JSON.parse(JSON.stringify(buyerPortfolio));
                 const originalSellerState = JSON.parse(JSON.stringify(sellerPortfolio));
 
                 try {
-                    // Update buyer's portfolio
+                    
                     if (!buyerPortfolio.stocks[symbol]) {
                         buyerPortfolio.stocks[symbol] = { quantity: 0, averagePrice: 0 };
                     }
@@ -171,7 +225,7 @@ class TradeSystem {
                     buyerPortfolio.stocks[symbol].averagePrice = Math.floor((oldValue + newValue) / totalQuantity);
                     buyerPortfolio.stocks[symbol].quantity = totalQuantity;
 
-                    // Update seller's portfolio
+                    
                     if (!sellerPortfolio.stocks[symbol]) {
                         sellerPortfolio.stocks[symbol] = { quantity: 0, averagePrice: 0 };
                     }
@@ -180,7 +234,7 @@ class TradeSystem {
                         delete sellerPortfolio.stocks[symbol];
                     }
 
-                    // Record transaction in both portfolios
+                    
                     if (!buyerPortfolio.transactions) buyerPortfolio.transactions = [];
                     if (!sellerPortfolio.transactions) sellerPortfolio.transactions = [];
 
@@ -204,15 +258,15 @@ class TradeSystem {
                         counterpartyId: buyerId
                     });
 
-                    // Save portfolios
+                    
                     await this.savePortfolios();
 
-                    // Log successful trade
+                    
                     console.log(`Trade executed: ${symbol} - ${quantity} @ ${price}`);
                     console.log(`Buyer: ${buyerId}, Seller: ${sellerId}`);
 
                 } catch (error) {
-                    // Rollback on error
+t                    
                     this.portfolios[buyerId] = originalBuyerState;
                     this.portfolios[sellerId] = originalSellerState;
                     await this.savePortfolios();
@@ -225,7 +279,7 @@ class TradeSystem {
             }
         });
 
-        // Handle order status updates
+        
         this.orderBook.on('orderAdded', async (order) => {
             try {
                 const portfolio = this.getUserPortfolio(order.userId);
@@ -323,7 +377,7 @@ class TradeSystem {
             if (hour >= MARKET_HOURS.open && hour < MARKET_HOURS.close) {
                 this.updateExchangeRate();
             }
-        }, 2000); // Update every 2 seconds for more frequent changes
+        }, 2000); 
     }
 
     loadExchangeRate() {
@@ -373,6 +427,9 @@ class TradeSystem {
     }
 
     updatePrices() {
+        
+        this.updateMarketSentiment();
+        
         const marketAnalysis = this.getMarketAnalysis();
         
         const isBlackSwan = Math.random() < RISK_CONFIG.blackSwan.probability;
@@ -385,24 +442,36 @@ class TradeSystem {
             sum + (stock.changePercent || 0), 0) / Object.keys(this.stocks).length;
         const isMarketCrash = avgMarketDrop < -RISK_CONFIG.marketCrash.threshold;
         
+        
+        const sentimentMultiplier = this.getSentimentMultiplier();
+        
         Object.entries(this.stocks).forEach(([symbol, stock]) => {
             if (!stock || typeof stock.priceUSD !== 'number') return;
             
+            
             let maxChange = RISK_CONFIG.volatility.normal * 2;
+            
             
             if (isOpenClose) {
                 maxChange += RISK_CONFIG.volatility.openClose;
             }
             
+            
             if (Math.random() < RISK_CONFIG.volatility.extremeProbability) {
                 maxChange = Math.min(maxChange + RISK_CONFIG.volatility.extreme, 0.05);
             }
             
+            
             let randomChange = (Math.random() * maxChange * 2) - maxChange;
+            
+            
+            randomChange += sentimentMultiplier * 0.01;
+            
             
             if (isBlackSwan) {
                 randomChange = Math.max(-RISK_CONFIG.blackSwan.impact * 1.5, randomChange);
             }
+            
             
             if (isMarketCrash) {
                 const crashImpact = -Math.min(
@@ -412,11 +481,25 @@ class TradeSystem {
                 randomChange = Math.max(crashImpact, randomChange);
             }
             
+            
+            this.activeNews.forEach(newsEvent => {
+                if (newsEvent.symbols.includes(symbol)) {
+                    
+                    const newsImpact = newsEvent.impact * (0.8 + Math.random() * 0.4);
+                    randomChange += newsImpact;
+                }
+            });
+            
             const minPrice = DEFAULT_STOCKS[symbol].minPrice;
             const newPriceUSD = Math.max(
                 minPrice,
                 stock.priceUSD * (1 + randomChange / 100)
             );
+
+            
+            const spread = 0.002 + (Math.random() * 0.003); 
+            const bidPriceUSD = newPriceUSD * (1 - spread);
+            const askPriceUSD = newPriceUSD * (1 + spread);
 
             const newPrice = newPriceUSD * this.xuRate;
 
@@ -428,13 +511,17 @@ class TradeSystem {
             this.stocks[symbol] = {
                 ...stock,
                 priceUSD: newPriceUSD,
+                bidPriceUSD: bidPriceUSD,
+                askPriceUSD: askPriceUSD,
                 price: newPrice,
+                bidPrice: bidPriceUSD * this.xuRate,
+                askPrice: askPriceUSD * this.xuRate,
                 change: randomChange,
                 changePercent: randomChange,
                 volume: Math.floor(Math.random() * 50000) + 10000,
                 depth: {
-                    bids: MarketAlgorithms.generateMarketDepth(newPriceUSD, true),
-                    asks: MarketAlgorithms.generateMarketDepth(newPriceUSD, false)
+                    bids: MarketAlgorithms.generateMarketDepth(bidPriceUSD, true),
+                    asks: MarketAlgorithms.generateMarketDepth(askPriceUSD, false)
                 },
                 lastUpdate: Date.now(),
                 history
@@ -537,11 +624,20 @@ class TradeSystem {
         };
     }
 
-
-
     async sellStock(userId, symbol, quantity) {
         if (!this.isMarketOpen()) {
             throw new Error(`Thị trường đã đóng! Giờ giao dịch: ${MARKET_HOURS.open}:00 - ${MARKET_HOURS.close}:00`);
+        }
+        
+        
+        if (!this.checkTradingLimit(userId)) {
+            throw new Error(`Bạn đã đạt giới hạn ${TRADING_LIMITS.dailyTradeLimit} giao dịch mỗi ngày!`);
+        }
+        
+        
+        if (!this.checkTradeCooldown(userId)) {
+            const remainingSeconds = this.getRemainingCooldown(userId) / 1000;
+            throw new Error(`Vui lòng đợi ${Math.ceil(remainingSeconds)} giây giữa các giao dịch!`);
         }
     
         const portfolio = this.getUserPortfolio(userId);
@@ -550,7 +646,13 @@ class TradeSystem {
         }
     
         const stockData = this.getStockPrice(symbol);
-        const marketPrice = Math.floor(stockData.price);
+        
+        
+        const basePrice = Math.floor(stockData.bidPrice || stockData.price || 0);
+        
+        
+        const slippage = this.calculateSlippage(symbol, quantity, 'sell');
+        const marketPrice = Math.max(1, Math.floor(basePrice * (1 + slippage)));
 
         const validation = TradingMonitor.isValidTrade({
             symbol,
@@ -565,19 +667,37 @@ class TradeSystem {
             const violations = validation.violations.map(v => v.message).join('\n');
             throw new Error(`Giao dịch không hợp lệ:\n${violations}`);
         }
+        
+        
+        if (Math.random() < 0.05) { 
+            throw new Error("Lệnh không thực hiện được do điều kiện thị trường. Vui lòng thử lại!");
+        }
     
         const totalValue = marketPrice * quantity;
-        const transactionFee = Math.floor(Math.min(
+        
+        
+        let transactionFee = Math.floor(Math.min(
             Math.max(totalValue * FEES.transaction, FEES.minFee),
             FEES.maxFee
         ));
-        const tax = Math.floor(Math.min(
+        
+        let tax = Math.floor(Math.min(
             Math.max(totalValue * FEES.tax, FEES.minFee),
             FEES.maxFee
         ));
+        
+        
+        if (totalValue > TRADING_LIMITS.largeTradeThreshold) {
+            const extraFee = Math.floor(totalValue * FEES.largeTrade);
+            transactionFee += extraFee;
+        }
+        
         const finalValue = totalValue - transactionFee - tax;
     
         try {
+            
+            this.recordTrade(userId);
+            
             portfolio.stocks[symbol].quantity -= quantity;
             if (portfolio.stocks[symbol].quantity <= 0) {
                 delete portfolio.stocks[symbol];
@@ -589,6 +709,8 @@ class TradeSystem {
                 symbol,
                 quantity,
                 price: marketPrice,
+                basePrice: basePrice,
+                slippage: isNaN(slippage * 100) ? 0 : slippage * 100,
                 total: totalValue,
                 fees: {
                     transaction: transactionFee,
@@ -604,11 +726,13 @@ class TradeSystem {
                 status: "filled",
                 symbol,
                 quantity,
-                price: marketPrice,
-                total: totalValue,
-                transactionFee,
-                tax,
-                finalValue
+                price: marketPrice || 0,
+                basePrice: basePrice || 0,
+                slippage: isNaN(slippage * 100) ? 0 : slippage * 100,
+                total: totalValue || 0,
+                transactionFee: transactionFee || 0,
+                tax: tax || 0,
+                finalValue: finalValue || 0
             };
         } catch (error) {
             if (!portfolio.stocks[symbol]) {
@@ -620,7 +744,6 @@ class TradeSystem {
             throw error;
         }
     }
-    
 
     async processFill(execution) {
         const { buyOrderId, sellOrderId, price, quantity, timestamp } = execution;
@@ -737,35 +860,78 @@ class TradeSystem {
         this.savePortfolios();
     }
 
-
     async buyStock(userId, symbol, quantity) {
         if (!this.isMarketOpen()) {
             throw new Error(`Thị trường đã đóng! Giờ giao dịch: ${MARKET_HOURS.open}:00 - ${MARKET_HOURS.close}:00`);
         }
+        
+        
+        if (!this.checkTradingLimit(userId)) {
+            throw new Error(`Bạn đã đạt giới hạn ${TRADING_LIMITS.dailyTradeLimit} giao dịch mỗi ngày!`);
+        }
+        
+        
+        if (!this.checkTradeCooldown(userId)) {
+            const remainingSeconds = this.getRemainingCooldown(userId) / 1000;
+            throw new Error(`Vui lòng đợi ${Math.ceil(remainingSeconds)} giây giữa các giao dịch!`);
+        }
     
         const stockData = this.getStockPrice(symbol);
-        const marketPrice = Math.floor(stockData.price);
+        
+        
+        const basePrice = Math.floor(stockData.askPrice || stockData.price || 0);
+        
+        
+        const slippage = this.calculateSlippage(symbol, quantity, 'buy');
+        const marketPrice = Math.max(1, Math.floor(basePrice * (1 + slippage)));
+        
         const totalCost = marketPrice * quantity;
         
-        // Calculate fees
-        const transactionFee = Math.floor(Math.min(
+        
+        if (!this.checkMaxVolumeLimit(userId, totalCost)) {
+            throw new Error(`Giao dịch vượt quá ${TRADING_LIMITS.maxVolumePercent * 100}% giá trị danh mục của bạn!`);
+        }
+        
+        
+        let transactionFee = Math.floor(Math.min(
             Math.max(totalCost * FEES.transaction, FEES.minFee),
             FEES.maxFee
         ));
-        const tax = Math.floor(Math.min(
+        
+        let tax = Math.floor(Math.min(
             Math.max(totalCost * FEES.tax, FEES.minFee),
             FEES.maxFee
         ));
+        
+        
+        if (totalCost > TRADING_LIMITS.largeTradeThreshold) {
+            const extraFee = Math.floor(totalCost * FEES.largeTrade);
+            transactionFee += extraFee;
+        }
+        
         const totalWithFees = totalCost + transactionFee + tax;
     
-        // Check if user has enough balance
+        
         const balance = await getBalance(userId);
         if (balance < totalWithFees) {
-            throw new Error(`Không đủ tiền! Cần ${this.formatNumber(totalWithFees)} Xu`);
+            const maxPossibleShares = this.calculateMaxSharesPurchasable(userId, symbol, balance);
+            
+            throw new Error(
+                `Không đủ tiền! Cần ${this.formatNumber(totalWithFees)} Xu\n` +
+                `💰 Số dư hiện tại: ${this.formatNumber(balance)} Xu\n` +
+                `📊 Với số dư hiện tại, bạn có thể mua tối đa ${maxPossibleShares} cổ phiếu ${symbol}`
+            );
         }
-    
+        
+        if (Math.random() < 0.05) { 
+            throw new Error("Lệnh không thực hiện được do điều kiện thị trường. Vui lòng thử lại!");
+        }
+        
         try {
-            // Update user portfolio
+            
+            this.recordTrade(userId);
+            
+            
             const portfolio = this.getUserPortfolio(userId);
             if (!portfolio.stocks[symbol]) {
                 portfolio.stocks[symbol] = {
@@ -781,13 +947,15 @@ class TradeSystem {
             portfolio.stocks[symbol].quantity = totalQuantity;
             portfolio.stocks[symbol].averagePrice = Math.floor((oldValue + newValue) / totalQuantity);
     
-            // Record transaction
+            
             if (!portfolio.transactions) portfolio.transactions = [];
             portfolio.transactions.push({
                 type: 'buy',
                 symbol,
                 quantity,
                 price: marketPrice,
+                basePrice: basePrice,
+                slippage: isNaN(slippage * 100) ? 0 : slippage * 100,
                 total: totalCost,
                 fees: {
                     transaction: transactionFee,
@@ -796,25 +964,26 @@ class TradeSystem {
                 timestamp: Date.now()
             });
     
-            // Update user balance
+            
             await updateBalance(userId, -totalWithFees);
             this.savePortfolios();
     
             return {
                 symbol,
                 quantity,
-                price: marketPrice,
-                total: totalCost,
-                transactionFee,
-                tax,
-                totalWithFees,
+                price: marketPrice || 0,
+                basePrice: basePrice || 0,
+                slippage: isNaN(slippage * 100) ? 0 : slippage * 100,
+                total: totalCost || 0,
+                transactionFee: transactionFee || 0,
+                tax: tax || 0,
+                totalWithFees: totalWithFees || 0,
                 status: "completed"
             };
         } catch (error) {
             throw error;
         }
     }
-    
 
     async lockUserFunds(userId, amount) {
        
@@ -882,7 +1051,7 @@ class TradeSystem {
         return "$" + Math.floor(number).toLocaleString('vi-VN');
     }
 
-    // Order Management Methods
+    
     async placeOrder(userId, symbol, quantity, type, params = {}) {
         if (!this.isMarketOpen()) {
             throw new Error(`Market is closed! Trading hours: ${MARKET_HOURS.open}:00 - ${MARKET_HOURS.close}:00`);
@@ -932,74 +1101,6 @@ class TradeSystem {
         return isBuy ? 
             this.buyStock(userId, symbol, quantity) :
             this.sellStock(userId, symbol, quantity);
-    }
-
-    // Margin Trading Methods
-    async openMarginPosition(userId, symbol, quantity, leverage) {
-        if (leverage > MARGIN_CONFIG.maxLeverage) {
-            throw new Error(`Maximum leverage is ${MARGIN_CONFIG.maxLeverage}x`);
-        }
-
-        // Check market volatility
-        const marketVolatility = this.calculateMarketVolatility();
-        const isHighVolatility = marketVolatility > RISK_CONFIG.volatility.normal;
-
-        const stockData = this.getStockPrice(symbol);
-        const positionValue = stockData.price * quantity;
-        
-        // Increase margin requirements during high volatility
-        const volatilityMultiplier = isHighVolatility ? RISK_CONFIG.margin.volatilityFeeMultiplier : 1;
-        const requiredMargin = positionValue * MARGIN_CONFIG.initialMargin * volatilityMultiplier / leverage;
-        
-        const balance = await getBalance(userId);
-        if (balance < requiredMargin) {
-            throw new Error(`Insufficient margin. Required: ${this.formatNumber(requiredMargin)} Xu`);
-        }
-
-        const positionId = `${userId}-${symbol}-${Date.now()}`;
-        this.marginPositions[positionId] = {
-            userId,
-            symbol,
-            quantity,
-            leverage,
-            entryPrice: stockData.price,
-            margin: requiredMargin,
-            timestamp: Date.now(),
-            lastMarginCheck: Date.now(),
-            marginCallIssued: false,
-            marginCallDeadline: null
-        };
-
-        // Set up margin monitoring
-        this.monitorMarginPosition(positionId);
-
-        await updateBalance(userId, -requiredMargin);
-        return positionId;
-    }
-
-    async closeMarginPosition(userId, positionId) {
-        const position = this.marginPositions[positionId];
-        if (!position || position.userId !== userId) {
-            throw new Error("Invalid position");
-        }
-
-        const stockData = this.getStockPrice(position.symbol);
-        const currentValue = stockData.price * position.quantity;
-        const entryValue = position.entryPrice * position.quantity;
-        
-        const pnl = (currentValue - entryValue) * position.leverage;
-        const marginFee = position.margin * FEES.margin;
-        
-        delete this.marginPositions[positionId];
-        
-        const finalPnl = pnl - marginFee;
-        await updateBalance(userId, position.margin + finalPnl);
-        
-        return {
-            pnl,
-            marginFee,
-            finalPnl
-        };
     }
 
     calculateRSI(symbol, period = 14) {
@@ -1057,78 +1158,323 @@ class TradeSystem {
             sum + Math.abs(stock.changePercent || 0), 0) / Object.keys(this.stocks).length;
     }
 
-    monitorMarginPosition(positionId) {
-        const position = this.marginPositions[positionId];
-        if (!position) return;
-
-        const stockData = this.getStockPrice(position.symbol);
-        const currentValue = stockData.price * position.quantity;
-        const equity = position.margin + (currentValue - (position.entryPrice * position.quantity));
-        const equityRatio = equity / (currentValue * position.leverage);
-
-        // Check for margin call
-        if (equityRatio < RISK_CONFIG.margin.callThreshold && !position.marginCallIssued) {
-            position.marginCallIssued = true;
-            position.marginCallDeadline = Date.now() + RISK_CONFIG.margin.callDuration;
-            
-            // Notify user of margin call
-            this.notifyMarginCall(position.userId, positionId, equityRatio);
-        }
-
-        // Liquidate position if margin call not met
-        if (position.marginCallIssued && Date.now() > position.marginCallDeadline) {
-            this.liquidatePosition(positionId);
+    startEconomicBalancing() {
+        
+        setInterval(() => {
+            this.applyWealthTax();
+            this.applyMaintenanceCosts();
+        }, ECONOMY_BALANCE.wealthTax.applyInterval);
+        
+        
+        if (ECONOMY_BALANCE.marketReset.enabled) {
+            setInterval(() => {
+                this.performMarketReset();
+            }, ECONOMY_BALANCE.marketReset.interval);
         }
     }
-
-    async notifyMarginCall(userId, positionId, equityRatio) {
-        const position = this.marginPositions[positionId];
-        if (!position) return;
-
-        const message = {
-            type: 'MARGIN_CALL',
-            userId,
-            positionId,
-            symbol: position.symbol,
-            currentEquity: equityRatio,
-            requiredEquity: RISK_CONFIG.margin.callThreshold,
-            deadline: new Date(position.marginCallDeadline).toLocaleString(),
-            action: 'Add funds or reduce position to avoid liquidation'
-        };
-
-        // Store notification in user's portfolio
-        const portfolio = this.getUserPortfolio(userId);
-        if (!portfolio.notifications) portfolio.notifications = [];
-        portfolio.notifications.push(message);
+    
+    applyWealthTax() {
+        Object.entries(this.portfolios).forEach(([userId, portfolio]) => {
+            const totalValue = this.calculatePortfolioValue(portfolio);
+            
+            if (totalValue > ECONOMY_BALANCE.wealthTax.threshold) {
+                const taxableAmount = totalValue - ECONOMY_BALANCE.wealthTax.threshold;
+                const taxAmount = Math.floor(taxableAmount * ECONOMY_BALANCE.wealthTax.rate);
+                
+                if (taxAmount > 0) {
+                    this.notifyUser(userId, {
+                        type: 'WEALTH_TAX',
+                        message: `Thuế tài sản đã được áp dụng: ${this.formatNumber(taxAmount)} Xu`,
+                        data: {
+                            portfolioValue: totalValue,
+                            taxableAmount,
+                            taxAmount
+                        }
+                    });
+                    
+                    
+                    
+                }
+            }
+        });
+    }
+    
+    applyMaintenanceCosts() {
+        Object.entries(this.portfolios).forEach(([userId, portfolio]) => {
+            const stockCount = Object.keys(portfolio.stocks || {}).length;
+            
+            if (stockCount > ECONOMY_BALANCE.maintenanceCost.threshold) {
+                const totalValue = this.calculatePortfolioValue(portfolio);
+                const feeAmount = Math.floor(totalValue * ECONOMY_BALANCE.maintenanceCost.rate);
+                
+                if (feeAmount > 0) {
+                    this.notifyUser(userId, {
+                        type: 'MAINTENANCE_FEE',
+                        message: `Phí quản lý danh mục: ${this.formatNumber(feeAmount)} Xu`,
+                        data: {
+                            stockCount,
+                            portfolioValue: totalValue,
+                            feeAmount
+                        }
+                    });
+                    
+                    
+                }
+            }
+        });
+    }
+    
+    performMarketReset() {
+        console.log("⚠️ MARKET RESET INITIATED");
+        
+        
+        Object.keys(this.portfolios).forEach(userId => {
+            this.notifyUser(userId, {
+                type: 'MARKET_RESET',
+                message: "THỊ TRƯỜNG SẼ ĐƯỢC RESET. Bạn sẽ giữ lại 80% tài sản và mất tất cả cổ phiếu.",
+                data: {
+                    timestamp: Date.now()
+                }
+            });
+        });
+        
+        
+        Object.entries(this.portfolios).forEach(([userId, portfolio]) => {
+            const totalValue = this.calculatePortfolioValue(portfolio);
+            const preservedValue = Math.floor(totalValue * ECONOMY_BALANCE.marketReset.preserveUserPercentage);
+            
+            
+            portfolio.stocks = {};
+            
+            
+            if (!portfolio.transactions) portfolio.transactions = [];
+            portfolio.transactions.push({
+                type: 'market_reset',
+                timestamp: Date.now(),
+                originalValue: totalValue,
+                preservedValue: preservedValue
+            });
+            
+            
+            
+        });
+        
+        
+        this.initializeStocks();
         this.savePortfolios();
     }
+    
+    calculatePortfolioValue(portfolio) {
+        let totalValue = 0;
+        
+        
+        Object.entries(portfolio.stocks || {}).forEach(([symbol, data]) => {
+            if (this.stocks[symbol]) {
+                totalValue += this.stocks[symbol].price * data.quantity;
+            }
+        });
+        
+        return totalValue;
+    }
+    
+    generateMarketNews() {
+        
+        this.activeNews = [];
+        
+        
+        NEWS_EVENTS.forEach(eventTemplate => {
+            if (Math.random() < eventTemplate.probability) {
+                const newEvent = {...eventTemplate, timestamp: Date.now()};
+                
+                if (eventTemplate.affectedStocks === 'all') {
+                    newEvent.symbols = Object.keys(this.stocks);
+                } else {
+                    
+                    const allStocks = Object.keys(this.stocks);
+                    const shuffled = allStocks.sort(() => 0.5 - Math.random());
+                    newEvent.symbols = shuffled.slice(0, Math.min(eventTemplate.affectedStocks, allStocks.length));
+                }
+                
+                this.activeNews.push(newEvent);
+                console.log(`News Event: ${newEvent.description} affecting ${newEvent.symbols.join(', ')}`);
+            }
+        });
+        
+        
+        const nextUpdateTime = 15 * 60 * 1000 + Math.random() * 15 * 60 * 1000;
+        setTimeout(() => this.generateMarketNews(), nextUpdateTime);
+    }
 
-    async liquidatePosition(positionId) {
-        const position = this.marginPositions[positionId];
-        if (!position) return;
-
-        try {
-            // Force close position at market price
-            await this.closeMarginPosition(position.userId, positionId, true);
+    updateMarketSentiment() {
+        if (Math.random() < MARKET_SENTIMENT.changeChance) {
+            const currentIndex = MARKET_SENTIMENT.currentState;
+            let shift = Math.floor(Math.random() * 3) - 1; 
             
-            // Notify user of liquidation
-            const message = {
-                type: 'LIQUIDATION',
-                userId: position.userId,
-                positionId,
-                symbol: position.symbol,
-                timestamp: Date.now(),
-                reason: 'Margin call not met within deadline'
-            };
-
-            const portfolio = this.getUserPortfolio(position.userId);
-            if (!portfolio.notifications) portfolio.notifications = [];
-            portfolio.notifications.push(message);
-            this.savePortfolios();
-        } catch (error) {
-            console.error(`Error liquidating position ${positionId}:`, error);
+            
+            if (Math.random() < 0.2) {
+                shift = shift * 2;
+            }
+            
+            
+            const newIndex = Math.max(0, Math.min(MARKET_SENTIMENT.states.length - 1, currentIndex + shift));
+            
+            MARKET_SENTIMENT.currentState = newIndex;
+            this.lastMarketSentimentChange = Date.now();
+            
+            console.log(`Market sentiment changed to: ${MARKET_SENTIMENT.states[newIndex]}`);
         }
     }
+
+getMarketSentiment() {
+    return MARKET_SENTIMENT.states[MARKET_SENTIMENT.currentState];
 }
 
+getSentimentMultiplier() {
+    const sentiment = this.getMarketSentiment();
+    return MARKET_SENTIMENT.impactMultiplier[sentiment] || 0;
+}
+
+getRemainingCooldown(userId) {
+    if (!this.tradingHistory[userId]) return 0;
+    const timeSinceLastTrade = Date.now() - this.tradingHistory[userId].lastTradeTime;
+    const remainingTime = Math.max(0, TRADING_LIMITS.tradeCooldown - timeSinceLastTrade);
+    return remainingTime;
+}
+
+
+recordTrade(userId) {
+    const today = new Date().toDateString();
+    
+    if (!this.tradingHistory[userId]) {
+        this.tradingHistory[userId] = {
+            trades: {},
+            lastTradeTime: 0
+        };
+    }
+    
+    if (!this.tradingHistory[userId].trades[today]) {
+        this.tradingHistory[userId].trades[today] = 0;
+    }
+    
+    this.tradingHistory[userId].trades[today]++;
+    this.tradingHistory[userId].lastTradeTime = Date.now();
+}
+
+
+checkTradingLimit(userId) {
+    const today = new Date().toDateString();
+    
+    if (!this.tradingHistory[userId] || !this.tradingHistory[userId].trades[today]) {
+        return true; 
+    }
+    
+    return this.tradingHistory[userId].trades[today] < TRADING_LIMITS.dailyTradeLimit;
+}
+
+
+checkTradeCooldown(userId) {
+    if (!this.tradingHistory[userId]) return true;
+    
+    const timeSinceLastTrade = Date.now() - this.tradingHistory[userId].lastTradeTime;
+    return timeSinceLastTrade >= TRADING_LIMITS.tradeCooldown;
+}
+
+
+checkMaxVolumeLimit(userId, tradeValue) {
+    const portfolio = this.getUserPortfolio(userId);
+    const portfolioValue = this.calculatePortfolioValue(portfolio);
+    
+    if (portfolioValue === 0) return true; 
+    
+    return tradeValue <= portfolioValue * TRADING_LIMITS.maxVolumePercent;
+}
+
+calculateMaxSharesPurchasable(userId, symbol, balance) {
+    const stockData = this.stocks[symbol];
+    if (!stockData) return 0;
+    
+    const basePrice = Math.floor(stockData.askPrice || stockData.price || 0);
+    
+    // Phương pháp tính toán gần đúng với phí tối thiểu
+    const minShares = 1;
+    const maxShares = Math.floor(balance / basePrice);
+    let estimatedQuantity = maxShares;
+    
+    // Kiểm tra lại với phí giao dịch
+    for (let i = maxShares; i >= minShares; i--) {
+        const totalCost = basePrice * i;
+        const transactionFee = Math.floor(Math.min(
+            Math.max(totalCost * FEES.transaction, FEES.minFee),
+            FEES.maxFee
+        ));
+        const tax = Math.floor(Math.min(
+            Math.max(totalCost * FEES.tax, FEES.minFee),
+            FEES.maxFee
+        ));
+        const totalWithFees = totalCost + transactionFee + tax;
+        
+        if (totalWithFees <= balance) {
+            estimatedQuantity = i;
+            break;
+        }
+    }
+    
+    return estimatedQuantity;
+}
+
+calculateSlippage(symbol, quantity, orderType) {
+    try {
+        const stock = this.stocks[symbol];
+        if (!stock || !stock.depth) return 0;
+        
+        // Safely get the appropriate side of order book with fallbacks
+        const depthLevels = orderType === 'buy' ? 
+            (stock.depth.asks || []) : 
+            (stock.depth.bids || []);
+            
+        if (!depthLevels || depthLevels.length === 0) return 0;
+        
+        let totalVolume = 0;
+        let totalValue = 0;
+        
+        for (const level of depthLevels) {
+            // Handle different possible property names
+            const levelQuantity = level.quantity || level.volume || 0;
+            const levelPrice = level.price || 0;
+            
+            if (levelQuantity <= 0 || levelPrice <= 0) continue;
+            
+            const levelVolume = Math.min(levelQuantity, quantity - totalVolume);
+            if (levelVolume <= 0) continue;
+            
+            totalVolume += levelVolume;
+            totalValue += levelVolume * levelPrice;
+            
+            if (totalVolume >= quantity) break;
+        }
+        
+        // Avoid division by zero
+        if (totalVolume <= 0) return 0;
+        
+        const averagePrice = totalValue / totalVolume;
+        
+        // Defensive access to price properties with fallbacks
+        let basePrice = 0;
+        if (orderType === 'buy') {
+            basePrice = stock.askPriceUSD || stock.priceUSD || (stock.price / this.xuRate) || 0;
+        } else {
+            basePrice = stock.bidPriceUSD || stock.priceUSD || (stock.price / this.xuRate) || 0;
+        }
+        
+        if (basePrice <= 0) return 0;
+        
+        const slippage = (averagePrice - basePrice) / basePrice;
+        // Final safety check
+        return isNaN(slippage) ? 0 : slippage;
+    } catch (error) {
+        console.error("Error calculating slippage:", error);
+        return 0; // Return 0 slippage in case of any error
+    }
+}
+}
 module.exports = TradeSystem;

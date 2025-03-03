@@ -96,28 +96,13 @@
       "createdAt": 1740891826851,
       "autoHarvest": false,
       "weather": {
-        "nextChange": 1740956665189
+        "nextChange": 1741013433673
       },
       "lastVisits": {
         "61568641631000": 1740901680135,
         "100055417691992": 1740907202895
       },
       "visitors": [
-        {
-          "visitorId": "61568641631000",
-          "visitTime": 1740907247379,
-          "action": "💦 Bạn đã giúp tưới nước cho 🌾 Lúa ở ô đất 4!"
-        },
-        {
-          "visitorId": "100068382888605",
-          "visitTime": 1740911682273,
-          "action": "💦 Bạn đã giúp tưới nước cho 🌾 Lúa ở ô đất 6!"
-        },
-        {
-          "visitorId": "100055417691992",
-          "visitTime": 1740914219888,
-          "action": "💫 Bạn đã tham quan trang trại và học hỏi được một số điều!"
-        },
         {
           "visitorId": "61550331471452",
           "visitTime": 1740916980277,
@@ -151,6 +136,21 @@
         {
           "visitorId": "61561277064921",
           "visitTime": 1740933959038,
+          "action": "💫 Bạn đã tham quan trang trại và học hỏi được một số điều!"
+        },
+        {
+          "visitorId": "100055074463541",
+          "visitTime": 1740974455098,
+          "action": "💫 Bạn đã tham quan trang trại và học hỏi được một số điều!"
+        },
+        {
+          "visitorId": "100068382888605",
+          "visitTime": 1740975621222,
+          "action": "💫 Bạn đã tham quan trang trại và học hỏi được một số điều!"
+        },
+        {
+          "visitorId": "100055074463541",
+          "visitTime": 1740993338854,
           "action": "💫 Bạn đã tham quan trang trại và học hỏi được một số điều!"
         }
       ],
@@ -260,7 +260,7 @@
       "createdAt": 1740900581883,
       "autoHarvest": false,
       "weather": {
-        "nextChange": 1740943881944
+        "nextChange": 1741013433673
       },
       "visitors": [
         {
@@ -351,87 +351,145 @@
     },
     "100055074463541": {
       "id": "100055074463541",
-      "exp": 816,
+      "exp": 2027,
       "plots": [
         {
           "id": 0,
           "status": "ready",
-          "crop": "sa",
-          "plantedAt": 1740929351819,
-          "water": 3,
-          "lastWatered": 1740929377862
+          "crop": "mia",
+          "plantedAt": 1740992849272,
+          "water": 4.9,
+          "lastWatered": 1740992901720
         },
         {
           "id": 1,
           "status": "ready",
-          "crop": "sa",
-          "plantedAt": 1740929351819,
-          "water": 3,
-          "lastWatered": 1740929377862
+          "crop": "mia",
+          "plantedAt": 1740992849272,
+          "water": 4.9,
+          "lastWatered": 1740992901720
         },
         {
           "id": 2,
           "status": "ready",
-          "crop": "sa",
-          "plantedAt": 1740929351819,
-          "water": 3,
-          "lastWatered": 1740929377862
+          "crop": "mia",
+          "plantedAt": 1740992849272,
+          "water": 4.9,
+          "lastWatered": 1740992901720
         },
         {
           "id": 3,
           "status": "ready",
-          "crop": "sa",
-          "plantedAt": 1740929351819,
-          "water": 3,
-          "lastWatered": 1740929377862
+          "crop": "mia",
+          "plantedAt": 1740992849272,
+          "water": 4.9,
+          "lastWatered": 1740992901720
         },
         {
           "id": 4,
           "status": "ready",
-          "crop": "sa",
-          "plantedAt": 1740929351819,
-          "water": 3,
-          "lastWatered": 1740929377862
+          "crop": "mia",
+          "plantedAt": 1740992849272,
+          "water": 4.9,
+          "lastWatered": 1740992901720
         },
         {
           "id": 5,
           "status": "ready",
-          "crop": "sa",
-          "plantedAt": 1740929351819,
-          "water": 3,
-          "lastWatered": 1740929377862
+          "crop": "mia",
+          "plantedAt": 1740992849272,
+          "water": 4.9,
+          "lastWatered": 1740992901720
         },
         {
           "id": 6,
           "status": "ready",
-          "crop": "sa",
-          "plantedAt": 1740929351819,
-          "water": 3,
-          "lastWatered": 1740929377862
+          "crop": "mia",
+          "plantedAt": 1740992849272,
+          "water": 4.9,
+          "lastWatered": 1740992901720
         },
         {
           "id": 7,
           "status": "ready",
-          "crop": "sa",
-          "plantedAt": 1740929351819,
-          "water": 3,
-          "lastWatered": 1740929377862
+          "crop": "mia",
+          "plantedAt": 1740992849272,
+          "water": 4.9,
+          "lastWatered": 1740992901720
         },
         {
           "id": 8,
           "status": "ready",
-          "crop": "sa",
-          "plantedAt": 1740929351819,
-          "water": 3,
-          "lastWatered": 1740929377862
+          "crop": "mia",
+          "plantedAt": 1740992849272,
+          "water": 4.9,
+          "lastWatered": 1740992901720
+        },
+        {
+          "id": 9,
+          "status": "ready",
+          "crop": "mia",
+          "plantedAt": 1740992849272,
+          "water": 4.9,
+          "lastWatered": 1740992901720
+        },
+        {
+          "id": 10,
+          "status": "ready",
+          "crop": "mia",
+          "plantedAt": 1740992849272,
+          "water": 4.9,
+          "lastWatered": 1740992901720
+        },
+        {
+          "id": 11,
+          "status": "ready",
+          "crop": "mia",
+          "plantedAt": 1740992849272,
+          "water": 4.9,
+          "lastWatered": 1740992901720
+        },
+        {
+          "id": 12,
+          "status": "ready",
+          "crop": "mia",
+          "plantedAt": 1740992849272,
+          "water": 4.9,
+          "lastWatered": 1740992901720
+        },
+        {
+          "id": 13,
+          "status": "ready",
+          "crop": "mia",
+          "plantedAt": 1740992849272,
+          "water": 4.9,
+          "lastWatered": 1740992901720
+        },
+        {
+          "id": 14,
+          "status": "ready",
+          "crop": "mia",
+          "plantedAt": 1740992849272,
+          "water": 4.9,
+          "lastWatered": 1740992901720
+        },
+        {
+          "id": 15,
+          "status": "ready",
+          "crop": "mia",
+          "plantedAt": 1740992849272,
+          "water": 4.9,
+          "lastWatered": 1740992901720
         }
       ],
       "inventory": {
         "lúa": 0,
         "đậu": 0,
         "ngô": 0,
-        "sả": 9,
-        "trứng": 1
+        "sả": 0,
+        "trứng": 1,
+        "dưa leo": 0,
+        "mía": 0
       },
       "animals": {
         "1740925486149": {
@@ -450,13 +508,19 @@
           "active": true,
           "effect": "grow_boost",
           "expiry": 1741008463058
+        },
+        "giong_cao_cap": {
+          "purchased": 1740993266083,
+          "active": true,
+          "effect": "exp_boost",
+          "expiry": 1741079666083
         }
       },
       "lastActive": 1740900650864,
       "createdAt": 1740900650864,
       "autoHarvest": false,
       "weather": {
-        "nextChange": 1740943881944
+        "nextChange": 1741013433673
       },
       "visitors": [
         {
@@ -507,7 +571,7 @@
         "refreshed": 1740912651153
       },
       "lastVisits": {
-        "61573427362389": 1740927537976,
+        "61573427362389": 1740993338854,
         "61568641631000": 1740927603515,
         "100068382888605": 1740927610898,
         "100053970942155": 1740927633895,
@@ -519,68 +583,104 @@
     },
     "100053857386814": {
       "id": "100053857386814",
-      "exp": 183,
+      "exp": 585,
       "plots": [
         {
           "id": 0,
-          "status": "ready",
-          "crop": "dau",
-          "plantedAt": 1740928283181,
-          "water": 2,
-          "lastWatered": 1740928290150
+          "status": "growing",
+          "crop": "lua",
+          "plantedAt": 1740997018575,
+          "water": 3,
+          "lastWatered": 1740998117124
         },
         {
           "id": 1,
-          "status": "ready",
-          "crop": "dau",
-          "plantedAt": 1740928283181,
-          "water": 2,
-          "lastWatered": 1740928290150
+          "status": "growing",
+          "crop": "lua",
+          "plantedAt": 1740997018575,
+          "water": 3,
+          "lastWatered": 1740998117124
         },
         {
           "id": 2,
-          "status": "ready",
-          "crop": "dau",
-          "plantedAt": 1740928283181,
-          "water": 2,
-          "lastWatered": 1740928290150
+          "status": "growing",
+          "crop": "lua",
+          "plantedAt": 1740997018575,
+          "water": 3,
+          "lastWatered": 1740998117124
         },
         {
           "id": 3,
-          "status": "ready",
-          "crop": "dau",
-          "plantedAt": 1740928283181,
-          "water": 2,
-          "lastWatered": 1740928290150
+          "status": "growing",
+          "crop": "lua",
+          "plantedAt": 1740997018575,
+          "water": 3,
+          "lastWatered": 1740998117124
         },
         {
           "id": 4,
-          "status": "ready",
-          "crop": "dau",
-          "plantedAt": 1740928283181,
-          "water": 2,
-          "lastWatered": 1740928290150
+          "status": "growing",
+          "crop": "lua",
+          "plantedAt": 1740997018575,
+          "water": 3,
+          "lastWatered": 1740998117124
         },
         {
           "id": 5,
-          "status": "ready",
-          "crop": "dau",
-          "plantedAt": 1740928283181,
-          "water": 2,
-          "lastWatered": 1740928290150
+          "status": "growing",
+          "crop": "lua",
+          "plantedAt": 1740997018575,
+          "water": 3,
+          "lastWatered": 1740998117124
+        },
+        {
+          "id": 6,
+          "status": "growing",
+          "crop": "lua",
+          "plantedAt": 1740997018575,
+          "water": 3,
+          "lastWatered": 1740998117124
+        },
+        {
+          "id": 7,
+          "status": "growing",
+          "crop": "lua",
+          "plantedAt": 1740997018575,
+          "water": 3,
+          "lastWatered": 1740998117124
         }
       ],
       "inventory": {
-        "lúa": 8,
-        "đậu": 6
+        "lúa": 44,
+        "đậu": 0,
+        "trứng": 2
       },
-      "animals": {},
+      "animals": {
+        "1740979554715": {
+          "id": "1740979554715",
+          "type": "ga",
+          "purchased": 1740979554715,
+          "fed": false,
+          "lastFed": 1740979575779,
+          "lastProduced": 1740990632686,
+          "productReady": false
+        },
+        "1740981541890": {
+          "id": "1740981541890",
+          "type": "ga",
+          "purchased": 1740981541890,
+          "fed": false,
+          "lastFed": 1740981561905,
+          "lastProduced": 1740992757677,
+          "productReady": false
+        }
+      },
       "items": {},
       "lastActive": 1740900774563,
       "createdAt": 1740900774563,
       "autoHarvest": false,
       "weather": {
-        "nextChange": 1740943982311
+        "nextChange": 1741013433673
       },
       "visitors": [
         {
@@ -605,8 +705,38 @@
         }
       ],
       "dailyMissions": {
-        "date": 1740916947317,
+        "date": 1740982086746,
         "missions": {
+          "collect": {
+            "name": "Thu thập sản phẩm",
+            "emoji": "🥚",
+            "description": "Thu thập 3 sản phẩm từ vật nuôi",
+            "target": 3,
+            "reward": 10000,
+            "exp": 15,
+            "progress": 0,
+            "claimed": false
+          },
+          "water": {
+            "name": "Tưới nước",
+            "emoji": "💧",
+            "description": "Tưới nước cho 5 cây trồng",
+            "target": 5,
+            "reward": 5000,
+            "exp": 8,
+            "progress": 0,
+            "claimed": false
+          },
+          "process": {
+            "name": "Chế biến",
+            "emoji": "👨‍🍳",
+            "description": "Chế biến 2 món ăn",
+            "target": 2,
+            "reward": 12000,
+            "exp": 20,
+            "progress": 0,
+            "claimed": false
+          },
           "feed": {
             "name": "Cho ăn",
             "emoji": "🥫",
@@ -616,29 +746,9 @@
             "exp": 15,
             "progress": 0,
             "claimed": false
-          },
-          "sell": {
-            "name": "Bán sản phẩm",
-            "emoji": "💰",
-            "description": "Bán 5 sản phẩm bất kỳ",
-            "target": 5,
-            "reward": 7000,
-            "exp": 12,
-            "progress": 4,
-            "claimed": false
-          },
-          "plant": {
-            "name": "Trồng cây",
-            "emoji": "🌱",
-            "description": "Trồng 3 cây bất kỳ",
-            "target": 3,
-            "reward": 5000,
-            "exp": 10,
-            "progress": 0,
-            "claimed": false
           }
         },
-        "refreshed": 1740916947317
+        "refreshed": 1740982086746
       },
       "lastVisits": {
         "100068382888605": 1740921137029,
@@ -651,119 +761,337 @@
     },
     "100053970942155": {
       "id": "100053970942155",
-      "exp": 1294,
+      "exp": 13966,
       "plots": [
         {
           "id": 0,
           "status": "ready",
-          "crop": "ngo",
-          "plantedAt": 1740934488304,
-          "water": 3,
-          "lastWatered": 1740934513650
+          "crop": "dua",
+          "plantedAt": 1740993126398,
+          "water": 1.8,
+          "lastWatered": 1740993134094,
+          "lastAutoWater": 1740989110834
         },
         {
           "id": 1,
           "status": "ready",
-          "crop": "ngo",
-          "plantedAt": 1740934488304,
-          "water": 3,
-          "lastWatered": 1740934513650
+          "crop": "dua",
+          "plantedAt": 1740993126398,
+          "water": 1.8,
+          "lastWatered": 1740993134095,
+          "lastAutoWater": 1740989110834
         },
         {
           "id": 2,
           "status": "ready",
-          "crop": "ngo",
-          "plantedAt": 1740934488304,
-          "water": 3,
-          "lastWatered": 1740934513650
+          "crop": "dua",
+          "plantedAt": 1740993126398,
+          "water": 1.8,
+          "lastWatered": 1740993134095,
+          "lastAutoWater": 1740989110834
         },
         {
           "id": 3,
           "status": "ready",
-          "crop": "ngo",
-          "plantedAt": 1740934488304,
-          "water": 3,
-          "lastWatered": 1740934513650
+          "crop": "dua",
+          "plantedAt": 1740993126398,
+          "water": 1.8,
+          "lastWatered": 1740993134095,
+          "lastAutoWater": 1740989110834
         },
         {
           "id": 4,
           "status": "ready",
-          "crop": "ngo",
-          "plantedAt": 1740934488304,
-          "water": 3,
-          "lastWatered": 1740934513650
+          "crop": "dua",
+          "plantedAt": 1740993126398,
+          "water": 1.8,
+          "lastWatered": 1740993134095,
+          "lastAutoWater": 1740989110834
         },
         {
           "id": 5,
           "status": "ready",
-          "crop": "ngo",
-          "plantedAt": 1740934488304,
-          "water": 3,
-          "lastWatered": 1740934513650
+          "crop": "dua",
+          "plantedAt": 1740993126398,
+          "water": 1.8,
+          "lastWatered": 1740993134095,
+          "lastAutoWater": 1740989110834
         },
         {
           "id": 6,
           "status": "ready",
-          "crop": "ngo",
-          "plantedAt": 1740934488304,
-          "water": 3,
-          "lastWatered": 1740934513650
+          "crop": "dua",
+          "plantedAt": 1740993126398,
+          "water": 1.8,
+          "lastWatered": 1740993134095,
+          "lastAutoWater": 1740989110834
         },
         {
           "id": 7,
           "status": "ready",
-          "crop": "ngo",
-          "plantedAt": 1740934488304,
-          "water": 3,
-          "lastWatered": 1740934513650
+          "crop": "dua",
+          "plantedAt": 1740993126398,
+          "water": 1.8,
+          "lastWatered": 1740993134095,
+          "lastAutoWater": 1740989110834
         },
         {
           "id": 8,
           "status": "ready",
-          "crop": "ngo",
-          "plantedAt": 1740934488304,
-          "water": 3,
-          "lastWatered": 1740934513650
+          "crop": "dua",
+          "plantedAt": 1740993126398,
+          "water": 1.8,
+          "lastWatered": 1740993134095,
+          "lastAutoWater": 1740989110834
         },
         {
           "id": 9,
           "status": "ready",
-          "crop": "ngo",
-          "plantedAt": 1740934488304,
-          "water": 3,
-          "lastWatered": 1740934513650
+          "crop": "dua",
+          "plantedAt": 1740993126398,
+          "water": 1.8,
+          "lastWatered": 1740993134095,
+          "lastAutoWater": 1740989110834
         },
         {
           "id": 10,
           "status": "ready",
-          "crop": "ngo",
-          "plantedAt": 1740934488304,
-          "water": 3,
-          "lastWatered": 1740934513650
+          "crop": "dua",
+          "plantedAt": 1740993126398,
+          "water": 1.8,
+          "lastWatered": 1740993134095,
+          "lastAutoWater": 1740989110834
         },
         {
           "id": 11,
           "status": "ready",
-          "crop": "ngo",
-          "plantedAt": 1740934488304,
-          "water": 3,
-          "lastWatered": 1740934513650
+          "crop": "dua",
+          "plantedAt": 1740993126398,
+          "water": 1.8,
+          "lastWatered": 1740993134095,
+          "lastAutoWater": 1740989110834
+        },
+        {
+          "id": 12,
+          "status": "ready",
+          "crop": "dua",
+          "plantedAt": 1740993126398,
+          "water": 1.8,
+          "lastWatered": 1740993134095,
+          "lastAutoWater": 1740989110834
+        },
+        {
+          "id": 13,
+          "status": "ready",
+          "crop": "dua",
+          "plantedAt": 1740993126398,
+          "water": 1.8,
+          "lastWatered": 1740993134095,
+          "lastAutoWater": 1740989110834
+        },
+        {
+          "id": 14,
+          "status": "ready",
+          "crop": "dua",
+          "plantedAt": 1740993126398,
+          "water": 1.8,
+          "lastWatered": 1740993134095,
+          "lastAutoWater": 1740989110834
+        },
+        {
+          "id": 15,
+          "status": "ready",
+          "crop": "dua",
+          "plantedAt": 1740993126398,
+          "water": 1.8,
+          "lastWatered": 1740993134095,
+          "lastAutoWater": 1740989110834
+        },
+        {
+          "id": 16,
+          "status": "ready",
+          "crop": "dua",
+          "plantedAt": 1740993126398,
+          "water": 1.8,
+          "lastWatered": 1740993134095,
+          "lastAutoWater": 1740989110834
+        },
+        {
+          "id": 17,
+          "status": "ready",
+          "crop": "dua",
+          "plantedAt": 1740993126398,
+          "water": 1.8,
+          "lastWatered": 1740993134095,
+          "lastAutoWater": 1740989110834
+        },
+        {
+          "id": 18,
+          "status": "ready",
+          "crop": "dua",
+          "plantedAt": 1740993126398,
+          "water": 1.8,
+          "lastWatered": 1740993134095,
+          "lastAutoWater": 1740989110834
+        },
+        {
+          "id": 19,
+          "status": "ready",
+          "crop": "dua",
+          "plantedAt": 1740993126398,
+          "water": 1.8,
+          "lastWatered": 1740993134095,
+          "lastAutoWater": 1740989110834
+        },
+        {
+          "id": 20,
+          "status": "ready",
+          "crop": "dua",
+          "plantedAt": 1740993126398,
+          "water": 1.8,
+          "lastWatered": 1740993134095,
+          "lastAutoWater": 1740977250404
+        },
+        {
+          "id": 21,
+          "status": "ready",
+          "crop": "dua",
+          "plantedAt": 1740993126398,
+          "water": 1.8,
+          "lastWatered": 1740993134095,
+          "lastAutoWater": 1740977250404
+        },
+        {
+          "id": 22,
+          "status": "ready",
+          "crop": "dua",
+          "plantedAt": 1740993126398,
+          "water": 1.8,
+          "lastWatered": 1740993134095,
+          "lastAutoWater": 1740977250404
+        },
+        {
+          "id": 23,
+          "status": "ready",
+          "crop": "dua",
+          "plantedAt": 1740993126398,
+          "water": 1.8,
+          "lastWatered": 1740993134095,
+          "lastAutoWater": 1740977250404
+        },
+        {
+          "id": 24,
+          "status": "ready",
+          "crop": "dua",
+          "plantedAt": 1740993126398,
+          "water": 1.8,
+          "lastWatered": 1740993134095,
+          "lastAutoWater": 1740977250404
+        },
+        {
+          "id": 25,
+          "status": "ready",
+          "crop": "dua",
+          "plantedAt": 1740993126398,
+          "water": 1.8,
+          "lastWatered": 1740993134095,
+          "lastAutoWater": 1740989110834
+        },
+        {
+          "id": 26,
+          "status": "ready",
+          "crop": "dua",
+          "plantedAt": 1740993126398,
+          "water": 1.8,
+          "lastWatered": 1740993134095,
+          "lastAutoWater": 1740989110834
+        },
+        {
+          "id": 27,
+          "status": "ready",
+          "crop": "dua",
+          "plantedAt": 1740993126398,
+          "water": 1.8,
+          "lastWatered": 1740993134095,
+          "lastAutoWater": 1740989110834
+        },
+        {
+          "id": 28,
+          "status": "ready",
+          "crop": "dua",
+          "plantedAt": 1740993126398,
+          "water": 1.8,
+          "lastWatered": 1740993134095,
+          "lastAutoWater": 1740989110834
+        },
+        {
+          "id": 29,
+          "status": "ready",
+          "crop": "dua",
+          "plantedAt": 1740993126398,
+          "water": 1.8,
+          "lastWatered": 1740993134095,
+          "lastAutoWater": 1740989110834
+        },
+        {
+          "id": 30,
+          "status": "ready",
+          "crop": "dua",
+          "plantedAt": 1740993126398,
+          "water": 1.8,
+          "lastWatered": 1740993134095
+        },
+        {
+          "id": 31,
+          "status": "ready",
+          "crop": "dua",
+          "plantedAt": 1740993126398,
+          "water": 1.8,
+          "lastWatered": 1740993134095
+        },
+        {
+          "id": 32,
+          "status": "ready",
+          "crop": "dua",
+          "plantedAt": 1740993126398,
+          "water": 1.8,
+          "lastWatered": 1740993134095
+        },
+        {
+          "id": 33,
+          "status": "ready",
+          "crop": "dua",
+          "plantedAt": 1740993126398,
+          "water": 1.8,
+          "lastWatered": 1740993134095
+        },
+        {
+          "id": 34,
+          "status": "ready",
+          "crop": "dua",
+          "plantedAt": 1740993126398,
+          "water": 1.8,
+          "lastWatered": 1740993134095
+        },
+        {
+          "id": 35,
+          "status": "ready",
+          "crop": "dua",
+          "plantedAt": 1740993126398,
+          "water": 1.8,
+          "lastWatered": 1740993134095
         }
       ],
       "inventory": {
-        "lúa": 14,
-        "ngô": 15
+        "lúa": 0,
+        "ngô": 0,
+        "mía": 16,
+        "chuối": 20,
+        "xoài": 25,
+        "bưởi": 30,
+        "thịt": 24
       },
       "animals": {
-        "1740929120459": {
-          "id": "1740929120459",
-          "type": "ga",
-          "purchased": 1740929120459,
-          "fed": false,
-          "lastFed": null,
-          "lastProduced": null,
-          "productReady": false
-        },
         "1740929536431": {
           "id": "1740929536431",
           "type": "ga",
@@ -773,13 +1101,220 @@
           "lastProduced": null,
           "productReady": false
         },
-        "1740935510892": {
-          "id": "1740935510892",
-          "type": "vit",
-          "purchased": 1740935510892,
+        "1740978364046": {
+          "id": "1740978364046",
+          "type": "heo",
+          "purchased": 1740978364046,
           "fed": false,
-          "lastFed": null,
-          "lastProduced": null,
+          "lastFed": 1740978535329,
+          "lastProduced": 1740993676858,
+          "productReady": false
+        },
+        "1740978429744": {
+          "id": "1740978429744",
+          "type": "heo",
+          "purchased": 1740978429744,
+          "fed": false,
+          "lastFed": 1740978535329,
+          "lastProduced": 1740993676858,
+          "productReady": false
+        },
+        "1740978432782": {
+          "id": "1740978432782",
+          "type": "heo",
+          "purchased": 1740978432782,
+          "fed": false,
+          "lastFed": 1740978535329,
+          "lastProduced": 1740993676858,
+          "productReady": false
+        },
+        "1740978437127": {
+          "id": "1740978437127",
+          "type": "heo",
+          "purchased": 1740978437127,
+          "fed": false,
+          "lastFed": 1740978535329,
+          "lastProduced": 1740993676858,
+          "productReady": false
+        },
+        "1740978440307": {
+          "id": "1740978440307",
+          "type": "heo",
+          "purchased": 1740978440307,
+          "fed": false,
+          "lastFed": 1740978535329,
+          "lastProduced": 1740993676858,
+          "productReady": false
+        },
+        "1740978443401": {
+          "id": "1740978443401",
+          "type": "heo",
+          "purchased": 1740978443401,
+          "fed": false,
+          "lastFed": 1740978535329,
+          "lastProduced": 1740993676858,
+          "productReady": false
+        },
+        "1740978446545": {
+          "id": "1740978446545",
+          "type": "heo",
+          "purchased": 1740978446546,
+          "fed": false,
+          "lastFed": 1740978535329,
+          "lastProduced": 1740993676858,
+          "productReady": false
+        },
+        "1740978452254": {
+          "id": "1740978452254",
+          "type": "heo",
+          "purchased": 1740978452254,
+          "fed": false,
+          "lastFed": 1740978535329,
+          "lastProduced": 1740993676858,
+          "productReady": false
+        },
+        "1740978456115": {
+          "id": "1740978456115",
+          "type": "heo",
+          "purchased": 1740978456115,
+          "fed": false,
+          "lastFed": 1740978535329,
+          "lastProduced": 1740993676858,
+          "productReady": false
+        },
+        "1740978459898": {
+          "id": "1740978459898",
+          "type": "heo",
+          "purchased": 1740978459898,
+          "fed": false,
+          "lastFed": 1740978535329,
+          "lastProduced": 1740993676858,
+          "productReady": false
+        },
+        "1740978463457": {
+          "id": "1740978463457",
+          "type": "heo",
+          "purchased": 1740978463457,
+          "fed": false,
+          "lastFed": 1740978535329,
+          "lastProduced": 1740993676858,
+          "productReady": false
+        },
+        "1740978466768": {
+          "id": "1740978466768",
+          "type": "heo",
+          "purchased": 1740978466768,
+          "fed": false,
+          "lastFed": 1740978535329,
+          "lastProduced": 1740993676858,
+          "productReady": false
+        },
+        "1740978470222": {
+          "id": "1740978470222",
+          "type": "heo",
+          "purchased": 1740978470222,
+          "fed": false,
+          "lastFed": 1740978535329,
+          "lastProduced": 1740993676858,
+          "productReady": false
+        },
+        "1740978473507": {
+          "id": "1740978473507",
+          "type": "heo",
+          "purchased": 1740978473507,
+          "fed": false,
+          "lastFed": 1740978535329,
+          "lastProduced": 1740993676858,
+          "productReady": false
+        },
+        "1740978476677": {
+          "id": "1740978476677",
+          "type": "heo",
+          "purchased": 1740978476677,
+          "fed": false,
+          "lastFed": 1740978535329,
+          "lastProduced": 1740993676858,
+          "productReady": false
+        },
+        "1740978482721": {
+          "id": "1740978482721",
+          "type": "heo",
+          "purchased": 1740978482721,
+          "fed": false,
+          "lastFed": 1740978535329,
+          "lastProduced": 1740993676858,
+          "productReady": false
+        },
+        "1740978487085": {
+          "id": "1740978487085",
+          "type": "heo",
+          "purchased": 1740978487085,
+          "fed": false,
+          "lastFed": 1740978535329,
+          "lastProduced": 1740993676858,
+          "productReady": false
+        },
+        "1740978490496": {
+          "id": "1740978490496",
+          "type": "heo",
+          "purchased": 1740978490496,
+          "fed": false,
+          "lastFed": 1740978535329,
+          "lastProduced": 1740993676858,
+          "productReady": false
+        },
+        "1740978494353": {
+          "id": "1740978494353",
+          "type": "heo",
+          "purchased": 1740978494353,
+          "fed": false,
+          "lastFed": 1740978535329,
+          "lastProduced": 1740993676858,
+          "productReady": false
+        },
+        "1740978497997": {
+          "id": "1740978497997",
+          "type": "heo",
+          "purchased": 1740978497997,
+          "fed": false,
+          "lastFed": 1740978535329,
+          "lastProduced": 1740993676858,
+          "productReady": false
+        },
+        "1740978514571": {
+          "id": "1740978514571",
+          "type": "heo",
+          "purchased": 1740978514571,
+          "fed": false,
+          "lastFed": 1740978535329,
+          "lastProduced": 1740993676858,
+          "productReady": false
+        },
+        "1740978518460": {
+          "id": "1740978518460",
+          "type": "heo",
+          "purchased": 1740978518460,
+          "fed": false,
+          "lastFed": 1740978535329,
+          "lastProduced": 1740993676858,
+          "productReady": false
+        },
+        "1740978522982": {
+          "id": "1740978522982",
+          "type": "heo",
+          "purchased": 1740978522982,
+          "fed": false,
+          "lastFed": 1740978535329,
+          "lastProduced": 1740993676858,
+          "productReady": false
+        },
+        "1740978527395": {
+          "id": "1740978527395",
+          "type": "heo",
+          "purchased": 1740978527395,
+          "fed": false,
+          "lastFed": 1740978535329,
+          "lastProduced": 1740993676858,
           "productReady": false
         }
       },
@@ -813,13 +1348,19 @@
           "active": true,
           "effect": "yield_boost",
           "expiry": 1741022093981
+        },
+        "chuong_trai_2": {
+          "purchased": 1740978328531,
+          "active": true,
+          "effect": "animal_capacity_2",
+          "expiry": null
         }
       },
       "lastActive": 1740901679266,
       "createdAt": 1740901679266,
       "autoHarvest": false,
       "weather": {
-        "nextChange": 1740944887491
+        "nextChange": 1741013433673
       },
       "visitors": [
         {
@@ -861,43 +1402,68 @@
           "visitorId": "100046739981416",
           "visitTime": 1740929282241,
           "action": "💦 Bạn đã giúp tưới nước cho 🌽 Ngô ở ô đất 3!"
+        },
+        {
+          "visitorId": "100068382888605",
+          "visitTime": 1740975629000,
+          "action": "🥫 Bạn đã giúp cho 🐓 Gà ăn!"
         }
       ],
       "dailyMissions": {
-        "date": 1740927617793,
+        "date": 1740978615667,
         "missions": {
           "plant": {
             "name": "Trồng cây",
             "emoji": "🌱",
-            "description": "Trồng 3 cây bất kỳ",
-            "target": 3,
-            "reward": 5000,
-            "exp": 10,
+            "description": "Trồng 10 cây bất kỳ",
+            "target": 10,
+            "reward": 25000,
+            "exp": 40,
+            "progress": 0,
+            "claimed": false
+          },
+          "visit": {
+            "name": "Thăm trang trại",
+            "emoji": "👋",
+            "description": "Thăm 2 trang trại khác",
+            "target": 2,
+            "reward": 15000,
+            "exp": 25,
+            "progress": 0,
+            "claimed": false
+          },
+          "feed": {
+            "name": "Cho ăn",
+            "emoji": "🥫",
+            "description": "Cho 4 vật nuôi ăn",
+            "target": 4,
+            "reward": 16000,
+            "exp": 30,
+            "progress": 0,
+            "claimed": false
+          },
+          "sell": {
+            "name": "Bán sản phẩm",
+            "emoji": "💰",
+            "description": "Bán 10 sản phẩm bất kỳ",
+            "target": 10,
+            "reward": 15000,
+            "exp": 25,
             "progress": 0,
             "claimed": false
           },
           "water": {
             "name": "Tưới nước",
             "emoji": "💧",
-            "description": "Tưới nước cho 5 cây trồng",
-            "target": 5,
-            "reward": 5000,
-            "exp": 8,
-            "progress": 0,
-            "claimed": false
-          },
-          "collect": {
-            "name": "Thu thập sản phẩm",
-            "emoji": "🥚",
-            "description": "Thu thập 3 sản phẩm từ vật nuôi",
-            "target": 3,
-            "reward": 10000,
-            "exp": 15,
+            "description": "Tưới nước cho 10 cây trồng",
+            "target": 10,
+            "reward": 12000,
+            "exp": 18,
             "progress": 0,
             "claimed": false
           }
         },
-        "refreshed": 1740927617793
+        "refreshed": 1740978615667
       },
       "lastVisits": {
         "100068382888605": 1740929328957,
@@ -906,59 +1472,59 @@
     },
     "100055417691992": {
       "id": "100055417691992",
-      "exp": 103,
+      "exp": 223,
       "plots": [
         {
           "id": 0,
-          "status": "ready",
+          "status": "growing",
           "crop": "lua",
-          "plantedAt": 1740913964600,
-          "water": 3,
-          "lastWatered": 1740914231299
+          "plantedAt": 1740996623364,
+          "water": 0.9,
+          "lastWatered": 1740996623364
         },
         {
           "id": 1,
-          "status": "ready",
+          "status": "growing",
           "crop": "lua",
-          "plantedAt": 1740913964600,
-          "water": 3,
-          "lastWatered": 1740914231300
+          "plantedAt": 1740996623364,
+          "water": 0.9,
+          "lastWatered": 1740996623364
         },
         {
           "id": 2,
-          "status": "ready",
+          "status": "growing",
           "crop": "lua",
-          "plantedAt": 1740913964600,
-          "water": 3,
-          "lastWatered": 1740914231300
+          "plantedAt": 1740996623364,
+          "water": 0.9,
+          "lastWatered": 1740996623364
         },
         {
           "id": 3,
-          "status": "ready",
+          "status": "growing",
           "crop": "lua",
-          "plantedAt": 1740913964600,
-          "water": 3,
-          "lastWatered": 1740914231300
+          "plantedAt": 1740996623364,
+          "water": 0.9,
+          "lastWatered": 1740996623364
         },
         {
           "id": 4,
-          "status": "ready",
+          "status": "growing",
           "crop": "lua",
-          "plantedAt": 1740914166040,
-          "water": 3,
-          "lastWatered": 1740914231300
+          "plantedAt": 1740996623364,
+          "water": 0.9,
+          "lastWatered": 1740996623364
         },
         {
           "id": 5,
-          "status": "ready",
+          "status": "growing",
           "crop": "lua",
-          "plantedAt": 1740914166040,
-          "water": 3,
-          "lastWatered": 1740914231300
+          "plantedAt": 1740996623364,
+          "water": 0.9,
+          "lastWatered": 1740996623364
         }
       ],
       "inventory": {
-        "lúa": 4
+        "lúa": 16
       },
       "animals": {},
       "items": {
@@ -973,7 +1539,7 @@
       "createdAt": 1740903354286,
       "autoHarvest": false,
       "weather": {
-        "nextChange": 1740946863538
+        "nextChange": 1741013433673
       },
       "visitors": [
         {
@@ -1039,7 +1605,7 @@
             "target": 3,
             "reward": 8000,
             "exp": 15,
-            "progress": 1,
+            "progress": 3,
             "claimed": false
           }
         },
@@ -1048,75 +1614,83 @@
     },
     "100063719077878": {
       "id": "100063719077878",
-      "exp": 316,
+      "exp": 636,
       "plots": [
         {
           "id": 0,
-          "status": "growing",
+          "status": "ready",
           "crop": "lua",
-          "plantedAt": 1740934529995,
+          "plantedAt": 1740978156658,
           "water": 2,
-          "lastWatered": 1740934537156
+          "lastWatered": 1740978185991
         },
         {
           "id": 1,
-          "status": "growing",
+          "status": "ready",
           "crop": "lua",
-          "plantedAt": 1740934529995,
+          "plantedAt": 1740978156658,
           "water": 2,
-          "lastWatered": 1740934537156
+          "lastWatered": 1740978185991
         },
         {
           "id": 2,
-          "status": "growing",
+          "status": "ready",
           "crop": "lua",
-          "plantedAt": 1740934529995,
+          "plantedAt": 1740978156658,
           "water": 2,
-          "lastWatered": 1740934537156
+          "lastWatered": 1740978185991
         },
         {
           "id": 3,
-          "status": "growing",
+          "status": "ready",
           "crop": "lua",
-          "plantedAt": 1740934529995,
+          "plantedAt": 1740978156658,
           "water": 2,
-          "lastWatered": 1740934537156
+          "lastWatered": 1740978185991
         },
         {
           "id": 4,
-          "status": "growing",
+          "status": "ready",
           "crop": "lua",
-          "plantedAt": 1740934529995,
+          "plantedAt": 1740978156658,
           "water": 2,
-          "lastWatered": 1740934537156
+          "lastWatered": 1740978185991
         },
         {
           "id": 5,
-          "status": "growing",
+          "status": "ready",
           "crop": "lua",
-          "plantedAt": 1740934529995,
+          "plantedAt": 1740978156658,
           "water": 2,
-          "lastWatered": 1740934537156
+          "lastWatered": 1740978185991
         },
         {
           "id": 6,
-          "status": "growing",
+          "status": "ready",
           "crop": "lua",
-          "plantedAt": 1740934529995,
+          "plantedAt": 1740978156658,
           "water": 2,
-          "lastWatered": 1740934537156
+          "lastWatered": 1740978185991
         },
         {
           "id": 7,
-          "status": "growing",
+          "status": "ready",
           "crop": "lua",
-          "plantedAt": 1740934529995,
+          "plantedAt": 1740978156658,
           "water": 2,
-          "lastWatered": 1740934537156
+          "lastWatered": 1740978185991
+        },
+        {
+          "id": 8,
+          "status": "ready",
+          "crop": "lua",
+          "plantedAt": 1740978156658,
+          "water": 2,
+          "lastWatered": 1740978185991
         }
       ],
       "inventory": {
-        "lúa": 30
+        "lúa": 62
       },
       "animals": {},
       "items": {
@@ -1131,7 +1705,7 @@
       "createdAt": 1740904238230,
       "autoHarvest": false,
       "weather": {
-        "nextChange": 1740947512698
+        "nextChange": 1741013433673
       },
       "visitors": [
         {
@@ -1200,299 +1774,605 @@
     },
     "100068382888605": {
       "id": "100068382888605",
-      "exp": 13376,
+      "exp": 75032,
       "plots": [
         {
           "id": 0,
           "status": "growing",
           "crop": "buoi",
-          "plantedAt": 1740932321201,
-          "water": 4,
-          "lastWatered": 1740935453632
+          "plantedAt": 1740996860769,
+          "water": 0.9,
+          "lastWatered": 1740996860769,
+          "lastAutoWater": 1740987455715
         },
         {
           "id": 1,
           "status": "growing",
           "crop": "buoi",
-          "plantedAt": 1740932321201,
-          "water": 4,
-          "lastWatered": 1740935453632
+          "plantedAt": 1740996860771,
+          "water": 0.9,
+          "lastWatered": 1740996860771,
+          "lastAutoWater": 1740987455715
         },
         {
           "id": 2,
           "status": "growing",
           "crop": "buoi",
-          "plantedAt": 1740932321201,
-          "water": 4,
-          "lastWatered": 1740935453632
+          "plantedAt": 1740996860773,
+          "water": 0.9,
+          "lastWatered": 1740996860773,
+          "lastAutoWater": 1740987455715
         },
         {
           "id": 3,
           "status": "growing",
           "crop": "dua",
-          "plantedAt": 1740935431659,
-          "water": 2,
-          "lastWatered": 1740935445836
+          "plantedAt": 1740996860775,
+          "water": 0.9,
+          "lastWatered": 1740996860775,
+          "lastAutoWater": 1740986839918
         },
         {
           "id": 4,
           "status": "growing",
           "crop": "dua",
-          "plantedAt": 1740935431659,
-          "water": 2,
-          "lastWatered": 1740935445836
+          "plantedAt": 1740996860777,
+          "water": 0.9,
+          "lastWatered": 1740996860777,
+          "lastAutoWater": 1740986839918
         },
         {
           "id": 5,
           "status": "growing",
           "crop": "dua",
-          "plantedAt": 1740935431659,
-          "water": 2,
-          "lastWatered": 1740935445836
+          "plantedAt": 1740996860780,
+          "water": 0.9,
+          "lastWatered": 1740996860780,
+          "lastAutoWater": 1740986839918
         },
         {
           "id": 6,
           "status": "growing",
           "crop": "dua",
-          "plantedAt": 1740935431659,
-          "water": 2,
-          "lastWatered": 1740935445836
+          "plantedAt": 1740996860784,
+          "water": 0.9,
+          "lastWatered": 1740996860784,
+          "lastAutoWater": 1740986839918
         },
         {
           "id": 7,
           "status": "growing",
           "crop": "dua",
-          "plantedAt": 1740935431659,
-          "water": 2,
-          "lastWatered": 1740935445836
+          "plantedAt": 1740996860786,
+          "water": 0.9,
+          "lastWatered": 1740996860786,
+          "lastAutoWater": 1740986839918
         },
         {
           "id": 8,
           "status": "growing",
           "crop": "dua",
-          "plantedAt": 1740935431659,
-          "water": 2,
-          "lastWatered": 1740935445836
+          "plantedAt": 1740996860787,
+          "water": 0.9,
+          "lastWatered": 1740996860787,
+          "lastAutoWater": 1740986839918
         },
         {
           "id": 9,
           "status": "growing",
           "crop": "dua",
-          "plantedAt": 1740935431659,
-          "water": 2,
-          "lastWatered": 1740935445836
+          "plantedAt": 1740996860788,
+          "water": 0.9,
+          "lastWatered": 1740996860788,
+          "lastAutoWater": 1740986839918
         },
         {
           "id": 10,
           "status": "growing",
           "crop": "dua",
-          "plantedAt": 1740935431659,
-          "water": 2,
-          "lastWatered": 1740935445836
+          "plantedAt": 1740996860790,
+          "water": 0.9,
+          "lastWatered": 1740996860790,
+          "lastAutoWater": 1740986839918
         },
         {
           "id": 11,
           "status": "growing",
           "crop": "dua",
-          "plantedAt": 1740935431659,
-          "water": 2,
-          "lastWatered": 1740935445836
+          "plantedAt": 1740996860791,
+          "water": 0.9,
+          "lastWatered": 1740996860791,
+          "lastAutoWater": 1740986839918
         },
         {
           "id": 12,
           "status": "growing",
           "crop": "dua",
-          "plantedAt": 1740935431659,
-          "water": 2,
-          "lastWatered": 1740935445836
+          "plantedAt": 1740996860792,
+          "water": 0.9,
+          "lastWatered": 1740996860792,
+          "lastAutoWater": 1740986839918
         },
         {
           "id": 13,
           "status": "growing",
           "crop": "dua",
-          "plantedAt": 1740935431659,
-          "water": 2,
-          "lastWatered": 1740935445836
+          "plantedAt": 1740996860794,
+          "water": 0.9,
+          "lastWatered": 1740996860794,
+          "lastAutoWater": 1740986839918
         },
         {
           "id": 14,
           "status": "growing",
           "crop": "dua",
-          "plantedAt": 1740935431659,
-          "water": 2,
-          "lastWatered": 1740935445836
+          "plantedAt": 1740996860795,
+          "water": 0.9,
+          "lastWatered": 1740996860795,
+          "lastAutoWater": 1740986839918
         },
         {
           "id": 15,
           "status": "growing",
           "crop": "dua",
-          "plantedAt": 1740935431659,
-          "water": 2,
-          "lastWatered": 1740935445836
+          "plantedAt": 1740996860800,
+          "water": 0.9,
+          "lastWatered": 1740996860800,
+          "lastAutoWater": 1740986839918
         },
         {
           "id": 16,
           "status": "growing",
           "crop": "dua",
-          "plantedAt": 1740935431659,
-          "water": 2,
-          "lastWatered": 1740935445836
+          "plantedAt": 1740996860802,
+          "water": 0.9,
+          "lastWatered": 1740996860802,
+          "lastAutoWater": 1740986839918
         },
         {
           "id": 17,
           "status": "growing",
           "crop": "dua",
-          "plantedAt": 1740935431659,
-          "water": 2,
-          "lastWatered": 1740935445836
+          "plantedAt": 1740996860803,
+          "water": 0.9,
+          "lastWatered": 1740996860803,
+          "lastAutoWater": 1740986839918
         },
         {
           "id": 18,
           "status": "growing",
           "crop": "dua",
-          "plantedAt": 1740935431659,
-          "water": 2,
-          "lastWatered": 1740935445836
+          "plantedAt": 1740996860805,
+          "water": 0.9,
+          "lastWatered": 1740996860805,
+          "lastAutoWater": 1740986839918
         },
         {
           "id": 19,
           "status": "growing",
           "crop": "dua",
-          "plantedAt": 1740935431659,
-          "water": 2,
-          "lastWatered": 1740935445836
+          "plantedAt": 1740996860807,
+          "water": 0.9,
+          "lastWatered": 1740996860807,
+          "lastAutoWater": 1740986839918
         },
         {
           "id": 20,
           "status": "growing",
           "crop": "dua",
-          "plantedAt": 1740935431659,
-          "water": 2,
-          "lastWatered": 1740935445836
+          "plantedAt": 1740996860809,
+          "water": 0.9,
+          "lastWatered": 1740996860809,
+          "lastAutoWater": 1740986839918
         },
         {
           "id": 21,
           "status": "growing",
           "crop": "dua",
-          "plantedAt": 1740935431659,
-          "water": 2,
-          "lastWatered": 1740935445836
+          "plantedAt": 1740996860811,
+          "water": 0.9,
+          "lastWatered": 1740996860811,
+          "lastAutoWater": 1740986839918
         },
         {
           "id": 22,
           "status": "growing",
           "crop": "dua",
-          "plantedAt": 1740935431659,
-          "water": 2,
-          "lastWatered": 1740935445836
+          "plantedAt": 1740996860813,
+          "water": 0.9,
+          "lastWatered": 1740996860813,
+          "lastAutoWater": 1740986839918
         },
         {
           "id": 23,
           "status": "growing",
           "crop": "dua",
-          "plantedAt": 1740935431659,
-          "water": 2,
-          "lastWatered": 1740935445836
+          "plantedAt": 1740996860816,
+          "water": 0.9,
+          "lastWatered": 1740996860816,
+          "lastAutoWater": 1740986839918
         },
         {
           "id": 24,
           "status": "growing",
           "crop": "dua",
-          "plantedAt": 1740935431659,
-          "water": 2,
-          "lastWatered": 1740935445836
+          "plantedAt": 1740996860818,
+          "water": 0.9,
+          "lastWatered": 1740996860818,
+          "lastAutoWater": 1740986839918
         },
         {
           "id": 25,
           "status": "growing",
           "crop": "dua",
-          "plantedAt": 1740935431659,
-          "water": 2,
-          "lastWatered": 1740935445836
+          "plantedAt": 1740996860820,
+          "water": 0.9,
+          "lastWatered": 1740996860820,
+          "lastAutoWater": 1740986839918
         },
         {
           "id": 26,
           "status": "growing",
           "crop": "dua",
-          "plantedAt": 1740935431659,
-          "water": 2,
-          "lastWatered": 1740935445836
+          "plantedAt": 1740996860823,
+          "water": 0.9,
+          "lastWatered": 1740996860823,
+          "lastAutoWater": 1740986839918
         },
         {
           "id": 27,
           "status": "growing",
           "crop": "dua",
-          "plantedAt": 1740935431659,
-          "water": 2,
-          "lastWatered": 1740935445836
+          "plantedAt": 1740996860826,
+          "water": 0.9,
+          "lastWatered": 1740996860826,
+          "lastAutoWater": 1740986839918
         },
         {
           "id": 28,
           "status": "growing",
           "crop": "dua",
-          "plantedAt": 1740935431659,
-          "water": 2,
-          "lastWatered": 1740935445836
+          "plantedAt": 1740996860830,
+          "water": 0.9,
+          "lastWatered": 1740996860830,
+          "lastAutoWater": 1740986839918
         },
         {
           "id": 29,
           "status": "growing",
           "crop": "dua",
-          "plantedAt": 1740935431659,
-          "water": 2,
-          "lastWatered": 1740935445836
+          "plantedAt": 1740996860836,
+          "water": 0.9,
+          "lastWatered": 1740996860836,
+          "lastAutoWater": 1740986839918
         },
         {
           "id": 30,
           "status": "growing",
           "crop": "dua",
-          "plantedAt": 1740935431659,
-          "water": 2,
-          "lastWatered": 1740935445836
+          "plantedAt": 1740996860838,
+          "water": 0.9,
+          "lastWatered": 1740996860838,
+          "lastAutoWater": 1740986839918
         },
         {
           "id": 31,
           "status": "growing",
           "crop": "dua",
-          "plantedAt": 1740935431659,
-          "water": 2,
-          "lastWatered": 1740935445836
+          "plantedAt": 1740996860840,
+          "water": 0.9,
+          "lastWatered": 1740996860840,
+          "lastAutoWater": 1740986839918
         },
         {
           "id": 32,
           "status": "growing",
           "crop": "dua",
-          "plantedAt": 1740935431659,
-          "water": 2,
-          "lastWatered": 1740935445836
+          "plantedAt": 1740996860841,
+          "water": 0.9,
+          "lastWatered": 1740996860841,
+          "lastAutoWater": 1740986839918
         },
         {
           "id": 33,
           "status": "growing",
           "crop": "dua",
-          "plantedAt": 1740935431659,
-          "water": 2,
-          "lastWatered": 1740935445836
+          "plantedAt": 1740996860843,
+          "water": 0.9,
+          "lastWatered": 1740996860843,
+          "lastAutoWater": 1740986839918
         },
         {
           "id": 34,
           "status": "growing",
           "crop": "dua",
-          "plantedAt": 1740935431659,
-          "water": 2,
-          "lastWatered": 1740935445836
+          "plantedAt": 1740996860845,
+          "water": 0.9,
+          "lastWatered": 1740996860845,
+          "lastAutoWater": 1740986839918
         },
         {
           "id": 35,
           "status": "growing",
           "crop": "dua",
-          "plantedAt": 1740935431659,
+          "plantedAt": 1740996860848,
+          "water": 0.9,
+          "lastWatered": 1740996860848,
+          "lastAutoWater": 1740986839918
+        },
+        {
+          "id": 36,
+          "status": "growing",
+          "crop": "lua",
+          "plantedAt": 1740996860851,
+          "water": 0.9,
+          "lastWatered": 1740996860851,
+          "lastAutoWater": 1740987806771
+        },
+        {
+          "id": 37,
+          "status": "growing",
+          "crop": "dua",
+          "plantedAt": 1740996860853,
+          "water": 0.9,
+          "lastWatered": 1740996860853,
+          "lastAutoWater": 1740989045791
+        },
+        {
+          "id": 38,
+          "status": "growing",
+          "crop": "dua",
+          "plantedAt": 1740996860855,
+          "water": 0.9,
+          "lastWatered": 1740996860855,
+          "lastAutoWater": 1740989045791
+        },
+        {
+          "id": 39,
+          "status": "growing",
+          "crop": "dua",
+          "plantedAt": 1740996860857,
+          "water": 0.9,
+          "lastWatered": 1740996860857,
+          "lastAutoWater": 1740989045791
+        },
+        {
+          "id": 40,
+          "status": "growing",
+          "crop": "dua",
+          "plantedAt": 1740996860859,
+          "water": 0.9,
+          "lastWatered": 1740996860859,
+          "lastAutoWater": 1740989045791
+        },
+        {
+          "id": 41,
+          "status": "growing",
+          "crop": "dua",
+          "plantedAt": 1740996860861,
+          "water": 0.9,
+          "lastWatered": 1740996860861,
+          "lastAutoWater": 1740989045791
+        },
+        {
+          "id": 42,
+          "status": "growing",
+          "crop": "dua",
+          "plantedAt": 1740996860865,
+          "water": 0.9,
+          "lastWatered": 1740996860865,
+          "lastAutoWater": 1740996608026
+        },
+        {
+          "id": 43,
+          "status": "growing",
+          "crop": "dua",
+          "plantedAt": 1740996860867,
+          "water": 0.9,
+          "lastWatered": 1740996860867,
+          "lastAutoWater": 1740996608026
+        },
+        {
+          "id": 44,
+          "status": "growing",
+          "crop": "dua",
+          "plantedAt": 1740996860869,
+          "water": 0.9,
+          "lastWatered": 1740996860869,
+          "lastAutoWater": 1740996608026
+        },
+        {
+          "id": 45,
+          "status": "growing",
+          "crop": "dua",
+          "plantedAt": 1740996860871,
+          "water": 0.9,
+          "lastWatered": 1740996860871,
+          "lastAutoWater": 1740996608026
+        },
+        {
+          "id": 46,
+          "status": "growing",
+          "crop": "dua",
+          "plantedAt": 1740996860873,
+          "water": 0.9,
+          "lastWatered": 1740996860873,
+          "lastAutoWater": 1740996608026
+        },
+        {
+          "id": 47,
+          "status": "growing",
+          "crop": "dua",
+          "plantedAt": 1740996860875,
+          "water": 0.9,
+          "lastWatered": 1740996860875,
+          "lastAutoWater": 1740996608026
+        },
+        {
+          "id": 48,
+          "status": "growing",
+          "crop": "dua",
+          "plantedAt": 1740996860878,
+          "water": 0.9,
+          "lastWatered": 1740996860878,
+          "lastAutoWater": 1740986839918
+        },
+        {
+          "id": 49,
+          "status": "growing",
+          "crop": "dua",
+          "plantedAt": 1740996860884,
+          "water": 0.9,
+          "lastWatered": 1740996860884,
+          "lastAutoWater": 1740986839918
+        },
+        {
+          "id": 50,
+          "status": "growing",
+          "crop": "dua",
+          "plantedAt": 1740996860886,
+          "water": 0.9,
+          "lastWatered": 1740996860886,
+          "lastAutoWater": 1740986839918
+        },
+        {
+          "id": 51,
+          "status": "growing",
+          "crop": "dua",
+          "plantedAt": 1740996860888,
+          "water": 0.9,
+          "lastWatered": 1740996860888,
+          "lastAutoWater": 1740986839918
+        },
+        {
+          "id": 52,
+          "status": "growing",
+          "crop": "dua",
+          "plantedAt": 1740996860890,
+          "water": 0.9,
+          "lastWatered": 1740996860890,
+          "lastAutoWater": 1740986839918
+        },
+        {
+          "id": 53,
+          "status": "growing",
+          "crop": "dua",
+          "plantedAt": 1740996860892,
+          "water": 0.9,
+          "lastWatered": 1740996860892,
+          "lastAutoWater": 1740986839918
+        },
+        {
+          "id": 54,
+          "status": "growing",
+          "crop": "dua",
+          "plantedAt": 1740996860895,
+          "water": 0.9,
+          "lastWatered": 1740996860895,
+          "lastAutoWater": 1740989045791
+        },
+        {
+          "id": 55,
+          "status": "growing",
+          "crop": "dua",
+          "plantedAt": 1740996860901,
+          "water": 0.9,
+          "lastWatered": 1740996860901,
+          "lastAutoWater": 1740989045791
+        },
+        {
+          "id": 56,
+          "status": "growing",
+          "crop": "dua",
+          "plantedAt": 1740996860902,
+          "water": 0.9,
+          "lastWatered": 1740996860902,
+          "lastAutoWater": 1740989045791
+        },
+        {
+          "id": 57,
+          "status": "growing",
+          "crop": "dua",
+          "plantedAt": 1740996860904,
+          "water": 0.9,
+          "lastWatered": 1740996860904,
+          "lastAutoWater": 1740989045791
+        },
+        {
+          "id": 58,
+          "status": "growing",
+          "crop": "dua",
+          "plantedAt": 1740996860906,
+          "water": 0.9,
+          "lastWatered": 1740996860906,
+          "lastAutoWater": 1740989045791
+        },
+        {
+          "id": 59,
+          "status": "growing",
+          "crop": "dua",
+          "plantedAt": 1740996860907,
+          "water": 0.9,
+          "lastWatered": 1740996860907,
+          "lastAutoWater": 1740989045791
+        },
+        {
+          "id": 60,
+          "status": "growing",
+          "crop": "dua",
+          "plantedAt": 1740996874724,
           "water": 2,
-          "lastWatered": 1740935445836
+          "lastWatered": 1740996874724,
+          "lastAutoWater": 1740998116740
+        },
+        {
+          "id": 61,
+          "status": "growing",
+          "crop": "dua",
+          "plantedAt": 1740996874724,
+          "water": 2,
+          "lastWatered": 1740996874724,
+          "lastAutoWater": 1740998116740
+        },
+        {
+          "id": 62,
+          "status": "growing",
+          "crop": "dua",
+          "plantedAt": 1740996874724,
+          "water": 2,
+          "lastWatered": 1740996874724,
+          "lastAutoWater": 1740998116740
+        },
+        {
+          "id": 63,
+          "status": "growing",
+          "crop": "dua",
+          "plantedAt": 1740996874724,
+          "water": 2,
+          "lastWatered": 1740996874724,
+          "lastAutoWater": 1740998116740
+        },
+        {
+          "id": 64,
+          "status": "growing",
+          "crop": "dua",
+          "plantedAt": 1740996874724,
+          "water": 2,
+          "lastWatered": 1740996874724,
+          "lastAutoWater": 1740998116740
+        },
+        {
+          "id": 65,
+          "status": "growing",
+          "crop": "dua",
+          "plantedAt": 1740996874724,
+          "water": 2,
+          "lastWatered": 1740996874724,
+          "lastAutoWater": 1740998116740
         }
       ],
       "inventory": {
-        "lúa": 0,
+        "lúa": 6,
         "đậu": 0,
         "ngô (bắp)": 0,
         "ớt": 0,
@@ -1502,105 +2382,383 @@
         "rau xanh": 0,
         "cà rốt": 0,
         "mía": 0,
-        "trứng": 2,
         "Salad": 6,
-        "salad": -3,
+        "salad": 0,
         "chuối": 0,
-        "xoài": 3,
-        "trứng vịt": 2,
+        "xoài": 0,
+        "trứng vịt": 0,
         "Cá kho": 2,
-        "cá kho": null,
-        "bưởi": 27
+        "cá kho": 0,
+        "bưởi": 9,
+        "sữa": 41,
+        "dừa": 162,
+        "cá tươi": 0,
+        "Bánh ngọt": 2,
+        "Bánh mì": 1,
+        "Xúc xích": 3,
+        "bánh ngọt": 0,
+        "bánh mì": 0,
+        "xúc xích": -3
       },
       "animals": {
-        "1740919168402": {
-          "id": "1740919168402",
-          "type": "ga",
-          "purchased": 1740919168402,
-          "fed": false,
-          "lastFed": 1740929328957,
-          "lastProduced": 1740934470643,
-          "productReady": false
-        },
-        "1740921504453": {
-          "id": "1740921504453",
-          "type": "vit",
-          "purchased": 1740921504453,
-          "fed": false,
-          "lastFed": 1740921553161,
-          "lastProduced": 1740931641941,
-          "productReady": false
-        },
-        "1740921520678": {
-          "id": "1740921520678",
-          "type": "ca",
-          "purchased": 1740921520678,
-          "fed": false,
-          "lastFed": 1740927610898,
-          "lastProduced": 1740931632950,
-          "productReady": false
-        },
-        "1740921819086": {
-          "id": "1740921819086",
-          "type": "ca",
-          "purchased": 1740921819086,
-          "fed": false,
-          "lastFed": 1740921833874,
-          "lastProduced": 1740926884899,
-          "productReady": false
-        },
-        "1740921825811": {
-          "id": "1740921825811",
-          "type": "vit",
-          "purchased": 1740921825811,
-          "fed": false,
-          "lastFed": 1740921838348,
-          "lastProduced": 1740931981762,
-          "productReady": false
-        },
-        "1740934997978": {
-          "id": "1740934997978",
-          "type": "heo",
-          "purchased": 1740934997978,
-          "fed": true,
-          "lastFed": 1740935013436,
-          "lastProduced": 1740935013436,
-          "productReady": false
-        },
-        "1740935003549": {
-          "id": "1740935003549",
-          "type": "heo",
-          "purchased": 1740935003549,
-          "fed": true,
-          "lastFed": 1740935013436,
-          "lastProduced": 1740935013436,
-          "productReady": false
-        },
-        "1740935520869": {
-          "id": "1740935520869",
+        "1740975115889": {
+          "id": "1740975115889",
           "type": "bo",
-          "purchased": 1740935520869,
-          "fed": true,
-          "lastFed": 1740935542650,
-          "lastProduced": 1740935542650,
+          "purchased": 1740975115889,
+          "fed": false,
+          "lastFed": 1740975413958,
+          "lastProduced": 1740996608026,
           "productReady": false
         },
-        "1740935526659": {
-          "id": "1740935526659",
+        "1740975128162": {
+          "id": "1740975128162",
           "type": "bo",
-          "purchased": 1740935526659,
-          "fed": true,
-          "lastFed": 1740935542650,
-          "lastProduced": 1740935542650,
+          "purchased": 1740975128162,
+          "fed": false,
+          "lastFed": 1740975590233,
+          "lastProduced": 1740996608026,
           "productReady": false
         },
-        "1740935533674": {
-          "id": "1740935533674",
+        "1740975131808": {
+          "id": "1740975131808",
           "type": "bo",
-          "purchased": 1740935533674,
-          "fed": true,
-          "lastFed": 1740935542650,
-          "lastProduced": 1740935542650,
+          "purchased": 1740975131808,
+          "fed": false,
+          "lastFed": 1740975590233,
+          "lastProduced": 1740996608026,
+          "productReady": false
+        },
+        "1740975136956": {
+          "id": "1740975136956",
+          "type": "bo",
+          "purchased": 1740975136956,
+          "fed": false,
+          "lastFed": 1740975590233,
+          "lastProduced": 1740996608026,
+          "productReady": false
+        },
+        "1740975141063": {
+          "id": "1740975141063",
+          "type": "bo",
+          "purchased": 1740975141063,
+          "fed": false,
+          "lastFed": 1740975590233,
+          "lastProduced": 1740996608026,
+          "productReady": false
+        },
+        "1740975145326": {
+          "id": "1740975145326",
+          "type": "bo",
+          "purchased": 1740975145326,
+          "fed": false,
+          "lastFed": 1740975590233,
+          "lastProduced": 1740996608026,
+          "productReady": false
+        },
+        "1740975151719": {
+          "id": "1740975151719",
+          "type": "bo",
+          "purchased": 1740975151720,
+          "fed": false,
+          "lastFed": 1740975590233,
+          "lastProduced": 1740996608026,
+          "productReady": false
+        },
+        "1740975158626": {
+          "id": "1740975158626",
+          "type": "bo",
+          "purchased": 1740975158626,
+          "fed": false,
+          "lastFed": 1740975590233,
+          "lastProduced": 1740996608026,
+          "productReady": false
+        },
+        "1740975167771": {
+          "id": "1740975167771",
+          "type": "bo",
+          "purchased": 1740975167771,
+          "fed": false,
+          "lastFed": 1740975590233,
+          "lastProduced": 1740996608026,
+          "productReady": false
+        },
+        "1740975172540": {
+          "id": "1740975172540",
+          "type": "bo",
+          "purchased": 1740975172540,
+          "fed": false,
+          "lastFed": 1740975590233,
+          "lastProduced": 1740996608026,
+          "productReady": false
+        },
+        "1740975180348": {
+          "id": "1740975180348",
+          "type": "bo",
+          "purchased": 1740975180348,
+          "fed": false,
+          "lastFed": 1740975590233,
+          "lastProduced": 1740996608026,
+          "productReady": false
+        },
+        "1740975187057": {
+          "id": "1740975187057",
+          "type": "bo",
+          "purchased": 1740975187057,
+          "fed": false,
+          "lastFed": 1740975590233,
+          "lastProduced": 1740996608026,
+          "productReady": false
+        },
+        "1740975196173": {
+          "id": "1740975196173",
+          "type": "bo",
+          "purchased": 1740975196173,
+          "fed": false,
+          "lastFed": 1740975590233,
+          "lastProduced": 1740996608026,
+          "productReady": false
+        },
+        "1740975202021": {
+          "id": "1740975202021",
+          "type": "bo",
+          "purchased": 1740975202021,
+          "fed": false,
+          "lastFed": 1740975590233,
+          "lastProduced": 1740996608026,
+          "productReady": false
+        },
+        "1740975218175": {
+          "id": "1740975218175",
+          "type": "bo",
+          "purchased": 1740975218175,
+          "fed": false,
+          "lastFed": 1740975590233,
+          "lastProduced": 1740996608026,
+          "productReady": false
+        },
+        "1740975224329": {
+          "id": "1740975224329",
+          "type": "bo",
+          "purchased": 1740975224329,
+          "fed": false,
+          "lastFed": 1740975590233,
+          "lastProduced": 1740996608026,
+          "productReady": false
+        },
+        "1740975231114": {
+          "id": "1740975231114",
+          "type": "bo",
+          "purchased": 1740975231114,
+          "fed": false,
+          "lastFed": 1740975590233,
+          "lastProduced": 1740996608026,
+          "productReady": false
+        },
+        "1740975237296": {
+          "id": "1740975237296",
+          "type": "bo",
+          "purchased": 1740975237296,
+          "fed": false,
+          "lastFed": 1740975590233,
+          "lastProduced": 1740996608026,
+          "productReady": false
+        },
+        "1740975241189": {
+          "id": "1740975241189",
+          "type": "bo",
+          "purchased": 1740975241189,
+          "fed": false,
+          "lastFed": 1740975590233,
+          "lastProduced": 1740996608026,
+          "productReady": false
+        },
+        "1740975245119": {
+          "id": "1740975245119",
+          "type": "bo",
+          "purchased": 1740975245119,
+          "fed": false,
+          "lastFed": 1740975590233,
+          "lastProduced": 1740996608026,
+          "productReady": false
+        },
+        "1740975248455": {
+          "id": "1740975248455",
+          "type": "bo",
+          "purchased": 1740975248455,
+          "fed": false,
+          "lastFed": 1740975590233,
+          "lastProduced": 1740996608026,
+          "productReady": false
+        },
+        "1740975252593": {
+          "id": "1740975252593",
+          "type": "bo",
+          "purchased": 1740975252593,
+          "fed": false,
+          "lastFed": 1740975590233,
+          "lastProduced": 1740996608026,
+          "productReady": false
+        },
+        "1740975257250": {
+          "id": "1740975257250",
+          "type": "bo",
+          "purchased": 1740975257250,
+          "fed": false,
+          "lastFed": 1740975590233,
+          "lastProduced": 1740996608026,
+          "productReady": false
+        },
+        "1740975261321": {
+          "id": "1740975261321",
+          "type": "bo",
+          "purchased": 1740975261321,
+          "fed": false,
+          "lastFed": 1740975590233,
+          "lastProduced": 1740996608026,
+          "productReady": false
+        },
+        "1740975265054": {
+          "id": "1740975265054",
+          "type": "bo",
+          "purchased": 1740975265054,
+          "fed": false,
+          "lastFed": 1740975590233,
+          "lastProduced": 1740996608026,
+          "productReady": false
+        },
+        "1740975268355": {
+          "id": "1740975268355",
+          "type": "bo",
+          "purchased": 1740975268355,
+          "fed": false,
+          "lastFed": 1740975590233,
+          "lastProduced": 1740996608026,
+          "productReady": false
+        },
+        "1740975271771": {
+          "id": "1740975271771",
+          "type": "bo",
+          "purchased": 1740975271771,
+          "fed": false,
+          "lastFed": 1740975590233,
+          "lastProduced": 1740996608026,
+          "productReady": false
+        },
+        "1740975275322": {
+          "id": "1740975275322",
+          "type": "bo",
+          "purchased": 1740975275322,
+          "fed": false,
+          "lastFed": 1740975590233,
+          "lastProduced": 1740996608026,
+          "productReady": false
+        },
+        "1740975278732": {
+          "id": "1740975278732",
+          "type": "bo",
+          "purchased": 1740975278733,
+          "fed": false,
+          "lastFed": 1740975590233,
+          "lastProduced": 1740996608026,
+          "productReady": false
+        },
+        "1740975282578": {
+          "id": "1740975282578",
+          "type": "bo",
+          "purchased": 1740975282578,
+          "fed": false,
+          "lastFed": 1740975590233,
+          "lastProduced": 1740996608026,
+          "productReady": false
+        },
+        "1740975286403": {
+          "id": "1740975286403",
+          "type": "bo",
+          "purchased": 1740975286403,
+          "fed": false,
+          "lastFed": 1740975590233,
+          "lastProduced": 1740996608026,
+          "productReady": false
+        },
+        "1740975290471": {
+          "id": "1740975290471",
+          "type": "bo",
+          "purchased": 1740975290471,
+          "fed": false,
+          "lastFed": 1740975590233,
+          "lastProduced": 1740996608026,
+          "productReady": false
+        },
+        "1740975294626": {
+          "id": "1740975294626",
+          "type": "bo",
+          "purchased": 1740975294626,
+          "fed": false,
+          "lastFed": 1740975590233,
+          "lastProduced": 1740996608026,
+          "productReady": false
+        },
+        "1740975297942": {
+          "id": "1740975297942",
+          "type": "bo",
+          "purchased": 1740975297942,
+          "fed": false,
+          "lastFed": 1740975590233,
+          "lastProduced": 1740996608026,
+          "productReady": false
+        },
+        "1740975301792": {
+          "id": "1740975301792",
+          "type": "bo",
+          "purchased": 1740975301792,
+          "fed": false,
+          "lastFed": 1740975590233,
+          "lastProduced": 1740996608026,
+          "productReady": false
+        },
+        "1740975306286": {
+          "id": "1740975306286",
+          "type": "bo",
+          "purchased": 1740975306287,
+          "fed": false,
+          "lastFed": 1740975590233,
+          "lastProduced": 1740996608026,
+          "productReady": false
+        },
+        "1740975310786": {
+          "id": "1740975310786",
+          "type": "bo",
+          "purchased": 1740975310786,
+          "fed": false,
+          "lastFed": 1740975590233,
+          "lastProduced": 1740996608026,
+          "productReady": false
+        },
+        "1740975315294": {
+          "id": "1740975315294",
+          "type": "bo",
+          "purchased": 1740975315294,
+          "fed": false,
+          "lastFed": 1740975590233,
+          "lastProduced": 1740996608026,
+          "productReady": false
+        },
+        "1740975342521": {
+          "id": "1740975342521",
+          "type": "bo",
+          "purchased": 1740975342521,
+          "fed": false,
+          "lastFed": 1740975590233,
+          "lastProduced": 1740996608026,
+          "productReady": false
+        },
+        "1740975346664": {
+          "id": "1740975346664",
+          "type": "bo",
+          "purchased": 1740975346664,
+          "fed": false,
+          "lastFed": 1740975590233,
+          "lastProduced": 1740996608026,
           "productReady": false
         }
       },
@@ -1646,20 +2804,46 @@
           "active": true,
           "effect": "auto_plant",
           "expiry": null
+        },
+        "chuong_trai_3": {
+          "purchased": 1740974735573,
+          "active": true,
+          "effect": "animal_capacity_3",
+          "expiry": null
+        },
+        "de": {
+          "purchased": 1740975054644,
+          "active": true,
+          "expiry": null
+        },
+        "ngua": {
+          "purchased": 1740981444552,
+          "active": true,
+          "expiry": null
+        },
+        "huou": {
+          "purchased": 1740981448989,
+          "active": true,
+          "expiry": null
+        },
+        "dan_dieu": {
+          "purchased": 1740986925061,
+          "active": true,
+          "expiry": null
         }
       },
       "lastActive": 1740911347009,
       "createdAt": 1740911347009,
       "autoHarvest": false,
       "weather": {
-        "nextChange": 1740954839715
+        "nextChange": 1741013433673
       },
       "lastVisits": {
         "100063719077878": 1740911633073,
         "61568641631000": 1740927591005,
-        "100053970942155": 1740927576996,
+        "100053970942155": 1740975629000,
         "100053857386814": 1740911674711,
-        "61573427362389": 1740927537140,
+        "61573427362389": 1740975621222,
         "100055417691992": 1740927561057,
         "61550331471452": 1740921054320,
         "61568522233427": 1740921122798,
@@ -1688,109 +2872,171 @@
           "visitorId": "100053970942155",
           "visitTime": 1740929328957,
           "action": "🥫 Bạn đã giúp cho 🐓 Gà ăn!"
+        },
+        {
+          "visitorId": "61561277064921",
+          "visitTime": 1740975413958,
+          "action": "🥫 Bạn đã giúp cho 🐄 Bò ăn!"
         }
       ],
       "dailyMissions": {
-        "date": 1740913554506,
+        "date": 1740975580239,
         "missions": {
+          "sell": {
+            "name": "Bán sản phẩm",
+            "emoji": "💰",
+            "description": "Bán 10 sản phẩm bất kỳ",
+            "target": 10,
+            "reward": 15000,
+            "exp": 25,
+            "progress": 2,
+            "claimed": false
+          },
+          "plant": {
+            "name": "Trồng cây",
+            "emoji": "🌱",
+            "description": "Trồng 10 cây bất kỳ",
+            "target": 10,
+            "reward": 25000,
+            "exp": 40,
+            "progress": 0,
+            "claimed": false
+          },
           "visit": {
             "name": "Thăm trang trại",
             "emoji": "👋",
-            "description": "Thăm 1 trang trại khác",
-            "target": 1,
-            "reward": 5000,
-            "exp": 10,
+            "description": "Thăm 2 trang trại khác",
+            "target": 2,
+            "reward": 15000,
+            "exp": 25,
             "progress": 0,
             "claimed": false
           },
           "feed": {
             "name": "Cho ăn",
             "emoji": "🥫",
-            "description": "Cho 2 vật nuôi ăn",
-            "target": 2,
-            "reward": 8000,
-            "exp": 15,
-            "progress": 2,
+            "description": "Cho 4 vật nuôi ăn",
+            "target": 4,
+            "reward": 16000,
+            "exp": 30,
+            "progress": 4,
             "claimed": true
           },
-          "process": {
-            "name": "Chế biến",
-            "emoji": "👨‍🍳",
-            "description": "Chế biến 2 món ăn",
-            "target": 2,
+          "water": {
+            "name": "Tưới nước",
+            "emoji": "💧",
+            "description": "Tưới nước cho 10 cây trồng",
+            "target": 10,
             "reward": 12000,
-            "exp": 20,
-            "progress": 2,
-            "claimed": true
+            "exp": 18,
+            "progress": 0,
+            "claimed": false
           }
         },
-        "refreshed": 1740913554506
+        "refreshed": 1740975580239
       },
       "processing": {}
     },
     "61550331471452": {
       "id": "61550331471452",
-      "exp": 214,
+      "exp": 934,
       "plots": [
         {
           "id": 0,
-          "status": "growing",
-          "crop": "lua",
-          "plantedAt": 1740934213711,
-          "water": 2,
-          "lastWatered": 1740934219904
+          "status": "empty",
+          "crop": null,
+          "plantedAt": null,
+          "water": 0,
+          "lastWatered": null
         },
         {
           "id": 1,
-          "status": "growing",
-          "crop": "lua",
-          "plantedAt": 1740934213711,
-          "water": 2,
-          "lastWatered": 1740934219904
+          "status": "empty",
+          "crop": null,
+          "plantedAt": null,
+          "water": 0,
+          "lastWatered": null
         },
         {
           "id": 2,
-          "status": "growing",
-          "crop": "lua",
-          "plantedAt": 1740934213711,
-          "water": 2,
-          "lastWatered": 1740934219904
+          "status": "empty",
+          "crop": null,
+          "plantedAt": null,
+          "water": 0,
+          "lastWatered": null
         },
         {
           "id": 3,
-          "status": "growing",
-          "crop": "lua",
-          "plantedAt": 1740934213711,
-          "water": 2,
-          "lastWatered": 1740934219904
+          "status": "empty",
+          "crop": null,
+          "plantedAt": null,
+          "water": 0,
+          "lastWatered": null
         },
         {
           "id": 4,
-          "status": "growing",
-          "crop": "lua",
-          "plantedAt": 1740934213711,
-          "water": 2,
-          "lastWatered": 1740934219904
+          "status": "empty",
+          "crop": null,
+          "plantedAt": null,
+          "water": 0,
+          "lastWatered": null
         },
         {
           "id": 5,
-          "status": "growing",
-          "crop": "lua",
-          "plantedAt": 1740934213711,
-          "water": 2,
-          "lastWatered": 1740934219904
+          "status": "empty",
+          "crop": null,
+          "plantedAt": null,
+          "water": 0,
+          "lastWatered": null
+        },
+        {
+          "id": 6,
+          "status": "empty",
+          "crop": null,
+          "plantedAt": null,
+          "water": 0,
+          "lastWatered": null
+        },
+        {
+          "id": 7,
+          "status": "empty",
+          "crop": null,
+          "plantedAt": null,
+          "water": 0,
+          "lastWatered": null
+        },
+        {
+          "id": 8,
+          "status": "empty",
+          "crop": null,
+          "plantedAt": null,
+          "water": 0,
+          "lastWatered": null
         }
       ],
       "inventory": {
-        "lúa": 8
+        "lúa": 0
       },
       "animals": {},
-      "items": {},
+      "items": {
+        "thuoc_sau": {
+          "purchased": 1740979749550,
+          "active": true,
+          "effect": "yield_boost",
+          "expiry": 1741066149550
+        },
+        "giong_cao_cap": {
+          "purchased": 1740979781353,
+          "active": true,
+          "effect": "exp_boost",
+          "expiry": 1741066181353
+        }
+      },
       "lastActive": 1740911912646,
       "createdAt": 1740911912646,
       "autoHarvest": false,
       "weather": {
-        "nextChange": 1740955380254
+        "nextChange": 1741013433673
       },
       "dailyMissions": {
         "date": 1740911912649,
@@ -1802,7 +3048,7 @@
             "target": 5,
             "reward": 7000,
             "exp": 12,
-            "progress": 0,
+            "progress": 5,
             "claimed": false
           },
           "process": {
@@ -1822,7 +3068,7 @@
             "target": 3,
             "reward": 8000,
             "exp": 15,
-            "progress": 2,
+            "progress": 3,
             "claimed": false
           }
         },
@@ -1852,43 +3098,75 @@
     },
     "100050445245297": {
       "id": "100050445245297",
-      "exp": 80,
+      "exp": 300,
       "plots": [
         {
           "id": 0,
-          "status": "ready",
+          "status": "growing",
           "crop": "lua",
-          "plantedAt": 1740925439955,
-          "water": 1,
-          "lastWatered": 1740925439955
+          "plantedAt": 1740996754244,
+          "water": 1.9,
+          "lastWatered": 1740996768577
         },
         {
           "id": 1,
-          "status": "ready",
+          "status": "growing",
           "crop": "lua",
-          "plantedAt": 1740925439955,
-          "water": 1,
-          "lastWatered": 1740925439955
+          "plantedAt": 1740996754244,
+          "water": 1.9,
+          "lastWatered": 1740996768577
         },
         {
           "id": 2,
-          "status": "ready",
+          "status": "growing",
           "crop": "lua",
-          "plantedAt": 1740925439955,
-          "water": 1,
-          "lastWatered": 1740925439955
+          "plantedAt": 1740996754244,
+          "water": 1.9,
+          "lastWatered": 1740996768577
         },
         {
           "id": 3,
-          "status": "ready",
+          "status": "growing",
           "crop": "lua",
-          "plantedAt": 1740925439955,
-          "water": 1,
-          "lastWatered": 1740925439955
+          "plantedAt": 1740996754244,
+          "water": 1.9,
+          "lastWatered": 1740996768577
+        },
+        {
+          "id": 4,
+          "status": "growing",
+          "crop": "lua",
+          "plantedAt": 1740996754244,
+          "water": 1.9,
+          "lastWatered": 1740996768577
+        },
+        {
+          "id": 5,
+          "status": "growing",
+          "crop": "lua",
+          "plantedAt": 1740996754244,
+          "water": 1.9,
+          "lastWatered": 1740996768577
+        },
+        {
+          "id": 6,
+          "status": "growing",
+          "crop": "lua",
+          "plantedAt": 1740996754244,
+          "water": 1.9,
+          "lastWatered": 1740996768577
+        },
+        {
+          "id": 7,
+          "status": "growing",
+          "crop": "lua",
+          "plantedAt": 1740996754244,
+          "water": 1.9,
+          "lastWatered": 1740996768577
         }
       ],
       "inventory": {
-        "lúa": 8
+        "lúa": 0
       },
       "animals": {},
       "items": {},
@@ -1896,7 +3174,7 @@
       "createdAt": 1740912236000,
       "autoHarvest": false,
       "weather": {
-        "nextChange": 1740955450400
+        "nextChange": 1741013433673
       },
       "dailyMissions": {
         "date": 1740912236001,
@@ -1908,7 +3186,7 @@
             "target": 3,
             "reward": 8000,
             "exp": 15,
-            "progress": 2,
+            "progress": 3,
             "claimed": false
           },
           "visit": {
@@ -1979,7 +3257,7 @@
       "createdAt": 1740912260598,
       "autoHarvest": false,
       "weather": {
-        "nextChange": 1740955478490
+        "nextChange": 1741013433673
       },
       "dailyMissions": {
         "date": 1740912260600,
@@ -2062,7 +3340,7 @@
       "createdAt": 1740912665572,
       "autoHarvest": false,
       "weather": {
-        "nextChange": 1740956070643
+        "nextChange": 1741013433673
       },
       "dailyMissions": {
         "date": 1740912665572,
@@ -2120,59 +3398,59 @@
     },
     "100046739981416": {
       "id": "100046739981416",
-      "exp": 158,
+      "exp": 218,
       "plots": [
         {
           "id": 0,
           "status": "ready",
           "crop": "lua",
-          "plantedAt": 1740929871059,
-          "water": 3,
-          "lastWatered": 1740929885552
+          "plantedAt": 1740978148945,
+          "water": 2,
+          "lastWatered": 1740978160421
         },
         {
           "id": 1,
           "status": "ready",
           "crop": "lua",
-          "plantedAt": 1740929871059,
-          "water": 3,
-          "lastWatered": 1740929885552
+          "plantedAt": 1740978148945,
+          "water": 2,
+          "lastWatered": 1740978160421
         },
         {
           "id": 2,
           "status": "ready",
           "crop": "lua",
-          "plantedAt": 1740929871059,
-          "water": 3,
-          "lastWatered": 1740929885552
+          "plantedAt": 1740978148945,
+          "water": 2,
+          "lastWatered": 1740978160421
         },
         {
           "id": 3,
           "status": "ready",
           "crop": "lua",
-          "plantedAt": 1740929871059,
-          "water": 3,
-          "lastWatered": 1740929885552
+          "plantedAt": 1740978148945,
+          "water": 2,
+          "lastWatered": 1740978160421
         },
         {
           "id": 4,
           "status": "ready",
           "crop": "lua",
-          "plantedAt": 1740929357998,
-          "water": 3,
-          "lastWatered": 1740929445292
+          "plantedAt": 1740978148945,
+          "water": 2,
+          "lastWatered": 1740978160421
         },
         {
           "id": 5,
           "status": "ready",
           "crop": "lua",
-          "plantedAt": 1740929357998,
-          "water": 3,
-          "lastWatered": 1740929445292
+          "plantedAt": 1740978148945,
+          "water": 2,
+          "lastWatered": 1740978160421
         }
       ],
       "inventory": {
-        "lúa": 0
+        "lúa": 6
       },
       "animals": {},
       "items": {
@@ -2187,7 +3465,7 @@
       "createdAt": 1740913354233,
       "autoHarvest": false,
       "weather": {
-        "nextChange": 1740956568026
+        "nextChange": 1741013433673
       },
       "dailyMissions": {
         "date": 1740913354234,
@@ -2238,49 +3516,51 @@
     },
     "61573656233995": {
       "id": "61573656233995",
-      "exp": 0,
+      "exp": 40,
       "plots": [
         {
           "id": 0,
           "status": "ready",
           "crop": "lua",
-          "plantedAt": 1740913840722,
-          "water": 3,
-          "lastWatered": 1740915219531
+          "plantedAt": 1740993951497,
+          "water": 1.9,
+          "lastWatered": 1740993957215
         },
         {
           "id": 1,
           "status": "ready",
           "crop": "lua",
-          "plantedAt": 1740913840722,
-          "water": 3,
-          "lastWatered": 1740915219531
+          "plantedAt": 1740993951497,
+          "water": 1.9,
+          "lastWatered": 1740993957215
         },
         {
           "id": 2,
           "status": "ready",
           "crop": "lua",
-          "plantedAt": 1740913840722,
-          "water": 3,
-          "lastWatered": 1740915219531
+          "plantedAt": 1740993951497,
+          "water": 1.9,
+          "lastWatered": 1740993957215
         },
         {
           "id": 3,
           "status": "ready",
           "crop": "lua",
-          "plantedAt": 1740913840722,
-          "water": 3,
-          "lastWatered": 1740915219531
+          "plantedAt": 1740993951497,
+          "water": 1.9,
+          "lastWatered": 1740993957215
         }
       ],
-      "inventory": {},
+      "inventory": {
+        "lúa": 4
+      },
       "animals": {},
       "items": {},
       "lastActive": 1740913780741,
       "createdAt": 1740913780741,
       "autoHarvest": false,
       "weather": {
-        "nextChange": 1740956989841
+        "nextChange": 1741013433673
       },
       "dailyMissions": {
         "date": 1740913780742,
@@ -2302,7 +3582,7 @@
             "target": 3,
             "reward": 8000,
             "exp": 15,
-            "progress": 0,
+            "progress": 1,
             "claimed": false
           },
           "sell": {
@@ -2321,50 +3601,51 @@
     },
     "100058320200877": {
       "id": "100058320200877",
-      "exp": 0,
+      "exp": 40,
       "plots": [
         {
           "id": 0,
-          "status": "empty",
-          "crop": null,
-          "plantedAt": null,
-          "water": 0,
-          "lastWatered": null
+          "status": "ready",
+          "crop": "lua",
+          "plantedAt": 1740990234278,
+          "water": 0.9,
+          "lastWatered": 1740990234278
         },
         {
           "id": 1,
-          "status": "empty",
-          "crop": null,
-          "plantedAt": null,
-          "water": 0,
-          "lastWatered": null
+          "status": "ready",
+          "crop": "lua",
+          "plantedAt": 1740990234278,
+          "water": 0.9,
+          "lastWatered": 1740990234278
         },
         {
           "id": 2,
-          "status": "empty",
-          "crop": null,
-          "plantedAt": null,
-          "water": 0,
-          "lastWatered": null
+          "status": "ready",
+          "crop": "lua",
+          "plantedAt": 1740990234278,
+          "water": 0.9,
+          "lastWatered": 1740990234278
         },
         {
           "id": 3,
-          "status": "empty",
-          "crop": null,
-          "plantedAt": null,
-          "water": 0,
-          "lastWatered": null
+          "status": "ready",
+          "crop": "lua",
+          "plantedAt": 1740990234278,
+          "water": 0.9,
+          "lastWatered": 1740990234278
         }
       ],
-      "inventory": {},
+      "inventory": {
+        "lúa": 0
+      },
       "animals": {},
       "items": {},
       "lastActive": 1740916835706,
       "createdAt": 1740916835706,
       "autoHarvest": false,
       "weather": {
-        "type": "sunny",
-        "nextChange": 1740938435706
+        "nextChange": 1741013433673
       },
       "dailyMissions": {
         "date": 1740916835709,
@@ -2412,88 +3693,156 @@
     },
     "61561277064921": {
       "id": "61561277064921",
-      "exp": 101,
+      "exp": 471,
       "plots": [
         {
           "id": 0,
-          "status": "growing",
+          "status": "ready",
           "crop": "lua",
-          "plantedAt": 1740934058392,
-          "water": 3,
-          "lastWatered": 1740934171352
+          "plantedAt": 1740983310922,
+          "water": 1.8,
+          "lastWatered": 1740983321535
         },
         {
           "id": 1,
-          "status": "growing",
+          "status": "ready",
           "crop": "lua",
-          "plantedAt": 1740934058392,
-          "water": 3,
-          "lastWatered": 1740934171352
+          "plantedAt": 1740983310922,
+          "water": 1.8,
+          "lastWatered": 1740983321536
         },
         {
           "id": 2,
-          "status": "growing",
+          "status": "ready",
           "crop": "lua",
-          "plantedAt": 1740934058392,
-          "water": 3,
-          "lastWatered": 1740934171352
+          "plantedAt": 1740983310922,
+          "water": 1.8,
+          "lastWatered": 1740983321536
         },
         {
           "id": 3,
-          "status": "growing",
+          "status": "ready",
           "crop": "lua",
-          "plantedAt": 1740934058392,
-          "water": 3,
-          "lastWatered": 1740934171352
+          "plantedAt": 1740983310922,
+          "water": 1.8,
+          "lastWatered": 1740983321536
         },
         {
           "id": 4,
-          "status": "growing",
+          "status": "ready",
           "crop": "lua",
-          "plantedAt": 1740934165214,
-          "water": 3,
-          "lastWatered": 1740935079040
+          "plantedAt": 1740983310922,
+          "water": 1.8,
+          "lastWatered": 1740983321536
         },
         {
           "id": 5,
-          "status": "growing",
+          "status": "ready",
           "crop": "lua",
-          "plantedAt": 1740934165214,
-          "water": 3,
-          "lastWatered": 1740935079040
+          "plantedAt": 1740983310922,
+          "water": 1.8,
+          "lastWatered": 1740983321536
+        },
+        {
+          "id": 6,
+          "status": "ready",
+          "crop": "lua",
+          "plantedAt": 1740983310922,
+          "water": 1.8,
+          "lastWatered": 1740983321536
+        },
+        {
+          "id": 7,
+          "status": "ready",
+          "crop": "lua",
+          "plantedAt": 1740983310922,
+          "water": 1.8,
+          "lastWatered": 1740983321536
         }
       ],
       "inventory": {
-        "lúa": 0
+        "lúa": 14,
+        "trứng": 5
       },
-      "animals": {},
+      "animals": {
+        "1740981325671": {
+          "id": "1740981325671",
+          "type": "ga",
+          "purchased": 1740981325671,
+          "fed": false,
+          "lastFed": 1740981363279,
+          "lastProduced": 1740992757677,
+          "productReady": false
+        },
+        "1740981389438": {
+          "id": "1740981389438",
+          "type": "ga",
+          "purchased": 1740981389438,
+          "fed": false,
+          "lastFed": 1740981458759,
+          "lastProduced": 1740992757677,
+          "productReady": false
+        },
+        "1740981443348": {
+          "id": "1740981443348",
+          "type": "ga",
+          "purchased": 1740981443348,
+          "fed": false,
+          "lastFed": 1740981458759,
+          "lastProduced": 1740992757677,
+          "productReady": false
+        },
+        "1740981451174": {
+          "id": "1740981451174",
+          "type": "ga",
+          "purchased": 1740981451174,
+          "fed": false,
+          "lastFed": 1740981458759,
+          "lastProduced": 1740992757677,
+          "productReady": false
+        },
+        "1740981629567": {
+          "id": "1740981629567",
+          "type": "ga",
+          "purchased": 1740981629567,
+          "fed": false,
+          "lastFed": 1740981635355,
+          "lastProduced": 1740992757677,
+          "productReady": false
+        }
+      },
       "items": {
         "phan_bon": {
           "purchased": 1740932132463,
           "active": true,
           "effect": "grow_boost",
           "expiry": 1741018532463
+        },
+        "giong_cao_cap": {
+          "purchased": 1740975358577,
+          "active": true,
+          "effect": "exp_boost",
+          "expiry": 1741061758577
         }
       },
       "lastActive": 1740917432720,
       "createdAt": 1740917432720,
       "autoHarvest": false,
       "weather": {
-        "type": "sunny",
-        "nextChange": 1740939032720
+        "nextChange": 1741013433673
       },
       "dailyMissions": {
-        "date": 1740917432723,
+        "date": 1740975424841,
         "missions": {
-          "sell": {
-            "name": "Bán sản phẩm",
-            "emoji": "💰",
-            "description": "Bán 5 sản phẩm bất kỳ",
-            "target": 5,
-            "reward": 7000,
-            "exp": 12,
-            "progress": 5,
-            "claimed": true
+          "collect": {
+            "name": "Thu thập sản phẩm",
+            "emoji": "🥚",
+            "description": "Thu thập 3 sản phẩm từ vật nuôi",
+            "target": 3,
+            "reward": 10000,
+            "exp": 15,
+            "progress": 0,
+            "claimed": false
           },
           "visit": {
             "name": "Thăm trang trại",
@@ -2505,18 +3854,18 @@
             "progress": 0,
             "claimed": false
           },
-          "plant": {
-            "name": "Trồng cây",
-            "emoji": "🌱",
-            "description": "Trồng 3 cây bất kỳ",
-            "target": 3,
-            "reward": 5000,
-            "exp": 10,
+          "process": {
+            "name": "Chế biến",
+            "emoji": "👨‍🍳",
+            "description": "Chế biến 2 món ăn",
+            "target": 2,
+            "reward": 12000,
+            "exp": 20,
             "progress": 0,
             "claimed": false
           }
         },
-        "refreshed": 1740917432723
+        "refreshed": 1740975424841
       },
       "visitors": [
         {
@@ -2537,7 +3886,8 @@
       ],
       "lastVisits": {
         "61550331471452": 1740933892553,
-        "61573427362389": 1740933959038
+        "61573427362389": 1740933959038,
+        "100068382888605": 1740975413958
       }
     },
     "100028202556430": {
@@ -2584,8 +3934,7 @@
       "createdAt": 1740919120496,
       "autoHarvest": false,
       "weather": {
-        "type": "sunny",
-        "nextChange": 1740940720496
+        "nextChange": 1741013433673
       },
       "dailyMissions": {
         "date": 1740919120525,
@@ -2685,8 +4034,7 @@
       "createdAt": 1740920998637,
       "autoHarvest": false,
       "weather": {
-        "type": "sunny",
-        "nextChange": 1740942598637
+        "nextChange": 1741013433673
       },
       "dailyMissions": {
         "date": 1740920998640,
@@ -2743,35 +4091,35 @@
       "plots": [
         {
           "id": 0,
-          "status": "empty",
-          "crop": null,
-          "plantedAt": null,
-          "water": 0,
-          "lastWatered": null
+          "status": "ready",
+          "crop": "lua",
+          "plantedAt": 1740975653503,
+          "water": 2,
+          "lastWatered": 1740975672981
         },
         {
           "id": 1,
-          "status": "empty",
-          "crop": null,
-          "plantedAt": null,
-          "water": 0,
-          "lastWatered": null
+          "status": "ready",
+          "crop": "lua",
+          "plantedAt": 1740975653503,
+          "water": 2,
+          "lastWatered": 1740975672981
         },
         {
           "id": 2,
-          "status": "empty",
-          "crop": null,
-          "plantedAt": null,
-          "water": 0,
-          "lastWatered": null
+          "status": "ready",
+          "crop": "lua",
+          "plantedAt": 1740975653503,
+          "water": 2,
+          "lastWatered": 1740975672981
         },
         {
           "id": 3,
-          "status": "empty",
-          "crop": null,
-          "plantedAt": null,
-          "water": 0,
-          "lastWatered": null
+          "status": "ready",
+          "crop": "lua",
+          "plantedAt": 1740975653503,
+          "water": 2,
+          "lastWatered": 1740975672981
         }
       ],
       "inventory": {
@@ -2783,8 +4131,7 @@
       "createdAt": 1740922284303,
       "autoHarvest": false,
       "weather": {
-        "type": "sunny",
-        "nextChange": 1740943884303
+        "nextChange": 1741013433673
       },
       "dailyMissions": {
         "date": 1740922284309,
@@ -2832,44 +4179,60 @@
     },
     "100035610181048": {
       "id": "100035610181048",
-      "exp": 26,
+      "exp": 166,
       "plots": [
         {
           "id": 0,
-          "status": "ready",
-          "crop": "lua",
-          "plantedAt": 1740926166796,
-          "water": 3,
-          "lastWatered": 1740927148220
+          "status": "empty",
+          "crop": null,
+          "plantedAt": null,
+          "water": 0,
+          "lastWatered": null
         },
         {
           "id": 1,
-          "status": "ready",
-          "crop": "lua",
-          "plantedAt": 1740926176892,
-          "water": 3,
-          "lastWatered": 1740927148220
+          "status": "empty",
+          "crop": null,
+          "plantedAt": null,
+          "water": 0,
+          "lastWatered": null
         },
         {
           "id": 2,
-          "status": "ready",
-          "crop": "lua",
-          "plantedAt": 1740926176892,
-          "water": 3,
-          "lastWatered": 1740927148220
+          "status": "empty",
+          "crop": null,
+          "plantedAt": null,
+          "water": 0,
+          "lastWatered": null
         },
         {
           "id": 3,
-          "status": "ready",
-          "crop": "lua",
-          "plantedAt": 1740926185236,
-          "water": 3,
-          "lastWatered": 1740927148220
+          "status": "empty",
+          "crop": null,
+          "plantedAt": null,
+          "water": 0,
+          "lastWatered": null
+        },
+        {
+          "id": 4,
+          "status": "empty",
+          "crop": null,
+          "plantedAt": null,
+          "water": 0,
+          "lastWatered": null
+        },
+        {
+          "id": 5,
+          "status": "empty",
+          "crop": null,
+          "plantedAt": null,
+          "water": 0,
+          "lastWatered": null
         }
       ],
       "inventory": {
-        "cà rốt": 3,
-        "lúa": 1
+        "cà rốt": 0,
+        "lúa": 15
       },
       "animals": {},
       "items": {},
@@ -2877,8 +4240,7 @@
       "createdAt": 1740923260993,
       "autoHarvest": false,
       "weather": {
-        "type": "sunny",
-        "nextChange": 1740944860993
+        "nextChange": 1741013433673
       },
       "dailyMissions": {
         "date": 1740923260994,
@@ -2900,7 +4262,7 @@
             "target": 5,
             "reward": 7000,
             "exp": 12,
-            "progress": 0,
+            "progress": 3,
             "claimed": false
           },
           "process": {
@@ -2964,8 +4326,7 @@
       "createdAt": 1740927354781,
       "autoHarvest": false,
       "weather": {
-        "type": "sunny",
-        "nextChange": 1740948954781
+        "nextChange": 1741013433673
       },
       "visitors": [
         {
@@ -2979,7 +4340,593 @@
           "action": "💫 Bạn đã tham quan trang trại và học hỏi được một số điều!"
         }
       ]
+    },
+    "100055052811579": {
+      "id": "100055052811579",
+      "exp": 180,
+      "plots": [
+        {
+          "id": 0,
+          "status": "ready",
+          "crop": "lua",
+          "plantedAt": 1740994447516,
+          "water": 1.9,
+          "lastWatered": 1740994457681
+        },
+        {
+          "id": 1,
+          "status": "ready",
+          "crop": "lua",
+          "plantedAt": 1740994447516,
+          "water": 1.9,
+          "lastWatered": 1740994457681
+        },
+        {
+          "id": 2,
+          "status": "ready",
+          "crop": "lua",
+          "plantedAt": 1740994447516,
+          "water": 1.9,
+          "lastWatered": 1740994457681
+        },
+        {
+          "id": 3,
+          "status": "ready",
+          "crop": "lua",
+          "plantedAt": 1740994447516,
+          "water": 1.9,
+          "lastWatered": 1740994457681
+        },
+        {
+          "id": 4,
+          "status": "ready",
+          "crop": "lua",
+          "plantedAt": 1740994447516,
+          "water": 1.9,
+          "lastWatered": 1740994457681
+        },
+        {
+          "id": 5,
+          "status": "ready",
+          "crop": "lua",
+          "plantedAt": 1740994447516,
+          "water": 1.9,
+          "lastWatered": 1740994457681
+        }
+      ],
+      "inventory": {
+        "lúa": 18
+      },
+      "animals": {},
+      "items": {},
+      "lastActive": 1740972822266,
+      "createdAt": 1740972822266,
+      "autoHarvest": false,
+      "weather": {
+        "nextChange": 1741016032341
+      },
+      "dailyMissions": {
+        "date": 1740972822293,
+        "missions": {
+          "visit": {
+            "name": "Thăm trang trại",
+            "emoji": "👋",
+            "description": "Thăm 1 trang trại khác",
+            "target": 1,
+            "reward": 5000,
+            "exp": 10,
+            "progress": 0,
+            "claimed": false
+          },
+          "water": {
+            "name": "Tưới nước",
+            "emoji": "💧",
+            "description": "Tưới nước cho 5 cây trồng",
+            "target": 5,
+            "reward": 5000,
+            "exp": 8,
+            "progress": 0,
+            "claimed": false
+          },
+          "sell": {
+            "name": "Bán sản phẩm",
+            "emoji": "💰",
+            "description": "Bán 5 sản phẩm bất kỳ",
+            "target": 5,
+            "reward": 7000,
+            "exp": 12,
+            "progress": 0,
+            "claimed": false
+          }
+        },
+        "refreshed": 1740972822293
+      }
+    },
+    "61555034078738": {
+      "id": "61555034078738",
+      "exp": 0,
+      "plots": [
+        {
+          "id": 0,
+          "status": "empty",
+          "crop": null,
+          "plantedAt": null,
+          "water": 0,
+          "lastWatered": null
+        },
+        {
+          "id": 1,
+          "status": "empty",
+          "crop": null,
+          "plantedAt": null,
+          "water": 0,
+          "lastWatered": null
+        },
+        {
+          "id": 2,
+          "status": "empty",
+          "crop": null,
+          "plantedAt": null,
+          "water": 0,
+          "lastWatered": null
+        },
+        {
+          "id": 3,
+          "status": "empty",
+          "crop": null,
+          "plantedAt": null,
+          "water": 0,
+          "lastWatered": null
+        }
+      ],
+      "inventory": {},
+      "animals": {},
+      "items": {},
+      "lastActive": 1740973389345,
+      "createdAt": 1740973389345,
+      "autoHarvest": false,
+      "weather": {
+        "nextChange": 1741018208026
+      },
+      "dailyMissions": {
+        "date": 1740973389355,
+        "missions": {
+          "visit": {
+            "name": "Thăm trang trại",
+            "emoji": "👋",
+            "description": "Thăm 1 trang trại khác",
+            "target": 1,
+            "reward": 5000,
+            "exp": 10,
+            "progress": 0,
+            "claimed": false
+          },
+          "water": {
+            "name": "Tưới nước",
+            "emoji": "💧",
+            "description": "Tưới nước cho 5 cây trồng",
+            "target": 5,
+            "reward": 5000,
+            "exp": 8,
+            "progress": 0,
+            "claimed": false
+          },
+          "harvest": {
+            "name": "Thu hoạch",
+            "emoji": "🌾",
+            "description": "Thu hoạch 3 cây trồng",
+            "target": 3,
+            "reward": 8000,
+            "exp": 15,
+            "progress": 0,
+            "claimed": false
+          }
+        },
+        "refreshed": 1740973389355
+      }
+    },
+    "100048267517770": {
+      "id": "100048267517770",
+      "exp": 196,
+      "plots": [
+        {
+          "id": 0,
+          "status": "ready",
+          "crop": "lua",
+          "plantedAt": 1740994400613,
+          "water": 1.9,
+          "lastWatered": 1740994413689
+        },
+        {
+          "id": 1,
+          "status": "ready",
+          "crop": "lua",
+          "plantedAt": 1740994400613,
+          "water": 1.9,
+          "lastWatered": 1740994413689
+        },
+        {
+          "id": 2,
+          "status": "ready",
+          "crop": "lua",
+          "plantedAt": 1740994400613,
+          "water": 1.9,
+          "lastWatered": 1740994413689
+        },
+        {
+          "id": 3,
+          "status": "ready",
+          "crop": "lua",
+          "plantedAt": 1740994400613,
+          "water": 1.9,
+          "lastWatered": 1740994413689
+        },
+        {
+          "id": 4,
+          "status": "ready",
+          "crop": "lua",
+          "plantedAt": 1740994400613,
+          "water": 1.9,
+          "lastWatered": 1740994413689
+        },
+        {
+          "id": 5,
+          "status": "ready",
+          "crop": "lua",
+          "plantedAt": 1740994400613,
+          "water": 1.9,
+          "lastWatered": 1740994413689
+        }
+      ],
+      "inventory": {
+        "cà rốt": 0,
+        "lúa": 18
+      },
+      "animals": {},
+      "items": {},
+      "lastActive": 1740974044311,
+      "createdAt": 1740974044311,
+      "autoHarvest": false,
+      "weather": {
+        "nextChange": 1741018208026
+      },
+      "dailyMissions": {
+        "date": 1740974044314,
+        "missions": {
+          "water": {
+            "name": "Tưới nước",
+            "emoji": "💧",
+            "description": "Tưới nước cho 5 cây trồng",
+            "target": 5,
+            "reward": 5000,
+            "exp": 8,
+            "progress": 0,
+            "claimed": false
+          },
+          "visit": {
+            "name": "Thăm trang trại",
+            "emoji": "👋",
+            "description": "Thăm 1 trang trại khác",
+            "target": 1,
+            "reward": 5000,
+            "exp": 10,
+            "progress": 0,
+            "claimed": false
+          },
+          "plant": {
+            "name": "Trồng cây",
+            "emoji": "🌱",
+            "description": "Trồng 3 cây bất kỳ",
+            "target": 3,
+            "reward": 5000,
+            "exp": 10,
+            "progress": 0,
+            "claimed": false
+          }
+        },
+        "refreshed": 1740974044314
+      }
+    },
+    "61555903228492": {
+      "id": "61555903228492",
+      "exp": 0,
+      "plots": [
+        {
+          "id": 0,
+          "status": "ready",
+          "crop": "lua",
+          "plantedAt": 1740979652643,
+          "water": 1.9,
+          "lastWatered": 1740979673571
+        },
+        {
+          "id": 1,
+          "status": "empty",
+          "crop": null,
+          "plantedAt": null,
+          "water": 0,
+          "lastWatered": null
+        },
+        {
+          "id": 2,
+          "status": "empty",
+          "crop": null,
+          "plantedAt": null,
+          "water": 0,
+          "lastWatered": null
+        },
+        {
+          "id": 3,
+          "status": "empty",
+          "crop": null,
+          "plantedAt": null,
+          "water": 0,
+          "lastWatered": null
+        }
+      ],
+      "inventory": {},
+      "animals": {},
+      "items": {},
+      "lastActive": 1740979410905,
+      "createdAt": 1740979410905,
+      "autoHarvest": false,
+      "weather": {
+        "type": "sunny",
+        "nextChange": 1741001010905
+      },
+      "dailyMissions": {
+        "date": 1740979410925,
+        "missions": {
+          "feed": {
+            "name": "Cho ăn",
+            "emoji": "🥫",
+            "description": "Cho 2 vật nuôi ăn",
+            "target": 2,
+            "reward": 8000,
+            "exp": 15,
+            "progress": 0,
+            "claimed": false
+          },
+          "process": {
+            "name": "Chế biến",
+            "emoji": "👨‍🍳",
+            "description": "Chế biến 2 món ăn",
+            "target": 2,
+            "reward": 12000,
+            "exp": 20,
+            "progress": 0,
+            "claimed": false
+          },
+          "visit": {
+            "name": "Thăm trang trại",
+            "emoji": "👋",
+            "description": "Thăm 1 trang trại khác",
+            "target": 1,
+            "reward": 5000,
+            "exp": 10,
+            "progress": 0,
+            "claimed": false
+          }
+        },
+        "refreshed": 1740979410925
+      }
+    },
+    "100008297661441": {
+      "id": "100008297661441",
+      "exp": 0,
+      "plots": [
+        {
+          "id": 0,
+          "status": "ready",
+          "crop": "lua",
+          "plantedAt": 1740979712722,
+          "water": 1.9,
+          "lastWatered": 1740979718504
+        },
+        {
+          "id": 1,
+          "status": "empty",
+          "crop": null,
+          "plantedAt": null,
+          "water": 0,
+          "lastWatered": null
+        },
+        {
+          "id": 2,
+          "status": "empty",
+          "crop": null,
+          "plantedAt": null,
+          "water": 0,
+          "lastWatered": null
+        },
+        {
+          "id": 3,
+          "status": "empty",
+          "crop": null,
+          "plantedAt": null,
+          "water": 0,
+          "lastWatered": null
+        }
+      ],
+      "inventory": {},
+      "animals": {},
+      "items": {},
+      "lastActive": 1740979712643,
+      "createdAt": 1740979712643,
+      "autoHarvest": false,
+      "weather": {
+        "type": "sunny",
+        "nextChange": 1741001312643
+      },
+      "dailyMissions": {
+        "date": 1740979712722,
+        "missions": {
+          "collect": {
+            "name": "Thu thập sản phẩm",
+            "emoji": "🥚",
+            "description": "Thu thập 3 sản phẩm từ vật nuôi",
+            "target": 3,
+            "reward": 10000,
+            "exp": 15,
+            "progress": 0,
+            "claimed": false
+          },
+          "process": {
+            "name": "Chế biến",
+            "emoji": "👨‍🍳",
+            "description": "Chế biến 2 món ăn",
+            "target": 2,
+            "reward": 12000,
+            "exp": 20,
+            "progress": 0,
+            "claimed": false
+          },
+          "plant": {
+            "name": "Trồng cây",
+            "emoji": "🌱",
+            "description": "Trồng 3 cây bất kỳ",
+            "target": 3,
+            "reward": 5000,
+            "exp": 10,
+            "progress": 1,
+            "claimed": false
+          }
+        },
+        "refreshed": 1740979712722
+      }
+    },
+    "61558946907944": {
+      "id": "61558946907944",
+      "exp": 0,
+      "plots": [
+        {
+          "id": 0,
+          "status": "empty",
+          "crop": null,
+          "plantedAt": null,
+          "water": 0,
+          "lastWatered": null
+        },
+        {
+          "id": 1,
+          "status": "empty",
+          "crop": null,
+          "plantedAt": null,
+          "water": 0,
+          "lastWatered": null
+        },
+        {
+          "id": 2,
+          "status": "empty",
+          "crop": null,
+          "plantedAt": null,
+          "water": 0,
+          "lastWatered": null
+        },
+        {
+          "id": 3,
+          "status": "empty",
+          "crop": null,
+          "plantedAt": null,
+          "water": 0,
+          "lastWatered": null
+        }
+      ],
+      "inventory": {},
+      "animals": {},
+      "items": {},
+      "lastActive": 1740981832982,
+      "createdAt": 1740981832982,
+      "autoHarvest": false,
+      "weather": {
+        "type": "sunny",
+        "nextChange": 1741003432982
+      }
+    },
+    "100076957299243": {
+      "id": "100076957299243",
+      "exp": 0,
+      "plots": [
+        {
+          "id": 0,
+          "status": "ready",
+          "crop": "lua",
+          "plantedAt": 1740994433070,
+          "water": 1.9,
+          "lastWatered": 1740994483571
+        },
+        {
+          "id": 1,
+          "status": "ready",
+          "crop": "lua",
+          "plantedAt": 1740994433070,
+          "water": 1.9,
+          "lastWatered": 1740994483572
+        },
+        {
+          "id": 2,
+          "status": "ready",
+          "crop": "lua",
+          "plantedAt": 1740994433070,
+          "water": 1.9,
+          "lastWatered": 1740994483572
+        },
+        {
+          "id": 3,
+          "status": "ready",
+          "crop": "lua",
+          "plantedAt": 1740994433070,
+          "water": 2.9,
+          "lastWatered": 1740994483572
+        }
+      ],
+      "inventory": {},
+      "animals": {},
+      "items": {},
+      "lastActive": 1740994195639,
+      "createdAt": 1740994195639,
+      "autoHarvest": false,
+      "weather": {
+        "type": "sunny",
+        "nextChange": 1741015795639
+      },
+      "dailyMissions": {
+        "date": 1740994195653,
+        "missions": {
+          "collect": {
+            "name": "Thu thập sản phẩm",
+            "emoji": "🥚",
+            "description": "Thu thập 3 sản phẩm từ vật nuôi",
+            "target": 3,
+            "reward": 10000,
+            "exp": 15,
+            "progress": 0,
+            "claimed": false
+          },
+          "visit": {
+            "name": "Thăm trang trại",
+            "emoji": "👋",
+            "description": "Thăm 1 trang trại khác",
+            "target": 1,
+            "reward": 5000,
+            "exp": 10,
+            "progress": 0,
+            "claimed": false
+          },
+          "feed": {
+            "name": "Cho ăn",
+            "emoji": "🥫",
+            "description": "Cho 2 vật nuôi ăn",
+            "target": 2,
+            "reward": 8000,
+            "exp": 15,
+            "progress": 0,
+            "claimed": false
+          }
+        },
+        "refreshed": 1740994195653
+      }
     }
   },
-  "lastUpdate": 1740935693863
+  "lastUpdate": 1740998116740
 }

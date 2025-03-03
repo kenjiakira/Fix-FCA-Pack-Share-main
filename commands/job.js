@@ -32,9 +32,11 @@ module.exports = {
                     "┏━━『 HỆ THỐNG VIỆC LÀM 』━━┓\n\n" +
                     "🎯 HƯỚNG DẪN SỬ DỤNG:\n\n" +
                     "📋 .job list\n└ Xem danh sách việc làm\n\n" +
+                    "📋 .job category <loại>\n└ Xem việc làm theo ngành\n\n" +
                     "📝 .job apply <mã>\n└ Ứng tuyển việc làm\n\n" +
                     "ℹ️ .job info\n└ Xem công việc hiện tại\n\n" +
                     "❌ .job quit\n└ Nghỉ việc hiện tại\n\n" +
+                    "💼 .job search\n└ Tìm việc phù hợp với bằng cấp\n\n" +
                     "💡 Ghi chú: Trình độ học vấn càng\ncao thì cơ hội việc làm càng tốt\n" +
                     "\n┗━━━━━━━━━━━━━━━━━┛",
                     threadID
@@ -187,6 +189,120 @@ module.exports = {
                     } catch (error) {
                         return api.sendMessage(`❌ ${error.message}`, threadID);
                     }
+                }
+
+                case "category": {
+                    const categoryId = target[1]?.toLowerCase();
+                    if (!categoryId || !JOB_CATEGORIES[categoryId]) {
+                        let msg = "❌ Ngành nghề không hợp lệ!\n\nCác ngành nghề hiện có:\n";
+                        Object.entries(JOB_CATEGORIES).forEach(([id, cat]) => {
+                            msg += `- ${id}: ${cat.name}\n`;
+                        });
+                        return api.sendMessage(msg, threadID);
+                    }
+
+                    const category = JOB_CATEGORIES[categoryId];
+                    let msg = `┏━━『 ${category.name} 』━━┓\n\n`;
+                    msg += `📝 ${category.desc}\n\n`;
+
+                    for (const jobId of category.jobs) {
+                        const job = JOBS[jobId];
+                        if (!job) continue;
+
+                        const canApply = jobSystem.checkRequirements(job.requirements, education.degrees);
+                        msg += `${canApply ? '✅' : '❌'} ${job.name}\n`;
+                        msg += `├ Mã: ${jobId}\n`;
+                        msg += `├ Lương: 💰 ${formatNumber(job.salary)} Xu/lần\n`;
+                        
+                        if (job.requirements.length > 0) {
+                            msg += `└ Yêu cầu: ${job.requirements.length} bằng cấp\n`;
+                        } else {
+                            msg += `└ Yêu cầu: Không có\n`;
+                        }
+                        msg += "\n";
+                    }
+
+                    msg += "💡 HƯỚNG DẪN:\n";
+                    msg += "➤ Xem chi tiết: .job detail <mã>\n";
+                    msg += "➤ Ứng tuyển: .job apply <mã>\n";
+
+                    await api.sendMessage(msg, threadID);
+                    return;
+                }
+
+                case "search": {
+                    let availableJobs = [];
+
+                    for (const [jobId, jobData] of Object.entries(JOBS)) {
+                        if (jobSystem.checkRequirements(jobData.requirements, education.degrees)) {
+                            availableJobs.push({
+                                id: jobId,
+                                name: jobData.name,
+                                salary: jobData.salary,
+                                requirements: jobData.requirements.length
+                            });
+                        }
+                    }
+
+                    // Sort by salary (descending)
+                    availableJobs.sort((a, b) => b.salary - a.salary);
+
+                    let msg = "┏━━『 VIỆC LÀM PHÙ HỢP 』━━┓\n\n";
+                    
+                    if (availableJobs.length === 0) {
+                        msg += "❌ Không tìm thấy việc làm phù hợp!\n";
+                        msg += "💡 Hãy học thêm bằng cấp để mở khóa\n";
+                        msg += "   công việc tốt hơn (.study list)";
+                    } else {
+                        msg += `🎉 Tìm thấy ${availableJobs.length} việc làm phù hợp:\n\n`;
+                        
+                        availableJobs.slice(0, 10).forEach((job, index) => {
+                            msg += `${index + 1}. ${job.name}\n`;
+                            msg += `   ├ Mã: ${job.id}\n`;
+                            msg += `   ├ Lương: 💰 ${formatNumber(job.salary)} Xu\n`;
+                            msg += `   └ Yêu cầu: ${job.requirements} bằng cấp\n\n`;
+                        });
+                        
+                        msg += "💡 HƯỚNG DẪN:\n";
+                        msg += "➤ Ứng tuyển: .job apply <mã>\n";
+                    }
+                    
+                    msg += "\n┗━━━━━━━━━━━━━━━━━┛";
+                    await api.sendMessage(msg, threadID);
+                    return;
+                }
+
+                case "detail": {
+                    const jobId = target[1]?.toLowerCase();
+                    if (!jobId || !JOBS[jobId]) {
+                        return api.sendMessage("❌ Vui lòng nhập mã công việc hợp lệ!", threadID);
+                    }
+
+                    const jobData = JOBS[jobId];
+                    const DEGREES = require('../config/family/educationConfig').DEGREES;
+                    
+                    let msg = "┏━━『 CHI TIẾT CÔNG VIỆC 』━━┓\n\n";
+                    msg += `💼 ${jobData.name}\n`;
+                    msg += `├ Mã: ${jobId}\n`;
+                    msg += `├ Lương: 💰 ${formatNumber(jobData.salary)} Xu/lần\n`;
+                    msg += `├ Loại: ${jobData.type || 'Không xác định'}\n`;
+                    msg += `├ Mô tả: ${jobData.description}\n`;
+                    
+                    if (jobData.requirements.length > 0) {
+                        msg += "├ Yêu cầu bằng cấp:\n";
+                        jobData.requirements.forEach(reqId => {
+                            const reqDegree = DEGREES[reqId];
+                            if (reqDegree) {
+                                msg += `   • ${reqDegree.name}\n`;
+                            }
+                        });
+                    } else {
+                        msg += "├ Yêu cầu: Không có\n";
+                    }
+                    
+                    msg += "\n┗━━━━━━━━━━━━━━━━━┛";
+                    await api.sendMessage(msg, threadID);
+                    return;
                 }
             }
 

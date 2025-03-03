@@ -286,6 +286,61 @@ const CROPS = {
     level: 10,
     description: "Dừa Bến Tre nổi tiếng với nước ngọt thơm mát",
   },
+  nho_do: {
+    name: "Nho đỏ",
+    emoji: "🍇",
+    price: 250000,
+    time: 130 * 60,
+    yield: 480000,
+    exp: 50,
+    water: 5,
+    level: 11,
+    description: "Nho đỏ quý hiếm từ vùng cao Đà Lạt",
+  },
+  sen: {
+    name: "Hoa sen",
+    emoji: "🪷",
+    price: 300000,
+    time: 140 * 60,
+    yield: 590000,
+    exp: 60,
+    water: 6,
+    level: 12,
+    description: "Hoa sen quý, biểu tượng của sự tinh khiết",
+  },
+  lan: {
+    name: "Lan đột biến",
+    emoji: "🌸",
+    price: 500000,
+    time: 180 * 60,
+    yield: 1200000,
+    exp: 80,
+    water: 4,
+    level: 13,
+    description: "Lan đột biến cực hiếm, giá trị cực cao",
+  },
+  sam: {
+    name: "Nhân sâm",
+    emoji: "🌿",
+    price: 800000,
+    time: 240 * 60,
+    yield: 1800000,
+    exp: 100,
+    water: 5,
+    level: 14,
+    description: "Nhân sâm quý hiếm nghìn năm tuổi",
+  },
+  truffle: {
+    name: "Nấm Truffle",
+    emoji: "🍄",
+    price: 1200000,
+    time: 300 * 60,
+    yield: 3000000,
+    exp: 150,
+    water: 4,
+    level: 15,
+    description: "Nấm truffle đen - thực phẩm đắt giá nhất thế giới",
+  },
 };
 
 const ANIMALS = {
@@ -442,6 +497,66 @@ const SHOP_ITEMS = {
     duration: 24 * 60 * 60 * 1000,
     level: 2,
   },
+de: {
+    name: "Dê",
+    emoji: "🐐",
+    price: 800000,
+    productTime: 5 * 60 * 60,
+    product: "sữa dê",
+    productEmoji: "🥛",
+    productPrice: 100000,
+    feed: 30000,
+    level: 11,
+    description: "Dê sữa cao cấp từ vùng núi Tây Bắc"
+  },
+  ngua: {
+    name: "Ngựa",
+    emoji: "🐎",
+    price: 1200000,
+    productTime: 10 * 60 * 60,
+    product: "lông ngựa",
+    productEmoji: "🧶",
+    productPrice: 250000,
+    feed: 40000,
+    level: 12,
+    description: "Ngựa thuần chủng quý hiếm"
+  },
+  huou: {
+    name: "Hươu",
+    emoji: "🦌",
+    price: 1500000,
+    productTime: 12 * 60 * 60,
+    product: "nhung hươu",
+    productEmoji: "🦴",
+    productPrice: 380000,
+    feed: 45000,
+    level: 13,
+    description: "Hươu sao quý hiếm, cho nhung chất lượng cao"
+  },
+  dan_dieu: {
+    name: "Đà điểu",
+    emoji: "🦩",
+    price: 1800000,
+    productTime: 14 * 60 * 60,
+    product: "trứng đà điểu",
+    productEmoji: "🥚",
+    productPrice: 450000,
+    feed: 50000,
+    level: 14,
+    description: "Đà điểu châu Phi, cho trứng siêu lớn"
+  },
+  ky_lan: {
+    name: "Kỳ lân",
+    emoji: "🦄",
+    price: 5000000,
+    productTime: 24 * 60 * 60,
+    product: "bột kỳ lân",
+    productEmoji: "✨",
+    productPrice: 1200000,
+    feed: 100000,
+    level: 15,
+    description: "Sinh vật huyền thoại, cho sản phẩm ma thuật quý hiếm"
+  },
 };
 
 const LEVELS = [
@@ -496,6 +611,41 @@ const LEVELS = [
     title: "Đại điền chủ",
     reward: 500000,
     plotSize: 36,
+  },
+  {
+    level: 11,
+    exp: 15000,
+    title: "Nhà nông học",
+    reward: 650000,
+    plotSize: 42,
+  },
+  {
+    level: 12,
+    exp: 22000,
+    title: "Bậc thầy canh tác",
+    reward: 800000,
+    plotSize: 48,
+  },
+  {
+    level: 13,
+    exp: 30000,
+    title: "Tỷ phú nông nghiệp",
+    reward: 1000000,
+    plotSize: 54,
+  },
+  {
+    level: 14,
+    exp: 45000,
+    title: "Đế chế nông sản",
+    reward: 1500000,
+    plotSize: 60,
+  },
+  {
+    level: 15,
+    exp: 65000,
+    title: "Huyền thoại nông trại",
+    reward: 2000000,
+    plotSize: 66,
   },
 ];
 
@@ -1556,8 +1706,8 @@ module.exports = {
             } con\n` +
             `┣➤ 📋 Nhiệm vụ: ${completed}/${total} (${unclaimed} chưa nhận)\n` +
             `┣➤ 🌤️ THỜI TIẾT: ${weatherInfo.emoji} ${weatherInfo.name}\n` +
-            `┃     ${getWeatherDescription(weatherInfo, weatherTimeOfDay)}\n`;
-          (currentEvent
+            `┃     ${getWeatherDescription(weatherInfo, weatherTimeOfDay)}\n` +
+          (currentEvent && currentEvent.crops 
             ? `┣➤ 🎉 SỰ KIỆN: ${currentEvent.name}\n┃   → Các loại cây đặc biệt có sẵn để trồng!\n`
             : "") +
             `┗━━━━━━━━━━━━━━━━┛\n\n` +
@@ -5080,7 +5230,7 @@ module.exports = {
               for (let level = currentLevel + 1; level <= 10; level++) {
                 if (animalsByLevel[level]) {
                   animalsByLevel[level].forEach((animal) => {
-                    message += `\n${animal.emoji} ${animal.name} (Cần cấp ${level})\n`;
+                    message += `\n${animal.emoji} ${animal.name} (Cần cấp ${level} )\n`;
                   });
                 }
               }

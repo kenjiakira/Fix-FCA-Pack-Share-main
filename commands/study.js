@@ -14,25 +14,27 @@ module.exports = {
     usedby: 0,
     info: "Hệ thống học tập",
     onPrefix: true,
-    usages: ".study [list/enroll/info]",
+    usages: ".study [list/category/enroll/info]",
     cooldowns: 5,
 
     onLaunch: async function({ api, event, target }) {
         const { threadID, senderID } = event;
-        const command = target[0]?.toLowerCase();
+        let command = target[0]?.toLowerCase();
+        let argument = target[1]?.toLowerCase();
 
         try {
             const education = this.loadEducation(senderID);
 
             if (!command) {
                 await api.sendMessage(
-                    "『 HỌC TẬP 』\n\n" +
-                    "🎯 HƯỚNG DẪN SỬ DỤNG:\n\n" +
-                    "⭐ .study list\n└ Xem danh sách bằng cấp\n\n" +
+                    "┏━━『 HỌC TẬP 』━━┓\n\n" +
+                    "🎓 HƯỚNG DẪN SỬ DỤNG:\n\n" +
+                    "📋 .study list\n└ Xem danh mục học tập\n\n" +
+                    "🏫 .study category <loại>\n└ Xem chi tiết bằng cấp theo loại\n\n" +
                     "📝 .study enroll <mã>\n└ Đăng ký học bằng cấp\n\n" +
                     "ℹ️ .study info\n└ Xem thông tin học vấn\n\n" +
-                    "💡 Ghi chú: Trình độ học vấn càng\ncao thì cơ hội việc làm càng tốt\n" +
-                    "\n┗━━━━━━━━━━━━━┛",
+                    "💡 Học vấn cao = cơ hội việc làm tốt\n" +
+                    "┗━━━━━━━━━━━━━┛",
                     threadID
                 );
                 return;
@@ -40,45 +42,58 @@ module.exports = {
 
             switch (command) {
                 case "list": {
-                    let msg = "┏━━『 DANH SÁCH BẰNG CẤP 』━━┓\n\n";
+                    let msg = "┏━━『 DANH MỤC HỌC TẬP 』━━┓\n\n";
                     
-                    for (const [categoryId, category] of Object.entries(DEGREE_CATEGORIES)) {
-                        msg += `🎓 ${category.name}\n`;
-                        msg += "┏━━━━━━━━━━━━━━━┓\n";
-                        
-                        for (const degreeId of category.degrees) {
-                            const degree = DEGREES[degreeId];
-                            if (!degree) continue;
+                    Object.entries(DEGREE_CATEGORIES).forEach(([categoryId, category], index) => {
+                        msg += `${index + 1}. ${this.getCategoryIcon(categoryId)} ${category.name}\n`;
+                        msg += `└ Số bằng cấp: ${category.degrees.length}\n\n`;
+                    });
 
-                            msg += `📋 ${degree.name}\n`;
-                            msg += `├ Mã: ${degreeId}\n`;
-                            msg += `├ Chi phí: ${degree.instantGrant ? '🆓 Miễn phí' : '💰 ' + formatNumber(degree.cost) + ' Xu'}\n`;
-                            msg += `├ Thời gian: ${degree.instantGrant ? '⚡ Cấp ngay' : '⏳ ' + degree.timeNeeded + ' ngày'}\n`;
-                            
-                            if (degree.requirements.length > 0) {
-                                msg += `└ Yêu cầu: ${degree.requirements.map(req => DEGREES[req].name).join(", ")}\n`;
-                            }
-                            msg += '\n';
-                        }
-                        msg += "┗━━━━━━━━━━━━━━━┛\n\n";
+                    msg += "💡 HƯỚNG DẪN:\n";
+                    msg += "➤ Xem chi tiết: .study category <loại>\n";
+                    msg += "   VD: .study category school\n\n";
+                    msg += "➤ Các loại: school, college, university,\n   certificate, specialized\n\n";
+                    msg += "💵 Số dư: " + formatNumber(await getBalance(senderID)) + " Xu";
+                    
+                    await api.sendMessage(msg, threadID);
+                    return;
+                }
+
+                case "category": {
+                    if (!argument || !DEGREE_CATEGORIES[argument]) {
+                        return api.sendMessage(
+                            "❌ Loại bằng cấp không hợp lệ!\nCác loại: school, college, university, certificate, specialized",
+                            threadID
+                        );
+                    }
+
+                    const category = DEGREE_CATEGORIES[argument];
+                    let msg = `┏━━『 ${category.name.toUpperCase()} 』━━┓\n\n`;
+                    
+                    for (const degreeId of category.degrees) {
+                        const degree = DEGREES[degreeId];
+                        if (!degree) continue;
+
+                        msg += `📋 ${degree.name}\n`;
+                        msg += `├ Mã: ${degreeId}\n`;
+                        msg += `├ Chi phí: ${degree.instantGrant ? '🆓 Miễn phí' : '💰 ' + formatNumber(degree.cost) + ' Xu'}\n`;
+                        msg += `└ Thời gian: ${degree.instantGrant ? '⚡ Cấp ngay' : '⏳ ' + degree.timeNeeded + ' ngày'}\n\n`;
                     }
 
                     msg += "💡 HƯỚNG DẪN:\n";
                     msg += "➤ Đăng ký: .study enroll <mã>\n";
-                    msg += "➤ Tiến độ: .study info\n\n";
-                    msg += "💵 Số dư: " + formatNumber(await getBalance(senderID)) + " Xu";
+                    msg += "➤ Kiểm tra tiến độ: .study info";
                     
-                    const listMsg = await api.sendMessage(msg, threadID);
+                    await api.sendMessage(msg, threadID);
                     return;
                 }
 
                 case "enroll": {
-                    const degreeId = target[1]?.toLowerCase();
-                    if (!degreeId || !DEGREES[degreeId]) {
+                    if (!argument || !DEGREES[argument]) {
                         return api.sendMessage("❌ Vui lòng nhập mã bằng cấp hợp lệ!", threadID);
                     }
 
-                    const degree = DEGREES[degreeId];
+                    const degree = DEGREES[argument];
                     if (education.currentDegree) {
                         return api.sendMessage("❌ Bạn đang theo học một chương trình khác!", threadID);
                     }
@@ -94,7 +109,7 @@ module.exports = {
 
                     if (degree.instantGrant) {
                         education.degrees = education.degrees || []; 
-                        education.degrees.push(degreeId);
+                        education.degrees.push(argument);
                         this.saveEducation(senderID, education);
                         return api.sendMessage(
                             "🎓 CHÚC MỪNG BẠN ĐÃ TỐT NGHIỆP THPT!\n\n" +
@@ -114,7 +129,7 @@ module.exports = {
 
                     await updateBalance(senderID, -degree.cost);
                     education.currentDegree = {
-                        id: degreeId,
+                        id: argument,
                         startTime: Date.now(),
                         progress: 0
                     };
@@ -138,10 +153,24 @@ module.exports = {
                     } else {
                         const highestDegree = education.degrees[education.degrees.length - 1];
                         msg += `🎓 Trình độ cao nhất:\n└ ${DEGREES[highestDegree].name}\n\n`;
-                        msg += "📚 Bằng cấp đã có:\n";
+                        
+                        const categories = {};
                         education.degrees.forEach(degreeId => {
-                            msg += `├ ${DEGREES[degreeId].name}\n`;
+                            for (const [catId, category] of Object.entries(DEGREE_CATEGORIES)) {
+                                if (category.degrees.includes(degreeId)) {
+                                    if (!categories[catId]) categories[catId] = [];
+                                    categories[catId].push(degreeId);
+                                    break;
+                                }
+                            }
                         });
+                        
+                        msg += "📚 Bằng cấp theo loại:\n";
+                        for (const [catId, degrees] of Object.entries(categories)) {
+                            if (degrees.length > 0) {
+                                msg += `├ ${this.getCategoryIcon(catId)} ${DEGREE_CATEGORIES[catId].name}: ${degrees.length}\n`;
+                            }
+                        }
                     }
 
                     if (education.currentDegree) {
@@ -162,9 +191,38 @@ module.exports = {
                         }
                     }
 
+                    msg += "\n\n💡 Xem chi tiết bằng cấp:\n.study category <loại>";
                     msg += "\n┗━━━━━━━━━━━━━━━━━┛";
                     return api.sendMessage(msg, threadID);
                 }
+
+                case "detail": {
+                    if (!argument || !DEGREES[argument]) {
+                        return api.sendMessage("❌ Vui lòng nhập mã bằng cấp hợp lệ!", threadID);
+                    }
+
+                    const degree = DEGREES[argument];
+                    let msg = `┏━━『 CHI TIẾT BẰNG CẤP 』━━┓\n\n`;
+                    msg += `🎓 ${degree.name}\n`;
+                    msg += `├ Mã: ${argument}\n`;
+                    msg += `├ Chi phí: ${degree.instantGrant ? '🆓 Miễn phí' : '💰 ' + formatNumber(degree.cost) + ' Xu'}\n`;
+                    msg += `├ Thời gian: ${degree.instantGrant ? '⚡ Cấp ngay' : '⏳ ' + degree.timeNeeded + ' ngày'}\n`;
+                    
+                    if (degree.requirements.length > 0) {
+                        msg += `├ Yêu cầu:\n`;
+                        degree.requirements.forEach(req => {
+                            msg += `│  ➤ ${DEGREES[req].name}\n`;
+                        });
+                    }
+                    
+                    msg += `└ Mô tả: ${degree.description || "Không có mô tả"}\n`;
+                    msg += "\n┗━━━━━━━━━━━━━━━━━┛";
+
+                    return api.sendMessage(msg, threadID);
+                }
+                
+                default:
+                    return api.sendMessage("❌ Lệnh không hợp lệ. Vui lòng sử dụng .study help để biết thêm chi tiết.", threadID);
             }
         } catch (error) {
             console.error(error);
@@ -210,5 +268,16 @@ module.exports = {
             console.error(error);
             return false;
         }
+    },
+
+    getCategoryIcon(categoryId) {
+        const icons = {
+            "school": "🏫",
+            "college": "🏢",
+            "university": "🎓",
+            "certificate": "📜",
+            "specialized": "📚"
+        };
+        return icons[categoryId] || "📝";
     }
 };
