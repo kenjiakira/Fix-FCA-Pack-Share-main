@@ -23,14 +23,22 @@ module.exports = {
         }
 
         const jobSystem = new JobSystem();
-
         const vipBenefits = getVIPBenefits(senderID);
+        
         const cooldown = jobSystem.getWorkCooldown(senderID, vipBenefits);
         
         if (cooldown > 0) {
-            const timeLeft = Math.ceil(cooldown / 1000);
+            const hours = Math.floor(cooldown / 3600000);
+            const minutes = Math.floor((cooldown % 3600000) / 60000);
+            const seconds = Math.ceil((cooldown % 60000) / 1000);
+            
+            let timeMessage = '';
+            if (hours > 0) timeMessage += `${hours} giờ `;
+            if (minutes > 0) timeMessage += `${minutes} phút `;
+            if (seconds > 0) timeMessage += `${seconds} giây`;
+            
             return api.sendMessage(
-                `⏳ Bạn cần nghỉ ngơi ${Math.floor(timeLeft/60)} phút ${timeLeft%60} giây nữa mới có thể làm việc tiếp!`,
+                `⏳ Bạn cần nghỉ ngơi ${timeMessage} nữa mới có thể làm việc tiếp!`,
                 threadID,
                 messageID
             );
@@ -38,6 +46,10 @@ module.exports = {
 
         try {
             const result = await jobSystem.work(senderID, vipBenefits);
+            
+            const nextCooldown = jobSystem.getJobBasedCooldown(senderID);
+            const cooldownHours = Math.floor(nextCooldown / 3600000);
+            const cooldownMinutes = Math.floor((nextCooldown % 3600000) / 60000);
             
             const tax = jobSystem.calculateTax(result.salary);
             const netEarnings = result.salary - tax;
@@ -75,6 +87,9 @@ module.exports = {
             message += `[💰] Được trả: ${result.salary.toLocaleString('vi-VN')} Xu\n`;
             message += `[💸] Thuế thu nhập: ${tax.toLocaleString('vi-VN')} Xu (${((tax/result.salary)*100).toFixed(1)}%)\n`;
             message += `[💵] Thực lãnh: ${netEarnings.toLocaleString('vi-VN')} Xu\n`;
+            
+            message += `[⏳] Thời gian nghỉ: ${cooldownHours > 0 ? `${cooldownHours} giờ ` : ''}${cooldownMinutes} phút\n`;
+            
             if (vipBenefits?.workBonus) {
                 message += `[👑] Thưởng VIP +${vipBenefits.workBonus}%\n`;
                 message += `[✨] Tiền thưởng: +${Math.floor(result.salary * vipBenefits.workBonus / 100).toLocaleString('vi-VN')} Xu\n`;

@@ -16,7 +16,7 @@ module.exports = {
     info: "Giao dịch chứng khoán",
     onPrefix: true,
     usages: ".trade [check/buy/sell/portfolio/info/margin/order/analysis/guide] [mã CP] [số lượng] [tùy chọn]",
-    cooldowns: 5,
+    cooldowns: 30,
     usedby: 0,
     onLaunch: async function({ api, event, target }) {
         const { threadID, messageID, senderID } = event;

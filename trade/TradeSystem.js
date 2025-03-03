@@ -15,7 +15,7 @@ const STOCKS_DATA_PATH = path.join(__dirname, '../commands/json/trade/stocks_dat
 
 const MARKET_HOURS = {
     open: 9,  
-    close: 19
+    close: 17
 };
 
 const RISK_CONFIG = {

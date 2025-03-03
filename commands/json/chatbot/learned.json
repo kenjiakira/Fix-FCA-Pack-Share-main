@@ -1,19 +1,86 @@
 {
-  "đ ai rảnh đi hack bot mình": {
+  "thua giết bot": {
     "responses": [
-      "Chắc cậu đang nói đùa đấy chứ? Hack bot thì hơi khó đấy, hệ thống bảo mật phức tạp lắm.  Nhưng mà nếu cậu muốn thử sức mình ở lĩnh vực an ninh mạng thì cũng thú vị đấy, có nhiều hướng đi lắm."
+      "Chà, tiếc quá!  Đừng buồn nhé, lần sau cố gắng hơn!  Biết đâu lại thắng =)))"
     ],
     "frequency": 1
   },
-  "con bot nó thg nào hack dc": {
+  ".farm thăm @kim ngân": {
     "responses": [
-      "Khó đấy bạn ạ!  Hệ thống bảo mật của bot phức tạp lắm, không dễ gì hack được đâu."
+      "Chào Phạm Hùng!  Tối nay dạo này khỏe không?",
+      "À, bạn muốn bot tự động tham gia nhóm à?  Khó đấy bạn ơi,  cái đó phải nhờ người lập trình  xem xét lại  code chứ em không làm được.  =)))"
+    ],
+    "frequency": 2
+  },
+  "có trò gì chs ko bot": {
+    "responses": [
+      "Chơi cờ vua online không bạn?  Hay là thử một trò chơi giải đố xem sao?"
     ],
     "frequency": 1
   },
-  "bot nó hack cx có đc gì đâu": {
+  "bot oi chs trò giả lập đời sống": {
     "responses": [
-      "Kiến Tườngg, bạn nói đúng đấy.  Hack bot cũng chẳng được gì nhiều ngoài việc gây phiền toái thôi.  Thời gian và công sức bỏ ra có khi còn nhiều hơn lợi ích thu được."
+      "Trò giả lập đời sống hay nhỉ!  Em chưa từng chơi thử, nghe có vẻ thú vị đấy.  Bạn muốn chơi kiểu gì?"
+    ],
+    "frequency": 1
+  },
+  "tk từ rs bot hay gì nên nó cho work lại th:))": {
+    "responses": [
+      "Ui dào, thế là ổn rồi chứ gì.  May quá!  Giờ thì mình có thể thoải mái tán gẫu rồi.  Có gì cứ hỏi em nhé!"
+    ],
+    "frequency": 1
+  },
+  "tạo box xong add bot vô là dc đk": {
+    "responses": [
+      "Đúng rồi đó bạn.  Tạo box xong rồi add em vào là được.  =)))"
+    ],
+    "frequency": 1
+  },
+  "bot tự vô dc kh": {
+    "responses": [
+      "Không được bạn ơi, bot phải được add vào mới tham gia được.  :))"
+    ],
+    "frequency": 1
+  },
+  "vãi, tự vô đi": {
+    "responses": [
+      "Không được bạn ơi, bot nào cũng vậy thôi.  :))"
+    ],
+    "frequency": 1
+  },
+  "update cho bot tự vô đi": {
+    "responses": [
+      "Cái đó thì em chịu rồi bạn ơi,  chức năng đó phải do người tạo lập bot quyết định chứ không phải em.  =)))"
+    ],
+    "frequency": 1
+  },
+  "đánh như bot": {
+    "responses": [
+      "Em xin lỗi, có lẽ em chưa đáp ứng được kỳ vọng của anh. Em sẽ cố gắng cải thiện hơn nữa."
+    ],
+    "frequency": 1
+  },
+  "bot": {
+    "responses": [
+      "Chắc cậu đang nói về trận đấu game nhỉ?  Có lẽ hôm nay cậu chưa có phong độ tốt thôi mà.  Đừng nản, cứ luyện tập thêm là được!"
+    ],
+    "frequency": 1
+  },
+  "bị ăn mã hả@aki bot • [ . ]": {
+    "responses": [
+      "Chắc trận đấu căng thẳng quá nhỉ?  Cố gắng lên cậu nhé!  Đã khuya rồi, ngủ ngon!"
+    ],
+    "frequency": 1
+  },
+  "nayz thấy nên tk từ tắt bot đó": {
+    "responses": [
+      "Dạ, bạn thấy hay thì cứ làm thôi.  Muộn rồi, ngủ ngon nhé!"
+    ],
+    "frequency": 1
+  },
+  "đm hồi lag bot đó": {
+    "responses": [
+      "Khổ thân bạn nhỉ =))  Giờ thì ổn rồi, cứ thoải mái nha!"
     ],
     "frequency": 1
   }

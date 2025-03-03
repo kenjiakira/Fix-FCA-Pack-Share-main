@@ -19,7 +19,8 @@ const VIP_PACKAGES = {
                 buff: "Tăng 20% chỉ số cần câu"
             },
             money: {
-                work: "+20% từ làm việc",
+                farm: "giảm thời gian trồng cây và tăng lợi nhuận",
+                work: "+60% từ làm việc/giảm 5% thời gian",
                 daily: "+20% từ daily", 
                 quest: "+20% từ nhiệm vụ",
                 event: "+30% từ sự kiện",
@@ -52,7 +53,8 @@ const VIP_PACKAGES = {
                 buff: "Tăng 40% chỉ số cần câu"
             },
             money: {
-                work: "+40% từ làm việc",
+                farm: "giảm thời gian trồng cây và tăng lợi nhuận",
+                work: "+60% từ làm việc/giảm 15% thời gian",
                 daily: "+40% từ daily",
                 quest: "+50% từ nhiệm vụ", 
                 event: "+60% từ sự kiện",
@@ -86,7 +88,8 @@ const VIP_PACKAGES = {
                 special: "Mở khóa khu vực đặc biệt"
             },
             money: {
-                work: "+60% từ làm việc",
+                farm: "giảm thời gian trồng cây và tăng lợi nhuận",
+                work: "+60% từ làm việc/giảm 30% thời gian",
                 daily: "+60% từ daily",
                 quest: "+100% từ nhiệm vụ",
                 event: "+100% từ sự kiện",

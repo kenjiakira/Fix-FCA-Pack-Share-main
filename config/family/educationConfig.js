@@ -23,6 +23,10 @@ module.exports = {
         skill: {
             name: "KỸ NĂNG CHUYÊN MÔN",
             degrees: ["kyna", "fe", "be"]
+        },
+        research: {
+            name: "CHỨNG CHỈ NGHIÊN CỨU",
+            degrees: ["research1"]
         }
     },
 
@@ -99,14 +103,14 @@ module.exports = {
 
         aws: {
             name: "AWS Certified",
-            cost: 400000000,
+            cost: 200000000,
             timeNeeded: 15,
             level: 3,
             requirements: ["e3"]
         },
         azure: {
             name: "Azure Expert",
-            cost: 450000000,
+            cost: 250000000,
             timeNeeded: 15,
             level: 3,
             requirements: ["e3"]
@@ -139,6 +143,15 @@ module.exports = {
             timeNeeded: 15,
             level: 2,
             requirements: ["e1"]
+        },
+        
+        research1: {
+            name: "Chứng nhận Nghiên cứu Quốc tế",
+            cost: 3000000000,
+            timeNeeded: 60,
+            level: 4,
+            requirements: ["e5", "eng3"],
+            description: "Chứng chỉ nghiên cứu cao cấp được công nhận quốc tế"
         }
     },
 

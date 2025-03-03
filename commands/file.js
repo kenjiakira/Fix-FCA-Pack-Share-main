@@ -105,7 +105,8 @@ module.exports = {
                     usage: moduleInfo.usages || 'Không có hướng dẫn',
                     prefix: moduleInfo.onPrefix ? 'Có' : 'Không',
                     cooldown: moduleInfo.cooldowns || 0,
-                    lineCount: content.split('\n').length
+                    lineCount: content.split('\n').length,
+                    charCount: content.length
                 };
             };
 
@@ -118,6 +119,7 @@ module.exports = {
                        `⏱️ Cooldown: ${fileInfo.cooldown}s\n` +
                        `📊 Dung lượng: ${fileInfo.size}\n` +
                        `📈 Số dòng: ${fileInfo.lineCount}\n` +
+                       `📊 Số ký tự: ${fileInfo.charCount}\n` + 
                        `🕐 Tạo lúc: ${fileInfo.created}\n` +
                        `✏️ Sửa lúc: ${fileInfo.modified}\n` +
                        `──────────────────`;

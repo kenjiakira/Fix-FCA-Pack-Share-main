@@ -3,7 +3,7 @@ module.exports = {
     dev: "HNT",
     usedby: 0,
     category: "Khác",
-    info: "Thông tin về cách ủng hộ bot",
+    info: "góp gạch xây nhà",
     usages: "donate",
     onPrefix: true,
     cooldowns: 5,
@@ -12,9 +12,9 @@ module.exports = {
         const { threadID, messageID } = event;
   
         const donateMessage = `
-╔═《 DONATE 》═╗
+╔═《 GÓP GẠCH 》═╗
 
-💝 Ủng Hộ Admin Bot 💝
+💝 Góp Gạch Xây nhà 💝
 
 ➤ Chủ tài khoản: HOANG NGOC TU
 ━━━━━━━━━━━━━━━━━━

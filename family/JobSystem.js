@@ -320,7 +320,7 @@ class JobSystem {
                 id: jobData.currentJob.id,
                 salary,
                 workCount: jobData.workCount,
-                levelName: currentLevel?.name || job.name,
+                levelName: newLevel?.name || job.name, 
                 leveledUp: leveledUp ? newLevel : null,
                 type: jobType
             };
@@ -338,7 +338,10 @@ class JobSystem {
 
         if (jobData.lastWorked) {
             const timeSinceLastWork = Date.now() - jobData.lastWorked;
-            const workTimeLeft = Math.max(0, this.WORK_COOLDOWN - timeSinceLastWork);
+            
+            // Use job-specific cooldown instead of generic WORK_COOLDOWN
+            const jobCooldown = this.getJobBasedCooldown(userID);
+            const workTimeLeft = Math.max(0, jobCooldown - timeSinceLastWork);
             cooldown = Math.max(cooldown, workTimeLeft);
         }
 
@@ -353,6 +356,44 @@ class JobSystem {
         }
 
         return Math.max(0, cooldown);
+    }
+
+    getJobBasedCooldown(userID) {
+        const jobData = this.getJob(userID);
+        if (!jobData.currentJob) return this.WORK_COOLDOWN;
+        
+        const jobId = jobData.currentJob.id;
+        const job = JOBS[jobId];
+        if (!job) return this.WORK_COOLDOWN;
+
+        const baseSalary = 50000; 
+        const baseCooldown = this.WORK_COOLDOWN;
+        
+        let salaryRatio = job.salary / baseSalary;
+        
+        if (salaryRatio > 1) {
+         
+            salaryRatio = Math.pow(salaryRatio, 0.6);
+        }
+        
+        salaryRatio = Math.min(Math.max(salaryRatio, 1), 12); 
+        
+        const jobType = job.type || 'shipper';
+        const currentLevel = this.getJobLevel(jobType, jobData.workCount || 0);
+        let rankAdjustment = 1.0;
+        
+        if (currentLevel && currentLevel.bonus > 1) {
+       
+            const reductionFactor = Math.min((currentLevel.bonus - 1) * 0.6, 0.3);
+            rankAdjustment = 1 - reductionFactor;
+        }
+        
+        const jobBasedCooldown = Math.floor(baseCooldown * salaryRatio * rankAdjustment);
+        
+        console.log(`Job cooldown for ${jobId} (${job.name}): ${Math.floor(jobBasedCooldown/60000)} minutes`);
+        console.log(`- Base: ${Math.floor(baseCooldown/60000)}m, Ratio: ${salaryRatio.toFixed(2)}x, Rank Adj: ${rankAdjustment.toFixed(2)}`);
+        
+        return jobBasedCooldown;
     }
 
     checkRequirements(requirements, degrees) {

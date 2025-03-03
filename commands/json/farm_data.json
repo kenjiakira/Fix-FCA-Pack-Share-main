@@ -2,7 +2,2744 @@
   "farms": {
     "61573427362389": {
       "id": "61573427362389",
-      "exp": 58,
+      "exp": 876,
+      "plots": [
+        {
+          "id": 0,
+          "status": "ready",
+          "crop": "ca_rot",
+          "plantedAt": 1740927570803,
+          "water": 1,
+          "lastWatered": 1740927570803
+        },
+        {
+          "id": 1,
+          "status": "ready",
+          "crop": "ca_rot",
+          "plantedAt": 1740927570803,
+          "water": 1,
+          "lastWatered": 1740927570803
+        },
+        {
+          "id": 2,
+          "status": "ready",
+          "crop": "ca_rot",
+          "plantedAt": 1740927570803,
+          "water": 1,
+          "lastWatered": 1740927570803
+        },
+        {
+          "id": 3,
+          "status": "ready",
+          "crop": "ca_rot",
+          "plantedAt": 1740927570803,
+          "water": 1,
+          "lastWatered": 1740927570803
+        },
+        {
+          "id": 4,
+          "status": "ready",
+          "crop": "ca_rot",
+          "plantedAt": 1740927570803,
+          "water": 1,
+          "lastWatered": 1740927570803
+        },
+        {
+          "id": 5,
+          "status": "ready",
+          "crop": "ca_rot",
+          "plantedAt": 1740927570803,
+          "water": 1,
+          "lastWatered": 1740927570803
+        },
+        {
+          "id": 6,
+          "status": "ready",
+          "crop": "ca_rot",
+          "plantedAt": 1740927570803,
+          "water": 1,
+          "lastWatered": 1740927570803
+        },
+        {
+          "id": 7,
+          "status": "ready",
+          "crop": "ca_rot",
+          "plantedAt": 1740927570803,
+          "water": 1,
+          "lastWatered": 1740927570803
+        },
+        {
+          "id": 8,
+          "status": "ready",
+          "crop": "ca_rot",
+          "plantedAt": 1740927570803,
+          "water": 1,
+          "lastWatered": 1740927570803
+        }
+      ],
+      "inventory": {
+        "rau xanh": 0,
+        "lúa": 14,
+        "đậu": 14,
+        "cà rốt": 6
+      },
+      "animals": {},
+      "items": {
+        "giong_cao_cap": {
+          "purchased": 1740925423534,
+          "active": true,
+          "effect": "exp_boost",
+          "expiry": 1741011823534
+        }
+      },
+      "lastActive": 1740891826851,
+      "createdAt": 1740891826851,
+      "autoHarvest": false,
+      "weather": {
+        "nextChange": 1740956665189
+      },
+      "lastVisits": {
+        "61568641631000": 1740901680135,
+        "100055417691992": 1740907202895
+      },
+      "visitors": [
+        {
+          "visitorId": "61568641631000",
+          "visitTime": 1740907247379,
+          "action": "💦 Bạn đã giúp tưới nước cho 🌾 Lúa ở ô đất 4!"
+        },
+        {
+          "visitorId": "100068382888605",
+          "visitTime": 1740911682273,
+          "action": "💦 Bạn đã giúp tưới nước cho 🌾 Lúa ở ô đất 6!"
+        },
+        {
+          "visitorId": "100055417691992",
+          "visitTime": 1740914219888,
+          "action": "💫 Bạn đã tham quan trang trại và học hỏi được một số điều!"
+        },
+        {
+          "visitorId": "61550331471452",
+          "visitTime": 1740916980277,
+          "action": "💫 Bạn đã tham quan trang trại và học hỏi được một số điều!"
+        },
+        {
+          "visitorId": "100068382888605",
+          "visitTime": 1740927537140,
+          "action": "💫 Bạn đã tham quan trang trại và học hỏi được một số điều!"
+        },
+        {
+          "visitorId": "100055074463541",
+          "visitTime": 1740927537976,
+          "action": "💫 Bạn đã tham quan trang trại và học hỏi được một số điều!"
+        },
+        {
+          "visitorId": "100046739981416",
+          "visitTime": 1740927551362,
+          "action": "💫 Bạn đã tham quan trang trại và học hỏi được một số điều!"
+        },
+        {
+          "visitorId": "100035610181048",
+          "visitTime": 1740927552209,
+          "action": "💫 Bạn đã tham quan trang trại và học hỏi được một số điều!"
+        },
+        {
+          "visitorId": "61550331471452",
+          "visitTime": 1740929588241,
+          "action": "💫 Bạn đã tham quan trang trại và học hỏi được một số điều!"
+        },
+        {
+          "visitorId": "61561277064921",
+          "visitTime": 1740933959038,
+          "action": "💫 Bạn đã tham quan trang trại và học hỏi được một số điều!"
+        }
+      ],
+      "dailyMissions": {
+        "date": 1740910682500,
+        "missions": {
+          "water": {
+            "name": "Tưới nước",
+            "emoji": "💧",
+            "description": "Tưới nước cho 5 cây trồng",
+            "target": 5,
+            "reward": 5000,
+            "exp": 8,
+            "progress": 0,
+            "claimed": false
+          },
+          "harvest": {
+            "name": "Thu hoạch",
+            "emoji": "🌾",
+            "description": "Thu hoạch 3 cây trồng",
+            "target": 3,
+            "reward": 8000,
+            "exp": 15,
+            "progress": 3,
+            "claimed": true
+          },
+          "sell": {
+            "name": "Bán sản phẩm",
+            "emoji": "💰",
+            "description": "Bán 5 sản phẩm bất kỳ",
+            "target": 5,
+            "reward": 7000,
+            "exp": 12,
+            "progress": 5,
+            "claimed": true
+          }
+        },
+        "refreshed": 1740910682500
+      }
+    },
+    "61568641631000": {
+      "id": "61568641631000",
+      "exp": 179,
+      "plots": [
+        {
+          "id": 0,
+          "status": "empty",
+          "crop": null,
+          "plantedAt": null,
+          "water": 0,
+          "lastWatered": null
+        },
+        {
+          "id": 1,
+          "status": "empty",
+          "crop": null,
+          "plantedAt": null,
+          "water": 0,
+          "lastWatered": null
+        },
+        {
+          "id": 2,
+          "status": "empty",
+          "crop": null,
+          "plantedAt": null,
+          "water": 0,
+          "lastWatered": null
+        },
+        {
+          "id": 3,
+          "status": "empty",
+          "crop": null,
+          "plantedAt": null,
+          "water": 0,
+          "lastWatered": null
+        },
+        {
+          "id": 4,
+          "status": "empty",
+          "crop": null,
+          "plantedAt": null,
+          "water": 0,
+          "lastWatered": null
+        },
+        {
+          "id": 5,
+          "status": "empty",
+          "crop": null,
+          "plantedAt": null,
+          "water": 0,
+          "lastWatered": null
+        }
+      ],
+      "inventory": {
+        "lúa": 0
+      },
+      "animals": {},
+      "items": {
+        "phan_bon": {
+          "purchased": 1740900987067,
+          "active": true,
+          "effect": "grow_boost",
+          "expiry": 1740987387067
+        }
+      },
+      "lastActive": 1740900581883,
+      "createdAt": 1740900581883,
+      "autoHarvest": false,
+      "weather": {
+        "nextChange": 1740943881944
+      },
+      "visitors": [
+        {
+          "visitorId": "61573427362389",
+          "visitTime": 1740901680135,
+          "action": "💫 Bạn đã tham quan trang trại và học hỏi được một số điều!"
+        },
+        {
+          "visitorId": "100055417691992",
+          "visitTime": 1740907244988,
+          "action": "💫 Bạn đã tham quan trang trại và học hỏi được một số điều!"
+        },
+        {
+          "visitorId": "100068382888605",
+          "visitTime": 1740911641510,
+          "action": "💫 Bạn đã tham quan trang trại và học hỏi được một số điều!"
+        },
+        {
+          "visitorId": "100063719077878",
+          "visitTime": 1740913179301,
+          "action": "💫 Bạn đã tham quan trang trại và học hỏi được một số điều!"
+        },
+        {
+          "visitorId": "100053857386814",
+          "visitTime": 1740921167761,
+          "action": "💫 Bạn đã tham quan trang trại và học hỏi được một số điều!"
+        },
+        {
+          "visitorId": "100068382888605",
+          "visitTime": 1740927591005,
+          "action": "💫 Bạn đã tham quan trang trại và học hỏi được một số điều!"
+        },
+        {
+          "visitorId": "100055074463541",
+          "visitTime": 1740927603515,
+          "action": "💫 Bạn đã tham quan trang trại và học hỏi được một số điều!"
+        },
+        {
+          "visitorId": "100046739981416",
+          "visitTime": 1740929741378,
+          "action": "💫 Bạn đã tham quan trang trại và học hỏi được một số điều!"
+        }
+      ],
+      "lastVisits": {
+        "100055417691992": 1740907231900,
+        "61573427362389": 1740907247379,
+        "100053970942155": 1740907253000,
+        "100055074463541": 1740907261234,
+        "100063719077878": 1740907297845,
+        "100053857386814": 1740907324050
+      },
+      "dailyMissions": {
+        "date": 1740912471736,
+        "missions": {
+          "harvest": {
+            "name": "Thu hoạch",
+            "emoji": "🌾",
+            "description": "Thu hoạch 3 cây trồng",
+            "target": 3,
+            "reward": 8000,
+            "exp": 15,
+            "progress": 1,
+            "claimed": false
+          },
+          "sell": {
+            "name": "Bán sản phẩm",
+            "emoji": "💰",
+            "description": "Bán 5 sản phẩm bất kỳ",
+            "target": 5,
+            "reward": 7000,
+            "exp": 12,
+            "progress": 5,
+            "claimed": false
+          },
+          "process": {
+            "name": "Chế biến",
+            "emoji": "👨‍🍳",
+            "description": "Chế biến 2 món ăn",
+            "target": 2,
+            "reward": 12000,
+            "exp": 20,
+            "progress": 0,
+            "claimed": false
+          }
+        },
+        "refreshed": 1740912471736
+      }
+    },
+    "100055074463541": {
+      "id": "100055074463541",
+      "exp": 816,
+      "plots": [
+        {
+          "id": 0,
+          "status": "ready",
+          "crop": "sa",
+          "plantedAt": 1740929351819,
+          "water": 3,
+          "lastWatered": 1740929377862
+        },
+        {
+          "id": 1,
+          "status": "ready",
+          "crop": "sa",
+          "plantedAt": 1740929351819,
+          "water": 3,
+          "lastWatered": 1740929377862
+        },
+        {
+          "id": 2,
+          "status": "ready",
+          "crop": "sa",
+          "plantedAt": 1740929351819,
+          "water": 3,
+          "lastWatered": 1740929377862
+        },
+        {
+          "id": 3,
+          "status": "ready",
+          "crop": "sa",
+          "plantedAt": 1740929351819,
+          "water": 3,
+          "lastWatered": 1740929377862
+        },
+        {
+          "id": 4,
+          "status": "ready",
+          "crop": "sa",
+          "plantedAt": 1740929351819,
+          "water": 3,
+          "lastWatered": 1740929377862
+        },
+        {
+          "id": 5,
+          "status": "ready",
+          "crop": "sa",
+          "plantedAt": 1740929351819,
+          "water": 3,
+          "lastWatered": 1740929377862
+        },
+        {
+          "id": 6,
+          "status": "ready",
+          "crop": "sa",
+          "plantedAt": 1740929351819,
+          "water": 3,
+          "lastWatered": 1740929377862
+        },
+        {
+          "id": 7,
+          "status": "ready",
+          "crop": "sa",
+          "plantedAt": 1740929351819,
+          "water": 3,
+          "lastWatered": 1740929377862
+        },
+        {
+          "id": 8,
+          "status": "ready",
+          "crop": "sa",
+          "plantedAt": 1740929351819,
+          "water": 3,
+          "lastWatered": 1740929377862
+        }
+      ],
+      "inventory": {
+        "lúa": 0,
+        "đậu": 0,
+        "ngô": 0,
+        "sả": 9,
+        "trứng": 1
+      },
+      "animals": {
+        "1740925486149": {
+          "id": "1740925486149",
+          "type": "ga",
+          "purchased": 1740925486149,
+          "fed": false,
+          "lastFed": 1740925497251,
+          "lastProduced": 1740935230612,
+          "productReady": false
+        }
+      },
+      "items": {
+        "phan_bon": {
+          "purchased": 1740922063058,
+          "active": true,
+          "effect": "grow_boost",
+          "expiry": 1741008463058
+        }
+      },
+      "lastActive": 1740900650864,
+      "createdAt": 1740900650864,
+      "autoHarvest": false,
+      "weather": {
+        "nextChange": 1740943881944
+      },
+      "visitors": [
+        {
+          "visitorId": "61568641631000",
+          "visitTime": 1740907261234,
+          "action": "💫 Bạn đã tham quan trang trại và học hỏi được một số điều!"
+        },
+        {
+          "visitorId": "100046739981416",
+          "visitTime": 1740929332925,
+          "action": "💫 Bạn đã tham quan trang trại và học hỏi được một số điều!"
+        }
+      ],
+      "dailyMissions": {
+        "date": 1740912651153,
+        "missions": {
+          "water": {
+            "name": "Tưới nước",
+            "emoji": "💧",
+            "description": "Tưới nước cho 5 cây trồng",
+            "target": 5,
+            "reward": 5000,
+            "exp": 8,
+            "progress": 0,
+            "claimed": false
+          },
+          "harvest": {
+            "name": "Thu hoạch",
+            "emoji": "🌾",
+            "description": "Thu hoạch 3 cây trồng",
+            "target": 3,
+            "reward": 8000,
+            "exp": 15,
+            "progress": 3,
+            "claimed": true
+          },
+          "collect": {
+            "name": "Thu thập sản phẩm",
+            "emoji": "🥚",
+            "description": "Thu thập 3 sản phẩm từ vật nuôi",
+            "target": 3,
+            "reward": 10000,
+            "exp": 15,
+            "progress": 0,
+            "claimed": false
+          }
+        },
+        "refreshed": 1740912651153
+      },
+      "lastVisits": {
+        "61573427362389": 1740927537976,
+        "61568641631000": 1740927603515,
+        "100068382888605": 1740927610898,
+        "100053970942155": 1740927633895,
+        "100028202556430": 1740929473140,
+        "61550331471452": 1740929486528,
+        "61561277064921": 1740929500632,
+        "100051123632162": 1740929518382
+      }
+    },
+    "100053857386814": {
+      "id": "100053857386814",
+      "exp": 183,
+      "plots": [
+        {
+          "id": 0,
+          "status": "ready",
+          "crop": "dau",
+          "plantedAt": 1740928283181,
+          "water": 2,
+          "lastWatered": 1740928290150
+        },
+        {
+          "id": 1,
+          "status": "ready",
+          "crop": "dau",
+          "plantedAt": 1740928283181,
+          "water": 2,
+          "lastWatered": 1740928290150
+        },
+        {
+          "id": 2,
+          "status": "ready",
+          "crop": "dau",
+          "plantedAt": 1740928283181,
+          "water": 2,
+          "lastWatered": 1740928290150
+        },
+        {
+          "id": 3,
+          "status": "ready",
+          "crop": "dau",
+          "plantedAt": 1740928283181,
+          "water": 2,
+          "lastWatered": 1740928290150
+        },
+        {
+          "id": 4,
+          "status": "ready",
+          "crop": "dau",
+          "plantedAt": 1740928283181,
+          "water": 2,
+          "lastWatered": 1740928290150
+        },
+        {
+          "id": 5,
+          "status": "ready",
+          "crop": "dau",
+          "plantedAt": 1740928283181,
+          "water": 2,
+          "lastWatered": 1740928290150
+        }
+      ],
+      "inventory": {
+        "lúa": 8,
+        "đậu": 6
+      },
+      "animals": {},
+      "items": {},
+      "lastActive": 1740900774563,
+      "createdAt": 1740900774563,
+      "autoHarvest": false,
+      "weather": {
+        "nextChange": 1740943982311
+      },
+      "visitors": [
+        {
+          "visitorId": "61568641631000",
+          "visitTime": 1740907324050,
+          "action": "💫 Bạn đã tham quan trang trại và học hỏi được một số điều!"
+        },
+        {
+          "visitorId": "100055417691992",
+          "visitTime": 1740907349168,
+          "action": "💫 Bạn đã tham quan trang trại và học hỏi được một số điều!"
+        },
+        {
+          "visitorId": "100068382888605",
+          "visitTime": 1740911674711,
+          "action": "💫 Bạn đã tham quan trang trại và học hỏi được một số điều!"
+        },
+        {
+          "visitorId": "100046739981416",
+          "visitTime": 1740929751268,
+          "action": "💫 Bạn đã tham quan trang trại và học hỏi được một số điều!"
+        }
+      ],
+      "dailyMissions": {
+        "date": 1740916947317,
+        "missions": {
+          "feed": {
+            "name": "Cho ăn",
+            "emoji": "🥫",
+            "description": "Cho 2 vật nuôi ăn",
+            "target": 2,
+            "reward": 8000,
+            "exp": 15,
+            "progress": 0,
+            "claimed": false
+          },
+          "sell": {
+            "name": "Bán sản phẩm",
+            "emoji": "💰",
+            "description": "Bán 5 sản phẩm bất kỳ",
+            "target": 5,
+            "reward": 7000,
+            "exp": 12,
+            "progress": 4,
+            "claimed": false
+          },
+          "plant": {
+            "name": "Trồng cây",
+            "emoji": "🌱",
+            "description": "Trồng 3 cây bất kỳ",
+            "target": 3,
+            "reward": 5000,
+            "exp": 10,
+            "progress": 0,
+            "claimed": false
+          }
+        },
+        "refreshed": 1740916947317
+      },
+      "lastVisits": {
+        "100068382888605": 1740921137029,
+        "100089981373051": 1740921145810,
+        "61568641631000": 1740921167761,
+        "100053970942155": 1740921507889,
+        "61568522233427": 1740921633277,
+        "100049109850406": 1740922304483
+      }
+    },
+    "100053970942155": {
+      "id": "100053970942155",
+      "exp": 1294,
+      "plots": [
+        {
+          "id": 0,
+          "status": "ready",
+          "crop": "ngo",
+          "plantedAt": 1740934488304,
+          "water": 3,
+          "lastWatered": 1740934513650
+        },
+        {
+          "id": 1,
+          "status": "ready",
+          "crop": "ngo",
+          "plantedAt": 1740934488304,
+          "water": 3,
+          "lastWatered": 1740934513650
+        },
+        {
+          "id": 2,
+          "status": "ready",
+          "crop": "ngo",
+          "plantedAt": 1740934488304,
+          "water": 3,
+          "lastWatered": 1740934513650
+        },
+        {
+          "id": 3,
+          "status": "ready",
+          "crop": "ngo",
+          "plantedAt": 1740934488304,
+          "water": 3,
+          "lastWatered": 1740934513650
+        },
+        {
+          "id": 4,
+          "status": "ready",
+          "crop": "ngo",
+          "plantedAt": 1740934488304,
+          "water": 3,
+          "lastWatered": 1740934513650
+        },
+        {
+          "id": 5,
+          "status": "ready",
+          "crop": "ngo",
+          "plantedAt": 1740934488304,
+          "water": 3,
+          "lastWatered": 1740934513650
+        },
+        {
+          "id": 6,
+          "status": "ready",
+          "crop": "ngo",
+          "plantedAt": 1740934488304,
+          "water": 3,
+          "lastWatered": 1740934513650
+        },
+        {
+          "id": 7,
+          "status": "ready",
+          "crop": "ngo",
+          "plantedAt": 1740934488304,
+          "water": 3,
+          "lastWatered": 1740934513650
+        },
+        {
+          "id": 8,
+          "status": "ready",
+          "crop": "ngo",
+          "plantedAt": 1740934488304,
+          "water": 3,
+          "lastWatered": 1740934513650
+        },
+        {
+          "id": 9,
+          "status": "ready",
+          "crop": "ngo",
+          "plantedAt": 1740934488304,
+          "water": 3,
+          "lastWatered": 1740934513650
+        },
+        {
+          "id": 10,
+          "status": "ready",
+          "crop": "ngo",
+          "plantedAt": 1740934488304,
+          "water": 3,
+          "lastWatered": 1740934513650
+        },
+        {
+          "id": 11,
+          "status": "ready",
+          "crop": "ngo",
+          "plantedAt": 1740934488304,
+          "water": 3,
+          "lastWatered": 1740934513650
+        }
+      ],
+      "inventory": {
+        "lúa": 14,
+        "ngô": 15
+      },
+      "animals": {
+        "1740929120459": {
+          "id": "1740929120459",
+          "type": "ga",
+          "purchased": 1740929120459,
+          "fed": false,
+          "lastFed": null,
+          "lastProduced": null,
+          "productReady": false
+        },
+        "1740929536431": {
+          "id": "1740929536431",
+          "type": "ga",
+          "purchased": 1740929536431,
+          "fed": false,
+          "lastFed": null,
+          "lastProduced": null,
+          "productReady": false
+        },
+        "1740935510892": {
+          "id": "1740935510892",
+          "type": "vit",
+          "purchased": 1740935510892,
+          "fed": false,
+          "lastFed": null,
+          "lastProduced": null,
+          "productReady": false
+        }
+      },
+      "items": {
+        "phan_bon": {
+          "purchased": 1740928096304,
+          "active": true,
+          "effect": "grow_boost",
+          "expiry": 1741014496304
+        },
+        "giong_cao_cap": {
+          "purchased": 1740928734749,
+          "active": true,
+          "effect": "exp_boost",
+          "expiry": 1741015134749
+        },
+        "he_thong_tuoi": {
+          "purchased": 1740935616573,
+          "active": true,
+          "effect": "auto_water",
+          "expiry": null
+        },
+        "thuc_an_gia_suc": {
+          "purchased": 1740935652509,
+          "active": true,
+          "effect": "animal_boost",
+          "expiry": 1741022052509
+        },
+        "thuoc_sau": {
+          "purchased": 1740935693981,
+          "active": true,
+          "effect": "yield_boost",
+          "expiry": 1741022093981
+        }
+      },
+      "lastActive": 1740901679266,
+      "createdAt": 1740901679266,
+      "autoHarvest": false,
+      "weather": {
+        "nextChange": 1740944887491
+      },
+      "visitors": [
+        {
+          "visitorId": "61568641631000",
+          "visitTime": 1740907253000,
+          "action": "💦 Bạn đã giúp tưới nước cho 🌾 Lúa ở ô đất 2!"
+        },
+        {
+          "visitorId": "100055417691992",
+          "visitTime": 1740907340531,
+          "action": "💦 Bạn đã giúp tưới nước cho 🌾 Lúa ở ô đất 2!"
+        },
+        {
+          "visitorId": "100068382888605",
+          "visitTime": 1740911648027,
+          "action": "💫 Bạn đã tham quan trang trại và học hỏi được một số điều!"
+        },
+        {
+          "visitorId": "100063719077878",
+          "visitTime": 1740913170672,
+          "action": "💫 Bạn đã tham quan trang trại và học hỏi được một số điều!"
+        },
+        {
+          "visitorId": "100053857386814",
+          "visitTime": 1740921507889,
+          "action": "💫 Bạn đã tham quan trang trại và học hỏi được một số điều!"
+        },
+        {
+          "visitorId": "100068382888605",
+          "visitTime": 1740927576996,
+          "action": "💫 Bạn đã tham quan trang trại và học hỏi được một số điều!"
+        },
+        {
+          "visitorId": "100055074463541",
+          "visitTime": 1740927633895,
+          "action": "💫 Bạn đã tham quan trang trại và học hỏi được một số điều!"
+        },
+        {
+          "visitorId": "100046739981416",
+          "visitTime": 1740929282241,
+          "action": "💦 Bạn đã giúp tưới nước cho 🌽 Ngô ở ô đất 3!"
+        }
+      ],
+      "dailyMissions": {
+        "date": 1740927617793,
+        "missions": {
+          "plant": {
+            "name": "Trồng cây",
+            "emoji": "🌱",
+            "description": "Trồng 3 cây bất kỳ",
+            "target": 3,
+            "reward": 5000,
+            "exp": 10,
+            "progress": 0,
+            "claimed": false
+          },
+          "water": {
+            "name": "Tưới nước",
+            "emoji": "💧",
+            "description": "Tưới nước cho 5 cây trồng",
+            "target": 5,
+            "reward": 5000,
+            "exp": 8,
+            "progress": 0,
+            "claimed": false
+          },
+          "collect": {
+            "name": "Thu thập sản phẩm",
+            "emoji": "🥚",
+            "description": "Thu thập 3 sản phẩm từ vật nuôi",
+            "target": 3,
+            "reward": 10000,
+            "exp": 15,
+            "progress": 0,
+            "claimed": false
+          }
+        },
+        "refreshed": 1740927617793
+      },
+      "lastVisits": {
+        "100068382888605": 1740929328957,
+        "100063719077878": 1740929340179
+      }
+    },
+    "100055417691992": {
+      "id": "100055417691992",
+      "exp": 103,
+      "plots": [
+        {
+          "id": 0,
+          "status": "ready",
+          "crop": "lua",
+          "plantedAt": 1740913964600,
+          "water": 3,
+          "lastWatered": 1740914231299
+        },
+        {
+          "id": 1,
+          "status": "ready",
+          "crop": "lua",
+          "plantedAt": 1740913964600,
+          "water": 3,
+          "lastWatered": 1740914231300
+        },
+        {
+          "id": 2,
+          "status": "ready",
+          "crop": "lua",
+          "plantedAt": 1740913964600,
+          "water": 3,
+          "lastWatered": 1740914231300
+        },
+        {
+          "id": 3,
+          "status": "ready",
+          "crop": "lua",
+          "plantedAt": 1740913964600,
+          "water": 3,
+          "lastWatered": 1740914231300
+        },
+        {
+          "id": 4,
+          "status": "ready",
+          "crop": "lua",
+          "plantedAt": 1740914166040,
+          "water": 3,
+          "lastWatered": 1740914231300
+        },
+        {
+          "id": 5,
+          "status": "ready",
+          "crop": "lua",
+          "plantedAt": 1740914166040,
+          "water": 3,
+          "lastWatered": 1740914231300
+        }
+      ],
+      "inventory": {
+        "lúa": 4
+      },
+      "animals": {},
+      "items": {
+        "phan_bon": {
+          "purchased": 1740908818289,
+          "active": true,
+          "effect": "grow_boost",
+          "expiry": 1740995218289
+        }
+      },
+      "lastActive": 1740903354286,
+      "createdAt": 1740903354286,
+      "autoHarvest": false,
+      "weather": {
+        "nextChange": 1740946863538
+      },
+      "visitors": [
+        {
+          "visitorId": "61573427362389",
+          "visitTime": 1740907202895,
+          "action": "💦 Bạn đã giúp tưới nước cho 🌾 Lúa ở ô đất 2!"
+        },
+        {
+          "visitorId": "61568641631000",
+          "visitTime": 1740907231900,
+          "action": "💦 Bạn đã giúp tưới nước cho 🌾 Lúa ở ô đất 1!"
+        },
+        {
+          "visitorId": "100068382888605",
+          "visitTime": 1740913183460,
+          "action": "💫 Bạn đã tham quan trang trại và học hỏi được một số điều!"
+        },
+        {
+          "visitorId": "100063719077878",
+          "visitTime": 1740913226170,
+          "action": "💫 Bạn đã tham quan trang trại và học hỏi được một số điều!"
+        },
+        {
+          "visitorId": "100068382888605",
+          "visitTime": 1740927561057,
+          "action": "💫 Bạn đã tham quan trang trại và học hỏi được một số điều!"
+        }
+      ],
+      "lastVisits": {
+        "61568641631000": 1740907244988,
+        "100053970942155": 1740907340531,
+        "100053857386814": 1740907349168,
+        "100063719077878": 1740907368562,
+        "61573427362389": 1740914219888
+      },
+      "dailyMissions": {
+        "date": 1740913955672,
+        "missions": {
+          "feed": {
+            "name": "Cho ăn",
+            "emoji": "🥫",
+            "description": "Cho 2 vật nuôi ăn",
+            "target": 2,
+            "reward": 8000,
+            "exp": 15,
+            "progress": 0,
+            "claimed": false
+          },
+          "sell": {
+            "name": "Bán sản phẩm",
+            "emoji": "💰",
+            "description": "Bán 5 sản phẩm bất kỳ",
+            "target": 5,
+            "reward": 7000,
+            "exp": 12,
+            "progress": 0,
+            "claimed": false
+          },
+          "harvest": {
+            "name": "Thu hoạch",
+            "emoji": "🌾",
+            "description": "Thu hoạch 3 cây trồng",
+            "target": 3,
+            "reward": 8000,
+            "exp": 15,
+            "progress": 1,
+            "claimed": false
+          }
+        },
+        "refreshed": 1740913955672
+      }
+    },
+    "100063719077878": {
+      "id": "100063719077878",
+      "exp": 316,
+      "plots": [
+        {
+          "id": 0,
+          "status": "growing",
+          "crop": "lua",
+          "plantedAt": 1740934529995,
+          "water": 2,
+          "lastWatered": 1740934537156
+        },
+        {
+          "id": 1,
+          "status": "growing",
+          "crop": "lua",
+          "plantedAt": 1740934529995,
+          "water": 2,
+          "lastWatered": 1740934537156
+        },
+        {
+          "id": 2,
+          "status": "growing",
+          "crop": "lua",
+          "plantedAt": 1740934529995,
+          "water": 2,
+          "lastWatered": 1740934537156
+        },
+        {
+          "id": 3,
+          "status": "growing",
+          "crop": "lua",
+          "plantedAt": 1740934529995,
+          "water": 2,
+          "lastWatered": 1740934537156
+        },
+        {
+          "id": 4,
+          "status": "growing",
+          "crop": "lua",
+          "plantedAt": 1740934529995,
+          "water": 2,
+          "lastWatered": 1740934537156
+        },
+        {
+          "id": 5,
+          "status": "growing",
+          "crop": "lua",
+          "plantedAt": 1740934529995,
+          "water": 2,
+          "lastWatered": 1740934537156
+        },
+        {
+          "id": 6,
+          "status": "growing",
+          "crop": "lua",
+          "plantedAt": 1740934529995,
+          "water": 2,
+          "lastWatered": 1740934537156
+        },
+        {
+          "id": 7,
+          "status": "growing",
+          "crop": "lua",
+          "plantedAt": 1740934529995,
+          "water": 2,
+          "lastWatered": 1740934537156
+        }
+      ],
+      "inventory": {
+        "lúa": 30
+      },
+      "animals": {},
+      "items": {
+        "phan_bon": {
+          "purchased": 1740907543342,
+          "active": true,
+          "effect": "grow_boost",
+          "expiry": 1740993943342
+        }
+      },
+      "lastActive": 1740904238230,
+      "createdAt": 1740904238230,
+      "autoHarvest": false,
+      "weather": {
+        "nextChange": 1740947512698
+      },
+      "visitors": [
+        {
+          "visitorId": "61568641631000",
+          "visitTime": 1740907297845,
+          "action": "💫 Bạn đã tham quan trang trại và học hỏi được một số điều!"
+        },
+        {
+          "visitorId": "100055417691992",
+          "visitTime": 1740907368562,
+          "action": "💫 Bạn đã tham quan trang trại và học hỏi được một số điều!"
+        },
+        {
+          "visitorId": "100068382888605",
+          "visitTime": 1740911633073,
+          "action": "💫 Bạn đã tham quan trang trại và học hỏi được một số điều!"
+        },
+        {
+          "visitorId": "100053970942155",
+          "visitTime": 1740929340179,
+          "action": "💫 Bạn đã tham quan trang trại và học hỏi được một số điều!"
+        }
+      ],
+      "dailyMissions": {
+        "date": 1740913101994,
+        "missions": {
+          "process": {
+            "name": "Chế biến",
+            "emoji": "👨‍🍳",
+            "description": "Chế biến 2 món ăn",
+            "target": 2,
+            "reward": 12000,
+            "exp": 20,
+            "progress": 0,
+            "claimed": false
+          },
+          "feed": {
+            "name": "Cho ăn",
+            "emoji": "🥫",
+            "description": "Cho 2 vật nuôi ăn",
+            "target": 2,
+            "reward": 8000,
+            "exp": 15,
+            "progress": 0,
+            "claimed": false
+          },
+          "visit": {
+            "name": "Thăm trang trại",
+            "emoji": "👋",
+            "description": "Thăm 1 trang trại khác",
+            "target": 1,
+            "reward": 5000,
+            "exp": 10,
+            "progress": 0,
+            "claimed": false
+          }
+        },
+        "refreshed": 1740913101994
+      },
+      "lastVisits": {
+        "100053970942155": 1740913170672,
+        "61568641631000": 1740913179301,
+        "100068382888605": 1740913215832,
+        "100055417691992": 1740913226170
+      }
+    },
+    "100068382888605": {
+      "id": "100068382888605",
+      "exp": 13376,
+      "plots": [
+        {
+          "id": 0,
+          "status": "growing",
+          "crop": "buoi",
+          "plantedAt": 1740932321201,
+          "water": 4,
+          "lastWatered": 1740935453632
+        },
+        {
+          "id": 1,
+          "status": "growing",
+          "crop": "buoi",
+          "plantedAt": 1740932321201,
+          "water": 4,
+          "lastWatered": 1740935453632
+        },
+        {
+          "id": 2,
+          "status": "growing",
+          "crop": "buoi",
+          "plantedAt": 1740932321201,
+          "water": 4,
+          "lastWatered": 1740935453632
+        },
+        {
+          "id": 3,
+          "status": "growing",
+          "crop": "dua",
+          "plantedAt": 1740935431659,
+          "water": 2,
+          "lastWatered": 1740935445836
+        },
+        {
+          "id": 4,
+          "status": "growing",
+          "crop": "dua",
+          "plantedAt": 1740935431659,
+          "water": 2,
+          "lastWatered": 1740935445836
+        },
+        {
+          "id": 5,
+          "status": "growing",
+          "crop": "dua",
+          "plantedAt": 1740935431659,
+          "water": 2,
+          "lastWatered": 1740935445836
+        },
+        {
+          "id": 6,
+          "status": "growing",
+          "crop": "dua",
+          "plantedAt": 1740935431659,
+          "water": 2,
+          "lastWatered": 1740935445836
+        },
+        {
+          "id": 7,
+          "status": "growing",
+          "crop": "dua",
+          "plantedAt": 1740935431659,
+          "water": 2,
+          "lastWatered": 1740935445836
+        },
+        {
+          "id": 8,
+          "status": "growing",
+          "crop": "dua",
+          "plantedAt": 1740935431659,
+          "water": 2,
+          "lastWatered": 1740935445836
+        },
+        {
+          "id": 9,
+          "status": "growing",
+          "crop": "dua",
+          "plantedAt": 1740935431659,
+          "water": 2,
+          "lastWatered": 1740935445836
+        },
+        {
+          "id": 10,
+          "status": "growing",
+          "crop": "dua",
+          "plantedAt": 1740935431659,
+          "water": 2,
+          "lastWatered": 1740935445836
+        },
+        {
+          "id": 11,
+          "status": "growing",
+          "crop": "dua",
+          "plantedAt": 1740935431659,
+          "water": 2,
+          "lastWatered": 1740935445836
+        },
+        {
+          "id": 12,
+          "status": "growing",
+          "crop": "dua",
+          "plantedAt": 1740935431659,
+          "water": 2,
+          "lastWatered": 1740935445836
+        },
+        {
+          "id": 13,
+          "status": "growing",
+          "crop": "dua",
+          "plantedAt": 1740935431659,
+          "water": 2,
+          "lastWatered": 1740935445836
+        },
+        {
+          "id": 14,
+          "status": "growing",
+          "crop": "dua",
+          "plantedAt": 1740935431659,
+          "water": 2,
+          "lastWatered": 1740935445836
+        },
+        {
+          "id": 15,
+          "status": "growing",
+          "crop": "dua",
+          "plantedAt": 1740935431659,
+          "water": 2,
+          "lastWatered": 1740935445836
+        },
+        {
+          "id": 16,
+          "status": "growing",
+          "crop": "dua",
+          "plantedAt": 1740935431659,
+          "water": 2,
+          "lastWatered": 1740935445836
+        },
+        {
+          "id": 17,
+          "status": "growing",
+          "crop": "dua",
+          "plantedAt": 1740935431659,
+          "water": 2,
+          "lastWatered": 1740935445836
+        },
+        {
+          "id": 18,
+          "status": "growing",
+          "crop": "dua",
+          "plantedAt": 1740935431659,
+          "water": 2,
+          "lastWatered": 1740935445836
+        },
+        {
+          "id": 19,
+          "status": "growing",
+          "crop": "dua",
+          "plantedAt": 1740935431659,
+          "water": 2,
+          "lastWatered": 1740935445836
+        },
+        {
+          "id": 20,
+          "status": "growing",
+          "crop": "dua",
+          "plantedAt": 1740935431659,
+          "water": 2,
+          "lastWatered": 1740935445836
+        },
+        {
+          "id": 21,
+          "status": "growing",
+          "crop": "dua",
+          "plantedAt": 1740935431659,
+          "water": 2,
+          "lastWatered": 1740935445836
+        },
+        {
+          "id": 22,
+          "status": "growing",
+          "crop": "dua",
+          "plantedAt": 1740935431659,
+          "water": 2,
+          "lastWatered": 1740935445836
+        },
+        {
+          "id": 23,
+          "status": "growing",
+          "crop": "dua",
+          "plantedAt": 1740935431659,
+          "water": 2,
+          "lastWatered": 1740935445836
+        },
+        {
+          "id": 24,
+          "status": "growing",
+          "crop": "dua",
+          "plantedAt": 1740935431659,
+          "water": 2,
+          "lastWatered": 1740935445836
+        },
+        {
+          "id": 25,
+          "status": "growing",
+          "crop": "dua",
+          "plantedAt": 1740935431659,
+          "water": 2,
+          "lastWatered": 1740935445836
+        },
+        {
+          "id": 26,
+          "status": "growing",
+          "crop": "dua",
+          "plantedAt": 1740935431659,
+          "water": 2,
+          "lastWatered": 1740935445836
+        },
+        {
+          "id": 27,
+          "status": "growing",
+          "crop": "dua",
+          "plantedAt": 1740935431659,
+          "water": 2,
+          "lastWatered": 1740935445836
+        },
+        {
+          "id": 28,
+          "status": "growing",
+          "crop": "dua",
+          "plantedAt": 1740935431659,
+          "water": 2,
+          "lastWatered": 1740935445836
+        },
+        {
+          "id": 29,
+          "status": "growing",
+          "crop": "dua",
+          "plantedAt": 1740935431659,
+          "water": 2,
+          "lastWatered": 1740935445836
+        },
+        {
+          "id": 30,
+          "status": "growing",
+          "crop": "dua",
+          "plantedAt": 1740935431659,
+          "water": 2,
+          "lastWatered": 1740935445836
+        },
+        {
+          "id": 31,
+          "status": "growing",
+          "crop": "dua",
+          "plantedAt": 1740935431659,
+          "water": 2,
+          "lastWatered": 1740935445836
+        },
+        {
+          "id": 32,
+          "status": "growing",
+          "crop": "dua",
+          "plantedAt": 1740935431659,
+          "water": 2,
+          "lastWatered": 1740935445836
+        },
+        {
+          "id": 33,
+          "status": "growing",
+          "crop": "dua",
+          "plantedAt": 1740935431659,
+          "water": 2,
+          "lastWatered": 1740935445836
+        },
+        {
+          "id": 34,
+          "status": "growing",
+          "crop": "dua",
+          "plantedAt": 1740935431659,
+          "water": 2,
+          "lastWatered": 1740935445836
+        },
+        {
+          "id": 35,
+          "status": "growing",
+          "crop": "dua",
+          "plantedAt": 1740935431659,
+          "water": 2,
+          "lastWatered": 1740935445836
+        }
+      ],
+      "inventory": {
+        "lúa": 0,
+        "đậu": 0,
+        "ngô (bắp)": 0,
+        "ớt": 0,
+        "sả": 0,
+        "cà chua": 0,
+        "dưa leo": 0,
+        "rau xanh": 0,
+        "cà rốt": 0,
+        "mía": 0,
+        "trứng": 2,
+        "Salad": 6,
+        "salad": -3,
+        "chuối": 0,
+        "xoài": 3,
+        "trứng vịt": 2,
+        "Cá kho": 2,
+        "cá kho": null,
+        "bưởi": 27
+      },
+      "animals": {
+        "1740919168402": {
+          "id": "1740919168402",
+          "type": "ga",
+          "purchased": 1740919168402,
+          "fed": false,
+          "lastFed": 1740929328957,
+          "lastProduced": 1740934470643,
+          "productReady": false
+        },
+        "1740921504453": {
+          "id": "1740921504453",
+          "type": "vit",
+          "purchased": 1740921504453,
+          "fed": false,
+          "lastFed": 1740921553161,
+          "lastProduced": 1740931641941,
+          "productReady": false
+        },
+        "1740921520678": {
+          "id": "1740921520678",
+          "type": "ca",
+          "purchased": 1740921520678,
+          "fed": false,
+          "lastFed": 1740927610898,
+          "lastProduced": 1740931632950,
+          "productReady": false
+        },
+        "1740921819086": {
+          "id": "1740921819086",
+          "type": "ca",
+          "purchased": 1740921819086,
+          "fed": false,
+          "lastFed": 1740921833874,
+          "lastProduced": 1740926884899,
+          "productReady": false
+        },
+        "1740921825811": {
+          "id": "1740921825811",
+          "type": "vit",
+          "purchased": 1740921825811,
+          "fed": false,
+          "lastFed": 1740921838348,
+          "lastProduced": 1740931981762,
+          "productReady": false
+        },
+        "1740934997978": {
+          "id": "1740934997978",
+          "type": "heo",
+          "purchased": 1740934997978,
+          "fed": true,
+          "lastFed": 1740935013436,
+          "lastProduced": 1740935013436,
+          "productReady": false
+        },
+        "1740935003549": {
+          "id": "1740935003549",
+          "type": "heo",
+          "purchased": 1740935003549,
+          "fed": true,
+          "lastFed": 1740935013436,
+          "lastProduced": 1740935013436,
+          "productReady": false
+        },
+        "1740935520869": {
+          "id": "1740935520869",
+          "type": "bo",
+          "purchased": 1740935520869,
+          "fed": true,
+          "lastFed": 1740935542650,
+          "lastProduced": 1740935542650,
+          "productReady": false
+        },
+        "1740935526659": {
+          "id": "1740935526659",
+          "type": "bo",
+          "purchased": 1740935526659,
+          "fed": true,
+          "lastFed": 1740935542650,
+          "lastProduced": 1740935542650,
+          "productReady": false
+        },
+        "1740935533674": {
+          "id": "1740935533674",
+          "type": "bo",
+          "purchased": 1740935533674,
+          "fed": true,
+          "lastFed": 1740935542650,
+          "lastProduced": 1740935542650,
+          "productReady": false
+        }
+      },
+      "items": {
+        "phan_bon": {
+          "purchased": 1740911734944,
+          "active": true,
+          "effect": "grow_boost",
+          "expiry": 1740998134944
+        },
+        "giong_cao_cap": {
+          "purchased": 1740916105307,
+          "active": true,
+          "effect": "exp_boost",
+          "expiry": 1741002505307
+        },
+        "thuoc_sau": {
+          "purchased": 1740919443567,
+          "active": true,
+          "effect": "yield_boost",
+          "expiry": 1741005843567
+        },
+        "thuc_an_gia_suc": {
+          "purchased": 1740928810094,
+          "active": true,
+          "effect": "animal_boost",
+          "expiry": 1741015210094
+        },
+        "he_thong_tuoi": {
+          "purchased": 1740934852674,
+          "active": true,
+          "effect": "auto_water",
+          "expiry": null
+        },
+        "chuong_trai": {
+          "purchased": 1740934905109,
+          "active": true,
+          "effect": "animal_capacity",
+          "expiry": null
+        },
+        "may_cay": {
+          "purchased": 1740935605037,
+          "active": true,
+          "effect": "auto_plant",
+          "expiry": null
+        }
+      },
+      "lastActive": 1740911347009,
+      "createdAt": 1740911347009,
+      "autoHarvest": false,
+      "weather": {
+        "nextChange": 1740954839715
+      },
+      "lastVisits": {
+        "100063719077878": 1740911633073,
+        "61568641631000": 1740927591005,
+        "100053970942155": 1740927576996,
+        "100053857386814": 1740911674711,
+        "61573427362389": 1740927537140,
+        "100055417691992": 1740927561057,
+        "61550331471452": 1740921054320,
+        "61568522233427": 1740921122798,
+        "100089981373051": 1740921129850,
+        "100058320200877": 1740921141209,
+        "100028202556430": 1740921145327,
+        "61561277064921": 1740921176912
+      },
+      "visitors": [
+        {
+          "visitorId": "100063719077878",
+          "visitTime": 1740913215832,
+          "action": "💫 Bạn đã tham quan trang trại và học hỏi được một số điều!"
+        },
+        {
+          "visitorId": "100053857386814",
+          "visitTime": 1740921137029,
+          "action": "💫 Bạn đã tham quan trang trại và học hỏi được một số điều!"
+        },
+        {
+          "visitorId": "100055074463541",
+          "visitTime": 1740927610898,
+          "action": "🥫 Bạn đã giúp cho 🐟 Cá ăn!"
+        },
+        {
+          "visitorId": "100053970942155",
+          "visitTime": 1740929328957,
+          "action": "🥫 Bạn đã giúp cho 🐓 Gà ăn!"
+        }
+      ],
+      "dailyMissions": {
+        "date": 1740913554506,
+        "missions": {
+          "visit": {
+            "name": "Thăm trang trại",
+            "emoji": "👋",
+            "description": "Thăm 1 trang trại khác",
+            "target": 1,
+            "reward": 5000,
+            "exp": 10,
+            "progress": 0,
+            "claimed": false
+          },
+          "feed": {
+            "name": "Cho ăn",
+            "emoji": "🥫",
+            "description": "Cho 2 vật nuôi ăn",
+            "target": 2,
+            "reward": 8000,
+            "exp": 15,
+            "progress": 2,
+            "claimed": true
+          },
+          "process": {
+            "name": "Chế biến",
+            "emoji": "👨‍🍳",
+            "description": "Chế biến 2 món ăn",
+            "target": 2,
+            "reward": 12000,
+            "exp": 20,
+            "progress": 2,
+            "claimed": true
+          }
+        },
+        "refreshed": 1740913554506
+      },
+      "processing": {}
+    },
+    "61550331471452": {
+      "id": "61550331471452",
+      "exp": 214,
+      "plots": [
+        {
+          "id": 0,
+          "status": "growing",
+          "crop": "lua",
+          "plantedAt": 1740934213711,
+          "water": 2,
+          "lastWatered": 1740934219904
+        },
+        {
+          "id": 1,
+          "status": "growing",
+          "crop": "lua",
+          "plantedAt": 1740934213711,
+          "water": 2,
+          "lastWatered": 1740934219904
+        },
+        {
+          "id": 2,
+          "status": "growing",
+          "crop": "lua",
+          "plantedAt": 1740934213711,
+          "water": 2,
+          "lastWatered": 1740934219904
+        },
+        {
+          "id": 3,
+          "status": "growing",
+          "crop": "lua",
+          "plantedAt": 1740934213711,
+          "water": 2,
+          "lastWatered": 1740934219904
+        },
+        {
+          "id": 4,
+          "status": "growing",
+          "crop": "lua",
+          "plantedAt": 1740934213711,
+          "water": 2,
+          "lastWatered": 1740934219904
+        },
+        {
+          "id": 5,
+          "status": "growing",
+          "crop": "lua",
+          "plantedAt": 1740934213711,
+          "water": 2,
+          "lastWatered": 1740934219904
+        }
+      ],
+      "inventory": {
+        "lúa": 8
+      },
+      "animals": {},
+      "items": {},
+      "lastActive": 1740911912646,
+      "createdAt": 1740911912646,
+      "autoHarvest": false,
+      "weather": {
+        "nextChange": 1740955380254
+      },
+      "dailyMissions": {
+        "date": 1740911912649,
+        "missions": {
+          "sell": {
+            "name": "Bán sản phẩm",
+            "emoji": "💰",
+            "description": "Bán 5 sản phẩm bất kỳ",
+            "target": 5,
+            "reward": 7000,
+            "exp": 12,
+            "progress": 0,
+            "claimed": false
+          },
+          "process": {
+            "name": "Chế biến",
+            "emoji": "👨‍🍳",
+            "description": "Chế biến 2 món ăn",
+            "target": 2,
+            "reward": 12000,
+            "exp": 20,
+            "progress": 0,
+            "claimed": false
+          },
+          "harvest": {
+            "name": "Thu hoạch",
+            "emoji": "🌾",
+            "description": "Thu hoạch 3 cây trồng",
+            "target": 3,
+            "reward": 8000,
+            "exp": 15,
+            "progress": 2,
+            "claimed": false
+          }
+        },
+        "refreshed": 1740911912649
+      },
+      "lastVisits": {
+        "61573427362389": 1740929588241,
+        "61561277064921": 1740933878568
+      },
+      "visitors": [
+        {
+          "visitorId": "100068382888605",
+          "visitTime": 1740921054320,
+          "action": "💫 Bạn đã tham quan trang trại và học hỏi được một số điều!"
+        },
+        {
+          "visitorId": "100055074463541",
+          "visitTime": 1740929486528,
+          "action": "💫 Bạn đã tham quan trang trại và học hỏi được một số điều!"
+        },
+        {
+          "visitorId": "61561277064921",
+          "visitTime": 1740933892553,
+          "action": "💫 Bạn đã tham quan trang trại và học hỏi được một số điều!"
+        }
+      ]
+    },
+    "100050445245297": {
+      "id": "100050445245297",
+      "exp": 80,
+      "plots": [
+        {
+          "id": 0,
+          "status": "ready",
+          "crop": "lua",
+          "plantedAt": 1740925439955,
+          "water": 1,
+          "lastWatered": 1740925439955
+        },
+        {
+          "id": 1,
+          "status": "ready",
+          "crop": "lua",
+          "plantedAt": 1740925439955,
+          "water": 1,
+          "lastWatered": 1740925439955
+        },
+        {
+          "id": 2,
+          "status": "ready",
+          "crop": "lua",
+          "plantedAt": 1740925439955,
+          "water": 1,
+          "lastWatered": 1740925439955
+        },
+        {
+          "id": 3,
+          "status": "ready",
+          "crop": "lua",
+          "plantedAt": 1740925439955,
+          "water": 1,
+          "lastWatered": 1740925439955
+        }
+      ],
+      "inventory": {
+        "lúa": 8
+      },
+      "animals": {},
+      "items": {},
+      "lastActive": 1740912236000,
+      "createdAt": 1740912236000,
+      "autoHarvest": false,
+      "weather": {
+        "nextChange": 1740955450400
+      },
+      "dailyMissions": {
+        "date": 1740912236001,
+        "missions": {
+          "harvest": {
+            "name": "Thu hoạch",
+            "emoji": "🌾",
+            "description": "Thu hoạch 3 cây trồng",
+            "target": 3,
+            "reward": 8000,
+            "exp": 15,
+            "progress": 2,
+            "claimed": false
+          },
+          "visit": {
+            "name": "Thăm trang trại",
+            "emoji": "👋",
+            "description": "Thăm 1 trang trại khác",
+            "target": 1,
+            "reward": 5000,
+            "exp": 10,
+            "progress": 0,
+            "claimed": false
+          },
+          "feed": {
+            "name": "Cho ăn",
+            "emoji": "🥫",
+            "description": "Cho 2 vật nuôi ăn",
+            "target": 2,
+            "reward": 8000,
+            "exp": 15,
+            "progress": 0,
+            "claimed": false
+          }
+        },
+        "refreshed": 1740912236001
+      }
+    },
+    "100062097905258": {
+      "id": "100062097905258",
+      "exp": 0,
+      "plots": [
+        {
+          "id": 0,
+          "status": "empty",
+          "crop": null,
+          "plantedAt": null,
+          "water": 0,
+          "lastWatered": null
+        },
+        {
+          "id": 1,
+          "status": "empty",
+          "crop": null,
+          "plantedAt": null,
+          "water": 0,
+          "lastWatered": null
+        },
+        {
+          "id": 2,
+          "status": "empty",
+          "crop": null,
+          "plantedAt": null,
+          "water": 0,
+          "lastWatered": null
+        },
+        {
+          "id": 3,
+          "status": "empty",
+          "crop": null,
+          "plantedAt": null,
+          "water": 0,
+          "lastWatered": null
+        }
+      ],
+      "inventory": {},
+      "animals": {},
+      "items": {},
+      "lastActive": 1740912260598,
+      "createdAt": 1740912260598,
+      "autoHarvest": false,
+      "weather": {
+        "nextChange": 1740955478490
+      },
+      "dailyMissions": {
+        "date": 1740912260600,
+        "missions": {
+          "collect": {
+            "name": "Thu thập sản phẩm",
+            "emoji": "🥚",
+            "description": "Thu thập 3 sản phẩm từ vật nuôi",
+            "target": 3,
+            "reward": 10000,
+            "exp": 15,
+            "progress": 0,
+            "claimed": false
+          },
+          "water": {
+            "name": "Tưới nước",
+            "emoji": "💧",
+            "description": "Tưới nước cho 5 cây trồng",
+            "target": 5,
+            "reward": 5000,
+            "exp": 8,
+            "progress": 0,
+            "claimed": false
+          },
+          "visit": {
+            "name": "Thăm trang trại",
+            "emoji": "👋",
+            "description": "Thăm 1 trang trại khác",
+            "target": 1,
+            "reward": 5000,
+            "exp": 10,
+            "progress": 0,
+            "claimed": false
+          }
+        },
+        "refreshed": 1740912260600
+      }
+    },
+    "61568522233427": {
+      "id": "61568522233427",
+      "exp": 0,
+      "plots": [
+        {
+          "id": 0,
+          "status": "empty",
+          "crop": null,
+          "plantedAt": null,
+          "water": 0,
+          "lastWatered": null
+        },
+        {
+          "id": 1,
+          "status": "empty",
+          "crop": null,
+          "plantedAt": null,
+          "water": 0,
+          "lastWatered": null
+        },
+        {
+          "id": 2,
+          "status": "empty",
+          "crop": null,
+          "plantedAt": null,
+          "water": 0,
+          "lastWatered": null
+        },
+        {
+          "id": 3,
+          "status": "empty",
+          "crop": null,
+          "plantedAt": null,
+          "water": 0,
+          "lastWatered": null
+        }
+      ],
+      "inventory": {},
+      "animals": {},
+      "items": {},
+      "lastActive": 1740912665572,
+      "createdAt": 1740912665572,
+      "autoHarvest": false,
+      "weather": {
+        "nextChange": 1740956070643
+      },
+      "dailyMissions": {
+        "date": 1740912665572,
+        "missions": {
+          "visit": {
+            "name": "Thăm trang trại",
+            "emoji": "👋",
+            "description": "Thăm 1 trang trại khác",
+            "target": 1,
+            "reward": 5000,
+            "exp": 10,
+            "progress": 0,
+            "claimed": false
+          },
+          "plant": {
+            "name": "Trồng cây",
+            "emoji": "🌱",
+            "description": "Trồng 3 cây bất kỳ",
+            "target": 3,
+            "reward": 5000,
+            "exp": 10,
+            "progress": 0,
+            "claimed": false
+          },
+          "harvest": {
+            "name": "Thu hoạch",
+            "emoji": "🌾",
+            "description": "Thu hoạch 3 cây trồng",
+            "target": 3,
+            "reward": 8000,
+            "exp": 15,
+            "progress": 0,
+            "claimed": false
+          }
+        },
+        "refreshed": 1740912665572
+      },
+      "visitors": [
+        {
+          "visitorId": "100068382888605",
+          "visitTime": 1740921122799,
+          "action": "💫 Bạn đã tham quan trang trại và học hỏi được một số điều!"
+        },
+        {
+          "visitorId": "100053857386814",
+          "visitTime": 1740921633277,
+          "action": "💫 Bạn đã tham quan trang trại và học hỏi được một số điều!"
+        },
+        {
+          "visitorId": "100046739981416",
+          "visitTime": 1740929306318,
+          "action": "💫 Bạn đã tham quan trang trại và học hỏi được một số điều!"
+        }
+      ]
+    },
+    "100046739981416": {
+      "id": "100046739981416",
+      "exp": 158,
+      "plots": [
+        {
+          "id": 0,
+          "status": "ready",
+          "crop": "lua",
+          "plantedAt": 1740929871059,
+          "water": 3,
+          "lastWatered": 1740929885552
+        },
+        {
+          "id": 1,
+          "status": "ready",
+          "crop": "lua",
+          "plantedAt": 1740929871059,
+          "water": 3,
+          "lastWatered": 1740929885552
+        },
+        {
+          "id": 2,
+          "status": "ready",
+          "crop": "lua",
+          "plantedAt": 1740929871059,
+          "water": 3,
+          "lastWatered": 1740929885552
+        },
+        {
+          "id": 3,
+          "status": "ready",
+          "crop": "lua",
+          "plantedAt": 1740929871059,
+          "water": 3,
+          "lastWatered": 1740929885552
+        },
+        {
+          "id": 4,
+          "status": "ready",
+          "crop": "lua",
+          "plantedAt": 1740929357998,
+          "water": 3,
+          "lastWatered": 1740929445292
+        },
+        {
+          "id": 5,
+          "status": "ready",
+          "crop": "lua",
+          "plantedAt": 1740929357998,
+          "water": 3,
+          "lastWatered": 1740929445292
+        }
+      ],
+      "inventory": {
+        "lúa": 0
+      },
+      "animals": {},
+      "items": {
+        "phan_bon": {
+          "purchased": 1740928808685,
+          "active": true,
+          "effect": "grow_boost",
+          "expiry": 1741015208685
+        }
+      },
+      "lastActive": 1740913354233,
+      "createdAt": 1740913354233,
+      "autoHarvest": false,
+      "weather": {
+        "nextChange": 1740956568026
+      },
+      "dailyMissions": {
+        "date": 1740913354234,
+        "missions": {
+          "visit": {
+            "name": "Thăm trang trại",
+            "emoji": "👋",
+            "description": "Thăm 1 trang trại khác",
+            "target": 1,
+            "reward": 5000,
+            "exp": 10,
+            "progress": 1,
+            "claimed": false
+          },
+          "feed": {
+            "name": "Cho ăn",
+            "emoji": "🥫",
+            "description": "Cho 2 vật nuôi ăn",
+            "target": 2,
+            "reward": 8000,
+            "exp": 15,
+            "progress": 0,
+            "claimed": false
+          },
+          "process": {
+            "name": "Chế biến",
+            "emoji": "👨‍🍳",
+            "description": "Chế biến 2 món ăn",
+            "target": 2,
+            "reward": 12000,
+            "exp": 20,
+            "progress": 0,
+            "claimed": false
+          }
+        },
+        "refreshed": 1740913354234
+      },
+      "lastVisits": {
+        "61573427362389": 1740927551362,
+        "100053970942155": 1740929282241,
+        "61568522233427": 1740929306318,
+        "100028202556430": 1740929322421,
+        "100055074463541": 1740929332925,
+        "100051123632162": 1740929609733,
+        "61568641631000": 1740929741378,
+        "100053857386814": 1740929751268
+      }
+    },
+    "61573656233995": {
+      "id": "61573656233995",
+      "exp": 0,
+      "plots": [
+        {
+          "id": 0,
+          "status": "ready",
+          "crop": "lua",
+          "plantedAt": 1740913840722,
+          "water": 3,
+          "lastWatered": 1740915219531
+        },
+        {
+          "id": 1,
+          "status": "ready",
+          "crop": "lua",
+          "plantedAt": 1740913840722,
+          "water": 3,
+          "lastWatered": 1740915219531
+        },
+        {
+          "id": 2,
+          "status": "ready",
+          "crop": "lua",
+          "plantedAt": 1740913840722,
+          "water": 3,
+          "lastWatered": 1740915219531
+        },
+        {
+          "id": 3,
+          "status": "ready",
+          "crop": "lua",
+          "plantedAt": 1740913840722,
+          "water": 3,
+          "lastWatered": 1740915219531
+        }
+      ],
+      "inventory": {},
+      "animals": {},
+      "items": {},
+      "lastActive": 1740913780741,
+      "createdAt": 1740913780741,
+      "autoHarvest": false,
+      "weather": {
+        "nextChange": 1740956989841
+      },
+      "dailyMissions": {
+        "date": 1740913780742,
+        "missions": {
+          "process": {
+            "name": "Chế biến",
+            "emoji": "👨‍🍳",
+            "description": "Chế biến 2 món ăn",
+            "target": 2,
+            "reward": 12000,
+            "exp": 20,
+            "progress": 0,
+            "claimed": false
+          },
+          "harvest": {
+            "name": "Thu hoạch",
+            "emoji": "🌾",
+            "description": "Thu hoạch 3 cây trồng",
+            "target": 3,
+            "reward": 8000,
+            "exp": 15,
+            "progress": 0,
+            "claimed": false
+          },
+          "sell": {
+            "name": "Bán sản phẩm",
+            "emoji": "💰",
+            "description": "Bán 5 sản phẩm bất kỳ",
+            "target": 5,
+            "reward": 7000,
+            "exp": 12,
+            "progress": 0,
+            "claimed": false
+          }
+        },
+        "refreshed": 1740913780742
+      }
+    },
+    "100058320200877": {
+      "id": "100058320200877",
+      "exp": 0,
+      "plots": [
+        {
+          "id": 0,
+          "status": "empty",
+          "crop": null,
+          "plantedAt": null,
+          "water": 0,
+          "lastWatered": null
+        },
+        {
+          "id": 1,
+          "status": "empty",
+          "crop": null,
+          "plantedAt": null,
+          "water": 0,
+          "lastWatered": null
+        },
+        {
+          "id": 2,
+          "status": "empty",
+          "crop": null,
+          "plantedAt": null,
+          "water": 0,
+          "lastWatered": null
+        },
+        {
+          "id": 3,
+          "status": "empty",
+          "crop": null,
+          "plantedAt": null,
+          "water": 0,
+          "lastWatered": null
+        }
+      ],
+      "inventory": {},
+      "animals": {},
+      "items": {},
+      "lastActive": 1740916835706,
+      "createdAt": 1740916835706,
+      "autoHarvest": false,
+      "weather": {
+        "type": "sunny",
+        "nextChange": 1740938435706
+      },
+      "dailyMissions": {
+        "date": 1740916835709,
+        "missions": {
+          "plant": {
+            "name": "Trồng cây",
+            "emoji": "🌱",
+            "description": "Trồng 3 cây bất kỳ",
+            "target": 3,
+            "reward": 5000,
+            "exp": 10,
+            "progress": 0,
+            "claimed": false
+          },
+          "process": {
+            "name": "Chế biến",
+            "emoji": "👨‍🍳",
+            "description": "Chế biến 2 món ăn",
+            "target": 2,
+            "reward": 12000,
+            "exp": 20,
+            "progress": 0,
+            "claimed": false
+          },
+          "collect": {
+            "name": "Thu thập sản phẩm",
+            "emoji": "🥚",
+            "description": "Thu thập 3 sản phẩm từ vật nuôi",
+            "target": 3,
+            "reward": 10000,
+            "exp": 15,
+            "progress": 0,
+            "claimed": false
+          }
+        },
+        "refreshed": 1740916835709
+      },
+      "visitors": [
+        {
+          "visitorId": "100068382888605",
+          "visitTime": 1740921141209,
+          "action": "💫 Bạn đã tham quan trang trại và học hỏi được một số điều!"
+        }
+      ]
+    },
+    "61561277064921": {
+      "id": "61561277064921",
+      "exp": 101,
+      "plots": [
+        {
+          "id": 0,
+          "status": "growing",
+          "crop": "lua",
+          "plantedAt": 1740934058392,
+          "water": 3,
+          "lastWatered": 1740934171352
+        },
+        {
+          "id": 1,
+          "status": "growing",
+          "crop": "lua",
+          "plantedAt": 1740934058392,
+          "water": 3,
+          "lastWatered": 1740934171352
+        },
+        {
+          "id": 2,
+          "status": "growing",
+          "crop": "lua",
+          "plantedAt": 1740934058392,
+          "water": 3,
+          "lastWatered": 1740934171352
+        },
+        {
+          "id": 3,
+          "status": "growing",
+          "crop": "lua",
+          "plantedAt": 1740934058392,
+          "water": 3,
+          "lastWatered": 1740934171352
+        },
+        {
+          "id": 4,
+          "status": "growing",
+          "crop": "lua",
+          "plantedAt": 1740934165214,
+          "water": 3,
+          "lastWatered": 1740935079040
+        },
+        {
+          "id": 5,
+          "status": "growing",
+          "crop": "lua",
+          "plantedAt": 1740934165214,
+          "water": 3,
+          "lastWatered": 1740935079040
+        }
+      ],
+      "inventory": {
+        "lúa": 0
+      },
+      "animals": {},
+      "items": {
+        "phan_bon": {
+          "purchased": 1740932132463,
+          "active": true,
+          "effect": "grow_boost",
+          "expiry": 1741018532463
+        }
+      },
+      "lastActive": 1740917432720,
+      "createdAt": 1740917432720,
+      "autoHarvest": false,
+      "weather": {
+        "type": "sunny",
+        "nextChange": 1740939032720
+      },
+      "dailyMissions": {
+        "date": 1740917432723,
+        "missions": {
+          "sell": {
+            "name": "Bán sản phẩm",
+            "emoji": "💰",
+            "description": "Bán 5 sản phẩm bất kỳ",
+            "target": 5,
+            "reward": 7000,
+            "exp": 12,
+            "progress": 5,
+            "claimed": true
+          },
+          "visit": {
+            "name": "Thăm trang trại",
+            "emoji": "👋",
+            "description": "Thăm 1 trang trại khác",
+            "target": 1,
+            "reward": 5000,
+            "exp": 10,
+            "progress": 0,
+            "claimed": false
+          },
+          "plant": {
+            "name": "Trồng cây",
+            "emoji": "🌱",
+            "description": "Trồng 3 cây bất kỳ",
+            "target": 3,
+            "reward": 5000,
+            "exp": 10,
+            "progress": 0,
+            "claimed": false
+          }
+        },
+        "refreshed": 1740917432723
+      },
+      "visitors": [
+        {
+          "visitorId": "100068382888605",
+          "visitTime": 1740921176912,
+          "action": "💫 Bạn đã tham quan trang trại và học hỏi được một số điều!"
+        },
+        {
+          "visitorId": "100055074463541",
+          "visitTime": 1740929500632,
+          "action": "💫 Bạn đã tham quan trang trại và học hỏi được một số điều!"
+        },
+        {
+          "visitorId": "61550331471452",
+          "visitTime": 1740933878568,
+          "action": "💫 Bạn đã tham quan trang trại và học hỏi được một số điều!"
+        }
+      ],
+      "lastVisits": {
+        "61550331471452": 1740933892553,
+        "61573427362389": 1740933959038
+      }
+    },
+    "100028202556430": {
+      "id": "100028202556430",
+      "exp": 0,
+      "plots": [
+        {
+          "id": 0,
+          "status": "empty",
+          "crop": null,
+          "plantedAt": null,
+          "water": 0,
+          "lastWatered": null
+        },
+        {
+          "id": 1,
+          "status": "empty",
+          "crop": null,
+          "plantedAt": null,
+          "water": 0,
+          "lastWatered": null
+        },
+        {
+          "id": 2,
+          "status": "empty",
+          "crop": null,
+          "plantedAt": null,
+          "water": 0,
+          "lastWatered": null
+        },
+        {
+          "id": 3,
+          "status": "empty",
+          "crop": null,
+          "plantedAt": null,
+          "water": 0,
+          "lastWatered": null
+        }
+      ],
+      "inventory": {},
+      "animals": {},
+      "items": {},
+      "lastActive": 1740919120496,
+      "createdAt": 1740919120496,
+      "autoHarvest": false,
+      "weather": {
+        "type": "sunny",
+        "nextChange": 1740940720496
+      },
+      "dailyMissions": {
+        "date": 1740919120525,
+        "missions": {
+          "process": {
+            "name": "Chế biến",
+            "emoji": "👨‍🍳",
+            "description": "Chế biến 2 món ăn",
+            "target": 2,
+            "reward": 12000,
+            "exp": 20,
+            "progress": 0,
+            "claimed": false
+          },
+          "feed": {
+            "name": "Cho ăn",
+            "emoji": "🥫",
+            "description": "Cho 2 vật nuôi ăn",
+            "target": 2,
+            "reward": 8000,
+            "exp": 15,
+            "progress": 0,
+            "claimed": false
+          },
+          "plant": {
+            "name": "Trồng cây",
+            "emoji": "🌱",
+            "description": "Trồng 3 cây bất kỳ",
+            "target": 3,
+            "reward": 5000,
+            "exp": 10,
+            "progress": 0,
+            "claimed": false
+          }
+        },
+        "refreshed": 1740919120525
+      },
+      "visitors": [
+        {
+          "visitorId": "100068382888605",
+          "visitTime": 1740921145327,
+          "action": "💫 Bạn đã tham quan trang trại và học hỏi được một số điều!"
+        },
+        {
+          "visitorId": "100046739981416",
+          "visitTime": 1740929322421,
+          "action": "💫 Bạn đã tham quan trang trại và học hỏi được một số điều!"
+        },
+        {
+          "visitorId": "100055074463541",
+          "visitTime": 1740929473140,
+          "action": "💫 Bạn đã tham quan trang trại và học hỏi được một số điều!"
+        }
+      ]
+    },
+    "100089981373051": {
+      "id": "100089981373051",
+      "exp": 0,
+      "plots": [
+        {
+          "id": 0,
+          "status": "empty",
+          "crop": null,
+          "plantedAt": null,
+          "water": 0,
+          "lastWatered": null
+        },
+        {
+          "id": 1,
+          "status": "empty",
+          "crop": null,
+          "plantedAt": null,
+          "water": 0,
+          "lastWatered": null
+        },
+        {
+          "id": 2,
+          "status": "empty",
+          "crop": null,
+          "plantedAt": null,
+          "water": 0,
+          "lastWatered": null
+        },
+        {
+          "id": 3,
+          "status": "empty",
+          "crop": null,
+          "plantedAt": null,
+          "water": 0,
+          "lastWatered": null
+        }
+      ],
+      "inventory": {},
+      "animals": {},
+      "items": {},
+      "lastActive": 1740920998637,
+      "createdAt": 1740920998637,
+      "autoHarvest": false,
+      "weather": {
+        "type": "sunny",
+        "nextChange": 1740942598637
+      },
+      "dailyMissions": {
+        "date": 1740920998640,
+        "missions": {
+          "harvest": {
+            "name": "Thu hoạch",
+            "emoji": "🌾",
+            "description": "Thu hoạch 3 cây trồng",
+            "target": 3,
+            "reward": 8000,
+            "exp": 15,
+            "progress": 0,
+            "claimed": false
+          },
+          "process": {
+            "name": "Chế biến",
+            "emoji": "👨‍🍳",
+            "description": "Chế biến 2 món ăn",
+            "target": 2,
+            "reward": 12000,
+            "exp": 20,
+            "progress": 0,
+            "claimed": false
+          },
+          "plant": {
+            "name": "Trồng cây",
+            "emoji": "🌱",
+            "description": "Trồng 3 cây bất kỳ",
+            "target": 3,
+            "reward": 5000,
+            "exp": 10,
+            "progress": 0,
+            "claimed": false
+          }
+        },
+        "refreshed": 1740920998640
+      },
+      "visitors": [
+        {
+          "visitorId": "100068382888605",
+          "visitTime": 1740921129851,
+          "action": "💫 Bạn đã tham quan trang trại và học hỏi được một số điều!"
+        },
+        {
+          "visitorId": "100053857386814",
+          "visitTime": 1740921145810,
+          "action": "💫 Bạn đã tham quan trang trại và học hỏi được một số điều!"
+        }
+      ]
+    },
+    "100049109850406": {
+      "id": "100049109850406",
+      "exp": 40,
       "plots": [
         {
           "id": 0,
@@ -38,228 +2775,211 @@
         }
       ],
       "inventory": {
-        "rau xanh": 0,
-        "lúa": 0
+        "lúa": 4
       },
       "animals": {},
       "items": {},
-      "lastActive": 1740891826851,
-      "createdAt": 1740891826851,
+      "lastActive": 1740922284303,
+      "createdAt": 1740922284303,
       "autoHarvest": false,
       "weather": {
         "type": "sunny",
-        "nextChange": 1740913426852
+        "nextChange": 1740943884303
       },
-      "lastVisits": {
-        "61568641631000": 1740901680135
-      }
-    },
-    "61568641631000": {
-      "id": "61568641631000",
-      "exp": 0,
-      "plots": [
-        {
-          "id": 0,
-          "status": "growing",
-          "crop": "lua",
-          "plantedAt": 1740900741142,
-          "water": 3,
-          "lastWatered": 1740900950659
+      "dailyMissions": {
+        "date": 1740922284309,
+        "missions": {
+          "sell": {
+            "name": "Bán sản phẩm",
+            "emoji": "💰",
+            "description": "Bán 5 sản phẩm bất kỳ",
+            "target": 5,
+            "reward": 7000,
+            "exp": 12,
+            "progress": 0,
+            "claimed": false
+          },
+          "plant": {
+            "name": "Trồng cây",
+            "emoji": "🌱",
+            "description": "Trồng 3 cây bất kỳ",
+            "target": 3,
+            "reward": 5000,
+            "exp": 10,
+            "progress": 0,
+            "claimed": false
+          },
+          "process": {
+            "name": "Chế biến",
+            "emoji": "👨‍🍳",
+            "description": "Chế biến 2 món ăn",
+            "target": 2,
+            "reward": 12000,
+            "exp": 20,
+            "progress": 0,
+            "claimed": false
+          }
         },
-        {
-          "id": 1,
-          "status": "growing",
-          "crop": "lua",
-          "plantedAt": 1740900741142,
-          "water": 3,
-          "lastWatered": 1740900950659
-        },
-        {
-          "id": 2,
-          "status": "growing",
-          "crop": "lua",
-          "plantedAt": 1740900741142,
-          "water": 3,
-          "lastWatered": 1740900950659
-        },
-        {
-          "id": 3,
-          "status": "growing",
-          "crop": "lua",
-          "plantedAt": 1740900741142,
-          "water": 3,
-          "lastWatered": 1740900950659
-        }
-      ],
-      "inventory": {},
-      "animals": {},
-      "items": {
-        "phan_bon": {
-          "purchased": 1740900987067,
-          "active": true,
-          "effect": "grow_boost",
-          "expiry": 1740987387067
-        }
-      },
-      "lastActive": 1740900581883,
-      "createdAt": 1740900581883,
-      "autoHarvest": false,
-      "weather": {
-        "type": "sunny",
-        "nextChange": 1740922181883
+        "refreshed": 1740922284309
       },
       "visitors": [
         {
-          "visitorId": "61573427362389",
-          "visitTime": 1740901680135,
+          "visitorId": "100053857386814",
+          "visitTime": 1740922304483,
           "action": "💫 Bạn đã tham quan trang trại và học hỏi được một số điều!"
         }
       ]
     },
-    "100055074463541": {
-      "id": "100055074463541",
-      "exp": 0,
+    "100035610181048": {
+      "id": "100035610181048",
+      "exp": 26,
       "plots": [
         {
           "id": 0,
-          "status": "growing",
+          "status": "ready",
           "crop": "lua",
-          "plantedAt": 1740900708865,
+          "plantedAt": 1740926166796,
           "water": 3,
-          "lastWatered": 1740900936245
+          "lastWatered": 1740927148220
         },
         {
           "id": 1,
-          "status": "empty",
-          "crop": null,
-          "plantedAt": null,
-          "water": 0,
-          "lastWatered": null
+          "status": "ready",
+          "crop": "lua",
+          "plantedAt": 1740926176892,
+          "water": 3,
+          "lastWatered": 1740927148220
         },
         {
           "id": 2,
-          "status": "empty",
-          "crop": null,
-          "plantedAt": null,
-          "water": 0,
-          "lastWatered": null
+          "status": "ready",
+          "crop": "lua",
+          "plantedAt": 1740926176892,
+          "water": 3,
+          "lastWatered": 1740927148220
         },
         {
           "id": 3,
-          "status": "empty",
-          "crop": null,
-          "plantedAt": null,
-          "water": 0,
-          "lastWatered": null
+          "status": "ready",
+          "crop": "lua",
+          "plantedAt": 1740926185236,
+          "water": 3,
+          "lastWatered": 1740927148220
         }
       ],
-      "inventory": {},
+      "inventory": {
+        "cà rốt": 3,
+        "lúa": 1
+      },
       "animals": {},
       "items": {},
-      "lastActive": 1740900650864,
-      "createdAt": 1740900650864,
+      "lastActive": 1740923260993,
+      "createdAt": 1740923260993,
       "autoHarvest": false,
       "weather": {
         "type": "sunny",
-        "nextChange": 1740922250864
+        "nextChange": 1740944860993
+      },
+      "dailyMissions": {
+        "date": 1740923260994,
+        "missions": {
+          "visit": {
+            "name": "Thăm trang trại",
+            "emoji": "👋",
+            "description": "Thăm 1 trang trại khác",
+            "target": 1,
+            "reward": 5000,
+            "exp": 10,
+            "progress": 0,
+            "claimed": false
+          },
+          "sell": {
+            "name": "Bán sản phẩm",
+            "emoji": "💰",
+            "description": "Bán 5 sản phẩm bất kỳ",
+            "target": 5,
+            "reward": 7000,
+            "exp": 12,
+            "progress": 0,
+            "claimed": false
+          },
+          "process": {
+            "name": "Chế biến",
+            "emoji": "👨‍🍳",
+            "description": "Chế biến 2 món ăn",
+            "target": 2,
+            "reward": 12000,
+            "exp": 20,
+            "progress": 0,
+            "claimed": false
+          }
+        },
+        "refreshed": 1740923260994
+      },
+      "lastVisits": {
+        "61573427362389": 1740927552209
       }
     },
-    "100053857386814": {
-      "id": "100053857386814",
+    "100051123632162": {
+      "id": "100051123632162",
       "exp": 0,
       "plots": [
         {
           "id": 0,
-          "status": "empty",
-          "crop": null,
-          "plantedAt": null,
-          "water": 0,
-          "lastWatered": null
+          "status": "ready",
+          "crop": "lua",
+          "plantedAt": 1740929569610,
+          "water": 3,
+          "lastWatered": 1740929585694
         },
         {
           "id": 1,
-          "status": "empty",
-          "crop": null,
-          "plantedAt": null,
-          "water": 0,
-          "lastWatered": null
+          "status": "ready",
+          "crop": "lua",
+          "plantedAt": 1740929569610,
+          "water": 3,
+          "lastWatered": 1740929585694
         },
         {
           "id": 2,
-          "status": "empty",
-          "crop": null,
-          "plantedAt": null,
-          "water": 0,
-          "lastWatered": null
+          "status": "ready",
+          "crop": "lua",
+          "plantedAt": 1740929569610,
+          "water": 3,
+          "lastWatered": 1740929585694
         },
         {
           "id": 3,
-          "status": "empty",
-          "crop": null,
-          "plantedAt": null,
-          "water": 0,
-          "lastWatered": null
+          "status": "ready",
+          "crop": "lua",
+          "plantedAt": 1740929569610,
+          "water": 3,
+          "lastWatered": 1740929585694
         }
       ],
       "inventory": {},
       "animals": {},
       "items": {},
-      "lastActive": 1740900774563,
-      "createdAt": 1740900774563,
+      "lastActive": 1740927354781,
+      "createdAt": 1740927354781,
       "autoHarvest": false,
       "weather": {
         "type": "sunny",
-        "nextChange": 1740922374563
-      }
-    },
-    "100053970942155": {
-      "id": "100053970942155",
-      "exp": 0,
-      "plots": [
+        "nextChange": 1740948954781
+      },
+      "visitors": [
         {
-          "id": 0,
-          "status": "empty",
-          "crop": null,
-          "plantedAt": null,
-          "water": 0,
-          "lastWatered": null
+          "visitorId": "100055074463541",
+          "visitTime": 1740929518382,
+          "action": "💫 Bạn đã tham quan trang trại và học hỏi được một số điều!"
         },
         {
-          "id": 1,
-          "status": "empty",
-          "crop": null,
-          "plantedAt": null,
-          "water": 0,
-          "lastWatered": null
-        },
-        {
-          "id": 2,
-          "status": "empty",
-          "crop": null,
-          "plantedAt": null,
-          "water": 0,
-          "lastWatered": null
-        },
-        {
-          "id": 3,
-          "status": "empty",
-          "crop": null,
-          "plantedAt": null,
-          "water": 0,
-          "lastWatered": null
+          "visitorId": "100046739981416",
+          "visitTime": 1740929609733,
+          "action": "💫 Bạn đã tham quan trang trại và học hỏi được một số điều!"
         }
-      ],
-      "inventory": {},
-      "animals": {},
-      "items": {},
-      "lastActive": 1740901679266,
-      "createdAt": 1740901679266,
-      "autoHarvest": false,
-      "weather": {
-        "type": "sunny",
-        "nextChange": 1740923279266
-      }
+      ]
     }
   },
-  "lastUpdate": 1740901702316
+  "lastUpdate": 1740935693863
 }

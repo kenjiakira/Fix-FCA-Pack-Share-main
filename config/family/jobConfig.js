@@ -18,7 +18,7 @@ module.exports = {
         expert: {
             name: "Chuyên gia",
             desc: "Yêu cầu bằng Thạc sĩ trở lên",
-            jobs: ["j10", "j11", "j12"]
+            jobs: ["j10", "j11", "j12", "j13"]
         }
     },
 
@@ -94,11 +94,18 @@ module.exports = {
             { name: "Chuyên Gia Đầu Ngành", minWork: 1200, bonus: 5.0 }
         ],
         consultant: [
-            { name: "Tư Vấn Viên", minWork: 0, bonus: 1.0 },
-            { name: "Tư Vấn Viên Cao Cấp", minWork: 90, bonus: 1.7 },
-            { name: "Chuyên Gia Tư Vấn", minWork: 200, bonus: 2.4 },
-            { name: "Giám Đốc Tư Vấn", minWork: 450, bonus: 3.3 },
-            { name: "Chuyên Gia Chiến Lược", minWork: 1000, bonus: 4.8 }
+            { name: "Beginner", minWork: 0, bonus: 1.0 },
+            { name: "Junior", minWork: 90, bonus: 1.7 },
+            { name: "Mid-Level", minWork: 200, bonus: 2.4 },
+            { name: "Senior", minWork: 450, bonus: 3.3 },
+            { name: "Architect", minWork: 1000, bonus: 4.8 }
+        ],
+        researcher: [
+            { name: "Nghiên Cứu Viên", minWork: 0, bonus: 1.0 },
+            { name: "Nghiên Cứu Viên Chính", minWork: 100, bonus: 1.8 },
+            { name: "Trưởng Nhóm Nghiên Cứu", minWork: 250, bonus: 2.5 },
+            { name: "Giám Đốc Nghiên Cứu", minWork: 500, bonus: 3.5 },
+            { name: "Chuyên Gia Đầu Ngành", minWork: 1200, bonus: 5.0 }
         ]
     },
 
@@ -135,57 +142,64 @@ module.exports = {
             name: "Nhân viên bán hàng",
             salary: 70000,
             type: "sales",
-            requirements: ["e1", "kyna"],
+            requirements: ["e1"],
             description: "Tư vấn và bán hàng chuyên nghiệp"
         },
         j6: {
             name: "Lễ tân khách sạn",
             salary: 75000,
             type: "service",
-            requirements: ["e1", "eng1"],
+            requirements: ["e1"],
             description: "Tiếp đón và phục vụ khách hàng"
         },
         j7: {
             name: "Kế toán",
             salary: 820000,
             type: "accountant",
-            requirements: ["e2", "e3"],
+            requirements: ["e3"],
             description: "Quản lý tài chính và sổ sách"
         },
         j8: {
             name: "Lập trình viên",
-            salary: 2400000,
+            salary: 22000000,
             type: "developer",
             requirements: ["e3", "fe", "be"],
             description: "Phát triển phần mềm và ứng dụng"
         },
         j9: {
             name: "Giáo viên",
-            salary: 1030000,
+            salary: 15000000,
             type: "teacher",
             requirements: ["e3", "eng2"],
             description: "Giảng dạy và đào tạo học sinh"
         },
         j10: {
             name: "Giảng viên ĐH",
-            salary: 1200000,
+            salary: 30000000,
             type: "lecturer",
             requirements: ["e4", "eng3"],
             description: "Giảng dạy và nghiên cứu đại học"
         },
         j11: {
             name: "Nghiên cứu viên",
-            salary: 3500000,
+            salary: 35000000,
             type: "researcher",
             requirements: ["e4", "e5", "eng3"],
             description: "Nghiên cứu và phát triển khoa học"
         },
         j12: {
             name: "Chuyên gia IT",
-            salary: 12000000,
+            salary: 50000000,
             type: "consultant",
             requirements: ["e4", "aws", "azure", "ccna"],
             description: "Tư vấn giải pháp công nghệ cấp cao"
+        },
+        j13: {
+            name: "Nhà khoa học trưởng",
+            salary: 100000000,
+            type: "researcher",
+            requirements: ["e5", "eng3", "research1"],
+            description: "Lãnh đạo nhóm nghiên cứu đỉnh cao, công bố quốc tế"
         }
     }
 };

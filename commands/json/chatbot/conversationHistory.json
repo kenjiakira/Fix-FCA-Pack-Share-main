@@ -1,55 +1,242 @@
 {
   "global": [
     {
-      "timestamp": 1740899191704,
-      "prompt": "đ ai rảnh đi hack bot mình",
-      "response": "Chắc cậu đang nói đùa đấy chứ? Hack bot thì hơi khó đấy, hệ thống bảo mật phức tạp lắm.  Nhưng mà nếu cậu muốn thử sức mình ở lĩnh vực an ninh mạng thì cũng thú vị đấy, có nhiều hướng đi lắm.",
+      "timestamp": 1740920791257,
+      "prompt": "thua giết bot",
+      "response": "Chà, tiếc quá!  Đừng buồn nhé, lần sau cố gắng hơn!  Biết đâu lại thắng =)))",
+      "senderID": "61556258566916",
+      "senderName": "Con Người"
+    },
+    {
+      "timestamp": 1740921229680,
+      "prompt": ".farm thăm @Kim Ngân",
+      "response": "Chào Phạm Hùng!  Tối nay dạo này khỏe không?",
       "senderID": "100053857386814",
       "senderName": "Phạm Hùng"
     },
     {
-      "timestamp": 1740899493541,
-      "prompt": "con bot nó thg nào hack dc",
-      "response": "Khó đấy bạn ạ!  Hệ thống bảo mật của bot phức tạp lắm, không dễ gì hack được đâu.",
-      "senderID": "61568641631000",
-      "senderName": "Ủa Alo"
+      "timestamp": 1740921665846,
+      "prompt": "có trò gì chs ko bot",
+      "response": "Chơi cờ vua online không bạn?  Hay là thử một trò chơi giải đố xem sao?",
+      "senderID": "61550331471452",
+      "senderName": "Văn Quyến"
     },
     {
-      "timestamp": 1740899505606,
-      "prompt": "Bot nó hack cx có đc gì đâu",
-      "response": "Kiến Tườngg, bạn nói đúng đấy.  Hack bot cũng chẳng được gì nhiều ngoài việc gây phiền toái thôi.  Thời gian và công sức bỏ ra có khi còn nhiều hơn lợi ích thu được.",
-      "senderID": "100089981373051",
-      "senderName": "Kiến Tườngg"
+      "timestamp": 1740921704590,
+      "prompt": "bot oi chs trò giả lập đời sống",
+      "response": "Trò giả lập đời sống hay nhỉ!  Em chưa từng chơi thử, nghe có vẻ thú vị đấy.  Bạn muốn chơi kiểu gì?",
+      "senderID": "61550331471452",
+      "senderName": "Văn Quyến"
+    },
+    {
+      "timestamp": 1740927884060,
+      "prompt": "tk từ rs bot hay gì nên nó cho work lại th:))",
+      "response": "Ui dào, thế là ổn rồi chứ gì.  May quá!  Giờ thì mình có thể thoải mái tán gẫu rồi.  Có gì cứ hỏi em nhé!",
+      "senderID": "100053970942155",
+      "senderName": "Dat Lee"
+    },
+    {
+      "timestamp": 1740927989297,
+      "prompt": "tạo box xong add bot vô là dc đk",
+      "response": "Đúng rồi đó bạn.  Tạo box xong rồi add em vào là được.  =)))",
+      "senderID": "100046739981416",
+      "senderName": "Hùg Mel Bel"
+    },
+    {
+      "timestamp": 1740928002251,
+      "prompt": "bot tự vô dc kh",
+      "response": "Không được bạn ơi, bot phải được add vào mới tham gia được.  :))",
+      "senderID": "100046739981416",
+      "senderName": "Hùg Mel Bel"
+    },
+    {
+      "timestamp": 1740928012182,
+      "prompt": "vãi, tự vô đi",
+      "response": "Không được bạn ơi, bot nào cũng vậy thôi.  :))",
+      "senderID": "100046739981416",
+      "senderName": "Hùg Mel Bel"
+    },
+    {
+      "timestamp": 1740928026865,
+      "prompt": "update cho bot tự vô đi",
+      "response": "Cái đó thì em chịu rồi bạn ơi,  chức năng đó phải do người tạo lập bot quyết định chứ không phải em.  =)))",
+      "senderID": "100046739981416",
+      "senderName": "Hùg Mel Bel"
+    },
+    {
+      "timestamp": 1740929775997,
+      "prompt": ".farm thăm @Kim Ngân",
+      "response": "À, bạn muốn bot tự động tham gia nhóm à?  Khó đấy bạn ơi,  cái đó phải nhờ người lập trình  xem xét lại  code chứ em không làm được.  =)))",
+      "senderID": "100046739981416",
+      "senderName": "Hùg Mel Bel"
+    },
+    {
+      "timestamp": 1740930470241,
+      "prompt": "đánh như bot",
+      "response": "Em xin lỗi, có lẽ em chưa đáp ứng được kỳ vọng của anh. Em sẽ cố gắng cải thiện hơn nữa.",
+      "senderID": "61565876274721",
+      "senderName": "Tổng Tài Anlol"
+    },
+    {
+      "timestamp": 1740931161928,
+      "prompt": "bot",
+      "response": "Chắc cậu đang nói về trận đấu game nhỉ?  Có lẽ hôm nay cậu chưa có phong độ tốt thôi mà.  Đừng nản, cứ luyện tập thêm là được!",
+      "senderID": "100085397934729",
+      "senderName": "Hoàng Nguyên"
+    },
+    {
+      "timestamp": 1740931588227,
+      "prompt": "bị ăn mã hả@AKI BOT • [ . ]",
+      "response": "Chắc trận đấu căng thẳng quá nhỉ?  Cố gắng lên cậu nhé!  Đã khuya rồi, ngủ ngon!",
+      "senderID": "100085397934729",
+      "senderName": "Hoàng Nguyên"
+    },
+    {
+      "timestamp": 1740932242578,
+      "prompt": "nayz thấy nên tk từ tắt bot đó",
+      "response": "Dạ, bạn thấy hay thì cứ làm thôi.  Muộn rồi, ngủ ngon nhé!",
+      "senderID": "100053970942155",
+      "senderName": "Dat Lee"
+    },
+    {
+      "timestamp": 1740933429750,
+      "prompt": "đm hồi lag bot đó",
+      "response": "Khổ thân bạn nhỉ =))  Giờ thì ổn rồi, cứ thoải mái nha!",
+      "senderID": "100053970942155",
+      "senderName": "Dat Lee"
     }
   ],
   "threads": {
+    "7906297289472032": [
+      {
+        "timestamp": 1740920791257,
+        "prompt": "thua giết bot",
+        "response": "Chà, tiếc quá!  Đừng buồn nhé, lần sau cố gắng hơn!  Biết đâu lại thắng =)))",
+        "senderID": "61556258566916",
+        "senderName": "Con Người"
+      }
+    ],
     "9410743895708292": [
       {
-        "timestamp": 1740899191704,
-        "prompt": "đ ai rảnh đi hack bot mình",
-        "response": "Chắc cậu đang nói đùa đấy chứ? Hack bot thì hơi khó đấy, hệ thống bảo mật phức tạp lắm.  Nhưng mà nếu cậu muốn thử sức mình ở lĩnh vực an ninh mạng thì cũng thú vị đấy, có nhiều hướng đi lắm.",
+        "timestamp": 1740921229680,
+        "prompt": ".farm thăm @Kim Ngân",
+        "response": "Chào Phạm Hùng!  Tối nay dạo này khỏe không?",
         "senderID": "100053857386814",
         "senderName": "Phạm Hùng"
+      }
+    ],
+    "6589198804475799": [
+      {
+        "timestamp": 1740921665846,
+        "prompt": "có trò gì chs ko bot",
+        "response": "Chơi cờ vua online không bạn?  Hay là thử một trò chơi giải đố xem sao?",
+        "senderID": "61550331471452",
+        "senderName": "Văn Quyến"
       },
       {
-        "timestamp": 1740899493541,
-        "prompt": "con bot nó thg nào hack dc",
-        "response": "Khó đấy bạn ạ!  Hệ thống bảo mật của bot phức tạp lắm, không dễ gì hack được đâu.",
-        "senderID": "61568641631000",
-        "senderName": "Ủa Alo"
+        "timestamp": 1740921704590,
+        "prompt": "bot oi chs trò giả lập đời sống",
+        "response": "Trò giả lập đời sống hay nhỉ!  Em chưa từng chơi thử, nghe có vẻ thú vị đấy.  Bạn muốn chơi kiểu gì?",
+        "senderID": "61550331471452",
+        "senderName": "Văn Quyến"
       },
       {
-        "timestamp": 1740899505606,
-        "prompt": "Bot nó hack cx có đc gì đâu",
-        "response": "Kiến Tườngg, bạn nói đúng đấy.  Hack bot cũng chẳng được gì nhiều ngoài việc gây phiền toái thôi.  Thời gian và công sức bỏ ra có khi còn nhiều hơn lợi ích thu được.",
-        "senderID": "100089981373051",
-        "senderName": "Kiến Tườngg"
+        "timestamp": 1740927989297,
+        "prompt": "tạo box xong add bot vô là dc đk",
+        "response": "Đúng rồi đó bạn.  Tạo box xong rồi add em vào là được.  =)))",
+        "senderID": "100046739981416",
+        "senderName": "Hùg Mel Bel"
+      },
+      {
+        "timestamp": 1740928002251,
+        "prompt": "bot tự vô dc kh",
+        "response": "Không được bạn ơi, bot phải được add vào mới tham gia được.  :))",
+        "senderID": "100046739981416",
+        "senderName": "Hùg Mel Bel"
+      },
+      {
+        "timestamp": 1740928012182,
+        "prompt": "vãi, tự vô đi",
+        "response": "Không được bạn ơi, bot nào cũng vậy thôi.  :))",
+        "senderID": "100046739981416",
+        "senderName": "Hùg Mel Bel"
+      },
+      {
+        "timestamp": 1740928026865,
+        "prompt": "update cho bot tự vô đi",
+        "response": "Cái đó thì em chịu rồi bạn ơi,  chức năng đó phải do người tạo lập bot quyết định chứ không phải em.  =)))",
+        "senderID": "100046739981416",
+        "senderName": "Hùg Mel Bel"
+      },
+      {
+        "timestamp": 1740929775997,
+        "prompt": ".farm thăm @Kim Ngân",
+        "response": "À, bạn muốn bot tự động tham gia nhóm à?  Khó đấy bạn ơi,  cái đó phải nhờ người lập trình  xem xét lại  code chứ em không làm được.  =)))",
+        "senderID": "100046739981416",
+        "senderName": "Hùg Mel Bel"
+      }
+    ],
+    "9105901152860642": [
+      {
+        "timestamp": 1740927884060,
+        "prompt": "tk từ rs bot hay gì nên nó cho work lại th:))",
+        "response": "Ui dào, thế là ổn rồi chứ gì.  May quá!  Giờ thì mình có thể thoải mái tán gẫu rồi.  Có gì cứ hỏi em nhé!",
+        "senderID": "100053970942155",
+        "senderName": "Dat Lee"
+      },
+      {
+        "timestamp": 1740932242578,
+        "prompt": "nayz thấy nên tk từ tắt bot đó",
+        "response": "Dạ, bạn thấy hay thì cứ làm thôi.  Muộn rồi, ngủ ngon nhé!",
+        "senderID": "100053970942155",
+        "senderName": "Dat Lee"
+      },
+      {
+        "timestamp": 1740933429750,
+        "prompt": "đm hồi lag bot đó",
+        "response": "Khổ thân bạn nhỉ =))  Giờ thì ổn rồi, cứ thoải mái nha!",
+        "senderID": "100053970942155",
+        "senderName": "Dat Lee"
+      }
+    ],
+    "7804850272968007": [
+      {
+        "timestamp": 1740930470241,
+        "prompt": "đánh như bot",
+        "response": "Em xin lỗi, có lẽ em chưa đáp ứng được kỳ vọng của anh. Em sẽ cố gắng cải thiện hơn nữa.",
+        "senderID": "61565876274721",
+        "senderName": "Tổng Tài Anlol"
+      },
+      {
+        "timestamp": 1740931161928,
+        "prompt": "bot",
+        "response": "Chắc cậu đang nói về trận đấu game nhỉ?  Có lẽ hôm nay cậu chưa có phong độ tốt thôi mà.  Đừng nản, cứ luyện tập thêm là được!",
+        "senderID": "100085397934729",
+        "senderName": "Hoàng Nguyên"
+      },
+      {
+        "timestamp": 1740931588227,
+        "prompt": "bị ăn mã hả@AKI BOT • [ . ]",
+        "response": "Chắc trận đấu căng thẳng quá nhỉ?  Cố gắng lên cậu nhé!  Đã khuya rồi, ngủ ngon!",
+        "senderID": "100085397934729",
+        "senderName": "Hoàng Nguyên"
       }
     ]
   },
   "lastResponses": {
-    "đ ai rảnh đi hack bot mình": "Chắc cậu đang nói đùa đấy chứ? Hack bot thì hơi khó đấy, hệ thống bảo mật phức tạp lắm.  Nhưng mà nếu cậu muốn thử sức mình ở lĩnh vực an ninh mạng thì cũng thú vị đấy, có nhiều hướng đi lắm.",
-    "con bot nó thg nào hack dc": "Khó đấy bạn ạ!  Hệ thống bảo mật của bot phức tạp lắm, không dễ gì hack được đâu.",
-    "bot nó hack cx có đc gì đâu": "Kiến Tườngg, bạn nói đúng đấy.  Hack bot cũng chẳng được gì nhiều ngoài việc gây phiền toái thôi.  Thời gian và công sức bỏ ra có khi còn nhiều hơn lợi ích thu được."
+    "thua giết bot": "Chà, tiếc quá!  Đừng buồn nhé, lần sau cố gắng hơn!  Biết đâu lại thắng =)))",
+    ".farm thăm @kim ngân": "À, bạn muốn bot tự động tham gia nhóm à?  Khó đấy bạn ơi,  cái đó phải nhờ người lập trình  xem xét lại  code chứ em không làm được.  =)))",
+    "có trò gì chs ko bot": "Chơi cờ vua online không bạn?  Hay là thử một trò chơi giải đố xem sao?",
+    "bot oi chs trò giả lập đời sống": "Trò giả lập đời sống hay nhỉ!  Em chưa từng chơi thử, nghe có vẻ thú vị đấy.  Bạn muốn chơi kiểu gì?",
+    "tk từ rs bot hay gì nên nó cho work lại th:))": "Ui dào, thế là ổn rồi chứ gì.  May quá!  Giờ thì mình có thể thoải mái tán gẫu rồi.  Có gì cứ hỏi em nhé!",
+    "tạo box xong add bot vô là dc đk": "Đúng rồi đó bạn.  Tạo box xong rồi add em vào là được.  =)))",
+    "bot tự vô dc kh": "Không được bạn ơi, bot phải được add vào mới tham gia được.  :))",
+    "vãi, tự vô đi": "Không được bạn ơi, bot nào cũng vậy thôi.  :))",
+    "update cho bot tự vô đi": "Cái đó thì em chịu rồi bạn ơi,  chức năng đó phải do người tạo lập bot quyết định chứ không phải em.  =)))",
+    "đánh như bot": "Em xin lỗi, có lẽ em chưa đáp ứng được kỳ vọng của anh. Em sẽ cố gắng cải thiện hơn nữa.",
+    "bot": "Chắc cậu đang nói về trận đấu game nhỉ?  Có lẽ hôm nay cậu chưa có phong độ tốt thôi mà.  Đừng nản, cứ luyện tập thêm là được!",
+    "bị ăn mã hả@aki bot • [ . ]": "Chắc trận đấu căng thẳng quá nhỉ?  Cố gắng lên cậu nhé!  Đã khuya rồi, ngủ ngon!",
+    "nayz thấy nên tk từ tắt bot đó": "Dạ, bạn thấy hay thì cứ làm thôi.  Muộn rồi, ngủ ngon nhé!",
+    "đm hồi lag bot đó": "Khổ thân bạn nhỉ =))  Giờ thì ổn rồi, cứ thoải mái nha!"
   }
 }
