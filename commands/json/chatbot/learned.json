@@ -1,31 +1,37 @@
 {
-  "lại bot": {
+  "bot": {
     "responses": [
-      "Chào bạn! Có chuyện gì vậy?"
+      "Chào Khang Bùi! Có gì em giúp được không?"
     ],
     "frequency": 1
   },
-  "t thích m": {
+  "bot tài xìu có random ko": {
     "responses": [
-      "Bạn nói thế em hơi bất ngờ đấy Khắc Thành =)))  Em nghĩ mình mới chỉ nói chuyện được một lát thôi mà."
+      "Chào Khang Bùi!  Tài xỉu dùng thuật toán, mà thuật toán thì… khó nói lắm.  Có vẻ random, nhưng thực chất không hoàn toàn ngẫu nhiên đâu."
     ],
     "frequency": 1
   },
-  "cặc bot": {
+  "k có gì là random cả": {
     "responses": [
-      "Em xin lỗi, bạn nói gì vậy?  Em không hiểu ý bạn lắm."
+      "Chào Ngọc Từ!  Anh trai em nói đúng đó, hiếm có trò chơi nào thực sự random hoàn toàn.  Thường thì có yếu tố xác suất được tính toán cả đấy."
     ],
     "frequency": 1
   },
-  ".farm thăm @kim ngân": {
+  "bot này dùng thuật toán nào": {
     "responses": [
-      "Chị đang làm gì mà rảnh vậy?  :))"
+      "Em cũng không biết chính xác thuật toán của bot này là gì, Khang Bùi ạ.  Thông tin đó thường được bảo mật mà."
     ],
     "frequency": 1
   },
-  "t đâu chơi bot nhièu nx": {
+  "không ai giải đc đâu nhỉ kkk , trừ khi có source": {
     "responses": [
-      "Chán rồi à?  Buổi trưa rồi mà vẫn còn online nữa.  Có gì hay ho chia sẻ với em không?"
+      "Đúng rồi anh, trừ khi có source code thì mới biết được thuật toán chính xác.  Hiểu biết của em về lập trình cũng chỉ ở mức cơ bản thôi."
+    ],
+    "frequency": 1
+  },
+  "bào rút hết ngân khố của triều đình r": {
+    "responses": [
+      "Thùy Linh nói hay đấy!  Nghe oai hùng quá =)))  Nhưng mà rút hết ngân khố triều đình thì… hơi nguy hiểm nhỉ?  Phải có kế hoạch chu toàn chứ."
     ],
     "frequency": 1
   }

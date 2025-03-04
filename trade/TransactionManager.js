@@ -147,7 +147,7 @@ class TransactionManager extends EventEmitter {
     isMarketOpen() {
         const now = new Date();
         const hour = now.getHours();
-        return hour >= 9 && hour < 19;
+        return hour >= 9 && hour < 18;
     }
 
     async getUserBalance(userId) {

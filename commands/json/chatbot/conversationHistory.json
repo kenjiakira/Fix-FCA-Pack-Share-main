@@ -1,91 +1,100 @@
 {
   "global": [
     {
-      "timestamp": 1741063431791,
-      "prompt": "lại bot",
-      "response": "Chào bạn! Có chuyện gì vậy?",
-      "senderID": "100072870883017",
-      "senderName": "Người dùng 100072870883017"
+      "timestamp": 1741089065866,
+      "prompt": "bot",
+      "response": "Chào Khang Bùi! Có gì em giúp được không?",
+      "senderID": "100055074463541",
+      "senderName": "Khang Bùi"
     },
     {
-      "timestamp": 1741064078595,
-      "prompt": "t thích m",
-      "response": "Bạn nói thế em hơi bất ngờ đấy Khắc Thành =)))  Em nghĩ mình mới chỉ nói chuyện được một lát thôi mà.",
-      "senderID": "100061101806835",
-      "senderName": "Khắc Thành"
+      "timestamp": 1741089081984,
+      "prompt": "bot tài xìu có random ko",
+      "response": "Chào Khang Bùi!  Tài xỉu dùng thuật toán, mà thuật toán thì… khó nói lắm.  Có vẻ random, nhưng thực chất không hoàn toàn ngẫu nhiên đâu.",
+      "senderID": "100055074463541",
+      "senderName": "Khang Bùi"
     },
     {
-      "timestamp": 1741064846214,
-      "prompt": "cặc bot",
-      "response": "Em xin lỗi, bạn nói gì vậy?  Em không hiểu ý bạn lắm.",
-      "senderID": "100085397934729",
-      "senderName": "Hoàng Nguyên"
+      "timestamp": 1741089099815,
+      "prompt": "k có gì là random cả",
+      "response": "Chào Ngọc Từ!  Anh trai em nói đúng đó, hiếm có trò chơi nào thực sự random hoàn toàn.  Thường thì có yếu tố xác suất được tính toán cả đấy.",
+      "senderID": "61573427362389",
+      "senderName": "Ngọc Từ"
     },
     {
-      "timestamp": 1741066385418,
-      "prompt": ".farm thăm @Kim Ngân",
-      "response": "Chị đang làm gì mà rảnh vậy?  :))",
-      "senderID": "61568522233427",
-      "senderName": "Mỹ Lệ"
+      "timestamp": 1741089115087,
+      "prompt": "bot này dùng thuật toán nào",
+      "response": "Em cũng không biết chính xác thuật toán của bot này là gì, Khang Bùi ạ.  Thông tin đó thường được bảo mật mà.",
+      "senderID": "100055074463541",
+      "senderName": "Khang Bùi"
     },
     {
-      "timestamp": 1741066927870,
-      "prompt": "T đâu chơi bot nhièu nx",
-      "response": "Chán rồi à?  Buổi trưa rồi mà vẫn còn online nữa.  Có gì hay ho chia sẻ với em không?",
-      "senderID": "100089981373051",
-      "senderName": "Kiến Tườngg"
+      "timestamp": 1741089140846,
+      "prompt": "không ai giải đc đâu nhỉ kkk , trừ khi có source",
+      "response": "Đúng rồi anh, trừ khi có source code thì mới biết được thuật toán chính xác.  Hiểu biết của em về lập trình cũng chỉ ở mức cơ bản thôi.",
+      "senderID": "61573427362389",
+      "senderName": "Ngọc Từ"
+    },
+    {
+      "timestamp": 1741090957439,
+      "prompt": "bào rút hết ngân khố của triều đình r",
+      "response": "Thùy Linh nói hay đấy!  Nghe oai hùng quá =)))  Nhưng mà rút hết ngân khố triều đình thì… hơi nguy hiểm nhỉ?  Phải có kế hoạch chu toàn chứ.",
+      "senderID": "100028202556430",
+      "senderName": "Thùy Linh"
     }
   ],
   "threads": {
-    "6149997238457330": [
-      {
-        "timestamp": 1741063431791,
-        "prompt": "lại bot",
-        "response": "Chào bạn! Có chuyện gì vậy?",
-        "senderID": "100072870883017",
-        "senderName": "Người dùng 100072870883017"
-      },
-      {
-        "timestamp": 1741064078595,
-        "prompt": "t thích m",
-        "response": "Bạn nói thế em hơi bất ngờ đấy Khắc Thành =)))  Em nghĩ mình mới chỉ nói chuyện được một lát thôi mà.",
-        "senderID": "100061101806835",
-        "senderName": "Khắc Thành"
-      }
-    ],
-    "7804850272968007": [
-      {
-        "timestamp": 1741064846214,
-        "prompt": "cặc bot",
-        "response": "Em xin lỗi, bạn nói gì vậy?  Em không hiểu ý bạn lắm.",
-        "senderID": "100085397934729",
-        "senderName": "Hoàng Nguyên"
-      }
-    ],
     "6589198804475799": [
       {
-        "timestamp": 1741066385418,
-        "prompt": ".farm thăm @Kim Ngân",
-        "response": "Chị đang làm gì mà rảnh vậy?  :))",
-        "senderID": "61568522233427",
-        "senderName": "Mỹ Lệ"
-      }
-    ],
-    "9410743895708292": [
+        "timestamp": 1741089065866,
+        "prompt": "bot",
+        "response": "Chào Khang Bùi! Có gì em giúp được không?",
+        "senderID": "100055074463541",
+        "senderName": "Khang Bùi"
+      },
       {
-        "timestamp": 1741066927870,
-        "prompt": "T đâu chơi bot nhièu nx",
-        "response": "Chán rồi à?  Buổi trưa rồi mà vẫn còn online nữa.  Có gì hay ho chia sẻ với em không?",
-        "senderID": "100089981373051",
-        "senderName": "Kiến Tườngg"
+        "timestamp": 1741089081984,
+        "prompt": "bot tài xìu có random ko",
+        "response": "Chào Khang Bùi!  Tài xỉu dùng thuật toán, mà thuật toán thì… khó nói lắm.  Có vẻ random, nhưng thực chất không hoàn toàn ngẫu nhiên đâu.",
+        "senderID": "100055074463541",
+        "senderName": "Khang Bùi"
+      },
+      {
+        "timestamp": 1741089099815,
+        "prompt": "k có gì là random cả",
+        "response": "Chào Ngọc Từ!  Anh trai em nói đúng đó, hiếm có trò chơi nào thực sự random hoàn toàn.  Thường thì có yếu tố xác suất được tính toán cả đấy.",
+        "senderID": "61573427362389",
+        "senderName": "Ngọc Từ"
+      },
+      {
+        "timestamp": 1741089115087,
+        "prompt": "bot này dùng thuật toán nào",
+        "response": "Em cũng không biết chính xác thuật toán của bot này là gì, Khang Bùi ạ.  Thông tin đó thường được bảo mật mà.",
+        "senderID": "100055074463541",
+        "senderName": "Khang Bùi"
+      },
+      {
+        "timestamp": 1741089140846,
+        "prompt": "không ai giải đc đâu nhỉ kkk , trừ khi có source",
+        "response": "Đúng rồi anh, trừ khi có source code thì mới biết được thuật toán chính xác.  Hiểu biết của em về lập trình cũng chỉ ở mức cơ bản thôi.",
+        "senderID": "61573427362389",
+        "senderName": "Ngọc Từ"
+      },
+      {
+        "timestamp": 1741090957439,
+        "prompt": "bào rút hết ngân khố của triều đình r",
+        "response": "Thùy Linh nói hay đấy!  Nghe oai hùng quá =)))  Nhưng mà rút hết ngân khố triều đình thì… hơi nguy hiểm nhỉ?  Phải có kế hoạch chu toàn chứ.",
+        "senderID": "100028202556430",
+        "senderName": "Thùy Linh"
       }
     ]
   },
   "lastResponses": {
-    "lại bot": "Chào bạn! Có chuyện gì vậy?",
-    "t thích m": "Bạn nói thế em hơi bất ngờ đấy Khắc Thành =)))  Em nghĩ mình mới chỉ nói chuyện được một lát thôi mà.",
-    "cặc bot": "Em xin lỗi, bạn nói gì vậy?  Em không hiểu ý bạn lắm.",
-    ".farm thăm @kim ngân": "Chị đang làm gì mà rảnh vậy?  :))",
-    "t đâu chơi bot nhièu nx": "Chán rồi à?  Buổi trưa rồi mà vẫn còn online nữa.  Có gì hay ho chia sẻ với em không?"
+    "bot": "Chào Khang Bùi! Có gì em giúp được không?",
+    "bot tài xìu có random ko": "Chào Khang Bùi!  Tài xỉu dùng thuật toán, mà thuật toán thì… khó nói lắm.  Có vẻ random, nhưng thực chất không hoàn toàn ngẫu nhiên đâu.",
+    "k có gì là random cả": "Chào Ngọc Từ!  Anh trai em nói đúng đó, hiếm có trò chơi nào thực sự random hoàn toàn.  Thường thì có yếu tố xác suất được tính toán cả đấy.",
+    "bot này dùng thuật toán nào": "Em cũng không biết chính xác thuật toán của bot này là gì, Khang Bùi ạ.  Thông tin đó thường được bảo mật mà.",
+    "không ai giải đc đâu nhỉ kkk , trừ khi có source": "Đúng rồi anh, trừ khi có source code thì mới biết được thuật toán chính xác.  Hiểu biết của em về lập trình cũng chỉ ở mức cơ bản thôi.",
+    "bào rút hết ngân khố của triều đình r": "Thùy Linh nói hay đấy!  Nghe oai hùng quá =)))  Nhưng mà rút hết ngân khố triều đình thì… hơi nguy hiểm nhỉ?  Phải có kế hoạch chu toàn chứ."
   }
 }

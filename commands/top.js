@@ -7,7 +7,7 @@ const axios = require("axios");
 module.exports = {
   name: "top",
   dev: "HNT",
-  usedby: 2,
+  usedby: 0,
   category: "Tài Chính",
   info: "Xem top 10 người giàu nhất server.",
   onPrefix: true,
@@ -19,7 +19,7 @@ module.exports = {
 
   async createTopImage(sortedBalances, userData, senderID, userAvatars = {}) {
     try {
-      const width = 1000;
+      const width = 800;
       const height = 1250;
       const canvas = createCanvas(width, height);
       const ctx = canvas.getContext("2d");
@@ -31,7 +31,7 @@ module.exports = {
       ctx.fillStyle = gradient;
       ctx.fillRect(0, 0, width, height);
 
-      ctx.fillStyle = "rgba(255, 255, 255, 0.3)";
+      ctx.fillStyle = "rgba(0, 0, 0, 0.3)";
       for (let i = 0; i < 100; i++) {
         const x = Math.random() * width;
         const y = Math.random() * height;
@@ -50,10 +50,12 @@ module.exports = {
         ctx.lineTo(width, offset);
         ctx.stroke();
 
-        ctx.beginPath();
-        ctx.moveTo(offset, 0);
-        ctx.lineTo(offset, height);
-        ctx.stroke();
+        if (offset < width) {
+          ctx.beginPath();
+          ctx.moveTo(offset, 0);
+          ctx.lineTo(offset, height);
+          ctx.stroke();
+        }
       }
 
       const headerGradient = ctx.createLinearGradient(0, 0, width, 150);
@@ -80,17 +82,19 @@ module.exports = {
 
       drawCorner(50, 50, false, false);
       drawCorner(width - 50, 50, true, false);
-      drawCorner(50, height - 150, false, true);
-      drawCorner(width - 50, height - 150, true, true);
+      drawCorner(50, height - 50, false, true);
+      drawCorner(width - 50, height - 50, true, true);
 
+      // Title with glow effect
       ctx.shadowColor = "rgba(255, 206, 84, 0.7)";
       ctx.shadowBlur = 15;
-      ctx.font = "bold 60px Arial";
+      ctx.font = "bold 45px Arial";
       ctx.textAlign = "center";
       ctx.fillStyle = "#ffffff";
       ctx.fillText("TOP 10 NGƯỜI GIÀU NHẤT", width / 2, 90);
       ctx.shadowBlur = 0;
 
+      // Draw decorative divider
       const lineGradient = ctx.createLinearGradient(100, 120, width - 100, 120);
       lineGradient.addColorStop(0, "rgba(255, 206, 84, 0.2)");
       lineGradient.addColorStop(0.5, "rgba(255, 206, 84, 1)");
@@ -103,16 +107,18 @@ module.exports = {
       ctx.lineTo(width - 100, 120);
       ctx.stroke();
 
+      // Medallion icons
       const medals = ["🥇", "🥈", "🥉"];
       const rankColors = [
-        "#FFD700",
-        "#C0C0C0",
-        "#CD7F32",
-        "rgba(255, 255, 255, 0.2)",
+        "#FFD700", // Gold
+        "#C0C0C0", // Silver
+        "#CD7F32", // Bronze
+        "rgba(255, 255, 255, 0.2)", // Glass-like for the rest
       ];
 
-      let startY = 190;
-      const rowHeight = 85;
+      // Create vertical list of users
+      let startY = 180;
+      const rowHeight = 90;
 
       for (let i = 0; i < sortedBalances.length && i < 10; i++) {
         const [userID, balance] = sortedBalances[i];
@@ -127,10 +133,10 @@ module.exports = {
 
         const cardGradient = ctx.createLinearGradient(
           50,
-          startY - 40,
+          startY - 20,
           width - 50,
-          startY + 40
-        );
+          startY + 50
+        ); // Thay đổi từ startY-40 thành startY-30
 
         if (i < 3) {
           cardGradient.addColorStop(
@@ -159,39 +165,41 @@ module.exports = {
         }
 
         ctx.fillStyle = cardGradient;
-        ctx.fillRect(50, startY - 40, width - 100, rowHeight);
+        ctx.fillRect(50, startY - 20, width - 100, rowHeight);
 
+        // Highlight current user
         if (userID === senderID) {
           ctx.save();
           ctx.shadowColor = "#FFD700";
           ctx.shadowBlur = 10;
           ctx.strokeStyle = "#FFD700";
           ctx.lineWidth = 2;
-          ctx.strokeRect(50, startY - 40, width - 100, rowHeight);
+          ctx.strokeRect(50, startY - 20, width - 100, rowHeight);
           ctx.restore();
         } else {
           ctx.strokeStyle = "rgba(255, 255, 255, 0.3)";
           ctx.lineWidth = 1;
-          ctx.strokeRect(50, startY - 40, width - 100, rowHeight);
+          ctx.strokeRect(50, startY - 20, width - 100, rowHeight);
         }
 
-        const rankColor = i < 3 ? rankColors[i] : rankColors[3];
+        const rankOffsetY = 20;
 
+        // Draw rank circle with 3D effect
         ctx.beginPath();
-        ctx.arc(100, startY, 36, 0, Math.PI * 2);
+        ctx.arc(100, startY + rankOffsetY, 30, 0, Math.PI * 2); // Dịch xuống
         ctx.fillStyle = "rgba(0, 0, 0, 0.3)";
         ctx.fill();
 
         ctx.beginPath();
-        ctx.arc(100, startY, 35, 0, Math.PI * 2);
+        ctx.arc(100, startY + rankOffsetY, 30, 0, Math.PI * 2); // Dịch xuống
 
         const circleGradient = ctx.createRadialGradient(
           90,
-          startY - 10,
-          5,
+          startY + rankOffsetY - 10,
+          5, // Dịch xuống
           100,
-          startY,
-          35
+          startY + rankOffsetY,
+          30 // Dịch xuống
         );
 
         if (i < 3) {
@@ -225,57 +233,125 @@ module.exports = {
         ctx.fillStyle = circleGradient;
         ctx.fill();
 
+        // Add rank number or medal icon - Dịch xuống
         ctx.fillStyle = i < 3 ? "#000000" : "#FFFFFF";
-        ctx.font = "bold 40px Arial";
+        ctx.font = "bold 30px Arial";
         ctx.textAlign = "center";
 
         if (i < 3) {
-          ctx.fillText(medals[i], 100, startY + 15);
+          ctx.fillText(medals[i], 100, startY + rankOffsetY + 10); // Dịch xuống
         } else {
-          ctx.font = "bold 30px Arial";
-          ctx.fillText((i + 1).toString(), 100, startY + 10);
+          ctx.font = "bold 24px Arial";
+          ctx.fillText((i + 1).toString(), 100, startY + rankOffsetY + 8); // Dịch xuống
         }
-
         try {
-          if (userAvatars[userID]) {
-            const avatar = await loadImage(userAvatars[userID]);
-
+            if (userAvatars[userID]) {
+              const avatar = await loadImage(userAvatars[userID]);
+          
+              const avatarOffsetY = 25;
+          
+              ctx.save();
+              ctx.shadowColor = "rgba(0, 0, 0, 0.5)";
+              ctx.shadowBlur = 10;
+              ctx.shadowOffsetX = 2;
+              ctx.shadowOffsetY = 2;
+          
+              ctx.beginPath();
+              ctx.arc(170, startY + avatarOffsetY, 30, 0, Math.PI * 2);
+              ctx.closePath();
+              ctx.clip();
+          
+              ctx.drawImage(avatar, 140, startY - 30 + avatarOffsetY, 60, 60);
+              ctx.restore();
+          
+              ctx.strokeStyle = i < 3 ? rankColors[i] : "#ffffff";
+              ctx.lineWidth = 2;
+              ctx.beginPath();
+              ctx.arc(170, startY + avatarOffsetY, 30, 0, Math.PI * 2);
+              ctx.stroke();
+            } else {
+              // Nếu không có avatar, vẽ một placeholder với initials
+              const avatarOffsetY = 25;
+              const initial = (userName.charAt(0) || '?').toUpperCase();
+              
+              ctx.save();
+              // Vẽ background tròn
+              ctx.beginPath();
+              ctx.arc(170, startY + avatarOffsetY, 30, 0, Math.PI * 2);
+              
+              // Gradient background cho avatar placeholder
+              const placeholderGradient = ctx.createLinearGradient(
+                140, startY + avatarOffsetY - 30, 
+                200, startY + avatarOffsetY + 30
+              );
+              placeholderGradient.addColorStop(0, "#4a148c");
+              placeholderGradient.addColorStop(1, "#311b92");
+              
+              ctx.fillStyle = placeholderGradient;
+              ctx.fill();
+              
+              // Vẽ chữ cái đầu tiên của tên
+              ctx.font = 'bold 30px Arial';
+              ctx.textAlign = 'center';
+              ctx.textBaseline = 'middle';
+              ctx.fillStyle = '#ffffff';
+              ctx.fillText(initial, 170, startY + avatarOffsetY);
+              
+              // Vẽ viền
+              ctx.strokeStyle = i < 3 ? rankColors[i] : "#ffffff";
+              ctx.lineWidth = 2;
+              ctx.stroke();
+              ctx.restore();
+            }
+          } catch (error) {
+            console.error(`Error loading avatar for ${userID}:`, error);
+            // Vẽ placeholder nếu có lỗi 
+            const avatarOffsetY = 25;
+            const initial = (userName.charAt(0) || '?').toUpperCase();
+            
             ctx.save();
-
-            ctx.shadowColor = "rgba(0, 0, 0, 0.5)";
-            ctx.shadowBlur = 10;
-            ctx.shadowOffsetX = 2;
-            ctx.shadowOffsetY = 2;
-
             ctx.beginPath();
-            ctx.arc(180, startY, 32, 0, Math.PI * 2);
-            ctx.closePath();
-            ctx.clip();
-
-            ctx.drawImage(avatar, 148, startY - 32, 64, 64);
-            ctx.restore();
-
+            ctx.arc(170, startY + avatarOffsetY, 30, 0, Math.PI * 2);
+            ctx.fillStyle = "#616161";
+            ctx.fill();
+            
+            ctx.font = 'bold 30px Arial';
+            ctx.textAlign = 'center';
+            ctx.textBaseline = 'middle';
+            ctx.fillStyle = '#ffffff';
+            ctx.fillText(initial, 170, startY + avatarOffsetY);
+            
             ctx.strokeStyle = i < 3 ? rankColors[i] : "#ffffff";
             ctx.lineWidth = 2;
-            ctx.beginPath();
-            ctx.arc(180, startY, 32, 0, Math.PI * 2);
             ctx.stroke();
+            ctx.restore();
           }
-        } catch (error) {
-          console.error(`Error loading avatar for ${userID}:`, error);
-        }
 
+        // User name with shadow
         ctx.save();
         ctx.shadowColor = "rgba(0, 0, 0, 0.7)";
         ctx.shadowBlur = 5;
         ctx.font = "bold 30px Arial";
         ctx.fillStyle = "#ffffff";
         ctx.textAlign = "left";
-        ctx.fillText(userName, 230, startY + 5);
+
+        let displayName = userName;
+        if (ctx.measureText(displayName).width > width - 300) {
+          while (
+            ctx.measureText(displayName + "...").width > width - 300 &&
+            displayName.length > 0
+          ) {
+            displayName = displayName.slice(0, -1);
+          }
+          displayName += "...";
+        }
+
+        ctx.fillText(displayName, 220, startY + 15);
         ctx.restore();
 
+        // Balance with gold gradient
         const moneyGradient = ctx.createLinearGradient(
-          230,
+          220,
           startY + 35,
           450,
           startY + 35
@@ -286,15 +362,16 @@ module.exports = {
         ctx.save();
         ctx.shadowColor = "rgba(255, 206, 84, 0.5)";
         ctx.shadowBlur = 10;
-        ctx.font = "28px Arial";
+        ctx.font = "22px Arial";
         ctx.fillStyle = moneyGradient;
-        ctx.fillText(`💰 ${formattedBalance} Xu`, 330, startY + 40);
+        ctx.fillText(`💰 ${formattedBalance} Xu`, 300, startY + 50);
         ctx.restore();
 
         startY += rowHeight + 10;
       }
 
-      const footerHeight = 100;
+      // Footer with gradient
+      const footerHeight = 80;
       const footerGradient = ctx.createLinearGradient(
         0,
         height - footerHeight,
@@ -306,16 +383,18 @@ module.exports = {
       ctx.fillStyle = footerGradient;
       ctx.fillRect(0, height - footerHeight, width, footerHeight);
 
+      // AKI Global branding
       ctx.font = "bold 28px Arial";
       ctx.fillStyle = "#ffffff";
       ctx.textAlign = "center";
-      ctx.fillText("AKI GLOBAL", width / 2, height - 60);
+      ctx.fillText("AKI GLOBAL", width / 2, height - 45);
 
+      // Timestamp with golden gradient
       const subtitleGradient = ctx.createLinearGradient(
         width / 2 - 150,
-        height - 30,
+        height - 20,
         width / 2 + 150,
-        height - 30
+        height - 20
       );
       subtitleGradient.addColorStop(0, "#ffce54");
       subtitleGradient.addColorStop(1, "#f9a825");
@@ -324,9 +403,10 @@ module.exports = {
       ctx.fillText(
         `Cập nhật: ${new Date().toLocaleString("vi-VN")}`,
         width / 2,
-        height - 30
+        height - 15
       );
 
+      // Footer decoration line
       ctx.beginPath();
       ctx.strokeStyle = "rgba(255, 255, 255, 0.3)";
       ctx.lineWidth = 1;
@@ -334,6 +414,7 @@ module.exports = {
       ctx.lineTo(width - 100, height - footerHeight + 20);
       ctx.stroke();
 
+      // Save and return image
       const buffer = canvas.toBuffer("image/png");
       const tempDir = path.join(__dirname, "../temp");
       if (!fs.existsSync(tempDir)) {
@@ -347,6 +428,100 @@ module.exports = {
     } catch (error) {
       console.error("Error creating top image:", error);
       throw error;
+    }
+  },
+  async getAvatarPath(userId) {
+    try {
+      // Đường dẫn đến avatar mặc định
+      const defaultAvatarPath = path.join(__dirname, "../avatars/avatar.jpg");
+      
+      // Đảm bảo thư mục avatars tồn tại
+      const avatarsDir = path.join(__dirname, "../avatars");
+      if (!fs.existsSync(avatarsDir)) {
+        fs.mkdirSync(avatarsDir, { recursive: true });
+      }
+      
+      // Tạo avatar mặc định nếu chưa có
+      if (!fs.existsSync(defaultAvatarPath)) {
+        try {
+          console.log("⚠️ Default avatar not found, creating one...");
+          const defaultCanvas = createCanvas(200, 200);
+          const ctx = defaultCanvas.getContext('2d');
+          
+          // Vẽ nền gradient
+          const gradient = ctx.createLinearGradient(0, 0, 200, 200);
+          gradient.addColorStop(0, '#4a148c');
+          gradient.addColorStop(1, '#311b92');
+          ctx.fillStyle = gradient;
+          ctx.fillRect(0, 0, 200, 200);
+          
+          // Vẽ chữ cái đại diện
+          ctx.font = 'bold 120px Arial';
+          ctx.textAlign = 'center';
+          ctx.textBaseline = 'middle';
+          ctx.fillStyle = '#ffffff';
+          ctx.fillText('?', 100, 100);
+          
+          // Lưu thành file
+          const buffer = defaultCanvas.toBuffer('image/jpeg');
+          fs.writeFileSync(defaultAvatarPath, buffer);
+          console.log("✅ Default avatar created successfully");
+        } catch (createErr) {
+          console.error("Error creating default avatar:", createErr);
+        }
+      }
+      
+      const cacheDir = path.join(__dirname, "../cache/avatars");
+      if (!fs.existsSync(cacheDir)) {
+        fs.mkdirSync(cacheDir, { recursive: true });
+      }
+  
+      const avatarPath = path.join(cacheDir, `${userId}.jpg`);
+      const metadataPath = path.join(cacheDir, `${userId}.meta`);
+  
+      if (fs.existsSync(avatarPath) && fs.existsSync(metadataPath)) {
+        const metadata = JSON.parse(fs.readFileSync(metadataPath, "utf-8"));
+        const cacheAge = Date.now() - metadata.timestamp;
+  
+        if (cacheAge < 24 * 60 * 60 * 1000) {
+          console.log(
+            `Using cached avatar for user ${userId} (${Math.floor(
+              cacheAge / (60 * 60 * 1000)
+            )} hours old)`
+          );
+          return avatarPath;
+        }
+      }
+  
+      try {
+        const avatarUrl = `https://graph.facebook.com/${userId}/picture?width=512&height=512&access_token=6628568379%7Cc1e620fa708a1d5696fb991c1bde5662`;
+        const response = await axios.get(avatarUrl, {
+          responseType: "arraybuffer",
+          timeout: 5000, // Timeout sau 5 giây
+          validateStatus: function (status) {
+            return status >= 200 && status < 300; // Chỉ chấp nhận status code 2xx
+          }
+        });
+  
+        fs.writeFileSync(avatarPath, response.data);
+        fs.writeFileSync(metadataPath, JSON.stringify({ timestamp: Date.now() }));
+  
+        console.log(`Fetched new avatar for user ${userId}`);
+        return avatarPath;
+      } catch (fetchError) {
+        console.error(`Failed to fetch avatar for ${userId}:`, fetchError.message);
+        // Trả về avatar mặc định nếu có lỗi khi tải từ Facebook
+        console.log(`Using default avatar for user ${userId}`);
+        return defaultAvatarPath;
+      }
+    } catch (error) {
+      console.error(`Error in getAvatarPath for ${userId}:`, error.message);
+      // Trả về avatar mặc định trong trường hợp lỗi
+      const defaultAvatarPath = path.join(__dirname, "../avatars/avatar.jpg");
+      if (fs.existsSync(defaultAvatarPath)) {
+        return defaultAvatarPath;
+      }
+      return null;
     }
   },
 
@@ -371,12 +546,6 @@ module.exports = {
       );
     }
 
-    api.sendMessage(
-      "⏳ Đang tạo bảng xếp hạng top 10 người giàu nhất...",
-      threadID,
-      messageID
-    );
-
     let allBalancesData;
     try {
       allBalancesData = allBalances();
@@ -398,36 +567,21 @@ module.exports = {
       userData = {};
     }
 
-    const sortedBalances = Object.entries(allBalancesData).sort(
-      (a, b) => b[1] - a[1]
-    );
+    const sortedBalances = Object.entries(allBalancesData)
+      .sort((a, b) => b[1] - a[1])
+      .slice(0, 10);
+
     const userAvatars = {};
     try {
-      const tempDir = path.join(__dirname, "../temp/avatars");
-      if (!fs.existsSync(tempDir)) {
-        fs.mkdirSync(tempDir, { recursive: true });
-      }
-
       await Promise.all(
-        sortedBalances.map(async ([userID], index) => {
+        sortedBalances.slice(0, 10).map(async ([userID]) => {
           try {
-            const avatarUrl = `https://graph.facebook.com/${userID}/picture?width=512&height=512&access_token=6628568379%7Cc1e620fa708a1d5696fb991c1bde5662`;
-
-            const response = await axios.get(avatarUrl, {
-              responseType: "arraybuffer",
-            });
-            const avatarPath = path.join(tempDir, `avatar_${userID}.jpg`);
-
-            fs.writeFileSync(avatarPath, response.data);
-
-            userAvatars[userID] = avatarPath;
-
-            console.log(`✅ Loaded avatar for user ${index + 1}/10: ${userID}`);
-          } catch (error) {
-            console.error(
-              `Failed to load avatar for ${userID}:`,
-              error.message
-            );
+            const avatarPath = await this.getAvatarPath(userID);
+            if (avatarPath) {
+              userAvatars[userID] = avatarPath;
+            }
+          } catch (e) {
+            console.error(`Failed to get avatar for ${userID}:`, e.message);
           }
         })
       );
@@ -507,24 +661,11 @@ module.exports = {
           if (fs.existsSync(imagePath)) {
             fs.unlinkSync(imagePath);
           }
-
-          cleanupAvatars(userAvatars);
         }
       );
     } catch (error) {
       console.error("Error with canvas generation:", error);
       return api.sendMessage(textFallback, threadID, messageID);
-    }
-    function cleanupAvatars(userAvatars) {
-      Object.values(userAvatars).forEach((avatarPath) => {
-        if (fs.existsSync(avatarPath)) {
-          try {
-            fs.unlinkSync(avatarPath);
-          } catch (err) {
-            console.error(`Error deleting avatar: ${avatarPath}`, err);
-          }
-        }
-      });
     }
   },
 };

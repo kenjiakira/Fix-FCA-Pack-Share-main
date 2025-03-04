@@ -192,8 +192,8 @@ module.exports = {
                     'bầu': { x: iconWidth, y: 0, width: iconWidth, height: iconHeight },
                     'gà': { x: iconWidth * 2, y: 0, width: iconWidth, height: iconHeight },
                     'cá': { x: 0, y: iconHeight, width: iconWidth, height: iconHeight },
-                    'tôm': { x: iconWidth, y: iconHeight, width: iconWidth, height: iconHeight },
-                    'cua': { x: iconWidth * 2, y: iconHeight, width: iconWidth, height: iconHeight }
+                    'cua': { x: iconWidth, y: iconHeight, width: iconWidth, height: iconHeight },
+                    'tôm': { x: iconWidth * 2, y: iconHeight, width: iconWidth, height: iconHeight }
                 };
                 
                 for (let i = 0; i < results.length; i++) {
