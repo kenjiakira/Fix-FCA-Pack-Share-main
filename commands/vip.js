@@ -8,7 +8,7 @@ const VIP_PACKAGES = {
         icon: "🥉",
         stars: "⭐",
         name: "VIP BRONZE",
-        price: { original: "35,000", sale: "20,000" },
+        price: { original: "45,000", sale: "30,000" },
         duration: "30 ngày",
         perks: {
             fishing: {
@@ -42,7 +42,7 @@ const VIP_PACKAGES = {
         icon: "🥈",
         stars: "⭐⭐", 
         name: "VIP SILVER",
-        price: { original: "45,000", sale: "30,000" },
+        price: { original: "55,000", sale: "40,000" },
         duration: "30 ngày",
         perks: {
             fishing: {
@@ -76,7 +76,7 @@ const VIP_PACKAGES = {
         icon: "👑",
         stars: "⭐⭐⭐",
         name: "VIP GOLD",
-        price: { original: "75,000", sale: "50,000" },
+        price: { original: "95,000", sale: "70,000" },
         duration: "30 ngày +7",
         perks: {
             fishing: {

@@ -43,16 +43,24 @@ module.exports = {
             switch (command) {
                 case "list": {
                     let msg = "┏━━『 DANH MỤC HỌC TẬP 』━━┓\n\n";
+                    const categories = {
+                        school: { icon: "🏫", name: "Trung học", desc: "Chứng chỉ THPT và các chứng chỉ phổ thông" },
+                        college: { icon: "🏢", name: "Cao đẳng", desc: "Các ngành học cao đẳng (2-3 năm)" },
+                        university: { icon: "🎓", name: "Đại học", desc: "Các ngành học đại học (4-5 năm)" },
+                        certificate: { icon: "📜", name: "Chứng chỉ", desc: "Các chứng chỉ ngắn hạn chuyên môn" },
+                        specialized: { icon: "📚", name: "Chuyên môn", desc: "Các khóa học chuyên sâu" }
+                    };
                     
-                    Object.entries(DEGREE_CATEGORIES).forEach(([categoryId, category], index) => {
-                        msg += `${index + 1}. ${this.getCategoryIcon(categoryId)} ${category.name}\n`;
-                        msg += `└ Số bằng cấp: ${category.degrees.length}\n\n`;
+                    Object.entries(categories).forEach(([id, cat], index) => {
+                        msg += `${index + 1}. ${cat.icon} ${cat.name.toUpperCase()}\n`;
+                        msg += `├ Mã: ${id}\n`;
+                        msg += `├ ${cat.desc}\n`;
+                        msg += `└ Số bằng cấp: ${DEGREE_CATEGORIES[id].degrees.length}\n\n`;
                     });
 
                     msg += "💡 HƯỚNG DẪN:\n";
-                    msg += "➤ Xem chi tiết: .study category <loại>\n";
+                    msg += "➤ Xem chi tiết: .study category <mã>\n";
                     msg += "   VD: .study category school\n\n";
-                    msg += "➤ Các loại: school, college, university,\n   certificate, specialized\n\n";
                     msg += "💵 Số dư: " + formatNumber(await getBalance(senderID)) + " Xu";
                     
                     await api.sendMessage(msg, threadID);
@@ -89,11 +97,12 @@ module.exports = {
                 }
 
                 case "enroll": {
-                    if (!argument || !DEGREES[argument]) {
+                    const degreeId = target[1]?.toLowerCase();
+                    if (!degreeId || !DEGREES[degreeId]) {
                         return api.sendMessage("❌ Vui lòng nhập mã bằng cấp hợp lệ!", threadID);
                     }
 
-                    const degree = DEGREES[argument];
+                    const degree = DEGREES[degreeId];
                     if (education.currentDegree) {
                         return api.sendMessage("❌ Bạn đang theo học một chương trình khác!", threadID);
                     }
@@ -109,7 +118,7 @@ module.exports = {
 
                     if (degree.instantGrant) {
                         education.degrees = education.degrees || []; 
-                        education.degrees.push(argument);
+                        education.degrees.push(degreeId);
                         this.saveEducation(senderID, education);
                         return api.sendMessage(
                             "🎓 CHÚC MỪNG BẠN ĐÃ TỐT NGHIỆP THPT!\n\n" +
@@ -129,7 +138,7 @@ module.exports = {
 
                     await updateBalance(senderID, -degree.cost);
                     education.currentDegree = {
-                        id: argument,
+                        id: degreeId,
                         startTime: Date.now(),
                         progress: 0
                     };
@@ -174,7 +183,16 @@ module.exports = {
                     }
 
                     if (education.currentDegree) {
-                        const degree = DEGREES[education.currentDegree.id];
+                        const degreeId = education.currentDegree.id;
+                        const degree = DEGREES[degreeId];
+
+                        if (!degree) {
+                          console.warn(`Degree with ID ${degreeId} not found.`);
+                          education.currentDegree = null;
+                          this.saveEducation(senderID, education);
+                          return api.sendMessage("❌ Đã có lỗi xảy ra với tiến trình học tập của bạn. Vui lòng thử lại sau!", threadID);
+                        }
+
                         const daysPassed = (Date.now() - education.currentDegree.startTime) / STUDY_TIME;
                         const progress = Math.min(100, (daysPassed / degree.timeNeeded) * 100);
                         
@@ -197,14 +215,15 @@ module.exports = {
                 }
 
                 case "detail": {
-                    if (!argument || !DEGREES[argument]) {
+                    const degreeId = target[1]?.toLowerCase();
+                    if (!degreeId || !DEGREES[degreeId]) {
                         return api.sendMessage("❌ Vui lòng nhập mã bằng cấp hợp lệ!", threadID);
                     }
 
-                    const degree = DEGREES[argument];
+                    const degree = DEGREES[degreeId];
                     let msg = `┏━━『 CHI TIẾT BẰNG CẤP 』━━┓\n\n`;
                     msg += `🎓 ${degree.name}\n`;
-                    msg += `├ Mã: ${argument}\n`;
+                    msg += `├ Mã: ${degreeId}\n`;
                     msg += `├ Chi phí: ${degree.instantGrant ? '🆓 Miễn phí' : '💰 ' + formatNumber(degree.cost) + ' Xu'}\n`;
                     msg += `├ Thời gian: ${degree.instantGrant ? '⚡ Cấp ngay' : '⏳ ' + degree.timeNeeded + ' ngày'}\n`;
                     
@@ -220,9 +239,6 @@ module.exports = {
 
                     return api.sendMessage(msg, threadID);
                 }
-                
-                default:
-                    return api.sendMessage("❌ Lệnh không hợp lệ. Vui lòng sử dụng .study help để biết thêm chi tiết.", threadID);
             }
         } catch (error) {
             console.error(error);

@@ -1,16 +1,16 @@
 {
   "users": {
-    "61555034078738": {
+    "100072870883017": {
       "personal": [],
       "facts": [],
       "preferences": [],
       "interactions": [
         {
-          "content": "اتجاه بلدي توي nói: bảo s con ngân tri off mxh\nTôi trả lời: À, bạn muốn em tạm thời tránh xa mạng xã hội hả?  Em hiểu mà, đôi khi cần chút không gian riêng tư.  =((",
-          "timestamp": 1740997981921,
+          "content": "Người dùng nói: lại bot\nTôi trả lời: Chào bạn! Có chuyện gì vậy?",
+          "timestamp": 1741063431793,
           "priority": 1,
           "accessCount": 0,
-          "lastAccess": 1740997981921,
+          "lastAccess": 1741063431793,
           "metadata": {
             "sentiment": {
               "score": 0,
@@ -36,10 +36,238 @@
       "undefined": [
         {
           "content": "Xưng hô: em/bạn",
-          "timestamp": 1740997979977,
+          "timestamp": 1741063430830,
           "priority": 2,
           "accessCount": 0,
-          "lastAccess": 1740997979977,
+          "lastAccess": 1741063430830,
+          "metadata": {
+            "sentiment": {
+              "score": 0,
+              "sentiment": "neutral"
+            },
+            "topics": [
+              "PERSONAL"
+            ],
+            "entities": {}
+          }
+        }
+      ]
+    },
+    "100061101806835": {
+      "personal": [
+        {
+          "content": "t thích m",
+          "timestamp": 1741064078603,
+          "priority": 2,
+          "accessCount": 0,
+          "lastAccess": 1741064078603,
+          "metadata": {
+            "sentiment": {
+              "score": 1,
+              "sentiment": "positive"
+            },
+            "topics": [],
+            "entities": {}
+          }
+        }
+      ],
+      "facts": [],
+      "preferences": [
+        {
+          "content": "t thích m",
+          "timestamp": 1741064078608,
+          "priority": 2,
+          "accessCount": 0,
+          "lastAccess": 1741064078608,
+          "metadata": {
+            "sentiment": {
+              "score": 1,
+              "sentiment": "positive"
+            },
+            "topics": [],
+            "entities": {}
+          }
+        }
+      ],
+      "interactions": [
+        {
+          "content": "Khắc Thành nói: t thích m\nTôi trả lời: Bạn nói thế em hơi bất ngờ đấy Khắc Thành =)))  Em nghĩ mình mới chỉ nói chuyện được một lát thôi mà.",
+          "timestamp": 1741064078611,
+          "priority": 1,
+          "accessCount": 0,
+          "lastAccess": 1741064078611,
+          "metadata": {
+            "sentiment": {
+              "score": 1,
+              "sentiment": "positive"
+            },
+            "topics": [
+              "PERSONAL"
+            ],
+            "entities": {}
+          }
+        }
+      ],
+      "emotions": [],
+      "names": [],
+      "relationships": {},
+      "context": {
+        "lastTopics": [],
+        "importantDates": {},
+        "recentMentions": {},
+        "conversationFlow": []
+      },
+      "topics": {},
+      "undefined": [
+        {
+          "content": "Xưng hô: em/bạn",
+          "timestamp": 1741064076565,
+          "priority": 2,
+          "accessCount": 0,
+          "lastAccess": 1741064076565,
+          "metadata": {
+            "sentiment": {
+              "score": 0,
+              "sentiment": "neutral"
+            },
+            "topics": [
+              "PERSONAL"
+            ],
+            "entities": {}
+          }
+        }
+      ]
+    },
+    "100085397934729": {
+      "personal": [],
+      "facts": [],
+      "preferences": [],
+      "interactions": [],
+      "emotions": [],
+      "names": [],
+      "relationships": {},
+      "context": {
+        "lastTopics": [],
+        "importantDates": {},
+        "recentMentions": {},
+        "conversationFlow": []
+      },
+      "topics": {},
+      "undefined": [
+        {
+          "content": "Xưng hô: em/bạn",
+          "timestamp": 1741064845274,
+          "priority": 2,
+          "accessCount": 0,
+          "lastAccess": 1741064845274,
+          "metadata": {
+            "sentiment": {
+              "score": 0,
+              "sentiment": "neutral"
+            },
+            "topics": [
+              "PERSONAL"
+            ],
+            "entities": {}
+          }
+        }
+      ]
+    },
+    "61568522233427": {
+      "personal": [],
+      "facts": [],
+      "preferences": [],
+      "interactions": [
+        {
+          "content": "Mỹ Lệ nói: .farm thăm @Kim Ngân\nTôi trả lời: Chị đang làm gì mà rảnh vậy?  :))",
+          "timestamp": 1741066385421,
+          "priority": 1,
+          "accessCount": 0,
+          "lastAccess": 1741066385421,
+          "metadata": {
+            "sentiment": {
+              "score": 0,
+              "sentiment": "neutral"
+            },
+            "topics": [
+              "PERSONAL",
+              "WORK"
+            ],
+            "entities": {}
+          }
+        }
+      ],
+      "emotions": [],
+      "names": [],
+      "relationships": {},
+      "context": {
+        "lastTopics": [],
+        "importantDates": {},
+        "recentMentions": {},
+        "conversationFlow": []
+      },
+      "topics": {},
+      "undefined": [
+        {
+          "content": "Xưng hô: em/bạn",
+          "timestamp": 1741066384520,
+          "priority": 2,
+          "accessCount": 0,
+          "lastAccess": 1741066384520,
+          "metadata": {
+            "sentiment": {
+              "score": 0,
+              "sentiment": "neutral"
+            },
+            "topics": [
+              "PERSONAL"
+            ],
+            "entities": {}
+          }
+        }
+      ]
+    },
+    "100089981373051": {
+      "personal": [],
+      "facts": [],
+      "preferences": [],
+      "interactions": [
+        {
+          "content": "Kiến Tườngg nói: T đâu chơi bot nhièu nx\nTôi trả lời: Chán rồi à?  Buổi trưa rồi mà vẫn còn online nữa.  Có gì hay ho chia sẻ với em không?",
+          "timestamp": 1741066927872,
+          "priority": 1,
+          "accessCount": 0,
+          "lastAccess": 1741066927872,
+          "metadata": {
+            "sentiment": {
+              "score": 0,
+              "sentiment": "neutral"
+            },
+            "topics": [
+              "PERSONAL",
+              "ENTERTAINMENT"
+            ],
+            "entities": {}
+          }
+        }
+      ],
+      "emotions": [],
+      "names": [],
+      "relationships": {},
+      "context": {
+        "lastTopics": [],
+        "importantDates": {},
+        "recentMentions": {},
+        "conversationFlow": []
+      },
+      "topics": {},
+      "undefined": [
+        {
+          "content": "Xưng hô: em/bạn",
+          "timestamp": 1741066926961,
+          "priority": 2,
+          "accessCount": 0,
+          "lastAccess": 1741066926961,
           "metadata": {
             "sentiment": {
               "score": 0,
@@ -67,11 +295,16 @@
     "voice": {}
   },
   "stats": {
-    "totalInteractions": 2,
+    "totalInteractions": 12,
     "uniqueUsers": {},
     "topTopics": {},
     "responseTime": [],
-    "accuracy": []
+    "accuracy": [
+      {
+        "timestamp": 1741064846227,
+        "memoryCount": 4
+      }
+    ]
   },
   "compression": {
     "enabled": true,

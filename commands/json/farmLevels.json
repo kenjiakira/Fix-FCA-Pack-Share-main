@@ -1,0 +1,17 @@
+[
+  { "level": 1, "exp": 0, "title": "Nông dân tập sự", "reward": 50000, "plotSize": 4 },
+  { "level": 2, "exp": 100, "title": "Nông dân cần mẫn", "reward": 60000, "plotSize": 6 },
+  { "level": 3, "exp": 300, "title": "Trồng trọt viên", "reward": 80000, "plotSize": 8 },
+  { "level": 4, "exp": 600, "title": "Nông dân kinh nghiệm", "reward": 100000, "plotSize": 9 },
+  { "level": 5, "exp": 1000, "title": "Người làm vườn", "reward": 120000, "plotSize": 12 },
+  { "level": 6, "exp": 1500, "title": "Chủ trang trại nhỏ", "reward": 150000, "plotSize": 16 },
+  { "level": 7, "exp": 2500, "title": "Nông dân chuyên nghiệp", "reward": 200000, "plotSize": 20 },
+  { "level": 8, "exp": 4000, "title": "Chủ trang trại", "reward": 300000, "plotSize": 25 },
+  { "level": 9, "exp": 6000, "title": "Nông gia thịnh vượng", "reward": 400000, "plotSize": 30 },
+  { "level": 10, "exp": 10000, "title": "Đại điền chủ", "reward": 500000, "plotSize": 36 },
+  { "level": 11, "exp": 15000, "title": "Nhà nông học", "reward": 650000, "plotSize": 42 },
+  { "level": 12, "exp": 22000, "title": "Bậc thầy canh tác", "reward": 800000, "plotSize": 48 },
+  { "level": 13, "exp": 30000, "title": "Tỷ phú nông nghiệp", "reward": 1000000, "plotSize": 54 },
+  { "level": 14, "exp": 45000, "title": "Đế chế nông sản", "reward": 1500000, "plotSize": 60 },
+  { "level": 15, "exp": 65000, "title": "Huyền thoại nông trại", "reward": 2000000, "plotSize": 66 }
+]

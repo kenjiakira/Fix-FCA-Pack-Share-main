@@ -144,7 +144,6 @@ module.exports = {
             description: "Bằng thạc sĩ (sau đại học)"
         },
 
-        // Tiến sĩ
         "e5": {
             name: "Tiến sĩ",
             level: 5,

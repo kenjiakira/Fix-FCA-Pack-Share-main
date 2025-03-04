@@ -2,27 +2,27 @@
  * Cấu hình hệ thống thuế
  */
 
-// Thuế suất cho người độc thân
-const SINGLE_TAX_RATE = 0.03; // 3% tài sản hàng ngày
 
-// Thuế suất cho người giàu
-const WEALTH_TAX_RATE = 0.05; // 5% tài sản hàng ngày
+const SINGLE_TAX_RATE = 0.03; 
 
-// Ngưỡng thuế người giàu
-const WEALTH_THRESHOLD = 500000000; // 500 triệu xu
 
-// Thuế suất cho trường hợp có nhiều con (>3)
-const CHILD_TAX_RATE_PER_CHILD = 0.01; // 1% mỗi con thêm
+const WEALTH_TAX_RATE = 0.05; 
 
-// Khoảng thời gian giữa các lần thu thuế (ms)
-const TAX_INTERVAL = 24 * 60 * 60 * 1000; // 24 giờ
 
-// Phạt cho các giao dịch đáng ngờ
-const SUSPICIOUS_PENALTY_RATE = 0.5; // Tăng 50% thuế
+const WEALTH_THRESHOLD = 500000000; 
 
-// Tối thiểu và tối đa
-const MIN_TAX = 1000; // 1,000 xu 
-const MAX_TAX_RATE = 0.1; // 10% tối đa
+
+const CHILD_TAX_RATE_PER_CHILD = 0.01; 
+
+
+const TAX_INTERVAL = 24 * 60 * 60 * 1000; 
+
+
+const SUSPICIOUS_PENALTY_RATE = 0.5; 
+
+
+const MIN_TAX = 1000; 
+const MAX_TAX_RATE = 0.1; 
 
 module.exports = {
     SINGLE_TAX_RATE,

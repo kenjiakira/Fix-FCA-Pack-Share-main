@@ -15,7 +15,7 @@ const STOCKS_DATA_PATH = path.join(__dirname, '../commands/json/trade/stocks_dat
 
 const MARKET_HOURS = {
     open: 9,  
-    close: 19
+    close: 18
 };
 
 const RISK_CONFIG = {
@@ -87,7 +87,6 @@ const NEWS_EVENTS = [
     { type: 'rally', impact: 0.12, probability: 0.002, description: "Thị trường tăng đột biến", affectedStocks: 'all' }
 ];
 
-
 const MARKET_SENTIMENT = {
     states: ['Bearish', 'Slightly Bearish', 'Neutral', 'Slightly Bullish', 'Bullish'],
     currentState: 2, 
@@ -130,13 +129,13 @@ class TradeSystem {
         this.transactionManager = new TransactionManager();
         this.orderProcessor = new OrderProcessor(this.orderBook, this.orderManager, this.orderMatcher);
         this.xuRate = this.generateInitialRate();
+        this.orders = new Map(); // Add this line
         
         this.setupTransactionHandlers();
         
         this.ensureJsonPaths();
         this.loadStocks();
         this.loadPortfolios();
-        this.startUpdates();
         this.startExchangeRateUpdates();
         this.setupOrderBookHandlers();
         
@@ -1066,7 +1065,7 @@ t
 
             case ORDER_TYPES.LIMIT:
                 if (!params.limitPrice) throw new Error("Limit price is required for limit orders");
-                this.orders[orderId] = {
+                this.orders.set(orderId, {
                     userId,
                     symbol,
                     quantity,
@@ -1074,12 +1073,12 @@ t
                     limitPrice: params.limitPrice,
                     isBuy: params.isBuy,
                     timestamp: Date.now()
-                };
+                });
                 break;
 
             case ORDER_TYPES.STOP:
                 if (!params.stopPrice) throw new Error("Stop price is required for stop orders");
-                this.orders[orderId] = {
+                this.orders.set(orderId, {
                     userId,
                     symbol,
                     quantity,
@@ -1087,7 +1086,7 @@ t
                     stopPrice: params.stopPrice,
                     isBuy: params.isBuy,
                     timestamp: Date.now()
-                };
+                });
                 break;
 
             default:
@@ -1320,8 +1319,6 @@ t
             
             MARKET_SENTIMENT.currentState = newIndex;
             this.lastMarketSentimentChange = Date.now();
-            
-            console.log(`Market sentiment changed to: ${MARKET_SENTIMENT.states[newIndex]}`);
         }
     }
 
@@ -1395,12 +1392,10 @@ calculateMaxSharesPurchasable(userId, symbol, balance) {
     
     const basePrice = Math.floor(stockData.askPrice || stockData.price || 0);
     
-    // Phương pháp tính toán gần đúng với phí tối thiểu
     const minShares = 1;
     const maxShares = Math.floor(balance / basePrice);
     let estimatedQuantity = maxShares;
     
-    // Kiểm tra lại với phí giao dịch
     for (let i = maxShares; i >= minShares; i--) {
         const totalCost = basePrice * i;
         const transactionFee = Math.floor(Math.min(
@@ -1427,7 +1422,6 @@ calculateSlippage(symbol, quantity, orderType) {
         const stock = this.stocks[symbol];
         if (!stock || !stock.depth) return 0;
         
-        // Safely get the appropriate side of order book with fallbacks
         const depthLevels = orderType === 'buy' ? 
             (stock.depth.asks || []) : 
             (stock.depth.bids || []);
@@ -1438,7 +1432,6 @@ calculateSlippage(symbol, quantity, orderType) {
         let totalValue = 0;
         
         for (const level of depthLevels) {
-            // Handle different possible property names
             const levelQuantity = level.quantity || level.volume || 0;
             const levelPrice = level.price || 0;
             

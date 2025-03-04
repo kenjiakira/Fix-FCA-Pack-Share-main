@@ -1,5 +1,6 @@
 const { JOB_CATEGORIES, JOBS, JOB_RANKS } = require('../config/family/jobConfig');
 const fs = require('fs');
+const {getBalance} = require('../utils/currencies');
 const path = require('path');
 
 function formatNumber(number) {
@@ -46,60 +47,22 @@ module.exports = {
 
             switch (command) {
                 case "list": {
-                    let msg = "┏━━『 DANH SÁCH VIỆC LÀM 』━━┓\n\n";
-                    let availableJobs = [];
-
-                    for (const [catId, category] of Object.entries(JOB_CATEGORIES)) {
-                        msg += `🏢 ${category.name}\n`;
-                        msg += "┏━━━━━━━━━━━━━━━┓\n";
-                        msg += `${category.desc}\n\n`;
-
-                        for (const jobId of category.jobs) {
-                            const job = JOBS[jobId];
-                            if (!job) continue;
-
-                            const canApply = jobSystem.checkRequirements(job.requirements, education.degrees);
-                            msg += `${canApply ? '✅' : '❌'} ${job.name}\n`;
-                            msg += `├ Mã: ${jobId}\n`;
-                            msg += `├ Lương: 💰 ${formatNumber(job.salary)} Xu/lần\n`;
-                            if (job.requirements.length > 0) {
-                                const DEGREES = require('../config/family/educationConfig').DEGREES;
-                                const DEGREE_CATEGORIES = require('../config/family/educationConfig').DEGREE_CATEGORIES;
-                                
-                                msg += "└ Yêu cầu:\n";
-                                const groupedReqs = job.requirements.reduce((acc, req) => {
-                                    const degree = DEGREES[req];
-                                    if (!degree) return acc;
-                                    
-                                    const category = Object.entries(DEGREE_CATEGORIES).find(([_, cat]) => 
-                                        cat.degrees.includes(req)
-                                    )?.[1];
-                                    
-                                    const catName = category ? category.name : "Khác";
-                                    if (!acc[catName]) acc[catName] = [];
-                                    acc[catName].push(degree.name);
-                                    return acc;
-                                }, {});
-
-                                Object.entries(groupedReqs).forEach(([category, degrees]) => {
-                                    msg += `   • ${category}: ${degrees.join(", ")}\n`;
-                                });
-                            }
-                            msg += "\n";
-
-                            if (canApply) availableJobs.push(jobId);
-                        }
-                        msg += "┗━━━━━━━━━━━━━━━┛\n\n";
-                    }
-
-                    msg += "💡 VIỆC LÀM PHÙ HỢP:\n";
-                    msg += `➤ Các mã: ${availableJobs.join(", ")}\n`;
-                    msg += "➤ Ứng tuyển: .job apply <mã>\n";
+                    let msg = "┏━━『 NGÀNH NGHỀ 』━━┓\n\n";
                     
-                    const listMsg = await api.sendMessage(msg, threadID);
-                    setTimeout(() => {
-                        api.unsendMessage(listMsg.messageID);
-                    }, 120000);
+                    Object.entries(JOB_CATEGORIES).forEach(([id, category], index) => {
+                        const jobsInCategory = category.jobs.length;
+                        msg += `${index + 1}. ${this.getCategoryIcon(id)} ${category.name.toUpperCase()}\n`;
+                        msg += `├ Mã: ${id}\n`;
+                        msg += `├ Mô tả: ${category.desc}\n`;
+                        msg += `└ Số việc: ${jobsInCategory}\n\n`;
+                    });
+
+                    msg += "💡 HƯỚNG DẪN:\n";
+                    msg += "➤ Xem chi tiết: .job category <mã>\n";
+                    msg += "   VD: .job category tech\n\n";
+                    msg += "💵 Số dư: " + formatNumber(await getBalance(senderID)) + " Xu";
+                    
+                    await api.sendMessage(msg, threadID);
                     return;
                 }
 
@@ -202,7 +165,7 @@ module.exports = {
                     }
 
                     const category = JOB_CATEGORIES[categoryId];
-                    let msg = `┏━━『 ${category.name} 』━━┓\n\n`;
+                    let msg = `┏━━『 ${category.name.toUpperCase()} 』━━┓\n\n`;
                     msg += `📝 ${category.desc}\n\n`;
 
                     for (const jobId of category.jobs) {
@@ -213,19 +176,13 @@ module.exports = {
                         msg += `${canApply ? '✅' : '❌'} ${job.name}\n`;
                         msg += `├ Mã: ${jobId}\n`;
                         msg += `├ Lương: 💰 ${formatNumber(job.salary)} Xu/lần\n`;
-                        
-                        if (job.requirements.length > 0) {
-                            msg += `└ Yêu cầu: ${job.requirements.length} bằng cấp\n`;
-                        } else {
-                            msg += `└ Yêu cầu: Không có\n`;
-                        }
-                        msg += "\n";
+                        msg += `└ Yêu cầu: ${job.requirements.length} bằng cấp\n\n`;
                     }
 
                     msg += "💡 HƯỚNG DẪN:\n";
                     msg += "➤ Xem chi tiết: .job detail <mã>\n";
-                    msg += "➤ Ứng tuyển: .job apply <mã>\n";
-
+                    msg += "➤ Ứng tuyển: .job apply <mã>";
+                    
                     await api.sendMessage(msg, threadID);
                     return;
                 }
@@ -340,5 +297,19 @@ module.exports = {
             console.error(error);
             return false;
         }
+    },
+
+    getCategoryIcon(categoryId) {
+        const icons = {
+            "tech": "💻",
+            "finance": "💰",
+            "service": "🛍️",
+            "education": "📚",
+            "medical": "⚕️",
+            "food": "🍽️",
+            "transport": "🚗",
+            "retail": "🏪"
+        };
+        return icons[categoryId] || "💼";
     }
 };

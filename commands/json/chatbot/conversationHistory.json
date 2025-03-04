@@ -1,25 +1,91 @@
 {
   "global": [
     {
-      "timestamp": 1740997981905,
-      "prompt": "bảo s con ngân tri off mxh",
-      "response": "À, bạn muốn em tạm thời tránh xa mạng xã hội hả?  Em hiểu mà, đôi khi cần chút không gian riêng tư.  =((",
-      "senderID": "61555034078738",
-      "senderName": "اتجاه بلدي توي"
+      "timestamp": 1741063431791,
+      "prompt": "lại bot",
+      "response": "Chào bạn! Có chuyện gì vậy?",
+      "senderID": "100072870883017",
+      "senderName": "Người dùng 100072870883017"
+    },
+    {
+      "timestamp": 1741064078595,
+      "prompt": "t thích m",
+      "response": "Bạn nói thế em hơi bất ngờ đấy Khắc Thành =)))  Em nghĩ mình mới chỉ nói chuyện được một lát thôi mà.",
+      "senderID": "100061101806835",
+      "senderName": "Khắc Thành"
+    },
+    {
+      "timestamp": 1741064846214,
+      "prompt": "cặc bot",
+      "response": "Em xin lỗi, bạn nói gì vậy?  Em không hiểu ý bạn lắm.",
+      "senderID": "100085397934729",
+      "senderName": "Hoàng Nguyên"
+    },
+    {
+      "timestamp": 1741066385418,
+      "prompt": ".farm thăm @Kim Ngân",
+      "response": "Chị đang làm gì mà rảnh vậy?  :))",
+      "senderID": "61568522233427",
+      "senderName": "Mỹ Lệ"
+    },
+    {
+      "timestamp": 1741066927870,
+      "prompt": "T đâu chơi bot nhièu nx",
+      "response": "Chán rồi à?  Buổi trưa rồi mà vẫn còn online nữa.  Có gì hay ho chia sẻ với em không?",
+      "senderID": "100089981373051",
+      "senderName": "Kiến Tườngg"
     }
   ],
   "threads": {
+    "6149997238457330": [
+      {
+        "timestamp": 1741063431791,
+        "prompt": "lại bot",
+        "response": "Chào bạn! Có chuyện gì vậy?",
+        "senderID": "100072870883017",
+        "senderName": "Người dùng 100072870883017"
+      },
+      {
+        "timestamp": 1741064078595,
+        "prompt": "t thích m",
+        "response": "Bạn nói thế em hơi bất ngờ đấy Khắc Thành =)))  Em nghĩ mình mới chỉ nói chuyện được một lát thôi mà.",
+        "senderID": "100061101806835",
+        "senderName": "Khắc Thành"
+      }
+    ],
+    "7804850272968007": [
+      {
+        "timestamp": 1741064846214,
+        "prompt": "cặc bot",
+        "response": "Em xin lỗi, bạn nói gì vậy?  Em không hiểu ý bạn lắm.",
+        "senderID": "100085397934729",
+        "senderName": "Hoàng Nguyên"
+      }
+    ],
     "6589198804475799": [
       {
-        "timestamp": 1740997981905,
-        "prompt": "bảo s con ngân tri off mxh",
-        "response": "À, bạn muốn em tạm thời tránh xa mạng xã hội hả?  Em hiểu mà, đôi khi cần chút không gian riêng tư.  =((",
-        "senderID": "61555034078738",
-        "senderName": "اتجاه بلدي توي"
+        "timestamp": 1741066385418,
+        "prompt": ".farm thăm @Kim Ngân",
+        "response": "Chị đang làm gì mà rảnh vậy?  :))",
+        "senderID": "61568522233427",
+        "senderName": "Mỹ Lệ"
+      }
+    ],
+    "9410743895708292": [
+      {
+        "timestamp": 1741066927870,
+        "prompt": "T đâu chơi bot nhièu nx",
+        "response": "Chán rồi à?  Buổi trưa rồi mà vẫn còn online nữa.  Có gì hay ho chia sẻ với em không?",
+        "senderID": "100089981373051",
+        "senderName": "Kiến Tườngg"
       }
     ]
   },
   "lastResponses": {
-    "bảo s con ngân tri off mxh": "À, bạn muốn em tạm thời tránh xa mạng xã hội hả?  Em hiểu mà, đôi khi cần chút không gian riêng tư.  =(("
+    "lại bot": "Chào bạn! Có chuyện gì vậy?",
+    "t thích m": "Bạn nói thế em hơi bất ngờ đấy Khắc Thành =)))  Em nghĩ mình mới chỉ nói chuyện được một lát thôi mà.",
+    "cặc bot": "Em xin lỗi, bạn nói gì vậy?  Em không hiểu ý bạn lắm.",
+    ".farm thăm @kim ngân": "Chị đang làm gì mà rảnh vậy?  :))",
+    "t đâu chơi bot nhièu nx": "Chán rồi à?  Buổi trưa rồi mà vẫn còn online nữa.  Có gì hay ho chia sẻ với em không?"
   }
 }

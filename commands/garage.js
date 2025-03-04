@@ -41,32 +41,50 @@ module.exports = {
 
             switch (command) {
                 case "list": {
-                    let msg = "┏━━『 DANH SÁCH XE 』━━┓\n\n";
+                    let msg = "┏━━『 DANH MỤC XE CỘ 』━━┓\n\n";
                     
-                    for (const type in VEHICLE_TYPES) {
-                        msg += `🚘 ${VEHICLE_TYPES[type].toUpperCase()}\n`;
-                        msg += "┏━━━━━━━━━━━━━━━┓\n";
-                        const vehicles = Object.entries(CARS).filter(([_, car]) => car.type === type);
-                        
-                        for (const [id, car] of vehicles) {
-                            msg += `${BRANDS[car.brand]} ${car.name}\n`;
-                            msg += `├ Mã xe: [ ${id} ]\n`; 
-                            msg += `├ Giá: 💰 ${formatNumber(car.price)} Xu\n`;
-                            msg += `├ Tốc độ: ⚡ ${car.speed} km/h\n`;
-                            msg += `└ Độ bền: 🛠️ ${car.durability}%\n\n`;
-                        }
-                        msg += "┗━━━━━━━━━━━━━━━┛\n\n";
-                    }
-                    
-                    msg += "💡 HƯỚNG DẪN MUA XE:\n";
-                    msg += "➤ Mua 1 xe: .garage buy v1\n";
-                    msg += "➤ Mua nhiều xe: .garage buy v1 v2\n\n";
+                    Object.entries(VEHICLE_TYPES).forEach(([id, name], index) => {
+                        const vehiclesInType = Object.entries(CARS).filter(([_, car]) => car.type === id);
+                        msg += `${index + 1}. ${this.getVehicleTypeIcon(id)} ${name.toUpperCase()}\n`;
+                        msg += `├ Mã: ${id}\n`;
+                        msg += `├ Mô tả: ${this.getTypeDescription(id)}\n`;
+                        msg += `└ Số xe: ${vehiclesInType.length}\n\n`;
+                    });
+
+                    msg += "💡 HƯỚNG DẪN:\n";
+                    msg += "➤ Xem chi tiết: .garage category <mã>\n";
+                    msg += "   VD: .garage category car\n\n";
                     msg += "💵 Số dư: " + formatNumber(await getBalance(senderID)) + " Xu";
                     
-                    const listMessage = await api.sendMessage(msg, threadID);
-                    setTimeout(() => {
-                        api.unsendMessage(listMessage.messageID);
-                    }, 30000);
+                    await api.sendMessage(msg, threadID);
+                    return;
+                }
+
+                case "category": {
+                    const vehicleType = target[1]?.toLowerCase();
+                    if (!vehicleType || !VEHICLE_TYPES[vehicleType]) {
+                        return api.sendMessage(
+                            "❌ Loại xe không hợp lệ!\nCác loại: " + Object.keys(VEHICLE_TYPES).join(", "),
+                            threadID
+                        );
+                    }
+
+                    let msg = `┏━━『 ${VEHICLE_TYPES[vehicleType].toUpperCase()} 』━━┓\n\n`;
+                    const vehicles = Object.entries(CARS).filter(([_, car]) => car.type === vehicleType);
+
+                    for (const [id, car] of vehicles) {
+                        msg += `🚗 ${BRANDS[car.brand]} ${car.name}\n`;
+                        msg += `├ Mã: ${id}\n`;
+                        msg += `├ Giá: 💰 ${formatNumber(car.price)} Xu\n`;
+                        msg += `├ Tốc độ: ⚡ ${car.speed} km/h\n`;
+                        msg += `└ Độ bền: 🛠️ ${car.durability}%\n\n`;
+                    }
+
+                    msg += "💡 HƯỚNG DẪN:\n";
+                    msg += "➤ Mua xe: .garage buy <mã>\n";
+                    msg += "➤ Xem thông tin: .garage info <mã>";
+                    
+                    await api.sendMessage(msg, threadID);
                     return;
                 }
 
@@ -299,5 +317,27 @@ module.exports = {
             vehicle.durability = Math.max(0, vehicle.durability - decay);
         }
         return garage;
+    },
+
+    getVehicleTypeIcon(type) {
+        const icons = {
+            "car": "🚗",
+            "motorcycle": "🏍️",
+            "supercar": "🏎️",
+            "truck": "🚛",
+            "bicycle": "🚲"
+        };
+        return icons[type] || "🚗";
+    },
+
+    getTypeDescription(type) {
+        const descriptions = {
+            "car": "Xe hơi thông dụng, tiết kiệm nhiên liệu",
+            "motorcycle": "Xe máy nhỏ gọn, linh hoạt di chuyển",
+            "supercar": "Siêu xe tốc độ cao, đẳng cấp",
+            "truck": "Xe tải chở hàng, bền bỉ",
+            "bicycle": "Xe đạp thân thiện môi trường"
+        };
+        return descriptions[type] || "Không có mô tả";
     }
 };

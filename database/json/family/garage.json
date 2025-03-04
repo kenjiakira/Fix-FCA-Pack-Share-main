@@ -18,6 +18,28 @@
         "durability": 92,
         "lastMaintenance": 1740919929468,
         "ownerID": "61573427362389"
+      },
+      "v15": {
+        "purchaseDate": 1741018911911,
+        "durability": 85,
+        "lastMaintenance": 1741018911911,
+        "ownerID": "61573427362389"
+      },
+      "v16": {
+        "purchaseDate": 1741018946240,
+        "durability": 82,
+        "lastMaintenance": 1741018946240,
+        "ownerID": "61573427362389"
+      }
+    }
+  },
+  "100051073987266": {
+    "vehicles": {
+      "v1": {
+        "purchaseDate": 1741018504892,
+        "durability": 85,
+        "lastMaintenance": 1741018504892,
+        "ownerID": "100051073987266"
       }
     }
   }

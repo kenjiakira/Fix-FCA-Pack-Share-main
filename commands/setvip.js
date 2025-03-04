@@ -25,8 +25,6 @@ function saveVipData(data) {
     }
 }
 
-const { updateBalance } = require('../utils/currencies');
-
 const VIP_REWARDS = {
     1: {
         name: "VIP BRONZE"

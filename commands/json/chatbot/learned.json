@@ -1,7 +1,31 @@
 {
-  "bảo s con ngân tri off mxh": {
+  "lại bot": {
     "responses": [
-      "À, bạn muốn em tạm thời tránh xa mạng xã hội hả?  Em hiểu mà, đôi khi cần chút không gian riêng tư.  =(("
+      "Chào bạn! Có chuyện gì vậy?"
+    ],
+    "frequency": 1
+  },
+  "t thích m": {
+    "responses": [
+      "Bạn nói thế em hơi bất ngờ đấy Khắc Thành =)))  Em nghĩ mình mới chỉ nói chuyện được một lát thôi mà."
+    ],
+    "frequency": 1
+  },
+  "cặc bot": {
+    "responses": [
+      "Em xin lỗi, bạn nói gì vậy?  Em không hiểu ý bạn lắm."
+    ],
+    "frequency": 1
+  },
+  ".farm thăm @kim ngân": {
+    "responses": [
+      "Chị đang làm gì mà rảnh vậy?  :))"
+    ],
+    "frequency": 1
+  },
+  "t đâu chơi bot nhièu nx": {
+    "responses": [
+      "Chán rồi à?  Buổi trưa rồi mà vẫn còn online nữa.  Có gì hay ho chia sẻ với em không?"
     ],
     "frequency": 1
   }
