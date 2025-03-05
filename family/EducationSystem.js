@@ -146,16 +146,22 @@ class EducationSystem {
       }
 
       if (education.schoolType === "kindergarten") {
-        const family = require("./FamilySystem").getInstance();
-        const child = family.getChildById(childId);
-
-        if (child && child.age >= 6) {
-          this.debug(
-            `Force graduating ${childId} from kindergarten due to age (${child.age})`
-          );
-          this.autoGraduate(childId);
+        let FamilySystem;
+        try {
+            FamilySystem = require("./FamilySystem");
+            const family = FamilySystem.getInstance();
+            const child = family.getChildById(childId);
+            
+            if (child && child.age >= 6) {
+                this.debug(
+                    `Force graduating ${childId} from kindergarten due to age (${child.age})`
+                );
+                this.autoGraduate(childId);
+            }
+        } catch (err) {
+            this.debug(`Error getting FamilySystem: ${err.message}`);
         }
-      }
+    }
     } catch (error) {
       this.debug(`Error updating education year for ${childId}`, error);
     }

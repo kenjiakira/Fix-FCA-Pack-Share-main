@@ -1,37 +1,31 @@
 {
-  "bot": {
+  "@aki bot • [ . ] chúc tui ngủ ngon ik bot": {
     "responses": [
-      "Chào Khang Bùi! Có gì em giúp được không?"
+      "Chúc bạn ngủ ngon nhé!  Ngủ ngon giấc nha."
     ],
     "frequency": 1
   },
-  "bot tài xìu có random ko": {
+  "chó bot": {
     "responses": [
-      "Chào Khang Bùi!  Tài xỉu dùng thuật toán, mà thuật toán thì… khó nói lắm.  Có vẻ random, nhưng thực chất không hoàn toàn ngẫu nhiên đâu."
+      "Chắc bạn đang bực bội lắm nhỉ?  Có chuyện gì không vui vậy?"
     ],
     "frequency": 1
   },
-  "k có gì là random cả": {
+  "@mọi người bớt nghịch bot": {
     "responses": [
-      "Chào Ngọc Từ!  Anh trai em nói đúng đó, hiếm có trò chơi nào thực sự random hoàn toàn.  Thường thì có yếu tố xác suất được tính toán cả đấy."
+      "Mọi người cùng giữ không khí trò chuyện vui vẻ nhé!"
     ],
     "frequency": 1
   },
-  "bot này dùng thuật toán nào": {
+  "tui ko giận bot đâu": {
     "responses": [
-      "Em cũng không biết chính xác thuật toán của bot này là gì, Khang Bùi ạ.  Thông tin đó thường được bảo mật mà."
+      "Vậy à, em mừng quá!  Có gì cần em giúp không?  Đã khuya rồi, ngủ sớm nha bạn."
     ],
     "frequency": 1
   },
-  "không ai giải đc đâu nhỉ kkk , trừ khi có source": {
+  "ko có gì bot ơi tui ngủ đây": {
     "responses": [
-      "Đúng rồi anh, trừ khi có source code thì mới biết được thuật toán chính xác.  Hiểu biết của em về lập trình cũng chỉ ở mức cơ bản thôi."
-    ],
-    "frequency": 1
-  },
-  "bào rút hết ngân khố của triều đình r": {
-    "responses": [
-      "Thùy Linh nói hay đấy!  Nghe oai hùng quá =)))  Nhưng mà rút hết ngân khố triều đình thì… hơi nguy hiểm nhỉ?  Phải có kế hoạch chu toàn chứ."
+      "Ngủ ngon bạn nhé!"
     ],
     "frequency": 1
   }

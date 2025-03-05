@@ -1,50 +1,16 @@
 {
   "users": {
-    "100055074463541": {
+    "100044825933221": {
       "personal": [],
       "facts": [],
       "preferences": [],
       "interactions": [
         {
-          "content": "Khang Bùi nói: bot\nTôi trả lời: Chào Khang Bùi! Có gì em giúp được không?",
-          "timestamp": 1741089065872,
-          "priority": 1,
-          "accessCount": 2,
-          "lastAccess": 1741089114150,
-          "metadata": {
-            "sentiment": {
-              "score": 0,
-              "sentiment": "neutral"
-            },
-            "topics": [
-              "PERSONAL"
-            ],
-            "entities": {}
-          }
-        },
-        {
-          "content": "Khang Bùi nói: bot tài xìu có random ko\nTôi trả lời: Chào Khang Bùi!  Tài xỉu dùng thuật toán, mà thuật toán thì… khó nói lắm.  Có vẻ random, nhưng thực chất không hoàn toàn ngẫu nhiên đâu.",
-          "timestamp": 1741089081985,
-          "priority": 1,
-          "accessCount": 1,
-          "lastAccess": 1741089114150,
-          "metadata": {
-            "sentiment": {
-              "score": 0,
-              "sentiment": "neutral"
-            },
-            "topics": [
-              "PERSONAL"
-            ],
-            "entities": {}
-          }
-        },
-        {
-          "content": "Khang Bùi nói: bot này dùng thuật toán nào\nTôi trả lời: Em cũng không biết chính xác thuật toán của bot này là gì, Khang Bùi ạ.  Thông tin đó thường được bảo mật mà.",
-          "timestamp": 1741089115091,
+          "content": "Jehug Wrey nói: @AKI BOT • [ . ] chúc tui ngủ ngon ik bot\nTôi trả lời: Chúc bạn ngủ ngon nhé!  Ngủ ngon giấc nha.",
+          "timestamp": 1741106104154,
           "priority": 1,
           "accessCount": 0,
-          "lastAccess": 1741089115091,
+          "lastAccess": 1741106104154,
           "metadata": {
             "sentiment": {
               "score": 0,
@@ -70,44 +36,10 @@
       "undefined": [
         {
           "content": "Xưng hô: em/bạn",
-          "timestamp": 1741089065041,
-          "priority": 2,
-          "accessCount": 2,
-          "lastAccess": 1741089114150,
-          "metadata": {
-            "sentiment": {
-              "score": 0,
-              "sentiment": "neutral"
-            },
-            "topics": [
-              "PERSONAL"
-            ],
-            "entities": {}
-          }
-        },
-        {
-          "content": "Xưng hô: em/bạn",
-          "timestamp": 1741089080135,
-          "priority": 2,
-          "accessCount": 1,
-          "lastAccess": 1741089114150,
-          "metadata": {
-            "sentiment": {
-              "score": 0,
-              "sentiment": "neutral"
-            },
-            "topics": [
-              "PERSONAL"
-            ],
-            "entities": {}
-          }
-        },
-        {
-          "content": "Xưng hô: em/bạn",
-          "timestamp": 1741089114151,
+          "timestamp": 1741106103080,
           "priority": 2,
           "accessCount": 0,
-          "lastAccess": 1741089114151,
+          "lastAccess": 1741106103080,
           "metadata": {
             "sentiment": {
               "score": 0,
@@ -121,105 +53,17 @@
         }
       ]
     },
-    "61573427362389": {
+    "61573759863041": {
       "personal": [],
       "facts": [],
       "preferences": [],
       "interactions": [
         {
-          "content": "Ngọc Từ nói: k có gì là random cả\nTôi trả lời: Chào Ngọc Từ!  Anh trai em nói đúng đó, hiếm có trò chơi nào thực sự random hoàn toàn.  Thường thì có yếu tố xác suất được tính toán cả đấy.",
-          "timestamp": 1741089099816,
-          "priority": 1,
-          "accessCount": 1,
-          "lastAccess": 1741089139286,
-          "metadata": {
-            "sentiment": {
-              "score": 0,
-              "sentiment": "neutral"
-            },
-            "topics": [
-              "PERSONAL",
-              "ENTERTAINMENT"
-            ],
-            "entities": {}
-          }
-        },
-        {
-          "content": "Ngọc Từ nói: không ai giải đc đâu nhỉ kkk , trừ khi có source\nTôi trả lời: Đúng rồi anh, trừ khi có source code thì mới biết được thuật toán chính xác.  Hiểu biết của em về lập trình cũng chỉ ở mức cơ bản thôi.",
-          "timestamp": 1741089140847,
+          "content": "User nói: chó bot\nTôi trả lời: Chắc bạn đang bực bội lắm nhỉ?  Có chuyện gì không vui vậy?",
+          "timestamp": 1741106258963,
           "priority": 1,
           "accessCount": 0,
-          "lastAccess": 1741089140847,
-          "metadata": {
-            "sentiment": {
-              "score": 0,
-              "sentiment": "neutral"
-            },
-            "topics": [
-              "PERSONAL"
-            ],
-            "entities": {}
-          }
-        }
-      ],
-      "emotions": [],
-      "names": [],
-      "relationships": {},
-      "context": {
-        "lastTopics": [],
-        "importantDates": {},
-        "recentMentions": {},
-        "conversationFlow": []
-      },
-      "topics": {},
-      "undefined": [
-        {
-          "content": "Xưng hô: em/bạn",
-          "timestamp": 1741089097809,
-          "priority": 2,
-          "accessCount": 1,
-          "lastAccess": 1741089139286,
-          "metadata": {
-            "sentiment": {
-              "score": 0,
-              "sentiment": "neutral"
-            },
-            "topics": [
-              "PERSONAL"
-            ],
-            "entities": {}
-          }
-        },
-        {
-          "content": "Xưng hô: em/bạn",
-          "timestamp": 1741089139287,
-          "priority": 2,
-          "accessCount": 0,
-          "lastAccess": 1741089139287,
-          "metadata": {
-            "sentiment": {
-              "score": 0,
-              "sentiment": "neutral"
-            },
-            "topics": [
-              "PERSONAL"
-            ],
-            "entities": {}
-          }
-        }
-      ]
-    },
-    "100028202556430": {
-      "personal": [],
-      "facts": [],
-      "preferences": [],
-      "interactions": [
-        {
-          "content": "Thùy Linh nói: bào rút hết ngân khố của triều đình r\nTôi trả lời: Thùy Linh nói hay đấy!  Nghe oai hùng quá =)))  Nhưng mà rút hết ngân khố triều đình thì… hơi nguy hiểm nhỉ?  Phải có kế hoạch chu toàn chứ.",
-          "timestamp": 1741090957442,
-          "priority": 1,
-          "accessCount": 0,
-          "lastAccess": 1741090957442,
+          "lastAccess": 1741106258963,
           "metadata": {
             "sentiment": {
               "score": 1,
@@ -245,10 +89,150 @@
       "undefined": [
         {
           "content": "Xưng hô: em/bạn",
-          "timestamp": 1741090955508,
+          "timestamp": 1741106257262,
           "priority": 2,
           "accessCount": 0,
-          "lastAccess": 1741090955508,
+          "lastAccess": 1741106257262,
+          "metadata": {
+            "sentiment": {
+              "score": 0,
+              "sentiment": "neutral"
+            },
+            "topics": [
+              "PERSONAL"
+            ],
+            "entities": {}
+          }
+        }
+      ]
+    },
+    "61573689128255": {
+      "personal": [],
+      "facts": [],
+      "preferences": [],
+      "interactions": [
+        {
+          "content": "Người dùng nói: @mọi người bớt nghịch bot\nTôi trả lời: Mọi người cùng giữ không khí trò chuyện vui vẻ nhé!",
+          "timestamp": 1741110306216,
+          "priority": 1,
+          "accessCount": 0,
+          "lastAccess": 1741110306216,
+          "metadata": {
+            "sentiment": {
+              "score": 1,
+              "sentiment": "positive"
+            },
+            "topics": [
+              "PERSONAL"
+            ],
+            "entities": {}
+          }
+        }
+      ],
+      "emotions": [],
+      "names": [],
+      "relationships": {},
+      "context": {
+        "lastTopics": [],
+        "importantDates": {},
+        "recentMentions": {},
+        "conversationFlow": []
+      },
+      "topics": {},
+      "undefined": [
+        {
+          "content": "Xưng hô: em/bạn",
+          "timestamp": 1741110305318,
+          "priority": 2,
+          "accessCount": 0,
+          "lastAccess": 1741110305318,
+          "metadata": {
+            "sentiment": {
+              "score": 0,
+              "sentiment": "neutral"
+            },
+            "topics": [
+              "PERSONAL"
+            ],
+            "entities": {}
+          }
+        }
+      ]
+    },
+    "100085397934729": {
+      "personal": [],
+      "facts": [],
+      "preferences": [],
+      "interactions": [
+        {
+          "content": "Hoàng Nguyên nói: tui ko giận bot đâu\nTôi trả lời: Vậy à, em mừng quá!  Có gì cần em giúp không?  Đã khuya rồi, ngủ sớm nha bạn.",
+          "timestamp": 1741110957366,
+          "priority": 1,
+          "accessCount": 1,
+          "lastAccess": 1741110976623,
+          "metadata": {
+            "sentiment": {
+              "score": 0,
+              "sentiment": "neutral"
+            },
+            "topics": [
+              "PERSONAL"
+            ],
+            "entities": {}
+          }
+        },
+        {
+          "content": "Hoàng Nguyên nói: ko có gì bot ơi tui ngủ đây\nTôi trả lời: Ngủ ngon bạn nhé!",
+          "timestamp": 1741110977394,
+          "priority": 1,
+          "accessCount": 0,
+          "lastAccess": 1741110977394,
+          "metadata": {
+            "sentiment": {
+              "score": 0,
+              "sentiment": "neutral"
+            },
+            "topics": [
+              "PERSONAL"
+            ],
+            "entities": {}
+          }
+        }
+      ],
+      "emotions": [],
+      "names": [],
+      "relationships": {},
+      "context": {
+        "lastTopics": [],
+        "importantDates": {},
+        "recentMentions": {},
+        "conversationFlow": []
+      },
+      "topics": {},
+      "undefined": [
+        {
+          "content": "Xưng hô: em/bạn",
+          "timestamp": 1741110956464,
+          "priority": 2,
+          "accessCount": 1,
+          "lastAccess": 1741110976623,
+          "metadata": {
+            "sentiment": {
+              "score": 0,
+              "sentiment": "neutral"
+            },
+            "topics": [
+              "PERSONAL"
+            ],
+            "entities": {}
+          }
+        },
+        {
+          "content": "Xưng hô: em/bạn",
+          "timestamp": 1741110976652,
+          "priority": 2,
+          "accessCount": 0,
+          "lastAccess": 1741110976652,
           "metadata": {
             "sentiment": {
               "score": 0,
@@ -276,7 +260,7 @@
     "voice": {}
   },
   "stats": {
-    "totalInteractions": 12,
+    "totalInteractions": 10,
     "uniqueUsers": {},
     "topTopics": {},
     "responseTime": [],

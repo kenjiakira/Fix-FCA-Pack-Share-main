@@ -7,6 +7,10 @@ const TravelSystem = require('./TravelSystem');
 
 class FamilySystem {
     constructor() {
+        if (FamilySystem.instance) {
+            return FamilySystem.instance;
+        }
+        FamilySystem.instance = this;
         this.homeSystem = new HomeSystem();
         this.educationSystem = new EducationSystem();
         this.childJobSystem = new ChildJobSystem();
@@ -19,7 +23,13 @@ class FamilySystem {
         this.startHealthMonitoring();
         this.startInsuranceMonitoring();
     }
-
+    static getInstance() {
+        if (!FamilySystem.instance) {
+            FamilySystem.instance = new FamilySystem();
+        }
+        return FamilySystem.instance;
+    }
+    
     getChildById(childId) {
         for (const family of Object.values(this.data)) {
             if (family.children) {
@@ -943,5 +953,6 @@ confirmMarriage(proposerID, acceptorID) {
         return this.travelSystem.getAllDestinations();
     }
 }
+FamilySystem.instance = null;
 
 module.exports = FamilySystem;

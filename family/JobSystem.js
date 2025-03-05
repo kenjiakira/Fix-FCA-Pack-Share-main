@@ -303,13 +303,16 @@ class JobSystem {
                 salary += bonusAmount;
             }
 
+            const oldWorkCount = jobData.workCount || 0;
+            const previousLevel = this.getJobLevel(jobType, oldWorkCount);
+            
             jobData.lastWorked = Date.now();
-            jobData.workCount = (jobData.workCount || 0) + 1;
+            jobData.workCount = oldWorkCount + 1;
             jobData.totalEarned = (jobData.totalEarned || 0) + salary;
-
+            
             const newLevel = this.getJobLevel(jobType, jobData.workCount);
-            const leveledUp = newLevel && currentLevel && newLevel.name !== currentLevel.name;
-
+            const leveledUp = previousLevel && newLevel && (newLevel.name !== previousLevel.name);
+            
             const saved = this.saveData();
             if (!saved) {
                 throw new Error("Không thể lưu thông tin làm việc!");
@@ -339,7 +342,6 @@ class JobSystem {
         if (jobData.lastWorked) {
             const timeSinceLastWork = Date.now() - jobData.lastWorked;
             
-            // Use job-specific cooldown instead of generic WORK_COOLDOWN
             const jobCooldown = this.getJobBasedCooldown(userID);
             const workTimeLeft = Math.max(0, jobCooldown - timeSinceLastWork);
             cooldown = Math.max(cooldown, workTimeLeft);
