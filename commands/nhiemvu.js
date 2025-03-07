@@ -1,5 +1,5 @@
 const { getBalance, updateBalance, loadQuests, getUserQuests, canClaimRewards, setRewardClaimed } = require('../utils/currencies');
-const { getVIPBenefits } = require('../utils/vipCheck');
+const { getVIPBenefits } = require('../vip/vipCheck');
 
 function formatNumber(number) {
     return number.toLocaleString('vi-VN');

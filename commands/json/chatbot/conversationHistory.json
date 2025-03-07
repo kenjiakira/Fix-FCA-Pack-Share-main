@@ -1,85 +1,57 @@
 {
   "global": [
     {
-      "timestamp": 1741106104152,
-      "prompt": "@AKI BOT • [ . ] chúc tui ngủ ngon ik bot",
-      "response": "Chúc bạn ngủ ngon nhé!  Ngủ ngon giấc nha.",
-      "senderID": "100044825933221",
-      "senderName": "Jehug Wrey"
+      "timestamp": 1741315974213,
+      "prompt": "bot đou",
+      "response": "Chào Ngọc Ly, mình đây.  Có gì mình giúp được không?",
+      "senderID": "100083237157086",
+      "senderName": "Ngọc Ly"
     },
     {
-      "timestamp": 1741106258962,
-      "prompt": "chó bot",
-      "response": "Chắc bạn đang bực bội lắm nhỉ?  Có chuyện gì không vui vậy?",
-      "senderID": "61573759863041",
-      "senderName": "User"
+      "timestamp": 1741316081844,
+      "prompt": "t ko gỡ dc tn bot",
+      "response": "Bạn thử khởi động lại máy hoặc kiểm tra xem có bản cập nhật nào cho ứng dụng không nha.  Nếu vẫn không được thì có thể liên hệ bộ phận hỗ trợ của ứng dụng đó xem sao.",
+      "senderID": "100065381078044",
+      "senderName": "Le Tuan Tu"
     },
     {
-      "timestamp": 1741110306211,
-      "prompt": "@mọi người bớt nghịch bot",
-      "response": "Mọi người cùng giữ không khí trò chuyện vui vẻ nhé!",
-      "senderID": "61573689128255",
-      "senderName": "Người dùng 61573689128255"
-    },
-    {
-      "timestamp": 1741110957365,
-      "prompt": "tui ko giận bot đâu",
-      "response": "Vậy à, em mừng quá!  Có gì cần em giúp không?  Đã khuya rồi, ngủ sớm nha bạn.",
-      "senderID": "100085397934729",
-      "senderName": "Hoàng Nguyên"
-    },
-    {
-      "timestamp": 1741110977393,
-      "prompt": "ko có gì bot ơi tui ngủ đây",
-      "response": "Ngủ ngon bạn nhé!",
-      "senderID": "100085397934729",
-      "senderName": "Hoàng Nguyên"
+      "timestamp": 1741316295248,
+      "prompt": "helo vk @AKI BOT • [ . ]",
+      "response": "Chào Khaq Dwie! Có gì cần em giúp không?",
+      "senderID": "61555903228492",
+      "senderName": "Khaq Dwie"
     }
   ],
   "threads": {
     "7804850272968007": [
       {
-        "timestamp": 1741106104152,
-        "prompt": "@AKI BOT • [ . ] chúc tui ngủ ngon ik bot",
-        "response": "Chúc bạn ngủ ngon nhé!  Ngủ ngon giấc nha.",
-        "senderID": "100044825933221",
-        "senderName": "Jehug Wrey"
+        "timestamp": 1741315974213,
+        "prompt": "bot đou",
+        "response": "Chào Ngọc Ly, mình đây.  Có gì mình giúp được không?",
+        "senderID": "100083237157086",
+        "senderName": "Ngọc Ly"
       },
       {
-        "timestamp": 1741106258962,
-        "prompt": "chó bot",
-        "response": "Chắc bạn đang bực bội lắm nhỉ?  Có chuyện gì không vui vậy?",
-        "senderID": "61573759863041",
-        "senderName": "User"
-      },
+        "timestamp": 1741316295248,
+        "prompt": "helo vk @AKI BOT • [ . ]",
+        "response": "Chào Khaq Dwie! Có gì cần em giúp không?",
+        "senderID": "61555903228492",
+        "senderName": "Khaq Dwie"
+      }
+    ],
+    "8853515771407870": [
       {
-        "timestamp": 1741110306211,
-        "prompt": "@mọi người bớt nghịch bot",
-        "response": "Mọi người cùng giữ không khí trò chuyện vui vẻ nhé!",
-        "senderID": "61573689128255",
-        "senderName": "Người dùng 61573689128255"
-      },
-      {
-        "timestamp": 1741110957365,
-        "prompt": "tui ko giận bot đâu",
-        "response": "Vậy à, em mừng quá!  Có gì cần em giúp không?  Đã khuya rồi, ngủ sớm nha bạn.",
-        "senderID": "100085397934729",
-        "senderName": "Hoàng Nguyên"
-      },
-      {
-        "timestamp": 1741110977393,
-        "prompt": "ko có gì bot ơi tui ngủ đây",
-        "response": "Ngủ ngon bạn nhé!",
-        "senderID": "100085397934729",
-        "senderName": "Hoàng Nguyên"
+        "timestamp": 1741316081844,
+        "prompt": "t ko gỡ dc tn bot",
+        "response": "Bạn thử khởi động lại máy hoặc kiểm tra xem có bản cập nhật nào cho ứng dụng không nha.  Nếu vẫn không được thì có thể liên hệ bộ phận hỗ trợ của ứng dụng đó xem sao.",
+        "senderID": "100065381078044",
+        "senderName": "Le Tuan Tu"
       }
     ]
   },
   "lastResponses": {
-    "@aki bot • [ . ] chúc tui ngủ ngon ik bot": "Chúc bạn ngủ ngon nhé!  Ngủ ngon giấc nha.",
-    "chó bot": "Chắc bạn đang bực bội lắm nhỉ?  Có chuyện gì không vui vậy?",
-    "@mọi người bớt nghịch bot": "Mọi người cùng giữ không khí trò chuyện vui vẻ nhé!",
-    "tui ko giận bot đâu": "Vậy à, em mừng quá!  Có gì cần em giúp không?  Đã khuya rồi, ngủ sớm nha bạn.",
-    "ko có gì bot ơi tui ngủ đây": "Ngủ ngon bạn nhé!"
+    "bot đou": "Chào Ngọc Ly, mình đây.  Có gì mình giúp được không?",
+    "t ko gỡ dc tn bot": "Bạn thử khởi động lại máy hoặc kiểm tra xem có bản cập nhật nào cho ứng dụng không nha.  Nếu vẫn không được thì có thể liên hệ bộ phận hỗ trợ của ứng dụng đó xem sao.",
+    "helo vk @aki bot • [ . ]": "Chào Khaq Dwie! Có gì cần em giúp không?"
   }
 }

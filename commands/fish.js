@@ -13,7 +13,8 @@ const {
     expRequirements,
     streakBonuses 
 } = require('../config/fishing/constants');
-const { getVIPBenefits } = require('../utils/vipCheck');
+const { getVIPBenefits } = require('../vip/vipCheck');
+const fishCanvas = require('../canvas/fishCanvas');
 
 const levelRequirements = {
     pond: 1,       
@@ -306,20 +307,44 @@ module.exports = {
                         break;
 
                     case 4: 
-                        const collection = "📚 BỘ SƯU TẬP CÁ:\n━━━━━━━━━━━━━━━━━━\n\n" +
-                            Object.entries(fishTypes).map(([rarity, fishes]) => {
-                                const fishList = fishes.map(f => {
-                                    const caught = playerData.collection?.byRarity[rarity]?.[f.name] || 0;
-                                    return `${caught > 0 ? '✅' : '❌'} ${f.name} (${formatNumber(f.value)} Xu) - Đã bắt: ${caught}`;
-                                }).join('\n');
-                                return `【${rarity.toUpperCase()}】\n${fishList}\n`;
-                            }).join('\n') +
-                            `\n📊 Thống kê:\n` +
-                            `Tổng số cá đã bắt: ${playerData.collection?.stats.totalCaught || 0}\n` +
-                            `Tổng giá trị: ${formatNumber(playerData.collection?.stats.totalValue || 0)} Xu\n` +
-                            `Bắt quý giá nhất: ${playerData.collection?.stats.bestCatch?.name || 'Chưa có'} (${formatNumber(playerData.collection?.stats.bestCatch?.value || 0)} Xu)`;
-                        
-                        api.sendMessage(collection, threadID);
+                        try {
+                            const imagePath = await fishCanvas.createCollectionImage({
+                                userId: senderID,
+                                userName: `Ngư dân #${senderID.substring(0, 5)}`,
+                                collection: playerData.collection,
+                                level: playerData.level
+                            });
+                            
+                            api.sendMessage(
+                                { 
+                                    body: "📚 Bộ sưu tập cá của bạn:", 
+                                    attachment: fs.createReadStream(imagePath) 
+                                }, 
+                                threadID,
+                                () => {
+                                    if (fs.existsSync(imagePath)) {
+                                        fs.unlinkSync(imagePath);
+                                    }
+                                }
+                            );
+                        } catch (imageError) {
+                            console.error("Error creating collection image:", imageError);
+              
+                            const collection = "📚 BỘ SƯU TẬP CÁ:\n━━━━━━━━━━━━━━━━━━\n\n" +
+                                Object.entries(fishTypes).map(([rarity, fishes]) => {
+                                    const fishList = fishes.map(f => {
+                                        const caught = playerData.collection?.byRarity[rarity]?.[f.name] || 0;
+                                        return `${caught > 0 ? '✅' : '❌'} ${f.name} (${formatNumber(f.value)} Xu) - Đã bắt: ${caught}`;
+                                    }).join('\n');
+                                    return `【${rarity.toUpperCase()}】\n${fishList}\n`;
+                                }).join('\n') +
+                                `\n📊 Thống kê:\n` +
+                                `Tổng số cá đã bắt: ${playerData.collection?.stats.totalCaught || 0}\n` +
+                                `Tổng giá trị: ${formatNumber(playerData.collection?.stats.totalValue || 0)} Xu\n` +
+                                `Bắt quý giá nhất: ${playerData.collection?.stats.bestCatch?.name || 'Chưa có'} (${formatNumber(playerData.collection?.stats.bestCatch?.value || 0)} Xu)`;
+                            
+                            api.sendMessage(collection, threadID);
+                        }
                         break;
 
                     case 5: 
@@ -584,27 +609,74 @@ module.exports = {
                 });
 
                 updateBalance(event.senderID, result.value);
-
-                const vipBonus = vipBenefits ? 
-                    `✨ Thưởng EXP VIP x${vipBenefits.fishExpMultiplier || 1}\n` +
-                    `👑 Thưởng xu VIP +${(vipBenefits.packageId * 5) || 0}%\n` : '';
-
                 api.unsendMessage(fishingMsg.messageID);
-                await api.sendMessage(
+
+                const textMessage = 
                     `🎣 Bạn đã câu được ${result.name}!\n` +
                     `💰 Giá gốc: ${formatNumber(result.originalValue)} Xu\n` +
                     `📋 Thuế: ${formatNumber(result.taxAmount)} Xu (${(result.taxRate * 100).toFixed(1)}%)\n` +
                     `💵 Thực nhận: ${formatNumber(result.value)} Xu\n` +
-                    `${vipBonus}` + 
+                    `${vipBenefits ? 
+                        `✨ Thưởng EXP VIP x${vipBenefits.fishExpMultiplier || 1}\n` +
+                        `👑 Thưởng xu VIP +${(vipBenefits.packageId * 5) || 0}%\n` : ''}` + 
                     `📊 EXP: +${formatNumber(baseExp)} (${this.getExpBreakdown(baseExp, streakBonus, rarity)})\n` +
                     `📈 Chuỗi câu: ${playerData.fishingStreak} lần (${Math.floor(streakBonus * 100)}% bonus)\n` +
                     `🎚️ Level: ${oldLevel}${playerData.level > oldLevel ? ` ➜ ${playerData.level}` : ''}\n` +
                     `✨ EXP: ${formatNumber(playerData.exp)}/${formatNumber(calculateRequiredExp(playerData.level))}\n` +
                     `🎒 Độ bền cần: ${playerData.rodDurability}/${fishingItems[playerData.rod].durability}\n` +
                     `💵 Số dư: ${formatNumber(getBalance(event.senderID))} Xu\n` +
-                    `⏳ Chờ ${cooldownMinutes} phút để câu tiếp!`,
-                    event.threadID
-                );
+                    `⏳ Chờ ${cooldownMinutes} phút để câu tiếp!`;
+
+                try {
+                    const userName = `Ngư dân #${event.senderID.substring(0, 5)}`;
+                    
+                    const imagePath = await fishCanvas.createFishResultImage({
+                        userId: event.senderID,
+                        userName: userName,
+                        fish: {
+                            name: result.name,
+                            rarity: rarity,
+                            value: result.value,
+                            originalValue: result.originalValue,
+                            taxRate: result.taxRate,
+                            taxAmount: result.taxAmount,
+                            exp: result.exp
+                        },
+                        fishingData: {
+                            rod: playerData.rod,
+                            rodDurability: playerData.rodDurability,
+                            maxRodDurability: fishingItems[playerData.rod].durability,
+                            level: playerData.level,
+                            exp: playerData.exp,
+                            requiredExp: calculateRequiredExp(playerData.level),
+                            streak: playerData.fishingStreak
+                        },
+                        streakBonus: streakBonus,
+                        vipBenefits: vipBenefits
+                    });
+
+                    await api.sendMessage(
+                        { 
+                            body: `🎣 Bạn đã câu được ${result.name}!`,
+                            attachment: fs.createReadStream(imagePath)
+                        }, 
+                        event.threadID,
+                        (err) => {
+                            if (err) {
+                                console.error("Error sending fish result image:", err);
+                                api.sendMessage(textMessage, event.threadID);
+                            }
+                            
+                            if (fs.existsSync(imagePath)) {
+                                fs.unlinkSync(imagePath);
+                            }
+                        }
+                    );
+                } catch (imageError) {
+                    console.error("Error creating fish result image:", imageError);
+                
+                    await api.sendMessage(textMessage, event.threadID);
+                }
 
             } catch (err) {
                 console.error("Error in fishing:", err);

@@ -75,7 +75,7 @@ module.exports = {
 
   onLaunch: async function({ api, event }) {
     const { threadID, messageID, messageReply } = event;
-    const { getVIPBenefits } = require('../utils/vipCheck');
+    const { getVIPBenefits } = require('../vip/vipCheck');
     
     const vipStatus = getVIPBenefits(event.senderID);
     if (!vipStatus || vipStatus.packageId < 2) {

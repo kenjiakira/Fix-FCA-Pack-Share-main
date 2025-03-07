@@ -1,0 +1,56 @@
+const EVENTS = {
+    tet: {
+      name: "Tết Nguyên Đán",
+      startMonth: 1,
+      duration: 15,
+      crops: {
+        hoa_dao: {
+          name: "Hoa Đào",
+          emoji: "🌸",
+          price: 100000,
+          time: 48 * 60 * 60,
+          yield: 300000,
+          exp: 30,
+          water: 5,
+          description: "Hoa đào đỏ thắm, biểu tượng của Tết miền Bắc",
+        },
+        hoa_mai: {
+          name: "Hoa Mai",
+          emoji: "🌼",
+          price: 100000,
+          time: 48 * 60 * 60,
+          yield: 250000,
+          exp: 30,
+          water: 5,
+          description: "Hoa mai vàng rực rỡ, biểu tượng của Tết miền Nam",
+        },
+      },
+    },
+    trungThu: {
+      name: "Tết Trung Thu",
+      startMonth: 8,
+      duration: 10,
+      crops: {
+        banhDeo: {
+          name: "Bánh Dẻo",
+          emoji: "🥮",
+          price: 50000,
+          time: 24 * 60 * 60,
+          yield: 150000,
+          exp: 20,
+          water: 0,
+          description: "Bánh dẻo nhân thơm ngon truyền thống",
+        },
+        banhNuong: {
+          name: "Bánh Nướng",
+          emoji: "🥧",
+          price: 60000,
+          time: 24 * 60 * 60,
+          yield: 180000,
+          exp: 25,
+          water: 0,
+          description: "Bánh nướng nhân thập cẩm",
+        },
+      },
+    },
+  };

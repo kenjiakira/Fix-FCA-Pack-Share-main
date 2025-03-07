@@ -212,14 +212,14 @@ module.exports = {
                         } catch (avatarError) {
                             console.error(`Error loading avatar for ${user.id}:`, avatarError);
                             // Nếu không tải được, sử dụng avatar mặc định
-                            const defaultAvatarPath = path.join(__dirname, '../avatars/avatar.jpg');
+                            const defaultAvatarPath = path.join(__dirname, './cache/avatar.jpg');
                             if (fs.existsSync(defaultAvatarPath)) {
                                 avatar = await loadImage(defaultAvatarPath);
                             }
                         }
                     } else {
                         // Nếu không có avatar trong userAvatars, sử dụng avatar mặc định
-                        const defaultAvatarPath = path.join(__dirname, '../avatars/avatar.jpg');
+                        const defaultAvatarPath = path.join(__dirname, './cache/avatar.jpg');
                         if (fs.existsSync(defaultAvatarPath)) {
                             avatar = await loadImage(defaultAvatarPath);
                         }
@@ -351,7 +351,7 @@ if (i < 3 && rewards[i]) {
 
     async getAvatarPath(userId) {
         try {
-            const cacheDir = path.join(__dirname, "../cache/avatars");
+            const cacheDir = path.join(__dirname, "./cache/avatars");
             if (!fs.existsSync(cacheDir)) {
                 fs.mkdirSync(cacheDir, { recursive: true });
             }
@@ -370,7 +370,7 @@ if (i < 3 && rewards[i]) {
             }
     
             // Kiểm tra xem avatar mặc định có tồn tại không
-            const defaultAvatarPath = path.join(__dirname, '../avatars/avatar.jpg');
+            const defaultAvatarPath = path.join(__dirname, './cache/avatar.jpg');
             const defaultAvatarExists = fs.existsSync(defaultAvatarPath);
     
             // Thử lấy avatar từ Facebook Graph API
@@ -401,7 +401,7 @@ if (i < 3 && rewards[i]) {
             console.error(`Error in getAvatarPath for ${userId}:`, error.message);
             
             // Luôn kiểm tra và trả về avatar mặc định nếu có
-            const defaultAvatarPath = path.join(__dirname, '../avatars/avatar.jpg');
+            const defaultAvatarPath = path.join(__dirname, './cache/avatar.jpg');
             if (fs.existsSync(defaultAvatarPath)) {
                 console.log(`Fallback to default avatar for ${userId}`);
                 return defaultAvatarPath;
@@ -413,7 +413,7 @@ if (i < 3 && rewards[i]) {
     onLaunch: async function({ api, event }) {
         const { threadID, messageID, senderID } = event;
         const target = event.body.split(" ").slice(1);
-        const avatarsDir = path.join(__dirname, '../avatars');
+        const avatarsDir = path.join(__dirname, './cache/avatar.jpg');
         if (!fs.existsSync(avatarsDir)) {
             fs.mkdirSync(avatarsDir, { recursive: true });
         }

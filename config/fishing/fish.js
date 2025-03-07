@@ -78,40 +78,39 @@ module.exports = {
         { name: "Cá Tứ Linh", value: 26000, exp: 26 }
     ],
     legendary: [
-        { name: "Cá Mập Trắng", value: 25000, exp: 25 },
-        { name: "Cá Voi Lưng Gù", value: 75000, exp: 35 },
-        { name: "Cá Nhám Voi", value: 40000, exp: 30 },
-        { name: "Cá Đuối Khổng Lồ", value: 60000, exp: 35 },
-        { name: "Cá Voi Sát Thủ", value: 37500, exp: 30 },
-        { name: "Cá Mập Đầu Búa", value: 45000, exp: 30 },
-        { name: "Cá Rồng Hoàng Kim", value: 100000, exp: 40 },
-        { name: "Cá Vây Xanh", value: 80000, exp: 35 },
-        { name: "Cá Mập Miệng Rộng", value: 90000, exp: 38 },
-        { name: "Cá Voi Xanh", value: 120000, exp: 45 }
+        { name: "Cá Mập Trắng", value: 37500, exp: 38 },
+        { name: "Cá Voi Lưng Gù", value: 112500, exp: 53 },
+        { name: "Cá Nhám Voi", value: 60000, exp: 45 },
+        { name: "Cá Đuối Khổng Lồ", value: 90000, exp: 53 },
+        { name: "Cá Voi Sát Thủ", value: 56250, exp: 45 },
+        { name: "Cá Mập Đầu Búa", value: 67500, exp: 45 },
+        { name: "Cá Rồng Hoàng Kim", value: 150000, exp: 60 },
+        { name: "Cá Vây Xanh", value: 120000, exp: 53 },
+        { name: "Cá Mập Miệng Rộng", value: 135000, exp: 57 },
+        { name: "Cá Voi Xanh", value: 180000, exp: 68 }
     ],
     mythical: [
-        { name: "Megalodon", value: 250000, exp: 60 },
-        { name: "Kraken", value: 500000, exp: 80 },
-        { name: "Rồng Biển Cổ Đại", value: 1000000, exp: 100 },
-        { name: "Thủy Quái Vũ Trụ", value: 1500000, exp: 120 },
-        { name: "Leviathan", value: 2500000, exp: 150 },
-        { name: "Hydra Biển Sâu", value: 2000000, exp: 140 },
-        { name: "Kỳ Lân Biển", value: 1800000, exp: 130 },
-        { name: "Phượng Hoàng Nước", value: 1200000, exp: 110 },
-        { name: "Rắn Biển Titan", value: 3000000, exp: 160 },
-        { name: "Rùa Thần Poseidon", value: 3500000, exp: 170 }
+        { name: "Megalodon", value: 375000, exp: 90 },
+        { name: "Kraken", value: 750000, exp: 120 },
+        { name: "Rồng Biển Cổ Đại", value: 1500000, exp: 150 },
+        { name: "Thủy Quái Vũ Trụ", value: 2250000, exp: 180 },
+        { name: "Leviathan", value: 3750000, exp: 225 },
+        { name: "Hydra Biển Sâu", value: 3000000, exp: 210 },
+        { name: "Kỳ Lân Biển", value: 2700000, exp: 195 },
+        { name: "Phượng Hoàng Nước", value: 1800000, exp: 165 },
+        { name: "Rắn Biển Titan", value: 4500000, exp: 240 },
+        { name: "Rùa Thần Poseidon", value: 5250000, exp: 255 }
     ],
     cosmic: [
-        { name: "Cá Vũ Trụ", value: 7500000, exp: 200 },
-        { name: "Cá Thiên Hà", value: 10000000, exp: 250 },
-        { name: "Cá Thời Gian", value: 12500000, exp: 300 },
-        { name: "Cá Thần Thoại", value: 25000000, exp: 500 },
-        { name: "Cá Hắc Lỗ", value: 15000000, exp: 350 },
-        { name: "Cá Siêu Nova", value: 20000000, exp: 400 },
-        { name: "Cá Vũ Trụ Song Song", value: 18000000, exp: 380 },
-        { name: "Cá Thần Long Vũ Trụ", value: 30000000, exp: 600 },
-        { name: "Cá Ma Thuật Vũ Trụ", value: 35000000, exp: 700 },
-        { name: "Cá Thần Hủy Diệt", value: 50000000, exp: 1000 }
+        { name: "Cá Vũ Trụ", value: 11250000, exp: 300 },
+        { name: "Cá Thiên Hà", value: 15000000, exp: 375 },
+        { name: "Cá Thời Gian", value: 18750000, exp: 450 },
+        { name: "Cá Thần Thoại", value: 37500000, exp: 750 },
+        { name: "Cá Hắc Lỗ", value: 22500000, exp: 525 },
+        { name: "Cá Siêu Nova", value: 30000000, exp: 600 },
+        { name: "Cá Vũ Trụ Song Song", value: 27000000, exp: 570 },
+        { name: "Cá Thần Long Vũ Trụ", value: 45000000, exp: 900 },
+        { name: "Cá Ma Thuật Vũ Trụ", value: 52500000, exp: 1050 },
+        { name: "Cá Thần Hủy Diệt", value: 75000000, exp: 1500 }
     ]
-  };
-  
+};

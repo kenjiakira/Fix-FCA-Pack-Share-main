@@ -284,6 +284,24 @@ module.exports = {
             type: "consultant",
             requirements: ["e4", "neu", "ueh", "eng3"],
             description: "Tư vấn và hoạch định chính sách kinh tế"
+        },
+        j23: {
+            name: "Việc cơ bản cho Đại Học",
+            salary: 5000000,
+            requirements: ["e3"],
+            description: "Việc cơ bản cho sinh viên Đại Học"
+        },
+        j24: {
+            name: "Việc cơ bản cho Cao Đẳng",
+            salary: 5000000,
+            requirements: ["e2"],
+            description: "Việc cơ bản cho sinh viên Cao Đẳng"
+        },
+        j25: {
+            name: "JOB ADMIN TEST",
+            salary: 1,
+            requirements: ["e1"],
+            description: "JOB ADMIN TEST"
         }
     }
 };

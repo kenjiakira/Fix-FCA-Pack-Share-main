@@ -433,10 +433,10 @@ module.exports = {
   async getAvatarPath(userId) {
     try {
       // Đường dẫn đến avatar mặc định
-      const defaultAvatarPath = path.join(__dirname, "../avatars/avatar.jpg");
+      const defaultAvatarPath = path.join(__dirname, "./cache/avatar.jpg");
       
       // Đảm bảo thư mục avatars tồn tại
-      const avatarsDir = path.join(__dirname, "../avatars");
+      const avatarsDir = path.join(__dirname, "./cache");
       if (!fs.existsSync(avatarsDir)) {
         fs.mkdirSync(avatarsDir, { recursive: true });
       }
@@ -471,7 +471,7 @@ module.exports = {
         }
       }
       
-      const cacheDir = path.join(__dirname, "../cache/avatars");
+      const cacheDir = path.join(__dirname, "./cache/avatars");
       if (!fs.existsSync(cacheDir)) {
         fs.mkdirSync(cacheDir, { recursive: true });
       }
@@ -517,7 +517,7 @@ module.exports = {
     } catch (error) {
       console.error(`Error in getAvatarPath for ${userId}:`, error.message);
       // Trả về avatar mặc định trong trường hợp lỗi
-      const defaultAvatarPath = path.join(__dirname, "../avatars/avatar.jpg");
+      const defaultAvatarPath = path.join(__dirname, "./cache/avatar.jpg");
       if (fs.existsSync(defaultAvatarPath)) {
         return defaultAvatarPath;
       }

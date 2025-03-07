@@ -1,112 +1,8 @@
 const { on } = require('events');
 const fs = require('fs');
 const path = require('path');
-
-const VIP_PACKAGES = {
-    BRONZE: {
-        id: 1,
-        icon: "🥉",
-        stars: "⭐",
-        name: "VIP BRONZE",
-        price: { original: "45,000", sale: "30,000" },
-        duration: "30 ngày",
-        perks: {
-            fishing: {
-                cooldown: "5 phút",
-                exp: "x2 EXP",
-                rare: "+15% cá hiếm",
-                protect: "Miễn 50% mất cá",
-                buff: "Tăng 20% chỉ số cần câu"
-            },
-            money: {
-                farm: "giảm thời gian trồng cây và tăng lợi nhuận",
-                work: "+60% từ làm việc/giảm 5% thời gian",
-                daily: "+20% từ daily", 
-                quest: "+20% từ nhiệm vụ",
-                event: "+30% từ sự kiện",
-                protection: "Bảo vệ 30% xu khi bị cướp"
-            },
-            bank: {
-                loan: "Vay tối đa 80% tài sản",
-                interest: "Giảm 10% lãi suất vay",
-                bonus: "+5% lãi tiết kiệm",
-                fee: "Giảm 20% phí giao dịch"
-            },
-            security: {
-                protect: "Bảo vệ 30% xu khi bị cướp"
-            }
-        }
-    },
-    SILVER: {
-        id: 2,
-        icon: "🥈",
-        stars: "⭐⭐", 
-        name: "VIP SILVER",
-        price: { original: "55,000", sale: "40,000" },
-        duration: "30 ngày",
-        perks: {
-            fishing: {
-                cooldown: "4 phút",
-                exp: "x3 EXP",
-                rare: "+25% cá hiếm",
-                protect: "Miễn 75% mất cá",
-                buff: "Tăng 40% chỉ số cần câu"
-            },
-            money: {
-                farm: "giảm thời gian trồng cây và tăng lợi nhuận",
-                work: "+60% từ làm việc/giảm 15% thời gian",
-                daily: "+40% từ daily",
-                quest: "+50% từ nhiệm vụ", 
-                event: "+60% từ sự kiện",
-                protection: "Bảo vệ 60% xu khi bị cướp"
-            },
-            bank: {
-                loan: "Vay tối đa 120% tài sản",
-                interest: "Giảm 20% lãi suất vay",
-                bonus: "+10% lãi tiết kiệm",
-                fee: "Giảm 40% phí giao dịch"
-            },
-            security: {
-                protect: "Bảo vệ 60% xu khi bị cướp"
-            }
-        }
-    },
-    GOLD: {
-        id: 3,
-        icon: "👑",
-        stars: "⭐⭐⭐",
-        name: "VIP GOLD",
-        price: { original: "95,000", sale: "70,000" },
-        duration: "30 ngày +7",
-        perks: {
-            fishing: {
-                cooldown: "2 phút",
-                exp: "x4 EXP",
-                rare: "+40% cá hiếm",
-                protect: "Miễn nhiễm mất cá",
-                buff: "Tăng 60% chỉ số cần câu",
-                special: "Mở khóa khu vực đặc biệt"
-            },
-            money: {
-                farm: "giảm thời gian trồng cây và tăng lợi nhuận",
-                work: "+60% từ làm việc/giảm 30% thời gian",
-                daily: "+60% từ daily",
-                quest: "+100% từ nhiệm vụ",
-                event: "+100% từ sự kiện",
-                protection: "Bảo vệ 100% xu"
-            },
-            bank: {
-                loan: "Vay tối đa 150% tài sản",
-                interest: "Giảm 30% lãi suất vay",
-                bonus: "+15% lãi tiết kiệm",
-                fee: "Giảm 60% phí giao dịch"
-            },
-            security: {
-                protect: "Miễn nhiễm hoàn toàn khi bị cướp"
-            }
-        }
-    }
-};
+const vipService = require('../vip/vipService');
+const { VIP_PACKAGES } = require('../vip/vipConfig');
 
 function formatPrice(price) {
     return parseInt(price.replace(/,/g, '')).toLocaleString('vi-VN');
@@ -144,90 +40,62 @@ module.exports = {
 
         if (target[0]?.toLowerCase() === "check") {
             const userID = Object.keys(mentions)[0] || senderID;
-            const vipPath = path.join(__dirname, 'json', 'vip.json');
-            let vipData;
+            const vipStatus = vipService.checkVIP(userID);
             
-            try {
-                vipData = JSON.parse(fs.readFileSync(vipPath, 'utf8')).users[userID];
-            } catch {
-                return api.sendMessage(`👤 ${userID}\n🚫 Không có gói VIP!`, threadID);
+            if (!vipStatus.success) {
+                return api.sendMessage(`👤 ${userID}\n🚫 ${vipStatus.message}`, threadID);
             }
 
-            if (!vipData) {
-                return api.sendMessage(`👤 ${userID}\n🚫 Không có gói VIP!`, threadID);
-            }
-
-            const pkg = Object.values(VIP_PACKAGES).find(p => p.id === vipData.packageId);
-            const daysLeft = Math.ceil((vipData.expireTime - Date.now()) / (24 * 60 * 60 * 1000));
-
+            const pkg = vipStatus.packageInfo;
             return api.sendMessage(
-                `${pkg.icon} ${pkg.name} ${pkg.stars}\n\n` +
-                `⏰ Còn lại: ${daysLeft} ngày\n` +
-                `📅 Hết hạn: ${new Date(vipData.expireTime).toLocaleString('vi-VN')}\n\n` +
-                `🎣 CÂU CÁ VIP:\n` +
-                Object.entries(pkg.perks.fishing).map(([k, v]) => `• ${v}`).join('\n') + '\n\n' +
-                `💰 THU NHẬP CAO CẤP:\n` +
-                Object.entries(pkg.perks.money).map(([k, v]) => `• ${v}`).join('\n') + '\n\n' +
-                `🏦 NGÂN HÀNG ƯU ĐÃI:\n` +
-                Object.entries(pkg.perks.bank).map(([k, v]) => `• ${v}`).join('\n') + '\n\n' +
-                `🛡️ BẢO MẬT & TRỘM XU:\n` +
-                Object.entries(pkg.perks.security).map(([k, v]) => `• ${v}`).join('\n'),
+                `${pkg.icon} ${pkg.name} ${pkg.stars}\n` +
+                `⏰ Còn: ${vipStatus.daysLeft} ngày | ⌛ Hết hạn: ${new Date(vipStatus.expireTime).toLocaleDateString('vi-VN')}\n\n` +
+                `🎣 CÂU CÁ: ${Object.values(pkg.perks.fishing).join(' • ')}\n` +
+                `💰 THU NHẬP: ${Object.values(pkg.perks.money).slice(0, 3).join(' • ')}\n` +
+                `🏦 NGÂN HÀNG: ${Object.values(pkg.perks.bank).slice(0, 2).join(' • ')}\n` +
+                `🛡️ BẢO MẬT: ${pkg.perks.security.protect}`,
                 threadID
             );
         }
 
         const bestVoucher = checkVouchers(senderID);
-        let menu = "🎊 SIÊU KHUYẾN MÃI VIP 🎊\n";
-        menu += "⚡ GIẢM GIÁ SỐC!\n";
-        menu += "━━━━━━━━━━━━━━━━━━\n\n";
-
+        let menu = "🎊 KHUYẾN MÃI VIP ⚡\n";
+        
         if (bestVoucher) {
-            menu = `🎟️ VOUCHER ĐANG DÙNG 🎟️\n` +
-                   `• Mã: ${bestVoucher.code}\n` +
-                   `• Giảm: ${bestVoucher.discount}%\n` +
-                   `• Hạn: ${new Date(bestVoucher.expires).toLocaleDateString('vi-VN')}\n` +
-                   `━━━━━━━━━━━━━━━━━━\n\n` + menu;
+            menu += `🎟️ VOUCHER: ${bestVoucher.code} (-${bestVoucher.discount}%)\n`;
         }
+        
+        menu += "━━━━━━━━━━━━━━\n\n";
 
         for (const pkg of Object.values(VIP_PACKAGES)) {
-            menu += `${pkg.icon} ${pkg.name} ${pkg.stars}\n`;
+            menu += `${pkg.icon} ${pkg.name} ${pkg.stars} | ⏳ ${pkg.duration}\n`;
             const originalPrice = formatPrice(pkg.price.original);
             const salePrice = formatPrice(pkg.price.sale);
             
-            menu += `💵 Giá gốc: ${originalPrice}đ\n`;
-            menu += `🏷️ Giá KM: ${salePrice}đ (-${Math.round((1 - parseInt(pkg.price.sale.replace(/,/g, '')) / parseInt(pkg.price.original.replace(/,/g, ''))) * 100)}%)\n`;
+            menu += `💵 Giá: ${originalPrice}đ → ${salePrice}đ`;
             
             if (bestVoucher) {
                 const finalPrice = calculateDiscount(pkg.price.sale, bestVoucher.discount);
-                menu += `💝 Giá sau voucher: ${finalPrice}đ (-${bestVoucher.discount}%)\n`;
+                menu += ` → ${finalPrice}đ (-${bestVoucher.discount}%)`;
             }
             
-            menu += `⏳ Thời hạn: ${pkg.duration}\n\n`;
-            menu += "📋 QUYỀN LỢI ĐẶC BIỆT:\n\n";
-
-            menu += "🎣 CÂU CÁ VIP:\n";
-            Object.entries(pkg.perks.fishing).forEach(([k, v]) => menu += `• ${v}\n`);
-            
-            menu += "\n💰 THU NHẬP CAO CẤP:\n";
-            Object.entries(pkg.perks.money).forEach(([k, v]) => menu += `• ${v}\n`);
-            
-            menu += "\n🏦 NGÂN HÀNG ƯU ĐÃI:\n";
-            Object.entries(pkg.perks.bank).forEach(([k, v]) => menu += `• ${v}\n`);
-            
-            menu += "\n🛡️ BẢO MẬT & TRỘM XU:\n";
-            Object.entries(pkg.perks.security).forEach(([k, v]) => menu += `• ${v}\n`);
-            
-            menu += "\n━━━━━━━━━━━━━━━━━━\n\n";
+            menu += "\n\n";
+            menu += "📋 QUYỀN LỢI:\n";
+            menu += `🎣 ${Object.values(pkg.perks.fishing).slice(0, 3).join(" • ")}\n`;
+            menu += `💰 ${Object.values(pkg.perks.money).slice(0, 3).join(" • ")}\n`;
+            menu += `🏦 ${Object.values(pkg.perks.bank).slice(0, 2).join(" • ")}\n`;
+            menu += `🛡️ ${pkg.perks.security.protect}\n`;
+            menu += "━━━━━━━━━━━━━━\n\n";
         }
 
         menu += "📌 HƯỚNG DẪN MUA VIP:\n";
         menu += "1️⃣ Gõ lệnh: qr vip [bronze/silver/gold]\n";
-        menu += "2️⃣ Quét mã QR và thanh toán\n";
+menu += "2️⃣ Quét mã QR và thanh toán\n";
         menu += "3️⃣ Chờ hệ thống xác nhận tự động\n\n";
         menu += "💳 Banking: 0354683398\n";
         menu += "💜 Momo: 0354683398\n";
         menu += `📝 Nội dung: VIP_[BRONZE/SILVER/GOLD]_${senderID}\n`;
-        menu += "⚠️ Lưu ý: Chuyển khoản đúng nội dung để kích hoạt tự động\n";
+menu += "⚠️ Lưu ý: Chuyển khoản đúng nội dung để kích hoạt tự động\n";
 
         api.sendMessage(menu, threadID);
     }

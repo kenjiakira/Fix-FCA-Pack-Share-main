@@ -1,16 +1,16 @@
 {
   "users": {
-    "100044825933221": {
+    "100083237157086": {
       "personal": [],
       "facts": [],
       "preferences": [],
       "interactions": [
         {
-          "content": "Jehug Wrey nói: @AKI BOT • [ . ] chúc tui ngủ ngon ik bot\nTôi trả lời: Chúc bạn ngủ ngon nhé!  Ngủ ngon giấc nha.",
-          "timestamp": 1741106104154,
+          "content": "Ngọc Ly nói: bot đou\nTôi trả lời: Chào Ngọc Ly, mình đây.  Có gì mình giúp được không?",
+          "timestamp": 1741315974223,
           "priority": 1,
           "accessCount": 0,
-          "lastAccess": 1741106104154,
+          "lastAccess": 1741315974223,
           "metadata": {
             "sentiment": {
               "score": 0,
@@ -36,10 +36,10 @@
       "undefined": [
         {
           "content": "Xưng hô: em/bạn",
-          "timestamp": 1741106103080,
+          "timestamp": 1741315973398,
           "priority": 2,
           "accessCount": 0,
-          "lastAccess": 1741106103080,
+          "lastAccess": 1741315973398,
           "metadata": {
             "sentiment": {
               "score": 0,
@@ -53,21 +53,21 @@
         }
       ]
     },
-    "61573759863041": {
+    "100065381078044": {
       "personal": [],
       "facts": [],
       "preferences": [],
       "interactions": [
         {
-          "content": "User nói: chó bot\nTôi trả lời: Chắc bạn đang bực bội lắm nhỉ?  Có chuyện gì không vui vậy?",
-          "timestamp": 1741106258963,
+          "content": "Le Tuan Tu nói: t ko gỡ dc tn bot\nTôi trả lời: Bạn thử khởi động lại máy hoặc kiểm tra xem có bản cập nhật nào cho ứng dụng không nha.  Nếu vẫn không được thì có thể liên hệ bộ phận hỗ trợ của ứng dụng đó xem sao.",
+          "timestamp": 1741316081846,
           "priority": 1,
           "accessCount": 0,
-          "lastAccess": 1741106258963,
+          "lastAccess": 1741316081846,
           "metadata": {
             "sentiment": {
-              "score": 1,
-              "sentiment": "positive"
+              "score": 0,
+              "sentiment": "neutral"
             },
             "topics": [
               "PERSONAL"
@@ -89,10 +89,10 @@
       "undefined": [
         {
           "content": "Xưng hô: em/bạn",
-          "timestamp": 1741106257262,
+          "timestamp": 1741316079493,
           "priority": 2,
           "accessCount": 0,
-          "lastAccess": 1741106257262,
+          "lastAccess": 1741316079493,
           "metadata": {
             "sentiment": {
               "score": 0,
@@ -106,87 +106,17 @@
         }
       ]
     },
-    "61573689128255": {
+    "61555903228492": {
       "personal": [],
       "facts": [],
       "preferences": [],
       "interactions": [
         {
-          "content": "Người dùng nói: @mọi người bớt nghịch bot\nTôi trả lời: Mọi người cùng giữ không khí trò chuyện vui vẻ nhé!",
-          "timestamp": 1741110306216,
+          "content": "Khaq Dwie nói: helo vk @AKI BOT • [ . ]\nTôi trả lời: Chào Khaq Dwie! Có gì cần em giúp không?",
+          "timestamp": 1741316295249,
           "priority": 1,
           "accessCount": 0,
-          "lastAccess": 1741110306216,
-          "metadata": {
-            "sentiment": {
-              "score": 1,
-              "sentiment": "positive"
-            },
-            "topics": [
-              "PERSONAL"
-            ],
-            "entities": {}
-          }
-        }
-      ],
-      "emotions": [],
-      "names": [],
-      "relationships": {},
-      "context": {
-        "lastTopics": [],
-        "importantDates": {},
-        "recentMentions": {},
-        "conversationFlow": []
-      },
-      "topics": {},
-      "undefined": [
-        {
-          "content": "Xưng hô: em/bạn",
-          "timestamp": 1741110305318,
-          "priority": 2,
-          "accessCount": 0,
-          "lastAccess": 1741110305318,
-          "metadata": {
-            "sentiment": {
-              "score": 0,
-              "sentiment": "neutral"
-            },
-            "topics": [
-              "PERSONAL"
-            ],
-            "entities": {}
-          }
-        }
-      ]
-    },
-    "100085397934729": {
-      "personal": [],
-      "facts": [],
-      "preferences": [],
-      "interactions": [
-        {
-          "content": "Hoàng Nguyên nói: tui ko giận bot đâu\nTôi trả lời: Vậy à, em mừng quá!  Có gì cần em giúp không?  Đã khuya rồi, ngủ sớm nha bạn.",
-          "timestamp": 1741110957366,
-          "priority": 1,
-          "accessCount": 1,
-          "lastAccess": 1741110976623,
-          "metadata": {
-            "sentiment": {
-              "score": 0,
-              "sentiment": "neutral"
-            },
-            "topics": [
-              "PERSONAL"
-            ],
-            "entities": {}
-          }
-        },
-        {
-          "content": "Hoàng Nguyên nói: ko có gì bot ơi tui ngủ đây\nTôi trả lời: Ngủ ngon bạn nhé!",
-          "timestamp": 1741110977394,
-          "priority": 1,
-          "accessCount": 0,
-          "lastAccess": 1741110977394,
+          "lastAccess": 1741316295249,
           "metadata": {
             "sentiment": {
               "score": 0,
@@ -212,27 +142,10 @@
       "undefined": [
         {
           "content": "Xưng hô: em/bạn",
-          "timestamp": 1741110956464,
-          "priority": 2,
-          "accessCount": 1,
-          "lastAccess": 1741110976623,
-          "metadata": {
-            "sentiment": {
-              "score": 0,
-              "sentiment": "neutral"
-            },
-            "topics": [
-              "PERSONAL"
-            ],
-            "entities": {}
-          }
-        },
-        {
-          "content": "Xưng hô: em/bạn",
-          "timestamp": 1741110976652,
+          "timestamp": 1741316293539,
           "priority": 2,
           "accessCount": 0,
-          "lastAccess": 1741110976652,
+          "lastAccess": 1741316293539,
           "metadata": {
             "sentiment": {
               "score": 0,
@@ -260,7 +173,7 @@
     "voice": {}
   },
   "stats": {
-    "totalInteractions": 10,
+    "totalInteractions": 6,
     "uniqueUsers": {},
     "topTopics": {},
     "responseTime": [],

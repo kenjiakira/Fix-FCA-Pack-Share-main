@@ -1,31 +1,19 @@
 {
-  "@aki bot • [ . ] chúc tui ngủ ngon ik bot": {
+  "bot đou": {
     "responses": [
-      "Chúc bạn ngủ ngon nhé!  Ngủ ngon giấc nha."
+      "Chào Ngọc Ly, mình đây.  Có gì mình giúp được không?"
     ],
     "frequency": 1
   },
-  "chó bot": {
+  "t ko gỡ dc tn bot": {
     "responses": [
-      "Chắc bạn đang bực bội lắm nhỉ?  Có chuyện gì không vui vậy?"
+      "Bạn thử khởi động lại máy hoặc kiểm tra xem có bản cập nhật nào cho ứng dụng không nha.  Nếu vẫn không được thì có thể liên hệ bộ phận hỗ trợ của ứng dụng đó xem sao."
     ],
     "frequency": 1
   },
-  "@mọi người bớt nghịch bot": {
+  "helo vk @aki bot • [ . ]": {
     "responses": [
-      "Mọi người cùng giữ không khí trò chuyện vui vẻ nhé!"
-    ],
-    "frequency": 1
-  },
-  "tui ko giận bot đâu": {
-    "responses": [
-      "Vậy à, em mừng quá!  Có gì cần em giúp không?  Đã khuya rồi, ngủ sớm nha bạn."
-    ],
-    "frequency": 1
-  },
-  "ko có gì bot ơi tui ngủ đây": {
-    "responses": [
-      "Ngủ ngon bạn nhé!"
+      "Chào Khaq Dwie! Có gì cần em giúp không?"
     ],
     "frequency": 1
   }

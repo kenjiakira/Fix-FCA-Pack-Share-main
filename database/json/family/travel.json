@@ -1,9 +1,10 @@
 {
   "100063719077878": {
-    "onTrip": true,
+    "onTrip": false,
     "tripStarted": 1740834397181,
-    "currentDestination": "beach",
-    "duration": 3
+    "currentDestination": null,
+    "duration": 3,
+    "lastTrip": 1741316872943
   },
   "61573427362389": {
     "onTrip": true,

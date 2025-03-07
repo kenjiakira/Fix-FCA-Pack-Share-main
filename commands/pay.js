@@ -1,11 +1,14 @@
 const { updateBalance, getBalance, saveData } = require('../utils/currencies');
-const { createCanvas, loadImage } = require('canvas');
 const fs = require('fs');
 const path = require('path');
 const { updateTransaction } = require('./banking'); 
+const { createTransactionBill } = require('../canvas/transactionBill');
 
 const transactionsPath = path.join(__dirname, '../commands/json/transactions.json');
+const userDataPath = path.join(__dirname, '../events/cache/userData.json');
+
 let transactions = {};
+let userData = {};
 
 try {
     if (fs.existsSync(transactionsPath)) {
@@ -13,6 +16,14 @@ try {
     }
 } catch (error) {
     console.error("Error loading transactions:", error);
+}
+
+try {
+    if (fs.existsSync(userDataPath)) {
+        userData = JSON.parse(fs.readFileSync(userDataPath, 'utf8'));
+    }
+} catch (error) {
+    console.error("Error loading userData:", error);
 }
 
 const TRANSFER_LIMITS = {
@@ -44,156 +55,6 @@ function calculateFee(amount) {
         }
     }
     return Math.ceil(amount * TRANSFER_FEES[TRANSFER_FEES.length - 1].fee);
-}
-
-async function createBillImage(senderName, recipientName, amount, tax, total, remainingBalance) {
-    const canvas = createCanvas(900, 700);
-    const ctx = canvas.getContext('2d');
-
-    const bgGradient = ctx.createLinearGradient(0, 0, 900, 700);
-    bgGradient.addColorStop(0, '#0a1128');
-    bgGradient.addColorStop(1, '#1a237e');
-    ctx.fillStyle = bgGradient;
-    ctx.fillRect(0, 0, 900, 700);
-
-    ctx.strokeStyle = 'rgba(255, 255, 255, 0.05)';
-    for (let i = 0; i < 900; i += 20) {
-        ctx.beginPath();
-        ctx.moveTo(i, 0);
-        ctx.lineTo(i + 100, 700);
-        ctx.stroke();
-    }
-
-    ctx.save();
-    ctx.shadowColor = 'rgba(0, 0, 0, 0.5)';
-    ctx.shadowBlur = 20;
-    ctx.shadowOffsetX = 0;
-    ctx.shadowOffsetY = 10;
-    ctx.fillStyle = 'rgba(255, 255, 255, 0.98)';
-    roundRect(ctx, 50, 50, 800, 600, 20);
-    ctx.restore();
-
-    const headerGradient = ctx.createLinearGradient(50, 50, 850, 150);
-    headerGradient.addColorStop(0, '#1565c0');
-    headerGradient.addColorStop(1, '#0d47a1');
-    ctx.fillStyle = headerGradient;
-    roundRect(ctx, 50, 50, 800, 100, { tl: 20, tr: 20, br: 0, bl: 0 });
-
-    ctx.beginPath();
-    ctx.arc(120, 100, 30, 0, Math.PI * 2);
-    ctx.fillStyle = '#ffffff';
-    ctx.fill();
-    ctx.font = 'bold 40px Arial';
-    ctx.fillStyle = '#1565c0';
-    ctx.textAlign = 'center';
-    ctx.fillText('$', 120, 115);
-
-    ctx.font = 'bold 40px Arial';
-    ctx.fillStyle = '#ffffff';
-    ctx.fillText('BIÊN LAI CHUYỂN KHOẢN', 450, 110);
-
-    const contentGradient = ctx.createLinearGradient(80, 180, 80, 580);
-    contentGradient.addColorStop(0, '#ffffff');
-    contentGradient.addColorStop(1, '#f8f9fa');
-    ctx.fillStyle = contentGradient;
-    roundRect(ctx, 80, 180, 740, 400, 15);
-
-    const startY = 230;
-    const lineHeight = 60;
-
-    const drawField = (label, value, y, isHighlight = false) => {
-       
-        ctx.fillStyle = '#424242';
-        ctx.font = 'bold 22px Arial';
-        ctx.textAlign = 'left';
-        ctx.fillText(label, 100, y);
-        
-        ctx.fillStyle = isHighlight ? '#1565c0' : '#2e7d32';
-        ctx.font = isHighlight ? 'bold 24px Arial' : '24px Arial';
-        ctx.fillText(value, 300, y);
-    };
-
-    const now = new Date();
-    ctx.font = 'bold 18px Arial';
-    ctx.fillStyle = '#757575';
-    ctx.fillText(`${now.toLocaleDateString()} - ${now.toLocaleTimeString()}`, 210, 210); 
-
-    drawField('Người gửi:', senderName, startY);
-    drawField('Người nhận:', recipientName, startY + lineHeight);
-
-    const lineGradient = ctx.createLinearGradient(100, 0, 720, 0);
-    lineGradient.addColorStop(0, '#e3f2fd');
-    lineGradient.addColorStop(0.5, '#1565c0');
-    lineGradient.addColorStop(1, '#e3f2fd');
-    ctx.strokeStyle = lineGradient;
-    ctx.lineWidth = 2;
-    ctx.beginPath();
-    ctx.moveTo(100, startY + lineHeight * 1.5);
-    ctx.lineTo(720, startY + lineHeight * 1.5);
-    ctx.stroke();
-
-    ctx.fillStyle = '#424242';
-    ctx.font = 'bold 22px Arial';
-    ctx.fillText('Số tiền gửi:', 100, startY + lineHeight * 2);
-    ctx.font = 'bold 32px Arial';
-    ctx.fillStyle = '#2e7d32';
-    ctx.fillText(`${amount.toLocaleString()} Xu`, 300, startY + lineHeight * 2);
-
-    drawField('Phí giao dịch:', `${tax.toLocaleString()} Xu`, startY + lineHeight * 3);
-
-    ctx.fillStyle = '#424242';
-    ctx.font = 'bold 26px Arial';
-    ctx.fillText('Tổng tiền:', 100, startY + lineHeight * 4);
-    const totalGradient = ctx.createLinearGradient(300, 0, 600, 0);
-    totalGradient.addColorStop(0, '#d32f2f');
-    totalGradient.addColorStop(1, '#f44336');
-    ctx.fillStyle = totalGradient;
-    ctx.font = 'bold 34px Arial';
-    ctx.fillText(`${total.toLocaleString()} Xu`, 300, startY + lineHeight * 4);
-
-    drawField('Số dư còn lại:', `${remainingBalance.toLocaleString()} Xu`, startY + lineHeight * 5, true);
-
-    ctx.font = 'italic 20px Arial';
-    ctx.fillStyle = '#757575';
-    ctx.textAlign = 'center';
-    ctx.fillText('Cảm ơn bạn đã sử dụng dịch vụ!', 450, 620);
-
-    const transactionId = Math.random().toString(36).substring(2, 15);
-    ctx.fillStyle = '#f5f5f5';
-    roundRect(ctx, 300, 625, 300, 30, 15);
-    ctx.font = '16px Arial';
-    ctx.fillStyle = '#9e9e9e';
-    ctx.fillText(`Mã giao dịch: ${transactionId}`, 450, 645);
-
-    const outputDir = path.resolve(__dirname, '../commands/cache');
-    const outputPath = path.join(outputDir, 'temp_bill.png');
-
-    if (!fs.existsSync(outputDir)) {
-        fs.mkdirSync(outputDir, { recursive: true });
-    }
-
-    const buffer = canvas.toBuffer('image/png');
-    fs.writeFileSync(outputPath, buffer);
-
-    return outputPath;
-}
-
-function roundRect(ctx, x, y, width, height, radius) {
-    if (typeof radius === 'number') {
-        radius = { tl: radius, tr: radius, br: radius, bl: radius };
-    }
-    ctx.beginPath();
-    ctx.moveTo(x + radius.tl, y);
-    ctx.lineTo(x + width - radius.tr, y);
-    ctx.quadraticCurveTo(x + width, y, x + width, y + radius.tr);
-    ctx.lineTo(x + width, y + height - radius.br);
-    ctx.quadraticCurveTo(x + width, y + height, x + width - radius.br, y + height);
-    ctx.lineTo(x + radius.bl, y + height);
-    ctx.quadraticCurveTo(x, y + height, x, y + height - radius.bl);
-    ctx.lineTo(x, y + radius.tl);
-    ctx.quadraticCurveTo(x, y, x + radius.tl, y);
-    ctx.closePath();
-    ctx.fill();
 }
 
 module.exports = {
@@ -253,17 +114,14 @@ module.exports = {
         let recipientName = "Người nhận";
         
         try {
-            const threadInfo = await api.getThreadInfo(threadID);
-            if (threadInfo && threadInfo.userInfo) {
-                const senderInfo = threadInfo.userInfo.find(user => user.id === senderID);
-                const recipientInfo = threadInfo.userInfo.find(user => user.id === recipientID);
-                
-                if (senderInfo) senderName = senderInfo.name;
-                if (recipientInfo) recipientName = recipientInfo.name;
+            if (userData[senderID] && userData[senderID].name) {
+                senderName = userData[senderID].name;
+            }
+            if (userData[recipientID] && userData[recipientID].name) {
+                recipientName = userData[recipientID].name;
             }
         } catch (err) {
-            console.error("Không thể lấy thông tin thread:", err);
-     
+            console.error("Không thể lấy thông tin người dùng:", err);
         }
 
         if (!transactions[senderID]) transactions[senderID] = [];
@@ -294,19 +152,18 @@ module.exports = {
 
         const senderNewBalance = getBalance(senderID);
 
-        const billPath = await createBillImage(
+        const billPath = await createTransactionBill({
             senderName,
             recipientName,
-            transferAmount,
+            amount: transferAmount,
             fee,
-            totalAmount,
-            senderNewBalance
-        );
+            total: totalAmount,
+            remainingBalance: senderNewBalance,
+            theme: 'blue'
+        });
 
         try {
-
             await updateTransaction(senderID, 'out', `Chuyển ${transferAmount.toLocaleString()} Xu cho ${recipientName}`, transferAmount);
-            
             await updateTransaction(recipientID, 'in', `Nhận ${transferAmount.toLocaleString()} Xu từ ${senderName}`, transferAmount);
         } catch (err) {
             console.error("Lỗi cập nhật lịch sử giao dịch:", err);

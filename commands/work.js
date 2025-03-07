@@ -1,5 +1,5 @@
 const { updateBalance, updateQuestProgress, getBalance, saveData } = require('../utils/currencies');
-const { getVIPBenefits } = require('../utils/vipCheck');
+const { getVIPBenefits } = require('../vip/vipCheck');
 const { createUserData } = require('../utils/userData');
 const JobSystem = require('../family/JobSystem');
 const { JOB_CATEGORIES, JOB_RANKS } = require('../config/family/jobConfig');

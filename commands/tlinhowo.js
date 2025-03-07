@@ -3,7 +3,7 @@ module.exports = {
   dev: "HNT",
   category: "Fun",
   info: "THùy Linh Owo",
-  onPrefix: true,
+  onPrefix: false,
   dmUser: false,
   usedby: 0,
   usages: ".tlinhowo",

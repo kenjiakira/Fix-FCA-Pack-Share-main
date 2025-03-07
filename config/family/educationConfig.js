@@ -1,5 +1,5 @@
 module.exports = {
-    STUDY_TIME: 24 * 60 * 60 * 1000, // 1 day in milliseconds
+    STUDY_TIME: 24 * 60 * 60 * 1000, 
     LEARNING_SPEED: 1.0,
 
     DEGREE_CATEGORIES: {
@@ -26,7 +26,6 @@ module.exports = {
     },
 
     DEGREES: {
-        // Phổ thông
         "e1": {
             name: "Tốt nghiệp THPT",
             level: 1,
@@ -36,7 +35,6 @@ module.exports = {
             description: "Chứng nhận hoàn thành chương trình phổ thông"
         },
 
-        // Cao đẳng
         "e2": {
             name: "Cao đẳng",
             level: 2,
@@ -44,6 +42,15 @@ module.exports = {
             cost: 15000000,
             requirements: ["e1"],
             description: "Cao đẳng đào tạo nghề trong 2-3 năm"
+        },
+
+        "e3": {
+            name: "Đại học",
+            level: 3,
+            timeNeeded: 4,
+            cost: 20000000,
+            requirements: ["e1"],
+            description: "Đại học cơ bản đào tạo 4-5"
         },
 
         "vnuhcm": {
@@ -96,7 +103,7 @@ module.exports = {
         },
         "ftu": {
             name: "ĐH Ngoại thương",
-            level: 3,
+            level: 5,
             timeNeeded: 4,
             cost: 220000000,
             requirements: ["e1"],
@@ -104,7 +111,7 @@ module.exports = {
         },
         "ntu": {
             name: "ĐH Nha Trang",
-            level: 3,
+            level: 5,
             timeNeeded: 4,
             cost: 180000000,
             requirements: ["e1"],
@@ -112,7 +119,7 @@ module.exports = {
         },
         "hmu": {
             name: "ĐH Y Hà Nội",
-            level: 3,
+            level: 5,
             timeNeeded: 6,
             cost: 300000000,
             requirements: ["e1"],
@@ -120,7 +127,7 @@ module.exports = {
         },
         "tuaf": {
             name: "ĐH Nông Lâm TP.HCM",
-            level: 3,
+            level: 5,
             timeNeeded: 4,
             cost: 180000000,
             requirements: ["e1"],
@@ -128,7 +135,7 @@ module.exports = {
         },
         "ueh": {
             name: "ĐH Kinh tế TP.HCM",
-            level: 3,
+            level: 5,
             timeNeeded: 4,
             cost: 200000000,
             requirements: ["e1"],
@@ -137,8 +144,8 @@ module.exports = {
 
         "e4": {
             name: "Thạc sĩ",
-            level: 4,
-            timeNeeded: 2,
+            level: 9,
+            timeNeeded: 5,
             cost: 500000000,
             requirements: ["e3"],
             description: "Bằng thạc sĩ (sau đại học)"
@@ -146,26 +153,25 @@ module.exports = {
 
         "e5": {
             name: "Tiến sĩ",
-            level: 5,
-            timeNeeded: 3,
+            level: 10,
+            timeNeeded: 7,
             cost: 1000000000,
             requirements: ["e4"],
             description: "Học vị cao nhất trong hệ thống giáo dục"
         },
 
-        // Chứng chỉ tiếng Anh
         "eng1": {
             name: "Tiếng Anh B1",
             level: 1,
-            timeNeeded: 1,
-            cost: 6000000,
+            timeNeeded: 7,
+            cost: 60000000,
             requirements: ["e1"],
             description: "Chứng chỉ tiếng Anh trình độ trung cấp"
         },
         "eng2": {
             name: "Tiếng Anh B2",
             level: 2,
-            timeNeeded: 1.5,
+            timeNeeded: 7,
             cost: 120000000,
             requirements: ["eng1"],
             description: "Chứng chỉ tiếng Anh trình độ khá"
@@ -173,17 +179,16 @@ module.exports = {
         "eng3": {
             name: "Tiếng Anh C1",
             level: 3,
-            timeNeeded: 2,
+            timeNeeded: 7,
             cost: 200000000,
             requirements: ["eng2"],
             description: "Chứng chỉ tiếng Anh cao cấp"
         },
 
-        // Chứng chỉ CNTT
         "fe": {
             name: "Frontend Developer",
             level: 2,
-            timeNeeded: 1,
+            timeNeeded: 7,
             cost: 300000000,
             requirements: ["e1"],
             description: "Chứng chỉ phát triển giao diện web"
@@ -191,7 +196,7 @@ module.exports = {
         "be": {
             name: "Backend Developer",
             level: 2,
-            timeNeeded: 1.5,
+            timeNeeded: 7,
             cost: 350000000,
             requirements: ["e1"],
             description: "Chứng chỉ phát triển hệ thống backend"
@@ -199,7 +204,7 @@ module.exports = {
         "aws": {
             name: "AWS Certified",
             level: 3,
-            timeNeeded: 1,
+            timeNeeded: 7,
             cost: 400000000,
             requirements: ["e3"],
             description: "Chứng chỉ Amazon Web Services"
@@ -207,7 +212,7 @@ module.exports = {
         "azure": {
             name: "Microsoft Azure",
             level: 3,
-            timeNeeded: 1,
+            timeNeeded: 7,
             cost: 400000000,
             requirements: ["e3"],
             description: "Chứng chỉ Microsoft Azure Cloud"
@@ -215,16 +220,15 @@ module.exports = {
         "ccna": {
             name: "Cisco CCNA",
             level: 2,
-            timeNeeded: 1,
+            timeNeeded: 5,
             cost: 350000000,
             requirements: ["e1"],
             description: "Chứng chỉ mạng Cisco cơ bản"
         },
 
-        // Nghiên cứu
         "research1": {
             name: "Nghiên cứu khoa học",
-            level: 4,
+            level: 10,
             timeNeeded: 2,
             cost: 800000000,
             requirements: ["e4"],

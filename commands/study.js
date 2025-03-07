@@ -19,6 +19,83 @@ module.exports = {
     usages: ".study [list/category/enroll/info]",
     cooldowns: 5,
 
+    generateTitle(education) {
+  
+        let title = "Người học";
+        
+        const highSchools = ["THPT Chuyên Lê Hồng Phong", "THPT Chuyên Trần Đại Nghĩa", "THPT Nguyễn Thị Minh Khai", 
+            "THPT Lê Quý Đôn", "THPT Chu Văn An", "THPT Nguyễn Huệ", "THPT Phan Đình Phùng", "THPT Bùi Thị Xuân"];
+        
+        const universities = ["ĐHQG Hà Nội", "ĐHQG TP.HCM", "ĐH Bách Khoa", "ĐH Kinh tế", "ĐH Ngoại thương",
+            "ĐH Sư phạm", "ĐH Y Dược", "ĐH FPT", "ĐH Công nghệ", "ĐH Khoa học Tự nhiên", "Học viện Ngân hàng"];
+        
+        const colleges = ["CĐ FPT", "CĐ Công nghệ", "CĐ Kinh tế", "CĐ Y tế", "CĐ Nghề", "CĐ Du lịch"];
+        
+        const specializedInstitutes = ["Học viện Âm nhạc", "Học viện Hàng không", "Học viện Kỹ thuật Quân sự", 
+            "Học viện Công nghệ Bưu chính Viễn thông", "Học viện Ngoại giao", "Trung tâm John Hopkins"];
+        
+        const getRandomName = (array) => array[Math.floor(Math.random() * array.length)];
+        
+        if (!education.degrees || education.degrees.length === 0) {
+            return education.currentDegree ? "Người mới nhập học" : "Người tự học";
+        }
+        
+        if (education.currentDegree) {
+            const degreeId = education.currentDegree.id;
+            
+            if (degreeId.startsWith('e')) {
+                return `HS ${getRandomName(highSchools)}`;
+            }
+            else if (degreeId.startsWith('c')) {
+                return `SV ${getRandomName(colleges)}`;
+            }
+            else if (degreeId.startsWith('u')) {
+                return `SV ${getRandomName(universities)}`;
+            }
+            else if (degreeId.startsWith('cert')) {
+                return "Học viên chuyên môn";
+            }
+            else if (degreeId.startsWith('s')) {
+                return `HV ${getRandomName(specializedInstitutes)}`;
+            }
+        }
+        
+        const highestDegree = education.degrees[education.degrees.length - 1];
+        
+        if (highestDegree === "e1" || highestDegree === "highschool") {
+            return "Tốt nghiệp THPT";
+        }
+        else if (highestDegree.startsWith('c')) {
+            return `Cử nhân ${getRandomName(colleges)}`;
+        }
+        else if (highestDegree.startsWith('u')) {
+            if (highestDegree.includes('med')) {
+                return "Bác sĩ";
+            } else if (highestDegree.includes('law')) {
+                return "Luật sư";
+            } else if (highestDegree.includes('eng')) {
+                return "Kỹ sư";
+            } else if (highestDegree.includes('tech')) {
+                return "Chuyên gia Công nghệ";
+            } else {
+                return `Cử nhân ${getRandomName(universities)}`;
+            }
+        }
+        else if (highestDegree.startsWith('m')) {
+            return "Thạc sĩ";
+        }
+        else if (highestDegree.startsWith('s') && highestDegree.includes('phd')) {
+            const fields = ["Khoa học", "Công nghệ", "Kinh tế", "Giáo dục", "Y học", "Toán học"];
+            return `Tiến sĩ ${fields[Math.floor(Math.random() * fields.length)]}`;
+        }
+        else if (highestDegree.startsWith('cert')) {
+            const certTypes = ["Chứng chỉ hành nghề", "Chuyên gia tư vấn", "Chuyên viên", "Kỹ thuật viên"];
+            return certTypes[Math.floor(Math.random() * certTypes.length)];
+        }
+        
+        return title;
+    },
+
     async createStudyInfoImage(education, senderID, userName, balance) {
         try {
             const width = 800;
@@ -188,15 +265,17 @@ module.exports = {
             ctx.font = "bold 28px Arial";
             ctx.fillStyle = "#ffffff";
             ctx.textAlign = "left";
-            ctx.fillText(userName || "Học viên", 200, 215);
+            const title = this.generateTitle(education);
+            ctx.fillText(`${title} #${senderID.substring(0, 5)}`, 200, 215);
+            ctx.restore();
             
             
-            const balanceGradient = ctx.createLinearGradient(200, 245, 450, 245);
+            const balanceGradient = ctx.createLinearGradient(300, 245, 450, 245);
             balanceGradient.addColorStop(0, "#ffce54");
             balanceGradient.addColorStop(1, "#f9a825");
             ctx.font = "22px Arial";
             ctx.fillStyle = balanceGradient;
-            ctx.fillText(`💰 ${formatNumber(balance)} Xu`, 200, 250);
+            ctx.fillText(`💰 ${formatNumber(balance)} Xu`, 300, 250);
             ctx.restore();
 
             let startY = 330;
@@ -337,7 +416,7 @@ module.exports = {
                     ctx.font = "bold 26px Arial";
                     ctx.fillStyle = "#ffffff";
                     ctx.textAlign = "left";
-                    ctx.fillText("Đang theo học", 70, startY);
+                    ctx.fillText("Đang theo học", 70, startY + 10);
                     ctx.restore();
                     
                     
@@ -401,7 +480,7 @@ module.exports = {
                         ctx.font = "bold 20px Arial";
                         ctx.fillStyle = "#4caf50";
                         ctx.textAlign = "right";
-                        ctx.fillText("✅ HOÀN THÀNH!", width - 70, startY + 115);
+                        ctx.fillText("✅ HOÀN THÀNH!", width - 70, startY + 225);
                     }
                     
                     startY += courseBoxHeight + 20;
@@ -459,7 +538,7 @@ module.exports = {
     async getAvatarPath(userId) {
         try {
             
-            const avatarsDir = path.join(__dirname, '../avatars');
+            const avatarsDir = path.join(__dirname, './cache/avatar.jpg');
             if (!fs.existsSync(avatarsDir)) {
                 fs.mkdirSync(avatarsDir, { recursive: true });
             }
@@ -496,7 +575,7 @@ module.exports = {
             }
             
             
-            const cacheDir = path.join(__dirname, "../cache/avatars");
+            const cacheDir = path.join(__dirname, "./cache/avatars");
             if (!fs.existsSync(cacheDir)) {
                 fs.mkdirSync(cacheDir, { recursive: true });
             }
@@ -513,7 +592,9 @@ module.exports = {
                     return avatarPath; 
                 }
             }
-    
+
+ctx.fillText(`${title} #${senderID.substring(0, 5)}`, 200, 215);
+
             try {
                 const avatarUrl = `https://graph.facebook.com/${userId}/picture?width=512&height=512&access_token=6628568379%7Cc1e620fa708a1d5696fb991c1bde5662`;
                 const response = await axios.get(avatarUrl, { 
@@ -533,7 +614,7 @@ module.exports = {
             }
         } catch (error) {
             console.error(`Error in getAvatarPath for ${userId}:`, error.message);
-            const defaultAvatarPath = path.join(__dirname, '../avatars/avatar.jpg');
+            const defaultAvatarPath = path.join(__dirname, './cache/avatar.jpg');
             if (fs.existsSync(defaultAvatarPath)) {
                 return defaultAvatarPath;
             }
@@ -545,20 +626,12 @@ module.exports = {
         const { threadID, senderID, messageID } = event;
         let command = target[0]?.toLowerCase();
         let argument = target[1]?.toLowerCase();
-
         try {
             const education = this.loadEducation(senderID);
-
-            let userName = "Học viên";
-            try {
-                const userInfo = await api.getUserInfo(senderID);
-                if (userInfo && userInfo[senderID]) {
-                    userName = userInfo[senderID].name || "Học viên";
-                }
-            } catch (nameError) {
-                console.error("Error getting user name:", nameError);
-            }
-
+            
+            const title = this.generateTitle(education);
+            const userName = `${title} #${senderID.substring(0, 5)}`;
+            
             if (!command) {
                 await api.sendMessage(
                     "┏━━『 HỌC TẬP 』━━┓\n\n" +

@@ -1,12 +1,14 @@
 const fs = require('fs');
 const path = require('path');
 const { JOBS, JOB_RANKS } = require('../config/family/jobConfig');
+const WorkCountTracker = require('./WorkCountTracker');
 
 class JobSystem {
     constructor() {
         this.path = path.join(__dirname, '../database/json/family/job.json');
         this.educationPath = path.join(__dirname, '../database/json/family/familyeducation.json');
         this.data = this.loadData();
+        this.workCountTracker = new WorkCountTracker();
         this.TAX_BRACKETS = [
             { threshold: 1000000, rate: 0.01 },  
             { threshold: 5000000, rate: 0.03 }, 
@@ -44,6 +46,11 @@ class JobSystem {
                     if (!(key in data[userId])) {
                         data[userId][key] = defaultData[key];
                     }
+                }
+
+                // Synchronize work count from tracker on load
+                if (this.workCountTracker) {
+                    data[userId].workCount = this.workCountTracker.getCount(userId);
                 }
             }
             
@@ -107,6 +114,12 @@ class JobSystem {
             this.data[userID] = this.getDefaultUserData();
         }
         if (!this.data[userID].jobHistory) this.data[userID].jobHistory = [];
+        
+        // Always sync with work count tracker when getting job data
+        if (this.workCountTracker) {
+            this.data[userID].workCount = this.workCountTracker.getCount(userID);
+        }
+        
         this.saveData();
         return this.data[userID];
     }
@@ -257,6 +270,7 @@ class JobSystem {
 
     work(userID, vipBenefits = null) {
         try {
+            // Reload data to ensure we have the latest
             this.data = this.loadData();
             
             if (!this.data[userID]) {
@@ -291,38 +305,43 @@ class JobSystem {
 
             const job = JOBS[jobData.currentJob.id];
             const jobType = job.type || 'shipper';
-            const currentLevel = this.getJobLevel(jobType, jobData.workCount || 0);
+            
+            // Get the current work count from the tracker - single source of truth
+            const oldWorkCount = this.workCountTracker.getCount(userID);
+            const previousLevel = this.getJobLevel(jobType, oldWorkCount);
             
             let salary = job.salary;
-            if (currentLevel && currentLevel.bonus) {
-                salary = Math.floor(salary * currentLevel.bonus);
+            if (previousLevel && previousLevel.bonus) {
+                salary = Math.floor(salary * previousLevel.bonus);
             }
 
             if (vipBenefits && vipBenefits.workBonus) {
                 const bonusAmount = Math.floor(salary * (vipBenefits.workBonus / 100));
                 salary += bonusAmount;
             }
-
-            const oldWorkCount = jobData.workCount || 0;
-            const previousLevel = this.getJobLevel(jobType, oldWorkCount);
             
             jobData.lastWorked = Date.now();
-            jobData.workCount = oldWorkCount + 1;
             jobData.totalEarned = (jobData.totalEarned || 0) + salary;
             
-            const newLevel = this.getJobLevel(jobType, jobData.workCount);
-            const leveledUp = previousLevel && newLevel && (newLevel.name !== previousLevel.name);
+            // First increment the work count in the tracker
+            const newWorkCount = this.workCountTracker.incrementCount(userID);
+            console.log(`User ${userID} work count updated: ${oldWorkCount} -> ${newWorkCount}`);
             
+            // Then update and save job data
+            jobData.workCount = newWorkCount;
             const saved = this.saveData();
             if (!saved) {
                 throw new Error("Không thể lưu thông tin làm việc!");
             }
+            
+            const newLevel = this.getJobLevel(jobType, newWorkCount);
+            const leveledUp = previousLevel && newLevel && (newLevel.name !== previousLevel.name);
 
             return {
                 ...job,
                 id: jobData.currentJob.id,
                 salary,
-                workCount: jobData.workCount,
+                workCount: newWorkCount,
                 levelName: newLevel?.name || job.name, 
                 leveledUp: leveledUp ? newLevel : null,
                 type: jobType
@@ -429,6 +448,8 @@ class JobSystem {
     }
     
     getJobLevel(jobType, workCount) {
+        workCount = parseInt(workCount) || 0;
+        
         const ranks = JOB_RANKS[jobType] || [];
         for (let i = ranks.length - 1; i >= 0; i--) {
             if (workCount >= ranks[i].minWork) {

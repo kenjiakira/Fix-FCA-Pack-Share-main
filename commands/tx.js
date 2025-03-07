@@ -202,7 +202,7 @@ module.exports = {
                     "➤ .tx tài/xỉu allin\n\n" +
                     "📌 Lịch sử:\n" + getHistoryString(threadID) + "\n" +
                     "━━━━━━━━━━━━━━\n" +
-                    "⚫ = Tài | ⚪ = Xỉu" +
+                    "⚫ = Tài | ⚪ = Xỉu\n" +
                     discordPromo +
                     "┗━━━━━━━━━━━━━━┛", 
                     threadID, messageID

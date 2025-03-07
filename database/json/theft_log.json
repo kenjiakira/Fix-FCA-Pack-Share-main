@@ -1,0 +1,50 @@
+{
+  "61550331471452": [
+    {
+      "victim": "61573427362389",
+      "amount": 1350000,
+      "method": "robbery",
+      "location": "market",
+      "timestamp": 1741237512317
+    },
+    {
+      "victim": "61573427362389",
+      "amount": 1350000,
+      "method": "robbery",
+      "location": "market",
+      "timestamp": 1741237934706
+    }
+  ],
+  "100053857386814": [
+    {
+      "victim": "61573427362389",
+      "amount": 1350000,
+      "method": "robbery",
+      "location": "market",
+      "timestamp": 1741237706194
+    },
+    {
+      "victim": "100063719077878",
+      "amount": 1350000,
+      "method": "robbery",
+      "location": "market",
+      "timestamp": 1741237793665
+    },
+    {
+      "victim": "100063719077878",
+      "amount": 1350000,
+      "method": "robbery",
+      "location": "market",
+      "timestamp": 1741237816426
+    }
+  ],
+  "100063719077878": [
+    {
+      "victim": "100053857386814",
+      "amount": 1350000,
+      "method": "robbery",
+      "location": "market",
+      "timestamp": 1741237857578
+    }
+  ]
+}
