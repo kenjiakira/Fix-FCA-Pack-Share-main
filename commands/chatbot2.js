@@ -25,7 +25,7 @@
     }
 
     async function downloadImage(url) {
-    const imagePath = path.join(cacheDir, `img_${Date.now()}.jpg`);
+    const imagePath = path.join(cacheDir, `img_$xF{Date.now()}.jpg`);
     const writer = fs.createWriteStream(imagePath);
     
     const response = await axios({

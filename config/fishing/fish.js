@@ -64,20 +64,20 @@ module.exports = {
         { name: "Cá Voi Xanh", value: 180000, exp: 136, image: "https://imgur.com/lwLQ1HD.jpg" }
     ],
     mythical: [
-        { name: "Megalodon", value: 375000, exp: 180, image: "https://imgur.com/ho6hgtu.jpg" },
-        { name: "Kraken", value: 750000, exp: 240, image: "https://imgur.com/TKdFRwX.jpg" },
-        { name: "Rồng Biển Cổ Đại", value: 1500000, exp: 300, image: "https://imgur.com/9OKjQpd.jpg" },
+        { name: "Megalodon", value: 3750000, exp: 180, image: "https://imgur.com/JPYLx9P.jpg" },
+        { name: "Kraken", value: 1500000, exp: 240, image: "https://imgur.com/TKdFRwX.jpg" },
+        { name: "Rồng Biển Cổ Đại", value: 2500000, exp: 300, image: "https://imgur.com/9OKjQpd.jpg" },
         { name: "Galactic Monster", value: 2250000, exp: 360, image: "https://imgur.com/vWQ9Z7M.jpg" },
-        { name: "Leviathan", value: 3750000, exp: 450, image: "https://imgur.com/xlFkDJE.jpg" },
+        { name: "Leviathan", value: 3750000, exp: 450, image: "https://imgur.com/ho6hgtu.jpg" },
         { name: "Hydra Biển Sâu", value: 3000000, exp: 420, image: "https://imgur.com/AhogA3O.jpg" },
         { name: "Phượng Hoàng Nước", value: 1800000, exp: 330, image: "https://imgur.com/Q6gsn39.jpg" },
         { name: "Rắn Biển Titan", value: 4500000, exp: 480, image: "https://imgur.com/oaTCLJd.jpg" }
     ],
     cosmic: [
-        { name: "Supernova Apex", value: 300000000, exp: 1200, image: "https://imgur.com/su1D5tv.jpg" },
-        { name: "Cosmic Harmony", value: 270000000, exp: 1140, image: "https://imgur.com/u4CwhHH.jpg" },
-        { name: "Astral Dragonlord", value: 450000000, exp: 1800, image: "https://imgur.com/p2sKhuB.jpg" },
-        { name: "Astral Serpentine", value: 525000000, exp: 2100, image: "https://imgur.com/EvmAwja.jpg" },
-        { name: "Apocalypse Angel", value: 750000000, exp: 3000, image: "https://imgur.com/QgJu82z.jpg" }
+        { name: "Supernova Apex", value: 900000000, exp: 5000, image: "https://imgur.com/su1D5tv.jpg" },
+        { name: "Cosmic Harmony", value: 570000000, exp: 4000, image: "https://imgur.com/u4CwhHH.jpg" },
+        { name: "Astral Dragonlord", value: 450000000, exp: 5000, image: "https://imgur.com/p2sKhuB.jpg" },
+        { name: "Astral Serpentine", value: 525000000, exp: 5000, image: "https://imgur.com/EvmAwja.jpg" },
+        { name: "Apocalypse Angel", value: 750000000, exp: 5000, image: "https://imgur.com/QgJu82z.jpg" }
     ]
 };

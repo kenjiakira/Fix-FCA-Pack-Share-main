@@ -320,14 +320,14 @@ class JobSystem {
                 salary += bonusAmount;
             }
             
+            const taxAmount = this.calculateTax(salary);
+            const taxRate = (taxAmount / salary) * 100;
+            
             jobData.lastWorked = Date.now();
             jobData.totalEarned = (jobData.totalEarned || 0) + salary;
             
-            // First increment the work count in the tracker
             const newWorkCount = this.workCountTracker.incrementCount(userID);
-            console.log(`User ${userID} work count updated: ${oldWorkCount} -> ${newWorkCount}`);
-            
-            // Then update and save job data
+    
             jobData.workCount = newWorkCount;
             const saved = this.saveData();
             if (!saved) {
@@ -341,6 +341,7 @@ class JobSystem {
                 ...job,
                 id: jobData.currentJob.id,
                 salary,
+                tax: taxRate,  
                 workCount: newWorkCount,
                 levelName: newLevel?.name || job.name, 
                 leveledUp: leveledUp ? newLevel : null,
@@ -410,10 +411,7 @@ class JobSystem {
         }
         
         const jobBasedCooldown = Math.floor(baseCooldown * salaryRatio * rankAdjustment);
-        
-        console.log(`Job cooldown for ${jobId} (${job.name}): ${Math.floor(jobBasedCooldown/60000)} minutes`);
-        console.log(`- Base: ${Math.floor(baseCooldown/60000)}m, Ratio: ${salaryRatio.toFixed(2)}x, Rank Adj: ${rankAdjustment.toFixed(2)}`);
-        
+
         return jobBasedCooldown;
     }
 

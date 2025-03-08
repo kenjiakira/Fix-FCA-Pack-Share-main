@@ -1,21 +1,21 @@
 const fs = require('fs');
 const path = require('path');
 let badWordsActive = {}, bannedWords = {}, warnings = {};
-const saveFile = path.join(__dirname,  'badwordsActive.json');
+const saveFile = path.join(__dirname,  './json/badwordsActive.json');
 
 if (fs.existsSync(saveFile)) {
   const words = JSON.parse(fs.readFileSync(saveFile, "utf8"));
   badWordsActive = words;
 }
 
-const saveWarnings = path.join(__dirname,   'warnings.json');
+const saveWarnings = path.join(__dirname,   './json/warnings.json');
 
 if (fs.existsSync(saveWarnings)) {
   const warningsData = JSON.parse(fs.readFileSync(saveWarnings, "utf8"));
   warnings = warningsData;
 }
 
-const saveWarningsCount = path.join(__dirname, 'warningsCount.json');
+const saveWarningsCount = path.join(__dirname, './json/warningsCount.json');
 let warningsCount = {};
 if (fs.existsSync(saveWarningsCount)) {
   const warningsCountData = JSON.parse(fs.readFileSync(saveWarningsCount, "utf8"));

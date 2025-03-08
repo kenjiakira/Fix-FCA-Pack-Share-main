@@ -1,6 +1,6 @@
 const fs = require('fs');
 const path = require('path');
-const { createRankCard, calculateRequiredXp } = require('../utils/rankCard');
+const { createRankCard, calculateRequiredXp } = require('../canvas/rankCard');
 
 const userDataPath = path.join(__dirname, 'cache', 'userData.json');
 const messageQueue = [];

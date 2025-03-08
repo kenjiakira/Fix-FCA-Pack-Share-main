@@ -46,8 +46,6 @@ module.exports = {
         }
 
         try {
-            api.sendMessage("🔄 Đang xử lý công việc của bạn...", threadID, messageID);
-            
 
             const result = await jobSystem.work(senderID, vipBenefits);
             
