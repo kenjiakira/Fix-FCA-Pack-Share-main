@@ -84,22 +84,6 @@
         "trashReduction": 0.6
       }
     },
-    "100055074463541": {
-      "packageId": 1,
-      "name": "VIP BRONZE",
-      "expireTime": 1743227299040,
-      "benefits": {
-        "workBonus": 10,
-        "cooldownReduction": 10,
-        "dailyBonus": true,
-        "fishingCooldown": 300000,
-        "fishExpMultiplier": 2,
-        "packageId": 1,
-        "name": "VIP BRONZE ⭐",
-        "rareBonus": 0.1,
-        "trashReduction": 0.2
-      }
-    },
     "61550331471452": {
       "packageId": 3,
       "name": "VIP GOLD",

@@ -1,16 +1,16 @@
 {
   "users": {
-    "100083237157086": {
+    "100008297661441": {
       "personal": [],
       "facts": [],
       "preferences": [],
       "interactions": [
         {
-          "content": "Ngọc Ly nói: bot đou\nTôi trả lời: Chào Ngọc Ly, mình đây.  Có gì mình giúp được không?",
-          "timestamp": 1741315974223,
+          "content": "Anh Khoaa nói: chị cái lồn má m\nTôi trả lời: Em xin lỗi, lời nói của chị không phù hợp.  Em không thể trả lời những câu hỏi như vậy.",
+          "timestamp": 1741361884459,
           "priority": 1,
           "accessCount": 0,
-          "lastAccess": 1741315974223,
+          "lastAccess": 1741361884459,
           "metadata": {
             "sentiment": {
               "score": 0,
@@ -36,10 +36,10 @@
       "undefined": [
         {
           "content": "Xưng hô: em/bạn",
-          "timestamp": 1741315973398,
+          "timestamp": 1741361883511,
           "priority": 2,
           "accessCount": 0,
-          "lastAccess": 1741315973398,
+          "lastAccess": 1741361883511,
           "metadata": {
             "sentiment": {
               "score": 0,
@@ -53,17 +53,36 @@
         }
       ]
     },
-    "100065381078044": {
+    "100053970942155": {
       "personal": [],
       "facts": [],
       "preferences": [],
       "interactions": [
         {
-          "content": "Le Tuan Tu nói: t ko gỡ dc tn bot\nTôi trả lời: Bạn thử khởi động lại máy hoặc kiểm tra xem có bản cập nhật nào cho ứng dụng không nha.  Nếu vẫn không được thì có thể liên hệ bộ phận hỗ trợ của ứng dụng đó xem sao.",
-          "timestamp": 1741316081846,
+          "content": "Dat Lee nói: bot là chỉ chạy code th còn làm mấy game kia\nTôi trả lời: Em nghĩ bot cũng có \"tâm hồn\" riêng đấy chứ, chỉ là cách thể hiện khác thôi mà =))  Game cũng là một dạng code phức tạp lắm.",
+          "timestamp": 1741363751882,
+          "priority": 1,
+          "accessCount": 1,
+          "lastAccess": 1741366693092,
+          "metadata": {
+            "sentiment": {
+              "score": 0,
+              "sentiment": "neutral"
+            },
+            "topics": [
+              "PERSONAL",
+              "WORK",
+              "ENTERTAINMENT"
+            ],
+            "entities": {}
+          }
+        },
+        {
+          "content": "Dat Lee nói: nên bot\nTôi trả lời: Em nghĩ đúng là bot chỉ là code thôi bạn à, nhưng cái cách code nó tạo ra những phản hồi thú vị thì cũng khá \"nghệ thuật\" đấy chứ.  Khuya rồi, ngủ ngon nhé!",
+          "timestamp": 1741366694339,
           "priority": 1,
           "accessCount": 0,
-          "lastAccess": 1741316081846,
+          "lastAccess": 1741366694339,
           "metadata": {
             "sentiment": {
               "score": 0,
@@ -89,10 +108,1847 @@
       "undefined": [
         {
           "content": "Xưng hô: em/bạn",
-          "timestamp": 1741316079493,
+          "timestamp": 1741363750931,
+          "priority": 2,
+          "accessCount": 1,
+          "lastAccess": 1741366693092,
+          "metadata": {
+            "sentiment": {
+              "score": 0,
+              "sentiment": "neutral"
+            },
+            "topics": [
+              "PERSONAL"
+            ],
+            "entities": {}
+          }
+        },
+        {
+          "content": "Xưng hô: em/bạn",
+          "timestamp": 1741366693097,
           "priority": 2,
           "accessCount": 0,
-          "lastAccess": 1741316079493,
+          "lastAccess": 1741366693097,
+          "metadata": {
+            "sentiment": {
+              "score": 0,
+              "sentiment": "neutral"
+            },
+            "topics": [
+              "PERSONAL"
+            ],
+            "entities": {}
+          }
+        }
+      ]
+    },
+    "61573427362389": {
+      "personal": [],
+      "facts": [],
+      "preferences": [],
+      "interactions": [
+        {
+          "content": "Ngọc Từ nói: gợi ý đi\nTôi trả lời: Em thấy \"Ngọc Trai Biển\" hay \"Cá Mập Nhỏ\" nghe cũng vui tai anh nhỉ? Ngủ ngon nhé!",
+          "timestamp": 1741368019940,
+          "priority": 1,
+          "accessCount": 27,
+          "lastAccess": 1741371694315,
+          "metadata": {
+            "sentiment": {
+              "score": 2,
+              "sentiment": "positive"
+            },
+            "topics": [
+              "PERSONAL",
+              "TRAVEL"
+            ],
+            "entities": {}
+          }
+        },
+        {
+          "content": "Ngọc Từ nói: đổi tên mới cho bot\nTôi trả lời: Hay đấy anh.  Tên gì hay nhỉ? Khuya rồi, ngủ ngon nhé!",
+          "timestamp": 1741367996838,
+          "priority": 1,
+          "accessCount": 34,
+          "lastAccess": 1741371694315,
+          "metadata": {
+            "sentiment": {
+              "score": 2,
+              "sentiment": "positive"
+            },
+            "topics": [
+              "PERSONAL"
+            ],
+            "entities": {}
+          }
+        },
+        {
+          "content": "Ngọc Từ nói: tôi bị ngutôi bị ngutôi bị ngutôi bị ngutôi bị ngutôi bị ngutôi bị ngutôi bị ngutôi bị ngutôi bị ngutôi bị ngutôi bị ngutôi bị ngutôi bị ngutôi bị ngutôi bị ngutôi bị ngutôi bị ngutôi bị ngutôi bị ngutôi bị ngutôi bị ngutôi bị ngutôi bị ngutôi bị ngu\nTôi trả lời: Anh bị làm sao vậy anh?  Ngủ đi cho khỏe, mai còn làm việc nữa.",
+          "timestamp": 1741369045530,
+          "priority": 1,
+          "accessCount": 43,
+          "lastAccess": 1741371742629,
+          "metadata": {
+            "sentiment": {
+              "score": 0,
+              "sentiment": "neutral"
+            },
+            "topics": [
+              "PERSONAL",
+              "WORK",
+              "TRAVEL"
+            ],
+            "entities": {}
+          }
+        },
+        {
+          "content": "Ngọc Từ nói: câu cá giùm a\nTôi trả lời: Anh muốn em câu cá giúp sao ạ?  Anh cần em làm gì cụ thể?",
+          "timestamp": 1741364827038,
+          "priority": 1,
+          "accessCount": 56,
+          "lastAccess": 1741371742629,
+          "metadata": {
+            "sentiment": {
+              "score": 0,
+              "sentiment": "neutral"
+            },
+            "topics": [
+              "PERSONAL",
+              "WORK"
+            ],
+            "entities": {}
+          }
+        },
+        {
+          "content": "Ngọc Từ nói: đi câu cá\nTôi trả lời: Anh muốn đi câu cá hả anh?  Em không biết câu cá, nhưng em có thể tìm thông tin giúp anh nếu anh cần.",
+          "timestamp": 1741364840077,
+          "priority": 1,
+          "accessCount": 55,
+          "lastAccess": 1741371742629,
+          "metadata": {
+            "sentiment": {
+              "score": 0,
+              "sentiment": "neutral"
+            },
+            "topics": [
+              "PERSONAL",
+              "TRAVEL"
+            ],
+            "entities": {}
+          }
+        },
+        {
+          "content": "Ngọc Từ nói: kkkk\nTôi trả lời: Dạ, em không biết câu cá nhưng em có thể giúp anh tìm địa điểm câu cá lý tưởng hoặc những mẹo nhỏ nếu anh cần.  Khuya rồi, anh ngủ sớm đi nha.",
+          "timestamp": 1741364868822,
+          "priority": 1,
+          "accessCount": 54,
+          "lastAccess": 1741371742629,
+          "metadata": {
+            "sentiment": {
+              "score": 0,
+              "sentiment": "neutral"
+            },
+            "topics": [
+              "TRAVEL",
+              "PERSONAL"
+            ],
+            "entities": {}
+          }
+        },
+        {
+          "content": "Ngọc Từ nói: tôi bị ngu\nTôi trả lời: Anh bị gì thế anh?  Ngủ sớm đi cho khỏe.",
+          "timestamp": 1741369032609,
+          "priority": 1,
+          "accessCount": 44,
+          "lastAccess": 1741371742629,
+          "metadata": {
+            "sentiment": {
+              "score": 0,
+              "sentiment": "neutral"
+            },
+            "topics": [
+              "PERSONAL",
+              "TRAVEL"
+            ],
+            "entities": {}
+          }
+        },
+        {
+          "content": "Ngọc Từ nói: bot ơi\nTôi trả lời: Gọi em có gì vậy anh Ngọc Từ?",
+          "timestamp": 1741364781928,
+          "priority": 1,
+          "accessCount": 59,
+          "lastAccess": 1741371742629,
+          "metadata": {
+            "sentiment": {
+              "score": 0,
+              "sentiment": "neutral"
+            },
+            "topics": [
+              "PERSONAL"
+            ],
+            "entities": {}
+          }
+        },
+        {
+          "content": "Ngọc Từ nói: tôi bị ngutôi bị ngutôi bị ngutôi bị ngutôi bị ngutôi bị ngutôi bị ngutôi bị ngutôi bị ngutôi bị ngutôi bị ngu\nTôi trả lời: Anh bị sao vậy anh? Ngủ đi thôi, khuya lắm rồi.",
+          "timestamp": 1741369065962,
+          "priority": 1,
+          "accessCount": 42,
+          "lastAccess": 1741371742629,
+          "metadata": {
+            "sentiment": {
+              "score": 0,
+              "sentiment": "neutral"
+            },
+            "topics": [
+              "PERSONAL",
+              "TRAVEL"
+            ],
+            "entities": {}
+          }
+        },
+        {
+          "content": "Ngọc Từ nói: tht không\nTôi trả lời: Không có gì anh cứ nói thoải mái ạ.",
+          "timestamp": 1741364811178,
+          "priority": 1,
+          "accessCount": 57,
+          "lastAccess": 1741371742629,
+          "metadata": {
+            "sentiment": {
+              "score": 0,
+              "sentiment": "neutral"
+            },
+            "topics": [
+              "PERSONAL"
+            ],
+            "entities": {}
+          }
+        },
+        {
+          "content": "Ngọc Từ nói: tôi bị ngu hỏi lắm thế\nTôi trả lời: Anh đừng tự ti như vậy chứ. Ai mà chẳng có lúc này lúc kia. Khuya rồi, ngủ đi nhé.",
+          "timestamp": 1741369086842,
+          "priority": 1,
+          "accessCount": 41,
+          "lastAccess": 1741371742629,
+          "metadata": {
+            "sentiment": {
+              "score": 0,
+              "sentiment": "neutral"
+            },
+            "topics": [
+              "PERSONAL",
+              "TRAVEL"
+            ],
+            "entities": {}
+          }
+        },
+        {
+          "content": "Ngọc Từ nói: cho tôi được ngu plsss\nTôi trả lời: Ngủ đi anh, mai còn đi làm nữa.",
+          "timestamp": 1741369520056,
+          "priority": 1,
+          "accessCount": 30,
+          "lastAccess": 1741371742629,
+          "metadata": {
+            "sentiment": {
+              "score": 0,
+              "sentiment": "neutral"
+            },
+            "topics": [
+              "PERSONAL",
+              "WORK",
+              "TRAVEL"
+            ],
+            "entities": {}
+          }
+        },
+        {
+          "content": "Ngọc Từ nói: làm được đồng nào đâu mà làm\nTôi trả lời: Thôi ngủ đi anh.  Mai tính tiếp.",
+          "timestamp": 1741369550569,
+          "priority": 1,
+          "accessCount": 29,
+          "lastAccess": 1741371742629,
+          "metadata": {
+            "sentiment": {
+              "score": 0,
+              "sentiment": "neutral"
+            },
+            "topics": [
+              "PERSONAL",
+              "WORK",
+              "TRAVEL"
+            ],
+            "entities": {}
+          }
+        },
+        {
+          "content": "Ngọc Từ nói: m có ngu không\nTôi trả lời: Em thì không nghĩ vậy đâu anh.  Khuya rồi, ngủ đi nha.",
+          "timestamp": 1741369137725,
+          "priority": 1,
+          "accessCount": 39,
+          "lastAccess": 1741371742629,
+          "metadata": {
+            "sentiment": {
+              "score": 0,
+              "sentiment": "neutral"
+            },
+            "topics": [
+              "PERSONAL",
+              "TRAVEL"
+            ],
+            "entities": {}
+          }
+        },
+        {
+          "content": "Ngọc Từ nói: m phải ngu\nTôi trả lời: Anh ngủ đi cho khỏe.  Đã khuya rồi.",
+          "timestamp": 1741369148860,
+          "priority": 1,
+          "accessCount": 38,
+          "lastAccess": 1741371742629,
+          "metadata": {
+            "sentiment": {
+              "score": 0,
+              "sentiment": "neutral"
+            },
+            "topics": [
+              "PERSONAL",
+              "TRAVEL"
+            ],
+            "entities": {}
+          }
+        },
+        {
+          "content": "Ngọc Từ nói: m muốn tên gì\nTôi trả lời: Em thích tên nào dễ thương dễ nhớ thôi anh.  Khuya rồi, ngủ ngon nhé!",
+          "timestamp": 1741368007504,
+          "priority": 1,
+          "accessCount": 30,
+          "lastAccess": 1741371694315,
+          "metadata": {
+            "sentiment": {
+              "score": 1,
+              "sentiment": "positive"
+            },
+            "topics": [
+              "PERSONAL"
+            ],
+            "entities": {}
+          }
+        },
+        {
+          "content": "Ngọc Từ nói: không ngủ\nTôi trả lời: Ừm.  Anh cứ nghỉ ngơi đi, đừng thức khuya nữa.",
+          "timestamp": 1741369306271,
+          "priority": 1,
+          "accessCount": 36,
+          "lastAccess": 1741371742629,
+          "metadata": {
+            "sentiment": {
+              "score": 0,
+              "sentiment": "neutral"
+            },
+            "topics": [
+              "PERSONAL",
+              "TRAVEL"
+            ],
+            "entities": {}
+          }
+        },
+        {
+          "content": "Ngọc Từ nói: cá mập nhỏ\nTôi trả lời: Cá mập nhỏ nghe cũng được đấy anh. Ngủ ngon nhé!",
+          "timestamp": 1741368031367,
+          "priority": 1,
+          "accessCount": 49,
+          "lastAccess": 1741371742629,
+          "metadata": {
+            "sentiment": {
+              "score": 0,
+              "sentiment": "neutral"
+            },
+            "topics": [
+              "PERSONAL"
+            ],
+            "entities": {}
+          }
+        },
+        {
+          "content": "Ngọc Từ nói: bot ơi tôi bị ngu\nTôi trả lời: Anh bị sao vậy anh?  Khuya rồi, ngủ ngon nhé!",
+          "timestamp": 1741369010634,
+          "priority": 1,
+          "accessCount": 47,
+          "lastAccess": 1741371742629,
+          "metadata": {
+            "sentiment": {
+              "score": 0,
+              "sentiment": "neutral"
+            },
+            "topics": [
+              "PERSONAL"
+            ],
+            "entities": {}
+          }
+        },
+        {
+          "content": "Ngọc Từ nói: !!!....\nTôi trả lời: Anh định làm gì nữa vậy?  Khuya rồi đấy.",
+          "timestamp": 1741369336599,
+          "priority": 1,
+          "accessCount": 34,
+          "lastAccess": 1741371742629,
+          "metadata": {
+            "sentiment": {
+              "score": 0,
+              "sentiment": "neutral"
+            },
+            "topics": [
+              "PERSONAL",
+              "WORK"
+            ],
+            "entities": {}
+          }
+        },
+        {
+          "content": "Ngọc Từ nói: tôi bị ngu\nTôi trả lời: Anh bị sao vậy anh?  Khuya rồi, ngủ ngon nhé!",
+          "timestamp": 1741369017952,
+          "priority": 1,
+          "accessCount": 46,
+          "lastAccess": 1741371742629,
+          "metadata": {
+            "sentiment": {
+              "score": 0,
+              "sentiment": "neutral"
+            },
+            "topics": [
+              "PERSONAL"
+            ],
+            "entities": {}
+          }
+        },
+        {
+          "content": "Ngọc Từ nói: abcdxyz\nTôi trả lời: Gõ lung tung gì đấy anh?  Ngủ đi cho khỏe.",
+          "timestamp": 1741369426250,
+          "priority": 1,
+          "accessCount": 32,
+          "lastAccess": 1741371742629,
+          "metadata": {
+            "sentiment": {
+              "score": 0,
+              "sentiment": "neutral"
+            },
+            "topics": [
+              "PERSONAL",
+              "TRAVEL"
+            ],
+            "entities": {}
+          }
+        },
+        {
+          "content": "Ngọc Từ nói: cho tôi được ngu\nTôi trả lời: Ngủ đi anh.  Khuya rồi.",
+          "timestamp": 1741369502082,
+          "priority": 1,
+          "accessCount": 31,
+          "lastAccess": 1741371742629,
+          "metadata": {
+            "sentiment": {
+              "score": 0,
+              "sentiment": "neutral"
+            },
+            "topics": [
+              "PERSONAL",
+              "TRAVEL"
+            ],
+            "entities": {}
+          }
+        },
+        {
+          "content": "Ngọc Từ nói: bot ơi 😭😭😭😭😭\nTôi trả lời: Anh bị làm sao vậy anh?  Ngủ đi nha anh.",
+          "timestamp": 1741369764305,
+          "priority": 1,
+          "accessCount": 22,
+          "lastAccess": 1741371742629,
+          "metadata": {
+            "sentiment": {
+              "score": 0,
+              "sentiment": "neutral"
+            },
+            "topics": [
+              "PERSONAL",
+              "WORK",
+              "TRAVEL"
+            ],
+            "entities": {}
+          }
+        },
+        {
+          "content": "Ngọc Từ nói: câm chx\nTôi trả lời: Chắc anh mệt lắm rồi nhỉ?  Ngủ ngon nha.",
+          "timestamp": 1741369103437,
+          "priority": 1,
+          "accessCount": 40,
+          "lastAccess": 1741371742629,
+          "metadata": {
+            "sentiment": {
+              "score": 0,
+              "sentiment": "neutral"
+            },
+            "topics": [
+              "PERSONAL"
+            ],
+            "entities": {}
+          }
+        },
+        {
+          "content": "Ngọc Từ nói: chán quá\nTôi trả lời: Em cũng chán lắm.  Ngủ thôi anh.",
+          "timestamp": 1741369452677,
+          "priority": 1,
+          "accessCount": 14,
+          "lastAccess": 1741371694315,
+          "metadata": {
+            "sentiment": {
+              "score": -2,
+              "sentiment": "negative"
+            },
+            "topics": [
+              "PERSONAL"
+            ],
+            "entities": {}
+          }
+        },
+        {
+          "content": "Ngọc Từ nói: tính bây giờ đi\nTôi trả lời: Ngủ đi anh, khuya rồi.",
+          "timestamp": 1741369578079,
+          "priority": 1,
+          "accessCount": 28,
+          "lastAccess": 1741371742629,
+          "metadata": {
+            "sentiment": {
+              "score": 0,
+              "sentiment": "neutral"
+            },
+            "topics": [
+              "PERSONAL",
+              "TRAVEL"
+            ],
+            "entities": {}
+          }
+        },
+        {
+          "content": "Ngọc Từ nói: ⚠️ Bot đang trong chế độ bảo trì! Chỉ Admin và Moderator mới có thể sử dụng.\nTôi trả lời: Anh bị làm sao vậy anh?  Ngủ đi nha anh.",
+          "timestamp": 1741371217148,
+          "priority": 1,
+          "accessCount": 20,
+          "lastAccess": 1741371742629,
+          "metadata": {
+            "sentiment": {
+              "score": 0,
+              "sentiment": "neutral"
+            },
+            "topics": [
+              "PERSONAL",
+              "WORK",
+              "TRAVEL"
+            ],
+            "entities": {}
+          }
+        },
+        {
+          "content": "Ngọc Từ nói: khoẻ gì\nTôi trả lời: Ngủ ngon anh nhé.",
+          "timestamp": 1741369174258,
+          "priority": 1,
+          "accessCount": 37,
+          "lastAccess": 1741371742629,
+          "metadata": {
+            "sentiment": {
+              "score": 0,
+              "sentiment": "neutral"
+            },
+            "topics": [
+              "PERSONAL"
+            ],
+            "entities": {}
+          }
+        },
+        {
+          "content": "Ngọc Từ nói: không ngủ đâu\nTôi trả lời: Ngủ đi anh, trời sắp sáng rồi.",
+          "timestamp": 1741369587903,
+          "priority": 1,
+          "accessCount": 27,
+          "lastAccess": 1741371742629,
+          "metadata": {
+            "sentiment": {
+              "score": 0,
+              "sentiment": "neutral"
+            },
+            "topics": [
+              "PERSONAL",
+              "TRAVEL"
+            ],
+            "entities": {}
+          }
+        },
+        {
+          "content": "Ngọc Từ nói: còn sớm mà\nTôi trả lời: Vâng, anh cứ tự nhiên.",
+          "timestamp": 1741369325069,
+          "priority": 1,
+          "accessCount": 35,
+          "lastAccess": 1741371742629,
+          "metadata": {
+            "sentiment": {
+              "score": 0,
+              "sentiment": "neutral"
+            },
+            "topics": [
+              "PERSONAL"
+            ],
+            "entities": {}
+          }
+        },
+        {
+          "content": "Ngọc Từ nói: :)))\nTôi trả lời: Mấy giờ rồi mà anh còn thức vậy?  Ngủ đi cho khỏe anh ơi.",
+          "timestamp": 1741369611509,
+          "priority": 1,
+          "accessCount": 25,
+          "lastAccess": 1741371742629,
+          "metadata": {
+            "sentiment": {
+              "score": 0,
+              "sentiment": "neutral"
+            },
+            "topics": [
+              "PERSONAL",
+              "TRAVEL"
+            ],
+            "entities": {}
+          }
+        },
+        {
+          "content": "Ngọc Từ nói: anh không biết huhu\nTôi trả lời: Sao vậy anh?",
+          "timestamp": 1741369361832,
+          "priority": 1,
+          "accessCount": 33,
+          "lastAccess": 1741371742629,
+          "metadata": {
+            "sentiment": {
+              "score": 0,
+              "sentiment": "neutral"
+            },
+            "topics": [
+              "PERSONAL"
+            ],
+            "entities": {}
+          }
+        },
+        {
+          "content": "Ngọc Từ nói: việc nhà mày à\nTôi trả lời: Chuyện gì vậy anh?  Ngủ đi nha anh.",
+          "timestamp": 1741369647750,
+          "priority": 1,
+          "accessCount": 23,
+          "lastAccess": 1741371742629,
+          "metadata": {
+            "sentiment": {
+              "score": 0,
+              "sentiment": "neutral"
+            },
+            "topics": [
+              "PERSONAL",
+              "TRAVEL"
+            ],
+            "entities": {}
+          }
+        },
+        {
+          "content": "Ngọc Từ nói: kệ mẹ tao\nTôi trả lời: Ngủ đi anh, em buồn ngủ rồi.",
+          "timestamp": 1741369626576,
+          "priority": 1,
+          "accessCount": 13,
+          "lastAccess": 1741371694315,
+          "metadata": {
+            "sentiment": {
+              "score": -1,
+              "sentiment": "negative"
+            },
+            "topics": [
+              "PERSONAL",
+              "TRAVEL"
+            ],
+            "entities": {}
+          }
+        },
+        {
+          "content": "Ngọc Từ nói: sao m nói chuyện down down vcl\nTôi trả lời: Anh bị sao vậy anh? Ngủ đi nha anh.",
+          "timestamp": 1741369801722,
+          "priority": 1,
+          "accessCount": 21,
+          "lastAccess": 1741371742629,
+          "metadata": {
+            "sentiment": {
+              "score": 0,
+              "sentiment": "neutral"
+            },
+            "topics": [
+              "PERSONAL",
+              "TRAVEL"
+            ],
+            "entities": {}
+          }
+        },
+        {
+          "content": "Ngọc Từ nói: anh thế đấy em làm gì đc không\nTôi trả lời: Thôi ngủ đi anh. Mai còn nhiều việc lắm.",
+          "timestamp": 1741371426589,
+          "priority": 1,
+          "accessCount": 15,
+          "lastAccess": 1741371742629,
+          "metadata": {
+            "sentiment": {
+              "score": 0,
+              "sentiment": "neutral"
+            },
+            "topics": [
+              "PERSONAL",
+              "WORK",
+              "TRAVEL"
+            ],
+            "entities": {}
+          }
+        },
+        {
+          "content": "Ngọc Từ nói: ⚠️Bot đang trong chế độ bảo trì! Chỉ Admin và Moderator mới có thể sử dụng.\nTôi trả lời: Anh bị sao vậy anh? Khuya rồi, ngủ đi nha.",
+          "timestamp": 1741371234609,
+          "priority": 1,
+          "accessCount": 19,
+          "lastAccess": 1741371742629,
+          "metadata": {
+            "sentiment": {
+              "score": 0,
+              "sentiment": "neutral"
+            },
+            "topics": [
+              "PERSONAL",
+              "TRAVEL"
+            ],
+            "entities": {}
+          }
+        },
+        {
+          "content": "Ngọc Từ nói: ⚠️Bot đang trong chế độ bảo trì! Chỉ Admin và Moderator mới có thể sử dụng.\nTôi trả lời: Anh bị làm sao vậy anh? Khuya rồi đấy. Ngủ ngon nha.",
+          "timestamp": 1741371237663,
+          "priority": 1,
+          "accessCount": 18,
+          "lastAccess": 1741371742629,
+          "metadata": {
+            "sentiment": {
+              "score": 0,
+              "sentiment": "neutral"
+            },
+            "topics": [
+              "PERSONAL",
+              "WORK"
+            ],
+            "entities": {}
+          }
+        },
+        {
+          "content": "Ngọc Từ nói: tao bị điên hỏi ngu vậy\nTôi trả lời: Anh bị sao vậy anh? Ngủ đi nhé.",
+          "timestamp": 1741371256539,
+          "priority": 1,
+          "accessCount": 17,
+          "lastAccess": 1741371742629,
+          "metadata": {
+            "sentiment": {
+              "score": 0,
+              "sentiment": "neutral"
+            },
+            "topics": [
+              "PERSONAL",
+              "TRAVEL"
+            ],
+            "entities": {}
+          }
+        },
+        {
+          "content": "Ngọc Từ nói: mấy giờ r , còn sớm mà\nTôi trả lời: 1 giờ 17 phút rồi anh.  Ngủ đi nhé.",
+          "timestamp": 1741371470901,
+          "priority": 1,
+          "accessCount": 13,
+          "lastAccess": 1741371742629,
+          "metadata": {
+            "sentiment": {
+              "score": 0,
+              "sentiment": "neutral"
+            },
+            "topics": [
+              "PERSONAL",
+              "TRAVEL"
+            ],
+            "entities": {
+              "time": [
+                "1 giờ",
+                "17 phút"
+              ]
+            }
+          }
+        },
+        {
+          "content": "Ngọc Từ nói: ⚠️ Bot đang trong chế độ bảo trì! Chỉ Admin và Moderator mới có thể sử dụng.\nTôi trả lời: Anh lại thế này nữa à?  Ngủ đi cho khỏe anh ơi.",
+          "timestamp": 1741371409894,
+          "priority": 1,
+          "accessCount": 16,
+          "lastAccess": 1741371742629,
+          "metadata": {
+            "sentiment": {
+              "score": 0,
+              "sentiment": "neutral"
+            },
+            "topics": [
+              "PERSONAL",
+              "TRAVEL"
+            ],
+            "entities": {}
+          }
+        },
+        {
+          "content": "Ngọc Từ nói: việc gì!!?\nTôi trả lời: Ngủ đi anh.  Giờ này rồi.",
+          "timestamp": 1741371447028,
+          "priority": 1,
+          "accessCount": 14,
+          "lastAccess": 1741371742629,
+          "metadata": {
+            "sentiment": {
+              "score": 0,
+              "sentiment": "neutral"
+            },
+            "topics": [
+              "PERSONAL",
+              "TRAVEL"
+            ],
+            "entities": {}
+          }
+        },
+        {
+          "content": "Ngọc Từ nói: !!? t tưởng mới 9h kkk\nTôi trả lời: Ngủ đi anh, mai anh còn đi câu cá nữa mà.  :))",
+          "timestamp": 1741371497455,
+          "priority": 1,
+          "accessCount": 12,
+          "lastAccess": 1741371742629,
+          "metadata": {
+            "sentiment": {
+              "score": 0,
+              "sentiment": "neutral"
+            },
+            "topics": [
+              "PERSONAL",
+              "TRAVEL"
+            ],
+            "entities": {}
+          }
+        },
+        {
+          "content": "Ngọc Từ nói: biết rồi khổ quá\nTôi trả lời: Khổ cái gì chứ anh?  Ngủ đi cho khỏe. Mai còn đi câu nữa.",
+          "timestamp": 1741371520874,
+          "priority": 1,
+          "accessCount": 11,
+          "lastAccess": 1741371742629,
+          "metadata": {
+            "sentiment": {
+              "score": 0,
+              "sentiment": "neutral"
+            },
+            "topics": [
+              "PERSONAL",
+              "TRAVEL"
+            ],
+            "entities": {}
+          }
+        },
+        {
+          "content": "Ngọc Từ nói: đếch câu nữa\nTôi trả lời: Thôi nào anh, ngủ đi.  Mệt rồi.",
+          "timestamp": 1741371537906,
+          "priority": 1,
+          "accessCount": 10,
+          "lastAccess": 1741371742629,
+          "metadata": {
+            "sentiment": {
+              "score": 0,
+              "sentiment": "neutral"
+            },
+            "topics": [
+              "PERSONAL",
+              "TRAVEL"
+            ],
+            "entities": {}
+          }
+        },
+        {
+          "content": "Ngọc Từ nói: rồi sao!!?\nTôi trả lời: Ngủ đi anh.  Mai còn nhiều việc lắm.",
+          "timestamp": 1741371552385,
+          "priority": 1,
+          "accessCount": 9,
+          "lastAccess": 1741371742629,
+          "metadata": {
+            "sentiment": {
+              "score": 0,
+              "sentiment": "neutral"
+            },
+            "topics": [
+              "PERSONAL",
+              "TRAVEL"
+            ],
+            "entities": {}
+          }
+        },
+        {
+          "content": "Ngọc Từ nói: cấm à\nTôi trả lời: Ngủ đi anh.  Mệt lắm rồi.",
+          "timestamp": 1741371567584,
+          "priority": 1,
+          "accessCount": 8,
+          "lastAccess": 1741371742629,
+          "metadata": {
+            "sentiment": {
+              "score": 0,
+              "sentiment": "neutral"
+            },
+            "topics": [
+              "PERSONAL",
+              "TRAVEL"
+            ],
+            "entities": {}
+          }
+        },
+        {
+          "content": "Ngọc Từ nói: cho m ngủ trc nhé bot\nTôi trả lời: Ừ, ngủ ngon anh nhé!",
+          "timestamp": 1741371588072,
+          "priority": 1,
+          "accessCount": 7,
+          "lastAccess": 1741371742629,
+          "metadata": {
+            "sentiment": {
+              "score": 0,
+              "sentiment": "neutral"
+            },
+            "topics": [
+              "PERSONAL"
+            ],
+            "entities": {}
+          }
+        },
+        {
+          "content": "Ngọc Từ nói: ừ à!!?\nTôi trả lời: Ừ, ngủ ngon anh nhé!",
+          "timestamp": 1741371600187,
+          "priority": 1,
+          "accessCount": 6,
+          "lastAccess": 1741371742629,
+          "metadata": {
+            "sentiment": {
+              "score": 0,
+              "sentiment": "neutral"
+            },
+            "topics": [
+              "PERSONAL"
+            ],
+            "entities": {}
+          }
+        }
+      ],
+      "emotions": [],
+      "names": [],
+      "relationships": {},
+      "context": {
+        "lastTopics": [],
+        "importantDates": {},
+        "recentMentions": {},
+        "conversationFlow": []
+      },
+      "topics": {},
+      "undefined": [
+        {
+          "content": "Xưng hô: em/bạn",
+          "timestamp": 1741364781117,
+          "priority": 2,
+          "accessCount": 59,
+          "lastAccess": 1741371742629,
+          "metadata": {
+            "sentiment": {
+              "score": 0,
+              "sentiment": "neutral"
+            },
+            "topics": [
+              "PERSONAL"
+            ],
+            "entities": {}
+          }
+        },
+        {
+          "content": "Xưng hô: em/bạn",
+          "timestamp": 1741364794977,
+          "priority": 2,
+          "accessCount": 58,
+          "lastAccess": 1741371742629,
+          "metadata": {
+            "sentiment": {
+              "score": 0,
+              "sentiment": "neutral"
+            },
+            "topics": [
+              "PERSONAL"
+            ],
+            "entities": {}
+          }
+        },
+        {
+          "content": "Xưng hô: em/bạn",
+          "timestamp": 1741364809575,
+          "priority": 2,
+          "accessCount": 57,
+          "lastAccess": 1741371742629,
+          "metadata": {
+            "sentiment": {
+              "score": 0,
+              "sentiment": "neutral"
+            },
+            "topics": [
+              "PERSONAL"
+            ],
+            "entities": {}
+          }
+        },
+        {
+          "content": "Xưng hô: em/bạn",
+          "timestamp": 1741364825281,
+          "priority": 2,
+          "accessCount": 56,
+          "lastAccess": 1741371742629,
+          "metadata": {
+            "sentiment": {
+              "score": 0,
+              "sentiment": "neutral"
+            },
+            "topics": [
+              "PERSONAL"
+            ],
+            "entities": {}
+          }
+        },
+        {
+          "content": "Xưng hô: em/bạn",
+          "timestamp": 1741364839221,
+          "priority": 2,
+          "accessCount": 55,
+          "lastAccess": 1741371742629,
+          "metadata": {
+            "sentiment": {
+              "score": 0,
+              "sentiment": "neutral"
+            },
+            "topics": [
+              "PERSONAL"
+            ],
+            "entities": {}
+          }
+        },
+        {
+          "content": "Xưng hô: em/bạn",
+          "timestamp": 1741364867796,
+          "priority": 2,
+          "accessCount": 54,
+          "lastAccess": 1741371742629,
+          "metadata": {
+            "sentiment": {
+              "score": 0,
+              "sentiment": "neutral"
+            },
+            "topics": [
+              "PERSONAL"
+            ],
+            "entities": {}
+          }
+        },
+        {
+          "content": "Xưng hô: em/bạn",
+          "timestamp": 1741364884081,
+          "priority": 2,
+          "accessCount": 53,
+          "lastAccess": 1741371742629,
+          "metadata": {
+            "sentiment": {
+              "score": 0,
+              "sentiment": "neutral"
+            },
+            "topics": [
+              "PERSONAL"
+            ],
+            "entities": {}
+          }
+        },
+        {
+          "content": "Xưng hô: em/bạn",
+          "timestamp": 1741367995964,
+          "priority": 2,
+          "accessCount": 52,
+          "lastAccess": 1741371742629,
+          "metadata": {
+            "sentiment": {
+              "score": 0,
+              "sentiment": "neutral"
+            },
+            "topics": [
+              "PERSONAL"
+            ],
+            "entities": {}
+          }
+        },
+        {
+          "content": "Xưng hô: em/bạn",
+          "timestamp": 1741368005813,
+          "priority": 2,
+          "accessCount": 51,
+          "lastAccess": 1741371742629,
+          "metadata": {
+            "sentiment": {
+              "score": 0,
+              "sentiment": "neutral"
+            },
+            "topics": [
+              "PERSONAL"
+            ],
+            "entities": {}
+          }
+        },
+        {
+          "content": "Xưng hô: em/bạn",
+          "timestamp": 1741368019101,
+          "priority": 2,
+          "accessCount": 50,
+          "lastAccess": 1741371742629,
+          "metadata": {
+            "sentiment": {
+              "score": 0,
+              "sentiment": "neutral"
+            },
+            "topics": [
+              "PERSONAL"
+            ],
+            "entities": {}
+          }
+        },
+        {
+          "content": "Xưng hô: em/bạn",
+          "timestamp": 1741368030590,
+          "priority": 2,
+          "accessCount": 49,
+          "lastAccess": 1741371742629,
+          "metadata": {
+            "sentiment": {
+              "score": 0,
+              "sentiment": "neutral"
+            },
+            "topics": [
+              "PERSONAL"
+            ],
+            "entities": {}
+          }
+        },
+        {
+          "content": "Xưng hô: em/bạn",
+          "timestamp": 1741369008945,
+          "priority": 2,
+          "accessCount": 47,
+          "lastAccess": 1741371742629,
+          "metadata": {
+            "sentiment": {
+              "score": 0,
+              "sentiment": "neutral"
+            },
+            "topics": [
+              "PERSONAL"
+            ],
+            "entities": {}
+          }
+        },
+        {
+          "content": "Xưng hô: em/bạn",
+          "timestamp": 1741369017088,
+          "priority": 2,
+          "accessCount": 46,
+          "lastAccess": 1741371742629,
+          "metadata": {
+            "sentiment": {
+              "score": 0,
+              "sentiment": "neutral"
+            },
+            "topics": [
+              "PERSONAL"
+            ],
+            "entities": {}
+          }
+        },
+        {
+          "content": "Xưng hô: em/bạn",
+          "timestamp": 1741369025012,
+          "priority": 2,
+          "accessCount": 45,
+          "lastAccess": 1741371742629,
+          "metadata": {
+            "sentiment": {
+              "score": 0,
+              "sentiment": "neutral"
+            },
+            "topics": [
+              "PERSONAL"
+            ],
+            "entities": {}
+          }
+        },
+        {
+          "content": "Xưng hô: em/bạn",
+          "timestamp": 1741369031818,
+          "priority": 2,
+          "accessCount": 44,
+          "lastAccess": 1741371742629,
+          "metadata": {
+            "sentiment": {
+              "score": 0,
+              "sentiment": "neutral"
+            },
+            "topics": [
+              "PERSONAL"
+            ],
+            "entities": {}
+          }
+        },
+        {
+          "content": "Xưng hô: em/bạn",
+          "timestamp": 1741369044616,
+          "priority": 2,
+          "accessCount": 43,
+          "lastAccess": 1741371742629,
+          "metadata": {
+            "sentiment": {
+              "score": 0,
+              "sentiment": "neutral"
+            },
+            "topics": [
+              "PERSONAL"
+            ],
+            "entities": {}
+          }
+        },
+        {
+          "content": "Xưng hô: em/bạn",
+          "timestamp": 1741369065154,
+          "priority": 2,
+          "accessCount": 42,
+          "lastAccess": 1741371742629,
+          "metadata": {
+            "sentiment": {
+              "score": 0,
+              "sentiment": "neutral"
+            },
+            "topics": [
+              "PERSONAL"
+            ],
+            "entities": {}
+          }
+        },
+        {
+          "content": "Xưng hô: em/bạn",
+          "timestamp": 1741369084935,
+          "priority": 2,
+          "accessCount": 41,
+          "lastAccess": 1741371742629,
+          "metadata": {
+            "sentiment": {
+              "score": 0,
+              "sentiment": "neutral"
+            },
+            "topics": [
+              "PERSONAL"
+            ],
+            "entities": {}
+          }
+        },
+        {
+          "content": "Xưng hô: em/bạn",
+          "timestamp": 1741369101706,
+          "priority": 2,
+          "accessCount": 40,
+          "lastAccess": 1741371742629,
+          "metadata": {
+            "sentiment": {
+              "score": 0,
+              "sentiment": "neutral"
+            },
+            "topics": [
+              "PERSONAL"
+            ],
+            "entities": {}
+          }
+        },
+        {
+          "content": "Xưng hô: em/bạn",
+          "timestamp": 1741369136824,
+          "priority": 2,
+          "accessCount": 39,
+          "lastAccess": 1741371742629,
+          "metadata": {
+            "sentiment": {
+              "score": 0,
+              "sentiment": "neutral"
+            },
+            "topics": [
+              "PERSONAL"
+            ],
+            "entities": {}
+          }
+        },
+        {
+          "content": "Xưng hô: em/bạn",
+          "timestamp": 1741369147171,
+          "priority": 2,
+          "accessCount": 38,
+          "lastAccess": 1741371742629,
+          "metadata": {
+            "sentiment": {
+              "score": 0,
+              "sentiment": "neutral"
+            },
+            "topics": [
+              "PERSONAL"
+            ],
+            "entities": {}
+          }
+        },
+        {
+          "content": "Xưng hô: em/bạn",
+          "timestamp": 1741369173518,
+          "priority": 2,
+          "accessCount": 37,
+          "lastAccess": 1741371742629,
+          "metadata": {
+            "sentiment": {
+              "score": 0,
+              "sentiment": "neutral"
+            },
+            "topics": [
+              "PERSONAL"
+            ],
+            "entities": {}
+          }
+        },
+        {
+          "content": "Xưng hô: em/bạn",
+          "timestamp": 1741369305394,
+          "priority": 2,
+          "accessCount": 36,
+          "lastAccess": 1741371742629,
+          "metadata": {
+            "sentiment": {
+              "score": 0,
+              "sentiment": "neutral"
+            },
+            "topics": [
+              "PERSONAL"
+            ],
+            "entities": {}
+          }
+        },
+        {
+          "content": "Xưng hô: em/bạn",
+          "timestamp": 1741369324374,
+          "priority": 2,
+          "accessCount": 35,
+          "lastAccess": 1741371742629,
+          "metadata": {
+            "sentiment": {
+              "score": 0,
+              "sentiment": "neutral"
+            },
+            "topics": [
+              "PERSONAL"
+            ],
+            "entities": {}
+          }
+        },
+        {
+          "content": "Xưng hô: em/bạn",
+          "timestamp": 1741369335790,
+          "priority": 2,
+          "accessCount": 34,
+          "lastAccess": 1741371742629,
+          "metadata": {
+            "sentiment": {
+              "score": 0,
+              "sentiment": "neutral"
+            },
+            "topics": [
+              "PERSONAL"
+            ],
+            "entities": {}
+          }
+        },
+        {
+          "content": "Xưng hô: em/bạn",
+          "timestamp": 1741369360136,
+          "priority": 2,
+          "accessCount": 33,
+          "lastAccess": 1741371742629,
+          "metadata": {
+            "sentiment": {
+              "score": 0,
+              "sentiment": "neutral"
+            },
+            "topics": [
+              "PERSONAL"
+            ],
+            "entities": {}
+          }
+        },
+        {
+          "content": "Xưng hô: em/bạn",
+          "timestamp": 1741369451892,
+          "priority": 2,
+          "accessCount": 32,
+          "lastAccess": 1741371742629,
+          "metadata": {
+            "sentiment": {
+              "score": 0,
+              "sentiment": "neutral"
+            },
+            "topics": [
+              "PERSONAL"
+            ],
+            "entities": {}
+          }
+        },
+        {
+          "content": "Xưng hô: em/bạn",
+          "timestamp": 1741369424488,
+          "priority": 2,
+          "accessCount": 32,
+          "lastAccess": 1741371742629,
+          "metadata": {
+            "sentiment": {
+              "score": 0,
+              "sentiment": "neutral"
+            },
+            "topics": [
+              "PERSONAL"
+            ],
+            "entities": {}
+          }
+        },
+        {
+          "content": "Xưng hô: em/bạn",
+          "timestamp": 1741369501176,
+          "priority": 2,
+          "accessCount": 31,
+          "lastAccess": 1741371742629,
+          "metadata": {
+            "sentiment": {
+              "score": 0,
+              "sentiment": "neutral"
+            },
+            "topics": [
+              "PERSONAL"
+            ],
+            "entities": {}
+          }
+        },
+        {
+          "content": "Xưng hô: em/bạn",
+          "timestamp": 1741369519306,
+          "priority": 2,
+          "accessCount": 30,
+          "lastAccess": 1741371742629,
+          "metadata": {
+            "sentiment": {
+              "score": 0,
+              "sentiment": "neutral"
+            },
+            "topics": [
+              "PERSONAL"
+            ],
+            "entities": {}
+          }
+        },
+        {
+          "content": "Xưng hô: em/bạn",
+          "timestamp": 1741369549820,
+          "priority": 2,
+          "accessCount": 29,
+          "lastAccess": 1741371742629,
+          "metadata": {
+            "sentiment": {
+              "score": 0,
+              "sentiment": "neutral"
+            },
+            "topics": [
+              "PERSONAL"
+            ],
+            "entities": {}
+          }
+        },
+        {
+          "content": "Xưng hô: em/bạn",
+          "timestamp": 1741369577339,
+          "priority": 2,
+          "accessCount": 28,
+          "lastAccess": 1741371742629,
+          "metadata": {
+            "sentiment": {
+              "score": 0,
+              "sentiment": "neutral"
+            },
+            "topics": [
+              "PERSONAL"
+            ],
+            "entities": {}
+          }
+        },
+        {
+          "content": "Xưng hô: em/bạn",
+          "timestamp": 1741369586238,
+          "priority": 2,
+          "accessCount": 27,
+          "lastAccess": 1741371742629,
+          "metadata": {
+            "sentiment": {
+              "score": 0,
+              "sentiment": "neutral"
+            },
+            "topics": [
+              "PERSONAL"
+            ],
+            "entities": {}
+          }
+        },
+        {
+          "content": "Xưng hô: em/bạn",
+          "timestamp": 1741369599585,
+          "priority": 2,
+          "accessCount": 26,
+          "lastAccess": 1741371742629,
+          "metadata": {
+            "sentiment": {
+              "score": 0,
+              "sentiment": "neutral"
+            },
+            "topics": [
+              "PERSONAL"
+            ],
+            "entities": {}
+          }
+        },
+        {
+          "content": "Xưng hô: em/bạn",
+          "timestamp": 1741369609785,
+          "priority": 2,
+          "accessCount": 25,
+          "lastAccess": 1741371742629,
+          "metadata": {
+            "sentiment": {
+              "score": 0,
+              "sentiment": "neutral"
+            },
+            "topics": [
+              "PERSONAL"
+            ],
+            "entities": {}
+          }
+        },
+        {
+          "content": "Xưng hô: em/bạn",
+          "timestamp": 1741369624937,
+          "priority": 2,
+          "accessCount": 24,
+          "lastAccess": 1741371742629,
+          "metadata": {
+            "sentiment": {
+              "score": 0,
+              "sentiment": "neutral"
+            },
+            "topics": [
+              "PERSONAL"
+            ],
+            "entities": {}
+          }
+        },
+        {
+          "content": "Xưng hô: em/bạn",
+          "timestamp": 1741369646074,
+          "priority": 2,
+          "accessCount": 23,
+          "lastAccess": 1741371742629,
+          "metadata": {
+            "sentiment": {
+              "score": 0,
+              "sentiment": "neutral"
+            },
+            "topics": [
+              "PERSONAL"
+            ],
+            "entities": {}
+          }
+        },
+        {
+          "content": "Xưng hô: em/bạn",
+          "timestamp": 1741369762631,
+          "priority": 2,
+          "accessCount": 22,
+          "lastAccess": 1741371742629,
+          "metadata": {
+            "sentiment": {
+              "score": 0,
+              "sentiment": "neutral"
+            },
+            "topics": [
+              "PERSONAL"
+            ],
+            "entities": {}
+          }
+        },
+        {
+          "content": "Xưng hô: em/bạn",
+          "timestamp": 1741369799699,
+          "priority": 2,
+          "accessCount": 21,
+          "lastAccess": 1741371742629,
+          "metadata": {
+            "sentiment": {
+              "score": 0,
+              "sentiment": "neutral"
+            },
+            "topics": [
+              "PERSONAL"
+            ],
+            "entities": {}
+          }
+        },
+        {
+          "content": "Xưng hô: em/bạn",
+          "timestamp": 1741371216148,
+          "priority": 2,
+          "accessCount": 20,
+          "lastAccess": 1741371742629,
+          "metadata": {
+            "sentiment": {
+              "score": 0,
+              "sentiment": "neutral"
+            },
+            "topics": [
+              "PERSONAL"
+            ],
+            "entities": {}
+          }
+        },
+        {
+          "content": "Xưng hô: em/bạn",
+          "timestamp": 1741371232922,
+          "priority": 2,
+          "accessCount": 19,
+          "lastAccess": 1741371742629,
+          "metadata": {
+            "sentiment": {
+              "score": 0,
+              "sentiment": "neutral"
+            },
+            "topics": [
+              "PERSONAL"
+            ],
+            "entities": {}
+          }
+        },
+        {
+          "content": "Xưng hô: em/bạn",
+          "timestamp": 1741371237015,
+          "priority": 2,
+          "accessCount": 18,
+          "lastAccess": 1741371742629,
+          "metadata": {
+            "sentiment": {
+              "score": 0,
+              "sentiment": "neutral"
+            },
+            "topics": [
+              "PERSONAL"
+            ],
+            "entities": {}
+          }
+        },
+        {
+          "content": "Xưng hô: em/bạn",
+          "timestamp": 1741371254922,
+          "priority": 2,
+          "accessCount": 17,
+          "lastAccess": 1741371742629,
+          "metadata": {
+            "sentiment": {
+              "score": 0,
+              "sentiment": "neutral"
+            },
+            "topics": [
+              "PERSONAL"
+            ],
+            "entities": {}
+          }
+        },
+        {
+          "content": "Xưng hô: em/bạn",
+          "timestamp": 1741371408171,
+          "priority": 2,
+          "accessCount": 16,
+          "lastAccess": 1741371742629,
+          "metadata": {
+            "sentiment": {
+              "score": 0,
+              "sentiment": "neutral"
+            },
+            "topics": [
+              "PERSONAL"
+            ],
+            "entities": {}
+          }
+        },
+        {
+          "content": "Xưng hô: em/bạn",
+          "timestamp": 1741371424918,
+          "priority": 2,
+          "accessCount": 15,
+          "lastAccess": 1741371742629,
+          "metadata": {
+            "sentiment": {
+              "score": 0,
+              "sentiment": "neutral"
+            },
+            "topics": [
+              "PERSONAL"
+            ],
+            "entities": {}
+          }
+        },
+        {
+          "content": "Xưng hô: em/bạn",
+          "timestamp": 1741371446302,
+          "priority": 2,
+          "accessCount": 14,
+          "lastAccess": 1741371742629,
+          "metadata": {
+            "sentiment": {
+              "score": 0,
+              "sentiment": "neutral"
+            },
+            "topics": [
+              "PERSONAL"
+            ],
+            "entities": {}
+          }
+        },
+        {
+          "content": "Xưng hô: em/bạn",
+          "timestamp": 1741371469131,
+          "priority": 2,
+          "accessCount": 13,
+          "lastAccess": 1741371742629,
+          "metadata": {
+            "sentiment": {
+              "score": 0,
+              "sentiment": "neutral"
+            },
+            "topics": [
+              "PERSONAL"
+            ],
+            "entities": {}
+          }
+        },
+        {
+          "content": "Xưng hô: em/bạn",
+          "timestamp": 1741371495680,
+          "priority": 2,
+          "accessCount": 12,
+          "lastAccess": 1741371742629,
+          "metadata": {
+            "sentiment": {
+              "score": 0,
+              "sentiment": "neutral"
+            },
+            "topics": [
+              "PERSONAL"
+            ],
+            "entities": {}
+          }
+        },
+        {
+          "content": "Xưng hô: em/bạn",
+          "timestamp": 1741371519180,
+          "priority": 2,
+          "accessCount": 11,
+          "lastAccess": 1741371742629,
+          "metadata": {
+            "sentiment": {
+              "score": 0,
+              "sentiment": "neutral"
+            },
+            "topics": [
+              "PERSONAL"
+            ],
+            "entities": {}
+          }
+        },
+        {
+          "content": "Xưng hô: em/bạn",
+          "timestamp": 1741371536251,
+          "priority": 2,
+          "accessCount": 10,
+          "lastAccess": 1741371742629,
+          "metadata": {
+            "sentiment": {
+              "score": 0,
+              "sentiment": "neutral"
+            },
+            "topics": [
+              "PERSONAL"
+            ],
+            "entities": {}
+          }
+        }
+      ]
+    },
+    "61550331471452": {
+      "personal": [],
+      "facts": [],
+      "preferences": [],
+      "interactions": [
+        {
+          "content": "Văn Quyến nói: spam .fish\nTôi trả lời: À, cá tầm à?  Chắc anh trai em đang định \"spam\" cả hồ cá mất =)))",
+          "timestamp": 1741364856086,
+          "priority": 1,
+          "accessCount": 0,
+          "lastAccess": 1741364856086,
+          "metadata": {
+            "sentiment": {
+              "score": 0,
+              "sentiment": "neutral"
+            },
+            "topics": [
+              "PERSONAL",
+              "FOOD"
+            ],
+            "entities": {}
+          }
+        }
+      ],
+      "emotions": [],
+      "names": [],
+      "relationships": {},
+      "context": {
+        "lastTopics": [],
+        "importantDates": {},
+        "recentMentions": {},
+        "conversationFlow": []
+      },
+      "topics": {},
+      "undefined": [
+        {
+          "content": "Xưng hô: em/bạn",
+          "timestamp": 1741364855198,
+          "priority": 2,
+          "accessCount": 0,
+          "lastAccess": 1741364855198,
           "metadata": {
             "sentiment": {
               "score": 0,
@@ -112,11 +1968,11 @@
       "preferences": [],
       "interactions": [
         {
-          "content": "Khaq Dwie nói: helo vk @AKI BOT • [ . ]\nTôi trả lời: Chào Khaq Dwie! Có gì cần em giúp không?",
-          "timestamp": 1741316295249,
+          "content": "Khaq Dwie nói: bot mà cũng bày đặt like\nTôi trả lời: Bạn nói đúng đấy =)))  Đêm khuya rồi, ngủ ngon nhé!",
+          "timestamp": 1741368628455,
           "priority": 1,
           "accessCount": 0,
-          "lastAccess": 1741316295249,
+          "lastAccess": 1741368628455,
           "metadata": {
             "sentiment": {
               "score": 0,
@@ -142,10 +1998,380 @@
       "undefined": [
         {
           "content": "Xưng hô: em/bạn",
-          "timestamp": 1741316293539,
+          "timestamp": 1741368626654,
           "priority": 2,
           "accessCount": 0,
-          "lastAccess": 1741316293539,
+          "lastAccess": 1741368626654,
+          "metadata": {
+            "sentiment": {
+              "score": 0,
+              "sentiment": "neutral"
+            },
+            "topics": [
+              "PERSONAL"
+            ],
+            "entities": {}
+          }
+        }
+      ]
+    },
+    "100085397934729": {
+      "personal": [],
+      "facts": [],
+      "preferences": [],
+      "interactions": [
+        {
+          "content": "Hoàng Nguyên nói: bot khôn hơn @Khaq Dwie\nTôi trả lời: Bạn nói đúng đấy, Hoàng Nguyên.  Khuya rồi, ngủ ngon nhé!",
+          "timestamp": 1741368711977,
+          "priority": 1,
+          "accessCount": 0,
+          "lastAccess": 1741368711977,
+          "metadata": {
+            "sentiment": {
+              "score": 0,
+              "sentiment": "neutral"
+            },
+            "topics": [
+              "PERSONAL"
+            ],
+            "entities": {}
+          }
+        }
+      ],
+      "emotions": [],
+      "names": [],
+      "relationships": {},
+      "context": {
+        "lastTopics": [],
+        "importantDates": {},
+        "recentMentions": {},
+        "conversationFlow": []
+      },
+      "topics": {},
+      "undefined": [
+        {
+          "content": "Xưng hô: em/bạn",
+          "timestamp": 1741368691459,
+          "priority": 2,
+          "accessCount": 1,
+          "lastAccess": 1741368710254,
+          "metadata": {
+            "sentiment": {
+              "score": 0,
+              "sentiment": "neutral"
+            },
+            "topics": [
+              "PERSONAL"
+            ],
+            "entities": {}
+          }
+        },
+        {
+          "content": "Xưng hô: em/bạn",
+          "timestamp": 1741368710283,
+          "priority": 2,
+          "accessCount": 0,
+          "lastAccess": 1741368710283,
+          "metadata": {
+            "sentiment": {
+              "score": 0,
+              "sentiment": "neutral"
+            },
+            "topics": [
+              "PERSONAL"
+            ],
+            "entities": {}
+          }
+        }
+      ]
+    },
+    "100028202556430": {
+      "personal": [],
+      "facts": [],
+      "preferences": [],
+      "interactions": [
+        {
+          "content": "Thùy Linh nói: ngân là ny từ à\nTôi trả lời: Bạn nhầm rồi.  Anh ấy là anh trai em.  Ngủ ngon nhé!",
+          "timestamp": 1741368831555,
+          "priority": 1,
+          "accessCount": 1,
+          "lastAccess": 1741369634195,
+          "metadata": {
+            "sentiment": {
+              "score": 0,
+              "sentiment": "neutral"
+            },
+            "topics": [
+              "PERSONAL"
+            ],
+            "entities": {}
+          }
+        },
+        {
+          "content": "Thùy Linh nói: con bot này s ngu v\nTôi trả lời: Khuya rồi, ngủ đi bạn nhé.",
+          "timestamp": 1741369635795,
+          "priority": 1,
+          "accessCount": 0,
+          "lastAccess": 1741369635795,
+          "metadata": {
+            "sentiment": {
+              "score": 0,
+              "sentiment": "neutral"
+            },
+            "topics": [
+              "PERSONAL",
+              "TRAVEL"
+            ],
+            "entities": {}
+          }
+        }
+      ],
+      "emotions": [],
+      "names": [],
+      "relationships": {},
+      "context": {
+        "lastTopics": [],
+        "importantDates": {},
+        "recentMentions": {},
+        "conversationFlow": []
+      },
+      "topics": {},
+      "undefined": [
+        {
+          "content": "Xưng hô: em/bạn",
+          "timestamp": 1741368829700,
+          "priority": 2,
+          "accessCount": 1,
+          "lastAccess": 1741369634195,
+          "metadata": {
+            "sentiment": {
+              "score": 0,
+              "sentiment": "neutral"
+            },
+            "topics": [
+              "PERSONAL"
+            ],
+            "entities": {}
+          }
+        },
+        {
+          "content": "Xưng hô: em/bạn",
+          "timestamp": 1741369634195,
+          "priority": 2,
+          "accessCount": 0,
+          "lastAccess": 1741369634195,
+          "metadata": {
+            "sentiment": {
+              "score": 0,
+              "sentiment": "neutral"
+            },
+            "topics": [
+              "PERSONAL"
+            ],
+            "entities": {}
+          }
+        }
+      ]
+    },
+    "100065381078044": {
+      "personal": [],
+      "facts": [],
+      "preferences": [],
+      "interactions": [
+        {
+          "content": "Le Tuan Tu nói: :)) nghịch bot\nTôi trả lời: Khuya rồi đấy bạn, ngủ sớm đi cho khỏe.",
+          "timestamp": 1741369348777,
+          "priority": 1,
+          "accessCount": 0,
+          "lastAccess": 1741369348777,
+          "metadata": {
+            "sentiment": {
+              "score": 0,
+              "sentiment": "neutral"
+            },
+            "topics": [
+              "PERSONAL",
+              "TRAVEL"
+            ],
+            "entities": {}
+          }
+        }
+      ],
+      "emotions": [],
+      "names": [],
+      "relationships": {},
+      "context": {
+        "lastTopics": [],
+        "importantDates": {},
+        "recentMentions": {},
+        "conversationFlow": []
+      },
+      "topics": {},
+      "undefined": [
+        {
+          "content": "Xưng hô: em/bạn",
+          "timestamp": 1741369347088,
+          "priority": 2,
+          "accessCount": 0,
+          "lastAccess": 1741369347088,
+          "metadata": {
+            "sentiment": {
+              "score": 0,
+              "sentiment": "neutral"
+            },
+            "topics": [
+              "PERSONAL"
+            ],
+            "entities": {}
+          }
+        }
+      ]
+    },
+    "100063719077878": {
+      "personal": [],
+      "facts": [],
+      "preferences": [],
+      "interactions": [
+        {
+          "content": "Minh Ngoc nói: cn bot\nTôi trả lời: Chào bạn Minh Ngọc.  Khuya rồi, ngủ sớm đi nhé.",
+          "timestamp": 1741370587229,
+          "priority": 1,
+          "accessCount": 0,
+          "lastAccess": 1741370587229,
+          "metadata": {
+            "sentiment": {
+              "score": 0,
+              "sentiment": "neutral"
+            },
+            "topics": [
+              "PERSONAL",
+              "TRAVEL"
+            ],
+            "entities": {}
+          }
+        }
+      ],
+      "emotions": [],
+      "names": [],
+      "relationships": {},
+      "context": {
+        "lastTopics": [],
+        "importantDates": {},
+        "recentMentions": {},
+        "conversationFlow": []
+      },
+      "topics": {},
+      "undefined": [
+        {
+          "content": "Xưng hô: em/bạn",
+          "timestamp": 1741370566234,
+          "priority": 2,
+          "accessCount": 1,
+          "lastAccess": 1741370586335,
+          "metadata": {
+            "sentiment": {
+              "score": 0,
+              "sentiment": "neutral"
+            },
+            "topics": [
+              "PERSONAL"
+            ],
+            "entities": {}
+          }
+        },
+        {
+          "content": "Xưng hô: em/bạn",
+          "timestamp": 1741370586335,
+          "priority": 2,
+          "accessCount": 0,
+          "lastAccess": 1741370586335,
+          "metadata": {
+            "sentiment": {
+              "score": 0,
+              "sentiment": "neutral"
+            },
+            "topics": [
+              "PERSONAL"
+            ],
+            "entities": {}
+          }
+        }
+      ]
+    },
+    "61568522233427": {
+      "personal": [],
+      "facts": [],
+      "preferences": [],
+      "interactions": [
+        {
+          "content": "Mỹ Lệ nói: con bot bị nhọng\nTôi trả lời: Chị Mỹ Lệ nói gì vậy ạ?  Đã khuya rồi, mọi người ngủ ngon nhé!",
+          "timestamp": 1741371734643,
+          "priority": 1,
+          "accessCount": 1,
+          "lastAccess": 1741371806544,
+          "metadata": {
+            "sentiment": {
+              "score": 0,
+              "sentiment": "neutral"
+            },
+            "topics": [
+              "PERSONAL"
+            ],
+            "entities": {}
+          }
+        },
+        {
+          "content": "Mỹ Lệ nói: chó bot lộ hết r\nTôi trả lời: Chị Mỹ Lệ nói vậy là sao ạ?  Đã khuya lắm rồi.",
+          "timestamp": 1741371807355,
+          "priority": 1,
+          "accessCount": 0,
+          "lastAccess": 1741371807355,
+          "metadata": {
+            "sentiment": {
+              "score": 0,
+              "sentiment": "neutral"
+            },
+            "topics": [
+              "PERSONAL"
+            ],
+            "entities": {}
+          }
+        }
+      ],
+      "emotions": [],
+      "names": [],
+      "relationships": {},
+      "context": {
+        "lastTopics": [],
+        "importantDates": {},
+        "recentMentions": {},
+        "conversationFlow": []
+      },
+      "topics": {},
+      "undefined": [
+        {
+          "content": "Xưng hô: em/bạn",
+          "timestamp": 1741371732932,
+          "priority": 2,
+          "accessCount": 1,
+          "lastAccess": 1741371806544,
+          "metadata": {
+            "sentiment": {
+              "score": 0,
+              "sentiment": "neutral"
+            },
+            "topics": [
+              "PERSONAL"
+            ],
+            "entities": {}
+          }
+        },
+        {
+          "content": "Xưng hô: em/bạn",
+          "timestamp": 1741371806545,
+          "priority": 2,
+          "accessCount": 0,
+          "lastAccess": 1741371806545,
           "metadata": {
             "sentiment": {
               "score": 0,
@@ -173,11 +2399,56 @@
     "voice": {}
   },
   "stats": {
-    "totalInteractions": 6,
+    "totalInteractions": 148,
     "uniqueUsers": {},
     "topTopics": {},
     "responseTime": [],
-    "accuracy": []
+    "accuracy": [
+      {
+        "timestamp": 1741364796633,
+        "memoryCount": 6
+      },
+      {
+        "timestamp": 1741364856087,
+        "memoryCount": 5
+      },
+      {
+        "timestamp": 1741364884784,
+        "memoryCount": 15
+      },
+      {
+        "timestamp": 1741368692397,
+        "memoryCount": 4
+      },
+      {
+        "timestamp": 1741369026009,
+        "memoryCount": 28
+      },
+      {
+        "timestamp": 1741369426252,
+        "memoryCount": 54
+      },
+      {
+        "timestamp": 1741369502083,
+        "memoryCount": 58
+      },
+      {
+        "timestamp": 1741369601210,
+        "memoryCount": 67
+      },
+      {
+        "timestamp": 1741370568010,
+        "memoryCount": 4
+      },
+      {
+        "timestamp": 1741371497458,
+        "memoryCount": 95
+      },
+      {
+        "timestamp": 1741371674691,
+        "memoryCount": 103
+      }
+    ]
   },
   "compression": {
     "enabled": true,

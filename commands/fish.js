@@ -24,7 +24,8 @@ const levelRequirements = {
     abyss: 20,   
     atlantis: 50, 
     spaceOcean: 100, 
-    dragonRealm: 200 
+    dragonRealm: 200,
+    vipReserve: 5
 };
 
 function formatNumber(number) {
@@ -243,11 +244,16 @@ module.exports = {
                         }
 
                 const locationMenu = "🗺️ CHỌN ĐỊA ĐIỂM CÂU CÁ:\n━━━━━━━━━━━━━━━━━━\n" +
-                            Object.entries(locations).map(([key, loc], index) => 
-                                `${index + 1}. ${loc.name} [Cấp ${levelRequirements[key]}+]\n` +
-                                `💰 Phí: ${formatNumber(loc.cost)} Xu\n` +
-                                `${playerData.level >= levelRequirements[key] ? '✅' : '❌'} Yêu cầu: Cấp ${levelRequirements[key]}\n`
-                            ).join("\n");
+                            Object.entries(locations).map(([key, loc], index) => {
+                                const isVipLocation = key === 'vipReserve';
+                                const vipStatus = getVIPBenefits(event.senderID);
+                                const hasVipAccess = vipStatus && vipStatus.packageId > 0;
+                                
+                                return `${index + 1}. ${loc.name}${isVipLocation ? ' 👑' : ''}\n` + 
+                                       `💰 Phí: ${formatNumber(loc.cost)} Xu\n` +
+                                       `${playerData.level >= levelRequirements[key] ? '✅' : '❌'} Yêu cầu: Cấp ${levelRequirements[key]}` +
+                                       `${isVipLocation ? (hasVipAccess ? ' ✅ VIP' : ' ❌ Cần VIP') : ''}\n`;
+                            }).join("\n");
                         
                         const locMsg = await api.sendMessage(
                             `📊 Cấp độ của bạn: ${playerData.level}\n` +
@@ -258,7 +264,7 @@ module.exports = {
 
                         setTimeout(() => {
                             api.unsendMessage(locMsg.messageID);
-                        }, 20000); // Tự động gỡ sau 20 giây
+                        }, 20000); 
 
                         global.client.onReply.push({
                             name: this.name,
@@ -329,7 +335,7 @@ module.exports = {
                             );
                         } catch (imageError) {
                             console.error("Error creating collection image:", imageError);
-              
+
                             const collection = "📚 BỘ SƯU TẬP CÁ:\n━━━━━━━━━━━━━━━━━━\n\n" +
                                 Object.entries(fishTypes).map(([rarity, fishes]) => {
                                     const fishList = fishes.map(f => {
@@ -470,15 +476,20 @@ module.exports = {
             abyss: 20,
             atlantis: 50,
             spaceOcean: 100,
-            dragonRealm: 200
+            dragonRealm: 200,
+            vipReserve: 5 
         };
 
         const locationKey = Object.keys(locations).find(key => locations[key] === location);
         if (levelRequirements[locationKey] > playerData.level) {
                 const locationMenu = "🗺️ CHỌN ĐỊA ĐIỂM CÂU CÁ:\n━━━━━━━━━━━━━━━━━━\n" +
-                Object.entries(locations).map(([key, loc], index) => 
-                    `${index + 1}. ${loc.name}\n💰 Phí: ${formatNumber(loc.cost)} Xu\n`
-                ).join("\n");
+                Object.entries(locations).map(([key, loc], index) => {
+                    const isVipLocation = key === 'vipReserve';
+                    const vipStatus = getVIPBenefits(event.senderID);
+                    const hasVipAccess = vipStatus && vipStatus.packageId > 0;
+                    
+                    return `${index + 1}. ${loc.name}\n💰 Phí: ${formatNumber(loc.cost)} Xu\n`;
+                }).join("\n");
             
             const errorMsg = await api.sendMessage(
                 `❌ Bạn cần đạt cấp ${levelRequirements[locationKey]} để câu ở ${location.name}!\n` +
@@ -500,6 +511,18 @@ module.exports = {
             });
             
             return;
+        }
+
+        if (locationKey === 'vipReserve') {
+            const vipBenefits = getVIPBenefits(event.senderID);
+            if (!vipBenefits || vipBenefits.packageId === 0) {
+                return api.sendMessage(
+                    "👑 Khu câu cá này chỉ dành cho người dùng VIP!\n" +
+                    "❌ Bạn cần mua gói VIP để truy cập khu vực này.\n\n" +
+                    "Gõ `.vip` để xem thông tin về các gói VIP.", 
+                    event.threadID
+                );
+            }
         }
 
         const availableRods = Object.keys(fishingItems).filter(rod => {
@@ -538,6 +561,24 @@ module.exports = {
                 
                 playerData.lastFished = now;
                 playerData.rodDurability--;
+
+                if (result.lost) {
+                    playerData.fishingStreak = 1; 
+                    
+                    this.savePlayerData({
+                        ...playerData,
+                        userID: event.senderID
+                    });
+                    
+                    api.unsendMessage(fishingMsg.messageID);
+                    
+                    return api.sendMessage(
+                        `🎣 Tiếc quá! ${result.message}\n` +
+                        `🎒 Độ bền cần: ${playerData.rodDurability}/${fishingItems[playerData.rod].durability}\n` +
+                        `⏳ Chờ ${cooldownMinutes} phút để câu tiếp!`,
+                        event.threadID
+                    );
+                }
 
                 const rarity = this.getFishRarity(result.name);
 
@@ -655,16 +696,27 @@ module.exports = {
                         vipBenefits: vipBenefits
                     });
 
+                    let resultMessage = `🎣 Bạn đã câu được ${result.name}!`;
+                    if (result.savedByVip) {
+                        resultMessage += `\n👑 VIP đã giúp bạn tóm được ${result.vipProtection}% con cá`;
+                    }
+
                     await api.sendMessage(
                         { 
-                            body: `🎣 Bạn đã câu được ${result.name}!`,
+                            body: resultMessage,
                             attachment: fs.createReadStream(imagePath)
                         }, 
                         event.threadID,
                         (err) => {
                             if (err) {
                                 console.error("Error sending fish result image:", err);
-                                api.sendMessage(textMessage, event.threadID);
+                                
+                                let textMsg = textMessage;
+                                if (result.savedByVip) {
+                                    textMsg = `👑 VIP đã giúp bạn tóm được ${result.vipProtection}% con cá\n` + textMsg;
+                                }
+                                
+                                api.sendMessage(textMsg, event.threadID);
                             }
                             
                             if (fs.existsSync(imagePath)) {
@@ -674,8 +726,13 @@ module.exports = {
                     );
                 } catch (imageError) {
                     console.error("Error creating fish result image:", imageError);
-                
-                    await api.sendMessage(textMessage, event.threadID);
+                    
+                    let textMsg = textMessage;
+                    if (result.savedByVip) {
+                        textMsg = `👑 VIP đã giúp bạn tóm được ${result.vipProtection}% con cá\n` + textMsg;
+                    }
+                    
+                    await api.sendMessage(textMsg, event.threadID);
                 }
 
             } catch (err) {
@@ -696,6 +753,28 @@ module.exports = {
             const vipMultiplier = vipBenefits?.fishExpMultiplier || 1;
             
             const vipBonus = vipBenefits ? (vipBenefits.packageId * 0.02) : 0;
+
+            const fishLossChance = 0.20;
+            const willLoseFish = Math.random() < fishLossChance;
+            
+            let fishProtected = false;
+            if (willLoseFish && vipBenefits) {
+                const protectionRate = vipBenefits.packageId === 1 ? 0.5 : 
+                                      vipBenefits.packageId === 2 ? 0.75 : 
+                                      vipBenefits.packageId === 3 ? 1.0 : 0;
+                                      
+                fishProtected = Math.random() < protectionRate;
+            }
+            
+            if (willLoseFish && !fishProtected) {
+                return {
+                    lost: true,
+                    exp: 1, 
+                    message: "Cá vùng vẫy và thoát khỏi lưỡi câu!"
+                };
+            }
+
+            const savedByVip = willLoseFish && fishProtected;
 
             let chances = {
                 trash: location.fish.trash || 0,
@@ -719,6 +798,17 @@ module.exports = {
 
                 chances.common *= (1 - rareBonus * 0.3);
                 chances.uncommon *= (1 - rareBonus * 0.2);
+            }
+
+            const isVipLocation = Object.keys(locations).find(key => locations[key] === location) === 'vipReserve';
+            const vipLocationBonus = isVipLocation ? 0.25 : 0;
+            
+            if (isVipLocation) {
+                chances.trash *= 0.5;  
+                chances.rare *= 1.5; 
+                chances.legendary *= 1.75;
+                chances.mythical *= 2.0
+                chances.cosmic *= 2.5;    
             }
 
             const total = Object.values(chances).reduce((a, b) => a + b, 0);
@@ -785,7 +875,12 @@ module.exports = {
                 exp: Math.floor(baseExp * (vipBenefits?.fishExpMultiplier || 1)) || 5,
                 taxRate: taxRate,
                 taxAmount: taxAmount,
-                originalValue: baseValue
+                originalValue: baseValue,
+                savedByVip: savedByVip, 
+                vipProtection: vipBenefits ? 
+                  (vipBenefits.packageId === 1 ? 50 : 
+                   vipBenefits.packageId === 2 ? 75 : 
+                   vipBenefits.packageId === 3 ? 100 : 0) : 0
             };
 
         } catch (error) {

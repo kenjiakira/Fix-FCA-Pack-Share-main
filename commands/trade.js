@@ -4,7 +4,7 @@ const path = require("path");
 const fs = require("fs");
 
 const tradeSystem = new TradeSystem();
-const CHART_DIR = path.join(__dirname, "../cache/charts");
+const CHART_DIR = path.join(__dirname, "./cache/charts");
 if (!fs.existsSync(CHART_DIR)) {
   fs.mkdirSync(CHART_DIR, { recursive: true });
 }

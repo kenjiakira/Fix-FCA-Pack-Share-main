@@ -102,5 +102,21 @@ module.exports = {
           mythical: 20,
           cosmic: 2
       }
-  }
+  },
+  vipReserve: {
+    name: "Khu VIP",
+    cost: 15000,
+    description: "Khu vực câu cá độc quyền dành riêng cho người dùng VIP",
+    fish: {
+        trash: 0,       
+        common: 25,
+        uncommon: 28,
+        rare: 22,       
+        legendary: 6,  
+        mythical: 3,    
+        cosmic: 1       
+    },
+    minLevel: 5,
+    vipOnly: true
+},
 };

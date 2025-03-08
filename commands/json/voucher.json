@@ -98,6 +98,20 @@
         "discount": 15,
         "expires": 1741882524301,
         "used": false
+      },
+      {
+        "type": "BRONZE",
+        "code": "BRONZE_SVA54924",
+        "discount": 10,
+        "expires": 1741955444923,
+        "used": false
+      },
+      {
+        "type": "GOLD",
+        "code": "GOLD_3GNV6349",
+        "discount": 20,
+        "expires": 1741955456349,
+        "used": false
       }
     ],
     "61561277064921": [
@@ -106,6 +120,15 @@
         "code": "BRONZE_I8WU8947",
         "discount": 10,
         "expires": 1741882618947,
+        "used": false
+      }
+    ],
+    "100065381078044": [
+      {
+        "type": "BRONZE",
+        "code": "BRONZE_OF2D5063",
+        "discount": 10,
+        "expires": 1741971155063,
         "used": false
       }
     ]

@@ -360,39 +360,6 @@ module.exports = {
                 ctx.textAlign = "center";
                 ctx.fillText("Không có giao dịch gần đây", width / 2, transStartY + 120);
             }
-            
-            // Footer with gradient
-            const footerHeight = 80;
-            const footerY = height - footerHeight;
-            const footerGradient = ctx.createLinearGradient(0, footerY, width, height);
-            footerGradient.addColorStop(0, "rgba(45, 45, 85, 0.9)");
-            footerGradient.addColorStop(1, "rgba(70, 40, 120, 0.9)");
-            ctx.fillStyle = footerGradient;
-            ctx.fillRect(0, footerY, width, footerHeight);
-            
-            // AKI Global branding
-            ctx.font = "bold 28px Arial";
-            ctx.fillStyle = "#ffffff";
-            ctx.textAlign = "center";
-            ctx.fillText("AKI GLOBAL", width / 2, height - 45);
-            
-            // Timestamp with gradient
-            const timestampGradient = ctx.createLinearGradient(width/2 - 150, height - 20, width/2 + 150, height - 20);
-            timestampGradient.addColorStop(0, "#64ffda");
-            timestampGradient.addColorStop(1, "#00bfa5");
-            ctx.font = "italic 20px Arial";
-            ctx.fillStyle = timestampGradient;
-            ctx.fillText(`Cập nhật: ${new Date().toLocaleString("vi-VN")}`, width / 2, height - 15);
-            
-            // Footer decoration line
-            ctx.beginPath();
-            ctx.strokeStyle = "rgba(255, 255, 255, 0.3)";
-            ctx.lineWidth = 1;
-            ctx.moveTo(100, height - footerHeight + 20);
-            ctx.lineTo(width - 100, height - footerHeight + 20);
-            ctx.stroke();
-            
-            // Save and return image
             const buffer = canvas.toBuffer("image/png");
             const tempDir = path.join(__dirname, "../temp");
             if (!fs.existsSync(tempDir)) {
@@ -442,13 +409,11 @@ module.exports = {
     
     async getAvatarPath(userId) {
         try {
-            // Ensure avatars directory exists
             const avatarsDir = path.join(__dirname, '../commands/cache/avatars');
             if (!fs.existsSync(avatarsDir)) {
                 fs.mkdirSync(avatarsDir, { recursive: true });
             }
             
-            // Check for default avatar and create if needed
             const defaultAvatarPath = path.join(avatarsDir, 'avatar.jpg');
             if (!fs.existsSync(defaultAvatarPath)) {
                 try {
@@ -456,21 +421,18 @@ module.exports = {
                     const defaultCanvas = createCanvas(200, 200);
                     const ctx = defaultCanvas.getContext('2d');
                     
-                    // Draw gradient background
                     const gradient = ctx.createLinearGradient(0, 0, 200, 200);
                     gradient.addColorStop(0, '#4a148c');
                     gradient.addColorStop(1, '#311b92');
                     ctx.fillStyle = gradient;
                     ctx.fillRect(0, 0, 200, 200);
                     
-                    // Draw question mark
                     ctx.font = 'bold 120px Arial';
                     ctx.textAlign = 'center';
                     ctx.textBaseline = 'middle';
                     ctx.fillStyle = '#ffffff';
                     ctx.fillText('?', 100, 100);
                     
-                    // Save to file
                     const buffer = defaultCanvas.toBuffer('image/jpeg');
                     fs.writeFileSync(defaultAvatarPath, buffer);
                     console.log("✅ Default avatar created successfully");
@@ -479,7 +441,6 @@ module.exports = {
                 }
             }
             
-            // Check cache
             const cacheDir = path.join(__dirname, "./cache/avatars");
             if (!fs.existsSync(cacheDir)) {
                 fs.mkdirSync(cacheDir, { recursive: true });

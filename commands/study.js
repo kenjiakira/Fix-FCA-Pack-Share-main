@@ -486,38 +486,6 @@ module.exports = {
                     startY += courseBoxHeight + 20;
                 }
             }
-
-            
-            const footerHeight = 80;
-            const footerY = height - footerHeight;
-            const footerGradient = ctx.createLinearGradient(0, footerY, width, height);
-            footerGradient.addColorStop(0, "rgba(13, 71, 161, 0.9)");
-            footerGradient.addColorStop(1, "rgba(25, 118, 210, 0.9)");
-            ctx.fillStyle = footerGradient;
-            ctx.fillRect(0, footerY, width, footerHeight);
-
-            
-            ctx.font = "bold 28px Arial";
-            ctx.fillStyle = "#ffffff";
-            ctx.textAlign = "center";
-            ctx.fillText("AKI GLOBAL", width / 2, height - 45);
-            
-            
-            const timestampGradient = ctx.createLinearGradient(width/2 - 150, height - 20, width/2 + 150, height - 20);
-            timestampGradient.addColorStop(0, "#90caf9");
-            timestampGradient.addColorStop(1, "#42a5f5");
-            ctx.font = "italic 20px Arial";
-            ctx.fillStyle = timestampGradient;
-            ctx.fillText(`Cập nhật: ${new Date().toLocaleString("vi-VN")}`, width / 2, height - 15);
-            
-            
-            ctx.beginPath();
-            ctx.strokeStyle = "rgba(255, 255, 255, 0.3)";
-            ctx.lineWidth = 1;
-            ctx.moveTo(100, height - footerHeight + 20);
-            ctx.lineTo(width - 100, height - footerHeight + 20);
-            ctx.stroke();
-
             
             const buffer = canvas.toBuffer("image/png");
             const tempDir = path.join(__dirname, "../temp");

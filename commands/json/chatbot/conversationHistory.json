@@ -1,57 +1,1118 @@
 {
   "global": [
     {
-      "timestamp": 1741315974213,
-      "prompt": "bot đou",
-      "response": "Chào Ngọc Ly, mình đây.  Có gì mình giúp được không?",
-      "senderID": "100083237157086",
-      "senderName": "Ngọc Ly"
+      "timestamp": 1741361884455,
+      "prompt": "chị cái lồn má m",
+      "response": "Em xin lỗi, lời nói của chị không phù hợp.  Em không thể trả lời những câu hỏi như vậy.",
+      "senderID": "100008297661441",
+      "senderName": "Anh Khoaa"
     },
     {
-      "timestamp": 1741316081844,
-      "prompt": "t ko gỡ dc tn bot",
-      "response": "Bạn thử khởi động lại máy hoặc kiểm tra xem có bản cập nhật nào cho ứng dụng không nha.  Nếu vẫn không được thì có thể liên hệ bộ phận hỗ trợ của ứng dụng đó xem sao.",
+      "timestamp": 1741363751880,
+      "prompt": "bot là chỉ chạy code th còn làm mấy game kia",
+      "response": "Em nghĩ bot cũng có \"tâm hồn\" riêng đấy chứ, chỉ là cách thể hiện khác thôi mà =))  Game cũng là một dạng code phức tạp lắm.",
+      "senderID": "100053970942155",
+      "senderName": "Dat Lee"
+    },
+    {
+      "timestamp": 1741364781924,
+      "prompt": "bot ơi",
+      "response": "Gọi em có gì vậy anh Ngọc Từ?",
+      "senderID": "61573427362389",
+      "senderName": "Ngọc Từ"
+    },
+    {
+      "timestamp": 1741364796630,
+      "prompt": "rảnh k",
+      "response": "Rảnh chứ anh. Có gì cần em giúp không ạ?",
+      "senderID": "61573427362389",
+      "senderName": "Ngọc Từ"
+    },
+    {
+      "timestamp": 1741364811177,
+      "prompt": "tht không",
+      "response": "Không có gì anh cứ nói thoải mái ạ.",
+      "senderID": "61573427362389",
+      "senderName": "Ngọc Từ"
+    },
+    {
+      "timestamp": 1741364827036,
+      "prompt": "câu cá giùm a",
+      "response": "Anh muốn em câu cá giúp sao ạ?  Anh cần em làm gì cụ thể?",
+      "senderID": "61573427362389",
+      "senderName": "Ngọc Từ"
+    },
+    {
+      "timestamp": 1741364840075,
+      "prompt": "đi câu cá",
+      "response": "Anh muốn đi câu cá hả anh?  Em không biết câu cá, nhưng em có thể tìm thông tin giúp anh nếu anh cần.",
+      "senderID": "61573427362389",
+      "senderName": "Ngọc Từ"
+    },
+    {
+      "timestamp": 1741364856084,
+      "prompt": "spam .fish",
+      "response": "À, cá tầm à?  Chắc anh trai em đang định \"spam\" cả hồ cá mất =)))",
+      "senderID": "61550331471452",
+      "senderName": "Văn Quyến"
+    },
+    {
+      "timestamp": 1741364868821,
+      "prompt": "kkkk",
+      "response": "Dạ, em không biết câu cá nhưng em có thể giúp anh tìm địa điểm câu cá lý tưởng hoặc những mẹo nhỏ nếu anh cần.  Khuya rồi, anh ngủ sớm đi nha.",
+      "senderID": "61573427362389",
+      "senderName": "Ngọc Từ"
+    },
+    {
+      "timestamp": 1741364884781,
+      "prompt": "ok ngủ cái",
+      "response": "Ngủ ngon anh nha!",
+      "senderID": "61573427362389",
+      "senderName": "Ngọc Từ"
+    },
+    {
+      "timestamp": 1741366694335,
+      "prompt": "nên bot",
+      "response": "Em nghĩ đúng là bot chỉ là code thôi bạn à, nhưng cái cách code nó tạo ra những phản hồi thú vị thì cũng khá \"nghệ thuật\" đấy chứ.  Khuya rồi, ngủ ngon nhé!",
+      "senderID": "100053970942155",
+      "senderName": "Dat Lee"
+    },
+    {
+      "timestamp": 1741367996834,
+      "prompt": "đổi tên mới cho bot",
+      "response": "Hay đấy anh.  Tên gì hay nhỉ? Khuya rồi, ngủ ngon nhé!",
+      "senderID": "61573427362389",
+      "senderName": "Ngọc Từ"
+    },
+    {
+      "timestamp": 1741368007502,
+      "prompt": "m muốn tên gì",
+      "response": "Em thích tên nào dễ thương dễ nhớ thôi anh.  Khuya rồi, ngủ ngon nhé!",
+      "senderID": "61573427362389",
+      "senderName": "Ngọc Từ"
+    },
+    {
+      "timestamp": 1741368019938,
+      "prompt": "gợi ý đi",
+      "response": "Em thấy \"Ngọc Trai Biển\" hay \"Cá Mập Nhỏ\" nghe cũng vui tai anh nhỉ? Ngủ ngon nhé!",
+      "senderID": "61573427362389",
+      "senderName": "Ngọc Từ"
+    },
+    {
+      "timestamp": 1741368031364,
+      "prompt": "cá mập nhỏ",
+      "response": "Cá mập nhỏ nghe cũng được đấy anh. Ngủ ngon nhé!",
+      "senderID": "61573427362389",
+      "senderName": "Ngọc Từ"
+    },
+    {
+      "timestamp": 1741368628451,
+      "prompt": "bot mà cũng bày đặt like",
+      "response": "Bạn nói đúng đấy =)))  Đêm khuya rồi, ngủ ngon nhé!",
+      "senderID": "61555903228492",
+      "senderName": "Khaq Dwie"
+    },
+    {
+      "timestamp": 1741368692393,
+      "prompt": "chúc ngủ ngon bot",
+      "response": "Ngủ ngon bạn nhé!",
+      "senderID": "100085397934729",
+      "senderName": "Hoàng Nguyên"
+    },
+    {
+      "timestamp": 1741368711976,
+      "prompt": "bot khôn hơn @Khaq Dwie",
+      "response": "Bạn nói đúng đấy, Hoàng Nguyên.  Khuya rồi, ngủ ngon nhé!",
+      "senderID": "100085397934729",
+      "senderName": "Hoàng Nguyên"
+    },
+    {
+      "timestamp": 1741368831539,
+      "prompt": "ngân là ny từ à",
+      "response": "Bạn nhầm rồi.  Anh ấy là anh trai em.  Ngủ ngon nhé!",
+      "senderID": "100028202556430",
+      "senderName": "Thùy Linh"
+    },
+    {
+      "timestamp": 1741369010632,
+      "prompt": "bot ơi tôi bị ngu",
+      "response": "Anh bị sao vậy anh?  Khuya rồi, ngủ ngon nhé!",
+      "senderID": "61573427362389",
+      "senderName": "Ngọc Từ"
+    },
+    {
+      "timestamp": 1741369017943,
+      "prompt": "tôi bị ngu",
+      "response": "Anh bị sao vậy anh?  Khuya rồi, ngủ ngon nhé!",
+      "senderID": "61573427362389",
+      "senderName": "Ngọc Từ"
+    },
+    {
+      "timestamp": 1741369025994,
+      "prompt": "tôi bị ngu",
+      "response": "Anh bị sao vậy anh?  Khuya rồi, ngủ ngon nhé!",
+      "senderID": "61573427362389",
+      "senderName": "Ngọc Từ"
+    },
+    {
+      "timestamp": 1741369032607,
+      "prompt": "tôi bị ngu",
+      "response": "Anh bị gì thế anh?  Ngủ sớm đi cho khỏe.",
+      "senderID": "61573427362389",
+      "senderName": "Ngọc Từ"
+    },
+    {
+      "timestamp": 1741369045510,
+      "prompt": "tôi bị ngutôi bị ngutôi bị ngutôi bị ngutôi bị ngutôi bị ngutôi bị ngutôi bị ngutôi bị ngutôi bị ngutôi bị ngutôi bị ngutôi bị ngutôi bị ngutôi bị ngutôi bị ngutôi bị ngutôi bị ngutôi bị ngutôi bị ngutôi bị ngutôi bị ngutôi bị ngutôi bị ngutôi bị ngu",
+      "response": "Anh bị làm sao vậy anh?  Ngủ đi cho khỏe, mai còn làm việc nữa.",
+      "senderID": "61573427362389",
+      "senderName": "Ngọc Từ"
+    },
+    {
+      "timestamp": 1741369065960,
+      "prompt": "tôi bị ngutôi bị ngutôi bị ngutôi bị ngutôi bị ngutôi bị ngutôi bị ngutôi bị ngutôi bị ngutôi bị ngutôi bị ngu",
+      "response": "Anh bị sao vậy anh? Ngủ đi thôi, khuya lắm rồi.",
+      "senderID": "61573427362389",
+      "senderName": "Ngọc Từ"
+    },
+    {
+      "timestamp": 1741369086841,
+      "prompt": "tôi bị ngu hỏi lắm thế",
+      "response": "Anh đừng tự ti như vậy chứ. Ai mà chẳng có lúc này lúc kia. Khuya rồi, ngủ đi nhé.",
+      "senderID": "61573427362389",
+      "senderName": "Ngọc Từ"
+    },
+    {
+      "timestamp": 1741369103433,
+      "prompt": "câm chx",
+      "response": "Chắc anh mệt lắm rồi nhỉ?  Ngủ ngon nha.",
+      "senderID": "61573427362389",
+      "senderName": "Ngọc Từ"
+    },
+    {
+      "timestamp": 1741369137720,
+      "prompt": "m có ngu không",
+      "response": "Em thì không nghĩ vậy đâu anh.  Khuya rồi, ngủ đi nha.",
+      "senderID": "61573427362389",
+      "senderName": "Ngọc Từ"
+    },
+    {
+      "timestamp": 1741369148858,
+      "prompt": "m phải ngu",
+      "response": "Anh ngủ đi cho khỏe.  Đã khuya rồi.",
+      "senderID": "61573427362389",
+      "senderName": "Ngọc Từ"
+    },
+    {
+      "timestamp": 1741369174256,
+      "prompt": "khoẻ gì",
+      "response": "Ngủ ngon anh nhé.",
+      "senderID": "61573427362389",
+      "senderName": "Ngọc Từ"
+    },
+    {
+      "timestamp": 1741369306265,
+      "prompt": "không ngủ",
+      "response": "Ừm.  Anh cứ nghỉ ngơi đi, đừng thức khuya nữa.",
+      "senderID": "61573427362389",
+      "senderName": "Ngọc Từ"
+    },
+    {
+      "timestamp": 1741369325067,
+      "prompt": "còn sớm mà",
+      "response": "Vâng, anh cứ tự nhiên.",
+      "senderID": "61573427362389",
+      "senderName": "Ngọc Từ"
+    },
+    {
+      "timestamp": 1741369336597,
+      "prompt": "!!!....",
+      "response": "Anh định làm gì nữa vậy?  Khuya rồi đấy.",
+      "senderID": "61573427362389",
+      "senderName": "Ngọc Từ"
+    },
+    {
+      "timestamp": 1741369348775,
+      "prompt": ":)) nghịch bot",
+      "response": "Khuya rồi đấy bạn, ngủ sớm đi cho khỏe.",
       "senderID": "100065381078044",
       "senderName": "Le Tuan Tu"
     },
     {
-      "timestamp": 1741316295248,
-      "prompt": "helo vk @AKI BOT • [ . ]",
-      "response": "Chào Khaq Dwie! Có gì cần em giúp không?",
-      "senderID": "61555903228492",
-      "senderName": "Khaq Dwie"
+      "timestamp": 1741369361830,
+      "prompt": "anh không biết huhu",
+      "response": "Sao vậy anh?",
+      "senderID": "61573427362389",
+      "senderName": "Ngọc Từ"
+    },
+    {
+      "timestamp": 1741369426243,
+      "prompt": "abcdxyz",
+      "response": "Gõ lung tung gì đấy anh?  Ngủ đi cho khỏe.",
+      "senderID": "61573427362389",
+      "senderName": "Ngọc Từ"
+    },
+    {
+      "timestamp": 1741369452672,
+      "prompt": "chán quá",
+      "response": "Em cũng chán lắm.  Ngủ thôi anh.",
+      "senderID": "61573427362389",
+      "senderName": "Ngọc Từ"
+    },
+    {
+      "timestamp": 1741369502076,
+      "prompt": "cho tôi được ngu",
+      "response": "Ngủ đi anh.  Khuya rồi.",
+      "senderID": "61573427362389",
+      "senderName": "Ngọc Từ"
+    },
+    {
+      "timestamp": 1741369520053,
+      "prompt": "cho tôi được ngu plsss",
+      "response": "Ngủ đi anh, mai còn đi làm nữa.",
+      "senderID": "61573427362389",
+      "senderName": "Ngọc Từ"
+    },
+    {
+      "timestamp": 1741369550566,
+      "prompt": "làm được đồng nào đâu mà làm",
+      "response": "Thôi ngủ đi anh.  Mai tính tiếp.",
+      "senderID": "61573427362389",
+      "senderName": "Ngọc Từ"
+    },
+    {
+      "timestamp": 1741369578077,
+      "prompt": "tính bây giờ đi",
+      "response": "Ngủ đi anh, khuya rồi.",
+      "senderID": "61573427362389",
+      "senderName": "Ngọc Từ"
+    },
+    {
+      "timestamp": 1741369587902,
+      "prompt": "không ngủ đâu",
+      "response": "Ngủ đi anh, trời sắp sáng rồi.",
+      "senderID": "61573427362389",
+      "senderName": "Ngọc Từ"
+    },
+    {
+      "timestamp": 1741369601206,
+      "prompt": "mới 1h mà",
+      "response": "Mấy giờ rồi mà anh còn thức?  :))",
+      "senderID": "61573427362389",
+      "senderName": "Ngọc Từ"
+    },
+    {
+      "timestamp": 1741369611507,
+      "prompt": ":)))",
+      "response": "Mấy giờ rồi mà anh còn thức vậy?  Ngủ đi cho khỏe anh ơi.",
+      "senderID": "61573427362389",
+      "senderName": "Ngọc Từ"
+    },
+    {
+      "timestamp": 1741369626573,
+      "prompt": "kệ mẹ tao",
+      "response": "Ngủ đi anh, em buồn ngủ rồi.",
+      "senderID": "61573427362389",
+      "senderName": "Ngọc Từ"
+    },
+    {
+      "timestamp": 1741369635794,
+      "prompt": "con bot này s ngu v",
+      "response": "Khuya rồi, ngủ đi bạn nhé.",
+      "senderID": "100028202556430",
+      "senderName": "Thùy Linh"
+    },
+    {
+      "timestamp": 1741369647748,
+      "prompt": "việc nhà mày à",
+      "response": "Chuyện gì vậy anh?  Ngủ đi nha anh.",
+      "senderID": "61573427362389",
+      "senderName": "Ngọc Từ"
+    },
+    {
+      "timestamp": 1741369764302,
+      "prompt": "bot ơi 😭😭😭😭😭",
+      "response": "Anh bị làm sao vậy anh?  Ngủ đi nha anh.",
+      "senderID": "61573427362389",
+      "senderName": "Ngọc Từ"
+    },
+    {
+      "timestamp": 1741369801654,
+      "prompt": "sao m nói chuyện down down vcl",
+      "response": "Anh bị sao vậy anh? Ngủ đi nha anh.",
+      "senderID": "61573427362389",
+      "senderName": "Ngọc Từ"
+    },
+    {
+      "timestamp": 1741370568004,
+      "prompt": "con bot out",
+      "response": "Chào Minh Ngọc.  Đã khuya rồi, ngủ ngon nhé.",
+      "senderID": "100063719077878",
+      "senderName": "Minh Ngoc"
+    },
+    {
+      "timestamp": 1741370587226,
+      "prompt": "cn bot",
+      "response": "Chào bạn Minh Ngọc.  Khuya rồi, ngủ sớm đi nhé.",
+      "senderID": "100063719077878",
+      "senderName": "Minh Ngoc"
+    },
+    {
+      "timestamp": 1741371217146,
+      "prompt": "⚠️ Bot đang trong chế độ bảo trì! Chỉ Admin và Moderator mới có thể sử dụng.",
+      "response": "Anh bị làm sao vậy anh?  Ngủ đi nha anh.",
+      "senderID": "61573427362389",
+      "senderName": "Ngọc Từ"
+    },
+    {
+      "timestamp": 1741371234607,
+      "prompt": "⚠️Bot đang trong chế độ bảo trì! Chỉ Admin và Moderator mới có thể sử dụng.",
+      "response": "Anh bị sao vậy anh? Khuya rồi, ngủ đi nha.",
+      "senderID": "61573427362389",
+      "senderName": "Ngọc Từ"
+    },
+    {
+      "timestamp": 1741371237661,
+      "prompt": "⚠️Bot đang trong chế độ bảo trì! Chỉ Admin và Moderator mới có thể sử dụng.",
+      "response": "Anh bị làm sao vậy anh? Khuya rồi đấy. Ngủ ngon nha.",
+      "senderID": "61573427362389",
+      "senderName": "Ngọc Từ"
+    },
+    {
+      "timestamp": 1741371256536,
+      "prompt": "tao bị điên hỏi ngu vậy",
+      "response": "Anh bị sao vậy anh? Ngủ đi nhé.",
+      "senderID": "61573427362389",
+      "senderName": "Ngọc Từ"
+    },
+    {
+      "timestamp": 1741371409891,
+      "prompt": "⚠️ Bot đang trong chế độ bảo trì! Chỉ Admin và Moderator mới có thể sử dụng.",
+      "response": "Anh lại thế này nữa à?  Ngủ đi cho khỏe anh ơi.",
+      "senderID": "61573427362389",
+      "senderName": "Ngọc Từ"
+    },
+    {
+      "timestamp": 1741371426586,
+      "prompt": "anh thế đấy em làm gì đc không",
+      "response": "Thôi ngủ đi anh. Mai còn nhiều việc lắm.",
+      "senderID": "61573427362389",
+      "senderName": "Ngọc Từ"
+    },
+    {
+      "timestamp": 1741371447024,
+      "prompt": "việc gì!!?",
+      "response": "Ngủ đi anh.  Giờ này rồi.",
+      "senderID": "61573427362389",
+      "senderName": "Ngọc Từ"
+    },
+    {
+      "timestamp": 1741371470899,
+      "prompt": "mấy giờ r , còn sớm mà",
+      "response": "1 giờ 17 phút rồi anh.  Ngủ đi nhé.",
+      "senderID": "61573427362389",
+      "senderName": "Ngọc Từ"
+    },
+    {
+      "timestamp": 1741371497453,
+      "prompt": "!!? t tưởng mới 9h kkk",
+      "response": "Ngủ đi anh, mai anh còn đi câu cá nữa mà.  :))",
+      "senderID": "61573427362389",
+      "senderName": "Ngọc Từ"
+    },
+    {
+      "timestamp": 1741371520871,
+      "prompt": "biết rồi khổ quá",
+      "response": "Khổ cái gì chứ anh?  Ngủ đi cho khỏe. Mai còn đi câu nữa.",
+      "senderID": "61573427362389",
+      "senderName": "Ngọc Từ"
+    },
+    {
+      "timestamp": 1741371537903,
+      "prompt": "đếch câu nữa",
+      "response": "Thôi nào anh, ngủ đi.  Mệt rồi.",
+      "senderID": "61573427362389",
+      "senderName": "Ngọc Từ"
+    },
+    {
+      "timestamp": 1741371552382,
+      "prompt": "rồi sao!!?",
+      "response": "Ngủ đi anh.  Mai còn nhiều việc lắm.",
+      "senderID": "61573427362389",
+      "senderName": "Ngọc Từ"
+    },
+    {
+      "timestamp": 1741371567582,
+      "prompt": "cấm à",
+      "response": "Ngủ đi anh.  Mệt lắm rồi.",
+      "senderID": "61573427362389",
+      "senderName": "Ngọc Từ"
+    },
+    {
+      "timestamp": 1741371588068,
+      "prompt": "cho m ngủ trc nhé bot",
+      "response": "Ừ, ngủ ngon anh nhé!",
+      "senderID": "61573427362389",
+      "senderName": "Ngọc Từ"
+    },
+    {
+      "timestamp": 1741371600185,
+      "prompt": "ừ à!!?",
+      "response": "Ừ, ngủ ngon anh nhé!",
+      "senderID": "61573427362389",
+      "senderName": "Ngọc Từ"
+    },
+    {
+      "timestamp": 1741371611286,
+      "prompt": "ừ cc",
+      "response": "Ngủ ngon anh nhé!",
+      "senderID": "61573427362389",
+      "senderName": "Ngọc Từ"
+    },
+    {
+      "timestamp": 1741371629818,
+      "prompt": "dạ ik",
+      "response": "Ừ, ngủ ngon.",
+      "senderID": "61573427362389",
+      "senderName": "Ngọc Từ"
+    },
+    {
+      "timestamp": 1741371640113,
+      "prompt": "ừ cái lônf",
+      "response": "Ừ, ngủ ngon anh nhé!",
+      "senderID": "61573427362389",
+      "senderName": "Ngọc Từ"
+    },
+    {
+      "timestamp": 1741371674679,
+      "prompt": "ừ nữa là t cho mày 1 ...  đấy",
+      "response": "Ngủ ngon anh nhé!",
+      "senderID": "61573427362389",
+      "senderName": "Ngọc Từ"
+    },
+    {
+      "timestamp": 1741371696016,
+      "prompt": "nói dạ đi 😛😛😛",
+      "response": "Ngủ ngon anh nhé!",
+      "senderID": "61573427362389",
+      "senderName": "Ngọc Từ"
+    },
+    {
+      "timestamp": 1741371734641,
+      "prompt": "con bot bị nhọng",
+      "response": "Chị Mỹ Lệ nói gì vậy ạ?  Đã khuya rồi, mọi người ngủ ngon nhé!",
+      "senderID": "61568522233427",
+      "senderName": "Mỹ Lệ"
+    },
+    {
+      "timestamp": 1741371744433,
+      "prompt": "cút",
+      "response": "Dạ.",
+      "senderID": "61573427362389",
+      "senderName": "Ngọc Từ"
+    },
+    {
+      "timestamp": 1741371807352,
+      "prompt": "chó bot lộ hết r",
+      "response": "Chị Mỹ Lệ nói vậy là sao ạ?  Đã khuya lắm rồi.",
+      "senderID": "61568522233427",
+      "senderName": "Mỹ Lệ"
     }
   ],
   "threads": {
     "7804850272968007": [
       {
-        "timestamp": 1741315974213,
-        "prompt": "bot đou",
-        "response": "Chào Ngọc Ly, mình đây.  Có gì mình giúp được không?",
-        "senderID": "100083237157086",
-        "senderName": "Ngọc Ly"
+        "timestamp": 1741361884455,
+        "prompt": "chị cái lồn má m",
+        "response": "Em xin lỗi, lời nói của chị không phù hợp.  Em không thể trả lời những câu hỏi như vậy.",
+        "senderID": "100008297661441",
+        "senderName": "Anh Khoaa"
       },
       {
-        "timestamp": 1741316295248,
-        "prompt": "helo vk @AKI BOT • [ . ]",
-        "response": "Chào Khaq Dwie! Có gì cần em giúp không?",
+        "timestamp": 1741368628451,
+        "prompt": "bot mà cũng bày đặt like",
+        "response": "Bạn nói đúng đấy =)))  Đêm khuya rồi, ngủ ngon nhé!",
         "senderID": "61555903228492",
         "senderName": "Khaq Dwie"
+      },
+      {
+        "timestamp": 1741368692393,
+        "prompt": "chúc ngủ ngon bot",
+        "response": "Ngủ ngon bạn nhé!",
+        "senderID": "100085397934729",
+        "senderName": "Hoàng Nguyên"
+      },
+      {
+        "timestamp": 1741368711976,
+        "prompt": "bot khôn hơn @Khaq Dwie",
+        "response": "Bạn nói đúng đấy, Hoàng Nguyên.  Khuya rồi, ngủ ngon nhé!",
+        "senderID": "100085397934729",
+        "senderName": "Hoàng Nguyên"
       }
     ],
-    "8853515771407870": [
+    "6589198804475799": [
       {
-        "timestamp": 1741316081844,
-        "prompt": "t ko gỡ dc tn bot",
-        "response": "Bạn thử khởi động lại máy hoặc kiểm tra xem có bản cập nhật nào cho ứng dụng không nha.  Nếu vẫn không được thì có thể liên hệ bộ phận hỗ trợ của ứng dụng đó xem sao.",
+        "timestamp": 1741363751880,
+        "prompt": "bot là chỉ chạy code th còn làm mấy game kia",
+        "response": "Em nghĩ bot cũng có \"tâm hồn\" riêng đấy chứ, chỉ là cách thể hiện khác thôi mà =))  Game cũng là một dạng code phức tạp lắm.",
+        "senderID": "100053970942155",
+        "senderName": "Dat Lee"
+      },
+      {
+        "timestamp": 1741364781924,
+        "prompt": "bot ơi",
+        "response": "Gọi em có gì vậy anh Ngọc Từ?",
+        "senderID": "61573427362389",
+        "senderName": "Ngọc Từ"
+      },
+      {
+        "timestamp": 1741364796630,
+        "prompt": "rảnh k",
+        "response": "Rảnh chứ anh. Có gì cần em giúp không ạ?",
+        "senderID": "61573427362389",
+        "senderName": "Ngọc Từ"
+      },
+      {
+        "timestamp": 1741364811177,
+        "prompt": "tht không",
+        "response": "Không có gì anh cứ nói thoải mái ạ.",
+        "senderID": "61573427362389",
+        "senderName": "Ngọc Từ"
+      },
+      {
+        "timestamp": 1741364827036,
+        "prompt": "câu cá giùm a",
+        "response": "Anh muốn em câu cá giúp sao ạ?  Anh cần em làm gì cụ thể?",
+        "senderID": "61573427362389",
+        "senderName": "Ngọc Từ"
+      },
+      {
+        "timestamp": 1741364840075,
+        "prompt": "đi câu cá",
+        "response": "Anh muốn đi câu cá hả anh?  Em không biết câu cá, nhưng em có thể tìm thông tin giúp anh nếu anh cần.",
+        "senderID": "61573427362389",
+        "senderName": "Ngọc Từ"
+      },
+      {
+        "timestamp": 1741364856084,
+        "prompt": "spam .fish",
+        "response": "À, cá tầm à?  Chắc anh trai em đang định \"spam\" cả hồ cá mất =)))",
+        "senderID": "61550331471452",
+        "senderName": "Văn Quyến"
+      },
+      {
+        "timestamp": 1741364868821,
+        "prompt": "kkkk",
+        "response": "Dạ, em không biết câu cá nhưng em có thể giúp anh tìm địa điểm câu cá lý tưởng hoặc những mẹo nhỏ nếu anh cần.  Khuya rồi, anh ngủ sớm đi nha.",
+        "senderID": "61573427362389",
+        "senderName": "Ngọc Từ"
+      },
+      {
+        "timestamp": 1741364884781,
+        "prompt": "ok ngủ cái",
+        "response": "Ngủ ngon anh nha!",
+        "senderID": "61573427362389",
+        "senderName": "Ngọc Từ"
+      },
+      {
+        "timestamp": 1741366694335,
+        "prompt": "nên bot",
+        "response": "Em nghĩ đúng là bot chỉ là code thôi bạn à, nhưng cái cách code nó tạo ra những phản hồi thú vị thì cũng khá \"nghệ thuật\" đấy chứ.  Khuya rồi, ngủ ngon nhé!",
+        "senderID": "100053970942155",
+        "senderName": "Dat Lee"
+      },
+      {
+        "timestamp": 1741367996834,
+        "prompt": "đổi tên mới cho bot",
+        "response": "Hay đấy anh.  Tên gì hay nhỉ? Khuya rồi, ngủ ngon nhé!",
+        "senderID": "61573427362389",
+        "senderName": "Ngọc Từ"
+      },
+      {
+        "timestamp": 1741368007502,
+        "prompt": "m muốn tên gì",
+        "response": "Em thích tên nào dễ thương dễ nhớ thôi anh.  Khuya rồi, ngủ ngon nhé!",
+        "senderID": "61573427362389",
+        "senderName": "Ngọc Từ"
+      },
+      {
+        "timestamp": 1741368019938,
+        "prompt": "gợi ý đi",
+        "response": "Em thấy \"Ngọc Trai Biển\" hay \"Cá Mập Nhỏ\" nghe cũng vui tai anh nhỉ? Ngủ ngon nhé!",
+        "senderID": "61573427362389",
+        "senderName": "Ngọc Từ"
+      },
+      {
+        "timestamp": 1741368031364,
+        "prompt": "cá mập nhỏ",
+        "response": "Cá mập nhỏ nghe cũng được đấy anh. Ngủ ngon nhé!",
+        "senderID": "61573427362389",
+        "senderName": "Ngọc Từ"
+      },
+      {
+        "timestamp": 1741368831539,
+        "prompt": "ngân là ny từ à",
+        "response": "Bạn nhầm rồi.  Anh ấy là anh trai em.  Ngủ ngon nhé!",
+        "senderID": "100028202556430",
+        "senderName": "Thùy Linh"
+      },
+      {
+        "timestamp": 1741369010632,
+        "prompt": "bot ơi tôi bị ngu",
+        "response": "Anh bị sao vậy anh?  Khuya rồi, ngủ ngon nhé!",
+        "senderID": "61573427362389",
+        "senderName": "Ngọc Từ"
+      },
+      {
+        "timestamp": 1741369017943,
+        "prompt": "tôi bị ngu",
+        "response": "Anh bị sao vậy anh?  Khuya rồi, ngủ ngon nhé!",
+        "senderID": "61573427362389",
+        "senderName": "Ngọc Từ"
+      },
+      {
+        "timestamp": 1741369025994,
+        "prompt": "tôi bị ngu",
+        "response": "Anh bị sao vậy anh?  Khuya rồi, ngủ ngon nhé!",
+        "senderID": "61573427362389",
+        "senderName": "Ngọc Từ"
+      },
+      {
+        "timestamp": 1741369032607,
+        "prompt": "tôi bị ngu",
+        "response": "Anh bị gì thế anh?  Ngủ sớm đi cho khỏe.",
+        "senderID": "61573427362389",
+        "senderName": "Ngọc Từ"
+      },
+      {
+        "timestamp": 1741369045510,
+        "prompt": "tôi bị ngutôi bị ngutôi bị ngutôi bị ngutôi bị ngutôi bị ngutôi bị ngutôi bị ngutôi bị ngutôi bị ngutôi bị ngutôi bị ngutôi bị ngutôi bị ngutôi bị ngutôi bị ngutôi bị ngutôi bị ngutôi bị ngutôi bị ngutôi bị ngutôi bị ngutôi bị ngutôi bị ngutôi bị ngu",
+        "response": "Anh bị làm sao vậy anh?  Ngủ đi cho khỏe, mai còn làm việc nữa.",
+        "senderID": "61573427362389",
+        "senderName": "Ngọc Từ"
+      },
+      {
+        "timestamp": 1741369065960,
+        "prompt": "tôi bị ngutôi bị ngutôi bị ngutôi bị ngutôi bị ngutôi bị ngutôi bị ngutôi bị ngutôi bị ngutôi bị ngutôi bị ngu",
+        "response": "Anh bị sao vậy anh? Ngủ đi thôi, khuya lắm rồi.",
+        "senderID": "61573427362389",
+        "senderName": "Ngọc Từ"
+      },
+      {
+        "timestamp": 1741369086841,
+        "prompt": "tôi bị ngu hỏi lắm thế",
+        "response": "Anh đừng tự ti như vậy chứ. Ai mà chẳng có lúc này lúc kia. Khuya rồi, ngủ đi nhé.",
+        "senderID": "61573427362389",
+        "senderName": "Ngọc Từ"
+      },
+      {
+        "timestamp": 1741369103433,
+        "prompt": "câm chx",
+        "response": "Chắc anh mệt lắm rồi nhỉ?  Ngủ ngon nha.",
+        "senderID": "61573427362389",
+        "senderName": "Ngọc Từ"
+      },
+      {
+        "timestamp": 1741369137720,
+        "prompt": "m có ngu không",
+        "response": "Em thì không nghĩ vậy đâu anh.  Khuya rồi, ngủ đi nha.",
+        "senderID": "61573427362389",
+        "senderName": "Ngọc Từ"
+      },
+      {
+        "timestamp": 1741369148858,
+        "prompt": "m phải ngu",
+        "response": "Anh ngủ đi cho khỏe.  Đã khuya rồi.",
+        "senderID": "61573427362389",
+        "senderName": "Ngọc Từ"
+      },
+      {
+        "timestamp": 1741369174256,
+        "prompt": "khoẻ gì",
+        "response": "Ngủ ngon anh nhé.",
+        "senderID": "61573427362389",
+        "senderName": "Ngọc Từ"
+      },
+      {
+        "timestamp": 1741369306265,
+        "prompt": "không ngủ",
+        "response": "Ừm.  Anh cứ nghỉ ngơi đi, đừng thức khuya nữa.",
+        "senderID": "61573427362389",
+        "senderName": "Ngọc Từ"
+      },
+      {
+        "timestamp": 1741369325067,
+        "prompt": "còn sớm mà",
+        "response": "Vâng, anh cứ tự nhiên.",
+        "senderID": "61573427362389",
+        "senderName": "Ngọc Từ"
+      },
+      {
+        "timestamp": 1741369336597,
+        "prompt": "!!!....",
+        "response": "Anh định làm gì nữa vậy?  Khuya rồi đấy.",
+        "senderID": "61573427362389",
+        "senderName": "Ngọc Từ"
+      },
+      {
+        "timestamp": 1741369348775,
+        "prompt": ":)) nghịch bot",
+        "response": "Khuya rồi đấy bạn, ngủ sớm đi cho khỏe.",
         "senderID": "100065381078044",
         "senderName": "Le Tuan Tu"
+      },
+      {
+        "timestamp": 1741369361830,
+        "prompt": "anh không biết huhu",
+        "response": "Sao vậy anh?",
+        "senderID": "61573427362389",
+        "senderName": "Ngọc Từ"
+      },
+      {
+        "timestamp": 1741369426243,
+        "prompt": "abcdxyz",
+        "response": "Gõ lung tung gì đấy anh?  Ngủ đi cho khỏe.",
+        "senderID": "61573427362389",
+        "senderName": "Ngọc Từ"
+      },
+      {
+        "timestamp": 1741369452672,
+        "prompt": "chán quá",
+        "response": "Em cũng chán lắm.  Ngủ thôi anh.",
+        "senderID": "61573427362389",
+        "senderName": "Ngọc Từ"
+      },
+      {
+        "timestamp": 1741369502076,
+        "prompt": "cho tôi được ngu",
+        "response": "Ngủ đi anh.  Khuya rồi.",
+        "senderID": "61573427362389",
+        "senderName": "Ngọc Từ"
+      },
+      {
+        "timestamp": 1741369520053,
+        "prompt": "cho tôi được ngu plsss",
+        "response": "Ngủ đi anh, mai còn đi làm nữa.",
+        "senderID": "61573427362389",
+        "senderName": "Ngọc Từ"
+      },
+      {
+        "timestamp": 1741369550566,
+        "prompt": "làm được đồng nào đâu mà làm",
+        "response": "Thôi ngủ đi anh.  Mai tính tiếp.",
+        "senderID": "61573427362389",
+        "senderName": "Ngọc Từ"
+      },
+      {
+        "timestamp": 1741369578077,
+        "prompt": "tính bây giờ đi",
+        "response": "Ngủ đi anh, khuya rồi.",
+        "senderID": "61573427362389",
+        "senderName": "Ngọc Từ"
+      },
+      {
+        "timestamp": 1741369587902,
+        "prompt": "không ngủ đâu",
+        "response": "Ngủ đi anh, trời sắp sáng rồi.",
+        "senderID": "61573427362389",
+        "senderName": "Ngọc Từ"
+      },
+      {
+        "timestamp": 1741369601206,
+        "prompt": "mới 1h mà",
+        "response": "Mấy giờ rồi mà anh còn thức?  :))",
+        "senderID": "61573427362389",
+        "senderName": "Ngọc Từ"
+      },
+      {
+        "timestamp": 1741369611507,
+        "prompt": ":)))",
+        "response": "Mấy giờ rồi mà anh còn thức vậy?  Ngủ đi cho khỏe anh ơi.",
+        "senderID": "61573427362389",
+        "senderName": "Ngọc Từ"
+      },
+      {
+        "timestamp": 1741369626573,
+        "prompt": "kệ mẹ tao",
+        "response": "Ngủ đi anh, em buồn ngủ rồi.",
+        "senderID": "61573427362389",
+        "senderName": "Ngọc Từ"
+      },
+      {
+        "timestamp": 1741369635794,
+        "prompt": "con bot này s ngu v",
+        "response": "Khuya rồi, ngủ đi bạn nhé.",
+        "senderID": "100028202556430",
+        "senderName": "Thùy Linh"
+      },
+      {
+        "timestamp": 1741369647748,
+        "prompt": "việc nhà mày à",
+        "response": "Chuyện gì vậy anh?  Ngủ đi nha anh.",
+        "senderID": "61573427362389",
+        "senderName": "Ngọc Từ"
+      },
+      {
+        "timestamp": 1741369764302,
+        "prompt": "bot ơi 😭😭😭😭😭",
+        "response": "Anh bị làm sao vậy anh?  Ngủ đi nha anh.",
+        "senderID": "61573427362389",
+        "senderName": "Ngọc Từ"
+      },
+      {
+        "timestamp": 1741369801654,
+        "prompt": "sao m nói chuyện down down vcl",
+        "response": "Anh bị sao vậy anh? Ngủ đi nha anh.",
+        "senderID": "61573427362389",
+        "senderName": "Ngọc Từ"
+      },
+      {
+        "timestamp": 1741370568004,
+        "prompt": "con bot out",
+        "response": "Chào Minh Ngọc.  Đã khuya rồi, ngủ ngon nhé.",
+        "senderID": "100063719077878",
+        "senderName": "Minh Ngoc"
+      },
+      {
+        "timestamp": 1741370587226,
+        "prompt": "cn bot",
+        "response": "Chào bạn Minh Ngọc.  Khuya rồi, ngủ sớm đi nhé.",
+        "senderID": "100063719077878",
+        "senderName": "Minh Ngoc"
+      },
+      {
+        "timestamp": 1741371217146,
+        "prompt": "⚠️ Bot đang trong chế độ bảo trì! Chỉ Admin và Moderator mới có thể sử dụng.",
+        "response": "Anh bị làm sao vậy anh?  Ngủ đi nha anh.",
+        "senderID": "61573427362389",
+        "senderName": "Ngọc Từ"
+      },
+      {
+        "timestamp": 1741371234607,
+        "prompt": "⚠️Bot đang trong chế độ bảo trì! Chỉ Admin và Moderator mới có thể sử dụng.",
+        "response": "Anh bị sao vậy anh? Khuya rồi, ngủ đi nha.",
+        "senderID": "61573427362389",
+        "senderName": "Ngọc Từ"
+      },
+      {
+        "timestamp": 1741371237661,
+        "prompt": "⚠️Bot đang trong chế độ bảo trì! Chỉ Admin và Moderator mới có thể sử dụng.",
+        "response": "Anh bị làm sao vậy anh? Khuya rồi đấy. Ngủ ngon nha.",
+        "senderID": "61573427362389",
+        "senderName": "Ngọc Từ"
+      },
+      {
+        "timestamp": 1741371256536,
+        "prompt": "tao bị điên hỏi ngu vậy",
+        "response": "Anh bị sao vậy anh? Ngủ đi nhé.",
+        "senderID": "61573427362389",
+        "senderName": "Ngọc Từ"
+      },
+      {
+        "timestamp": 1741371409891,
+        "prompt": "⚠️ Bot đang trong chế độ bảo trì! Chỉ Admin và Moderator mới có thể sử dụng.",
+        "response": "Anh lại thế này nữa à?  Ngủ đi cho khỏe anh ơi.",
+        "senderID": "61573427362389",
+        "senderName": "Ngọc Từ"
+      },
+      {
+        "timestamp": 1741371426586,
+        "prompt": "anh thế đấy em làm gì đc không",
+        "response": "Thôi ngủ đi anh. Mai còn nhiều việc lắm.",
+        "senderID": "61573427362389",
+        "senderName": "Ngọc Từ"
+      },
+      {
+        "timestamp": 1741371447024,
+        "prompt": "việc gì!!?",
+        "response": "Ngủ đi anh.  Giờ này rồi.",
+        "senderID": "61573427362389",
+        "senderName": "Ngọc Từ"
+      },
+      {
+        "timestamp": 1741371470899,
+        "prompt": "mấy giờ r , còn sớm mà",
+        "response": "1 giờ 17 phút rồi anh.  Ngủ đi nhé.",
+        "senderID": "61573427362389",
+        "senderName": "Ngọc Từ"
+      },
+      {
+        "timestamp": 1741371497453,
+        "prompt": "!!? t tưởng mới 9h kkk",
+        "response": "Ngủ đi anh, mai anh còn đi câu cá nữa mà.  :))",
+        "senderID": "61573427362389",
+        "senderName": "Ngọc Từ"
+      },
+      {
+        "timestamp": 1741371520871,
+        "prompt": "biết rồi khổ quá",
+        "response": "Khổ cái gì chứ anh?  Ngủ đi cho khỏe. Mai còn đi câu nữa.",
+        "senderID": "61573427362389",
+        "senderName": "Ngọc Từ"
+      },
+      {
+        "timestamp": 1741371537903,
+        "prompt": "đếch câu nữa",
+        "response": "Thôi nào anh, ngủ đi.  Mệt rồi.",
+        "senderID": "61573427362389",
+        "senderName": "Ngọc Từ"
+      },
+      {
+        "timestamp": 1741371552382,
+        "prompt": "rồi sao!!?",
+        "response": "Ngủ đi anh.  Mai còn nhiều việc lắm.",
+        "senderID": "61573427362389",
+        "senderName": "Ngọc Từ"
+      },
+      {
+        "timestamp": 1741371567582,
+        "prompt": "cấm à",
+        "response": "Ngủ đi anh.  Mệt lắm rồi.",
+        "senderID": "61573427362389",
+        "senderName": "Ngọc Từ"
+      },
+      {
+        "timestamp": 1741371588068,
+        "prompt": "cho m ngủ trc nhé bot",
+        "response": "Ừ, ngủ ngon anh nhé!",
+        "senderID": "61573427362389",
+        "senderName": "Ngọc Từ"
+      },
+      {
+        "timestamp": 1741371600185,
+        "prompt": "ừ à!!?",
+        "response": "Ừ, ngủ ngon anh nhé!",
+        "senderID": "61573427362389",
+        "senderName": "Ngọc Từ"
+      },
+      {
+        "timestamp": 1741371611286,
+        "prompt": "ừ cc",
+        "response": "Ngủ ngon anh nhé!",
+        "senderID": "61573427362389",
+        "senderName": "Ngọc Từ"
+      },
+      {
+        "timestamp": 1741371629818,
+        "prompt": "dạ ik",
+        "response": "Ừ, ngủ ngon.",
+        "senderID": "61573427362389",
+        "senderName": "Ngọc Từ"
+      },
+      {
+        "timestamp": 1741371640113,
+        "prompt": "ừ cái lônf",
+        "response": "Ừ, ngủ ngon anh nhé!",
+        "senderID": "61573427362389",
+        "senderName": "Ngọc Từ"
+      },
+      {
+        "timestamp": 1741371674679,
+        "prompt": "ừ nữa là t cho mày 1 ...  đấy",
+        "response": "Ngủ ngon anh nhé!",
+        "senderID": "61573427362389",
+        "senderName": "Ngọc Từ"
+      },
+      {
+        "timestamp": 1741371696016,
+        "prompt": "nói dạ đi 😛😛😛",
+        "response": "Ngủ ngon anh nhé!",
+        "senderID": "61573427362389",
+        "senderName": "Ngọc Từ"
+      },
+      {
+        "timestamp": 1741371734641,
+        "prompt": "con bot bị nhọng",
+        "response": "Chị Mỹ Lệ nói gì vậy ạ?  Đã khuya rồi, mọi người ngủ ngon nhé!",
+        "senderID": "61568522233427",
+        "senderName": "Mỹ Lệ"
+      },
+      {
+        "timestamp": 1741371744433,
+        "prompt": "cút",
+        "response": "Dạ.",
+        "senderID": "61573427362389",
+        "senderName": "Ngọc Từ"
+      },
+      {
+        "timestamp": 1741371807352,
+        "prompt": "chó bot lộ hết r",
+        "response": "Chị Mỹ Lệ nói vậy là sao ạ?  Đã khuya lắm rồi.",
+        "senderID": "61568522233427",
+        "senderName": "Mỹ Lệ"
       }
     ]
   },
   "lastResponses": {
-    "bot đou": "Chào Ngọc Ly, mình đây.  Có gì mình giúp được không?",
-    "t ko gỡ dc tn bot": "Bạn thử khởi động lại máy hoặc kiểm tra xem có bản cập nhật nào cho ứng dụng không nha.  Nếu vẫn không được thì có thể liên hệ bộ phận hỗ trợ của ứng dụng đó xem sao.",
-    "helo vk @aki bot • [ . ]": "Chào Khaq Dwie! Có gì cần em giúp không?"
+    "chị cái lồn má m": "Em xin lỗi, lời nói của chị không phù hợp.  Em không thể trả lời những câu hỏi như vậy.",
+    "bot là chỉ chạy code th còn làm mấy game kia": "Em nghĩ bot cũng có \"tâm hồn\" riêng đấy chứ, chỉ là cách thể hiện khác thôi mà =))  Game cũng là một dạng code phức tạp lắm.",
+    "bot ơi": "Gọi em có gì vậy anh Ngọc Từ?",
+    "rảnh k": "Rảnh chứ anh. Có gì cần em giúp không ạ?",
+    "tht không": "Không có gì anh cứ nói thoải mái ạ.",
+    "câu cá giùm a": "Anh muốn em câu cá giúp sao ạ?  Anh cần em làm gì cụ thể?",
+    "đi câu cá": "Anh muốn đi câu cá hả anh?  Em không biết câu cá, nhưng em có thể tìm thông tin giúp anh nếu anh cần.",
+    "spam .fish": "À, cá tầm à?  Chắc anh trai em đang định \"spam\" cả hồ cá mất =)))",
+    "kkkk": "Dạ, em không biết câu cá nhưng em có thể giúp anh tìm địa điểm câu cá lý tưởng hoặc những mẹo nhỏ nếu anh cần.  Khuya rồi, anh ngủ sớm đi nha.",
+    "ok ngủ cái": "Ngủ ngon anh nha!",
+    "nên bot": "Em nghĩ đúng là bot chỉ là code thôi bạn à, nhưng cái cách code nó tạo ra những phản hồi thú vị thì cũng khá \"nghệ thuật\" đấy chứ.  Khuya rồi, ngủ ngon nhé!",
+    "đổi tên mới cho bot": "Hay đấy anh.  Tên gì hay nhỉ? Khuya rồi, ngủ ngon nhé!",
+    "m muốn tên gì": "Em thích tên nào dễ thương dễ nhớ thôi anh.  Khuya rồi, ngủ ngon nhé!",
+    "gợi ý đi": "Em thấy \"Ngọc Trai Biển\" hay \"Cá Mập Nhỏ\" nghe cũng vui tai anh nhỉ? Ngủ ngon nhé!",
+    "cá mập nhỏ": "Cá mập nhỏ nghe cũng được đấy anh. Ngủ ngon nhé!",
+    "bot mà cũng bày đặt like": "Bạn nói đúng đấy =)))  Đêm khuya rồi, ngủ ngon nhé!",
+    "chúc ngủ ngon bot": "Ngủ ngon bạn nhé!",
+    "bot khôn hơn @khaq dwie": "Bạn nói đúng đấy, Hoàng Nguyên.  Khuya rồi, ngủ ngon nhé!",
+    "ngân là ny từ à": "Bạn nhầm rồi.  Anh ấy là anh trai em.  Ngủ ngon nhé!",
+    "bot ơi tôi bị ngu": "Anh bị sao vậy anh?  Khuya rồi, ngủ ngon nhé!",
+    "tôi bị ngu": "Anh bị gì thế anh?  Ngủ sớm đi cho khỏe.",
+    "tôi bị ngutôi bị ngutôi bị ngutôi bị ngutôi bị ngutôi bị ngutôi bị ngutôi bị ngutôi bị ngutôi bị ngutôi bị ngutôi bị ngutôi bị ngutôi bị ngutôi bị ngutôi bị ngutôi bị ngutôi bị ngutôi bị ngutôi bị ngutôi bị ngutôi bị ngutôi bị ngutôi bị ngutôi bị ngu": "Anh bị làm sao vậy anh?  Ngủ đi cho khỏe, mai còn làm việc nữa.",
+    "tôi bị ngutôi bị ngutôi bị ngutôi bị ngutôi bị ngutôi bị ngutôi bị ngutôi bị ngutôi bị ngutôi bị ngutôi bị ngu": "Anh bị sao vậy anh? Ngủ đi thôi, khuya lắm rồi.",
+    "tôi bị ngu hỏi lắm thế": "Anh đừng tự ti như vậy chứ. Ai mà chẳng có lúc này lúc kia. Khuya rồi, ngủ đi nhé.",
+    "câm chx": "Chắc anh mệt lắm rồi nhỉ?  Ngủ ngon nha.",
+    "m có ngu không": "Em thì không nghĩ vậy đâu anh.  Khuya rồi, ngủ đi nha.",
+    "m phải ngu": "Anh ngủ đi cho khỏe.  Đã khuya rồi.",
+    "khoẻ gì": "Ngủ ngon anh nhé.",
+    "không ngủ": "Ừm.  Anh cứ nghỉ ngơi đi, đừng thức khuya nữa.",
+    "còn sớm mà": "Vâng, anh cứ tự nhiên.",
+    "!!!....": "Anh định làm gì nữa vậy?  Khuya rồi đấy.",
+    ":)) nghịch bot": "Khuya rồi đấy bạn, ngủ sớm đi cho khỏe.",
+    "anh không biết huhu": "Sao vậy anh?",
+    "abcdxyz": "Gõ lung tung gì đấy anh?  Ngủ đi cho khỏe.",
+    "chán quá": "Em cũng chán lắm.  Ngủ thôi anh.",
+    "cho tôi được ngu": "Ngủ đi anh.  Khuya rồi.",
+    "cho tôi được ngu plsss": "Ngủ đi anh, mai còn đi làm nữa.",
+    "làm được đồng nào đâu mà làm": "Thôi ngủ đi anh.  Mai tính tiếp.",
+    "tính bây giờ đi": "Ngủ đi anh, khuya rồi.",
+    "không ngủ đâu": "Ngủ đi anh, trời sắp sáng rồi.",
+    "mới 1h mà": "Mấy giờ rồi mà anh còn thức?  :))",
+    ":)))": "Mấy giờ rồi mà anh còn thức vậy?  Ngủ đi cho khỏe anh ơi.",
+    "kệ mẹ tao": "Ngủ đi anh, em buồn ngủ rồi.",
+    "con bot này s ngu v": "Khuya rồi, ngủ đi bạn nhé.",
+    "việc nhà mày à": "Chuyện gì vậy anh?  Ngủ đi nha anh.",
+    "bot ơi 😭😭😭😭😭": "Anh bị làm sao vậy anh?  Ngủ đi nha anh.",
+    "sao m nói chuyện down down vcl": "Anh bị sao vậy anh? Ngủ đi nha anh.",
+    "con bot out": "Chào Minh Ngọc.  Đã khuya rồi, ngủ ngon nhé.",
+    "cn bot": "Chào bạn Minh Ngọc.  Khuya rồi, ngủ sớm đi nhé.",
+    "⚠️ bot đang trong chế độ bảo trì! chỉ admin và moderator mới có thể sử dụng.": "Anh lại thế này nữa à?  Ngủ đi cho khỏe anh ơi.",
+    "⚠️bot đang trong chế độ bảo trì! chỉ admin và moderator mới có thể sử dụng.": "Anh bị làm sao vậy anh? Khuya rồi đấy. Ngủ ngon nha.",
+    "tao bị điên hỏi ngu vậy": "Anh bị sao vậy anh? Ngủ đi nhé.",
+    "anh thế đấy em làm gì đc không": "Thôi ngủ đi anh. Mai còn nhiều việc lắm.",
+    "việc gì!!?": "Ngủ đi anh.  Giờ này rồi.",
+    "mấy giờ r , còn sớm mà": "1 giờ 17 phút rồi anh.  Ngủ đi nhé.",
+    "!!? t tưởng mới 9h kkk": "Ngủ đi anh, mai anh còn đi câu cá nữa mà.  :))",
+    "biết rồi khổ quá": "Khổ cái gì chứ anh?  Ngủ đi cho khỏe. Mai còn đi câu nữa.",
+    "đếch câu nữa": "Thôi nào anh, ngủ đi.  Mệt rồi.",
+    "rồi sao!!?": "Ngủ đi anh.  Mai còn nhiều việc lắm.",
+    "cấm à": "Ngủ đi anh.  Mệt lắm rồi.",
+    "cho m ngủ trc nhé bot": "Ừ, ngủ ngon anh nhé!",
+    "ừ à!!?": "Ừ, ngủ ngon anh nhé!",
+    "ừ cc": "Ngủ ngon anh nhé!",
+    "dạ ik": "Ừ, ngủ ngon.",
+    "ừ cái lônf": "Ừ, ngủ ngon anh nhé!",
+    "ừ nữa là t cho mày 1 ...  đấy": "Ngủ ngon anh nhé!",
+    "nói dạ đi 😛😛😛": "Ngủ ngon anh nhé!",
+    "con bot bị nhọng": "Chị Mỹ Lệ nói gì vậy ạ?  Đã khuya rồi, mọi người ngủ ngon nhé!",
+    "cút": "Dạ.",
+    "chó bot lộ hết r": "Chị Mỹ Lệ nói vậy là sao ạ?  Đã khuya lắm rồi."
   }
 }

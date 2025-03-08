@@ -94,7 +94,7 @@ const VIP_PACKAGES = {
         icon: "👑",
         stars: "⭐⭐⭐",
         name: "VIP GOLD",
-        price: { original: "95,000", sale: "70,000" },
+        price: { original: "95,000", sale: "50,000" },
         duration: "30 ngày +7",
         perks: {
             fishing: {

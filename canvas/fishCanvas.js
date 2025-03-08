@@ -61,8 +61,19 @@ const fishIcons = {
 
 function hexToRgb(hex) {
   try {
+    // Nếu đầu vào không hợp lệ, trả về màu trắng
     if (!hex || typeof hex !== 'string') {
-      return "0, 0, 0";
+      return "255, 255, 255"; // Return white as fallback
+    }
+    
+    // Xử lý nếu đầu vào là RGB string
+    if (hex.startsWith('rgb')) {
+      // Trích xuất các giá trị RGB từ chuỗi rgb(r,g,b)
+      const rgbMatch = hex.match(/\d+/g);
+      if (rgbMatch && rgbMatch.length >= 3) {
+        return `${rgbMatch[0]}, ${rgbMatch[1]}, ${rgbMatch[2]}`;
+      }
+      return "255, 255, 255"; // Fallback nếu không thể xử lý
     }
     
     // Loại bỏ dấu # nếu có
@@ -73,10 +84,10 @@ function hexToRgb(hex) {
       hex = hex.split('').map(c => c + c).join('');
     }
     
-    // Kiểm tra định dạng hex hợp lệ
+    // Kiểm tra định dạng hex hợp lệ và xử lý nếu không hợp lệ
     if (!/^[0-9A-Fa-f]{6}$/.test(hex)) {
-      console.warn(`Invalid hex color format: ${hex}`);
-      return "0, 0, 0";
+      console.warn(`Invalid hex color format: ${hex}, using fallback`);
+      return "255, 255, 255"; // Return white as fallback
     }
     
     // Chuyển đổi sang RGB
@@ -86,19 +97,34 @@ function hexToRgb(hex) {
     
     return `${r}, ${g}, ${b}`;
   } catch (error) {
-    console.error(`Error converting hex to RGB: ${error.message}`);
-    return "0, 0, 0";
+    console.error(`Error converting hex to RGB: ${error.message}, using fallback`);
+    return "255, 255, 255"; // Return white as fallback
   }
 }
 
-function parseColor(color, fallback) {
+function parseColor(color, fallback = "#ffffff") {
   try {
-    if (!color) return fallback || "#ffffff";
+    // Nếu không có màu, sử dụng fallback
+    if (!color) return fallback;
     
-    if (typeof color === 'string' && (color.startsWith('rgb') || color.startsWith('#'))) {
-      return color;
+    // Nếu đã là màu RGB hoặc hex hợp lệ, trả về trực tiếp
+    if (typeof color === 'string') {
+      if (color.startsWith('rgb')) {
+        return color;
+      }
+      if (color.startsWith('#')) {
+        // Kiểm tra nếu là hex hợp lệ
+        const hex = color.replace(/^#/, '');
+        if (/^[0-9A-Fa-f]{3}$/.test(hex) || /^[0-9A-Fa-f]{6}$/.test(hex)) {
+          return color;
+        }
+        // Nếu không hợp lệ, dùng fallback
+        console.warn(`Invalid hex color: ${color}, using fallback`);
+        return fallback;
+      }
     }
     
+    // Xử lý các tên màu định sẵn
     const predefinedColors = {
       red: "#ff0000",
       green: "#00ff00",
@@ -107,19 +133,28 @@ function parseColor(color, fallback) {
       white: "#ffffff",
       black: "#000000",
       orange: "#ffa500",
-      purple: "#800080"
+      purple: "#800080",
+      gray: "#808080",
+      grey: "#808080",
+      lightgray: "#d3d3d3",
+      lightgrey: "#d3d3d3",
+      darkgray: "#a9a9a9",
+      darkgrey: "#a9a9a9"
     };
     
     if (typeof color === 'string' && predefinedColors[color.toLowerCase()]) {
       return predefinedColors[color.toLowerCase()];
     }
     
-    return color || fallback || "#ffffff";
+    // Nếu màu không hợp lệ, sử dụng fallback
+    console.warn(`Unknown color format: ${color}, using fallback`);
+    return fallback;
   } catch (error) {
-    console.error(`Error in parseColor: ${error.message}`, error);
-    return fallback || "#ffffff";
+    console.error(`Error in parseColor: ${error.message}, using fallback`, error);
+    return fallback;
   }
 }
+
 const defaultFishImagePaths = {
   trash: path.join(__dirname, "../fishing/trash.jpg"),
   common: path.join(__dirname, "../fishing/common.jpg"),
@@ -148,7 +183,7 @@ try {
   console.log("Could not load custom fonts, using system defaults");
 }
 
-const assetsDir = path.join(__dirname, "../assets/fishing");
+const assetsDir = path.join(__dirname, "../fishing");
 if (!fs.existsSync(assetsDir)) {
   fs.mkdirSync(assetsDir, { recursive: true });
 }
@@ -287,10 +322,6 @@ async function getAvatarPath(userId) {
  * @param {number} height - Canvas height
  * @param {string} rarity - Fish rarity
  */
-function parseColor(color, fallback) {
-  if (!color) return fallback;
-  return color;
-}
 function drawParticleEffects(ctx, width, height, rarity) {
   // Get color safely with a fallback
   const colors = rarityColors[rarity] || rarityColors.common;
@@ -371,8 +402,9 @@ function roundRect(ctx, x, y, width, height, radius, fill, stroke) {
  * @param {string} rarity - Fish rarity
  */
 function drawWaterEffects(ctx, width, height, rarity) {
-  // Get color based on rarity
-  const bubbleColor = rarityColors[rarity]?.secondary || "#3498db";
+  // Get color based on rarity with proper fallback
+  const colors = rarityColors[rarity] || rarityColors.common;
+  const bubbleColor = parseColor(colors?.secondary, "#3498db");
 
   // Draw larger wave patterns
   ctx.save();
@@ -422,11 +454,15 @@ function drawWaterEffects(ctx, width, height, rarity) {
     );
     gradient.addColorStop(0, "rgba(255, 255, 255, 0.8)");
     try {
-      const rgbColor = hexToRgb(parseColor(bubbleColor, "#3498db"));
+      // Use enhanced error handling for color parsing
+      let rgbColor = "255, 255, 255"; // Default white
+      if (bubbleColor) {
+        rgbColor = hexToRgb(parseColor(bubbleColor, "#3498db"));
+      }
       gradient.addColorStop(0.5, `rgba(${rgbColor}, 0.4)`);
     } catch (error) {
-      console.warn(`Failed to parse color: ${bubbleColor}. Using fallback.`);
-      gradient.addColorStop(0.5, "rgba(52, 152, 219, 0.4)");
+      console.warn(`Failed to parse bubble color: ${error.message}. Using fallback.`);
+      gradient.addColorStop(0.5, "rgba(52, 152, 219, 0.4)"); // Default blue
     }
     gradient.addColorStop(1, "rgba(255, 255, 255, 0.1)");
 
@@ -436,6 +472,62 @@ function drawWaterEffects(ctx, width, height, rarity) {
     ctx.fill();
   }
   ctx.restore();
+}
+
+/**
+ * Load image from URL with proper error handling and caching
+ * @param {string} imageUrl - URL or path to the image
+ * @returns {Promise<Image>} - Loaded image
+ */
+async function loadImageWithCache(imageUrl) {
+  try {
+    // Skip if no image URL provided
+    if (!imageUrl) return null;
+
+    // Create cache directory if it doesn't exist
+    const imageCacheDir = path.join(__dirname, "../commands/cache/fish_images");
+    if (!fs.existsSync(imageCacheDir)) {
+      fs.mkdirSync(imageCacheDir, { recursive: true });
+    }
+
+    // Generate cache filename based on URL hash
+    const imageHash = require('crypto')
+      .createHash('md5')
+      .update(imageUrl)
+      .digest('hex');
+    const cachedImagePath = path.join(imageCacheDir, `${imageHash}.png`);
+
+    // Check if image already exists in cache
+    if (fs.existsSync(cachedImagePath)) {
+      return await loadImage(cachedImagePath);
+    }
+
+    // If URL is local path and exists, load directly
+    if (fs.existsSync(imageUrl)) {
+      return await loadImage(imageUrl);
+    }
+
+    // Handle remote URLs (like Imgur)
+    if (imageUrl.startsWith('http')) {
+      console.log(`Downloading fish image from: ${imageUrl}`);
+      const response = await axios.get(imageUrl, { 
+        responseType: 'arraybuffer',
+        timeout: 10000, // 10 second timeout
+        headers: {
+          'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36'
+        }
+      });
+
+      // Save to cache
+      fs.writeFileSync(cachedImagePath, Buffer.from(response.data));
+      return await loadImage(cachedImagePath);
+    }
+
+    return null;
+  } catch (error) {
+    console.error(`Failed to load image from ${imageUrl}: ${error.message}`);
+    return null;
+  }
 }
 
 /**
@@ -456,6 +548,7 @@ async function createFishResultImage(options) {
         taxRate: 0,
         taxAmount: 0,
         exp: 10,
+        image: null, 
       },
       fishingData = {
         rod: "Cần trúc",
@@ -479,78 +572,85 @@ async function createFishResultImage(options) {
     // Ensure placeholder images exist
     await createPlaceholderFishImages();
 
-    // Get fish rarity and properties
+    // Get fish rarity and properties with fallback
     const rarity = fish.rarity || "common";
     const rarityColor = rarityColors[rarity] || rarityColors.common;
 
     // Create more dynamic background gradient based on fish rarity
     const bgGradient = ctx.createLinearGradient(0, 0, width, height);
 
-    // Different background gradients based on rarity for more visual distinction
-    switch (rarity) {
-      case "trash": {
-        const textWidth = ctx.measureText("RÁC").width;
-        const bgWidth = Math.max(200, textWidth + 80); // Thêm khoảng cách 40px mỗi bên
-        bgGradient.addColorStop(0, "#1e272e");
-        bgGradient.addColorStop(0.5, "#2d3436");
-        bgGradient.addColorStop(1, "#1e272e");
-        break;
+    try {
+      switch (rarity) {
+        case "trash": {
+          const textWidth = ctx.measureText("RÁC").width;
+          const bgWidth = Math.max(200, textWidth + 80); 
+          bgGradient.addColorStop(0, "#1e272e");
+          bgGradient.addColorStop(0.5, "#2d3436");
+          bgGradient.addColorStop(1, "#1e272e");
+          break;
+        }
+        case "common": {
+          const textWidth = ctx.measureText("PHỔ THÔNG").width;
+          const bgWidth = Math.max(200, textWidth + 80);
+          bgGradient.addColorStop(0, "#0f2027");
+          bgGradient.addColorStop(0.5, "#203a43");
+          bgGradient.addColorStop(1, "#2c5364");
+          break;
+        }
+        case "uncommon": {
+          const textWidth = ctx.measureText("KHÔNG PHỔ BIẾN").width;
+          const bgWidth = Math.max(200, textWidth + 80);
+          bgGradient.addColorStop(0, "#373B44");
+          bgGradient.addColorStop(5, "#4286f4");
+          bgGradient.addColorStop(1, "#373B44");
+          break;
+        }
+        case "rare": {
+          const textWidth = ctx.measureText("HIẾM").width;
+          const bgWidth = Math.max(200, textWidth + 80);
+          bgGradient.addColorStop(0, "#4b134f");
+          bgGradient.addColorStop(0.5, "#8e44ad");
+          bgGradient.addColorStop(1, "#4b134f");
+          break;
+        }
+        case "legendary": {
+          const textWidth = ctx.measureText("CỰC HIẾM").width;
+          const bgWidth = Math.max(200, textWidth + 80);
+          bgGradient.addColorStop(0, "#c31432");
+          bgGradient.addColorStop(0.5, "#240b36");
+          bgGradient.addColorStop(1, "#c31432");
+          break;
+        }
+        case "mythical": {
+          const textWidth = ctx.measureText("HUYỀN THOẠI").width;
+          const bgWidth = Math.max(200, textWidth + 80);
+          bgGradient.addColorStop(0, "#ff0844");
+          bgGradient.addColorStop(0.5, "#8b0000");
+          bgGradient.addColorStop(1, "#ff0844");
+          break;
+        }
+        case "cosmic": {
+          const textWidth = ctx.measureText("THẦN THOẠI").width;
+          const bgWidth = Math.max(200, textWidth + 80);
+          bgGradient.addColorStop(0, "#03001e");
+          bgGradient.addColorStop(0.33, "#7303c0");
+          bgGradient.addColorStop(0.66, "#1e9600");
+          bgGradient.addColorStop(1, "#03001e");
+          break;
+        }
+        default: {
+          const textWidth = ctx.measureText("PHỔ THÔNG").width;
+          const bgWidth = Math.max(200, textWidth + 80);
+          bgGradient.addColorStop(0, "#0f2027");
+          bgGradient.addColorStop(0.5, "#203a43");
+          bgGradient.addColorStop(1, "#2c5364");
+        }
       }
-      case "common": {
-        const textWidth = ctx.measureText("PHỔ THÔNG").width;
-        const bgWidth = Math.max(200, textWidth + 80);
-        bgGradient.addColorStop(0, "#0f2027");
-        bgGradient.addColorStop(0.5, "#203a43");
-        bgGradient.addColorStop(1, "#2c5364");
-        break;
-      }
-      case "uncommon": {
-        const textWidth = ctx.measureText("KHÔNG PHỔ BIẾN").width;
-        const bgWidth = Math.max(200, textWidth + 80);
-        bgGradient.addColorStop(0, "#373B44");
-        bgGradient.addColorStop(1, "#4286f4");
-        break;
-      }
-      case "rare": {
-        const textWidth = ctx.measureText("HIẾM").width;
-        const bgWidth = Math.max(200, textWidth + 80);
-        bgGradient.addColorStop(0, "#4b134f");
-        bgGradient.addColorStop(0.5, "#8e44ad");
-        bgGradient.addColorStop(1, "#4b134f");
-        break;
-      }
-      case "legendary": {
-        const textWidth = ctx.measureText("CỰC HIẾM").width;
-        const bgWidth = Math.max(200, textWidth + 80);
-        bgGradient.addColorStop(0, "#c31432");
-        bgGradient.addColorStop(0.5, "#240b36");
-        bgGradient.addColorStop(1, "#c31432");
-        break;
-      }
-      case "mythical": {
-        const textWidth = ctx.measureText("HUYỀN THOẠI").width;
-        const bgWidth = Math.max(200, textWidth + 80);
-        bgGradient.addColorStop(0, "#ff0844");
-        bgGradient.addColorStop(0.5, "#8b0000");
-        bgGradient.addColorStop(1, "#ff0844");
-        break;
-      }
-      case "cosmic": {
-        const textWidth = ctx.measureText("THẦN THOẠI").width;
-        const bgWidth = Math.max(200, textWidth + 80);
-        bgGradient.addColorStop(0, "#03001e");
-        bgGradient.addColorStop(0.33, "#7303c0");
-        bgGradient.addColorStop(0.66, "#1e9600");
-        bgGradient.addColorStop(1, "#03001e");
-        break;
-      }
-      default: {
-        const textWidth = ctx.measureText("PHỔ THÔNG").width;
-        const bgWidth = Math.max(200, textWidth + 80);
-        bgGradient.addColorStop(0, "#0f2027");
-        bgGradient.addColorStop(0.5, "#203a43");
-        bgGradient.addColorStop(1, "#2c5364");
-      }
+    } catch (error) {
+      console.warn(`Error creating background gradient: ${error.message}. Using default.`);
+      bgGradient.addColorStop(0, "#0f2027");
+      bgGradient.addColorStop(0.5, "#203a43");
+      bgGradient.addColorStop(1, "#2c5364");
     }
 
     ctx.fillStyle = bgGradient;
@@ -560,11 +660,13 @@ async function createFishResultImage(options) {
 
     drawWaterEffects(ctx, width, height, rarity);
 
-    ctx.strokeStyle = `rgba(${rarityColor.primary
-      .replace("#", "")
-      .match(/.{2}/g)
-      .map((hex) => parseInt(hex, 16))
-      .join(", ")}, 0.1)`;
+    // Safely create gradient colors
+    try {
+      ctx.strokeStyle = `rgba(${hexToRgb(parseColor(rarityColor.primary, "#ffffff"))}, 0.1)`;
+    } catch (error) {
+      console.warn(`Error setting stroke style: ${error.message}. Using default.`);
+      ctx.strokeStyle = "rgba(255, 255, 255, 0.1)";
+    }
     ctx.lineWidth = 1;
     const gridSize = 80;
     for (let i = 0; i < width; i += gridSize) {
@@ -602,24 +704,31 @@ async function createFishResultImage(options) {
     drawCorner(width - 50, height - 50, true, true);
 
     const headerHeight = 160;
-    const headerGradient = ctx.createLinearGradient(0, 0, width, headerHeight);
-    headerGradient.addColorStop(
-      0,
-      `rgba(${rarityColor.primary
-        .replace("#", "")
-        .match(/.{2}/g)
-        .map((hex) => parseInt(hex, 16) * 0.3)
-        .join(", ")}, 0.8)`
-    );
-    headerGradient.addColorStop(
-      1,
-      `rgba(${rarityColor.secondary
-        .replace("#", "")
-        .match(/.{2}/g)
-        .map((hex) => parseInt(hex, 16) * 0.4)
-        .join(", ")}, 0.8)`
-    );
-    ctx.fillStyle = headerGradient;
+    try {
+      const headerGradient = ctx.createLinearGradient(0, 0, width, headerHeight);
+      
+      // Xử lý màu primary với kiểm tra kỹ hơn
+      let primaryRgb = "255, 255, 255"; // Giá trị mặc định
+      if (rarityColor && rarityColor.primary) {
+        const primaryHex = parseColor(rarityColor.primary, "#ffffff");
+        primaryRgb = hexToRgb(primaryHex);
+      }
+      
+      // Xử lý màu secondary với kiểm tra kỹ hơn
+      let secondaryRgb = "255, 255, 255"; // Giá trị mặc định
+      if (rarityColor && rarityColor.secondary) {
+        const secondaryHex = parseColor(rarityColor.secondary, "#ffffff");
+        secondaryRgb = hexToRgb(secondaryHex);
+      }
+      
+      // Đảm bảo định dạng RGBA hợp lệ
+      headerGradient.addColorStop(0, `rgba(${primaryRgb}, 0.8)`);
+      headerGradient.addColorStop(1, `rgba(${secondaryRgb}, 0.8)`);
+      ctx.fillStyle = headerGradient;
+    } catch (error) {
+      console.warn(`Error creating header gradient: ${error.message}. Using default.`);
+      ctx.fillStyle = "rgba(20, 40, 60, 0.8)";
+    }
     ctx.fillRect(0, 0, width, headerHeight);
 
     ctx.shadowColor = rarityColor.primary;
@@ -727,7 +836,6 @@ async function createFishResultImage(options) {
     levelGradient.addColorStop(0.5, "#42a5f5");
     levelGradient.addColorStop(1, "#1565c0");
 
-    // Vẽ text với màu gradient
     ctx.fillStyle = levelGradient;
     ctx.fillText(
       `🎮 Cấp độ: ${fishingData.level} | 🔥 Chuỗi câu: ${fishingData.streak}`,
@@ -735,7 +843,6 @@ async function createFishResultImage(options) {
       50 + avatarOffsetY + 15
     );
 
-    // Thêm một viền sáng mỏng cho text
     ctx.lineWidth = 0.5;
     ctx.strokeStyle = "rgba(255, 255, 255, 0.3)";
     ctx.strokeText(
@@ -755,23 +862,23 @@ async function createFishResultImage(options) {
       width - 50,
       fishSectionY + fishSectionHeight
     );
-    fishSectionGradient.addColorStop(
-      0,
-      `rgba(${rarityColor.primary
-        .replace("#", "")
-        .match(/.{2}/g)
-        .map((hex) => parseInt(hex, 16) * 0.15)
-        .join(", ")}, 0.8)`
-    );
-    fishSectionGradient.addColorStop(0.5, "rgba(20, 40, 60, 0.6)");
-    fishSectionGradient.addColorStop(
-      1,
-      `rgba(${rarityColor.secondary
-        .replace("#", "")
-        .match(/.{2}/g)
-        .map((hex) => parseInt(hex, 16) * 0.15)
-        .join(", ")}, 0.8)`
-    );
+
+    try {
+      // Sử dụng hàm an toàn để tạo màu rgba từ hex
+      const safeRarityPrimary = parseColor(rarityColor?.primary, "#2ecc71");
+      const safeRaritySecondary = parseColor(rarityColor?.secondary, "#27ae60");
+      
+      // Sử dụng màu với độ trong suốt
+      fishSectionGradient.addColorStop(0, safeHexToRgba(safeRarityPrimary, 0.3));
+      fishSectionGradient.addColorStop(0.5, "rgba(20, 40, 60, 0.6)");
+      fishSectionGradient.addColorStop(1, safeHexToRgba(safeRaritySecondary, 0.3));
+    } catch (error) {
+      console.error("Error creating fish section gradient:", error);
+      // Fallback to safe colors if there's any error
+      fishSectionGradient.addColorStop(0, "rgba(20, 40, 60, 0.8)");
+      fishSectionGradient.addColorStop(0.5, "rgba(30, 50, 70, 0.6)");
+      fishSectionGradient.addColorStop(1, "rgba(40, 60, 80, 0.8)");
+    }
 
     ctx.fillStyle = fishSectionGradient;
     roundRect(
@@ -835,12 +942,10 @@ async function createFishResultImage(options) {
     roundRect(ctx, badgeX, badgeY, badgeWidth, badgeHeight, 25, true, false);
     ctx.restore();
 
-    // Badge border
     ctx.strokeStyle = "rgba(255, 255, 255, 0.5)";
     ctx.lineWidth = 2;
     roundRect(ctx, badgeX, badgeY, badgeWidth, badgeHeight, 25, false, true);
 
-    // Badge text
     ctx.font = "bold 24px Arial";
     ctx.fillStyle = "#ffffff";
     ctx.textAlign = "center";
@@ -852,16 +957,69 @@ async function createFishResultImage(options) {
     );
 
     try {
-      const fishImagePath = defaultFishImagePaths[rarity];
-      if (fs.existsSync(fishImagePath)) {
-        const fishImage = await loadImage(fishImagePath);
-
+      let fishImage = null;
+      
+      // Try to load image from fish object directly
+      if (fish.image) {
+        fishImage = await loadImageWithCache(fish.image);
+      }
+      
+      // If no image from fish object, try loading from config
+      if (!fishImage) {
+        try {
+          // Try multiple possible paths to find the fish config
+          const possiblePaths = [
+            path.join(__dirname, '../config/fishing/fish.js'),
+            path.join(__dirname, '../fishing/fish.js'),
+            path.join(__dirname, '../commands/config/fish.js')
+          ];
+          
+          let fishConfig = null;
+          
+          for (const configPath of possiblePaths) {
+            try {
+              if (fs.existsSync(configPath)) {
+                fishConfig = require(configPath);
+                break;
+              }
+            } catch (e) {
+              console.log(`Could not load config from ${configPath}: ${e.message}`);
+            }
+          }
+          
+          if (fishConfig && fishConfig[rarity]) {
+            const fishData = fishConfig[rarity].find(f => f.name === fish.name);
+            if (fishData && fishData.image) {
+              fishImage = await loadImageWithCache(fishData.image);
+            }
+          }
+        } catch (configError) {
+          console.log(`Could not load fish config: ${configError.message}`);
+        }
+      }
+      
+      // If still no image, use default
+      if (!fishImage) {
+        const fishImagePath = defaultFishImagePaths[rarity];
+        if (fs.existsSync(fishImagePath)) {
+          fishImage = await loadImage(fishImagePath);
+        }
+      }
+      
+      // Draw the image if we have one
+      if (fishImage) {
         ctx.save();
         ctx.shadowColor = rarityColor.primary;
         ctx.shadowBlur = 30;
         ctx.beginPath();
         ctx.arc(width / 2, fishSectionY + 200, 90, 0, Math.PI * 2);
-        ctx.fillStyle = `rgba(${hexToRgb(rarityColor.primary)}, 0.3)`;
+        try {
+          const safeRarityPrimary = parseColor(rarityColor?.primary, "#ffffff");
+          ctx.fillStyle = safeHexToRgba(safeRarityPrimary, 0.3);
+        } catch (error) {
+          console.warn(`Error setting fill style: ${error.message}. Using default.`);
+          ctx.fillStyle = "rgba(255, 255, 255, 0.3)";
+        }
         ctx.fill();
         ctx.restore();
 
@@ -874,7 +1032,7 @@ async function createFishResultImage(options) {
           imageSize
         );
       } else {
-        // Fallback to drawing a fish icon with enhanced styling
+        // Fallback to icon if no image
         ctx.save();
         ctx.shadowColor = rarityColor.primary;
         ctx.shadowBlur = 15;
@@ -1700,12 +1858,26 @@ async function createCollectionImage(options) {
               true
             );
 
-            // Fish name and count
+            try {
+              const fishModule = require('../config/fishing/fish.js');
+              const fishList = fishModule[rarity.id] || [];
+              const fishData = fishList.find(f => f.name === fishName);
+              
+              if (fishData && fishData.image) {
+                const fishIconSize = 40;
+                const fishIcon = await loadImageWithCache(fishData.image);
+                if (fishIcon) {
+                  ctx.drawImage(fishIcon, x + itemWidth - fishIconSize - 15, y + 10, fishIconSize, fishIconSize);
+                }
+              }
+            } catch (error) {
+              console.warn(`Could not load icon for fish: ${fishName}`, error.message);
+            }
+
             ctx.font = "18px Arial";
             ctx.fillStyle = "#ffffff";
             ctx.textAlign = "left";
 
-            // Truncate name if too long
             let displayName = fishName;
             if (ctx.measureText(displayName).width > itemWidth - 60) {
               while (
@@ -1775,6 +1947,42 @@ async function createCollectionImage(options) {
   }
 }
 
+// Thêm hàm an toàn này để xử lý việc chuyển đổi màu hex sang rgba cho gradients
+function safeHexToRgba(hexColor, alpha) {
+  try {
+    // Đảm bảo có một giá trị color hợp lệ
+    if (!hexColor || typeof hexColor !== 'string') {
+      return `rgba(0, 0, 0, ${alpha})`; // Fallback to black with alpha
+    }
+    
+    // Đảm bảo bắt đầu bằng #
+    if (!hexColor.startsWith('#')) {
+      hexColor = '#' + hexColor;
+    }
+    
+    // Xử lý cả hex ngắn (3 ký tự)
+    let hex = hexColor.substring(1);
+    if (hex.length === 3) {
+      hex = hex.split('').map(c => c + c).join('');
+    }
+    
+    // Kiểm tra định dạng hex hợp lệ
+    if (!/^[0-9A-Fa-f]{6}$/.test(hex)) {
+      return `rgba(0, 0, 0, ${alpha})`; // Fallback to black with alpha
+    }
+    
+    // Chuyển đổi sang rgb
+    const r = parseInt(hex.substring(0, 2), 16);
+    const g = parseInt(hex.substring(2, 4), 16);
+    const b = parseInt(hex.substring(4, 6), 16);
+    
+    return `rgba(${r}, ${g}, ${b}, ${alpha})`;
+  } catch (error) {
+    console.warn(`Error converting hex to rgba: ${error.message}, using fallback`);
+    return `rgba(0, 0, 0, ${alpha})`;
+  }
+}
+
 // Export the functions
 module.exports = {
   createFishResultImage,
@@ -1782,4 +1990,6 @@ module.exports = {
   getAvatarPath,
   rarityColors,
   fishIcons,
+  loadImageWithCache,
+  safeHexToRgba
 };

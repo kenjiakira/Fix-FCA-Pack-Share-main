@@ -13,7 +13,7 @@ module.exports = {
     try {
       const { threadID, messageID } = event;
       
-      return api.sendMessage("Thùy Linh Owo", threadID, messageID);
+      return api.sendMessage("Thùy Linh owo", threadID, messageID);
     } catch (error) {
       console.error('Error in tlinhowo command:', error);
       return api.sendMessage("❌ Có lỗi xảy ra!", event.threadID, event.messageID);

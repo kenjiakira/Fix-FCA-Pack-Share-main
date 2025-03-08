@@ -462,7 +462,6 @@ module.exports = {
           ctx.fillStyle = '#ffffff';
           ctx.fillText('?', 100, 100);
           
-          // Lưu thành file
           const buffer = defaultCanvas.toBuffer('image/jpeg');
           fs.writeFileSync(defaultAvatarPath, buffer);
           console.log("✅ Default avatar created successfully");
