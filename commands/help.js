@@ -45,6 +45,30 @@ module.exports = {
                 }
             }
 
+            if (target[0]?.toLowerCase() === "all") {
+                let msg = "DANH SÁCH TẤT CẢ LỆNH\n\n";
+                
+                const sortedCategories = Object.values(categories)
+                    .sort((a, b) => a.priority - b.priority);
+
+                sortedCategories.forEach((category) => {
+                    const icon = this.getCategoryIcon(category.name);
+                    msg += `${icon} ${category.name.toUpperCase()}\n`;
+                    
+                    category.commands.forEach((cmd) => {
+                        const cmdIcon = this.getCommandIcon(cmd);
+                        msg += `  ${cmdIcon} ${cmd.name} - ${cmd.info || "Không có mô tả"}\n`;
+                    });
+                    
+                    msg += "\n";
+                });
+
+                msg += "╚═══════════════╝\n";
+                msg += `📊 Tổng số lệnh: ${totalCommands}`;
+
+                return api.sendMessage(msg, threadID, messageID);
+            }
+
             if (!target[0]) {
                 let msg = "DANH SÁCH LỆNH\n\n";
                 
@@ -180,7 +204,7 @@ module.exports = {
                     msg += `➣ ${cmd.info || "Không có mô tả"}\n`;
                 });
 
-                msg += "╚═════════Basketball══════╝\n\n";
+                msg += "╚══Basketball══╝\n\n";
                 msg += "📌 Reply số thứ tự để xem chi tiết lệnh";
 
                 const sent = await api.sendMessage(msg, threadID);

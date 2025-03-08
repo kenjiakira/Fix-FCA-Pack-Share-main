@@ -676,10 +676,23 @@ ctx.fillText(`${title} #${senderID.substring(0, 5)}`, 200, 215);
                     if (!degreeId || !DEGREES[degreeId]) {
                         return api.sendMessage("❌ Vui lòng nhập mã bằng cấp hợp lệ!", threadID);
                     }
-
                     const degree = DEGREES[degreeId];
+    
                     if (education.currentDegree) {
-                        return api.sendMessage("❌ Bạn đang theo học một chương trình khác!", threadID);
+                        const currentDegree = DEGREES[education.currentDegree.id];
+                        if (currentDegree) {
+                            const daysPassed = (Date.now() - education.currentDegree.startTime) / STUDY_TIME;
+                            const progress = Math.min(100, (daysPassed / currentDegree.timeNeeded) * 100);
+                            
+                            if (progress >= 100) {
+                                education.degrees.push(education.currentDegree.id);
+                                education.currentDegree = null;
+                                this.saveEducation(senderID, education);
+                                await api.sendMessage("🎊 CHÚC MỪNG! Bạn đã hoàn thành khóa học trước đó!", threadID);
+                            } else {
+                                return api.sendMessage("❌ Bạn đang theo học một chương trình khác!", threadID);
+                            }
+                        }
                     }
                     
                     for (const req of degree.requirements) {

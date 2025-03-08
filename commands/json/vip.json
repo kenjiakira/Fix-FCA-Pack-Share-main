@@ -99,6 +99,24 @@
         "rareBonus": 0.3,
         "trashReduction": 0.6
       }
+    },
+    "61573427362389": {
+      "packageId": 3,
+      "name": "VIP GOLD",
+      "expireTime": 1744625201693,
+      "benefits": {
+        "workBonus": 40,
+        "cooldownReduction": 30,
+        "dailyBonus": true,
+        "fishingCooldown": 120000,
+        "fishExpMultiplier": 4,
+        "rareBonus": 0.3,
+        "trashReduction": 0.6,
+        "stolenProtection": 1,
+        "stolenCooldown": 900000,
+        "packageId": 3,
+        "name": "VIP GOLD"
+      }
     }
   }
 }

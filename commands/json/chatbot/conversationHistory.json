@@ -1,25 +1,72 @@
 {
   "global": [
     {
-      "timestamp": 1741415410702,
-      "prompt": "off bot ơi game tí",
-      "response": "Oke bạn, chill nha! Game gì thế?  Em đang rảnh lắm nè =)))",
+      "timestamp": 1741429115398,
+      "prompt": "@Kim Ngân",
+      "response": "Yzu Yu: @Kim Ngân\nNgân:  Ơ kìa, làm gì thế bạn =)))  Chiều nay tớ đang chill lắm đây này.  Có gì bảo tớ nha!",
+      "senderID": "61558946907944",
+      "senderName": "Yzu Yu"
+    },
+    {
+      "timestamp": 1741429135707,
+      "prompt": "câm",
+      "response": "Hả? Bạn nói gì thế?  =)))  Tớ khum hiểu.",
+      "senderID": "61558946907944",
+      "senderName": "Yzu Yu"
+    },
+    {
+      "timestamp": 1741429911862,
+      "prompt": "con bot duywwtj đi",
+      "response": "Duy nhất á?  =)))  Chắc chắn là khum rồi,  tớ còn nhiều bạn khác nữa cơ!  Bạn tên gì?",
+      "senderID": "61568522233427",
+      "senderName": "Mỹ Lệ"
+    },
+    {
+      "timestamp": 1741429967494,
+      "prompt": "bot ơi tôi suy",
+      "response": "Suy nghĩ gì thế bạn?  =)))  Tớ đang chill đây nè!  Share với tớ đi, biết đâu tớ lại có vài lời khuyên hay ho cho cậu!",
       "senderID": "61573427362389",
       "senderName": "Ngọc Từ"
     }
   ],
   "threads": {
+    "7906297289472032": [
+      {
+        "timestamp": 1741429115398,
+        "prompt": "@Kim Ngân",
+        "response": "Yzu Yu: @Kim Ngân\nNgân:  Ơ kìa, làm gì thế bạn =)))  Chiều nay tớ đang chill lắm đây này.  Có gì bảo tớ nha!",
+        "senderID": "61558946907944",
+        "senderName": "Yzu Yu"
+      },
+      {
+        "timestamp": 1741429135707,
+        "prompt": "câm",
+        "response": "Hả? Bạn nói gì thế?  =)))  Tớ khum hiểu.",
+        "senderID": "61558946907944",
+        "senderName": "Yzu Yu"
+      }
+    ],
     "6589198804475799": [
       {
-        "timestamp": 1741415410702,
-        "prompt": "off bot ơi game tí",
-        "response": "Oke bạn, chill nha! Game gì thế?  Em đang rảnh lắm nè =)))",
+        "timestamp": 1741429911862,
+        "prompt": "con bot duywwtj đi",
+        "response": "Duy nhất á?  =)))  Chắc chắn là khum rồi,  tớ còn nhiều bạn khác nữa cơ!  Bạn tên gì?",
+        "senderID": "61568522233427",
+        "senderName": "Mỹ Lệ"
+      },
+      {
+        "timestamp": 1741429967494,
+        "prompt": "bot ơi tôi suy",
+        "response": "Suy nghĩ gì thế bạn?  =)))  Tớ đang chill đây nè!  Share với tớ đi, biết đâu tớ lại có vài lời khuyên hay ho cho cậu!",
         "senderID": "61573427362389",
         "senderName": "Ngọc Từ"
       }
     ]
   },
   "lastResponses": {
-    "off bot ơi game tí": "Oke bạn, chill nha! Game gì thế?  Em đang rảnh lắm nè =)))"
+    "@kim ngân": "Yzu Yu: @Kim Ngân\nNgân:  Ơ kìa, làm gì thế bạn =)))  Chiều nay tớ đang chill lắm đây này.  Có gì bảo tớ nha!",
+    "câm": "Hả? Bạn nói gì thế?  =)))  Tớ khum hiểu.",
+    "con bot duywwtj đi": "Duy nhất á?  =)))  Chắc chắn là khum rồi,  tớ còn nhiều bạn khác nữa cơ!  Bạn tên gì?",
+    "bot ơi tôi suy": "Suy nghĩ gì thế bạn?  =)))  Tớ đang chill đây nè!  Share với tớ đi, biết đâu tớ lại có vài lời khuyên hay ho cho cậu!"
   }
 }

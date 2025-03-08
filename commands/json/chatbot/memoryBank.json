@@ -1,16 +1,16 @@
 {
   "users": {
-    "61573427362389": {
+    "61558946907944": {
       "personal": [],
       "facts": [],
       "preferences": [],
       "interactions": [
         {
-          "content": "Ngọc Từ nói: off bot ơi game tí\nTôi trả lời: Oke bạn, chill nha! Game gì thế?  Em đang rảnh lắm nè =)))",
-          "timestamp": 1741415410705,
+          "content": "Yzu Yu nói: @Kim Ngân\nTôi trả lời: Yzu Yu: @Kim Ngân\nNgân:  Ơ kìa, làm gì thế bạn =)))  Chiều nay tớ đang chill lắm đây này.  Có gì bảo tớ nha!",
+          "timestamp": 1741429115400,
           "priority": 1,
-          "accessCount": 0,
-          "lastAccess": 1741415410705,
+          "accessCount": 1,
+          "lastAccess": 1741429133828,
           "metadata": {
             "sentiment": {
               "score": 0,
@@ -24,7 +24,30 @@
             },
             "topics": [
               "PERSONAL",
-              "ENTERTAINMENT"
+              "WORK"
+            ],
+            "entities": {}
+          }
+        },
+        {
+          "content": "Yzu Yu nói: câm\nTôi trả lời: Hả? Bạn nói gì thế?  =)))  Tớ khum hiểu.",
+          "timestamp": 1741429135708,
+          "priority": 1,
+          "accessCount": 0,
+          "lastAccess": 1741429135708,
+          "metadata": {
+            "sentiment": {
+              "score": 0,
+              "rawScore": 0,
+              "sentiment": "neutral",
+              "confidence": 0.5,
+              "emotions": [],
+              "negationCount": 0,
+              "intensityFactors": [],
+              "primaryEmotion": "neutral"
+            },
+            "topics": [
+              "PERSONAL"
             ],
             "entities": {}
           }
@@ -42,11 +65,166 @@
       "topics": {},
       "undefined": [
         {
-          "content": "Xưng hô: em/bạn",
-          "timestamp": 1741415408988,
+          "content": "Xưng hô: mình/bạn",
+          "timestamp": 1741429114422,
+          "priority": 2,
+          "accessCount": 1,
+          "lastAccess": 1741429133828,
+          "metadata": {
+            "sentiment": {
+              "score": 0,
+              "rawScore": 0,
+              "sentiment": "neutral",
+              "confidence": 0.5,
+              "emotions": [],
+              "negationCount": 0,
+              "intensityFactors": [],
+              "primaryEmotion": "neutral"
+            },
+            "topics": [
+              "PERSONAL"
+            ],
+            "entities": {}
+          }
+        },
+        {
+          "content": "Xưng hô: mình/bạn",
+          "timestamp": 1741429133829,
           "priority": 2,
           "accessCount": 0,
-          "lastAccess": 1741415408988,
+          "lastAccess": 1741429133829,
+          "metadata": {
+            "sentiment": {
+              "score": 0,
+              "rawScore": 0,
+              "sentiment": "neutral",
+              "confidence": 0.5,
+              "emotions": [],
+              "negationCount": 0,
+              "intensityFactors": [],
+              "primaryEmotion": "neutral"
+            },
+            "topics": [
+              "PERSONAL"
+            ],
+            "entities": {}
+          }
+        }
+      ]
+    },
+    "61568522233427": {
+      "personal": [],
+      "facts": [],
+      "preferences": [],
+      "interactions": [
+        {
+          "content": "Mỹ Lệ nói: con bot duywwtj đi\nTôi trả lời: Duy nhất á?  =)))  Chắc chắn là khum rồi,  tớ còn nhiều bạn khác nữa cơ!  Bạn tên gì?",
+          "timestamp": 1741429911891,
+          "priority": 1,
+          "accessCount": 0,
+          "lastAccess": 1741429911891,
+          "metadata": {
+            "sentiment": {
+              "score": 0,
+              "rawScore": 0,
+              "sentiment": "neutral",
+              "confidence": 0.5,
+              "emotions": [],
+              "negationCount": 0,
+              "intensityFactors": [],
+              "primaryEmotion": "neutral"
+            },
+            "topics": [
+              "PERSONAL",
+              "TRAVEL"
+            ],
+            "entities": {}
+          }
+        }
+      ],
+      "emotions": [],
+      "names": [],
+      "relationships": {},
+      "context": {
+        "lastTopics": [],
+        "importantDates": {},
+        "recentMentions": {},
+        "conversationFlow": []
+      },
+      "topics": {},
+      "undefined": [
+        {
+          "content": "Xưng hô: mình/bạn",
+          "timestamp": 1741429910671,
+          "priority": 2,
+          "accessCount": 0,
+          "lastAccess": 1741429910671,
+          "metadata": {
+            "sentiment": {
+              "score": 0,
+              "rawScore": 0,
+              "sentiment": "neutral",
+              "confidence": 0.5,
+              "emotions": [],
+              "negationCount": 0,
+              "intensityFactors": [],
+              "primaryEmotion": "neutral"
+            },
+            "topics": [
+              "PERSONAL"
+            ],
+            "entities": {}
+          }
+        }
+      ]
+    },
+    "61573427362389": {
+      "personal": [],
+      "facts": [],
+      "preferences": [],
+      "interactions": [
+        {
+          "content": "Ngọc Từ nói: bot ơi tôi suy\nTôi trả lời: Suy nghĩ gì thế bạn?  =)))  Tớ đang chill đây nè!  Share với tớ đi, biết đâu tớ lại có vài lời khuyên hay ho cho cậu!",
+          "timestamp": 1741429967495,
+          "priority": 1,
+          "accessCount": 0,
+          "lastAccess": 1741429967495,
+          "metadata": {
+            "sentiment": {
+              "score": 0,
+              "rawScore": 0,
+              "sentiment": "neutral",
+              "confidence": 0.5,
+              "emotions": [],
+              "negationCount": 0,
+              "intensityFactors": [],
+              "primaryEmotion": "neutral"
+            },
+            "topics": [
+              "PERSONAL",
+              "TRAVEL"
+            ],
+            "entities": {}
+          }
+        }
+      ],
+      "emotions": [],
+      "names": [],
+      "relationships": {},
+      "context": {
+        "lastTopics": [],
+        "importantDates": {},
+        "recentMentions": {},
+        "conversationFlow": []
+      },
+      "topics": {},
+      "undefined": [
+        {
+          "content": "Xưng hô: mình/bạn",
+          "timestamp": 1741429965669,
+          "priority": 2,
+          "accessCount": 0,
+          "lastAccess": 1741429965669,
           "metadata": {
             "sentiment": {
               "score": 0,
@@ -80,7 +258,7 @@
     "voice": {}
   },
   "stats": {
-    "totalInteractions": 2,
+    "totalInteractions": 8,
     "uniqueUsers": {},
     "topTopics": {},
     "responseTime": [],

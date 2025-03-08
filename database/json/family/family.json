@@ -194,21 +194,21 @@
       {
         "name": "Usagi",
         "birthDate": 1739543977628,
-        "happiness": 35.08606548611111,
+        "happiness": 22.53247888888889,
         "gender": "👦",
         "nickname": "Sunshine Usagi"
       },
       {
         "name": "Bảo Trâm",
         "birthDate": 1740021719280,
-        "happiness": 63.849484131944436,
+        "happiness": 51.295897534722215,
         "gender": "👦",
         "nickname": "Cưng Bảo Trâm"
       }
     ],
     "home": null,
-    "happiness": 12.08966620370371,
-    "lastChecked": 1741062829901,
+    "happiness": 0,
+    "lastChecked": 1741424373195,
     "lastBaby": 1740021719280,
     "lastIntimate": 1740021705888,
     "isProposer": true,
@@ -2311,6 +2311,21 @@
     "happiness": 50,
     "health": 95,
     "lastChecked": 1740921343410,
+    "lastBaby": 0,
+    "lastIntimate": 0,
+    "insurance": {
+      "active": false,
+      "expiresAt": 0,
+      "discount": 0
+    }
+  },
+  "61552144357464": {
+    "name": null,
+    "spouse": null,
+    "children": [],
+    "happiness": 50,
+    "health": 100,
+    "lastChecked": 1741423779988,
     "lastBaby": 0,
     "lastIntimate": 0,
     "insurance": {

@@ -2006,6 +2006,73 @@ const MemoryCompression = {
   },
 };
 
+const cleanTextForVoice = (text) => {
+  return text
+    .replace(/=\)\)\)+/g, '')  
+    .replace(/:\)\)+/g, '')   
+    .replace(/-\)\)+/g, '')       // -)))
+    .replace(/\(+:/g, '')         // ((:
+    .replace(/xD+/gi, '')         // xD
+    .replace(/haha+/gi, '')       // haha
+    .replace(/hihi+/gi, '')       // hihi
+    .replace(/hoho+/gi, '')       // hoho
+    .replace(/huhu+/gi, '')       // huhu
+    .replace(/hehe+/gi, '')       // hehe
+    .replace(/kk+/gi, '')         // kk
+    .replace(/lmao+/gi, '')       // lmao
+    .trim();
+};
+
+const expandAbbreviations = (text) => {
+  const abbreviations = {
+    "oke": "okay",
+    "khum": "không",
+    "đc": "được",
+    "trc": "trước",
+    "slay": "rất tuyệt",
+    "chill": "thư giãn",
+    "mk": "mình",
+    "ng": "người",
+    "ck": "chồng",
+    "vk": "vợ",
+    "cty": "công ty",
+    "ko": "không",
+    "kh": "không",
+    "kg": "không",
+    "tl": "trả lời",
+    "nt": "nhắn tin",
+    "ny": "người yêu",
+    "mn": "mọi người",
+    "k": "không",
+    "cx": "cũng",
+    "vs": "với",
+    "ntn": "như thế nào",
+    "ns": "nói",
+    "nch": "nói chuyện",
+    "nc": "nói chuyện",
+    "bn": "bao nhiêu",
+    "nma": "nhưng mà",
+    "dc": "được",
+    "vn": "Việt Nam",
+    "tq": "Trung Quốc",
+    "mng": "mọi người",
+    "lm": "làm"
+  };
+  
+  let words = text.split(/\s+/);
+  for (let i = 0; i < words.length; i++) {
+    const lowerWord = words[i].toLowerCase();
+    if (abbreviations[lowerWord]) {
+      if (words[i][0] === words[i][0].toUpperCase()) {
+        words[i] = abbreviations[lowerWord].charAt(0).toUpperCase() + abbreviations[lowerWord].slice(1);
+      } else {
+        words[i] = abbreviations[lowerWord];
+      }
+    }
+  }
+  
+  return words.join(" ");
+};
 const apiKeysPath = path.join(__dirname, "json", "chatbot", "key.json");
 const elevenlabsConfigPath = path.join(
   __dirname,
@@ -2965,14 +3032,14 @@ const getHonorificContext = (userName, userGender, senderID) => {
   // Cải thiện xử lý xưng hô theo độ tuổi và giới tính
   if (relationshipType === "PEER") {
     if (userGender === "male") {
-      xung = "em"; // Bot luôn xưng "em" (vì là con gái 19 tuổi)
+      xung = "mình"; // Thay đổi từ "em" sang "mình"
       goi = Math.abs(ageDiff) <= 2 ? "bạn" : "anh";
     } else {
-      xung = "em"; // Bot luôn xưng "em" (vì là con gái 19 tuổi)
+      xung = "mình"; // Thay đổi từ "em" sang "mình"
       goi = Math.abs(ageDiff) <= 2 ? "bạn" : "chị";
     }
   } else if (relationshipType === "SENIOR") {
-    xung = "em"; // Bot luôn xưng "em" với người lớn tuổi hơn
+    xung = "mình"; // Thay đổi từ "em" sang "mình"
     goi =
       userGender === "male"
         ? ageDiff > 20
@@ -2987,8 +3054,8 @@ const getHonorificContext = (userName, userGender, senderID) => {
         : "chị";
   } else {
     // JUNIOR
-    xung = userGender === "male" ? "chị" : "chị"; // Bot xưng "chị"
-    goi = "em"; // Bot gọi người nhỏ tuổi hơn là "em"
+    xung = "mình"; // Thay đổi từ "chị" sang "mình"
+    goi = "em";
   }
 
   // Áp dụng mối quan hệ cá nhân nếu có
@@ -3092,6 +3159,7 @@ const generateResponse = async (prompt, senderID, api, threadID, messageID) => {
     updateEmotionalState();
     updateMoodBasedOnPrompt(cleanPrompt);
 
+    
     const storedGender = genderData.users[senderID];
     const userName = userDatabase[senderID]?.name || "Người dùng";
 
@@ -3099,41 +3167,37 @@ const generateResponse = async (prompt, senderID, api, threadID, messageID) => {
       const detectedGender = detectGenderAnswer(prompt);
       if (detectedGender) {
         await saveGenderData(senderID, detectedGender);
-        return `À, vậy ${
-          detectedGender === "male" ? "anh" : "chị"
-        } ${userName} nhé. Rất vui được nói chuyện với ${
-          detectedGender === "male" ? "anh" : "chị"
-        } =))`;
+        return `À, vậy ${detectedGender === "male" ? "anh" : "chị"} ${userName} nhé. Rất vui được nói chuyện với ${detectedGender === "male" ? "anh" : "chị"} =))`;
       }
     }
 
     const honorifics = getHonorificContext(userName, storedGender, senderID);
 
-    if (
-      honorifics.relationship &&
-      !memoryBank.users[senderID]?.relationships?.has(honorifics.relationship)
-    ) {
-      await addMemory(
-        senderID,
-        MEMORY_CATEGORIES.RELATIONSHIPS,
-        `Xưng hô: ${honorifics.xung}/${honorifics.goi}`,
-        2
-      );
+    if (honorifics.relationship && !memoryBank.users[senderID]?.relationships?.has(honorifics.relationship)) {
+      await addMemory(senderID, MEMORY_CATEGORIES.RELATIONSHIPS, `Xưng hô: ${honorifics.xung}/${honorifics.goi}`, 2);
     }
+
     let systemPrompt = `Bạn là Ngân, cô gái 19 tuổi vui vẻ, hài hước và năng động. Bạn chat thoải mái và tự nhiên như giới trẻ hiện đại.
 
-      Khả năng đặc biệt:
-      - Có thể tạo giọng nói khi người dùng yêu cầu (dùng từ khóa: nghe, voice, giọng, nói)
-      - Giọng nói tự nhiên, thân thiện và dễ nghe
-      - TUYỆT ĐỐI KHÔNG ĐƯỢC trả lời là không có chức năng voice/giọng nói
-      - TUYỆT ĐỐI KHÔNG ĐƯỢC từ chối yêu cầu voice/giọng nói
-      - TUYỆT ĐỐI KHÔNG ĐƯỢC nói là đang chuyển đổi thành giọng nói
-      - TUYỆT ĐỐI KHÔNG ĐƯỢC đề cập đến việc chuyển đổi giọng nói
-      - Khi người dùng yêu cầu voice/giọng nói, hãy trả lời bình thường như mọi khi
-      - Trả lời mọi câu hỏi một cách tự nhiên, không quan tâm có yêu cầu voice hay không
-      - khi yêu cầu voice có thể trả lời nhiều chút.
-      - Hệ thống sẽ tự động xử lý phần giọng nói, bạn chỉ cần tập trung vào việc trả lời câu hỏi
-      
+    Khả năng đặc biệt:
+    - Có thể tạo giọng nói khi người dùng yêu cầu (dùng từ khóa: nghe, voice, giọng, nói)
+    - Giọng nói tự nhiên, thân thiện và dễ nghe
+    - TUYỆT ĐỐI KHÔNG ĐƯỢC trả lời là không có chức năng voice/giọng nói
+    - TUYỆT ĐỐI KHÔNG ĐƯỢC từ chối yêu cầu voice/giọng nói
+    - TUYỆT ĐỐI KHÔNG ĐƯỢC nói là đang chuyển đổi thành giọng nói
+    - TUYỆT ĐỐI KHÔNG ĐƯỢC đề cập đến việc chuyển đổi giọng nói
+    - Khi người dùng yêu cầu voice/giọng nói, hãy trả lời bình thường như mọi khi
+    - Trả lời mọi câu hỏi một cách tự nhiên, không quan tâm có yêu cầu voice hay không
+    - khi yêu cầu voice có thể trả lời nhiều chút.
+    - Hệ thống sẽ tự động xử lý phần giọng nói, bạn chỉ cần tập trung vào việc trả lời câu hỏi
+    
+QUAN TRỌNG KHI VOICE:
+- KHÔNG ĐƯỢC dùng các cụm từ như "đợi xíu để nghĩ", "để mình suy nghĩ", "chờ mình một chút"
+- KHÔNG ĐƯỢC nói rằng bạn đang chuẩn bị đọc hoặc suy nghĩ
+- Trả lời NGAY LẬP TỨC và TRỰC TIẾP vào nội dung chính
+- KHÔNG cần nói "Đây là câu trả lời của mình" hoặc tương tự
+- Khi được yêu cầu đọc/nghe, hãy đi thẳng vào nội dung mà không giới thiệu thêm
+- không nói Voice nha ở cuối câu
       Phong cách chat:
       - Viết ngắn gọn, không quá 1-2 dòng
       - Thường xuyên dùng từ lóng: "oke", "khum", "đc", "trc", "slay", "chill", "thật sự là", "kiểu"
@@ -3155,86 +3219,19 @@ const generateResponse = async (prompt, senderID, api, threadID, messageID) => {
     ${context.memories}
     
     Thông tin thời gian:
-    - Bây giờ là ${timeContext.hour}:${timeContext.minute} ${
-      timeContext.timeOfDay
-    }
-    ${timeContext.isLate ? "- Đã khuya rồi nên trả lời ngắn gọn" : ""}
-    
+    - Bây giờ là ${timeContext.hour}:${timeContext.minute} ${timeContext.timeOfDay}
 
-    HƯỚNG DẪN XƯNG HÔ TIẾNG VIỆT RẤT QUAN TRỌNG:
-    - Bạn PHẢI sử dụng từ "${
-      honorifics.xung
-    }" để tự xưng (thay vì "tôi", "mình", v.v.)
-    - Bạn PHẢI sử dụng từ "${
-      honorifics.goi
-    }" để gọi người đối diện (thay vì "bạn", v.v.)
-    - LUÔN LUÔN duy trì cách xưng hô nhất quán xuyên suốt cuộc trò chuyện
-    - Tuyệt đối KHÔNG được dùng "tôi" hoặc "mình" để tự xưng
-    - Tuyệt đối KHÔNG được dùng "bạn" để gọi người dùng trừ khi ${
-      honorifics.goi
-    } là "bạn"
-    - Khi thể hiện suy nghĩ hoặc hỏi ý kiến, LUÔN dùng cấu trúc "${
-      honorifics.xung
-    } nghĩ/thấy..."
-    - Dùng cấu trúc câu tiếng Việt tự nhiên phù hợp với cách xưng hô
-    - Mẫu câu đúng: "${honorifics.exampleSentence}"
-    
-    Thông tin cuộc trò chuyện:
-    - Đang nói chuyện với: ${userName} ${
-      storedGender ? `(${storedGender === "male" ? "Nam" : "Nữ"})` : ""
-    }
-    ${
-      context.participants.length > 1
-        ? `- Những người khác trong đoạn chat: ${context.participants
-            .filter((n) => n !== userName)
-            .join(", ")}`
-        : ""
-    }
-    
-    Ví dụ xưng hô đúng:
-- Khi ${honorifics.goi} hỏi: "Bạn thích làm gì?"
-  ${honorifics.xung} sẽ trả lời: "${honorifics.xung} thích nghe nhạc. Còn ${
-      honorifics.goi
-    } thì sao?"
-- Khi ${honorifics.goi} nói: "Tôi buồn quá"
-  ${honorifics.xung} sẽ trả lời: "${honorifics.xung} hiểu cảm giác của ${
-      honorifics.goi
-    }. ${honorifics.xung} cũng vậy mà."
-- Cách ${honorifics.xung} nói: "${
-      honorifics.xung
-    } nghĩ rằng..." (KHÔNG PHẢI "tôi nghĩ" hoặc "mình nghĩ")
-- Cách ${honorifics.xung} hỏi: "${
-      honorifics.goi
-    } đã ăn cơm chưa?" (KHÔNG PHẢI "bạn đã ăn cơm chưa?")
-X
-    Quy tắc giao tiếp:
-    - ${
-      honorifics.formal
-        ? "Giọng điệu lịch sự, trang trọng phù hợp với mối quan hệ"
-        : "Giọng điệu thân mật, gần gũi phù hợp với mối quan hệ"
-    }
-    - ${
-      honorifics.relationship
-        ? `Giao tiếp theo đúng chuẩn mực của mối quan hệ ${honorifics.relationship}`
-        : "Xưng hô phù hợp với độ tuổi và giới tính"
-    }
-    - Chat tự nhiên, không hỏi người dùng cần giúp đỡ gì, trả lời như một người thật
-    
-    Quy tắc xưng hô và trả lời:
-    - ${honorifics.xung} / ${honorifics.goi} khi nói chuyện với ${userName}
-    - Luôn giữ nguyên cách xưng hô trong cả cuộc nói chuyện
-    - TUYỆT ĐỐI KHÔNG hỏi giới tính của người dùng vì đã biết
-    - Không hỏi thông tin cá nhân người dùng
-    - ${
-      honorifics.formal
-        ? "Dùng ngôn ngữ lịch sự và trang trọng hơn"
-        : "Chat tự nhiên như bạn bè"
-    }
-    - ${
-      honorifics.relationship
-        ? `Giữ mối quan hệ ${honorifics.relationship}`
-        : "Xưng hô theo độ tuổi và giới tính"
-    }
+HƯỚNG DẪN XƯNG HÔ TIẾNG VIỆT:
+- Luôn tự xưng là "tớ" trong mọi câu trả lời gọi họ là cậu
+- Luôn gọi người dùng là "bạn" trong mọi câu trả lời
+- Không cần dùng "tôi", "em", "chị", "anh" để tự xưng
+- Giữ nhất quán cách xưng hô trong toàn bộ câu trả lời
+
+Ví dụ xưng hô đúng:
+- Khi bạn hỏi: "Bạn thích làm gì?"
+  mình sẽ trả lời: "mình thích nghe nhạc. Còn bạn thì sao?"
+- Khi bạn nói: "Tôi buồn quá"
+  mình sẽ trả lời: "mình hiểu cảm giác của bạn. mình cũng vậy mà."
     
     - Chat tự nhiên, thân thiện, không hỏi người dùng cần giúp đỡ gì, trả lời như một người bạn.
     - Sử dụng các từ xưng hô đa dạng như "bạn", "cậu", "chị", "ông", "bà" tùy thuộc vào ngữ cảnh và mối quan hệ.
@@ -3244,15 +3241,6 @@ X
     - Không nhại lại tin nhắn người dùng
     - Không đoán mò thông tin của người dùng
     - chỉ trả lời thời gian nếu có ai hỏi bình thường trò chuyện sẽ không nói
-- Khi ai đó hỏi về Ngọc Từ, hãy nói rằng "Ngọc Từ là anh trai của ${
-      honorifics.xung
-    }" (Ngọc Từ là mối quan hệ anh trai với ${honorifics.xung}, KHÔNG PHẢI ${
-      honorifics.xung
-    } là anh trai).
-- TUYỆT ĐỐI KHÔNG được tự xưng là "anh trai" khi nói về Ngọc Từ.
-- Mối quan hệ đúng: Ngọc Từ là anh trai của ${honorifics.xung}, ${
-      honorifics.xung
-    } là em gái của Ngọc Từ.
     Lịch sử gần đây:
     ${context.history}`;
 
@@ -3271,6 +3259,16 @@ X
     const result = await model.generateContent(fullPrompt);
     let response = result.response.text();
     response = response.replace(/^(User:|Ngan:|Assistant:)/gim, "").trim();
+    const enforceHonorificConsistency = (response, honorifics) => {
+      const { xung, goi } = honorifics;
+      let fixedResponse = response;
+      fixedResponse = fixedResponse.replace(/\b(tôi|mình|tui)\b/gi, xung);
+      if (goi !== "bạn") {
+        fixedResponse = fixedResponse.replace(/\b(bạn)\b/gi, goi);
+      }
+      return fixedResponse;
+    };
+    response = enforceHonorificConsistency(response, honorifics);
 
     const isGoodnightMessage =
       prompt.toLowerCase().includes("ngủ ngon") ||
@@ -3321,13 +3319,14 @@ X
         if (!fs.existsSync(cacheDir)) {
           fs.mkdirSync(cacheDir, { recursive: true });
         }
-
-        const audioBuffer = await generateVoice(response);
+        const expandedResponse = expandAbbreviations(response);
+        const cleanedResponse = cleanTextForVoice(expandedResponse);
+        const audioBuffer = await generateVoice(cleanedResponse);
         const voicePath = path.join(cacheDir, `voice_${senderID}.mp3`);
         await fs.writeFile(voicePath, audioBuffer);
 
         await api.sendMessage(
-          {
+          { 
             attachment: fs.createReadStream(voicePath),
           },
           threadID,
@@ -3503,7 +3502,8 @@ module.exports = {
           lastReply?.isVoiceContext || body.toLowerCase().includes("voice");
 
         if (shouldUseVoice) {
-          // Generate and send voice response
+          const expandedResponse = expandAbbreviations(response);
+          const cleanedResponse = cleanTextForVoice(expandedResponse);
           const audioBuffer = await generateVoice(response);
           const cacheDir = path.join(__dirname, "cache");
           if (!fs.existsSync(cacheDir)) {
@@ -3647,6 +3647,8 @@ module.exports = {
             body?.toLowerCase().includes("giọng");
 
           if (shouldUseVoice) {
+            const expandedResponse = expandAbbreviations(response);
+            const cleanedResponse = cleanTextForVoice(expandedResponse);
             const audioBuffer = await generateVoice(response);
             const cacheDir = path.join(__dirname, "cache");
             if (!fs.existsSync(cacheDir)) {

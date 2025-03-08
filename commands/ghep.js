@@ -15,7 +15,6 @@ module.exports = {
     try {
       const { threadID, senderID } = event;
       
-      // Send initial waiting message
       const waitingMsg = await api.sendMessage("⏳ Đang ghép đôi...", threadID);
       
       let partnerId;
@@ -77,7 +76,6 @@ module.exports = {
         "Tương lai: Trở thành cặp đôi hoàn hảo trong mắt mọi người 💑"
       ];
 
-      // Replace the getAvatarUrl and tryGetAvatar functions with single URL like avt command
       const getAvatar = async (uid) => {
         const avatarUrl = `https://graph.facebook.com/${uid}/picture?width=512&height=512&access_token=6628568379%7Cc1e620fa708a1d5696fb991c1bde5662`;
         try {
@@ -93,7 +91,6 @@ module.exports = {
         getAvatar(partnerId)
       ]);
 
-      // Ensure cache directory exists
       const avatarCacheDir = path.join(__dirname, './cache/avatar');
       if (!fs.existsSync(avatarCacheDir)) {
         fs.mkdirSync(avatarCacheDir, { recursive: true });
