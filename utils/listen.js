@@ -6,9 +6,6 @@ const { handleLogUnsubscribe } = require('./logunsub');
 const { actions } = require('./actions');
 const path = require("path");
 const { logChatRecord, notifyAdmins } = require('./logs');
-const { SINGLE_TAX_RATE, TAX_INTERVAL } = require('../config/family/taxConfig');
-const FamilySystem = require('../family/FamilySystem');
-const { updateBalance, getBalance } = require('./currencies');
 
     const threadsDB = JSON.parse(fs.readFileSync("./database/threads.json", "utf8") || "{}");
     const usersDB = JSON.parse(fs.readFileSync("./database/users.json", "utf8") || "{}");
@@ -56,50 +53,6 @@ const { updateBalance, getBalance } = require('./currencies');
                 console.error('Error loading tax data:', error);
             }
         }
-
-        async function collectTax(userId) {
-            try {
-                const balance = await getBalance(userId);
-                if (balance > 0) {
-                    const taxAmount = Math.floor(balance * SINGLE_TAX_RATE);
-                    await updateBalance(userId, -taxAmount);
-                    return taxAmount;
-                }
-                return 0;
-            } catch (error) {
-                console.error(`Error collecting tax from user ${userId}:`, error);
-                return 0;
-            }
-        }
-
-        setInterval(async () => {
-            try {
-                const familySystem = new FamilySystem();
-                const now = Date.now();
-                let totalTaxCollected = 0;
-                let taxedUsers = 0;
-
-                const families = familySystem.getAllFamilies();
-                for (const [userId, family] of Object.entries(families)) {
-                    if (family.spouse) continue;
-
-                    const lastCollection = taxData.lastCollection[userId] || 0;
-                    if (now - lastCollection < TAX_INTERVAL) continue;
-
-                    const taxAmount = await collectTax(userId);
-                    if (taxAmount > 0) {
-                        totalTaxCollected += taxAmount;
-                        taxedUsers++;
-                        taxData.lastCollection[userId] = now;
-                    }
-                }
-
-                fs.writeFileSync(taxDataPath, JSON.stringify(taxData, null, 2));
-                console.log(`Daily tax collection complete: ${taxedUsers} users taxed, ${totalTaxCollected} Xu collected`);
-            } catch (error) {
-                console.error('Automatic tax collection error:', error);
-            }
-        }, TAX_INTERVAL);
 
         api.setOptions({ listenEvents: true });
 

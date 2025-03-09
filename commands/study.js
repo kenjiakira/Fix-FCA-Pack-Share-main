@@ -24,7 +24,7 @@ module.exports = {
         let title = "Người học";
         
         const highSchools = ["THPT Chuyên Lê Hồng Phong", "THPT Chuyên Trần Đại Nghĩa", "THPT Nguyễn Thị Minh Khai", 
-            "THPT Lê Quý Đôn", "THPT Chu Văn An", "THPT Nguyễn Huệ", "THPT Phan Đình Phùng", "THPT Bùi Thị Xuân"];
+            "THPT Lê Quý Đôn", "THPT Chu Văn An", "THPT Nguyễn Huệ", "THPT Phan Đình Phùng", "THPT Bùi Thị $ân"];
         
         const universities = ["ĐHQG Hà Nội", "ĐHQG TP.HCM", "ĐH Bách Khoa", "ĐH Kinh tế", "ĐH Ngoại thương",
             "ĐH Sư phạm", "ĐH Y Dược", "ĐH FPT", "ĐH Công nghệ", "ĐH Khoa học Tự nhiên", "Học viện Ngân hàng"];
@@ -275,7 +275,7 @@ module.exports = {
             balanceGradient.addColorStop(1, "#f9a825");
             ctx.font = "22px Arial";
             ctx.fillStyle = balanceGradient;
-            ctx.fillText(`💰 ${formatNumber(balance)} Xu`, 300, 250);
+            ctx.fillText(`💰 ${formatNumber(balance)} $`, 300, 250);
             ctx.restore();
 
             let startY = 330;
@@ -636,7 +636,7 @@ ctx.fillText(`${title} #${senderID.substring(0, 5)}`, 200, 215);
                     msg += "💡 HƯỚNG DẪN:\n";
                     msg += "➤ Xem chi tiết: .study category <mã>\n";
                     msg += "   VD: .study category school\n\n";
-                    msg += "💵 Số dư: " + formatNumber(await getBalance(senderID)) + " Xu";
+                    msg += "💵 Số dư: " + formatNumber(await getBalance(senderID)) + " $";
                     
                     await api.sendMessage(msg, threadID);
                     return;
@@ -659,7 +659,7 @@ ctx.fillText(`${title} #${senderID.substring(0, 5)}`, 200, 215);
 
                         msg += `📋 ${degree.name}\n`;
                         msg += `├ Mã: ${degreeId}\n`;
-                        msg += `├ Chi phí: ${degree.instantGrant ? '🆓 Miễn phí' : '💰 ' + formatNumber(degree.cost) + ' Xu'}\n`;
+                        msg += `├ Chi phí: ${degree.instantGrant ? '🆓 Miễn phí' : '💰 ' + formatNumber(degree.cost) + ' $'}\n`;
                         msg += `└ Thời gian: ${degree.instantGrant ? '⚡ Cấp ngay' : '⏳ ' + degree.timeNeeded + ' ngày'}\n\n`;
                     }
 
@@ -719,7 +719,7 @@ ctx.fillText(`${title} #${senderID.substring(0, 5)}`, 200, 215);
                     const balance = await getBalance(senderID);
                     if (balance < degree.cost) {
                         return api.sendMessage(
-                            `❌ Bạn cần ${formatNumber(degree.cost)} Xu để đăng ký học!`,
+                            `❌ Bạn cần ${formatNumber(degree.cost)} $ để đăng ký học!`,
                             threadID
                         );
                     }
@@ -736,7 +736,7 @@ ctx.fillText(`${title} #${senderID.substring(0, 5)}`, 200, 215);
                         "🎓 ĐĂNG KÝ THÀNH CÔNG!\n\n" +
                         `Bằng cấp: ${degree.name}\n` +
                         `Thời gian học: ${degree.timeNeeded} ngày\n` +
-                        `Chi phí: ${formatNumber(degree.cost)} Xu\n\n` +
+                        `Chi phí: ${formatNumber(degree.cost)} $\n\n` +
                         "💡 Dùng .study info để xem tiến độ",
                         threadID
                     );
@@ -821,7 +821,7 @@ ctx.fillText(`${title} #${senderID.substring(0, 5)}`, 200, 215);
                     let msg = `┏━━『 CHI TIẾT BẰNG CẤP 』━━┓\n\n`;
                     msg += `🎓 ${degree.name}\n`;
                     msg += `├ Mã: ${degreeId}\n`;
-                    msg += `├ Chi phí: ${degree.instantGrant ? '🆓 Miễn phí' : '💰 ' + formatNumber(degree.cost) + ' Xu'}\n`;
+                    msg += `├ Chi phí: ${degree.instantGrant ? '🆓 Miễn phí' : '💰 ' + formatNumber(degree.cost) + ' $'}\n`;
                     msg += `├ Thời gian: ${degree.instantGrant ? '⚡ Cấp ngay' : '⏳ ' + degree.timeNeeded + ' ngày'}\n`;
                     
                     if (degree.requirements.length > 0) {

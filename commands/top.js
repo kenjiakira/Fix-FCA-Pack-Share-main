@@ -186,20 +186,20 @@ module.exports = {
 
         // Draw rank circle with 3D effect
         ctx.beginPath();
-        ctx.arc(100, startY + rankOffsetY, 30, 0, Math.PI * 2); // Dịch xuống
+        ctx.arc(100, startY + rankOffsetY, 30, 0, Math.PI * 2); // Dịch $ống
         ctx.fillStyle = "rgba(0, 0, 0, 0.3)";
         ctx.fill();
 
         ctx.beginPath();
-        ctx.arc(100, startY + rankOffsetY, 30, 0, Math.PI * 2); // Dịch xuống
+        ctx.arc(100, startY + rankOffsetY, 30, 0, Math.PI * 2); // Dịch $ống
 
         const circleGradient = ctx.createRadialGradient(
           90,
           startY + rankOffsetY - 10,
-          5, // Dịch xuống
+          5, // Dịch $ống
           100,
           startY + rankOffsetY,
-          30 // Dịch xuống
+          30 // Dịch $ống
         );
 
         if (i < 3) {
@@ -233,16 +233,16 @@ module.exports = {
         ctx.fillStyle = circleGradient;
         ctx.fill();
 
-        // Add rank number or medal icon - Dịch xuống
+        // Add rank number or medal icon - Dịch $ống
         ctx.fillStyle = i < 3 ? "#000000" : "#FFFFFF";
         ctx.font = "bold 30px Arial";
         ctx.textAlign = "center";
 
         if (i < 3) {
-          ctx.fillText(medals[i], 100, startY + rankOffsetY + 10); // Dịch xuống
+          ctx.fillText(medals[i], 100, startY + rankOffsetY + 10); // Dịch $ống
         } else {
           ctx.font = "bold 24px Arial";
-          ctx.fillText((i + 1).toString(), 100, startY + rankOffsetY + 8); // Dịch xuống
+          ctx.fillText((i + 1).toString(), 100, startY + rankOffsetY + 8); // Dịch $ống
         }
         try {
             if (userAvatars[userID]) {
@@ -364,7 +364,7 @@ module.exports = {
         ctx.shadowBlur = 10;
         ctx.font = "22px Arial";
         ctx.fillStyle = moneyGradient;
-        ctx.fillText(`💰 ${formattedBalance} Xu`, 300, startY + 50);
+        ctx.fillText(`💰 ${formattedBalance} $`, 300, startY + 50);
         ctx.restore();
 
         startY += rowHeight + 10;
@@ -620,7 +620,7 @@ module.exports = {
 
       textFallback += `${rankEmoji[index]} ${
         index + 1
-      }. ${userName}\n💰 ${formattedBalance} Xu\n\n`;
+      }. ${userName}\n💰 ${formattedBalance} $\n\n`;
 
       if (userID === senderID) {
         userPosition = index + 1;
@@ -638,7 +638,7 @@ module.exports = {
       const formattedUserBalance = userBalance
         .toString()
         .replace(/\B(?=(\d{3})+(?!\d))/g, ",");
-      textFallback += `\n💫 Bạn không có trong top 10.\n💰 Số xu hiện tại: ${formattedUserBalance} Xu`;
+      textFallback += `\n💫 Bạn không có trong top 10.\n💰 Số $ hiện tại: ${formattedUserBalance} $`;
     }
 
     try {

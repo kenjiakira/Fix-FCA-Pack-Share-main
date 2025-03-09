@@ -88,9 +88,9 @@ module.exports = {
             
                             if (jobInfo) {
                                 display += `\n║    └ Công việc: ${jobInfo.name}`;
-                                display += `\n║    └ Thu nhập: ${formatNumber(jobInfo.baseIncome)} xu/6h`;
+                                display += `\n║    └ Thu nhập: ${formatNumber(jobInfo.baseIncome)} $/6h`;
                                 if (jobInfo.pendingIncome > 0) {
-                                    display += `\n║    └ Đang chờ: ${formatNumber(jobInfo.pendingIncome)} xu`;
+                                    display += `\n║    └ Đang chờ: ${formatNumber(jobInfo.pendingIncome)} $`;
                                     display += `\n║    └ Cập nhật sau: ${jobInfo.nextUpdate} phút`;
                                 }
                             }
@@ -123,7 +123,7 @@ module.exports = {
               `║  ▸ Cấp bậc: ${marriageInfo.incomeLevel.level}\n` +
               `║  ▸ Thu nhập: ${formatNumber(
                 marriageInfo.incomeLevel.income
-              )} xu/ngày\n` +
+              )} $/ngày\n` +
               `║  ▸ Mô tả: ${marriageInfo.incomeLevel.description}\n` +
               "║\n" +
               "╠═ 💑HÔN NHÂN\n" +
@@ -195,7 +195,7 @@ module.exports = {
           const balance = await getBalance(senderID);
           if (balance < MARRIAGE_COST) {
             return api.sendMessage(
-              `❌ Bạn cần ${formatNumber(MARRIAGE_COST)} Xu để kết hôn!`,
+              `❌ Bạn cần ${formatNumber(MARRIAGE_COST)} $ để kết hôn!`,
               threadID
             );
           }
@@ -231,7 +231,7 @@ module.exports = {
           const balance = await getBalance(senderID);
           if (balance < DIVORCE_COST) {
             return api.sendMessage(
-              `❌ Bạn cần ${formatNumber(DIVORCE_COST)} Xu để ly hôn!`,
+              `❌ Bạn cần ${formatNumber(DIVORCE_COST)} $ để ly hôn!`,
               threadID
             );
           }
@@ -241,7 +241,7 @@ module.exports = {
 
           const confirmMsg = await api.sendMessage(
             `💔 ${userName} muốn ly hôn với bạn.\n` +
-              `💰 Chi phí ly hôn: ${formatNumber(DIVORCE_COST)} Xu\n` +
+              `💰 Chi phí ly hôn: ${formatNumber(DIVORCE_COST)} $\n` +
               `Reply "yes" để đồng ý ly hôn, hoặc "no" để từ chối.`,
             threadID
           );
@@ -366,8 +366,8 @@ module.exports = {
               return api.sendMessage(
                 `❌ Bạn cần ${formatNumber(
                   TEMPLE_COST
-                )} xu để gửi con vào chùa!\n` +
-                  `💰 Hiện có: ${formatNumber(balance)} xu`,
+                )} $ để gửi con vào chùa!\n` +
+                  `💰 Hiện có: ${formatNumber(balance)} $`,
                 threadID
               );
             }
@@ -380,7 +380,7 @@ module.exports = {
 
             return api.sendMessage(
               `🙏 Đã gửi ${result.gender} ${result.name} vào chùa tu hành\n` +
-                `💰 Chi phí: ${formatNumber(TEMPLE_COST)} xu\n` +
+                `💰 Chi phí: ${formatNumber(TEMPLE_COST)} $\n` +
                 `💝 Cầu mong ${result.name} sẽ có một tương lai tốt đẹp trên con đường tu tập`,
               threadID
             );
@@ -437,7 +437,7 @@ module.exports = {
                 message += `${school.name}\n`;
                 message += `📝 Độ tuổi: ${school.minAge}-${school.maxAge}\n`;
                 message += `⏰ Thời gian học: ${school.duration} năm\n`;
-                message += `💰 Học phí: ${formatNumber(school.cost)} xu/năm\n`;
+                message += `💰 Học phí: ${formatNumber(school.cost)} $/năm\n`;
                 message += `📚 Môn học: ${school.subjects.join(", ")}\n`;
                 message += `💡 Đăng ký: .family study enroll [số thứ tự] ${type}\n\n`;
               });
@@ -507,8 +507,8 @@ module.exports = {
                       return api.sendMessage(
                           `❌ Bạn cần ${formatNumber(
                               school.cost
-                          )} xu để đóng học phí!\n` +
-                          `💰 Hiện có: ${formatNumber(balance)} xu`,
+                          )} $ để đóng học phí!\n` +
+                          `💰 Hiện có: ${formatNumber(balance)} $`,
                           threadID
                       );
                   }
@@ -518,7 +518,7 @@ module.exports = {
                   
                   return api.sendMessage(
                       `📚 Đã đăng ký cho ${childDisplay.gender} ${childDisplay.name} vào ${school.name}!\n` +
-                      `💰 Học phí: ${formatNumber(school.cost)} xu/năm\n` +
+                      `💰 Học phí: ${formatNumber(school.cost)} $/năm\n` +
                       `⏰ Thời gian học: ${school.duration} năm\n` +
                       `📝 Các môn học: ${school.subjects.join(", ")}\n\n` +
                       `💡 Kiểm tra: .family study report ${childIndex + 1}`,
@@ -766,12 +766,12 @@ module.exports = {
 
             message += `${index + 1}. ${item.name}\n`;
             if (discountPercent > 0) {
-              message += `💰 Giá: ${formatNumber(finalPrice)} xu `;
+              message += `💰 Giá: ${formatNumber(finalPrice)} $ `;
               message += `(${discountReason}, giảm ${discountPercent}% từ ${formatNumber(
                 item.price
-              )} xu)\n`;
+              )} $)\n`;
             } else {
-              message += `💰 Giá: ${formatNumber(item.price)} xu\n`;
+              message += `💰 Giá: ${formatNumber(item.price)} $\n`;
             }
             message += `📝 ${item.description}\n`;
             if (item.duration) {
@@ -928,7 +928,7 @@ module.exports = {
           const balance = await getBalance(senderID);
           if (balance < finalPrice) {
             return api.sendMessage(
-              `❌ Bạn cần ${formatNumber(finalPrice)} xu để mua ${item.name}!`,
+              `❌ Bạn cần ${formatNumber(finalPrice)} $ để mua ${item.name}!`,
               threadID
             );
           }
@@ -940,11 +940,11 @@ module.exports = {
               familySystem.useContraceptive(senderID);
               return api.sendMessage(
                 `✅ Đã mua ${item.name} thành công!\n` +
-                  `💰 Chi phí: ${formatNumber(finalPrice)} xu` +
+                  `💰 Chi phí: ${formatNumber(finalPrice)} $` +
                   (discountPercent > 0
                     ? ` (${discountReason}, giảm ${discountPercent}% từ ${formatNumber(
                         originalPrice
-                      )} xu)`
+                      )} $)`
                     : "") +
                   `\n⏰ Có tác dụng trong ${item.duration} phút`,
                 threadID
@@ -954,11 +954,11 @@ module.exports = {
               await familySystem.increaseHealth(senderID, healthIncrease);
               return api.sendMessage(
                 `✅ Đã sử dụng ${item.name} thành công!\n` +
-                  `💰 Chi phí: ${formatNumber(finalPrice)} xu` +
+                  `💰 Chi phí: ${formatNumber(finalPrice)} $` +
                   (discountPercent > 0
                     ? ` (${discountReason}, giảm ${discountPercent}% từ ${formatNumber(
                         originalPrice
-                      )} xu)`
+                      )} $)`
                     : "") +
                   `\n❤️ Sức khỏe +${healthIncrease}%`,
                 threadID
@@ -972,11 +972,11 @@ module.exports = {
               );
               let message =
                 `✅ Đã mua ${item.name} thành công!\n` +
-                `💰 Chi phí: ${formatNumber(finalPrice)} xu` +
+                `💰 Chi phí: ${formatNumber(finalPrice)} $` +
                 (discountPercent > 0
                   ? ` (${discountReason}, giảm ${discountPercent}% từ ${formatNumber(
                       originalPrice
-                    )} xu)`
+                    )} $)`
                   : "") +
                 `\n⏰ Có hiệu lực trong ${item.duration} ngày\n`;
 
@@ -1132,7 +1132,7 @@ case "tree": {
 
             Object.entries(jobs).forEach(([id, job], idx) => {
               message += `${idx + 1}. ${job.name}\n`;
-              message += `💰 Thu nhập: ${formatNumber(job.baseIncome)} xu/6h\n`;
+              message += `💰 Thu nhập: ${formatNumber(job.baseIncome)} $/6h\n`;
               message += `📝 ${job.description}\n`;
               message += `⏰ Độ tuổi: ${job.minAge}-${job.maxAge}\n`;
               message += `💡 ID: ${id}\n\n`;
@@ -1169,7 +1169,7 @@ case "tree": {
 
             jobs.forEach((job, idx) => {
               message += `${idx + 1}. ${job.name}\n`;
-              message += `💰 Thu nhập: ${formatNumber(job.baseIncome)} xu/6h\n`;
+              message += `💰 Thu nhập: ${formatNumber(job.baseIncome)} $/6h\n`;
               message += `📝 ${job.description}\n`;
               message += `⏰ Độ tuổi: ${job.minAge}-${job.maxAge}\n`;
                 
@@ -1218,7 +1218,7 @@ case "tree": {
               
               return api.sendMessage(
                   `✨ ${child.gender} ${child.name} đã nhận việc ${job.name}!\n` +
-                  `💰 Thu nhập: ${formatNumber(job.baseIncome)} xu/6h\n` +
+                  `💰 Thu nhập: ${formatNumber(job.baseIncome)} $/6h\n` +
                   `⏰ Thu nhập đầu tiên sau: 6 giờ\n` +
                   `💡 Thu tiền: .family collect ${index + 1}`,
                   threadID
@@ -1269,11 +1269,11 @@ case "tree": {
             await updateBalance(senderID, result.collected);
 
             return api.sendMessage(
-              `💰 Thu thành công ${formatNumber(result.collected)} xu từ ${
+              `💰 Thu thành công ${formatNumber(result.collected)} $ từ ${
                 child.gender
               } ${child.name}!\n` +
                 `⏰ Thu nhập tiếp theo sau: ${result.nextUpdate} phút\n` +
-                `💵 Tổng thu nhập: ${formatNumber(result.total)} xu`,
+                `💵 Tổng thu nhập: ${formatNumber(result.total)} $`,
               threadID
             );
           } catch (error) {
@@ -1305,7 +1305,7 @@ case "tree": {
               Object.entries(destinations).forEach(([id, dest]) => {
                 const cost = familySystem.calculateTravelCost(senderID, id);
                 message += `${dest.name}\n`;
-                message += `💰 Chi phí: ${formatNumber(cost)} xu\n`;
+                message += `💰 Chi phí: ${formatNumber(cost)} $\n`;
                 message += `📝 ${dest.description}\n`;
                 message += `⏰ Thời gian: ${dest.duration}\n`;
                 message += `💕 Hạnh phúc: +${dest.happiness}%\n`;
@@ -1357,8 +1357,8 @@ case "tree": {
               const balance = await getBalance(senderID);
               if (balance < cost) {
                 return api.sendMessage(
-                  `❌ Bạn cần ${formatNumber(cost)} xu cho chuyến đi!\n` +
-                    `💰 Hiện có: ${formatNumber(balance)} xu`,
+                  `❌ Bạn cần ${formatNumber(cost)} $ cho chuyến đi!\n` +
+                    `💰 Hiện có: ${formatNumber(balance)} $`,
                   threadID
                 );
               }
@@ -1368,7 +1368,7 @@ case "tree": {
                 const dest = familySystem.startTravel(senderID, destination);
                 return api.sendMessage(
                   `🌎 Gia đình bắt đầu chuyến du lịch tại ${dest.name}!\n` +
-                    `💰 Chi phí: ${formatNumber(cost)} xu\n` +
+                    `💰 Chi phí: ${formatNumber(cost)} $\n` +
                     `⏰ Thời gian: ${dest.duration}\n` +
                     `💕 Hạnh phúc: +${dest.happiness}% khi về\n\n` +
                     `💡 Kiểm tra: .family travel status`,
@@ -1439,7 +1439,7 @@ case "tree": {
               let message = "🏘️ CÁC LOẠI NHÀ 🏘️\n━━━━━━━━━━━━━━━━━━\n\n";
               Object.entries(HOMES).forEach(([type, home]) => {
                 message += `${home.name}\n`;
-                message += `💰 Giá: ${formatNumber(home.price)} xu\n`;
+                message += `💰 Giá: ${formatNumber(home.price)} $\n`;
                 message += `📝 ${home.description}\n`;
                 message += `💕 Hạnh phúc cơ bản: +${home.happiness}%\n`;
                 message += `👥 Sức chứa: ${home.capacity} người\n`;
@@ -1462,9 +1462,9 @@ case "tree": {
               const balance = await getBalance(senderID);
               if (balance < home.price) {
                 return api.sendMessage(
-                  `❌ Bạn cần ${formatNumber(home.price)} xu để mua ${
+                  `❌ Bạn cần ${formatNumber(home.price)} $ để mua ${
                     home.name
-                  }!\n` + `💰 Hiện có: ${formatNumber(balance)} xu`,
+                  }!\n` + `💰 Hiện có: ${formatNumber(balance)} $`,
                   threadID
                 );
               }
@@ -1474,7 +1474,7 @@ case "tree": {
                 await updateBalance(senderID, -home.price);
                 return api.sendMessage(
                   `🎉 Chúc mừng! Bạn đã mua ${home.name} thành công!\n` +
-                    `💰 Chi phí: ${formatNumber(home.price)} xu\n` +
+                    `💰 Chi phí: ${formatNumber(home.price)} $\n` +
                     `💕 Hạnh phúc cơ bản: +${home.happiness}%\n` +
                     `👥 Sức chứa: ${home.capacity} người\n\n` +
                     `💡 Lưu ý:\n` +
@@ -1495,7 +1495,7 @@ case "tree": {
                 await updateBalance(senderID, sellPrice);
                 return api.sendMessage(
                   `🏠 Đã bán nhà thành công!\n` +
-                    `💰 Số tiền nhận được: ${formatNumber(sellPrice)} xu\n` +
+                    `💰 Số tiền nhận được: ${formatNumber(sellPrice)} $\n` +
                     `💡 Giá đã trừ khấu hao theo thời gian và điều kiện nhà`,
                   threadID
                 );
@@ -1515,8 +1515,8 @@ case "tree": {
                   return api.sendMessage(
                     `❌ Bạn cần ${formatNumber(
                       repairCost
-                    )} xu để sửa chữa nhà!\n` +
-                      `💰 Hiện có: ${formatNumber(balance)} xu`,
+                    )} $ để sửa chữa nhà!\n` +
+                      `💰 Hiện có: ${formatNumber(balance)} $`,
                     threadID
                   );
                 }
@@ -1524,7 +1524,7 @@ case "tree": {
                 await updateBalance(senderID, -repairCost);
                 return api.sendMessage(
                   `🔧 Đã sửa chữa và bảo dưỡng nhà thành công!\n` +
-                    `💰 Chi phí: ${formatNumber(repairCost)} xu\n` +
+                    `💰 Chi phí: ${formatNumber(repairCost)} $\n` +
                     `🏠 Tình trạng nhà: 100%\n` +
                     `⏰ Lần bảo dưỡng tiếp theo: 30 ngày sau`,
                   threadID
@@ -1684,7 +1684,7 @@ case "tree": {
 
             let message = `💔 Đã ly hôn thành công!\n💰 Chi phí: ${formatNumber(
               reply.divorceCost
-            )} Xu`;
+            )} $`;
 
             if (divorceResult.custodyInfo) {
               const custodyParentName = familySystem.getUserName(

@@ -516,13 +516,13 @@ function drawEarningsSection(ctx, width, earningsY, result) {
     {
       icon: "💰",
       label: "Được trả",
-      value: `${result.salary.toLocaleString("vi-VN")} Xu`,
+      value: `${result.salary.toLocaleString("vi-VN")} $`,
       color: "#ffffff",
     },
     {
       icon: "📝",
       label: "Thuế thu nhập",
-      value: `${tax.toLocaleString("vi-VN")} Xu (${(result.tax || 0).toFixed(
+      value: `${tax.toLocaleString("vi-VN")} $ (${(result.tax || 0).toFixed(
         1
       )}%)`,
       color: "#ff7675",
@@ -530,7 +530,7 @@ function drawEarningsSection(ctx, width, earningsY, result) {
     {
       icon: "✨",
       label: "Thực lãnh",
-      value: `${netEarnings.toLocaleString("vi-VN")} Xu`,
+      value: `${netEarnings.toLocaleString("vi-VN")} $`,
       color: "#2ecc71",
     },
   ];
@@ -637,7 +637,7 @@ function drawVIPBonusSection(ctx, width, vipY, result, vipBenefits) {
   ctx.font = "bold 22px Montserrat";
   ctx.fillStyle = "#FFD700";
   ctx.fillText(
-    `+${vipBonus.toLocaleString("vi-VN")} Xu`,
+    `+${vipBonus.toLocaleString("vi-VN")} $`,
     width / 2,
     bonusY + 50
   );

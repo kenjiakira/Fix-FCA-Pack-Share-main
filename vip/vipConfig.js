@@ -6,6 +6,23 @@ const VIP_PACKAGES = {
         name: "VIP BRONZE",
         price: { original: "45,000", sale: "30,000" },
         duration: "30 ngày",
+        longTermOptions: {
+            "3": { 
+                months: 3, 
+                discount: 10, 
+                duration: "90 ngày"
+            },
+            "6": { 
+                months: 6, 
+                discount: 20, 
+                duration: "180 ngày"
+            },
+            "12": { 
+                months: 12, 
+                discount: 30, 
+                duration: "360 ngày"
+            }
+        },
         perks: {
             fishing: {
                 cooldown: "5p",
@@ -51,6 +68,23 @@ const VIP_PACKAGES = {
         name: "VIP SILVER",
         price: { original: "55,000", sale: "40,000" },
         duration: "30 ngày",
+        longTermOptions: {
+            "3": { 
+                months: 3, 
+                discount: 10, 
+                duration: "90 ngày"
+            },
+            "6": { 
+                months: 6, 
+                discount: 20, 
+                duration: "180 ngày"
+            },
+            "12": { 
+                months: 12, 
+                discount: 30, 
+                duration: "360 ngày"
+            }
+        },
         perks: {
             fishing: {
                 cooldown: "4p",
@@ -96,6 +130,23 @@ const VIP_PACKAGES = {
         name: "VIP GOLD",
         price: { original: "95,000", sale: "50,000" },
         duration: "30 ngày +7",
+        longTermOptions: {
+            "3": { 
+                months: 3, 
+                discount: 10, 
+                duration: "90 ngày +21"
+            },
+            "6": { 
+                months: 6, 
+                discount: 20, 
+                duration: "180 ngày +42"
+            },
+            "12": { 
+                months: 12, 
+                discount: 30, 
+                duration: "360 ngày +84"
+            }
+        },
         perks: {
             fishing: {
                 cooldown: "2p",

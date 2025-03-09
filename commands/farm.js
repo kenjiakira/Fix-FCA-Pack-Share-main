@@ -21,9 +21,9 @@ const CROPS = {
   lua: {
     name: "Lúa",
     emoji: "🌾",
-    price: 50000,
+    price: 50,
     time: 40 * 60,
-    yield: 80000,
+    yield: 70,
     exp: 5,
     water: 3,
     level: 1,
@@ -33,9 +33,9 @@ const CROPS = {
   rau: {
     name: "Rau xanh",
     emoji: "🥬",
-    price: 10000,
+    price: 10,
     time: 15 * 60,
-    yield: 18000,
+    yield: 15,
     exp: 2,
     water: 2,
     level: 1,
@@ -45,9 +45,9 @@ const CROPS = {
   ca_rot: {
     name: "Cà rốt",
     emoji: "🥕",
-    price: 15000,
+    price: 15,
     time: 20 * 60,
-    yield: 25000,
+    yield: 20,
     exp: 3,
     water: 2,
     level: 1,
@@ -58,9 +58,9 @@ const CROPS = {
   gia_do: {
     name: "Giá đỗ",
     emoji: "🌱",
-    price: 8000,
+    price: 8,
     time: 10 * 60,
-    yield: 15000,
+    yield: 14,
     exp: 2,
     water: 3,
     level: 1,
@@ -70,9 +70,9 @@ const CROPS = {
   hanh_la: {
     name: "Hành lá",
     emoji: "🌿",
-    price: 12000,
+    price: 12,
     time: 15 * 60,
-    yield: 20000,
+    yield: 18,
     exp: 3,
     water: 2,
     level: 1,
@@ -82,9 +82,9 @@ const CROPS = {
   rau_bina: {
     name: "Rau bina",
     emoji: "🥬",
-    price: 15000,
+    price: 15,
     time: 20 * 60,
-    yield: 26000,
+    yield: 22,
     exp: 4,
     water: 3,
     level: 2,
@@ -94,9 +94,9 @@ const CROPS = {
   dau: {
     name: "Đậu",
     emoji: "🌱",
-    price: 20000,
+    price: 20,
     time: 25 * 60,
-    yield: 35000,
+    yield: 27,
     exp: 5,
     water: 2,
     level: 2,
@@ -107,9 +107,9 @@ const CROPS = {
   dau_rong: {
     name: "Đậu rồng",
     emoji: "🌱",
-    price: 15000,
+    price: 15,
     time: 20 * 60,
-    yield: 25000,
+    yield: 23,
     exp: 3,
     water: 3,
     level: 2,
@@ -120,9 +120,9 @@ const CROPS = {
   rau_muong: {
     name: "Rau muống",
     emoji: "🥗",
-    price: 10000,
+    price: 10,
     time: 15 * 60,
-    yield: 18000,
+    yield: 15,
     exp: 3,
     water: 4,
     level: 1,
@@ -132,9 +132,9 @@ const CROPS = {
   dau_bap: {
     name: "Đậu bắp",
     emoji: "🌿",
-    price: 18000,
+    price: 18,
     time: 25 * 60,
-    yield: 32000,
+    yield: 26,
     exp: 5,
     water: 3,
     level: 3,
@@ -144,9 +144,9 @@ const CROPS = {
   ca_tim: {
     name: "Cà tím",
     emoji: "🍆",
-    price: 22000,
+    price: 22,
     time: 30 * 60,
-    yield: 40000,
+    yield: 32,
     exp: 6,
     water: 3,
     level: 4,
@@ -156,9 +156,9 @@ const CROPS = {
   kho_qua: {
     name: "Khổ qua",
     emoji: "🥒",
-    price: 20000,
+    price: 20,
     time: 25 * 60,
-    yield: 35000,
+    yield: 30,
     exp: 4,
     water: 3,
     level: 3,
@@ -168,9 +168,9 @@ const CROPS = {
   ngo: {
     name: "Ngô",
     emoji: "🌽",
-    price: 25000,
+    price: 25,
     time: 35 * 60,
-    yield: 45000,
+    yield: 40,
     exp: 4,
     water: 3,
     level: 3,
@@ -180,9 +180,9 @@ const CROPS = {
   ca_chua: {
     name: "Cà chua",
     emoji: "🍅",
-    price: 30000,
+    price: 30,
     time: 40 * 60,
-    yield: 55000,
+    yield: 40,
     exp: 5,
     water: 3,
     level: 4,
@@ -192,9 +192,9 @@ const CROPS = {
   dua_hau: {
     name: "Dưa hấu",
     emoji: "🍉",
-    price: 45000,
+    price: 45,
     time: 60 * 60,
-    yield: 85000,
+    yield: 60,
     exp: 10,
     water: 4,
     level: 6,
@@ -204,9 +204,9 @@ const CROPS = {
   dua_leo: {
     name: "Dưa leo",
     emoji: "🥒",
-    price: 38000,
+    price: 38,
     time: 30 * 60,
-    yield: 62000,
+    yield: 60,
     exp: 6,
     water: 4,
     level: 5,
@@ -217,9 +217,9 @@ const CROPS = {
   bi_do: {
     name: "Bí đỏ",
     emoji: "🎃",
-    price: 40000,
+    price: 40,
     time: 45 * 60,
-    yield: 70000,
+    yield: 60,
     exp: 7,
     water: 2,
     level: 5,
@@ -229,9 +229,9 @@ const CROPS = {
   khoai_mon: {
     name: "Khoai môn",
     emoji: "🌰",
-    price: 35000,
+    price: 35,
     time: 50 * 60,
-    yield: 60000,
+    yield: 55,
     exp: 6,
     water: 3,
     level: 4,
@@ -241,9 +241,9 @@ const CROPS = {
   dau_phong: {
     name: "Đậu phộng",
     emoji: "🥜",
-    price: 30000,
+    price: 30,
     time: 40 * 60,
-    yield: 55000,
+    yield: 50,
     exp: 5,
     water: 2,
     level: 3,
@@ -253,9 +253,9 @@ const CROPS = {
   khoai_tay: {
     name: "Khoai tây",
     emoji: "🥔",
-    price: 35000,
+    price: 35,
     time: 45 * 60,
-    yield: 65000,
+    yield: 60,
     exp: 5,
     water: 3,
     level: 5,
@@ -265,9 +265,9 @@ const CROPS = {
   khoai_lang: {
     name: "Khoai lang",
     emoji: "🍠",
-    price: 40000,
+    price: 40,
     time: 50 * 60,
-    yield: 70000,
+    yield: 60,
     exp: 10,
     water: 2,
     level: 7,
@@ -277,9 +277,9 @@ const CROPS = {
   ot: {
     name: "Ớt",
     emoji: "🌶️",
-    price: 28000,
+    price: 28,
     time: 35 * 60,
-    yield: 50000,
+    yield: 40,
     exp: 9,
     water: 2,
     level: 4,
@@ -290,9 +290,9 @@ const CROPS = {
   cai_xanh: {
     name: "Cải xanh",
     emoji: "🥦",
-    price: 15000,
+    price: 15,
     time: 20 * 60,
-    yield: 25000,
+    yield: 25,
     exp: 4,
     water: 2,
     level: 2,
@@ -302,9 +302,9 @@ const CROPS = {
   su_hao: {
     name: "Su hào",
     emoji: "🧅",
-    price: 20000,
+    price: 20,
     time: 30 * 60,
-    yield: 35000,
+    yield: 30,
     exp: 5,
     water: 2,
     level: 3,
@@ -314,9 +314,9 @@ const CROPS = {
   cu_cai: {
     name: "Củ cải",
     emoji: "🥕",
-    price: 18000,
+    price: 18,
     time: 25 * 60,
-    yield: 30000,
+    yield: 30,
     exp: 4,
     water: 3,
     level: 2,
@@ -326,9 +326,9 @@ const CROPS = {
   bong_cai: {
     name: "Bông cải xanh",
     emoji: "🥦",
-    price: 25000,
+    price: 25,
     time: 35 * 60,
-    yield: 45000,
+    yield: 40,
     exp: 6,
     water: 3,
     level: 4,
@@ -338,9 +338,9 @@ const CROPS = {
   cai_thao: {
     name: "Cải thảo",
     emoji: "🥬",
-    price: 55000,
+    price: 55,
     time: 65 * 60,
-    yield: 100000,
+    yield: 70,
     exp: 9,
     water: 4,
     level: 7,
@@ -351,9 +351,9 @@ const CROPS = {
   sa: {
     name: "Sả",
     emoji: "🌿",
-    price: 32000,
+    price: 32,
     time: 40 * 60,
-    yield: 58000,
+    yield: 58,
     exp: 5,
     water: 3,
     level: 4,
@@ -363,9 +363,9 @@ const CROPS = {
   gung: {
     name: "Gừng",
     emoji: "🌱",
-    price: 50000,
+    price: 50,
     time: 55 * 60,
-    yield: 90000,
+    yield: 90,
     exp: 7,
     water: 2,
     level: 6,
@@ -375,9 +375,9 @@ const CROPS = {
   mia: {
     name: "Mía",
     emoji: "🎋",
-    price: 60000,
+    price: 60,
     time: 70 * 60,
-    yield: 110000,
+    yield: 90,
     exp: 8,
     water: 5,
     level: 6,
@@ -388,9 +388,9 @@ const CROPS = {
   ca_phe: {
     name: "Cà phê",
     emoji: "☕",
-    price: 150000,
+    price: 150,
     time: 100 * 60,
-    yield: 280000,
+    yield: 230,
     exp: 15,
     water: 3,
     level: 8,
@@ -401,9 +401,9 @@ const CROPS = {
   tieu: {
     name: "Tiêu",
     emoji: "⚫",
-    price: 180000,
+    price: 180,
     time: 90 * 60,
-    yield: 320000,
+    yield: 300,
     exp: 18,
     water: 2,
     level: 9,
@@ -413,9 +413,9 @@ const CROPS = {
   tra: {
     name: "Trà",
     emoji: "🍵",
-    price: 200000,
+    price: 200,
     time: 120 * 60,
-    yield: 400000,
+    yield: 300,
     exp: 35,
     water: 4,
     level: 10,
@@ -426,9 +426,9 @@ const CROPS = {
   chuoi: {
     name: "Chuối",
     emoji: "🍌",
-    price: 70000,
+    price: 70,
     time: 75 * 60,
-    yield: 130000,
+    yield: 130,
     exp: 12,
     water: 3,
     level: 7,
@@ -438,9 +438,9 @@ const CROPS = {
   xoai: {
     name: "Xoài",
     emoji: "🥭",
-    price: 120000,
+    price: 120,
     time: 85 * 60,
-    yield: 220000,
+    yield: 220,
     exp: 10,
     water: 3,
     level: 8,
@@ -450,9 +450,9 @@ const CROPS = {
   vai: {
     name: "Vải",
     emoji: "🔴",
-    price: 160000,
+    price: 160,
     time: 95 * 60,
-    yield: 290000,
+    yield: 290,
     exp: 22,
     water: 4,
     level: 9,
@@ -462,9 +462,9 @@ const CROPS = {
   buoi: {
     name: "Bưởi",
     emoji: "🟢",
-    price: 190000,
+    price: 190,
     time: 110 * 60,
-    yield: 350000,
+    yield: 350,
     exp: 20,
     water: 4,
     level: 9,
@@ -474,9 +474,9 @@ const CROPS = {
   dua: {
     name: "Dừa",
     emoji: "🥥",
-    price: 210000,
+    price: 210,
     time: 120 * 60,
-    yield: 420000,
+    yield: 270,
     exp: 25,
     water: 2,
     level: 10,
@@ -488,9 +488,9 @@ const CROPS = {
   nho_do: {
     name: "Nho đỏ",
     emoji: "🍇",
-    price: 250000,
+    price: 250,
     time: 130 * 60,
-    yield: 480000,
+    yield: 300,
     exp: 50,
     water: 5,
     level: 11,
@@ -500,9 +500,9 @@ const CROPS = {
   sen: {
     name: "Hoa sen",
     emoji: "🪷",
-    price: 300000,
+    price: 300,
     time: 280 * 60,
-    yield: 390000,
+    yield: 350,
     exp: 40,
     water: 6,
     level: 12,
@@ -512,9 +512,9 @@ const CROPS = {
   lan: {
     name: "Lan đột biến",
     emoji: "🌸",
-    price: 500000,
-    time: 280 * 60,
-    yield: 1200000,
+    price: 500,
+    time: 800 * 60,
+    yield: 3000,
     exp: 50,
     water: 4,
     level: 13,
@@ -524,9 +524,9 @@ const CROPS = {
   sam: {
     name: "Nhân sâm",
     emoji: "🌿",
-    price: 800000,
-    time: 280 * 60,
-    yield: 1800000,
+    price: 800,
+    time: 800 * 60,
+    yield: 3500,
     exp: 60,
     water: 5,
     level: 14,
@@ -537,9 +537,9 @@ const CROPS = {
   truffle: {
     name: "Nấm Truffle",
     emoji: "🍄",
-    price: 1200000,
-    time: 5000 * 60,
-    yield: 3000000,
+    price: 1200,
+    time: 9000 * 60,
+    yield: 3000,
     exp: 70,
     water: 4,
     level: 15,
@@ -550,9 +550,9 @@ const CROPS = {
   rau_thom: {
     name: "Rau thơm",
     emoji: "🌿",
-    price: 12000,
+    price: 12,
     time: 15 * 60,
-    yield: 20000,
+    yield: 20,
     exp: 3,
     water: 2,
     level: 1,
@@ -565,60 +565,60 @@ const ANIMALS = {
   ga: {
     name: "Gà",
     emoji: "🐓",
-    price: 100000,
+    price: 100,
     productTime: 4 * 60 * 60,
     product: "trứng",
     productEmoji: "🥚",
-    productPrice: 15000,
-    feed: 5000,
+    productPrice: 150,
+    feed: 50,
     level: 3,
     description: "Gà ta chạy bộ, cho trứng chất lượng cao",
   },
   vit: {
     name: "Vịt",
     emoji: "🦆",
-    price: 150000,
+    price: 150,
     productTime: 5 * 60 * 60,
     product: "trứng vịt",
     productEmoji: "🥚",
-    productPrice: 20000,
-    feed: 7000,
+    productPrice: 200,
+    feed: 70,
     level: 5,
     description: "Vịt thả đồng, đẻ trứng vịt dinh dưỡng",
   },
   heo: {
     name: "Heo",
     emoji: "🐷",
-    price: 300000,
+    price: 300,
     productTime: 7 * 60 * 60,
     product: "thịt",
     productEmoji: "🥩",
-    productPrice: 55000,
-    feed: 15000,
+    productPrice: 550,
+    feed: 150,
     level: 8,
     description: "Heo đặc sản nuôi thả vườn",
   },
   bo: {
     name: "Bò",
     emoji: "🐄",
-    price: 500000,
+    price: 500,
     productTime: 9 * 60 * 60,
     product: "sữa",
     productEmoji: "🥛",
-    productPrice: 80000,
-    feed: 22000,
+    productPrice: 800,
+    feed: 220,
     level: 10,
     description: "Bò sữa cho sữa tươi nguyên chất",
   },
   ca: {
     name: "Cá",
     emoji: "🐟",
-    price: 80000,
+    price: 800,
     productTime: 3 * 60 * 60,
     product: "cá tươi",
     productEmoji: "🐠",
-    productPrice: 22000,
-    feed: 8000,
+    productPrice: 2200,
+    feed: 800,
     level: 4,
     description: "Cá đồng nuôi trong ao",
   },
@@ -626,70 +626,58 @@ const ANIMALS = {
   de: {
     name: "Dê",
     emoji: "🐐",
-    price: 800000,
+    price: 800,
     productTime: 6 * 60 * 60,
     product: "sữa dê",
     productEmoji: "🥛",
-    productPrice: 100000,
-    feed: 30000,
+    productPrice: 1000,
+    feed: 30,
     level: 11,
     description: "Dê sữa cao cấp từ vùng núi Tây Bắc",
   },
   ngua: {
     name: "Ngựa",
     emoji: "🐎",
-    price: 1200000,
+    price: 1200,
     productTime: 11 * 60 * 60,
     product: "lông ngựa",
     productEmoji: "🧶",
-    productPrice: 250000,
-    feed: 40000,
+    productPrice: 2500,
+    feed: 400,
     level: 12,
     description: "Ngựa thuần chủng quý hiếm",
   },
   huou: {
     name: "Hươu",
     emoji: "🦌",
-    price: 1500000,
+    price: 1500,
     productTime: 13 * 60 * 60,
     product: "nhung hươu",
     productEmoji: "🦴",
-    productPrice: 380000,
-    feed: 45000,
+    productPrice: 3800,
+    feed: 450,
     level: 13,
     description: "Hươu sao quý hiếm, cho nhung chất lượng cao",
   },
   dan_dieu: {
     name: "Đà điểu",
     emoji: "🦩",
-    price: 1800000,
+    price: 1800,
     productTime: 15 * 60 * 60,
     product: "trứng đà điểu",
     productEmoji: "🥚",
-    productPrice: 450000,
-    feed: 50000,
+    productPrice: 4500,
+    feed: 500,
     level: 14,
     description: "Đà điểu châu Phi, cho trứng siêu lớn",
-  },
-  ky_lan: {
-    name: "Kỳ lân",
-    emoji: "🦄",
-    price: 5000000,
-    productTime: 48 * 60 * 60,
-    product: "bột kỳ lân",
-    productEmoji: "✨",
-    productPrice: 1200000,
-    feed: 100000,
-    level: 15,
-    description: "Sinh vật huyền thoại, cho sản phẩm ma thuật quý hiếm",
-  },
+  }
 };
 
 const SHOP_ITEMS = {
   phan_bon: {
     name: "Phân bón",
     emoji: "💩",
-    price: 1000000,
+    price: 1000,
     description: "Giảm 20% thời gian trồng trọt",
     effect: "grow_boost",
     duration: 24 * 60 * 60 * 1000,
@@ -698,7 +686,7 @@ const SHOP_ITEMS = {
   thuoc_sau: {
     name: "Thuốc sâu",
     emoji: "🧪",
-    price: 3000000,
+    price: 3000,
     description: "Tăng 20% sản lượng thu hoạch",
     effect: "yield_boost",
     duration: 24 * 60 * 60 * 1000,
@@ -707,7 +695,7 @@ const SHOP_ITEMS = {
   may_cay: {
     name: "Máy cày",
     emoji: "🚜",
-    price: 50000000,
+    price: 50000,
     description: "Tự động gieo trồng vụ mới sau thu hoạch",
     effect: "auto_plant",
     duration: null,
@@ -716,7 +704,7 @@ const SHOP_ITEMS = {
   he_thong_tuoi: {
     name: "Hệ thống tưới",
     emoji: "💧",
-    price: 50000000,
+    price: 50000,
     description: "Tự động tưới cây mỗi 4 giờ",
     effect: "auto_water",
     duration: null,
@@ -725,7 +713,7 @@ const SHOP_ITEMS = {
   chuong_trai: {
     name: "Nâng Cấp Chuồng trại",
     emoji: "🏡",
-    price: 10000000,
+    price: 10000,
     description: "Tăng số lượng vật nuôi tối đa lên 10",
     effect: "animal_capacity",
     duration: null,
@@ -734,7 +722,7 @@ const SHOP_ITEMS = {
   chuong_trai_1: {
     name: "Chuồng trại cấp 1",
     emoji: "🏡",
-    price: 20000000,
+    price: 20000,
     description: "Tăng số lượng vật nuôi tối đa lên 15",
     effect: "animal_capacity_1",
     duration: null,
@@ -743,7 +731,7 @@ const SHOP_ITEMS = {
   chuong_trai_2: {
     name: "Chuồng trại cấp 2",
     emoji: "🏘️",
-    price: 60000000,
+    price: 60000,
     description: "Tăng số lượng vật nuôi tối đa lên 25 con",
     effect: "animal_capacity_2",
     duration: null,
@@ -752,7 +740,7 @@ const SHOP_ITEMS = {
   chuong_trai_3: {
     name: "Trang trại hiện đại",
     emoji: "🏰",
-    price: 150000000,
+    price: 150000,
     description: "Tăng số lượng vật nuôi tối đa lên 40 con",
     effect: "animal_capacity_3",
     duration: null,
@@ -761,7 +749,7 @@ const SHOP_ITEMS = {
   thuc_an_gia_suc: {
     name: "Thức ăn gia súc",
     emoji: "🌾",
-    price: 5000000,
+    price: 5000,
     description: "Tăng 30% sản lượng từ vật nuôi",
     effect: "animal_boost",
     duration: 24 * 60 * 60 * 1000,
@@ -770,7 +758,7 @@ const SHOP_ITEMS = {
   giong_cao_cap: {
     name: "Giống cây cao cấp",
     emoji: "🌱",
-    price: 1000000,
+    price: 1000,
     description: "Tăng 50% kinh nghiệm từ trồng trọt",
     effect: "exp_boost",
     duration: 24 * 60 * 60 * 1000,
@@ -786,84 +774,84 @@ const LEVELS = [
     level: 4,
     exp: 600,
     title: "Nông dân kinh nghiệm",
-    reward: 100000,
+    reward: 100,
     plotSize: 9,
   },
   {
     level: 5,
     exp: 1200,
     title: "Người làm vườn",
-    reward: 120000,
+    reward: 100,
     plotSize: 12,
   },
   {
     level: 6,
     exp: 3000,
     title: "Chủ trang trại nhỏ",
-    reward: 150000,
+    reward: 150,
     plotSize: 16,
   },
   {
     level: 7,
     exp: 6000,
     title: "Nông dân chuyên nghiệp",
-    reward: 200000,
+    reward: 200,
     plotSize: 20,
   },
   {
     level: 8,
     exp: 12000,
     title: "Chủ trang trại",
-    reward: 300000,
+    reward: 300,
     plotSize: 25,
   },
   {
     level: 9,
     exp: 24000,
     title: "Nông gia thịnh vượng",
-    reward: 400000,
+    reward: 4000,
     plotSize: 30,
   },
   {
     level: 10,
     exp: 60000,
     title: "Đại điền chủ",
-    reward: 500000,
+    reward: 5000,
     plotSize: 36,
   },
   {
     level: 11,
     exp: 150000,
     title: "Nhà nông học",
-    reward: 650000,
+    reward: 6500,
     plotSize: 42,
   },
   {
     level: 12,
     exp: 300000,
     title: "Bậc thầy canh tác",
-    reward: 800000,
+    reward: 8000,
     plotSize: 48,
   },
   {
     level: 13,
     exp: 700000,
     title: "Tỷ phú nông nghiệp",
-    reward: 1000000,
+    reward: 10000,
     plotSize: 54,
   },
   {
     level: 14,
     exp: 1000000,
     title: "Đế chế nông sản",
-    reward: 1500000,
+    reward: 15000,
     plotSize: 60,
   },
   {
     level: 15,
     exp: 5000000,
     title: "Huyền thoại nông trại",
-    reward: 2000000,
+    reward: 20000,
     plotSize: 64,
   },
 ];
@@ -908,11 +896,11 @@ const DAILY_MISSIONS = {
     name: "Trồng cây",
     emoji: "🌱",
     descriptions: [
-      { target: 3, reward: 5000, exp: 10, description: "Trồng 3 cây bất kỳ" },
-      { target: 5, reward: 10000, exp: 20, description: "Trồng 5 cây bất kỳ" },
+      { target: 3, reward: 50, exp: 10, description: "Trồng 3 cây bất kỳ" },
+      { target: 5, reward: 100, exp: 20, description: "Trồng 5 cây bất kỳ" },
       {
         target: 10,
-        reward: 25000,
+        reward: 250,
         exp: 40,
         description: "Trồng 10 cây bất kỳ",
       },
@@ -926,19 +914,19 @@ const DAILY_MISSIONS = {
     descriptions: [
       {
         target: 3,
-        reward: 8000,
+        reward: 80,
         exp: 15,
         description: "Thu hoạch 3 cây trồng",
       },
       {
         target: 5,
-        reward: 15000,
+        reward: 150,
         exp: 25,
         description: "Thu hoạch 5 cây trồng",
       },
       {
         target: 10,
-        reward: 30000,
+        reward: 300,
         exp: 50,
         description: "Thu hoạch 10 cây trồng",
       },
@@ -950,8 +938,8 @@ const DAILY_MISSIONS = {
     name: "Cho ăn",
     emoji: "🥫",
     descriptions: [
-      { target: 2, reward: 8000, exp: 15, description: "Cho 2 vật nuôi ăn" },
-      { target: 4, reward: 16000, exp: 30, description: "Cho 4 vật nuôi ăn" },
+      { target: 2, reward: 80, exp: 15, description: "Cho 2 vật nuôi ăn" },
+      { target: 4, reward: 160, exp: 30, description: "Cho 4 vật nuôi ăn" },
     ],
     check: "feed_count",
   },
@@ -962,13 +950,13 @@ const DAILY_MISSIONS = {
     descriptions: [
       {
         target: 3,
-        reward: 10000,
+        reward: 100,
         exp: 15,
         description: "Thu thập 3 sản phẩm từ vật nuôi",
       },
       {
         target: 5,
-        reward: 20000,
+        reward: 200,
         exp: 30,
         description: "Thu thập 5 sản phẩm từ vật nuôi",
       },
@@ -982,13 +970,13 @@ const DAILY_MISSIONS = {
     descriptions: [
       {
         target: 5,
-        reward: 7000,
+        reward: 70,
         exp: 12,
         description: "Bán 5 sản phẩm bất kỳ",
       },
       {
         target: 10,
-        reward: 15000,
+        reward: 150,
         exp: 25,
         description: "Bán 10 sản phẩm bất kỳ",
       },
@@ -1002,13 +990,13 @@ const DAILY_MISSIONS = {
     descriptions: [
       {
         target: 5,
-        reward: 5000,
+        reward: 50,
         exp: 8,
         description: "Tưới nước cho 5 cây trồng",
       },
       {
         target: 10,
-        reward: 12000,
+        reward: 120,
         exp: 18,
         description: "Tưới nước cho 10 cây trồng",
       },
@@ -1020,8 +1008,8 @@ const DAILY_MISSIONS = {
     name: "Chế biến",
     emoji: "👨‍🍳",
     descriptions: [
-      { target: 2, reward: 12000, exp: 20, description: "Chế biến 2 món ăn" },
-      { target: 4, reward: 25000, exp: 40, description: "Chế biến 4 món ăn" },
+      { target: 2, reward: 120, exp: 20, description: "Chế biến 2 món ăn" },
+      { target: 4, reward: 250, exp: 40, description: "Chế biến 4 món ăn" },
     ],
     check: "process_count",
   },
@@ -1032,13 +1020,13 @@ const DAILY_MISSIONS = {
     descriptions: [
       {
         target: 1,
-        reward: 5000,
+        reward: 50,
         exp: 10,
         description: "Thăm 1 trang trại khác",
       },
       {
         target: 2,
-        reward: 15000,
+        reward: 150,
         exp: 25,
         description: "Thăm 2 trang trại khác",
       },
@@ -1055,9 +1043,9 @@ const EVENTS = {
       hoa_dao: {
         name: "Hoa Đào",
         emoji: "🌸",
-        price: 100000,
+        price: 1000,
         time: 48 * 60 * 60,
-        yield: 300000,
+        yield: 3000,
         exp: 30,
         water: 5,
         description: "Hoa đào đỏ thắm, biểu tượng của Tết miền Bắc",
@@ -1065,9 +1053,9 @@ const EVENTS = {
       hoa_mai: {
         name: "Hoa Mai",
         emoji: "🌼",
-        price: 100000,
+        price: 1000,
         time: 48 * 60 * 60,
-        yield: 250000,
+        yield: 2500,
         exp: 30,
         water: 5,
         description: "Hoa mai vàng rực rỡ, biểu tượng của Tết miền Nam",
@@ -1082,9 +1070,9 @@ const EVENTS = {
       banhDeo: {
         name: "Bánh Dẻo",
         emoji: "🥮",
-        price: 50000,
+        price: 500,
         time: 24 * 60 * 60,
-        yield: 150000,
+        yield: 1500,
         exp: 20,
         water: 0,
         description: "Bánh dẻo nhân thơm ngon truyền thống",
@@ -1092,9 +1080,9 @@ const EVENTS = {
       banhNuong: {
         name: "Bánh Nướng",
         emoji: "🥧",
-        price: 60000,
+        price: 600,
         time: 24 * 60 * 60,
-        yield: 180000,
+        yield: 1800,
         exp: 25,
         water: 0,
         description: "Bánh nướng nhân thập cẩm",
@@ -1108,7 +1096,7 @@ const PROCESSING_RECIPES = {
     emoji: "🥖",
     ingredients: { lúa: 3 },
     yield: 1,
-    value: 100000,
+    value: 100,
     exp: 15,
     time: 15 * 60,
     level: 3,
@@ -1119,7 +1107,7 @@ const PROCESSING_RECIPES = {
     emoji: "🧀",
     ingredients: { sữa: 3 },
     yield: 1,
-    value: 300000,
+    value: 300,
     exp: 20,
     time: 30 * 60,
     level: 5,
@@ -1130,7 +1118,7 @@ const PROCESSING_RECIPES = {
     emoji: "🍳",
     ingredients: { trứng: 2, "trứng vịt": 1 },
     yield: 1,
-    value: 60000,
+    value: 600,
     exp: 10,
     time: 10 * 60,
     level: 2,
@@ -1141,7 +1129,7 @@ const PROCESSING_RECIPES = {
     emoji: "🌭",
     ingredients: { thịt: 2 },
     yield: 3,
-    value: 150000,
+    value: 1500,
     exp: 18,
     time: 20 * 60,
     level: 4,
@@ -1152,7 +1140,7 @@ const PROCESSING_RECIPES = {
     emoji: "🐟",
     ingredients: { "cá tươi": 3 },
     yield: 2,
-    value: 70000,
+    value: 700,
     exp: 12,
     time: 15 * 60,
     level: 2,
@@ -1163,7 +1151,7 @@ const PROCESSING_RECIPES = {
     emoji: "🥗",
     ingredients: { "rau xanh": 3, "cà rốt": 2 },
     yield: 3,
-    value: 80000,
+    value: 800,
     exp: 15,
     time: 10 * 60,
     level: 3,
@@ -1174,7 +1162,7 @@ const PROCESSING_RECIPES = {
     emoji: "🍲",
     ingredients: { thịt: 3, trứng: 2 },
     yield: 3,
-    value: 200000,
+    value: 2000,
     exp: 25,
     time: 30 * 60,
     level: 6,
@@ -1185,7 +1173,7 @@ const PROCESSING_RECIPES = {
     emoji: "🍰",
     ingredients: { trứng: 3, sữa: 2, lúa: 2 },
     yield: 2,
-    value: 180000,
+    value: 1800,
     exp: 20,
     time: 20 * 60,
     level: 7,
@@ -1220,26 +1208,23 @@ function getSeasonalEffects(cropId) {
     return { growthBonus: 1, yieldBonus: 1, expBonus: 1 };
   }
 
-  // Cây trồng được trồng trong mùa thích hợp
   const isOptimalSeason = cropConfig.seasons[currentSeason.key];
 
-  // Cây trồng có thể trồng quanh năm
   const isAllSeason = cropConfig.seasons.ALL;
 
   let growthMultiplier = 1;
   let yieldMultiplier = 1;
-  let expMultiplier = 1; // Thêm biến cho kinh nghiệm
+  let expMultiplier = 1;
 
   if (isOptimalSeason) {
     growthMultiplier = 1;
-    yieldMultiplier = 1.1; // Tăng 30% sản lượng
-    expMultiplier = 1.1; // Tăng 30% kinh nghiệm
+    yieldMultiplier = 1.1; 
+    expMultiplier = 1.1;
   }
-  // Không đúng mùa và không phải cây trồng quanh năm
   else if (!isAllSeason) {
-    growthMultiplier = 1.3; // Tăng 20% thời gian trồng
-    yieldMultiplier = 0.5; // Giảm 20% sản lượng
-    expMultiplier = 0.5; // Giảm 20% kinh nghiệm
+    growthMultiplier = 1.3; 
+    yieldMultiplier = 0.5;
+    expMultiplier = 0.5; 
   }
 
   return {
@@ -1740,7 +1725,7 @@ async function plantCropsInRange(userFarm, cropId, cropConfig, rangeParam, sende
   if (balance < totalCost) {
     return {
       success: false,
-      message: `❌ Không đủ tiền để trồng ${plotsToPlant.length} ô ${cropConfig.name}!\n💰 Chi phí: ${formatNumber(totalCost)} Xu\n💵 Số dư: ${formatNumber(balance)} Xu`
+      message: `❌ Không đủ tiền để trồng ${plotsToPlant.length} ô ${cropConfig.name}!\n💰 Chi phí: ${formatNumber(totalCost)} $\n💵 Số dư: ${formatNumber(balance)} $`
     };
   }
   
@@ -1775,7 +1760,7 @@ async function plantCropsInRange(userFarm, cropId, cropConfig, rangeParam, sende
   return {
     success: true,
     plantCount: plotsToPlant.length,
-    message: `✅ Đã trồng ${cropConfig.emoji} ${cropConfig.name} vào ${plotsToPlant.length} ô từ ${start + 1} đến ${end + 1}!\n💰 Chi phí: -${formatNumber(totalCost)} Xu\n⏱️ Thu hoạch sau: ${getHarvestTime(cropConfig.time)}${seasonalWarning}`,
+    message: `✅ Đã trồng ${cropConfig.emoji} ${cropConfig.name} vào ${plotsToPlant.length} ô từ ${start + 1} đến ${end + 1}!\n💰 Chi phí: -${formatNumber(totalCost)} $\n⏱️ Thu hoạch sau: ${getHarvestTime(cropConfig.time)}${seasonalWarning}`,
     cost: totalCost
   };
 }
@@ -1816,7 +1801,7 @@ async function plantCropsInList(userFarm, cropId, cropConfig, listParam, senderI
   if (balance < totalCost) {
     return {
       success: false,
-      message: `❌ Không đủ tiền để trồng ${plotsToPlant.length} ô ${cropConfig.name}!\n💰 Chi phí: ${formatNumber(totalCost)} Xu\n💵 Số dư: ${formatNumber(balance)} Xu`
+      message: `❌ Không đủ tiền để trồng ${plotsToPlant.length} ô ${cropConfig.name}!\n💰 Chi phí: ${formatNumber(totalCost)} $\n💵 Số dư: ${formatNumber(balance)} $`
     };
   }
   
@@ -1856,7 +1841,7 @@ async function plantCropsInList(userFarm, cropId, cropConfig, listParam, senderI
   return {
     success: true,
     plantCount: plotsToPlant.length,
-    message: `✅ Đã trồng ${cropConfig.emoji} ${cropConfig.name} vào ${plotsToPlant.length} ô đất!\n💰 Chi phí: -${formatNumber(totalCost)} Xu\n⏱️ Thu hoạch sau: ${getHarvestTime(cropConfig.time)}${seasonalWarning}${warningMsg}`,
+    message: `✅ Đã trồng ${cropConfig.emoji} ${cropConfig.name} vào ${plotsToPlant.length} ô đất!\n💰 Chi phí: -${formatNumber(totalCost)} $\n⏱️ Thu hoạch sau: ${getHarvestTime(cropConfig.time)}${seasonalWarning}${warningMsg}`,
     cost: totalCost
   };
 }
@@ -1881,9 +1866,9 @@ async function plantAllEmptyPlots(userFarm, cropId, cropConfig, senderID) {
       success: false,
       message: `❌ Không đủ tiền để trồng ${emptyPlots.length} ô ${
         cropConfig.name
-      }!\n💰 Chi phí: ${formatNumber(totalCost)} Xu\n💵 Số dư: ${formatNumber(
+      }!\n💰 Chi phí: ${formatNumber(totalCost)} $\n💵 Số dư: ${formatNumber(
         balance
-      )} Xu`,
+      )} $`,
     };
   }
   const currentSeason = getCurrentSeason();
@@ -1920,7 +1905,7 @@ async function plantAllEmptyPlots(userFarm, cropId, cropConfig, senderID) {
       emptyPlots.length
     } ô đất trống!\n💰 Chi phí: -${formatNumber(
       totalCost
-    )} Xu\n⏱️ Thu hoạch sau: ${getHarvestTime(
+    )} $\n⏱️ Thu hoạch sau: ${getHarvestTime(
       cropConfig.time
     )}${seasonalWarning}`,
     cost: totalCost,
@@ -2010,7 +1995,7 @@ function getCropListMessage(userFarm, page = 1, pageSize = 5) {
     Object.entries(currentEvent.crops).forEach(([id, crop]) => {
       message += `→ ${crop.emoji} ${crop.name}: ${formatNumber(
         crop.price
-      )} Xu | Thu: ${formatNumber(crop.yield)} Xu\n`;
+      )} $ | Thu: ${formatNumber(crop.yield)} $\n`;
     });
     message += "\n";
   }
@@ -2020,7 +2005,7 @@ function getCropListMessage(userFarm, page = 1, pageSize = 5) {
   pageCrops.forEach(([id, crop]) => {
     message += `→ ${crop.emoji} ${crop.name}: ${formatNumber(
       crop.price
-    )} Xu | Thu: ${formatNumber(crop.yield)} Xu\n`;
+    )} $ | Thu: ${formatNumber(crop.yield)} $\n`;
   });
 
   if (lockedCrops.length > 0) {
@@ -2412,9 +2397,9 @@ async function plantMultipleCrops(
       success: false,
       message: `❌ Không đủ tiền để trồng ${plantCount} cây ${
         cropConfig.name
-      }!\n💰 Chi phí: ${formatNumber(totalCost)} Xu\n💵 Số dư: ${formatNumber(
+      }!\n💰 Chi phí: ${formatNumber(totalCost)} $\n💵 Số dư: ${formatNumber(
         balance
-      )} Xu`,
+      )} $`,
     };
   }
 
@@ -2469,7 +2454,7 @@ async function plantMultipleCrops(
       cropConfig.name
     } vào ${plantCount} ô đất trống đầu tiên!\n💰 Chi phí: -${formatNumber(
       totalCost
-    )} Xu\n⏱️ Thu hoạch sau: ${getHarvestTime(
+    )} $\n⏱️ Thu hoạch sau: ${getHarvestTime(
       cropConfig.time
     )}${seasonalWarning}`,
     cost: totalCost,
@@ -2503,7 +2488,7 @@ async function plantCropInPlot(
         cropConfig.name
       }!\n💰 Giá: ${formatNumber(
         cropConfig.price
-      )} Xu\n💵 Số dư: ${formatNumber(balance)} Xu`,
+      )} $\n💵 Số dư: ${formatNumber(balance)} $`,
     };
   }
   const currentSeason = getCurrentSeason();
@@ -2577,196 +2562,196 @@ module.exports = {
     const { threadID, messageID, senderID } = event;
     const currentTime = Date.now();
 
+try {
+  updateFarms();
+
+  const farmData = loadFarmData();
+  if (!farmData || !farmData.farms) {
+    console.error("Invalid farm data structure");
+    return api.sendMessage(
+      "❌ Lỗi dữ liệu trang trại! Vui lòng thử lại sau.",
+      threadID,
+      messageID
+    );
+  }
+
+  const userFarm = farmData.farms[senderID] || createUserFarm(senderID);
+  userFarm.id = senderID;
+  farmData.farms[senderID] = userFarm;
+  saveFarmData(farmData);
+  if (!userFarm.weather) {
+    userFarm.weather = {
+      type: "sunny",
+      nextChange: Date.now() + 6 * 60 * 60 * 1000,
+    };
+  }
+  if (!target[0]) {
     try {
-      updateFarms();
+      const level = calculateLevel(userFarm.exp);
+      const nextLevel =
+        level.level < LEVELS.length ? LEVELS[level.level] : null;
 
-      const farmData = loadFarmData();
-      if (!farmData || !farmData.farms) {
-        console.error("Invalid farm data structure");
-        return api.sendMessage(
-          "❌ Lỗi dữ liệu trang trại! Vui lòng thử lại sau.",
-          threadID,
-          messageID
-        );
+      let plotsReady = 0;
+      let plotsGrowing = 0;
+      let plotsEmpty = 0;
+      let plotsDamaged = 0;
+
+      const weatherType = userFarm.weather && userFarm.weather.type
+        ? userFarm.weather.type
+        : "sunny";
+      const weatherInfo = WEATHER_EFFECTS[weatherType] || WEATHER_EFFECTS.sunny;
+
+      if (!userFarm.dailyMissions || !userFarm.dailyMissions.missions) {
+        userFarm.dailyMissions = generateDailyMissions(userFarm);
+        saveFarmData(farmData);
       }
 
-      const userFarm = farmData.farms[senderID] || createUserFarm(senderID);
-      userFarm.id = senderID;
-      farmData.farms[senderID] = userFarm;
-      saveFarmData(farmData);
-      if (!userFarm.weather) {
-        userFarm.weather = {
-          type: "sunny",
-          nextChange: Date.now() + 6 * 60 * 60 * 1000,
-        };
-      }
-      if (!target[0]) {
-        try {
-          const level = calculateLevel(userFarm.exp);
-          const nextLevel =
-            level.level < LEVELS.length ? LEVELS[level.level] : null;
+      const { completed, total, unclaimed } = checkMissionsStatus(userFarm);
+      const hour = new Date().getHours();
+      const weatherTimeOfDay = userFarm.weather && userFarm.weather.timeOfDay
+        ? userFarm.weather.timeOfDay
+        : hour >= 5 && hour < 10
+        ? "morning"
+        : hour >= 10 && hour < 16
+        ? "noon"
+        : hour >= 16 && hour < 19
+        ? "evening"
+        : "night";
 
-          let plotsReady = 0;
-          let plotsGrowing = 0;
-          let plotsEmpty = 0;
+      const timeEmoji = {
+        morning: "🌅",
+        noon: "☀️",
+        evening: "🌆",
+        night: "🌃",
+      };
 
-          const weatherType =
-            userFarm.weather && userFarm.weather.type
-              ? userFarm.weather.type
-              : "sunny";
-          const weatherInfo =
-            WEATHER_EFFECTS[weatherType] || WEATHER_EFFECTS.sunny;
+      userFarm.plots.forEach((plot) => {
+        if (plot.status === "ready") plotsReady++;
+        else if (plot.status === "growing") plotsGrowing++;
+        else if (plot.status === "empty") plotsEmpty++;
+        else if (plot.status === "damaged") plotsDamaged++;
+      });
 
-          if (!userFarm.dailyMissions || !userFarm.dailyMissions.missions) {
-            userFarm.dailyMissions = generateDailyMissions(userFarm);
-            saveFarmData(farmData);
-          }
+      let animalProducts = 0;
+      Object.entries(userFarm.animals || {}).forEach(([_, animal]) => {
+        if (animal.productReady) animalProducts++;
+      });
+      
+      const plotsInfo = {
+        ready: plotsReady,
+        growing: plotsGrowing,
+        empty: plotsEmpty,
+        damaged: plotsDamaged
+      };
 
-          const { completed, total, unclaimed } = checkMissionsStatus(userFarm);
-          const hour = new Date().getHours();
-          const weatherTimeOfDay =
-            userFarm.weather && userFarm.weather.timeOfDay
-              ? userFarm.weather.timeOfDay
-              : hour >= 5 && hour < 10
-              ? "morning"
-              : hour >= 10 && hour < 16
-              ? "noon"
-              : hour >= 16 && hour < 19
-              ? "evening"
-              : "night";
+      const currentEvent = checkEvent();
+      const eventMessage = currentEvent
+        ? `\n🎉 Sự kiện đặc biệt: ${currentEvent.name} đang diễn ra!\n` +
+          `→ Các loại cây đặc biệt có sẵn để trồng!`
+        : "";
+      const isVip = isUserVIP(senderID);
+      const vipMessage = isVip ? getVIPBenefitsMessage(senderID) : "";
+      const currentSeason = getCurrentSeason();
+      
+      let message = `〔 🌾 NÔNG TRẠI AKI 🌾 〕\n` +
+        `┣━━━━━━━━━━━━━━━━┫\n`;
+        
+      if (userFarm.notifications && userFarm.notifications.length > 0) {
+        const recentDamageNotifications = userFarm.notifications
+          .filter(
+            (n) =>
+              n.type === "crop_damaged" &&
+              Date.now() - n.time < 12 * 60 * 60 * 1000
+          )
+          .slice(0, 3);
 
-          const timeEmoji = {
-            morning: "🌅",
-            noon: "☀️",
-            evening: "🌆",
-            night: "🌃",
-          };
-
-          userFarm.plots.forEach((plot) => {
-            if (plot.status === "ready") plotsReady++;
-            else if (plot.status === "growing") plotsGrowing++;
-            else if (plot.status === "empty") plotsEmpty++;
+        if (recentDamageNotifications.length > 0) {
+          message += `\n⚠️ THÔNG BÁO MỚI:\n`;
+          recentDamageNotifications.forEach((note) => {
+            const timeAgo = Math.floor(
+              (Date.now() - note.time) / (60 * 1000)
+            );
+            message += `┣➤ ${note.cropName} ở ô ${
+              note.plotIndex + 1
+            } bị hỏng (${timeAgo} phút trước)\n`;
           });
 
-          let animalProducts = 0;
-          Object.entries(userFarm.animals || {}).forEach(([_, animal]) => {
-            if (animal.productReady) animalProducts++;
-          });
-          const plotsInfo = {
-            ready: 0,
-            growing: 0,
-            empty: 0,
-            damaged: 0,
-          };
-
-          userFarm.plots.forEach((plot) => {
-            plotsInfo[plot.status]++;
-          });
-
-          const currentEvent = checkEvent();
-          const eventMessage = currentEvent
-            ? `\n🎉 Sự kiện đặc biệt: ${currentEvent.name} đang diễn ra!\n` +
-              `→ Các loại cây đặc biệt có sẵn để trồng!`
-            : "";
-          const isVip = isUserVIP(senderID);
-          const vipMessage = isVip ? getVIPBenefitsMessage(senderID) : "";
-          const currentSeason = getCurrentSeason();
-          if (userFarm.notifications && userFarm.notifications.length > 0) {
-            const recentDamageNotifications = userFarm.notifications
-              .filter(
-                (n) =>
-                  n.type === "crop_damaged" &&
-                  Date.now() - n.time < 12 * 60 * 60 * 1000
-              )
-              .slice(0, 3);
-
-            if (recentDamageNotifications.length > 0) {
-              message += `\n⚠️ THÔNG BÁO MỚI:\n`;
-              recentDamageNotifications.forEach((note) => {
-                const timeAgo = Math.floor(
-                  (Date.now() - note.time) / (60 * 1000)
-                );
-                message += `┣➤ ${note.cropName} ở ô ${
-                  note.plotIndex + 1
-                } bị hỏng (${timeAgo} phút trước)\n`;
-              });
-
-              userFarm.notifications = userFarm.notifications.filter(
-                (n) =>
-                  !recentDamageNotifications.includes(n) ||
-                  Date.now() - n.time >= 12 * 60 * 60 * 1000
-              );
-            }
-          }
-          let message =
-            `〔 🌾 NÔNG TRẠI AKI 🌾 〕\n` +
-            `┣━━━━━━━━━━━━━━━━┫\n` +
-            `┣➤ 👨‍🌾 Cấp độ: ${level.level} - ${level.title}\n` +
-            `┣➤ 📊 EXP: ${userFarm.exp}/${
-              nextLevel ? nextLevel.exp : "MAX"
-            }\n` +
-            `┃   ${"▰".repeat(
-              Math.floor(
-                ((userFarm.exp -
-                  (level.level > 1 ? LEVELS[level.level - 2].exp : 0)) /
-                  ((nextLevel ? nextLevel.exp : userFarm.exp) -
-                    (level.level > 1 ? LEVELS[level.level - 2].exp : 0))) *
-                  10
-              )
-            )}${"▱".repeat(
-              10 -
-                Math.floor(
-                  ((userFarm.exp -
-                    (level.level > 1 ? LEVELS[level.level - 2].exp : 0)) /
-                    ((nextLevel ? nextLevel.exp : userFarm.exp) -
-                      (level.level > 1 ? LEVELS[level.level - 2].exp : 0))) *
-                    10
-                )
-            )}\n` +
-            `┣━━━━━━━━━━━━━━━━┫\n` +
-            `┣➤ 🌱 ĐẤT TRỒNG: ${userFarm.plots.length} ô\n` +
-            `┃   ✅ Sẵn sàng thu hoạch: ${plotsReady} ô\n` +
-            `┃   🌿 Đang phát triển: ${plotsGrowing} ô\n` +
-            `┃   ⚠️ Đã hỏng: ${plotsInfo.damaged} ô\n`;
-          `┃   🔲 Còn trống: ${plotsEmpty} ô\n` +
-            `┣➤ 🐄 VẬT NUÔI: ${
-              Object.keys(userFarm.animals || {}).length
-            } con\n` +
-            `┣➤ 📋 Nhiệm vụ: ${completed}/${total} (${unclaimed} chưa nhận)\n` +
-            `┣➤ 🗓️ ${
-              currentSeason.emoji
-            } ${currentSeason.name.toUpperCase()} (Tháng ${currentSeason.months.join(
-              ", "
-            )})\n` +
-            `┣➤ 🌤️ ${weatherInfo.emoji}${timeEmoji[weatherTimeOfDay]} ${weatherInfo.name}\n` +
-            `┣➤ 🕒 ${getTimeString()} - ${getWeatherDescription(
-              weatherInfo,
-              weatherTimeOfDay
-            )}\n` +
-            (currentEvent && currentEvent.crops
-              ? `┣➤ 🎉 SỰ KIỆN: ${currentEvent.name}\n┃   → Các loại cây đặc biệt có sẵn để trồng!\n`
-              : "") +
-            (vipMessage ? `┣━━━━━━━━━━━━━━━━┫\n${vipMessage}` : "") +
-            `┗━━━━━━━━━━━━━━━━┛\n\n` +
-            `⚡ LỆNH NHANH:\n` +
-            `→ .farm help - Xem hướng dẫn cách chơi\n`;
-          let damagedCrops = userFarm.plots.filter(
-            (plot) => plot.status === "damaged"
-          ).length;
-          if (damagedCrops > 0) {
-            message += `┣➤ ⚠️ CẢNH BÁO: ${damagedCrops} cây bị hỏng do thu hoạch trễ\n`;
-          }
-
-          return api.sendMessage(message, threadID, messageID);
-        } catch (error) {
-          console.error("Error in farm command:", error);
-          return api.sendMessage(
-            "❌ Lỗi xử lý trang trại!",
-            threadID,
-            messageID
+          userFarm.notifications = userFarm.notifications.filter(
+            (n) =>
+              !recentDamageNotifications.includes(n) ||
+              Date.now() - n.time >= 12 * 60 * 60 * 1000
           );
         }
       }
+      
+      message += `┣➤ 👨‍🌾 Cấp độ: ${level.level} - ${level.title}\n` +
+        `┣➤ 📊 EXP: ${userFarm.exp}/${
+          nextLevel ? nextLevel.exp : "MAX"
+        }\n` +
+        `┃   ${"▰".repeat(
+          Math.floor(
+            ((userFarm.exp -
+              (level.level > 1 ? LEVELS[level.level - 2].exp : 0)) /
+              ((nextLevel ? nextLevel.exp : userFarm.exp) -
+                (level.level > 1 ? LEVELS[level.level - 2].exp : 0))) *
+              10
+          )
+        )}${"▱".repeat(
+          10 -
+            Math.floor(
+              ((userFarm.exp -
+                (level.level > 1 ? LEVELS[level.level - 2].exp : 0)) /
+                ((nextLevel ? nextLevel.exp : userFarm.exp) -
+                  (level.level > 1 ? LEVELS[level.level - 2].exp : 0))) *
+                10
+            )
+        )}\n` +
+        `┣━━━━━━━━━━━━━━━━┫\n` +
+        `┣➤ 🌱 ĐẤT TRỒNG: ${userFarm.plots.length} ô\n` +
+        `┃   ✅ Sẵn sàng thu hoạch: ${plotsReady} ô\n` +
+        `┃   🌿 Đang phát triển: ${plotsGrowing} ô\n` +
+        `┃   ⚠️ Đã hỏng: ${plotsInfo.damaged} ô\n` +
+        `┃   🔲 Còn trống: ${plotsEmpty} ô\n` +
+        `┣➤ 🐄 VẬT NUÔI: ${
+          Object.keys(userFarm.animals || {}).length
+        } con\n` +
+        `┣➤ 📋 Nhiệm vụ: ${completed}/${total} (${unclaimed} chưa nhận)\n` +
+        `┣➤ 🗓️ ${
+          currentSeason.emoji
+        } ${currentSeason.name.toUpperCase()} (Tháng ${currentSeason.months.join(
+          ", "
+        )})\n` +
+        `┣➤ 🌤️ ${weatherInfo.emoji}${timeEmoji[weatherTimeOfDay]} ${weatherInfo.name}\n` +
+        `┣➤ 🕒 ${getTimeString()} - ${getWeatherDescription(
+          weatherInfo,
+          weatherTimeOfDay
+        )}\n` +
+        (currentEvent && currentEvent.crops
+          ? `┣➤ 🎉 SỰ KIỆN: ${currentEvent.name}\n┃   → Các loại cây đặc biệt có sẵn để trồng!\n`
+          : "") +
+        (vipMessage ? `┣━━━━━━━━━━━━━━━━┫\n${vipMessage}` : "") +
+        `┗━━━━━━━━━━━━━━━━┛\n\n` +
+        `⚡ LỆNH NHANH:\n` +
+        `→ .farm help - Xem hướng dẫn cách chơi\n`;
+        
+      let damagedCrops = userFarm.plots.filter(
+        (plot) => plot.status === "damaged"
+      ).length;
+      
+      if (damagedCrops > 0) {
+        message += `┣➤ ⚠️ CẢNH BÁO: ${damagedCrops} cây bị hỏng do thu hoạch trễ\n`;
+      }
+
+      return api.sendMessage(message, threadID, messageID);
+    } catch (error) {
+      console.error("Error in farm command:", error);
+      return api.sendMessage(
+        "❌ Lỗi xử lý trang trại!",
+        threadID,
+        messageID
+      );
+    }
+  }
 
       const command = target[0].toLowerCase();
 
@@ -3092,7 +3077,7 @@ module.exports = {
               case "worth":
                 currentUserInfo += `   Tài sản: ${formatNumber(
                   userFarmData.farmWorth
-                )} Xu\n`;
+                )} $\n`;
                 break;
               case "đất":
               case "plots":
@@ -3143,7 +3128,7 @@ module.exports = {
               case "worth":
                 message += `   💰 Tài sản: ${formatNumber(
                   farm.farmWorth
-                )} Xu\n`;
+                )} $\n`;
                 break;
               case "đất":
               case "plots":
@@ -3425,7 +3410,7 @@ module.exports = {
             rewardMessage += `🏆 Danh hiệu mới: ${newLevelData.title}\n`;
             rewardMessage += `💰 Phần thưởng: +${formatNumber(
               newLevelData.reward
-            )} Xu\n`;
+            )} $\n`;
 
             await updateBalance(senderID, newLevelData.reward);
 
@@ -3531,8 +3516,8 @@ module.exports = {
             if (balance < totalFeedCost) {
               return api.sendMessage(
                 `❌ Bạn không đủ tiền để cho tất cả vật nuôi ăn!\n` +
-                  `💰 Chi phí: ${formatNumber(totalFeedCost)} Xu\n` +
-                  `💵 Số dư: ${formatNumber(balance)} Xu`,
+                  `💰 Chi phí: ${formatNumber(totalFeedCost)} $\n` +
+                  `💵 Số dư: ${formatNumber(balance)} $`,
                 threadID,
                 messageID
               );
@@ -3556,13 +3541,13 @@ module.exports = {
 
             let message =
               `✅ Đã cho tất cả vật nuôi ăn thành công!\n` +
-              `💰 Chi phí: -${formatNumber(totalFeedCost)} Xu\n\n` +
+              `💰 Chi phí: -${formatNumber(totalFeedCost)} $\n\n` +
               `📋 CHI TIẾT:\n`;
 
             Object.entries(unfedAnimals).forEach(([type, info]) => {
               message += `${info.emoji} ${info.name}: ${
                 info.count
-              } con (${formatNumber(info.feedCost * info.count)} Xu)\n`;
+              } con (${formatNumber(info.feedCost * info.count)} $)\n`;
             });
 
             message +=
@@ -3621,10 +3606,10 @@ module.exports = {
           if (balance < feedCost) {
             return api.sendMessage(
               `❌ Bạn không đủ tiền để cho ${animalConfig.name} ăn!\n` +
-                `💰 Chi phí: ${formatNumber(feedCost)} Xu (${formatNumber(
+                `💰 Chi phí: ${formatNumber(feedCost)} $ (${formatNumber(
                   animalConfig.feed
-                )} Xu × ${unfedCount})\n` +
-                `💵 Số dư: ${formatNumber(balance)} Xu`,
+                )} $ × ${unfedCount})\n` +
+                `💵 Số dư: ${formatNumber(balance)} $`,
               threadID,
               messageID
             );
@@ -3648,7 +3633,7 @@ module.exports = {
 
           return api.sendMessage(
             `✅ Đã cho ${unfedCount} ${animalConfig.name} ăn thành công!\n` +
-              `💰 Chi phí: -${formatNumber(feedCost)} Xu\n` +
+              `💰 Chi phí: -${formatNumber(feedCost)} $\n` +
               `⏱️ Vật nuôi sẽ sản xuất sản phẩm sau ${Math.floor(
                 animalConfig.productTime / 3600
               )} giờ\n` +
@@ -3733,10 +3718,10 @@ module.exports = {
           Object.entries(productsCollected).forEach(([product, details]) => {
             message += `${details.emoji} ${product}: +${
               details.count
-            } (${formatNumber(details.price * details.count)} Xu)\n`;
+            } (${formatNumber(details.price * details.count)} $)\n`;
           });
 
-          message += `\n💰 Tổng giá trị: ${formatNumber(totalValue)} Xu`;
+          message += `\n💰 Tổng giá trị: ${formatNumber(totalValue)} $`;
           message += `\n💡 Bán sản phẩm: .farm bán <sản phẩm> <số_lượng>`;
 
           if (animalsFed.length > 0) {
@@ -3795,7 +3780,7 @@ module.exports = {
                     message += `${itemConfig.emoji} ${itemConfig.name}\n`;
                     message += `💰 Giá bán: ${formatNumber(
                       sellPrice
-                    )} Xu (70% giá gốc)\n`;
+                    )} $ (70% giá gốc)\n`;
                     message += `⏱️ Thời hạn còn lại: ${
                       timeLeft === "∞" ? "Vĩnh viễn" : `${timeLeft} giờ`
                     }\n`;
@@ -3843,7 +3828,7 @@ module.exports = {
 
             return api.sendMessage(
               `✅ Đã bán ${itemConfig.emoji} ${itemConfig.name} thành công!\n` +
-                `💰 Nhận được: +${formatNumber(sellPrice)} Xu (70% giá gốc)\n` +
+                `💰 Nhận được: +${formatNumber(sellPrice)} $ (70% giá gốc)\n` +
                 `⚠️ Lưu ý: Các hiệu ứng từ vật phẩm này sẽ mất đi!`,
               threadID,
               messageID
@@ -3895,7 +3880,7 @@ module.exports = {
                 message += `${info.emoji} ${info.name}: ${info.count} con\n`;
                 message += `💰 Giá bán: ${formatNumber(
                   sellPrice
-                )} Xu/con (70% giá mua)\n`;
+                )} $/con (70% giá mua)\n`;
                 message += `💡 Bán: .farm bán gia_súc ${type} <số_lượng>\n\n`;
               });
 
@@ -3951,7 +3936,7 @@ module.exports = {
 
             return api.sendMessage(
               `✅ Đã bán ${sellQuantity} ${ANIMALS[animalType].emoji} ${ANIMALS[animalType].name} thành công!\n` +
-                `💰 Nhận được: +${formatNumber(totalSellPrice)} Xu\n` +
+                `💰 Nhận được: +${formatNumber(totalSellPrice)} $\n` +
                 `💡 Giá bán: ${formatNumber(sellPrice)}/con (70% giá mua)`,
               threadID,
               messageID
@@ -4031,7 +4016,7 @@ module.exports = {
 
                 message += `${productEmoji} ${product}: ${count} (${formatNumber(
                   count * productPrice
-                )} Xu)\n`;
+                )} $)\n`;
                 message += `💡 Bán: .farm bán ${product} <số_lượng>\n\n`;
               });
 
@@ -4212,7 +4197,7 @@ module.exports = {
 
             return api.sendMessage(
               `✅ Đã bán ${quantity} ${productEmoji} ${matchedProduct} thành công!\n` +
-                `💰 Nhận được: +${formatNumber(totalValue)} Xu\n` +
+                `💰 Nhận được: +${formatNumber(totalValue)} $\n` +
                 `⚠️ Lưu ý: Thu hoạch cây trồng trong vòng 2 giờ sau khi sẵn sàng, nếu không cây sẽ bị hỏng!\n` +
                 `📊 Còn lại trong kho: ${userFarm.inventory[matchedProduct]} ${matchedProduct}`,
               threadID,
@@ -4272,7 +4257,7 @@ module.exports = {
                     `🏆 Danh hiệu mới: ${newLevelData.title}\n` +
                     `💰 Phần thưởng: +${formatNumber(
                       newLevelData.reward
-                    )} Xu\n`;
+                    )} $\n`;
 
                   await updateBalance(senderID, newLevelData.reward);
 
@@ -4298,7 +4283,7 @@ module.exports = {
 
                 return api.sendMessage(
                   `✅ Đã nhận thưởng ${claimedCount} nhiệm vụ thành công!\n` +
-                    `💰 Nhận được: +${formatNumber(totalReward)} Xu\n` +
+                    `💰 Nhận được: +${formatNumber(totalReward)} $\n` +
                     `📊 Kinh nghiệm: +${totalExp} EXP${levelUpMessage}`,
                   threadID,
                   messageID
@@ -4340,7 +4325,7 @@ module.exports = {
                     `🏆 Danh hiệu mới: ${newLevelData.title}\n` +
                     `💰 Phần thưởng: +${formatNumber(
                       newLevelData.reward
-                    )} Xu\n`;
+                    )} $\n`;
 
                   await updateBalance(senderID, newLevelData.reward);
 
@@ -4367,7 +4352,7 @@ module.exports = {
                 const mission = userFarm.dailyMissions.missions[missionType];
                 return api.sendMessage(
                   `✅ Đã nhận thưởng nhiệm vụ "${mission.name}" thành công!\n` +
-                    `💰 Nhận được: +${formatNumber(result.reward)} Xu\n` +
+                    `💰 Nhận được: +${formatNumber(result.reward)} $\n` +
                     `📊 Kinh nghiệm: +${result.exp} EXP${levelUpMessage}`,
                   threadID,
                   messageID
@@ -4419,7 +4404,7 @@ module.exports = {
               message += `\n${statusIcon} ${mission.emoji} ${mission.name}\n`;
               message += `┣➤ ${mission.description}\n`;
               message += `┣➤ Tiến độ: ${mission.progress}/${mission.target}\n`;
-              message += `┣➤ Phần thưởng: ${formatNumber(mission.reward)} Xu, ${
+              message += `┣➤ Phần thưởng: ${formatNumber(mission.reward)} $, ${
                 mission.exp
               } EXP\n`;
               message += `┗➤ Trạng thái: ${statusText}\n`;
@@ -4489,7 +4474,7 @@ module.exports = {
                   autoCollectMessage += `${item.recipe.emoji} ${item.process.quantity} ${item.recipe.name} đã hoàn thành!\n`;
                   autoCollectMessage += `💰 Giá trị: ${formatNumber(
                     item.totalValue
-                  )} Xu\n`;
+                  )} $\n`;
                   autoCollectMessage += `📊 EXP: +${
                     item.recipe.exp * item.process.quantity
                   }\n\n`;
@@ -4504,7 +4489,7 @@ module.exports = {
                   autoCollectMessage += `🏆 Danh hiệu mới: ${newLevelData.title}\n`;
                   autoCollectMessage += `💰 Phần thưởng: +${formatNumber(
                     newLevelData.reward
-                  )} Xu\n`;
+                  )} $\n`;
 
                   await updateBalance(senderID, newLevelData.reward);
 
@@ -4597,7 +4582,7 @@ module.exports = {
                   message += `┣➤ ${recipe.emoji} ${recipe.name}\n`;
                   message += `┣➤ 💰 Giá bán: ${formatNumber(
                     recipe.value
-                  )} Xu\n`;
+                  )} $\n`;
                   message += `┣➤ ⏱️ Thời gian: ${Math.floor(
                     recipe.time / 60
                   )} phút\n`;
@@ -4769,7 +4754,7 @@ module.exports = {
             `⏱️ Thời gian: ${Math.floor(recipe.time / 60)} phút\n` +
             `💰 Giá trị: ${formatNumber(
               recipe.value * recipe.yield * quantity
-            )} Xu\n` +
+            )} $\n` +
             `📊 Kinh nghiệm: +${recipe.exp * quantity} EXP\n\n` +
             `💡 Sản phẩm sẽ tự động được thêm vào kho khi hoàn thành!\n` +
             `💡 Sử dụng .farm bán ${recipe.name} để bán khi hoàn thành`;
@@ -4889,7 +4874,7 @@ module.exports = {
             items.forEach(([itemName, item]) => {
               message += `┣➤ ${item.emoji} ${itemName}: ${
                 item.count
-              } (${formatNumber(item.value)} Xu)\n`;
+              } (${formatNumber(item.value)} $)\n`;
               if (item.count > 1) {
                 message += `┃  💡 Bán tất cả: .farm bán ${itemName}\n`;
                 message += `┃  💡 Bán một phần: .farm bán ${itemName} <số lượng>\n`;
@@ -4901,7 +4886,7 @@ module.exports = {
           }
 
           message += `━━━━━━━━━━━━━━\n`;
-          message += `💰 Tổng giá trị kho: ${formatNumber(totalValue)} Xu\n`;
+          message += `💰 Tổng giá trị kho: ${formatNumber(totalValue)} $\n`;
           message += `📊 Số lượng vật phẩm: ${
             Object.keys(userFarm.inventory).length
           }\n`;
@@ -4936,7 +4921,7 @@ module.exports = {
                 `📊 THÔNG TIN CÂY TRỒNG\n` +
                   `━━━━━━━━━━━━━━━━━━\n` +
                   `${crop.emoji} Tên: ${crop.name}\n` +
-                  `💰 Giá giống: ${formatNumber(crop.price)} Xu\n` +
+                  `💰 Giá giống: ${formatNumber(crop.price)} $\n` +
                   `⏱️ Thời gian phát triển: ${
                     Math.floor(crop.time / 3600) > 0
                       ? `${Math.floor(crop.time / 3600)} giờ ${Math.floor(
@@ -4945,10 +4930,10 @@ module.exports = {
                       : `${Math.floor(crop.time / 60)} phút`
                   }\n` +
                   `💧 Nước cần thiết: ${crop.water} lần tưới\n` +
-                  `💵 Thu hoạch: ${formatNumber(crop.yield)} Xu\n` +
+                  `💵 Thu hoạch: ${formatNumber(crop.yield)} $\n` +
                   `📈 Lợi nhuận: ${formatNumber(
                     crop.yield - crop.price
-                  )} Xu\n` +
+                  )} $\n` +
                   `📊 Kinh nghiệm: ${crop.exp} EXP\n` +
                   `🏆 Cấp độ yêu cầu: ${crop.level}\n` +
                   `📝 Mô tả: ${crop.description}\n`,
@@ -4963,17 +4948,17 @@ module.exports = {
                 `📊 THÔNG TIN VẬT NUÔI\n` +
                   `━━━━━━━━━━━━━━━━━━\n` +
                   `${animal.emoji} Tên: ${animal.name}\n` +
-                  `💰 Giá mua: ${formatNumber(animal.price)} Xu\n` +
+                  `💰 Giá mua: ${formatNumber(animal.price)} $\n` +
                   `⏱️ Chu kỳ sản xuất: ${Math.floor(
                     animal.productTime / 3600
                   )} giờ\n` +
-                  `🍲 Chi phí thức ăn: ${formatNumber(animal.feed)} Xu/lần\n` +
+                  `🍲 Chi phí thức ăn: ${formatNumber(animal.feed)} $/lần\n` +
                   `${animal.productEmoji} Sản phẩm: ${animal.product}\n` +
-                  `💵 Giá trị: ${formatNumber(animal.productPrice)} Xu\n` +
+                  `💵 Giá trị: ${formatNumber(animal.productPrice)} $\n` +
                   `📈 Lợi nhuận/ngày: ${formatNumber(
                     (24 / (animal.productTime / 3600)) * animal.productPrice -
                       (24 / (animal.productTime / 3600)) * animal.feed
-                  )} Xu\n` +
+                  )} $\n` +
                   `🏆 Cấp độ yêu cầu: ${animal.level}\n` +
                   `📝 Mô tả: ${animal.description}`,
                 threadID,
@@ -4987,7 +4972,7 @@ module.exports = {
                 `📊 THÔNG TIN VẬT PHẨM\n` +
                   `━━━━━━━━━━━━━━━━━━\n` +
                   `${item.emoji} Tên: ${item.name}\n` +
-                  `💰 Giá mua: ${formatNumber(item.price)} Xu\n` +
+                  `💰 Giá mua: ${formatNumber(item.price)} $\n` +
                   `⏱️ Thời hạn: ${
                     item.duration
                       ? Math.floor(item.duration / (24 * 60 * 60 * 1000)) +
@@ -5151,7 +5136,7 @@ module.exports = {
             });
             message += `┣➤ 💰 Ước tính thu nhập/ngày: ${formatNumber(
               Math.floor(estimatedDailyIncome)
-            )} Xu\n`;
+            )} $\n`;
           }
 
           message += `┗━━━━━━━━━━━━━┛\n\n`;
@@ -5179,11 +5164,11 @@ module.exports = {
               totalInventoryValue += itemValue;
               message += `┣➤ ${emoji} ${item}: ${quantity} (${formatNumber(
                 itemValue
-              )} Xu)\n`;
+              )} $)\n`;
             });
 
             message +=
-              `┣➤ 💰 Tổng giá trị: ${formatNumber(totalInventoryValue)} Xu\n` +
+              `┣➤ 💰 Tổng giá trị: ${formatNumber(totalInventoryValue)} $\n` +
               `┗━━━━━━━━━━━━━━┛\n\n`;
           }
 
@@ -5680,7 +5665,7 @@ module.exports = {
                 message += `🏆 Danh hiệu mới: ${newLevelData.title}\n`;
                 message += `💰 Phần thưởng: +${formatNumber(
                   newLevelData.reward
-                )} Xu\n`;
+                )} $\n`;
 
                 if (newLevelData.plotSize > userFarm.plots.length) {
                   const newPlotsCount =
@@ -5816,7 +5801,7 @@ module.exports = {
             message += `🏆 Danh hiệu mới: ${newLevelData.title}\n`;
             message += `💰 Phần thưởng: +${formatNumber(
               newLevelData.reward
-            )} Xu\n`;
+            )} $\n`;
 
             if (newLevelData.plotSize > userFarm.plots.length) {
               const newPlotsCount =
@@ -6342,10 +6327,10 @@ module.exports = {
               if (balance < totalPrice) {
                 return api.sendMessage(
                   `❌ Bạn không đủ tiền để mua ${quantity} ${animalConfig.name}!\n` +
-                    `💰 Giá: ${formatNumber(totalPrice)} Xu (${formatNumber(
+                    `💰 Giá: ${formatNumber(totalPrice)} $ (${formatNumber(
                       unitPrice
                     )} × ${quantity})\n` +
-                    `💵 Số dư: ${formatNumber(balance)} Xu`,
+                    `💵 Số dư: ${formatNumber(balance)} $`,
                   threadID,
                   messageID
                 );
@@ -6392,10 +6377,10 @@ module.exports = {
               if (vipDiscount > 0) {
                 const originalTotalPrice = animalConfig.price * quantity;
                 discountMessage =
-                  `\n💰 Giá gốc: ${formatNumber(originalTotalPrice)} Xu\n` +
+                  `\n💰 Giá gốc: ${formatNumber(originalTotalPrice)} $\n` +
                   `👑 Giảm giá VIP: -${vipDiscount}% (tiết kiệm ${formatNumber(
                     originalTotalPrice - totalPrice
-                  )} Xu)`;
+                  )} $)`;
               }
 
               const productTime = Math.floor(animalConfig.productTime / 3600);
@@ -6412,7 +6397,7 @@ module.exports = {
 
               return api.sendMessage(
                 `✅ Đã mua ${quantity} ${animalConfig.emoji} ${animalConfig.name} thành công!${discountMessage}\n` +
-                  `💸 Chi phí: -${formatNumber(totalPrice)} Xu\n` +
+                  `💸 Chi phí: -${formatNumber(totalPrice)} $\n` +
                   `📈 Lợi nhuận dự kiến: ${formatNumber(
                     dailyProfit
                   )}/ngày (tất cả)\n` +
@@ -6507,11 +6492,11 @@ module.exports = {
 
                 message += `${animal.emoji} ${animal.name} (Cấp ${animal.level})\n`;
 
-                message += `💰 Giá: ${formatNumber(normalPrice)} Xu`;
+                message += `💰 Giá: ${formatNumber(normalPrice)} $`;
                 if (vipDiscount > 0) {
                   message += ` → 👑 ${formatNumber(
                     vipPrice
-                  )} Xu (-${vipDiscount}%)`;
+                  )} $ (-${vipDiscount}%)`;
                 }
                 message += `\n`;
 
@@ -6578,10 +6563,10 @@ module.exports = {
               if (balance < discountedPrice) {
                 return api.sendMessage(
                   `❌ Bạn không đủ tiền để mua ${itemConfig.name}!\n` +
-                    `💰 Giá: ${formatNumber(discountedPrice)} Xu${
+                    `💰 Giá: ${formatNumber(discountedPrice)} $${
                       vipDiscount > 0 ? ` (Đã giảm ${vipDiscount}%)` : ""
                     }\n` +
-                    `💵 Số dư: ${formatNumber(balance)} Xu`,
+                    `💵 Số dư: ${formatNumber(balance)} $`,
                   threadID,
                   messageID
                 );
@@ -6636,15 +6621,15 @@ module.exports = {
               let discountMessage = "";
               if (vipDiscount > 0) {
                 discountMessage =
-                  `\n💰 Giá gốc: ${formatNumber(originalPrice)} Xu\n` +
+                  `\n💰 Giá gốc: ${formatNumber(originalPrice)} $\n` +
                   `👑 Giảm giá VIP: -${vipDiscount}% (tiết kiệm ${formatNumber(
                     originalPrice - discountedPrice
-                  )} Xu)`;
+                  )} $)`;
               }
 
               return api.sendMessage(
                 `✅ Đã mua ${itemConfig.emoji} ${itemConfig.name} thành công!${discountMessage}\n` +
-                  `💸 Chi phí: -${formatNumber(discountedPrice)} Xu\n` +
+                  `💸 Chi phí: -${formatNumber(discountedPrice)} $\n` +
                   `⏱️ Thời hạn: ${
                     itemConfig.duration
                       ? Math.floor(
@@ -6707,11 +6692,11 @@ module.exports = {
                     owned ? "(Đã sở hữu)" : ""
                   }\n`;
 
-                  message += `💰 Giá: ${formatNumber(normalPrice)} Xu`;
+                  message += `💰 Giá: ${formatNumber(normalPrice)} $`;
                   if (vipDiscount > 0 && !owned) {
                     message += ` → 👑 ${formatNumber(
                       discountedPrice
-                    )} Xu (-${vipDiscount}%)`;
+                    )} $ (-${vipDiscount}%)`;
                   }
                   message += `\n`;
 

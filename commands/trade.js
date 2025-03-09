@@ -18,7 +18,7 @@ module.exports = {
   usages:
     ".trade [check/buy/sell/portfolio/info/order/analysis/guide/news/limits] [mã CP] [số lượng] [tùy chọn]",
   cooldowns: 5,
-  usedby: 0,
+  usedby: 2,
   onLaunch: async function ({ api, event, target }) {
     const { threadID, messageID, senderID } = event;
 
@@ -162,7 +162,7 @@ module.exports = {
             message += `🏢 ${stock.name}\n`;
             message += `💰 Giá: ${tradeSystem.formatStockPrice(
               stock.priceUSD
-            )} (${tradeSystem.formatNumber(stock.price)} Xu)\n`;
+            )} (${tradeSystem.formatNumber(stock.price)} $)\n`;
             message += `📈 RSI (14): ${rsi ? rsi.toFixed(2) : "N/A"}\n`;
 
             if (macd) {
@@ -218,7 +218,7 @@ module.exports = {
                   side === "buy" ? "MUA" : "BÁN"
                 }\n` +
                 `🔢 Số lượng: ${quantity}\n` +
-                `💰 Giá: ${tradeSystem.formatNumber(price)} Xu`,
+                `💰 Giá: ${tradeSystem.formatNumber(price)} $`,
               threadID,
               messageID
             );
@@ -306,10 +306,10 @@ module.exports = {
           if (portfolioValue > 0) {
             message += `- Giá trị danh mục: ${tradeSystem.formatNumber(
               portfolioValue
-            )} Xu\n`;
+            )} $\n`;
             message += `- Giới hạn giao dịch: ${tradeSystem.formatNumber(
               maxTradeValue
-            )} Xu/lệnh\n`;
+            )} $/lệnh\n`;
           } else {
             message += "- Không áp dụng với giao dịch đầu tiên\n";
           }
@@ -321,8 +321,8 @@ module.exports = {
           message += "- Hạn chế thao túng thị trường\n\n";
 
           message += "ℹ️ VÍ DỤ:\n";
-          message += "- Nếu danh mục có giá trị 1,000,000 Xu\n";
-          message += "- Giao dịch tối đa: 250,000 Xu/lệnh\n";
+          message += "- Nếu danh mục có giá trị 1,000,000 $\n";
+          message += "- Giao dịch tối đa: 250,000 $/lệnh\n";
           message += "- Có thể chia nhỏ lệnh lớn thành nhiều lệnh nhỏ hơn";
 
           return api.sendMessage(message, threadID, messageID);
@@ -382,7 +382,7 @@ module.exports = {
               message += `${medal} ${userInfo}\n`;
               message += `💰 Tài sản: ${tradeSystem.formatNumber(
                 investor.value
-              )} Xu\n`;
+              )} $\n`;
               message += `📊 Số CP: ${investor.stockCount} loại\n\n`;
             }
 
@@ -408,7 +408,7 @@ module.exports = {
           message += `⏰ Giờ giao dịch: ${MARKET_HOURS.open}:00 - ${MARKET_HOURS.close}:00\n`;
           message += `💱 Tỉ giá: 1$ = ${overview.xuRate.toLocaleString(
             "vi-VN"
-          )} Xu\n`;
+          )} $\n`;
 
           message += "\n";
 
@@ -418,7 +418,7 @@ module.exports = {
           )} CP\n`;
           message += `💰 Giá trị: ${tradeSystem.formatNumber(
             analysis.totalValue
-          )} Xu\n`;
+          )} $\n`;
           message += `🎯 Xu hướng: ${marketSentiment}\n`;
           message += `📰 Tin tức: ${tradeSystem.activeNews.length} tin tức đang hoạt động\n\n`;
 
@@ -427,7 +427,7 @@ module.exports = {
             const stock = overview.stocks[symbol];
             message += `${symbol}: +${change.toFixed(
               2
-            )}% (${tradeSystem.formatNumber(stock.price)} Xu)\n`;
+            )}% (${tradeSystem.formatNumber(stock.price)} $)\n`;
           });
 
           message += "\n🔻 TOP GIẢM GIÁ:\n";
@@ -435,7 +435,7 @@ module.exports = {
             const stock = overview.stocks[symbol];
             message += `${symbol}: ${change.toFixed(
               2
-            )}% (${tradeSystem.formatNumber(stock.price)} Xu)\n`;
+            )}% (${tradeSystem.formatNumber(stock.price)} $)\n`;
           });
 
           message += "\n💎 TOÀN BỘ CỔ PHIẾU:\n";
@@ -446,7 +446,7 @@ module.exports = {
               data.priceUSD
             )} (${tradeSystem.formatNumber(
               data.price
-            )} Xu) ${changeIcon}${Math.abs(data.changePercent).toFixed(2)}%\n`;
+            )} $) ${changeIcon}${Math.abs(data.changePercent).toFixed(2)}%\n`;
           });
 
           return api.sendMessage(message, threadID, messageID);
@@ -476,17 +476,17 @@ module.exports = {
               `🔢 Số lượng: ${result.quantity}\n` +
               `💰 Giá cơ sở: ${tradeSystem.formatNumber(
                 result.basePrice
-              )} Xu\n` +
-              `📊 Giá khớp: ${tradeSystem.formatNumber(result.price)} Xu\n` +
+              )} $\n` +
+              `📊 Giá khớp: ${tradeSystem.formatNumber(result.price)} $\n` +
               `🔀 Slippage: ${result.slippage.toFixed(2)}%\n` +
-              `💵 Tổng: ${tradeSystem.formatNumber(result.total)} Xu\n` +
+              `💵 Tổng: ${tradeSystem.formatNumber(result.total)} $\n` +
               `📋 Phí GD: ${tradeSystem.formatNumber(
                 result.transactionFee
-              )} Xu\n` +
-              `🏷️ Thuế: ${tradeSystem.formatNumber(result.tax)} Xu\n` +
+              )} $\n` +
+              `🏷️ Thuế: ${tradeSystem.formatNumber(result.tax)} $\n` +
               `💶 Tổng cộng: ${tradeSystem.formatNumber(
                 result.totalWithFees
-              )} Xu`;
+              )} $`;
 
             return api.sendMessage(message, threadID, messageID);
           } catch (error) {
@@ -523,17 +523,17 @@ module.exports = {
                 `🔢 Số lượng: ${result.quantity}\n` +
                 `💰 Giá cơ sở: ${tradeSystem.formatNumber(
                   result.basePrice
-                )} Xu\n` +
-                `📊 Giá khớp: ${tradeSystem.formatNumber(result.price)} Xu\n` +
+                )} $\n` +
+                `📊 Giá khớp: ${tradeSystem.formatNumber(result.price)} $\n` +
                 `🔀 Slippage: ${result.slippage.toFixed(2)}%\n` +
-                `💵 Tổng: ${tradeSystem.formatNumber(result.total)} Xu\n` +
+                `💵 Tổng: ${tradeSystem.formatNumber(result.total)} $\n` +
                 `📋 Phí GD: ${tradeSystem.formatNumber(
                   result.transactionFee
-                )} Xu\n` +
-                `🏷️ Thuế: ${tradeSystem.formatNumber(result.tax)} Xu\n` +
+                )} $\n` +
+                `🏷️ Thuế: ${tradeSystem.formatNumber(result.tax)} $\n` +
                 `💶 Thực nhận: ${tradeSystem.formatNumber(
                   result.finalValue
-                )} Xu`,
+                )} $`,
               threadID,
               messageID
             );
@@ -558,7 +558,7 @@ module.exports = {
 
           message += "📊 THỊ TRƯỜNG:\n";
           message += `Độ biến động: ${marketVolatility.toFixed(1)}%\n`;
-          message += `Xu hướng: ${marketSentiment}\n`;
+          message += `$ hướng: ${marketSentiment}\n`;
           message += `Tin tức đang hoạt động: ${tradeSystem.activeNews.length} tin\n\n`;
 
           message += "📝 LƯU Ý GIAO DỊCH:\n";
@@ -647,17 +647,17 @@ module.exports = {
               `━━━━━━━━━━━━━━━━━━\n\n` +
               `💰 Giá: ${tradeSystem.formatStockPrice(
                 stock.priceUSD
-              )} (${tradeSystem.formatNumber(stock.price)} Xu)\n` +
+              )} (${tradeSystem.formatNumber(stock.price)} $)\n` +
               `📊 Thay đổi: ${
                 stock.change > 0 ? "+" : ""
               }${stock.change.toFixed(2)}%\n` +
               `📈 Volume: ${stock.volume.toLocaleString("vi-VN")}\n\n` +
               `💹 BID-ASK SPREAD:\n` +
-              `🔴 Giá Bán (ASK): ${tradeSystem.formatNumber(askPrice)} Xu\n` +
-              `🟢 Giá Mua (BID): ${tradeSystem.formatNumber(bidPrice)} Xu\n` +
+              `🔴 Giá Bán (ASK): ${tradeSystem.formatNumber(askPrice)} $\n` +
+              `🟢 Giá Mua (BID): ${tradeSystem.formatNumber(bidPrice)} $\n` +
               `📏 Chênh lệch: ${tradeSystem.formatNumber(
                 spreadAmount
-              )} Xu (${spreadPercent}%)\n\n` +
+              )} $ (${spreadPercent}%)\n\n` +
               `📊 ĐỘ SÂU THỊ TRƯỜNG:\n` +
               `🔴 Bán:\n${stock.depth.asks
                 .map(
@@ -666,7 +666,7 @@ module.exports = {
                       level.price * overview.xuRate
                     ).toLocaleString(
                       "vi-VN"
-                    )} Xu) - ${level.volume.toLocaleString("vi-VN")} CP`
+                    )} $) - ${level.volume.toLocaleString("vi-VN")} CP`
                 )
                 .join("\n")}\n` +
               `🟢 Mua:\n${stock.depth.bids
@@ -676,7 +676,7 @@ module.exports = {
                       level.price * overview.xuRate
                     ).toLocaleString(
                       "vi-VN"
-                    )} Xu) - ${level.volume.toLocaleString("vi-VN")} CP`
+                    )} $) - ${level.volume.toLocaleString("vi-VN")} CP`
                 )
                 .join("\n")}\n\n` +
               `⏰ Cập nhật: ${new Date().toLocaleString()}`;

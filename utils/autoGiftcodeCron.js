@@ -9,7 +9,7 @@ module.exports = (api) => {
             const giftcodeData = require('../database/json/giftcodes.json');
             const reward = giftcodeData.codes[code].reward;
             
-            console.log(`[AUTO GIFTCODE] Created code: ${code} with ${reward} Xu`);
+            console.log(`[AUTO GIFTCODE] Created code: ${code} with ${reward} $`);
             
             await sendGiftcodeAnnouncement(api, code, reward);
             console.log('[AUTO GIFTCODE] Announcement sent to all threads');

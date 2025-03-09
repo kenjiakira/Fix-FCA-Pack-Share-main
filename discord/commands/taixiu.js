@@ -492,21 +492,18 @@ async function startNewSession(channel) {
                 let totalWinAmount = 0;
                 let totalLossAmount = 0;
 
-                // Process winners
                 for (const [userId, betAmount] of currentSession.bets[result].entries()) {
                     const winnings = Math.floor(betAmount * 1.95);
                     totalWinAmount += winnings;
                     updateBalance(userId, winnings);
                 }
 
-                // Process losers
                 for (const [userId, betAmount] of currentSession.bets[losingChoice].entries()) {
                     totalLossAmount += betAmount;
                     const currentBalance = getBalance(userId);
                     updateBalance(userId, -Math.min(betAmount, currentBalance));
                 }
 
-                // Update history
                 gameHistory.push(result);
                 if (gameHistory.length > MAX_HISTORY) gameHistory.shift();
                 saveHistory();

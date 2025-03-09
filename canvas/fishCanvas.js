@@ -1118,7 +1118,7 @@ async function createFishResultImage(options) {
     ctx.fillStyle = valueGradient;
     ctx.textAlign = "center";
     ctx.fillText(
-      `💰 Giá gốc: ${formatNumber(fish.originalValue)} Xu`,
+      `💰 Giá gốc: ${formatNumber(fish.originalValue)} $`,
       width / 2,
       valueY + 15
     );
@@ -1132,7 +1132,7 @@ async function createFishResultImage(options) {
       ctx.fillStyle = "#e74c3c";
       ctx.textAlign = "center";
       ctx.fillText(
-        `📋 Thuế: ${formatNumber(fish.taxAmount)} Xu (${(
+        `📋 Thuế: ${formatNumber(fish.taxAmount)} $ (${(
           fish.taxRate * 100
         ).toFixed(1)}%)`,
         width / 2,
@@ -1144,7 +1144,7 @@ async function createFishResultImage(options) {
     // Net value with enhanced styling and highlight
     ctx.save();
     // Đo chiều rộng của text để điều chỉnh kích thước background
-    const netValueText = `💵 Thực nhận: ${formatNumber(fish.value)} Xu`;
+    const netValueText = `💵 Thực nhận: ${formatNumber(fish.value)} $`;
     ctx.font = "bold 30px Arial";
     const textWidth = ctx.measureText(netValueText).width;
 
@@ -1324,10 +1324,10 @@ async function createFishResultImage(options) {
         vipBadgeY + 65
       );
 
-      // XU bonus
+      // $ bonus
       const xuIconX = vipBadgeX + 270;
       ctx.fillText(
-        `💰 XU +${vipBenefits.packageId * 5 || 0}%`,
+        `💰 $ +${vipBenefits.packageId * 5 || 0}%`,
         xuIconX,
         vipBadgeY + 65
       );
@@ -1748,7 +1748,7 @@ async function createCollectionImage(options) {
     ctx.fillStyle = statsGradient;
     ctx.textAlign = "left";
     ctx.fillText(
-      `💰 Tổng giá trị: ${formatNumber(collection.stats.totalValue || 0)} Xu`,
+      `💰 Tổng giá trị: ${formatNumber(collection.stats.totalValue || 0)} $`,
       70,
       statsY + 35
     );
@@ -1758,7 +1758,7 @@ async function createCollectionImage(options) {
 
     ctx.fillStyle = "#64ffda";
     ctx.fillText(
-      `🏆 Cá hiếm nhất: ${bestCatchName} (${formatNumber(bestCatchValue)} Xu)`,
+      `🏆 Cá hiếm nhất: ${bestCatchName} (${formatNumber(bestCatchValue)} $)`,
       70,
       statsY + 70
     );

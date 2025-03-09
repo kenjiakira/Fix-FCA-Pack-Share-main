@@ -10,9 +10,9 @@ class JobSystem {
         this.data = this.loadData();
         this.workCountTracker = new WorkCountTracker();
         this.TAX_BRACKETS = [
-            { threshold: 1000000, rate: 0.01 },  
-            { threshold: 5000000, rate: 0.03 }, 
-            { threshold: 10000000, rate: 0.05 },
+            { threshold: 1000, rate: 0.01 },  
+            { threshold: 5000, rate: 0.03 }, 
+            { threshold: 10000, rate: 0.05 },
             { threshold: Infinity, rate: 0.10 }  
         ];
 
@@ -388,7 +388,7 @@ class JobSystem {
         const job = JOBS[jobId];
         if (!job) return this.WORK_COOLDOWN;
 
-        const baseSalary = 50000; 
+        const baseSalary = 50; 
         const baseCooldown = this.WORK_COOLDOWN;
         
         let salaryRatio = job.salary / baseSalary;

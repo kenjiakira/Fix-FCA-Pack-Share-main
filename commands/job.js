@@ -184,7 +184,7 @@ module.exports = {
             balanceGradient.addColorStop(1, "#f9a825");
             ctx.font = "22px Arial";
             ctx.fillStyle = balanceGradient;
-            ctx.fillText(`💰 ${formatNumber(balance)} Xu`, 300, 250);
+            ctx.fillText(`💰 ${formatNumber(balance)} $`, 300, 250);
 
             let startY = 330;
 
@@ -212,7 +212,7 @@ module.exports = {
             ctx.font = "bold 26px Arial";
             ctx.fillStyle = salaryGradient;
             ctx.textAlign = "center";
-            ctx.fillText(`💰 ${formatNumber(currentJob.salary)} Xu/lần`, width/2, startY + 80);
+            ctx.fillText(`💰 ${formatNumber(currentJob.salary)} $/lần`, width/2, startY + 80);
 
             ctx.font = "24px Arial";
             ctx.fillStyle = "rgba(255, 255, 255, 0.8)";
@@ -538,7 +538,7 @@ module.exports = {
                     msg += "💡 HƯỚNG DẪN:\n";
                     msg += "➤ Xem chi tiết: .job category <mã>\n";
                     msg += "   VD: .job category tech\n\n";
-                    msg += "💵 Số dư: " + formatNumber(await getBalance(senderID)) + " Xu";
+                    msg += "💵 Số dư: " + formatNumber(await getBalance(senderID)) + " $";
                     
                     await api.sendMessage(msg, threadID);
                     return;
@@ -566,7 +566,7 @@ module.exports = {
                         return api.sendMessage(
                             "🎉 CHÚC MỪNG BẠN ĐƯỢC NHẬN VÀO LÀM VIỆC!\n\n" +
                             `Công việc: ${selectedJob.name}\n` +
-                            `Lương: ${formatNumber(selectedJob.salary)} Xu/lần\n\n` +
+                            `Lương: ${formatNumber(selectedJob.salary)} $/lần\n\n` +
                             "💡 Dùng .work để bắt đầu làm việc",
                             threadID
                         );
@@ -632,7 +632,7 @@ module.exports = {
                         const infoMsg = await api.sendMessage(
                             "┏━━『 THÔNG TIN CÔNG VIỆC 』━━┓\n\n" +
                             `💼 Công việc: ${currentJob.name}\n` +
-                            `💰 Lương: ${formatNumber(currentJob.salary)} Xu/lần\n` +
+                            `💰 Lương: ${formatNumber(currentJob.salary)} $/lần\n` +
                             `📅 Ngày bắt đầu: ${new Date(job.currentJob.startDate).toLocaleDateString()}\n` +
                             `📈 Số lần làm việc: ${workCount}\n` +
                             `👔 Cấp bậc hiện tại: ${currentLevel?.name || 'Tập sự'}\n` +
@@ -688,7 +688,7 @@ module.exports = {
                         const canApply = jobSystem.checkRequirements(job.requirements, education.degrees);
                         msg += `${canApply ? '✅' : '❌'} ${job.name}\n`;
                         msg += `├ Mã: ${jobId}\n`;
-                        msg += `├ Lương: 💰 ${formatNumber(job.salary)} Xu/lần\n`;
+                        msg += `├ Lương: 💰 ${formatNumber(job.salary)} $/lần\n`;
                         msg += `└ Yêu cầu: ${job.requirements.length} bằng cấp\n\n`;
                     }
 
@@ -729,7 +729,7 @@ module.exports = {
                         availableJobs.slice(0, 10).forEach((job, index) => {
                             msg += `${index + 1}. ${job.name}\n`;
                             msg += `   ├ Mã: ${job.id}\n`;
-                            msg += `   ├ Lương: 💰 ${formatNumber(job.salary)} Xu\n`;
+                            msg += `   ├ Lương: 💰 ${formatNumber(job.salary)} $\n`;
                             msg += `   └ Yêu cầu: ${job.requirements} bằng cấp\n\n`;
                         });
                         
@@ -754,7 +754,7 @@ module.exports = {
                     let msg = "┏━━『 CHI TIẾT CÔNG VIỆC 』━━┓\n\n";
                     msg += `💼 ${jobData.name}\n`;
                     msg += `├ Mã: ${jobId}\n`;
-                    msg += `├ Lương: 💰 ${formatNumber(jobData.salary)} Xu/lần\n`;
+                    msg += `├ Lương: 💰 ${formatNumber(jobData.salary)} $/lần\n`;
                     msg += `├ Loại: ${jobData.type || 'Không xác định'}\n`;
                     msg += `├ Mô tả: ${jobData.description}\n`;
                     

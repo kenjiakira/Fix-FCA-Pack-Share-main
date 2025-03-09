@@ -14,7 +14,7 @@ module.exports = {
   },
   river: {
       name: "Sông",
-      cost: 2500,
+      cost: 25,
       fish: {
           trash: 5,
           common: 50,
@@ -27,7 +27,7 @@ module.exports = {
   },
   ocean: {
       name: "Biển",
-      cost: 5000,
+      cost: 50,
       fish: {
           trash: 3,
           common: 30,
@@ -40,7 +40,7 @@ module.exports = {
   },
   deepSea: {
       name: "Biển sâu",
-      cost: 25000,
+      cost: 250,
       fish: {
           trash: 1,
           common: 20,
@@ -53,7 +53,7 @@ module.exports = {
   },
   abyss: {
       name: "Vực Sâu",
-      cost: 100000,
+      cost: 1000,
       fish: {
           trash: 0,
           common: 10,
@@ -66,7 +66,7 @@ module.exports = {
   },
   atlantis: {
       name: "Atlantis",
-      cost: 250000,
+      cost: 2500,
       fish: {
           trash: 0,
           common: 5,
@@ -79,7 +79,7 @@ module.exports = {
   },
   spaceOcean: {
       name: "Đại Dương Vũ Trụ",
-      cost: 500000,
+      cost: 5000,
       fish: {
           trash: 0,
           common: 0,
@@ -92,7 +92,7 @@ module.exports = {
   },
   dragonRealm: {
       name: "Thủy Cung Rồng",
-      cost: 1000000,
+      cost: 10000,
       fish: {
           trash: 0,
           common: 0,
@@ -104,8 +104,8 @@ module.exports = {
       }
   },
   vipReserve: {
-    name: "Khu VIP",
-    cost: 15000,
+    name: "Khu VIP VÀNG",
+    cost: 1500,
     description: "Khu vực câu cá độc quyền dành riêng cho người dùng VIP",
     fish: {
         trash: 0,       
@@ -114,9 +114,31 @@ module.exports = {
         rare: 22,       
         legendary: 6,  
         mythical: 3,    
-        cosmic: 1       
-    },
-    minLevel: 5,
-    vipOnly: true
+        cosmic: 0.1      
+    }
 },
+    vipBronzeResort: {
+        name: "Khu Nghỉ Dưỡng",
+        cost: 500,
+        fish: {
+          trash: 3,
+          common: 45,
+          uncommon: 30,
+          rare: 17,
+          legendary: 4,
+          mythical: 1
+        }
+      },
+      vipSilverLagoon: {
+        name: "Hồ Bạc",
+        cost: 1000,
+        fish: {
+          trash: 1,
+          common: 30,
+          uncommon: 35,
+          rare: 25,
+          legendary: 7,
+          mythical: 2
+        }
+      },
 };

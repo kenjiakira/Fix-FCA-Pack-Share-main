@@ -267,7 +267,7 @@ module.exports = {
             ctx.font = "bold 28px Arial";
             ctx.fillStyle = walletGradient;
             ctx.textAlign = "right";
-            ctx.fillText(`${formatNumber(walletBalance)} Xu`, width - 100, balanceStartY + 90);
+            ctx.fillText(`${formatNumber(walletBalance)} $`, width - 100, balanceStartY + 90);
             
             // Bank balance
             const bankGradient = ctx.createLinearGradient(100, balanceStartY + 140, 500, balanceStartY + 140);
@@ -282,7 +282,7 @@ module.exports = {
             ctx.font = "bold 28px Arial";
             ctx.fillStyle = bankGradient;
             ctx.textAlign = "right";
-            ctx.fillText(`${formatNumber(bankBalance)} Xu`, width - 100, balanceStartY + 140);
+            ctx.fillText(`${formatNumber(bankBalance)} $`, width - 100, balanceStartY + 140);
             
             // Divider line
             ctx.strokeStyle = "rgba(255, 255, 255, 0.2)";
@@ -307,7 +307,7 @@ module.exports = {
             ctx.textAlign = "right";
             ctx.shadowColor = "rgba(255, 215, 0, 0.5)";
             ctx.shadowBlur = 10;
-            ctx.fillText(`${formatNumber(totalWealth)} Xu`, width - 100, balanceStartY + 210);
+            ctx.fillText(`${formatNumber(totalWealth)} $`, width - 100, balanceStartY + 210);
             ctx.shadowBlur = 0;
             ctx.restore();
             
@@ -352,7 +352,7 @@ module.exports = {
                     ctx.font = "bold 18px Arial";
                     ctx.textAlign = "right";
                     ctx.fillStyle = trans.type === 'in' ? "#2ecc71" : "#e74c3c";
-                    ctx.fillText(`${trans.type === 'in' ? '+' : '-'}${formatNumber(trans.amount || 0)} Xu`, width - 90, y);
+                    ctx.fillText(`${trans.type === 'in' ? '+' : '-'}${formatNumber(trans.amount || 0)} $`, width - 90, y);
                 });
             } else {
                 ctx.font = "italic 20px Arial";

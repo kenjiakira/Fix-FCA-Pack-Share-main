@@ -47,8 +47,8 @@ module.exports = {
             setRewardClaimed(senderID);
 
             return api.sendMessage(
-                `🎉 Chúc mừng! Bạn đã nhận được ${formatNumber(totalReward)} Xu!\n` +
-                `${bonusAmount > 0 ? `👑 Thưởng VIP +${(bonusAmount/totalReward*100).toFixed(0)}%: ${formatNumber(bonusAmount)} Xu\n` : ''}` +
+                `🎉 Chúc mừng! Bạn đã nhận được ${formatNumber(totalReward)} $!\n` +
+                `${bonusAmount > 0 ? `👑 Thưởng VIP +${(bonusAmount/totalReward*100).toFixed(0)}%: ${formatNumber(bonusAmount)} $\n` : ''}` +
                 `📝 Đã hoàn thành ${completedQuests.length} nhiệm vụ.\n` +
                 `⭐ Tiếp tục cố gắng nhé!`,
                 threadID, messageID
@@ -77,9 +77,9 @@ module.exports = {
             message += `${status} ${quest.name}\n`;
             message += `👉 ${quest.description}\n`;
             message += `🎯 Tiến độ: ${vipProgress}/${quest.target}\n`;
-            message += `💰 Phần thưởng: ${formatNumber(quest.reward)} Xu ${vipBenefits ? 
+            message += `💰 Phần thưởng: ${formatNumber(quest.reward)} $ ${vipBenefits ? 
                 `(+${formatNumber(Math.floor(quest.reward * (vipBenefits.packageId === 3 ? 1 : 
-                                                            vipBenefits.packageId === 2 ? 0.5 : 0.2)))} xu VIP)` : ''}\n\n`;
+                                                            vipBenefits.packageId === 2 ? 0.5 : 0.2)))} $ VIP)` : ''}\n\n`;
         }
 
         if (totalCompleted === totalQuests && canClaimRewards(senderID) === false) {

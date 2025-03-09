@@ -62,7 +62,7 @@ module.exports = {
         switch (action) {
             case 'view':
                 return api.sendMessage(
-                    `💰 Số dư của ID ${userID}: ${formatNumber(currentBalance)} Xu`,
+                    `💰 Số dư của ID ${userID}: ${formatNumber(currentBalance)} $`,
                     threadID, messageID
                 );
 
@@ -94,8 +94,8 @@ module.exports = {
                 saveData();
 
                 let msg = `✅ Thao tác thành công cho ID: ${userID}\n` +
-                         `Số dư cũ: ${formatNumber(currentBalance)} Xu\n` +
-                         `Số dư mới: ${formatNumber(newBalance)} Xu`;
+                         `Số dư cũ: ${formatNumber(currentBalance)} $\n` +
+                         `Số dư mới: ${formatNumber(newBalance)} $`;
                 
                 if (reason) msg += `\nLý do: ${reason}`;
 

@@ -159,11 +159,11 @@ class DailyRewardManager {
 
       switch (userData.packageId) {
         case 3:
-          return { hasVip: true, bonus: 80000, packageId: 3 };
+          return { hasVip: true, bonus: 8000, packageId: 3 };
         case 2:
-          return { hasVip: true, bonus: 50000, packageId: 2 };
+          return { hasVip: true, bonus: 5000, packageId: 2 };
         default:
-          return { hasVip: true, bonus: 30000, packageId: 1 };
+          return { hasVip: true, bonus: 3000, packageId: 1 };
       }
     } catch (error) {
       console.error("Error getting VIP bonus:", error);
@@ -563,7 +563,7 @@ class DailyRewardManager {
       ctx.font = "24px Arial";
       ctx.textAlign = "left";
       ctx.fillStyle = "#ffffff";
-      ctx.fillText("Xu:", 150, coinY + 10);
+      ctx.fillText("$:", 150, coinY + 10);
 
       ctx.font = "bold 28px Arial";
       ctx.fillStyle = coinGradient;
@@ -692,7 +692,7 @@ class DailyRewardManager {
         ctx.font = "bold 26px Arial";
         ctx.fillStyle = "#ffffff";
         ctx.fillText(
-          `+ ${vipInfo.bonus.toLocaleString("vi-VN")} Xu`,
+          `+ ${vipInfo.bonus.toLocaleString("vi-VN")} $`,
           width / 2,
           vipSectionY + 90
         );
@@ -729,7 +729,7 @@ class DailyRewardManager {
       ctx.fillStyle = balanceGradient;
       ctx.textAlign = "right";
       ctx.fillText(
-        `${currentBalance.toLocaleString("vi-VN")} Xu`,
+        `${currentBalance.toLocaleString("vi-VN")} $`,
         width - 70,
         balanceY + 50
       );
@@ -850,6 +850,68 @@ class DailyRewardManager {
   }
 }
 
+function generateRandomVoucher(userId) {
+  const voucherTypes = ["BRONZE", "SILVER", "GOLD"];
+  const randomType = voucherTypes[Math.floor(Math.random() * voucherTypes.length)];
+  
+  const discount = randomType === "BRONZE" ? 10 : 
+                   randomType === "SILVER" ? 15 : 20;
+  
+  // Generate random code
+  const generateCode = () => {
+      const chars = "ABCDEFGHJKLMNOPQRSTUVWXYZ0123456789";
+      let code = "";
+      for (let i = 0; i < 4; i++) {
+          code += chars.charAt(Math.floor(Math.random() * chars.length));
+      }
+      return code;
+  };
+  
+  const code = `${randomType}_${generateCode()}${Math.floor(Math.random() * 10000)}`;
+  
+  // Set expiry to 7 days
+  const expires = Date.now() + (7 * 24 * 60 * 60 * 1000);
+  
+  return {
+      type: randomType,
+      code: code,
+      discount: discount,
+      expires: expires,
+      used: false
+  };
+}
+
+function giveRandomVoucher(userId) {
+  try {
+      const voucherPath = path.join(__dirname, 'json', 'voucher.json');
+      let voucherData = { users: {} };
+      
+      if (fs.existsSync(voucherPath)) {
+          voucherData = JSON.parse(fs.readFileSync(voucherPath, 'utf8'));
+      }
+      
+      if (!voucherData.users[userId]) voucherData.users[userId] = [];
+      
+      // 20% chance to get a voucher
+      if (Math.random() < 0.2) {
+          const newVoucher = generateRandomVoucher(userId);
+          voucherData.users[userId].push(newVoucher);
+          fs.writeFileSync(voucherPath, JSON.stringify(voucherData, null, 2));
+          return {
+              success: true,
+              voucher: newVoucher
+          };
+      }
+      
+      return {
+          success: false
+      };
+  } catch (err) {
+      console.error("Error giving random voucher:", err);
+      return { success: false };
+  }
+}
+
 const dailyManager = new DailyRewardManager();
 
 module.exports = {
@@ -857,7 +919,7 @@ module.exports = {
   dev: "HNT",
   usedby: 0,
   category: "Tài Chính",
-  info: "Nhận Xu và EXP mỗi ngày",
+  info: "Nhận $ và EXP mỗi ngày",
   onPrefix: true,
   usages: ".daily: Nhận thưởng hàng ngày. Nhận thưởng thêm khi duy trì streak!",
   cooldowns: 5,
@@ -921,9 +983,22 @@ module.exports = {
         currentBalance,
       });
 
+      // Give chance for a random voucher
+      const voucherResult = giveRandomVoucher(senderID);
+      let message = "";
+      if (voucherResult.success) {
+        const v = voucherResult.voucher;
+        const voucherEmoji = v.type === "BRONZE" ? "🥉" : 
+                            v.type === "SILVER" ? "🥈" : "🎖️";
+        
+        const voucherMessage = `\n\n🎊 CHÚC MỪNG! Bạn nhận được voucher!\n${voucherEmoji} VOUCHER ${v.type} (-${v.discount}%)\n📝 Mã: ${v.code}\n⏳ Hạn sử dụng: 7 ngày\n\nDùng '.voucher' để xem chi tiết.`;
+        
+        message += voucherMessage;
+      }
+
       return api.sendMessage(
         {
-          body: "",
+          body: message,
           attachment: fsSync.createReadStream(imagePath),
         },
         threadID,

@@ -27,16 +27,16 @@ try {
 }
 
 const TRANSFER_LIMITS = {
-    MIN_AMOUNT: 10000,
-    MAX_AMOUNT_PER_TRANSFER: 50000000, 
-    MAX_DAILY_AMOUNT: 1000000000,
+    MIN_AMOUNT: 100,
+    MAX_AMOUNT_PER_TRANSFER: 500000, 
+    MAX_DAILY_AMOUNT: 1000000,
 };
 
 const TRANSFER_FEES = [
-    { threshold: 10000, fee: 0.01 },
-    { threshold: 100000, fee: 0.008 }, 
-    { threshold: 1000000, fee: 0.005 }, 
-    { threshold: Infinity, fee: 0.003 }
+    { threshold: 100, fee: 0.03 },
+    { threshold: 1000, fee: 0.025 }, 
+    { threshold: 10000, fee: 0.03 }, 
+    { threshold: Infinity, fee: 0.01 }
 ];
 
 let dailyTransfers = {};
@@ -86,16 +86,16 @@ module.exports = {
         const transferAmount = parseInt(target[0], 10);
 
         if (transferAmount < TRANSFER_LIMITS.MIN_AMOUNT) {
-            return api.sendMessage(`Số tiền chuyển tối thiểu là ${TRANSFER_LIMITS.MIN_AMOUNT.toLocaleString()} Xu.`, threadID, messageID);
+            return api.sendMessage(`Số tiền chuyển tối thiểu là ${TRANSFER_LIMITS.MIN_AMOUNT.toLocaleString()} $.`, threadID, messageID);
         }
 
         if (transferAmount > TRANSFER_LIMITS.MAX_AMOUNT_PER_TRANSFER) {
-            return api.sendMessage(`Số tiền chuyển tối đa mỗi lần là ${TRANSFER_LIMITS.MAX_AMOUNT_PER_TRANSFER.toLocaleString()} Xu.`, threadID, messageID);
+            return api.sendMessage(`Số tiền chuyển tối đa mỗi lần là ${TRANSFER_LIMITS.MAX_AMOUNT_PER_TRANSFER.toLocaleString()} $.`, threadID, messageID);
         }
 
         dailyTransfers[senderID] = dailyTransfers[senderID] || 0;
         if (dailyTransfers[senderID] + transferAmount > TRANSFER_LIMITS.MAX_DAILY_AMOUNT) {
-            return api.sendMessage(`Bạn đã vượt quá giới hạn chuyển tiền hàng ngày (${TRANSFER_LIMITS.MAX_DAILY_AMOUNT.toLocaleString()} Xu).`, threadID, messageID);
+            return api.sendMessage(`Bạn đã vượt quá giới hạn chuyển tiền hàng ngày (${TRANSFER_LIMITS.MAX_DAILY_AMOUNT.toLocaleString()} $).`, threadID, messageID);
         }
 
         const fee = calculateFee(transferAmount);
@@ -131,14 +131,14 @@ module.exports = {
             type: 'out',
             amount: totalAmount,
             timestamp: Date.now(),
-            description: `Chuyển ${transferAmount} Xu cho ${recipientName}`
+            description: `Chuyển ${transferAmount} $ cho ${recipientName}`
         });
 
         transactions[recipientID].push({
             type: 'in',
             amount: transferAmount,
             timestamp: Date.now(),
-            description: `Nhận ${transferAmount} Xu từ ${senderName}`
+            description: `Nhận ${transferAmount} $ từ ${senderName}`
         });
 
         if (transactions[senderID].length > 5) {
@@ -163,8 +163,8 @@ module.exports = {
         });
 
         try {
-            await updateTransaction(senderID, 'out', `Chuyển ${transferAmount.toLocaleString()} Xu cho ${recipientName}`, transferAmount);
-            await updateTransaction(recipientID, 'in', `Nhận ${transferAmount.toLocaleString()} Xu từ ${senderName}`, transferAmount);
+            await updateTransaction(senderID, 'out', `Chuyển ${transferAmount.toLocaleString()} $ cho ${recipientName}`, transferAmount);
+            await updateTransaction(recipientID, 'in', `Nhận ${transferAmount.toLocaleString()} $ từ ${senderName}`, transferAmount);
         } catch (err) {
             console.error("Lỗi cập nhật lịch sử giao dịch:", err);
         }

@@ -7,6 +7,7 @@ const quyFilePath  = path.join(__dirname, '..', 'commands', 'json', 'quy.json');
 global.userQuests = global.userQuests || {};
 const questsFile = path.join(__dirname, '..', 'database', 'quests.json');
 const questProgressFile = path.join(__dirname, '..', 'database', 'json' , 'questProgress.json');
+const currenciesPath = path.join(__dirname, '../database/json/currencies.json');
 
 async function loadData() {
     try {
@@ -216,6 +217,16 @@ function readData() {
     }
 }
 
+function getAllCurrenciesData() {
+    try {
+        const data = JSON.parse(fs.readFileSync(currenciesPath, 'utf8'));
+        return data;
+    } catch (error) {
+        console.error("Error reading currencies data:", error);
+        return {};
+    }
+}
+
 loadData(); 
 loadQuestProgress();
 
@@ -224,5 +235,5 @@ module.exports = {
     changeBalance, allBalances, saveQuy, loadQuy, loadQuests, 
     getUserQuests, updateQuestProgress, canClaimRewards, setRewardClaimed, 
     loadQuestProgress, saveQuestProgress, checkDayReset, getVNDate,
-    readData  
+    readData, getAllCurrenciesData
 };

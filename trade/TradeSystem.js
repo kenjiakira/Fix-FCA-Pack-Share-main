@@ -50,10 +50,10 @@ const DEFAULT_STOCKS = {
 };
 
 const FEES = {
-    transaction: 0.01,  
+    transaction: 0.03,  
     tax: 0.005,        
-    minFee: 1000,      
-    maxFee: 1000000,  
+    minFee: 10,      
+    maxFee: 10000,  
     largeTrade: 0.005  
 };
 
@@ -68,7 +68,7 @@ const TRADING_LIMITS = {
     dailyTradeLimit: 20,           
     tradeCooldown: 60 * 1000,      
     maxVolumePercent: 0.25,        
-    largeTradeThreshold: 50000000  
+    largeTradeThreshold: 50000  
 };
 
 
@@ -103,19 +103,19 @@ const MARKET_SENTIMENT = {
 
 const ECONOMY_BALANCE = {
     wealthTax: {
-        threshold: 1000000000, 
-        rate: 0.001, 
-        applyInterval: 24 * 60 * 60 * 1000 
+        threshold: 1000000, 
+        rate: 0.01, 
+        applyInterval: 12 * 60 * 60 * 1000 
     },
     maintenanceCost: {
-        threshold: 10, 
-        rate: 0.0005, 
-        applyInterval: 24 * 60 * 60 * 1000 
+        threshold: 5, 
+        rate: 0.005, 
+        applyInterval: 12 * 60 * 60 * 1000 
     },
     marketReset: {
-        enabled: false,
-        interval: 30 * 24 * 60 * 60 * 1000, 
-        preserveUserPercentage: 0.8 
+        enabled: true,
+        interval: 15 * 24 * 60 * 60 * 1000, 
+        preserveUserPercentage: 0.7
     }
 };
 
@@ -354,7 +354,7 @@ t
         const sentimentMultiplier = marketSentiment === 'Bullish' ? 1.2 : 
                                   marketSentiment === 'Bearish' ? 0.8 : 1;
         
-        const newRate = Math.min(24, Math.max(17, 
+        const newRate = Math.min(30, Math.max(30, 
             this.xuRate * (1 + change * sentimentMultiplier)
         ));
         

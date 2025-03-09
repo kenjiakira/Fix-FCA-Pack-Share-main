@@ -526,8 +526,8 @@ function generateTransactionId() {
     ctx.fill();
 
     // Draw amount information with enhanced styling
-    drawAmountField('💸 Số tiền gửi:', formatNumber(amount) + ' Xu', startY + lineHeight * 2.3, '#2e7d32');
-    drawAmountField('🧾 Phí giao dịch:', formatNumber(fee) + ' Xu', startY + lineHeight * 3.1, '#ff9800');
+    drawAmountField('💸 Số tiền gửi:', formatNumber(amount) + ' $', startY + lineHeight * 2.3, '#2e7d32');
+    drawAmountField('🧾 Phí giao dịch:', formatNumber(fee) + ' $', startY + lineHeight * 3.1, '#ff9800');
     
     // Enhanced total amount box
     const totalY = startY + lineHeight * 4;
@@ -568,7 +568,7 @@ function generateTransactionId() {
     ctx.shadowOffsetY = 2;
     ctx.font = `bold 38px ${getFontFamily()}`;
     ctx.textAlign = 'right';
-    ctx.fillText(`${formatNumber(total)} Xu`, width - 150, totalY + 5);
+    ctx.fillText(`${formatNumber(total)} $`, width - 150, totalY + 5);
     ctx.shadowColor = 'transparent';
 
     // Enhanced remaining balance section
@@ -598,7 +598,7 @@ function generateTransactionId() {
     ctx.font = `bold 28px ${getFontFamily()}`;
     ctx.fillStyle = colors.primary;
     ctx.textAlign = 'right';
-    ctx.fillText(`${formatNumber(remainingBalance)} Xu`, width - 150, balanceY + 10);
+    ctx.fillText(`${formatNumber(remainingBalance)} $`, width - 150, balanceY + 10);
 
     // Generate a verification QR code (simulate)
     try {

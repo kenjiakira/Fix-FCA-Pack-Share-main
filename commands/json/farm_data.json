@@ -6,115 +6,115 @@
       "plots": [
         {
           "id": 0,
-          "status": "damaged",
+          "status": "growing",
           "crop": "lua",
-          "plantedAt": 1741318516765,
-          "water": 1.1,
-          "lastWatered": 1741318516765,
+          "plantedAt": 1741486220909,
+          "water": 1,
+          "lastWatered": 1741486220909,
           "readyAt": 1741321003577
         },
         {
           "id": 1,
-          "status": "damaged",
+          "status": "growing",
           "crop": "lua",
-          "plantedAt": 1741318516765,
-          "water": 1.1,
-          "lastWatered": 1741318516765,
+          "plantedAt": 1741486220909,
+          "water": 1,
+          "lastWatered": 1741486220909,
           "readyAt": 1741321003577
         },
         {
           "id": 2,
-          "status": "damaged",
+          "status": "growing",
           "crop": "lua",
-          "plantedAt": 1741318516765,
-          "water": 1.1,
-          "lastWatered": 1741318516765,
+          "plantedAt": 1741486220909,
+          "water": 1,
+          "lastWatered": 1741486220909,
           "readyAt": 1741321003577
         },
         {
           "id": 3,
-          "status": "damaged",
+          "status": "growing",
           "crop": "lua",
-          "plantedAt": 1741318516765,
-          "water": 1.1,
-          "lastWatered": 1741318516765,
+          "plantedAt": 1741486220909,
+          "water": 1,
+          "lastWatered": 1741486220909,
           "readyAt": 1741321003577
         },
         {
           "id": 4,
-          "status": "damaged",
+          "status": "growing",
           "crop": "lua",
-          "plantedAt": 1741318516765,
-          "water": 1.1,
-          "lastWatered": 1741318516765,
+          "plantedAt": 1741486220909,
+          "water": 1,
+          "lastWatered": 1741486220909,
           "readyAt": 1741321003577
         },
         {
           "id": 5,
-          "status": "damaged",
+          "status": "growing",
           "crop": "lua",
-          "plantedAt": 1741318516765,
-          "water": 1.1,
-          "lastWatered": 1741318516765,
+          "plantedAt": 1741486220909,
+          "water": 1,
+          "lastWatered": 1741486220909,
           "readyAt": 1741321003577
         },
         {
           "id": 6,
-          "status": "damaged",
+          "status": "growing",
           "crop": "lua",
-          "plantedAt": 1741318516765,
-          "water": 1.1,
-          "lastWatered": 1741318516765,
+          "plantedAt": 1741486220909,
+          "water": 1,
+          "lastWatered": 1741486220909,
           "readyAt": 1741321003577
         },
         {
           "id": 7,
-          "status": "damaged",
+          "status": "growing",
           "crop": "lua",
-          "plantedAt": 1741318516765,
-          "water": 1.1,
-          "lastWatered": 1741318516765,
+          "plantedAt": 1741486220909,
+          "water": 1,
+          "lastWatered": 1741486220909,
           "readyAt": 1741321003577
         },
         {
           "id": 8,
-          "status": "damaged",
+          "status": "growing",
           "crop": "lua",
-          "plantedAt": 1741318516765,
-          "water": 1.1,
-          "lastWatered": 1741318516765,
+          "plantedAt": 1741486220909,
+          "water": 1,
+          "lastWatered": 1741486220909,
           "readyAt": 1741321003577
         },
         {
           "id": 9,
-          "status": "damaged",
+          "status": "growing",
           "crop": "lua",
-          "plantedAt": 1741318516765,
-          "water": 1.1,
-          "lastWatered": 1741318516765,
+          "plantedAt": 1741486220909,
+          "water": 1,
+          "lastWatered": 1741486220909,
           "readyAt": 1741321003577
         },
         {
           "id": 10,
-          "status": "damaged",
+          "status": "growing",
           "crop": "lua",
-          "plantedAt": 1741318516765,
-          "water": 1.1,
-          "lastWatered": 1741318516765,
+          "plantedAt": 1741486220909,
+          "water": 1,
+          "lastWatered": 1741486220909,
           "readyAt": 1741321003577
         },
         {
           "id": 11,
-          "status": "damaged",
+          "status": "growing",
           "crop": "lua",
-          "plantedAt": 1741318516765,
-          "water": 1.1,
-          "lastWatered": 1741318516765,
+          "plantedAt": 1741486220909,
+          "water": 1,
+          "lastWatered": 1741486220909,
           "readyAt": 1741321003577
         }
       ],
       "inventory": {
-        "cà rốt": 12
+        "cà rốt": 0
       },
       "animals": {},
       "items": {
@@ -129,9 +129,9 @@
       "createdAt": 1740891826851,
       "autoHarvest": false,
       "weather": {
-        "nextChange": 1741452784522,
+        "nextChange": 1741507770404,
         "timeOfDay": "noon",
-        "lastUpdated": 1741431184522
+        "lastUpdated": 1741486170404
       },
       "lastVisits": {
         "61568641631000": 1740901680135,
@@ -190,15 +190,35 @@
         }
       ],
       "dailyMissions": {
-        "date": 1741367272074,
+        "date": 1741486170404,
         "missions": {
+          "process": {
+            "name": "Chế biến",
+            "emoji": "👨‍🍳",
+            "description": "Chế biến 2 món ăn",
+            "target": 2,
+            "reward": 120,
+            "exp": 20,
+            "progress": 0,
+            "claimed": false
+          },
           "sell": {
             "name": "Bán sản phẩm",
             "emoji": "💰",
             "description": "Bán 5 sản phẩm bất kỳ",
             "target": 5,
-            "reward": 7000,
+            "reward": 70,
             "exp": 12,
+            "progress": 5,
+            "claimed": false
+          },
+          "visit": {
+            "name": "Thăm trang trại",
+            "emoji": "👋",
+            "description": "Thăm 1 trang trại khác",
+            "target": 1,
+            "reward": 50,
+            "exp": 10,
             "progress": 0,
             "claimed": false
           },
@@ -207,33 +227,13 @@
             "emoji": "🌾",
             "description": "Thu hoạch 3 cây trồng",
             "target": 3,
-            "reward": 8000,
+            "reward": 80,
             "exp": 15,
-            "progress": 0,
-            "claimed": false
-          },
-          "water": {
-            "name": "Tưới nước",
-            "emoji": "💧",
-            "description": "Tưới nước cho 5 cây trồng",
-            "target": 5,
-            "reward": 5000,
-            "exp": 8,
-            "progress": 0,
-            "claimed": false
-          },
-          "process": {
-            "name": "Chế biến",
-            "emoji": "👨‍🍳",
-            "description": "Chế biến 2 món ăn",
-            "target": 2,
-            "reward": 12000,
-            "exp": 20,
             "progress": 0,
             "claimed": false
           }
         },
-        "refreshed": 1741367272074
+        "refreshed": 1741486170404
       },
       "notifications": [
         {
@@ -377,9 +377,9 @@
       "createdAt": 1740900581883,
       "autoHarvest": false,
       "weather": {
-        "nextChange": 1741452784522,
+        "nextChange": 1741507770404,
         "timeOfDay": "noon",
-        "lastUpdated": 1741431184522
+        "lastUpdated": 1741486170404
       },
       "visitors": [
         {
@@ -432,423 +432,423 @@
         "100053857386814": 1740907324050
       },
       "dailyMissions": {
-        "date": 1741367272084,
+        "date": 1741486170427,
         "missions": {
-          "plant": {
-            "name": "Trồng cây",
-            "emoji": "🌱",
-            "description": "Trồng 3 cây bất kỳ",
-            "target": 3,
-            "reward": 5000,
-            "exp": 10,
-            "progress": 0,
-            "claimed": false
-          },
-          "process": {
-            "name": "Chế biến",
-            "emoji": "👨‍🍳",
-            "description": "Chế biến 2 món ăn",
-            "target": 2,
-            "reward": 12000,
-            "exp": 20,
-            "progress": 0,
-            "claimed": false
-          },
           "water": {
             "name": "Tưới nước",
             "emoji": "💧",
             "description": "Tưới nước cho 5 cây trồng",
             "target": 5,
-            "reward": 5000,
+            "reward": 50,
             "exp": 8,
+            "progress": 0,
+            "claimed": false
+          },
+          "feed": {
+            "name": "Cho ăn",
+            "emoji": "🥫",
+            "description": "Cho 2 vật nuôi ăn",
+            "target": 2,
+            "reward": 80,
+            "exp": 15,
+            "progress": 0,
+            "claimed": false
+          },
+          "plant": {
+            "name": "Trồng cây",
+            "emoji": "🌱",
+            "description": "Trồng 3 cây bất kỳ",
+            "target": 3,
+            "reward": 50,
+            "exp": 10,
             "progress": 0,
             "claimed": false
           }
         },
-        "refreshed": 1741367272084
+        "refreshed": 1741486170427
       }
     },
     "100055074463541": {
       "id": "100055074463541",
-      "exp": 21158,
+      "exp": 22082,
       "plots": [
         {
           "id": 0,
-          "status": "growing",
+          "status": "damaged",
           "crop": "ca_phe",
-          "plantedAt": 1741426637336,
-          "water": 2.9,
-          "lastWatered": 1741426653471,
-          "readyAt": 1741327972505
+          "plantedAt": 1741432198468,
+          "water": 3,
+          "lastWatered": 1741432233046,
+          "readyAt": 1741441215802
         },
         {
           "id": 1,
-          "status": "growing",
+          "status": "damaged",
           "crop": "ca_phe",
-          "plantedAt": 1741426637336,
-          "water": 2.9,
-          "lastWatered": 1741426653471,
-          "readyAt": 1741327972505
+          "plantedAt": 1741432198468,
+          "water": 3,
+          "lastWatered": 1741432233046,
+          "readyAt": 1741441215802
         },
         {
           "id": 2,
-          "status": "growing",
+          "status": "damaged",
           "crop": "ca_phe",
-          "plantedAt": 1741426637336,
-          "water": 2.9,
-          "lastWatered": 1741426653471,
-          "readyAt": 1741327972505
+          "plantedAt": 1741432198468,
+          "water": 3,
+          "lastWatered": 1741432233046,
+          "readyAt": 1741441215802
         },
         {
           "id": 3,
-          "status": "growing",
+          "status": "damaged",
           "crop": "ca_phe",
-          "plantedAt": 1741426637336,
-          "water": 2.9,
-          "lastWatered": 1741426653471,
-          "readyAt": 1741327972505
+          "plantedAt": 1741432198468,
+          "water": 3,
+          "lastWatered": 1741432233046,
+          "readyAt": 1741441215802
         },
         {
           "id": 4,
-          "status": "growing",
+          "status": "damaged",
           "crop": "ca_phe",
-          "plantedAt": 1741426637336,
-          "water": 2.9,
-          "lastWatered": 1741426653471,
-          "readyAt": 1741327972505
+          "plantedAt": 1741432198468,
+          "water": 3,
+          "lastWatered": 1741432233046,
+          "readyAt": 1741441215802
         },
         {
           "id": 5,
-          "status": "growing",
+          "status": "damaged",
           "crop": "ca_phe",
-          "plantedAt": 1741426637336,
-          "water": 2.9,
-          "lastWatered": 1741426653471,
-          "readyAt": 1741327972505
+          "plantedAt": 1741432198468,
+          "water": 3,
+          "lastWatered": 1741432233046,
+          "readyAt": 1741441215802
         },
         {
           "id": 6,
-          "status": "growing",
+          "status": "damaged",
           "crop": "ca_phe",
-          "plantedAt": 1741426637336,
-          "water": 2.9,
-          "lastWatered": 1741426653471,
-          "readyAt": 1741327972505
+          "plantedAt": 1741432198468,
+          "water": 3,
+          "lastWatered": 1741432233046,
+          "readyAt": 1741441215802
         },
         {
           "id": 7,
-          "status": "growing",
+          "status": "damaged",
           "crop": "ca_phe",
-          "plantedAt": 1741426637336,
-          "water": 2.9,
-          "lastWatered": 1741426653471,
-          "readyAt": 1741327972505
+          "plantedAt": 1741432198468,
+          "water": 3,
+          "lastWatered": 1741432233046,
+          "readyAt": 1741441215802
         },
         {
           "id": 8,
-          "status": "growing",
+          "status": "damaged",
           "crop": "ca_phe",
-          "plantedAt": 1741426637336,
-          "water": 2.9,
-          "lastWatered": 1741426653471,
-          "readyAt": 1741327972505
+          "plantedAt": 1741432198468,
+          "water": 3,
+          "lastWatered": 1741432233046,
+          "readyAt": 1741441215802
         },
         {
           "id": 9,
-          "status": "growing",
+          "status": "damaged",
           "crop": "ca_phe",
-          "plantedAt": 1741426637336,
-          "water": 2.9,
-          "lastWatered": 1741426653471,
-          "readyAt": 1741327972505
+          "plantedAt": 1741432198468,
+          "water": 3,
+          "lastWatered": 1741432233046,
+          "readyAt": 1741441215802
         },
         {
           "id": 10,
-          "status": "growing",
+          "status": "damaged",
           "crop": "ca_phe",
-          "plantedAt": 1741426637336,
-          "water": 2.9,
-          "lastWatered": 1741426653471,
-          "readyAt": 1741327972505
+          "plantedAt": 1741432198468,
+          "water": 3,
+          "lastWatered": 1741432233046,
+          "readyAt": 1741441215802
         },
         {
           "id": 11,
-          "status": "growing",
+          "status": "damaged",
           "crop": "ca_phe",
-          "plantedAt": 1741426637336,
-          "water": 2.9,
-          "lastWatered": 1741426653471,
-          "readyAt": 1741327972505
+          "plantedAt": 1741432198468,
+          "water": 3,
+          "lastWatered": 1741432233046,
+          "readyAt": 1741441215802
         },
         {
           "id": 12,
-          "status": "growing",
+          "status": "damaged",
           "crop": "ca_phe",
-          "plantedAt": 1741426637336,
-          "water": 2.9,
-          "lastWatered": 1741426653471,
-          "readyAt": 1741327972505
+          "plantedAt": 1741432198468,
+          "water": 3,
+          "lastWatered": 1741432233046,
+          "readyAt": 1741441215802
         },
         {
           "id": 13,
-          "status": "growing",
+          "status": "damaged",
           "crop": "ca_phe",
-          "plantedAt": 1741426637336,
-          "water": 2.9,
-          "lastWatered": 1741426653471,
-          "readyAt": 1741327972505
+          "plantedAt": 1741432198468,
+          "water": 3,
+          "lastWatered": 1741432233046,
+          "readyAt": 1741441215802
         },
         {
           "id": 14,
-          "status": "growing",
+          "status": "damaged",
           "crop": "ca_phe",
-          "plantedAt": 1741426637336,
-          "water": 2.9,
-          "lastWatered": 1741426653471,
-          "readyAt": 1741327972505
+          "plantedAt": 1741432198468,
+          "water": 3,
+          "lastWatered": 1741432233046,
+          "readyAt": 1741441215802
         },
         {
           "id": 15,
-          "status": "growing",
+          "status": "damaged",
           "crop": "ca_phe",
-          "plantedAt": 1741426637336,
-          "water": 2.9,
-          "lastWatered": 1741426653471,
-          "readyAt": 1741327972505
+          "plantedAt": 1741432198468,
+          "water": 3,
+          "lastWatered": 1741432233046,
+          "readyAt": 1741441215802
         },
         {
           "id": 16,
-          "status": "growing",
+          "status": "damaged",
           "crop": "ca_phe",
-          "plantedAt": 1741426637336,
-          "water": 2.9,
-          "lastWatered": 1741426653471,
-          "readyAt": 1741327972505
+          "plantedAt": 1741432198468,
+          "water": 3,
+          "lastWatered": 1741432233046,
+          "readyAt": 1741441215802
         },
         {
           "id": 17,
-          "status": "growing",
+          "status": "damaged",
           "crop": "ca_phe",
-          "plantedAt": 1741426637336,
-          "water": 2.9,
-          "lastWatered": 1741426653471,
-          "readyAt": 1741327972505
+          "plantedAt": 1741432198468,
+          "water": 3,
+          "lastWatered": 1741432233046,
+          "readyAt": 1741441215802
         },
         {
           "id": 18,
-          "status": "growing",
+          "status": "damaged",
           "crop": "ca_phe",
-          "plantedAt": 1741426637336,
-          "water": 2.9,
-          "lastWatered": 1741426653471,
-          "readyAt": 1741327972505
+          "plantedAt": 1741432198468,
+          "water": 3,
+          "lastWatered": 1741432233046,
+          "readyAt": 1741441215802
         },
         {
           "id": 19,
-          "status": "growing",
+          "status": "damaged",
           "crop": "ca_phe",
-          "plantedAt": 1741426637336,
-          "water": 2.9,
-          "lastWatered": 1741426653471,
-          "readyAt": 1741327972505
+          "plantedAt": 1741432198468,
+          "water": 3,
+          "lastWatered": 1741432233046,
+          "readyAt": 1741441215802
         },
         {
           "id": 20,
-          "status": "growing",
+          "status": "damaged",
           "crop": "ca_phe",
-          "plantedAt": 1741426637336,
-          "water": 2.9,
-          "lastWatered": 1741426653471,
-          "readyAt": 1741327972505
+          "plantedAt": 1741432198468,
+          "water": 3,
+          "lastWatered": 1741432233046,
+          "readyAt": 1741441215802
         },
         {
           "id": 21,
-          "status": "growing",
+          "status": "damaged",
           "crop": "ca_phe",
-          "plantedAt": 1741426637336,
-          "water": 2.9,
-          "lastWatered": 1741426653471,
-          "readyAt": 1741327972505
+          "plantedAt": 1741432198468,
+          "water": 3,
+          "lastWatered": 1741432233046,
+          "readyAt": 1741441215802
         },
         {
           "id": 22,
-          "status": "growing",
+          "status": "damaged",
           "crop": "ca_phe",
-          "plantedAt": 1741426637336,
-          "water": 2.9,
-          "lastWatered": 1741426653471,
-          "readyAt": 1741327972505
+          "plantedAt": 1741432198468,
+          "water": 3,
+          "lastWatered": 1741432233046,
+          "readyAt": 1741441215802
         },
         {
           "id": 23,
-          "status": "growing",
+          "status": "damaged",
           "crop": "ca_phe",
-          "plantedAt": 1741426637336,
-          "water": 2.9,
-          "lastWatered": 1741426653471,
-          "readyAt": 1741327972505
+          "plantedAt": 1741432198468,
+          "water": 3,
+          "lastWatered": 1741432233046,
+          "readyAt": 1741441215802
         },
         {
           "id": 24,
-          "status": "growing",
+          "status": "damaged",
           "crop": "ca_phe",
-          "plantedAt": 1741426637336,
-          "water": 2.9,
-          "lastWatered": 1741426653471,
-          "readyAt": 1741327972505
+          "plantedAt": 1741432198468,
+          "water": 3,
+          "lastWatered": 1741432233046,
+          "readyAt": 1741441215802
         },
         {
           "id": 25,
-          "status": "growing",
+          "status": "damaged",
           "crop": "ca_phe",
-          "plantedAt": 1741426637336,
-          "water": 2.9,
-          "lastWatered": 1741426653471,
-          "readyAt": 1741327972505
+          "plantedAt": 1741432198468,
+          "water": 3,
+          "lastWatered": 1741432233046,
+          "readyAt": 1741441215802
         },
         {
           "id": 26,
-          "status": "growing",
+          "status": "damaged",
           "crop": "ca_phe",
-          "plantedAt": 1741426637336,
-          "water": 2.9,
-          "lastWatered": 1741426653471,
-          "readyAt": 1741327972505
+          "plantedAt": 1741432198468,
+          "water": 3,
+          "lastWatered": 1741432233046,
+          "readyAt": 1741441215802
         },
         {
           "id": 27,
-          "status": "growing",
+          "status": "damaged",
           "crop": "ca_phe",
-          "plantedAt": 1741426637336,
-          "water": 2.9,
-          "lastWatered": 1741426653471,
-          "readyAt": 1741327972505
+          "plantedAt": 1741432198468,
+          "water": 3,
+          "lastWatered": 1741432233046,
+          "readyAt": 1741441215802
         },
         {
           "id": 28,
-          "status": "growing",
+          "status": "damaged",
           "crop": "ca_phe",
-          "plantedAt": 1741426637336,
-          "water": 2.9,
-          "lastWatered": 1741426653471,
-          "readyAt": 1741327972505
+          "plantedAt": 1741432198468,
+          "water": 3,
+          "lastWatered": 1741432233046,
+          "readyAt": 1741441215802
         },
         {
           "id": 29,
-          "status": "growing",
+          "status": "damaged",
           "crop": "ca_phe",
-          "plantedAt": 1741426637336,
-          "water": 2.9,
-          "lastWatered": 1741426653471,
-          "readyAt": 1741327972505
+          "plantedAt": 1741432198468,
+          "water": 3,
+          "lastWatered": 1741432233046,
+          "readyAt": 1741441215802
         },
         {
           "id": 30,
-          "status": "growing",
+          "status": "damaged",
           "crop": "ca_phe",
-          "plantedAt": 1741426637336,
-          "water": 2.9,
-          "lastWatered": 1741426653471,
-          "readyAt": 1741327972505
+          "plantedAt": 1741432198468,
+          "water": 3,
+          "lastWatered": 1741432233046,
+          "readyAt": 1741441215802
         },
         {
           "id": 31,
-          "status": "growing",
+          "status": "damaged",
           "crop": "ca_phe",
-          "plantedAt": 1741426637336,
-          "water": 2.9,
-          "lastWatered": 1741426653471,
-          "readyAt": 1741327972505
+          "plantedAt": 1741432198468,
+          "water": 3,
+          "lastWatered": 1741432233046,
+          "readyAt": 1741441215802
         },
         {
           "id": 32,
-          "status": "growing",
+          "status": "damaged",
           "crop": "ca_phe",
-          "plantedAt": 1741426637336,
-          "water": 2.9,
-          "lastWatered": 1741426653471,
-          "readyAt": 1741327972505
+          "plantedAt": 1741432198468,
+          "water": 3,
+          "lastWatered": 1741432233046,
+          "readyAt": 1741441215802
         },
         {
           "id": 33,
-          "status": "growing",
+          "status": "damaged",
           "crop": "ca_phe",
-          "plantedAt": 1741426637336,
-          "water": 2.9,
-          "lastWatered": 1741426653471,
-          "readyAt": 1741327972505
+          "plantedAt": 1741432198468,
+          "water": 3,
+          "lastWatered": 1741432233046,
+          "readyAt": 1741441215802
         },
         {
           "id": 34,
-          "status": "growing",
+          "status": "damaged",
           "crop": "ca_phe",
-          "plantedAt": 1741426637336,
-          "water": 2.9,
-          "lastWatered": 1741426653471,
-          "readyAt": 1741327972505
+          "plantedAt": 1741432198468,
+          "water": 3,
+          "lastWatered": 1741432233046,
+          "readyAt": 1741441215802
         },
         {
           "id": 35,
-          "status": "growing",
+          "status": "damaged",
           "crop": "ca_phe",
-          "plantedAt": 1741426637336,
-          "water": 2.9,
-          "lastWatered": 1741426653471,
-          "readyAt": 1741327972505
+          "plantedAt": 1741432198468,
+          "water": 3,
+          "lastWatered": 1741432233046,
+          "readyAt": 1741441215802
         },
         {
           "id": 36,
-          "status": "growing",
+          "status": "damaged",
           "crop": "ca_phe",
-          "plantedAt": 1741426637336,
-          "water": 2.9,
-          "lastWatered": 1741426653471,
-          "readyAt": 1741327972505
+          "plantedAt": 1741432198468,
+          "water": 3,
+          "lastWatered": 1741432233046,
+          "readyAt": 1741441215802
         },
         {
           "id": 37,
-          "status": "growing",
+          "status": "damaged",
           "crop": "ca_phe",
-          "plantedAt": 1741426637336,
-          "water": 2.9,
-          "lastWatered": 1741426653471,
-          "readyAt": 1741327972505
+          "plantedAt": 1741432198468,
+          "water": 3,
+          "lastWatered": 1741432233046,
+          "readyAt": 1741441215802
         },
         {
           "id": 38,
-          "status": "growing",
+          "status": "damaged",
           "crop": "ca_phe",
-          "plantedAt": 1741426637336,
-          "water": 2.9,
-          "lastWatered": 1741426653471,
-          "readyAt": 1741327972505
+          "plantedAt": 1741432198468,
+          "water": 3,
+          "lastWatered": 1741432233046,
+          "readyAt": 1741441215802
         },
         {
           "id": 39,
-          "status": "growing",
+          "status": "damaged",
           "crop": "ca_phe",
-          "plantedAt": 1741426637336,
-          "water": 2.9,
-          "lastWatered": 1741426653471,
-          "readyAt": 1741327972505
+          "plantedAt": 1741432198468,
+          "water": 3,
+          "lastWatered": 1741432233046,
+          "readyAt": 1741441215802
         },
         {
           "id": 40,
-          "status": "growing",
+          "status": "damaged",
           "crop": "ca_phe",
-          "plantedAt": 1741426637336,
-          "water": 2.9,
-          "lastWatered": 1741426653471,
-          "readyAt": 1741327972505
+          "plantedAt": 1741432198468,
+          "water": 3,
+          "lastWatered": 1741432233046,
+          "readyAt": 1741441215802
         },
         {
           "id": 41,
-          "status": "growing",
+          "status": "damaged",
           "crop": "ca_phe",
-          "plantedAt": 1741426637336,
-          "water": 2.9,
-          "lastWatered": 1741426653471,
-          "readyAt": 1741327972505
+          "plantedAt": 1741432198468,
+          "water": 3,
+          "lastWatered": 1741432233046,
+          "readyAt": 1741441215802
         }
       ],
       "inventory": {
@@ -865,7 +865,8 @@
         "bưởi": 0,
         "cá tươi": 10,
         "dừa": 0,
-        "nho đỏ": 0
+        "nho đỏ": 0,
+        "cà phê": 0
       },
       "animals": {
         "1741065504226-95-0": {
@@ -933,9 +934,9 @@
       "createdAt": 1740900650864,
       "autoHarvest": false,
       "weather": {
-        "nextChange": 1741452784522,
-        "timeOfDay": "noon",
-        "lastUpdated": 1741431184522
+        "nextChange": 1741507770404,
+        "timeOfDay": "evening",
+        "lastUpdated": 1741486170404
       },
       "visitors": [
         {
@@ -950,35 +951,25 @@
         }
       ],
       "dailyMissions": {
-        "date": 1741367272136,
+        "date": 1741486170453,
         "missions": {
+          "harvest": {
+            "name": "Thu hoạch",
+            "emoji": "🌾",
+            "description": "Thu hoạch 10 cây trồng",
+            "target": 10,
+            "reward": 300,
+            "exp": 50,
+            "progress": 0,
+            "claimed": false
+          },
           "collect": {
             "name": "Thu thập sản phẩm",
             "emoji": "🥚",
             "description": "Thu thập 5 sản phẩm từ vật nuôi",
             "target": 5,
-            "reward": 20000,
+            "reward": 200,
             "exp": 30,
-            "progress": 0,
-            "claimed": false
-          },
-          "plant": {
-            "name": "Trồng cây",
-            "emoji": "🌱",
-            "description": "Trồng 10 cây bất kỳ",
-            "target": 10,
-            "reward": 25000,
-            "exp": 40,
-            "progress": 10,
-            "claimed": false
-          },
-          "visit": {
-            "name": "Thăm trang trại",
-            "emoji": "👋",
-            "description": "Thăm 2 trang trại khác",
-            "target": 2,
-            "reward": 15000,
-            "exp": 25,
             "progress": 0,
             "claimed": false
           },
@@ -987,7 +978,17 @@
             "emoji": "👨‍🍳",
             "description": "Chế biến 4 món ăn",
             "target": 4,
-            "reward": 25000,
+            "reward": 250,
+            "exp": 40,
+            "progress": 0,
+            "claimed": false
+          },
+          "plant": {
+            "name": "Trồng cây",
+            "emoji": "🌱",
+            "description": "Trồng 10 cây bất kỳ",
+            "target": 10,
+            "reward": 250,
             "exp": 40,
             "progress": 0,
             "claimed": false
@@ -997,13 +998,13 @@
             "emoji": "💧",
             "description": "Tưới nước cho 10 cây trồng",
             "target": 10,
-            "reward": 12000,
+            "reward": 120,
             "exp": 18,
             "progress": 0,
             "claimed": false
           }
         },
-        "refreshed": 1741367272136
+        "refreshed": 1741486170453
       },
       "lastVisits": {
         "61573427362389": 1740993338854,
@@ -1018,73 +1019,73 @@
       "notifications": [
         {
           "type": "crop_damaged",
-          "cropId": "xoai",
-          "cropName": "Xoài",
+          "cropId": "ca_phe",
+          "cropName": "Cà phê",
           "plotIndex": 32,
-          "time": 1741336834500
+          "time": 1741486170404
         },
         {
           "type": "crop_damaged",
-          "cropId": "xoai",
-          "cropName": "Xoài",
+          "cropId": "ca_phe",
+          "cropName": "Cà phê",
           "plotIndex": 33,
-          "time": 1741336834500
+          "time": 1741486170404
         },
         {
           "type": "crop_damaged",
-          "cropId": "xoai",
-          "cropName": "Xoài",
+          "cropId": "ca_phe",
+          "cropName": "Cà phê",
           "plotIndex": 34,
-          "time": 1741336834500
+          "time": 1741486170404
         },
         {
           "type": "crop_damaged",
-          "cropId": "xoai",
-          "cropName": "Xoài",
+          "cropId": "ca_phe",
+          "cropName": "Cà phê",
           "plotIndex": 35,
-          "time": 1741336834500
+          "time": 1741486170404
         },
         {
           "type": "crop_damaged",
-          "cropId": "xoai",
-          "cropName": "Xoài",
+          "cropId": "ca_phe",
+          "cropName": "Cà phê",
           "plotIndex": 36,
-          "time": 1741336834500
+          "time": 1741486170404
         },
         {
           "type": "crop_damaged",
-          "cropId": "xoai",
-          "cropName": "Xoài",
+          "cropId": "ca_phe",
+          "cropName": "Cà phê",
           "plotIndex": 37,
-          "time": 1741336834500
+          "time": 1741486170404
         },
         {
           "type": "crop_damaged",
-          "cropId": "xoai",
-          "cropName": "Xoài",
+          "cropId": "ca_phe",
+          "cropName": "Cà phê",
           "plotIndex": 38,
-          "time": 1741336834500
+          "time": 1741486170404
         },
         {
           "type": "crop_damaged",
-          "cropId": "xoai",
-          "cropName": "Xoài",
+          "cropId": "ca_phe",
+          "cropName": "Cà phê",
           "plotIndex": 39,
-          "time": 1741336834500
+          "time": 1741486170404
         },
         {
           "type": "crop_damaged",
-          "cropId": "xoai",
-          "cropName": "Xoài",
+          "cropId": "ca_phe",
+          "cropName": "Cà phê",
           "plotIndex": 40,
-          "time": 1741336834500
+          "time": 1741486170404
         },
         {
           "type": "crop_damaged",
-          "cropId": "xoai",
-          "cropName": "Xoài",
+          "cropId": "ca_phe",
+          "cropName": "Cà phê",
           "plotIndex": 41,
-          "time": 1741336834500
+          "time": 1741486170404
         }
       ]
     },
@@ -1094,183 +1095,183 @@
       "plots": [
         {
           "id": 0,
-          "status": "growing",
+          "status": "damaged",
           "crop": "chuoi",
           "plantedAt": 1741429508173,
-          "water": 2.9,
-          "lastWatered": 1741429522842,
-          "readyAt": 1741413893994
+          "water": 2.6,
+          "lastWatered": 1741432699082,
+          "readyAt": 1741441215802
         },
         {
           "id": 1,
-          "status": "growing",
+          "status": "damaged",
           "crop": "chuoi",
           "plantedAt": 1741429508173,
-          "water": 2.9,
-          "lastWatered": 1741429522842,
-          "readyAt": 1741413893994
+          "water": 2.6,
+          "lastWatered": 1741432699083,
+          "readyAt": 1741441215802
         },
         {
           "id": 2,
-          "status": "growing",
+          "status": "damaged",
           "crop": "chuoi",
           "plantedAt": 1741429508173,
-          "water": 2.9,
-          "lastWatered": 1741429522842,
-          "readyAt": 1741413893994
+          "water": 2.6,
+          "lastWatered": 1741432699083,
+          "readyAt": 1741441215802
         },
         {
           "id": 3,
-          "status": "growing",
+          "status": "damaged",
           "crop": "chuoi",
           "plantedAt": 1741429508173,
-          "water": 2.9,
-          "lastWatered": 1741429522842,
-          "readyAt": 1741413893994
+          "water": 2.6,
+          "lastWatered": 1741432699083,
+          "readyAt": 1741441215802
         },
         {
           "id": 4,
-          "status": "growing",
+          "status": "damaged",
           "crop": "chuoi",
           "plantedAt": 1741429508173,
-          "water": 2.9,
-          "lastWatered": 1741429522842,
-          "readyAt": 1741413893994
+          "water": 2.6,
+          "lastWatered": 1741432699083,
+          "readyAt": 1741441215802
         },
         {
           "id": 5,
-          "status": "growing",
+          "status": "damaged",
           "crop": "chuoi",
           "plantedAt": 1741429508173,
-          "water": 2.9,
-          "lastWatered": 1741429522842,
-          "readyAt": 1741413893994
+          "water": 2.6,
+          "lastWatered": 1741432699083,
+          "readyAt": 1741441215802
         },
         {
           "id": 6,
-          "status": "growing",
+          "status": "damaged",
           "crop": "chuoi",
           "plantedAt": 1741429508173,
-          "water": 2.9,
-          "lastWatered": 1741429522842,
-          "readyAt": 1741413893994
+          "water": 2.6,
+          "lastWatered": 1741432699083,
+          "readyAt": 1741441215802
         },
         {
           "id": 7,
-          "status": "growing",
+          "status": "damaged",
           "crop": "chuoi",
           "plantedAt": 1741429508173,
-          "water": 2.9,
-          "lastWatered": 1741429522842,
-          "readyAt": 1741413893994
+          "water": 2.6,
+          "lastWatered": 1741432699083,
+          "readyAt": 1741441215802
         },
         {
           "id": 8,
-          "status": "growing",
+          "status": "damaged",
           "crop": "chuoi",
           "plantedAt": 1741429508173,
-          "water": 2.9,
-          "lastWatered": 1741429522842,
-          "readyAt": 1741413893994
+          "water": 2.6,
+          "lastWatered": 1741432699083,
+          "readyAt": 1741441215802
         },
         {
           "id": 9,
-          "status": "growing",
+          "status": "damaged",
           "crop": "chuoi",
           "plantedAt": 1741429508173,
-          "water": 2.9,
-          "lastWatered": 1741429522842,
-          "readyAt": 1741413893994
+          "water": 2.6,
+          "lastWatered": 1741432699083,
+          "readyAt": 1741441215802
         },
         {
           "id": 10,
-          "status": "growing",
+          "status": "damaged",
           "crop": "chuoi",
           "plantedAt": 1741429508173,
-          "water": 2.9,
-          "lastWatered": 1741429522842,
-          "readyAt": 1741413893994
+          "water": 2.6,
+          "lastWatered": 1741432699083,
+          "readyAt": 1741441215802
         },
         {
           "id": 11,
-          "status": "growing",
+          "status": "damaged",
           "crop": "chuoi",
           "plantedAt": 1741429508173,
-          "water": 2.9,
-          "lastWatered": 1741429522842,
-          "readyAt": 1741413893994
+          "water": 2.6,
+          "lastWatered": 1741432699083,
+          "readyAt": 1741441215802
         },
         {
           "id": 12,
-          "status": "growing",
+          "status": "damaged",
           "crop": "chuoi",
           "plantedAt": 1741429508173,
-          "water": 2.9,
-          "lastWatered": 1741429522842,
-          "readyAt": 1741413893994
+          "water": 2.6,
+          "lastWatered": 1741432699083,
+          "readyAt": 1741441215802
         },
         {
           "id": 13,
-          "status": "growing",
+          "status": "damaged",
           "crop": "chuoi",
           "plantedAt": 1741429508173,
-          "water": 2.9,
-          "lastWatered": 1741429522842,
-          "readyAt": 1741413893994
+          "water": 2.6,
+          "lastWatered": 1741432699083,
+          "readyAt": 1741441215802
         },
         {
           "id": 14,
-          "status": "growing",
+          "status": "damaged",
           "crop": "chuoi",
           "plantedAt": 1741429508173,
-          "water": 2.9,
-          "lastWatered": 1741429522842,
-          "readyAt": 1741413893994
+          "water": 2.6,
+          "lastWatered": 1741432699083,
+          "readyAt": 1741441215802
         },
         {
           "id": 15,
-          "status": "growing",
+          "status": "damaged",
           "crop": "chuoi",
           "plantedAt": 1741429508173,
-          "water": 2.9,
-          "lastWatered": 1741429522842,
-          "readyAt": 1741413893994
+          "water": 2.6,
+          "lastWatered": 1741432699083,
+          "readyAt": 1741441215802
         },
         {
           "id": 16,
-          "status": "growing",
+          "status": "damaged",
           "crop": "chuoi",
           "plantedAt": 1741429508173,
-          "water": 2.9,
-          "lastWatered": 1741429522842,
-          "readyAt": 1741413893994
+          "water": 2.6,
+          "lastWatered": 1741432699083,
+          "readyAt": 1741441215802
         },
         {
           "id": 17,
-          "status": "growing",
+          "status": "damaged",
           "crop": "chuoi",
           "plantedAt": 1741429508173,
-          "water": 2.9,
-          "lastWatered": 1741429522842,
-          "readyAt": 1741413893994
+          "water": 2.6,
+          "lastWatered": 1741432699083,
+          "readyAt": 1741441215802
         },
         {
           "id": 18,
-          "status": "growing",
+          "status": "damaged",
           "crop": "chuoi",
           "plantedAt": 1741429508173,
-          "water": 2.9,
-          "lastWatered": 1741429522842,
-          "readyAt": 1741413893994
+          "water": 2.6,
+          "lastWatered": 1741432699083,
+          "readyAt": 1741441215802
         },
         {
           "id": 19,
-          "status": "growing",
+          "status": "damaged",
           "crop": "chuoi",
           "plantedAt": 1741429508173,
-          "water": 2.9,
-          "lastWatered": 1741429522842,
-          "readyAt": 1741413893994
+          "water": 2.6,
+          "lastWatered": 1741432699083,
+          "readyAt": 1741441215802
         }
       ],
       "inventory": {
@@ -1327,22 +1328,22 @@
       },
       "items": {
         "phan_bon": {
-          "purchased": 1741339980150,
+          "purchased": 1741433223723,
           "active": true,
           "effect": "grow_boost",
-          "expiry": 1741426380150
+          "expiry": 1741519623723
         },
         "giong_cao_cap": {
-          "purchased": 1741339943567,
+          "purchased": 1741433245059,
           "active": true,
           "effect": "exp_boost",
-          "expiry": 1741426343567
+          "expiry": 1741519645059
         },
         "thuoc_sau": {
-          "purchased": 1741339959523,
+          "purchased": 1741433349943,
           "active": true,
           "effect": "yield_boost",
-          "expiry": 1741426359523
+          "expiry": 1741519749943
         },
         "he_thong_tuoi": {
           "purchased": 1741410367534,
@@ -1355,9 +1356,9 @@
       "createdAt": 1740900774563,
       "autoHarvest": false,
       "weather": {
-        "nextChange": 1741452784522,
-        "timeOfDay": "noon",
-        "lastUpdated": 1741431184522
+        "nextChange": 1741507770404,
+        "timeOfDay": "evening",
+        "lastUpdated": 1741486170404
       },
       "visitors": [
         {
@@ -1382,15 +1383,35 @@
         }
       ],
       "dailyMissions": {
-        "date": 1741367272181,
+        "date": 1741486170487,
         "missions": {
-          "harvest": {
-            "name": "Thu hoạch",
-            "emoji": "🌾",
-            "description": "Thu hoạch 5 cây trồng",
-            "target": 5,
-            "reward": 15000,
+          "sell": {
+            "name": "Bán sản phẩm",
+            "emoji": "💰",
+            "description": "Bán 10 sản phẩm bất kỳ",
+            "target": 10,
+            "reward": 150,
             "exp": 25,
+            "progress": 0,
+            "claimed": false
+          },
+          "collect": {
+            "name": "Thu thập sản phẩm",
+            "emoji": "🥚",
+            "description": "Thu thập 5 sản phẩm từ vật nuôi",
+            "target": 5,
+            "reward": 200,
+            "exp": 30,
+            "progress": 0,
+            "claimed": false
+          },
+          "plant": {
+            "name": "Trồng cây",
+            "emoji": "🌱",
+            "description": "Trồng 5 cây bất kỳ",
+            "target": 5,
+            "reward": 100,
+            "exp": 20,
             "progress": 0,
             "claimed": false
           },
@@ -1399,43 +1420,23 @@
             "emoji": "🥫",
             "description": "Cho 4 vật nuôi ăn",
             "target": 4,
-            "reward": 16000,
+            "reward": 160,
             "exp": 30,
-            "progress": 4,
-            "claimed": false
-          },
-          "visit": {
-            "name": "Thăm trang trại",
-            "emoji": "👋",
-            "description": "Thăm 2 trang trại khác",
-            "target": 2,
-            "reward": 15000,
-            "exp": 25,
             "progress": 0,
             "claimed": false
           },
-          "process": {
-            "name": "Chế biến",
-            "emoji": "👨‍🍳",
-            "description": "Chế biến 4 món ăn",
-            "target": 4,
-            "reward": 25000,
-            "exp": 40,
-            "progress": 0,
-            "claimed": false
-          },
-          "sell": {
-            "name": "Bán sản phẩm",
-            "emoji": "💰",
-            "description": "Bán 10 sản phẩm bất kỳ",
+          "water": {
+            "name": "Tưới nước",
+            "emoji": "💧",
+            "description": "Tưới nước cho 10 cây trồng",
             "target": 10,
-            "reward": 15000,
-            "exp": 25,
+            "reward": 120,
+            "exp": 18,
             "progress": 0,
             "claimed": false
           }
         },
-        "refreshed": 1741367272181
+        "refreshed": 1741486170487
       },
       "lastVisits": {
         "100068382888605": 1741147890987,
@@ -1452,70 +1453,70 @@
           "cropId": "chuoi",
           "cropName": "Chuối",
           "plotIndex": 10,
-          "time": 1741421101396
+          "time": 1741486170404
         },
         {
           "type": "crop_damaged",
           "cropId": "chuoi",
           "cropName": "Chuối",
           "plotIndex": 11,
-          "time": 1741421101396
+          "time": 1741486170404
         },
         {
           "type": "crop_damaged",
           "cropId": "chuoi",
           "cropName": "Chuối",
           "plotIndex": 12,
-          "time": 1741421101396
+          "time": 1741486170404
         },
         {
           "type": "crop_damaged",
           "cropId": "chuoi",
           "cropName": "Chuối",
           "plotIndex": 13,
-          "time": 1741421101396
+          "time": 1741486170404
         },
         {
           "type": "crop_damaged",
           "cropId": "chuoi",
           "cropName": "Chuối",
           "plotIndex": 14,
-          "time": 1741421101396
+          "time": 1741486170404
         },
         {
           "type": "crop_damaged",
           "cropId": "chuoi",
           "cropName": "Chuối",
           "plotIndex": 15,
-          "time": 1741421101396
+          "time": 1741486170404
         },
         {
           "type": "crop_damaged",
           "cropId": "chuoi",
           "cropName": "Chuối",
           "plotIndex": 16,
-          "time": 1741421101396
+          "time": 1741486170404
         },
         {
           "type": "crop_damaged",
           "cropId": "chuoi",
           "cropName": "Chuối",
           "plotIndex": 17,
-          "time": 1741421101396
+          "time": 1741486170404
         },
         {
           "type": "crop_damaged",
           "cropId": "chuoi",
           "cropName": "Chuối",
           "plotIndex": 18,
-          "time": 1741421101396
+          "time": 1741486170404
         },
         {
           "type": "crop_damaged",
           "cropId": "chuoi",
           "cropName": "Chuối",
           "plotIndex": 19,
-          "time": 1741421101396
+          "time": 1741486170404
         }
       ]
     },
@@ -2558,9 +2559,9 @@
       "createdAt": 1740901679266,
       "autoHarvest": false,
       "weather": {
-        "nextChange": 1741442701396,
+        "nextChange": 1741507770404,
         "timeOfDay": "noon",
-        "lastUpdated": 1741421101396
+        "lastUpdated": 1741486170404
       },
       "visitors": [
         {
@@ -2615,14 +2616,14 @@
         }
       ],
       "dailyMissions": {
-        "date": 1741367272208,
+        "date": 1741486170509,
         "missions": {
           "collect": {
             "name": "Thu thập sản phẩm",
             "emoji": "🥚",
             "description": "Thu thập 5 sản phẩm từ vật nuôi",
             "target": 5,
-            "reward": 20000,
+            "reward": 200,
             "exp": 30,
             "progress": 0,
             "claimed": false
@@ -2632,19 +2633,9 @@
             "emoji": "🌱",
             "description": "Trồng 10 cây bất kỳ",
             "target": 10,
-            "reward": 25000,
+            "reward": 250,
             "exp": 40,
-            "progress": 10,
-            "claimed": false
-          },
-          "sell": {
-            "name": "Bán sản phẩm",
-            "emoji": "💰",
-            "description": "Bán 10 sản phẩm bất kỳ",
-            "target": 10,
-            "reward": 15000,
-            "exp": 25,
-            "progress": 10,
+            "progress": 0,
             "claimed": false
           },
           "visit": {
@@ -2652,23 +2643,33 @@
             "emoji": "👋",
             "description": "Thăm 2 trang trại khác",
             "target": 2,
-            "reward": 15000,
+            "reward": 150,
             "exp": 25,
             "progress": 0,
             "claimed": false
           },
-          "water": {
-            "name": "Tưới nước",
-            "emoji": "💧",
-            "description": "Tưới nước cho 10 cây trồng",
+          "process": {
+            "name": "Chế biến",
+            "emoji": "👨‍🍳",
+            "description": "Chế biến 4 món ăn",
+            "target": 4,
+            "reward": 250,
+            "exp": 40,
+            "progress": 0,
+            "claimed": false
+          },
+          "harvest": {
+            "name": "Thu hoạch",
+            "emoji": "🌾",
+            "description": "Thu hoạch 10 cây trồng",
             "target": 10,
-            "reward": 12000,
-            "exp": 18,
+            "reward": 300,
+            "exp": 50,
             "progress": 0,
             "claimed": false
           }
         },
-        "refreshed": 1741367272208
+        "refreshed": 1741486170509
       },
       "lastVisits": {
         "100068382888605": 1740929328957,
@@ -2889,9 +2890,9 @@
       "createdAt": 1740903354286,
       "autoHarvest": false,
       "weather": {
-        "nextChange": 1741452784522,
+        "nextChange": 1741507770404,
         "timeOfDay": "noon",
-        "lastUpdated": 1741431184522
+        "lastUpdated": 1741486170404
       },
       "visitors": [
         {
@@ -2933,25 +2934,15 @@
         "61573427362389": 1740914219888
       },
       "dailyMissions": {
-        "date": 1741367272501,
+        "date": 1741486170529,
         "missions": {
-          "process": {
-            "name": "Chế biến",
-            "emoji": "👨‍🍳",
-            "description": "Chế biến 2 món ăn",
-            "target": 2,
-            "reward": 12000,
-            "exp": 20,
-            "progress": 0,
-            "claimed": false
-          },
-          "water": {
-            "name": "Tưới nước",
-            "emoji": "💧",
-            "description": "Tưới nước cho 5 cây trồng",
-            "target": 5,
-            "reward": 5000,
-            "exp": 8,
+          "harvest": {
+            "name": "Thu hoạch",
+            "emoji": "🌾",
+            "description": "Thu hoạch 3 cây trồng",
+            "target": 3,
+            "reward": 80,
+            "exp": 15,
             "progress": 0,
             "claimed": false
           },
@@ -2960,23 +2951,33 @@
             "emoji": "🥫",
             "description": "Cho 2 vật nuôi ăn",
             "target": 2,
-            "reward": 8000,
+            "reward": 80,
             "exp": 15,
             "progress": 0,
             "claimed": false
           },
-          "plant": {
-            "name": "Trồng cây",
-            "emoji": "🌱",
-            "description": "Trồng 3 cây bất kỳ",
+          "collect": {
+            "name": "Thu thập sản phẩm",
+            "emoji": "🥚",
+            "description": "Thu thập 3 sản phẩm từ vật nuôi",
             "target": 3,
-            "reward": 5000,
-            "exp": 10,
+            "reward": 100,
+            "exp": 15,
+            "progress": 0,
+            "claimed": false
+          },
+          "sell": {
+            "name": "Bán sản phẩm",
+            "emoji": "💰",
+            "description": "Bán 5 sản phẩm bất kỳ",
+            "target": 5,
+            "reward": 70,
+            "exp": 12,
             "progress": 0,
             "claimed": false
           }
         },
-        "refreshed": 1741367272501
+        "refreshed": 1741486170529
       },
       "notifications": [
         {
@@ -3039,194 +3040,194 @@
     },
     "100063719077878": {
       "id": "100063719077878",
-      "exp": 7591,
+      "exp": 7831,
       "plots": [
         {
           "id": 0,
-          "status": "growing",
-          "crop": "chuoi",
-          "plantedAt": 1741431225104,
-          "water": 1,
-          "lastWatered": 1741431225104,
-          "readyAt": 1741423651693
+          "status": "empty",
+          "crop": null,
+          "plantedAt": null,
+          "water": 0,
+          "lastWatered": null,
+          "readyAt": 1741441215802
         },
         {
           "id": 1,
-          "status": "growing",
-          "crop": "chuoi",
-          "plantedAt": 1741431225104,
-          "water": 1,
-          "lastWatered": 1741431225104,
-          "readyAt": 1741423651693
+          "status": "empty",
+          "crop": null,
+          "plantedAt": null,
+          "water": 0,
+          "lastWatered": null,
+          "readyAt": 1741441215802
         },
         {
           "id": 2,
-          "status": "growing",
-          "crop": "chuoi",
-          "plantedAt": 1741431225104,
-          "water": 1,
-          "lastWatered": 1741431225104,
-          "readyAt": 1741423651693
+          "status": "empty",
+          "crop": null,
+          "plantedAt": null,
+          "water": 0,
+          "lastWatered": null,
+          "readyAt": 1741441215802
         },
         {
           "id": 3,
-          "status": "growing",
-          "crop": "chuoi",
-          "plantedAt": 1741431225104,
-          "water": 1,
-          "lastWatered": 1741431225104,
-          "readyAt": 1741423651693
+          "status": "empty",
+          "crop": null,
+          "plantedAt": null,
+          "water": 0,
+          "lastWatered": null,
+          "readyAt": 1741441215802
         },
         {
           "id": 4,
-          "status": "growing",
-          "crop": "chuoi",
-          "plantedAt": 1741431225104,
-          "water": 1,
-          "lastWatered": 1741431225104,
-          "readyAt": 1741423651693
+          "status": "empty",
+          "crop": null,
+          "plantedAt": null,
+          "water": 0,
+          "lastWatered": null,
+          "readyAt": 1741441215802
         },
         {
           "id": 5,
-          "status": "growing",
-          "crop": "chuoi",
-          "plantedAt": 1741431225104,
-          "water": 1,
-          "lastWatered": 1741431225104,
-          "readyAt": 1741423651693
+          "status": "empty",
+          "crop": null,
+          "plantedAt": null,
+          "water": 0,
+          "lastWatered": null,
+          "readyAt": 1741441215802
         },
         {
           "id": 6,
-          "status": "growing",
-          "crop": "chuoi",
-          "plantedAt": 1741431225104,
-          "water": 1,
-          "lastWatered": 1741431225104,
-          "readyAt": 1741423651693
+          "status": "empty",
+          "crop": null,
+          "plantedAt": null,
+          "water": 0,
+          "lastWatered": null,
+          "readyAt": 1741441215802
         },
         {
           "id": 7,
-          "status": "growing",
-          "crop": "chuoi",
-          "plantedAt": 1741431225104,
-          "water": 1,
-          "lastWatered": 1741431225104,
-          "readyAt": 1741423651693
+          "status": "empty",
+          "crop": null,
+          "plantedAt": null,
+          "water": 0,
+          "lastWatered": null,
+          "readyAt": 1741441215802
         },
         {
           "id": 8,
-          "status": "growing",
-          "crop": "chuoi",
-          "plantedAt": 1741431225104,
-          "water": 1,
-          "lastWatered": 1741431225104,
-          "readyAt": 1741423651693
+          "status": "empty",
+          "crop": null,
+          "plantedAt": null,
+          "water": 0,
+          "lastWatered": null,
+          "readyAt": 1741441215802
         },
         {
           "id": 9,
-          "status": "growing",
-          "crop": "chuoi",
-          "plantedAt": 1741431225104,
-          "water": 1,
-          "lastWatered": 1741431225104,
-          "readyAt": 1741423651693
+          "status": "empty",
+          "crop": null,
+          "plantedAt": null,
+          "water": 0,
+          "lastWatered": null,
+          "readyAt": 1741441215802
         },
         {
           "id": 10,
-          "status": "growing",
-          "crop": "chuoi",
-          "plantedAt": 1741431225104,
-          "water": 1,
-          "lastWatered": 1741431225104,
-          "readyAt": 1741423651693
+          "status": "empty",
+          "crop": null,
+          "plantedAt": null,
+          "water": 0,
+          "lastWatered": null,
+          "readyAt": 1741441215802
         },
         {
           "id": 11,
-          "status": "growing",
-          "crop": "chuoi",
-          "plantedAt": 1741431225104,
-          "water": 1,
-          "lastWatered": 1741431225104,
-          "readyAt": 1741423651693
+          "status": "empty",
+          "crop": null,
+          "plantedAt": null,
+          "water": 0,
+          "lastWatered": null,
+          "readyAt": 1741441215802
         },
         {
           "id": 12,
-          "status": "growing",
-          "crop": "chuoi",
-          "plantedAt": 1741431225104,
-          "water": 1,
-          "lastWatered": 1741431225104,
-          "readyAt": 1741423651693
+          "status": "empty",
+          "crop": null,
+          "plantedAt": null,
+          "water": 0,
+          "lastWatered": null,
+          "readyAt": 1741441215802
         },
         {
           "id": 13,
-          "status": "growing",
-          "crop": "chuoi",
-          "plantedAt": 1741431225104,
-          "water": 1,
-          "lastWatered": 1741431225104,
-          "readyAt": 1741423651693
+          "status": "empty",
+          "crop": null,
+          "plantedAt": null,
+          "water": 0,
+          "lastWatered": null,
+          "readyAt": 1741441215802
         },
         {
           "id": 14,
-          "status": "growing",
-          "crop": "chuoi",
-          "plantedAt": 1741431225104,
-          "water": 1,
-          "lastWatered": 1741431225104,
-          "readyAt": 1741423651693
+          "status": "empty",
+          "crop": null,
+          "plantedAt": null,
+          "water": 0,
+          "lastWatered": null,
+          "readyAt": 1741441215802
         },
         {
           "id": 15,
-          "status": "growing",
-          "crop": "chuoi",
-          "plantedAt": 1741431225104,
-          "water": 1,
-          "lastWatered": 1741431225104,
-          "readyAt": 1741423651693
+          "status": "empty",
+          "crop": null,
+          "plantedAt": null,
+          "water": 0,
+          "lastWatered": null,
+          "readyAt": 1741441215802
         },
         {
           "id": 16,
-          "status": "growing",
-          "crop": "chuoi",
-          "plantedAt": 1741431225104,
-          "water": 1,
-          "lastWatered": 1741431225104,
-          "readyAt": 1741423651693
+          "status": "empty",
+          "crop": null,
+          "plantedAt": null,
+          "water": 0,
+          "lastWatered": null,
+          "readyAt": 1741441215802
         },
         {
           "id": 17,
-          "status": "growing",
-          "crop": "chuoi",
-          "plantedAt": 1741431225104,
-          "water": 1,
-          "lastWatered": 1741431225104,
-          "readyAt": 1741423651693
+          "status": "empty",
+          "crop": null,
+          "plantedAt": null,
+          "water": 0,
+          "lastWatered": null,
+          "readyAt": 1741441215802
         },
         {
           "id": 18,
-          "status": "growing",
-          "crop": "chuoi",
-          "plantedAt": 1741431225104,
-          "water": 1,
-          "lastWatered": 1741431225104,
-          "readyAt": 1741423651693
+          "status": "empty",
+          "crop": null,
+          "plantedAt": null,
+          "water": 0,
+          "lastWatered": null,
+          "readyAt": 1741441215802
         },
         {
           "id": 19,
-          "status": "growing",
-          "crop": "chuoi",
-          "plantedAt": 1741431225104,
-          "water": 1,
-          "lastWatered": 1741431225104,
-          "readyAt": 1741423651693
+          "status": "empty",
+          "crop": null,
+          "plantedAt": null,
+          "water": 0,
+          "lastWatered": null,
+          "readyAt": 1741441215802
         }
       ],
       "inventory": {
         "lúa": 0,
         "cá tươi": 65,
         "mía": 312,
-        "chuối": 80
+        "chuối": 100
       },
       "animals": {
         "1741058559547-967": {
@@ -3272,31 +3273,31 @@
       },
       "items": {
         "phan_bon": {
-          "purchased": 1741353921694,
+          "purchased": 1741441273965,
           "active": true,
           "effect": "grow_boost",
-          "expiry": 1741440321694
+          "expiry": 1741527673965
         },
         "giong_cao_cap": {
-          "purchased": 1741353973097,
+          "purchased": 1741441308521,
           "active": true,
           "effect": "exp_boost",
-          "expiry": 1741440373097
+          "expiry": 1741527708521
         },
         "thuoc_sau": {
-          "purchased": 1741353958098,
+          "purchased": 1741441290629,
           "active": true,
           "effect": "yield_boost",
-          "expiry": 1741440358098
+          "expiry": 1741527690629
         }
       },
       "lastActive": 1740904238230,
       "createdAt": 1740904238230,
       "autoHarvest": false,
       "weather": {
-        "nextChange": 1741452784522,
-        "timeOfDay": "noon",
-        "lastUpdated": 1741431184522
+        "nextChange": 1741507770404,
+        "timeOfDay": "evening",
+        "lastUpdated": 1741486170404
       },
       "visitors": [
         {
@@ -3321,16 +3322,36 @@
         }
       ],
       "dailyMissions": {
-        "date": 1741367272514,
+        "date": 1741486170550,
         "missions": {
-          "sell": {
-            "name": "Bán sản phẩm",
-            "emoji": "💰",
-            "description": "Bán 10 sản phẩm bất kỳ",
+          "water": {
+            "name": "Tưới nước",
+            "emoji": "💧",
+            "description": "Tưới nước cho 10 cây trồng",
             "target": 10,
-            "reward": 15000,
-            "exp": 25,
-            "progress": 10,
+            "reward": 120,
+            "exp": 18,
+            "progress": 0,
+            "claimed": false
+          },
+          "feed": {
+            "name": "Cho ăn",
+            "emoji": "🥫",
+            "description": "Cho 4 vật nuôi ăn",
+            "target": 4,
+            "reward": 160,
+            "exp": 30,
+            "progress": 0,
+            "claimed": false
+          },
+          "process": {
+            "name": "Chế biến",
+            "emoji": "👨‍🍳",
+            "description": "Chế biến 4 món ăn",
+            "target": 4,
+            "reward": 250,
+            "exp": 40,
+            "progress": 0,
             "claimed": false
           },
           "visit": {
@@ -3338,29 +3359,9 @@
             "emoji": "👋",
             "description": "Thăm 2 trang trại khác",
             "target": 2,
-            "reward": 15000,
+            "reward": 150,
             "exp": 25,
             "progress": 0,
-            "claimed": false
-          },
-          "water": {
-            "name": "Tưới nước",
-            "emoji": "💧",
-            "description": "Tưới nước cho 10 cây trồng",
-            "target": 10,
-            "reward": 12000,
-            "exp": 18,
-            "progress": 0,
-            "claimed": false
-          },
-          "harvest": {
-            "name": "Thu hoạch",
-            "emoji": "🌾",
-            "description": "Thu hoạch 5 cây trồng",
-            "target": 5,
-            "reward": 15000,
-            "exp": 25,
-            "progress": 4,
             "claimed": false
           },
           "plant": {
@@ -3368,13 +3369,13 @@
             "emoji": "🌱",
             "description": "Trồng 5 cây bất kỳ",
             "target": 5,
-            "reward": 10000,
+            "reward": 100,
             "exp": 20,
-            "progress": 5,
+            "progress": 0,
             "claimed": false
           }
         },
-        "refreshed": 1741367272514
+        "refreshed": 1741486170550
       },
       "lastVisits": {
         "100053970942155": 1741088531324,
@@ -3461,7 +3462,7 @@
       "plots": [
         {
           "id": 0,
-          "status": "ready",
+          "status": "damaged",
           "crop": "sen",
           "plantedAt": 1741406216663,
           "water": 1.1,
@@ -3471,7 +3472,7 @@
         },
         {
           "id": 1,
-          "status": "ready",
+          "status": "damaged",
           "crop": "sen",
           "plantedAt": 1741406216663,
           "water": 1.1,
@@ -3481,7 +3482,7 @@
         },
         {
           "id": 2,
-          "status": "ready",
+          "status": "damaged",
           "crop": "sen",
           "plantedAt": 1741406216663,
           "water": 1.1,
@@ -3491,7 +3492,7 @@
         },
         {
           "id": 3,
-          "status": "ready",
+          "status": "damaged",
           "crop": "sen",
           "plantedAt": 1741406216663,
           "water": 1.1,
@@ -3501,7 +3502,7 @@
         },
         {
           "id": 4,
-          "status": "ready",
+          "status": "damaged",
           "crop": "sen",
           "plantedAt": 1741406216663,
           "water": 1.1,
@@ -3511,7 +3512,7 @@
         },
         {
           "id": 5,
-          "status": "ready",
+          "status": "damaged",
           "crop": "sen",
           "plantedAt": 1741406216663,
           "water": 1.1,
@@ -3521,7 +3522,7 @@
         },
         {
           "id": 6,
-          "status": "ready",
+          "status": "damaged",
           "crop": "sen",
           "plantedAt": 1741406216663,
           "water": 1.1,
@@ -3531,7 +3532,7 @@
         },
         {
           "id": 7,
-          "status": "ready",
+          "status": "damaged",
           "crop": "sen",
           "plantedAt": 1741406216663,
           "water": 1.1,
@@ -3541,7 +3542,7 @@
         },
         {
           "id": 8,
-          "status": "ready",
+          "status": "damaged",
           "crop": "sen",
           "plantedAt": 1741406216663,
           "water": 1.1,
@@ -3551,7 +3552,7 @@
         },
         {
           "id": 9,
-          "status": "ready",
+          "status": "damaged",
           "crop": "sen",
           "plantedAt": 1741406216663,
           "water": 1.1,
@@ -3561,7 +3562,7 @@
         },
         {
           "id": 10,
-          "status": "ready",
+          "status": "damaged",
           "crop": "sen",
           "plantedAt": 1741406216663,
           "water": 1.1,
@@ -3571,7 +3572,7 @@
         },
         {
           "id": 11,
-          "status": "ready",
+          "status": "damaged",
           "crop": "sen",
           "plantedAt": 1741406216663,
           "water": 1.1,
@@ -3581,7 +3582,7 @@
         },
         {
           "id": 12,
-          "status": "ready",
+          "status": "damaged",
           "crop": "sen",
           "plantedAt": 1741406216663,
           "water": 1.1,
@@ -3591,7 +3592,7 @@
         },
         {
           "id": 13,
-          "status": "ready",
+          "status": "damaged",
           "crop": "sen",
           "plantedAt": 1741406216663,
           "water": 1.1,
@@ -3601,7 +3602,7 @@
         },
         {
           "id": 14,
-          "status": "ready",
+          "status": "damaged",
           "crop": "sen",
           "plantedAt": 1741406216663,
           "water": 1.1,
@@ -3611,7 +3612,7 @@
         },
         {
           "id": 15,
-          "status": "ready",
+          "status": "damaged",
           "crop": "sen",
           "plantedAt": 1741406216663,
           "water": 1.1,
@@ -3621,7 +3622,7 @@
         },
         {
           "id": 16,
-          "status": "ready",
+          "status": "damaged",
           "crop": "sen",
           "plantedAt": 1741406216663,
           "water": 1.1,
@@ -3631,7 +3632,7 @@
         },
         {
           "id": 17,
-          "status": "ready",
+          "status": "damaged",
           "crop": "sen",
           "plantedAt": 1741406216663,
           "water": 1.1,
@@ -3641,7 +3642,7 @@
         },
         {
           "id": 18,
-          "status": "ready",
+          "status": "damaged",
           "crop": "sen",
           "plantedAt": 1741406216663,
           "water": 1.1,
@@ -3651,7 +3652,7 @@
         },
         {
           "id": 19,
-          "status": "ready",
+          "status": "damaged",
           "crop": "sen",
           "plantedAt": 1741406216663,
           "water": 1.1,
@@ -3661,7 +3662,7 @@
         },
         {
           "id": 20,
-          "status": "ready",
+          "status": "damaged",
           "crop": "sen",
           "plantedAt": 1741406216663,
           "water": 1.1,
@@ -3671,7 +3672,7 @@
         },
         {
           "id": 21,
-          "status": "ready",
+          "status": "damaged",
           "crop": "sen",
           "plantedAt": 1741406216663,
           "water": 1.1,
@@ -3681,7 +3682,7 @@
         },
         {
           "id": 22,
-          "status": "ready",
+          "status": "damaged",
           "crop": "sen",
           "plantedAt": 1741406216663,
           "water": 1.1,
@@ -3691,7 +3692,7 @@
         },
         {
           "id": 23,
-          "status": "ready",
+          "status": "damaged",
           "crop": "sen",
           "plantedAt": 1741406216663,
           "water": 1.1,
@@ -3701,7 +3702,7 @@
         },
         {
           "id": 24,
-          "status": "ready",
+          "status": "damaged",
           "crop": "sen",
           "plantedAt": 1741406216663,
           "water": 1.1,
@@ -3711,7 +3712,7 @@
         },
         {
           "id": 25,
-          "status": "ready",
+          "status": "damaged",
           "crop": "sen",
           "plantedAt": 1741406216663,
           "water": 1.1,
@@ -3721,7 +3722,7 @@
         },
         {
           "id": 26,
-          "status": "ready",
+          "status": "damaged",
           "crop": "sen",
           "plantedAt": 1741406216663,
           "water": 1.1,
@@ -3731,7 +3732,7 @@
         },
         {
           "id": 27,
-          "status": "ready",
+          "status": "damaged",
           "crop": "sen",
           "plantedAt": 1741406216663,
           "water": 1.1,
@@ -3741,7 +3742,7 @@
         },
         {
           "id": 28,
-          "status": "ready",
+          "status": "damaged",
           "crop": "sen",
           "plantedAt": 1741406216663,
           "water": 1.1,
@@ -3751,7 +3752,7 @@
         },
         {
           "id": 29,
-          "status": "ready",
+          "status": "damaged",
           "crop": "sen",
           "plantedAt": 1741406216663,
           "water": 1.1,
@@ -3761,7 +3762,7 @@
         },
         {
           "id": 30,
-          "status": "ready",
+          "status": "damaged",
           "crop": "sen",
           "plantedAt": 1741406216663,
           "water": 1.1,
@@ -3771,7 +3772,7 @@
         },
         {
           "id": 31,
-          "status": "ready",
+          "status": "damaged",
           "crop": "sen",
           "plantedAt": 1741406216663,
           "water": 1.1,
@@ -3781,7 +3782,7 @@
         },
         {
           "id": 32,
-          "status": "ready",
+          "status": "damaged",
           "crop": "sen",
           "plantedAt": 1741406216663,
           "water": 1.1,
@@ -3791,7 +3792,7 @@
         },
         {
           "id": 33,
-          "status": "ready",
+          "status": "damaged",
           "crop": "sen",
           "plantedAt": 1741406216663,
           "water": 1.1,
@@ -3801,7 +3802,7 @@
         },
         {
           "id": 34,
-          "status": "ready",
+          "status": "damaged",
           "crop": "sen",
           "plantedAt": 1741406216663,
           "water": 1.1,
@@ -3811,7 +3812,7 @@
         },
         {
           "id": 35,
-          "status": "ready",
+          "status": "damaged",
           "crop": "sen",
           "plantedAt": 1741406216663,
           "water": 1.1,
@@ -3821,7 +3822,7 @@
         },
         {
           "id": 36,
-          "status": "ready",
+          "status": "damaged",
           "crop": "sen",
           "plantedAt": 1741406216663,
           "water": 1.1,
@@ -3831,7 +3832,7 @@
         },
         {
           "id": 37,
-          "status": "ready",
+          "status": "damaged",
           "crop": "sen",
           "plantedAt": 1741406216663,
           "water": 1.1,
@@ -3841,7 +3842,7 @@
         },
         {
           "id": 38,
-          "status": "ready",
+          "status": "damaged",
           "crop": "sen",
           "plantedAt": 1741406216663,
           "water": 1.1,
@@ -3851,7 +3852,7 @@
         },
         {
           "id": 39,
-          "status": "ready",
+          "status": "damaged",
           "crop": "sen",
           "plantedAt": 1741406216663,
           "water": 1.1,
@@ -3861,7 +3862,7 @@
         },
         {
           "id": 40,
-          "status": "ready",
+          "status": "damaged",
           "crop": "sen",
           "plantedAt": 1741406216663,
           "water": 1.1,
@@ -3871,7 +3872,7 @@
         },
         {
           "id": 41,
-          "status": "ready",
+          "status": "damaged",
           "crop": "sen",
           "plantedAt": 1741406216663,
           "water": 1.1,
@@ -3881,7 +3882,7 @@
         },
         {
           "id": 42,
-          "status": "ready",
+          "status": "damaged",
           "crop": "sen",
           "plantedAt": 1741406216663,
           "water": 1.1,
@@ -3891,7 +3892,7 @@
         },
         {
           "id": 43,
-          "status": "ready",
+          "status": "damaged",
           "crop": "sen",
           "plantedAt": 1741406216663,
           "water": 1.1,
@@ -3901,7 +3902,7 @@
         },
         {
           "id": 44,
-          "status": "ready",
+          "status": "damaged",
           "crop": "sen",
           "plantedAt": 1741406216663,
           "water": 1.1,
@@ -3911,7 +3912,7 @@
         },
         {
           "id": 45,
-          "status": "ready",
+          "status": "damaged",
           "crop": "sen",
           "plantedAt": 1741406216663,
           "water": 1.1,
@@ -3921,7 +3922,7 @@
         },
         {
           "id": 46,
-          "status": "ready",
+          "status": "damaged",
           "crop": "sen",
           "plantedAt": 1741406216663,
           "water": 1.1,
@@ -3931,7 +3932,7 @@
         },
         {
           "id": 47,
-          "status": "ready",
+          "status": "damaged",
           "crop": "sen",
           "plantedAt": 1741406216663,
           "water": 1.1,
@@ -3941,7 +3942,7 @@
         },
         {
           "id": 48,
-          "status": "ready",
+          "status": "damaged",
           "crop": "sen",
           "plantedAt": 1741406216663,
           "water": 1.1,
@@ -3951,7 +3952,7 @@
         },
         {
           "id": 49,
-          "status": "ready",
+          "status": "damaged",
           "crop": "sen",
           "plantedAt": 1741406216663,
           "water": 1.1,
@@ -3961,7 +3962,7 @@
         },
         {
           "id": 50,
-          "status": "ready",
+          "status": "damaged",
           "crop": "sen",
           "plantedAt": 1741406216663,
           "water": 1.1,
@@ -3971,7 +3972,7 @@
         },
         {
           "id": 51,
-          "status": "ready",
+          "status": "damaged",
           "crop": "sen",
           "plantedAt": 1741406216663,
           "water": 1.1,
@@ -3981,7 +3982,7 @@
         },
         {
           "id": 52,
-          "status": "ready",
+          "status": "damaged",
           "crop": "sen",
           "plantedAt": 1741406216663,
           "water": 1.1,
@@ -3991,7 +3992,7 @@
         },
         {
           "id": 53,
-          "status": "ready",
+          "status": "damaged",
           "crop": "sen",
           "plantedAt": 1741406216663,
           "water": 1.1,
@@ -4001,7 +4002,7 @@
         },
         {
           "id": 54,
-          "status": "ready",
+          "status": "damaged",
           "crop": "sen",
           "plantedAt": 1741406216663,
           "water": 1.1,
@@ -4011,7 +4012,7 @@
         },
         {
           "id": 55,
-          "status": "ready",
+          "status": "damaged",
           "crop": "sen",
           "plantedAt": 1741406216663,
           "water": 1.1,
@@ -4021,7 +4022,7 @@
         },
         {
           "id": 56,
-          "status": "ready",
+          "status": "damaged",
           "crop": "sen",
           "plantedAt": 1741406216663,
           "water": 1.1,
@@ -4031,7 +4032,7 @@
         },
         {
           "id": 57,
-          "status": "ready",
+          "status": "damaged",
           "crop": "sen",
           "plantedAt": 1741406216663,
           "water": 1.1,
@@ -4041,7 +4042,7 @@
         },
         {
           "id": 58,
-          "status": "ready",
+          "status": "damaged",
           "crop": "sen",
           "plantedAt": 1741406216663,
           "water": 1.1,
@@ -4051,7 +4052,7 @@
         },
         {
           "id": 59,
-          "status": "ready",
+          "status": "damaged",
           "crop": "sen",
           "plantedAt": 1741406216663,
           "water": 1.1,
@@ -4061,7 +4062,7 @@
         },
         {
           "id": 60,
-          "status": "ready",
+          "status": "damaged",
           "crop": "sen",
           "plantedAt": 1741406216663,
           "water": 1.1,
@@ -4071,7 +4072,7 @@
         },
         {
           "id": 61,
-          "status": "ready",
+          "status": "damaged",
           "crop": "sen",
           "plantedAt": 1741406216663,
           "water": 1.1,
@@ -4081,7 +4082,7 @@
         },
         {
           "id": 62,
-          "status": "ready",
+          "status": "damaged",
           "crop": "sen",
           "plantedAt": 1741406216663,
           "water": 1.1,
@@ -4091,7 +4092,7 @@
         },
         {
           "id": 63,
-          "status": "ready",
+          "status": "damaged",
           "crop": "sen",
           "plantedAt": 1741406216663,
           "water": 1.1,
@@ -4101,7 +4102,7 @@
         },
         {
           "id": 64,
-          "status": "ready",
+          "status": "damaged",
           "crop": "sen",
           "plantedAt": 1741406216663,
           "water": 1.1,
@@ -4111,7 +4112,7 @@
         },
         {
           "id": 65,
-          "status": "ready",
+          "status": "damaged",
           "crop": "sen",
           "plantedAt": 1741406216663,
           "water": 1.1,
@@ -4538,9 +4539,9 @@
       "createdAt": 1740911347009,
       "autoHarvest": false,
       "weather": {
-        "nextChange": 1741452784522,
+        "nextChange": 1741507770404,
         "timeOfDay": "noon",
-        "lastUpdated": 1741431184522
+        "lastUpdated": 1741486170404
       },
       "lastVisits": {
         "100063719077878": 1740911633073,
@@ -4610,34 +4611,14 @@
         }
       ],
       "dailyMissions": {
-        "date": 1741367272548,
+        "date": 1741486170572,
         "missions": {
-          "visit": {
-            "name": "Thăm trang trại",
-            "emoji": "👋",
-            "description": "Thăm 2 trang trại khác",
-            "target": 2,
-            "reward": 15000,
-            "exp": 25,
-            "progress": 0,
-            "claimed": false
-          },
-          "feed": {
-            "name": "Cho ăn",
-            "emoji": "🥫",
-            "description": "Cho 4 vật nuôi ăn",
-            "target": 4,
-            "reward": 16000,
-            "exp": 30,
-            "progress": 0,
-            "claimed": false
-          },
           "process": {
             "name": "Chế biến",
             "emoji": "👨‍🍳",
             "description": "Chế biến 4 món ăn",
             "target": 4,
-            "reward": 25000,
+            "reward": 250,
             "exp": 40,
             "progress": 0,
             "claimed": false
@@ -4647,23 +4628,43 @@
             "emoji": "🌱",
             "description": "Trồng 10 cây bất kỳ",
             "target": 10,
-            "reward": 25000,
+            "reward": 250,
             "exp": 40,
-            "progress": 10,
+            "progress": 0,
             "claimed": false
           },
-          "sell": {
-            "name": "Bán sản phẩm",
-            "emoji": "💰",
-            "description": "Bán 10 sản phẩm bất kỳ",
+          "harvest": {
+            "name": "Thu hoạch",
+            "emoji": "🌾",
+            "description": "Thu hoạch 10 cây trồng",
             "target": 10,
-            "reward": 15000,
-            "exp": 25,
+            "reward": 300,
+            "exp": 50,
+            "progress": 0,
+            "claimed": false
+          },
+          "collect": {
+            "name": "Thu thập sản phẩm",
+            "emoji": "🥚",
+            "description": "Thu thập 5 sản phẩm từ vật nuôi",
+            "target": 5,
+            "reward": 200,
+            "exp": 30,
+            "progress": 0,
+            "claimed": false
+          },
+          "water": {
+            "name": "Tưới nước",
+            "emoji": "💧",
+            "description": "Tưới nước cho 10 cây trồng",
+            "target": 10,
+            "reward": 120,
+            "exp": 18,
             "progress": 0,
             "claimed": false
           }
         },
-        "refreshed": 1741367272548
+        "refreshed": 1741486170572
       },
       "processing": {},
       "notifications": [
@@ -4672,70 +4673,70 @@
           "cropId": "sen",
           "cropName": "Hoa sen",
           "plotIndex": 56,
-          "time": 1741315801739
+          "time": 1741441215802
         },
         {
           "type": "crop_damaged",
           "cropId": "sen",
           "cropName": "Hoa sen",
           "plotIndex": 57,
-          "time": 1741315801739
+          "time": 1741441215802
         },
         {
           "type": "crop_damaged",
           "cropId": "sen",
           "cropName": "Hoa sen",
           "plotIndex": 58,
-          "time": 1741315801739
+          "time": 1741441215802
         },
         {
           "type": "crop_damaged",
           "cropId": "sen",
           "cropName": "Hoa sen",
           "plotIndex": 59,
-          "time": 1741315801739
+          "time": 1741441215802
         },
         {
           "type": "crop_damaged",
           "cropId": "sen",
           "cropName": "Hoa sen",
           "plotIndex": 60,
-          "time": 1741315801739
+          "time": 1741441215802
         },
         {
           "type": "crop_damaged",
           "cropId": "sen",
           "cropName": "Hoa sen",
           "plotIndex": 61,
-          "time": 1741315801739
+          "time": 1741441215802
         },
         {
           "type": "crop_damaged",
           "cropId": "sen",
           "cropName": "Hoa sen",
           "plotIndex": 62,
-          "time": 1741315801739
+          "time": 1741441215802
         },
         {
           "type": "crop_damaged",
           "cropId": "sen",
           "cropName": "Hoa sen",
           "plotIndex": 63,
-          "time": 1741315801739
+          "time": 1741441215802
         },
         {
           "type": "crop_damaged",
           "cropId": "sen",
           "cropName": "Hoa sen",
           "plotIndex": 64,
-          "time": 1741315801739
+          "time": 1741441215802
         },
         {
           "type": "crop_damaged",
           "cropId": "sen",
           "cropName": "Hoa sen",
           "plotIndex": 65,
-          "time": 1741315801739
+          "time": 1741441215802
         }
       ]
     },
@@ -4875,20 +4876,20 @@
       "createdAt": 1740911912646,
       "autoHarvest": false,
       "weather": {
-        "nextChange": 1741452784522,
+        "nextChange": 1741507770404,
         "timeOfDay": "noon",
-        "lastUpdated": 1741431184522
+        "lastUpdated": 1741486170404
       },
       "dailyMissions": {
-        "date": 1741367272892,
+        "date": 1741486170592,
         "missions": {
-          "plant": {
-            "name": "Trồng cây",
-            "emoji": "🌱",
-            "description": "Trồng 5 cây bất kỳ",
-            "target": 5,
-            "reward": 10000,
-            "exp": 20,
+          "visit": {
+            "name": "Thăm trang trại",
+            "emoji": "👋",
+            "description": "Thăm 2 trang trại khác",
+            "target": 2,
+            "reward": 150,
+            "exp": 25,
             "progress": 0,
             "claimed": false
           },
@@ -4897,33 +4898,33 @@
             "emoji": "🌾",
             "description": "Thu hoạch 5 cây trồng",
             "target": 5,
-            "reward": 15000,
+            "reward": 150,
             "exp": 25,
             "progress": 0,
             "claimed": false
           },
-          "feed": {
-            "name": "Cho ăn",
-            "emoji": "🥫",
-            "description": "Cho 4 vật nuôi ăn",
-            "target": 4,
-            "reward": 16000,
-            "exp": 30,
+          "plant": {
+            "name": "Trồng cây",
+            "emoji": "🌱",
+            "description": "Trồng 5 cây bất kỳ",
+            "target": 5,
+            "reward": 100,
+            "exp": 20,
             "progress": 0,
             "claimed": false
           },
-          "process": {
-            "name": "Chế biến",
-            "emoji": "👨‍🍳",
-            "description": "Chế biến 4 món ăn",
-            "target": 4,
-            "reward": 25000,
-            "exp": 40,
+          "sell": {
+            "name": "Bán sản phẩm",
+            "emoji": "💰",
+            "description": "Bán 10 sản phẩm bất kỳ",
+            "target": 10,
+            "reward": 150,
+            "exp": 25,
             "progress": 0,
             "claimed": false
           }
         },
-        "refreshed": 1741367272892
+        "refreshed": 1741486170592
       },
       "lastVisits": {
         "61573427362389": 1741178101391,
@@ -5183,30 +5184,30 @@
       "createdAt": 1740912236000,
       "autoHarvest": false,
       "weather": {
-        "nextChange": 1741452784522,
+        "nextChange": 1741507770404,
         "timeOfDay": "noon",
-        "lastUpdated": 1741431184522
+        "lastUpdated": 1741486170404
       },
       "dailyMissions": {
-        "date": 1741367272940,
+        "date": 1741486170619,
         "missions": {
-          "harvest": {
-            "name": "Thu hoạch",
-            "emoji": "🌾",
-            "description": "Thu hoạch 3 cây trồng",
-            "target": 3,
-            "reward": 8000,
-            "exp": 15,
-            "progress": 0,
-            "claimed": false
-          },
           "plant": {
             "name": "Trồng cây",
             "emoji": "🌱",
             "description": "Trồng 3 cây bất kỳ",
             "target": 3,
-            "reward": 5000,
+            "reward": 50,
             "exp": 10,
+            "progress": 0,
+            "claimed": false
+          },
+          "harvest": {
+            "name": "Thu hoạch",
+            "emoji": "🌾",
+            "description": "Thu hoạch 3 cây trồng",
+            "target": 3,
+            "reward": 80,
+            "exp": 15,
             "progress": 0,
             "claimed": false
           },
@@ -5215,7 +5216,7 @@
             "emoji": "👨‍🍳",
             "description": "Chế biến 2 món ăn",
             "target": 2,
-            "reward": 12000,
+            "reward": 120,
             "exp": 20,
             "progress": 0,
             "claimed": false
@@ -5225,13 +5226,13 @@
             "emoji": "💧",
             "description": "Tưới nước cho 5 cây trồng",
             "target": 5,
-            "reward": 5000,
+            "reward": 50,
             "exp": 8,
             "progress": 0,
             "claimed": false
           }
         },
-        "refreshed": 1741367272940
+        "refreshed": 1741486170619
       },
       "notifications": [
         {
@@ -5345,19 +5346,19 @@
       "createdAt": 1740912260598,
       "autoHarvest": false,
       "weather": {
-        "nextChange": 1741452784522,
+        "nextChange": 1741507770404,
         "timeOfDay": "noon",
-        "lastUpdated": 1741431184522
+        "lastUpdated": 1741486170404
       },
       "dailyMissions": {
-        "date": 1741367272950,
+        "date": 1741486170641,
         "missions": {
-          "collect": {
-            "name": "Thu thập sản phẩm",
-            "emoji": "🥚",
-            "description": "Thu thập 3 sản phẩm từ vật nuôi",
-            "target": 3,
-            "reward": 10000,
+          "feed": {
+            "name": "Cho ăn",
+            "emoji": "🥫",
+            "description": "Cho 2 vật nuôi ăn",
+            "target": 2,
+            "reward": 80,
             "exp": 15,
             "progress": 0,
             "claimed": false
@@ -5367,23 +5368,23 @@
             "emoji": "💧",
             "description": "Tưới nước cho 5 cây trồng",
             "target": 5,
-            "reward": 5000,
+            "reward": 50,
             "exp": 8,
             "progress": 0,
             "claimed": false
           },
-          "feed": {
-            "name": "Cho ăn",
-            "emoji": "🥫",
-            "description": "Cho 2 vật nuôi ăn",
+          "process": {
+            "name": "Chế biến",
+            "emoji": "👨‍🍳",
+            "description": "Chế biến 2 món ăn",
             "target": 2,
-            "reward": 8000,
-            "exp": 15,
+            "reward": 120,
+            "exp": 20,
             "progress": 0,
             "claimed": false
           }
         },
-        "refreshed": 1741367272950
+        "refreshed": 1741486170641
       }
     },
     "61568522233427": {
@@ -5480,31 +5481,31 @@
       "createdAt": 1740912665572,
       "autoHarvest": false,
       "weather": {
-        "nextChange": 1741452784522,
+        "nextChange": 1741507770404,
         "timeOfDay": "noon",
-        "lastUpdated": 1741431184522
+        "lastUpdated": 1741486170404
       },
       "dailyMissions": {
-        "date": 1741367272987,
+        "date": 1741486170664,
         "missions": {
-          "feed": {
-            "name": "Cho ăn",
-            "emoji": "🥫",
-            "description": "Cho 2 vật nuôi ăn",
-            "target": 2,
-            "reward": 8000,
-            "exp": 15,
+          "water": {
+            "name": "Tưới nước",
+            "emoji": "💧",
+            "description": "Tưới nước cho 5 cây trồng",
+            "target": 5,
+            "reward": 50,
+            "exp": 8,
             "progress": 0,
             "claimed": false
           },
-          "harvest": {
-            "name": "Thu hoạch",
-            "emoji": "🌾",
-            "description": "Thu hoạch 3 cây trồng",
-            "target": 3,
-            "reward": 8000,
-            "exp": 15,
-            "progress": 2,
+          "visit": {
+            "name": "Thăm trang trại",
+            "emoji": "👋",
+            "description": "Thăm 1 trang trại khác",
+            "target": 1,
+            "reward": 50,
+            "exp": 10,
+            "progress": 0,
             "claimed": false
           },
           "plant": {
@@ -5512,23 +5513,23 @@
             "emoji": "🌱",
             "description": "Trồng 3 cây bất kỳ",
             "target": 3,
-            "reward": 5000,
+            "reward": 50,
             "exp": 10,
-            "progress": 3,
+            "progress": 0,
             "claimed": false
           },
-          "sell": {
-            "name": "Bán sản phẩm",
-            "emoji": "💰",
-            "description": "Bán 5 sản phẩm bất kỳ",
-            "target": 5,
-            "reward": 7000,
-            "exp": 12,
+          "feed": {
+            "name": "Cho ăn",
+            "emoji": "🥫",
+            "description": "Cho 2 vật nuôi ăn",
+            "target": 2,
+            "reward": 80,
+            "exp": 15,
             "progress": 0,
             "claimed": false
           }
         },
-        "refreshed": 1741367272987
+        "refreshed": 1741486170664
       },
       "visitors": [
         {
@@ -5711,45 +5712,45 @@
       "createdAt": 1740913354233,
       "autoHarvest": false,
       "weather": {
-        "nextChange": 1741452784522,
+        "nextChange": 1741507770404,
         "timeOfDay": "noon",
-        "lastUpdated": 1741431184522
+        "lastUpdated": 1741486170404
       },
       "dailyMissions": {
-        "date": 1741367273019,
+        "date": 1741486170683,
         "missions": {
+          "visit": {
+            "name": "Thăm trang trại",
+            "emoji": "👋",
+            "description": "Thăm 1 trang trại khác",
+            "target": 1,
+            "reward": 50,
+            "exp": 10,
+            "progress": 0,
+            "claimed": false
+          },
           "sell": {
             "name": "Bán sản phẩm",
             "emoji": "💰",
             "description": "Bán 5 sản phẩm bất kỳ",
             "target": 5,
-            "reward": 7000,
+            "reward": 70,
             "exp": 12,
             "progress": 0,
             "claimed": false
           },
-          "water": {
-            "name": "Tưới nước",
-            "emoji": "💧",
-            "description": "Tưới nước cho 5 cây trồng",
-            "target": 5,
-            "reward": 5000,
-            "exp": 8,
-            "progress": 0,
-            "claimed": false
-          },
-          "harvest": {
-            "name": "Thu hoạch",
-            "emoji": "🌾",
-            "description": "Thu hoạch 3 cây trồng",
-            "target": 3,
-            "reward": 8000,
-            "exp": 15,
+          "process": {
+            "name": "Chế biến",
+            "emoji": "👨‍🍳",
+            "description": "Chế biến 2 món ăn",
+            "target": 2,
+            "reward": 120,
+            "exp": 20,
             "progress": 0,
             "claimed": false
           }
         },
-        "refreshed": 1741367273019
+        "refreshed": 1741486170683
       },
       "lastVisits": {
         "61573427362389": 1740927551362,
@@ -5808,45 +5809,45 @@
       "createdAt": 1740913780741,
       "autoHarvest": false,
       "weather": {
-        "nextChange": 1741452784522,
+        "nextChange": 1741507770404,
         "timeOfDay": "noon",
-        "lastUpdated": 1741431184522
+        "lastUpdated": 1741486170404
       },
       "dailyMissions": {
-        "date": 1741367273058,
+        "date": 1741486170703,
         "missions": {
-          "harvest": {
-            "name": "Thu hoạch",
-            "emoji": "🌾",
-            "description": "Thu hoạch 3 cây trồng",
-            "target": 3,
-            "reward": 8000,
-            "exp": 15,
-            "progress": 0,
-            "claimed": false
-          },
-          "collect": {
-            "name": "Thu thập sản phẩm",
-            "emoji": "🥚",
-            "description": "Thu thập 3 sản phẩm từ vật nuôi",
-            "target": 3,
-            "reward": 10000,
-            "exp": 15,
-            "progress": 0,
-            "claimed": false
-          },
           "sell": {
             "name": "Bán sản phẩm",
             "emoji": "💰",
             "description": "Bán 5 sản phẩm bất kỳ",
             "target": 5,
-            "reward": 7000,
+            "reward": 70,
             "exp": 12,
+            "progress": 0,
+            "claimed": false
+          },
+          "feed": {
+            "name": "Cho ăn",
+            "emoji": "🥫",
+            "description": "Cho 2 vật nuôi ăn",
+            "target": 2,
+            "reward": 80,
+            "exp": 15,
+            "progress": 0,
+            "claimed": false
+          },
+          "water": {
+            "name": "Tưới nước",
+            "emoji": "💧",
+            "description": "Tưới nước cho 5 cây trồng",
+            "target": 5,
+            "reward": 50,
+            "exp": 8,
             "progress": 0,
             "claimed": false
           }
         },
-        "refreshed": 1741367273058
+        "refreshed": 1741486170703
       }
     },
     "100058320200877": {
@@ -5895,45 +5896,45 @@
       "createdAt": 1740916835706,
       "autoHarvest": false,
       "weather": {
-        "nextChange": 1741452784522,
+        "nextChange": 1741507770404,
         "timeOfDay": "noon",
-        "lastUpdated": 1741431184522
+        "lastUpdated": 1741486170404
       },
       "dailyMissions": {
-        "date": 1741367273094,
+        "date": 1741486170722,
         "missions": {
+          "feed": {
+            "name": "Cho ăn",
+            "emoji": "🥫",
+            "description": "Cho 2 vật nuôi ăn",
+            "target": 2,
+            "reward": 80,
+            "exp": 15,
+            "progress": 0,
+            "claimed": false
+          },
           "sell": {
             "name": "Bán sản phẩm",
             "emoji": "💰",
             "description": "Bán 5 sản phẩm bất kỳ",
             "target": 5,
-            "reward": 7000,
+            "reward": 70,
             "exp": 12,
             "progress": 0,
             "claimed": false
           },
-          "process": {
-            "name": "Chế biến",
-            "emoji": "👨‍🍳",
-            "description": "Chế biến 2 món ăn",
-            "target": 2,
-            "reward": 12000,
-            "exp": 20,
-            "progress": 0,
-            "claimed": false
-          },
-          "plant": {
-            "name": "Trồng cây",
-            "emoji": "🌱",
-            "description": "Trồng 3 cây bất kỳ",
+          "collect": {
+            "name": "Thu thập sản phẩm",
+            "emoji": "🥚",
+            "description": "Thu thập 3 sản phẩm từ vật nuôi",
             "target": 3,
-            "reward": 5000,
-            "exp": 10,
+            "reward": 100,
+            "exp": 15,
             "progress": 0,
             "claimed": false
           }
         },
-        "refreshed": 1741367273094
+        "refreshed": 1741486170722
       },
       "visitors": [
         {
@@ -5949,7 +5950,7 @@
       "plots": [
         {
           "id": 0,
-          "status": "ready",
+          "status": "damaged",
           "crop": "lua",
           "plantedAt": 1741424314631,
           "water": 3,
@@ -5958,7 +5959,7 @@
         },
         {
           "id": 1,
-          "status": "ready",
+          "status": "damaged",
           "crop": "lua",
           "plantedAt": 1741424314631,
           "water": 3,
@@ -5967,7 +5968,7 @@
         },
         {
           "id": 2,
-          "status": "ready",
+          "status": "damaged",
           "crop": "lua",
           "plantedAt": 1741424314631,
           "water": 3,
@@ -5976,7 +5977,7 @@
         },
         {
           "id": 3,
-          "status": "ready",
+          "status": "damaged",
           "crop": "lua",
           "plantedAt": 1741424314631,
           "water": 3,
@@ -5985,7 +5986,7 @@
         },
         {
           "id": 4,
-          "status": "ready",
+          "status": "damaged",
           "crop": "lua",
           "plantedAt": 1741424314631,
           "water": 3,
@@ -5994,7 +5995,7 @@
         },
         {
           "id": 5,
-          "status": "ready",
+          "status": "damaged",
           "crop": "lua",
           "plantedAt": 1741424314631,
           "water": 3,
@@ -6003,7 +6004,7 @@
         },
         {
           "id": 6,
-          "status": "ready",
+          "status": "damaged",
           "crop": "lua",
           "plantedAt": 1741424314631,
           "water": 3,
@@ -6012,7 +6013,7 @@
         },
         {
           "id": 7,
-          "status": "ready",
+          "status": "damaged",
           "crop": "lua",
           "plantedAt": 1741424314631,
           "water": 3,
@@ -6021,7 +6022,7 @@
         },
         {
           "id": 8,
-          "status": "ready",
+          "status": "damaged",
           "crop": "lua",
           "plantedAt": 1741424314631,
           "water": 3,
@@ -6030,7 +6031,7 @@
         },
         {
           "id": 9,
-          "status": "ready",
+          "status": "damaged",
           "crop": "lua",
           "plantedAt": 1741424314631,
           "water": 3,
@@ -6039,7 +6040,7 @@
         },
         {
           "id": 10,
-          "status": "ready",
+          "status": "damaged",
           "crop": "lua",
           "plantedAt": 1741424314631,
           "water": 3,
@@ -6048,7 +6049,7 @@
         },
         {
           "id": 11,
-          "status": "ready",
+          "status": "damaged",
           "crop": "lua",
           "plantedAt": 1741424314631,
           "water": 3,
@@ -6057,7 +6058,7 @@
         },
         {
           "id": 12,
-          "status": "ready",
+          "status": "damaged",
           "crop": "lua",
           "plantedAt": 1741424314631,
           "water": 3,
@@ -6066,7 +6067,7 @@
         },
         {
           "id": 13,
-          "status": "ready",
+          "status": "damaged",
           "crop": "lua",
           "plantedAt": 1741424314631,
           "water": 3,
@@ -6075,7 +6076,7 @@
         },
         {
           "id": 14,
-          "status": "ready",
+          "status": "damaged",
           "crop": "lua",
           "plantedAt": 1741424314631,
           "water": 3,
@@ -6084,7 +6085,7 @@
         },
         {
           "id": 15,
-          "status": "ready",
+          "status": "damaged",
           "crop": "lua",
           "plantedAt": 1741424314631,
           "water": 3,
@@ -6093,7 +6094,7 @@
         },
         {
           "id": 16,
-          "status": "ready",
+          "status": "damaged",
           "crop": "lua",
           "plantedAt": 1741424314631,
           "water": 3,
@@ -6102,7 +6103,7 @@
         },
         {
           "id": 17,
-          "status": "ready",
+          "status": "damaged",
           "crop": "lua",
           "plantedAt": 1741424314631,
           "water": 3,
@@ -6111,7 +6112,7 @@
         },
         {
           "id": 18,
-          "status": "ready",
+          "status": "damaged",
           "crop": "lua",
           "plantedAt": 1741424314631,
           "water": 3,
@@ -6120,7 +6121,7 @@
         },
         {
           "id": 19,
-          "status": "ready",
+          "status": "damaged",
           "crop": "lua",
           "plantedAt": 1741424314631,
           "water": 3,
@@ -6129,7 +6130,7 @@
         },
         {
           "id": 20,
-          "status": "ready",
+          "status": "damaged",
           "crop": "lua",
           "plantedAt": 1741424314631,
           "water": 3,
@@ -6138,7 +6139,7 @@
         },
         {
           "id": 21,
-          "status": "ready",
+          "status": "damaged",
           "crop": "lua",
           "plantedAt": 1741424314631,
           "water": 3,
@@ -6147,7 +6148,7 @@
         },
         {
           "id": 22,
-          "status": "ready",
+          "status": "damaged",
           "crop": "lua",
           "plantedAt": 1741424314631,
           "water": 3,
@@ -6156,7 +6157,7 @@
         },
         {
           "id": 23,
-          "status": "ready",
+          "status": "damaged",
           "crop": "lua",
           "plantedAt": 1741424314631,
           "water": 3,
@@ -6165,7 +6166,7 @@
         },
         {
           "id": 24,
-          "status": "ready",
+          "status": "damaged",
           "crop": "lua",
           "plantedAt": 1741424314631,
           "water": 3,
@@ -6256,51 +6257,41 @@
       "createdAt": 1740917432720,
       "autoHarvest": false,
       "weather": {
-        "nextChange": 1741444310012,
+        "nextChange": 1741507770404,
         "timeOfDay": "noon",
-        "lastUpdated": 1741422710012
+        "lastUpdated": 1741486170404
       },
       "dailyMissions": {
-        "date": 1741367273128,
+        "date": 1741486170741,
         "missions": {
-          "harvest": {
-            "name": "Thu hoạch",
-            "emoji": "🌾",
-            "description": "Thu hoạch 5 cây trồng",
-            "target": 5,
-            "reward": 15000,
-            "exp": 25,
-            "progress": 1,
-            "claimed": false
-          },
           "collect": {
             "name": "Thu thập sản phẩm",
             "emoji": "🥚",
             "description": "Thu thập 5 sản phẩm từ vật nuôi",
             "target": 5,
-            "reward": 20000,
+            "reward": 200,
             "exp": 30,
             "progress": 0,
             "claimed": false
           },
-          "sell": {
-            "name": "Bán sản phẩm",
-            "emoji": "💰",
-            "description": "Bán 10 sản phẩm bất kỳ",
-            "target": 10,
-            "reward": 15000,
+          "harvest": {
+            "name": "Thu hoạch",
+            "emoji": "🌾",
+            "description": "Thu hoạch 5 cây trồng",
+            "target": 5,
+            "reward": 150,
             "exp": 25,
             "progress": 0,
             "claimed": false
           },
-          "feed": {
-            "name": "Cho ăn",
-            "emoji": "🥫",
-            "description": "Cho 4 vật nuôi ăn",
+          "process": {
+            "name": "Chế biến",
+            "emoji": "👨‍🍳",
+            "description": "Chế biến 4 món ăn",
             "target": 4,
-            "reward": 16000,
-            "exp": 30,
-            "progress": 4,
+            "reward": 250,
+            "exp": 40,
+            "progress": 0,
             "claimed": false
           },
           "water": {
@@ -6308,13 +6299,23 @@
             "emoji": "💧",
             "description": "Tưới nước cho 10 cây trồng",
             "target": 10,
-            "reward": 12000,
+            "reward": 120,
             "exp": 18,
+            "progress": 0,
+            "claimed": false
+          },
+          "visit": {
+            "name": "Thăm trang trại",
+            "emoji": "👋",
+            "description": "Thăm 2 trang trại khác",
+            "target": 2,
+            "reward": 150,
+            "exp": 25,
             "progress": 0,
             "claimed": false
           }
         },
-        "refreshed": 1741367273128
+        "refreshed": 1741486170741
       },
       "visitors": [
         {
@@ -6355,70 +6356,70 @@
           "cropId": "lua",
           "cropName": "Lúa",
           "plotIndex": 15,
-          "time": 1741420547470
+          "time": 1741441215802
         },
         {
           "type": "crop_damaged",
           "cropId": "lua",
           "cropName": "Lúa",
           "plotIndex": 16,
-          "time": 1741420547470
+          "time": 1741441215802
         },
         {
           "type": "crop_damaged",
           "cropId": "lua",
           "cropName": "Lúa",
           "plotIndex": 17,
-          "time": 1741420547470
+          "time": 1741441215802
         },
         {
           "type": "crop_damaged",
           "cropId": "lua",
           "cropName": "Lúa",
           "plotIndex": 18,
-          "time": 1741420547470
+          "time": 1741441215802
         },
         {
           "type": "crop_damaged",
           "cropId": "lua",
           "cropName": "Lúa",
           "plotIndex": 19,
-          "time": 1741420547470
+          "time": 1741441215802
         },
         {
           "type": "crop_damaged",
           "cropId": "lua",
           "cropName": "Lúa",
           "plotIndex": 20,
-          "time": 1741420547470
+          "time": 1741441215802
         },
         {
           "type": "crop_damaged",
           "cropId": "lua",
           "cropName": "Lúa",
           "plotIndex": 21,
-          "time": 1741420547470
+          "time": 1741441215802
         },
         {
           "type": "crop_damaged",
           "cropId": "lua",
           "cropName": "Lúa",
           "plotIndex": 22,
-          "time": 1741420547470
+          "time": 1741441215802
         },
         {
           "type": "crop_damaged",
           "cropId": "lua",
           "cropName": "Lúa",
           "plotIndex": 23,
-          "time": 1741420547470
+          "time": 1741441215802
         },
         {
           "type": "crop_damaged",
           "cropId": "lua",
           "cropName": "Lúa",
           "plotIndex": 24,
-          "time": 1741420547470
+          "time": 1741441215802
         }
       ]
     },
@@ -6466,20 +6467,20 @@
       "createdAt": 1740919120496,
       "autoHarvest": false,
       "weather": {
-        "nextChange": 1741452784522,
+        "nextChange": 1741507770404,
         "timeOfDay": "noon",
-        "lastUpdated": 1741431184522
+        "lastUpdated": 1741486170404
       },
       "dailyMissions": {
-        "date": 1741367273273,
+        "date": 1741486170764,
         "missions": {
-          "water": {
-            "name": "Tưới nước",
-            "emoji": "💧",
-            "description": "Tưới nước cho 5 cây trồng",
-            "target": 5,
-            "reward": 5000,
-            "exp": 8,
+          "harvest": {
+            "name": "Thu hoạch",
+            "emoji": "🌾",
+            "description": "Thu hoạch 3 cây trồng",
+            "target": 3,
+            "reward": 80,
+            "exp": 15,
             "progress": 0,
             "claimed": false
           },
@@ -6488,23 +6489,23 @@
             "emoji": "👨‍🍳",
             "description": "Chế biến 2 món ăn",
             "target": 2,
-            "reward": 12000,
+            "reward": 120,
             "exp": 20,
             "progress": 0,
             "claimed": false
           },
-          "sell": {
-            "name": "Bán sản phẩm",
-            "emoji": "💰",
-            "description": "Bán 5 sản phẩm bất kỳ",
-            "target": 5,
-            "reward": 7000,
-            "exp": 12,
+          "plant": {
+            "name": "Trồng cây",
+            "emoji": "🌱",
+            "description": "Trồng 3 cây bất kỳ",
+            "target": 3,
+            "reward": 50,
+            "exp": 10,
             "progress": 0,
             "claimed": false
           }
         },
-        "refreshed": 1741367273273
+        "refreshed": 1741486170764
       },
       "visitors": [
         {
@@ -6568,45 +6569,45 @@
       "createdAt": 1740920998637,
       "autoHarvest": false,
       "weather": {
-        "nextChange": 1741452784522,
+        "nextChange": 1741507770404,
         "timeOfDay": "noon",
-        "lastUpdated": 1741431184522
+        "lastUpdated": 1741486170404
       },
       "dailyMissions": {
-        "date": 1741367273284,
+        "date": 1741486170783,
         "missions": {
+          "harvest": {
+            "name": "Thu hoạch",
+            "emoji": "🌾",
+            "description": "Thu hoạch 3 cây trồng",
+            "target": 3,
+            "reward": 80,
+            "exp": 15,
+            "progress": 0,
+            "claimed": false
+          },
+          "process": {
+            "name": "Chế biến",
+            "emoji": "👨‍🍳",
+            "description": "Chế biến 2 món ăn",
+            "target": 2,
+            "reward": 120,
+            "exp": 20,
+            "progress": 0,
+            "claimed": false
+          },
           "feed": {
             "name": "Cho ăn",
             "emoji": "🥫",
             "description": "Cho 2 vật nuôi ăn",
             "target": 2,
-            "reward": 8000,
+            "reward": 80,
             "exp": 15,
-            "progress": 0,
-            "claimed": false
-          },
-          "plant": {
-            "name": "Trồng cây",
-            "emoji": "🌱",
-            "description": "Trồng 3 cây bất kỳ",
-            "target": 3,
-            "reward": 5000,
-            "exp": 10,
-            "progress": 0,
-            "claimed": false
-          },
-          "visit": {
-            "name": "Thăm trang trại",
-            "emoji": "👋",
-            "description": "Thăm 1 trang trại khác",
-            "target": 1,
-            "reward": 5000,
-            "exp": 10,
             "progress": 0,
             "claimed": false
           }
         },
-        "refreshed": 1741367273284
+        "refreshed": 1741486170783
       },
       "visitors": [
         {
@@ -6632,7 +6633,7 @@
       "plots": [
         {
           "id": 0,
-          "status": "ready",
+          "status": "damaged",
           "crop": "lua",
           "plantedAt": 1741426421716,
           "water": 3,
@@ -6641,7 +6642,7 @@
         },
         {
           "id": 1,
-          "status": "ready",
+          "status": "damaged",
           "crop": "lua",
           "plantedAt": 1741426421716,
           "water": 3,
@@ -6650,7 +6651,7 @@
         },
         {
           "id": 2,
-          "status": "ready",
+          "status": "damaged",
           "crop": "lua",
           "plantedAt": 1741426421716,
           "water": 3,
@@ -6659,7 +6660,7 @@
         },
         {
           "id": 3,
-          "status": "ready",
+          "status": "damaged",
           "crop": "lua",
           "plantedAt": 1741426421716,
           "water": 3,
@@ -6668,7 +6669,7 @@
         },
         {
           "id": 4,
-          "status": "ready",
+          "status": "damaged",
           "crop": "lua",
           "plantedAt": 1741426421716,
           "water": 3,
@@ -6677,7 +6678,7 @@
         },
         {
           "id": 5,
-          "status": "ready",
+          "status": "damaged",
           "crop": "lua",
           "plantedAt": 1741426421716,
           "water": 3,
@@ -6694,51 +6695,95 @@
       "createdAt": 1740922284303,
       "autoHarvest": false,
       "weather": {
-        "nextChange": 1741452784522,
+        "nextChange": 1741507770404,
         "timeOfDay": "noon",
-        "lastUpdated": 1741431184522
+        "lastUpdated": 1741486170404
       },
       "dailyMissions": {
-        "date": 1741367273332,
+        "date": 1741486170803,
         "missions": {
           "process": {
             "name": "Chế biến",
             "emoji": "👨‍🍳",
             "description": "Chế biến 2 món ăn",
             "target": 2,
-            "reward": 12000,
+            "reward": 120,
             "exp": 20,
             "progress": 0,
             "claimed": false
           },
-          "feed": {
-            "name": "Cho ăn",
-            "emoji": "🥫",
-            "description": "Cho 2 vật nuôi ăn",
-            "target": 2,
-            "reward": 8000,
-            "exp": 15,
+          "visit": {
+            "name": "Thăm trang trại",
+            "emoji": "👋",
+            "description": "Thăm 1 trang trại khác",
+            "target": 1,
+            "reward": 50,
+            "exp": 10,
             "progress": 0,
             "claimed": false
           },
-          "collect": {
-            "name": "Thu thập sản phẩm",
-            "emoji": "🥚",
-            "description": "Thu thập 3 sản phẩm từ vật nuôi",
-            "target": 3,
-            "reward": 10000,
-            "exp": 15,
+          "sell": {
+            "name": "Bán sản phẩm",
+            "emoji": "💰",
+            "description": "Bán 5 sản phẩm bất kỳ",
+            "target": 5,
+            "reward": 70,
+            "exp": 12,
             "progress": 0,
             "claimed": false
           }
         },
-        "refreshed": 1741367273332
+        "refreshed": 1741486170803
       },
       "visitors": [
         {
           "visitorId": "100053857386814",
           "visitTime": 1740922304483,
           "action": "💫 Bạn đã tham quan trang trại và học hỏi được một số điều!"
+        }
+      ],
+      "notifications": [
+        {
+          "type": "crop_damaged",
+          "cropId": "lua",
+          "cropName": "Lúa",
+          "plotIndex": 0,
+          "time": 1741441215802
+        },
+        {
+          "type": "crop_damaged",
+          "cropId": "lua",
+          "cropName": "Lúa",
+          "plotIndex": 1,
+          "time": 1741441215802
+        },
+        {
+          "type": "crop_damaged",
+          "cropId": "lua",
+          "cropName": "Lúa",
+          "plotIndex": 2,
+          "time": 1741441215802
+        },
+        {
+          "type": "crop_damaged",
+          "cropId": "lua",
+          "cropName": "Lúa",
+          "plotIndex": 3,
+          "time": 1741441215802
+        },
+        {
+          "type": "crop_damaged",
+          "cropId": "lua",
+          "cropName": "Lúa",
+          "plotIndex": 4,
+          "time": 1741441215802
+        },
+        {
+          "type": "crop_damaged",
+          "cropId": "lua",
+          "cropName": "Lúa",
+          "plotIndex": 5,
+          "time": 1741441215802
         }
       ]
     },
@@ -6821,7 +6866,7 @@
       ],
       "inventory": {
         "cà rốt": 0,
-        "lúa": 12
+        "lúa": 0
       },
       "animals": {},
       "items": {},
@@ -6829,30 +6874,40 @@
       "createdAt": 1740923260993,
       "autoHarvest": false,
       "weather": {
-        "nextChange": 1741452784522,
+        "nextChange": 1741507770404,
         "timeOfDay": "noon",
-        "lastUpdated": 1741431184522
+        "lastUpdated": 1741486170404
       },
       "dailyMissions": {
-        "date": 1741367273367,
+        "date": 1741486170821,
         "missions": {
-          "harvest": {
-            "name": "Thu hoạch",
-            "emoji": "🌾",
-            "description": "Thu hoạch 3 cây trồng",
-            "target": 3,
-            "reward": 8000,
-            "exp": 15,
+          "process": {
+            "name": "Chế biến",
+            "emoji": "👨‍🍳",
+            "description": "Chế biến 2 món ăn",
+            "target": 2,
+            "reward": 120,
+            "exp": 20,
             "progress": 0,
             "claimed": false
           },
-          "feed": {
-            "name": "Cho ăn",
-            "emoji": "🥫",
-            "description": "Cho 2 vật nuôi ăn",
-            "target": 2,
-            "reward": 8000,
-            "exp": 15,
+          "plant": {
+            "name": "Trồng cây",
+            "emoji": "🌱",
+            "description": "Trồng 3 cây bất kỳ",
+            "target": 3,
+            "reward": 50,
+            "exp": 10,
+            "progress": 0,
+            "claimed": false
+          },
+          "visit": {
+            "name": "Thăm trang trại",
+            "emoji": "👋",
+            "description": "Thăm 1 trang trại khác",
+            "target": 1,
+            "reward": 50,
+            "exp": 10,
             "progress": 0,
             "claimed": false
           },
@@ -6861,23 +6916,13 @@
             "emoji": "💰",
             "description": "Bán 5 sản phẩm bất kỳ",
             "target": 5,
-            "reward": 7000,
+            "reward": 70,
             "exp": 12,
-            "progress": 0,
-            "claimed": false
-          },
-          "collect": {
-            "name": "Thu thập sản phẩm",
-            "emoji": "🥚",
-            "description": "Thu thập 3 sản phẩm từ vật nuôi",
-            "target": 3,
-            "reward": 10000,
-            "exp": 15,
             "progress": 0,
             "claimed": false
           }
         },
-        "refreshed": 1741367273367
+        "refreshed": 1741486170821
       },
       "lastVisits": {
         "61573427362389": 1740927552209
@@ -6999,9 +7044,9 @@
       "createdAt": 1740927354781,
       "autoHarvest": false,
       "weather": {
-        "nextChange": 1741452784522,
+        "nextChange": 1741507770404,
         "timeOfDay": "noon",
-        "lastUpdated": 1741431184522
+        "lastUpdated": 1741486170404
       },
       "visitors": [
         {
@@ -7016,40 +7061,40 @@
         }
       ],
       "dailyMissions": {
-        "date": 1741367273411,
+        "date": 1741486170840,
         "missions": {
-          "sell": {
-            "name": "Bán sản phẩm",
-            "emoji": "💰",
-            "description": "Bán 5 sản phẩm bất kỳ",
-            "target": 5,
-            "reward": 7000,
-            "exp": 12,
-            "progress": 0,
-            "claimed": false
-          },
-          "process": {
-            "name": "Chế biến",
-            "emoji": "👨‍🍳",
-            "description": "Chế biến 2 món ăn",
-            "target": 2,
-            "reward": 12000,
-            "exp": 20,
-            "progress": 0,
-            "claimed": false
-          },
-          "harvest": {
-            "name": "Thu hoạch",
-            "emoji": "🌾",
-            "description": "Thu hoạch 3 cây trồng",
+          "collect": {
+            "name": "Thu thập sản phẩm",
+            "emoji": "🥚",
+            "description": "Thu thập 3 sản phẩm từ vật nuôi",
             "target": 3,
-            "reward": 8000,
+            "reward": 100,
             "exp": 15,
+            "progress": 0,
+            "claimed": false
+          },
+          "plant": {
+            "name": "Trồng cây",
+            "emoji": "🌱",
+            "description": "Trồng 3 cây bất kỳ",
+            "target": 3,
+            "reward": 50,
+            "exp": 10,
+            "progress": 0,
+            "claimed": false
+          },
+          "water": {
+            "name": "Tưới nước",
+            "emoji": "💧",
+            "description": "Tưới nước cho 5 cây trồng",
+            "target": 5,
+            "reward": 50,
+            "exp": 8,
             "progress": 0,
             "claimed": false
           }
         },
-        "refreshed": 1741367273411
+        "refreshed": 1741486170840
       }
     },
     "100055052811579": {
@@ -7188,30 +7233,20 @@
       "createdAt": 1740972822266,
       "autoHarvest": false,
       "weather": {
-        "nextChange": 1741452784522,
+        "nextChange": 1741507770404,
         "timeOfDay": "noon",
-        "lastUpdated": 1741431184522
+        "lastUpdated": 1741486170404
       },
       "dailyMissions": {
-        "date": 1741367273447,
+        "date": 1741486170860,
         "missions": {
-          "visit": {
-            "name": "Thăm trang trại",
-            "emoji": "👋",
-            "description": "Thăm 1 trang trại khác",
-            "target": 1,
-            "reward": 5000,
-            "exp": 10,
-            "progress": 0,
-            "claimed": false
-          },
-          "feed": {
-            "name": "Cho ăn",
-            "emoji": "🥫",
-            "description": "Cho 2 vật nuôi ăn",
+          "process": {
+            "name": "Chế biến",
+            "emoji": "👨‍🍳",
+            "description": "Chế biến 2 món ăn",
             "target": 2,
-            "reward": 8000,
-            "exp": 15,
+            "reward": 120,
+            "exp": 20,
             "progress": 0,
             "claimed": false
           },
@@ -7220,7 +7255,17 @@
             "emoji": "🌾",
             "description": "Thu hoạch 3 cây trồng",
             "target": 3,
-            "reward": 8000,
+            "reward": 80,
+            "exp": 15,
+            "progress": 0,
+            "claimed": false
+          },
+          "collect": {
+            "name": "Thu thập sản phẩm",
+            "emoji": "🥚",
+            "description": "Thu thập 3 sản phẩm từ vật nuôi",
+            "target": 3,
+            "reward": 100,
             "exp": 15,
             "progress": 0,
             "claimed": false
@@ -7230,13 +7275,13 @@
             "emoji": "💰",
             "description": "Bán 5 sản phẩm bất kỳ",
             "target": 5,
-            "reward": 7000,
+            "reward": 70,
             "exp": 12,
             "progress": 0,
             "claimed": false
           }
         },
-        "refreshed": 1741367273447
+        "refreshed": 1741486170860
       },
       "notifications": [
         {
@@ -7317,7 +7362,7 @@
       "plots": [
         {
           "id": 0,
-          "status": "ready",
+          "status": "damaged",
           "crop": "ca_rot",
           "plantedAt": 1741428571137,
           "water": 1,
@@ -7326,7 +7371,7 @@
         },
         {
           "id": 1,
-          "status": "ready",
+          "status": "damaged",
           "crop": "ca_rot",
           "plantedAt": 1741428571137,
           "water": 1,
@@ -7335,7 +7380,7 @@
         },
         {
           "id": 2,
-          "status": "ready",
+          "status": "damaged",
           "crop": "ca_rot",
           "plantedAt": 1741428571137,
           "water": 1,
@@ -7344,7 +7389,7 @@
         },
         {
           "id": 3,
-          "status": "ready",
+          "status": "damaged",
           "crop": "ca_rot",
           "plantedAt": 1741428571137,
           "water": 1,
@@ -7359,30 +7404,30 @@
       "createdAt": 1740973389345,
       "autoHarvest": false,
       "weather": {
-        "nextChange": 1741452784522,
+        "nextChange": 1741507770404,
         "timeOfDay": "noon",
-        "lastUpdated": 1741431184522
+        "lastUpdated": 1741486170404
       },
       "dailyMissions": {
-        "date": 1741367273480,
+        "date": 1741486170885,
         "missions": {
-          "visit": {
-            "name": "Thăm trang trại",
-            "emoji": "👋",
-            "description": "Thăm 1 trang trại khác",
-            "target": 1,
-            "reward": 5000,
+          "plant": {
+            "name": "Trồng cây",
+            "emoji": "🌱",
+            "description": "Trồng 3 cây bất kỳ",
+            "target": 3,
+            "reward": 50,
             "exp": 10,
             "progress": 0,
             "claimed": false
           },
-          "water": {
-            "name": "Tưới nước",
-            "emoji": "💧",
-            "description": "Tưới nước cho 5 cây trồng",
-            "target": 5,
-            "reward": 5000,
-            "exp": 8,
+          "harvest": {
+            "name": "Thu hoạch",
+            "emoji": "🌾",
+            "description": "Thu hoạch 3 cây trồng",
+            "target": 3,
+            "reward": 80,
+            "exp": 15,
             "progress": 0,
             "claimed": false
           },
@@ -7391,19 +7436,49 @@
             "emoji": "👨‍🍳",
             "description": "Chế biến 2 món ăn",
             "target": 2,
-            "reward": 12000,
+            "reward": 120,
             "exp": 20,
             "progress": 0,
             "claimed": false
           }
         },
-        "refreshed": 1741367273480
+        "refreshed": 1741486170885
       },
       "visitors": [
         {
           "visitorId": "61568522233427",
           "visitTime": 1741371774837,
           "action": "💫 Bạn đã tham quan trang trại và học hỏi được một số điều!"
+        }
+      ],
+      "notifications": [
+        {
+          "type": "crop_damaged",
+          "cropId": "ca_rot",
+          "cropName": "Cà rốt",
+          "plotIndex": 0,
+          "time": 1741441215802
+        },
+        {
+          "type": "crop_damaged",
+          "cropId": "ca_rot",
+          "cropName": "Cà rốt",
+          "plotIndex": 1,
+          "time": 1741441215802
+        },
+        {
+          "type": "crop_damaged",
+          "cropId": "ca_rot",
+          "cropName": "Cà rốt",
+          "plotIndex": 2,
+          "time": 1741441215802
+        },
+        {
+          "type": "crop_damaged",
+          "cropId": "ca_rot",
+          "cropName": "Cà rốt",
+          "plotIndex": 3,
+          "time": 1741441215802
         }
       ]
     },
@@ -7413,7 +7488,7 @@
       "plots": [
         {
           "id": 0,
-          "status": "ready",
+          "status": "damaged",
           "crop": "lua",
           "plantedAt": 1741426686813,
           "water": 2.2,
@@ -7422,7 +7497,7 @@
         },
         {
           "id": 1,
-          "status": "ready",
+          "status": "damaged",
           "crop": "lua",
           "plantedAt": 1741426686813,
           "water": 2.2,
@@ -7431,7 +7506,7 @@
         },
         {
           "id": 2,
-          "status": "ready",
+          "status": "damaged",
           "crop": "lua",
           "plantedAt": 1741426686813,
           "water": 2.2,
@@ -7440,7 +7515,7 @@
         },
         {
           "id": 3,
-          "status": "ready",
+          "status": "damaged",
           "crop": "lua",
           "plantedAt": 1741426686813,
           "water": 2.2,
@@ -7449,7 +7524,7 @@
         },
         {
           "id": 4,
-          "status": "ready",
+          "status": "damaged",
           "crop": "lua",
           "plantedAt": 1741426686813,
           "water": 2.2,
@@ -7458,7 +7533,7 @@
         },
         {
           "id": 5,
-          "status": "ready",
+          "status": "damaged",
           "crop": "lua",
           "plantedAt": 1741426686813,
           "water": 2.2,
@@ -7467,7 +7542,7 @@
         },
         {
           "id": 6,
-          "status": "ready",
+          "status": "damaged",
           "crop": "lua",
           "plantedAt": 1741426686813,
           "water": 2.2,
@@ -7476,7 +7551,7 @@
         },
         {
           "id": 7,
-          "status": "ready",
+          "status": "damaged",
           "crop": "lua",
           "plantedAt": 1741426686813,
           "water": 2.2,
@@ -7485,7 +7560,7 @@
         },
         {
           "id": 8,
-          "status": "ready",
+          "status": "damaged",
           "crop": "lua",
           "plantedAt": 1741426686813,
           "water": 2.2,
@@ -7494,7 +7569,7 @@
         },
         {
           "id": 9,
-          "status": "ready",
+          "status": "damaged",
           "crop": "lua",
           "plantedAt": 1741426686813,
           "water": 2.2,
@@ -7503,7 +7578,7 @@
         },
         {
           "id": 10,
-          "status": "ready",
+          "status": "damaged",
           "crop": "lua",
           "plantedAt": 1741426686813,
           "water": 2.2,
@@ -7512,7 +7587,7 @@
         },
         {
           "id": 11,
-          "status": "ready",
+          "status": "damaged",
           "crop": "lua",
           "plantedAt": 1741426686813,
           "water": 2.2,
@@ -7590,29 +7665,19 @@
       "createdAt": 1740974044311,
       "autoHarvest": false,
       "weather": {
-        "nextChange": 1741452784522,
+        "nextChange": 1741507770404,
         "timeOfDay": "noon",
-        "lastUpdated": 1741431184522
+        "lastUpdated": 1741486170404
       },
       "dailyMissions": {
-        "date": 1741367273510,
+        "date": 1741486170906,
         "missions": {
-          "process": {
-            "name": "Chế biến",
-            "emoji": "👨‍🍳",
-            "description": "Chế biến 4 món ăn",
-            "target": 4,
-            "reward": 25000,
-            "exp": 40,
-            "progress": 0,
-            "claimed": false
-          },
-          "sell": {
-            "name": "Bán sản phẩm",
-            "emoji": "💰",
-            "description": "Bán 10 sản phẩm bất kỳ",
-            "target": 10,
-            "reward": 15000,
+          "harvest": {
+            "name": "Thu hoạch",
+            "emoji": "🌾",
+            "description": "Thu hoạch 5 cây trồng",
+            "target": 5,
+            "reward": 150,
             "exp": 25,
             "progress": 0,
             "claimed": false
@@ -7622,23 +7687,33 @@
             "emoji": "🌱",
             "description": "Trồng 5 cây bất kỳ",
             "target": 5,
-            "reward": 10000,
+            "reward": 100,
             "exp": 20,
-            "progress": 5,
+            "progress": 0,
             "claimed": false
           },
-          "feed": {
-            "name": "Cho ăn",
-            "emoji": "🥫",
-            "description": "Cho 4 vật nuôi ăn",
-            "target": 4,
-            "reward": 16000,
+          "collect": {
+            "name": "Thu thập sản phẩm",
+            "emoji": "🥚",
+            "description": "Thu thập 5 sản phẩm từ vật nuôi",
+            "target": 5,
+            "reward": 200,
             "exp": 30,
+            "progress": 0,
+            "claimed": false
+          },
+          "process": {
+            "name": "Chế biến",
+            "emoji": "👨‍🍳",
+            "description": "Chế biến 4 món ăn",
+            "target": 4,
+            "reward": 250,
+            "exp": 40,
             "progress": 0,
             "claimed": false
           }
         },
-        "refreshed": 1741367273510
+        "refreshed": 1741486170906
       },
       "notifications": [
         {
@@ -7646,70 +7721,70 @@
           "cropId": "lua",
           "cropName": "Lúa",
           "plotIndex": 2,
-          "time": 1741421101396
+          "time": 1741441215802
         },
         {
           "type": "crop_damaged",
           "cropId": "lua",
           "cropName": "Lúa",
           "plotIndex": 3,
-          "time": 1741421101396
+          "time": 1741441215802
         },
         {
           "type": "crop_damaged",
           "cropId": "lua",
           "cropName": "Lúa",
           "plotIndex": 4,
-          "time": 1741421101396
+          "time": 1741441215802
         },
         {
           "type": "crop_damaged",
           "cropId": "lua",
           "cropName": "Lúa",
           "plotIndex": 5,
-          "time": 1741421101396
+          "time": 1741441215802
         },
         {
           "type": "crop_damaged",
           "cropId": "lua",
           "cropName": "Lúa",
           "plotIndex": 6,
-          "time": 1741421101396
+          "time": 1741441215802
         },
         {
           "type": "crop_damaged",
           "cropId": "lua",
           "cropName": "Lúa",
           "plotIndex": 7,
-          "time": 1741421101396
+          "time": 1741441215802
         },
         {
           "type": "crop_damaged",
           "cropId": "lua",
           "cropName": "Lúa",
           "plotIndex": 8,
-          "time": 1741421101396
+          "time": 1741441215802
         },
         {
           "type": "crop_damaged",
           "cropId": "lua",
           "cropName": "Lúa",
           "plotIndex": 9,
-          "time": 1741421101396
+          "time": 1741441215802
         },
         {
           "type": "crop_damaged",
           "cropId": "lua",
           "cropName": "Lúa",
           "plotIndex": 10,
-          "time": 1741421101396
+          "time": 1741441215802
         },
         {
           "type": "crop_damaged",
           "cropId": "lua",
           "cropName": "Lúa",
           "plotIndex": 11,
-          "time": 1741421101396
+          "time": 1741441215802
         }
       ],
       "lastVisits": {
@@ -7760,45 +7835,45 @@
       "createdAt": 1740979410905,
       "autoHarvest": false,
       "weather": {
-        "nextChange": 1741452784522,
+        "nextChange": 1741507770404,
         "timeOfDay": "noon",
-        "lastUpdated": 1741431184522
+        "lastUpdated": 1741486170404
       },
       "dailyMissions": {
-        "date": 1741367273539,
+        "date": 1741486170928,
         "missions": {
-          "feed": {
-            "name": "Cho ăn",
-            "emoji": "🥫",
-            "description": "Cho 2 vật nuôi ăn",
-            "target": 2,
-            "reward": 8000,
-            "exp": 15,
-            "progress": 0,
-            "claimed": false
-          },
           "water": {
             "name": "Tưới nước",
             "emoji": "💧",
             "description": "Tưới nước cho 5 cây trồng",
             "target": 5,
-            "reward": 5000,
+            "reward": 50,
             "exp": 8,
             "progress": 0,
             "claimed": false
           },
-          "sell": {
-            "name": "Bán sản phẩm",
-            "emoji": "💰",
-            "description": "Bán 5 sản phẩm bất kỳ",
-            "target": 5,
-            "reward": 7000,
-            "exp": 12,
+          "collect": {
+            "name": "Thu thập sản phẩm",
+            "emoji": "🥚",
+            "description": "Thu thập 3 sản phẩm từ vật nuôi",
+            "target": 3,
+            "reward": 100,
+            "exp": 15,
+            "progress": 0,
+            "claimed": false
+          },
+          "harvest": {
+            "name": "Thu hoạch",
+            "emoji": "🌾",
+            "description": "Thu hoạch 3 cây trồng",
+            "target": 3,
+            "reward": 80,
+            "exp": 15,
             "progress": 0,
             "claimed": false
           }
         },
-        "refreshed": 1741367273539
+        "refreshed": 1741486170928
       }
     },
     "100008297661441": {
@@ -7847,30 +7922,30 @@
       "createdAt": 1740979712643,
       "autoHarvest": false,
       "weather": {
-        "nextChange": 1741452784522,
+        "nextChange": 1741507770404,
         "timeOfDay": "noon",
-        "lastUpdated": 1741431184522
+        "lastUpdated": 1741486170404
       },
       "dailyMissions": {
-        "date": 1741367273570,
+        "date": 1741486170948,
         "missions": {
-          "water": {
-            "name": "Tưới nước",
-            "emoji": "💧",
-            "description": "Tưới nước cho 5 cây trồng",
+          "sell": {
+            "name": "Bán sản phẩm",
+            "emoji": "💰",
+            "description": "Bán 5 sản phẩm bất kỳ",
             "target": 5,
-            "reward": 5000,
-            "exp": 8,
+            "reward": 70,
+            "exp": 12,
             "progress": 0,
             "claimed": false
           },
-          "plant": {
-            "name": "Trồng cây",
-            "emoji": "🌱",
-            "description": "Trồng 3 cây bất kỳ",
+          "harvest": {
+            "name": "Thu hoạch",
+            "emoji": "🌾",
+            "description": "Thu hoạch 3 cây trồng",
             "target": 3,
-            "reward": 5000,
-            "exp": 10,
+            "reward": 80,
+            "exp": 15,
             "progress": 0,
             "claimed": false
           },
@@ -7879,13 +7954,13 @@
             "emoji": "🥚",
             "description": "Thu thập 3 sản phẩm từ vật nuôi",
             "target": 3,
-            "reward": 10000,
+            "reward": 100,
             "exp": 15,
             "progress": 0,
             "claimed": false
           }
         },
-        "refreshed": 1741367273570
+        "refreshed": 1741486170948
       }
     },
     "61558946907944": {
@@ -7932,131 +8007,131 @@
       "createdAt": 1740981832982,
       "autoHarvest": false,
       "weather": {
-        "nextChange": 1741452784522,
+        "nextChange": 1741507770404,
         "timeOfDay": "noon",
-        "lastUpdated": 1741431184522
+        "lastUpdated": 1741486170404
       },
       "dailyMissions": {
-        "date": 1741367273594,
+        "date": 1741486170977,
         "missions": {
-          "harvest": {
-            "name": "Thu hoạch",
-            "emoji": "🌾",
-            "description": "Thu hoạch 3 cây trồng",
-            "target": 3,
-            "reward": 8000,
-            "exp": 15,
-            "progress": 0,
-            "claimed": false
-          },
-          "sell": {
-            "name": "Bán sản phẩm",
-            "emoji": "💰",
-            "description": "Bán 5 sản phẩm bất kỳ",
-            "target": 5,
-            "reward": 7000,
-            "exp": 12,
-            "progress": 0,
-            "claimed": false
-          },
           "process": {
             "name": "Chế biến",
             "emoji": "👨‍🍳",
             "description": "Chế biến 2 món ăn",
             "target": 2,
-            "reward": 12000,
+            "reward": 120,
             "exp": 20,
+            "progress": 0,
+            "claimed": false
+          },
+          "water": {
+            "name": "Tưới nước",
+            "emoji": "💧",
+            "description": "Tưới nước cho 5 cây trồng",
+            "target": 5,
+            "reward": 50,
+            "exp": 8,
+            "progress": 0,
+            "claimed": false
+          },
+          "visit": {
+            "name": "Thăm trang trại",
+            "emoji": "👋",
+            "description": "Thăm 1 trang trại khác",
+            "target": 1,
+            "reward": 50,
+            "exp": 10,
             "progress": 0,
             "claimed": false
           }
         },
-        "refreshed": 1741367273594
+        "refreshed": 1741486170977
       }
     },
     "100076957299243": {
       "id": "100076957299243",
-      "exp": 675,
+      "exp": 720,
       "plots": [
         {
           "id": 0,
-          "status": "ready",
+          "status": "damaged",
           "crop": "lua",
-          "plantedAt": 1741426483310,
+          "plantedAt": 1741432218856,
           "water": 2,
-          "lastWatered": 1741426497592,
-          "readyAt": 1741429237664
+          "lastWatered": 1741432222143,
+          "readyAt": 1741441215802
         },
         {
           "id": 1,
-          "status": "ready",
+          "status": "damaged",
           "crop": "lua",
-          "plantedAt": 1741426483310,
+          "plantedAt": 1741432218856,
           "water": 2,
-          "lastWatered": 1741426497592,
-          "readyAt": 1741429237664
+          "lastWatered": 1741432222143,
+          "readyAt": 1741441215802
         },
         {
           "id": 2,
-          "status": "ready",
+          "status": "damaged",
           "crop": "lua",
-          "plantedAt": 1741426483310,
+          "plantedAt": 1741432218856,
           "water": 2,
-          "lastWatered": 1741426497592,
-          "readyAt": 1741429237664
+          "lastWatered": 1741432222143,
+          "readyAt": 1741441215802
         },
         {
           "id": 3,
-          "status": "ready",
+          "status": "damaged",
           "crop": "lua",
-          "plantedAt": 1741426483310,
+          "plantedAt": 1741432218856,
           "water": 2,
-          "lastWatered": 1741426497592,
-          "readyAt": 1741429237664
+          "lastWatered": 1741432222143,
+          "readyAt": 1741441215802
         },
         {
           "id": 4,
-          "status": "ready",
+          "status": "damaged",
           "crop": "lua",
-          "plantedAt": 1741426483310,
+          "plantedAt": 1741432218856,
           "water": 2,
-          "lastWatered": 1741426497592,
-          "readyAt": 1741429237664
+          "lastWatered": 1741432222143,
+          "readyAt": 1741441215802
         },
         {
           "id": 5,
-          "status": "ready",
+          "status": "damaged",
           "crop": "lua",
-          "plantedAt": 1741426483310,
+          "plantedAt": 1741432218856,
           "water": 2,
-          "lastWatered": 1741426497592,
-          "readyAt": 1741429237664
+          "lastWatered": 1741432222143,
+          "readyAt": 1741441215802
         },
         {
           "id": 6,
-          "status": "ready",
+          "status": "damaged",
           "crop": "lua",
-          "plantedAt": 1741426483310,
+          "plantedAt": 1741432218856,
           "water": 2,
-          "lastWatered": 1741426497592,
-          "readyAt": 1741429237664
+          "lastWatered": 1741432222143,
+          "readyAt": 1741441215802
         },
         {
           "id": 7,
-          "status": "ready",
+          "status": "damaged",
           "crop": "lua",
-          "plantedAt": 1741426483310,
+          "plantedAt": 1741432218856,
           "water": 2,
-          "lastWatered": 1741426497592,
-          "readyAt": 1741429237664
+          "lastWatered": 1741432222143,
+          "readyAt": 1741441215802
         },
         {
           "id": 8,
-          "status": "ready",
+          "status": "damaged",
           "crop": "lua",
-          "plantedAt": 1741426483310,
+          "plantedAt": 1741432218856,
           "water": 2,
-          "lastWatered": 1741426497592,
-          "readyAt": 1741429237664
+          "lastWatered": 1741432222143,
+          "readyAt": 1741441215802
         }
       ],
       "inventory": {
@@ -8109,30 +8184,30 @@
       "createdAt": 1740994195639,
       "autoHarvest": false,
       "weather": {
-        "nextChange": 1741452784522,
+        "nextChange": 1741507770404,
         "timeOfDay": "noon",
-        "lastUpdated": 1741431184522
+        "lastUpdated": 1741486170404
       },
       "dailyMissions": {
-        "date": 1741367273623,
+        "date": 1741486171001,
         "missions": {
+          "plant": {
+            "name": "Trồng cây",
+            "emoji": "🌱",
+            "description": "Trồng 3 cây bất kỳ",
+            "target": 3,
+            "reward": 50,
+            "exp": 10,
+            "progress": 0,
+            "claimed": false
+          },
           "feed": {
             "name": "Cho ăn",
             "emoji": "🥫",
             "description": "Cho 2 vật nuôi ăn",
             "target": 2,
-            "reward": 8000,
+            "reward": 80,
             "exp": 15,
-            "progress": 0,
-            "claimed": false
-          },
-          "visit": {
-            "name": "Thăm trang trại",
-            "emoji": "👋",
-            "description": "Thăm 1 trang trại khác",
-            "target": 1,
-            "reward": 5000,
-            "exp": 10,
             "progress": 0,
             "claimed": false
           },
@@ -8141,23 +8216,23 @@
             "emoji": "💰",
             "description": "Bán 5 sản phẩm bất kỳ",
             "target": 5,
-            "reward": 7000,
+            "reward": 70,
             "exp": 12,
             "progress": 0,
             "claimed": false
           },
-          "plant": {
-            "name": "Trồng cây",
-            "emoji": "🌱",
-            "description": "Trồng 3 cây bất kỳ",
-            "target": 3,
-            "reward": 5000,
+          "visit": {
+            "name": "Thăm trang trại",
+            "emoji": "👋",
+            "description": "Thăm 1 trang trại khác",
+            "target": 1,
+            "reward": 50,
             "exp": 10,
-            "progress": 3,
+            "progress": 0,
             "claimed": false
           }
         },
-        "refreshed": 1741367273623
+        "refreshed": 1741486171001
       },
       "notifications": [
         {
@@ -8165,70 +8240,70 @@
           "cropId": "lua",
           "cropName": "Lúa",
           "plotIndex": 8,
-          "time": 1741370641661
+          "time": 1741420547470
         },
         {
           "type": "crop_damaged",
           "cropId": "lua",
           "cropName": "Lúa",
           "plotIndex": 0,
-          "time": 1741420547470
+          "time": 1741486170404
         },
         {
           "type": "crop_damaged",
           "cropId": "lua",
           "cropName": "Lúa",
           "plotIndex": 1,
-          "time": 1741420547470
+          "time": 1741486170404
         },
         {
           "type": "crop_damaged",
           "cropId": "lua",
           "cropName": "Lúa",
           "plotIndex": 2,
-          "time": 1741420547470
+          "time": 1741486170404
         },
         {
           "type": "crop_damaged",
           "cropId": "lua",
           "cropName": "Lúa",
           "plotIndex": 3,
-          "time": 1741420547470
+          "time": 1741486170404
         },
         {
           "type": "crop_damaged",
           "cropId": "lua",
           "cropName": "Lúa",
           "plotIndex": 4,
-          "time": 1741420547470
+          "time": 1741486170404
         },
         {
           "type": "crop_damaged",
           "cropId": "lua",
           "cropName": "Lúa",
           "plotIndex": 5,
-          "time": 1741420547470
+          "time": 1741486170404
         },
         {
           "type": "crop_damaged",
           "cropId": "lua",
           "cropName": "Lúa",
           "plotIndex": 6,
-          "time": 1741420547470
+          "time": 1741486170404
         },
         {
           "type": "crop_damaged",
           "cropId": "lua",
           "cropName": "Lúa",
           "plotIndex": 7,
-          "time": 1741420547470
+          "time": 1741486170404
         },
         {
           "type": "crop_damaged",
           "cropId": "lua",
           "cropName": "Lúa",
           "plotIndex": 8,
-          "time": 1741420547470
+          "time": 1741486170404
         }
       ]
     },
@@ -8278,45 +8353,45 @@
       "createdAt": 1741011498929,
       "autoHarvest": false,
       "weather": {
-        "nextChange": 1741452784522,
+        "nextChange": 1741507770404,
         "timeOfDay": "noon",
-        "lastUpdated": 1741431184522
+        "lastUpdated": 1741486170404
       },
       "dailyMissions": {
-        "date": 1741367273651,
+        "date": 1741486171024,
         "missions": {
-          "visit": {
-            "name": "Thăm trang trại",
-            "emoji": "👋",
-            "description": "Thăm 1 trang trại khác",
-            "target": 1,
-            "reward": 5000,
-            "exp": 10,
-            "progress": 0,
-            "claimed": false
-          },
-          "sell": {
-            "name": "Bán sản phẩm",
-            "emoji": "💰",
-            "description": "Bán 5 sản phẩm bất kỳ",
-            "target": 5,
-            "reward": 7000,
-            "exp": 12,
-            "progress": 0,
-            "claimed": false
-          },
           "process": {
             "name": "Chế biến",
             "emoji": "👨‍🍳",
             "description": "Chế biến 2 món ăn",
             "target": 2,
-            "reward": 12000,
+            "reward": 120,
             "exp": 20,
+            "progress": 0,
+            "claimed": false
+          },
+          "feed": {
+            "name": "Cho ăn",
+            "emoji": "🥫",
+            "description": "Cho 2 vật nuôi ăn",
+            "target": 2,
+            "reward": 80,
+            "exp": 15,
+            "progress": 0,
+            "claimed": false
+          },
+          "visit": {
+            "name": "Thăm trang trại",
+            "emoji": "👋",
+            "description": "Thăm 1 trang trại khác",
+            "target": 1,
+            "reward": 50,
+            "exp": 10,
             "progress": 0,
             "claimed": false
           }
         },
-        "refreshed": 1741367273651
+        "refreshed": 1741486171024
       }
     },
     "100083237157086": {
@@ -8369,45 +8444,45 @@
       "createdAt": 1741015401348,
       "autoHarvest": false,
       "weather": {
-        "nextChange": 1741452784522,
+        "nextChange": 1741507770404,
         "timeOfDay": "noon",
-        "lastUpdated": 1741431184522
+        "lastUpdated": 1741486170404
       },
       "dailyMissions": {
-        "date": 1741367273676,
+        "date": 1741486171045,
         "missions": {
+          "process": {
+            "name": "Chế biến",
+            "emoji": "👨‍🍳",
+            "description": "Chế biến 2 món ăn",
+            "target": 2,
+            "reward": 120,
+            "exp": 20,
+            "progress": 0,
+            "claimed": false
+          },
           "harvest": {
             "name": "Thu hoạch",
             "emoji": "🌾",
             "description": "Thu hoạch 3 cây trồng",
             "target": 3,
-            "reward": 8000,
+            "reward": 80,
             "exp": 15,
-            "progress": 1,
-            "claimed": false
-          },
-          "water": {
-            "name": "Tưới nước",
-            "emoji": "💧",
-            "description": "Tưới nước cho 5 cây trồng",
-            "target": 5,
-            "reward": 5000,
-            "exp": 8,
             "progress": 0,
             "claimed": false
           },
-          "sell": {
-            "name": "Bán sản phẩm",
-            "emoji": "💰",
-            "description": "Bán 5 sản phẩm bất kỳ",
-            "target": 5,
-            "reward": 7000,
-            "exp": 12,
+          "plant": {
+            "name": "Trồng cây",
+            "emoji": "🌱",
+            "description": "Trồng 3 cây bất kỳ",
+            "target": 3,
+            "reward": 50,
+            "exp": 10,
             "progress": 0,
             "claimed": false
           }
         },
-        "refreshed": 1741367273676
+        "refreshed": 1741486171045
       },
       "notifications": [
         {
@@ -8490,20 +8565,20 @@
       "createdAt": 1741077198576,
       "autoHarvest": false,
       "weather": {
-        "nextChange": 1741452784522,
+        "nextChange": 1741507770404,
         "timeOfDay": "noon",
-        "lastUpdated": 1741431184522
+        "lastUpdated": 1741486170404
       },
       "dailyMissions": {
-        "date": 1741367273704,
+        "date": 1741486171064,
         "missions": {
-          "sell": {
-            "name": "Bán sản phẩm",
-            "emoji": "💰",
-            "description": "Bán 5 sản phẩm bất kỳ",
-            "target": 5,
-            "reward": 7000,
-            "exp": 12,
+          "visit": {
+            "name": "Thăm trang trại",
+            "emoji": "👋",
+            "description": "Thăm 1 trang trại khác",
+            "target": 1,
+            "reward": 50,
+            "exp": 10,
             "progress": 0,
             "claimed": false
           },
@@ -8512,23 +8587,23 @@
             "emoji": "🌱",
             "description": "Trồng 3 cây bất kỳ",
             "target": 3,
-            "reward": 5000,
+            "reward": 50,
             "exp": 10,
             "progress": 0,
             "claimed": false
           },
-          "feed": {
-            "name": "Cho ăn",
-            "emoji": "🥫",
-            "description": "Cho 2 vật nuôi ăn",
-            "target": 2,
-            "reward": 8000,
-            "exp": 15,
+          "water": {
+            "name": "Tưới nước",
+            "emoji": "💧",
+            "description": "Tưới nước cho 5 cây trồng",
+            "target": 5,
+            "reward": 50,
+            "exp": 8,
             "progress": 0,
             "claimed": false
           }
         },
-        "refreshed": 1741367273704
+        "refreshed": 1741486171064
       },
       "notifications": [
         {
@@ -8605,30 +8680,30 @@
       "createdAt": 1741081269665,
       "autoHarvest": false,
       "weather": {
-        "nextChange": 1741452784522,
+        "nextChange": 1741507770404,
         "timeOfDay": "noon",
-        "lastUpdated": 1741431184522
+        "lastUpdated": 1741486170404
       },
       "dailyMissions": {
-        "date": 1741367273735,
+        "date": 1741486171085,
         "missions": {
-          "water": {
-            "name": "Tưới nước",
-            "emoji": "💧",
-            "description": "Tưới nước cho 5 cây trồng",
-            "target": 5,
-            "reward": 5000,
-            "exp": 8,
+          "process": {
+            "name": "Chế biến",
+            "emoji": "👨‍🍳",
+            "description": "Chế biến 2 món ăn",
+            "target": 2,
+            "reward": 120,
+            "exp": 20,
             "progress": 0,
             "claimed": false
           },
-          "visit": {
-            "name": "Thăm trang trại",
-            "emoji": "👋",
-            "description": "Thăm 1 trang trại khác",
-            "target": 1,
-            "reward": 5000,
-            "exp": 10,
+          "sell": {
+            "name": "Bán sản phẩm",
+            "emoji": "💰",
+            "description": "Bán 5 sản phẩm bất kỳ",
+            "target": 5,
+            "reward": 70,
+            "exp": 12,
             "progress": 0,
             "claimed": false
           },
@@ -8637,90 +8712,90 @@
             "emoji": "🌱",
             "description": "Trồng 3 cây bất kỳ",
             "target": 3,
-            "reward": 5000,
+            "reward": 50,
             "exp": 10,
             "progress": 0,
             "claimed": false
           }
         },
-        "refreshed": 1741367273735
+        "refreshed": 1741486171085
       }
     },
     "61552144357464": {
       "id": "61552144357464",
-      "exp": 510,
+      "exp": 550,
       "plots": [
         {
           "id": 0,
-          "status": "growing",
+          "status": "damaged",
           "crop": "lua",
-          "plantedAt": 1741429333636,
-          "water": 1.9,
-          "lastWatered": 1741429339954,
-          "readyAt": 1741428518654
+          "plantedAt": 1741432911698,
+          "water": 2,
+          "lastWatered": 1741432915974,
+          "readyAt": 1741441215802
         },
         {
           "id": 1,
-          "status": "growing",
+          "status": "damaged",
           "crop": "lua",
-          "plantedAt": 1741429333636,
-          "water": 1.9,
-          "lastWatered": 1741429339954,
-          "readyAt": 1741428518654
+          "plantedAt": 1741432911698,
+          "water": 2,
+          "lastWatered": 1741432915974,
+          "readyAt": 1741441215802
         },
         {
           "id": 2,
-          "status": "growing",
+          "status": "damaged",
           "crop": "lua",
-          "plantedAt": 1741429333636,
-          "water": 1.9,
-          "lastWatered": 1741429339954,
-          "readyAt": 1741428518654
+          "plantedAt": 1741432911698,
+          "water": 2,
+          "lastWatered": 1741432915974,
+          "readyAt": 1741441215802
         },
         {
           "id": 3,
-          "status": "growing",
+          "status": "damaged",
           "crop": "lua",
-          "plantedAt": 1741429333636,
-          "water": 1.9,
-          "lastWatered": 1741429339954,
-          "readyAt": 1741428518654
+          "plantedAt": 1741432911698,
+          "water": 2,
+          "lastWatered": 1741432915974,
+          "readyAt": 1741441215802
         },
         {
           "id": 4,
-          "status": "growing",
+          "status": "damaged",
           "crop": "lua",
-          "plantedAt": 1741429333636,
-          "water": 1.9,
-          "lastWatered": 1741429339954,
-          "readyAt": 1741428518654
+          "plantedAt": 1741432911698,
+          "water": 2,
+          "lastWatered": 1741432915974,
+          "readyAt": 1741441215802
         },
         {
           "id": 5,
-          "status": "growing",
+          "status": "damaged",
           "crop": "lua",
-          "plantedAt": 1741429333636,
-          "water": 1.9,
-          "lastWatered": 1741429339954,
-          "readyAt": 1741428518654
+          "plantedAt": 1741432911698,
+          "water": 2,
+          "lastWatered": 1741432915974,
+          "readyAt": 1741441215802
         },
         {
           "id": 6,
-          "status": "growing",
+          "status": "damaged",
           "crop": "lua",
-          "plantedAt": 1741429333636,
-          "water": 1.9,
-          "lastWatered": 1741429339954,
-          "readyAt": 1741428518654
+          "plantedAt": 1741432911698,
+          "water": 2,
+          "lastWatered": 1741432915974,
+          "readyAt": 1741441215802
         },
         {
           "id": 7,
-          "status": "growing",
+          "status": "damaged",
           "crop": "lua",
-          "plantedAt": 1741429333636,
-          "water": 1.9,
-          "lastWatered": 1741429339954,
-          "readyAt": 1741428518654
+          "plantedAt": 1741432911698,
+          "water": 2,
+          "lastWatered": 1741432915974,
+          "readyAt": 1741441215802
         }
       ],
       "inventory": {
@@ -8773,57 +8848,55 @@
       "createdAt": 1741081780452,
       "autoHarvest": false,
       "weather": {
-        "type": "sunny",
-        "nextChange": 1741434465090,
+        "nextChange": 1741507770404,
         "timeOfDay": "noon",
-        "lastUpdated": 1741423665090,
-        "month": 3
+        "lastUpdated": 1741486170404
       },
       "dailyMissions": {
-        "date": 1741367273764,
+        "date": 1741486171109,
         "missions": {
+          "water": {
+            "name": "Tưới nước",
+            "emoji": "💧",
+            "description": "Tưới nước cho 5 cây trồng",
+            "target": 5,
+            "reward": 50,
+            "exp": 8,
+            "progress": 0,
+            "claimed": false
+          },
           "feed": {
             "name": "Cho ăn",
             "emoji": "🥫",
             "description": "Cho 2 vật nuôi ăn",
             "target": 2,
-            "reward": 8000,
+            "reward": 80,
             "exp": 15,
             "progress": 0,
             "claimed": false
           },
-          "visit": {
-            "name": "Thăm trang trại",
-            "emoji": "👋",
-            "description": "Thăm 1 trang trại khác",
-            "target": 1,
-            "reward": 5000,
-            "exp": 10,
+          "process": {
+            "name": "Chế biến",
+            "emoji": "👨‍🍳",
+            "description": "Chế biến 2 món ăn",
+            "target": 2,
+            "reward": 120,
+            "exp": 20,
             "progress": 0,
             "claimed": false
           },
-          "sell": {
-            "name": "Bán sản phẩm",
-            "emoji": "💰",
-            "description": "Bán 5 sản phẩm bất kỳ",
-            "target": 5,
-            "reward": 7000,
-            "exp": 12,
-            "progress": 5,
-            "claimed": false
-          },
-          "harvest": {
-            "name": "Thu hoạch",
-            "emoji": "🌾",
-            "description": "Thu hoạch 3 cây trồng",
+          "collect": {
+            "name": "Thu thập sản phẩm",
+            "emoji": "🥚",
+            "description": "Thu thập 3 sản phẩm từ vật nuôi",
             "target": 3,
-            "reward": 8000,
+            "reward": 100,
             "exp": 15,
-            "progress": 3,
+            "progress": 0,
             "claimed": false
           }
         },
-        "refreshed": 1741367273764
+        "refreshed": 1741486171109
       },
       "notifications": [
         {
@@ -8831,70 +8904,70 @@
           "cropId": "lua",
           "cropName": "Lúa",
           "plotIndex": 6,
-          "time": 1741358931390
+          "time": 1741418322029
         },
         {
           "type": "crop_damaged",
           "cropId": "lua",
           "cropName": "Lúa",
           "plotIndex": 7,
-          "time": 1741358931390
+          "time": 1741418322029
         },
         {
           "type": "crop_damaged",
           "cropId": "lua",
           "cropName": "Lúa",
           "plotIndex": 0,
-          "time": 1741418322029
+          "time": 1741486170404
         },
         {
           "type": "crop_damaged",
           "cropId": "lua",
           "cropName": "Lúa",
           "plotIndex": 1,
-          "time": 1741418322029
+          "time": 1741486170404
         },
         {
           "type": "crop_damaged",
           "cropId": "lua",
           "cropName": "Lúa",
           "plotIndex": 2,
-          "time": 1741418322029
+          "time": 1741486170404
         },
         {
           "type": "crop_damaged",
           "cropId": "lua",
           "cropName": "Lúa",
           "plotIndex": 3,
-          "time": 1741418322029
+          "time": 1741486170404
         },
         {
           "type": "crop_damaged",
           "cropId": "lua",
           "cropName": "Lúa",
           "plotIndex": 4,
-          "time": 1741418322029
+          "time": 1741486170404
         },
         {
           "type": "crop_damaged",
           "cropId": "lua",
           "cropName": "Lúa",
           "plotIndex": 5,
-          "time": 1741418322029
+          "time": 1741486170404
         },
         {
           "type": "crop_damaged",
           "cropId": "lua",
           "cropName": "Lúa",
           "plotIndex": 6,
-          "time": 1741418322029
+          "time": 1741486170404
         },
         {
           "type": "crop_damaged",
           "cropId": "lua",
           "cropName": "Lúa",
           "plotIndex": 7,
-          "time": 1741418322029
+          "time": 1741486170404
         }
       ]
     },
@@ -8904,57 +8977,57 @@
       "plots": [
         {
           "id": 0,
-          "status": "growing",
+          "status": "damaged",
           "crop": "lua",
           "plantedAt": 1741429847242,
           "water": 3,
           "lastWatered": 1741429863354,
-          "readyAt": 1741428518654
+          "readyAt": 1741432251069
         },
         {
           "id": 1,
-          "status": "growing",
+          "status": "damaged",
           "crop": "lua",
           "plantedAt": 1741429847242,
           "water": 3,
           "lastWatered": 1741429863355,
-          "readyAt": 1741428518654
+          "readyAt": 1741432251069
         },
         {
           "id": 2,
-          "status": "growing",
+          "status": "damaged",
           "crop": "lua",
           "plantedAt": 1741429847242,
           "water": 3,
           "lastWatered": 1741429863355,
-          "readyAt": 1741428518654
+          "readyAt": 1741432251069
         },
         {
           "id": 3,
-          "status": "growing",
+          "status": "damaged",
           "crop": "lua",
           "plantedAt": 1741429847242,
           "water": 3,
           "lastWatered": 1741429863355,
-          "readyAt": 1741428518654
+          "readyAt": 1741432251069
         },
         {
           "id": 4,
-          "status": "growing",
+          "status": "damaged",
           "crop": "lua",
           "plantedAt": 1741429847242,
           "water": 3,
           "lastWatered": 1741429863355,
-          "readyAt": 1741428518654
+          "readyAt": 1741432251069
         },
         {
           "id": 5,
-          "status": "growing",
+          "status": "damaged",
           "crop": "lua",
           "plantedAt": 1741429847242,
           "water": 3,
           "lastWatered": 1741429863355,
-          "readyAt": 1741428518654
+          "readyAt": 1741432251069
         }
       ],
       "inventory": {
@@ -8966,47 +9039,45 @@
       "createdAt": 1741081832663,
       "autoHarvest": false,
       "weather": {
-        "type": "cloudy",
-        "nextChange": 1741435769805,
+        "nextChange": 1741507770404,
         "timeOfDay": "evening",
-        "lastUpdated": 1741424969805,
-        "month": 3
+        "lastUpdated": 1741486170404
       },
       "dailyMissions": {
-        "date": 1741367273795,
+        "date": 1741486171128,
         "missions": {
           "visit": {
             "name": "Thăm trang trại",
             "emoji": "👋",
             "description": "Thăm 1 trang trại khác",
             "target": 1,
-            "reward": 5000,
+            "reward": 50,
             "exp": 10,
             "progress": 0,
             "claimed": false
           },
-          "plant": {
-            "name": "Trồng cây",
-            "emoji": "🌱",
-            "description": "Trồng 3 cây bất kỳ",
+          "collect": {
+            "name": "Thu thập sản phẩm",
+            "emoji": "🥚",
+            "description": "Thu thập 3 sản phẩm từ vật nuôi",
             "target": 3,
-            "reward": 5000,
-            "exp": 10,
-            "progress": 3,
+            "reward": 100,
+            "exp": 15,
+            "progress": 0,
             "claimed": false
           },
-          "sell": {
-            "name": "Bán sản phẩm",
-            "emoji": "💰",
-            "description": "Bán 5 sản phẩm bất kỳ",
-            "target": 5,
-            "reward": 7000,
-            "exp": 12,
+          "feed": {
+            "name": "Cho ăn",
+            "emoji": "🥫",
+            "description": "Cho 2 vật nuôi ăn",
+            "target": 2,
+            "reward": 80,
+            "exp": 15,
             "progress": 0,
             "claimed": false
           }
         },
-        "refreshed": 1741367273795
+        "refreshed": 1741486171128
       },
       "notifications": [
         {
@@ -9014,70 +9085,70 @@
           "cropId": "lua",
           "cropName": "Lúa",
           "plotIndex": 2,
-          "time": 1741366203488
+          "time": 1741418322029
         },
         {
           "type": "crop_damaged",
           "cropId": "lua",
           "cropName": "Lúa",
           "plotIndex": 3,
-          "time": 1741366203488
+          "time": 1741418322029
         },
         {
           "type": "crop_damaged",
           "cropId": "lua",
           "cropName": "Lúa",
           "plotIndex": 4,
-          "time": 1741366203488
+          "time": 1741418322029
         },
         {
           "type": "crop_damaged",
           "cropId": "lua",
           "cropName": "Lúa",
           "plotIndex": 5,
-          "time": 1741366203488
+          "time": 1741418322029
         },
         {
           "type": "crop_damaged",
           "cropId": "lua",
           "cropName": "Lúa",
           "plotIndex": 0,
-          "time": 1741418322029
+          "time": 1741441215802
         },
         {
           "type": "crop_damaged",
           "cropId": "lua",
           "cropName": "Lúa",
           "plotIndex": 1,
-          "time": 1741418322029
+          "time": 1741441215802
         },
         {
           "type": "crop_damaged",
           "cropId": "lua",
           "cropName": "Lúa",
           "plotIndex": 2,
-          "time": 1741418322029
+          "time": 1741441215802
         },
         {
           "type": "crop_damaged",
           "cropId": "lua",
           "cropName": "Lúa",
           "plotIndex": 3,
-          "time": 1741418322029
+          "time": 1741441215802
         },
         {
           "type": "crop_damaged",
           "cropId": "lua",
           "cropName": "Lúa",
           "plotIndex": 4,
-          "time": 1741418322029
+          "time": 1741441215802
         },
         {
           "type": "crop_damaged",
           "cropId": "lua",
           "cropName": "Lúa",
           "plotIndex": 5,
-          "time": 1741418322029
+          "time": 1741441215802
         }
       ]
     },
@@ -9131,45 +9202,45 @@
       "createdAt": 1741082165201,
       "autoHarvest": false,
       "weather": {
-        "nextChange": 1741445251693,
+        "nextChange": 1741507770404,
         "timeOfDay": "morning",
-        "lastUpdated": 1741423651693
+        "lastUpdated": 1741486170404
       },
       "dailyMissions": {
-        "date": 1741367273819,
+        "date": 1741486171151,
         "missions": {
-          "water": {
-            "name": "Tưới nước",
-            "emoji": "💧",
-            "description": "Tưới nước cho 5 cây trồng",
-            "target": 5,
-            "reward": 5000,
-            "exp": 8,
-            "progress": 0,
-            "claimed": false
-          },
-          "harvest": {
-            "name": "Thu hoạch",
-            "emoji": "🌾",
-            "description": "Thu hoạch 3 cây trồng",
+          "collect": {
+            "name": "Thu thập sản phẩm",
+            "emoji": "🥚",
+            "description": "Thu thập 3 sản phẩm từ vật nuôi",
             "target": 3,
-            "reward": 8000,
+            "reward": 100,
             "exp": 15,
             "progress": 0,
             "claimed": false
           },
-          "plant": {
-            "name": "Trồng cây",
-            "emoji": "🌱",
-            "description": "Trồng 3 cây bất kỳ",
-            "target": 3,
-            "reward": 5000,
+          "visit": {
+            "name": "Thăm trang trại",
+            "emoji": "👋",
+            "description": "Thăm 1 trang trại khác",
+            "target": 1,
+            "reward": 50,
             "exp": 10,
+            "progress": 0,
+            "claimed": false
+          },
+          "sell": {
+            "name": "Bán sản phẩm",
+            "emoji": "💰",
+            "description": "Bán 5 sản phẩm bất kỳ",
+            "target": 5,
+            "reward": 70,
+            "exp": 12,
             "progress": 0,
             "claimed": false
           }
         },
-        "refreshed": 1741367273819
+        "refreshed": 1741486171151
       },
       "notifications": [
         {
@@ -9248,30 +9319,30 @@
       "createdAt": 1741082406431,
       "autoHarvest": false,
       "weather": {
-        "nextChange": 1741445251693,
+        "nextChange": 1741507770404,
         "timeOfDay": "morning",
-        "lastUpdated": 1741423651693
+        "lastUpdated": 1741486170404
       },
       "dailyMissions": {
-        "date": 1741367273845,
+        "date": 1741486171173,
         "missions": {
+          "feed": {
+            "name": "Cho ăn",
+            "emoji": "🥫",
+            "description": "Cho 2 vật nuôi ăn",
+            "target": 2,
+            "reward": 80,
+            "exp": 15,
+            "progress": 0,
+            "claimed": false
+          },
           "harvest": {
             "name": "Thu hoạch",
             "emoji": "🌾",
             "description": "Thu hoạch 3 cây trồng",
             "target": 3,
-            "reward": 8000,
+            "reward": 80,
             "exp": 15,
-            "progress": 0,
-            "claimed": false
-          },
-          "process": {
-            "name": "Chế biến",
-            "emoji": "👨‍🍳",
-            "description": "Chế biến 2 món ăn",
-            "target": 2,
-            "reward": 12000,
-            "exp": 20,
             "progress": 0,
             "claimed": false
           },
@@ -9280,13 +9351,13 @@
             "emoji": "💰",
             "description": "Bán 5 sản phẩm bất kỳ",
             "target": 5,
-            "reward": 7000,
+            "reward": 70,
             "exp": 12,
             "progress": 0,
             "claimed": false
           }
         },
-        "refreshed": 1741367273845
+        "refreshed": 1741486171173
       }
     },
     "61565429063061": {
@@ -9357,20 +9428,20 @@
       "createdAt": 1741093201296,
       "autoHarvest": false,
       "weather": {
-        "nextChange": 1741445251693,
+        "nextChange": 1741507770404,
         "timeOfDay": "night",
-        "lastUpdated": 1741423651693
+        "lastUpdated": 1741486170404
       },
       "dailyMissions": {
-        "date": 1741367273875,
+        "date": 1741486171194,
         "missions": {
-          "plant": {
-            "name": "Trồng cây",
-            "emoji": "🌱",
-            "description": "Trồng 3 cây bất kỳ",
-            "target": 3,
-            "reward": 5000,
-            "exp": 10,
+          "water": {
+            "name": "Tưới nước",
+            "emoji": "💧",
+            "description": "Tưới nước cho 5 cây trồng",
+            "target": 5,
+            "reward": 50,
+            "exp": 8,
             "progress": 0,
             "claimed": false
           },
@@ -9379,23 +9450,23 @@
             "emoji": "👨‍🍳",
             "description": "Chế biến 2 món ăn",
             "target": 2,
-            "reward": 12000,
+            "reward": 120,
             "exp": 20,
             "progress": 0,
             "claimed": false
           },
-          "collect": {
-            "name": "Thu thập sản phẩm",
-            "emoji": "🥚",
-            "description": "Thu thập 3 sản phẩm từ vật nuôi",
+          "plant": {
+            "name": "Trồng cây",
+            "emoji": "🌱",
+            "description": "Trồng 3 cây bất kỳ",
             "target": 3,
-            "reward": 10000,
-            "exp": 15,
+            "reward": 50,
+            "exp": 10,
             "progress": 0,
             "claimed": false
           }
         },
-        "refreshed": 1741367273875
+        "refreshed": 1741486171194
       },
       "visitors": [
         {
@@ -9482,65 +9553,65 @@
     },
     "100072567218546": {
       "id": "100072567218546",
-      "exp": 240,
+      "exp": 270,
       "plots": [
         {
           "id": 0,
-          "status": "growing",
+          "status": "damaged",
           "crop": "lua",
-          "plantedAt": 1741429818471,
-          "water": 2.2,
-          "lastWatered": 1741429894557,
-          "readyAt": 1741429328402
+          "plantedAt": 1741431904049,
+          "water": 2,
+          "lastWatered": 1741431909326,
+          "readyAt": 1741441215802
         },
         {
           "id": 1,
-          "status": "growing",
+          "status": "damaged",
           "crop": "lua",
-          "plantedAt": 1741429818471,
-          "water": 2.2,
-          "lastWatered": 1741429894557,
-          "readyAt": 1741429328402
+          "plantedAt": 1741431904049,
+          "water": 2,
+          "lastWatered": 1741431909326,
+          "readyAt": 1741441215802
         },
         {
           "id": 2,
-          "status": "growing",
+          "status": "damaged",
           "crop": "lua",
-          "plantedAt": 1741429818471,
-          "water": 2.2,
-          "lastWatered": 1741429894557,
-          "readyAt": 1741429328402
+          "plantedAt": 1741431904049,
+          "water": 2,
+          "lastWatered": 1741431909326,
+          "readyAt": 1741441215802
         },
         {
           "id": 3,
-          "status": "growing",
+          "status": "damaged",
           "crop": "lua",
-          "plantedAt": 1741429818471,
-          "water": 2.2,
-          "lastWatered": 1741429894557,
-          "readyAt": 1741429328402
+          "plantedAt": 1741431904049,
+          "water": 2,
+          "lastWatered": 1741431909326,
+          "readyAt": 1741441215802
         },
         {
           "id": 4,
-          "status": "growing",
+          "status": "damaged",
           "crop": "lua",
-          "plantedAt": 1741429818471,
-          "water": 2.2,
-          "lastWatered": 1741429894557,
-          "readyAt": 1741429328402
+          "plantedAt": 1741431904049,
+          "water": 2,
+          "lastWatered": 1741431909326,
+          "readyAt": 1741441215802
         },
         {
           "id": 5,
-          "status": "growing",
+          "status": "damaged",
           "crop": "lua",
-          "plantedAt": 1741429818471,
-          "water": 2.2,
-          "lastWatered": 1741429894557,
-          "readyAt": 1741429328402
+          "plantedAt": 1741431904049,
+          "water": 2,
+          "lastWatered": 1741431909326,
+          "readyAt": 1741441215802
         }
       ],
       "inventory": {
-        "lúa": 36
+        "lúa": 42
       },
       "animals": {},
       "items": {
@@ -9555,95 +9626,51 @@
       "createdAt": 1741185108589,
       "autoHarvest": false,
       "weather": {
-        "type": "rainy",
-        "nextChange": 1741434956234,
+        "nextChange": 1741507770404,
         "timeOfDay": "noon",
-        "lastUpdated": 1741424156234,
-        "month": 3
+        "lastUpdated": 1741486170404
       },
       "dailyMissions": {
-        "date": 1741367273899,
+        "date": 1741486171213,
         "missions": {
+          "process": {
+            "name": "Chế biến",
+            "emoji": "👨‍🍳",
+            "description": "Chế biến 2 món ăn",
+            "target": 2,
+            "reward": 120,
+            "exp": 20,
+            "progress": 0,
+            "claimed": false
+          },
           "plant": {
             "name": "Trồng cây",
             "emoji": "🌱",
             "description": "Trồng 3 cây bất kỳ",
             "target": 3,
-            "reward": 5000,
+            "reward": 50,
             "exp": 10,
-            "progress": 3,
+            "progress": 0,
             "claimed": false
           },
-          "harvest": {
-            "name": "Thu hoạch",
-            "emoji": "🌾",
-            "description": "Thu hoạch 3 cây trồng",
-            "target": 3,
-            "reward": 8000,
-            "exp": 15,
-            "progress": 3,
-            "claimed": false
-          },
-          "collect": {
-            "name": "Thu thập sản phẩm",
-            "emoji": "🥚",
-            "description": "Thu thập 3 sản phẩm từ vật nuôi",
-            "target": 3,
-            "reward": 10000,
-            "exp": 15,
+          "water": {
+            "name": "Tưới nước",
+            "emoji": "💧",
+            "description": "Tưới nước cho 5 cây trồng",
+            "target": 5,
+            "reward": 50,
+            "exp": 8,
             "progress": 0,
             "claimed": false
           }
         },
-        "refreshed": 1741367273899
+        "refreshed": 1741486171213
       },
       "notifications": [
         {
           "type": "crop_damaged",
           "cropId": "lua",
           "cropName": "Lúa",
-          "plotIndex": 2,
-          "time": 1741222562490
-        },
-        {
-          "type": "crop_damaged",
-          "cropId": "lua",
-          "cropName": "Lúa",
-          "plotIndex": 3,
-          "time": 1741222562490
-        },
-        {
-          "type": "crop_damaged",
-          "cropId": "lua",
-          "cropName": "Lúa",
-          "plotIndex": 0,
-          "time": 1741337526790
-        },
-        {
-          "type": "crop_damaged",
-          "cropId": "lua",
-          "cropName": "Lúa",
-          "plotIndex": 1,
-          "time": 1741337526790
-        },
-        {
-          "type": "crop_damaged",
-          "cropId": "lua",
-          "cropName": "Lúa",
-          "plotIndex": 2,
-          "time": 1741337526790
-        },
-        {
-          "type": "crop_damaged",
-          "cropId": "lua",
-          "cropName": "Lúa",
-          "plotIndex": 3,
-          "time": 1741337526790
-        },
-        {
-          "type": "crop_damaged",
-          "cropId": "lua",
-          "cropName": "Lúa",
           "plotIndex": 0,
           "time": 1741352922980
         },
@@ -9667,6 +9694,48 @@
           "cropName": "Lúa",
           "plotIndex": 3,
           "time": 1741352922980
+        },
+        {
+          "type": "crop_damaged",
+          "cropId": "lua",
+          "cropName": "Lúa",
+          "plotIndex": 0,
+          "time": 1741486170404
+        },
+        {
+          "type": "crop_damaged",
+          "cropId": "lua",
+          "cropName": "Lúa",
+          "plotIndex": 1,
+          "time": 1741486170404
+        },
+        {
+          "type": "crop_damaged",
+          "cropId": "lua",
+          "cropName": "Lúa",
+          "plotIndex": 2,
+          "time": 1741486170404
+        },
+        {
+          "type": "crop_damaged",
+          "cropId": "lua",
+          "cropName": "Lúa",
+          "plotIndex": 3,
+          "time": 1741486170404
+        },
+        {
+          "type": "crop_damaged",
+          "cropId": "lua",
+          "cropName": "Lúa",
+          "plotIndex": 4,
+          "time": 1741486170404
+        },
+        {
+          "type": "crop_damaged",
+          "cropId": "lua",
+          "cropName": "Lúa",
+          "plotIndex": 5,
+          "time": 1741486170404
         }
       ]
     },
@@ -9678,55 +9747,55 @@
           "id": 0,
           "status": "damaged",
           "crop": "lua",
-          "plantedAt": 1741413265481,
+          "plantedAt": 1741431260783,
           "water": 2,
-          "lastWatered": 1741413288949,
-          "readyAt": 1741418322029
+          "lastWatered": 1741432373879,
+          "readyAt": 1741433193389
         },
         {
           "id": 1,
           "status": "damaged",
           "crop": "lua",
-          "plantedAt": 1741413265481,
+          "plantedAt": 1741431260783,
           "water": 2,
-          "lastWatered": 1741413288949,
-          "readyAt": 1741418322029
+          "lastWatered": 1741432373880,
+          "readyAt": 1741433193389
         },
         {
           "id": 2,
           "status": "damaged",
           "crop": "lua",
-          "plantedAt": 1741413265481,
+          "plantedAt": 1741431260783,
           "water": 2,
-          "lastWatered": 1741413288949,
-          "readyAt": 1741418322029
+          "lastWatered": 1741432373880,
+          "readyAt": 1741433193389
         },
         {
           "id": 3,
           "status": "damaged",
           "crop": "lua",
-          "plantedAt": 1741413265481,
+          "plantedAt": 1741431260783,
           "water": 2,
-          "lastWatered": 1741413288949,
-          "readyAt": 1741418322029
+          "lastWatered": 1741432373880,
+          "readyAt": 1741433193389
         },
         {
           "id": 4,
           "status": "damaged",
           "crop": "lua",
-          "plantedAt": 1741413265481,
+          "plantedAt": 1741431260783,
           "water": 2,
-          "lastWatered": 1741413288949,
-          "readyAt": 1741418322029
+          "lastWatered": 1741432373880,
+          "readyAt": 1741433193389
         },
         {
           "id": 5,
           "status": "damaged",
           "crop": "lua",
-          "plantedAt": 1741413265481,
+          "plantedAt": 1741431260783,
           "water": 2,
-          "lastWatered": 1741413288949,
-          "readyAt": 1741418322029
+          "lastWatered": 1741432373880,
+          "readyAt": 1741433193389
         }
       ],
       "inventory": {
@@ -9745,20 +9814,20 @@
       "createdAt": 1741273311597,
       "autoHarvest": false,
       "weather": {
-        "nextChange": 1741434858502,
-        "timeOfDay": "morning",
-        "lastUpdated": 1741413258502
+        "nextChange": 1741507770404,
+        "timeOfDay": "evening",
+        "lastUpdated": 1741486170404
       },
       "dailyMissions": {
-        "date": 1741367273919,
+        "date": 1741486171235,
         "missions": {
-          "feed": {
-            "name": "Cho ăn",
-            "emoji": "🥫",
-            "description": "Cho 2 vật nuôi ăn",
+          "process": {
+            "name": "Chế biến",
+            "emoji": "👨‍🍳",
+            "description": "Chế biến 2 món ăn",
             "target": 2,
-            "reward": 8000,
-            "exp": 15,
+            "reward": 120,
+            "exp": 20,
             "progress": 0,
             "claimed": false
           },
@@ -9767,23 +9836,23 @@
             "emoji": "🥚",
             "description": "Thu thập 3 sản phẩm từ vật nuôi",
             "target": 3,
-            "reward": 10000,
+            "reward": 100,
             "exp": 15,
             "progress": 0,
             "claimed": false
           },
-          "plant": {
-            "name": "Trồng cây",
-            "emoji": "🌱",
-            "description": "Trồng 3 cây bất kỳ",
+          "harvest": {
+            "name": "Thu hoạch",
+            "emoji": "🌾",
+            "description": "Thu hoạch 3 cây trồng",
             "target": 3,
-            "reward": 5000,
-            "exp": 10,
-            "progress": 3,
+            "reward": 80,
+            "exp": 15,
+            "progress": 0,
             "claimed": false
           }
         },
-        "refreshed": 1741367273919
+        "refreshed": 1741486171235
       },
       "notifications": [
         {
@@ -9791,73 +9860,73 @@
           "cropId": "lua",
           "cropName": "Lúa",
           "plotIndex": 2,
-          "time": 1741411057076
+          "time": 1741425681028
         },
         {
           "type": "crop_damaged",
           "cropId": "lua",
           "cropName": "Lúa",
           "plotIndex": 3,
-          "time": 1741411057076
+          "time": 1741425681028
         },
         {
           "type": "crop_damaged",
           "cropId": "lua",
           "cropName": "Lúa",
           "plotIndex": 4,
-          "time": 1741411057076
+          "time": 1741425681028
         },
         {
           "type": "crop_damaged",
           "cropId": "lua",
           "cropName": "Lúa",
           "plotIndex": 5,
-          "time": 1741411057076
+          "time": 1741425681028
         },
         {
           "type": "crop_damaged",
           "cropId": "lua",
           "cropName": "Lúa",
           "plotIndex": 0,
-          "time": 1741425681028
+          "time": 1741441215802
         },
         {
           "type": "crop_damaged",
           "cropId": "lua",
           "cropName": "Lúa",
           "plotIndex": 1,
-          "time": 1741425681028
+          "time": 1741441215802
         },
         {
           "type": "crop_damaged",
           "cropId": "lua",
           "cropName": "Lúa",
           "plotIndex": 2,
-          "time": 1741425681028
+          "time": 1741441215802
         },
         {
           "type": "crop_damaged",
           "cropId": "lua",
           "cropName": "Lúa",
           "plotIndex": 3,
-          "time": 1741425681028
+          "time": 1741441215802
         },
         {
           "type": "crop_damaged",
           "cropId": "lua",
           "cropName": "Lúa",
           "plotIndex": 4,
-          "time": 1741425681028
+          "time": 1741441215802
         },
         {
           "type": "crop_damaged",
           "cropId": "lua",
           "cropName": "Lúa",
           "plotIndex": 5,
-          "time": 1741425681028
+          "time": 1741441215802
         }
       ]
     }
   },
-  "lastUpdate": 1741431223933
+  "lastUpdate": 1741486220115
 }

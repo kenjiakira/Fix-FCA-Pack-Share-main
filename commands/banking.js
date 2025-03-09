@@ -13,7 +13,7 @@ const FILES = {
 };
 
 const LOAN_CONFIG = {
-    minAmount: 1000,
+    minAmount: 100,
     maxLoanRatio: 0.5, 
     baseInterestRate: 0.015,
     maxLoanDuration: 7, 
@@ -183,7 +183,7 @@ function calculateDetailedCreditScore(userId, bankingData) {
     details.transactionScore = {
         score: Math.round(transactionScore * CREDIT_SCORE.factors.transactionVolume.weight),
         total: totalTransactionVolume,
-        description: `Khối lượng giao dịch: ${totalTransactionVolume.toLocaleString('vi-VN')} Xu`
+        description: `Khối lượng giao dịch: ${totalTransactionVolume.toLocaleString('vi-VN')} $`
     };
 
     const accountAge = (Date.now() - (userData.createdAt || Date.now())) / (24 * 60 * 60 * 1000);
@@ -252,7 +252,7 @@ function calculateDetailedCreditScore(userId, bankingData) {
     details.transactionScore = {
         score: Math.round(transactionScore * CREDIT_SCORE.factors.transactionVolume.weight),
         total: totalTransactionVolume,
-        description: `Khối lượng giao dịch: ${totalTransactionVolume.toLocaleString('vi-VN')} Xu`,
+        description: `Khối lượng giao dịch: ${totalTransactionVolume.toLocaleString('vi-VN')} $`,
         transfers: `Chuyển: ${transferTransactions}, Nhận: ${receiveTransactions}`
     };
 
@@ -409,7 +409,7 @@ const getBankingHelp = () => {
 
 💰 Số dư tài khoản (Bank Balance)
 - Mô tả: Số tiền hiện có trong tài khoản
-- Ví dụ: 1,000,000 Xu
+- Ví dụ: 1,000,000 $
 
 💹 Lãi suất (Interest Rate)
 - Thời điểm tính lãi: Mỗi lần check số dư
@@ -456,10 +456,10 @@ const getBankingHelp = () => {
 
 💡 Sử dụng lệnh:
 1. .banking check - Xem số dư
-2. .banking gửi [số xu] - Gửi tiền
-3. .banking rút [số xu] - Rút tiền
-4. .banking vay [số xu] - Vay tiền
-5. .banking trả [số xu] - Trả nợ
+2. .banking gửi [số $] - Gửi tiền
+3. .banking rút [số $] - Rút tiền
+4. .banking vay [số $] - Vay tiền
+5. .banking trả [số $] - Trả nợ
 6. .banking khoản_vay - Xem nợ`;
 };
 
@@ -512,7 +512,7 @@ module.exports = {
                         userData.bankBalance += interest;
                         userData.lastInterest = Date.now();
                         await saveBankingData(bankingData);
-                        await api.sendMessage(`💰 Bạn nhận được ${interest.toLocaleString('vi-VN')} Xu tiền lãi!`, threadID);
+                        await api.sendMessage(`💰 Bạn nhận được ${interest.toLocaleString('vi-VN')} $ tiền lãi!`, threadID);
                     }
                 }
             } catch (err) {
@@ -530,8 +530,8 @@ module.exports = {
                         "4. .banking vay [số tiền]\n" +
                         "5. .banking trả [số tiền]\n" +
                         "6. .banking khoản_vay\n\n" +
-                        `💰 Số dư ví: ${walletBalance.toLocaleString('vi-VN')} Xu\n` +
-                        `🏦 Số dư ngân hàng: ${bankBalance.toLocaleString('vi-VN')} Xu`
+                        `💰 Số dư ví: ${walletBalance.toLocaleString('vi-VN')} $\n` +
+                        `🏦 Số dư ngân hàng: ${bankBalance.toLocaleString('vi-VN')} $`
                 }, threadID, messageID);
             }
 
@@ -555,9 +555,9 @@ module.exports = {
                         
                         const newBalance = await getBalance(senderID);
                         return api.sendMessage(
-                            `✅ Đã gửi ${amount.toLocaleString('vi-VN')} Xu vào ngân hàng!\n` +
-                            `💰 Số dư ví: ${newBalance.toLocaleString('vi-VN')} Xu\n` +
-                            `🏦 Số dư ngân hàng: ${userData.bankBalance.toLocaleString('vi-VN')} Xu`,
+                            `✅ Đã gửi ${amount.toLocaleString('vi-VN')} $ vào ngân hàng!\n` +
+                            `💰 Số dư ví: ${newBalance.toLocaleString('vi-VN')} $\n` +
+                            `🏦 Số dư ngân hàng: ${userData.bankBalance.toLocaleString('vi-VN')} $`,
                             threadID, messageID
                         );
                     } catch (err) {
@@ -594,9 +594,9 @@ module.exports = {
                         await updateBalance(senderID, amount);
                         await saveBankingData(bankingData);
                         return api.sendMessage(
-                            `✅ Đã rút ${amount.toLocaleString('vi-VN')} Xu từ ngân hàng!\n` +
-                            `💰 Số dư ví: ${(await getBalance(senderID)).toLocaleString('vi-VN')} Xu\n` +
-                            `🏦 Số dư ngân hàng: ${userData.bankBalance.toLocaleString('vi-VN')} Xu`,
+                            `✅ Đã rút ${amount.toLocaleString('vi-VN')} $ từ ngân hàng!\n` +
+                            `💰 Số dư ví: ${(await getBalance(senderID)).toLocaleString('vi-VN')} $\n` +
+                            `🏦 Số dư ngân hàng: ${userData.bankBalance.toLocaleString('vi-VN')} $`,
                             threadID, messageID
                         );
                     } catch (err) {
@@ -621,7 +621,7 @@ module.exports = {
                         if (activeLoan && activeLoan.status === 'active') {
                             const daysLeft = Math.ceil((activeLoan.dueDate - Date.now()) / (24 * 60 * 60 * 1000));
                             loanInfo = "\n\n📝 KHOẢN VAY HIỆN TẠI:\n" +
-                                     `💰 Số tiền còn nợ: ${activeLoan.remainingAmount.toLocaleString('vi-VN')} Xu\n` +
+                                     `💰 Số tiền còn nợ: ${activeLoan.remainingAmount.toLocaleString('vi-VN')} $\n` +
                                      `⏳ Thời gian còn lại: ${daysLeft} ngày\n` +
                                      `📅 Hạn trả: ${new Date(activeLoan.dueDate).toLocaleDateString('vi-VN')}`;
                         }
@@ -629,9 +629,9 @@ module.exports = {
                         return api.sendMessage(
                             "🏦 THÔNG TIN TÀI KHOẢN 🏦\n" +
                             "━━━━━━━━━━━━━━━━━━\n" +
-                            `💰 Số dư ví: ${walletBalance.toLocaleString('vi-VN')} Xu\n` +
-                            `🏦 Số dư ngân hàng: ${bankBalance.toLocaleString('vi-VN')} Xu\n` +
-                            `💵 Tổng tài sản: ${(walletBalance + bankBalance).toLocaleString('vi-VN')} Xu\n\n` +
+                            `💰 Số dư ví: ${walletBalance.toLocaleString('vi-VN')} $\n` +
+                            `🏦 Số dư ngân hàng: ${bankBalance.toLocaleString('vi-VN')} $\n` +
+                            `💵 Tổng tài sản: ${(walletBalance + bankBalance).toLocaleString('vi-VN')} $\n\n` +
                             `📊 Điểm tín dụng: ${creditInfo.score}/100\n` +
                             `├─ Giao dịch: ${Math.min(100, Math.round(creditInfo.details.transactionScore.score))}%\n` +
                             `├─ Độ tuổi tài khoản: ${creditInfo.details.ageScore.days} ngày\n` +
@@ -662,7 +662,7 @@ module.exports = {
                             
                             if (amount > maxLoanAmount) {
                                 return api.sendMessage(
-                                    `❌ Với VIP ${vipLevel}, số tiền vay tối đa của bạn là ${formatNumber(maxLoanAmount)} Xu!`,
+                                    `❌ Với VIP ${vipLevel}, số tiền vay tối đa của bạn là ${formatNumber(maxLoanAmount)} $!`,
                                     threadID, messageID
                                 );
                             }
@@ -671,7 +671,7 @@ module.exports = {
                             if (existingLoan && existingLoan.status === 'active') {
                                 return api.sendMessage(
                                     "❌ Bạn đang có khoản vay chưa thanh toán!\n" +
-                                    `💰 Số tiền nợ: ${formatNumber(existingLoan.remainingAmount)} Xu\n` +
+                                    `💰 Số tiền nợ: ${formatNumber(existingLoan.remainingAmount)} $\n` +
                                     `📅 Hạn trả: ${new Date(existingLoan.dueDate).toLocaleDateString('vi-VN')}`,
                                     threadID, messageID
                                 );
@@ -689,7 +689,7 @@ module.exports = {
                                 requiredCollateral = amount * LOAN_CONFIG.collateralRatio;
                                 if (bankBalance < requiredCollateral) {
                                     return api.sendMessage(
-                                        `❌ Bạn cần có ít nhất ${formatNumber(requiredCollateral)} Xu trong ngân hàng để đảm bảo khoản vay!\n` +
+                                        `❌ Bạn cần có ít nhất ${formatNumber(requiredCollateral)} $ trong ngân hàng để đảm bảo khoản vay!\n` +
                                         "📝 Số tiền này sẽ bị phong tỏa cho đến khi trả hết nợ.",
                                         threadID, messageID
                                     );
@@ -720,11 +720,11 @@ module.exports = {
                                 "🏦 THÔNG TIN KHOẢN VAY VIP 🏦\n" +
                                 "━━━━━━━━━━━━━━━━━━\n" +
                                 `👑 Cấp VIP: ${vipLevel}\n` +
-                                `💰 Số tiền vay: ${formatNumber(amount)} Xu\n` +
+                                `💰 Số tiền vay: ${formatNumber(amount)} $\n` +
                                 `💹 Lãi suất: ${(interestRate * 100).toFixed(2)}%/ngày\n` +
-                                `${requiredCollateral ? `🔒 Tài sản đảm bảo: ${formatNumber(requiredCollateral)} Xu\n` : ''}` +
-                                `💵 Tiền lãi: ${formatNumber(interest)} Xu\n` +
-                                `💳 Tổng số tiền phải trả: ${formatNumber(totalRepayment)} Xu\n` +
+                                `${requiredCollateral ? `🔒 Tài sản đảm bảo: ${formatNumber(requiredCollateral)} $\n` : ''}` +
+                                `💵 Tiền lãi: ${formatNumber(interest)} $\n` +
+                                `💳 Tổng số tiền phải trả: ${formatNumber(totalRepayment)} $\n` +
                                 `📅 Hạn trả: ${new Date(dueDate).toLocaleDateString('vi-VN')}\n\n` +
                                 "✨ Đặc quyền VIP:\n" +
                                 `• Giảm ${vipLoanConfig.interestDiscount * 100}% lãi suất\n` +
@@ -736,7 +736,7 @@ module.exports = {
 
                         if (amount > maxLoanAmount) {
                             return api.sendMessage(
-                                `❌ Số tiền vay tối đa là ${maxLoanAmount.toLocaleString('vi-VN')} Xu (50% tổng tài sản)!`,
+                                `❌ Số tiền vay tối đa là ${maxLoanAmount.toLocaleString('vi-VN')} $ (50% tổng tài sản)!`,
                                 threadID, messageID
                             );
                         }
@@ -755,7 +755,7 @@ module.exports = {
                         const minRequiredScore = amount > (maxLoanAmount * 0.7) ? 40 : 30;
                         if (creditScore < minRequiredScore) {
                             return api.sendMessage(
-                                `❌ Điểm tín dụng tối thiểu để vay ${amount.toLocaleString('vi-VN')} Xu là ${minRequiredScore} điểm!\n` +
+                                `❌ Điểm tín dụng tối thiểu để vay ${amount.toLocaleString('vi-VN')} $ là ${minRequiredScore} điểm!\n` +
                                 `📊 Điểm tín dụng hiện tại: ${creditScore}\n` +
                                 "📝 Hãy thực hiện nhiều giao dịch và duy trì số dư để tăng điểm tín dụng.",
                                 threadID, messageID
@@ -767,7 +767,7 @@ module.exports = {
                         const requiredCollateral = amount * LOAN_CONFIG.collateralRatio;
                         if (bankBalance < requiredCollateral) {
                             return api.sendMessage(
-                                `❌ Bạn cần có ít nhất ${requiredCollateral.toLocaleString('vi-VN')} Xu trong ngân hàng để đảm bảo khoản vay!\n` +
+                                `❌ Bạn cần có ít nhất ${requiredCollateral.toLocaleString('vi-VN')} $ trong ngân hàng để đảm bảo khoản vay!\n` +
                                 "📝 Số tiền này sẽ bị phong tỏa cho đến khi trả hết nợ.",
                                 threadID, messageID
                             );
@@ -791,7 +791,7 @@ module.exports = {
                         if (existingLoan && existingLoan.status === 'active') {
                             return api.sendMessage(
                                 "❌ Bạn đang có khoản vay chưa thanh toán!\n" +
-                                `💰 Số tiền nợ: ${existingLoan.remainingAmount.toLocaleString('vi-VN')} Xu\n` +
+                                `💰 Số tiền nợ: ${existingLoan.remainingAmount.toLocaleString('vi-VN')} $\n` +
                                 `📅 Hạn trả: ${new Date(existingLoan.dueDate).toLocaleDateString('vi-VN')}`,
                                 threadID, messageID
                             );
@@ -830,11 +830,11 @@ module.exports = {
                             "🏦 THÔNG TIN KHOẢN VAY 🏦\n" +
                             "━━━━━━━━━━━━━━━━━━\n" +
                             `📊 Điểm tín dụng: ${creditScore}/100\n` +
-                            `💰 Số tiền vay: ${amount.toLocaleString('vi-VN')} Xu\n` +
+                            `💰 Số tiền vay: ${amount.toLocaleString('vi-VN')} $\n` +
                             `💹 Lãi suất: ${(interestRate * 100).toFixed(2)}%/ngày\n` +
-                            `🔒 Tài sản đảm bảo: ${requiredCollateral.toLocaleString('vi-VN')} Xu\n` +
-                            `💵 Tiền lãi: ${interest.toLocaleString('vi-VN')} Xu\n` +
-                            `💳 Tổng số tiền phải trả: ${totalRepayment.toLocaleString('vi-VN')} Xu\n` +
+                            `🔒 Tài sản đảm bảo: ${requiredCollateral.toLocaleString('vi-VN')} $\n` +
+                            `💵 Tiền lãi: ${interest.toLocaleString('vi-VN')} $\n` +
+                            `💳 Tổng số tiền phải trả: ${totalRepayment.toLocaleString('vi-VN')} $\n` +
                             `📅 Hạn trả: ${new Date(dueDate).toLocaleDateString('vi-VN')}\n\n` +
                             "📌 Điều khoản vay:\n" +
                             "1. Khoản vay phải được trả trong 7 ngày\n" +
@@ -895,16 +895,16 @@ module.exports = {
                         await saveBankingData(bankingData);
                         
                         const message = [
-                            `✅ Đã trả ${paymentAmount.toLocaleString('vi-VN')} Xu cho khoản vay!`
+                            `✅ Đã trả ${paymentAmount.toLocaleString('vi-VN')} $ cho khoản vay!`
                         ];
 
                         if (loan.status === 'paid') {
                             message.push('🎉 Chúc mừng! Khoản vay đã được thanh toán đầy đủ!');
                             if (returnedCollateral > 0) {
-                                message.push(`💰 Đã hoàn trả ${returnedCollateral.toLocaleString('vi-VN')} Xu tài sản đảm bảo!`);
+                                message.push(`💰 Đã hoàn trả ${returnedCollateral.toLocaleString('vi-VN')} $ tài sản đảm bảo!`);
                             }
                         } else {
-                            message.push(`📌 Số tiền còn nợ: ${loan.remainingAmount.toLocaleString('vi-VN')} Xu`);
+                            message.push(`📌 Số tiền còn nợ: ${loan.remainingAmount.toLocaleString('vi-VN')} $`);
                         }
 
                         return api.sendMessage(message.join('\n'), threadID, messageID);
@@ -924,9 +924,9 @@ module.exports = {
                         return api.sendMessage(
                             "🏦 THÔNG TIN KHOẢN VAY 🏦\n" +
                             "━━━━━━━━━━━━━━━━━━\n" +
-                            `💰 Số tiền vay gốc: ${userLoan.amount.toLocaleString('vi-VN')} Xu\n` +
-                            `💵 Tiền lãi: ${userLoan.interest.toLocaleString('vi-VN')} Xu\n` +
-                            `💳 Số tiền còn nợ: ${userLoan.remainingAmount.toLocaleString('vi-VN')} Xu\n` +
+                            `💰 Số tiền vay gốc: ${userLoan.amount.toLocaleString('vi-VN')} $\n` +
+                            `💵 Tiền lãi: ${userLoan.interest.toLocaleString('vi-VN')} $\n` +
+                            `💳 Số tiền còn nợ: ${userLoan.remainingAmount.toLocaleString('vi-VN')} $\n` +
                             `⏳ Thời gian còn lại: ${daysLeft} ngày\n` +
                             `📅 Hạn trả: ${new Date(userLoan.dueDate).toLocaleDateString('vi-VN')}`,
                             threadID, messageID

@@ -2,7 +2,7 @@ module.exports = {
     DESTINATIONS: {
         beach: {
             name: "🏖️ Bãi biển",
-            basePrice: 1000000,
+            basePrice: 1000,
             description: "Nghỉ dưỡng tại bãi biển xinh đẹp",
             happiness: 10,
             duration: "3 ngày",
@@ -14,7 +14,7 @@ module.exports = {
         },
         mountain: {
             name: "⛰️ Núi rừng",
-            basePrice: 2000000,
+            basePrice: 2000,
             description: "Khám phá thiên nhiên hoang dã",
             happiness: 15,
             duration: "4 ngày",
@@ -26,7 +26,7 @@ module.exports = {
         },
         resort: {
             name: "🏨 Khu nghỉ dưỡng",
-            basePrice: 5000000,
+            basePrice: 5000,
             description: "Thư giãn tại resort cao cấp",
             happiness: 20,
             duration: "5 ngày",
@@ -38,7 +38,7 @@ module.exports = {
         },
         abroad: {
             name: "✈️ Du lịch nước ngoài",
-            basePrice: 20000000,
+            basePrice: 20000,
             description: "Khám phá văn hóa nước ngoài",
             happiness: 30,
             duration: "7 ngày",
@@ -50,7 +50,7 @@ module.exports = {
         },
         cruise: {
             name: "🚢 Du thuyền",
-            basePrice: 50000000,
+            basePrice: 50000,
             description: "Trải nghiệm du lịch trên biển",
             happiness: 40,
             duration: "10 ngày",

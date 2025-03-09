@@ -3,19 +3,19 @@ const COOLDOWNS = {
     protected: 10 
 };
 
-const MARRIAGE_COST = 1000000;
-const DIVORCE_COST = 2000000;
+const MARRIAGE_COST = 1000;
+const DIVORCE_COST = 2000;
 
 const CONTRACEPTIVES = {
     "bcs": {
         name: "🎈 Bao cao su",
-        price: 50000,
+        price: 500,
         description: "Tránh thai an toàn",
         duration: 30 
     },
     "vt": {
         name: "💊 Viên tránh thai",
-        price: 100000,
+        price: 1000,
         description: "Tránh thai hiệu quả",
         duration: 60
     }
@@ -24,19 +24,19 @@ const CONTRACEPTIVES = {
 const MEDICINES = {
     "thuoc_bo": {
         name: "💊 Thuốc bổ",
-        price: 100000,
+        price: 1000,
         description: "Tăng sức khỏe +20%",
         healthBoost: 20
     },
     "thuoc_ho": {
         name: "💊 Thuốc ho",
-        price: 50000,
+        price: 5000,
         description: "Tăng sức khỏe +10%",
         healthBoost: 10
     },
     "vitamin": {
         name: "💊 Vitamin tổng hợp",
-        price: 200000,
+        price: 2000,
         description: "Tăng sức khỏe +30%",
         healthBoost: 30
     }
@@ -45,7 +45,7 @@ const MEDICINES = {
 const INSURANCE = {
     "bhyt_basic": {
         name: "🏥 BHYT Cơ bản",
-        price: 5000000,
+        price: 5000,
         description: "Giảm 30% chi phí khám chữa bệnh",
         duration: 30, 
         discount: 30,
@@ -53,7 +53,7 @@ const INSURANCE = {
     },
     "bhyt_premium": {
         name: "🏥 BHYT Cao cấp",
-        price: 100000000,
+        price: 100000,
         description: "Giảm 50% chi phí khám chữa bệnh",
         duration: 30, 
         discount: 50,
@@ -61,7 +61,7 @@ const INSURANCE = {
     },
     "car_basic": {
         name: "🚗 Bảo hiểm ô tô cơ bản",
-        price: 10000000,
+        price: 10000,
         description: "Giảm 30% chi phí sửa chữa ô tô",
         duration: 30,
         discount: 30,
@@ -69,7 +69,7 @@ const INSURANCE = {
     },
     "car_premium": {
         name: "🚗 Bảo hiểm ô tô cao cấp",
-        price: 20000000,
+        price: 20000,
         description: "Giảm 50% chi phí sửa chữa ô tô",
         duration: 30,
         discount: 50,
@@ -77,7 +77,7 @@ const INSURANCE = {
     },
     "bike_basic": {
         name: "🛵 Bảo hiểm xe máy cơ bản",
-        price: 5000000,
+        price: 5000,
         description: "Giảm 30% chi phí sửa chữa xe máy",
         duration: 30,
         discount: 30,
@@ -85,7 +85,7 @@ const INSURANCE = {
     },
     "bike_premium": {
         name: "🛵 Bảo hiểm xe máy cao cấp",
-        price: 10000000,
+        price: 10000,
         description: "Giảm 50% chi phí sửa chữa xe máy",
         duration: 30,
         discount: 50,

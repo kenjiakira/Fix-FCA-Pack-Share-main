@@ -25,7 +25,19 @@ const levelRequirements = {
     atlantis: 50, 
     spaceOcean: 100, 
     dragonRealm: 200,
-    vipReserve: 5
+    vipReserve: 5,
+    vipBronzeResort: 3,  
+    vipSilverLagoon: 5,
+};
+
+const ENERGY_SYSTEM = {
+    baseCost: 50,   
+    fishingCost: 10,    
+    baseMaxEnergy: 50,    
+    energyPerLevel: 5,    
+    regenTime: 180000,    
+    minEnergyToFish: 10,   
+    maxRestoreAmount: 100 
 };
 
 function formatNumber(number) {
@@ -41,7 +53,11 @@ const messages = {
     levelUp: level => `🎉 Chúc mừng đạt cấp ${level}!`,
     rodBroken: rod => `⚠️ Cần câu cũ đã hỏng! Tự động chuyển sang ${rod}!`,
     insufficientFunds: (cost, location) => 
-        `❌ Bạn cần ${formatNumber(cost)} xu để câu ở ${location}!`
+        `❌ Bạn cần ${formatNumber(cost)} $ để câu ở ${location}!`,
+    insufficientEnergy: (current, required) => 
+        `❌ Không đủ năng lượng! Bạn có ${current}/${required} năng lượng cần thiết để câu cá.`,
+    energyRestored: (amount, cost) => 
+        `✅ Đã phục hồi ${amount} năng lượng với giá ${formatNumber(cost)} $!`
 };
 
 function calculateRequiredExp(level) {
@@ -49,11 +65,36 @@ function calculateRequiredExp(level) {
     return Math.floor(baseExp * Math.pow(multiplierPerLevel, level - 1));
 }
 
+function calculateMaxEnergy(level) {
+    return ENERGY_SYSTEM.baseMaxEnergy + (ENERGY_SYSTEM.energyPerLevel * (level - 1));
+}
+
+function updateEnergy(playerData) {
+    const now = Date.now();
+    const timePassed = now - (playerData.lastEnergyUpdate || now);
+    const energyGained = Math.floor(timePassed / ENERGY_SYSTEM.regenTime);
+    
+    if (energyGained > 0) {
+        const maxEnergy = calculateMaxEnergy(playerData.level);
+        playerData.energy = Math.min(maxEnergy, (playerData.energy || 0) + energyGained);
+        playerData.lastEnergyUpdate = now - (timePassed % ENERGY_SYSTEM.regenTime);
+    }
+    
+    return playerData;
+}
+
+function getNextEnergyTime(playerData) {
+    const now = Date.now();
+    const lastUpdate = playerData.lastEnergyUpdate || now;
+    const timeUntilNext = ENERGY_SYSTEM.regenTime - ((now - lastUpdate) % ENERGY_SYSTEM.regenTime);
+    return Math.ceil(timeUntilNext / 1000);
+}
+
 module.exports = {
     name: "fish",
     dev: "HNT",
     category: "Games",
-    info: "Câu cá kiếm xu",
+    info: "Câu cá kiếm $",
     usages: "fish",
     usedby: 0,
     cooldowns: 0, 
@@ -63,12 +104,16 @@ module.exports = {
 
     onLaunch: async function({ api, event }) {
         const { threadID, messageID, senderID } = event;
-        const playerData = this.loadPlayerData(senderID);
+        let playerData = this.loadPlayerData(senderID);
+        
+        playerData = updateEnergy(playerData);
+        this.savePlayerData(playerData);
+        
         const allData = this.loadAllPlayers();
         
         const now = Date.now();
         const vipBenefits = getVIPBenefits(senderID);
-        const COOLDOWN = vipBenefits?.fishingCooldown || 360000;
+        const COOLDOWN = vipBenefits?.fishingCooldown || 180000;
         
         let cooldownMsg = "";
         if (allData[senderID]?.lastFished && now - allData[senderID].lastFished < COOLDOWN) {
@@ -76,14 +121,20 @@ module.exports = {
             cooldownMsg = `⏳ Chờ ${waitTime} giây nữa mới có thể câu tiếp!\n`;
         }
         
+        const maxEnergy = calculateMaxEnergy(playerData.level);
+        const timeToNext = playerData.energy < maxEnergy ? getNextEnergyTime(playerData) : 0;
+        
         const menu = "🎣 MENU CÂU CÁ 🎣\n━━━━━━━━━━━━━━━━━━\n" +
             `${cooldownMsg}` +
-            "1. Câu cá\n" +
+            `⚡ Năng lượng: ${playerData.energy}/${maxEnergy}` +
+            (timeToNext > 0 ? ` (+1 sau ${Math.floor(timeToNext/60)}m${timeToNext%60}s)` : "") + `\n` +
+            "1. Câu cá (10 năng lượng)\n" +
             "2. Cửa hàng\n" +
             "3. Túi đồ\n" +
             "4. Bộ sưu tập\n" +
             "5. Xếp hạng\n" +
-            "6. Hướng dẫn\n\n" +
+            "6. Hướng dẫn\n" +
+            "7. Phục hồi năng lượng\n\n" +
             "Reply tin nhắn với số để chọn!";
 
         const msg = await api.sendMessage(menu, threadID, messageID);
@@ -138,6 +189,8 @@ module.exports = {
                 exp: 0,
                 level: 1,
                 fishingStreak: 0,
+                energy: ENERGY_SYSTEM.baseMaxEnergy, 
+                lastEnergyUpdate: Date.now(),
                 stats: {
                     totalExp: 0,
                     highestStreak: 0,
@@ -147,6 +200,11 @@ module.exports = {
                 lastFished: 0,
                 userID: userID
             };
+        }
+        
+        if (data[userID] && !data[userID].hasOwnProperty('energy')) {
+            data[userID].energy = ENERGY_SYSTEM.baseMaxEnergy;
+            data[userID].lastEnergyUpdate = Date.now();
         }
 
         if (!fishingItems[data[userID].rod]) {
@@ -174,7 +232,7 @@ module.exports = {
             data[userID].inventory.push("Cần trúc");
         }
 
-        return data[userID];
+        return updateEnergy(data[userID]);
     },
 
     savePlayerData: function(data) {
@@ -210,11 +268,14 @@ module.exports = {
         }
         
         const allData = this.loadAllPlayers();
-        const playerData = this.loadPlayerData(senderID);
+        let playerData = updateEnergy(this.loadPlayerData(senderID));
 
         if (reply.type === "location") {
-            if (allData[senderID]?.lastFished && Date.now() - allData[senderID].lastFished < 180000) {
-                const waitTime = Math.ceil((180000 - (Date.now() - allData[senderID].lastFished)) / 1000);
+            const vipBenefits = getVIPBenefits(senderID);
+            const COOLDOWN = vipBenefits?.fishingCooldown || 180000;
+            
+            if (allData[senderID]?.lastFished && Date.now() - allData[senderID].lastFished < COOLDOWN) {
+                const waitTime = Math.ceil((COOLDOWN - (Date.now() - allData[senderID].lastFished)) / 1000);
                 return api.sendMessage(
                     messages.cooldown(waitTime, new Date(allData[senderID].lastFished).toLocaleTimeString()),
                     threadID
@@ -225,7 +286,7 @@ module.exports = {
         switch (reply.type) {
             case "menu":
                 const choice = parseInt(body);
-                if (isNaN(choice) || choice < 1 || choice > 6) {
+                if (isNaN(choice) || choice < 1 || choice > 7) {
                     return api.sendMessage("❌ Lựa chọn không hợp lệ!", threadID);
                 }
 
@@ -233,7 +294,7 @@ module.exports = {
                     case 1:
                         const now = Date.now();
                         const vipBenefits = getVIPBenefits(event.senderID);
-                        const COOLDOWN = vipBenefits?.fishingCooldown || 360000;
+                        const COOLDOWN = vipBenefits?.fishingCooldown || 180000; // Reduced cooldown (3 min)
                         
                         if (allData[event.senderID]?.lastFished && now - allData[event.senderID].lastFished < COOLDOWN) {
                             const waitTime = Math.ceil((COOLDOWN - (now - allData[event.senderID].lastFished)) / 1000);
@@ -242,22 +303,59 @@ module.exports = {
                                 threadID
                             );
                         }
+                        
+                        // Check energy before showing location menu
+                        if (playerData.energy < ENERGY_SYSTEM.minEnergyToFish) {
+                            const maxEnergy = calculateMaxEnergy(playerData.level);
+                            const timeToNext = getNextEnergyTime(playerData);
+                            const minutesToFull = Math.ceil((ENERGY_SYSTEM.regenTime * (ENERGY_SYSTEM.minEnergyToFish - playerData.energy)) / 60000);
+                            
+                            return api.sendMessage(
+                                `${messages.insufficientEnergy(playerData.energy, ENERGY_SYSTEM.minEnergyToFish)}\n` +
+                                `⏳ Năng lượng phục hồi +1 sau: ${Math.floor(timeToNext/60)}m${timeToNext%60}s\n` +
+                                `⌛ Thời gian chờ đủ năng lượng: ${minutesToFull} phút\n` +
+                                `💡 Dùng '7. Phục hồi năng lượng' trong menu để phục hồi ngay!`,
+                                threadID
+                            );
+                        }
 
-                const locationMenu = "🗺️ CHỌN ĐỊA ĐIỂM CÂU CÁ:\n━━━━━━━━━━━━━━━━━━\n" +
-                            Object.entries(locations).map(([key, loc], index) => {
-                                const isVipLocation = key === 'vipReserve';
-                                const vipStatus = getVIPBenefits(event.senderID);
-                                const hasVipAccess = vipStatus && vipStatus.packageId > 0;
-                                
-                                return `${index + 1}. ${loc.name}${isVipLocation ? ' 👑' : ''}\n` + 
-                                       `💰 Phí: ${formatNumber(loc.cost)} Xu\n` +
-                                       `${playerData.level >= levelRequirements[key] ? '✅' : '❌'} Yêu cầu: Cấp ${levelRequirements[key]}` +
-                                       `${isVipLocation ? (hasVipAccess ? ' ✅ VIP' : ' ❌ Cần VIP') : ''}\n`;
-                            }).join("\n");
+                        const locationMenu = "🗺️ CHỌN ĐỊA ĐIỂM CÂU CÁ:\n━━━━━━━━━━━━━━━━━━\n" +
+                        `⚡ Năng lượng: ${playerData.energy}/${calculateMaxEnergy(playerData.level)} (-${ENERGY_SYSTEM.fishingCost}/lần câu)\n` +
+                        Object.entries(locations).map(([key, loc], index) => {
+                            // Xác định loại khu vực VIP
+                            const isVipGold = key === 'vipReserve';
+                            const isVipSilver = key === 'vipSilverLagoon'; 
+                            const isVipBronze = key === 'vipBronzeResort';
+                            const isVipLocation = isVipGold || isVipSilver || isVipBronze;
+                            
+                            // Xác định icon VIP tương ứng với loại khu vực
+                            const vipIcon = isVipGold ? ' 👑' : isVipSilver ? ' 🥈' : isVipBronze ? ' 🥉' : '';
+                            
+                            // Kiểm tra quyền truy cập VIP
+                            const vipStatus = getVIPBenefits(event.senderID);
+                            const hasVipAccess = vipStatus && vipStatus.packageId > 0;
+                            const hasVipSilverAccess = vipStatus && vipStatus.packageId >= 2;
+                            const hasVipGoldAccess = vipStatus && vipStatus.packageId === 3;
+                            
+                            // Xác định trạng thái có quyền truy cập hay không
+                            let vipAccessStatus = '';
+                            if (isVipGold) {
+                                vipAccessStatus = hasVipGoldAccess ? ' ✅ VIP Gold' : ' ❌ Cần VIP Gold';
+                            } else if (isVipSilver) {
+                                vipAccessStatus = hasVipSilverAccess ? ' ✅ VIP Silver' : ' ❌ Cần VIP Silver';
+                            } else if (isVipBronze) {
+                                vipAccessStatus = hasVipAccess ? ' ✅ VIP Bronze' : ' ❌ Cần VIP Bronze';
+                            }
+                            
+                            return `${index + 1}. ${loc.name}${vipIcon}\n` + 
+                                   `💰 Phí: ${formatNumber(loc.cost)} $\n` +
+                                   `${playerData.level >= levelRequirements[key] ? '✅' : '❌'} Yêu cầu: Cấp ${levelRequirements[key]}` +
+                                   `${isVipLocation ? vipAccessStatus : ''}\n`;
+                        }).join("\n");
                         
                         const locMsg = await api.sendMessage(
                             `📊 Cấp độ của bạn: ${playerData.level}\n` +
-                            `💵 Số dư: ${formatNumber(getBalance(event.senderID))} Xu\n\n` +
+                            `💵 Số dư: ${formatNumber(getBalance(event.senderID))} $\n\n` +
                             locationMenu,
                             threadID
                         );
@@ -278,9 +376,9 @@ module.exports = {
                     case 2: 
                         const shopMenu = "🏪 CỬA HÀNG CẦN CÂU 🎣\n━━━━━━━━━━━━━━━━━━\n" +
                             Object.entries(fishingItems).map(([name, item], index) =>
-                                `${index + 1}. ${name}\n💰 Giá: ${formatNumber(item.price)} Xu\n⚡ Độ bền: ${item.durability}\n↑ Tỉ lệ: x${item.multiplier}\n`
+                                `${index + 1}. ${name}\n💰 Giá: ${formatNumber(item.price)} $\n⚡ Độ bền: ${item.durability}\n↑ Tỉ lệ: x${item.multiplier}\n`
                             ).join("\n") +
-                            "\n💵 Số dư: " + formatNumber(getBalance(senderID)) + " Xu" +
+                            "\n💵 Số dư: " + formatNumber(getBalance(senderID)) + " $" +
                             "\n\nReply số để mua cần câu!";
                         
                         const shopMsg = await api.sendMessage(shopMenu, threadID);
@@ -340,14 +438,14 @@ module.exports = {
                                 Object.entries(fishTypes).map(([rarity, fishes]) => {
                                     const fishList = fishes.map(f => {
                                         const caught = playerData.collection?.byRarity[rarity]?.[f.name] || 0;
-                                        return `${caught > 0 ? '✅' : '❌'} ${f.name} (${formatNumber(f.value)} Xu) - Đã bắt: ${caught}`;
+                                        return `${caught > 0 ? '✅' : '❌'} ${f.name} (${formatNumber(f.value)} $) - Đã bắt: ${caught}`;
                                     }).join('\n');
                                     return `【${rarity.toUpperCase()}】\n${fishList}\n`;
                                 }).join('\n') +
                                 `\n📊 Thống kê:\n` +
                                 `Tổng số cá đã bắt: ${playerData.collection?.stats.totalCaught || 0}\n` +
-                                `Tổng giá trị: ${formatNumber(playerData.collection?.stats.totalValue || 0)} Xu\n` +
-                                `Bắt quý giá nhất: ${playerData.collection?.stats.bestCatch?.name || 'Chưa có'} (${formatNumber(playerData.collection?.stats.bestCatch?.value || 0)} Xu)`;
+                                `Tổng giá trị: ${formatNumber(playerData.collection?.stats.totalValue || 0)} $\n` +
+                                `Bắt quý giá nhất: ${playerData.collection?.stats.bestCatch?.name || 'Chưa có'} (${formatNumber(playerData.collection?.stats.bestCatch?.value || 0)} $)`;
                             
                             api.sendMessage(collection, threadID);
                         }
@@ -367,8 +465,8 @@ module.exports = {
                                 `👤 ID: ${player.id}\n` +
                                 `📊 Level: ${player.level}\n` +
                                 `🎣 Tổng cá: ${formatNumber(player.totalCaught)}\n` +
-                                `💰 Tổng giá trị: ${formatNumber(player.totalValue)} Xu\n` +
-                                `🏆 Cá quý nhất: ${player.bestCatch.name} (${formatNumber(player.bestCatch.value)} Xu)\n` +
+                                `💰 Tổng giá trị: ${formatNumber(player.totalValue)} $\n` +
+                                `🏆 Cá quý nhất: ${player.bestCatch.name} (${formatNumber(player.bestCatch.value)} $)\n` +
                                 `🔥 Chuỗi hiện tại: ${player.streak}\n` +
                                 `⭐ Chuỗi cao nhất: ${player.highestStreak}\n`
                             ).join("━━━━━━━━━━━━━━━━━━\n") +
@@ -377,7 +475,7 @@ module.exports = {
                                 `Hạng ${userRank}\n` +
                                 `📊 Level: ${userStats.level}\n` +
                                 `🎣 Tổng cá: ${formatNumber(userStats.totalCaught)}\n` +
-                                `💰 Tổng giá trị: ${formatNumber(userStats.totalValue)} Xu\n` +
+                                `💰 Tổng giá trị: ${formatNumber(userStats.totalValue)} $\n` +
                                 `🔥 Chuỗi hiện tại: ${userStats.streak}`
                                 : "Chưa có dữ liệu");
                         
@@ -398,7 +496,76 @@ module.exports = {
                             threadID
                         );
                         break;
+
+                    case 7: 
+                        const maxEnergy = calculateMaxEnergy(playerData.level);
+                        if (playerData.energy >= maxEnergy) {
+                            return api.sendMessage(`✅ Năng lượng của bạn đã đầy (${playerData.energy}/${maxEnergy})!`, threadID);
+                        }
+                        
+                        const restoreMsg = await api.sendMessage(
+                            `⚡ PHỤC HỒI NĂNG LƯỢNG ⚡\n` +
+                            `━━━━━━━━━━━━━━━━━━\n` +
+                            `Năng lượng hiện tại: ${playerData.energy}/${maxEnergy}\n` +
+                            `Giá phục hồi: ${formatNumber(ENERGY_SYSTEM.baseCost)} $ mỗi điểm năng lượng\n\n` +
+                            `1. Phục hồi 10 điểm (${formatNumber(ENERGY_SYSTEM.baseCost * 10)} $)\n` +
+                            `2. Phục hồi 20 điểm (${formatNumber(ENERGY_SYSTEM.baseCost * 20)} $)\n` +
+                            `3. Phục hồi 50 điểm (${formatNumber(ENERGY_SYSTEM.baseCost * 50)} $)\n` +
+                            `4. Phục hồi tối đa (${formatNumber(ENERGY_SYSTEM.baseCost * Math.min(maxEnergy - playerData.energy, ENERGY_SYSTEM.maxRestoreAmount))} $)\n` +
+                            `5. Quay lại\n\n` +
+                            `💵 Số dư của bạn: ${formatNumber(getBalance(senderID))} $`,
+                            threadID
+                        );
+                        
+                        global.client.onReply.push({
+                            name: this.name,
+                            messageID: restoreMsg.messageID,
+                            author: senderID,
+                            type: "restoreEnergy",
+                            playerData
+                        });
+                        break;
                 }
+                break;
+            
+            case "restoreEnergy":
+                const restoreChoice = parseInt(body);
+                if (isNaN(restoreChoice) || restoreChoice < 1 || restoreChoice > 5) {
+                    return api.sendMessage("❌ Lựa chọn không hợp lệ!", threadID);
+                }
+                
+                if (restoreChoice === 5) {
+            
+                    await this.onLaunch({ api, event });
+                    return;
+                }
+                
+                const restoreAmounts = [10, 20, 50, Math.min(calculateMaxEnergy(playerData.level) - playerData.energy, ENERGY_SYSTEM.maxRestoreAmount)];
+                const selectedAmount = restoreAmounts[restoreChoice - 1];
+                const cost = selectedAmount * ENERGY_SYSTEM.baseCost;
+                
+                const balance = getBalance(senderID);
+                if (balance < cost) {
+                    return api.sendMessage(
+                        `❌ Không đủ tiền! Cần ${formatNumber(cost)} $ để phục hồi ${selectedAmount} năng lượng.\n` +
+                        `💵 Số dư hiện tại: ${formatNumber(balance)} $`, 
+                        threadID
+                    );
+                }
+                
+                updateBalance(senderID, -cost);
+                const maxEnergy = calculateMaxEnergy(playerData.level);
+                playerData.energy = Math.min(maxEnergy, playerData.energy + selectedAmount);
+                this.savePlayerData(playerData);
+                
+                api.sendMessage(
+                    messages.energyRestored(selectedAmount, cost) + `\n` +
+                    `⚡ Năng lượng mới: ${playerData.energy}/${maxEnergy}\n` +
+                    `💵 Số dư còn lại: ${formatNumber(getBalance(senderID))} $`,
+                    threadID
+                );
+                
+                setTimeout(() => this.onLaunch({ api, event }), 1000);
                 break;
 
             case "shop":
@@ -453,7 +620,7 @@ module.exports = {
         }
 
         const vipBenefits = getVIPBenefits(event.senderID);
-        const COOLDOWN = vipBenefits?.fishingCooldown || 360000; 
+        const COOLDOWN = vipBenefits?.fishingCooldown || 180000; 
         const vipIcon = vipBenefits ? 
             (vipBenefits.packageId === 3 ? '⭐⭐⭐' : 
              vipBenefits.packageId === 2 ? '⭐⭐' : '⭐') : '';
@@ -477,7 +644,9 @@ module.exports = {
             atlantis: 50,
             spaceOcean: 100,
             dragonRealm: 200,
-            vipReserve: 5 
+            vipReserve: 5,
+            vipBronzeResort: 3,  
+            vipSilverLagoon: 5,
         };
 
         const locationKey = Object.keys(locations).find(key => locations[key] === location);
@@ -488,7 +657,7 @@ module.exports = {
                     const vipStatus = getVIPBenefits(event.senderID);
                     const hasVipAccess = vipStatus && vipStatus.packageId > 0;
                     
-                    return `${index + 1}. ${loc.name}\n💰 Phí: ${formatNumber(loc.cost)} Xu\n`;
+                    return `${index + 1}. ${loc.name}\n💰 Phí: ${formatNumber(loc.cost)} $\n`;
                 }).join("\n");
             
             const errorMsg = await api.sendMessage(
@@ -512,13 +681,35 @@ module.exports = {
             
             return;
         }
-
-        if (locationKey === 'vipReserve') {
+        if (locationKey === 'vipBronzeResort') {
             const vipBenefits = getVIPBenefits(event.senderID);
             if (!vipBenefits || vipBenefits.packageId === 0) {
+              return api.sendMessage(
+                "🥉 Khu câu cá này chỉ dành cho người dùng VIP Bronze trở lên!\n" +
+                "❌ Bạn cần mua gói VIP để truy cập khu vực này.\n\n" +
+                "Gõ `.vip` để xem thông tin về các gói VIP.", 
+                event.threadID
+              );
+            }
+          }
+          
+          if (locationKey === 'vipSilverLagoon') {
+            const vipBenefits = getVIPBenefits(event.senderID);
+            if (!vipBenefits || vipBenefits.packageId < 2) {
+              return api.sendMessage(
+                "🥈 Khu câu cá này chỉ dành cho người dùng VIP Silver trở lên!\n" +
+                "❌ Bạn cần nâng cấp gói VIP để truy cập khu vực này.\n\n" +
+                "Gõ `.vip` để xem thông tin về các gói VIP.", 
+                event.threadID
+              );
+            }
+          }
+          if (locationKey === 'vipReserve') {
+            const vipBenefits = getVIPBenefits(event.senderID);
+            if (!vipBenefits || vipBenefits.packageId < 3) {
                 return api.sendMessage(
-                    "👑 Khu câu cá này chỉ dành cho người dùng VIP!\n" +
-                    "❌ Bạn cần mua gói VIP để truy cập khu vực này.\n\n" +
+                    "👑 Khu VIP VÀNG chỉ dành cho người dùng VIP Gold!\n" +
+                    "❌ Bạn cần nâng cấp lên gói VIP Gold để truy cập khu vực này.\n\n" +
                     "Gõ `.vip` để xem thông tin về các gói VIP.", 
                     event.threadID
                 );
@@ -547,10 +738,24 @@ module.exports = {
             await api.sendMessage(`🎣 Tự động chuyển sang ${bestRod} do cần hiện tại không khả dụng!`, event.threadID);
         }
 
+        if (playerData.energy < ENERGY_SYSTEM.fishingCost) {
+            const timeToNext = getNextEnergyTime(playerData);
+            return api.sendMessage(
+                `${messages.insufficientEnergy(playerData.energy, ENERGY_SYSTEM.fishingCost)}\n` +
+                `⏳ Năng lượng phục hồi +1 sau: ${Math.floor(timeToNext/60)}m${timeToNext%60}s\n` +
+                `💡 Dùng lệnh '7. Phục hồi năng lượng' trong menu để phục hồi ngay!`,
+                event.threadID
+            );
+        }
+
         const balance = getBalance(event.senderID);
         if (balance < location.cost) {
             return api.sendMessage(messages.insufficientFunds(location.cost, location.name), event.threadID);
         }
+
+        playerData.energy -= ENERGY_SYSTEM.fishingCost;
+        playerData.lastEnergyUpdate = Date.now();
+        this.savePlayerData(playerData);
 
         updateBalance(event.senderID, -location.cost);
         const fishingMsg = await api.sendMessage("🎣 Đang câu...", event.threadID);
@@ -574,6 +779,7 @@ module.exports = {
                     
                     return api.sendMessage(
                         `🎣 Tiếc quá! ${result.message}\n` +
+                        `⚡ Năng lượng: ${playerData.energy}/${calculateMaxEnergy(playerData.level)}\n` +
                         `🎒 Độ bền cần: ${playerData.rodDurability}/${fishingItems[playerData.rod].durability}\n` +
                         `⏳ Chờ ${cooldownMinutes} phút để câu tiếp!`,
                         event.threadID
@@ -654,18 +860,19 @@ module.exports = {
 
                 const textMessage = 
                     `🎣 Bạn đã câu được ${result.name}!\n` +
-                    `💰 Giá gốc: ${formatNumber(result.originalValue)} Xu\n` +
-                    `📋 Thuế: ${formatNumber(result.taxAmount)} Xu (${(result.taxRate * 100).toFixed(1)}%)\n` +
-                    `💵 Thực nhận: ${formatNumber(result.value)} Xu\n` +
+                    `💰 Giá gốc: ${formatNumber(result.originalValue)} $\n` +
+                    `📋 Thuế: ${formatNumber(result.taxAmount)} $ (${(result.taxRate * 100).toFixed(1)}%)\n` +
+                    `💵 Thực nhận: ${formatNumber(result.value)} $\n` +
                     `${vipBenefits ? 
                         `✨ Thưởng EXP VIP x${vipBenefits.fishExpMultiplier || 1}\n` +
-                        `👑 Thưởng xu VIP +${(vipBenefits.packageId * 5) || 0}%\n` : ''}` + 
+                        `👑 Thưởng $ VIP +${(vipBenefits.packageId * 5) || 0}%\n` : ''}` + 
                     `📊 EXP: +${formatNumber(baseExp)} (${this.getExpBreakdown(baseExp, streakBonus, rarity)})\n` +
                     `📈 Chuỗi câu: ${playerData.fishingStreak} lần (${Math.floor(streakBonus * 100)}% bonus)\n` +
+                    `⚡ Năng lượng: ${playerData.energy}/${calculateMaxEnergy(playerData.level)}\n` +
                     `🎚️ Level: ${oldLevel}${playerData.level > oldLevel ? ` ➜ ${playerData.level}` : ''}\n` +
                     `✨ EXP: ${formatNumber(playerData.exp)}/${formatNumber(calculateRequiredExp(playerData.level))}\n` +
                     `🎒 Độ bền cần: ${playerData.rodDurability}/${fishingItems[playerData.rod].durability}\n` +
-                    `💵 Số dư: ${formatNumber(getBalance(event.senderID))} Xu\n` +
+                    `💵 Số dư: ${formatNumber(getBalance(event.senderID))} $\n` +
                     `⏳ Chờ ${cooldownMinutes} phút để câu tiếp!`;
 
                 try {
@@ -690,7 +897,9 @@ module.exports = {
                             level: playerData.level,
                             exp: playerData.exp,
                             requiredExp: calculateRequiredExp(playerData.level),
-                            streak: playerData.fishingStreak
+                            streak: playerData.fishingStreak,
+                            energy: playerData.energy,  
+                            maxEnergy: calculateMaxEnergy(playerData.level)  
                         },
                         streakBonus: streakBonus,
                         vipBenefits: vipBenefits
@@ -909,10 +1118,10 @@ module.exports = {
         };
 
         let progressiveTax = 0;
-        if (value > 1000000) progressiveTax = 0.02;   
-        if (value > 5000000) progressiveTax = 0.5;     
-        if (value > 10000000) progressiveTax = 0.8;
-        if (value > 25000000) progressiveTax = 1.0;
+        if (value > 1000) progressiveTax = 0.02;   
+        if (value > 5000) progressiveTax = 0.5;     
+        if (value > 10000) progressiveTax = 0.8;
+        if (value > 25000) progressiveTax = 1.0;
 
         return Math.min(0.05, (baseTaxRates[type] || 0.01) + progressiveTax);
     },
@@ -978,14 +1187,14 @@ module.exports = {
                 rodDurability: rodInfo.durability
             };
             
-            if (!userData.inventory.includes(rodName)) {                userData.inventory.push(rodName);
+            if (!userData.inventory.includes(rodName)) {userData.inventory.push(rodName);
             }
 
             this.savePlayerData(userData);
 
             return api.sendMessage(
                 `✅ Đã mua thành công ${rodName}!\n` +
-                `💰 Số dư còn lại: ${formatNumber(getBalance(senderID))} Xu`,
+                `💰 Số dư còn lại: ${formatNumber(getBalance(senderID))} $`,
                 threadID
             );
         } catch (err) {

@@ -1,11 +1,11 @@
 module.exports = {
     treasures: [
-        { name: "Hòm gỗ", value: 5000 },
-        { name: "Rương bạc", value: 20000 },
-        { name: "Rương vàng", value: 50000 },
-        { name: "Kho báu cổ đại", value: 100000 },
-        { name: "Rương kim cương", value: 250000 },
-        { name: "Kho báu thần thoại", value: 500000 }
+        { name: "Hòm gỗ", value: 500 },
+        { name: "Rương bạc", value: 2000 },
+        { name: "Rương vàng", value: 5000 },
+        { name: "Kho báu cổ đại", value: 10000 },
+        { name: "Rương kim cương", value: 25000 },
+        { name: "Kho báu thần thoại", value: 50000 }
     ],
 
     specialEvents: {
@@ -32,18 +32,18 @@ module.exports = {
     },
 
     levelRewards: {
-        5: { reward: 20000, message: "🎉 Đạt cấp 5! Nhận 20,000 xu" },
-        10: { reward: 50000, message: "🎉 Đạt cấp 10! Nhận 50,000 xu" },
-        20: { reward: 200000, message: "🎉 Đạt cấp 20! Nhận 200,000 xu" },
-        30: { reward: 500000, message: "🎉 Đạt cấp 30! Nhận 500,000 xu" },
-        50: { reward: 1000000, message: "🎉 Đạt cấp 50! Nhận 1,000,000 xu" },
-        75: { reward: 2000000, message: "🎉 Đạt cấp 75! Nhận 2,000,000 xu" },
-        100: { reward: 5000000, message: "🎉 Đạt cấp 100! Nhận 5,000,000 xu" },
-        150: { reward: 10000000, message: "🎉 Đạt cấp 150! Nhận 10,000,000 xu" },
-        200: { reward: 20000000, message: "🎉 Đạt cấp 200! Nhận 20,000,000 xu" },
-        300: { reward: 50000000, message: "🎉 Đạt cấp 300! Nhận 50,000,000 xu" },
-        400: { reward: 100000000, message: "🎉 Đạt cấp 400! Nhận 100,000,000 xu" },
-        500: { reward: 500000000, message: "🎉 Đạt cấp 500! Nhận 500,000,000 xu" }
+        5: { reward: 2000, message: "🎉 Đạt cấp 5! Nhận 20,000 xu" },
+        10: { reward: 5000, message: "🎉 Đạt cấp 10! Nhận 50,000 xu" },
+        20: { reward: 20000, message: "🎉 Đạt cấp 20! Nhận 200,000 xu" },
+        30: { reward: 50000, message: "🎉 Đạt cấp 30! Nhận 500,000 xu" },
+        50: { reward: 100000, message: "🎉 Đạt cấp 50! Nhận 1,000,000 xu" },
+        75: { reward: 200000, message: "🎉 Đạt cấp 75! Nhận 2,000,000 xu" },
+        100: { reward: 500000, message: "🎉 Đạt cấp 100! Nhận 5,000,000 xu" },
+        150: { reward: 1000000, message: "🎉 Đạt cấp 150! Nhận 10,000,000 xu" },
+        200: { reward: 2000000, message: "🎉 Đạt cấp 200! Nhận 20,000,000 xu" },
+        300: { reward: 5000000, message: "🎉 Đạt cấp 300! Nhận 50,000,000 xu" },
+        400: { reward: 10000000, message: "🎉 Đạt cấp 400! Nhận 100,000,000 xu" },
+        500: { reward: 50000000, message: "🎉 Đạt cấp 500! Nhận 500,000,000 xu" }
     },
 
     streakBonuses: {

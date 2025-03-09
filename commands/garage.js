@@ -54,7 +54,7 @@ module.exports = {
                     msg += "💡 HƯỚNG DẪN:\n";
                     msg += "➤ Xem chi tiết: .garage category <mã>\n";
                     msg += "   VD: .garage category car\n\n";
-                    msg += "💵 Số dư: " + formatNumber(await getBalance(senderID)) + " Xu";
+                    msg += "💵 Số dư: " + formatNumber(await getBalance(senderID)) + " $";
                     
                     await api.sendMessage(msg, threadID);
                     return;
@@ -75,7 +75,7 @@ module.exports = {
                     for (const [id, car] of vehicles) {
                         msg += `🚗 ${BRANDS[car.brand]} ${car.name}\n`;
                         msg += `├ Mã: ${id}\n`;
-                        msg += `├ Giá: 💰 ${formatNumber(car.price)} Xu\n`;
+                        msg += `├ Giá: 💰 ${formatNumber(car.price)} $\n`;
                         msg += `├ Tốc độ: ⚡ ${car.speed} km/h\n`;
                         msg += `└ Độ bền: 🛠️ ${car.durability}%\n\n`;
                     }
@@ -109,7 +109,7 @@ module.exports = {
                     const balance = await getBalance(senderID);
                     if (balance < totalCost) {
                         return api.sendMessage(
-                            `❌ Bạn cần thêm ${formatNumber(totalCost - balance)} Xu để mua tất cả các xe này!`,
+                            `❌ Bạn cần thêm ${formatNumber(totalCost - balance)} $ để mua tất cả các xe này!`,
                             threadID
                         );
                     }
@@ -125,11 +125,11 @@ module.exports = {
                     });
                     
                     this.saveGarage(senderID, garage);
-                    let msg = `✅ Mua xe thành công!\n\nTổng chi phí: ${formatNumber(totalCost)} Xu\n\nDanh sách xe:\n`;
+                    let msg = `✅ Mua xe thành công!\n\nTổng chi phí: ${formatNumber(totalCost)} $\n\nDanh sách xe:\n`;
                     purchaseList.forEach(({ code, car }) => {
-                        msg += `🚗 ${car.name} (Mã: ${code}) - Giá: ${formatNumber(car.price)} Xu, Độ bền: ${car.durability}%\n`;
+                        msg += `🚗 ${car.name} (Mã: ${code}) - Giá: ${formatNumber(car.price)} $, Độ bền: ${car.durability}%\n`;
                     });
-                    msg += `\n💵 Số dư: ${formatNumber(await getBalance(senderID))} Xu`;
+                    msg += `\n💵 Số dư: ${formatNumber(await getBalance(senderID))} $`;
                     return api.sendMessage(msg, threadID);
                 }
 
@@ -152,7 +152,7 @@ module.exports = {
 
                     if (balance < maintenanceCost) {
                         return api.sendMessage(
-                            `❌ Bạn cần ${formatNumber(maintenanceCost)} Xu để sửa xe!`,
+                            `❌ Bạn cần ${formatNumber(maintenanceCost)} $ để sửa xe!`,
                             threadID
                         );
                     }
@@ -165,9 +165,9 @@ module.exports = {
                     return api.sendMessage(
                         `✅ Sửa xe thành công!\n\n` +
                         `🚗 Xe: ${car.name}\n` +
-                        `💰 Chi phí: ${formatNumber(maintenanceCost)} Xu\n` +
+                        `💰 Chi phí: ${formatNumber(maintenanceCost)} $\n` +
                         `⚡ Độ bền mới: ${car.durability}%\n` +
-                        `💵 Số dư: ${formatNumber(await getBalance(senderID))} Xu`,
+                        `💵 Số dư: ${formatNumber(await getBalance(senderID))} $`,
                         threadID
                     );
                 }
@@ -196,8 +196,8 @@ module.exports = {
                     return api.sendMessage(
                         `✅ Bán xe thành công!\n\n` +
                         `🚗 Xe: ${car.name}\n` +
-                        `💰 Giá bán: ${formatNumber(sellPrice)} Xu\n` +
-                        `💵 Số dư: ${formatNumber(await getBalance(senderID))} Xu`,
+                        `💰 Giá bán: ${formatNumber(sellPrice)} $\n` +
+                        `💵 Số dư: ${formatNumber(await getBalance(senderID))} $`,
                         threadID
                     );
                 }
@@ -231,7 +231,7 @@ module.exports = {
                         `📅 Ngày mua: ${new Date(vehicle.purchaseDate).toLocaleDateString()}\n` +
                         `🔧 Bảo dưỡng cuối: ${new Date(vehicle.lastMaintenance).toLocaleDateString()}\n` +
                         `⏳ (${daysSinceLastMaintenance} ngày trước)\n` +
-                        `💰 Chi phí bảo dưỡng: ${formatNumber(maintenanceCost)} Xu\n` +
+                        `💰 Chi phí bảo dưỡng: ${formatNumber(maintenanceCost)} $\n` +
                         "\n┗━━━━━━━━━━━━━━━━━┛",
                         threadID
                     );

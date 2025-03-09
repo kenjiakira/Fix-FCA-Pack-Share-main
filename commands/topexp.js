@@ -121,9 +121,9 @@ module.exports = {
             
             // Define rewards
             const rewards = {
-                0: "300,000 Xu/ngày",
-                1: "100,000 Xu/ngày",
-                2: "50,000 Xu/ngày"
+                0: "300,000 $/ngày",
+                1: "100,000 $/ngày",
+                2: "50,000 $/ngày"
             };
 
             // List entries
@@ -495,7 +495,7 @@ if (i < 3 && rewards[i]) {
                 textFallback += `💫 EXP: ${formattedExp}\n`;
 
                 if (rewards[index + 1]) {
-                    textFallback += `💰 Thưởng: ${rewards[index + 1].toLocaleString('vi-VN')} Xu/ngày\n`;
+                    textFallback += `💰 Thưởng: ${rewards[index + 1].toLocaleString('vi-VN')} $/ngày\n`;
                 }
                 textFallback += '\n';
 
@@ -524,9 +524,9 @@ if (i < 3 && rewards[i]) {
 
             // Add reward info
             textFallback += '\n\n📢 Phần thưởng đặc biệt:';
-            textFallback += '\n👑 Top 1: 300,000 Xu/ngày';
-            textFallback += '\n🥈 Top 2: +100,000 Xu/ngày';
-            textFallback += '\n🥉 Top 3: +50,000 Xu/ngày';
+            textFallback += '\n👑 Top 1: 3000 $/ngày';
+            textFallback += '\n🥈 Top 2: +1000 $/ngày';
+            textFallback += '\n🥉 Top 3: +500 $/ngày';
 
             // Fetch user avatars
             const userAvatars = {};

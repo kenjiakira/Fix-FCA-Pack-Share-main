@@ -149,7 +149,7 @@ module.exports = {
         if (winnerShare > 0) {
             updateBalance(senderID, winnerShare);
             jackpotResult.distributedAmount += winnerShare;
-            jackpotResult.message += `\n🏆 Bạn nhận được ${formatNumber(winnerShare)} Xu (50% quỹ)!`;
+            jackpotResult.message += `\n🏆 Bạn nhận được ${formatNumber(winnerShare)} $ (50% quỹ)!`;
 
             if (eligibleUsers.length > 1) {
                 const shareAmount = Math.floor((quy - winnerShare) / (eligibleUsers.length - 1));
@@ -160,8 +160,8 @@ module.exports = {
                             jackpotResult.distributedAmount += shareAmount;
                         }
                     });
-                    jackpotResult.message += `\n💸 ${formatNumber(quy - winnerShare)} Xu chia đều cho ${eligibleUsers.length - 1} người.`;
-                    jackpotResult.message += `\n💰 Mỗi người nhận: ${formatNumber(shareAmount)} Xu.`;
+                    jackpotResult.message += `\n💸 ${formatNumber(quy - winnerShare)} $ chia đều cho ${eligibleUsers.length - 1} người.`;
+                    jackpotResult.message += `\n💰 Mỗi người nhận: ${formatNumber(shareAmount)} $.`;
                 }
             }
 
@@ -185,7 +185,7 @@ module.exports = {
                 "\n\n🎮 Chơi Tài Xỉu trên Discord:\n" +
                 "• Trải nghiệm mượt mà hơn\n" + 
                 "• Giao diện đẹp với nút bấm\n" +
-                "• Thưởng thêm Xu Nitro mỗi ngày\n" +
+                "• Thưởng thêm $ Nitro mỗi ngày\n" +
                 "• Link Discord: https://discord.gg/UBtdSYzn\n" +
                 "━━━━━━━━━━━━━━\n" : "";
 
@@ -216,8 +216,8 @@ module.exports = {
 
             
             let betAmount = target[1].toLowerCase() === "allin" ? balance : parseInt(target[1]);
-            if (!betAmount || betAmount < 10000 || betAmount > balance) {
-                return api.sendMessage(`Số tiền cược không hợp lệ (tối thiểu 10,000 Xu${betAmount > balance ? ", số dư không đủ" : ""}).`, threadID, messageID);
+            if (!betAmount || betAmount < 10 || betAmount > balance) {
+                return api.sendMessage(`Số tiền cược không hợp lệ (tối thiểu 10 $${betAmount > balance ? ", số dư không đủ" : ""}).`, threadID, messageID);
             }
 
             const currentTime = Date.now();
@@ -230,7 +230,7 @@ module.exports = {
             await api.sendMessage(
                 `『 PHIÊN ${sessionId} 』\n\n` +
                 `👤 Người chơi: ${event.senderID}\n` +
-                `💰 Đặt cược: ${formatNumber(betAmount)} Xu\n` +
+                `💰 Đặt cược: ${formatNumber(betAmount)} $\n` +
                 `🎯 Lựa chọn: ${choice.toUpperCase()}\n` +
                 `📌 Lịch sử:\n${getHistoryString(threadID)}\n` +
                 "⏳ Đang lắc xúc xắc...\n" +
@@ -261,15 +261,15 @@ module.exports = {
                         updateBalance(senderID, rewardInfo.finalReward);
                         saveQuy(loadQuy() + rewardInfo.fee);
                         
-                        message += `\n🎉 Thắng: ${formatNumber(rewardInfo.finalReward)} Xu\n(Phí: ${(rewardInfo.fee/rewardInfo.rawReward*100).toFixed(1)}%)`;
+                        message += `\n🎉 Thắng: ${formatNumber(rewardInfo.finalReward)} $\n(Phí: ${(rewardInfo.fee/rewardInfo.rawReward*100).toFixed(1)}%)`;
                         gameLogic.updatePlayerStats(senderID, {won: true, betAmount, winAmount: rewardInfo.finalReward, gameType: 'taixiu'});
                     } else {
-                        message += `\n💔 Thua: ${formatNumber(betAmount)} Xu`;
+                        message += `\n💔 Thua: ${formatNumber(betAmount)} $`;
                         gameLogic.updatePlayerStats(senderID, {won: false, betAmount, gameType: 'taixiu'});
                     }
 
-                    message += `\n💰 Số dư: ${formatNumber(getBalance(senderID))} Xu`;
-                    message += `\n💰 Quỹ: ${formatNumber(loadQuy())} Xu`;
+                    message += `\n💰 Số dư: ${formatNumber(getBalance(senderID))} $`;
+                    message += `\n💰 Quỹ: ${formatNumber(loadQuy())} $`;
 
                     if (choice === result && Math.random() < 0.2) {
                         message += "\n\n🎮 Bạn có biết?\n" +

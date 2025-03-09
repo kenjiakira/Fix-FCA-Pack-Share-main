@@ -38,8 +38,8 @@ module.exports = {
             }
 
             let betAmount = target[1].toLowerCase() === "allin" ? balance : parseInt(target[1]);
-            if (!betAmount || betAmount < 10000 || betAmount > balance) {
-                return api.sendMessage(`Số tiền cược không hợp lệ (tối thiểu 10,000 Xu${betAmount > balance ? ", số dư không đủ" : ""}).`, threadID, messageID);
+            if (!betAmount || betAmount < 100 || betAmount > balance) {
+                return api.sendMessage(`Số tiền cược không hợp lệ (tối thiểu 100 $${betAmount > balance ? ", số dư không đủ" : ""}).`, threadID, messageID);
             }
 
             const currentTime = Date.now();
@@ -70,7 +70,7 @@ module.exports = {
                         
                         updateBalance(senderID, rewardInfo.finalReward);
                         
-                        message += `🎉 Thắng: ${formatNumber(rewardInfo.finalReward)} Xu\n`;
+                        message += `🎉 Thắng: ${formatNumber(rewardInfo.finalReward)} $\n`;
                         message += `💹 Hệ số: x${multiplier} ${isSpecial ? "(Đặc biệt)" : ""}\n`;
                         message += `💸 Phí: ${(rewardInfo.fee/rewardInfo.rawReward*100).toFixed(1)}%\n`;
 
@@ -83,7 +83,7 @@ module.exports = {
                         
                         updateQuestProgress(senderID, "win_games");
                     } else {
-                        message += `💔 Thua: ${formatNumber(betAmount)} Xu\n`;
+                        message += `💔 Thua: ${formatNumber(betAmount)} $\n`;
                         gameLogic.updatePlayerStats(senderID, {
                             won: false,
                             betAmount,
@@ -91,7 +91,7 @@ module.exports = {
                         });
                     }
 
-                    message += `\n💰 Số dư: ${formatNumber(getBalance(senderID))} Xu`;
+                    message += `\n💰 Số dư: ${formatNumber(getBalance(senderID))} $`;
                     updateQuestProgress(senderID, "play_games");
 
                     await api.sendMessage(message, threadID, messageID);

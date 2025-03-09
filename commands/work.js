@@ -70,10 +70,10 @@ module.exports = {
             let textMessage = "┏━━『 LÀM VIỆC 』━━┓\n\n";
             textMessage += `[🏢] Công việc: ${result.name}\n`;
             textMessage += `[👔] Cấp bậc: ${result.levelName}\n`;
-            textMessage += `[💰] Thực lãnh: ${netEarnings.toLocaleString('vi-VN')} Xu\n`;
+            textMessage += `[💰] Thực lãnh: ${netEarnings.toLocaleString('vi-VN')} $\n`;
             
             if (vipBenefits?.workBonus) {
-                textMessage += `[👑] Thưởng VIP: +${vipBenefits.workBonus}% (${result.vipBonus.toLocaleString('vi-VN')} Xu)\n`;
+                textMessage += `[👑] Thưởng VIP: +${vipBenefits.workBonus}% (${result.vipBonus.toLocaleString('vi-VN')} $)\n`;
             }
             
             textMessage += `[⏳] Thời gian nghỉ: ${Math.floor(nextCooldown / 3600000) > 0 ? `${Math.floor(nextCooldown / 3600000)} giờ ` : ''}${Math.floor((nextCooldown % 3600000) / 60000)} phút\n`;

@@ -84,7 +84,7 @@ module.exports = {
 
         try {
             const userBalance = getBalance(interaction.user.id);
-            const betAmount = 10000;
+            const betAmount = 100;
 
             if (userBalance < betAmount) {
                 await interaction.reply({

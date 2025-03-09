@@ -38,7 +38,7 @@ module.exports = {
         if (betEntries.length > 0) {
             betEntries.forEach(([choice, amount]) => {
                 const emoji = this.EMOJIS[choice];
-                display += `${emoji} ${choice}: ${formatNumber(amount)} Xu\n`;
+                display += `${emoji} ${choice}: ${formatNumber(amount)} $\n`;
             });
         } else {
             display += "Chưa đặt cược\n";
@@ -46,15 +46,15 @@ module.exports = {
 
         if (totalBet > 0) {
             display += "\n📊 KẾT QUẢ\n";
-            display += `💵 Tổng cược: ${formatNumber(totalBet)} Xu\n`;
+            display += `💵 Tổng cược: ${formatNumber(totalBet)} $\n`;
             
             if (results.length > 0) {
                 if (winAmount > 0) {
                     const profit = winAmount - totalBet;
-                    display += `🏆 Thắng: ${formatNumber(winAmount)} Xu\n`;
-                    display += `📈 Lợi nhuận: ${formatNumber(profit)} Xu\n`;
+                    display += `🏆 Thắng: ${formatNumber(winAmount)} $\n`;
+                    display += `📈 Lợi nhuận: ${formatNumber(profit)} $\n`;
                 } else {
-                    display += `📉 Thua: ${formatNumber(totalBet)} Xu\n`;
+                    display += `📉 Thua: ${formatNumber(totalBet)} $\n`;
                 }
             }
         }
@@ -260,7 +260,7 @@ module.exports = {
                 "• .bctc nai allin\n\n" +
                 "🎲 Các lựa chọn:\n" +
                 Object.entries(this.EMOJIS).map(([k, v]) => `${v} ${k}`).join(" | ") + "\n\n" +
-                "💰 Số dư: " + formatNumber(balance) + " Xu",
+                "💰 Số dư: " + formatNumber(balance) + " $",
                 threadID, messageID
             );
         }
@@ -286,7 +286,7 @@ module.exports = {
             }
 
             if (isNaN(amount) || amount < 10000) {
-                return api.sendMessage("❌ Số tiền cược tối thiểu là 10,000 Xu.", threadID, messageID);
+                return api.sendMessage("❌ Số tiền cược tối thiểu là 100 $.", threadID, messageID);
             }
 
             if (isAllIn && i > 0) {
@@ -344,8 +344,8 @@ module.exports = {
 
                 const message = this.formatGameBoard(bets, results, finalReward, totalBet) +
                               "\n━━━━━━━━━━━━━━━━━━\n" +
-                              (finalReward > 0 ? `📌 Phí: ${formatNumber(fee)} Xu\n` : '') +
-                              `💰 Số dư: ${formatNumber(getBalance(senderID))} Xu`;
+                              (finalReward > 0 ? `📌 Phí: ${formatNumber(fee)} $\n` : '') +
+                              `💰 Số dư: ${formatNumber(getBalance(senderID))} $`;
 
                 updateQuestProgress(senderID, "play_games");
                 if (finalReward > totalBet) {
