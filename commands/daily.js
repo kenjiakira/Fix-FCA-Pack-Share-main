@@ -983,7 +983,6 @@ module.exports = {
         currentBalance,
       });
 
-      // Give chance for a random voucher
       const voucherResult = giveRandomVoucher(senderID);
       let message = "";
       if (voucherResult.success) {
@@ -1002,7 +1001,21 @@ module.exports = {
           attachment: fsSync.createReadStream(imagePath),
         },
         threadID,
-        messageID
+        (error, info) => {
+          if (!error) {
+          
+            setTimeout(() => {
+              try {
+                fsSync.unlinkSync(imagePath);
+                console.log(`Đã xóa ảnh daily: ${imagePath}`);
+              } catch (deleteError) {
+                console.error(`Không thể xóa ảnh daily: ${deleteError}`);
+              }
+            }, 5000); 
+          } else {
+            console.error(`Lỗi khi gửi ảnh daily: ${error}`);
+          }
+        }
       );
     } catch (error) {
       console.error("Daily command error:", error);

@@ -16,7 +16,7 @@ module.exports = {
     name: "data",
     dev: "HNT",
     category: "Admin Commands",
-    info: "Quản lý số tiền của người dùng",
+    info: "Quản lý số tiền của người dùng", 
     onPrefix: true,
     usages: [
         ".data view [@tag/reply/ID]: Xem số dư của người dùng",

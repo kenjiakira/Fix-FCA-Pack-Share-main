@@ -9557,56 +9557,56 @@
       "plots": [
         {
           "id": 0,
-          "status": "damaged",
+          "status": "growing",
           "crop": "lua",
-          "plantedAt": 1741431904049,
-          "water": 2,
-          "lastWatered": 1741431909326,
+          "plantedAt": 1741486342365,
+          "water": 1,
+          "lastWatered": 1741486342365,
           "readyAt": 1741441215802
         },
         {
           "id": 1,
-          "status": "damaged",
+          "status": "growing",
           "crop": "lua",
-          "plantedAt": 1741431904049,
-          "water": 2,
-          "lastWatered": 1741431909326,
+          "plantedAt": 1741486342365,
+          "water": 1,
+          "lastWatered": 1741486342365,
           "readyAt": 1741441215802
         },
         {
           "id": 2,
-          "status": "damaged",
+          "status": "growing",
           "crop": "lua",
-          "plantedAt": 1741431904049,
-          "water": 2,
-          "lastWatered": 1741431909326,
+          "plantedAt": 1741486342365,
+          "water": 1,
+          "lastWatered": 1741486342365,
           "readyAt": 1741441215802
         },
         {
           "id": 3,
-          "status": "damaged",
+          "status": "growing",
           "crop": "lua",
-          "plantedAt": 1741431904049,
-          "water": 2,
-          "lastWatered": 1741431909326,
+          "plantedAt": 1741486342365,
+          "water": 1,
+          "lastWatered": 1741486342365,
           "readyAt": 1741441215802
         },
         {
           "id": 4,
-          "status": "damaged",
+          "status": "growing",
           "crop": "lua",
-          "plantedAt": 1741431904049,
-          "water": 2,
-          "lastWatered": 1741431909326,
+          "plantedAt": 1741486342365,
+          "water": 1,
+          "lastWatered": 1741486342365,
           "readyAt": 1741441215802
         },
         {
           "id": 5,
-          "status": "damaged",
+          "status": "growing",
           "crop": "lua",
-          "plantedAt": 1741431904049,
-          "water": 2,
-          "lastWatered": 1741431909326,
+          "plantedAt": 1741486342365,
+          "water": 1,
+          "lastWatered": 1741486342365,
           "readyAt": 1741441215802
         }
       ],
@@ -9650,7 +9650,7 @@
             "target": 3,
             "reward": 50,
             "exp": 10,
-            "progress": 0,
+            "progress": 3,
             "claimed": false
           },
           "water": {
@@ -9928,5 +9928,5 @@
       ]
     }
   },
-  "lastUpdate": 1741486220115
+  "lastUpdate": 1741486376359
 }

@@ -112,6 +112,15 @@
         "discount": 20,
         "expires": 1741955456349,
         "used": true
+      },
+      {
+        "type": "BRONZE",
+        "code": "BRONZE_D4DYHY",
+        "discount": 10,
+        "expires": 1742091144448,
+        "used": false,
+        "source": "hunting",
+        "foundAt": 1741486344448
       }
     ],
     "61561277064921": [
@@ -233,5 +242,12 @@
         "used": false
       }
     ]
+  },
+  "hunts": {
+    "61573427362389": {
+      "lastHunt": 1741486344448,
+      "totalHunts": 1,
+      "foundVouchers": 1
+    }
   }
 }
