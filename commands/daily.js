@@ -90,7 +90,7 @@ class DailyRewardManager {
   }
 
   calculateReward(streak) {
-    const baseAmount = randomInt(15, 61) * 1000;
+    const baseAmount = randomInt(15, 61) * 100;
     let multiplier = Math.min(1 + streak * 0.1, 2.5);
 
     const today = new Date().getDay();
@@ -159,11 +159,11 @@ class DailyRewardManager {
 
       switch (userData.packageId) {
         case 3:
-          return { hasVip: true, bonus: 8000, packageId: 3 };
+          return { hasVip: true, bonus: 800, packageId: 3 };
         case 2:
-          return { hasVip: true, bonus: 5000, packageId: 2 };
+          return { hasVip: true, bonus: 500, packageId: 2 };
         default:
-          return { hasVip: true, bonus: 3000, packageId: 1 };
+          return { hasVip: true, bonus: 300, packageId: 1 };
       }
     } catch (error) {
       console.error("Error getting VIP bonus:", error);

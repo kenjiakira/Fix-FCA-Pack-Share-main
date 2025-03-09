@@ -464,7 +464,7 @@ function drawLevelSection(ctx, width, levelY, result) {
 function drawEarningsSection(ctx, width, earningsY, result) {
   // Section title with decorative elements
   ctx.textAlign = "center";
-  ctx.font = "bold 26px Montserrat";
+  ctx.font = "bold 20px Montserrat";
 
   // Draw decorative lines
   ctx.strokeStyle = "rgba(255, 255, 255, 0.3)";

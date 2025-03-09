@@ -10,9 +10,9 @@ class JobSystem {
         this.data = this.loadData();
         this.workCountTracker = new WorkCountTracker();
         this.TAX_BRACKETS = [
-            { threshold: 1000, rate: 0.01 },  
-            { threshold: 5000, rate: 0.03 }, 
-            { threshold: 10000, rate: 0.05 },
+            { threshold: 1, rate: 0.01 },  
+            { threshold: 50, rate: 0.03 }, 
+            { threshold: 100, rate: 0.05 },
             { threshold: Infinity, rate: 0.10 }  
         ];
 

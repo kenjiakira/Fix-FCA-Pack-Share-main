@@ -227,17 +227,18 @@ module.exports = {
             ctx.shadowBlur = 5;
             ctx.font = "bold 30px Arial";
             ctx.fillStyle = "#ffffff";
-            ctx.textAlign = "left";
-            ctx.fillText("Cấp bậc hiện tại", 70, startY);
+            ctx.textAlign = "center"; // Thay đổi từ "left" sang "center"
+            ctx.fillText("Cấp bậc hiện tại", width / 2, startY); // Đặt x-coord vào giữa canvas
             ctx.restore();
-
-            const levelGradient = ctx.createLinearGradient(70, startY + 40, 300, startY + 40);
+            
+            // Tạo gradient ở giữa
+            const levelGradient = ctx.createLinearGradient(width/2 - 150, startY + 40, width/2 + 150, startY + 40);
             levelGradient.addColorStop(0, "#64ffda");
             levelGradient.addColorStop(1, "#00bfa5");
             ctx.font = "bold 28px Arial";
             ctx.fillStyle = levelGradient;
-            ctx.fillText(`👔 ${currentLevel?.name || 'Tập sự'}`, 150, startY + 40);
-
+            ctx.textAlign = "center"; // Đặt căn giữa cho level name
+            ctx.fillText(`👔 ${currentLevel?.name || 'Tập sự'}`, width / 2, startY + 40); // Đặt x-coord vào giữa
             startY += 70;
 
             if (levels && levels.length > 0) {
@@ -372,36 +373,15 @@ module.exports = {
                 }
             }
 
-            const footerHeight = 80;
-            const footerY = height - footerHeight;
-            const footerGradient = ctx.createLinearGradient(0, footerY, width, height);
-            footerGradient.addColorStop(0, "rgba(0, 77, 64, 0.9)");
-            footerGradient.addColorStop(1, "rgba(0, 105, 92, 0.9)");
-            ctx.fillStyle = footerGradient;
-            ctx.fillRect(0, footerY, width, footerHeight);
-
-            // AKI Global branding
-            ctx.font = "bold 28px Arial";
-            ctx.fillStyle = "#ffffff";
-            ctx.textAlign = "center";
-            ctx.fillText("AKI GLOBAL", width / 2, height - 45);
-            
             // Timestamp with teal gradient
             const timestampGradient = ctx.createLinearGradient(width/2 - 150, height - 20, width/2 + 150, height - 20);
             timestampGradient.addColorStop(0, "#64ffda");
             timestampGradient.addColorStop(1, "#00bfa5");
             ctx.font = "italic 20px Arial";
+            ctx.textAlign = "center";
             ctx.fillStyle = timestampGradient;
             ctx.fillText(`Cập nhật: ${new Date().toLocaleString("vi-VN")}`, width / 2, height - 15);
-            
-            // Footer decoration line
-            ctx.beginPath();
-            ctx.strokeStyle = "rgba(255, 255, 255, 0.3)";
-            ctx.lineWidth = 1;
-            ctx.moveTo(100, height - footerHeight + 20);
-            ctx.lineTo(width - 100, height - footerHeight + 20);
-            ctx.stroke();
-
+           
             // Save and return image
             const buffer = canvas.toBuffer("image/png");
             const tempDir = path.join(__dirname, "../temp");

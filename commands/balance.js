@@ -222,18 +222,16 @@ module.exports = {
             
             const totalWealth = walletBalance + bankBalance;
             let status = "Người bình thường";
-            if (totalWealth > 500000000) status = "Triệu phú";
+            if (totalWealth > 1000000) status = "Triệu phú";
             if (totalWealth > 1000000000) status = "Tỷ phú";
             if (totalWealth > 10000000000) status = "Đại gia";
             if (totalWealth > 100000000000) status = "Ông hoàng tài chính";
             
             ctx.fillText(`💼 ${status}`, 200, 250);
             
-            // Balance section with fancy styling
             ctx.save();
             const balanceStartY = 330;
             
-            // Card background with gradient
             const cardGradient = ctx.createLinearGradient(50, balanceStartY, width - 50, balanceStartY + 220);
             cardGradient.addColorStop(0, "rgba(45, 52, 54, 0.7)");
             cardGradient.addColorStop(1, "rgba(25, 42, 86, 0.7)");
@@ -241,20 +239,16 @@ module.exports = {
             ctx.fillStyle = cardGradient;
             this.roundRect(ctx, 50, balanceStartY, width - 100, 220, 15, true, false);
             
-            // Card border
             ctx.strokeStyle = "rgba(255, 255, 255, 0.3)";
             ctx.lineWidth = 1;
             this.roundRect(ctx, 50, balanceStartY, width - 100, 220, 15, false, true);
             
-            // Card header
             ctx.font = "bold 26px Arial";
             ctx.fillStyle = "#ffffff";
             ctx.textAlign = "center";
             ctx.fillText("THÔNG TIN SỐ DƯ", width / 2, balanceStartY + 40);
             
-            // Balance amounts with fancy styling
-            
-            // Wallet balance
+       
             const walletGradient = ctx.createLinearGradient(100, balanceStartY + 90, 500, balanceStartY + 90);
             walletGradient.addColorStop(0, "#4facfe");
             walletGradient.addColorStop(1, "#00f2fe");
@@ -269,7 +263,6 @@ module.exports = {
             ctx.textAlign = "right";
             ctx.fillText(`${formatNumber(walletBalance)} $`, width - 100, balanceStartY + 90);
             
-            // Bank balance
             const bankGradient = ctx.createLinearGradient(100, balanceStartY + 140, 500, balanceStartY + 140);
             bankGradient.addColorStop(0, "#43e97b");
             bankGradient.addColorStop(1, "#38f9d7");
@@ -284,7 +277,6 @@ module.exports = {
             ctx.textAlign = "right";
             ctx.fillText(`${formatNumber(bankBalance)} $`, width - 100, balanceStartY + 140);
             
-            // Divider line
             ctx.strokeStyle = "rgba(255, 255, 255, 0.2)";
             ctx.lineWidth = 2;
             ctx.beginPath();
@@ -292,7 +284,6 @@ module.exports = {
             ctx.lineTo(width - 80, balanceStartY + 175);
             ctx.stroke();
             
-            // Total wealth
             const totalGradient = ctx.createLinearGradient(100, balanceStartY + 210, 500, balanceStartY + 210);
             totalGradient.addColorStop(0, "#FFD700");
             totalGradient.addColorStop(1, "#FFA500");
@@ -311,25 +302,21 @@ module.exports = {
             ctx.shadowBlur = 0;
             ctx.restore();
             
-            // Recent transactions section
             const transStartY = 580;
             
-            // Section background
             ctx.fillStyle = "rgba(255, 255, 255, 0.1)";
             ctx.fillRect(50, transStartY, width - 100, 220);
             ctx.strokeStyle = "rgba(255, 255, 255, 0.3)";
             ctx.lineWidth = 1;
             ctx.strokeRect(50, transStartY, width - 100, 220);
             
-            // Section header
             ctx.font = "bold 26px Arial";
             ctx.fillStyle = "#ffffff";
             ctx.textAlign = "center";
             ctx.fillText("GIAO DỊCH GẦN ĐÂY", width / 2, transStartY + 40);
             
-            // Transaction list
             if (transactions && transactions.length > 0) {
-                const recentTrans = transactions.slice(-4); // Get up to 4 recent transactions
+                const recentTrans = transactions.slice(-4); 
                 const startYTrans = transStartY + 80;
                 
                 recentTrans.forEach((trans, index) => {

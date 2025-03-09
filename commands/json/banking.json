@@ -25,8 +25,8 @@
       "creditScore": 13
     },
     "100051073987266": {
-      "bankBalance": 100550,
-      "lastInterest": 1741365166271,
+      "bankBalance": 100650,
+      "lastInterest": 1741493926300,
       "createdAt": 1740829171641,
       "balanceHistory": [],
       "penalties": [],
@@ -81,7 +81,7 @@
       "creditScore": 13
     },
     "100063719077878": {
-      "bankBalance": 6777527,
+      "bankBalance": 8777527,
       "lastInterest": 1741432085569,
       "createdAt": 1740831857859,
       "balanceHistory": [],
@@ -129,7 +129,7 @@
       "creditScore": 13
     },
     "61550331471452": {
-      "bankBalance": 168000000,
+      "bankBalance": 165000000,
       "lastInterest": 1741409180692,
       "createdAt": 1740847988813,
       "balanceHistory": [],
@@ -193,7 +193,7 @@
       "creditScore": 13
     },
     "100089981373051": {
-      "bankBalance": 240482,
+      "bankBalance": 349862,
       "lastInterest": 1741449874796,
       "createdAt": 1740899111537,
       "balanceHistory": [],
@@ -217,7 +217,7 @@
       "creditScore": 60
     },
     "100050445245297": {
-      "bankBalance": 0,
+      "bankBalance": 400000,
       "lastInterest": 1741356058991,
       "createdAt": 1740910446289,
       "balanceHistory": [],
@@ -233,8 +233,8 @@
       "creditScore": 13
     },
     "100068382888605": {
-      "bankBalance": 402802,
-      "lastInterest": 1741244484075,
+      "bankBalance": 805,
+      "lastInterest": 1741492121995,
       "createdAt": 1740935145137,
       "balanceHistory": [],
       "penalties": [],
@@ -297,18 +297,13 @@
       "creditScore": 41
     },
     "61552144357464": {
-      "bankBalance": 30023,
+      "bankBalance": 162000,
       "lastInterest": 1741423173937,
       "createdAt": 1741184377454,
       "balanceHistory": [],
       "penalties": [],
       "creditScore": 67,
-      "lockedCollateral": {
-        "1741452925569": {
-          "amount": 30000,
-          "unlockTime": 1742057725569
-        }
-      }
+      "lockedCollateral": 0
     },
     "61568522233427": {
       "bankBalance": 745437,
@@ -327,7 +322,7 @@
       "creditScore": 13
     },
     "100065381078044": {
-      "bankBalance": 108047404,
+      "bankBalance": 98047404,
       "lastInterest": 1741432307169,
       "createdAt": 1741275440312,
       "balanceHistory": [],
@@ -373,6 +368,22 @@
       "balanceHistory": [],
       "penalties": [],
       "creditScore": 40
+    },
+    "100080964828004": {
+      "bankBalance": 1650000,
+      "lastInterest": 1741487213775,
+      "createdAt": 1741487213775,
+      "balanceHistory": [],
+      "penalties": [],
+      "creditScore": 44
+    },
+    "100047529173949": {
+      "bankBalance": 0,
+      "lastInterest": 1741493429930,
+      "createdAt": 1741493429930,
+      "balanceHistory": [],
+      "penalties": [],
+      "creditScore": 46
     }
   },
   "transactions": {
@@ -1004,33 +1015,51 @@
         "description": "Nhận 50,000,000 Xu từ Minh Đức",
         "amount": 50000000,
         "timestamp": 1741344563703
-      }
-    ],
-    "61552144357464": [
-      {
-        "type": "out",
-        "description": "Chuyển 50,000,000 Xu cho Hoàng Dương",
-        "amount": 50000000,
-        "timestamp": 1741344563673
-      },
-      {
-        "type": "out",
-        "description": "Chuyển 50,000,000 Xu cho Lộc Trịnh ",
-        "amount": 50000000,
-        "timestamp": 1741344658347
       },
       {
         "type": "in",
-        "description": "Nhận 10,000,000 Xu từ Lộc Trịnh ",
-        "amount": 10000000,
-        "timestamp": 1741347446656
+        "description": "Nhận 15,000 $ từ Minh Đức",
+        "amount": 15000,
+        "timestamp": 1741486480122
       },
       {
         "type": "out",
-        "description": "Chuyển 10,000,000 Xu cho Lộc Trịnh ",
-        "amount": 10000000,
-        "timestamp": 1741347483633
+        "description": "Chuyển 200,000 $ cho Hoàng Giang",
+        "amount": 200000,
+        "timestamp": 1741488849153
       },
+      {
+        "type": "out",
+        "description": "Chuyển 200,000 $ cho Minh Đức",
+        "amount": 200000,
+        "timestamp": 1741488865168
+      },
+      {
+        "type": "in",
+        "description": "Nhận 200,000 $ từ Minh Đức",
+        "amount": 200000,
+        "timestamp": 1741489205901
+      },
+      {
+        "type": "in",
+        "description": "Nhận 250,000 $ từ Hoàng Giang",
+        "amount": 250000,
+        "timestamp": 1741489272470
+      },
+      {
+        "type": "out",
+        "description": "Chuyển 200,000 $ cho Minh Đức",
+        "amount": 200000,
+        "timestamp": 1741489720834
+      },
+      {
+        "type": "out",
+        "description": "Chuyển 250,000 $ cho Hoàng Giang",
+        "amount": 250000,
+        "timestamp": 1741489743488
+      }
+    ],
+    "61552144357464": [
       {
         "type": "in",
         "description": "Nhận 4,000,000 Xu từ Hoàng Giang",
@@ -1066,6 +1095,30 @@
         "description": "Chuyển 20,000 $ cho Lê Văn Nhật",
         "amount": 20000,
         "timestamp": 1741454584821
+      },
+      {
+        "type": "out",
+        "description": "Chuyển 15,000 $ cho Hoàng Dương",
+        "amount": 15000,
+        "timestamp": 1741486480107
+      },
+      {
+        "type": "in",
+        "description": "Nhận 200,000 $ từ Hoàng Dương",
+        "amount": 200000,
+        "timestamp": 1741488865187
+      },
+      {
+        "type": "out",
+        "description": "Chuyển 200,000 $ cho Hoàng Dương",
+        "amount": 200000,
+        "timestamp": 1741489205887
+      },
+      {
+        "type": "in",
+        "description": "Nhận 200,000 $ từ Hoàng Dương",
+        "amount": 200000,
+        "timestamp": 1741489720854
       }
     ],
     "100047529173949": [
@@ -1242,6 +1295,24 @@
         "description": "Nhận 55,000 $ từ Minh Đức",
         "amount": 55000,
         "timestamp": 1741454517509
+      },
+      {
+        "type": "in",
+        "description": "Nhận 200,000 $ từ Hoàng Dương",
+        "amount": 200000,
+        "timestamp": 1741488849177
+      },
+      {
+        "type": "out",
+        "description": "Chuyển 250,000 $ cho Hoàng Dương",
+        "amount": 250000,
+        "timestamp": 1741489272456
+      },
+      {
+        "type": "in",
+        "description": "Nhận 250,000 $ từ Hoàng Dương",
+        "amount": 250000,
+        "timestamp": 1741489743501
       }
     ],
     "100055074463541": [
@@ -1349,13 +1420,22 @@
     "61552144357464": {
       "amount": 100000,
       "interest": 11340,
-      "remainingAmount": 50000,
+      "remainingAmount": 0,
       "startDate": 1741452925569,
       "dueDate": 1742057725569,
-      "status": "active",
+      "status": "paid",
       "collateral": 30000,
       "interestRate": 0.0162,
-      "creditScore": 67
+      "creditScore": 67,
+      "history": [
+        {
+          "amount": 100000,
+          "startDate": 1741452925569,
+          "endDate": 1741487028361,
+          "status": "paid",
+          "paidOnTime": true
+        }
+      ]
     }
   },
   "blacklist": {},

@@ -147,35 +147,35 @@ module.exports = {
         },
         j3: {
             name: "Phục vụ",
-            salary: 4500,
+            salary: 450,
             type: "service",
             requirements: [],
             description: "Phục vụ khách hàng tận tình"
         },
         j4: {
             name: "Công nhân",
-            salary: 8000,
+            salary: 800,
             type: "worker",
             requirements: ["e1"],
             description: "Vận hành máy móc và sản xuất"
         },
         j5: {
             name: "Nhân viên bán hàng",
-            salary: 7000,
+            salary: 700,
             type: "sales",
             requirements: ["e1"],
             description: "Tư vấn và bán hàng chuyên nghiệp"
         },
         j6: {
             name: "Lễ tân khách sạn",
-            salary: 7500,
+            salary: 750,
             type: "service",
             requirements: ["e1"],
             description: "Tiếp đón và phục vụ khách hàng"
         },
         j7: {
             name: "Kế toán",
-            salary: 12000,
+            salary: 1200,
             type: "accountant",
             requirements: ["ueh", "neu"],
             description: "Quản lý tài chính và sổ sách"
@@ -273,7 +273,7 @@ module.exports = {
         },
         j21: {
             name: "Giáo sư y khoa",
-            salary: 600000,
+            salary: 60000,
             type: "medical",
             requirements: ["e4", "hmu", "research1"],
             description: "Nghiên cứu và giảng dạy y khoa cấp cao"

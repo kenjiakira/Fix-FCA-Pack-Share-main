@@ -420,47 +420,65 @@
   "100080964828004": [
     {
       "type": "out",
-      "amount": 50150000,
-      "timestamp": 1741342052456,
-      "description": "Chuyển 50000000 Xu cho Minh Đức"
+      "amount": 202000,
+      "timestamp": 1741488864807,
+      "description": "Chuyển 200000 $ cho Minh Đức"
     },
     {
       "type": "in",
-      "amount": 50000000,
-      "timestamp": 1741344562281,
-      "description": "Nhận 50000000 Xu từ Minh Đức"
-    }
-  ],
-  "61552144357464": [
-    {
-      "type": "in",
-      "amount": 20000000,
-      "timestamp": 1741436143723,
-      "description": "Nhận 20000000 Xu từ Lê Văn Nhật"
+      "amount": 200000,
+      "timestamp": 1741489205644,
+      "description": "Nhận 200000 $ từ Minh Đức"
     },
     {
       "type": "in",
-      "amount": 20000,
-      "timestamp": 1741453312307,
-      "description": "Nhận 20000 $ từ Hoàng Giang"
-    },
-    {
-      "type": "in",
-      "amount": 30000,
-      "timestamp": 1741453791267,
-      "description": "Nhận 30000 $ từ Hoàng Giang"
+      "amount": 250000,
+      "timestamp": 1741489272209,
+      "description": "Nhận 250000 $ từ Hoàng Giang"
     },
     {
       "type": "out",
-      "amount": 55550,
-      "timestamp": 1741454517292,
-      "description": "Chuyển 55000 $ cho Hoàng Giang"
+      "amount": 202000,
+      "timestamp": 1741489720610,
+      "description": "Chuyển 200000 $ cho Minh Đức"
     },
+    {
+      "type": "out",
+      "amount": 252500,
+      "timestamp": 1741489743264,
+      "description": "Chuyển 250000 $ cho Hoàng Giang"
+    }
+  ],
+  "61552144357464": [
     {
       "type": "out",
       "amount": 20200,
       "timestamp": 1741454584607,
       "description": "Chuyển 20000 $ cho Lê Văn Nhật"
+    },
+    {
+      "type": "out",
+      "amount": 15150,
+      "timestamp": 1741486479713,
+      "description": "Chuyển 15000 $ cho Hoàng Dương"
+    },
+    {
+      "type": "in",
+      "amount": 200000,
+      "timestamp": 1741488864807,
+      "description": "Nhận 200000 $ từ Hoàng Dương"
+    },
+    {
+      "type": "out",
+      "amount": 202000,
+      "timestamp": 1741489205644,
+      "description": "Chuyển 200000 $ cho Hoàng Dương"
+    },
+    {
+      "type": "in",
+      "amount": 200000,
+      "timestamp": 1741489720610,
+      "description": "Nhận 200000 $ từ Hoàng Dương"
     }
   ],
   "100047529173949": [
@@ -604,18 +622,6 @@
   "100072567218546": [
     {
       "type": "out",
-      "amount": 4012000,
-      "timestamp": 1741426439594,
-      "description": "Chuyển 4000000 Xu cho Minh Đức"
-    },
-    {
-      "type": "out",
-      "amount": 20200,
-      "timestamp": 1741453312307,
-      "description": "Chuyển 20000 $ cho Minh Đức"
-    },
-    {
-      "type": "out",
       "amount": 30300,
       "timestamp": 1741453791267,
       "description": "Chuyển 30000 $ cho Minh Đức"
@@ -625,6 +631,24 @@
       "amount": 55000,
       "timestamp": 1741454517292,
       "description": "Nhận 55000 $ từ Minh Đức"
+    },
+    {
+      "type": "in",
+      "amount": 200000,
+      "timestamp": 1741488847969,
+      "description": "Nhận 200000 $ từ Hoàng Dương"
+    },
+    {
+      "type": "out",
+      "amount": 252500,
+      "timestamp": 1741489272209,
+      "description": "Chuyển 250000 $ cho Hoàng Dương"
+    },
+    {
+      "type": "in",
+      "amount": 250000,
+      "timestamp": 1741489743264,
+      "description": "Nhận 250000 $ từ Hoàng Dương"
     }
   ],
   "100055074463541": [

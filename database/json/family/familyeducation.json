@@ -216,7 +216,11 @@
       "e3",
       "e1"
     ],
-    "currentDegree": null
+    "currentDegree": {
+      "id": "neu",
+      "startTime": 1741488960540,
+      "progress": 0
+    }
   },
   "61568733064572": {
     "degrees": [
