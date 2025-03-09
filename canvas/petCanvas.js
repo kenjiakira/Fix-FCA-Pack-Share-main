@@ -1,587 +1,604 @@
-const fs = require('fs');
-const path = require('path');
-const { createCanvas, loadImage, registerFont } = require('canvas');
-const { getAvatarPath } = require('./fishCanvas');
-const USER_DATA_FILE = path.join(__dirname, '../events/cache/userData.json');
-let userData = {};
+const fs = require("fs");
+const path = require("path");
+const { createCanvas, loadImage, registerFont } = require("canvas");
+const { getAvatarPath } = require("./fishCanvas");
 
-try {
-    const data = fs.readFileSync(USER_DATA_FILE, 'utf8');
-    userData = JSON.parse(data);
-} catch (err) {
-    console.error("Không thể đọc file userData.json:", err);
-}
-function registerFonts() {
+// Add color parsing utilities
+function hexToRgb(hex) {
   try {
-    const fontsDir = path.join(__dirname, '../fonts');
-    const fontOptions = [
-      { path: 'Roboto-Bold.ttf', family: 'Roboto', weight: 'bold' },
-      { path: 'Roboto-Regular.ttf', family: 'Roboto', weight: 'normal' },
-      { path: 'Roboto-Light.ttf', family: 'Roboto', weight: 'light' },
-      { path: 'Roboto-Medium.ttf', family: 'Roboto', weight: 'medium' }
-    ];
+    if (!hex || typeof hex !== 'string') {
+      return "255, 255, 255";
+    }
     
-    fontOptions.forEach(font => {
-      const fontPath = path.join(fontsDir, font.path);
-      if (fs.existsSync(fontPath)) {
-        registerFont(fontPath, { family: font.family, weight: font.weight });
+    if (hex.startsWith('rgb')) {
+      const rgbMatch = hex.match(/\d+/g);
+      if (rgbMatch && rgbMatch.length >= 3) {
+        return `${rgbMatch[0]}, ${rgbMatch[1]}, ${rgbMatch[2]}`;
       }
-    });
-    return true;
-  } catch (e) {
-    console.error('Không thể đăng ký font:', e);
-    return false;
+      return "255, 255, 255";
+    }
+    
+    hex = hex.replace(/^#/, '');
+    
+    if (hex.length === 3) {
+      hex = hex.split('').map(c => c + c).join('');
+    }
+    
+    if (!/^[0-9A-Fa-f]{6}$/.test(hex)) {
+      return "255, 255, 255";
+    }
+    
+    const r = parseInt(hex.substring(0, 2), 16);
+    const g = parseInt(hex.substring(2, 4), 16);
+    const b = parseInt(hex.substring(4, 6), 16);
+    
+    return `${r}, ${g}, ${b}`;
+  } catch (error) {
+    return "255, 255, 255";
   }
 }
 
-// Pet image mapping with support for more pets
-const PET_IMAGES = {
-  DOG: path.join(__dirname, '../pet/dog.jpg'),
-  CAT: path.join(__dirname, '../pet/cat.jpg'),
-  HAMSTER: path.join(__dirname, '../pet/hamster.jpg'),
-  DEFAULT: path.join(__dirname, '../pet/default.png')
-};
+function parseColor(color, fallback = "#ffffff") {
+  try {
+    if (!color) return fallback;
+    
+    if (typeof color === 'string') {
+      if (color.startsWith('rgb')) {
+        return color;
+      }
+      if (color.startsWith('#')) {
+        const hex = color.replace(/^#/, '');
+        if (/^[0-9A-Fa-f]{3}$/.test(hex) || /^[0-9A-Fa-f]{6}$/.test(hex)) {
+          return color;
+        }
+        return fallback;
+      }
+    }
+    
+    const predefinedColors = {
+      red: "#ff0000",
+      green: "#00ff00",
+      blue: "#0000ff",
+      white: "#ffffff",
+      black: "#000000"
+    };
+    
+    if (typeof color === 'string' && predefinedColors[color.toLowerCase()]) {
+      return predefinedColors[color.toLowerCase()];
+    }
+    
+    return fallback;
+  } catch (error) {
+    return fallback;
+  }
+}
 
-// Color themes for different pet types
-const PET_THEMES = {
+// Format number with commas
+function formatNumber(number) {
+  return number.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+}
+
+const petColors = {
   DOG: {
-    background: ['#2193b0', '#3498db', '#6dd5ed'],
-    energy: ['#2ecc71', '#27ae60', '#219a52'],
-    hunger: ['#e74c3c', '#c0392b', '#962918'],
-    happy: ['#f1c40f', '#f39c12', '#d35400'],
-    badge: ['#f39c12', '#f1c40f', '#e67e22']
+    primary: "#8B4513",
+    secondary: "#D2691E",
+    gradient: ["#8B4513", "#D2691E"],
   },
   CAT: {
-    background: ['#614385', '#516395', '#4568DC'],
-    energy: ['#3498db', '#2980b9', '#1f6aa6'],
-    hunger: ['#e74c3c', '#c0392b', '#962918'],
-    happy: ['#f1c40f', '#f39c12', '#d35400'],
-    badge: ['#9b59b6', '#8e44ad', '#703688']
+    primary: "#808080",
+    secondary: "#A9A9A9",
+    gradient: ["#808080", "#A9A9A9"],
   },
   HAMSTER: {
-    background: ['#FFB75E', '#ED8F03', '#FF9900'],
-    energy: ['#2ecc71', '#27ae60', '#219a52'],
-    hunger: ['#e74c3c', '#c0392b', '#962918'],
-    happy: ['#f1c40f', '#f39c12', '#d35400'],
-    badge: ['#f39c12', '#e67e22', '#d35400']
+    primary: "#DEB887",
+    secondary: "#D2B48C",
+    gradient: ["#DEB887", "#D2B48C"],
   },
-  DEFAULT: {
-    background: ['#2193b0', '#3498db', '#6dd5ed'],
-    energy: ['#2ecc71', '#27ae60', '#219a52'],
-    hunger: ['#e74c3c', '#c0392b', '#962918'],
-    happy: ['#f1c40f', '#f39c12', '#d35400'],
-    badge: ['#f39c12', '#f1c40f', '#e67e22']
-  }
 };
 
-// Helper functions
+// Pet icons map
+const petIcons = {
+  DOG: "🐕",
+  CAT: "🐈",
+  HAMSTER: "🐹",
+  default: "🐾"
+};
+
+// Default pet images
+const defaultPetImagePaths = {
+  DOG: path.join(__dirname, "../pets/dog.jpg"),
+  CAT: path.join(__dirname, "../pets/cat.jpg"),
+  HAMSTER: path.join(__dirname, "../pets/hamster.jpg"),
+};
+
+try {
+  const fontsDir = path.join(__dirname, "../fonts");
+  if (fs.existsSync(path.join(fontsDir, "Roboto-Bold.ttf"))) {
+    registerFont(path.join(fontsDir, "Roboto-Bold.ttf"), {
+      family: "Roboto",
+      weight: "bold",
+    });
+  }
+  if (fs.existsSync(path.join(fontsDir, "Roboto-Regular.ttf"))) {
+    registerFont(path.join(fontsDir, "Roboto-Regular.ttf"), {
+      family: "Roboto",
+      weight: "normal",
+    });
+  }
+} catch (e) {
+  console.log("Could not load custom fonts, using system defaults");
+}
+
+/**
+ * Draw particle effects on canvas
+ */
+function drawParticleEffects(ctx, width, height, type) {
+  const colors = petColors[type] || petColors.DOG;
+  const particleColor = parseColor(colors?.primary, "#ffffff");
+  const particleCount = 60;
+
+  ctx.fillStyle = particleColor;
+  ctx.globalAlpha = 0.4;
+
+  for (let i = 0; i < particleCount; i++) {
+    const x = Math.random() * width;
+    const y = Math.random() * height;
+    const size = Math.random() * 3;
+
+    ctx.beginPath();
+    ctx.arc(x, y, size, 0, Math.PI * 2);
+    ctx.fill();
+  }
+
+  ctx.globalAlpha = 1;
+}
+
+/**
+ * Draw decorative background patterns
+ */
+function drawBackgroundPatterns(ctx, width, height, type) {
+  const colors = petColors[type] || petColors.DOG;
+  const patternColor = parseColor(colors?.secondary, "#3498db");
+
+  ctx.save();
+  ctx.globalAlpha = 0.1;
+  
+  // Draw paw print patterns
+  for (let i = 0; i < 15; i++) {
+    const x = Math.random() * width;
+    const y = Math.random() * height;
+    const size = 10 + Math.random() * 20;
+
+    ctx.fillStyle = patternColor;
+    // Draw main pad
+    ctx.beginPath();
+    ctx.arc(x, y, size, 0, Math.PI * 2);
+    ctx.fill();
+
+    // Draw toe pads
+    for (let j = 0; j < 4; j++) {
+      const angle = (j * Math.PI / 2) + Math.PI / 4;
+      const padX = x + Math.cos(angle) * size;
+      const padY = y + Math.sin(angle) * size;
+      const toeSize = size * 0.6;
+      
+      ctx.beginPath();
+      ctx.arc(padX, padY, toeSize, 0, Math.PI * 2);
+      ctx.fill();
+    }
+  }
+
+  ctx.restore();
+}
+
+/**
+ * Create a rounded rectangle
+ */
 function roundRect(ctx, x, y, width, height, radius, fill, stroke) {
+  if (typeof radius === "undefined") radius = 5;
   ctx.beginPath();
   ctx.moveTo(x + radius, y);
-  ctx.arcTo(x + width, y, x + width, y + height, radius);
-  ctx.arcTo(x + width, y + height, x, y + height, radius);
-  ctx.arcTo(x, y + height, x, y, radius);
-  ctx.arcTo(x, y, x + width, y, radius);
+  ctx.lineTo(x + width - radius, y);
+  ctx.quadraticCurveTo(x + width, y, x + width, y + radius);
+  ctx.lineTo(x + width, y + height - radius);
+  ctx.quadraticCurveTo(x + width, y + height, x + width - radius, y + height);
+  ctx.lineTo(x + radius, y + height);
+  ctx.quadraticCurveTo(x, y + height, x, y + height - radius);
+  ctx.lineTo(x, y + radius);
+  ctx.quadraticCurveTo(x, y, x + radius, y);
   ctx.closePath();
   if (fill) ctx.fill();
   if (stroke) ctx.stroke();
 }
 
-function createAnimatedShine(ctx, x, y, width, height, angle = 30) {
-  const gradient = ctx.createLinearGradient(
-    x, y,
-    x + width * Math.cos(angle * Math.PI / 180), 
-    y + height * Math.sin(angle * Math.PI / 180)
-  );
-  gradient.addColorStop(0, 'rgba(255, 255, 255, 0)');
-  gradient.addColorStop(0.3, 'rgba(255, 255, 255, 0.1)');
-  gradient.addColorStop(0.5, 'rgba(255, 255, 255, 0.3)');
-  gradient.addColorStop(0.7, 'rgba(255, 255, 255, 0.1)');
-  gradient.addColorStop(1, 'rgba(255, 255, 255, 0)');
-  return gradient;
-}
-
-function createGlowEffect(ctx, x, y, radius, color) {
-  const gradient = ctx.createRadialGradient(x, y, 0, x, y, radius);
-  gradient.addColorStop(0, color);
-  gradient.addColorStop(1, 'rgba(255, 255, 255, 0)');
-  return gradient;
-}
-
-function createGlassMorphism(ctx, x, y, width, height, radius, opacity = 0.1) {
-  ctx.save();
-  // Semi-transparent fill
-  ctx.fillStyle = `rgba(255, 255, 255, ${opacity})`;
-  roundRect(ctx, x, y, width, height, radius, true);
-  
-  // Shine effect
-  ctx.fillStyle = createAnimatedShine(ctx, x, y, width, height);
-  roundRect(ctx, x, y, width, height, radius, true);
-  
-  // Border
-  ctx.strokeStyle = 'rgba(255, 255, 255, 0.3)';
-  ctx.lineWidth = 2;
-  roundRect(ctx, x, y, width, height, radius, false, true);
-  ctx.restore();
-}
-
-function drawProgressBar(ctx, label, value, maxValue, x, y, width, height, colors, animated = false) {
-  // Settings
-  const barHeight = height || 25;
-  const cornerRadius = 12;
-  const labelX = x;
-  const barX = x + 110;
-  const barWidth = width - 110;
-  const textOffset = 18;
-  const animationOffset = animated ? Math.sin(Date.now() / 500) * 5 : 0;
-  
-  // Draw label with shadow
-  ctx.save();
-  ctx.shadowColor = 'rgba(0, 0, 0, 0.5)';
-  ctx.shadowBlur = 5;
-  ctx.fillStyle = '#ffffff';
-  ctx.font = 'bold 18px Roboto';
-  ctx.fillText(label, labelX, y);
-  ctx.restore();
-
-  // Draw bar background with inner shadow
-  ctx.fillStyle = 'rgba(0, 0, 0, 0.3)';
-  roundRect(ctx, barX, y - textOffset, barWidth, barHeight, cornerRadius, true);
-
-  // Draw progress with gradient
-  const progress = (value / maxValue) * barWidth;
-  const gradient = ctx.createLinearGradient(barX, y, barX + barWidth, y);
-  gradient.addColorStop(0, colors[0]);
-  gradient.addColorStop(0.5, colors[1]);
-  gradient.addColorStop(1, colors[2]);
-  
-  ctx.fillStyle = gradient;
-  roundRect(ctx, barX, y - textOffset, progress, barHeight, cornerRadius, true);
-
-  // Add shine effect with animation
-  const shine = ctx.createLinearGradient(
-    barX, y - textOffset, 
-    barX + animationOffset, y - textOffset + barHeight
-  );
-  shine.addColorStop(0, 'rgba(255, 255, 255, 0.2)');
-  shine.addColorStop(0.5, 'rgba(255, 255, 255, 0.05)');
-  shine.addColorStop(1, 'rgba(255, 255, 255, 0)');
-  ctx.fillStyle = shine;
-  roundRect(ctx, barX, y - textOffset, progress, barHeight, cornerRadius, true);
-
-  // Draw value text with shadow
-  ctx.save();
-  ctx.shadowColor = 'rgba(0, 0, 0, 0.5)';
-  ctx.shadowBlur = 3;
-  ctx.fillStyle = '#ffffff';
-  ctx.textAlign = 'right';
-  ctx.fillText(`${value}/${maxValue}`, x + width - 20, y);
-  ctx.restore();
-  ctx.textAlign = 'left';
-}
-
-function generateUIElements(ctx, width, height) {
-  // Add geometric patterns
-  ctx.strokeStyle = 'rgba(255, 255, 255, 0.08)';
-  ctx.lineWidth = 1;
-  
-  // Horizontal lines
-  for (let i = 0; i < height; i += 40) {
-    ctx.beginPath();
-    ctx.moveTo(0, i);
-    ctx.lineTo(width, i);
-    ctx.stroke();
-  }
-  
-  // Vertical lines
-  for (let i = 0; i < width; i += 40) {
-    ctx.beginPath();
-    ctx.moveTo(i, 0);
-    ctx.lineTo(i, height);
-    ctx.stroke();
-  }
-  
-  // Add sparkle effects
-  for (let i = 0; i < 70; i++) {
-    const x = Math.random() * width;
-    const y = Math.random() * height;
-    const size = Math.random() * 3 + 1;
-    const opacity = Math.random() * 0.5 + 0.1;
-
-    const sparkleGradient = ctx.createRadialGradient(x, y, 0, x, y, size);
-    sparkleGradient.addColorStop(0, `rgba(255, 255, 255, ${opacity})`);
-    sparkleGradient.addColorStop(0.5, `rgba(255, 255, 255, ${opacity/2})`);
-    sparkleGradient.addColorStop(1, 'rgba(255, 255, 255, 0)');
-
-    ctx.fillStyle = sparkleGradient;
-    ctx.beginPath();
-    ctx.arc(x, y, size, 0, Math.PI * 2);
-    ctx.fill();
-  }
-}
-
+/**
+ * Create pet stats image
+ */
 async function createPetImage(options) {
-  // Initialize and validate options
-  const {
-    userId,
-    pet,
-    type = "DEFAULT"
-  } = options;
-  if (!pet) throw new Error('Pet data is required');
-  
-  // Lấy tên người dùng từ userData (kiểm tra userId tồn tại)
-  let userName = "Người chơi";
-  if (userData && userData[userId] && userData[userId].name) {
-    userName = userData[userId].name;
-  }
-
-  if (!pet) throw new Error('Pet data is required');
-  
-  // Register fonts
-  registerFonts();
-
-  // Set up canvas dimensions with higher resolution
-  const width = 1080;
-  const height = 720;
-  const canvas = createCanvas(width, height);
-  const ctx = canvas.getContext('2d');
-
-  // Get theme based on pet type
-  const theme = PET_THEMES[type] || PET_THEMES.DEFAULT;
-  
-  // Draw enhanced background with dynamic gradients
-  const bgGradient = ctx.createLinearGradient(0, 0, width, height);
-  bgGradient.addColorStop(0, theme.background[0]);
-  bgGradient.addColorStop(0.5, theme.background[1]);
-  bgGradient.addColorStop(1, theme.background[2]);
-  ctx.fillStyle = bgGradient;
-  ctx.fillRect(0, 0, width, height);
-
-  // Generate UI elements
-  generateUIElements(ctx, width, height);
-  
-  // Create enhanced header with glass effect
-  ctx.save();
-  createGlassMorphism(ctx, 0, 0, width, 140, 0, 0.15);
-  
-  // Add header glow
-  ctx.shadowColor = 'rgba(255, 255, 255, 0.3)';
-  ctx.shadowBlur = 15;
-  ctx.fillRect(0, 139, width, 1);
-  ctx.restore();
-
-  // Draw pet name and owner in header
-  ctx.save();
-  // Pet title with gradient text
-  const titleGradient = ctx.createLinearGradient(width/2 - 150, 50, width/2 + 150, 50);
-  titleGradient.addColorStop(0, '#ffffff');
-  titleGradient.addColorStop(0.5, '#f5f5f5');
-  titleGradient.addColorStop(1, '#ffffff');
-  
-  ctx.font = 'bold 32px Roboto';
-  ctx.textAlign = 'center';
-  ctx.fillStyle = titleGradient;
-  ctx.shadowColor = 'rgba(0, 0, 0, 0.3)';
-  ctx.shadowBlur = 5;
-  ctx.fillText(`${pet.name} của ${userName}`, width/2, 70);
-  
-  // Pet type label with glass effect
-  ctx.textAlign = 'center';
-  ctx.font = '16px Roboto';
-  ctx.fillStyle = 'rgba(255, 255, 255, 0.9)';
-  
-  // Create mini label background
-  const labelWidth = ctx.measureText(type).width + 40;
-  createGlassMorphism(ctx, width/2 - labelWidth/2, 80, labelWidth, 30, 15, 0.2);
-  
-  // Draw type text
-  ctx.fillStyle = '#ffffff';
-  ctx.fillText(type, width/2, 100);
-  ctx.restore();
-
-  // Draw enhanced avatar with glow effect
   try {
-    const avatar = await loadImage(await getAvatarPath(userId));
-    const avatarX = 100;
-    const avatarY = 70;
-    const avatarSize = 55;
+    const {
+      userId,
+      userName = "Người chơi",
+      pet = {
+        name: "Pet",
+        type: "DOG",
+        level: 1,
+        exp: 0,
+        power: 10,
+        hunger: 100,
+        happy: 100,
+        energy: 100,
+        maxHunger: 100,
+        maxHappy: 100,
+        maxEnergy: 100,
+      }
+    } = options;
     
-    ctx.save();
-    
-    // Create glow around avatar
-    ctx.shadowColor = 'rgba(255, 255, 255, 0.5)';
-    ctx.shadowBlur = 15;
-    ctx.beginPath();
-    ctx.arc(avatarX, avatarY, avatarSize, 0, Math.PI * 2);
-    ctx.fillStyle = '#ffffff';
-    ctx.fill();
+    const displayPower = pet.power || 10;
+    // Load user data
+    const userData = JSON.parse(fs.readFileSync(path.join(__dirname, '../events/cache/userData.json')));
+    const userInfo = userData[userId] || { name: userName };
+    const displayName = userInfo.name || userName;
 
-    // Draw avatar
-    ctx.shadowBlur = 0;
-    ctx.beginPath();
-    ctx.arc(avatarX, avatarY, avatarSize - 2, 0, Math.PI * 2);
-    ctx.closePath();
-    ctx.clip();
-    ctx.drawImage(avatar, avatarX - avatarSize, avatarY - avatarSize, avatarSize * 2, avatarSize * 2);
+    // Create canvas
+    const width = 900;
+    const height = 1200;
+    const canvas = createCanvas(width, height);
+    const ctx = canvas.getContext("2d");
+
+    // Create dynamic background gradient based on pet type
+    const bgGradient = ctx.createLinearGradient(0, 0, width, height);
+    const colors = petColors[pet.type] || petColors.DOG;
+
+    bgGradient.addColorStop(0, "#1e272e");
+    bgGradient.addColorStop(0.5, colors.primary);
+    bgGradient.addColorStop(1, "#2c5364");
+
+    ctx.fillStyle = bgGradient;
+    ctx.fillRect(0, 0, width, height);
+
+    // Add background patterns
+    drawBackgroundPatterns(ctx, width, height, pet.type);
+    drawParticleEffects(ctx, width, height, pet.type);
+
+    // Header section
+    const headerHeight = 160;
+    const headerGradient = ctx.createLinearGradient(0, 0, width, headerHeight);
+    headerGradient.addColorStop(0, `rgba(${hexToRgb(colors.primary)}, 0.8)`);
+    headerGradient.addColorStop(1, `rgba(${hexToRgb(colors.secondary)}, 0.8)`);
     
-    // Draw avatar border
+    ctx.fillStyle = headerGradient;
+    ctx.fillRect(0, 0, width, headerHeight);
+
+    // Title with glow effect
+    ctx.shadowColor = colors.primary;
+    ctx.shadowBlur = 20;
+    ctx.font = "bold 50px Arial";
+    ctx.textAlign = "center";
+    ctx.fillStyle = "#ffffff";
+    ctx.fillText("THÔNG TIN THÚ CƯNG", width / 2, 90);
+    ctx.shadowBlur = 0;
+
+    // Pet type badge
+    ctx.font = "bold 26px Arial";
+    ctx.fillStyle = colors.primary;
+    ctx.fillText(`• ${pet.type} •`, width / 2, 130);
+
+    // Decorative line
+    const lineGradient = ctx.createLinearGradient(100, 150, width - 100, 150);
+    lineGradient.addColorStop(0, "rgba(255, 255, 255, 0.2)");
+    lineGradient.addColorStop(0.5, colors.primary);
+    lineGradient.addColorStop(1, "rgba(255, 255, 255, 0.2)");
+
+    ctx.strokeStyle = lineGradient;
+    ctx.lineWidth = 4;
     ctx.beginPath();
-    ctx.arc(avatarX, avatarY, avatarSize, 0, Math.PI * 2);
-    ctx.strokeStyle = 'rgba(255, 255, 255, 0.8)';
-    ctx.lineWidth = 3;
+    ctx.moveTo(100, 150);
+    ctx.lineTo(width - 100, 150);
     ctx.stroke();
-    ctx.restore();
-  } catch (e) {
-    console.log('Could not load avatar:', e);
-  }
 
-  // Enhanced level badge with 3D effect
-  ctx.save();
-  // Create badge glow
-  ctx.shadowColor = 'rgba(0, 0, 0, 0.5)';
-  ctx.shadowBlur = 15;
-  
-  const badgeX = width - 100;
-  const badgeY = 70;
-  const badgeSize = 40;
-  const badgeGlow = ctx.createRadialGradient(badgeX, badgeY, 0, badgeX, badgeY, badgeSize + 10);
-  badgeGlow.addColorStop(0, 'rgba(255, 215, 0, 0.3)');
-  badgeGlow.addColorStop(1, 'rgba(255, 215, 0, 0)');
-  
-  ctx.fillStyle = badgeGlow;
-  ctx.beginPath();
-  ctx.arc(badgeX, badgeY, badgeSize + 10, 0, Math.PI * 2);
-  ctx.fill();
-  
-  // Draw badge background with metallic gradient
-  ctx.beginPath();
-  ctx.arc(badgeX, badgeY, badgeSize, 0, Math.PI * 2);
-  
-  const badgeGradient = ctx.createLinearGradient(badgeX - badgeSize, badgeY - badgeSize, badgeX + badgeSize, badgeY + badgeSize);
-  badgeGradient.addColorStop(0, theme.badge[0]);
-  badgeGradient.addColorStop(0.5, theme.badge[1]);
-  badgeGradient.addColorStop(1, theme.badge[2]);
-  ctx.fillStyle = badgeGradient;
-  ctx.fill();
+    // User avatar and info section
+    const avatarOffsetY = 200;
+    try {
+      const avatarPath = await getAvatarPath(userId);
+      if (avatarPath) {
+        const avatar = await loadImage(avatarPath);
+        
+        // Avatar background glow
+        ctx.save();
+        ctx.shadowColor = colors.primary;
+        ctx.shadowBlur = 15;
+        ctx.beginPath();
+        ctx.arc(100, 50 + avatarOffsetY, 55, 0, Math.PI * 2);
+        ctx.closePath();
+        ctx.fillStyle = colors.primary;
+        ctx.fill();
+        ctx.restore();
 
-  // Add 3D effect with inner shadow
-  ctx.beginPath();
-  ctx.arc(badgeX, badgeY, badgeSize - 3, 0, Math.PI * 2);
-  const innerShadow = ctx.createRadialGradient(badgeX, badgeY, 0, badgeX, badgeY, badgeSize);
-  innerShadow.addColorStop(0, 'rgba(255, 255, 255, 0.3)');
-  innerShadow.addColorStop(0.7, 'rgba(255, 255, 255, 0.1)');
-  innerShadow.addColorStop(1, 'rgba(0, 0, 0, 0.2)');
-  ctx.fillStyle = innerShadow;
-  ctx.fill();
+        // Avatar image
+        ctx.save();
+        ctx.beginPath();
+        ctx.arc(100, 50 + avatarOffsetY, 50, 0, Math.PI * 2);
+        ctx.closePath();
+        ctx.clip();
+        ctx.drawImage(avatar, 50, avatarOffsetY, 100, 100);
+        ctx.restore();
 
-  // Draw shine effect
-  ctx.beginPath();
-  ctx.arc(badgeX - 5, badgeY - 5, badgeSize - 15, 0, Math.PI * 2);
-  const shineGradient = ctx.createRadialGradient(badgeX - 5, badgeY - 5, 0, badgeX - 5, badgeY - 5, badgeSize - 15);
-  shineGradient.addColorStop(0, 'rgba(255, 255, 255, 0.6)');
-  shineGradient.addColorStop(1, 'rgba(255, 255, 255, 0)');
-  ctx.fillStyle = shineGradient;
-  ctx.fill();
-
-  // Draw level text with 3D effect
-  ctx.shadowColor = 'rgba(0, 0, 0, 0.6)';
-  ctx.shadowBlur = 2;
-  ctx.shadowOffsetY = 2;
-  ctx.fillStyle = '#ffffff';
-  ctx.font = 'bold 28px Roboto';
-  ctx.textAlign = 'center';
-  ctx.fillText(pet.level, badgeX, badgeY + 10);
-  
-  // Draw level label
-  ctx.shadowBlur = 1;
-  ctx.font = 'bold 14px Roboto';
-  ctx.fillText('CẤP', badgeX, badgeY + 30);
-  ctx.restore();
-
-  // Enhanced pet display with circular frame
-  try {
-    let petImagePath = PET_IMAGES[type];
-    if (!fs.existsSync(petImagePath)) {
-      petImagePath = PET_IMAGES.DEFAULT;
+        // Avatar border
+        ctx.strokeStyle = colors.primary;
+        ctx.lineWidth = 3;
+        ctx.beginPath();
+        ctx.arc(100, 50 + avatarOffsetY, 50, 0, Math.PI * 2);
+        ctx.stroke();
+      }
+    } catch (error) {
+      console.error("Error drawing avatar:", error);
     }
-    
-    const petImage = await loadImage(petImagePath);
-    
-    // Create pet frame variables
-    const petSize = 270;
-    const centerX = width / 2;
-    const centerY = 300;
-    
-    // Create animated glow around pet
+
+    // User name
     ctx.save();
-    const currentTime = Date.now() / 1000;
-    const glowSize = petSize/2 + Math.sin(currentTime * 2) * 10;
-    
-    const petGlow = ctx.createRadialGradient(centerX, centerY, 0, centerX, centerY, glowSize);
-    petGlow.addColorStop(0, 'rgba(255, 255, 255, 0.1)');
-    petGlow.addColorStop(0.6, 'rgba(255, 255, 255, 0.05)');
-    petGlow.addColorStop(1, 'rgba(255, 255, 255, 0)');
-    ctx.fillStyle = petGlow;
-    ctx.beginPath();
-    ctx.arc(centerX, centerY, glowSize, 0, Math.PI * 2);
-    ctx.fill();
-
-    // Create decorative rings with gradient
-    for (let i = 0; i < 3; i++) {
-      const ringRadius = petSize/2 + 15 + (i * 20);
-      const ringWidth = 2;
-      
-      // Create gradient for ring
-      const ringGradient = ctx.createLinearGradient(
-        centerX - ringRadius, 
-        centerY - ringRadius, 
-        centerX + ringRadius, 
-        centerY + ringRadius
-      );
-      ringGradient.addColorStop(0, 'rgba(255, 255, 255, 0.1)');
-      ringGradient.addColorStop(0.25, 'rgba(255, 255, 255, 0.2)');
-      ringGradient.addColorStop(0.5, 'rgba(255, 255, 255, 0.1)');
-      ringGradient.addColorStop(0.75, 'rgba(255, 255, 255, 0.2)');
-      ringGradient.addColorStop(1, 'rgba(255, 255, 255, 0.1)');
-      
-      ctx.strokeStyle = ringGradient;
-      ctx.lineWidth = ringWidth;
-      ctx.beginPath();
-      ctx.arc(centerX, centerY, ringRadius, 0, Math.PI * 2);
-      ctx.stroke();
-    }
-    
-    // Create glass frame for pet image
-    ctx.shadowColor = 'rgba(0, 0, 0, 0.3)';
-    ctx.shadowBlur = 15;
-    ctx.fillStyle = 'rgba(255, 255, 255, 0.2)';
-    ctx.beginPath();
-    ctx.arc(centerX, centerY, petSize/2, 0, Math.PI * 2);
-    ctx.fill();
-    
-    // Draw pet image
-    ctx.shadowBlur = 0;
-    ctx.beginPath();
-    ctx.arc(centerX, centerY, petSize/2 - 5, 0, Math.PI * 2);
-    ctx.clip();
-    ctx.drawImage(petImage, centerX - petSize/2, centerY - petSize/2, petSize, petSize);
+    ctx.shadowColor = "rgba(0, 0, 0, 0.5)";
+    ctx.shadowBlur = 5;
+    ctx.font = "bold 28px Arial";
+    ctx.fillStyle = "#ffffff";
+    ctx.textAlign = "left";
+    ctx.fillText(displayName, 170, 50 + avatarOffsetY - 15);
     ctx.restore();
-    
-    // Add interactive particles around pet
-    const particleCount = 20;
-    const time = Date.now() / 1000;
-    
-    for (let i = 0; i < particleCount; i++) {
-      const angle = (i / particleCount) * Math.PI * 2;
-      const distance = petSize/2 + 40 + Math.sin(time + i) * 10;
-      const x = centerX + Math.cos(angle + time * 0.3) * distance;
-      const y = centerY + Math.sin(angle + time * 0.3) * distance;
-      const size = 3 + Math.sin(time * 2 + i) * 2;
-      
-      const particleGradient = ctx.createRadialGradient(x, y, 0, x, y, size);
-      particleGradient.addColorStop(0, 'rgba(255, 255, 255, 0.7)');
-      particleGradient.addColorStop(1, 'rgba(255, 255, 255, 0)');
-      
-      ctx.fillStyle = particleGradient;
-      ctx.beginPath();
-      ctx.arc(x, y, size, 0, Math.PI * 2);
-      ctx.fill();
+
+    // Pet stats below name
+    ctx.save();
+    ctx.shadowColor = "rgba(0, 0, 0, 0.5)";
+    ctx.shadowBlur = 10;
+    ctx.lineWidth = 3;
+    ctx.strokeStyle = "rgba(0, 0, 0, 0.7)";
+    ctx.font = "bold 22px Arial";
+    ctx.textAlign = "left";
+
+    const levelText = `🎮 Cấp độ: ${pet.level} | 💪 Sức mạnh: ${displayPower}`;
+    ctx.strokeText(levelText, 170, 50 + avatarOffsetY + 15);
+
+    const statGradient = ctx.createLinearGradient(
+      170,
+      50 + avatarOffsetY + 15,
+      500,
+      50 + avatarOffsetY + 15
+    );
+    statGradient.addColorStop(0, "#90caf9");
+    statGradient.addColorStop(0.5, "#42a5f5");
+    statGradient.addColorStop(1, "#1565c0");
+
+    ctx.fillStyle = statGradient;
+    ctx.fillText(levelText, 170, 50 + avatarOffsetY + 15);
+    ctx.restore();
+
+    // Pet display section
+    const petSectionY = 400; // Increased from 350
+    const petSectionHeight = 400; // Increased from 360
+
+    // Pet section background
+    ctx.save();
+    const petSectionGradient = ctx.createLinearGradient(
+      50,
+      petSectionY,
+      width - 50,
+      petSectionY + petSectionHeight
+    );
+    petSectionGradient.addColorStop(0, `rgba(${hexToRgb(colors.primary)}, 0.3)`);
+    petSectionGradient.addColorStop(0.5, "rgba(20, 40, 60, 0.6)");
+    petSectionGradient.addColorStop(1, `rgba(${hexToRgb(colors.secondary)}, 0.3)`);
+
+    ctx.fillStyle = petSectionGradient;
+    roundRect(ctx, 50, petSectionY, width - 100, petSectionHeight, 30, true, false);
+
+    // Pet section border
+    ctx.shadowColor = colors.primary;
+    ctx.shadowBlur = 10;
+    ctx.strokeStyle = colors.primary;
+    ctx.lineWidth = 3;
+    roundRect(ctx, 50, petSectionY, width - 100, petSectionHeight, 30, false, true);
+    ctx.restore();
+
+    // Pet name
+    ctx.save();
+    ctx.shadowColor = colors.primary;
+    ctx.shadowBlur = 15;
+    ctx.font = "bold 42px Arial";
+    ctx.textAlign = "center";
+    ctx.fillStyle = "#ffffff";
+    ctx.fillText(pet.name, width / 2, petSectionY + 50);
+    ctx.restore();
+
+    // Pet level badge
+    const badgeWidth = 200;
+    const badgeHeight = 50;
+    const badgeX = (width - badgeWidth) / 2;
+    const badgeY = petSectionY + 70;
+
+    const badgeGradient = ctx.createLinearGradient(
+      badgeX,
+      badgeY,
+      badgeX + badgeWidth,
+      badgeY + badgeHeight
+    );
+    badgeGradient.addColorStop(0, colors.primary);
+    badgeGradient.addColorStop(1, colors.secondary);
+
+    ctx.save();
+    ctx.shadowColor = "rgba(0,0,0,0.5)";
+    ctx.shadowBlur = 15;
+    ctx.shadowOffsetY = 5;
+    ctx.fillStyle = badgeGradient;
+    roundRect(ctx, badgeX, badgeY, badgeWidth, badgeHeight, 25, true, false);
+    ctx.restore();
+
+    // Badge border
+    ctx.strokeStyle = "rgba(255, 255, 255, 0.5)";
+    ctx.lineWidth = 2;
+    roundRect(ctx, badgeX, badgeY, badgeWidth, badgeHeight, 25, false, true);
+
+    // Level text
+    ctx.font = "bold 24px Arial";
+    ctx.fillStyle = "#ffffff";
+    ctx.textAlign = "center";
+    ctx.textBaseline = "middle";
+    ctx.fillText(
+      `Level ${pet.level}`,
+      width / 2,
+      badgeY + badgeHeight / 2
+    );
+
+    // Try to load and draw pet image
+    try {
+      let petImage = null;
+      const defaultImagePath = defaultPetImagePaths[pet.type];
+
+      if (defaultImagePath && fs.existsSync(defaultImagePath)) {
+        petImage = await loadImage(defaultImagePath);
+      }
+
+      if (petImage) {
+        // Draw glowing background circle
+        ctx.save();
+        ctx.shadowColor = colors.primary;
+        ctx.shadowBlur = 30;
+        ctx.beginPath();
+        ctx.arc(width / 2, petSectionY + 240, 90, 0, Math.PI * 2); // Adjusted Y position
+        ctx.fillStyle = `rgba(${hexToRgb(colors.primary)}, 0.3)`;
+        ctx.fill();
+        ctx.restore();
+
+        // Draw pet image
+        const imageSize = 180;
+        ctx.drawImage(
+          petImage,
+          (width - imageSize) / 2,
+          petSectionY + 160, // Adjusted Y position
+          imageSize,
+          imageSize
+        );
+      } else {
+        // Fallback to pet icon with adjusted position
+        ctx.save();
+        ctx.shadowColor = colors.primary;
+        ctx.shadowBlur = 15;
+        ctx.font = "140px Arial";
+        ctx.fillStyle = "#ffffff";
+        ctx.textAlign = "center";
+        ctx.fillText(
+          petIcons[pet.type] || petIcons.default,
+          width / 2,
+          petSectionY + 240 // Adjusted Y position
+        );
+        ctx.restore();
+      }
+    } catch (error) {
+      console.error("Error drawing pet image:", error);
+      // Fallback to pet icon
+      ctx.save();
+      ctx.shadowColor = colors.primary;
+      ctx.shadowBlur = 15;
+      ctx.font = "140px Arial";
+      ctx.fillStyle = "#ffffff";
+      ctx.textAlign = "center";
+      ctx.fillText(
+        petIcons[pet.type] || petIcons.default,
+        width / 2,
+        petSectionY + 200
+      );
+      ctx.restore();
     }
-  } catch (e) {
-    console.log('Could not load pet image:', e);
-    // Fallback emoji
-    ctx.font = '160px Arial';
-    ctx.fillStyle = '#ffffff';
-    ctx.textAlign = 'center';
-    ctx.fillText('🐾', width / 2, 300);
+
+    // Adjust stats bars position
+    const statsY = petSectionY + 450; // Moved lower
+
+    // Function to draw stat bar
+    const drawStatBar = (y, value, maxValue, label, color) => {
+      const barWidth = width - 200;
+      const barHeight = 30;
+      const x = 100;
+      const spacing = 45;
+
+      // Bar background
+      ctx.fillStyle = "rgba(0, 0, 0, 0.2)"; // Giảm độ đậm của background
+      roundRect(ctx, x, y, barWidth, barHeight, 15, true, false);
+  
+      // Progress bar
+      const progress = (value / maxValue) * barWidth;
+      const progressGradient = ctx.createLinearGradient(x, y, x + progress, y + barHeight);
+      progressGradient.addColorStop(0, color);
+      progressGradient.addColorStop(1, color.replace("1)", "0.7)"));
+  
+      ctx.fillStyle = progressGradient;
+    roundRect(ctx, x, y, progress, barHeight, 15, true, false);
+
+   // Bar border
+   ctx.strokeStyle = "rgba(255, 255, 255, 0.3)";
+   ctx.lineWidth = 1;
+   roundRect(ctx, x, y, barWidth, barHeight, 15, false, true);
+
+      // Label
+      ctx.font = "bold 18px Arial";
+    ctx.fillStyle = "#ffffff";
+    ctx.textAlign = "left";
+    ctx.textBaseline = "middle";
+    ctx.fillText(`${label}: ${value}/${maxValue}`, x + 10, y + (barHeight/2));
+};
+
+    // Draw stat bars with new positions
+    drawStatBar(statsY, pet.energy, pet.maxEnergy, "⚡ Năng lượng", "rgba(255, 193, 7, 1)");
+    drawStatBar(statsY + 45, pet.hunger, pet.maxHunger, "🍖 Độ đói", "rgba(76, 175, 80, 1)");
+    drawStatBar(statsY + 90, pet.happy, pet.maxHappy, "😊 Hạnh phúc", "rgba(233, 30, 99, 1)");
+    
+    const expBarWidth = width - 200; // Match width with stat bars
+const expBarHeight = 30;
+const expProgress = (pet.exp / (100 * pet.level)) * expBarWidth;
+
+    // Adjust exp bar position
+    const expY = statsY + 135; // Moved lower
+
+    // Exp bar background
+    ctx.fillStyle = "rgba(0, 0, 0, 0.3)";
+    roundRect(ctx, 100, expY, expBarWidth, expBarHeight, 20, true, false);
+
+    // Exp progress
+    const expGradient = ctx.createLinearGradient(100, expY, 100 + expProgress, expY + expBarHeight);
+    expGradient.addColorStop(0, "#4CAF50");
+    expGradient.addColorStop(1, "#8BC34A");
+
+    ctx.fillStyle = expGradient;
+    roundRect(ctx, 100, expY, expProgress, expBarHeight, 20, true, false);
+
+    // Exp bar border
+    ctx.strokeStyle = "rgba(255, 255, 255, 0.5)";
+    ctx.lineWidth = 2;
+    roundRect(ctx, 100, expY, expBarWidth, expBarHeight, 20, false, true);
+
+    // Exp text
+    ctx.font = "bold 20px Arial";
+    ctx.fillStyle = "#ffffff";
+    ctx.textAlign = "center";
+    ctx.textBaseline = "middle"; 
+    ctx.fillText(`EXP: ${pet.exp}/100`, width / 2, expY + (expBarHeight/2));
+
+    // Save and return the image
+    const buffer = canvas.toBuffer("image/png");
+    const tempDir = path.join(__dirname, "../temp");
+    if (!fs.existsSync(tempDir)) {
+      fs.mkdirSync(tempDir, { recursive: true });
+    }
+
+    const outputPath = path.join(tempDir, `pet_${userId}_${Date.now()}.png`);
+    fs.writeFileSync(outputPath, buffer);
+
+    return outputPath;
+  } catch (error) {
+    console.error("Error creating pet image:", error);
+    throw error;
   }
-
-  // Create enhanced stats container with modern glass morphism
-  const statsY = 450;
-  const statsHeight = 220;
-  
-  // Add stat container
-  createGlassMorphism(ctx, 50, statsY, width - 100, statsHeight, 25, 0.15);
-  
-  // Add stat container header
-  ctx.save();
-  ctx.fillStyle = '#ffffff';
-  ctx.font = 'bold 20px Roboto';
-  ctx.textAlign = 'center';
-  ctx.fillText('THÔNG SỐ THÚ CƯNG', width/2, statsY + 30);
-  
-  // Add small decorative line
-  const lineWidth = 100;
-  ctx.strokeStyle = 'rgba(255, 255, 255, 0.5)';
-  ctx.lineWidth = 2;
-  ctx.beginPath();
-  ctx.moveTo(width/2 - lineWidth/2, statsY + 40);
-  ctx.lineTo(width/2 + lineWidth/2, statsY + 40);
-  ctx.stroke();
-  ctx.restore();
-
-  // Draw enhanced pet stats using the new function
-  drawProgressBar(
-    ctx, 
-    'Năng lượng', 
-    pet.energy, 
-    pet.maxEnergy, 
-    70, 
-    statsY + 80, 
-    width - 140, 
-    30, 
-    theme.energy,
-    true
-  );
-  
-  drawProgressBar(
-    ctx, 
-    'Độ đói', 
-    pet.hunger, 
-    pet.maxHunger, 
-    70, 
-    statsY + 130, 
-    width - 140, 
-    30, 
-    theme.hunger,
-    true
-  );
-  
-  drawProgressBar(
-    ctx, 
-    'Hạnh phúc', 
-    pet.happy, 
-    pet.maxHappy, 
-    70, 
-    statsY + 180, 
-    width - 140, 
-    30, 
-    theme.happy,
-    true
-  );
-
-  // Add watermark and last updated timestamp
-  ctx.save();
-  ctx.font = '14px Roboto';
-  ctx.fillStyle = 'rgba(255, 255, 255, 0.5)';
-  ctx.textAlign = 'right';
-  const date = new Date();
-  ctx.fillText(
-    `Cập nhật: ${date.toLocaleDateString('vi-VN')} ${date.toLocaleTimeString('vi-VN')}`, 
-    width - 60, 
-    height - 20
-  );
-  ctx.restore();
-
-  // Save image with enhanced quality
-  const buffer = canvas.toBuffer('image/png');
-  const tempDir = path.join(__dirname, '../temp');
-  if (!fs.existsSync(tempDir)) {
-    fs.mkdirSync(tempDir, { recursive: true });
-  }
-  const outputPath = path.join(tempDir, `pet_${userId}_${Date.now()}.png`);
-  fs.writeFileSync(outputPath, buffer);
-  return outputPath;
 }
 
-module.exports = { createPetImage };
+module.exports = {
+  createPetImage,
+  petColors,
+  petIcons,
+};

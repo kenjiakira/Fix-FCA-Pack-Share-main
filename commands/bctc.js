@@ -71,8 +71,8 @@ module.exports = {
         });
 
         if (isAllIn) winChance *= 0.5;
-        if (totalBet > 100000000) winChance *= 0.2;
-        if (totalBet > 50000000) winChance *= 0.4;
+        if (totalBet > 100000) winChance *= 0.2;
+        if (totalBet > 50000) winChance *= 0.4;
 
         let results = [];
         const allChoices = [...this.CHOICES];
@@ -126,8 +126,8 @@ module.exports = {
 
         Object.entries(bets).forEach(([choice, amount]) => {
             if (resultCounts[choice]) {
-                if (amount > 50000000) multiplier = 1.8;
-                if (amount > 100000000) multiplier = 1.7;
+                if (amount > 50000) multiplier = 1.8;
+                if (amount > 100000) multiplier = 1.7;
                 totalWin += amount * resultCounts[choice] * multiplier;
             }
         });
@@ -285,7 +285,7 @@ module.exports = {
                 return api.sendMessage(`❌ Lựa chọn '${choice}' không hợp lệ.`, threadID, messageID);
             }
 
-            if (isNaN(amount) || amount < 10000) {
+            if (isNaN(amount) || amount < 100) {
                 return api.sendMessage("❌ Số tiền cược tối thiểu là 100 $.", threadID, messageID);
             }
 

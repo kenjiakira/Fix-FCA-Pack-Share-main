@@ -2,6 +2,7 @@ const fs = require("fs");
 const path = require("path");
 const { getBalance, updateBalance } = require("../utils/currencies");
 const { getVIPBenefits } = require("../vip/vipCheck");
+const { updateQuestProgress } = require("../utils/questUtils");
 const cooldowns = new Map();
 
 module.exports = {
@@ -172,6 +173,8 @@ module.exports = {
 
         await updateBalance(senderID, stolenAmount);
         await updateBalance(victimID, -stolenAmount);
+
+        await updateQuestProgress(senderID, "successful_steals", 1);
 
         const successScenarios = [
           `🥷 ${thiefName} đã lẻn vào túi quần của ${victimName} và lấy đi ${formatNumber(
