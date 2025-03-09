@@ -85,10 +85,10 @@
     "name": "Phát",
     "hunger": 100,
     "happy": 100,
-    "energy": 100,
+    "energy": 70,
     "level": 1,
-    "exp": 65,
-    "power": 35,
+    "exp": 95,
+    "power": 60,
     "lastFed": 1741515536745,
     "lastPlay": 1741502259087,
     "skills": {
@@ -117,7 +117,7 @@
         "feedCount": 2
       }
     },
-    "lastTrain": 1741502544241,
+    "lastTrain": 1741516498764,
     "lastSkill": {
       "FETCH": 1741515517753
     }
