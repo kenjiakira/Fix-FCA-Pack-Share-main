@@ -631,54 +631,59 @@ module.exports = {
               api.sendMessage(collection, threadID);
             }
             break;
-            case 7:
-                const allPlayers = this.loadAllPlayers();
-                const rankings = this.getRankingStats(allPlayers);
-                const top10 = rankings.slice(0, 10);
-              
-                const userRank = rankings.findIndex((player) => player.id === senderID) + 1;
-                const userStats = rankings.find((player) => player.id === senderID);
-              
-                const rankMsg =
-                  "🏆 BẢNG XẾP HẠNG CÂU CÁ 🏆\n━━━━━━━━━━━━━━━━━━\n\n" +
-                  top10
-                    .map(
-                      (player, index) =>
-                        `${index + 1}. ${getPlayerRank(player.score)}\n` +
-                        `👤 ID: ${player.id}\n` +
-                        `📊 Level: ${player.level}\n` +
-                        `🎣 Tổng cá: ${formatNumber(player.totalCaught)}\n` +
-                        `💰 Tổng giá trị: ${formatNumber(player.adjustedValue)} $\n` +
-                        `🏆 Cá quý nhất: ${player.bestCatch.name} (${formatNumber(
-                          player.adjustedBestCatchValue
-                        )} $)\n` +
-                        `📈 Điểm: ${player.score.toFixed(2)}\n` +
-                        `🔥 Chuỗi hiện tại: ${player.streak}\n`
-                    )
-                    .join("━━━━━━━━━━━━━━━━━━\n") +
-                  "\n👉 Thứ hạng của bạn:\n" +
-                  (userStats
-                    ? `Hạng ${userRank} - ${getPlayerRank(userStats.score)}\n` +
-                      `📊 Level: ${userStats.level}\n` +
-                      `🎣 Tổng cá: ${formatNumber(userStats.totalCaught)}\n` +
-                      `💰 Tổng giá trị: ${formatNumber(userStats.adjustedValue)} $\n` +
-                      `📈 Điểm: ${userStats.score.toFixed(2)}\n` +
-                      `🔥 Chuỗi hiện tại: ${userStats.streak}`
-                    : "Chưa có dữ liệu");
-              
-                api.sendMessage(rankMsg, threadID);
-                break;
-              
-              // Thêm hàm mới để xác định danh hiệu xếp hạng
-              function getPlayerRank(score) {
-                if (score >= 90) return "🔱 Ngư Vương";
-                if (score >= 75) return "🌊 Chuyên Gia Biển Cả";
-                if (score >= 60) return "🦈 Thợ Săn Đại Dương";
-                if (score >= 45) return "🐬 Thủy Thủ Lão Luyện";
-                if (score >= 30) return "🐠 Ngư Dân Chuyên Nghiệp";
-                if (score >= 15) return "🎣 Ngư Dân Kinh Nghiệm";
-                return "🐟 Ngư Dân Tập Sự";
-              }
+          case 7:
+            const allPlayers = this.loadAllPlayers();
+            const rankings = this.getRankingStats(allPlayers);
+            const top10 = rankings.slice(0, 10);
+
+            const userRank =
+              rankings.findIndex((player) => player.id === senderID) + 1;
+            const userStats = rankings.find((player) => player.id === senderID);
+
+            const rankMsg =
+              "🏆 BẢNG XẾP HẠNG CÂU CÁ 🏆\n━━━━━━━━━━━━━━━━━━\n\n" +
+              top10
+                .map(
+                  (player, index) =>
+                    `${index + 1}. ${getPlayerRank(player.score)}\n` +
+                    `👤 ID: ${player.id}\n` +
+                    `📊 Level: ${player.level}\n` +
+                    `🎣 Tổng cá: ${formatNumber(player.totalCaught)}\n` +
+                    `💰 Tổng giá trị: ${formatNumber(
+                      player.adjustedValue
+                    )} $\n` +
+                    `🏆 Cá quý nhất: ${player.bestCatch.name} (${formatNumber(
+                      player.adjustedBestCatchValue
+                    )} $)\n` +
+                    `📈 Điểm: ${player.score.toFixed(2)}\n` +
+                    `🔥 Chuỗi hiện tại: ${player.streak}\n`
+                )
+                .join("━━━━━━━━━━━━━━━━━━\n") +
+              "\n👉 Thứ hạng của bạn:\n" +
+              (userStats
+                ? `Hạng ${userRank} - ${getPlayerRank(userStats.score)}\n` +
+                  `📊 Level: ${userStats.level}\n` +
+                  `🎣 Tổng cá: ${formatNumber(userStats.totalCaught)}\n` +
+                  `💰 Tổng giá trị: ${formatNumber(
+                    userStats.adjustedValue
+                  )} $\n` +
+                  `📈 Điểm: ${userStats.score.toFixed(2)}\n` +
+                  `🔥 Chuỗi hiện tại: ${userStats.streak}`
+                : "Chưa có dữ liệu");
+
+            api.sendMessage(rankMsg, threadID);
+            break;
+
+            // Thêm hàm mới để xác định danh hiệu xếp hạng
+            function getPlayerRank(score) {
+              if (score >= 90) return "🔱 Ngư Vương";
+              if (score >= 75) return "🌊 Chuyên Gia Biển Cả";
+              if (score >= 60) return "🦈 Thợ Săn Đại Dương";
+              if (score >= 45) return "🐬 Thủy Thủ Lão Luyện";
+              if (score >= 30) return "🐠 Ngư Dân Chuyên Nghiệp";
+              if (score >= 15) return "🎣 Ngư Dân Kinh Nghiệm";
+              return "🐟 Ngư Dân Tập Sự";
+            }
 
           case 8:
             api.sendMessage(
@@ -814,18 +819,95 @@ module.exports = {
       case "baitShop":
         const baitChoice = parseInt(body) - 1;
         const baitItems = Object.entries(baits);
+
         if (baitChoice >= 0 && baitChoice < baitItems.length) {
           const [baitName, baitInfo] = baitItems[baitChoice];
-          await this.handleBaitPurchase(
-            api,
-            event,
-            baitName,
-            baitInfo,
-            playerData
+
+          const baitQuantityMenu = await api.sendMessage(
+            "🎣 CHỌN SỐ LƯỢNG MỒI CÂU 🎣\n" +
+              "───────────────\n\n" +
+              `Mồi câu: ${baitName}\n` +
+              `💰 Giá: ${formatNumber(baitInfo.price)}$ / cái\n` +
+              `🔄 Sử dụng: ${baitInfo.uses} lần/cái\n` +
+              `📝 Mô tả: ${baitInfo.description}\n\n` +
+              "Số lượng có sẵn:\n" +
+              "1. Mua 1 cái\n" +
+              "2. Mua 5 cái\n" +
+              "3. Mua 10 cái\n" +
+              "4. Mua 20 cái\n" +
+              "5. Tùy chọn số lượng\n\n" +
+              `💵 Số dư: ${formatNumber(getBalance(event.senderID))}$`,
+            threadID
           );
+
+          global.client.onReply.push({
+            name: this.name,
+            messageID: baitQuantityMenu.messageID,
+            author: event.senderID,
+            type: "baitQuantity",
+            baitName: baitName,
+            baitInfo: baitInfo,
+            playerData: playerData,
+          });
         }
         break;
 
+      case "baitQuantity":
+        const quantityChoice = parseInt(body);
+        if (!reply.baitName || !reply.baitInfo) {
+          return api.sendMessage("❌ Đã xảy ra lỗi!", threadID);
+        }
+
+        let quantity = 0;
+        if (quantityChoice === 5) {
+          const customMsg = await api.sendMessage(
+            "📝 Vui lòng nhập số lượng muốn mua:",
+            threadID
+          );
+
+          global.client.onReply.push({
+            name: this.name,
+            messageID: customMsg.messageID,
+            author: event.senderID,
+            type: "customBaitQuantity",
+            baitName: reply.baitName,
+            baitInfo: reply.baitInfo,
+            playerData: reply.playerData,
+          });
+          return;
+        } else {
+          quantity = [1, 5, 10, 20][quantityChoice - 1];
+        }
+
+        await this.handleBaitPurchase(
+          api,
+          event,
+          reply.baitName,
+          reply.baitInfo,
+          reply.playerData,
+          quantity
+        );
+        break;
+
+      case "customBaitQuantity":
+        const customQuantity = parseInt(body);
+        if (isNaN(customQuantity) || customQuantity <= 0) {
+          return api.sendMessage("❌ Số lượng không hợp lệ!", threadID);
+        }
+
+        if (customQuantity > 100) {
+          return api.sendMessage("❌ Số lượng tối đa là 100 cái!", threadID);
+        }
+
+        await this.handleBaitPurchase(
+          api,
+          event,
+          reply.baitName,
+          reply.baitInfo,
+          reply.playerData,
+          customQuantity
+        );
+        break;
       case "crafting":
         const craftChoice = parseInt(body) - 1;
         const recipeItems = Object.entries(recipes);
@@ -1537,21 +1619,29 @@ module.exports = {
     event,
     baitName,
     baitInfo,
-    playerData
+    playerData,
+    quantity = 1
   ) {
     const { senderID, threadID } = event;
+    const totalCost = baitInfo.price * quantity;
     const balance = getBalance(senderID);
 
-    if (balance < baitInfo.price) {
-      return api.sendMessage(`❌ Bạn không đủ tiền mua ${baitName}!`, threadID);
+    if (balance < totalCost) {
+      return api.sendMessage(
+        `❌ Không đủ tiền để mua ${quantity} ${baitName}!\n` +
+          `💰 Tổng giá: ${formatNumber(totalCost)}$\n` +
+          `💵 Số dư: ${formatNumber(balance)}$\n` +
+          `🔴 Còn thiếu: ${formatNumber(totalCost - balance)}$`,
+        threadID
+      );
     }
 
     try {
-      updateBalance(senderID, -baitInfo.price);
+      updateBalance(senderID, -totalCost);
 
       if (!playerData.baits) playerData.baits = {};
       playerData.baits[baitName] =
-        (playerData.baits[baitName] || 0) + baitInfo.uses;
+        (playerData.baits[baitName] || 0) + baitInfo.uses * quantity;
 
       this.savePlayerData({
         ...playerData,
@@ -1559,9 +1649,10 @@ module.exports = {
       });
 
       return api.sendMessage(
-        `✅ Đã mua thành công ${baitName}!\n` +
-          `🎣 Còn ${playerData.baits[baitName]} lần sử dụng\n` +
-          `💰 Số dư còn lại: ${formatNumber(getBalance(senderID))} $`,
+        `✅ Đã mua thành công ${quantity} ${baitName}!\n` +
+          `🎣 Tổng lượt sử dụng: ${playerData.baits[baitName]} lần\n` +
+          `💰 Đã chi: ${formatNumber(totalCost)}$\n` +
+          `💵 Số dư còn lại: ${formatNumber(getBalance(senderID))}$`,
         threadID
       );
     } catch (err) {
@@ -1569,8 +1660,6 @@ module.exports = {
       return api.sendMessage("❌ Đã xảy ra lỗi khi mua mồi câu!", threadID);
     }
   },
-
-  // Thêm hàm xử lý chế tạo cần câu
   handleCrafting: async function (
     api,
     event,
@@ -1581,7 +1670,6 @@ module.exports = {
     const { senderID, threadID } = event;
     const balance = getBalance(senderID);
 
-    // Kiểm tra cấp độ
     if (playerData.level < recipeInfo.level) {
       return api.sendMessage(
         `❌ Bạn cần đạt cấp độ ${recipeInfo.level} để chế tạo ${recipeName}!\n` +
@@ -1590,7 +1678,6 @@ module.exports = {
       );
     }
 
-    // Kiểm tra tiền
     if (balance < recipeInfo.price) {
       return api.sendMessage(
         `❌ Không đủ tiền để chế tạo ${recipeName}!\n` +
@@ -1600,7 +1687,6 @@ module.exports = {
       );
     }
 
-    // Kiểm tra nguyên liệu
     if (!playerData.craftingMaterials) playerData.craftingMaterials = {};
 
     let missingMaterials = [];
@@ -1624,22 +1710,19 @@ module.exports = {
     }
 
     try {
-      // Trừ tiền và nguyên liệu
       updateBalance(senderID, -recipeInfo.price);
 
       for (const [material, count] of Object.entries(recipeInfo.materials)) {
-        // Trừ từ craftingMaterials trước
+    
         const materialCount = playerData.craftingMaterials[material] || 0;
         if (materialCount >= count) {
           playerData.craftingMaterials[material] -= count;
           continue;
         }
 
-        // Nếu không đủ trong craftingMaterials, trừ từ inventory
         const remainingCount = count - materialCount;
         playerData.craftingMaterials[material] = 0;
 
-        // Xóa đúng số lượng item từ inventory
         let removed = 0;
         playerData.inventory = playerData.inventory.filter((item) => {
           if (item === material && removed < remainingCount) {
@@ -1650,20 +1733,17 @@ module.exports = {
         });
       }
 
-      // Thêm cần câu mới vào inventory
       this.addToInventory(playerData, recipeInfo.result.name);
 
-      // Thêm thông tin cần câu mới vào fishingItems nếu chưa có
       if (!fishingItems[recipeInfo.result.name]) {
         fishingItems[recipeInfo.result.name] = {
           durability: recipeInfo.result.durability,
-          price: recipeInfo.price * 1.5, // Giá bán lại cao hơn giá chế tạo
+          price: recipeInfo.price * 1.5, 
           multiplier: recipeInfo.result.multiplier,
           special: recipeInfo.result.special || null,
         };
       }
 
-      // Lưu dữ liệu người chơi
       this.savePlayerData({
         ...playerData,
         userID: senderID,
@@ -1831,47 +1911,64 @@ module.exports = {
   },
 
   getRankingStats: function (allPlayers) {
-    // Tìm giá trị cao nhất cho mỗi tiêu chí để chuẩn hóa
-    const maxValues = Object.values(allPlayers).reduce((max, data) => {
-      const totalValue = data.collection?.stats?.totalValue || 0;
-      const totalCaught = Object.values(data.collection?.byRarity || {}).reduce(
-        (acc, curr) => acc + Object.values(curr).reduce((a, b) => a + b, 0), 0
-      );
-      
-      return {
-        level: Math.max(max.level, data.level || 1),
-        totalCaught: Math.max(max.totalCaught, totalCaught),
-        totalValue: Math.max(max.totalValue, totalValue),
-      };
-    }, { level: 1, totalCaught: 0, totalValue: 0 });
-  
+    const maxValues = Object.values(allPlayers).reduce(
+      (max, data) => {
+        const totalValue = data.collection?.stats?.totalValue || 0;
+        const totalCaught = Object.values(
+          data.collection?.byRarity || {}
+        ).reduce(
+          (acc, curr) => acc + Object.values(curr).reduce((a, b) => a + b, 0),
+          0
+        );
+
+        return {
+          level: Math.max(max.level, data.level || 1),
+          totalCaught: Math.max(max.totalCaught, totalCaught),
+          totalValue: Math.max(max.totalValue, totalValue),
+        };
+      },
+      { level: 1, totalCaught: 0, totalValue: 0 }
+    );
+
     return Object.entries(allPlayers)
       .map(([id, data]) => {
-        const totalCaught = Object.values(data.collection?.byRarity || {}).reduce(
-          (acc, curr) => acc + Object.values(curr).reduce((a, b) => a + b, 0), 0
+        const totalCaught = Object.values(
+          data.collection?.byRarity || {}
+        ).reduce(
+          (acc, curr) => acc + Object.values(curr).reduce((a, b) => a + b, 0),
+          0
         );
         const totalValue = data.collection?.stats?.totalValue || 0;
-        
-        const levelScore = ((data.level || 1) / Math.max(1, maxValues.level)) * 40; 
-        const caughtScore = (totalCaught / Math.max(1, maxValues.totalCaught)) * 30; 
-        const valueScore = (totalValue / Math.max(1, maxValues.totalValue)) * 30; 
-        
-        const totalScore = Math.round((levelScore + caughtScore + valueScore) * 100) / 100;
-        
+
+        const levelScore =
+          ((data.level || 1) / Math.max(1, maxValues.level)) * 40;
+        const caughtScore =
+          (totalCaught / Math.max(1, maxValues.totalCaught)) * 30;
+        const valueScore =
+          (totalValue / Math.max(1, maxValues.totalValue)) * 30;
+
+        const totalScore =
+          Math.round((levelScore + caughtScore + valueScore) * 100) / 100;
+
         return {
           id,
           level: data.level || 1,
           exp: data.exp || 0,
           totalCaught,
           totalValue,
-          adjustedValue: Math.ceil(totalValue / 1000), 
-          bestCatch: data.collection?.stats?.bestCatch || { name: "Chưa có", value: 0 },
-          adjustedBestCatchValue: Math.ceil((data.collection?.stats?.bestCatch?.value || 0) / 1000),
+          adjustedValue: Math.ceil(totalValue / 1000),
+          bestCatch: data.collection?.stats?.bestCatch || {
+            name: "Chưa có",
+            value: 0,
+          },
+          adjustedBestCatchValue: Math.ceil(
+            (data.collection?.stats?.bestCatch?.value || 0) / 1000
+          ),
           streak: data.fishingStreak || 0,
           highestStreak: data.stats?.highestStreak || 0,
           score: totalScore,
         };
       })
       .sort((a, b) => b.score - a.score);
-  },  
+  },
 };

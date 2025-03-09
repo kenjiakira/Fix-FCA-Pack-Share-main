@@ -208,6 +208,15 @@
         "discount": 15,
         "expires": 1742037989433,
         "used": false
+      },
+      {
+        "type": "SILVER",
+        "code": "SILVER_ZSMPZY",
+        "discount": 15,
+        "expires": 1742101700150,
+        "used": false,
+        "source": "hunting",
+        "foundAt": 1741496900150
       }
     ],
     "100063719077878": [
@@ -248,6 +257,16 @@
       "lastHunt": 1741486344448,
       "totalHunts": 1,
       "foundVouchers": 1
+    },
+    "100055074463541": {
+      "lastHunt": 1741496900150,
+      "totalHunts": 1,
+      "foundVouchers": 1
+    },
+    "100065381078044": {
+      "lastHunt": 1741496950897,
+      "totalHunts": 1,
+      "foundVouchers": 0
     }
   }
 }

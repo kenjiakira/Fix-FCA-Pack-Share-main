@@ -20,9 +20,12 @@ module.exports = {
                 "- load Allcmd : Tải lại tất cả lệnh\n" +
                 "- load Allevt : Tải lại tất cả events\n" +
                 "- load All : Tải lại tất cả lệnh và events\n" +
+                "- load canvas <tên canvas> : Tải lại canvas cụ thể\n" +
+                "- load Allcanvas : Tải lại tất cả canvas\n" +
                 "Ví dụ: load help ping\n" +
                 "       load busyEvent\n" +
-                "       load Allcmd"
+                "       load canvas petCanvas\n" +
+                "       load Allcanvas"
             );
         }
 
@@ -127,6 +130,33 @@ module.exports = {
             }
         };
 
+        // Add canvas loading function
+        const loadCanvas = (canvasName) => {
+            try {
+                const canvasPath = require.resolve(path.join(__dirname, '../canvas', `${canvasName}.js`));
+                
+                if (!fs.existsSync(canvasPath)) {
+                    console.log(chalk.red(`❌ Canvas "${canvasName}" không tồn tại!`));
+                    return { success: false, error: 'NOT_FOUND' };
+                }
+
+                delete require.cache[canvasPath];
+                const newCanvas = require(canvasPath);
+                
+                console.log(chalk.green(`✅ Đã tải lại canvas "${canvasName}"`));
+                return { success: true };
+
+            } catch (error) {
+                const locationInfo = extractErrorLocation(error, canvasName, 'canvas');
+                return { 
+                    success: false, 
+                    error: 'RUNTIME_ERROR', 
+                    details: error.message,
+                    location: locationInfo
+                };
+            }
+        };
+
         const results = {
             success: [],
             errors: []
@@ -194,6 +224,80 @@ module.exports = {
             
             msg += `✅ Đã tải lại thành công ${results.success.length} modules!\n`;
             
+        } else if (target[0].toLowerCase() === 'canvas') {
+            if (!target[1]) {
+                return api.sendMessage("❌ Vui lòng nhập tên canvas cần tải lại!", event.threadID, event.messageID);
+            }
+
+            const result = loadCanvas(target[1]);
+            if (result.success) {
+                msg += `✅ Đã tải lại canvas "${target[1]}"\n`;
+            } else {
+                const errorMsg = {
+                    'NOT_FOUND': 'Không tìm thấy canvas',
+                    'RUNTIME_ERROR': result.details
+                }[result.error];
+                
+                let locationInfo = '';
+                if (result.error === 'RUNTIME_ERROR' && result.location) {
+                    if (result.location.line) {
+                        locationInfo = ` (dòng ${result.location.line})`;
+                    }
+                    if (result.location.snippet) {
+                        locationInfo += `\n   → ${result.location.snippet}`;
+                    }
+                }
+                
+                msg += `❌ Lỗi khi tải canvas ${target[1]}: ${errorMsg}${locationInfo}\n`;
+            }
+        } else if (target[0] === 'Allcanvas') {
+            const canvasDir = path.join(__dirname, '../canvas');
+            if (!fs.existsSync(canvasDir)) {
+                return api.sendMessage("❌ Thư mục canvas không tồn tại!", event.threadID, event.messageID);
+            }
+
+            const canvasFiles = fs.readdirSync(canvasDir).filter(file => file.endsWith('.js'));
+            let successCount = 0;
+            let errorList = [];
+            
+            for (const file of canvasFiles) {
+                const canvasName = file.replace('.js', '');
+                const result = loadCanvas(canvasName);
+                
+                if (result.success) {
+                    successCount++;
+                } else {
+                    errorList.push({
+                        name: canvasName,
+                        error: result.error,
+                        details: result.details,
+                        location: result.location
+                    });
+                }
+            }
+            
+            msg += `✅ Đã tải lại ${successCount} canvas thành công!\n`;
+            
+            if (errorList.length > 0) {
+                msg += `❌ Lỗi ${errorList.length} canvas:\n`;
+                errorList.forEach(err => {
+                    let errorMsg = {
+                        'NOT_FOUND': 'Không tìm thấy file',
+                        'RUNTIME_ERROR': err.details
+                    }[err.error];
+                    
+                    if (err.error === 'RUNTIME_ERROR' && err.location) {
+                        if (err.location.line) {
+                            errorMsg += ` (dòng ${err.location.line})`;
+                        }
+                        if (err.location.snippet) {
+                            errorMsg += `\n   → ${err.location.snippet}`;
+                        }
+                    }
+                    
+                    msg += `- Canvas ${err.name}: ${errorMsg}\n`;
+                });
+            }
         } else {
             for (const name of target) {
                 let result;

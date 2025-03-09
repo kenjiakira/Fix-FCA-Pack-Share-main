@@ -1,0 +1,29 @@
+{
+  "61573427362389": {
+    "type": "HAMSTER",
+    "name": "Hunnn",
+    "hunger": 100,
+    "happy": 100,
+    "energy": 100,
+    "lastFed": 1741498905505,
+    "lastPlay": 1741497547630,
+    "level": 1,
+    "exp": 10
+  },
+  "100065381078044": {
+    "type": "DOG",
+    "name": "Ttu",
+    "hunger": 100,
+    "happy": 100,
+    "energy": 100,
+    "lastFed": 1741500237652,
+    "lastPlay": 1741499700558,
+    "level": 1,
+    "exp": 30,
+    "quests": {
+      "daily": {
+        "feedCount": 3
+      }
+    }
+  }
+}
