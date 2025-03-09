@@ -349,7 +349,20 @@ function createProgressBar(value, maxValue, size = 10) {
     const empty = '□'.repeat(size - percentage);
     return filled + empty;
 }
+function calculateCurrentStats(pet) {
+    const now = Date.now();
+    const hoursPassed = (now - pet.lastFed) / (1000 * 60 * 60);
 
+    const hungerLoss = 5 * hoursPassed; 
+    const energyLoss = 3 * hoursPassed; 
+    const happyLoss = 4 * hoursPassed; 
+
+    pet.hunger = Math.max(0, Math.min(pet.hunger - hungerLoss, PET_TYPES[pet.type].maxHunger));
+    pet.energy = Math.max(0, Math.min(pet.energy - energyLoss, PET_TYPES[pet.type].maxEnergy));
+    pet.happy = Math.max(0, Math.min(pet.happy - happyLoss, PET_TYPES[pet.type].maxHappy));
+
+    return pet;
+}
 module.exports = {
     name: "pet",
     dev: "HNT",
@@ -584,6 +597,19 @@ module.exports = {
                 if (!pet) {
                     return api.sendMessage("Bạn chưa có thú cưng!", threadID, messageID);
                 }
+                if (pet.hunger <= 10) {
+                    return api.sendMessage(
+                        "❌ Thú cưng đang đói! Hãy cho ăn trước.",
+                        threadID, messageID
+                    );
+                }
+            
+                if (pet.energy <= 10) {
+                    return api.sendMessage(
+                        "❌ Thú cưng đang mệt! Cần nghỉ ngơi.",
+                        threadID, messageID
+                    );
+                }
 
                 if (!target[1]) {
                     const activities = PET_TYPES[pet.type].activities;
@@ -643,13 +669,17 @@ module.exports = {
                 if (!pet) {
                     return api.sendMessage("Bạn chưa có thú cưng!", threadID, messageID);
                 }
-
+            
+                const updatedPet = calculateCurrentStats(pet);
+                petData[senderID] = updatedPet;
+                savePetData(petData);
+            
                 try {
                     const imagePath = await createPetImage({
                         userId: senderID,
                         userName: event.senderID,
                         pet: {
-                            ...pet,
+                            ...updatedPet,
                             maxEnergy: PET_TYPES[pet.type].maxEnergy,
                             maxHunger: PET_TYPES[pet.type].maxHunger,
                             maxHappy: PET_TYPES[pet.type].maxHappy
@@ -924,7 +954,26 @@ module.exports = {
                 if (!pet) {
                     return api.sendMessage("Bạn chưa có thú cưng!", threadID, messageID);
                 }
+                if (pet.hunger <= 10) {
+                    return api.sendMessage(
+                        "❌ Thú cưng đang đói! Hãy cho ăn trước.",
+                        threadID, messageID
+                    );
+                }
             
+                if (pet.energy <= 10) {
+                    return api.sendMessage(
+                        "❌ Thú cưng đang mệt! Cần nghỉ ngơi.",
+                        threadID, messageID
+                    );
+                }
+            
+                if (pet.happy <= 10) {
+                    return api.sendMessage(
+                        "❌ Thú cưng đang buồn! Hãy chơi với nó.",
+                        threadID, messageID
+                    );
+                }
                 if (!target[1]) {
                     let trainMessage = `🎯 HUẤN LUYỆN CHO ${pet.name}\n`;
                     trainMessage += "───────────────\n\n";
@@ -1028,7 +1077,7 @@ module.exports = {
                         const progress = pet.quests.daily[questId] || 0;
                         const completed = progress >= quest.requirement;
                         questMessage += `${completed ? "✅" : "❌"} ${quest.description}\n`;
-                        questMessage += `› Tiến độ: ${progress}/${quest.requirement}\n`;
+                        questMessage += `› Tiến độ: z${progress}/${quest.requirement}\n`;
                         questMessage += `› Phần thưởng: ${quest.reward.exp} EXP, ${quest.reward.money}$\n\n`;
                     }
                     

@@ -483,22 +483,29 @@ module.exports = {
             });
             break;
 
-          case 3: // Cửa hàng mồi câu mới
+          case 3:
             const baitShopMenu =
-              "🎣 CỬA HÀNG MỒI CÂU 🎣\n━━━━━━━━━━━━━━━━━━\n" +
+              "🎣 CỬA HÀNG MỒI CÂU 🎣\n" +
+              "━━━━━━━━━━━━━━━━━━\n\n" +
               Object.entries(baits)
                 .map(
                   ([name, bait], index) =>
                     `${index + 1}. ${name}\n` +
-                    `💰 Giá: ${formatNumber(bait.price)} $\n` +
-                    `🔄 Sử dụng: ${bait.uses} lần\n` +
-                    `📝 Mô tả: ${bait.description}\n`
+                    `💰 Giá: ${formatNumber(bait.price)}$/cái\n` +
+                    `🔄 Sử dụng: ${bait.uses} lần/cái\n` +
+                    `📝 Mô tả: ${bait.description}\n` +
+                    `📦 Đang có: ${
+                      (playerData.baits && playerData.baits[name]) || 0
+                    } lần sử dụng\n`
                 )
                 .join("\n") +
               "\n💵 Số dư: " +
               formatNumber(getBalance(senderID)) +
-              " $" +
-              "\n\nReply số để mua mồi câu!";
+              "$\n\n" +
+              "💡 Cách sử dụng:\n" +
+              "• Mồi câu sẽ tự động được dùng khi câu cá\n" +
+              "• Hệ thống sẽ ưu tiên dùng mồi câu tốt nhất\n" +
+              "• Reply số thứ tự để mua mồi câu";
 
             const baitMsg = await api.sendMessage(baitShopMenu, threadID);
             global.client.onReply.push({
@@ -1713,7 +1720,6 @@ module.exports = {
       updateBalance(senderID, -recipeInfo.price);
 
       for (const [material, count] of Object.entries(recipeInfo.materials)) {
-    
         const materialCount = playerData.craftingMaterials[material] || 0;
         if (materialCount >= count) {
           playerData.craftingMaterials[material] -= count;
@@ -1738,7 +1744,7 @@ module.exports = {
       if (!fishingItems[recipeInfo.result.name]) {
         fishingItems[recipeInfo.result.name] = {
           durability: recipeInfo.result.durability,
-          price: recipeInfo.price * 1.5, 
+          price: recipeInfo.price * 1.5,
           multiplier: recipeInfo.result.multiplier,
           special: recipeInfo.result.special || null,
         };
