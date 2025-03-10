@@ -5381,7 +5381,7 @@
       "plots": [
         {
           "id": 0,
-          "status": "ready",
+          "status": "damaged",
           "crop": "lua",
           "plantedAt": 1741582367959,
           "water": 3,
@@ -5390,7 +5390,7 @@
         },
         {
           "id": 1,
-          "status": "ready",
+          "status": "damaged",
           "crop": "lua",
           "plantedAt": 1741582367959,
           "water": 3,
@@ -5399,7 +5399,7 @@
         },
         {
           "id": 2,
-          "status": "ready",
+          "status": "damaged",
           "crop": "lua",
           "plantedAt": 1741582367959,
           "water": 3,
@@ -5408,7 +5408,7 @@
         },
         {
           "id": 3,
-          "status": "ready",
+          "status": "damaged",
           "crop": "lua",
           "plantedAt": 1741582367959,
           "water": 3,
@@ -5417,7 +5417,7 @@
         },
         {
           "id": 4,
-          "status": "ready",
+          "status": "damaged",
           "crop": "lua",
           "plantedAt": 1741582367959,
           "water": 3,
@@ -5426,7 +5426,7 @@
         },
         {
           "id": 5,
-          "status": "ready",
+          "status": "damaged",
           "crop": "lua",
           "plantedAt": 1741582367959,
           "water": 3,
@@ -5435,7 +5435,7 @@
         },
         {
           "id": 6,
-          "status": "ready",
+          "status": "damaged",
           "crop": "lua",
           "plantedAt": 1741582367959,
           "water": 3,
@@ -5444,7 +5444,7 @@
         },
         {
           "id": 7,
-          "status": "ready",
+          "status": "damaged",
           "crop": "lua",
           "plantedAt": 1741582367959,
           "water": 3,
@@ -5469,11 +5469,9 @@
       "createdAt": 1740912665572,
       "autoHarvest": false,
       "weather": {
-        "type": "cloudy",
-        "nextChange": 1741595054503,
+        "nextChange": 1741619892512,
         "timeOfDay": "noon",
-        "lastUpdated": 1741584254503,
-        "month": 3
+        "lastUpdated": 1741598292512
       },
       "dailyMissions": {
         "date": 1741578147050,
@@ -5566,70 +5564,70 @@
           "cropId": "lua",
           "cropName": "Lúa",
           "plotIndex": 6,
-          "time": 1741332893568
+          "time": 1741409022479
         },
         {
           "type": "crop_damaged",
           "cropId": "lua",
           "cropName": "Lúa",
           "plotIndex": 7,
-          "time": 1741332893568
+          "time": 1741409022479
         },
         {
           "type": "crop_damaged",
           "cropId": "lua",
           "cropName": "Lúa",
           "plotIndex": 0,
-          "time": 1741409022479
+          "time": 1741598292512
         },
         {
           "type": "crop_damaged",
           "cropId": "lua",
           "cropName": "Lúa",
           "plotIndex": 1,
-          "time": 1741409022479
+          "time": 1741598292512
         },
         {
           "type": "crop_damaged",
           "cropId": "lua",
           "cropName": "Lúa",
           "plotIndex": 2,
-          "time": 1741409022479
+          "time": 1741598292512
         },
         {
           "type": "crop_damaged",
           "cropId": "lua",
           "cropName": "Lúa",
           "plotIndex": 3,
-          "time": 1741409022479
+          "time": 1741598292512
         },
         {
           "type": "crop_damaged",
           "cropId": "lua",
           "cropName": "Lúa",
           "plotIndex": 4,
-          "time": 1741409022479
+          "time": 1741598292512
         },
         {
           "type": "crop_damaged",
           "cropId": "lua",
           "cropName": "Lúa",
           "plotIndex": 5,
-          "time": 1741409022479
+          "time": 1741598292512
         },
         {
           "type": "crop_damaged",
           "cropId": "lua",
           "cropName": "Lúa",
           "plotIndex": 6,
-          "time": 1741409022479
+          "time": 1741598292512
         },
         {
           "type": "crop_damaged",
           "cropId": "lua",
           "cropName": "Lúa",
           "plotIndex": 7,
-          "time": 1741409022479
+          "time": 1741598292512
         }
       ]
     },
@@ -5940,7 +5938,7 @@
       "plots": [
         {
           "id": 0,
-          "status": "ready",
+          "status": "damaged",
           "crop": "lua",
           "plantedAt": 1741583681387,
           "water": 3,
@@ -5949,7 +5947,7 @@
         },
         {
           "id": 1,
-          "status": "ready",
+          "status": "damaged",
           "crop": "lua",
           "plantedAt": 1741583681387,
           "water": 3,
@@ -5958,7 +5956,7 @@
         },
         {
           "id": 2,
-          "status": "ready",
+          "status": "damaged",
           "crop": "lua",
           "plantedAt": 1741583681387,
           "water": 3,
@@ -5967,7 +5965,7 @@
         },
         {
           "id": 3,
-          "status": "ready",
+          "status": "damaged",
           "crop": "lua",
           "plantedAt": 1741583681387,
           "water": 3,
@@ -5976,7 +5974,7 @@
         },
         {
           "id": 4,
-          "status": "ready",
+          "status": "damaged",
           "crop": "lua",
           "plantedAt": 1741583681387,
           "water": 3,
@@ -5985,7 +5983,7 @@
         },
         {
           "id": 5,
-          "status": "ready",
+          "status": "damaged",
           "crop": "lua",
           "plantedAt": 1741583681387,
           "water": 3,
@@ -5994,7 +5992,7 @@
         },
         {
           "id": 6,
-          "status": "ready",
+          "status": "damaged",
           "crop": "lua",
           "plantedAt": 1741583681387,
           "water": 3,
@@ -6003,7 +6001,7 @@
         },
         {
           "id": 7,
-          "status": "ready",
+          "status": "damaged",
           "crop": "lua",
           "plantedAt": 1741583681387,
           "water": 3,
@@ -6012,7 +6010,7 @@
         },
         {
           "id": 8,
-          "status": "ready",
+          "status": "damaged",
           "crop": "lua",
           "plantedAt": 1741583681387,
           "water": 3,
@@ -6021,7 +6019,7 @@
         },
         {
           "id": 9,
-          "status": "ready",
+          "status": "damaged",
           "crop": "lua",
           "plantedAt": 1741583681387,
           "water": 3,
@@ -6030,7 +6028,7 @@
         },
         {
           "id": 10,
-          "status": "ready",
+          "status": "damaged",
           "crop": "lua",
           "plantedAt": 1741583681387,
           "water": 3,
@@ -6039,7 +6037,7 @@
         },
         {
           "id": 11,
-          "status": "ready",
+          "status": "damaged",
           "crop": "lua",
           "plantedAt": 1741583681387,
           "water": 3,
@@ -6048,7 +6046,7 @@
         },
         {
           "id": 12,
-          "status": "ready",
+          "status": "damaged",
           "crop": "lua",
           "plantedAt": 1741583681387,
           "water": 3,
@@ -6057,7 +6055,7 @@
         },
         {
           "id": 13,
-          "status": "ready",
+          "status": "damaged",
           "crop": "lua",
           "plantedAt": 1741583681387,
           "water": 3,
@@ -6066,7 +6064,7 @@
         },
         {
           "id": 14,
-          "status": "ready",
+          "status": "damaged",
           "crop": "lua",
           "plantedAt": 1741583681387,
           "water": 3,
@@ -6075,7 +6073,7 @@
         },
         {
           "id": 15,
-          "status": "ready",
+          "status": "damaged",
           "crop": "lua",
           "plantedAt": 1741583681387,
           "water": 3,
@@ -6084,7 +6082,7 @@
         },
         {
           "id": 16,
-          "status": "ready",
+          "status": "damaged",
           "crop": "lua",
           "plantedAt": 1741583681387,
           "water": 3,
@@ -6093,7 +6091,7 @@
         },
         {
           "id": 17,
-          "status": "ready",
+          "status": "damaged",
           "crop": "lua",
           "plantedAt": 1741583681387,
           "water": 3,
@@ -6102,7 +6100,7 @@
         },
         {
           "id": 18,
-          "status": "ready",
+          "status": "damaged",
           "crop": "lua",
           "plantedAt": 1741583681387,
           "water": 3,
@@ -6111,7 +6109,7 @@
         },
         {
           "id": 19,
-          "status": "ready",
+          "status": "damaged",
           "crop": "lua",
           "plantedAt": 1741583681387,
           "water": 3,
@@ -6120,7 +6118,7 @@
         },
         {
           "id": 20,
-          "status": "ready",
+          "status": "damaged",
           "crop": "lua",
           "plantedAt": 1741583681387,
           "water": 3,
@@ -6129,7 +6127,7 @@
         },
         {
           "id": 21,
-          "status": "ready",
+          "status": "damaged",
           "crop": "lua",
           "plantedAt": 1741583681387,
           "water": 3,
@@ -6138,7 +6136,7 @@
         },
         {
           "id": 22,
-          "status": "ready",
+          "status": "damaged",
           "crop": "lua",
           "plantedAt": 1741583681387,
           "water": 3,
@@ -6147,7 +6145,7 @@
         },
         {
           "id": 23,
-          "status": "ready",
+          "status": "damaged",
           "crop": "lua",
           "plantedAt": 1741583681387,
           "water": 3,
@@ -6156,7 +6154,7 @@
         },
         {
           "id": 24,
-          "status": "ready",
+          "status": "damaged",
           "crop": "lua",
           "plantedAt": 1741583681387,
           "water": 3,
@@ -6166,10 +6164,10 @@
       ],
       "inventory": {
         "lúa": 300,
-        "trứng": 45,
+        "trứng": 47,
         "cá tươi": 47,
         "mía": 25,
-        "trứng vịt": 17,
+        "trứng vịt": 18,
         "chuối": 0,
         "cà phê": 0
       },
@@ -6178,18 +6176,18 @@
           "id": "1740981451174",
           "type": "ga",
           "purchased": 1740981451174,
-          "fed": true,
+          "fed": false,
           "lastFed": 1741583702642,
-          "lastProduced": 1741578146721,
+          "lastProduced": 1741598292512,
           "productReady": true
         },
         "1740981629567": {
           "id": "1740981629567",
           "type": "ga",
           "purchased": 1740981629567,
-          "fed": true,
+          "fed": false,
           "lastFed": 1741583702642,
-          "lastProduced": 1741578146721,
+          "lastProduced": 1741598292512,
           "productReady": true
         },
         "1741018617199-263": {
@@ -6211,10 +6209,10 @@
         "1741018809798-310": {
           "type": "vit",
           "purchased": 1741018809798,
-          "fed": true,
+          "fed": false,
           "lastFed": 1741583702642,
           "productReady": true,
-          "lastProduced": 1741578146721
+          "lastProduced": 1741598292512
         }
       },
       "items": {
@@ -6247,11 +6245,9 @@
       "createdAt": 1740917432720,
       "autoHarvest": false,
       "weather": {
-        "type": "rainy",
-        "nextChange": 1741595618909,
+        "nextChange": 1741619892512,
         "timeOfDay": "noon",
-        "lastUpdated": 1741584818909,
-        "month": 3
+        "lastUpdated": 1741598292512
       },
       "dailyMissions": {
         "date": 1741578147163,
@@ -6348,70 +6344,70 @@
           "cropId": "lua",
           "cropName": "Lúa",
           "plotIndex": 15,
-          "time": 1741515472761
+          "time": 1741598292512
         },
         {
           "type": "crop_damaged",
           "cropId": "lua",
           "cropName": "Lúa",
           "plotIndex": 16,
-          "time": 1741515472761
+          "time": 1741598292512
         },
         {
           "type": "crop_damaged",
           "cropId": "lua",
           "cropName": "Lúa",
           "plotIndex": 17,
-          "time": 1741515472761
+          "time": 1741598292512
         },
         {
           "type": "crop_damaged",
           "cropId": "lua",
           "cropName": "Lúa",
           "plotIndex": 18,
-          "time": 1741515472761
+          "time": 1741598292512
         },
         {
           "type": "crop_damaged",
           "cropId": "lua",
           "cropName": "Lúa",
           "plotIndex": 19,
-          "time": 1741515472761
+          "time": 1741598292512
         },
         {
           "type": "crop_damaged",
           "cropId": "lua",
           "cropName": "Lúa",
           "plotIndex": 20,
-          "time": 1741515472761
+          "time": 1741598292512
         },
         {
           "type": "crop_damaged",
           "cropId": "lua",
           "cropName": "Lúa",
           "plotIndex": 21,
-          "time": 1741515472761
+          "time": 1741598292512
         },
         {
           "type": "crop_damaged",
           "cropId": "lua",
           "cropName": "Lúa",
           "plotIndex": 22,
-          "time": 1741515472761
+          "time": 1741598292512
         },
         {
           "type": "crop_damaged",
           "cropId": "lua",
           "cropName": "Lúa",
           "plotIndex": 23,
-          "time": 1741515472761
+          "time": 1741598292512
         },
         {
           "type": "crop_damaged",
           "cropId": "lua",
           "cropName": "Lúa",
           "plotIndex": 24,
-          "time": 1741515472761
+          "time": 1741598292512
         }
       ]
     },
@@ -7480,7 +7476,7 @@
       "plots": [
         {
           "id": 0,
-          "status": "ready",
+          "status": "damaged",
           "crop": "lua",
           "plantedAt": 1741583698730,
           "water": 1.9,
@@ -7489,7 +7485,7 @@
         },
         {
           "id": 1,
-          "status": "ready",
+          "status": "damaged",
           "crop": "lua",
           "plantedAt": 1741583698730,
           "water": 1.9,
@@ -7498,7 +7494,7 @@
         },
         {
           "id": 2,
-          "status": "ready",
+          "status": "damaged",
           "crop": "lua",
           "plantedAt": 1741583698730,
           "water": 1.9,
@@ -7507,7 +7503,7 @@
         },
         {
           "id": 3,
-          "status": "ready",
+          "status": "damaged",
           "crop": "lua",
           "plantedAt": 1741583698730,
           "water": 1.9,
@@ -7516,7 +7512,7 @@
         },
         {
           "id": 4,
-          "status": "ready",
+          "status": "damaged",
           "crop": "lua",
           "plantedAt": 1741583698730,
           "water": 1.9,
@@ -7525,7 +7521,7 @@
         },
         {
           "id": 5,
-          "status": "ready",
+          "status": "damaged",
           "crop": "lua",
           "plantedAt": 1741583698730,
           "water": 1.9,
@@ -7534,7 +7530,7 @@
         },
         {
           "id": 6,
-          "status": "ready",
+          "status": "damaged",
           "crop": "lua",
           "plantedAt": 1741583698730,
           "water": 1.9,
@@ -7543,7 +7539,7 @@
         },
         {
           "id": 7,
-          "status": "ready",
+          "status": "damaged",
           "crop": "lua",
           "plantedAt": 1741583698730,
           "water": 1.9,
@@ -7552,7 +7548,7 @@
         },
         {
           "id": 8,
-          "status": "ready",
+          "status": "damaged",
           "crop": "lua",
           "plantedAt": 1741583698730,
           "water": 1.9,
@@ -7561,7 +7557,7 @@
         },
         {
           "id": 9,
-          "status": "ready",
+          "status": "damaged",
           "crop": "lua",
           "plantedAt": 1741583698730,
           "water": 1.9,
@@ -7570,7 +7566,7 @@
         },
         {
           "id": 10,
-          "status": "ready",
+          "status": "damaged",
           "crop": "lua",
           "plantedAt": 1741583698730,
           "water": 1.9,
@@ -7579,7 +7575,7 @@
         },
         {
           "id": 11,
-          "status": "ready",
+          "status": "damaged",
           "crop": "lua",
           "plantedAt": 1741583698730,
           "water": 1.9,
@@ -7713,70 +7709,70 @@
           "cropId": "lua",
           "cropName": "Lúa",
           "plotIndex": 2,
-          "time": 1741441215802
+          "time": 1741598292512
         },
         {
           "type": "crop_damaged",
           "cropId": "lua",
           "cropName": "Lúa",
           "plotIndex": 3,
-          "time": 1741441215802
+          "time": 1741598292512
         },
         {
           "type": "crop_damaged",
           "cropId": "lua",
           "cropName": "Lúa",
           "plotIndex": 4,
-          "time": 1741441215802
+          "time": 1741598292512
         },
         {
           "type": "crop_damaged",
           "cropId": "lua",
           "cropName": "Lúa",
           "plotIndex": 5,
-          "time": 1741441215802
+          "time": 1741598292512
         },
         {
           "type": "crop_damaged",
           "cropId": "lua",
           "cropName": "Lúa",
           "plotIndex": 6,
-          "time": 1741441215802
+          "time": 1741598292512
         },
         {
           "type": "crop_damaged",
           "cropId": "lua",
           "cropName": "Lúa",
           "plotIndex": 7,
-          "time": 1741441215802
+          "time": 1741598292512
         },
         {
           "type": "crop_damaged",
           "cropId": "lua",
           "cropName": "Lúa",
           "plotIndex": 8,
-          "time": 1741441215802
+          "time": 1741598292512
         },
         {
           "type": "crop_damaged",
           "cropId": "lua",
           "cropName": "Lúa",
           "plotIndex": 9,
-          "time": 1741441215802
+          "time": 1741598292512
         },
         {
           "type": "crop_damaged",
           "cropId": "lua",
           "cropName": "Lúa",
           "plotIndex": 10,
-          "time": 1741441215802
+          "time": 1741598292512
         },
         {
           "type": "crop_damaged",
           "cropId": "lua",
           "cropName": "Lúa",
           "plotIndex": 11,
-          "time": 1741441215802
+          "time": 1741598292512
         }
       ],
       "lastVisits": {
@@ -8719,7 +8715,7 @@
       "plots": [
         {
           "id": 0,
-          "status": "ready",
+          "status": "damaged",
           "crop": "lua",
           "plantedAt": 1741583611385,
           "water": 1,
@@ -8728,7 +8724,7 @@
         },
         {
           "id": 1,
-          "status": "ready",
+          "status": "damaged",
           "crop": "lua",
           "plantedAt": 1741583611385,
           "water": 1,
@@ -8737,7 +8733,7 @@
         },
         {
           "id": 2,
-          "status": "ready",
+          "status": "damaged",
           "crop": "lua",
           "plantedAt": 1741583611385,
           "water": 1,
@@ -8746,7 +8742,7 @@
         },
         {
           "id": 3,
-          "status": "ready",
+          "status": "damaged",
           "crop": "lua",
           "plantedAt": 1741583611385,
           "water": 1,
@@ -8755,7 +8751,7 @@
         },
         {
           "id": 4,
-          "status": "ready",
+          "status": "damaged",
           "crop": "lua",
           "plantedAt": 1741583611385,
           "water": 1,
@@ -8764,7 +8760,7 @@
         },
         {
           "id": 5,
-          "status": "ready",
+          "status": "damaged",
           "crop": "lua",
           "plantedAt": 1741583611385,
           "water": 1,
@@ -8773,7 +8769,7 @@
         },
         {
           "id": 6,
-          "status": "ready",
+          "status": "damaged",
           "crop": "lua",
           "plantedAt": 1741583611385,
           "water": 1,
@@ -8782,7 +8778,7 @@
         },
         {
           "id": 7,
-          "status": "ready",
+          "status": "damaged",
           "crop": "lua",
           "plantedAt": 1741583611385,
           "water": 1,
@@ -8791,7 +8787,7 @@
         },
         {
           "id": 8,
-          "status": "ready",
+          "status": "damaged",
           "crop": "lua",
           "plantedAt": 1741583611385,
           "water": 1,
@@ -8923,71 +8919,71 @@
           "type": "crop_damaged",
           "cropId": "lua",
           "cropName": "Lúa",
-          "plotIndex": 6,
-          "time": 1741418322029
-        },
-        {
-          "type": "crop_damaged",
-          "cropId": "lua",
-          "cropName": "Lúa",
           "plotIndex": 7,
-          "time": 1741418322029
+          "time": 1741486170404
         },
         {
           "type": "crop_damaged",
           "cropId": "lua",
           "cropName": "Lúa",
           "plotIndex": 0,
-          "time": 1741486170404
+          "time": 1741598292512
         },
         {
           "type": "crop_damaged",
           "cropId": "lua",
           "cropName": "Lúa",
           "plotIndex": 1,
-          "time": 1741486170404
+          "time": 1741598292512
         },
         {
           "type": "crop_damaged",
           "cropId": "lua",
           "cropName": "Lúa",
           "plotIndex": 2,
-          "time": 1741486170404
+          "time": 1741598292512
         },
         {
           "type": "crop_damaged",
           "cropId": "lua",
           "cropName": "Lúa",
           "plotIndex": 3,
-          "time": 1741486170404
+          "time": 1741598292512
         },
         {
           "type": "crop_damaged",
           "cropId": "lua",
           "cropName": "Lúa",
           "plotIndex": 4,
-          "time": 1741486170404
+          "time": 1741598292512
         },
         {
           "type": "crop_damaged",
           "cropId": "lua",
           "cropName": "Lúa",
           "plotIndex": 5,
-          "time": 1741486170404
+          "time": 1741598292512
         },
         {
           "type": "crop_damaged",
           "cropId": "lua",
           "cropName": "Lúa",
           "plotIndex": 6,
-          "time": 1741486170404
+          "time": 1741598292512
         },
         {
           "type": "crop_damaged",
           "cropId": "lua",
           "cropName": "Lúa",
           "plotIndex": 7,
-          "time": 1741486170404
+          "time": 1741598292512
+        },
+        {
+          "type": "crop_damaged",
+          "cropId": "lua",
+          "cropName": "Lúa",
+          "plotIndex": 8,
+          "time": 1741598292512
         }
       ]
     },
@@ -9118,11 +9114,9 @@
       "createdAt": 1741081832663,
       "autoHarvest": false,
       "weather": {
-        "type": "storm",
-        "nextChange": 1741597563511,
+        "nextChange": 1741619892512,
         "timeOfDay": "noon",
-        "lastUpdated": 1741586763511,
-        "month": 3
+        "lastUpdated": 1741598292512
       },
       "dailyMissions": {
         "date": 1741578147628,
@@ -9644,83 +9638,91 @@
     },
     "100072567218546": {
       "id": "100072567218546",
-      "exp": 580,
+      "exp": 620,
       "plots": [
         {
           "id": 0,
           "status": "growing",
           "crop": "lua",
-          "plantedAt": 1741591628887,
+          "plantedAt": 1741598358666,
           "water": 2,
-          "lastWatered": 1741591632713,
-          "readyAt": 1741578146721
+          "lastWatered": 1741598367235,
+          "readyAt": 1741598292512
         },
         {
           "id": 1,
           "status": "growing",
           "crop": "lua",
-          "plantedAt": 1741591628887,
+          "plantedAt": 1741598358666,
           "water": 2,
-          "lastWatered": 1741591632713,
-          "readyAt": 1741578146721
+          "lastWatered": 1741598367235,
+          "readyAt": 1741598292512
         },
         {
           "id": 2,
           "status": "growing",
           "crop": "lua",
-          "plantedAt": 1741591628887,
+          "plantedAt": 1741598358666,
           "water": 2,
-          "lastWatered": 1741591632713,
-          "readyAt": 1741578146721
+          "lastWatered": 1741598367235,
+          "readyAt": 1741598292512
         },
         {
           "id": 3,
           "status": "growing",
           "crop": "lua",
-          "plantedAt": 1741591628887,
+          "plantedAt": 1741598358666,
           "water": 2,
-          "lastWatered": 1741591632713,
-          "readyAt": 1741578146721
+          "lastWatered": 1741598367235,
+          "readyAt": 1741598292512
         },
         {
           "id": 4,
           "status": "growing",
           "crop": "lua",
-          "plantedAt": 1741591628887,
+          "plantedAt": 1741598358666,
           "water": 2,
-          "lastWatered": 1741591632713,
-          "readyAt": 1741578146721
+          "lastWatered": 1741598367235,
+          "readyAt": 1741598292512
         },
         {
           "id": 5,
           "status": "growing",
           "crop": "lua",
-          "plantedAt": 1741591628887,
+          "plantedAt": 1741598358666,
           "water": 2,
-          "lastWatered": 1741591632713,
-          "readyAt": 1741578146721
+          "lastWatered": 1741598367235,
+          "readyAt": 1741598292512
         },
         {
           "id": 6,
           "status": "growing",
           "crop": "lua",
-          "plantedAt": 1741591628887,
+          "plantedAt": 1741598358666,
           "water": 2,
-          "lastWatered": 1741591632713,
-          "readyAt": 1741578146721
+          "lastWatered": 1741598367235,
+          "readyAt": 1741598292512
         },
         {
           "id": 7,
           "status": "growing",
           "crop": "lua",
-          "plantedAt": 1741591628887,
+          "plantedAt": 1741598358666,
           "water": 2,
-          "lastWatered": 1741591632713,
-          "readyAt": 1741578146721
+          "lastWatered": 1741598367235,
+          "readyAt": 1741598292512
+        },
+        {
+          "id": 8,
+          "status": "growing",
+          "crop": "lua",
+          "plantedAt": 1741598358666,
+          "water": 2,
+          "lastWatered": 1741598367235
         }
       ],
       "inventory": {
-        "lúa": 62
+        "lúa": 70
       },
       "animals": {
         "1741490392121-305-0": {
@@ -9905,7 +9907,7 @@
       "plots": [
         {
           "id": 0,
-          "status": "ready",
+          "status": "damaged",
           "crop": "lua",
           "plantedAt": 1741582432201,
           "water": 1,
@@ -9914,7 +9916,7 @@
         },
         {
           "id": 1,
-          "status": "ready",
+          "status": "damaged",
           "crop": "lua",
           "plantedAt": 1741582432201,
           "water": 1,
@@ -9923,7 +9925,7 @@
         },
         {
           "id": 2,
-          "status": "ready",
+          "status": "damaged",
           "crop": "lua",
           "plantedAt": 1741582432201,
           "water": 1,
@@ -9932,7 +9934,7 @@
         },
         {
           "id": 3,
-          "status": "ready",
+          "status": "damaged",
           "crop": "lua",
           "plantedAt": 1741582432201,
           "water": 1,
@@ -9941,7 +9943,7 @@
         },
         {
           "id": 4,
-          "status": "ready",
+          "status": "damaged",
           "crop": "lua",
           "plantedAt": 1741582432201,
           "water": 1,
@@ -9950,7 +9952,7 @@
         },
         {
           "id": 5,
-          "status": "ready",
+          "status": "damaged",
           "crop": "lua",
           "plantedAt": 1741582432201,
           "water": 1,
@@ -10020,73 +10022,73 @@
           "cropId": "lua",
           "cropName": "Lúa",
           "plotIndex": 2,
-          "time": 1741425681028
+          "time": 1741441215802
         },
         {
           "type": "crop_damaged",
           "cropId": "lua",
           "cropName": "Lúa",
           "plotIndex": 3,
-          "time": 1741425681028
+          "time": 1741441215802
         },
         {
           "type": "crop_damaged",
           "cropId": "lua",
           "cropName": "Lúa",
           "plotIndex": 4,
-          "time": 1741425681028
+          "time": 1741441215802
         },
         {
           "type": "crop_damaged",
           "cropId": "lua",
           "cropName": "Lúa",
           "plotIndex": 5,
-          "time": 1741425681028
+          "time": 1741441215802
         },
         {
           "type": "crop_damaged",
           "cropId": "lua",
           "cropName": "Lúa",
           "plotIndex": 0,
-          "time": 1741441215802
+          "time": 1741598292512
         },
         {
           "type": "crop_damaged",
           "cropId": "lua",
           "cropName": "Lúa",
           "plotIndex": 1,
-          "time": 1741441215802
+          "time": 1741598292512
         },
         {
           "type": "crop_damaged",
           "cropId": "lua",
           "cropName": "Lúa",
           "plotIndex": 2,
-          "time": 1741441215802
+          "time": 1741598292512
         },
         {
           "type": "crop_damaged",
           "cropId": "lua",
           "cropName": "Lúa",
           "plotIndex": 3,
-          "time": 1741441215802
+          "time": 1741598292512
         },
         {
           "type": "crop_damaged",
           "cropId": "lua",
           "cropName": "Lúa",
           "plotIndex": 4,
-          "time": 1741441215802
+          "time": 1741598292512
         },
         {
           "type": "crop_damaged",
           "cropId": "lua",
           "cropName": "Lúa",
           "plotIndex": 5,
-          "time": 1741441215802
+          "time": 1741598292512
         }
       ]
     }
   },
-  "lastUpdate": 1741591632158
+  "lastUpdate": 1741598366195
 }
