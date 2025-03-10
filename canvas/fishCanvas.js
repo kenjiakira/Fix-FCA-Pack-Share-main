@@ -1118,7 +1118,7 @@ async function createFishResultImage(options) {
     ctx.fillStyle = valueGradient;
     ctx.textAlign = "center";
     ctx.fillText(
-      `💰 Giá gốc: ${formatNumber(fish.originalValue)} $`,
+      `💰 Giá gốc: ${formatNumber(Math.floor(fish.originalValue))} $`,
       width / 2,
       valueY + 15
     );

@@ -4,7 +4,31 @@
       "personal": [],
       "facts": [],
       "preferences": [],
-      "interactions": [],
+      "interactions": [
+        {
+          "content": "Khaq Dwie nói: về a chăm nè vk @AKI BOT • [ . ]\nTôi trả lời: Khaq Dwie: về a chăm nè vk @AKI BOT • [ . ]\nNgân:  Chịu rồi =)))  Trưa nay nắng gắt quá, tớ đang chill ở nhà nè.  Bạn thì sao?",
+          "timestamp": 1741584409696,
+          "priority": 1,
+          "accessCount": 0,
+          "lastAccess": 1741584409696,
+          "metadata": {
+            "sentiment": {
+              "score": 0,
+              "rawScore": 0,
+              "sentiment": "neutral",
+              "confidence": 0.5,
+              "emotions": [],
+              "negationCount": 0,
+              "intensityFactors": [],
+              "primaryEmotion": "neutral"
+            },
+            "topics": [
+              "PERSONAL"
+            ],
+            "entities": {}
+          }
+        }
+      ],
       "emotions": [],
       "names": [],
       "relationships": {},
@@ -18,10 +42,10 @@
       "undefined": [
         {
           "content": "Xưng hô: mình/bạn",
-          "timestamp": 1741515273528,
+          "timestamp": 1741584407707,
           "priority": 2,
           "accessCount": 0,
-          "lastAccess": 1741515273528,
+          "lastAccess": 1741584407707,
           "metadata": {
             "sentiment": {
               "score": 0,
@@ -59,12 +83,7 @@
     "uniqueUsers": {},
     "topTopics": {},
     "responseTime": [],
-    "accuracy": [
-      {
-        "timestamp": 1741515275624,
-        "memoryCount": 4
-      }
-    ]
+    "accuracy": []
   },
   "compression": {
     "enabled": true,

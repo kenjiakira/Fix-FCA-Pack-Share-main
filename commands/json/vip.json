@@ -1,35 +1,9 @@
 {
   "users": {
-    "100040203282108": {
-      "packageId": 3,
-      "name": "VIP GOLD",
-      "expireTime": 1741523966390,
-      "benefits": {
-        "workBonus": 40,
-        "cooldownReduction": 30,
-        "fishingCooldown": 120000,
-        "fishExpMultiplier": 4,
-        "dailyBonus": true,
-        "packageId": 3
-      }
-    },
     "100053970942155": {
       "packageId": 3,
       "name": "VIP GOLD",
       "expireTime": 1742133406260,
-      "benefits": {
-        "workBonus": 40,
-        "cooldownReduction": 30,
-        "fishingCooldown": 120000,
-        "fishExpMultiplier": 4,
-        "dailyBonus": true,
-        "packageId": 3
-      }
-    },
-    "100087199431487": {
-      "packageId": 3,
-      "name": "VIP GOLD",
-      "expireTime": 1741528635261,
       "benefits": {
         "workBonus": 40,
         "cooldownReduction": 30,

@@ -1271,7 +1271,7 @@ module.exports = {
 
         const textMessage =
           `🎣 Bạn đã câu được ${result.name}!\n` +
-          `💰 Giá gốc: ${formatNumber(result.originalValue)} $\n` +
+          `💰 Giá gốc: ${formatNumber(Math.floor(result.originalValue))} $\n` +
           `📋 Thuế: ${formatNumber(result.taxAmount)} $ (${(
             result.taxRate * 100
           ).toFixed(1)}%)\n` +

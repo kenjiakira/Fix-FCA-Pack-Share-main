@@ -2,12 +2,6 @@
   "61573427362389": [
     {
       "type": "out",
-      "amount": 100800,
-      "timestamp": 1741337271452,
-      "description": "Chuyển 100000 Xu cho Văn Quyến"
-    },
-    {
-      "type": "out",
       "amount": 10100,
       "timestamp": 1741338350431,
       "description": "Chuyển 10000 Xu cho Pham Minh Dang"
@@ -29,38 +23,44 @@
       "amount": 2000000,
       "timestamp": 1741441295624,
       "description": "Nhận 2000000 Xu từ Pham Minh Dang"
+    },
+    {
+      "type": "in",
+      "amount": 1000,
+      "timestamp": 1741525474915,
+      "description": "Nhận 1000 $ từ Le Tuan Tu"
     }
   ],
   "100065381078044": [
     {
-      "type": "in",
-      "amount": 50000,
-      "timestamp": 1741507069571,
-      "description": "Nhận 50000 $ từ Thao Vyy"
+      "type": "out",
+      "amount": 202000,
+      "timestamp": 1741584247159,
+      "description": "Chuyển 200000 $ cho Phạm Hùng"
     },
     {
       "type": "out",
-      "amount": 252500,
-      "timestamp": 1741507112986,
-      "description": "Chuyển 250000 $ cho Thao Vyy"
+      "amount": 202000,
+      "timestamp": 1741585412850,
+      "description": "Chuyển 200000 $ cho Deaven Nguyenn"
     },
     {
       "type": "out",
-      "amount": 101000,
-      "timestamp": 1741507569009,
-      "description": "Chuyển 100000 $ cho User"
-    },
-    {
-      "type": "out",
-      "amount": 101000,
-      "timestamp": 1741507585500,
-      "description": "Chuyển 100000 $ cho User"
+      "amount": 505000,
+      "timestamp": 1741585816097,
+      "description": "Chuyển 500000 $ cho Kiến Tườngg"
     },
     {
       "type": "out",
       "amount": 101000,
-      "timestamp": 1741507602800,
-      "description": "Chuyển 100000 $ cho User"
+      "timestamp": 1741585825231,
+      "description": "Chuyển 100000 $ cho Deaven Nguyenn"
+    },
+    {
+      "type": "out",
+      "amount": 101000,
+      "timestamp": 1741585833622,
+      "description": "Chuyển 100000 $ cho Tran Thu Huyen"
     }
   ],
   "100068382888605": [
@@ -130,12 +130,6 @@
   "61569008916749": [
     {
       "type": "in",
-      "amount": 6900999,
-      "timestamp": 1741319271005,
-      "description": "Nhận 6900999 Xu từ Minh Ngoc"
-    },
-    {
-      "type": "in",
       "amount": 1000000,
       "timestamp": 1741328584117,
       "description": "Nhận 1000000 Xu từ Le Tuan Tu"
@@ -157,6 +151,12 @@
       "amount": 10300,
       "timestamp": 1741507943372,
       "description": "Chuyển 10000 $ cho Vũ Hoa"
+    },
+    {
+      "type": "in",
+      "amount": 500000,
+      "timestamp": 1741534222553,
+      "description": "Nhận 500000 $ từ Le Tuan Tu"
     }
   ],
   "100048267517770": [
@@ -188,12 +188,6 @@
   "100058320200877": [
     {
       "type": "in",
-      "amount": 640000,
-      "timestamp": 1741439332313,
-      "description": "Nhận 640000 Xu từ Hoang Long"
-    },
-    {
-      "type": "in",
       "amount": 5000,
       "timestamp": 1741450846839,
       "description": "Nhận 5000 $ từ Le Tuan Tu"
@@ -215,21 +209,15 @@
       "amount": 20000,
       "timestamp": 1741452566135,
       "description": "Nhận 20000 $ từ Le Tuan Tu"
+    },
+    {
+      "type": "in",
+      "amount": 6500,
+      "timestamp": 1741591166265,
+      "description": "Nhận 6500 $ từ Hoang Long"
     }
   ],
   "100053970942155": [
-    {
-      "type": "out",
-      "amount": 50150000,
-      "timestamp": 1741340249752,
-      "description": "Chuyển 50000000 Xu cho Phạm Hùng"
-    },
-    {
-      "type": "out",
-      "amount": 50150000,
-      "timestamp": 1741340259305,
-      "description": "Chuyển 50000000 Xu cho Tran Thu Huyen"
-    },
     {
       "type": "out",
       "amount": 1005000,
@@ -247,21 +235,21 @@
       "amount": 5015000,
       "timestamp": 1741411633286,
       "description": "Chuyển 5000000 Xu cho Deaven Nguyenn"
+    },
+    {
+      "type": "in",
+      "amount": 21000,
+      "timestamp": 1741527508965,
+      "description": "Nhận 21000 $ từ Le Tuan Tu"
+    },
+    {
+      "type": "in",
+      "amount": 10000,
+      "timestamp": 1741529016863,
+      "description": "Nhận 10000 $ từ Le Tuan Tu"
     }
   ],
   "61568522233427": [
-    {
-      "type": "in",
-      "amount": 1000,
-      "timestamp": 1741446531238,
-      "description": "Nhận 1000 Xu từ Văn Quyến"
-    },
-    {
-      "type": "in",
-      "amount": 77000,
-      "timestamp": 1741446848910,
-      "description": "Nhận 77000 $ từ Văn Quyến"
-    },
     {
       "type": "in",
       "amount": 50000,
@@ -279,6 +267,18 @@
       "amount": 20000,
       "timestamp": 1741457096837,
       "description": "Nhận 20000 $ từ Le Tuan Tu"
+    },
+    {
+      "type": "in",
+      "amount": 100000,
+      "timestamp": 1741526910636,
+      "description": "Nhận 100000 $ từ Le Tuan Tu"
+    },
+    {
+      "type": "in",
+      "amount": 100000,
+      "timestamp": 1741531275987,
+      "description": "Nhận 100000 $ từ Le Tuan Tu"
     }
   ],
   "100076957299243": [
@@ -305,6 +305,12 @@
       "amount": 30000000,
       "timestamp": 1741439838493,
       "description": "Nhận 30000000 Xu từ Văn Quyến"
+    },
+    {
+      "type": "in",
+      "amount": 100000,
+      "timestamp": 1741585833622,
+      "description": "Nhận 100000 $ từ Le Tuan Tu"
     }
   ],
   "100080149704587": [
@@ -319,6 +325,12 @@
       "amount": 50150000,
       "timestamp": 1741331406691,
       "description": "Chuyển 50000000 Xu cho Thùy Linh"
+    },
+    {
+      "type": "in",
+      "amount": 100000,
+      "timestamp": 1741534116400,
+      "description": "Nhận 100000 $ từ Le Tuan Tu"
     }
   ],
   "100028202556430": [
@@ -421,15 +433,15 @@
       "amount": 50000000,
       "timestamp": 1741340249752,
       "description": "Nhận 50000000 Xu từ Dat Lee"
-    }
-  ],
-  "100080964828004": [
+    },
     {
       "type": "in",
       "amount": 200000,
-      "timestamp": 1741489205644,
-      "description": "Nhận 200000 $ từ Minh Đức"
-    },
+      "timestamp": 1741584247159,
+      "description": "Nhận 200000 $ từ Le Tuan Tu"
+    }
+  ],
+  "100080964828004": [
     {
       "type": "in",
       "amount": 250000,
@@ -453,15 +465,15 @@
       "amount": 303000,
       "timestamp": 1741507460135,
       "description": "Chuyển 300000 $ cho Lộc Trịnh "
+    },
+    {
+      "type": "in",
+      "amount": 10000,
+      "timestamp": 1741527412565,
+      "description": "Nhận 10000 $ từ Minh Đức"
     }
   ],
   "61552144357464": [
-    {
-      "type": "out",
-      "amount": 15150,
-      "timestamp": 1741486479713,
-      "description": "Chuyển 15000 $ cho Hoàng Dương"
-    },
     {
       "type": "in",
       "amount": 200000,
@@ -485,6 +497,12 @@
       "amount": 1145,
       "timestamp": 1741508123939,
       "description": "Chuyển 1111 $ cho Lộc Trịnh "
+    },
+    {
+      "type": "out",
+      "amount": 10300,
+      "timestamp": 1741527412565,
+      "description": "Chuyển 10000 $ cho Hoàng Dương"
     }
   ],
   "100047529173949": [
@@ -599,18 +617,6 @@
     {
       "type": "in",
       "amount": 5000000,
-      "timestamp": 1741411633286,
-      "description": "Nhận 5000000 Xu từ Dat Lee"
-    },
-    {
-      "type": "in",
-      "amount": 40000000,
-      "timestamp": 1741421634657,
-      "description": "Nhận 40000000 Xu từ Văn Quyến"
-    },
-    {
-      "type": "in",
-      "amount": 5000000,
       "timestamp": 1741439384526,
       "description": "Nhận 5000000 Xu từ Văn Quyến"
     },
@@ -625,6 +631,18 @@
       "amount": 1000,
       "timestamp": 1741457827686,
       "description": "Nhận 1000 $ từ Văn Quyến"
+    },
+    {
+      "type": "in",
+      "amount": 200000,
+      "timestamp": 1741585412850,
+      "description": "Nhận 200000 $ từ Le Tuan Tu"
+    },
+    {
+      "type": "in",
+      "amount": 100000,
+      "timestamp": 1741585825231,
+      "description": "Nhận 100000 $ từ Le Tuan Tu"
     }
   ],
   "100092325757607": [
@@ -715,6 +733,12 @@
       "amount": 50000000,
       "timestamp": 1741437731369,
       "description": "Nhận 50000000 Xu từ Minh Ngoc"
+    },
+    {
+      "type": "in",
+      "amount": 500000,
+      "timestamp": 1741585816097,
+      "description": "Nhận 500000 $ từ Le Tuan Tu"
     }
   ],
   "61566789515977": [
@@ -723,6 +747,12 @@
       "amount": 643200,
       "timestamp": 1741439332313,
       "description": "Chuyển 640000 Xu cho Khuong Duy"
+    },
+    {
+      "type": "out",
+      "amount": 6695,
+      "timestamp": 1741591166265,
+      "description": "Chuyển 6500 $ cho Khuong Duy"
     }
   ],
   "100035610181048": [
@@ -817,6 +847,18 @@
       "amount": 250000,
       "timestamp": 1741507112986,
       "description": "Nhận 250000 $ từ Le Tuan Tu"
+    },
+    {
+      "type": "in",
+      "amount": 5000,
+      "timestamp": 1741526497019,
+      "description": "Nhận 5000 $ từ Le Tuan Tu"
+    },
+    {
+      "type": "in",
+      "amount": 10000,
+      "timestamp": 1741526595772,
+      "description": "Nhận 10000 $ từ Le Tuan Tu"
     }
   ],
   "100075505330006": [
@@ -873,6 +915,52 @@
       "amount": 14140,
       "timestamp": 1741510066190,
       "description": "Chuyển 14000 $ cho Yzu Yu"
+    }
+  ],
+  "61573447875059": [
+    {
+      "type": "in",
+      "amount": 8000,
+      "timestamp": 1741526858211,
+      "description": "Nhận 8000 $ từ Le Tuan Tu"
+    },
+    {
+      "type": "in",
+      "amount": 8000,
+      "timestamp": 1741526884796,
+      "description": "Nhận 8000 $ từ Le Tuan Tu"
+    },
+    {
+      "type": "in",
+      "amount": 8000,
+      "timestamp": 1741526891652,
+      "description": "Nhận 8000 $ từ Le Tuan Tu"
+    },
+    {
+      "type": "in",
+      "amount": 8000,
+      "timestamp": 1741526898568,
+      "description": "Nhận 8000 $ từ Le Tuan Tu"
+    }
+  ],
+  "100055052811579": [
+    {
+      "type": "in",
+      "amount": 200000,
+      "timestamp": 1741582326712,
+      "description": "Nhận 200000 $ từ Le Tuan Tu"
+    },
+    {
+      "type": "in",
+      "amount": 193000,
+      "timestamp": 1741582341019,
+      "description": "Nhận 193000 $ từ Le Tuan Tu"
+    },
+    {
+      "type": "out",
+      "amount": 2060,
+      "timestamp": 1741582424253,
+      "description": "Chuyển 2000 $ cho Le Tuan Tu"
     }
   ]
 }
