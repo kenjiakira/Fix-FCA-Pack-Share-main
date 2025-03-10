@@ -8831,7 +8831,7 @@
   },
   "100065381078044": {
     "rod": "Cần jig Daiwa Saltiga SJ",
-    "rodDurability": 310,
+    "rodDurability": 308,
     "inventory": [
       "Cần trúc",
       "Cần câu Daiwa Gekkabijin MX",
@@ -8855,7 +8855,7 @@
           "Cá Bống Tượng": 2,
           "Cá Trích": 3,
           "Cá Thác Lác": 5,
-          "Cá Rô Phi": 1,
+          "Cá Rô Phi": 2,
           "Cá Tra": 3,
           "Cá Út": 4,
           "Cá Duồng": 1,
@@ -8877,7 +8877,7 @@
           "Cá Bông Lau": 1,
           "Cá Quả": 1,
           "Cá Tai Tượng": 5,
-          "Cá Thu": 10,
+          "Cá Thu": 11,
           "Cá Trê Vàng": 9,
           "Cá Tra Sông": 9,
           "Cá Lóc Đồng": 5,
@@ -8911,29 +8911,29 @@
         }
       },
       "stats": {
-        "totalCaught": 189,
-        "totalValue": 243354720,
+        "totalCaught": 191,
+        "totalValue": 243364308,
         "bestCatch": {
           "name": "Astral Serpentine",
           "value": 111720000
         }
       }
     },
-    "exp": 298540,
+    "exp": 299105,
     "level": 37,
-    "fishingStreak": 17,
+    "fishingStreak": 19,
     "stats": {
-      "totalExp": 3837534,
+      "totalExp": 3838099,
       "highestStreak": 53,
-      "totalFishes": 189
+      "totalFishes": 191
     },
     "activeBuffs": {},
-    "lastFished": 1741590035032,
+    "lastFished": 1741595742811,
     "userID": "100065381078044",
-    "energy": 180,
-    "lastEnergyUpdate": 1741593635032,
+    "energy": 171,
+    "lastEnergyUpdate": 1741595742812,
     "baits": {
-      "Mồi Thần Thoại": 141
+      "Mồi Thần Thoại": 139
     },
     "craftingMaterials": {}
   },

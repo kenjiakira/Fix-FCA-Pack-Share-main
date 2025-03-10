@@ -3,7 +3,7 @@ const path = require("path");
 const { createCanvas, loadImage, registerFont } = require("canvas");
 
 function hexToRgb(hex) {
-  try {   
+  try {
     if (!hex || typeof hex !== 'string') {
       return "255, 255, 255";
     }
@@ -356,6 +356,7 @@ function drawFrameDecorations(ctx, x, y, width, height, rarity, colors) {
     ctx.lineTo(x + width/2 + accentWidth/2, y + height - 15);
     ctx.stroke();
     
+    // Dot patterns on sides
     for (let side = 0; side < 2; side++) {
       const posX = side === 0 ? x + 15 : x + width - 15;
       const dotCount = 5;
@@ -391,9 +392,9 @@ function drawCardFrame(ctx, rarity, x, y, width, height, isPremium = false) {
   
   const colors = rarityColors[rarity] || rarityColors["3"];
   
-  
+  // Special handling for premium 5-star cards
   if (rarity === "5" && isPremium) {
-    
+    // Premium animated glow effect
     const timestamp = Date.now() / 1000;
     const glowIntensity = (Math.sin(timestamp * 2) + 1) / 2;
     
@@ -401,34 +402,27 @@ function drawCardFrame(ctx, rarity, x, y, width, height, isPremium = false) {
       x + width/2, y + height/2, 0,
       x + width/2, y + height/2, width
     );
-    premiumGlow.addColorStop(0, `rgba(255, 215, 0, ${0.4 + glowIntensity * 0.3})`);
-    premiumGlow.addColorStop(0.5, `rgba(255, 140, 0, ${0.3 + glowIntensity * 0.2})`);
+    premiumGlow.addColorStop(0, `rgba(255, 215, 0, ${0.3 + glowIntensity * 0.2})`);
+    premiumGlow.addColorStop(0.5, `rgba(255, 140, 0, ${0.2 + glowIntensity * 0.1})`);
     premiumGlow.addColorStop(1, 'rgba(0, 0, 0, 0)');
     
     ctx.fillStyle = premiumGlow;
     ctx.fillRect(x - 50, y - 50, width + 100, height + 100);
 
-    
+    // Premium border effect
     const borderGradient = ctx.createLinearGradient(x, y, x, y + height);
-    borderGradient.addColorStop(0, '#FFE700');
-    borderGradient.addColorStop(0.33, '#FFFFFF');
-    borderGradient.addColorStop(0.66, '#FFA500');
-    borderGradient.addColorStop(1, '#FF5500');
+    borderGradient.addColorStop(0, colors.premium.primary);
+    borderGradient.addColorStop(0.5, '#FFFFFF');
+    borderGradient.addColorStop(1, colors.premium.secondary);
     
     ctx.strokeStyle = borderGradient;
-    ctx.lineWidth = 15;
-    ctx.shadowColor = '#FFD700';
-    ctx.shadowBlur = 25;
-    roundRect(ctx, x - 6, y - 6, width + 12, height + 12, 24);
+    ctx.lineWidth = 12;
+    ctx.shadowColor = colors.premium.primary;
+    ctx.shadowBlur = 20;
+    roundRect(ctx, x - 4, y - 4, width + 8, height + 8, 22);
 
-    
-    ctx.strokeStyle = '#FFF8DC';
-    ctx.lineWidth = 2;
-    ctx.shadowBlur = 10;
-    roundRect(ctx, x - 2, y - 2, width + 4, height + 4, 22, false, true);
-
-    
-    const cornerSize = 50;
+    // Add premium corner ornaments
+    const cornerSize = 40;
     [
       [x, y],
       [x + width - cornerSize, y],
@@ -438,13 +432,12 @@ function drawCardFrame(ctx, rarity, x, y, width, height, isPremium = false) {
       drawPremiumCorner(ctx, pos[0], pos[1], cornerSize, i * Math.PI/2);
     });
 
-    
-    for(let i = 0; i < 12; i++) {
-      const angle = (i / 12) * Math.PI * 2 + timestamp;
-      const distance = width/3 + Math.sin(timestamp + i) * 20;
-      const sparkleX = x + width/2 + Math.cos(angle) * distance;
-      const sparkleY = y + height/2 + Math.sin(angle) * distance;
-      drawPremiumSparkle(ctx, sparkleX, sparkleY, 20 + Math.sin(timestamp * 3 + i) * 8);
+    // Add premium sparkle effects
+    for(let i = 0; i < 8; i++) {
+      const angle = (i / 8) * Math.PI * 2 + timestamp;
+      const sparkleX = x + width/2 + Math.cos(angle) * width/3;
+      const sparkleY = y + height/2 + Math.sin(angle) * height/3;
+      drawPremiumSparkle(ctx, sparkleX, sparkleY, 15 + Math.sin(timestamp * 3 + i) * 5);
     }
   } else {
     const glowRadius = width * 0.6; 
@@ -540,43 +533,30 @@ function drawPremiumCorner(ctx, x, y, size, rotation) {
 
   const gradient = ctx.createLinearGradient(0, 0, size, size);
   gradient.addColorStop(0, '#FFE700');
-  gradient.addColorStop(0.3, '#FFFFFF');
-  gradient.addColorStop(0.7, '#FFA500');
+  gradient.addColorStop(0.5, '#FFFFFF');
   gradient.addColorStop(1, '#FF5500');
 
   ctx.fillStyle = gradient;
-  ctx.strokeStyle = '#FFFFFF';
+  ctx.strokeStyle = '#FFD700';
   ctx.lineWidth = 2;
-  ctx.shadowColor = '#FFD700';
-  ctx.shadowBlur = 10;
 
-  
   ctx.beginPath();
   ctx.moveTo(0, 0);
   ctx.lineTo(size, 0);
   ctx.lineTo(size, size/3);
-  ctx.bezierCurveTo(size*0.9, size*0.5, size*0.7, size*0.7, size/3, size);
+  ctx.quadraticCurveTo(size/2, size/2, size, size);
+  ctx.lineTo(size - size/3, size);
   ctx.lineTo(0, size);
   ctx.closePath();
   
   ctx.fill();
   ctx.stroke();
 
-  
+  // Add sparkle
   ctx.beginPath();
-  ctx.arc(size*0.6, size*0.4, size*0.1, 0, Math.PI * 2);
+  ctx.arc(size/2, size/2, 4, 0, Math.PI * 2);
   ctx.fillStyle = '#FFFFFF';
   ctx.fill();
-
-  
-  ctx.beginPath();
-  ctx.moveTo(size*0.2, size*0.2);
-  ctx.lineTo(size*0.4, size*0.2);
-  ctx.moveTo(size*0.2, size*0.4);
-  ctx.lineTo(size*0.3, size*0.4);
-  ctx.strokeStyle = '#FFFFFF';
-  ctx.lineWidth = 1.5;
-  ctx.stroke();
 
   ctx.restore();
 }
@@ -584,34 +564,23 @@ function drawPremiumCorner(ctx, x, y, size, rotation) {
 function drawPremiumSparkle(ctx, x, y, size) {
   ctx.save();
   
-  
-  const outerGradient = ctx.createRadialGradient(x, y, 0, x, y, size);
-  outerGradient.addColorStop(0, '#FFFFFF');
-  outerGradient.addColorStop(0.4, '#FFD700');
-  outerGradient.addColorStop(0.7, '#FFA500');
-  outerGradient.addColorStop(1, 'rgba(255, 85, 0, 0)');
+  const gradient = ctx.createRadialGradient(x, y, 0, x, y, size);
+  gradient.addColorStop(0, '#FFFFFF');
+  gradient.addColorStop(0.5, '#FFD700');
+  gradient.addColorStop(1, 'rgba(255, 215, 0, 0)');
 
-  ctx.fillStyle = outerGradient;
-  ctx.globalCompositeOperation = 'screen';
-  ctx.globalAlpha = 0.9;
+  ctx.fillStyle = gradient;
+  ctx.globalAlpha = 0.8;
 
-  
   ctx.beginPath();
   for(let i = 0; i < 8; i++) {
     const angle = (i / 8) * Math.PI * 2;
-    const len = i % 2 === 0 ? size : size/2.5;
+    const len = i % 2 === 0 ? size : size/2;
     const px = x + Math.cos(angle) * len;
     const py = y + Math.sin(angle) * len;
     i === 0 ? ctx.moveTo(px, py) : ctx.lineTo(px, py);
   }
   ctx.closePath();
-  ctx.fill();
-
-  
-  ctx.beginPath();
-  ctx.arc(x, y, size/4, 0, Math.PI * 2);
-  ctx.fillStyle = '#FFFFFF';
-  ctx.globalAlpha = 0.9;
   ctx.fill();
 
   ctx.restore();
@@ -718,10 +687,10 @@ function drawEnhancedCharacterFrame(ctx, x, y, width, height, rarity, colors) {
     ctx.strokeStyle = borderGradient;
     roundRect(ctx, x, y, width, height, 15, false, true);
     
-    
+    // Add decorative corners
     const cornerSize = 25;
     
-    
+    // Draw ornate corners
     for (let i = 0; i < 4; i++) {
       ctx.save();
       ctx.translate(
@@ -729,10 +698,10 @@ function drawEnhancedCharacterFrame(ctx, x, y, width, height, rarity, colors) {
         y + (i < 2 ? 0 : height)
       );
       
-      
+      // Rotate according to corner position
       ctx.rotate(Math.PI * 0.5 * i);
       
-      
+      // Draw the ornate corner
       ctx.beginPath();
       ctx.moveTo(0, 0);
       ctx.lineTo(cornerSize, 0);
@@ -740,7 +709,7 @@ function drawEnhancedCharacterFrame(ctx, x, y, width, height, rarity, colors) {
       ctx.lineTo(0, cornerSize);
       ctx.stroke();
       
-      
+      // Add decorative dot
       ctx.beginPath();
       ctx.arc(cornerSize - 5, cornerSize/2, 3, 0, Math.PI * 2);
       ctx.fillStyle = "#FFD700";
@@ -749,7 +718,7 @@ function drawEnhancedCharacterFrame(ctx, x, y, width, height, rarity, colors) {
       ctx.restore();
     }
     
-    
+    // Add aura effect
     const auraGradient = ctx.createRadialGradient(
       x + width/2, y + height/2, height * 0.3,
       x + width/2, y + height/2, height * 0.6
@@ -762,7 +731,7 @@ function drawEnhancedCharacterFrame(ctx, x, y, width, height, rarity, colors) {
     ctx.fillRect(x - 20, y - 20, width + 40, height + 40);
     
   } else if (rarity === "4") {
-    
+    // Purple elegant frame for 4-star
     borderGradient.addColorStop(0, "#9b59b6");
     borderGradient.addColorStop(0.5, "#D6A8E8");
     borderGradient.addColorStop(1, "#8e44ad");
@@ -770,7 +739,7 @@ function drawEnhancedCharacterFrame(ctx, x, y, width, height, rarity, colors) {
     ctx.strokeStyle = borderGradient;
     roundRect(ctx, x, y, width, height, 15, false, true);
     
-    
+    // Add simple corner decorations
     const cornerSize = 20;
     
     for (let i = 0; i < 4; i++) {
@@ -778,19 +747,19 @@ function drawEnhancedCharacterFrame(ctx, x, y, width, height, rarity, colors) {
       const cornerY = y + (i < 2 ? 0 : height - cornerSize);
       
       ctx.beginPath();
-      if (i === 0) { 
+      if (i === 0) { // Top left
         ctx.moveTo(cornerX, cornerY + cornerSize);
         ctx.lineTo(cornerX, cornerY);
         ctx.lineTo(cornerX + cornerSize, cornerY);
-      } else if (i === 1) { 
+      } else if (i === 1) { // Top right
         ctx.moveTo(cornerX, cornerY);
         ctx.lineTo(cornerX + cornerSize, cornerY);
         ctx.lineTo(cornerX + cornerSize, cornerY + cornerSize);
-      } else if (i === 2) { 
+      } else if (i === 2) { // Bottom left
         ctx.moveTo(cornerX, cornerY - cornerSize + height);
         ctx.lineTo(cornerX, cornerY + height);
         ctx.lineTo(cornerX + cornerSize, cornerY + height);
-      } else { 
+      } else { // Bottom right
         ctx.moveTo(cornerX + cornerSize, cornerY);
         ctx.lineTo(cornerX + cornerSize, cornerY + cornerSize);
         ctx.lineTo(cornerX, cornerY + cornerSize);
@@ -802,7 +771,7 @@ function drawEnhancedCharacterFrame(ctx, x, y, width, height, rarity, colors) {
     }
     
   } else {
-    
+    // Simple blue frame for 3-star
     borderGradient.addColorStop(0, "#3498db");
     borderGradient.addColorStop(1, "#2980b9");
     
@@ -810,7 +779,7 @@ function drawEnhancedCharacterFrame(ctx, x, y, width, height, rarity, colors) {
     ctx.strokeStyle = borderGradient;
     roundRect(ctx, x, y, width, height, 15, false, true);
     
-    
+    // Add subtle corner accents
     const cornerSize = 15;
     
     for (let i = 0; i < 4; i++) {
@@ -842,7 +811,7 @@ function drawEnhancedCharacterFrame(ctx, x, y, width, height, rarity, colors) {
     }
   }
   
-  
+  // Add inner glow effect
   const innerGlow = ctx.createLinearGradient(x, y, x, y + height);
   innerGlow.addColorStop(0, `rgba(${hexToRgb(colors.primary)}, 0.15)`);
   innerGlow.addColorStop(0.5, `rgba(255, 255, 255, 0.2)`);
@@ -852,7 +821,7 @@ function drawEnhancedCharacterFrame(ctx, x, y, width, height, rarity, colors) {
   ctx.lineWidth = rarity === "5" ? 3 : rarity === "4" ? 2 : 1;
   roundRect(ctx, x + 5, y + 5, width - 10, height - 10, 12, false, true);
   
-  
+  // Add shine effect
   if (rarity === "5" || rarity === "4") {
     const shineWidth = rarity === "5" ? width/3 : width/4;
     
@@ -900,10 +869,10 @@ async function createPullResultImage(options) {
     const colors = rarityColors[rarity] || rarityColors["3"];
     
     const cardGradient = ctx.createLinearGradient(0, 0, width, height);
-    cardGradient.addColorStop(0, `rgba(60, 60, 70, 0.8)`); 
-    cardGradient.addColorStop(0.5, `rgba(45, 45, 55, 0.8)`);
-    cardGradient.addColorStop(1, `rgba(50, 50, 60, 0.8)`);
-
+    cardGradient.addColorStop(0, `rgba(30, 30, 40, 0.95)`);
+    cardGradient.addColorStop(0.5, `rgba(15, 15, 25, 0.98)`);
+    cardGradient.addColorStop(1, `rgba(20, 20, 30, 0.95)`);
+    
     ctx.fillStyle = cardGradient;
     roundRect(ctx, 0, 0, width, height, 20, true, false);
 
@@ -912,11 +881,10 @@ async function createPullResultImage(options) {
       width/2, height/2, width/4,
       width/2, height/2, width
     );
-    glowGradient.addColorStop(0, `rgba(${hexToRgb(colors.primary)}, 0.4)`);
-    glowGradient.addColorStop(0.5, `rgba(255, 255, 255, 0.1)`);
+    glowGradient.addColorStop(0, `rgba(${hexToRgb(colors.primary)}, 0.3)`);
     glowGradient.addColorStop(1, 'rgba(0, 0, 0, 0)');
     
-    ctx.globalCompositeOperation = 'screen'; 
+    ctx.globalCompositeOperation = 'screen';
     ctx.fillStyle = glowGradient;
     ctx.fillRect(0, 0, width, height);
     ctx.restore();
@@ -938,6 +906,7 @@ async function createPullResultImage(options) {
     const imageAreaWidth = width - 60;
     const imageAreaHeight = height * 0.55;
 
+    // Replace simple background with enhanced character frame
     drawEnhancedCharacterFrame(ctx, imageAreaX, imageAreaY, imageAreaWidth, imageAreaHeight, rarity, colors);
     
     if (character.image) {
@@ -998,66 +967,42 @@ async function createPullResultImage(options) {
     
     ctx.save();
     
+    // Enhanced banner background based on rarity
     if (rarity === "5") {
+      // Luxurious 5-star name banner
       const bannerWidth = width - 80;
       const bannerX = width/2 - bannerWidth/2;
       
+      // Elegant background with gold accents
       const luxuryGradient = ctx.createLinearGradient(0, nameBannerY, 0, nameBannerY + nameBannerHeight);
-      
-      if (isPremium) {
-        luxuryGradient.addColorStop(0, `rgba(139, 69, 19, 0.95)`); 
-        luxuryGradient.addColorStop(0.3, `rgba(255, 215, 0, 0.95)`);
-        luxuryGradient.addColorStop(0.7, `rgba(184, 134, 11, 0.95)`);
-        luxuryGradient.addColorStop(1, `rgba(139, 69, 19, 0.95)`);
-      } else {
-        luxuryGradient.addColorStop(0, `rgba(139, 69, 19, 0.95)`);
-        luxuryGradient.addColorStop(0.5, `rgba(218, 165, 32, 0.95)`);
-        luxuryGradient.addColorStop(1, `rgba(184, 134, 11, 0.95)`);
-      }
+      luxuryGradient.addColorStop(0, `rgba(255, 215, 0, 0.9)`);
+      luxuryGradient.addColorStop(0.5, `rgba(255, 248, 220, 0.9)`);
+      luxuryGradient.addColorStop(1, `rgba(218, 165, 32, 0.9)`);
       
       ctx.fillStyle = luxuryGradient;
       roundRect(ctx, bannerX, nameBannerY, bannerWidth, nameBannerHeight, 15, true, false);
       
-      ctx.strokeStyle = isPremium ? "#FFFFFF" : "rgba(255, 223, 0, 0.8)";
-      ctx.lineWidth = isPremium ? 2 : 1.5;
-      roundRect(ctx, bannerX, nameBannerY, bannerWidth, nameBannerHeight, 15, false, true);
+      // Add decorative patterns
+      ctx.strokeStyle = "rgba(255, 255, 255, 0.7)";
+      ctx.lineWidth = 2;
       
-      if (isPremium) {
-        ctx.strokeStyle = "rgba(255, 255, 255, 0.8)";
-        ctx.lineWidth = 1.5;
-        
-        for (let i = 0; i < 3; i++) {
-          const patternY = nameBannerY + 10 + (i * 20);
-          
-          ctx.beginPath();
-          ctx.moveTo(bannerX + 15, patternY);
-          ctx.quadraticCurveTo(bannerX + 30, patternY + 10, bannerX + 15, patternY + 20);
-          ctx.stroke();
-          
-          ctx.beginPath();
-          ctx.moveTo(bannerX + bannerWidth - 15, patternY);
-          ctx.quadraticCurveTo(bannerX + bannerWidth - 30, patternY + 10, bannerX + bannerWidth - 15, patternY + 20);
-          ctx.stroke();
-        }
-      } else {
-        ctx.strokeStyle = "rgba(255, 255, 255, 0.7)";
-        ctx.lineWidth = 1.5;
-        
-        ctx.beginPath();
-        ctx.moveTo(bannerX + 30, nameBannerY + 10);
-        ctx.lineTo(bannerX + 30, nameBannerY + nameBannerHeight - 10);
-        ctx.moveTo(bannerX + 40, nameBannerY + 15);
-        ctx.lineTo(bannerX + 40, nameBannerY + nameBannerHeight - 15);
-        ctx.stroke();
-        
-        ctx.beginPath();
-        ctx.moveTo(bannerX + bannerWidth - 30, nameBannerY + 10);
-        ctx.lineTo(bannerX + bannerWidth - 30, nameBannerY + nameBannerHeight - 10);
-        ctx.moveTo(bannerX + bannerWidth - 40, nameBannerY + 15);
-        ctx.lineTo(bannerX + bannerWidth - 40, nameBannerY + nameBannerHeight - 15);
-        ctx.stroke();
-      }
+      // Left decorative element
+      ctx.beginPath();
+      ctx.moveTo(bannerX + 30, nameBannerY + 10);
+      ctx.lineTo(bannerX + 30, nameBannerY + nameBannerHeight - 10);
+      ctx.moveTo(bannerX + 40, nameBannerY + 15);
+      ctx.lineTo(bannerX + 40, nameBannerY + nameBannerHeight - 15);
+      ctx.stroke();
       
+      // Right decorative element
+      ctx.beginPath();
+      ctx.moveTo(bannerX + bannerWidth - 30, nameBannerY + 10);
+      ctx.lineTo(bannerX + bannerWidth - 30, nameBannerY + nameBannerHeight - 10);
+      ctx.moveTo(bannerX + bannerWidth - 40, nameBannerY + 15);
+      ctx.lineTo(bannerX + bannerWidth - 40, nameBannerY + nameBannerHeight - 15);
+      ctx.stroke();
+      
+      // Add ornate corners
       const cornerSize = 15;
       [
         [bannerX + 10, nameBannerY + 10],
@@ -1066,19 +1011,19 @@ async function createPullResultImage(options) {
         [bannerX + bannerWidth - 10, nameBannerY + nameBannerHeight - 10]
       ].forEach((pos, i) => {
         ctx.beginPath();
-        if (i === 0) { 
+        if (i === 0) { // Top-left
           ctx.moveTo(pos[0], pos[1] + cornerSize);
           ctx.lineTo(pos[0], pos[1]);
           ctx.lineTo(pos[0] + cornerSize, pos[1]);
-        } else if (i === 1) { 
+        } else if (i === 1) { // Top-right
           ctx.moveTo(pos[0], pos[1]);
           ctx.lineTo(pos[0] - cornerSize, pos[1]);
           ctx.lineTo(pos[0], pos[1] + cornerSize);
-        } else if (i === 2) { 
+        } else if (i === 2) { // Bottom-left
           ctx.moveTo(pos[0], pos[1]);
           ctx.lineTo(pos[0], pos[1] - cornerSize);
           ctx.lineTo(pos[0] + cornerSize, pos[1]);
-        } else { 
+        } else { // Bottom-right
           ctx.moveTo(pos[0], pos[1]);
           ctx.lineTo(pos[0] - cornerSize, pos[1]);
           ctx.lineTo(pos[0], pos[1] - cornerSize);
@@ -1086,7 +1031,7 @@ async function createPullResultImage(options) {
         ctx.stroke();
       });
     } else if (rarity === "4") {
-      
+      // Stylish 4-star name banner
       const bannerGradient = ctx.createLinearGradient(0, nameBannerY, width, nameBannerY + nameBannerHeight);
       bannerGradient.addColorStop(0, `rgba(138, 43, 226, 0.9)`);
       bannerGradient.addColorStop(0.5, `rgba(155, 89, 182, 0.9)`);
@@ -1128,14 +1073,13 @@ async function createPullResultImage(options) {
       ctx.fillStyle = bannerGradient;
       roundRect(ctx, width/2 - ((width - 80)/2), nameBannerY, width - 80, nameBannerHeight, 15, true, false);
       
-      
       const bannerX = width/2 - ((width - 80)/2);
       const bannerWidth = width - 80;
       
       ctx.strokeStyle = "rgba(255, 255, 255, 0.3)";
       ctx.lineWidth = 1;
       
-      
+      // Horizontal lines at top and bottom
       ctx.beginPath();
       ctx.moveTo(bannerX + 15, nameBannerY + 10);
       ctx.lineTo(bannerX + bannerWidth - 15, nameBannerY + 10);
@@ -1157,17 +1101,17 @@ async function createPullResultImage(options) {
     ctx.fillText(stars, width/2, nameBannerY - 10);
     ctx.restore();
 
+    ctx.save();
     const valueY = nameBannerY + nameBannerHeight + 25;
     const valueHeight = 50;
-    
     
     const valueBgGradient = ctx.createLinearGradient(
       width/2 - 150, valueY,
       width/2 + 150, valueY
     );
-    valueBgGradient.addColorStop(0, `rgba(${hexToRgb(colors.secondary)}, 0.25)`); 
-    valueBgGradient.addColorStop(0.5, `rgba(${hexToRgb(colors.primary)}, 0.4)`);  
-    valueBgGradient.addColorStop(1, `rgba(${hexToRgb(colors.secondary)}, 0.25)`); 
+    valueBgGradient.addColorStop(0, `rgba(${hexToRgb(colors.secondary)}, 0.3)`);
+    valueBgGradient.addColorStop(0.5, `rgba(${hexToRgb(colors.primary)}, 0.5)`);
+    valueBgGradient.addColorStop(1, `rgba(${hexToRgb(colors.secondary)}, 0.3)`);
     
     ctx.fillStyle = valueBgGradient;
     roundRect(ctx, width/2 - 140, valueY, 280, valueHeight, 10, true, false);
@@ -1178,6 +1122,7 @@ async function createPullResultImage(options) {
     ctx.moveTo(width/2 - 120, valueY + valueHeight/2);
     ctx.lineTo(width/2 - 100, valueY + valueHeight/2);
     ctx.stroke();
+    
     ctx.beginPath();
     ctx.moveTo(width/2 + 120, valueY + valueHeight/2);
     ctx.lineTo(width/2 + 100, valueY + valueHeight/2);
@@ -1205,13 +1150,15 @@ async function createPullResultImage(options) {
     
     ctx.fillStyle = valueGradient;
     ctx.fillText(formattedValue, width/2, valueY + valueHeight/2 + 10);
+    ctx.restore();
 
     const elementY = valueY + valueHeight + 35;
+   
     const charStats = generateCharacterStats(rarity);
 
     const statY = valueY + valueHeight + 35;
     const statSpacing = 30;
-
+ 
     const elementIcons = {
       "Pyro": "🔥",
       "Hydro": "💧",
@@ -1222,6 +1169,7 @@ async function createPullResultImage(options) {
       "Geo": "🪨",
       "Unknown": "✨"
     };
+    
     const weaponIcons = {
       "Sword": "🗡️",
       "Claymore": "⚔️",
@@ -1238,16 +1186,15 @@ async function createPullResultImage(options) {
     ctx.textAlign = "center";
     ctx.fillStyle = "#ffffff";
     ctx.fillText(
-      `${elementIcon} ${stats.element}`, 
-      width/2 - 100, 
-      elementY
+        `${elementIcon} ${stats.element}`, 
+        width/2 - 100, 
+        elementY
     );
     ctx.fillText(
       `${weaponIcon} ${stats.weapon}`,
       width/2 + 100, 
       elementY
-    );
-
+  );
     const statIcons = ["❤️", "⚔️", "🛡️"];
     const statLabels = ["HP", "ATK", "DEF"];
     const statValues = [charStats.hp, charStats.atk, charStats.def];
@@ -1260,7 +1207,7 @@ async function createPullResultImage(options) {
         const barHeight = 24;
         const barX = width/2 - barWidth/2;
         
-        ctx.fillStyle = "rgba(0, 0, 0, 0.15)";
+        ctx.fillStyle = "rgba(0, 0, 0, 0.3)";
         roundRect(ctx, barX, y, barWidth, barHeight, barHeight/2, true, false);
         
         const maxVal = index === 0 ? 5000 : index === 1 ? 600 : 500;
@@ -1284,17 +1231,17 @@ async function createPullResultImage(options) {
     });
 
     drawCardDecorations(ctx, 10, 10, width - 20, height - 20, colors);
- 
+
     drawShimmer(ctx, 10, 10, width - 20, height - 20, rarity);
 
-    
+    // Add final finishing touches
     if (rarity === "5") {
-      
+      // Add special corner accents for 5★ cards
       const accentSize = 30;
       ctx.save();
       ctx.fillStyle = colors.primary;
       
-      
+      // Top left accent
       ctx.beginPath();
       ctx.moveTo(20, 20);
       ctx.lineTo(20 + accentSize, 20);
@@ -1302,7 +1249,7 @@ async function createPullResultImage(options) {
       ctx.closePath();
       ctx.fill();
       
-      
+      // Top right accent
       ctx.beginPath();
       ctx.moveTo(width - 20, 20);
       ctx.lineTo(width - 20 - accentSize, 20);
@@ -1310,7 +1257,7 @@ async function createPullResultImage(options) {
       ctx.closePath();
       ctx.fill();
       
-      
+      // Bottom left accent
       ctx.beginPath();
       ctx.moveTo(20, height - 20);
       ctx.lineTo(20 + accentSize, height - 20);
@@ -1318,7 +1265,7 @@ async function createPullResultImage(options) {
       ctx.closePath();
       ctx.fill();
       
-      
+      // Bottom right accent
       ctx.beginPath();
       ctx.moveTo(width - 20, height - 20);
       ctx.lineTo(width - 20 - accentSize, height - 20);
@@ -1329,7 +1276,7 @@ async function createPullResultImage(options) {
     }
 
     if (isPremium) {
-      
+      // Add premium label
       ctx.save();
       ctx.font = "bold 28px Arial";
       ctx.textAlign = "center";
@@ -1413,8 +1360,7 @@ function addHolographicEffect(ctx, x, y, width, height, rarity) {
 function drawBackgroundPattern(ctx, width, height, rarity, colors) {
   ctx.save();
   
-  
-  const patternOpacity = rarity === "5" ? 0.1 : rarity === "4" ? 0.06 : 0.04;
+  const patternOpacity = rarity === "5" ? 0.12 : rarity === "4" ? 0.08 : 0.05;
   
   if (rarity === "5") {
     ctx.strokeStyle = `rgba(${hexToRgb(colors.primary)}, ${patternOpacity})`;
@@ -1431,6 +1377,23 @@ function drawBackgroundPattern(ctx, width, height, rarity, colors) {
         ctx.closePath();
         ctx.stroke();
       }
+    }
+    
+    ctx.fillStyle = `rgba(${hexToRgb(colors.secondary)}, 0.07)`;
+    for (let i = 0; i < 15; i++) {
+      const starX = Math.random() * width;
+      const starY = Math.random() * height;
+      const starSize = Math.random() * 20 + 10;
+      
+      ctx.beginPath();
+      for (let j = 0; j < 5; j++) {
+        const angle = (j * 2 * Math.PI / 5) - Math.PI / 2;
+        const x = starX + starSize * Math.cos(angle);
+        const y = starY + starSize * Math.sin(angle);
+        j === 0 ? ctx.moveTo(x, y) : ctx.lineTo(x, y);
+      }
+      ctx.closePath();
+      ctx.fill();
     }
   } else if (rarity === "4") {
 
@@ -1460,12 +1423,10 @@ function drawBackgroundPattern(ctx, width, height, rarity, colors) {
   ctx.restore();
 }
 
-
 function add3DEffect(ctx, x, y, width, height, depth = 8) {
   ctx.save();
   
-  
-  ctx.fillStyle = 'rgba(0, 0, 0, 0.25)';
+  ctx.fillStyle = 'rgba(0, 0, 0, 0.6)';
   ctx.beginPath();
   ctx.moveTo(x + width, y + depth);
   ctx.lineTo(x + width + depth, y + depth * 2);
