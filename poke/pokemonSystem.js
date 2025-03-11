@@ -19,35 +19,35 @@ class PokemonSystem {
             "pokeball": {
                 name: "Pokéball",
                 catchRate: 0.8,     
-                price: 5000,
+                price: 50,
                 emoji: "⚪",
                 image: "https://imgur.com/shWA5J3.png"
             },
             "safariball": {
                 name: "Safari Ball",
                 catchRate: 1.2,     
-                price: 50000,
+                price: 500,
                 emoji: "🔵",
                 image: "https://imgur.com/GKsonvb.png"
             },
             "ultraball": {
                 name: "Ultra Ball",
                 catchRate: 1.8,     
-                price: 70000,
+                price: 700,
                 emoji: "🟡",
                 image: "https://imgur.com/00teTZb.png"
             },
             "masterball": {
                 name: "Master Ball",
                 catchRate: 100,
-                price: 5000000,
+                price: 50000,
                 emoji: "🟣",
                 image: "https://imgur.com/8NRJjQt.png"
             },
             "greatball": {
                 name: "Great Ball", 
                 catchRate: 1.0,    
-                price: 25000,
+                price: 250,
                 emoji: "⚪",
                 image: "https://imgur.com/3DIk7lU.png"
             }

@@ -1,11 +1,11 @@
 module.exports = {
     treasures: [
-        { name: "Hòm gỗ", value: 500 },
-        { name: "Rương bạc", value: 2000 },
-        { name: "Rương vàng", value: 5000 },
-        { name: "Kho báu cổ đại", value: 10000 },
-        { name: "Rương kim cương", value: 25000 },
-        { name: "Kho báu thần thoại", value: 50000 }
+        { name: "Hòm gỗ", value: 50 },
+        { name: "Rương bạc", value: 200 },
+        { name: "Rương vàng", value: 500 },
+        { name: "Kho báu cổ đại", value: 1000 },
+        { name: "Rương kim cương", value: 2500 },
+        { name: "Kho báu thần thoại", value: 5000 }
     ],
 
     specialEvents: {

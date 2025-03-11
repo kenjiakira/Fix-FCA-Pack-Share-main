@@ -1,7 +1,5 @@
 const fs = require('fs');
 const path = require('path');
-const TradeSystem = require('../trade/TradeSystem');
-const tradeSystem = new TradeSystem();
 const { createCanvas, loadImage } = require('canvas');
 const axios = require('axios');
 
@@ -543,18 +541,6 @@ module.exports = {
             }).reverse().join('\n');
         }
 
-        let marketAlert = '';
-        try {
-            const analysis = tradeSystem.getMarketAnalysis();
-            if (analysis.topGainers.length > 0) {
-                const gainer = analysis.topGainers[0];
-                marketAlert = `\n📈 ${gainer.symbol}: +${gainer.change.toFixed(1)}%`;
-            }
-        } catch (error) {
-            console.error("Market analysis error:", error);
-            marketAlert = '';
-        }
-
         const response = 
             `💰 SỐ DƯ TÀI KHOẢN 💰\n` +
             `━━━━━━━━━━━━━━\n` +
@@ -562,8 +548,7 @@ module.exports = {
             `💵 Ví: ${formatNumber(balance)} xu\n` +
             `🏦 Bank: ${formatNumber(bankBalance)} xu\n` +
             `💎 Tổng: ${formatNumber(totalWealth)} xu\n\n` +
-            `📝 Giao dịch:\n${transHistory}` +
-            marketAlert;
+            `📝 Giao dịch:\n${transHistory}`;
 
         return api.sendMessage(response, event.threadID, event.messageID);
     }

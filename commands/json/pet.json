@@ -23,13 +23,13 @@
     "hunger": 100,
     "happy": 100,
     "energy": 100,
-    "lastFed": 1741585445565,
+    "lastFed": 1741625704504,
     "lastPlay": 1741499700558,
     "level": 3,
-    "exp": 90,
+    "exp": 110,
     "quests": {
       "daily": {
-        "feedCount": 32
+        "feedCount": 34
       }
     },
     "lastSkill": {
@@ -88,7 +88,7 @@
     "happy": 100,
     "energy": 40,
     "level": 4,
-    "exp": 5,
+    "exp": 10,
     "power": 335,
     "lastFed": 1741578387169,
     "lastPlay": 1741521621861,
@@ -122,7 +122,7 @@
     "lastTrain": 1741578367845,
     "lastSkill": {
       "FETCH": 1741527789964,
-      "GUARD": 1741583951701
+      "GUARD": 1741618276831
     }
   },
   "100048267517770": {
@@ -199,14 +199,14 @@
   "100063719077878": {
     "type": "CAT",
     "name": "Đô nan chum",
-    "hunger": 99,
+    "hunger": 100,
     "happy": 100,
-    "energy": 58,
-    "level": 2,
-    "exp": 110,
-    "power": 105,
-    "lastFed": 1741584302878,
-    "lastPlay": 1741584805215,
+    "energy": 63,
+    "level": 3,
+    "exp": 35,
+    "power": 170,
+    "lastFed": 1741656844169,
+    "lastPlay": 1741629103905,
     "skills": {
       "HUNT": {
         "level": 1,
@@ -230,13 +230,14 @@
     "birthday": 1741503074486,
     "quests": {
       "daily": {
-        "feedCount": 6,
-        "playCount": 2
+        "feedCount": 9,
+        "playCount": 3
       }
     },
-    "lastTrain": 1741584179132,
+    "lastTrain": 1741656831073,
     "lastSkill": {
-      "HUNT": 1741515290716
+      "HUNT": 1741515290716,
+      "CHARM": 1741629170134
     }
   },
   "100055074463541": {
@@ -314,13 +315,13 @@
   "100047529173949": {
     "type": "DOG",
     "name": "Hahacaydodai",
-    "hunger": 100,
-    "happy": 100,
-    "energy": 60,
+    "hunger": 88,
+    "happy": 75,
+    "energy": 28,
     "level": 2,
-    "exp": 60,
-    "power": 105,
-    "lastFed": 1741578522690,
+    "exp": 110,
+    "power": 130,
+    "lastFed": 1741605507729,
     "lastPlay": 1741506410474,
     "skills": {
       "FETCH": {
@@ -343,27 +344,27 @@
     },
     "achievements": {},
     "birthday": 1741506410474,
-    "lastTrain": 1741578534263,
+    "lastTrain": 1741605499524,
     "lastSkill": {
-      "FETCH": 1741578513697
+      "FETCH": 1741668559480
     },
     "quests": {
       "daily": {
-        "feedCount": 4
+        "feedCount": 5
       }
     }
   },
   "61555903228492": {
     "type": "DOG",
     "name": "Nguyên",
-    "hunger": 100,
-    "happy": 100,
-    "energy": 89,
-    "level": 1,
-    "exp": 85,
+    "hunger": 78,
+    "happy": 85,
+    "energy": 72,
+    "level": 2,
+    "exp": 15,
     "power": 35,
-    "lastFed": 1741584294394,
-    "lastPlay": 1741533576602,
+    "lastFed": 1741628978690,
+    "lastPlay": 1741629098518,
     "skills": {
       "FETCH": {
         "level": 1,
@@ -387,13 +388,13 @@
     "birthday": 1741509016842,
     "quests": {
       "daily": {
-        "feedCount": 3,
-        "playCount": 1
+        "feedCount": 4,
+        "playCount": 2
       }
     },
     "lastTrain": 1741509168822,
     "lastSkill": {
-      "FETCH": 1741533645967
+      "FETCH": 1741629021425
     }
   },
   "100083237157086": {
@@ -514,12 +515,12 @@
     "name": "Con Chó",
     "hunger": 100,
     "happy": 100,
-    "energy": 100,
-    "level": 3,
-    "exp": 130,
-    "power": 50,
-    "lastFed": 1741584369996,
-    "lastPlay": 1741584323618,
+    "energy": 90,
+    "level": 5,
+    "exp": 150,
+    "power": 195,
+    "lastFed": 1741670470953,
+    "lastPlay": 1741670452324,
     "skills": {
       "HUNT": {
         "level": 1,
@@ -543,15 +544,15 @@
     "birthday": 1741511167970,
     "quests": {
       "daily": {
-        "playCount": 13,
-        "feedCount": 15
+        "playCount": 28,
+        "feedCount": 39
       }
     },
     "lastSkill": {
-      "HUNT": 1741583922129,
-      "CHARM": 1741584047267
+      "HUNT": 1741628179325,
+      "CHARM": 1741670443861
     },
-    "lastTrain": 1741584346078
+    "lastTrain": 1741670458734
   },
   "100035610181048": {
     "type": "DOG",
@@ -631,9 +632,9 @@
   "61561277064921": {
     "type": "CAT",
     "name": "Puu",
-    "hunger": 100,
-    "happy": 100,
-    "energy": 60,
+    "hunger": 40,
+    "happy": 52,
+    "energy": 24,
     "level": 2,
     "exp": 185,
     "power": 105,
@@ -670,5 +671,47 @@
     "lastSkill": {
       "HUNT": 1741585715757
     }
+  },
+  "61555034078738": {
+    "type": "HAMSTER",
+    "name": "Hamster Lệ",
+    "hunger": 99,
+    "happy": 100,
+    "energy": 50,
+    "level": 1,
+    "exp": 50,
+    "power": 35,
+    "lastFed": 1741622795891,
+    "lastPlay": 1741622972529,
+    "skills": {
+      "GATHER": {
+        "level": 1,
+        "exp": 0,
+        "lastUsed": 0
+      },
+      "PERFORM": {
+        "level": 1,
+        "exp": 0,
+        "lastUsed": 0
+      }
+    },
+    "inventory": [],
+    "stats": {
+      "gamesPlayed": 0,
+      "foodEaten": 0,
+      "trainingSessions": 0,
+      "questsCompleted": 0
+    },
+    "achievements": {},
+    "birthday": 1741622795891,
+    "lastSkill": {
+      "GATHER": 1741622948101
+    },
+    "quests": {
+      "daily": {
+        "playCount": 1
+      }
+    },
+    "lastTrain": 1741623112726
   }
 }

@@ -11,7 +11,7 @@ const HUNT_LOCATIONS = {
         name: "Rừng",
         level: { min: 10, max: 25 },
         types: ["grass", "bug", "flying", "poison"],
-        cost: 5000,
+        cost: 50,
         cooldown: 180000, // 3 phút
         rarityBoost: 1.2
     },
@@ -19,7 +19,7 @@ const HUNT_LOCATIONS = {
         name: "Núi",
         level: { min: 20, max: 35 }, 
         types: ["rock", "ground", "fighting"],
-        cost: 10000,
+        cost: 100,
         cooldown: 300000, // 5 phút
         rarityBoost: 1.5
     },
@@ -27,7 +27,7 @@ const HUNT_LOCATIONS = {
         name: "Hang động",
         level: { min: 30, max: 45 },
         types: ["dark", "ghost", "rock"],
-        cost: 20000,
+        cost: 200,
         cooldown: 600000, // 10 phút
         rarityBoost: 1.8
     },
@@ -35,7 +35,7 @@ const HUNT_LOCATIONS = {
         name: "Đại dương", 
         level: { min: 40, max: 60 },
         types: ["water", "ice"],
-        cost: 50000,
+        cost: 500,
         cooldown: 1200000, // 20 phút
         rarityBoost: 2
     }

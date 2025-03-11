@@ -44,7 +44,7 @@ module.exports = {
           FOUR_STAR: 5.1,
           THREE_STAR: 94.3
         },
-        cardValue: isPremium ? 10000000 : rarity === "5" ? 5000000 : rarity === "4" ? 50000 : 500,
+        cardValue: isPremium ? 653894953 : rarity === "5" ? 5000000 : rarity === "4" ? 50000 : 500,
       });
 
       return api.sendMessage(

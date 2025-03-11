@@ -126,7 +126,11 @@
       "eng1",
       "ccna"
     ],
-    "currentDegree": null
+    "currentDegree": {
+      "id": "e4",
+      "startTime": 1741623057861,
+      "progress": 0
+    }
   },
   "61564482366941": {
     "degrees": [
@@ -663,11 +667,12 @@
   },
   "61561277064921": {
     "degrees": [
-      "e1"
+      "e1",
+      "hmu"
     ],
     "currentDegree": {
-      "id": "hmu",
-      "startTime": 1741014704209,
+      "id": "e3",
+      "startTime": 1741621254616,
       "progress": 0
     }
   },
@@ -701,11 +706,13 @@
   },
   "100065381078044": {
     "degrees": [
-      "e1"
+      "e1",
+      "e3",
+      "e4"
     ],
     "currentDegree": {
-      "id": "e3",
-      "startTime": 1741273294320,
+      "id": "eng1",
+      "startTime": 1741664898149,
       "progress": 0
     }
   },

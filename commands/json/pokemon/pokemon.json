@@ -1,0 +1,311 @@
+{
+  "61573427362389": {
+    "name": "Akira",
+    "pokemons": [],
+    "activePokemon": 0,
+    "battles": 0,
+    "wins": 0,
+    "inventory": {
+      "pokeball": 10,
+      "greatball": 5,
+      "ultraball": 7,
+      "masterball": 0,
+      "safariball": 0,
+      "fire-stone": 0,
+      "water-stone": 0,
+      "thunder-stone": 0,
+      "leaf-stone": 0,
+      "ice-stone": 0,
+      "moon-stone": 0,
+      "sun-stone": 0,
+      "shiny-stone": 0,
+      "dusk-stone": 0,
+      "dawn-stone": 0,
+      "oval-stone": 0
+    },
+    "lastCatch": null,
+    "friendship": {}
+  },
+  "100063719077878": {
+    "name": "nopico",
+    "pokemons": [],
+    "activePokemon": 0,
+    "battles": 0,
+    "wins": 0,
+    "inventory": {
+      "pokeball": 10,
+      "greatball": 5,
+      "ultraball": 2,
+      "masterball": 0,
+      "safariball": 0,
+      "fire-stone": 0,
+      "water-stone": 0,
+      "thunder-stone": 0,
+      "leaf-stone": 0,
+      "ice-stone": 0,
+      "moon-stone": 0,
+      "sun-stone": 0,
+      "shiny-stone": 0,
+      "dusk-stone": 0,
+      "dawn-stone": 0,
+      "oval-stone": 0
+    },
+    "lastCatch": null,
+    "friendship": {}
+  },
+  "100068382888605": {
+    "name": "Kami",
+    "pokemons": [
+      {
+        "id": 643,
+        "name": "reshiram",
+        "level": 31,
+        "hp": 133,
+        "maxHp": 133,
+        "attack": 87,
+        "defense": 88,
+        "types": [
+          "dragon",
+          "fire"
+        ],
+        "moves": [
+          "cut",
+          "fly",
+          "body-slam",
+          "take-down"
+        ],
+        "image": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/643.png",
+        "shiny": false,
+        "weather": "sunny",
+        "exp": 97,
+        "expNeeded": 100,
+        "evolutionStage": 0,
+        "wins": 0,
+        "battles": 0,
+        "catchDate": 1741669041681,
+        "ballCaught": "Ultra Ball",
+        "specialDefense": 6
+      }
+    ],
+    "activePokemon": 0,
+    "battles": 0,
+    "wins": 0,
+    "inventory": {
+      "pokeball": 10,
+      "greatball": 5,
+      "ultraball": 1,
+      "masterball": 0,
+      "safariball": 0,
+      "fire-stone": 0,
+      "water-stone": 0,
+      "thunder-stone": 0,
+      "leaf-stone": 0,
+      "ice-stone": 0,
+      "moon-stone": 0,
+      "sun-stone": 0,
+      "shiny-stone": 0,
+      "dusk-stone": 0,
+      "dawn-stone": 0,
+      "oval-stone": 0
+    },
+    "lastCatch": null,
+    "friendship": {}
+  },
+  "100065381078044": {
+    "name": "kamii",
+    "pokemons": [
+      {
+        "id": 765,
+        "name": "oranguru",
+        "level": 43,
+        "hp": 154,
+        "maxHp": 154,
+        "attack": 89,
+        "defense": 106,
+        "types": [
+          "normal",
+          "psychic"
+        ],
+        "moves": [
+          "mega-punch",
+          "mega-kick",
+          "body-slam",
+          "take-down"
+        ],
+        "image": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/765.png",
+        "shiny": false,
+        "weather": "foggy",
+        "exp": 0,
+        "expNeeded": 100,
+        "evolutionStage": 0,
+        "wins": 0,
+        "battles": 0,
+        "catchDate": 1741664275338,
+        "ballCaught": "Ultra Ball"
+      },
+      {
+        "id": 404,
+        "name": "luxio",
+        "level": 43,
+        "hp": 104,
+        "maxHp": 104,
+        "attack": 111,
+        "defense": 72,
+        "types": [
+          "electric"
+        ],
+        "moves": [
+          "headbutt",
+          "tackle",
+          "take-down",
+          "double-edge"
+        ],
+        "image": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/404.png",
+        "shiny": false,
+        "weather": "stormy",
+        "exp": 0,
+        "expNeeded": 100,
+        "evolutionStage": 0,
+        "wins": 0,
+        "battles": 0,
+        "catchDate": 1741664332117,
+        "ballCaught": "Ultra Ball"
+      }
+    ],
+    "activePokemon": 0,
+    "battles": 0,
+    "wins": 0,
+    "inventory": {
+      "pokeball": 10,
+      "greatball": 5,
+      "ultraball": 100,
+      "masterball": 20,
+      "safariball": 1000,
+      "fire-stone": 0,
+      "water-stone": 0,
+      "thunder-stone": 0,
+      "leaf-stone": 0,
+      "ice-stone": 0,
+      "moon-stone": 0,
+      "sun-stone": 0,
+      "shiny-stone": 0,
+      "dusk-stone": 0,
+      "dawn-stone": 0,
+      "oval-stone": 0
+    },
+    "lastCatch": null,
+    "friendship": {}
+  },
+  "100035610181048": {
+    "name": "Noat",
+    "pokemons": [
+      {
+        "id": 662,
+        "name": "fletchinder",
+        "level": 51,
+        "hp": 130,
+        "maxHp": 130,
+        "attack": 127,
+        "defense": 99,
+        "types": [
+          "fire",
+          "flying"
+        ],
+        "moves": [
+          "razor-wind",
+          "swords-dance",
+          "fly",
+          "tackle"
+        ],
+        "image": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/662.png",
+        "shiny": true,
+        "weather": "sunny",
+        "exp": 0,
+        "expNeeded": 100,
+        "evolutionStage": 0,
+        "wins": 0,
+        "battles": 0,
+        "catchDate": 1741664375109,
+        "ballCaught": "Ultra Ball"
+      },
+      {
+        "id": 556,
+        "name": "maractus",
+        "level": 40,
+        "hp": 124,
+        "maxHp": 124,
+        "attack": 105,
+        "defense": 95,
+        "types": [
+          "grass"
+        ],
+        "moves": [
+          "pin-missile",
+          "peck",
+          "absorb",
+          "mega-drain"
+        ],
+        "image": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/556.png",
+        "shiny": false,
+        "weather": "sunny",
+        "exp": 0,
+        "expNeeded": 100,
+        "evolutionStage": 0,
+        "wins": 0,
+        "battles": 0,
+        "catchDate": 1741664397688,
+        "ballCaught": "Ultra Ball"
+      }
+    ],
+    "activePokemon": 0,
+    "battles": 0,
+    "wins": 0,
+    "inventory": {
+      "pokeball": 10,
+      "greatball": 5,
+      "ultraball": 0,
+      "masterball": 0,
+      "safariball": 0,
+      "fire-stone": 0,
+      "water-stone": 0,
+      "thunder-stone": 0,
+      "leaf-stone": 0,
+      "ice-stone": 0,
+      "moon-stone": 0,
+      "sun-stone": 0,
+      "shiny-stone": 0,
+      "dusk-stone": 0,
+      "dawn-stone": 0,
+      "oval-stone": 0
+    },
+    "lastCatch": null,
+    "friendship": {}
+  },
+  "100055074463541": {
+    "name": "tieudiet3ki",
+    "pokemons": [],
+    "activePokemon": 0,
+    "battles": 0,
+    "wins": 0,
+    "inventory": {
+      "pokeball": 10,
+      "greatball": 5,
+      "ultraball": 2,
+      "masterball": 0,
+      "safariball": 0,
+      "fire-stone": 0,
+      "water-stone": 0,
+      "thunder-stone": 0,
+      "leaf-stone": 0,
+      "ice-stone": 0,
+      "moon-stone": 0,
+      "sun-stone": 0,
+      "shiny-stone": 0,
+      "dusk-stone": 0,
+      "dawn-stone": 0,
+      "oval-stone": 0
+    },
+    "lastCatch": null,
+    "friendship": {}
+  }
+}
