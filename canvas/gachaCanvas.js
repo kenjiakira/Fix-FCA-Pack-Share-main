@@ -9,6 +9,8 @@ function setupGenshinFont() {
     }
 
     const genshinFontPath = path.join(fontDir, "GenshinDrip.ttf");
+    const mastonFontPath = path.join(fontDir, "MRKMaston-Bold.ttf");
+
     if (!fs.existsSync(genshinFontPath)) {
       console.log("⚠️ Không tìm thấy font Genshin Impact DRIP FONT!");
       console.log("ℹ️ Vui lòng đặt file font vào thư mục: " + fontDir);
@@ -27,6 +29,24 @@ function setupGenshinFont() {
       style: "normal",
     });
 
+    if (fs.existsSync(mastonFontPath)) {
+      registerFont(mastonFontPath, {
+        family: "MastonPro",
+        weight: "normal",
+        style: "normal",
+      });
+
+      registerFont(mastonFontPath, {
+        family: "MastonPro",
+        weight: "bold",
+        style: "normal",
+      });
+      console.log("✅ Đã đăng ký font MRK Maston Pro thành công!");
+    } else {
+      console.log("⚠️ Không tìm thấy font MRK Maston Pro!");
+      console.log("ℹ️ Vui lòng đặt file font vào thư mục: " + fontDir);
+    }
+
     console.log("✅ Đã đăng ký font Genshin Impact DRIP FONT thành công!");
     return true;
   } catch (error) {
@@ -35,6 +55,76 @@ function setupGenshinFont() {
   }
 }
 
+
+const starImages = {
+
+  normal: {
+    "3": "https://imgur.com/RdhkfIM.png",  // Blue star 3★
+    "4": "https://imgur.com/0p8GU3y.png",  // Purple star 4★
+    "5": "https://imgur.com/bXDqDjF.png",
+    "premium": "https://imgur.com/7Niv8VX.png",  // Gold star 5★
+  },
+  
+  evolved: {
+    gold: "https://imgur.com/HwbiynM.png",        
+    red: "https://imgur.com/jxD7wqP.png",         // Evolved red star for 5★
+    premium: "https://imgur.com/Q7CcrVt.png"      // Premium evolved special star
+  }
+};
+const mastonFontLoaded = fs.existsSync(path.join(fontDir, "MRKMaston-Bold.ttf"));
+const mastonFontFamily = mastonFontLoaded ? "MastonPro" : "Arial";
+
+async function drawStarFromImage(ctx, starX, starY, starSize, starType, rotationAngle = 0) {
+  try {
+    const image = await loadImage(starType);
+    
+    // Vẽ hiệu ứng ánh sáng xung quanh sao
+    if (starType === starImages.evolved.premium || starType === starImages.evolved.red) {
+      // Hiệu ứng glow cho sao tiến hóa
+      ctx.save();
+      ctx.globalCompositeOperation = "lighter";
+      const glowSize = starSize * 0.8;
+      const glowGradient = ctx.createRadialGradient(
+        starX, starY, 0,
+        starX, starY, glowSize
+      );
+      
+      if (starType === starImages.evolved.premium) {
+        glowGradient.addColorStop(0, "rgba(255, 165, 0, 0.3)");
+        glowGradient.addColorStop(1, "rgba(255, 165, 0, 0)");
+      } else {
+        glowGradient.addColorStop(0, "rgba(255, 80, 80, 0.2)");
+        glowGradient.addColorStop(1, "rgba(255, 80, 80, 0)");
+      }
+      
+      ctx.fillStyle = glowGradient;
+      ctx.beginPath();
+      ctx.arc(starX, starY, glowSize, 0, Math.PI * 2);
+      ctx.fill();
+      ctx.restore();
+    }
+    
+    // Vẽ ngôi sao với hiệu ứng xoay theo góc truyền vào
+    ctx.save();
+    ctx.translate(starX, starY);
+    ctx.rotate(rotationAngle); // Áp dụng góc xoay truyền vào
+    
+    ctx.drawImage(
+      image, 
+      -starSize, 
+      -starSize, 
+      starSize * 2, 
+      starSize * 2
+    );
+    
+    ctx.restore();
+    
+    // Phần code còn lại giữ nguyên
+  } catch (error) {
+    console.error("Error loading star image:", error);
+    drawBeautifulStar(ctx, starX, starY, starSize, "#FFD700", "5");
+  }
+}
 const fontLoaded = setupGenshinFont();
 
 const fontFamily = fontLoaded ? "GenshinFont" : "Arial";
@@ -203,6 +293,7 @@ async function createInventoryImage(options) {
       characters = [],
       stones = [],
       fragments = [],
+      expItems = [],
       characterCounts = { 5: 0, 4: 0, 3: 0 },
       totalItems = 0
     } = options;
@@ -215,22 +306,24 @@ async function createInventoryImage(options) {
     // Calculate required height
     const sectionSpacing = 30;
     const itemHeight = 100;
-    const rowsPerSection = 1; // Will render items in horizontal rows
-
+    
+    // Preprocess fragments and stones
+    const processedStones = processEvoMaterials(stones, fragments);
+    
     // Calculate section heights
-    const stoneHeight = stones.length > 0 ? itemHeight * Math.ceil(stones.length / 5) + 50 : 0;
-    const fragmentHeight = fragments.length > 0 ? itemHeight * Math.ceil(fragments.length / 5) + 50 : 0;
+    const stoneHeight = processedStones.length > 0 ? itemHeight * Math.ceil(processedStones.length / 5) + 50 : 0;
+    const expItemHeight = expItems.length > 0 ? itemHeight * Math.ceil(expItems.length / 5) + 50 : 0;
     const char5Height = characterCounts[5] > 0 ? itemHeight * Math.ceil(characterCounts[5] / 5) + 50 : 0;
     const char4Height = characterCounts[4] > 0 ? itemHeight * Math.ceil(characterCounts[4] / 5) + 50 : 0;
     const char3Height = characterCounts[3] > 0 ? itemHeight * Math.ceil(characterCounts[3] / 5) + 50 : 0;
 
     // Add heights of all sections that have items
-    if (stones.length > 0) totalHeight += stoneHeight + sectionSpacing;
-    if (fragments.length > 0) totalHeight += fragmentHeight + sectionSpacing;
+    if (processedStones.length > 0) totalHeight += stoneHeight + sectionSpacing;
+    if (expItems.length > 0) totalHeight += expItemHeight + sectionSpacing;
     if (characterCounts[5] > 0) totalHeight += char5Height + sectionSpacing;
     if (characterCounts[4] > 0) totalHeight += char4Height + sectionSpacing;
     if (characterCounts[3] > 0) totalHeight += char3Height + sectionSpacing;
-
+    
     // Ensure minimum height
     totalHeight = Math.max(totalHeight, 400);
 
@@ -254,25 +347,27 @@ async function createInventoryImage(options) {
     // Keep track of Y position as we draw sections
     let currentY = headerHeight + 20;
 
-    // Draw sections if they have items
-    if (stones.length > 0) {
+    // Draw evolution materials section (stones + fragments)
+    if (processedStones.length > 0) {
       currentY = drawInventorySection(ctx, 
-        "💎 EVOLUTION STONES", 
-        stones, 
+        "💎 EVOLUTION MATERIALS", 
+        processedStones, 
         0, currentY, cardWidth, stoneHeight, 
         "#FFD700", "#FFA500");
       currentY += sectionSpacing;
     }
 
-    if (fragments.length > 0) {
+    // Draw EXP items section
+    if (expItems.length > 0) {
       currentY = drawInventorySection(ctx, 
-        "🧩 STONE FRAGMENTS", 
-        fragments, 
-        0, currentY, cardWidth, fragmentHeight, 
-        "#99CCFF", "#6699CC");
+        "📚 EXPERIENCE ITEMS", 
+        expItems, 
+        0, currentY, cardWidth, expItemHeight, 
+        "#50C878", "#2E8B57");
       currentY += sectionSpacing;
     }
 
+    // Draw character sections
     if (characterCounts[5] > 0) {
       const fiveStarChars = characters.filter(char => char.rarity === 5);
       currentY = drawInventorySection(ctx, 
@@ -368,7 +463,7 @@ function drawInventoryHeader(ctx, x, y, width, height, userName, totalValue, tot
     maximumFractionDigits: 0
   });
   
-  ctx.font = `22px Arial`;
+  ctx.font = `22px ${mastonFontFamily}`; // Changed from Arial to MastonPro
   ctx.fillText(`Total Value: ${formattedValue} • Total Items: ${totalItems}`, width / 2, y + 140);
   
   for (let i = 0; i < 15; i++) {
@@ -580,82 +675,7 @@ function drawStar(ctx, x, y, size, color) {
   ctx.fill();
   ctx.restore();
 }
-function drawPremiumStar(ctx, x, y, size, color, index) {
-  ctx.save();
-  
-  const spikes = 5;
-  const outerRadius = size;
-  const innerRadius = size * 0.4;
-  
-  // 1. Vẽ aura bên ngoài
-  ctx.shadowColor = "#FF7700";
-  ctx.shadowBlur = 25;
-  ctx.beginPath();
-  ctx.translate(x, y);
-  ctx.rotate(Math.PI / 2 + (index * Math.PI/10)); // Xoay nhẹ mỗi sao một chút
-  
-  ctx.beginPath();
-  for (let i = 0; i < spikes * 2; i++) {
-    const radius = i % 2 === 0 ? outerRadius * 1.15 : innerRadius * 1.15;
-    const angle = (i * Math.PI) / spikes;
-    const method = i === 0 ? "moveTo" : "lineTo";
-    ctx[method](radius * Math.cos(angle), radius * Math.sin(angle));
-  }
-  ctx.fillStyle = "rgba(255, 120, 0, 0.3)";
-  ctx.fill();
-  
-  ctx.shadowBlur = 15;
-  ctx.beginPath();
-  for (let i = 0; i < spikes * 2; i++) {
-    const radius = i % 2 === 0 ? outerRadius : innerRadius;
-    const angle = (i * Math.PI) / spikes;
-    const method = i === 0 ? "moveTo" : "lineTo";
-    ctx[method](radius * Math.cos(angle), radius * Math.sin(angle));
-  }
-  
-  const gradient = ctx.createRadialGradient(0, 0, innerRadius, 0, 0, outerRadius);
-  gradient.addColorStop(0, "#FFFFFF");
-  gradient.addColorStop(0.5, color);
-  gradient.addColorStop(0.9, "#FF9500"); 
-  ctx.fillStyle = gradient;
-  ctx.fill();
-  
-  ctx.strokeStyle = "#FFFFFF";
-  ctx.lineWidth = 2;
-  ctx.stroke();
-  
-  ctx.beginPath();
-  for (let i = 0; i < spikes * 2; i++) {
-    const radius = i % 2 === 0 ? outerRadius + 3 : innerRadius + 1;
-    const angle = (i * Math.PI) / spikes;
-    const method = i === 0 ? "moveTo" : "lineTo";
-    ctx[method](radius * Math.cos(angle), radius * Math.sin(angle));
-  }
-  ctx.strokeStyle = "#FFD700";
-  ctx.lineWidth = 1.5;
-  ctx.stroke();
-  
-  ctx.beginPath();
-  ctx.arc(0, 0, size/4, 0, Math.PI*2);
-  const centerGradient = ctx.createRadialGradient(0, 0, 0, 0, 0, size/4);
-  centerGradient.addColorStop(0, "#FFFFFF");
-  centerGradient.addColorStop(1, "rgba(255, 255, 255, 0.6)");
-  ctx.fillStyle = centerGradient;
-  ctx.fill();
-  
-  for (let i = 0; i < spikes; i++) {
-    const angle = (i * 2 * Math.PI) / spikes;
-    const sparkleX = Math.cos(angle) * outerRadius;
-    const sparkleY = Math.sin(angle) * outerRadius;
-    
-    ctx.beginPath();
-    ctx.arc(sparkleX, sparkleY, size/15, 0, Math.PI * 2);
-    ctx.fillStyle = "#FFFFFF";
-    ctx.fill();
-  }
-  
-  ctx.restore();
-}
+
 function drawCornerDecoration(ctx, x, y, rotation, color, rarity) {
   ctx.save();
   ctx.translate(x, y);
@@ -922,7 +942,85 @@ function addDecorativeElements(ctx, width, height) {
   
   ctx.restore();
 }
-
+async function drawPremiumEvolvedStar(ctx, x, y, size, starImage, rotationAngle) {
+  try {
+    const image = await loadImage(starImage);
+    
+    // Thêm hiệu ứng ánh sáng xung quanh sao
+    ctx.save();
+    ctx.globalCompositeOperation = "lighter";
+    const glowSize = size * 0.9; // Tăng kích thước glow
+    const glowGradient = ctx.createRadialGradient(
+      x, y, 0,
+      x, y, glowSize
+    );
+    
+    // Tạo hiệu ứng glow màu cam đậm hơn
+    glowGradient.addColorStop(0, "rgba(255, 165, 0, 0.4)"); // Tăng độ đậm
+    glowGradient.addColorStop(1, "rgba(255, 165, 0, 0)");
+    
+    ctx.fillStyle = glowGradient;
+    ctx.beginPath();
+    ctx.arc(x, y, glowSize, 0, Math.PI * 2);
+    ctx.fill();
+    ctx.restore();
+    
+    // Xoay ngôi sao theo góc đã tính
+    ctx.save();
+    ctx.translate(x, y);
+    ctx.rotate(rotationAngle); // Áp dụng góc xoay đã truyền vào
+    
+    // Vẽ ngôi sao với hiệu ứng xoay
+    ctx.drawImage(
+      image, 
+      -size, 
+      -size, 
+      size * 2, 
+      size * 2
+    );
+    
+    // Thêm hiệu ứng ánh sáng ở giữa sao để tăng độ nổi bật
+    ctx.globalCompositeOperation = "lighter";
+    const centerGlow = ctx.createRadialGradient(0, 0, 0, 0, 0, size * 0.4);
+    centerGlow.addColorStop(0, "rgba(255, 255, 255, 0.7)");
+    centerGlow.addColorStop(1, "rgba(255, 255, 255, 0)");
+    
+    ctx.fillStyle = centerGlow;
+    ctx.beginPath();
+    ctx.arc(0, 0, size * 0.4, 0, Math.PI * 2);
+    ctx.fill();
+    
+    // Thêm hiệu ứng tia sáng phóng ra từ sao
+    const rayCount = 4;
+    for (let i = 0; i < rayCount; i++) {
+      const angle = (i / rayCount) * Math.PI * 2;
+      const rayLength = size * 0.9;
+      
+      // Vẽ tia sáng
+      const rayGradient = ctx.createLinearGradient(
+        0, 0,
+        Math.cos(angle) * rayLength,
+        Math.sin(angle) * rayLength
+      );
+      rayGradient.addColorStop(0, "rgba(255, 255, 255, 0.8)");
+      rayGradient.addColorStop(1, "rgba(255, 215, 0, 0)");
+      
+      ctx.strokeStyle = rayGradient;
+      ctx.lineWidth = 2;
+      ctx.beginPath();
+      ctx.moveTo(0, 0);
+      ctx.lineTo(Math.cos(angle) * rayLength, Math.sin(angle) * rayLength);
+      ctx.stroke();
+    }
+    
+    ctx.restore();
+    
+  } catch (error) {
+    console.error("Error drawing premium evolved star:", error);
+    // Fallback nếu có lỗi
+    await drawStarFromImage(ctx, x, y, size, starImage, 0);
+  }
+}
 // Thêm hàm phụ trợ để vẽ ngôi sao đơn giản
 function drawSimpleStar(ctx, x, y, size, color) {
   ctx.save();
@@ -950,30 +1048,316 @@ function drawSimpleStar(ctx, x, y, size, color) {
   
   ctx.restore();
 }
+async function createExpItemResultImage(options) {
+  try {
+    const {
+      userId,
+      userName = "Traveler",
+      expItem,
+      expValue = 0,
+      description = "",
+      itemRarity = "3",
+      itemValue = 0
+    } = options;
+    
+    // Canvas dimensions
+    const cardWidth = 500;
+    const cardHeight = 700;
+    const canvas = createCanvas(cardWidth, cardHeight);
+    const ctx = canvas.getContext("2d");
+    
+    // Define colors based on rarity
+    const rarityColors = {
+      "4": { primary: "#9b59b6", secondary: "#8e44ad", gradient: ["#9b59b6", "#8e44ad"] },
+      "3": { primary: "#3498db", secondary: "#2980b9", gradient: ["#3498db", "#2980b9"] },
+      "2": { primary: "#2ecc71", secondary: "#27ae60", gradient: ["#2ecc71", "#27ae60"] }
+    };
+    
+    const colors = rarityColors[itemRarity] || rarityColors["2"];
+    
+    // Draw background
+    const cardGradient = ctx.createLinearGradient(0, 0, cardWidth, cardHeight);
+    cardGradient.addColorStop(0, `rgba(30, 30, 40, 0.95)`);
+    cardGradient.addColorStop(0.5, `rgba(15, 15, 25, 0.98)`);
+    cardGradient.addColorStop(1, `rgba(20, 20, 30, 0.95)`);
+    
+    ctx.fillStyle = cardGradient;
+    roundRect(ctx, 0, 0, cardWidth, cardHeight, 20, true, false);
+    
+    // Add glow effect
+    ctx.save();
+    const glowGradient = ctx.createRadialGradient(
+      cardWidth / 2, cardHeight / 2, cardWidth / 4,
+      cardWidth / 2, cardHeight / 2, cardWidth
+    );
+    glowGradient.addColorStop(0, `rgba(${hexToRgb(colors.primary)}, 0.3)`);
+    glowGradient.addColorStop(1, "rgba(0, 0, 0, 0)");
+    
+    ctx.globalCompositeOperation = "screen";
+    ctx.fillStyle = glowGradient;
+    ctx.fillRect(0, 0, cardWidth, cardHeight);
+    ctx.restore();
+    
+    // Background pattern
+    drawBackgroundPattern(ctx, cardWidth, cardHeight, itemRarity, colors);
+    
+    // Draw card frame
+    drawCardFrame(ctx, itemRarity, 10, 10, cardWidth - 20, cardHeight - 20, false);
+    
+    // Image area for EXP item
+    const imageAreaX = 50;
+    const imageAreaY = 80;
+    const imageAreaWidth = cardWidth - 100;
+    const imageAreaHeight = cardWidth - 100;
+    
+    ctx.fillStyle = "rgba(0, 0, 0, 0.3)";
+    roundRect(ctx, imageAreaX, imageAreaY, imageAreaWidth, imageAreaHeight, 15, true, false);
+    
+    // Draw EXP item image
+    if (expItem.image) {
+      try {
+        const itemImage = await loadImage(expItem.image);
+        
+        // Add a shine effect before drawing the image
+        ctx.save();
+        const shineGradient = ctx.createRadialGradient(
+          cardWidth / 2, imageAreaY + imageAreaHeight / 2, 10,
+          cardWidth / 2, imageAreaY + imageAreaHeight / 2, imageAreaWidth / 1.8
+        );
+        shineGradient.addColorStop(0, `rgba(255, 255, 255, 0.4)`);
+        shineGradient.addColorStop(0.7, `rgba(255, 255, 255, 0.1)`);
+        shineGradient.addColorStop(1, "rgba(255, 255, 255, 0)");
+        
+        ctx.fillStyle = shineGradient;
+        ctx.globalCompositeOperation = "screen";
+        ctx.fillRect(imageAreaX, imageAreaY, imageAreaWidth, imageAreaHeight);
+        ctx.restore();
+        
+        // Draw the item image with padding
+        const imgPadding = 40;
+        ctx.drawImage(
+          itemImage,
+          imageAreaX + imgPadding,
+          imageAreaY + imgPadding,
+          imageAreaWidth - (imgPadding * 2),
+          imageAreaHeight - (imgPadding * 2)
+        );
+        
+        // Draw sparkles around the image
+        drawExpItemSparkles(ctx, imageAreaX, imageAreaY, imageAreaWidth, imageAreaHeight, itemRarity);
+        
+      } catch (error) {
+        console.error("Error loading EXP item image:", error);
+        // Fallback if image fails to load
+        ctx.font = "bold 36px Arial";
+        ctx.textAlign = "center";
+        ctx.fillStyle = "#FFFFFF";
+        ctx.fillText("EXP", cardWidth / 2, imageAreaY + imageAreaHeight / 2);
+      }
+    }
+    
+    // Draw item name banner
+    const nameBannerY = imageAreaY + imageAreaHeight + 30;
+    const nameBannerHeight = 50;
+    
+    const nameBannerGradient = ctx.createLinearGradient(0, nameBannerY, 0, nameBannerY + nameBannerHeight);
+    nameBannerGradient.addColorStop(0, `rgba(${hexToRgb(colors.primary)}, 0.8)`);
+    nameBannerGradient.addColorStop(1, `rgba(${hexToRgb(colors.secondary)}, 0.8)`);
+    
+    ctx.fillStyle = nameBannerGradient;
+    roundRect(ctx, 30, nameBannerY, cardWidth - 60, nameBannerHeight, 15, true, false);
+    
+    // Add outline to the banner
+    ctx.strokeStyle = colors.primary;
+    ctx.lineWidth = 2;
+    ctx.shadowColor = colors.primary;
+    ctx.shadowBlur = 8;
+    roundRect(ctx, 30, nameBannerY, cardWidth - 60, nameBannerHeight, 15, false, true);
+    
+    // Draw item name with smaller font size (changed from 32px to 28px)
+    ctx.font = `bold 28px ${fontFamily}`;
+    ctx.textAlign = "center";
+    ctx.fillStyle = "#FFFFFF";
+    ctx.shadowColor = "rgba(0, 0, 0, 0.7)";
+    ctx.shadowBlur = 5;
+    ctx.fillText(expItem.name, cardWidth / 2, nameBannerY + nameBannerHeight / 2 + 10);
+    
+    // Draw description area - moved up by 10px
+    const descriptionY = nameBannerY + nameBannerHeight + 20; // Changed from +30 to +20
+    const descriptionHeight = 100;
+    
+    ctx.fillStyle = "rgba(0, 0, 0, 0.4)";
+    roundRect(ctx, 30, descriptionY, cardWidth - 60, descriptionHeight, 15, true, false);
+    
+    // Draw description text with word wrap - increased starting position by 5px
+    ctx.font = `18px ${fontFamily}`;
+    ctx.textAlign = "center";
+    ctx.fillStyle = "#FFFFFF";
+    
+    const maxWidth = cardWidth - 100;
+    const words = description.split(' ');
+    let line = '';
+    let y = descriptionY + 35; // Changed from +40 to +35
+    
+    for (const word of words) {
+      const testLine = line + word + ' ';
+      const metrics = ctx.measureText(testLine);
+      if (metrics.width > maxWidth && line !== '') {
+        ctx.fillText(line, cardWidth / 2, y);
+        line = word + ' ';
+        y += 28; // Changed from 30 to 28 for tighter spacing
+      } else {
+        line = testLine;
+      }
+    }
+    ctx.fillText(line, cardWidth / 2, y);
+    
+    // Draw EXP value area
+    const expValueY = descriptionY + descriptionHeight + 30;
+    const expValueHeight = 60;
+    
+    const expGradient = ctx.createLinearGradient(0, expValueY, 0, expValueY + expValueHeight);
+    expGradient.addColorStop(0, "rgba(255, 223, 0, 0.8)");
+    expGradient.addColorStop(1, "rgba(255, 165, 0, 0.8)");
+    
+    ctx.fillStyle = expGradient;
+    roundRect(ctx, cardWidth/2 - 120, expValueY, 240, expValueHeight, 15, true, false);
+    
+    // Add shine effect to EXP area
+    ctx.save();
+    ctx.globalCompositeOperation = "overlay";
+    const expShineGradient = ctx.createLinearGradient(
+      cardWidth/2 - 120, expValueY, 
+      cardWidth/2 + 120, expValueY
+    );
+    expShineGradient.addColorStop(0, "rgba(255, 255, 255, 0)");
+    expShineGradient.addColorStop(0.5, "rgba(255, 255, 255, 0.3)");
+    expShineGradient.addColorStop(1, "rgba(255, 255, 255, 0)");
+    
+    ctx.fillStyle = expShineGradient;
+    roundRect(ctx, cardWidth/2 - 120, expValueY, 240, expValueHeight, 15, true, false);
+    ctx.restore();
+    
+    // Draw EXP value text
+    ctx.font = `bold 28px ${mastonFontFamily}`; // Changed from Arial to MastonPro
+    ctx.textAlign = "center";
+    ctx.fillStyle = "#FFFFFF";
+    ctx.shadowColor = "rgba(0, 0, 0, 0.7)";
+    ctx.shadowBlur = 8;
+    ctx.fillText(`+${expValue.toLocaleString()} EXP`, cardWidth/2, expValueY + expValueHeight/2 + 10);
+    
+    // Draw item value
+    ctx.font = "22px Arial";
+    ctx.fillText(`Value: $${itemValue.toLocaleString()}`, cardWidth/2, expValueY + expValueHeight + 40);
+    
+    // Draw rarity stars
+    const starSize = 18;
+    const starSpacing = 25;
+    const starsTotalWidth = starSpacing * parseInt(itemRarity);
+    const starsStartX = cardWidth/2 - (starsTotalWidth/2) + starSpacing/2;
+    const starsY = expValueY + expValueHeight + 80;
+    
+    for (let i = 0; i < parseInt(itemRarity); i++) {
+      const starX = starsStartX + i * starSpacing;
+      drawStar(ctx, starX, starsY, starSize, colors.primary);
+    }
+    
+    // Add shimmer effect to the card
+    drawShimmer(ctx, 10, 10, cardWidth - 20, cardHeight - 20, itemRarity);
+    
+    // Save image
+    const buffer = canvas.toBuffer("image/png");
+    const tempDir = path.join(__dirname, "../temp");
+    if (!fs.existsSync(tempDir)) {
+      fs.mkdirSync(tempDir, { recursive: true });
+    }
+    
+    const outputPath = path.join(tempDir, `exp_item_${userId}_${Date.now()}.png`);
+    fs.writeFileSync(outputPath, buffer);
+    
+    return outputPath;
+  } catch (error) {
+    console.error("Error creating EXP item image:", error);
+    throw error;
+  }
+}
+
+// Helper function to draw sparkles around EXP item
+function drawExpItemSparkles(ctx, x, y, width, height, rarity) {
+  ctx.save();
+  
+  const sparkleCount = parseInt(rarity) * 4;
+  const centerX = x + width/2;
+  const centerY = y + height/2;
+  
+  for (let i = 0; i < sparkleCount; i++) {
+    const angle = (i / sparkleCount) * Math.PI * 2;
+    const distance = Math.min(width, height) * 0.4;
+    
+    const sparkleX = centerX + Math.cos(angle) * distance;
+    const sparkleY = centerY + Math.sin(angle) * distance;
+    const sparkleSize = 3 + Math.random() * 5;
+    
+    // Sparkle color based on rarity
+    let sparkleColor;
+    if (rarity === "4") sparkleColor = "#9b59b6";
+    else if (rarity === "3") sparkleColor = "#3498db";
+    else sparkleColor = "#2ecc71";
+    
+    ctx.beginPath();
+    ctx.arc(sparkleX, sparkleY, sparkleSize, 0, Math.PI * 2);
+    ctx.fillStyle = sparkleColor;
+    ctx.globalAlpha = 0.6 + Math.random() * 0.4;
+    ctx.fill();
+    
+    // Add glow effect
+    ctx.shadowColor = sparkleColor;
+    ctx.shadowBlur = 8;
+    ctx.beginPath();
+    ctx.arc(sparkleX, sparkleY, sparkleSize/2, 0, Math.PI * 2);
+    ctx.fillStyle = "#FFFFFF";
+    ctx.fill();
+  }
+  
+  ctx.restore();
+}
+const ELEMENT_ICONS = {
+  Pyro: "🔥",
+  Hydro: "💧",
+  Anemo: "💨",
+  Electro: "⚡",
+  Dendro: "🌿",
+  Cryo: "❄️",
+  Geo: "🪨",
+  Unknown: "✨"
+};
 function drawInventoryItem(ctx, item, x, y, width, height) {
   ctx.save();
   
-  // Determine item type and color
-  let itemColor, itemBorderColor, icon, displayName, itemValue;
+  let itemColor, itemBorderColor, displayName, itemValue;
   let itemGradient;
+  
+  // Item type styling (unchanged)
   if (item.type === "stone") {
-    // Stone styling
-    itemColor = "rgba(72, 61, 139, 0.6)"; 
+    itemColor = "rgba(72, 61, 139, 0.6)";
     itemBorderColor = "#FFD700";
-    icon = item.emoji || "💎";
     displayName = item.name || "Evolution Stone";
     itemValue = item.value || 25000;
   } 
-  else if (item.type === "fragment") {
-    // Fragment styling
+  else if (item.type === "fragment" || item.isFragmentGroup) {
     itemColor = "rgba(70, 130, 180, 0.6)";
     itemBorderColor = "#87CEFA";
-    icon = item.emoji || "🧩";
     displayName = (item.name || "Stone Fragment").replace(" Fragment", "");
     itemValue = item.value || 2500;
-  } 
+  }
+  else if (item.type === "exp") {
+    itemColor = "rgba(60, 179, 113, 0.7)";
+    itemBorderColor = "#50C878";
+    displayName = item.name || "EXP Item";
+    itemValue = item.value || 2000;
+  }
   else {
-    // Character styling based on rarity
+    // Character styling based on rarity (unchanged)
     let rarityColor;
     switch(item.rarity) {
       case 5:
@@ -1003,91 +1387,96 @@ function drawInventoryItem(ctx, item, x, y, width, height) {
         itemBorderColor = rarityColor;
     }
     
-    icon = "👤";
     displayName = item.name || "Character";
     itemValue = item.value || 1000;
   }
-  if (item.isPremium && item.rarity === 5) {
-    // Premium background effect
-    const bgGradient = ctx.createLinearGradient(x, y, x, y + height);
-    bgGradient.addColorStop(0, "rgba(80, 0, 80, 0.8)");
-    bgGradient.addColorStop(0.5, "rgba(60, 0, 60, 0.9)");
-    bgGradient.addColorStop(1, "rgba(40, 0, 40, 0.8)");
-    ctx.fillStyle = bgGradient;
-    roundRect(ctx, x, y, width, height, 8, true, false);
-    
-    const cornerSize = 12;
-    [[0,0], [width,0], [0,height], [width,height]].forEach(([cx, cy]) => {
-      ctx.beginPath();
-      ctx.moveTo(x + cx - (cx ? cornerSize : -cornerSize), y + cy);
-      ctx.lineTo(x + cx, y + cy);
-      ctx.lineTo(x + cx, y + cy - (cy ? cornerSize : -cornerSize));
-      ctx.strokeStyle = "#FFD700";
-      ctx.lineWidth = 2;
-      ctx.stroke();
-    });
-    
-    ctx.globalCompositeOperation = "overlay";
-    const shimmerGradient = ctx.createLinearGradient(x, y, x + width, y + height);
-    shimmerGradient.addColorStop(0, "rgba(255,255,255,0)");
-    shimmerGradient.addColorStop(0.5, "rgba(255,255,255,0.1)");
-    shimmerGradient.addColorStop(1, "rgba(255,255,255,0)");
-    ctx.fillStyle = shimmerGradient;
-    roundRect(ctx, x, y, width, height, 8, true, false);
-    ctx.globalCompositeOperation = "source-over";
+
+  // Draw item background
+  if (item.type === "exp") {
+    itemGradient = ctx.createLinearGradient(x, y, x, y + height);
+    itemGradient.addColorStop(0, "rgba(60, 179, 113, 0.7)");
+    itemGradient.addColorStop(1, "rgba(20, 80, 40, 0.7)");
   } else {
-    const itemGradient = ctx.createLinearGradient(x, y, x, y + height);
+    itemGradient = ctx.createLinearGradient(x, y, x, y + height);
     itemGradient.addColorStop(0, itemColor);
     itemGradient.addColorStop(1, "rgba(0, 0, 0, 0.7)");
-    ctx.fillStyle = itemGradient;
-    roundRect(ctx, x, y, width, height, 8, true, false);
   }
   
-  if (item.isPremium && item.rarity === 5) {
-    ctx.font = "bold 11px Arial";
+  ctx.fillStyle = itemGradient;
+  roundRect(ctx, x, y, width, height, 8, true, false);
+
+  // Fragment progress bar (enhanced and kept)
+  if (item.isFragmentGroup && item.count) {
+    const progressBarHeight = 12; // Increased height for more prominence
+    const progressBarY = y + height - progressBarHeight - 4;
+    const progressBarWidth = width - 20;
+    
+    // Background bar
+    ctx.fillStyle = "rgba(0, 0, 0, 0.5)";
+    roundRect(ctx, x + 10, progressBarY, progressBarWidth, progressBarHeight, 3, true, false);
+    
+    // Progress fill
+    const fillWidth = Math.min(1, item.count / 10) * progressBarWidth;
+    const progressGradient = ctx.createLinearGradient(x + 10, 0, x + 10 + progressBarWidth, 0);
+    progressGradient.addColorStop(0, "#87CEFA");
+    progressGradient.addColorStop(1, "#1E90FF");
+    
+    ctx.fillStyle = progressGradient;
+    if (fillWidth > 0) {
+      roundRect(ctx, x + 10, progressBarY, fillWidth, progressBarHeight, 3, true, false);
+    }
+    
+    ctx.font = `bold 14px ${mastonFontFamily}`;
     ctx.textAlign = "center";
-    ctx.fillStyle = "#FFD700";
-    ctx.shadowColor = "#FF5500";
+    ctx.fillStyle = "#FFFFFF";
+    ctx.shadowColor = "rgba(0, 0, 0, 0.6)";
     ctx.shadowBlur = 3;
-    ctx.fillText("LIMITED", x + width/2, y + 14);
+    ctx.fillText(`${item.count}/10`, x + width/2, progressBarY - 2);
   }
-  itemGradient = ctx.createLinearGradient(x, y, x, y + height);
-  itemGradient.addColorStop(0, itemColor);
-  itemGradient.addColorStop(1, "rgba(0, 0, 0, 0.7)");
-  ctx.fillStyle = itemGradient;
-  roundRect(ctx, x, y, width, height, 8, true, false);
-  
-  ctx.fillStyle = itemGradient;
-  roundRect(ctx, x, y, width, height, 8, true, false);
-  
+
   ctx.strokeStyle = itemBorderColor;
   ctx.lineWidth = 1.5;
   ctx.shadowColor = itemBorderColor;
   ctx.shadowBlur = 5;
   roundRect(ctx, x, y, width, height, 8, false, true);
-  
-  // Item icon and name
+
   ctx.shadowColor = "black";
   ctx.shadowBlur = 3;
   ctx.font = "20px Arial";
   ctx.fillStyle = "#FFFFFF";
   ctx.textAlign = "left";
-  ctx.fillText(icon, x + 8, y + 25);
   
-  // Display ID if available
-  if (item.id) {
-    ctx.font = "11px Arial";
-    ctx.fillStyle = "rgba(255, 255, 255, 0.7)";
-    ctx.textAlign = "right";
-    ctx.fillText(`#${item.id}`, x + width - 8, y + 18);
-  }
-  
-  // Truncate name if too long
   if (item.type === "character") {
-    // Use Genshin font for character names
-    ctx.font = `14px ${fontFamily}`; 
+    const rawElement = item.element || "Unknown";
+    const element = rawElement.charAt(0).toUpperCase() + rawElement.slice(1).toLowerCase();
+    
+    const elementIcon = ELEMENT_ICONS[element] || ELEMENT_ICONS.Unknown;
+    
+    ctx.save();
+    ctx.font = "18px Arial";
+    ctx.textAlign = "center";
+    ctx.fillStyle = "#FFFFFF";
+    ctx.shadowColor = getElementColor(element);
+    ctx.shadowBlur = 5; 
+    ctx.fillText(elementIcon, x + 15, y + 20);
+    ctx.restore();
+
+    item._elementIconPos = { x: x + 8, y: y + 5, size: 20 };
+  }else if (item.type === "exp") {
+    ctx.fillText("📚", x + 8, y + 25);
+  } 
+
+  // else if (item.type === "fragment" || item.isFragmentGroup) {
+  //   ctx.fillText("🧩", x + 8, y + 25);
+  // } 
+  else if (item.type === "stone") {
+
+  }
+
+  if (item.type === "character" || item.type === "stone" || item.type === "fragment" || item.isFragmentGroup) {
+    ctx.font = `14px ${fontFamily}`;
+    ctx.shadowColor = itemBorderColor;
   } else {
-    // Keep Arial for stones and fragments
     ctx.font = "14px Arial";
   }
   ctx.textAlign = "center";
@@ -1095,44 +1484,206 @@ function drawInventoryItem(ctx, item, x, y, width, height) {
   
   let showName = displayName;
   if (ctx.measureText(showName).width > width - 20) {
-    // Adjust font size if name is too long
     while (ctx.measureText(showName + "...").width > width - 20 && showName.length > 3) {
       showName = showName.substring(0, showName.length - 1);
     }
     showName += "...";
   }
-  
-  // Add glow effect for character names
-  if (item.type === "character") {
-    ctx.shadowColor = itemBorderColor;
-    ctx.shadowBlur = 3;
-  }
-  
-  ctx.fillText(showName, x + width/2, y + 45);
-  ctx.shadowBlur = 0; 
-  // Item value
+  ctx.fillText(showName, x + width/2, y + 32);
+
   const formattedValue = itemValue.toLocaleString();
-  ctx.font = "13px Arial";
+  ctx.font = `13px ${mastonFontFamily}`;
   ctx.fillStyle = "#FFFFAA";
-  ctx.fillText(`$${formattedValue}`, x + width/2, y + 65);
-  
-  // If item has count/quantity
-  if (item.count && item.count > 1) {
+  ctx.fillText(`$${formattedValue}`, x + width/2, y + 48);
+
+  if (item.type === "character" && item.stats) {
+    const stats = item.stats;
+    const statIcons = ["❤️", "⚔️", "🛡️"];
+    const statValues = [stats.hp, stats.atk, stats.def];
+    
+    ctx.save();
+    ctx.font = "11px Arial";
+    ctx.fillStyle = "#FFFFFF";
+    ctx.textAlign = "center";
+    
+    const statsSpacing = width / 3;
+    statValues.forEach((value, index) => {
+      const statX = x + (statsSpacing * index) + (statsSpacing/2);
+      ctx.fillText(statIcons[index], statX, y + 65);
+      ctx.font = `10px ${mastonFontFamily}`;
+      ctx.fillStyle = "#FFFFAA";
+      ctx.fillText(value.toString(), statX, y + 77);
+    });
+    ctx.restore();
+  }
+
+  if (item.type === "exp") {
+    ctx.font = "bold 11px Arial";
+    ctx.textAlign = "center";
+    ctx.fillStyle = "#FFFF99";
+    ctx.shadowColor = "#000000";
+    ctx.shadowBlur = 3;
+    ctx.fillText("EXP ITEM", x + width/2, y + 14);
+    ctx.font = `bold 11px ${mastonFontFamily}`;
+    ctx.fillText(`+${item.expValue || 0} EXP`, x + width/2, y + height - 6);
+  } else if (item.type === "character" && item.isPremium && item.rarity === 5) {
+    ctx.font = "bold 11px Arial";
+    ctx.textAlign = "center";
+    ctx.fillStyle = "#FFD700";
+    ctx.shadowColor = "#FF5500";
+    ctx.shadowBlur = 3;
+    ctx.fillText("LIMITED", x + width/2, y + 14);
+  } else if (item.isCombined) {
+    ctx.font = "bold 10px Arial";
+    ctx.textAlign = "center";
+    ctx.fillStyle = "#AAFFAA";
+    ctx.shadowColor = "#000000";
+    ctx.shadowBlur = 3;
+    ctx.fillText("AUTO-COMBINED", x + width/2, y + 14);
+  }
+
+  if (item.id && !(item.type === "fragment" || item.isFragmentGroup)) {
+    ctx.save();
+    
+    let idX = x + width - 45;
+    let idY = y + 5; 
+    
+    if (item.type === "stone") {
+      idY = y + height - 25; 
+    }
+    
+    // ctx.fillStyle = "rgba(0, 0, 0, 0.8)";
+    // roundRect(ctx, idX, idY, 40, 20, 5, true, false);
+    
+    // if (item.type === "character" && item.rarity === 5) {
+    //   ctx.strokeStyle = item.isPremium ? "#FF5500" : "#FFD700";
+    //   ctx.lineWidth = 2;
+    // } else {
+    //   ctx.strokeStyle = "rgba(255, 255, 255, 0.5)";
+    //   ctx.lineWidth = 1;
+    // }
+    // roundRect(ctx, idX, idY, 40, 20, 5, false, true);
+    
+    ctx.font = `bold 13px ${mastonFontFamily}`;
+    
+    if (item.type === "character" && item.rarity === 5) {
+      ctx.fillStyle = item.isPremium ? "#FF5500" : "#FFD700";
+    } else if (item.type === "character" && item.rarity === 4) {
+      ctx.fillStyle = "#9b59b6"; // Tím cho 4 sao
+    } else {
+      ctx.fillStyle = "#FFFFFF"; 
+    }
+    
+    ctx.textAlign = "center";
+    ctx.shadowColor = "rgba(0, 0, 0, 0.8)";
+    ctx.shadowBlur = 3;
+    ctx.shadowOffsetY = 1;
+    const displayId = typeof item.id === 'string' ? item.id.slice(-4) : item.id;
+    ctx.fillText(`#${displayId}`, idX + 20, idY + 14);
+    ctx.restore();
+    
+    if (item.type === "stone") {
+      ctx.font = "18px Arial";
+      ctx.textAlign = "center";
+      ctx.fillStyle = "#FFFFFF";
+      const elementIcon = item.emoji || "💎";
+      const elementBgX = idX - 30;
+      
+      ctx.fillStyle = "rgba(0, 0, 0, 0.6)";
+      ctx.beginPath();
+      ctx.arc(elementBgX + 10, idY + 10, 12, 0, Math.PI * 2);
+      ctx.fill();
+      
+      ctx.fillStyle = "#FFFFFF";
+      ctx.shadowColor = "rgba(0, 0, 0, 0.8)";
+      ctx.shadowBlur = 2;
+      ctx.fillText(elementIcon, elementBgX + 10, idY + 15);
+    }
+  }
+  if ((item.count && item.count > 1) && !item.isFragmentGroup && !(item.type === "fragment")) {
     ctx.save();
     ctx.fillStyle = "rgba(0, 0, 0, 0.6)";
     ctx.beginPath();
     ctx.arc(x + width - 10, y + 10, 12, 0, Math.PI * 2);
     ctx.fill();
-    
-    ctx.font = "bold 12px Arial";
+  
+    ctx.font = `bold 12px ${mastonFontFamily}`; 
     ctx.textAlign = "center";
     ctx.fillStyle = "#FFFFFF";
     ctx.fillText(`x${item.count}`, x + width - 10, y + 14);
     ctx.restore();
   }
-  
+
   ctx.restore();
 }
+function extractStoneTypeFromId(id) {
+  if (typeof id !== 'string') return "UNKNOWN";
+  const match = id.match(/FRAGMENT_([A-Z]+)_/);
+  return match ? match[1] : "UNKNOWN";
+}
+function processEvoMaterials(stones, fragments) {
+  // Create a map to group fragments by their stoneType
+  const fragmentMap = {};
+  fragments.forEach(fragment => {
+    const stoneType = fragment.stoneType || extractStoneTypeFromId(fragment.id);
+    if (!fragmentMap[stoneType]) {
+      fragmentMap[stoneType] = {
+        ...fragment,
+        count: 1,
+        isFragmentGroup: true
+      };
+    } else {
+      fragmentMap[stoneType].count++;
+    }
+  });
+
+  // Check if any fragment group has 10+ fragments and should be auto-combined
+  Object.keys(fragmentMap).forEach(stoneType => {
+    const fragmentGroup = fragmentMap[stoneType];
+    if (fragmentGroup.count >= 10) {
+      // Create a new stone equivalent for every 10 fragments
+      const fullStoneCount = Math.floor(fragmentGroup.count / 10);
+      const remainingFragments = fragmentGroup.count % 10;
+      
+      // Add full stones
+      for (let i = 0; i < fullStoneCount; i++) {
+        stones.push({
+          ...fragmentGroup,
+          isFragment: false,
+          isCombined: true,
+          type: "stone",
+          count: 1
+        });
+      }
+      
+      // Update fragment count
+      if (remainingFragments > 0) {
+        fragmentGroup.count = remainingFragments;
+      } else {
+        delete fragmentMap[stoneType];
+      }
+    }
+  });
+
+  // Convert fragment map back to array
+  const fragmentGroups = Object.values(fragmentMap);
+
+  // Combine stones and remaining fragments
+  const combinedItems = [...stones];
+  fragmentGroups.forEach(fragmentGroup => {
+    combinedItems.push(fragmentGroup);
+  });
+
+  // Sort by element type
+  return combinedItems.sort((a, b) => {
+    // Universal stones first
+    if (a.stoneType === "UNIVERSAL") return -1;
+    if (b.stoneType === "UNIVERSAL") return 1;
+    // Then by element alphabetically
+    return (a.stoneType || "").localeCompare(b.stoneType || "");
+  });
+}
+
 async function createStoneResultImage(options) {
   try {
     const {
@@ -1266,7 +1817,7 @@ async function createStoneResultImage(options) {
     
     // Vẽ banner tên đá
     const nameBannerY = imageAreaY + imageAreaHeight + 30;
-    const nameBannerHeight = 60;
+    const nameBannerHeight = 50;
     
     ctx.save();
     const nameBannerGradient = ctx.createLinearGradient(0, nameBannerY, 0, nameBannerY + nameBannerHeight);
@@ -1357,7 +1908,7 @@ async function createStoneResultImage(options) {
     roundRect(ctx, cardWidth/2 - 120, valueY, 240, valueHeight, 15, false, true);
     
     // Hiển thị giá trị đá
-    ctx.font = `bold 28px Arial`;
+    ctx.font = `bold 28px ${mastonFontFamily}`; // Changed from Arial to MastonPro
     ctx.textAlign = "center";
     ctx.shadowColor = "rgba(0, 0, 0, 0.7)";
     ctx.shadowBlur = 5;
@@ -1495,8 +2046,20 @@ function drawFireParticles(ctx, width, height, colors) {
     ctx.fill();
   }
 }
-
-// Hàm vẽ hiệu ứng nước cho đá Hydro
+function getElementColor(element) {
+  const elementColors = {
+    Pyro: "#FF5733",    // Đỏ cam
+    Hydro: "#0099FF",   // Xanh nước
+    Anemo: "#66FFCC",   // Ngọc lam nhạt
+    Electro: "#9933FF", // Tím
+    Dendro: "#99FF66",  // Xanh lá cây
+    Cryo: "#99FFFF",    // Xanh băng
+    Geo: "#FFCC33",     // Vàng cam
+    Unknown: "#FFFFFF"  // Trắng
+  };
+  
+  return elementColors[element] || elementColors.Unknown;
+}
 function drawWaterParticles(ctx, width, height, colors) {
   for (let i = 0; i < 10; i++) {
     const x = Math.random() * width;
@@ -3035,33 +3598,86 @@ async function createPullResultImage(options) {
         nameBannerY + 45
       );
     }
-    const starCount = parseInt(rarity);
-    const starSize = rarity === "5" ? 22 : rarity === "4" ? 20 : 18;
-    const starSpacing = starSize * 1.4;
-    const totalStarWidth = starSpacing * starCount;
-    const startX = width / 2 - totalStarWidth / 2 + starSpacing / 2;
-    const starY = nameBannerY - 20; 
-    
-    for (let i = 0; i < starCount; i++) {
-      const starX = startX + i * starSpacing;
+    const baseRarity = parseInt(rarity);
+const currentRarity = options.starLevel || baseRarity;
+const maxDisplayStars = baseRarity; 
+const starsToShow = baseRarity; 
+
+// Tăng kích thước sao
+const starSize = baseRarity === 5 ? 26 : baseRarity === 4 ? 24 : 22; // Tăng từ 22/20/18 lên 26/24/22
+
+// Tăng khoảng cách giữa các sao
+const starSpacing = starSize * 1.6; // Tăng từ 1.4 lên 1.6 để tạo khoảng cách lớn hơn
+
+// Tính toán lại vị trí để đảm bảo sao vẫn nằm giữa màn hình
+const totalStarWidth = starSpacing * starsToShow;
+const startX = width / 2 - totalStarWidth / 2 + starSpacing / 2;
+const starY = nameBannerY - 25; // Thay đổi từ -20 thành -25 để nâng cao sao lên một chút
+
+for (let i = 0; i < starsToShow; i++) {
+  const starX = startX + i * starSpacing;
+  
+  if (baseRarity === 5) {
+    if (isPremium) {
+      // Tính toán góc xoay dựa trên vị trí của sao so với trung tâm
+      const centerIndex = Math.floor(starsToShow / 2);
+      const distanceFromCenter = i - centerIndex;
       
-      if (rarity === "5") {
-        if (isPremium) {
-          drawPremiumStar(ctx, starX, starY, starSize * 1.2, "#FFE700", i);
-        } else {
-          ctx.shadowColor = colors.primary;
-          ctx.shadowBlur = 15;
-          ctx.shadowOffsetY = 0;
-          drawBeautifulStar(ctx, starX, starY, starSize, "#FFD700", rarity);
-        }
+      if (currentRarity > 5 && i >= (starsToShow - (currentRarity - 5))) {
+        // Hiệu ứng ngả cho sao tiến hóa: ngả mạnh ra hai bên từ trung tâm
+        const rotationAngle = distanceFromCenter * 0.3; // Góc ngả tỷ lệ với khoảng cách từ trung tâm
+        
+        // Giảm kích thước sao Premium tiến hóa xuống từ 1.4 thành 1.35
+        await drawPremiumEvolvedStar(ctx, starX, starY, starSize * 1.35, starImages.evolved.premium, rotationAngle);
       } else {
-        const starColor = rarity === "4" ? "#DDA0DD" : "#A0C8F0";
-        if (rarity === "4") {
-          ctx.lineWidth = 2;
-          ctx.strokeStyle = "#FFFFFF";
-        }
-        drawBeautifulStar(ctx, starX, starY, starSize, starColor, rarity);
+        // Premium chưa tiến hóa: ngả nhẹ ra hai bên từ trung tâm
+        const rotationAngle = distanceFromCenter * 0.15; // Góc ngả nhẹ hơn, cũng tỷ lệ với khoảng cách
+        
+        // Tăng kích thước sao Premium chưa tiến hóa từ 1.3 lên 1.4
+        await drawStarFromImage(ctx, starX, starY, starSize * 1.4, starImages.normal.premium, rotationAngle);
       }
+      continue;
+    }
+    else if (currentRarity > 5) {
+      // Xử lý các sao tiến hóa thường - KHÔNG XOẠ NGHIÊNG
+      const evolvedStars = currentRarity - 5;
+      if (i >= (starsToShow - evolvedStars)) {
+        // Sao tiến hóa 5★ thường KHÔNG XOẠ NGHIÊNG NỮA
+        await drawStarFromImage(ctx, starX, starY, starSize * 1.3, starImages.evolved.red, 0);
+        continue;
+      } else {
+        starImageUrl = starImages.normal["5"];
+      }
+    } else {
+      starImageUrl = starImages.normal["5"];
+    }
+  }
+  // Nhân vật 4★
+  else if (baseRarity === 4) {
+    if (currentRarity > 4) {
+      const evolvedStars = currentRarity - 4;
+      if (i >= (starsToShow - evolvedStars)) {
+        // Sao tiến hóa 4★ KHÔNG XOẠ NGHIÊNG
+        await drawStarFromImage(ctx, starX, starY, starSize * 1.2, starImages.evolved.gold, 0); // Góc xoay = 0
+        continue;
+      } else {
+        starImageUrl = starImages.normal["4"];
+      }
+    } else {
+      starImageUrl = starImages.normal["4"];
+    }
+  }
+  else {
+    starImageUrl = starImages.normal["3"];
+  }
+  
+  await drawStarFromImage(ctx, starX, starY, starSize, starImageUrl, 0); 
+}
+    
+    if (currentRarity > baseRarity) {
+      const evolveTextX = startX + starsToShow * starSpacing + 15;
+      const evolveTextY = starY + 6;
+
     }
     
     if (rarity === "5") {
@@ -3086,49 +3702,6 @@ async function createPullResultImage(options) {
     
     ctx.shadowBlur = 0;
     ctx.restore();
-    
-    function drawBeautifulStar(ctx, x, y, size, color, rarity) {
-      ctx.save();
-      
-      const spikes = 5;
-      const outerRadius = size;
-      const innerRadius = size * 0.4;
-      
-      ctx.beginPath();
-      ctx.translate(x, y);
-      ctx.rotate(Math.PI / 2);
-      
-      for (let i = 0; i < spikes * 2; i++) {
-        const radius = i % 2 === 0 ? outerRadius : innerRadius;
-        const angle = (i * Math.PI) / spikes;
-        const method = i === 0 ? "moveTo" : "lineTo";
-        ctx[method](radius * Math.cos(angle), radius * Math.sin(angle));
-      }
-      ctx.closePath();
-      
-      const gradient = ctx.createRadialGradient(0, 0, innerRadius, 0, 0, outerRadius);
-      gradient.addColorStop(0, "#FFFFFF");
-      gradient.addColorStop(1, color);
-      ctx.fillStyle = gradient;
-      
-      if (rarity === "5") {
-        ctx.shadowColor = color;
-        ctx.shadowBlur = 10;
-        ctx.fill();
-        ctx.stroke();
-        
-        ctx.beginPath();
-        ctx.arc(0, 0, size/5, 0, Math.PI*2);
-        ctx.fillStyle = "#FFFFFF";
-        ctx.globalAlpha = 0.8;
-        ctx.fill();
-      } else {
-        ctx.fill();
-        if (rarity === "4") ctx.stroke(); 
-      }
-      
-      ctx.restore();
-    }
 
     ctx.save();
 const valueY = nameBannerY + nameBannerHeight + 25;
@@ -3226,7 +3799,7 @@ if (rarity === "5") {
   roundRect(ctx, width/2 - 140, valueY, 280, valueHeight, 10, true, false);
 }
 
-ctx.font = `bold 32px Arial`;
+ctx.font = `bold 32px ${mastonFontFamily}`;
 ctx.textAlign = "center";
 ctx.shadowColor = "rgba(0, 0, 0, 0.7)";
 ctx.shadowBlur = 8;
@@ -3377,6 +3950,7 @@ ctx.restore();
       );
       
       ctx.textAlign = "right";
+      ctx.font = `bold 18px ${mastonFontFamily}`; // Changed to MastonPro for the numeric values
       ctx.fillText(value, barX + barWidth - 10, y + barHeight / 2 + 6);
       ctx.restore();
       
@@ -3650,4 +4224,5 @@ module.exports = {
   createPullResultImage,
   createStoneResultImage,
   createInventoryImage,
+  createExpItemResultImage,
 };

@@ -88,7 +88,7 @@
     "happy": 100,
     "energy": 40,
     "level": 4,
-    "exp": 10,
+    "exp": 15,
     "power": 335,
     "lastFed": 1741578387169,
     "lastPlay": 1741521621861,
@@ -122,7 +122,7 @@
     "lastTrain": 1741578367845,
     "lastSkill": {
       "FETCH": 1741527789964,
-      "GUARD": 1741618276831
+      "GUARD": 1741705607135
     }
   },
   "100048267517770": {
@@ -517,10 +517,10 @@
     "happy": 100,
     "energy": 90,
     "level": 5,
-    "exp": 150,
-    "power": 195,
-    "lastFed": 1741670470953,
-    "lastPlay": 1741670452324,
+    "exp": 390,
+    "power": 255,
+    "lastFed": 1741711705850,
+    "lastPlay": 1741711692372,
     "skills": {
       "HUNT": {
         "level": 1,
@@ -544,15 +544,15 @@
     "birthday": 1741511167970,
     "quests": {
       "daily": {
-        "playCount": 28,
-        "feedCount": 39
+        "playCount": 33,
+        "feedCount": 45
       }
     },
     "lastSkill": {
-      "HUNT": 1741628179325,
-      "CHARM": 1741670443861
+      "HUNT": 1741711305397,
+      "CHARM": 1741711680387
     },
-    "lastTrain": 1741670458734
+    "lastTrain": 1741711346560
   },
   "100035610181048": {
     "type": "DOG",
@@ -632,13 +632,13 @@
   "61561277064921": {
     "type": "CAT",
     "name": "Puu",
-    "hunger": 40,
-    "happy": 52,
+    "hunger": 75,
+    "happy": 60,
     "energy": 24,
-    "level": 2,
-    "exp": 185,
-    "power": 105,
-    "lastFed": 1741585760008,
+    "level": 3,
+    "exp": 5,
+    "power": 130,
+    "lastFed": 1741711839931,
     "lastPlay": 1741585748405,
     "skills": {
       "HUNT": {
@@ -663,13 +663,14 @@
     "birthday": 1741584187605,
     "quests": {
       "daily": {
-        "feedCount": 8,
+        "feedCount": 9,
         "playCount": 5
       }
     },
-    "lastTrain": 1741585688358,
+    "lastTrain": 1741711858115,
     "lastSkill": {
-      "HUNT": 1741585715757
+      "HUNT": 1741585715757,
+      "CHARM": 1741711866742
     }
   },
   "61555034078738": {

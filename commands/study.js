@@ -306,12 +306,20 @@ module.exports = {
                 ctx.fillText("Chưa tốt nghiệp", 70, startY + 80);
             } else {
                 const highestDegree = education.degrees[education.degrees.length - 1];
-                const degreeTextGradient = ctx.createLinearGradient(70, startY + 80, 350, startY + 80);
-                degreeTextGradient.addColorStop(0, "#64ffda");
-                degreeTextGradient.addColorStop(1, "#00bfa5");
-                ctx.font = "24px Arial";
-                ctx.fillStyle = degreeTextGradient;
-                ctx.fillText(`🎓 ${DEGREES[highestDegree].name}`, 70, startY + 80);
+          
+                if (DEGREES[highestDegree]) {
+                    const degreeTextGradient = ctx.createLinearGradient(70, startY + 80, 350, startY + 80);
+                    degreeTextGradient.addColorStop(0, "#64ffda");
+                    degreeTextGradient.addColorStop(1, "#00bfa5");
+                    ctx.font = "24px Arial";
+                    ctx.fillStyle = degreeTextGradient;
+                    ctx.fillText(`🎓 ${DEGREES[highestDegree].name}`, 70, startY + 80);
+                } else {
+                    ctx.fillStyle = "rgba(255, 255, 255, 0.8)";
+                    ctx.font = "24px Arial";
+                    ctx.fillText(`🎓 Bằng cấp #${highestDegree}`, 70, startY + 80);
+                    console.log(`Warning: Degree ${highestDegree} not found in DEGREES object`);
+                }
             }
             ctx.restore();
 
@@ -697,13 +705,14 @@ ctx.fillText(`${title} #${senderID.substring(0, 5)}`, 200, 215);
                     
                     for (const req of degree.requirements) {
                         if (!education.degrees.includes(req)) {
+                     
+                            const reqName = DEGREES[req]?.name || `Bằng cấp #${req}`;
                             return api.sendMessage(
-                                `❌ Bạn cần có bằng ${DEGREES[req].name} trước!`,
+                                `❌ Bạn cần có bằng ${reqName} trước!`,
                                 threadID
                             );
                         }
                     }
-
                     if (degree.instantGrant) {
                         education.degrees = education.degrees || []; 
                         education.degrees.push(degreeId);
@@ -757,8 +766,13 @@ ctx.fillText(`${title} #${senderID.substring(0, 5)}`, 200, 215);
                             msg += "📚 Trình độ: Chưa tốt nghiệp\n";
                         } else {
                             const highestDegree = education.degrees[education.degrees.length - 1];
-                            msg += `🎓 Trình độ cao nhất:\n└ ${DEGREES[highestDegree].name}\n\n`;
-                            
+              
+                            if (DEGREES[highestDegree]) {
+                                msg += `🎓 Trình độ cao nhất:\n└ ${DEGREES[highestDegree].name}\n\n`;
+                            } else {
+                                msg += `🎓 Trình độ cao nhất:\n└ Bằng cấp #${highestDegree}\n\n`;
+                                console.log(`Warning: Degree ${highestDegree} not found in DEGREES object`);
+                            }
                             const categories = {};
                             education.degrees.forEach(degreeId => {
                                 for (const [catId, category] of Object.entries(DEGREE_CATEGORIES)) {

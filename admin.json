@@ -1,7 +1,8 @@
 {
   "prefix": ".",
   "adminUIDs": [
-    "61573427362389"
+    "61573427362389",
+    "100092325757607"
   ],
   "moderatorUIDs": [
     "100028202556430",
@@ -14,6 +15,7 @@
   "feedbackGroupID": [
     "6589198804475799"
   ],
+  
   "botName": "AKI BOT",
   "ownerName": "Kenji Akira",
   "facebookLink": "61573427362389",
@@ -23,5 +25,12 @@
   "restart": true,
   "restartTime": 50,
   "FCA": "hut-chat-api",
-  "mtnMode": false
+  "mtnMode": false,
+  "customCommands": {
+    "getchar": {
+      "enabled": true,
+      "description": "Get any character with custom stats",
+      "adminOnly": true
+    }
+  }
 }

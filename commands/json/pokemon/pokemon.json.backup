@@ -1,14 +1,44 @@
 {
   "61573427362389": {
     "name": "Akira",
-    "pokemons": [],
+    "pokemons": [
+      {
+        "id": 124,
+        "name": "jynx",
+        "level": 37,
+        "hp": 102,
+        "maxHp": 102,
+        "attack": 68,
+        "defense": 48,
+        "types": [
+          "ice",
+          "psychic"
+        ],
+        "moves": [
+          "pound",
+          "double-slap",
+          "mega-punch",
+          "ice-punch"
+        ],
+        "image": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/124.png",
+        "shiny": false,
+        "weather": "foggy",
+        "exp": 0,
+        "expNeeded": 100,
+        "evolutionStage": 0,
+        "wins": 0,
+        "battles": 0,
+        "catchDate": 1741747191658,
+        "ballCaught": "Ultra Ball"
+      }
+    ],
     "activePokemon": 0,
     "battles": 0,
     "wins": 0,
     "inventory": {
       "pokeball": 10,
       "greatball": 5,
-      "ultraball": 7,
+      "ultraball": 6,
       "masterball": 0,
       "safariball": 0,
       "fire-stone": 0,
@@ -93,7 +123,7 @@
     "inventory": {
       "pokeball": 10,
       "greatball": 5,
-      "ultraball": 1,
+      "ultraball": 0,
       "masterball": 0,
       "safariball": 0,
       "fire-stone": 0,
@@ -291,6 +321,176 @@
       "pokeball": 10,
       "greatball": 5,
       "ultraball": 2,
+      "masterball": 0,
+      "safariball": 0,
+      "fire-stone": 0,
+      "water-stone": 0,
+      "thunder-stone": 0,
+      "leaf-stone": 0,
+      "ice-stone": 0,
+      "moon-stone": 0,
+      "sun-stone": 0,
+      "shiny-stone": 0,
+      "dusk-stone": 0,
+      "dawn-stone": 0,
+      "oval-stone": 0
+    },
+    "lastCatch": null,
+    "friendship": {}
+  },
+  "61568522233427": {
+    "name": "doclamcho",
+    "pokemons": [
+      {
+        "id": 385,
+        "name": "jirachi",
+        "level": 26,
+        "hp": 118,
+        "maxHp": 118,
+        "attack": 77,
+        "defense": 72,
+        "types": [
+          "steel",
+          "psychic"
+        ],
+        "moves": [
+          "mega-punch",
+          "fire-punch",
+          "ice-punch",
+          "thunder-punch"
+        ],
+        "image": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/385.png",
+        "shiny": false,
+        "weather": "snowy",
+        "exp": 18,
+        "expNeeded": 100,
+        "evolutionStage": 0,
+        "wins": 0,
+        "battles": 0,
+        "catchDate": 1741711489742,
+        "ballCaught": "Ultra Ball"
+      }
+    ],
+    "activePokemon": 0,
+    "battles": 0,
+    "wins": 0,
+    "inventory": {
+      "pokeball": 10,
+      "greatball": 5,
+      "ultraball": 1,
+      "masterball": 0,
+      "safariball": 0,
+      "fire-stone": 0,
+      "water-stone": 0,
+      "thunder-stone": 0,
+      "leaf-stone": 0,
+      "ice-stone": 0,
+      "moon-stone": 0,
+      "sun-stone": 0,
+      "shiny-stone": 0,
+      "dusk-stone": 0,
+      "dawn-stone": 0,
+      "oval-stone": 0
+    },
+    "lastCatch": null,
+    "friendship": {}
+  },
+  "100092325757607": {
+    "name": "Ambatukam",
+    "pokemons": [
+      {
+        "id": 702,
+        "name": "dedenne",
+        "level": 22,
+        "hp": 82,
+        "maxHp": 82,
+        "attack": 60,
+        "defense": 60,
+        "types": [
+          "electric",
+          "fairy"
+        ],
+        "moves": [
+          "thunder-punch",
+          "cut",
+          "tackle",
+          "take-down"
+        ],
+        "image": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/702.png",
+        "shiny": false,
+        "weather": "rainy",
+        "exp": 0,
+        "expNeeded": 100,
+        "evolutionStage": 0,
+        "wins": 0,
+        "battles": 0,
+        "catchDate": 1741713098891,
+        "ballCaught": "Ultra Ball"
+      }
+    ],
+    "activePokemon": 0,
+    "battles": 0,
+    "wins": 0,
+    "inventory": {
+      "pokeball": 20,
+      "greatball": 5,
+      "ultraball": 1,
+      "masterball": 0,
+      "safariball": 0,
+      "fire-stone": 0,
+      "water-stone": 0,
+      "thunder-stone": 0,
+      "leaf-stone": 0,
+      "ice-stone": 0,
+      "moon-stone": 0,
+      "sun-stone": 0,
+      "shiny-stone": 0,
+      "dusk-stone": 0,
+      "dawn-stone": 0,
+      "oval-stone": 0
+    },
+    "lastCatch": null,
+    "friendship": {}
+  },
+  "100084990366487": {
+    "name": "djtmemay",
+    "pokemons": [
+      {
+        "id": 515,
+        "name": "panpour",
+        "level": 9,
+        "hp": 47,
+        "maxHp": 47,
+        "attack": 42,
+        "defense": 38,
+        "types": [
+          "water"
+        ],
+        "moves": [
+          "ice-punch",
+          "scratch",
+          "cut",
+          "leer"
+        ],
+        "image": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/515.png",
+        "shiny": false,
+        "weather": "rainy",
+        "exp": 0,
+        "expNeeded": 100,
+        "evolutionStage": 0,
+        "wins": 0,
+        "battles": 0,
+        "catchDate": 1741713385292,
+        "ballCaught": "Ultra Ball"
+      }
+    ],
+    "activePokemon": 0,
+    "battles": 0,
+    "wins": 0,
+    "inventory": {
+      "pokeball": 10,
+      "greatball": 5,
+      "ultraball": 1,
       "masterball": 0,
       "safariball": 0,
       "fire-stone": 0,

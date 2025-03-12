@@ -5,18 +5,26 @@ const { createCanvas, loadImage, registerFont } = require('canvas');
 module.exports = {
     createWinnerImage: async function(winnerPokemonImage, winnerName, pokemonName, expGained, remainingHp) {
         try {
-            const tempDir = path.join(__dirname, '../commands/cache');
+            console.log("Loading Pokemon fonts...");
             
-            if (!fs.existsSync(tempDir)) {
-                fs.mkdirSync(tempDir, { recursive: true });
+            const pokeSolidPath = path.join(__dirname, '../fonts/Pokemon_Solid.ttf');
+            const pokeHollowPath = path.join(__dirname, '../fonts/Pokemon_Hollow.ttf');
+            
+            if (!fs.existsSync(pokeSolidPath)) {
+              console.log(`Font not found at path: ${pokeSolidPath}`);
             }
-
-            try {
-                registerFont(path.join(__dirname, '../fonts/Pokemon_Solid.ttf'), { family: 'Pokemon Solid' });
-                registerFont(path.join(__dirname, '../fonts/Pokemon_Hollow.ttf'), { family: 'Pokemon Hollow' });
-            } catch (error) {
-                console.log('Font loading failed, using fallback fonts');
+            
+            if (!fs.existsSync(pokeHollowPath)) {
+              console.log(`Font not found at path: ${pokeHollowPath}`);
             }
+            
+            registerFont(pokeSolidPath, { family: 'Pokemon Solid' });
+            console.log("✓ Pokemon Solid font loaded successfully");
+            
+            registerFont(pokeHollowPath, { family: 'Pokemon Hollow' });
+            console.log("✓ Pokemon Hollow font loaded successfully");
+            
+            console.log("All Pokemon fonts loaded successfully!");
 
             const [pokemonImg, bgImage] = await Promise.all([
                 loadImage(winnerPokemonImage),

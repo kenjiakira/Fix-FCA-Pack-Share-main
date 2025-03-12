@@ -131,177 +131,30 @@ module.exports = {
     },
 
     JOBS: {
-        j1: {
-            name: "Shipper",
-            salary: 500,
-            type: "shipper",
-            requirements: [],
-            description: "Giao hàng nhanh chóng và an toàn"
-        },
-        j2: {
-            name: "Phụ hồ",
-            salary: 600,
-            type: "construction",
-            requirements: [],
-            description: "Xây dựng và phát triển công trình"
-        },
-        j3: {
-            name: "Phục vụ",
-            salary: 450,
-            type: "service",
-            requirements: [],
-            description: "Phục vụ khách hàng tận tình"
-        },
-        j4: {
-            name: "Công nhân",
-            salary: 800,
-            type: "worker",
-            requirements: ["e1"],
-            description: "Vận hành máy móc và sản xuất"
-        },
-        j5: {
-            name: "Nhân viên bán hàng",
-            salary: 700,
-            type: "sales",
-            requirements: ["e1"],
-            description: "Tư vấn và bán hàng chuyên nghiệp"
-        },
-        j6: {
-            name: "Lễ tân khách sạn",
-            salary: 750,
-            type: "service",
-            requirements: ["e1"],
-            description: "Tiếp đón và phục vụ khách hàng"
-        },
-        j7: {
-            name: "Kế toán",
-            salary: 1200,
-            type: "accountant",
-            requirements: ["ueh", "neu"],
-            description: "Quản lý tài chính và sổ sách"
-        },
-        j8: {
-            name: "Lập trình viên",
-            salary: 22000,
-            type: "developer",
-            requirements: ["hcmut", "hust", "fe", "be"],
-            description: "Phát triển phần mềm và ứng dụng"
-        },
-        j9: {
-            name: "Giáo viên",
-            salary: 15000,
-            type: "teacher",
-            requirements: ["hnue", "eng2"],
-            description: "Giảng dạy và đào tạo học sinh"
-        },
-        j10: {
-            name: "Giảng viên ĐH",
-            salary: 30000,
-            type: "lecturer",
-            requirements: ["e4", "eng3"],
-            description: "Giảng dạy và nghiên cứu đại học"
-        },
-        j11: {
-            name: "Nghiên cứu viên",
-            salary: 35000,
-            type: "researcher",
-            requirements: ["e4", "e5", "eng3"],
-            description: "Nghiên cứu và phát triển khoa học"
-        },
-        j12: {
-            name: "Chuyên gia IT",
-            salary: 50000,
-            type: "consultant",
-            requirements: ["e4", "aws", "azure", "ccna", "hcmut"],
-            description: "Tư vấn giải pháp công nghệ cấp cao"
-        },
-        j13: {
-            name: "Nhà khoa học trưởng",
-            salary: 100000,
-            type: "researcher",
-            requirements: ["e5", "eng3", "research1"],
-            description: "Lãnh đạo nhóm nghiên cứu đỉnh cao, công bố quốc tế"
-        },
-        j14: {
-            name: "Chuyên viên thương mại",
-            salary: 180000,
-            type: "sales",
-            requirements: ["ftu", "eng2"],
-            description: "Phát triển thị trường và quan hệ thương mại quốc tế"
-        },
-        j15: {
-            name: "Bác sĩ",
-            salary: 250000,
-            type: "medical",
-            requirements: ["hmu"],
-            description: "Khám chữa bệnh và chăm sóc sức khỏe"
-        },
-        j16: {
-            name: "Kỹ sư nông nghiệp",
-            salary: 160000,
-            type: "agriculture",
-            requirements: ["tuaf"],
-            description: "Phát triển và ứng dụng kỹ thuật nông nghiệp"
-        },
-        j17: {
-            name: "Chuyên gia hải sản",
-            salary: 170000,
-            type: "marine",
-            requirements: ["ntu"],
-            description: "Nghiên cứu và phát triển ngành hải sản"
-        },
-        j18: {
-            name: "Nhà nghiên cứu xã hội",
-            salary: 165000,
-            type: "researcher",
-            requirements: ["vnuhn", "eng2"],
-            description: "Nghiên cứu các vấn đề xã hội và nhân văn"
-        },
-        j19: {
-            name: "Chuyên viên phân tích",
-            salary: 190000,
-            type: "analyst",
-            requirements: ["vnuhcm", "eng2"],
-            description: "Phân tích dữ liệu và đưa ra giải pháp"
-        },
-        j20: {
-            name: "Kiến trúc sư phần mềm",
-            salary: 280000,
-            type: "developer",
-            requirements: ["hcmut", "hust", "aws"],
-            description: "Thiết kế và phát triển kiến trúc phần mềm"
-        },
-        j21: {
-            name: "Giáo sư y khoa",
-            salary: 60000,
-            type: "medical",
-            requirements: ["e4", "hmu", "research1"],
-            description: "Nghiên cứu và giảng dạy y khoa cấp cao"
-        },
-        j22: {
-            name: "Chuyên gia kinh tế",
-            salary: 550000,
-            type: "consultant",
-            requirements: ["e4", "neu", "ueh", "eng3"],
-            description: "Tư vấn và hoạch định chính sách kinh tế"
-        },
-        j23: {
-            name: "Việc cơ bản cho Đại Học",
-            salary: 5000,
-            requirements: ["e3"],
-            description: "Việc cơ bản cho sinh viên Đại Học"
-        },
-        j24: {
-            name: "Việc cơ bản cho Cao Đẳng",
-            salary: 3000,
-            requirements: ["e2"],
-            description: "Việc cơ bản cho sinh viên Cao Đẳng"
-        },
-        j25: {
-            name: "JOB ADMIN TEST",
-            salary: 1,
-            requirements: ["e1"],
-            description: "JOB ADMIN TEST"
-        }
-    }
-};
+        j1: { name: "Shipper", salary: 1000, type: "shipper", requirements: [], description: "Giao hàng nhanh chóng và an toàn" },
+    j2: { name: "Phụ hồ", salary: 1200, type: "construction", requirements: [], description: "Xây dựng và phát triển công trình" },
+    j3: { name: "Phục vụ", salary: 900, type: "service", requirements: [], description: "Phục vụ khách hàng tận tình" },
+    j4: { name: "Công nhân", salary: 1600, type: "worker", requirements: ["e1"], description: "Vận hành máy móc và sản xuất" },
+    j5: { name: "Nhân viên bán hàng", salary: 1400, type: "sales", requirements: ["e1"], description: "Tư vấn và bán hàng chuyên nghiệp" },
+    j6: { name: "Lễ tân khách sạn", salary: 1500, type: "service", requirements: ["e1"], description: "Tiếp đón và phục vụ khách hàng" },
+    j7: { name: "Kế toán", salary: 2400, type: "accountant", requirements: ["ueh", "neu"], description: "Quản lý tài chính và sổ sách" },
+    j8: { name: "Lập trình viên", salary: 44000, type: "developer", requirements: ["hcmut", "hust", "fe", "be"], description: "Phát triển phần mềm và ứng dụng" },
+    j9: { name: "Giáo viên", salary: 30000, type: "teacher", requirements: ["hnue", "eng2"], description: "Giảng dạy và đào tạo học sinh" },
+    j10: { name: "Giảng viên ĐH", salary: 60000, type: "lecturer", requirements: ["e4", "eng3"], description: "Giảng dạy và nghiên cứu đại học" },
+    j11: { name: "Nghiên cứu viên", salary: 70000, type: "researcher", requirements: ["e4", "e5", "eng3"], description: "Nghiên cứu và phát triển khoa học" },
+    j12: { name: "Chuyên gia IT", salary: 100000, type: "consultant", requirements: ["e4", "aws", "azure", "ccna", "hcmut"], description: "Tư vấn giải pháp công nghệ cấp cao" },
+    j13: { name: "Nhà khoa học trưởng", salary: 200000, type: "researcher", requirements: ["e5", "eng3", "research1"], description: "Lãnh đạo nhóm nghiên cứu đỉnh cao, công bố quốc tế" },
+    j14: { name: "Chuyên viên thương mại", salary: 360000, type: "sales", requirements: ["ftu", "eng2"], description: "Phát triển thị trường và quan hệ thương mại quốc tế" },
+    j15: { name: "Bác sĩ", salary: 500000, type: "medical", requirements: ["hmu"], description: "Khám chữa bệnh và chăm sóc sức khỏe" },
+    j16: { name: "Kỹ sư nông nghiệp", salary: 320000, type: "agriculture", requirements: ["tuaf"], description: "Phát triển và ứng dụng kỹ thuật nông nghiệp" },
+    j17: { name: "Chuyên gia hải sản", salary: 340000, type: "marine", requirements: ["ntu"], description: "Nghiên cứu và phát triển ngành hải sản" },
+    j18: { name: "Nhà nghiên cứu xã hội", salary: 330000, type: "researcher", requirements: ["vnuhn", "eng2"], description: "Nghiên cứu các vấn đề xã hội và nhân văn" },
+    j19: { name: "Chuyên viên phân tích", salary: 380000, type: "analyst", requirements: ["vnuhcm", "eng2"], description: "Phân tích dữ liệu và đưa ra giải pháp" },
+    j20: { name: "Kiến trúc sư phần mềm", salary: 560000, type: "developer", requirements: ["hcmut", "hust", "aws"], description: "Thiết kế và phát triển kiến trúc phần mềm" },
+    j21: { name: "Giáo sư y khoa", salary: 120000, type: "medical", requirements: ["e4", "hmu", "research1"], description: "Nghiên cứu và giảng dạy y khoa cấp cao" },
+    j22: { name: "Chuyên gia kinh tế", salary: 1100000, type: "consultant", requirements: ["e4", "neu", "ueh", "eng3"], description: "Tư vấn và hoạch định chính sách kinh tế" },
+    j23: { name: "Việc cơ bản cho Đại Học", salary: 10000, requirements: ["e3"], description: "Việc cơ bản cho sinh viên Đại Học" },
+    j24: { name: "Việc cơ bản cho Cao Đẳng", salary: 6000, requirements: ["e2"], description: "Việc cơ bản cho sinh viên Cao Đẳng" },
+    j25: { name: "JOB ADMIN TEST", salary: 2, requirements: ["e1"], description: "JOB ADMIN TEST" }
+}
+    };

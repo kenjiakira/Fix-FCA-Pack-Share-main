@@ -1,5 +1,5 @@
 module.exports = {
-    STUDY_TIME: 24 * 60 * 60 * 1000, 
+    STUDY_TIME: 12 * 60 * 60 * 1000, 
     LEARNING_SPEED: 1.0,
 
     DEGREE_CATEGORIES: {
@@ -13,7 +13,7 @@ module.exports = {
         },
         "university": {
             name: "Đại học",
-            degrees: ["e3", "vnuhcm", "vnuhn", "hcmut", "neu", "hust", "ftu", "ntu", "hmu", "tuaf", "ueh"]
+            degrees: ["vnuhcm", "vnuhn", "hcmut", "neu", "hust", "ftu", "ntu", "hmu", "tuaf", "ueh"]
         },
         "certificate": {
             name: "Chứng chỉ",
@@ -21,7 +21,7 @@ module.exports = {
         },
         "specialized": {
             name: "Chuyên sâu",
-            degrees: ["e4", "e5", "research1"]
+            degrees: ["e5", "research1"]
         }
     },
 
@@ -38,25 +38,16 @@ module.exports = {
         "e2": {
             name: "Cao đẳng",
             level: 2,
-            timeNeeded: 3,
+            timeNeeded: 1.5,
             cost: 15000,
             requirements: ["e1"],
-            description: "Cao đẳng đào tạo nghề trong 2-3 năm"
-        },
-
-        "e3": {
-            name: "Đại học",
-            level: 3,
-            timeNeeded: 4,
-            cost: 20000,
-            requirements: ["e1"],
-            description: "Đại học cơ bản đào tạo 4-5"
+            description: "Cao đẳng đào tạo nghề trong 1-1.5 năm"
         },
 
         "vnuhcm": {
             name: "ĐH Quốc Gia TP.HCM",
             level: 3,
-            timeNeeded: 7,
+            timeNeeded: 3.5,
             cost: 200000,
             requirements: ["e1"],
             description: "Một trong những đại học trọng điểm quốc gia"
@@ -64,7 +55,7 @@ module.exports = {
         "vnuhn": {
             name: "ĐH Quốc Gia Hà Nội",
             level: 3,
-            timeNeeded: 7,
+            timeNeeded: 3.5,
             cost: 200000,
             requirements: ["e1"],
             description: "Đại học hàng đầu tại miền Bắc"
@@ -72,7 +63,7 @@ module.exports = {
         "hcmut": {
             name: "ĐH Bách Khoa TP.HCM",
             level: 3,
-            timeNeeded: 7,
+            timeNeeded: 3.5,
             cost: 250000,
             requirements: ["e1"],
             description: "Trường đào tạo kỹ thuật hàng đầu phía Nam"
@@ -80,7 +71,7 @@ module.exports = {
         "hust": {
             name: "ĐH Bách Khoa Hà Nội",
             level: 3,
-            timeNeeded: 7,
+            timeNeeded: 3.5,
             cost: 250000,
             requirements: ["e1"],
             description: "Trường kỹ thuật công nghệ hàng đầu Việt Nam"
@@ -88,150 +79,65 @@ module.exports = {
         "neu": {
             name: "ĐH Kinh tế Quốc dân",
             level: 3,
-            timeNeeded: 7,
+            timeNeeded: 3.5,
             cost: 220000,
             requirements: ["e1"],
             description: "Đại học hàng đầu về kinh tế, quản trị"
         },
-        "hnue": {
-            name: "ĐH Sư phạm Hà Nội",
-            level: 3,
-            timeNeeded: 7,
-            cost: 180000,
-            requirements: ["e1"],
-            description: "Trường đào tạo giáo viên hàng đầu Việt Nam"
-        },
         "ftu": {
             name: "ĐH Ngoại thương",
-            level: 5,
-            timeNeeded: 7,
+            level: 3,
+            timeNeeded: 3.5,
             cost: 220000,
             requirements: ["e1"],
             description: "Trường đào tạo thương mại quốc tế hàng đầu"
         },
-        "ntu": {
-            name: "ĐH Nha Trang",
-            level: 5,
-            timeNeeded: 7,
-            cost: 180000,
-            requirements: ["e1"],
-            description: "Đại học chuyên về thủy sản và du lịch"
-        },
         "hmu": {
             name: "ĐH Y Hà Nội",
-            level: 5,
-            timeNeeded: 7,
+            level: 3,
+            timeNeeded: 3.5,
             cost: 300000,
             requirements: ["e1"],
             description: "Trường y khoa hàng đầu Việt Nam"
         },
-        "tuaf": {
-            name: "ĐH Nông Lâm TP.HCM",
-            level: 5,
-            timeNeeded: 7,
+        "ntu": {
+            name: "ĐH Nha Trang",
+            level: 3,
+            timeNeeded: 3.5,
             cost: 180000,
             requirements: ["e1"],
-            description: "Đại học về nông nghiệp và lâm nghiệp"
+            description: "Chuyên ngành thủy sản và khoa học biển"
+        },
+        "tuaf": {
+            name: "ĐH Nông Lâm TP.HCM",
+            level: 3,
+            timeNeeded: 3.5,
+            cost: 200000,
+            requirements: ["e1"],
+            description: "Chuyên ngành về nông nghiệp, lâm nghiệp"
         },
         "ueh": {
             name: "ĐH Kinh tế TP.HCM",
-            level: 5,
-            timeNeeded: 7,
+            level: 3,
+            timeNeeded: 3.5,
             cost: 200000,
             requirements: ["e1"],
-            description: "Trường đào tạo kinh tế hàng đầu phía Nam"
+            description: "Trường đào tạo kinh tế, tài chính hàng đầu"
         },
-
-        "e4": {
-            name: "Thạc sĩ",
-            level: 9,
-            timeNeeded: 10,
-            cost: 500000,
-            requirements: ["e3"],
-            description: "Bằng thạc sĩ (sau đại học)"
-        },
-
         "e5": {
             name: "Tiến sĩ",
             level: 10,
-            timeNeeded: 14,
+            timeNeeded: 7,
             cost: 1000000,
-            requirements: ["e4"],
+            requirements: ["vnuhcm", "vnuhn", "hcmut", "neu", "hust", "ftu", "ntu", "hmu", "tuaf", "ueh"],
             description: "Học vị cao nhất trong hệ thống giáo dục"
         },
-
-        "eng1": {
-            name: "Tiếng Anh B1",
-            level: 1,
-            timeNeeded: 7,
-            cost: 60000,
-            requirements: ["e1"],
-            description: "Chứng chỉ tiếng Anh trình độ trung cấp"
-        },
-        "eng2": {
-            name: "Tiếng Anh B2",
-            level: 2,
-            timeNeeded: 7,
-            cost: 120000,
-            requirements: ["eng1"],
-            description: "Chứng chỉ tiếng Anh trình độ khá"
-        },
-        "eng3": {
-            name: "Tiếng Anh C1",
-            level: 3,
-            timeNeeded: 7,
-            cost: 200000,
-            requirements: ["eng2"],
-            description: "Chứng chỉ tiếng Anh cao cấp"
-        },
-
-        "fe": {
-            name: "Frontend Developer",
-            level: 2,
-            timeNeeded: 7,
-            cost: 300000,
-            requirements: ["e1"],
-            description: "Chứng chỉ phát triển giao diện web"
-        },
-        "be": {
-            name: "Backend Developer",
-            level: 2,
-            timeNeeded: 7,
-            cost: 350000,
-            requirements: ["e1"],
-            description: "Chứng chỉ phát triển hệ thống backend"
-        },
-        "aws": {
-            name: "AWS Certified",
-            level: 3,
-            timeNeeded: 7,
-            cost: 400000,
-            requirements: ["e3"],
-            description: "Chứng chỉ Amazon Web Services"
-        },
-        "azure": {
-            name: "Microsoft Azure",
-            level: 3,
-            timeNeeded: 7,
-            cost: 400000,
-            requirements: ["e3"],
-            description: "Chứng chỉ Microsoft Azure Cloud"
-        },
-        "ccna": {
-            name: "Cisco CCNA",
-            level: 2,
-            timeNeeded: 7,
-            cost: 350000,
-            requirements: ["e1"],
-            description: "Chứng chỉ mạng Cisco cơ bản"
-        },
-
         "research1": {
             name: "Nghiên cứu khoa học",
             level: 10,
-            timeNeeded: 14,
+            timeNeeded: 7,
             cost: 1000000,
-            requirements: ["e4"],
+            requirements: ["e5"],
             description: "Chứng nhận nghiên cứu khoa học"
         }
     }
