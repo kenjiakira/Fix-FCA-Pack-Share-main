@@ -289,24 +289,6 @@
   ],
   "100076957299243": [
     {
-      "type": "in",
-      "amount": 30000000,
-      "timestamp": 1741439838493,
-      "description": "Nhận 30000000 Xu từ Văn Quyến"
-    },
-    {
-      "type": "in",
-      "amount": 100000,
-      "timestamp": 1741585833622,
-      "description": "Nhận 100000 $ từ Le Tuan Tu"
-    },
-    {
-      "type": "out",
-      "amount": 101000,
-      "timestamp": 1741701897308,
-      "description": "Chuyển 100000 $ cho User"
-    },
-    {
       "type": "out",
       "amount": 505000,
       "timestamp": 1741751493573,
@@ -316,6 +298,24 @@
       "type": "out",
       "amount": 505000,
       "timestamp": 1741751539459,
+      "description": "Chuyển 500000 $ cho Quốc Hưng"
+    },
+    {
+      "type": "out",
+      "amount": 505000,
+      "timestamp": 1741779062623,
+      "description": "Chuyển 500000 $ cho Khang Bùi"
+    },
+    {
+      "type": "out",
+      "amount": 505000,
+      "timestamp": 1741842607410,
+      "description": "Chuyển 500000 $ cho Quốc Hưng"
+    },
+    {
+      "type": "out",
+      "amount": 505000,
+      "timestamp": 1741842625604,
       "description": "Chuyển 500000 $ cho Quốc Hưng"
     }
   ],
@@ -735,6 +735,12 @@
       "amount": 5000000,
       "timestamp": 1741439108102,
       "description": "Nhận 5000000 Xu từ Văn Quyến"
+    },
+    {
+      "type": "in",
+      "amount": 500000,
+      "timestamp": 1741779062623,
+      "description": "Nhận 500000 $ từ Tran Thu Huyen"
     }
   ],
   "100051073987266": [
@@ -975,18 +981,6 @@
   ],
   "100055052811579": [
     {
-      "type": "in",
-      "amount": 193000,
-      "timestamp": 1741582341019,
-      "description": "Nhận 193000 $ từ Le Tuan Tu"
-    },
-    {
-      "type": "out",
-      "amount": 2060,
-      "timestamp": 1741582424253,
-      "description": "Chuyển 2000 $ cho Le Tuan Tu"
-    },
-    {
       "type": "out",
       "amount": 505000,
       "timestamp": 1741625939825,
@@ -1002,6 +996,18 @@
       "type": "in",
       "amount": 500000,
       "timestamp": 1741751539459,
+      "description": "Nhận 500000 $ từ Tran Thu Huyen"
+    },
+    {
+      "type": "in",
+      "amount": 500000,
+      "timestamp": 1741842607410,
+      "description": "Nhận 500000 $ từ Tran Thu Huyen"
+    },
+    {
+      "type": "in",
+      "amount": 500000,
+      "timestamp": 1741842625604,
       "description": "Nhận 500000 $ từ Tran Thu Huyen"
     }
   ],

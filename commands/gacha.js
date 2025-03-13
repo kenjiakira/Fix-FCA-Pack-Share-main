@@ -8,6 +8,8 @@ const {
   createStoneResultImage,
   createInventoryImage,
   createExpItemResultImage,
+  createPvPBattleImage,
+  createStellaResultImage,
 } = require("../canvas/gachaCanvas");
 const MAX_BACKUPS = 14;
 
@@ -28,6 +30,8 @@ const CHARACTERS_DB_FILE = path.join(
   __dirname,
   "./json/gacha/characters_db.json"
 );
+const STELLA_PITY_THRESHOLD = 3; // Số lần ra 5★ trước khi đảm bảo ra Stella
+const STELLA_PITY_BOOST_PER_FAIL = 20;
 
 const ELEMENT_ADVANTAGES = {
   Pyro: ["Cryo", "Dendro"],
@@ -62,7 +66,6 @@ const CUSTOM_CHARACTER_IMAGES = {
   sayu: "https://imgur.com/sThH2Zu.png",
   dori: "https://imgur.com/JEmUtJP.png",
   candace: "https://imgur.com/xEzeWbs.png",
-  "kujousara": "https://imgur.com/NglMvgC.png",
   layla: "https://imgur.com/bG3ksud.png",
   collei: "https://imgur.com/m7TsSPK.png",
   Diona: "https://imgur.com/iPKtes1.png",
@@ -87,7 +90,10 @@ const CUSTOM_CHARACTER_IMAGES = {
   kaveh: "https://imgur.com/SLGq7RV.png",
   Sigewinne: "https://imgur.com/6pgv5wb.png",
   Xiao: "https://imgur.com/RLWJINH.png",
-  Keqing : "https://imgur.com/KKzZQjn.png",
+  Keqing: "https://imgur.com/KKzZQjn.png",
+  Klee: "https://imgur.com/wfF8iua.png",
+  Venti: "https://imgur.com/JFL5BdG.png",
+  Qiqi: "https://imgur.com/OSYwmfQ.png",
 };
 
 const CUSTOM_CHARACTER_DATA = {
@@ -195,12 +201,6 @@ const CUSTOM_CHARACTER_DATA = {
     element: "Dendro",
     skills: ["All Schemes to Know", "Illusory Heart"],
     quote: "Let me show you the wisdom of Sumeru.",
-  },
-  Cyno: {
-    weapon: "Polearm",
-    element: "Electro",
-    skills: ["Secret Rite: Chasmic Soulfarer", "Sacred Rite: Wolf’s Swiftness"],
-    quote: "You shall face judgment.",
   },
   Mona: {
     weapon: "Catalyst",
@@ -326,34 +326,31 @@ const CUSTOM_CHARACTER_DATA = {
     skills: ["Frostflake Arrow", "Snowstorm's Embrace"],
     quote: "The cold is my ally.",
   },
-  kujousara: {
-    weapon: "Bow",
-    element: "Electro",
-    skills: ["Tengu Stormcall", "Subjugation: Koukou Sendou"],
-    quote: "The storm is coming.",
-  },
   candace: {
     weapon: "Bow",
     element: "Hydro",
     skills: ["Tidal Wave", "Riptide"],
     quote: "The ocean is my home.",
   },
-  layla : {
+  layla: {
     weapon: "Sword",
     element: "Sword",
     skills: ["Flamestrike", "Inferno"],
     quote: "The flames will guide us.",
   },
-  dori : {
+  dori: {
     weapon: "Catalyst",
     element: "Electro",
     skills: ["Thunderstrike", "Lightning Storm"],
     quote: "The storm is coming.",
   },
-  albedo : {
+  albedo: {
     weapon: "Sword",
     element: "Geo",
-    skills: ["Abiogenesis: Solar Isotoma", "Rite of Progeniture: Tectonic Tide"],
+    skills: [
+      "Abiogenesis: Solar Isotoma",
+      "Rite of Progeniture: Tectonic Tide",
+    ],
     quote: "The future is ours to shape.",
   },
   charlotte: {
@@ -368,41 +365,48 @@ const CUSTOM_CHARACTER_DATA = {
     skills: ["Icetide Vortex", "Glacial Illumination"],
     quote: "The cold will not forgive.",
   },
-  yanfei : {
+  yanfei: {
     weapon: "Catalyst",
     element: "Pyro",
     skills: ["Signed Edict", "Done Deal"],
     quote: "The law is absolute.",
   },
-  Ganyu : {
+  Ganyu: {
     weapon: "Bow",
     element: "Cryo",
     skills: ["Trail of the Qilin", "Celestial Shower"],
     quote: "The frost will not forgive.",
   },
-  Xiao : {
+  Xiao: {
     weapon: "Polearm",
     element: "Anemo",
     skills: ["Lemniscatic Wind Cycling", "Bane of All Evil"],
     quote: "The wind is my ally.",
   },
-  Keqing : {
+  Keqing: {
     weapon: "Sword",
     element: "Electro",
     skills: ["Stellar Restoration", "Starward Sword"],
     quote: "The stars guide us.",
-  },Shenhe: {
+  },
+  Shenhe: {
     weapon: "Polearm",
     element: "Cryo",
     skills: ["Spring Spirit Summoning", "Divine Maiden's Deliverance"],
     quote: "The cold is my ally.",
   },
+  Diluc: {
+    weapon: "Claymore",
+    element: "Pyro",
+    skills: ["Searing Onslaught", "Dawn"],
+    quote: "The dawn is mine to command.",
+  },
 };
 const RATES = {
   FIVE_STAR: 0.001,
   EVOLVED_FOUR_STAR: 0.001,
-  FOUR_STAR: 14.998,      
-  THREE_STAR: 85.000,     
+  FOUR_STAR: 14.998,
+  THREE_STAR: 85.0,
 };
 
 const CHARACTER_RATINGS = {
@@ -448,7 +452,6 @@ const CHARACTER_RATINGS = {
     "Sucrose",
     "Lynette",
     "yanfei",
-    "kujousara",
     "Xianyun",
     "Rosaria",
     "sayu",
@@ -483,7 +486,7 @@ const EVOLVED_FOUR_STARS = [
   "Xingqiu",
   "Xiangling",
   "Fischl",
-  "Beidou", 
+  "Beidou",
   "Sucrose",
   "Ningguang",
   "Rosaria",
@@ -493,7 +496,6 @@ const EVOLVED_FOUR_STARS = [
   "Kuki Shinobu",
   "Lynette",
   "Xianyun",
-  "Kujou Sara"
 ];
 
 const PREMIUM_FIVE_STARS = [
@@ -503,6 +505,1355 @@ const PREMIUM_FIVE_STARS = [
   "Raiden Shogun",
   "Yae Miko",
 ];
+const CONSTELLATION_ITEMS = {
+  "Stella Fortuna": {
+    type: "CONSTELLATION",
+    itemType: "constellation_item",
+    description:
+      "Chìa khóa mở khóa tiềm năng ẩn của nhân vật nâng cấp chòm sao",
+    image: "https://imgur.com/P8OdZQd.png", // Ảnh Stella Fortuna từ Genshin Impact
+    rarity: "5",
+    value: 100000,
+    isUniversal: false, // Dành cho nhân vật cụ thể
+  },
+  "Universal Stella": {
+    type: "CONSTELLATION",
+    itemType: "constellation_item",
+    description:
+      "Chìa khóa vũ trụ hiếm có có thể mở khóa chòm sao cho bất kỳ nhân vật nào",
+    image: "https://imgur.com/n3GBdOq.png", // Ảnh cách điệu của Stella
+    rarity: "5",
+    value: 500000,
+    isUniversal: true, // Dùng được cho mọi nhân vật
+  },
+};
+
+// Thêm cấu trúc dữ liệu cho constellation
+const CHARACTER_CONSTELLATIONS = {
+  // Định nghĩa chòm sao cho các nhân vật Limited/Premium trước
+  "Raiden Shogun": [
+    {
+      level: 1,
+      name: "Ominous Inscription",
+      description: "Giảm 50% thời gian hồi kỹ năng E",
+      effect: "reduceCooldown",
+      powerBoost: 0.15,
+    },
+    {
+      level: 2,
+      name: "Steelbreaker",
+      description: "Musou Shinsetsu phá vỡ 60% DEF của kẻ địch",
+      effect: "defenseReduction",
+      powerBoost: 0.2,
+    },
+    {
+      level: 3,
+      name: "Shinkage Bygones",
+      description: "Tăng cấp kỹ năng Q thêm 3 cấp",
+      effect: "skillLevelBoost",
+      powerBoost: 0.25,
+    },
+    {
+      level: 4,
+      name: "Pledge of Propriety",
+      description: "Nhận 30% năng lượng sau khi hết Burst",
+      effect: "energyRestore",
+      powerBoost: 0.3,
+    },
+    {
+      level: 5,
+      name: "Shogun's Descent",
+      description: "Tăng stack Resolve thêm 50%",
+      effect: "resolveBoost",
+      powerBoost: 0.4,
+    },
+    {
+      level: 6,
+      name: "Wishbearer",
+      description:
+        "Tấn công trong Burst giảm 60% CD Elemental Skill của đồng đội",
+      effect: "teamCooldownReduction",
+      powerBoost: 0.5,
+    },
+  ],
+
+  Hutao: [
+    {
+      level: 1,
+      name: "Crimson Bouquet",
+      description: "Xóa bỏ chi phí stamina của Blood Blossom",
+      effect: "noStaminaCost",
+      powerBoost: 0.15,
+    },
+    {
+      level: 2,
+      name: "Ominous Rain",
+      description: "Blood Blossom gây thêm 20% sát thương",
+      effect: "increaseDamage",
+      powerBoost: 0.2,
+    },
+    {
+      level: 3,
+      name: "Blood Embrace",
+      description: "Tăng cấp kỹ năng E thêm 3 cấp",
+      effect: "skillLevelBoost",
+      powerBoost: 0.25,
+    },
+    {
+      level: 4,
+      name: "Garden of Eternal Rest",
+      description: "Tăng CRIT Rate 12% cho đồng đội gần Hu Tao",
+      effect: "critRateBoost",
+      powerBoost: 0.3,
+    },
+    {
+      level: 5,
+      name: "Floral Incense",
+      description: "Tăng hiệu quả Blood Blossom lên 40%",
+      effect: "bloodBlossomBoost",
+      powerBoost: 0.4,
+    },
+    {
+      level: 6,
+      name: "Butterfly's Embrace",
+      description: "HP dưới 25%, nhận 100% Resist Interruption và 200% DEF",
+      effect: "survivalBoost",
+      powerBoost: 0.5,
+    },
+  ],
+  Diluc: [
+    {
+      level: 1,
+      name: "Steel and Fire",
+      description:
+        "Tăng 15% Sát Thương cho 2 đòn đánh thường tiếp theo sau khi thi triển Kỹ Năng Nguyên Tố.",
+      effect: "increaseDamage",
+      powerBoost: 0.15,
+    },
+    {
+      level: 2,
+      name: "Searing Ember",
+      description: "Khi HP dưới 50%, tăng 30% Tấn Công và 30% Tốc Độ Đánh.",
+      effect: "attackSpeedBoost",
+      powerBoost: 0.3,
+    },
+    {
+      level: 3,
+      name: "Fire and Steel",
+      description: "Tăng 3 cấp cho Kỹ Năng Nguyên Tố.",
+      effect: "skillLevelBoost",
+      powerBoost: 0.25,
+    },
+    {
+      level: 4,
+      name: "Flowing Flame",
+      description:
+        "Sử dụng Kỹ Năng Nguyên Tố trong 2 giây sau khi sử dụng lần đầu sẽ không bị tính thời gian hồi chiêu.",
+      effect: "cooldownReset",
+      powerBoost: 0.3,
+    },
+    {
+      level: 5,
+      name: "Phoenix, Harbinger of Dawn",
+      description: "Tăng 3 cấp cho Kỹ Năng Nộ.",
+      effect: "burstLevelBoost",
+      powerBoost: 0.4,
+    },
+    {
+      level: 6,
+      name: "Flaming Sword, Nemesis of Dark",
+      description:
+        "Mỗi đòn đánh thường giảm 50% thời gian hồi chiêu của Kỹ Năng Nguyên Tố và tăng 15% Sát Thương.",
+      effect: "cooldownReduction",
+      powerBoost: 0.5,
+    },
+  ],
+  Klee: [
+    {
+      level: 1,
+      name: "Chained Reactions",
+      description:
+        "Đòn đánh thường và trọng kích có 50% cơ hội tạo ra một vụ nổ nhỏ gây 120% Sát Thương.",
+      effect: "additionalExplosion",
+      powerBoost: 0.15,
+    },
+    {
+      level: 2,
+      name: "Explosive Frags",
+      description:
+        "Đánh trúng kẻ địch bằng Kỹ Năng Nguyên Tố giảm 3 giây thời gian hồi chiêu của nó và tạo ra năng lượng nguyên tố.",
+      effect: "cooldownReduction",
+      powerBoost: 0.2,
+    },
+    {
+      level: 3,
+      name: "Exquisite Compound",
+      description: "Tăng 3 cấp cho Kỹ Năng Nộ.",
+      effect: "burstLevelBoost",
+      powerBoost: 0.25,
+    },
+    {
+      level: 4,
+      name: "Sparkly Explosion",
+      description:
+        "Khi rời trận, Klee kích hoạt một vụ nổ gây 555% Sát Thương Nguyên Tố Hỏa cho kẻ địch xung quanh.",
+      effect: "exitExplosion",
+      powerBoost: 0.3,
+    },
+    {
+      level: 5,
+      name: "Nova Burst",
+      description: "Tăng 3 cấp cho Kỹ Năng Nguyên Tố.",
+      effect: "skillLevelBoost",
+      powerBoost: 0.4,
+    },
+    {
+      level: 6,
+      name: "Blazing Delight",
+      description:
+        "Trong thời gian Kỹ Năng Nộ, các đòn đánh thường có 100% cơ hội kích hoạt vụ nổ nhỏ và tăng 10% Sát Thương.",
+      effect: "enhancedBurst",
+      powerBoost: 0.5,
+    },
+  ],
+  // Nhân vật hệ Thủy
+  Mona: [
+    {
+      level: 1,
+      name: "Prophecy of Submersion",
+      description:
+        "Tăng 15% Sát Thương khi kẻ địch bị ảnh hưởng bởi trạng thái ướt.",
+      effect: "increaseDamage",
+      powerBoost: 0.15,
+    },
+    {
+      level: 2,
+      name: "Lunar Chain",
+      description:
+        "Đánh thường có 20% cơ hội tạo ra một đòn tấn công thứ hai gây 50% Sát Thương.",
+      effect: "additionalAttack",
+      powerBoost: 0.2,
+    },
+    {
+      level: 3,
+      name: "Restless Revolution",
+      description: "Tăng 3 cấp cho Kỹ Năng Nộ.",
+      effect: "burstLevelBoost",
+      powerBoost: 0.25,
+    },
+    {
+      level: 4,
+      name: "Prophecy of Oblivion",
+      description:
+        "Tăng 15% Tỷ Lệ Bạo Kích khi kẻ địch bị ảnh hưởng bởi trạng thái ướt.",
+      effect: "critRateBoost",
+      powerBoost: 0.3,
+    },
+    {
+      level: 5,
+      name: "Mockery of Fortuna",
+      description: "Tăng 3 cấp cho Kỹ Năng Nguyên Tố.",
+      effect: "skillLevelBoost",
+      powerBoost: 0.4,
+    },
+    {
+      level: 6,
+      name: "Rhetorics of Calamitas",
+      description:
+        "Sau khi sử dụng Kỹ Năng Nộ, tăng 60% Sát Thương cho đòn đánh thường trong 8 giây.",
+      effect: "enhancedAttack",
+      powerBoost: 0.5,
+    },
+  ],
+  Jean: [
+    {
+      level: 1,
+      name: "Spiraling Tempest",
+      description: "Đánh thường có 50% cơ hội hồi 20% Năng Lượng Nguyên Tố.",
+      effect: "energyRestore",
+      powerBoost: 0.15,
+    },
+    {
+      level: 2,
+      name: "People's Aegis",
+      description:
+        "Khi nhận được Nguyên Tố Hồi Phục, tăng 15% Tấn Công cho toàn đội trong 12 giây.",
+      effect: "teamAttackBoost",
+      powerBoost: 0.2,
+    },
+    {
+      level: 3,
+      name: "When the West Wind Arises",
+      description: "Tăng 3 cấp cho Kỹ Năng Nộ.",
+      effect: "burstLevelBoost",
+      powerBoost: 0.25,
+    },
+    {
+      level: 4,
+      name: "Lands of Dandelion",
+      description:
+        "Giảm 35% sát thương nhận vào trong vòng ảnh hưởng của Kỹ Năng Nộ.",
+      effect: "damageReduction",
+      powerBoost: 0.3,
+    },
+    {
+      level: 5,
+      name: "Outbursting Gust",
+      description: "Tăng 3 cấp cho Kỹ Năng Nguyên Tố.",
+      effect: "skillLevelBoost",
+      powerBoost: 0.4,
+    },
+    {
+      level: 6,
+      name: "Lion's Fang, Fair Protector of Mondstadt",
+      description:
+        "Tấn công trong vòng ảnh hưởng của Kỹ Năng Nộ giúp hồi 50% lượng HP sát thương gây ra.",
+      effect: "lifesteal",
+      powerBoost: 0.5,
+    },
+  ],
+  Venti: [
+    {
+      level: 1,
+      name: "Splitting Gales",
+      description: "Tăng 2 mũi tên phụ khi dùng trọng kích.",
+      effect: "additionalArrow",
+      powerBoost: 0.15,
+    },
+    {
+      level: 2,
+      name: "Breeze of Reminiscence",
+      description:
+        "Kẻ địch trúng Kỹ Năng Nguyên Tố bị giảm 12% Kháng Nguyên Tố Phong.",
+      effect: "resistanceReduction",
+      powerBoost: 0.2,
+    },
+    {
+      level: 3,
+      name: "Ode to Thousand Winds",
+      description: "Tăng 3 cấp cho Kỹ Năng Nộ.",
+      effect: "burstLevelBoost",
+      powerBoost: 0.25,
+    },
+    {
+      level: 4,
+      name: "Hurricane of Freedom",
+      description:
+        "Khi trúng Kỹ Năng Nộ, đồng đội nhận 15% sát thương nguyên tố tương ứng trong vòng 12 giây.",
+      effect: "teamElementalBoost",
+      powerBoost: 0.3,
+    },
+    {
+      level: 5,
+      name: "Concerto dal Cielo",
+      description: "Tăng 3 cấp cho Kỹ Năng Nguyên Tố.",
+      effect: "skillLevelBoost",
+      powerBoost: 0.4,
+    },
+    {
+      level: 6,
+      name: "Storm of Defiance",
+      description:
+        "Kẻ địch trúng Kỹ Năng Nộ mất 20% Kháng Nguyên Tố Phong và nhận 15% sát thương gia tăng.",
+      effect: "debuff",
+      powerBoost: 0.5,
+    },
+  ],
+  Xiao: [
+    {
+      level: 1,
+      name: "Dissolution Eon: Destroyer of Worlds",
+      description:
+        "Sử dụng Kỹ Năng Nguyên Tố tăng 15% Sát Thương lần sau trong 7 giây.",
+      effect: "damageBoost",
+      powerBoost: 0.15,
+    },
+    {
+      level: 2,
+      name: "Annihilation Eon: Blossom of Kaleidos",
+      description:
+        "Khi Xiao trong trạng thái Bane of All Evil, trúng đòn sẽ hồi 3 năng lượng.",
+      effect: "energyRegen",
+      powerBoost: 0.2,
+    },
+    {
+      level: 3,
+      name: "Conqueror of Evil: Wrath Deity",
+      description: "Tăng 3 cấp cho Kỹ Năng Nộ.",
+      effect: "burstLevelBoost",
+      powerBoost: 0.25,
+    },
+    {
+      level: 4,
+      name: "Transcension: Extinction of Suffering",
+      description: "Khi HP dưới 50%, nhận 100% hiệu ứng chống gián đoạn.",
+      effect: "survivabilityBoost",
+      powerBoost: 0.3,
+    },
+    {
+      level: 5,
+      name: "Evolution Eon: Origin of Ignorance",
+      description: "Tăng 3 cấp cho Kỹ Năng Nguyên Tố.",
+      effect: "skillLevelBoost",
+      powerBoost: 0.4,
+    },
+    {
+      level: 6,
+      name: "Conqueror of Evil: Guardian Yaksha",
+      description:
+        "Khi Kỹ Năng Nộ được kích hoạt, đánh thường tấn công trúng nhiều kẻ địch sẽ hồi 3 năng lượng.",
+      effect: "energyRegen",
+      powerBoost: 0.5,
+    },
+  ],
+  "Yae Miko": [
+    {
+      level: 1,
+      name: "Yakan Offering",
+      description: "Khi Kỹ Năng Nguyên Tố tạo ra sát thương, hồi 8 năng lượng.",
+      effect: "energyRegen",
+      powerBoost: 0.15,
+    },
+    {
+      level: 2,
+      name: "Fox's Mooncall",
+      description:
+        "Khi thi triển Kỹ Năng Nộ, mỗi trụ Sakura Seisho hồi 10% sát thương tối đa.",
+      effect: "burstBoost",
+      powerBoost: 0.2,
+    },
+    {
+      level: 3,
+      name: "The Seven Glamours",
+      description: "Tăng 3 cấp cho Kỹ Năng Nguyên Tố.",
+      effect: "skillLevelBoost",
+      powerBoost: 0.25,
+    },
+    {
+      level: 4,
+      name: "Sakura Channeling",
+      description:
+        "Mỗi trụ Sakura Seisho trúng địch tăng 20% sát thương Kỹ Năng Nộ.",
+      effect: "burstDamageBoost",
+      powerBoost: 0.3,
+    },
+    {
+      level: 5,
+      name: "Mischievous Teasing",
+      description: "Tăng 3 cấp cho Kỹ Năng Nộ.",
+      effect: "burstLevelBoost",
+      powerBoost: 0.4,
+    },
+    {
+      level: 6,
+      name: "Forbidden Secrets",
+      description:
+        "Sát thương Kỹ Năng Nguyên Tố tăng thêm 60% từ chỉ số Tinh Thông Nguyên Tố.",
+      effect: "elementalMasteryBoost",
+      powerBoost: 0.5,
+    },
+  ],
+  Zhongli: [
+    {
+      level: 1,
+      name: "Rock, the Backbone of Earth",
+      description:
+        "Khi có Khiên Jade Shield, sát thương nhận vào giảm thêm 15%.",
+      effect: "damageReduction",
+      powerBoost: 0.15,
+    },
+    {
+      level: 2,
+      name: "Stone, the Cradle of Jade",
+      description: "Tạo thêm 1 trụ Địa Thích.",
+      effect: "additionalPillar",
+      powerBoost: 0.2,
+    },
+    {
+      level: 3,
+      name: "Jade, Shimmering Through Darkness",
+      description: "Tăng 3 cấp cho Kỹ Năng Nộ.",
+      effect: "burstLevelBoost",
+      powerBoost: 0.25,
+    },
+    {
+      level: 4,
+      name: "Topaz, Unbreakable and Fearless",
+      description:
+        "Khi có Khiên Jade Shield, đồng đội trong vùng lân cận nhận 20% Sát Thương Địa tăng thêm.",
+      effect: "geoDamageBoost",
+      powerBoost: 0.3,
+    },
+    {
+      level: 5,
+      name: "Lazuli, Herald of the Order",
+      description: "Tăng 3 cấp cho Kỹ Năng Nguyên Tố.",
+      effect: "skillLevelBoost",
+      powerBoost: 0.4,
+    },
+    {
+      level: 6,
+      name: "Chrysos, Bounty of Dominator",
+      description:
+        "Khi Kỹ Năng Nộ chạm kẻ địch, tạo ra 2 đợt sóng xung kích bổ sung, mỗi đợt gây 50% sát thương ban đầu.",
+      effect: "additionalShockwaves",
+      powerBoost: 0.5,
+    },
+  ],
+  Cyno: [
+    {
+      level: 1,
+      name: "Ordinance: Unceasing Vigil",
+      description:
+        "Khi trong trạng thái Pactsworn Pathclearer, Cyno nhận 20% Elemental Mastery.",
+      effect: "elementalMasteryBoost",
+      powerBoost: 0.15,
+    },
+    {
+      level: 2,
+      name: "Ceremony: Homecoming of Spirits",
+      description:
+        "Khi Kỹ Năng Nguyên Tố kích hoạt trạng thái Judgment, nó hồi 3 năng lượng cho Cyno.",
+      effect: "energyRegen",
+      powerBoost: 0.2,
+    },
+    {
+      level: 3,
+      name: "Precept: Lawful Enforcer",
+      description: "Tăng 3 cấp cho Kỹ Năng Nguyên Tố.",
+      effect: "skillLevelBoost",
+      powerBoost: 0.25,
+    },
+    {
+      level: 4,
+      name: "Austerity: Forbidding Guard",
+      description:
+        "Khi đang trong trạng thái Kỹ Năng Nộ, Cyno nhận 35% sát thương Lôi tăng thêm.",
+      effect: "electroDamageBoost",
+      powerBoost: 0.3,
+    },
+    {
+      level: 5,
+      name: "Funerary Rite: The Passing of Starlight",
+      description: "Tăng 3 cấp cho Kỹ Năng Nộ.",
+      effect: "burstLevelBoost",
+      powerBoost: 0.4,
+    },
+    {
+      level: 6,
+      name: "Raiment: Just Scales",
+      description:
+        "Khi trúng địch trong trạng thái Kỹ Năng Nộ, tỉ lệ Crit Rate tăng 10% và Crit DMG tăng 20%.",
+      effect: "critBoost",
+      powerBoost: 0.5,
+    },
+  ],
+  Keqing: [
+    {
+      level: 1,
+      name: "Thundering Might",
+      description:
+        "Sau khi sử dụng Kỹ Năng Nguyên Tố, sát thương đánh thường tăng 20% trong 5 giây.",
+      effect: "attackBoost",
+      powerBoost: 0.15,
+    },
+    {
+      level: 2,
+      name: "Keen Extraction",
+      description:
+        "Khi kẻ địch trúng Kỹ Năng Nộ, giảm 15% kháng Lôi của chúng trong 8 giây.",
+      effect: "electroResReduction",
+      powerBoost: 0.2,
+    },
+    {
+      level: 3,
+      name: "Foreseen Reformation",
+      description: "Tăng 3 cấp cho Kỹ Năng Nộ.",
+      effect: "burstLevelBoost",
+      powerBoost: 0.25,
+    },
+    {
+      level: 4,
+      name: "Attunement",
+      description:
+        "Sau khi dùng Kỹ Năng Nộ, Keqing nhận 25% sát thương Lôi tăng thêm trong 10 giây.",
+      effect: "electroDamageBoost",
+      powerBoost: 0.3,
+    },
+    {
+      level: 5,
+      name: "Beckoning Stars",
+      description: "Tăng 3 cấp cho Kỹ Năng Nguyên Tố.",
+      effect: "skillLevelBoost",
+      powerBoost: 0.4,
+    },
+    {
+      level: 6,
+      name: "Tenacious Star",
+      description:
+        "Trong 8 giây sau khi Keqing sử dụng Kỹ Năng Nộ, đòn đánh thường cuối cùng sẽ gây thêm 100% sát thương.",
+      effect: "bonusDamage",
+      powerBoost: 0.5,
+    },
+  ],
+  Baizhu: [
+    {
+      level: 1,
+      name: "Herbal Nourishment",
+      description:
+        "Hồi 2% HP mỗi giây cho đồng đội trong vòng ảnh hưởng của Kỹ Năng Nguyên Tố.",
+      effect: "healingOverTime",
+      powerBoost: 0.15,
+    },
+    {
+      level: 2,
+      name: "Lush Vitality",
+      description:
+        "Sau khi nhận hồi máu từ Baizhu, đồng đội nhận 15% kháng Thảo.",
+      effect: "dendroResBoost",
+      powerBoost: 0.2,
+    },
+    {
+      level: 3,
+      name: "Verdant Prescription",
+      description: "Tăng 3 cấp cho Kỹ Năng Nộ.",
+      effect: "burstLevelBoost",
+      powerBoost: 0.25,
+    },
+    {
+      level: 4,
+      name: "Rejuvenation",
+      description:
+        "Khiên của Baizhu tồn tại lâu hơn 5 giây và hấp thụ thêm 20% sát thương.",
+      effect: "shieldBoost",
+      powerBoost: 0.3,
+    },
+    {
+      level: 5,
+      name: "Botanical Expertise",
+      description: "Tăng 3 cấp cho Kỹ Năng Nguyên Tố.",
+      effect: "skillLevelBoost",
+      powerBoost: 0.4,
+    },
+    {
+      level: 6,
+      name: "Pharmacist's Wisdom",
+      description:
+        "Khi có khiên từ Baizhu, đồng đội nhận thêm 20% sát thương nguyên tố Thảo.",
+      effect: "dendroDamageBoost",
+      powerBoost: 0.5,
+    },
+  ],
+  Yaoyao: [
+    {
+      level: 1,
+      name: "Adeptus' Tutelage",
+      description:
+        "Sau khi kích hoạt Kỹ Năng Nguyên Tố, tăng 20% Healing Bonus trong 8 giây.",
+      effect: "healingBoost",
+      powerBoost: 0.15,
+    },
+    {
+      level: 2,
+      name: "Innocent Whispers",
+      description: "Nhận 15% Energy Recharge khi Yaoyao hồi máu cho đồng đội.",
+      effect: "energyRechargeBoost",
+      powerBoost: 0.2,
+    },
+    {
+      level: 3,
+      name: "Nature's Caress",
+      description: "Tăng 3 cấp cho Kỹ Năng Nộ.",
+      effect: "burstLevelBoost",
+      powerBoost: 0.25,
+    },
+    {
+      level: 4,
+      name: "Boundless Vitality",
+      description:
+        "Khi có khiên từ Kỹ Năng Nguyên Tố, sát thương Thảo tăng thêm 25%.",
+      effect: "dendroDamageBoost",
+      powerBoost: 0.3,
+    },
+    {
+      level: 5,
+      name: "Springtime Radiance",
+      description: "Tăng 3 cấp cho Kỹ Năng Nguyên Tố.",
+      effect: "skillLevelBoost",
+      powerBoost: 0.4,
+    },
+    {
+      level: 6,
+      name: "Everlasting Bloom",
+      description:
+        "Đồng đội hồi 20% HP khi trong vùng ảnh hưởng của Kỹ Năng Nộ.",
+      effect: "teamHealing",
+      powerBoost: 0.5,
+    },
+  ],
+  Mona: [
+    {
+      level: 1,
+      name: "Prophecy of Submersion",
+      description:
+        "Tăng 15% sát thương Thủy cho đồng đội khi kẻ địch bị ảnh hưởng bởi trạng thái Omen.",
+      effect: "hydroDamageBoost",
+      powerBoost: 0.15,
+    },
+    {
+      level: 2,
+      name: "Lunar Chain",
+      description:
+        "Đòn đánh thường có 20% cơ hội kích hoạt một đòn đánh bổ sung.",
+      effect: "extraAttack",
+      powerBoost: 0.2,
+    },
+    {
+      level: 3,
+      name: "Restless Revolution",
+      description: "Tăng 3 cấp cho Kỹ Năng Nộ.",
+      effect: "burstLevelBoost",
+      powerBoost: 0.25,
+    },
+    {
+      level: 4,
+      name: "Prophecy of Oblivion",
+      description: "Giảm 15% kháng Thủy của kẻ địch bị ảnh hưởng bởi Omen.",
+      effect: "hydroResReduction",
+      powerBoost: 0.3,
+    },
+    {
+      level: 5,
+      name: "Mockery of Fortuna",
+      description: "Tăng 3 cấp cho Kỹ Năng Nguyên Tố.",
+      effect: "skillLevelBoost",
+      powerBoost: 0.4,
+    },
+    {
+      level: 6,
+      name: "Rhetoric of Calamitas",
+      description:
+        "Sau khi dùng Kỹ Năng Nộ, Mona nhận 60% tăng sát thương Hydro trong 8 giây.",
+      effect: "massiveHydroBoost",
+      powerBoost: 0.5,
+    },
+  ],
+  Qiqi: [
+    {
+      level: 1,
+      name: "Ascetics of Frost",
+      description:
+        "Mỗi đòn đánh thường hồi 2% HP cho đồng đội khi đang chịu ảnh hưởng của Herald of Frost.",
+      effect: "teamHealing",
+      powerBoost: 0.15,
+    },
+    {
+      level: 2,
+      name: "Frozen to the Bone",
+      description:
+        "Tăng 15% sát thương Băng khi Qiqi tấn công kẻ địch bị đóng băng.",
+      effect: "cryoDamageBoost",
+      powerBoost: 0.2,
+    },
+    {
+      level: 3,
+      name: "Ascension: Guardian’s Oath",
+      description: "Tăng 3 cấp cho Kỹ Năng Nộ.",
+      effect: "burstLevelBoost",
+      powerBoost: 0.25,
+    },
+    {
+      level: 4,
+      name: "Divine Suppression",
+      description:
+        "Kẻ địch bị đánh trúng bởi Kỹ Năng Nộ bị giảm 15% tấn công trong 10 giây.",
+      effect: "attackReduction",
+      powerBoost: 0.3,
+    },
+    {
+      level: 5,
+      name: "Crimson Lotus Bloom",
+      description: "Tăng 3 cấp cho Kỹ Năng Nguyên Tố.",
+      effect: "skillLevelBoost",
+      powerBoost: 0.4,
+    },
+    {
+      level: 6,
+      name: "Rite of Resurrection",
+      description:
+        "Hồi sinh một đồng đội ngẫu nhiên khi Qiqi sử dụng Kỹ Năng Nộ.",
+      effect: "teamRevival",
+      powerBoost: 0.5,
+    },
+  ],
+  Albedo: [
+    {
+      level: 1,
+      name: "Flower of Eden",
+      description:
+        "Tăng 15% sát thương Kỹ Năng Nguyên Tố cho đồng đội trong vùng ảnh hưởng của Solar Isotoma.",
+      effect: "elementalSkillBoost",
+      powerBoost: 0.15,
+    },
+    {
+      level: 2,
+      name: "Grace of Helios",
+      description:
+        "Sau khi tạo ra một bông hoa từ Solar Isotoma, Albedo nhận 20% DEF trong 10 giây.",
+      effect: "defenseBoost",
+      powerBoost: 0.2,
+    },
+    {
+      level: 3,
+      name: "Solar Radiance",
+      description: "Tăng 3 cấp cho Kỹ Năng Nộ.",
+      effect: "burstLevelBoost",
+      powerBoost: 0.25,
+    },
+    {
+      level: 4,
+      name: "Descent of Divinity",
+      description:
+        "Đồng đội trong vùng của Solar Isotoma nhận 25% sát thương Nham tăng thêm.",
+      effect: "geoDamageBoost",
+      powerBoost: 0.3,
+    },
+    {
+      level: 5,
+      name: "Tectonic Tide",
+      description: "Tăng 3 cấp cho Kỹ Năng Nguyên Tố.",
+      effect: "skillLevelBoost",
+      powerBoost: 0.4,
+    },
+    {
+      level: 6,
+      name: "Infinite Alchemy",
+      description:
+        "Đồng đội trong vùng ảnh hưởng của Kỹ Năng Nộ nhận 20% sát thương toàn bộ nguyên tố.",
+      effect: "elementalDamageBoost",
+      powerBoost: 0.5,
+    },
+  ],
+  Shenhe: [
+    {
+      level: 1,
+      name: "Spring Spirit Summoning",
+      description:
+        "Tăng 15% sát thương Kỹ Năng Nguyên Tố khi kích hoạt Icy Quill.",
+      effect: "cryoSkillBoost",
+      powerBoost: 0.15,
+    },
+    {
+      level: 2,
+      name: "Spiritborne Snowfall",
+      description:
+        "Tăng 10% Crit Rate cho đòn đánh thường khi chịu ảnh hưởng của Icy Quill.",
+      effect: "critRateBoost",
+      powerBoost: 0.2,
+    },
+    {
+      level: 3,
+      name: "Divine Subjugation",
+      description: "Tăng 3 cấp cho Kỹ Năng Nộ.",
+      effect: "burstLevelBoost",
+      powerBoost: 0.25,
+    },
+    {
+      level: 4,
+      name: "Ethereal Presence",
+      description: "Tăng 25% sức mạnh Buff của Icy Quill.",
+      effect: "buffBoost",
+      powerBoost: 0.3,
+    },
+    {
+      level: 5,
+      name: "Mystic Spirit",
+      description: "Tăng 3 cấp cho Kỹ Năng Nguyên Tố.",
+      effect: "skillLevelBoost",
+      powerBoost: 0.4,
+    },
+    {
+      level: 6,
+      name: "Dharma’s Perfection",
+      description:
+        "Đồng đội nhận 15% sát thương Băng tăng thêm khi có Buff từ Icy Quill.",
+      effect: "cryoDamageBoost",
+      powerBoost: 0.5,
+    },
+  ],
+  Tighnari: [
+    {
+      level: 1,
+      name: "Beginners Mind",
+      description:
+        "Tăng 15% sát thương của Wreath Arrow khi có buff Vijnana Suffusion.",
+      effect: "dendroSkillBoost",
+      powerBoost: 0.15,
+    },
+    {
+      level: 2,
+      name: "Scholarly Blade",
+      description: "Tăng 20% sát thương của Charged Attack.",
+      effect: "chargedAttackBoost",
+      powerBoost: 0.2,
+    },
+    {
+      level: 3,
+      name: "Hidden Wisdom",
+      description: "Tăng 3 cấp cho Kỹ Năng Nộ.",
+      effect: "burstLevelBoost",
+      powerBoost: 0.25,
+    },
+    {
+      level: 4,
+      name: "Nature’s Knowledge",
+      description:
+        "Tăng 25% Crit Rate của Charged Attack sau khi sử dụng Kỹ Năng Nguyên Tố.",
+      effect: "critRateBoost",
+      powerBoost: 0.3,
+    },
+    {
+      level: 5,
+      name: "Forest Secrets",
+      description: "Tăng 3 cấp cho Kỹ Năng Nguyên Tố.",
+      effect: "skillLevelBoost",
+      powerBoost: 0.4,
+    },
+    {
+      level: 6,
+      name: "True Knowledge",
+      description:
+        "Charged Attack tăng 20% Crit DMG khi trúng kẻ địch bị ảnh hưởng bởi Dendro.",
+      effect: "critDamageBoost",
+      powerBoost: 0.5,
+    },
+  ],
+
+  Arlecchino: [
+    {
+      level: 1,
+      name: "Crimson Pact",
+      description:
+        "Khi Arlecchino mất HP do kỹ năng của bản thân, sát thương Pyro tăng 15% trong 8 giây.",
+      effect: "pyroDamageBoost",
+      powerBoost: 0.15,
+    },
+    {
+      level: 2,
+      name: "Scarlet Vow",
+      description:
+        "Tăng 20% Crit Rate khi tấn công kẻ địch có HP thấp hơn 50%.",
+      effect: "critRateBoost",
+      powerBoost: 0.2,
+    },
+    {
+      level: 3,
+      name: "Flames of Betrayal",
+      description: "Tăng 3 cấp cho Kỹ Năng Nộ.",
+      effect: "burstLevelBoost",
+      powerBoost: 0.25,
+    },
+    {
+      level: 4,
+      name: "Bloodstained Dominion",
+      description:
+        "Sau khi hạ gục kẻ địch, nhận 25% Attack Speed trong 10 giây.",
+      effect: "attackSpeedBoost",
+      powerBoost: 0.3,
+    },
+    {
+      level: 5,
+      name: "Infernal Wrath",
+      description: "Tăng 3 cấp cho Kỹ Năng Nguyên Tố.",
+      effect: "skillLevelBoost",
+      powerBoost: 0.4,
+    },
+    {
+      level: 6,
+      name: "Endless Carnage",
+      description:
+        "Khi Arlecchino còn dưới 50% HP, sát thương toàn bộ đòn đánh tăng 30%.",
+      effect: "damageBoostLowHP",
+      powerBoost: 0.5,
+    },
+  ],
+  Wanderer: [
+    {
+      level: 1,
+      name: "Skybound Zephyr",
+      description:
+        "Khi ở trạng thái bay của Kỹ Năng Nguyên Tố, nhận 15% sát thương Phong.",
+      effect: "anemoDamageBoost",
+      powerBoost: 0.15,
+    },
+    {
+      level: 2,
+      name: "Wind's Whisper",
+      description: "Tốc độ bay trong trạng thái Kỹ Năng Nguyên Tố tăng 20%.",
+      effect: "flightSpeedBoost",
+      powerBoost: 0.2,
+    },
+    {
+      level: 3,
+      name: "Eternal Sky",
+      description: "Tăng 3 cấp cho Kỹ Năng Nộ.",
+      effect: "burstLevelBoost",
+      powerBoost: 0.25,
+    },
+    {
+      level: 4,
+      name: "Dancing Gale",
+      description:
+        "Mỗi lần Wanderer đánh trúng kẻ địch trên không, phục hồi 3 điểm stamina.",
+      effect: "staminaRestore",
+      powerBoost: 0.3,
+    },
+    {
+      level: 5,
+      name: "Azure Tempest",
+      description: "Tăng 3 cấp cho Kỹ Năng Nguyên Tố.",
+      effect: "skillLevelBoost",
+      powerBoost: 0.4,
+    },
+    {
+      level: 6,
+      name: "Skyfall's Revelation",
+      description:
+        "Tăng 25% Crit Rate khi đang ở trạng thái bay của Kỹ Năng Nguyên Tố.",
+      effect: "aerialCritBoost",
+      powerBoost: 0.5,
+    },
+  ],
+  Yelan: [
+    {
+      level: 1,
+      name: "Silent Pursuit",
+      description:
+        "Tăng 15% sát thương của đòn đánh cường hóa bằng Exquisite Throw.",
+      effect: "hydroDamageBoost",
+      powerBoost: 0.15,
+    },
+    {
+      level: 2,
+      name: "Torrential Shot",
+      description:
+        "Mỗi khi Exquisite Throw tấn công kẻ địch, hồi 3 năng lượng.",
+      effect: "energyRestore",
+      powerBoost: 0.2,
+    },
+    {
+      level: 3,
+      name: "Flowing Echo",
+      description: "Tăng 3 cấp cho Kỹ Năng Nộ.",
+      effect: "burstLevelBoost",
+      powerBoost: 0.25,
+    },
+    {
+      level: 4,
+      name: "Phantom Mirage",
+      description: "Tốc độ chạy trong trận chiến tăng 20%.",
+      effect: "movementSpeedBoost",
+      powerBoost: 0.3,
+    },
+    {
+      level: 5,
+      name: "Tidebringer",
+      description: "Tăng 3 cấp cho Kỹ Năng Nguyên Tố.",
+      effect: "skillLevelBoost",
+      powerBoost: 0.4,
+    },
+    {
+      level: 6,
+      name: "Abyssal Manipulation",
+      description:
+        "Sát thương của Exquisite Throw tăng thêm 30% khi HP dưới 50%.",
+      effect: "lowHPBoost",
+      powerBoost: 0.5,
+    },
+  ],
+  Furina: [
+    {
+      level: 1,
+      name: "Verdant Blessing",
+      description:
+        "Tăng 15% sát thương Hydro cho đồng đội khi Furina ở trạng thái Ousia.",
+      effect: "hydroDamageBoost",
+      powerBoost: 0.15,
+    },
+    {
+      level: 2,
+      name: "Melodic Resonance",
+      description: "Tăng 20% tốc độ hồi HP của kỹ năng.",
+      effect: "healingBoost",
+      powerBoost: 0.2,
+    },
+    {
+      level: 3,
+      name: "Echoes of Fontaine",
+      description: "Tăng 3 cấp cho Kỹ Năng Nộ.",
+      effect: "burstLevelBoost",
+      powerBoost: 0.25,
+    },
+    {
+      level: 4,
+      name: "Sovereign's Grace",
+      description:
+        "Sau khi dùng Kỹ Năng Nộ, Furina tăng 25% Attack Speed trong 10 giây.",
+      effect: "attackSpeedBoost",
+      powerBoost: 0.3,
+    },
+    {
+      level: 5,
+      name: "Tide of Blessings",
+      description: "Tăng 3 cấp cho Kỹ Năng Nguyên Tố.",
+      effect: "skillLevelBoost",
+      powerBoost: 0.4,
+    },
+    {
+      level: 6,
+      name: "Celestial Harmony",
+      description:
+        "Mỗi khi Furina hồi HP cho đồng đội, sát thương Hydro toàn đội tăng 30% trong 10 giây.",
+      effect: "teamHydroBoost",
+      powerBoost: 0.5,
+    },
+  ],
+  "Kamisato Ayato": [
+    {
+      level: 1,
+      name: "Rippling Flow",
+      description:
+        "Sau khi dùng Kỹ Năng Nguyên Tố, nhận 15% sát thương Hydro trong 10 giây.",
+      effect: "hydroDamageBoost",
+      powerBoost: 0.15,
+    },
+    {
+      level: 2,
+      name: "Waveform Surge",
+      description:
+        "Tăng 20% Crit Rate khi tấn công kẻ địch bị ảnh hưởng bởi Hydro.",
+      effect: "critRateBoost",
+      powerBoost: 0.2,
+    },
+    {
+      level: 3,
+      name: "Blue Tempest",
+      description: "Tăng 3 cấp cho Kỹ Năng Nộ.",
+      effect: "burstLevelBoost",
+      powerBoost: 0.25,
+    },
+    {
+      level: 4,
+      name: "Rising Waters",
+      description:
+        "Sau khi dùng Kỹ Năng Nộ, Attack Speed tăng 25% trong 10 giây.",
+      effect: "attackSpeedBoost",
+      powerBoost: 0.3,
+    },
+    {
+      level: 5,
+      name: "Frosted Ripples",
+      description: "Tăng 3 cấp cho Kỹ Năng Nguyên Tố.",
+      effect: "skillLevelBoost",
+      powerBoost: 0.4,
+    },
+    {
+      level: 6,
+      name: "Celestial Cascade",
+      description:
+        "Khi tấn công kẻ địch bị ảnh hưởng bởi Hydro, nhận thêm 40% sát thương.",
+      effect: "hydroDamageBonus",
+      powerBoost: 0.5,
+    },
+  ],
+  Eula: [
+    {
+      level: 1,
+      name: "Northern Frost",
+      description: "Tăng 15% sát thương vật lý khi có 2 stack Grimheart.",
+      effect: "physicalDamageBoost",
+      powerBoost: 0.15,
+    },
+    {
+      level: 2,
+      name: "Glacial Shatter",
+      description: "Tăng 20% Crit Rate khi dùng Kỹ Năng Nộ.",
+      effect: "critRateBoost",
+      powerBoost: 0.2,
+    },
+    {
+      level: 3,
+      name: "Frozen Blade",
+      description: "Tăng 3 cấp cho Kỹ Năng Nộ.",
+      effect: "burstLevelBoost",
+      powerBoost: 0.25,
+    },
+    {
+      level: 4,
+      name: "Arctic Dominion",
+      description:
+        "Sau khi phá vỡ Khiên Băng từ Kỹ Năng Nguyên Tố, Attack Speed tăng 25% trong 10 giây.",
+      effect: "attackSpeedBoost",
+      powerBoost: 0.3,
+    },
+    {
+      level: 5,
+      name: "Icebreaker",
+      description: "Tăng 3 cấp cho Kỹ Năng Nguyên Tố.",
+      effect: "skillLevelBoost",
+      powerBoost: 0.4,
+    },
+    {
+      level: 6,
+      name: "Frostbound Requiem",
+      description: "Khi Kỹ Năng Nộ phát nổ, hồi lại 50% năng lượng cho Eula.",
+      effect: "energyRestore",
+      powerBoost: 0.5,
+    },
+  ],
+  Ganyu: [
+    {
+      level: 1,
+      name: "Frostbite",
+      description:
+        "Tăng 15% sát thương của Charged Attack khi kẻ địch bị ảnh hưởng bởi Băng.",
+      effect: "chargedAttackBoost",
+      powerBoost: 0.15,
+    },
+    {
+      level: 2,
+      name: "Snowstorm",
+      description:
+        "Tăng 20% Crit Rate khi tấn công kẻ địch trong vùng Kỹ Năng Nộ.",
+      effect: "critRateBoost",
+      powerBoost: 0.2,
+    },
+    {
+      level: 3,
+      name: "Frozen Elegance",
+      description: "Tăng 3 cấp cho Kỹ Năng Nộ.",
+      effect: "burstLevelBoost",
+      powerBoost: 0.25,
+    },
+    {
+      level: 4,
+      name: "Icy Serenade",
+      description: "Giảm 20% Cryo RES của kẻ địch trong vùng Kỹ Năng Nộ.",
+      effect: "cryoResReduction",
+      powerBoost: 0.3,
+    },
+    {
+      level: 5,
+      name: "Frosted Blossom",
+      description: "Tăng 3 cấp cho Kỹ Năng Nguyên Tố.",
+      effect: "skillLevelBoost",
+      powerBoost: 0.4,
+    },
+    {
+      level: 6,
+      name: "Arctic Requiem",
+      description:
+        "Mỗi khi Charged Attack trúng kẻ địch, giảm 1 giây hồi chiêu của Kỹ Năng Nguyên Tố.",
+      effect: "cooldownReduction",
+      powerBoost: 0.5,
+    },
+  ],
+};
+
+// Định nghĩa hàm để tạo Stella Fortuna
+function createStellaFortuna(characterName = null, isUniversal = false) {
+  const itemId = `STELLA_${
+    isUniversal ? "UNIVERSAL" : characterName.replace(/\s+/g, "_").toUpperCase()
+  }_${Math.floor(100000000 + Math.random() * 900000000)}`;
+
+  let itemDetails;
+  if (isUniversal) {
+    itemDetails = {
+      type: "constellation_item", // Keep this for backward compatibility
+      itemType: "constellation_item", // Add this new field
+      name: "Universal Stella",
+      characterName: null,
+      ...CONSTELLATION_ITEMS["Universal Stella"],
+      isUniversal: true,
+      obtainedAt: Date.now(),
+    };
+  } else {
+    itemDetails = {
+      type: "constellation_item", // Keep this for backward compatibility
+      itemType: "constellation_item", // Add this new field
+      name: "Stella Fortuna",
+      characterName: characterName,
+      ...CONSTELLATION_ITEMS["Stella Fortuna"],
+      isUniversal: false,
+      obtainedAt: Date.now(),
+    };
+  }
+
+  CHARACTER_IDS[itemId] = itemDetails;
+  saveCharacterDatabase();
+  return itemId;
+}
+
+// Hàm để mở khóa constellation cho nhân vật
+function unlockConstellation(charId, stellaId) {
+  const char = CHARACTER_IDS[charId];
+  const stella = CHARACTER_IDS[stellaId];
+
+  if (!char || !stella) {
+    return { success: false, reason: "invalid_items" };
+  }
+
+  if (stella.type !== "constellation_item") {
+    return { success: false, reason: "not_constellation_item" };
+  }
+
+  // Kiểm tra khả năng tương thích
+  if (!stella.isUniversal && stella.characterName !== char.name) {
+    return { success: false, reason: "incompatible_stella" };
+  }
+
+  // Kiểm tra constellation hiện tại
+  const currentCLevel = char.constellation || 0;
+  if (currentCLevel >= 6) {
+    return { success: false, reason: "max_constellation" };
+  }
+
+  const nextCLevel = currentCLevel + 1;
+  char.constellation = nextCLevel;
+
+  // Áp dụng hiệu ứng constellation
+  const constellationData = CHARACTER_CONSTELLATIONS[char.name];
+  if (constellationData && constellationData[currentCLevel]) {
+    const constellationEffect = constellationData[currentCLevel];
+
+    // Tăng sức mạnh theo constellation
+    char.stats = char.stats || { atk: 100, def: 100, hp: 500 };
+    const boost = 1 + constellationEffect.powerBoost;
+
+    char.stats.atk = Math.floor(char.stats.atk * boost);
+    char.stats.def = Math.floor(char.stats.def * boost);
+    char.stats.hp = Math.floor(char.stats.hp * boost);
+
+    // Thêm hiệu ứng đặc biệt
+    char.specialEffects = char.specialEffects || [];
+    char.specialEffects.push(constellationEffect.effect);
+
+    // Tăng giá trị nhân vật
+    char.value = Math.floor(char.value * (1 + constellationEffect.powerBoost));
+  }
+
+  saveCharacterDatabase();
+
+  return {
+    success: true,
+    character: char.name,
+    newConstellation: nextCLevel,
+    effect:
+      constellationData?.[currentCLevel]?.description ||
+      "Tăng sức mạnh tổng thể",
+  };
+}
+
 const ELEMENTAL_STONES = {
   PYRO: {
     name: "AgnidusAgate",
@@ -596,40 +1947,65 @@ const EXP_ITEMS = {
     rarity: "2",
     value: 500,
   },
-  
-  "Training Manual": {
+  "Legendary Grimoire": {
     type: "EXP",
-    expValue: 1500,
+    expValue: 50000,
     description:
-      "A simple book detailing combat techniques. Grants a small amount of EXP.",
-    image: "https://imgur.com/Abc5678.png", 
-    rarity: "2",
-    value: 750,
+      "Ancient knowledge from legendary heroes Grants massive amounts of EXP",
+    image: "https://imgur.com/NNSmgia.png",
+    rarity: "5",
+    value: 25000,
   },
-  "Veteran's Journal": {
+  "Mythical Scroll": {
     type: "EXP",
-    expValue: 8000,
+    expValue: 100000,
     description:
-      "An old soldier's diary filled with battle experiences. Grants a considerable amount of EXP.",
-    image: "https://imgur.com/Jkl9012.png",
-    rarity: "3",
-    value: 3000,
+      "Mythical teachings from the gods Grants enormous amounts of EXP",
+    image: "https://imgur.com/JWVLXxj.png",
+    rarity: "5",
+    value: 50000,
   },
 };
-const EXP_PER_LEVEL = {
-  1: 0,
-  2: 1500,
-  3: 4000,
-  4: 8000,
-  5: 15000,
-  6: 25000,
-  7: 40000,
-  8: 60000,
-  9: 85000,
-  10: 120000,
-  11: 170000,
-  12: 250000,
-};
+function calculateExpForLevel(level) {
+  const baseExpTable = {
+    1: 0,
+    2: 1500,
+    3: 4000,
+    4: 8000,
+    5: 15000,
+    6: 25000,
+    7: 40000,
+    8: 60000,
+    9: 85000,
+    10: 120000,
+    11: 170000,
+    12: 250000,
+  };
+  if (baseExpTable[level] !== undefined) {
+    return baseExpTable[level];
+  }
+
+  // Điều chỉnh hệ số tăng cho các level cao
+  // Giảm base từ 250000 -> 175000 và giảm hệ số mũ
+  if (level <= 50) {
+    return Math.floor(175000 * Math.pow(1.12, level - 12)); // Từ 1.15 -> 1.12
+  } else if (level <= 100) {
+    return Math.floor(175000 * Math.pow(1.12, 38) * Math.pow(1.15, level - 50)); // Từ 1.18 -> 1.15
+  } else {
+    return Math.floor(
+      175000 *
+        Math.pow(1.12, 38) *
+        Math.pow(1.15, 50) *
+        Math.pow(1.17, level - 100)
+    ); // Từ 1.2 -> 1.17
+  }
+}
+
+// Tạo bảng EXP mới
+const EXP_PER_LEVEL = {};
+for (let i = 1; i <= 200; i++) {
+  EXP_PER_LEVEL[i] = calculateExpForLevel(i);
+}
 
 const ELEMENTAL_FRAGMENTS = {
   PYRO: {
@@ -713,14 +2089,18 @@ const activeAuctions = new Map();
 const activeTrades = new Map();
 
 const CHARACTER_LEVELS = {
+  3: {
+    baseStats: { atk: 1.0, def: 1.0, hp: 1.0 },
+    maxLevel: 150, // Tăng giới hạn cho 3★
+  },
   4: {
     baseStats: { atk: 1.2, def: 1.2, hp: 1.2 },
-    maxLevel: 10
+    maxLevel: 180, // Tăng giới hạn cho 4★
   },
   5: {
     baseStats: { atk: 1.5, def: 1.5, hp: 1.5 },
-    maxLevel: 12
-  }
+    maxLevel: 200, // Tăng giới hạn cho 5★
+  },
 };
 function createExpItem(itemName) {
   const expItemId = `EXP_${itemName
@@ -737,7 +2117,6 @@ function createExpItem(itemName) {
   saveCharacterDatabase();
   return expItemId;
 }
-
 function applyExpItem(charId, expItemId) {
   const char = CHARACTER_IDS[charId];
   const expItem = CHARACTER_IDS[expItemId];
@@ -748,11 +2127,18 @@ function applyExpItem(charId, expItemId) {
 
   const currentLevel = char.level || 1;
   const currentExp = char.exp || 0;
+
+  // Cập nhật cách tính maxLevel
+  let baseRarity = CHARACTER_RATINGS.FIVE_STAR.includes(char.name)
+    ? 5
+    : CHARACTER_RATINGS.FOUR_STAR.includes(char.name)
+    ? 4
+    : 3;
+
+  // Tính maxLevel dựa trên độ hiếm và tiến hóa
   const maxLevel = char.starLevel
-    ? char.starLevel + 5
-    : CHARACTER_RATINGS.FIVE_STAR.includes(char.name)
-    ? 10
-    : 8;
+    ? Math.min(CHARACTER_LEVELS[baseRarity].maxLevel, char.starLevel * 20)
+    : CHARACTER_LEVELS[baseRarity].maxLevel * 0.6; // 60% của level tối đa cho chưa tiến hóa
 
   if (currentLevel >= maxLevel) {
     return { success: false, reason: "max_level_reached" };
@@ -760,9 +2146,11 @@ function applyExpItem(charId, expItemId) {
 
   const newExp = currentExp + expItem.expValue;
 
+  // Phần còn lại của hàm giữ nguyên
   let newLevel = currentLevel;
   let remainingExp = newExp;
 
+  // Thuật toán tăng level vẫn giữ nguyên, nhưng bảng EXP đã thay đổi
   while (
     newLevel < maxLevel &&
     EXP_PER_LEVEL[newLevel + 1] !== undefined &&
@@ -777,27 +2165,26 @@ function applyExpItem(charId, expItemId) {
     remainingExp = 0;
   }
 
+  // Cập nhật thuật toán tính stats khi tăng level
   const levelDifference = newLevel - currentLevel;
   if (levelDifference > 0) {
-    const baseStats =
-      char.stats ||
-      generateCharacterStats(
-        CHARACTER_RATINGS.FIVE_STAR.includes(char.name)
-          ? 5
-          : CHARACTER_RATINGS.FOUR_STAR.includes(char.name)
-          ? 4
-          : 3
-      );
+    const baseStats = char.stats || generateCharacterStats(baseRarity);
 
-    const statMultiplier = 1 + levelDifference * 0.1;
+    // Điều chỉnh hệ số tăng stats theo level để cân bằng hơn
+    const statMultiplier =
+      1 + levelDifference * (0.05 + (newLevel / 200) * 0.05);
 
     char.stats = {
       atk: Math.floor(baseStats.atk * statMultiplier),
-      def: Math.floor(baseStats.def * statMultiplier),
-      hp: Math.floor(baseStats.hp * statMultiplier),
+      def: Math.floor(baseStats.def * statMultiplier * 1.1), // +10%
+      hp: Math.floor(baseStats.hp * statMultiplier * 1.3), // +30%
     };
 
-    char.value = Math.floor((char.value || 1000) * (1 + levelDifference * 0.1));
+    // Điều chỉnh giá trị nhân vật theo level
+    char.value = Math.floor(
+      (char.value || 1000) *
+        (1 + levelDifference * (0.05 + (newLevel / 200) * 0.05))
+    );
   }
 
   char.level = newLevel;
@@ -868,7 +2255,6 @@ function generateCharacterId(characterName) {
   return charId;
 }
 
-
 function calculateCharacterPower(charId) {
   const char = CHARACTER_IDS[charId];
   if (!char) return 0;
@@ -925,7 +2311,6 @@ function applyElementalAdvantage(attackerTeam, defenderTeam) {
       if (!defenderElement) continue;
 
       if (ELEMENT_ADVANTAGES[attackerElement]?.includes(defenderElement)) {
-      
         advantageMultiplier += 0.1;
       }
     }
@@ -977,17 +2362,17 @@ async function executePvpBattle(
   const adjustedWinRate = Math.max(
     5,
     Math.min(95, challengerWinRate + randomFactor)
-  ); 
+  );
 
   const roll = Math.random() * 100;
   const challengerWins = roll < adjustedWinRate;
 
   const gachaData = loadGachaData();
 
+  // Xử lý thắng/thua và phần thưởng
   if (!gachaData[challenger].pvpStats) {
     gachaData[challenger].pvpStats = { wins: 0, losses: 0, lastBattle: 0 };
   }
-
   if (!gachaData[target].pvpStats) {
     gachaData[target].pvpStats = { wins: 0, losses: 0, lastBattle: 0 };
   }
@@ -1006,60 +2391,138 @@ async function executePvpBattle(
 
   gachaData[challenger].pvpStats.lastBattle = Date.now();
   gachaData[target].pvpStats.lastBattle = Date.now();
-
   saveGachaData(gachaData);
 
+  // Lấy thông tin người chơi
   const userDataPath = path.join(__dirname, "../events/cache/userData.json");
   let userData = {};
-
   try {
     userData = JSON.parse(fs.readFileSync(userDataPath));
   } catch (error) {
     console.error("Error reading userData:", error);
   }
-
   const challengerName = userData[challenger]?.name || "Người chơi 1";
   const targetName = userData[target]?.name || "Người chơi 2";
 
-  const challengerTeamInfo = await formatTeamInfo(challengerTeam);
-  const targetTeamInfo = await formatTeamInfo(targetTeam);
+  // Tạo dữ liệu nhân vật chi tiết cho cả hai đội
+  const challengerTeamDetails = await Promise.all(
+    challengerTeam.map(async (charId) => {
+      const char = CHARACTER_IDS[charId];
+      if (!char) return null;
 
-  let resultMessage = `⚔️ KẾT QUẢ TRẬN ĐẤU PVP ⚔️\n`;
-  resultMessage += `━━━━━━━━━━━━━━━━━━━━━\n\n`;
+      // Xác định rarity gốc của nhân vật từ danh sách
+      const baseRarity = CHARACTER_RATINGS.FIVE_STAR.includes(char.name)
+        ? 5
+        : CHARACTER_RATINGS.FOUR_STAR.includes(char.name)
+        ? 4
+        : 3;
 
-  resultMessage += `👤 ${challengerName}:\n`;
-  resultMessage += `${challengerTeamInfo}\n`;
-  resultMessage += `💪 Sức mạnh: ${challengerPower} (x${challengerAdvantage.toFixed(
-    1
-  )} nguyên tố)\n`;
-  resultMessage += `⚔️ Sức mạnh thực: ${Math.floor(finalChallengerPower)}\n\n`;
+      const charInfo = CUSTOM_CHARACTER_DATA[char.name] || {};
+      const image = CUSTOM_CHARACTER_IMAGES[char.name];
 
-  resultMessage += `👤 ${targetName}:\n`;
-  resultMessage += `${targetTeamInfo}\n`;
-  resultMessage += `💪 Sức mạnh: ${targetPower} (x${targetAdvantage.toFixed(
-    1
-  )} nguyên tố)\n`;
-  resultMessage += `⚔️ Sức mạnh thực: ${Math.floor(finalTargetPower)}\n\n`;
+      // Tạo cấu trúc đúng như trong gachatest.js
+      return {
+        name: char.name,
+        element: charInfo.element || "Unknown",
+        level: char.level || 1,
+        rarity: baseRarity, // Đây là độ hiếm gốc (không phải starLevel)
+        image: image,
+        isPremium: PREMIUM_FIVE_STARS.includes(char.name),
+        starLevel: char.starLevel, // Đây là số sao sau tiến hóa
+        currentLevel: char.level,
+      };
+    })
+  );
 
-  resultMessage += `🎲 Tỷ lệ thắng: ${adjustedWinRate.toFixed(1)}% vs ${(
-    100 - adjustedWinRate
-  ).toFixed(1)}%\n`;
-  resultMessage += `🎯 Kết quả roll: ${roll.toFixed(
-    1
-  )} (Cần < ${adjustedWinRate.toFixed(1)}% để thắng)\n`;
-  resultMessage += `━━━━━━━━━━━━━━━━━━━━━\n`;
+  const targetTeamDetails = await Promise.all(
+    targetTeam.map(async (charId) => {
+      const char = CHARACTER_IDS[charId];
+      if (!char) return null;
 
-  if (challengerWins) {
-    resultMessage += `🏆 NGƯỜI THẮNG: ${challengerName}\n`;
+      const baseRarity = CHARACTER_RATINGS.FIVE_STAR.includes(char.name)
+        ? 5
+        : CHARACTER_RATINGS.FOUR_STAR.includes(char.name)
+        ? 4
+        : 3;
+
+      const charInfo = CUSTOM_CHARACTER_DATA[char.name] || {};
+      const image = CUSTOM_CHARACTER_IMAGES[char.name];
+
+      return {
+        name: char.name,
+        element: charInfo.element || "Unknown",
+        level: char.level || 1,
+        rarity: baseRarity, // Độ hiếm gốc
+        image: image,
+        isPremium: PREMIUM_FIVE_STARS.includes(char.name),
+        starLevel: char.starLevel, // Số sao sau tiến hóa
+        currentLevel: char.level,
+      };
+    })
+  );
+  try {
+    // Tạo ảnh trận đấu PVP
+    const battleImage = await createPvPBattleImage({
+      challenger,
+      target,
+      challengerName,
+      targetName,
+      challengerTeam: challengerTeamDetails.filter(Boolean),
+      targetTeam: targetTeamDetails.filter(Boolean),
+      challengerPower,
+      targetPower,
+      challengerAdvantage,
+      targetAdvantage,
+      winChance: adjustedWinRate,
+      winner: challengerWins ? challenger : target,
+      result: {
+        roll: roll,
+        winChance: adjustedWinRate,
+        winnerReward: PVP_REWARD_WIN,
+        reward: PVP_REWARD_WIN,
+      },
+    });
+
+    // Thông báo ngắn gọn kèm ảnh
+    let resultMessage = `⚔️ KẾT QUẢ TRẬN ĐẤU PVP ⚔️\n\n`;
+    resultMessage += `🏆 ${
+      challengerWins ? challengerName : targetName
+    } đã chiến thắng!\n`;
     resultMessage += `💰 Phần thưởng: $${PVP_REWARD_WIN.toLocaleString()}\n`;
-    resultMessage += `💰 ${targetName} nhận: $${PVP_REWARD_LOSE.toLocaleString()} (an ủi)`;
-  } else {
-    resultMessage += `🏆 NGƯỜI THẮNG: ${targetName}\n`;
-    resultMessage += `💰 Phần thưởng: $${PVP_REWARD_WIN.toLocaleString()}\n`;
-    resultMessage += `💰 ${challengerName} nhận: $${PVP_REWARD_LOSE.toLocaleString()} (an ủi)`;
+
+    return api.sendMessage(
+      {
+        body: resultMessage,
+        attachment: fs.createReadStream(battleImage),
+      },
+      threadID,
+      () => {
+        // Xóa file tạm sau khi gửi
+        fs.unlinkSync(battleImage);
+      },
+      messageID
+    );
+  } catch (error) {
+    console.error("Error creating PvP battle image:", error);
+
+    // Trở về phiên bản văn bản nếu tạo ảnh thất bại
+    let fallbackMessage = `⚔️ KẾT QUẢ TRẬN ĐẤU PVP ⚔️\n`;
+    fallbackMessage += `━━━━━━━━━━━━━━━━━━━━━\n\n`;
+    fallbackMessage += `👤 ${challengerName} (${Math.floor(
+      finalChallengerPower
+    )} sức mạnh)\n`;
+    fallbackMessage += `👤 ${targetName} (${Math.floor(
+      finalTargetPower
+    )} sức mạnh)\n\n`;
+    fallbackMessage += `🎲 Tỷ lệ thắng: ${adjustedWinRate.toFixed(1)}%\n`;
+    fallbackMessage += `🎯 Roll: ${roll.toFixed(1)}\n\n`;
+    fallbackMessage += `🏆 NGƯỜI THẮNG: ${
+      challengerWins ? challengerName : targetName
+    }\n`;
+    fallbackMessage += `💰 Phần thưởng: $${PVP_REWARD_WIN.toLocaleString()}`;
+
+    return api.sendMessage(fallbackMessage, threadID, messageID);
   }
-
-  return api.sendMessage(resultMessage, threadID, messageID);
 }
 
 async function formatTeamInfo(teamIds) {
@@ -1194,13 +2657,11 @@ function saveGachaData(data) {
   }
 }
 
-
 function generateCharacterStats(rarity, characterName) {
-
   let baseStats = {
     5: { atk: 500, def: 500, hp: 2000 },
     4: { atk: 300, def: 300, hp: 1000 },
-    3: { atk: 100, def: 100, hp: 500 }
+    3: { atk: 100, def: 100, hp: 500 },
   }[rarity] || { atk: 100, def: 100, hp: 500 };
 
   const isLimited = PREMIUM_FIVE_STARS.includes(characterName);
@@ -1208,18 +2669,19 @@ function generateCharacterStats(rarity, characterName) {
 
   const variation = () => (0.9 + Math.random() * 0.2) * limitedMultiplier;
 
-  const specialCharBonus = {
-    "Raiden Shogun": 1.3,
-    "Hutao": 1.25,
-    "Nahida": 1.2,
-    "Zhongli": 1.3,
-    "Yae Miko": 1.25
-  }[characterName] || 1;
+  const specialCharBonus =
+    {
+      "Raiden Shogun": 1.3,
+      Hutao: 1.25,
+      Nahida: 1.2,
+      Zhongli: 1.3,
+      "Yae Miko": 1.25,
+    }[characterName] || 1;
 
   return {
     atk: Math.floor(baseStats.atk * variation() * specialCharBonus),
     def: Math.floor(baseStats.def * variation() * specialCharBonus),
-    hp: Math.floor(baseStats.hp * variation() * specialCharBonus)
+    hp: Math.floor(baseStats.hp * variation() * specialCharBonus),
   };
 }
 
@@ -1464,7 +2926,37 @@ async function showAuctionInfo(api, threadID, messageID, auctionId) {
 
   return api.sendMessage(message, threadID, messageID);
 }
+function announceConstellationUnlock(api, threadID, userName, charName, constellationLevel, constellationName, effect) {
+  const rarity = CHARACTER_RATINGS.FIVE_STAR.includes(charName) ? "5★" :
+                CHARACTER_RATINGS.FOUR_STAR.includes(charName) ? "4★" : "3★";
+  
+  const conEffectIcons = {
+    1: "🔮",
+    2: "⚡",
+    3: "🌀",
+    4: "💫",
+    5: "🌟",
+    6: "✨"
+  };
+  
+  const message = `${conEffectIcons[constellationLevel]} CONSTELLATION UNLOCK! ${conEffectIcons[constellationLevel]}
+━━━━━━━━━━━━━━━━━━
+👤 ${userName} đã mở khóa chòm sao cho ${charName}!
 
+📝 THÔNG TIN:
+• Nhân vật: ${charName} (${rarity}) 
+• Chòm sao: C${constellationLevel} - ${constellationName}
+• Hiệu ứng: ${effect}
+
+💪 Sức mạnh tăng ${constellationLevel >= 5 ? "cực mạnh" : constellationLevel >= 3 ? "đáng kể" : "đáng kể"}!
+${constellationLevel === 6 ? "👑 ĐÃ ĐẠT CONSTELLATION TỐI ĐA!" : ""}
+━━━━━━━━━━━━━━━━━━
+
+💡 Bạn cũng muốn mở khóa? Dùng lệnh:
+.gacha const #ID_NHÂN_VẬT #ID_STELLA`;
+  
+  api.sendMessage(message, threadID);
+}
 // Hàm xử lý kết thúc đấu giá
 async function finalizeAuction(api, auction) {
   if (auction.status !== "active") return;
@@ -1775,18 +3267,24 @@ function calculateDynamicRates(userData) {
   const pullsWithoutFourStar = userData.pullsSinceLastFourStar || 0;
 
   const fiveStarBoost = Math.min(5, Math.pow(pullsWithoutFiveStar * 0.1, 1.5));
-  const evolvedFourStarBoost = Math.min(5, Math.pow(pullsWithoutFiveStar * 0.08, 1.4)); // Hơi thấp hơn 5 sao
+  const evolvedFourStarBoost = Math.min(
+    5,
+    Math.pow(pullsWithoutFiveStar * 0.08, 1.4)
+  ); // Hơi thấp hơn 5 sao
   const fourStarBoost = Math.min(15, Math.pow(pullsWithoutFourStar * 0.2, 1.3));
 
   const totalPullsBoost = Math.min(1, (userData.totalPulls || 0) * 0.005);
 
   return {
     FIVE_STAR: RATES.FIVE_STAR + fiveStarBoost + totalPullsBoost,
-    EVOLVED_FOUR_STAR: RATES.EVOLVED_FOUR_STAR + evolvedFourStarBoost + totalPullsBoost * 0.8,
+    EVOLVED_FOUR_STAR:
+      RATES.EVOLVED_FOUR_STAR + evolvedFourStarBoost + totalPullsBoost * 0.8,
     FOUR_STAR: RATES.FOUR_STAR + fourStarBoost,
-    THREE_STAR: 100 - (RATES.FIVE_STAR + fiveStarBoost + totalPullsBoost)
-                    - (RATES.EVOLVED_FOUR_STAR + evolvedFourStarBoost + totalPullsBoost * 0.8)
-                    - (RATES.FOUR_STAR + fourStarBoost),
+    THREE_STAR:
+      100 -
+      (RATES.FIVE_STAR + fiveStarBoost + totalPullsBoost) -
+      (RATES.EVOLVED_FOUR_STAR + evolvedFourStarBoost + totalPullsBoost * 0.8) -
+      (RATES.FOUR_STAR + fourStarBoost),
   };
 }
 
@@ -1845,75 +3343,88 @@ function generateCardValue(rarity, characterName) {
   }
   return Math.floor(Math.random() * 700) + 100;
 }
-
 function doPull(userData) {
   const currentRates = calculateDynamicRates(userData);
   const roll = Math.random() * 100;
 
   // 10% chance for stone/fragment and 10% chance for EXP item
   const itemTypeRoll = Math.random() * 100;
-  
+
   // XỬ LÝ ĐÁ TIẾN HÓA HOẶC MẢNH ĐÁ (10%)
   if (itemTypeRoll < 10) {
+    // [CODE XỬ LÝ ĐÁ VÀ MẢNH - GIỮ NGUYÊN]
     const isFragment = Math.random() < 0.7; // 70% là mảnh đá
-    const elements = Object.keys(isFragment ? ELEMENTAL_FRAGMENTS : ELEMENTAL_STONES);
+    const elements = Object.keys(
+      isFragment ? ELEMENTAL_FRAGMENTS : ELEMENTAL_STONES
+    );
     const universalProb = isFragment ? 0.01 : 0.001;
-    
+
     let stoneType;
     if (Math.random() < universalProb) {
       stoneType = "UNIVERSAL";
     } else {
       // Loại bỏ UNIVERSAL từ danh sách random thông thường
-      const regularElements = elements.filter(e => e !== "UNIVERSAL");
-      stoneType = regularElements[Math.floor(Math.random() * regularElements.length)];
+      const regularElements = elements.filter((e) => e !== "UNIVERSAL");
+      stoneType =
+        regularElements[Math.floor(Math.random() * regularElements.length)];
     }
-    
+
     let charId;
     if (isFragment) {
       charId = createStoneFragment(stoneType);
     } else {
       charId = createStone(stoneType);
     }
-    
+
     // Trả về đúng định dạng với isStone=true và isFragment nếu cần
-    return { 
-      charId, 
-      isStone: true, 
-      isFragment, 
-      isExpItem: false
+    return {
+      charId,
+      isStone: true,
+      isFragment,
+      isExpItem: false,
     };
   }
+
   // XỬ LÝ VẬT PHẨM EXP (10%)
   else if (itemTypeRoll < 20) {
-    // Xác định loại EXP Item dựa vào tỉ lệ
+    // [CODE XỬ LÝ EXP ITEMS - GIỮ NGUYÊN]
     const expRoll = Math.random() * 100;
     let expItemName;
-    
-    if (expRoll < 10) {
-      expItemName = "Heros Wit"; // 10% cơ hội
-    } else if (expRoll < 40) {
-      expItemName = "Adventurers Experience"; // 30% cơ hội
+
+    if (expRoll < 1) {
+      // Giảm tỉ lệ Mythical Scroll xuống chỉ còn 1%
+      expItemName = "Mythical Scroll";
+    } else if (expRoll < 3) {
+      // Giảm tỉ lệ Legendary Grimoire xuống còn 2%
+      expItemName = "Legendary Grimoire";
+    } else if (expRoll < 20) {
+      // Tăng tỉ lệ Hero's Wit lên 17% (trước đây 10%)
+      expItemName = "Heros Wit";
+    } else if (expRoll < 60) {
+      // Tăng tỉ lệ Adventurer's Experience lên 40% (trước đây 30%)
+      expItemName = "Adventurers Experience";
     } else {
-      expItemName = "Wanderers Advice"; // 60% cơ hội
+      // Giảm tỉ lệ Wanderer's Advice xuống còn 40% (trước đây 60%)
+      expItemName = "Wanderers Advice";
     }
-    
+
     const charId = createExpItem(expItemName);
-    
-    // Trả về đúng định dạng với isExpItem=true
+
     return {
       charId,
       isStone: false,
       isFragment: false,
-      isExpItem: true
+      isExpItem: true,
     };
   }
+
   // XỬ LÝ NHÂN VẬT (80% còn lại)
   else {
     // Xác định loại nhân vật dựa vào tỉ lệ
     let character;
     let rarity;
     let evolvedStars = 0;
-    
+
     if (roll < currentRates.FIVE_STAR) {
       // 5* thường/premium
       userData.pullsSinceLastFiveStar = 0;
@@ -1921,31 +3432,91 @@ function doPull(userData) {
 
       const premiumRoll = Math.random() * 100;
       if (premiumRoll < 1) {
-        character = PREMIUM_FIVE_STARS[Math.floor(Math.random() * PREMIUM_FIVE_STARS.length)];
+        character =
+          PREMIUM_FIVE_STARS[
+            Math.floor(Math.random() * PREMIUM_FIVE_STARS.length)
+          ];
       } else {
-        const regularPool = CHARACTER_RATINGS.FIVE_STAR.filter(char => !PREMIUM_FIVE_STARS.includes(char));
+        const regularPool = CHARACTER_RATINGS.FIVE_STAR.filter(
+          (char) => !PREMIUM_FIVE_STARS.includes(char)
+        );
         character = regularPool[Math.floor(Math.random() * regularPool.length)];
       }
       rarity = "FIVE_STAR";
-    } 
-    else if (roll < currentRates.FIVE_STAR + currentRates.EVOLVED_FOUR_STAR) {
-      // 4* đã tiến hóa (5-7★)
+
+      if (!userData.stellaPity) {
+        userData.stellaPity = {};
+      }
+      // [MỚI] Kiểm tra xem người chơi đã có nhân vật 5★ này chưa
+      let isDuplicate = false;
+      for (const existingCharId of userData.inventory || []) {
+        const existingChar = CHARACTER_IDS[existingCharId];
+        if (
+          existingChar &&
+          existingChar.type === "character" &&
+          existingChar.name === character
+        ) {
+          isDuplicate = true;
+          break;
+        }
+      }
+      if (!userData.stellaPity[character]) {
+        userData.stellaPity[character] = 0;
+      }
+      const stellaPityThreshold = PREMIUM_FIVE_STARS.includes(character) ? 
+    STELLA_PITY_THRESHOLD + 1 : STELLA_PITY_THRESHOLD;
+
+    const stellaChance = isDuplicate ? 100 : Math.min(95, userData.stellaPity[character] * STELLA_PITY_BOOST_PER_FAIL);
+    const stellaRoll = Math.random() * 100;
+    const getStellaFortuna = stellaRoll < stellaChance || userData.stellaPity[character] >= stellaPityThreshold;
+
+      userData.stellaPity[character] >= stellaPityThreshold;
+
+      // [MỚI] Nếu đã có nhân vật này, tạo Stella Fortuna
+      if (isDuplicate || getStellaFortuna) {
+        // Reset pity counter khi ra Stella
+        userData.stellaPity[character] = 0;
+
+        const stellaId = createStellaFortuna(character, false);
+        userData.inventory.push(stellaId);
+        return {
+          charId: stellaId,
+          isStella: true,
+          originalChar: character,
+          isPremium: PREMIUM_FIVE_STARS.includes(character),
+          isPity: !isDuplicate, // Đánh dấu nếu là Stella từ pity
+          isStone: false,
+          isFragment: false,
+          isExpItem: false,
+        };
+      } else {
+        // Tăng pity counter nếu không ra Stella
+        userData.stellaPity[character]++;
+      }
+    } else if (roll < currentRates.FIVE_STAR + currentRates.EVOLVED_FOUR_STAR) {
+      // [CODE XỬ LÝ 4★ TIẾN HÓA - GIỮ NGUYÊN]
       userData.pullsSinceLastFiveStar++;
       userData.pullsSinceLastFourStar = 0;
-      
-      character = EVOLVED_FOUR_STARS[Math.floor(Math.random() * EVOLVED_FOUR_STARS.length)];
+
+      character =
+        EVOLVED_FOUR_STARS[
+          Math.floor(Math.random() * EVOLVED_FOUR_STARS.length)
+        ];
       evolvedStars = Math.floor(Math.random() * 3) + 5; // 5-7★
       rarity = "FOUR_STAR";
-    }
-    else if (roll < currentRates.FIVE_STAR + currentRates.EVOLVED_FOUR_STAR + currentRates.FOUR_STAR) {
-      // 4* thường
+    } else if (
+      roll <
+      currentRates.FIVE_STAR +
+        currentRates.EVOLVED_FOUR_STAR +
+        currentRates.FOUR_STAR
+    ) {
+      // [CODE XỬ LÝ 4★ THƯỜNG - GIỮ NGUYÊN]
       userData.pullsSinceLastFourStar = 0;
       userData.pullsSinceLastFiveStar++;
       character = getRandomCharacter("FOUR_STAR");
       rarity = "FOUR_STAR";
-    } 
-    else {
-      // 3* thường
+    } else {
+      // [CODE XỬ LÝ 3★ THƯỜNG - GIỮ NGUYÊN]
       userData.pullsSinceLastFourStar++;
       userData.pullsSinceLastFiveStar++;
       character = getRandomCharacter("THREE_STAR");
@@ -1953,22 +3524,21 @@ function doPull(userData) {
     }
 
     const charId = generateCharacterId(character);
-    
+
     // Xử lý đặc biệt cho 4* đã tiến hóa
     if (evolvedStars > 0) {
+      // [CODE XỬ LÝ TIẾN HÓA - GIỮ NGUYÊN]
       const evolutionMultiplier = 1 + (evolvedStars - 4) * 0.5; // 5★->1.5x, 6★->2x, 7★->2.5x
-      
+
       // Tính chỉ số cho nhân vật tiến hóa
       const baseStats = generateCharacterStats(4, character);
-      
-      // Tăng stats theo số sao
+
       for (const stat in baseStats) {
         baseStats[stat] = Math.floor(baseStats[stat] * evolutionMultiplier);
       }
-      
-      // Tăng giá trị mạnh theo cấp tiến hóa
+
       const valueMultiplier = evolutionMultiplier * 3;
-      
+
       CHARACTER_IDS[charId] = {
         type: "character",
         name: character,
@@ -1978,8 +3548,10 @@ function doPull(userData) {
         exp: 0,
         isMaxEvolved: evolvedStars >= 7,
         isEvolved: true,
-        value: Math.floor((rarity === "FOUR_STAR" ? 50000 : 500000) * valueMultiplier),
-        stats: baseStats
+        value: Math.floor(
+          (rarity === "FOUR_STAR" ? 50000 : 500000) * valueMultiplier
+        ),
+        stats: baseStats,
       };
     } else {
       // Xử lý nhân vật thường
@@ -1996,15 +3568,15 @@ function doPull(userData) {
         ),
       };
     }
-    
+
     saveCharacterDatabase();
-    return { 
-      charId, 
-      isStone: false, 
+    return {
+      charId,
+      isStone: false,
       isFragment: false,
       isExpItem: false,
-      isEvolved: evolvedStars > 0, 
-      evolvedStars 
+      isEvolved: evolvedStars > 0,
+      evolvedStars,
     };
   }
 }
@@ -2168,40 +3740,43 @@ function restoreFromBackup(backupId = null) {
 
 function autoConvertFragments(userData) {
   if (!userData.inventory || !Array.isArray(userData.inventory)) return false;
-  
+
   const fragmentsMap = {};
   const fragmentIds = [];
-  
-  userData.inventory.forEach(itemId => {
-    if (typeof itemId !== 'string' || !itemId.startsWith('FRAGMENT_')) return;
-    
-    const stoneType = itemId.split('_')[1]; 
+
+  userData.inventory.forEach((itemId) => {
+    if (typeof itemId !== "string" || !itemId.startsWith("FRAGMENT_")) return;
+
+    const stoneType = itemId.split("_")[1];
     if (!stoneType || !ELEMENTAL_FRAGMENTS[stoneType]) return;
-    
+
     if (!fragmentsMap[stoneType]) fragmentsMap[stoneType] = [];
     fragmentsMap[stoneType].push(itemId);
     fragmentIds.push(itemId);
   });
-  
+
   let changed = false;
-  
+
   Object.entries(fragmentsMap).forEach(([stoneType, ids]) => {
-   
     const fullStoneCount = Math.floor(ids.length / 10);
     if (fullStoneCount > 0) {
       const fragmentsToRemove = ids.slice(0, fullStoneCount * 10);
-      userData.inventory = userData.inventory.filter(id => !fragmentsToRemove.includes(id));
-      
+      userData.inventory = userData.inventory.filter(
+        (id) => !fragmentsToRemove.includes(id)
+      );
+
       for (let i = 0; i < fullStoneCount; i++) {
         const stoneId = createStone(stoneType);
         userData.inventory.push(stoneId);
-        
-        console.log(`Auto-combined 10 ${stoneType} fragments into a complete stone: ${stoneId}`);
+
+        console.log(
+          `Auto-combined 10 ${stoneType} fragments into a complete stone: ${stoneId}`
+        );
         changed = true;
       }
     }
   });
-  
+
   return changed;
 }
 function listBackups() {
@@ -2267,8 +3842,11 @@ function upgradeCharacter(charId1, charId2, userData, forceType = null) {
     return { success: false, reason: "different_characters" };
   }
 
-  const rarity = CHARACTER_RATINGS.FIVE_STAR.includes(char1.name) ? 5 : 
-                 CHARACTER_RATINGS.FOUR_STAR.includes(char1.name) ? 4 : 3;
+  const rarity = CHARACTER_RATINGS.FIVE_STAR.includes(char1.name)
+    ? 5
+    : CHARACTER_RATINGS.FOUR_STAR.includes(char1.name)
+    ? 4
+    : 3;
 
   if (rarity === 3) {
     return { success: false, reason: "cannot_upgrade_3star" };
@@ -2288,7 +3866,7 @@ function upgradeCharacter(charId1, charId2, userData, forceType = null) {
 
   // Remove characters from inventory
   userData.inventory = userData.inventory.filter(
-    id => id !== charId1 && id !== charId2
+    (id) => id !== charId1 && id !== charId2
   );
 
   // Handle star evolution
@@ -2297,23 +3875,34 @@ function upgradeCharacter(charId1, charId2, userData, forceType = null) {
     const newStar = currentStar + 1;
     const baseStats = char1.stats || { atk: 100, def: 100, hp: 500 };
     const isLimited = PREMIUM_FIVE_STARS.includes(char1.name);
-    
-    const bonusMultiplier = isLimited ? 
-      (1 + (newStar - 4) * 0.8) : // Limited gets 80% per star
-      (1 + (newStar - 4) * 0.5);  // Normal gets 50% per star
+
+    const bonusMultiplier = isLimited
+      ? 1 + (newStar - 4) * 0.8 // Limited gets 80% per star
+      : 1 + (newStar - 4) * 0.5; // Normal gets 50% per star
 
     CHARACTER_IDS[newCharId] = {
       name: char1.name,
       obtainedAt: Date.now(),
       starLevel: newStar,
       level: Math.max(char1.level || 1, char2.level || 1),
-      value: (char1.value || (rarity === 5 ? 1000000 : 10000)) * 
-        (isLimited ? 3 : 2) * bonusMultiplier,
+      value:
+        (char1.value || (rarity === 5 ? 1000000 : 10000)) *
+        (isLimited ? 3 : 2) *
+        bonusMultiplier,
       stats: {
-        atk: Math.floor(((char1.stats?.atk || 100) + (char2.stats?.atk || 100)) * bonusMultiplier),
-        def: Math.floor(((char1.stats?.def || 100) + (char2.stats?.def || 100)) * bonusMultiplier),
-        hp: Math.floor(((char1.stats?.hp || 500) + (char2.stats?.hp || 500)) * bonusMultiplier)
-      }
+        atk: Math.floor(
+          ((char1.stats?.atk || 100) + (char2.stats?.atk || 100)) *
+            bonusMultiplier
+        ),
+        def: Math.floor(
+          ((char1.stats?.def || 100) + (char2.stats?.def || 100)) *
+            bonusMultiplier
+        ),
+        hp: Math.floor(
+          ((char1.stats?.hp || 500) + (char2.stats?.hp || 500)) *
+            bonusMultiplier
+        ),
+      },
     };
 
     userData.inventory.push(newCharId);
@@ -2324,7 +3913,7 @@ function upgradeCharacter(charId1, charId2, userData, forceType = null) {
       type: "evolved",
       charId: newCharId,
       oldStar: currentStar,
-      newStar: newStar
+      newStar: newStar,
     };
   }
 
@@ -2337,9 +3926,8 @@ function upgradeCharacter(charId1, charId2, userData, forceType = null) {
 
     const statMultiplier = CHARACTER_LEVELS[rarity].baseStats;
     const baseStats = char1.stats || { atk: 100, def: 100, hp: 500 };
-    const bonusStats = level2 > 1 ? 
-      { atk: 50, def: 30, hp: 100 } : 
-      { atk: 0, def: 0, hp: 0 };
+    const bonusStats =
+      level2 > 1 ? { atk: 50, def: 30, hp: 100 } : { atk: 0, def: 0, hp: 0 };
 
     CHARACTER_IDS[newCharId] = {
       name: char1.name,
@@ -2348,10 +3936,16 @@ function upgradeCharacter(charId1, charId2, userData, forceType = null) {
       level: newLevel,
       value: char1.value * (1 + (newLevel - level1) * 0.2),
       stats: {
-        atk: Math.floor(baseStats.atk * statMultiplier.atk * newLevel + bonusStats.atk),
-        def: Math.floor(baseStats.def * statMultiplier.def * newLevel + bonusStats.def),
-        hp: Math.floor(baseStats.hp * statMultiplier.hp * newLevel + bonusStats.hp)
-      }
+        atk: Math.floor(
+          baseStats.atk * statMultiplier.atk * newLevel + bonusStats.atk
+        ),
+        def: Math.floor(
+          baseStats.def * statMultiplier.def * newLevel + bonusStats.def
+        ),
+        hp: Math.floor(
+          baseStats.hp * statMultiplier.hp * newLevel + bonusStats.hp
+        ),
+      },
     };
 
     userData.inventory.push(newCharId);
@@ -2362,7 +3956,7 @@ function upgradeCharacter(charId1, charId2, userData, forceType = null) {
       type: "fused",
       charId: newCharId,
       oldLevel: level1,
-      newLevel: newLevel
+      newLevel: newLevel,
     };
   }
 
@@ -2385,7 +3979,6 @@ function getDetailedHelp() {
 👉 Lệnh cơ bản:
 .gacha pull - Mở thẻ nhân vật
 .gacha info - Xem tỉ lệ ra nhân vật
-
 .gacha card - Xem chi tiết nhân vật
 .gacha inv - Xem nhân vật đang có
 .gacha PVP - Thách đấu PVP
@@ -2393,6 +3986,8 @@ function getDetailedHelp() {
 .gacha trade - Giao dịch nhân vật
 .gacha upgrade <ID1> <ID2> - Nâng cấp nhân vật
 .gacha levelup - Tăng cấp nhân vật
+.gacha const - mở khóa chòm sao
+.gacha spity - Xem thông tin pity
 💰 Giá mở: ${PULL_COST}$ /lần
 ⭐ Tỉ lệ: 5★ (${RATES.FIVE_STAR}%) | 4★ (${RATES.FOUR_STAR}%) | 3★ (${RATES.THREE_STAR}%)
 🔥 THÔNG TIN HẤP DẪN 🔥
@@ -2472,7 +4067,7 @@ function getDetailedHelp() {
 💡 MẸO:
 • Nâng cấp trước khi tiến hóa để tối ưu chỉ số
 • Tỉ lệ nhận EXP tương tự mảnh đá tiến hóa`,
-trading: `🤝 HƯỚNG DẪN TRAO ĐỔI VẬT PHẨM 🤝
+    trading: `🤝 HƯỚNG DẪN TRAO ĐỔI VẬT PHẨM 🤝
 ───────────────
 1️⃣ TẠNG QUÀ / ĐỀ NGHỊ TRAO ĐỔI:
 - Lệnh: .gacha trade #ID_của_bạn [#ID_muốn_đổi] @tên
@@ -2500,6 +4095,38 @@ trading: `🤝 HƯỚNG DẪN TRAO ĐỔI VẬT PHẨM 🤝
 • Vật phẩm sẽ được chuyển ngay khi giao dịch hoàn tất
 • Không thể hủy sau khi đã chấp nhận
 • Nên xem kỹ các vật phẩm trước khi trao đổi`,
+constellation: `🌟 HƯỚNG DẪN CONSTELLATION (CHÒM SAO) 🌟
+───────────────
+📝 GIỚI THIỆU:
+• Constellation là hệ thống nâng cấp đặc biệt cho nhân vật
+• Mở khóa constellation tăng sức mạnh và mở kỹ năng đặc biệt
+• Mỗi nhân vật có tối đa 6 constellation (C1-C6)
+
+💎 STELLA FORTUNA:
+• Stella Fortuna là vật phẩm dùng để mở khóa constellation
+• Nhận được khi pull nhân vật trùng hoặc từ hệ thống pity
+• Có 2 loại: Stella Fortuna thường và Universal Stella hiếm
+
+📊 LỢI ÍCH:
+• C1-C2: Tăng hiệu suất chiến đấu cơ bản (+15-20%)
+• C3-C4: Tăng cấp kỹ năng và mở khóa hiệu ứng mạnh (+25-30%)
+• C5-C6: Tăng sức mạnh đáng kể và mở khóa tiềm năng tối đa (+40-50%)
+
+⚔️ SỨC MẠNH:
+• ATK, DEF, HP tăng theo phần trăm tương ứng
+• Hiệu ứng đặc biệt dựa trên nhân vật
+• Giá trị nhân vật tăng đáng kể
+
+❓ CÁCH SỬ DỤNG:
+1. Kiểm tra kho đồ: .gacha inv
+2. Xác định ID nhân vật (#1234) và ID Stella (#5678)
+3. Mở khóa constellation: .gacha const #1234 #5678
+
+⚠️ LƯU Ý:
+• Mỗi constellation chỉ có thể mở khóa theo thứ tự (C1→C2→C3...)
+• Stella được dùng sẽ biến mất sau khi mở khóa
+• Mỗi nhân vật chỉ sử dụng được Stella của chính nó hoặc Universal Stella
+• Xem thông tin pity Stella với lệnh: .gacha spity`,
   };
 }
 module.exports = {
@@ -2560,7 +4187,8 @@ module.exports = {
           ".gacha help auction - Hướng dẫn đấu giá\n" +
           ".gacha help upgrade - Hướng dẫn nâng cấp" +
           ".gacha help levelup - Hướng dẫn nâng cấp bằng EXP" +
-          ".gacha help trade - Hướng dẫn trao đổi vật phẩm",
+          ".gacha help trade - Hướng dẫn trao đổi vật phẩm" +
+          ".gacha help const - Hướng dẫn hệ thống constellation",
         threadID,
         messageID
       );
@@ -2750,22 +4378,87 @@ module.exports = {
           await updateBalance(senderID, 200);
           if (userData.threeStarCount >= 20) {
             userData.threeStarCount = 0;
-            const elements = Object.keys(ELEMENTAL_FRAGMENTS).filter(e => e !== "UNIVERSAL");
-            const randomElement = elements[Math.floor(Math.random() * elements.length)];
+            const elements = Object.keys(ELEMENTAL_FRAGMENTS).filter(
+              (e) => e !== "UNIVERSAL"
+            );
+            const randomElement =
+              elements[Math.floor(Math.random() * elements.length)];
             const fragmentId = createStoneFragment(randomElement);
             userData.inventory.push(fragmentId);
             setTimeout(() => {
               const fragment = CHARACTER_IDS[fragmentId];
               api.sendMessage(
                 `🎁 PHẦN THƯỞNG ĐẶC BIỆT! 🎁\n\n` +
-                `Bạn đã nhận đủ 20 nhân vật 3★!\n` +
-                `Nhận được: 1 ${fragment.emoji} ${fragment.name}\n` +
-                `Mô tả: ${fragment.description}\n` +
-                `ID: #${fragmentId.slice(-4)}\n\n` +
-                `💡 Hệ thống sẽ tự động tích lũy tiếp tục`,
+                  `Bạn đã nhận đủ 20 nhân vật 3★!\n` +
+                  `Nhận được: 1 ${fragment.emoji} ${fragment.name}\n` +
+                  `Mô tả: ${fragment.description}\n` +
+                  `ID: #${fragmentId.slice(-4)}\n\n` +
+                  `💡 Hệ thống sẽ tự động tích lũy tiếp tục`,
                 threadID
               );
-            }, 2000); 
+            }, 2000);
+            if (pullResult.isStella) {
+              const stellaItem = CHARACTER_IDS[pullResult.charId];
+              if (!stellaItem) {
+                return api.sendMessage(
+                  "❌ Lỗi: Không tìm thấy vật phẩm Stella Fortuna!",
+                  threadID,
+                  messageID
+                );
+              }
+
+              try {
+                // Tạo ảnh Stella Fortuna
+                const stellaImage = await createStellaResultImage({
+                  userId: senderID,
+                  userName,
+                  stella: stellaItem,
+                  originalChar: pullResult.originalChar,
+                  isUniversal: stellaItem.isUniversal,
+                });
+
+                // Hiển thị thông báo kèm ảnh
+                return api.sendMessage(
+                  {
+                    body:
+                      `🎮 KẾT QUẢ GACHA 🎮\n\n` +
+                      `✨ BẠN ĐÃ NHẬN ĐƯỢC STELLA FORTUNA! ${
+                        pullResult.isPity ? "(PITY)" : ""
+                      }\n` +
+                      `📝 Chìa khóa cho chòm sao: ${pullResult.originalChar}\n` +
+                      `${
+                        pullResult.isPity
+                          ? "🎯 Kích hoạt từ hệ thống pity!\n"
+                          : ""
+                      }` +
+                      `💡 Dùng lệnh ".gacha const #ID-NHÂN-VẬT #ID-STELLA" để mở khóa chòm sao\n\n` +
+                      `⭐ Độ hiếm: 5★\n` +
+                      `💰 Giá trị: $${stellaItem.value.toLocaleString()}\n` +
+                      `🔮 ID: #${pullResult.charId.slice(-4)}`,
+                    attachment: fs.createReadStream(stellaImage),
+                  },
+                  threadID,
+                  () => fs.unlinkSync(stellaImage),
+                  messageID
+                );
+              } catch (error) {
+                // Fallback nếu có lỗi
+                console.error("Error displaying Stella Fortuna:", error);
+                return api.sendMessage(
+                  `🎮 KẾT QUẢ GACHA 🎮\n\n` +
+                    `✨ Bạn đã nhận được Stella Fortuna cho ${pullResult.originalChar}!\n` +
+                    `${
+                      pullResult.isPity
+                        ? "🎯 Kích hoạt từ hệ thống pity!\n"
+                        : ""
+                    }` +
+                    `📝 Dùng Stella để mở khóa chòm sao cho nhân vật\n` +
+                    `💰 Giá trị: $${stellaItem.value.toLocaleString()}`,
+                  threadID,
+                  messageID
+                );
+              }
+            }
           }
         } else {
           console.log(
@@ -2806,29 +4499,29 @@ module.exports = {
           ? "4"
           : "3";
 
-          const resultImage = await createPullResultImage({
-            userId: senderID,
-            userName,
-            character: {
-              name: CHARACTER_IDS[charId].name,
-              image: imagePath,
-              id: charId,
-              isPremium: PREMIUM_FIVE_STARS.includes(CHARACTER_IDS[charId].name),
-              isEvolved: CHARACTER_IDS[charId].isEvolved || false,
-              isMaxEvolved: CHARACTER_IDS[charId].isMaxEvolved || false,
-            },
-            rarity: charRarity,
-            starLevel: CHARACTER_IDS[charId].starLevel,  
-            evolvedStars: pullResult.evolvedStars,      
-            stats: {
-              element: charInfo?.element || "Unknown",
-              weapon: charInfo?.weapon || "Unknown",
-              quote: charInfo?.quote || "...",
-              skills: charInfo?.skills || [],
-            },
-            currentRates,
-            cardValue: CHARACTER_IDS[charId].value,
-          });
+        const resultImage = await createPullResultImage({
+          userId: senderID,
+          userName,
+          character: {
+            name: CHARACTER_IDS[charId].name,
+            image: imagePath,
+            id: charId,
+            isPremium: PREMIUM_FIVE_STARS.includes(CHARACTER_IDS[charId].name),
+            isEvolved: CHARACTER_IDS[charId].isEvolved || false,
+            isMaxEvolved: CHARACTER_IDS[charId].isMaxEvolved || false,
+          },
+          rarity: charRarity,
+          starLevel: CHARACTER_IDS[charId].starLevel,
+          evolvedStars: pullResult.evolvedStars,
+          stats: {
+            element: charInfo?.element || "Unknown",
+            weapon: charInfo?.weapon || "Unknown",
+            quote: charInfo?.quote || "...",
+            skills: charInfo?.skills || [],
+          },
+          currentRates,
+          cardValue: CHARACTER_IDS[charId].value,
+        });
 
         return api.sendMessage(
           {
@@ -2854,6 +4547,8 @@ module.exports = {
           return api.sendMessage(help.upgrade, threadID, messageID);
         } else if (type === "levelup" || type === "level" || type === "exp") {
           return api.sendMessage(help.levelup, threadID, messageID);
+        } else if (type === "constellation" || type === "const") {
+          return api.sendMessage(help.constellation, threadID, messageID);
         } else {
           return api.sendMessage(help.basic, threadID, messageID);
         }
@@ -2868,7 +4563,6 @@ module.exports = {
             `5⭐: ${currentRates.FIVE_STAR.toFixed(2)}%\n` +
             `4⭐ Tiến hóa: ${currentRates.EVOLVED_FOUR_STAR.toFixed(2)}%\n` +
             `4⭐: ${currentRates.FOUR_STAR.toFixed(2)}%\n` +
-
             "💫 Hệ thống tăng tỉ lệ:\n" +
             "• Tỉ lệ tăng theo số lần không ra item hiếm\n" +
             "• Tỉ lệ tăng theo tổng số lần mở\n" +
@@ -2884,15 +4578,15 @@ module.exports = {
         if (!mention) {
           return api.sendMessage(
             "❌ Bạn phải tag người để trao đổi!\n\n" +
-            "Cách dùng đúng:\n" +
-            ".gacha trade #ID_của_bạn #ID_muốn_đổi @tên\n" +
-            "Ví dụ: .gacha trade #1234 #5678 @MinhAnh\n\n" +
-            "💡 Để tặng quà (không yêu cầu vật phẩm), bỏ qua #ID_muốn_đổi",
+              "Cách dùng đúng:\n" +
+              ".gacha trade #ID_của_bạn #ID_muốn_đổi @tên\n" +
+              "Ví dụ: .gacha trade #1234 #5678 @MinhAnh\n\n" +
+              "💡 Để tặng quà (không yêu cầu vật phẩm), bỏ qua #ID_muốn_đổi",
             threadID,
             messageID
           );
         }
-        
+
         if (mention === senderID) {
           return api.sendMessage(
             "❌ Bạn không thể trao đổi với chính mình!",
@@ -2900,18 +4594,18 @@ module.exports = {
             messageID
           );
         }
-        
+
         if (!target[1]) {
           return api.sendMessage(
             "❌ Bạn phải chỉ định ID vật phẩm muốn đưa ra!\n\n" +
-            "Cách dùng đúng:\n" +
-            ".gacha trade #ID_của_bạn [#ID_muốn_đổi] @tên\n\n" +
-            "💡 Dùng .gacha inv để xem ID vật phẩm của bạn",
+              "Cách dùng đúng:\n" +
+              ".gacha trade #ID_của_bạn [#ID_muốn_đổi] @tên\n\n" +
+              "💡 Dùng .gacha inv để xem ID vật phẩm của bạn",
             threadID,
             messageID
           );
         }
-        
+
         if (!gachaData[mention]) {
           return api.sendMessage(
             "❌ Người được tag chưa tham gia hệ thống gacha!",
@@ -2919,9 +4613,9 @@ module.exports = {
             messageID
           );
         }
-        
+
         const targetUserData = gachaData[mention];
-        
+
         const offerInputId = target[1].replace(/[^\d]/g, "");
         let foundOfferId = null;
         for (const itemId of userData.inventory) {
@@ -2930,60 +4624,69 @@ module.exports = {
             break;
           }
         }
-        
+
         if (!foundOfferId) {
           return api.sendMessage(
             `❌ Không tìm thấy vật phẩm với ID #${offerInputId} trong kho đồ của bạn!\n\n` +
-            "💡 Dùng .gacha inv để xem lại danh sách vật phẩm",
+              "💡 Dùng .gacha inv để xem lại danh sách vật phẩm",
             threadID,
             messageID
           );
         }
-        
+
         let requestedItemId = null;
         if (target[2] && target[2].startsWith("#")) {
           const requestInputId = target[2].replace(/[^\d]/g, "");
           for (const itemId of targetUserData.inventory) {
-            if (itemId.endsWith(requestInputId) || itemId.includes(requestInputId)) {
+            if (
+              itemId.endsWith(requestInputId) ||
+              itemId.includes(requestInputId)
+            ) {
               requestedItemId = itemId;
               break;
             }
           }
-          
+
           if (!requestedItemId) {
             return api.sendMessage(
               `❌ Không tìm thấy vật phẩm với ID #${requestInputId} trong kho đồ của đối phương!\n\n` +
-              "💡 Họ có thể chưa sở hữu vật phẩm này",
+                "💡 Họ có thể chưa sở hữu vật phẩm này",
               threadID,
               messageID
             );
           }
         }
-        
-        const offerItem = CHARACTER_IDS[foundOfferId];
-        const requestItem = requestedItemId ? CHARACTER_IDS[requestedItemId] : null;
 
-        if (foundOfferId.startsWith("CHAR_") && 
-            PREMIUM_FIVE_STARS.includes(offerItem.name)) {
+        const offerItem = CHARACTER_IDS[foundOfferId];
+        const requestItem = requestedItemId
+          ? CHARACTER_IDS[requestedItemId]
+          : null;
+
+        if (
+          foundOfferId.startsWith("CHAR_") &&
+          PREMIUM_FIVE_STARS.includes(offerItem.name)
+        ) {
           return api.sendMessage(
             "❌ KHÔNG THỂ TRAO ĐỔI THẺ LIMITED!\n\n" +
-            `Nhân vật ${offerItem.name} là thẻ Limited/Premium đặc biệt.\n` +
-            `Thẻ Limited chỉ có thể được bán thông qua hệ thống đấu giá.\n\n` +
-            "💡 Sử dụng: .gacha auction #ID <giá_khởi_điểm> để đấu giá thẻ này.",
+              `Nhân vật ${offerItem.name} là thẻ Limited/Premium đặc biệt.\n` +
+              `Thẻ Limited chỉ có thể được bán thông qua hệ thống đấu giá.\n\n` +
+              "💡 Sử dụng: .gacha auction #ID <giá_khởi_điểm> để đấu giá thẻ này.",
             threadID,
             messageID
           );
         }
-        
+
         if (requestedItemId) {
           const requestItem = CHARACTER_IDS[requestedItemId];
-          if (requestedItemId.startsWith("CHAR_") && 
-              PREMIUM_FIVE_STARS.includes(requestItem.name)) {
+          if (
+            requestedItemId.startsWith("CHAR_") &&
+            PREMIUM_FIVE_STARS.includes(requestItem.name)
+          ) {
             return api.sendMessage(
               "❌ KHÔNG THỂ YÊU CẦU THẺ LIMITED!\n\n" +
-              `Nhân vật ${requestItem.name} là thẻ Limited/Premium đặc biệt.\n` +
-              `Thẻ Limited chỉ có thể được mua thông qua hệ thống đấu giá.\n\n` +
-              "💡 Hãy tham gia các phiên đấu giá để có cơ hội sở hữu thẻ này.",
+                `Nhân vật ${requestItem.name} là thẻ Limited/Premium đặc biệt.\n` +
+                `Thẻ Limited chỉ có thể được mua thông qua hệ thống đấu giá.\n\n` +
+                "💡 Hãy tham gia các phiên đấu giá để có cơ hội sở hữu thẻ này.",
               threadID,
               messageID
             );
@@ -2996,13 +4699,16 @@ module.exports = {
             messageID
           );
         }
-        
+
         const targetUserName = await getUserName(mention);
-        
+
         let offerDescription = "";
         if (foundOfferId.startsWith("CHAR_")) {
-          const rarity = CHARACTER_RATINGS.FIVE_STAR.includes(offerItem.name) ? "5★" : 
-                        CHARACTER_RATINGS.FOUR_STAR.includes(offerItem.name) ? "4★" : "3★";
+          const rarity = CHARACTER_RATINGS.FIVE_STAR.includes(offerItem.name)
+            ? "5★"
+            : CHARACTER_RATINGS.FOUR_STAR.includes(offerItem.name)
+            ? "4★"
+            : "3★";
           offerDescription = `• Nhân vật: ${offerItem.name} (${rarity})\n`;
         } else if (foundOfferId.startsWith("STONE_")) {
           offerDescription = `• Đá tiến hóa: ${offerItem.name}\n`;
@@ -3013,12 +4719,17 @@ module.exports = {
         }
         offerDescription += `• ID: #${foundOfferId.slice(-4)}\n`;
         offerDescription += `• Giá trị: $${offerItem.value.toLocaleString()}\n`;
-        
+
         let requestDescription = "";
         if (requestItem) {
           if (requestedItemId.startsWith("CHAR_")) {
-            const rarity = CHARACTER_RATINGS.FIVE_STAR.includes(requestItem.name) ? "5★" : 
-                          CHARACTER_RATINGS.FOUR_STAR.includes(requestItem.name) ? "4★" : "3★";
+            const rarity = CHARACTER_RATINGS.FIVE_STAR.includes(
+              requestItem.name
+            )
+              ? "5★"
+              : CHARACTER_RATINGS.FOUR_STAR.includes(requestItem.name)
+              ? "4★"
+              : "3★";
             requestDescription = `• Nhân vật: ${requestItem.name} (${rarity})\n`;
           } else if (requestedItemId.startsWith("STONE_")) {
             requestDescription = `• Đá tiến hóa: ${requestItem.name}\n`;
@@ -3030,15 +4741,24 @@ module.exports = {
           requestDescription += `• ID: #${requestedItemId.slice(-4)}\n`;
           requestDescription += `• Giá trị: $${requestItem.value.toLocaleString()}\n\n`;
         }
-        
+
         let warningMessage = "";
-        if (requestItem && Math.abs(offerItem.value - requestItem.value) > 100000) {
-          warningMessage = "⚠️ CẢNH BÁO: Giao dịch có chênh lệch giá trị đáng kể!\n\n";
+        if (
+          requestItem &&
+          Math.abs(offerItem.value - requestItem.value) > 100000
+        ) {
+          warningMessage =
+            "⚠️ CẢNH BÁO: Giao dịch có chênh lệch giá trị đáng kể!\n\n";
         }
-        
-        const tradeId = `TRADE_${Date.now()}_${Math.floor(Math.random() * 1000)}`;
-        const shortId = String(Math.floor(Math.random() * 1000)).padStart(3, '0');
-        
+
+        const tradeId = `TRADE_${Date.now()}_${Math.floor(
+          Math.random() * 1000
+        )}`;
+        const shortId = String(Math.floor(Math.random() * 1000)).padStart(
+          3,
+          "0"
+        );
+
         activeTrades.set(tradeId, {
           id: tradeId,
           shortId: shortId,
@@ -3047,124 +4767,136 @@ module.exports = {
           offer: foundOfferId,
           request: requestedItemId,
           timestamp: Date.now(),
-          expiry: Date.now() + 5 * 60 * 1000, 
-          status: "pending"
+          expiry: Date.now() + 5 * 60 * 1000,
+          status: "pending",
         });
-        
+
         api.sendMessage(
           `${warningMessage}🤝 ĐỀ NGHỊ TRAO ĐỔI 🤝\n` +
-          `━━━━━━━━━━━━━━━━━\n\n` +
-          `👤 Người đề nghị: ${userName}\n` +
-          `👤 Người nhận: ${targetUserName}\n\n` +
-          `📦 BẠN SẼ TẶNG:\n` +
-          (requestDescription || "• Không có\n\n") +
-          `📦 BẠN SẼ NHẬN:\n` +
-          offerDescription + "\n" +
-          `⏰ Thời hạn: 5 phút\n` +
-          `🔖 Mã giao dịch: ${shortId}\n\n` +
-          `💡 Để chấp nhận, hãy gõ:\n` +
-          `.gacha accept ${shortId}\n\n` +
-          `❌ Để từ chối, hãy gõ:\n` +
-          `.gacha decline ${shortId}`,
+            `━━━━━━━━━━━━━━━━━\n\n` +
+            `👤 Người đề nghị: ${userName}\n` +
+            `👤 Người nhận: ${targetUserName}\n\n` +
+            `📦 BẠN SẼ TẶNG:\n` +
+            (requestDescription || "• Không có\n\n") +
+            `📦 BẠN SẼ NHẬN:\n` +
+            offerDescription +
+            "\n" +
+            `⏰ Thời hạn: 5 phút\n` +
+            `🔖 Mã giao dịch: ${shortId}\n\n` +
+            `💡 Để chấp nhận, hãy gõ:\n` +
+            `.gacha accept ${shortId}\n\n` +
+            `❌ Để từ chối, hãy gõ:\n` +
+            `.gacha decline ${shortId}`,
           mention
         );
-        
+
         return api.sendMessage(
           `✅ ĐÃ GỬI ĐỀ NGHỊ TRAO ĐỔI!\n\n` +
-          `📦 Vật phẩm đề nghị: ${offerItem.name}\n` +
-          `📦 Vật phẩm yêu cầu: ${requestItem ? requestItem.name : "Không có (quà tặng)"}\n` +
-          `👤 Đến người chơi: ${targetUserName}\n\n` +
-          `⏰ Thời hạn: 5 phút\n` +
-          `🔖 Mã giao dịch: ${shortId}\n\n` +
-          `💡 Đề nghị sẽ tự động hủy sau thời hạn.`,
+            `📦 Vật phẩm đề nghị: ${offerItem.name}\n` +
+            `📦 Vật phẩm yêu cầu: ${
+              requestItem ? requestItem.name : "Không có (quà tặng)"
+            }\n` +
+            `👤 Đến người chơi: ${targetUserName}\n\n` +
+            `⏰ Thời hạn: 5 phút\n` +
+            `🔖 Mã giao dịch: ${shortId}\n\n` +
+            `💡 Đề nghị sẽ tự động hủy sau thời hạn.`,
           threadID,
           messageID
         );
       }
-      
+
       case "accept": {
         if (!target[1]) {
           return api.sendMessage(
-            "❌ Bạn phải cung cấp mã giao dịch!\n" + 
-            "Cách dùng: .gacha accept MÃ_GIAO_DỊCH",
-            threadID, 
+            "❌ Bạn phải cung cấp mã giao dịch!\n" +
+              "Cách dùng: .gacha accept MÃ_GIAO_DỊCH",
+            threadID,
             messageID
           );
         }
-        
+
         const shortId = target[1];
-        const tradeId = [...activeTrades.keys()].find(id => activeTrades.get(id).shortId === shortId);
-        
+        const tradeId = [...activeTrades.keys()].find(
+          (id) => activeTrades.get(id).shortId === shortId
+        );
+
         if (!tradeId) {
           return api.sendMessage(
             "❌ Không tìm thấy giao dịch với mã này hoặc giao dịch đã hết hạn!",
-            threadID, 
+            threadID,
             messageID
           );
         }
-        
+
         const trade = activeTrades.get(tradeId);
-        
+
         if (trade.to !== senderID) {
           return api.sendMessage(
             "❌ Bạn không phải là người được đề nghị trao đổi!",
-            threadID, 
+            threadID,
             messageID
           );
         }
-        
+
         if (trade.expiry < Date.now()) {
           activeTrades.delete(tradeId);
           return api.sendMessage(
             "❌ Giao dịch đã hết hạn!",
-            threadID, 
+            threadID,
             messageID
           );
         }
-        
+
         const fromUserData = gachaData[trade.from];
         const toUserData = gachaData[trade.to];
-        
+
         if (!fromUserData.inventory.includes(trade.offer)) {
           activeTrades.delete(tradeId);
           return api.sendMessage(
             "❌ Vật phẩm đã không còn trong kho đồ của người đề nghị!",
-            threadID, 
+            threadID,
             messageID
           );
         }
-        
+
         if (trade.request && !toUserData.inventory.includes(trade.request)) {
           activeTrades.delete(tradeId);
           return api.sendMessage(
             "❌ Vật phẩm yêu cầu không còn trong kho đồ của bạn!",
-            threadID,  
+            threadID,
             messageID
           );
         }
-        
+
         const [fromUserName, toUserName] = await Promise.all([
-          getUserName(trade.from), 
-          getUserName(trade.to)
+          getUserName(trade.from),
+          getUserName(trade.to),
         ]);
-        
-        fromUserData.inventory = fromUserData.inventory.filter(id => id !== trade.offer);
+
+        fromUserData.inventory = fromUserData.inventory.filter(
+          (id) => id !== trade.offer
+        );
         toUserData.inventory.push(trade.offer);
-        
+
         if (trade.request) {
-          toUserData.inventory = toUserData.inventory.filter(id => id !== trade.request);
+          toUserData.inventory = toUserData.inventory.filter(
+            (id) => id !== trade.request
+          );
           fromUserData.inventory.push(trade.request);
         }
-        
+
         trade.status = "accepted";
         trade.completedAt = Date.now();
         saveGachaData(gachaData);
-        
+
         let offerDescription = "";
         const offerItem = CHARACTER_IDS[trade.offer];
         if (trade.offer.startsWith("CHAR_")) {
-          const rarity = CHARACTER_RATINGS.FIVE_STAR.includes(offerItem.name) ? "5★" : 
-                        CHARACTER_RATINGS.FOUR_STAR.includes(offerItem.name) ? "4★" : "3★";
+          const rarity = CHARACTER_RATINGS.FIVE_STAR.includes(offerItem.name)
+            ? "5★"
+            : CHARACTER_RATINGS.FOUR_STAR.includes(offerItem.name)
+            ? "4★"
+            : "3★";
           offerDescription = `• Nhân vật: ${offerItem.name} (${rarity})\n`;
         } else if (trade.offer.startsWith("STONE_")) {
           offerDescription = `• Đá tiến hóa: ${offerItem.name}\n`;
@@ -3175,13 +4907,18 @@ module.exports = {
         }
         offerDescription += `• ID: #${trade.offer.slice(-4)}\n`;
         offerDescription += `• Giá trị: $${offerItem.value.toLocaleString()}\n\n`;
-        
+
         let requestDescription = "";
         if (trade.request) {
           const requestItem = CHARACTER_IDS[trade.request];
           if (trade.request.startsWith("CHAR_")) {
-            const rarity = CHARACTER_RATINGS.FIVE_STAR.includes(requestItem.name) ? "5★" : 
-                          CHARACTER_RATINGS.FOUR_STAR.includes(requestItem.name) ? "4★" : "3★";
+            const rarity = CHARACTER_RATINGS.FIVE_STAR.includes(
+              requestItem.name
+            )
+              ? "5★"
+              : CHARACTER_RATINGS.FOUR_STAR.includes(requestItem.name)
+              ? "4★"
+              : "3★";
             requestDescription = `• Nhân vật: ${requestItem.name} (${rarity})\n`;
           } else if (trade.request.startsWith("STONE_")) {
             requestDescription = `• Đá tiến hóa: ${requestItem.name}\n`;
@@ -3196,73 +4933,73 @@ module.exports = {
 
         api.sendMessage(
           `✅ TRAO ĐỔI THÀNH CÔNG! ✅\n` +
-          `━━━━━━━━━━━━━━━━━\n\n` +
-          `👤 ${fromUserName} đã nhận được:\n` +
-          (requestDescription || "• Không có\n\n") +
-          `👤 ${toUserName} đã nhận được:\n` +
-          offerDescription +
-          `🤝 Giao dịch hoàn tất!`,
-          threadID, 
+            `━━━━━━━━━━━━━━━━━\n\n` +
+            `👤 ${fromUserName} đã nhận được:\n` +
+            (requestDescription || "• Không có\n\n") +
+            `👤 ${toUserName} đã nhận được:\n` +
+            offerDescription +
+            `🤝 Giao dịch hoàn tất!`,
+          threadID,
           messageID
         );
-        
+
         api.sendMessage(
           `✅ GIAO DỊCH CỦA BẠN ĐÃ ĐƯỢC CHẤP NHẬN!\n\n` +
-          `👤 ${toUserName} đã chấp nhận đề nghị trao đổi của bạn\n\n` +
-          `📦 Bạn đã nhận: ${trade.request ? CHARACTER_IDS[trade.request].name : "Không có"}\n` + 
-          `📦 Bạn đã tặng: ${offerItem.name}\n\n` +
-          `⏱️ Thời gian: ${new Date().toLocaleString()}`,
+            `👤 ${toUserName} đã chấp nhận đề nghị trao đổi của bạn\n\n` +
+            `📦 Bạn đã nhận: ${
+              trade.request ? CHARACTER_IDS[trade.request].name : "Không có"
+            }\n` +
+            `📦 Bạn đã tặng: ${offerItem.name}\n\n` +
+            `⏱️ Thời gian: ${new Date().toLocaleString()}`,
           trade.from
         );
-        
+
         activeTrades.delete(tradeId);
         return;
       }
-      
+
       case "decline": {
         if (!target[1]) {
           return api.sendMessage(
-            "❌ Bạn phải cung cấp mã giao dịch!\n" + 
-            "Cách dùng: .gacha decline MÃ_GIAO_DỊCH",
-            threadID, 
+            "❌ Bạn phải cung cấp mã giao dịch!\n" +
+              "Cách dùng: .gacha decline MÃ_GIAO_DỊCH",
+            threadID,
             messageID
           );
         }
-        
+
         const shortId = target[1];
-        const tradeId = [...activeTrades.keys()].find(id => activeTrades.get(id).shortId === shortId);
-        
+        const tradeId = [...activeTrades.keys()].find(
+          (id) => activeTrades.get(id).shortId === shortId
+        );
+
         if (!tradeId) {
           return api.sendMessage(
             "❌ Không tìm thấy giao dịch với mã này hoặc giao dịch đã hết hạn!",
-            threadID, 
+            threadID,
             messageID
           );
         }
-        
+
         const trade = activeTrades.get(tradeId);
-        
+
         if (trade.to !== senderID && trade.from !== senderID) {
           return api.sendMessage(
             "❌ Bạn không liên quan đến giao dịch này!",
-            threadID, 
+            threadID,
             messageID
           );
         }
-        
-        api.sendMessage(
-          "❌ Giao dịch đã bị từ chối.",
-          threadID, 
-          messageID
-        );
-        
+
+        api.sendMessage("❌ Giao dịch đã bị từ chối.", threadID, messageID);
+
         if (senderID !== trade.from) {
           api.sendMessage(
             `❌ ${userName} đã từ chối đề nghị trao đổi của bạn.`,
             trade.from
           );
         }
-        
+
         activeTrades.delete(tradeId);
         return;
       }
@@ -3598,20 +5335,178 @@ module.exports = {
           }
         }
       }
-      case "bag":
-        case "inventory": {
-          verifyInventory(senderID);
-          
-          const autoConverted = autoConvertFragments(userData);
-          if (autoConverted) {
-            saveGachaData(gachaData);
+      case "const":
+      case "constellation": {
+        if (!target[1] || !target[2]) {
+          return api.sendMessage(
+            "🌟 MỞ KHÓA CHÒM SAO - CONSTELLATION 🌟\n" +
+              "───────────────\n\n" +
+              "Cách dùng: .gacha const #ID_NHÂN_VẬT #ID_STELLA\n" +
+              "Ví dụ: .gacha const #1234 #5678\n\n" +
+              "💡 Xem kho đồ: .gacha inv",
+            threadID,
+            messageID
+          );
+        }
+
+        const charInputId = target[1].replace(/[^\d]/g, "");
+        let foundCharId = null;
+        for (const id of userData.inventory) {
+          if (
+            id.startsWith("CHAR_") &&
+            (id.endsWith(charInputId) || id.includes(charInputId))
+          ) {
+            foundCharId = id;
+            break;
           }
-          
-          const characters = [];
-          const stones = [];
-          const fragments = [];
-          let totalValue = 0;
-          let page = 1;
+        }
+
+        const stellaInputId = target[2].replace(/[^\d]/g, "");
+        let foundStellaId = null;
+        for (const id of userData.inventory) {
+          if (
+            id.startsWith("STELLA_") &&
+            (id.endsWith(stellaInputId) || id.includes(stellaInputId))
+          ) {
+            foundStellaId = id;
+            break;
+          }
+        }
+
+        if (!foundCharId) {
+          return api.sendMessage(
+            `❌ Không tìm thấy nhân vật với ID #${charInputId}!\n\n💡 Dùng .gacha inv để xem ID nhân vật`,
+            threadID,
+            messageID
+          );
+        }
+
+        if (!foundStellaId) {
+          return api.sendMessage(
+            `❌ Không tìm thấy Stella Fortuna với ID #${stellaInputId}!\n\n💡 Dùng .gacha inv để xem ID Stella`,
+            threadID,
+            messageID
+          );
+        }
+
+        // Tiến hành unlock constellation
+        const result = unlockConstellation(foundCharId, foundStellaId);
+
+        if (!result.success) {
+          let errorMessage = "❌ Không thể mở khóa chòm sao!";
+
+          if (result.reason === "invalid_items") {
+            errorMessage = "❌ Vật phẩm không hợp lệ!";
+          } else if (result.reason === "not_constellation_item") {
+            errorMessage = "❌ Vật phẩm không phải Stella Fortuna!";
+          } else if (result.reason === "incompatible_stella") {
+            errorMessage =
+              "❌ Stella Fortuna không tương thích với nhân vật này!";
+          } else if (result.reason === "max_constellation") {
+            errorMessage = "❌ Nhân vật đã đạt cấp độ chòm sao tối đa (C6)!";
+          }
+
+          return api.sendMessage(errorMessage, threadID, messageID);
+        }
+
+        // Xóa Stella Fortuna khỏi inventory sau khi unlock thành công
+        userData.inventory = userData.inventory.filter((id) => id !== foundStellaId);
+        saveGachaData(gachaData);
+
+        const char = CHARACTER_IDS[foundCharId];
+        const constellationData = CHARACTER_CONSTELLATIONS[char.name];
+        const currentCLevel = result.newConstellation;
+        const constellationName = constellationData && constellationData[currentCLevel-1] ? 
+                                constellationData[currentCLevel-1].name : "Constellation " + currentCLevel;
+        
+        // Thông báo cá nhân
+        api.sendMessage(
+          "🌟 MỞ KHÓA CHÒM SAO THÀNH CÔNG! 🌟\n" +
+          "━━━━━━━━━━━━━━━━━━━━━\n\n" +
+          `👤 Nhân vật: ${result.character}\n` +
+          `🌠 Cấp độ chòm sao: C${result.newConstellation}\n` +
+          `✨ Hiệu ứng mới: ${result.effect}\n\n` +
+          `📊 CHỈ SỐ MỚI:\n` +
+          `⚔️ ATK: ${char.stats.atk}\n` +
+          `🛡️ DEF: ${char.stats.def}\n` +
+          `❤️ HP: ${char.stats.hp}\n\n` +
+          `💰 Giá trị mới: $${char.value.toLocaleString()}\n\n` +
+          `💡 Stella Fortuna đã được sử dụng.`,
+          threadID,
+          messageID
+        );
+        announceConstellationUnlock(
+          api, 
+          threadID, 
+          userName, 
+          char.name, 
+          result.newConstellation, 
+          constellationName,
+          result.effect
+        );
+        
+        return;
+        }
+      case "stellastats":
+      case "spity": {
+        if (
+          !userData.stellaPity ||
+          Object.keys(userData.stellaPity).length === 0
+        ) {
+          return api.sendMessage(
+            "🔮 THỐNG KÊ STELLA PITY 🔮\n" +
+              "───────────────\n\n" +
+              "❌ Bạn chưa có dữ liệu pity cho Stella Fortuna!\n\n" +
+              "💡 Pull thêm nhân vật 5★ để tích lũy pity",
+            threadID,
+            messageID
+          );
+        }
+
+        // Hiển thị thống kê pity cho từng nhân vật
+        let message = "🔮 THỐNG KÊ STELLA PITY 🔮\n";
+        message += "───────────────\n\n";
+        message += "👤 Nhân vật đang tích lũy:\n\n";
+
+        Object.entries(userData.stellaPity).forEach(([charName, pityCount]) => {
+          const isPremium = PREMIUM_FIVE_STARS.includes(charName);
+          const pityThreshold = isPremium
+            ? STELLA_PITY_THRESHOLD + 1
+            : STELLA_PITY_THRESHOLD;
+          const stellaChance = Math.min(
+            95,
+            pityCount * STELLA_PITY_BOOST_PER_FAIL
+          );
+
+          message += `• ${charName}: ${pityCount}/${pityThreshold} pulls\n`;
+          message += `  💫 Tỉ lệ Stella: ${stellaChance.toFixed(1)}%\n`;
+          if (pityCount >= pityThreshold) {
+            message += `  ✨ ĐẢM BẢO STELLA KHI PULL 5★ TIẾP THEO!\n`;
+          }
+          message += "\n";
+        });
+
+        message +=
+          "💡 Mỗi pull 5★ không được Stella sẽ tăng " +
+          `${STELLA_PITY_BOOST_PER_FAIL}% tỉ lệ ra Stella ở pull tiếp theo\n\n` +
+          `💎 Tích lũy đủ ${STELLA_PITY_THRESHOLD} pulls sẽ đảm bảo ra Stella`;
+
+        return api.sendMessage(message, threadID, messageID);
+      }
+      case "bag":
+      case "inventory": {
+        verifyInventory(senderID);
+
+        const autoConverted = autoConvertFragments(userData);
+        if (autoConverted) {
+          saveGachaData(gachaData);
+        }
+
+        const characters = [];
+        const stones = [];
+        const fragments = [];
+        let totalValue = 0;
+        let page = 1;
 
         if (target[1] && !isNaN(target[1])) {
           page = parseInt(target[1]);
@@ -3635,7 +5530,6 @@ module.exports = {
             );
           }
 
-          // Xử lý xóa theo độ hiếm
           if (
             target[2].toLowerCase().endsWith("s") &&
             target[3]?.toLowerCase() === "all"
@@ -3866,9 +5760,9 @@ module.exports = {
           4: characters.filter((char) => char.rarity === 4).length,
           3: characters.filter((char) => char.rarity === 3).length,
         };
-      
+
         const totalItems = characters.length + stones.length + fragments.length;
-      
+
         let inventoryMessage = "";
         if (autoConverted) {
           inventoryMessage = "✨ Đã tự động ghép mảnh thành đá tiến hóa!\n\n";
@@ -3886,7 +5780,7 @@ module.exports = {
           itemsPerPage: 20,
         });
 
-       return api.sendMessage(
+        return api.sendMessage(
           {
             body: inventoryMessage,
             attachment: fs.createReadStream(inventoryImage),
@@ -4442,122 +6336,131 @@ module.exports = {
       case "getchar": {
         try {
           const adminList = ["61573427362389", "100063985019422"];
-          
+
           const isAdmin = adminList.includes(senderID);
-          
+
           if (!isAdmin) {
-            return api.sendMessage("❌ Only admins can use this command!", threadID, messageID);
-          }
-          
-          if (!target[1]) {
             return api.sendMessage(
-              "🎮 ADMIN CHARACTER CREATOR 🎮\n" +
-              "───────────────\n\n" +
-              "Syntax: .gacha getchar <name> [options]\n\n" +
-              "Options:\n" +
-              "-s, --stars <1-12>: Set star level\n" +
-              "-l, --level <1-99>: Set level\n" +
-              "-a, --atk <value>: Set ATK\n" +
-              "-d, --def <value>: Set DEF\n" +
-              "-h, --hp <value>: Set HP\n" +
-              "-r, --rarity <3-5>: Set base rarity\n\n" +
-              "Example:\n.gacha getchar Hutao -s 10 -l 99 -a 9999",
-              threadID, 
-              messageID
-            );
-          }
-          
-          const charName = target[1];
-          
-          if (!CUSTOM_CHARACTER_DATA[charName]) {
-            return api.sendMessage(
-              "❌ Invalid character name!\n\n" +
-              "Character must exist in the game database.\n" +
-              "Use an existing character name.",
+              "❌ Only admins can use this command!",
               threadID,
               messageID
             );
           }
-          
+
+          if (!target[1]) {
+            return api.sendMessage(
+              "🎮 ADMIN CHARACTER CREATOR 🎮\n" +
+                "───────────────\n\n" +
+                "Syntax: .gacha getchar <name> [options]\n\n" +
+                "Options:\n" +
+                "-s, --stars <1-12>: Set star level\n" +
+                "-l, --level <1-99>: Set level\n" +
+                "-a, --atk <value>: Set ATK\n" +
+                "-d, --def <value>: Set DEF\n" +
+                "-h, --hp <value>: Set HP\n" +
+                "-r, --rarity <3-5>: Set base rarity\n\n" +
+                "Example:\n.gacha getchar Hutao -s 10 -l 99 -a 9999",
+              threadID,
+              messageID
+            );
+          }
+
+          const charName = target[1];
+
+          if (!CUSTOM_CHARACTER_DATA[charName]) {
+            return api.sendMessage(
+              "❌ Invalid character name!\n\n" +
+                "Character must exist in the game database.\n" +
+                "Use an existing character name.",
+              threadID,
+              messageID
+            );
+          }
+
           const options = {
             stars: 5,
             level: 1,
             atk: 500,
             def: 500,
             hp: 2000,
-            rarity: 5
+            rarity: 5,
           };
-          
+
           for (let i = 2; i < target.length; i += 2) {
             const flag = target[i];
             const value = parseInt(target[i + 1]);
-            
-            switch(flag) {
-              case '-s':
-              case '--stars':
+
+            switch (flag) {
+              case "-s":
+              case "--stars":
                 options.stars = Math.min(12, Math.max(1, value));
                 break;
-              case '-l': 
-              case '--level':
+              case "-l":
+              case "--level":
                 options.level = Math.min(99, Math.max(1, value));
                 break;
-              case '-a':
-              case '--atk':
+              case "-a":
+              case "--atk":
                 options.atk = value;
                 break;
-              case '-d':
-              case '--def':
+              case "-d":
+              case "--def":
                 options.def = value;
                 break;
-              case '-h':
-              case '--hp':
+              case "-h":
+              case "--hp":
                 options.hp = value;
                 break;
-              case '-r':
-              case '--rarity':
+              case "-r":
+              case "--rarity":
                 options.rarity = Math.min(5, Math.max(3, value));
                 break;
             }
           }
-          
+
           const charId = generateCharacterId();
-          
+
           CHARACTER_IDS[charId] = {
             type: "character",
             name: charName,
             obtainedAt: Date.now(),
             starLevel: options.stars,
             level: options.level,
-            value: options.rarity === 5 ? 1000000 : options.rarity === 4 ? 10000 : 1000,
+            value:
+              options.rarity === 5
+                ? 1000000
+                : options.rarity === 4
+                ? 10000
+                : 1000,
             stats: {
               atk: options.atk,
               def: options.def,
-              hp: options.hp
+              hp: options.hp,
             },
             isCustom: true,
-            createdBy: senderID
+            createdBy: senderID,
           };
-          
+
           if (!gachaData[senderID].inventory) {
             gachaData[senderID].inventory = [];
           }
           gachaData[senderID].inventory.push(charId);
-          
+
           saveCharacterDatabase();
           saveGachaData(gachaData);
-          
+
           return api.sendMessage(
             "✨ CUSTOM CHARACTER CREATED! ✨\n" +
-            "───────────────\n\n" +
-            `👤 Name: ${charName}\n` +
-            `⭐ Stars: ${options.stars}\n` +
-            `📊 Level: ${options.level}\n\n` +
-            "📈 Stats:\n" +
-            `⚔️ ATK: ${options.atk}\n` +
-            `🛡️ DEF: ${options.def}\n` + 
-            `❤️ HP: ${options.hp}\n\n` +
-            `🆔 ID: #${charId.slice(-4)}\n\n` +
-            "💡 Use .gacha card #ID to view character card",
+              "───────────────\n\n" +
+              `👤 Name: ${charName}\n` +
+              `⭐ Stars: ${options.stars}\n` +
+              `📊 Level: ${options.level}\n\n` +
+              "📈 Stats:\n" +
+              `⚔️ ATK: ${options.atk}\n` +
+              `🛡️ DEF: ${options.def}\n` +
+              `❤️ HP: ${options.hp}\n\n` +
+              `🆔 ID: #${charId.slice(-4)}\n\n` +
+              "💡 Use .gacha card #ID to view character card",
             threadID,
             messageID
           );

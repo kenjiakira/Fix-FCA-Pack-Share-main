@@ -122,21 +122,103 @@ module.exports = {
         }
       }
 
+      fs.writeFileSync(pathUser, userImg);
+      fs.writeFileSync(pathPartner, partnerImg);
+      
+      // Tải ảnh lên để sử dụng trong canvas
+      const img1 = await loadImage(pathUser);
+      const img2 = await loadImage(pathPartner);
+      
       const canvas = createCanvas(1024, 512);
       const ctx = canvas.getContext('2d');
 
-      const [img1, img2] = await Promise.all([
-        loadImage(pathUser),
-        loadImage(pathPartner)
-      ]);
+      const gradient = ctx.createLinearGradient(0, 0, 1024, 512);
+      gradient.addColorStop(0, '#ff6b6b');
+      gradient.addColorStop(0.5, '#ffd93d');
+      gradient.addColorStop(1, '#ff6b6b');
+      ctx.fillStyle = gradient;
+      ctx.fillRect(0, 0, 1024, 512);
 
-      ctx.drawImage(img1, 0, 0, 512, 512);
-      ctx.drawImage(img2, 512, 0, 512, 512);
+      // Draw avatars and names
+      ctx.save();
+      for (let i = 0; i < 2; i++) {
+        const x = i === 0 ? 256 : 768;
+        const name = i === 0 ? userName : partnerName;
+        
+        // Draw avatar circle
+        ctx.beginPath();
+        ctx.arc(x, 256, 200, 0, Math.PI * 2);
+        ctx.strokeStyle = 'white';
+        ctx.lineWidth = 10;
+        ctx.stroke();
+        ctx.clip();
+        const img = i === 0 ? img1 : img2;
+        ctx.drawImage(img, x - 200, 56, 400, 400);
+        ctx.restore();
+        ctx.save();
 
-      ctx.fillStyle = '#FF0000';
-      ctx.font = '100px Arial';
+        // Draw name below avatar
+        ctx.font = 'bold 32px Arial';
+        ctx.fillStyle = 'white';
+        ctx.textAlign = 'center';
+        ctx.textBaseline = 'top';
+        ctx.shadowColor = 'rgba(0, 0, 0, 0.7)';
+        ctx.shadowBlur = 5;
+        ctx.shadowOffsetX = 2;
+        ctx.shadowOffsetY = 2;
+        ctx.fillText(name, x, 470);
+        ctx.shadowColor = 'transparent';
+      }
+
+      // Draw heart shape
+      ctx.beginPath();
+      ctx.moveTo(512, 180);
+      ctx.bezierCurveTo(512, 160, 472, 120, 412, 120);
+      ctx.bezierCurveTo(332, 120, 332, 200, 332, 200);
+      ctx.bezierCurveTo(332, 260, 392, 320, 512, 368);
+      ctx.bezierCurveTo(632, 320, 692, 260, 692, 200);
+      ctx.bezierCurveTo(692, 200, 692, 120, 612, 120);
+      ctx.bezierCurveTo(552, 120, 512, 160, 512, 180);
+      ctx.strokeStyle = 'white';
+      ctx.lineWidth = 5;
+      ctx.stroke();
+
+      // Tạo clipping path dựa trên phần trăm tương thích
+      ctx.save();
+      ctx.beginPath();
+      ctx.rect(332, 120, (692 - 332) * (compatibility / 100), 368 - 120);
+      ctx.clip();
+
+      // Fill phần trái tim theo tỉ lệ - vẽ lại đường dẫn trái tim thay vì dùng Path2D
+      ctx.beginPath();
+      ctx.moveTo(512, 180);
+      ctx.bezierCurveTo(512, 160, 472, 120, 412, 120);
+      ctx.bezierCurveTo(332, 120, 332, 200, 332, 200);
+      ctx.bezierCurveTo(332, 260, 392, 320, 512, 368);
+      ctx.bezierCurveTo(632, 320, 692, 260, 692, 200);
+      ctx.bezierCurveTo(692, 200, 692, 120, 612, 120);
+      ctx.bezierCurveTo(552, 120, 512, 160, 512, 180);
+
+      // Tạo gradient và fill
+      const heartGradient = ctx.createLinearGradient(332, 120, 692, 368);
+      heartGradient.addColorStop(0, '#ff0844');
+      heartGradient.addColorStop(1, '#ff4563');
+      ctx.fillStyle = heartGradient;
+      ctx.fill();
+      ctx.restore();
+
+      ctx.font = 'bold 48px Arial';
+      ctx.fillStyle = 'white';
       ctx.textAlign = 'center';
-      ctx.fillText('❤️', 512, 256);
+      ctx.textBaseline = 'middle';
+      ctx.fillText(`${compatibility}%`, 512, 240);
+
+      ctx.shadowColor = 'rgba(0, 0, 0, 0.7)';
+      ctx.shadowBlur = 5;
+      ctx.shadowOffsetX = 2;
+      ctx.shadowOffsetY = 2;
+      ctx.fillText(`${compatibility}%`, 512, 240);
+      ctx.shadowColor = 'transparent';
 
       const mergedPath = path.join(__dirname, '../commands/cache/avatar/merged.jpg');
       const out = fs.createWriteStream(mergedPath);

@@ -130,19 +130,33 @@ module.exports = {
             }
         };
 
-        // Add canvas loading function
+        // Update the loadCanvas function
         const loadCanvas = (canvasName) => {
             try {
-                const canvasPath = require.resolve(path.join(__dirname, '../canvas', `${canvasName}.js`));
+                const canvasPath = path.join(__dirname, '../canvas', `${canvasName}.js`);
                 
                 if (!fs.existsSync(canvasPath)) {
                     console.log(chalk.red(`❌ Canvas "${canvasName}" không tồn tại!`));
                     return { success: false, error: 'NOT_FOUND' };
                 }
 
-                delete require.cache[canvasPath];
+                delete require.cache[require.resolve(canvasPath)];
                 const newCanvas = require(canvasPath);
-                
+
+                // Kiểm tra xem canvas có phải là module hợp lệ không 
+                if (typeof newCanvas !== 'object' && typeof newCanvas !== 'function') {
+                    return { success: false, error: 'INVALID_STRUCTURE', details: 'Canvas phải là một module hợp lệ' };
+                }
+
+                // Gán lại vào global.canvas nếu tồn tại
+                if (global.canvas) {
+                    for (const key in newCanvas) {
+                        if (typeof newCanvas[key] === 'function') {
+                            global.canvas[key] = newCanvas[key];
+                        }
+                    }
+                }
+
                 console.log(chalk.green(`✅ Đã tải lại canvas "${canvasName}"`));
                 return { success: true };
 
@@ -229,12 +243,18 @@ module.exports = {
                 return api.sendMessage("❌ Vui lòng nhập tên canvas cần tải lại!", event.threadID, event.messageID);
             }
 
+            // Initialize global.canvas if not exists
+            if (!global.canvas) {
+                global.canvas = {};
+            }
+
             const result = loadCanvas(target[1]);
             if (result.success) {
-                msg += `✅ Đã tải lại canvas "${target[1]}"\n`;
+                msg += `✅ Đã tải lại canvas "${target[1]}" thành công\n`;
             } else {
                 const errorMsg = {
                     'NOT_FOUND': 'Không tìm thấy canvas',
+                    'INVALID_STRUCTURE': 'Canvas không hợp lệ: ' + (result.details || ''),
                     'RUNTIME_ERROR': result.details
                 }[result.error];
                 
@@ -250,10 +270,16 @@ module.exports = {
                 
                 msg += `❌ Lỗi khi tải canvas ${target[1]}: ${errorMsg}${locationInfo}\n`;
             }
+
         } else if (target[0] === 'Allcanvas') {
             const canvasDir = path.join(__dirname, '../canvas');
             if (!fs.existsSync(canvasDir)) {
                 return api.sendMessage("❌ Thư mục canvas không tồn tại!", event.threadID, event.messageID);
+            }
+
+            // Initialize global.canvas if not exists
+            if (!global.canvas) {
+                global.canvas = {};
             }
 
             const canvasFiles = fs.readdirSync(canvasDir).filter(file => file.endsWith('.js'));
@@ -276,13 +302,14 @@ module.exports = {
                 }
             }
             
-            msg += `✅ Đã tải lại ${successCount} canvas thành công!\n`;
+            msg += `✅ Đã tải lại ${successCount}/${canvasFiles.length} canvas\n`;
             
             if (errorList.length > 0) {
-                msg += `❌ Lỗi ${errorList.length} canvas:\n`;
+                msg += `❌ ${errorList.length} canvas lỗi:\n`;
                 errorList.forEach(err => {
                     let errorMsg = {
                         'NOT_FOUND': 'Không tìm thấy file',
+                        'INVALID_STRUCTURE': 'Canvas không hợp lệ: ' + (err.details || ''),
                         'RUNTIME_ERROR': err.details
                     }[err.error];
                     

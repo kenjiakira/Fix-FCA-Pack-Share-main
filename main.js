@@ -1,4 +1,4 @@
-    const fs = require("fs");
+const fs = require("fs");
 const gradient = require("gradient-string");
 const cron = require('node-cron');
 const chalk = require("chalk");
@@ -177,7 +177,8 @@ const reloadModules = () => {
             try {
                 currentPort = await portfinder.getPortPromise({
                     port: 3001,
-                    stopPort: 4000
+                    stopPort: 4000,
+                    host: '0.0.0.0'
                 });
             } catch (err) {
                 console.error(boldText(gradient.passion("No available ports found!")));
@@ -186,6 +187,14 @@ const reloadModules = () => {
             }
         
             console.log(boldText(gradient.retro(`Starting bot on port ${currentPort}...`)));
+        
+            const { startDashboard } = require('./dashboard/server');
+            try {
+                const dashPort = await startDashboard();
+                console.log(boldText(gradient.cristal(`Dashboard running at http://localhost:${dashPort}`)));
+            } catch (error) {
+                console.error(boldText(gradient.passion(`Failed to start dashboard: ${error.message}`)));
+            }
         
             console.log(boldText(gradient.retro("Logging via AppState...")));
         

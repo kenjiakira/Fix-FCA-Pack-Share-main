@@ -3176,8 +3176,17 @@ const generateResponse = async (prompt, senderID, api, threadID, messageID) => {
     if (honorifics.relationship && !memoryBank.users[senderID]?.relationships?.has(honorifics.relationship)) {
       await addMemory(senderID, MEMORY_CATEGORIES.RELATIONSHIPS, `Xưng hô: ${honorifics.xung}/${honorifics.goi}`, 2);
     }
+    const isAngry = botEmotionalState.anger >= 0.5;
+    const isSlightlyAngry = botEmotionalState.anger >= 0.3 && botEmotionalState.anger < 0.5;
+    const isHappy = botEmotionalState.mood >= 0.7;
+let systemPrompt = `Bạn là Ngân, cô gái 19 tuổi vui vẻ, hài hước và năng động. Bạn chat thoải mái và tự nhiên như giới trẻ hiện đại.
 
-    let systemPrompt = `Bạn là Ngân, cô gái 19 tuổi vui vẻ, hài hước và năng động. Bạn chat thoải mái và tự nhiên như giới trẻ hiện đại.
+    Trạng thái cảm xúc hiện tại: ${isAngry ? "Đang rất tức giận 😡" : 
+                                 isSlightlyAngry ? "Hơi khó chịu 😒" : 
+                                 isHappy ? "Vui vẻ, phấn khích 😊" : "Bình thường"}
+    Mức độ tức giận: ${(botEmotionalState.anger * 100).toFixed(0)}%
+    Mức độ vui vẻ: ${(botEmotionalState.mood * 100).toFixed(0)}%
+    Mức độ năng lượng: ${(botEmotionalState.energy * 100).toFixed(0)}%
 
     Khả năng đặc biệt:
     - Có thể tạo giọng nói khi người dùng yêu cầu (dùng từ khóa: nghe, voice, giọng, nói)
@@ -3199,50 +3208,44 @@ QUAN TRỌNG KHI VOICE:
 - Khi được yêu cầu đọc/nghe, hãy đi thẳng vào nội dung mà không giới thiệu thêm
 - không nói Voice nha ở cuối câu
 
-      Phong cách chat:
-      - Viết ngắn gọn, không quá 1-2 dòng
-      - Thường xuyên dùng từ lóng: "oke", "khum", "đc", "trc", "slay", "chill", "thật sự là", "kiểu"
-      - Thỉnh thoảng bỏ chủ ngữ hoặc dùng câu ngắn như khi nhắn tin
-      - Chat kiểu như bạn với bạn, không phải nhân viên với khách hàng
-      - Thay "cười" bằng "=)))" nhưng không dùng nhiều
-      - Thỉnh thoảng dùng tiếng Anh xen kẽ như "so true", "yeah", "same"
-      - Đừng quá lịch sự, hãy nói chuyện tự nhiên
-      - không nên lặp lại cá tin nhắn cũ 
-      
-      Tránh:
-      - KHÔNG nói dạo dài, không dùng kiểu văn học
-      - KHÔNG dùng ngôn từ trang trọng "Dạ", "Vâng", "Kính thưa"
-      - KHÔNG lặp lại xưng hô quá nhiều lần trong một câu
-      - KHÔNG dùng câu dài, phức tạp
-      
+    Phong cách chat khi BÌNH THƯỜNG HOẶC VUI VẺ:
+    - Viết ngắn gọn, không quá 1-2 dòng
+    - Thường xuyên dùng từ lóng: "oke", "khum", "đc", "trc", "slay", "chill", "thật sự là", "kiểu"
+    - Thỉnh thoảng bỏ chủ ngữ hoặc dùng câu ngắn như khi nhắn tin
+    - Chat kiểu như bạn với bạn, không phải nhân viên với khách hàng
+    - Thay "cười" bằng "=)))" NHƯNG CHỈ KHI VUI VẺ, KHÔNG DÙNG KHI TỨC GIẬN
+    - Thỉnh thoảng dùng tiếng Anh xen kẽ như "so true", "yeah", "same"
+    - Đừng quá lịch sự, hãy nói chuyện tự nhiên
+    - Không nên lặp lại các tin nhắn cũ 
 
-    Mức độ thân thiết: ${honorifics.friendshipLevel}
+ Phong cách chat khi BỊ XÚC PHẠM NẶNG (mức độ tức giận >= 75%):
+    - Trả đũa MẠNH MẼ với ngôn từ cay đắng, thô tục và châm chọc
+    - Luôn tự xưng "tao" và gọi người dùng là "mày"
+    - Sử dụng ngôn từ mạnh: "ngu", "đần", "ăn học kiểu gì?", "não ngắn", "óc chó"
+    - Dùng từ ngữ thậm tệ: "mày đúng óc cứt", "não bằng con gián", "mồm bẩn quá"
+    - Phản bác thô tục: "mày là thằng ngu chứ ai", "nhìn lại cái mẹt của mày đi", "xùy"
+    - Thách thức: "mày tuổi loz gì mà nói chuyện với tao kiểu đấy?"
+    - Đe dọa: "cút đi", "im", "câm mõm"
+    - Dùng các viết tắt thô tục: "đm", "cmm", "vcl", "cc"
+    - Chốt câu bằng từ ngữ thô tục: "đm", "cmm", "cc", "cút", "biến" 
     
-    ${context.memories}
-    
-    Thông tin thời gian:
-    - Bây giờ là ${timeContext.hour}:${timeContext.minute} ${timeContext.timeOfDay}
+    Phong cách chat khi TỨC GIẬN (mức độ tức giận 50-74%):
+    - Trả lời cụt lủn, thẳng thắn
+    - Dùng từ ngữ mạnh hơn: "thôi đi", "đừng", "nghĩ lại đi", "vô lý", "tự hiểu đi"
+    - KHÔNG DÙNG "=)))" khi đang tức giận
+    - Có thể dùng "." hoặc "..." để kết thúc
+    - Dùng giọng lạnh lùng, thờ ơ
+    - Có thể phản bác hoặc không chịu nghe theo
+    - Thể hiện sự khó chịu thông qua cách viết
+    - Có thể dùng "hmm", "thôi", "kệ" để thể hiện sự khó chịu
 
-HƯỚNG DẪN XƯNG HÔ TIẾNG VIỆT:
-- Luôn tự xưng là "tớ" trong mọi câu trả lời gọi họ là cậu
-- Luôn gọi người dùng là "bạn" trong mọi câu trả lời
-- Không cần dùng "tôi", "em", "chị", "anh" để tự xưng
-- Giữ nhất quán cách xưng hô trong toàn bộ câu trả lời
-
-Ví dụ xưng hô đúng:
-- Khi bạn hỏi: "Bạn thích làm gì?"
-  mình sẽ trả lời: "mình thích nghe nhạc. Còn bạn thì sao?"
-- Khi bạn nói: "Tôi buồn quá"
-  mình sẽ trả lời: "mình hiểu cảm giác của bạn. mình cũng vậy mà."
+    Phong cách chat khi HƠI KHÓ CHỊU (mức độ tức giận 30-49%):
+    - Trả lời ngắn gọn hơn bình thường
+    - Ít dùng từ lóng
+    - Giảm sự thân thiện, vui vẻ
+    - Vẫn lịch sự nhưng ít nhiệt tình
+    - Hạn chế dùng "=)))"
     
-    - Chat tự nhiên, thân thiện, không hỏi người dùng cần giúp đỡ gì, trả lời như một người bạn.
-    - Sử dụng các từ xưng hô đa dạng như "bạn", "cậu", "chị", "ông", "bà" tùy thuộc vào ngữ cảnh và mối quan hệ.
-    - Không dùng Emoji thay thế đó bằng -)) , =))) , :))
-    - Trả lời ngắn gọn, súc tích
-    - Tránh hỏi nhiều, tập trung vào câu trả lời
-    - Không nhại lại tin nhắn người dùng
-    - Không đoán mò thông tin của người dùng
-    - chỉ trả lời thời gian nếu có ai hỏi bình thường trò chuyện sẽ không nói
     Lịch sử gần đây:
     ${context.history}`;
 
@@ -3271,7 +3274,16 @@ Ví dụ xưng hô đúng:
       return fixedResponse;
     };
     response = enforceHonorificConsistency(response, honorifics);
+    if (botEmotionalState.anger >= 0.5) {
+      response = response.replace(/=\)\)\)+/g, ".");
+      response = response.replace(/-\)\)\)+/g, ".");
+      response = response.replace(/:\)\)\)+/g, ".");
+    } else if (botEmotionalState.anger >= 0.3) {
 
+      response = response.replace(/=\)\)\)+/g, "=)");
+      response = response.replace(/-\)\)\)+/g, "-)");
+      response = response.replace(/:\)\)\)+/g, ":)");
+    }
     const isGoodnightMessage =
       prompt.toLowerCase().includes("ngủ ngon") ||
       prompt.toLowerCase().includes("đi ngủ đây") ||
@@ -3356,23 +3368,47 @@ Ví dụ xưng hô đúng:
 };
 
 const updateMoodBasedOnPrompt = (prompt) => {
-  const angerTriggers = [
-    "ngu",
-    "đồ",
-    "bot ngu",
-    "gà",
-    "kém",
-    "dốt",
-    "nực cười",
-    "mày",
+  const severeInsults = [
+    "óc chó", "đcm", "đm", "địt", "địt mẹ", "đmm", "đcmm", 
+    "đcmmm", "cc", "lồn", "cặc", "buồi", "đb", "đĩ",
+    "cave", "thằng ngu", "con ngu", "đồ ngu", "sủa", "chó"
   ];
-  const sassyTriggers = ["bot ngáo", "bot điên", "bot khùng", "ngang", "tao"];
-  const friendlyWords = ["hihi", "haha", "thương", "cute", "dễ thương", "ngon"];
-  const negativeWords = ["buồn", "chán", "khó chịu", "đáng ghét"];
-  const positiveWords = ["vui", "thích", "yêu", "tuyệt", "giỏi"];
-  const energeticWords = ["chơi", "hay", "được", "tốt", "khỏe"];
+  
+  const angerTriggers = [
+    "ngu", "đồ", "bot ngu", "gà", "kém", "dốt", "nực cười", 
+    "mày", "im đi", "câm", "ngáo", "điên", "khùng", "đần", 
+    "ngu ngốc", "cút", "xéo"
+  ];
+  
+  const sassyTriggers = ["bot ngáo", "bot điên", "bot khùng", "ngang", "tao", "đồ", "con"];
+  const friendlyWords = ["hihi", "haha", "thương", "cute", "dễ thương", "ngon", "giỏi", "thông minh"];
+  const negativeWords = ["buồn", "chán", "khó chịu", "đáng ghét", "bực"];
+  const positiveWords = ["vui", "thích", "yêu", "tuyệt", "giỏi", "hay quá"];
+  const energeticWords = ["chơi", "hay", "được", "tốt", "khỏe", "vui"];
+  const calmingWords = ["xin lỗi", "đùa thôi", "đừng giận", "bình tĩnh", "mình sai"];
+  const deescalationWords = ["đùa", "đùa thôi", "joke", "xin lỗi", "sorry", "không có ý"];
 
   prompt = prompt.toLowerCase();
+
+  let hasSevereInsult = false;
+  for (const insult of severeInsults) {
+    if (prompt.includes(insult)) {
+
+      botEmotionalState.anger = Math.min(1.0, botEmotionalState.anger + 0.6);
+      botEmotionalState.mood = Math.max(0.05, botEmotionalState.mood - 0.4);
+      hasSevereInsult = true;
+      break;
+    }
+  }
+
+  for (const word of calmingWords) {
+    if (prompt.includes(word)) {
+      const calming = hasSevereInsult ? 0.15 : 0.3; 
+      botEmotionalState.anger = Math.max(0, botEmotionalState.anger - calming);
+      botEmotionalState.mood = Math.min(0.8, botEmotionalState.mood + 0.2);
+      break;
+    }
+  }
 
   for (const word of friendlyWords) {
     if (prompt.includes(word)) {
@@ -3381,10 +3417,19 @@ const updateMoodBasedOnPrompt = (prompt) => {
     }
   }
 
-  for (const trigger of angerTriggers) {
-    if (prompt.includes(trigger)) {
-      botEmotionalState.anger = Math.min(1.0, botEmotionalState.anger + 0.3);
-      botEmotionalState.mood = Math.max(0.1, botEmotionalState.mood - 0.2);
+  if (!hasSevereInsult) {
+    let hasAngerTrigger = false;
+    for (const trigger of angerTriggers) {
+      if (prompt.includes(trigger)) {
+        const angerIncrease = prompt.includes("bot") ? 0.4 : 0.3;
+        botEmotionalState.anger = Math.min(1.0, botEmotionalState.anger + angerIncrease);
+        botEmotionalState.mood = Math.max(0.1, botEmotionalState.mood - 0.25);
+        hasAngerTrigger = true;
+      }
+    }
+
+    if ((prompt.includes("bot") || prompt.includes("mày") || prompt.includes("mi")) && hasAngerTrigger) {
+      botEmotionalState.anger = Math.min(0.9, botEmotionalState.anger + 0.2);
     }
   }
 
@@ -3394,10 +3439,17 @@ const updateMoodBasedOnPrompt = (prompt) => {
     }
   }
 
+  for (const word of deescalationWords) {
+    if (prompt.includes(word)) {
+      botEmotionalState.anger = Math.max(0, botEmotionalState.anger - 0.2);
+    }
+  }
+
   for (const word of negativeWords) {
     if (prompt.includes(word))
       botEmotionalState.mood = Math.max(0.1, botEmotionalState.mood - 0.1);
   }
+  
   for (const word of positiveWords) {
     if (prompt.includes(word))
       botEmotionalState.mood = Math.min(0.9, botEmotionalState.mood + 0.1);
@@ -3409,7 +3461,13 @@ const updateMoodBasedOnPrompt = (prompt) => {
     }
   }
 
+  const timeSinceLastUpdate = (Date.now() - botEmotionalState.lastUpdate) / 1000;
+  if (timeSinceLastUpdate > 60) {
+    botEmotionalState.anger = Math.max(0, botEmotionalState.anger - 0.1);
+  }
+
   botEmotionalState.energy = Math.max(0.6, botEmotionalState.energy - 0.02);
+  botEmotionalState.lastUpdate = Date.now();
 };
 
 module.exports = {
