@@ -517,9 +517,9 @@
     "happy": 100,
     "energy": 100,
     "level": 6,
-    "exp": 210,
+    "exp": 235,
     "power": 300,
-    "lastFed": 1741852991373,
+    "lastFed": 1741882503750,
     "lastPlay": 1741852983121,
     "skills": {
       "HUNT": {
@@ -545,12 +545,12 @@
     "quests": {
       "daily": {
         "playCount": 41,
-        "feedCount": 56
+        "feedCount": 57
       }
     },
     "lastSkill": {
-      "HUNT": 1741850865059,
-      "CHARM": 1741853006084
+      "HUNT": 1741879070026,
+      "CHARM": 1741882492357
     },
     "lastTrain": 1741793187209
   },

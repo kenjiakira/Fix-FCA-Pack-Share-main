@@ -60,6 +60,7 @@
             display: flex;
             flex: 1;
             position: relative;
+            height: calc(100vh - 70px); /* Subtract header height */
         }
 
         .sidebar {
@@ -69,6 +70,7 @@
             display: flex;
             flex-direction: column;
             transition: transform 0.3s ease, left 0.3s ease;
+            overflow-y: auto;
         }
 
         .sidebar-toggle {
@@ -140,6 +142,9 @@
             padding: 1rem;
             display: flex;
             flex-direction: column;
+            overflow: hidden;
+            position: relative;
+            height: 100%;
         }
 
         .status-bar {
@@ -180,6 +185,7 @@
             display: flex;
             flex-direction: column;
             overflow: hidden;
+            position: relative;
         }
 
         .console-header {
@@ -193,6 +199,8 @@
             overflow-x: auto;
             -webkit-overflow-scrolling: touch;
             scrollbar-width: none; /* Firefox */
+            position: relative;
+            z-index: 5;
         }
 
         .console-header::-webkit-scrollbar {
@@ -225,7 +233,7 @@
         .console-actions button {
             background-color: transparent;
             border: none;
-            color: var(--text-light);
+            color: var (--text-light);
             cursor: pointer;
             padding: 0.5rem 0.5rem;
             margin-left: 0.25rem;
@@ -238,10 +246,21 @@
             background-color: rgba(255, 255, 255, 0.1);
         }
 
-        .console-output {
+        .console-output-wrapper {
             flex: 1;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .console-output {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
             padding: 1rem;
-            overflow-y: auto;
+            overflow-y: scroll;
+            overflow-x: hidden;
             font-family: 'Roboto Mono', monospace;
             background-color: rgba(0, 0, 0, 0.3);
             -webkit-overflow-scrolling: touch;
@@ -282,6 +301,57 @@
             margin-bottom: 0.25rem;
         }
 
+        .scroll-to-bottom {
+            position: absolute;
+            right: 20px;
+            bottom: 20px;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background-color: var(--accent);
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.3);
+            z-index: 10;
+            opacity: 0;
+            transform: translateY(20px);
+            transition: opacity 0.3s ease, transform 0.3s ease;
+            font-size: 1.2rem;
+        }
+
+        .scroll-to-bottom.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .scroll-to-bottom:hover {
+            background-color: var(--text);
+        }
+
+        .new-messages-indicator {
+            position: absolute;
+            bottom: 70px;
+            right: 20px;
+            background-color: var(--text);
+            color: white;
+            padding: 5px 10px;
+            border-radius: 15px;
+            font-size: 0.8rem;
+            opacity: 0;
+            transform: translateY(10px);
+            transition: opacity 0.3s, transform 0.3s;
+            pointer-events: none;
+            z-index: 10;
+        }
+
+        .new-messages-indicator.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
         @keyframes fadeIn {
             from {
                 opacity: 0;
@@ -296,6 +366,7 @@
         @media (max-width: 768px) {
             .dashboard {
                 flex-direction: column;
+                height: calc(100vh - 60px); /* Smaller header for mobile */
             }
             
             .sidebar {
@@ -336,6 +407,7 @@
             .main-content {
                 width: 100%;
                 padding: 0.75rem;
+                height: 100%;
             }
             
             .console-header {
@@ -374,6 +446,10 @@
 
             header p {
                 font-size: 0.9rem;
+            }
+
+            header {
+                padding: 0.75rem;
             }
         }
 
@@ -415,6 +491,66 @@
 
         ::-webkit-scrollbar-thumb:hover {
             background: var(--text);
+        }
+
+        /* Discord specific styles */
+        .log-discord_message,
+        .log-discord_attachment,
+        .log-discord_event {
+            background-color: rgba(114, 137, 218, 0.1);
+            border-left-color: #7289DA !important;
+        }
+        
+        .platform-icon {
+            font-size: 1.1rem;
+            margin-right: 5px;
+        }
+        
+        .platform-discord {
+            color: #7289DA;
+        }
+        
+        .platform-messenger {
+            color: #0084FF;
+        }
+        
+        /* Enhanced mobile styles */
+        @media (max-width: 768px) {
+            /* ...existing styles... */
+            
+            .console-tab {
+                padding: 0.5rem 0.4rem;
+                font-size: 0.85rem;
+            }
+            
+            .platform-tab {
+                display: flex;
+                align-items: center;
+                justify-content: center;
+            }
+            
+            .platform-icon-only {
+                display: none;
+            }
+            
+            .platform-text {
+                display: inline;
+            }
+        }
+        
+        @media (max-width: 480px) {
+            .platform-icon-only {
+                display: inline;
+            }
+            
+            .platform-text {
+                display: none;
+            }
+            
+            .console-tab {
+                padding: 0.5rem 0.35rem;
+                font-size: 0.8rem;
+            }
         }
     </style>
 </head>
@@ -473,7 +609,16 @@
                 <div class="console-header">
                     <div class="console-tabs">
                         <div class="console-tab active" data-filter="all">All Logs</div>
-                        <div class="console-tab" data-filter="chat">Chat</div>
+                        <div class="console-tab platform-tab" data-filter="messenger">
+                            <span class="platform-icon platform-messenger">💬</span>
+                            <span class="platform-text">Messenger</span>
+                            <span class="platform-icon-only">FB</span>
+                        </div>
+                        <div class="console-tab platform-tab" data-filter="discord">
+                            <span class="platform-icon platform-discord">🎮</span>
+                            <span class="platform-text">Discord</span>
+                            <span class="platform-icon-only">DC</span>
+                        </div>
                         <div class="console-tab" data-filter="command">Commands</div>
                         <div class="console-tab" data-filter="notification">Notifications</div>
                         <div class="console-tab" data-filter="error">Errors</div>
@@ -483,11 +628,15 @@
                         <button id="toggle-autoscroll" title="Toggle auto-scroll">Auto-scroll</button>
                     </div>
                 </div>
-                <div class="console-output" id="console-output">
-                    <div class="log-entry log-notification">
-                        <div class="timestamp">System @ 00:00:00</div>
-                        Welcome to AKI BOT Dashboard! Connecting to server...
+                <div class="console-output-wrapper">
+                    <div class="console-output" id="console-output">
+                        <div class="log-entry log-notification">
+                            <div class="timestamp">System @ 00:00:00</div>
+                            Welcome to AKI BOT Dashboard! Connecting to server...
+                        </div>
                     </div>
+                    <div class="new-messages-indicator" id="new-messages-indicator">New logs</div>
+                    <div class="scroll-to-bottom" id="scroll-to-bottom" title="Scroll to bottom">↓</div>
                 </div>
             </div>
         </main>
@@ -500,6 +649,9 @@
         let currentFilter = 'all';
         let startTime = new Date();
         let touchStartX = null;
+        let isScrolledToBottom = true;
+        let newMessagesCount = 0;
+        let scrollCheckTimeout = null;
         
         // DOM Elements
         const consoleOutput = document.getElementById('console-output');
@@ -517,6 +669,58 @@
         const sidebar = document.getElementById('sidebar');
         const overlay = document.getElementById('overlay');
         const navLinks = document.querySelectorAll('.nav-link');
+        const scrollToBottomBtn = document.getElementById('scroll-to-bottom');
+        const newMessagesIndicator = document.getElementById('new-messages-indicator');
+        
+        // Check if scrolled to bottom
+        function checkIfScrolledToBottom() {
+            // Allow small buffer (2px) for rounding errors
+            const isAtBottom = consoleOutput.scrollHeight - consoleOutput.clientHeight - consoleOutput.scrollTop < 2;
+            
+            if (isAtBottom !== isScrolledToBottom) {
+                isScrolledToBottom = isAtBottom;
+                
+                if (isScrolledToBottom) {
+                    scrollToBottomBtn.classList.remove('visible');
+                    newMessagesIndicator.classList.remove('visible');
+                    newMessagesCount = 0;
+                } else {
+                    scrollToBottomBtn.classList.add('visible');
+                }
+            }
+        }
+        
+        // Debounced scroll check to improve performance
+        function debouncedScrollCheck() {
+            if (scrollCheckTimeout) {
+                clearTimeout(scrollCheckTimeout);
+            }
+            scrollCheckTimeout = setTimeout(checkIfScrolledToBottom, 100);
+        }
+        
+        // Listen for scroll events
+        consoleOutput.addEventListener('scroll', debouncedScrollCheck);
+        
+        // Force scroll to bottom
+        function scrollToBottom(smooth = false) {
+            if (smooth) {
+                consoleOutput.scrollTo({
+                    top: consoleOutput.scrollHeight,
+                    behavior: 'smooth'
+                });
+            } else {
+                consoleOutput.scrollTop = consoleOutput.scrollHeight;
+            }
+            isScrolledToBottom = true;
+            scrollToBottomBtn.classList.remove('visible');
+            newMessagesIndicator.classList.remove('visible');
+            newMessagesCount = 0;
+        }
+        
+        // Scroll to bottom button click
+        scrollToBottomBtn.addEventListener('click', () => {
+            scrollToBottom(true);
+        });
         
         // Mobile sidebar toggle
         sidebarToggle.addEventListener('click', toggleSidebar);
@@ -593,7 +797,13 @@
             
             const timestamp = document.createElement('div');
             timestamp.className = 'timestamp';
-            timestamp.textContent = `${new Date().toLocaleTimeString()}`;
+            
+            // Add platform icon to timestamp
+            if (type.startsWith('discord_')) {
+                timestamp.innerHTML = `<span class="platform-icon platform-discord">🎮</span> ${new Date().toLocaleTimeString()}`;
+            } else {
+                timestamp.textContent = `${new Date().toLocaleTimeString()}`;
+            }
             
             entry.appendChild(timestamp);
             entry.appendChild(document.createTextNode(message));
@@ -606,13 +816,28 @@
                 consoleOutput.removeChild(consoleOutput.firstChild);
             }
             
-            if (autoScroll) {
-                consoleOutput.scrollTop = consoleOutput.scrollHeight;
-            }
-            
             // Apply filter
-            if (currentFilter !== 'all' && currentFilter !== type) {
-                entry.style.display = 'none';
+            if (currentFilter !== 'all') {
+                if (currentFilter === 'discord' && !type.startsWith('discord_')) {
+                    entry.style.display = 'none';
+                } else if (currentFilter === 'messenger' && type.startsWith('discord_')) {
+                    entry.style.display = 'none';
+                } else if (!type.startsWith('discord_') && currentFilter !== type) {
+                    entry.style.display = 'none';
+                }
+            }
+
+            // Check if we should auto-scroll
+            if (autoScroll && isScrolledToBottom) {
+                // Use requestAnimationFrame to ensure DOM has updated
+                requestAnimationFrame(() => {
+                    scrollToBottom();
+                });
+            } else if (!isScrolledToBottom) {
+                // Increment message counter and show indicator
+                newMessagesCount++;
+                newMessagesIndicator.textContent = `${newMessagesCount} new log${newMessagesCount > 1 ? 's' : ''}`;
+                newMessagesIndicator.classList.add('visible');
             }
         }
         
@@ -667,6 +892,10 @@
             autoScroll = !autoScroll;
             toggleAutoscrollBtn.style.backgroundColor = autoScroll ? 'rgba(255, 255, 255, 0.2)' : 'transparent';
             addLogEntry(`Auto-scroll ${autoScroll ? 'enabled' : 'disabled'}`, 'notification');
+            
+            if (autoScroll) {
+                scrollToBottom(true);
+            }
         });
         
         consoleTabs.forEach(tab => {
@@ -682,7 +911,25 @@
                 entries.forEach(entry => {
                     if (currentFilter === 'all') {
                         entry.style.display = 'block';
+                    } else if (currentFilter === 'discord') {
+                        // Show all Discord related logs
+                        const isDiscord = entry.classList.contains('log-discord_message') || 
+                                        entry.classList.contains('log-discord_attachment') || 
+                                        entry.classList.contains('log-discord_event');
+                        entry.style.display = isDiscord ? 'block' : 'none';
+                    } else if (currentFilter === 'messenger') {
+                        // Show all non-Discord logs (except system notifications and errors)
+                        const isDiscord = entry.classList.contains('log-discord_message') || 
+                                        entry.classList.contains('log-discord_attachment') || 
+                                        entry.classList.contains('log-discord_event');
+                        const isSystemOrError = entry.classList.contains('log-notification') || 
+                                              entry.classList.contains('log-error');
+                                              
+                        // Show if it's not Discord and not a system message (unless it's related to Messenger)
+                        const isMessengerRelated = !isDiscord && (!isSystemOrError || entry.textContent.toLowerCase().includes('messenger'));
+                        entry.style.display = isMessengerRelated ? 'block' : 'none';
                     } else {
+                        // Original filters (command, notification, error)
                         const entryType = Array.from(entry.classList)
                             .find(cls => cls.startsWith('log-'))
                             ?.replace('log-', '');
@@ -693,6 +940,11 @@
                 
                 // Scroll to make active tab visible (for mobile)
                 scrollToActiveTab();
+                
+                // Restore scroll position if needed
+                if (isScrolledToBottom) {
+                    scrollToBottom();
+                }
             });
         });
         
@@ -700,19 +952,43 @@
         window.addEventListener('orientationchange', () => {
             setTimeout(() => {
                 scrollToActiveTab();
+                if (isScrolledToBottom) {
+                    scrollToBottom();
+                }
             }, 300);
         });
         
-        // Update uptime every second
-        setInterval(updateUptime, 1000);
+        // Handle resize
+        window.addEventListener('resize', () => {
+            if (isScrolledToBottom) {
+                scrollToBottom();
+            }
+        });
         
-        // Initial setup
-        toggleAutoscrollBtn.style.backgroundColor = autoScroll ? 'rgba(255, 255, 255, 0.2)' : 'transparent';
-        
-        // Check if we need to activate mobile view on load
-        if (window.innerWidth <= 768) {
-            sidebar.classList.remove('open');
+        // Initialize everything
+        function initialize() {
+            // Update uptime every second
+            setInterval(updateUptime, 1000);
+            
+            // Initial setup
+            toggleAutoscrollBtn.style.backgroundColor = autoScroll ? 'rgba(255, 255, 255, 0.2)' : 'transparent';
+            
+            // Make sure we're scrolled to bottom initially
+            setTimeout(() => {
+                scrollToBottom();
+                checkIfScrolledToBottom();
+            }, 200);
+            
+            // Check if we need to activate mobile view on load
+            if (window.innerWidth <= 768) {
+                sidebar.classList.remove('open');
+            }
+            
+            scrollToActiveTab();
         }
+        
+        // Start the app
+        initialize();
     </script>
 </body>
 </html>

@@ -507,5 +507,59 @@
     },
     "lastCatch": null,
     "friendship": {}
+  },
+  "100053857386814": {
+    "name": "loz",
+    "pokemons": [
+      {
+        "id": 620,
+        "name": "mienshao",
+        "level": 2,
+        "hp": 65,
+        "maxHp": 65,
+        "attack": 125,
+        "defense": 60,
+        "types": [
+          "fighting"
+        ],
+        "moves": [
+          "pound",
+          "double-slap",
+          "mega-punch",
+          "swords-dance"
+        ],
+        "image": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/620.png",
+        "shiny": true,
+        "exp": 0,
+        "expNeeded": 100,
+        "catchDate": 1741882644579,
+        "wins": 0,
+        "battles": 0,
+        "ballCaught": "Ultra Ball"
+      }
+    ],
+    "activePokemon": 0,
+    "battles": 0,
+    "wins": 0,
+    "inventory": {
+      "pokeball": 10,
+      "greatball": 5,
+      "ultraball": 1,
+      "masterball": 0,
+      "safariball": 0,
+      "fire-stone": 0,
+      "water-stone": 0,
+      "thunder-stone": 0,
+      "leaf-stone": 0,
+      "ice-stone": 0,
+      "moon-stone": 0,
+      "sun-stone": 0,
+      "shiny-stone": 0,
+      "dusk-stone": 0,
+      "dawn-stone": 0,
+      "oval-stone": 0
+    },
+    "lastCatch": null,
+    "friendship": {}
   }
 }

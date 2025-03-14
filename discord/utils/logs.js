@@ -37,7 +37,7 @@ const logDiscordMessage = async (message) => {
         if (io) {
             io.emit('botLog', {
                 output: logMessage,
-                type: 'discord',
+                type: 'discord_message',  // Changed from 'discord' to 'discord_message'
                 color: '#7289DA' 
             });
         }

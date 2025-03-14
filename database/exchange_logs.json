@@ -38,6 +38,58 @@
       "createdAt": "2025-02-28T05:50:36.245Z",
       "expiresAt": "2025-03-01T05:50:36.245Z",
       "claimedAt": "2025-02-28T05:51:23.650Z"
+    },
+    {
+      "transactionId": "EX1741857742025f1iec",
+      "timestamp": "2025-03-13T09:22:22.025Z",
+      "discordId": "726340876313296998",
+      "discordUsername": ".kenjiakira",
+      "messengerId": "61573427362389",
+      "nitroAmount": 1000,
+      "xuAmount": 10,
+      "status": "completed",
+      "createdAt": "2025-03-13T09:22:22.025Z",
+      "expiresAt": "2025-03-14T09:22:22.025Z",
+      "claimedAt": "2025-03-13T09:22:52.906Z"
+    },
+    {
+      "transactionId": "EX1741857807207pu8lz",
+      "timestamp": "2025-03-13T09:23:27.207Z",
+      "discordId": "726340876313296998",
+      "discordUsername": ".kenjiakira",
+      "messengerId": "61573427362389",
+      "nitroAmount": 98868,
+      "xuAmount": 988.6800000000001,
+      "status": "completed",
+      "createdAt": "2025-03-13T09:23:27.207Z",
+      "expiresAt": "2025-03-14T09:23:27.207Z",
+      "claimedAt": "2025-03-13T09:23:44.519Z"
+    },
+    {
+      "transactionId": "EX1741857896620ow5b0",
+      "timestamp": "2025-03-13T09:24:56.621Z",
+      "discordId": "1300084555192991754",
+      "discordUsername": "_whoislouis",
+      "messengerId": "100058320200877",
+      "nitroAmount": 5000000000,
+      "xuAmount": 50000000,
+      "status": "completed",
+      "createdAt": "2025-03-13T09:24:56.621Z",
+      "expiresAt": "2025-03-14T09:24:56.621Z",
+      "claimedAt": "2025-03-13T09:25:28.388Z"
+    },
+    {
+      "transactionId": "EX1741858108746ulrpo",
+      "timestamp": "2025-03-13T09:28:28.746Z",
+      "discordId": "1300084555192991754",
+      "discordUsername": "_whoislouis",
+      "messengerId": "100058320200877",
+      "nitroAmount": 25000000000,
+      "xuAmount": 250000000,
+      "status": "completed",
+      "createdAt": "2025-03-13T09:28:28.746Z",
+      "expiresAt": "2025-03-14T09:28:28.746Z",
+      "claimedAt": "2025-03-13T09:29:25.461Z"
     }
   ]
 }

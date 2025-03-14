@@ -399,17 +399,22 @@ async function createInventoryImage(options) {
 
     // Draw EXP items section
     if (expItems.length > 0) {
+      const expItemSectionHeight =
+        itemHeight * Math.ceil(expItems.length / 5) + 50;
+      const sectionTitle = "EXP ITEMS";
       currentY = drawInventorySection(
         ctx,
-        "📚 EXPERIENCE ITEMS",
+        sectionTitle,
         expItems,
         0,
         currentY,
         cardWidth,
-        expItemHeight,
-        "#50C878",
-        "#2E8B57"
+        expItemSectionHeight,
+        "#2ECC71", // Màu chính cho EXP items (Xanh lá)
+        "#27AE60" // Màu phụ cho EXP items (Xanh lá đậm hơn)
       );
+
+      // Thêm khoảng cách giữa các phần
       currentY += sectionSpacing;
     }
 
@@ -998,11 +1003,11 @@ function drawFrameDecorations(ctx, x, y, width, height, rarity, colors) {
 function drawBookAura(ctx, x, y, radius, colors) {
   ctx.save();
   ctx.globalCompositeOperation = "lighten";
-  
+
   // Draw magical circles
   for (let i = 0; i < 2; i++) {
     const circleRadius = radius * (0.6 + i * 0.2);
-    
+
     ctx.beginPath();
     ctx.arc(x, y, circleRadius, 0, Math.PI * 2);
     ctx.strokeStyle = i === 0 ? colors.primary : colors.secondary;
@@ -1010,48 +1015,53 @@ function drawBookAura(ctx, x, y, radius, colors) {
     ctx.setLineDash([10, 15]);
     ctx.stroke();
   }
-  
+
   // Draw glowing runes
   for (let i = 0; i < 8; i++) {
     const angle = (i / 8) * Math.PI * 2;
     const runeX = x + Math.cos(angle) * radius * 0.8;
     const runeY = y + Math.sin(angle) * radius * 0.8;
-    
+
     ctx.font = "16px Arial";
     ctx.fillStyle = colors.primary;
     ctx.textAlign = "center";
     ctx.textBaseline = "middle";
     ctx.fillText(String.fromCharCode(8592 + i), runeX, runeY);
   }
-  
+
   ctx.restore();
 }
 function drawScrollAura(ctx, x, y, radius, colors) {
   ctx.save();
   ctx.globalCompositeOperation = "lighten";
-  
+
   // Draw spiral energy
   ctx.beginPath();
   for (let angle = 0; angle < Math.PI * 10; angle += 0.1) {
-    const r = 5 + (radius * 0.7) * (angle / (Math.PI * 10));
+    const r = 5 + radius * 0.7 * (angle / (Math.PI * 10));
     const pointX = x + Math.cos(angle) * r;
     const pointY = y + Math.sin(angle) * r;
-    
+
     if (angle === 0) {
       ctx.moveTo(pointX, pointY);
     } else {
       ctx.lineTo(pointX, pointY);
     }
   }
-  
-  const spiralGradient = ctx.createLinearGradient(x - radius, y - radius, x + radius, y + radius);
+
+  const spiralGradient = ctx.createLinearGradient(
+    x - radius,
+    y - radius,
+    x + radius,
+    y + radius
+  );
   spiralGradient.addColorStop(0, colors.primary);
   spiralGradient.addColorStop(1, colors.secondary);
-  
+
   ctx.strokeStyle = spiralGradient;
   ctx.lineWidth = 3;
   ctx.stroke();
-  
+
   // Draw energy particles
   for (let i = 0; i < 15; i++) {
     const angle = Math.random() * Math.PI * 2;
@@ -1059,14 +1069,14 @@ function drawScrollAura(ctx, x, y, radius, colors) {
     const particleX = x + Math.cos(angle) * distance;
     const particleY = y + Math.sin(angle) * distance;
     const size = Math.random() * 5 + 3;
-    
+
     ctx.beginPath();
     ctx.arc(particleX, particleY, size, 0, Math.PI * 2);
     ctx.fillStyle = i % 2 === 0 ? colors.primary : colors.secondary;
     ctx.globalAlpha = 0.7;
     ctx.fill();
   }
-  
+
   ctx.restore();
 }
 function addDecorativeElements(ctx, width, height) {
@@ -1254,17 +1264,19 @@ async function createExpItemResultImage(options) {
     const is5StarEXP = itemRarity === "5";
     const isLegendaryGrimoire = expItem.name === "Legendary Grimoire";
     const isMythicalScroll = expItem.name === "Mythical Scroll";
-    
+
     // Define colors based on rarity with special colors for the new items
     const rarityColors = {
       5: {
         primary: is5StarEXP ? "#FFD700" : "#9b59b6", // Gold for 5★ EXP items
-        secondary: is5StarEXP ? 
-          (isMythicalScroll ? "#FF5500" : "#FF8C00") : // Different accent for each
-          "#8e44ad",
-        gradient: is5StarEXP ? 
-          ["#FFD700", isMythicalScroll ? "#FF5500" : "#FF8C00", "#FFD700"] :
-          ["#9b59b6", "#8e44ad"],
+        secondary: is5StarEXP
+          ? isMythicalScroll
+            ? "#FF5500"
+            : "#FF8C00" // Different accent for each
+          : "#8e44ad",
+        gradient: is5StarEXP
+          ? ["#FFD700", isMythicalScroll ? "#FF5500" : "#FF8C00", "#FFD700"]
+          : ["#9b59b6", "#8e44ad"],
       },
       4: {
         primary: "#9b59b6",
@@ -1287,7 +1299,7 @@ async function createExpItemResultImage(options) {
 
     // Draw background with enhanced effects for 5★ items
     const cardGradient = ctx.createLinearGradient(0, 0, cardWidth, cardHeight);
-    
+
     if (is5StarEXP) {
       // Premium dark background for 5★ EXP items
       cardGradient.addColorStop(0, `rgba(25, 25, 35, 0.98)`);
@@ -1313,11 +1325,14 @@ async function createExpItemResultImage(options) {
       cardHeight / 2,
       cardWidth
     );
-    
+
     if (is5StarEXP) {
       // Enhanced glow for 5★ EXP items
       glowGradient.addColorStop(0, `rgba(${hexToRgb(colors.primary)}, 0.5)`); // Stronger center
-      glowGradient.addColorStop(0.7, `rgba(${hexToRgb(colors.secondary)}, 0.2)`);
+      glowGradient.addColorStop(
+        0.7,
+        `rgba(${hexToRgb(colors.secondary)}, 0.2)`
+      );
       glowGradient.addColorStop(1, "rgba(0, 0, 0, 0)");
     } else {
       // Regular glow for other EXP items
@@ -1338,35 +1353,34 @@ async function createExpItemResultImage(options) {
         const y = Math.random() * cardHeight;
         const size = Math.random() * 20 + 10;
         const opacity = Math.random() * 0.15 + 0.05;
-        
+
         ctx.save();
         ctx.globalAlpha = opacity;
         ctx.translate(x, y);
         ctx.rotate(Math.random() * Math.PI * 2);
-        
+
         // Draw magical symbols
         const symbolType = Math.floor(Math.random() * 3);
         ctx.strokeStyle = colors.primary;
         ctx.lineWidth = 2;
-        
+
         if (symbolType === 0) {
           // Circle with runes
           ctx.beginPath();
           ctx.arc(0, 0, size, 0, Math.PI * 2);
           ctx.stroke();
-          
+
           // Inner details
           ctx.beginPath();
-          ctx.moveTo(-size/2, 0);
-          ctx.lineTo(size/2, 0);
+          ctx.moveTo(-size / 2, 0);
+          ctx.lineTo(size / 2, 0);
           ctx.stroke();
-          
+
           ctx.beginPath();
-          ctx.moveTo(0, -size/2);
-          ctx.lineTo(0, size/2);
+          ctx.moveTo(0, -size / 2);
+          ctx.lineTo(0, size / 2);
           ctx.stroke();
-        } 
-        else if (symbolType === 1) {
+        } else if (symbolType === 1) {
           // Pentagon
           ctx.beginPath();
           for (let j = 0; j < 5; j++) {
@@ -1377,8 +1391,7 @@ async function createExpItemResultImage(options) {
           }
           ctx.closePath();
           ctx.stroke();
-        }
-        else {
+        } else {
           // Star
           ctx.beginPath();
           for (let j = 0; j < 10; j++) {
@@ -1391,7 +1404,7 @@ async function createExpItemResultImage(options) {
           ctx.closePath();
           ctx.stroke();
         }
-        
+
         ctx.restore();
       }
     } else {
@@ -1407,46 +1420,64 @@ async function createExpItemResultImage(options) {
       ctx.shadowColor = colors.primary;
       ctx.shadowBlur = 15;
       roundRect(ctx, 10, 10, cardWidth - 20, cardHeight - 20, 20, false, true);
-      
+
       // Inner border
       ctx.strokeStyle = colors.secondary;
       ctx.lineWidth = 2;
       ctx.shadowBlur = 10;
       roundRect(ctx, 20, 20, cardWidth - 40, cardHeight - 40, 15, false, true);
-      
+
       // Corner decorations
       const cornerSize = 50;
       [
         [10, 10, 0],
-        [cardWidth - 10, 10, Math.PI/2],
+        [cardWidth - 10, 10, Math.PI / 2],
         [10, cardHeight - 10, Math.PI * 1.5],
-        [cardWidth - 10, cardHeight - 10, Math.PI]
+        [cardWidth - 10, cardHeight - 10, Math.PI],
       ].forEach(([cx, cy, rotation]) => {
         ctx.save();
         ctx.translate(cx, cy);
         ctx.rotate(rotation);
-        
+
         // Draw fancy corner
         ctx.beginPath();
         ctx.moveTo(0, 0);
         ctx.lineTo(cornerSize, 0);
-        ctx.lineTo(cornerSize, cornerSize/3);
-        ctx.quadraticCurveTo(cornerSize/2, cornerSize/2, cornerSize, cornerSize);
-        ctx.lineTo(cornerSize/3, cornerSize);
+        ctx.lineTo(cornerSize, cornerSize / 3);
+        ctx.quadraticCurveTo(
+          cornerSize / 2,
+          cornerSize / 2,
+          cornerSize,
+          cornerSize
+        );
+        ctx.lineTo(cornerSize / 3, cornerSize);
         ctx.lineTo(0, cornerSize);
         ctx.closePath();
-        
-        const cornerGradient = ctx.createLinearGradient(0, 0, cornerSize, cornerSize);
+
+        const cornerGradient = ctx.createLinearGradient(
+          0,
+          0,
+          cornerSize,
+          cornerSize
+        );
         cornerGradient.addColorStop(0, colors.primary);
         cornerGradient.addColorStop(1, colors.secondary);
         ctx.fillStyle = cornerGradient;
         ctx.fill();
-        
+
         ctx.restore();
       });
     } else {
       // Standard card frame
-      drawCardFrame(ctx, itemRarity, 10, 10, cardWidth - 20, cardHeight - 20, false);
+      drawCardFrame(
+        ctx,
+        itemRarity,
+        10,
+        10,
+        cardWidth - 20,
+        cardHeight - 20,
+        false
+      );
     }
 
     // Image area for EXP item
@@ -1456,13 +1487,22 @@ async function createExpItemResultImage(options) {
     const imageAreaHeight = cardWidth - 100;
 
     ctx.fillStyle = is5StarEXP ? "rgba(0, 0, 0, 0.4)" : "rgba(0, 0, 0, 0.3)";
-    roundRect(ctx, imageAreaX, imageAreaY, imageAreaWidth, imageAreaHeight, 15, true, false);
+    roundRect(
+      ctx,
+      imageAreaX,
+      imageAreaY,
+      imageAreaWidth,
+      imageAreaHeight,
+      15,
+      true,
+      false
+    );
 
     // Draw EXP item image with enhanced effects for 5★
     if (expItem.image) {
       try {
         const expImage = await loadImage(expItem.image);
-        
+
         if (is5StarEXP) {
           // Add glow behind the image
           ctx.save();
@@ -1475,28 +1515,28 @@ async function createExpItemResultImage(options) {
             imageAreaY + imageAreaHeight / 2,
             imageAreaWidth / 1.5
           );
-          
+
           imageGlow.addColorStop(0, `rgba(${hexToRgb(colors.primary)}, 0.8)`);
-          imageGlow.addColorStop(0.5, `rgba(${hexToRgb(colors.secondary)}, 0.4)`);
-          imageGlow.addColorStop(1, "rgba(0, 0, 0, 0)");
-          
-          ctx.fillStyle = imageGlow;
-          ctx.fillRect(
-            imageAreaX, 
-            imageAreaY, 
-            imageAreaWidth, 
-            imageAreaHeight
+          imageGlow.addColorStop(
+            0.5,
+            `rgba(${hexToRgb(colors.secondary)}, 0.4)`
           );
+          imageGlow.addColorStop(1, "rgba(0, 0, 0, 0)");
+
+          ctx.fillStyle = imageGlow;
+          ctx.fillRect(imageAreaX, imageAreaY, imageAreaWidth, imageAreaHeight);
           ctx.restore();
-          
+
           // Add floating particles around the image
           for (let i = 0; i < 20; i++) {
             const angle = (i / 20) * Math.PI * 2;
             const radius = Math.random() * 20 + imageAreaWidth / 4;
-            const px = imageAreaX + imageAreaWidth / 2 + Math.cos(angle) * radius;
-            const py = imageAreaY + imageAreaHeight / 2 + Math.sin(angle) * radius;
+            const px =
+              imageAreaX + imageAreaWidth / 2 + Math.cos(angle) * radius;
+            const py =
+              imageAreaY + imageAreaHeight / 2 + Math.sin(angle) * radius;
             const size = Math.random() * 4 + 2;
-            
+
             ctx.beginPath();
             ctx.arc(px, py, size, 0, Math.PI * 2);
             ctx.fillStyle = i % 2 === 0 ? colors.primary : colors.secondary;
@@ -1505,7 +1545,7 @@ async function createExpItemResultImage(options) {
             ctx.globalAlpha = 1;
           }
         }
-        
+
         // Draw the image with shadow for all rarities
         ctx.shadowColor = is5StarEXP ? colors.primary : "rgba(0, 0, 0, 0.7)";
         ctx.shadowBlur = is5StarEXP ? 20 : 10;
@@ -1516,18 +1556,27 @@ async function createExpItemResultImage(options) {
           imageAreaWidth - 40,
           imageAreaHeight - 40
         );
-        
+
         // Add special effects for specific high-tier items
         if (isLegendaryGrimoire) {
           // Add magical book aura
-          drawBookAura(ctx, imageAreaX + imageAreaWidth/2, imageAreaY + imageAreaHeight/2, 
-                       imageAreaWidth/2, colors);
+          drawBookAura(
+            ctx,
+            imageAreaX + imageAreaWidth / 2,
+            imageAreaY + imageAreaHeight / 2,
+            imageAreaWidth / 2,
+            colors
+          );
         } else if (isMythicalScroll) {
           // Add scroll mystical effect
-          drawScrollAura(ctx, imageAreaX + imageAreaWidth/2, imageAreaY + imageAreaHeight/2, 
-                       imageAreaWidth/2, colors);
+          drawScrollAura(
+            ctx,
+            imageAreaX + imageAreaWidth / 2,
+            imageAreaY + imageAreaHeight / 2,
+            imageAreaWidth / 2,
+            colors
+          );
         }
-        
       } catch (error) {
         console.error("Error loading EXP item image:", error);
       }
@@ -1541,38 +1590,80 @@ async function createExpItemResultImage(options) {
     if (is5StarEXP) {
       // Fancy banner with gradient for 5★
       const nameBannerGradient = ctx.createLinearGradient(
-        0, nameBannerY, cardWidth, nameBannerY
+        0,
+        nameBannerY,
+        cardWidth,
+        nameBannerY
       );
       nameBannerGradient.addColorStop(0, colors.secondary);
       nameBannerGradient.addColorStop(0.5, colors.primary);
       nameBannerGradient.addColorStop(1, colors.secondary);
-      
+
       ctx.fillStyle = nameBannerGradient;
-      roundRect(ctx, 30, nameBannerY, cardWidth - 60, nameBannerHeight, 15, true, false);
-      
+      roundRect(
+        ctx,
+        30,
+        nameBannerY,
+        cardWidth - 60,
+        nameBannerHeight,
+        15,
+        true,
+        false
+      );
+
       // Add shimmer overlay
       ctx.save();
       ctx.globalCompositeOperation = "overlay";
       const shimmerGradient = ctx.createLinearGradient(
-        30, nameBannerY, cardWidth - 30, nameBannerY
+        30,
+        nameBannerY,
+        cardWidth - 30,
+        nameBannerY
       );
       shimmerGradient.addColorStop(0, "rgba(255,255,255,0)");
       shimmerGradient.addColorStop(0.5, "rgba(255,255,255,0.3)");
       shimmerGradient.addColorStop(1, "rgba(255,255,255,0)");
-      
+
       ctx.fillStyle = shimmerGradient;
-      roundRect(ctx, 30, nameBannerY, cardWidth - 60, nameBannerHeight, 15, true, false);
+      roundRect(
+        ctx,
+        30,
+        nameBannerY,
+        cardWidth - 60,
+        nameBannerHeight,
+        15,
+        true,
+        false
+      );
       ctx.restore();
     } else {
       // Standard banner
       const nameBannerGradient = ctx.createLinearGradient(
-        0, nameBannerY, 0, nameBannerY + nameBannerHeight
+        0,
+        nameBannerY,
+        0,
+        nameBannerY + nameBannerHeight
       );
-      nameBannerGradient.addColorStop(0, `rgba(${hexToRgb(colors.primary)}, 0.8)`);
-      nameBannerGradient.addColorStop(1, `rgba(${hexToRgb(colors.secondary)}, 0.8)`);
-      
+      nameBannerGradient.addColorStop(
+        0,
+        `rgba(${hexToRgb(colors.primary)}, 0.8)`
+      );
+      nameBannerGradient.addColorStop(
+        1,
+        `rgba(${hexToRgb(colors.secondary)}, 0.8)`
+      );
+
       ctx.fillStyle = nameBannerGradient;
-      roundRect(ctx, 30, nameBannerY, cardWidth - 60, nameBannerHeight, 15, true, false);
+      roundRect(
+        ctx,
+        30,
+        nameBannerY,
+        cardWidth - 60,
+        nameBannerHeight,
+        15,
+        true,
+        false
+      );
     }
 
     // Add outline to the banner
@@ -1580,32 +1671,52 @@ async function createExpItemResultImage(options) {
     ctx.lineWidth = is5StarEXP ? 3 : 2;
     ctx.shadowColor = colors.primary;
     ctx.shadowBlur = is5StarEXP ? 12 : 8;
-    roundRect(ctx, 30, nameBannerY, cardWidth - 60, nameBannerHeight, 15, false, true);
+    roundRect(
+      ctx,
+      30,
+      nameBannerY,
+      cardWidth - 60,
+      nameBannerHeight,
+      15,
+      false,
+      true
+    );
 
     // Draw item name with custom font styling by rarity
     if (is5StarEXP) {
       // Elegant text styling for 5★ items
       ctx.textAlign = "center";
       ctx.font = `bold 28px ${fontFamily}`;
-      
+
       // Text shadow/glow
       ctx.fillStyle = "#000000";
       ctx.globalAlpha = 0.7;
-      ctx.fillText(expItem.name, cardWidth / 2 + 2, nameBannerY + nameBannerHeight / 2 + 12);
+      ctx.fillText(
+        expItem.name,
+        cardWidth / 2 + 2,
+        nameBannerY + nameBannerHeight / 2 + 12
+      );
       ctx.globalAlpha = 1;
-      
+
       // Gold gradient text for 5★
       const textGradient = ctx.createLinearGradient(
-        cardWidth/4, nameBannerY, cardWidth*3/4, nameBannerY
+        cardWidth / 4,
+        nameBannerY,
+        (cardWidth * 3) / 4,
+        nameBannerY
       );
       textGradient.addColorStop(0, "#FFFFFF");
       textGradient.addColorStop(0.5, "#FFFFBB");
       textGradient.addColorStop(1, "#FFFFFF");
-      
+
       ctx.fillStyle = textGradient;
       ctx.shadowColor = "rgba(0, 0, 0, 0.7)";
       ctx.shadowBlur = 5;
-      ctx.fillText(expItem.name, cardWidth / 2, nameBannerY + nameBannerHeight / 2 + 10);
+      ctx.fillText(
+        expItem.name,
+        cardWidth / 2,
+        nameBannerY + nameBannerHeight / 2 + 10
+      );
     } else {
       // Standard text for other rarities
       ctx.font = `bold 24px ${fontFamily}`;
@@ -1613,7 +1724,11 @@ async function createExpItemResultImage(options) {
       ctx.fillStyle = "#FFFFFF";
       ctx.shadowColor = "rgba(0, 0, 0, 0.7)";
       ctx.shadowBlur = 5;
-      ctx.fillText(expItem.name, cardWidth / 2, nameBannerY + nameBannerHeight / 2 + 10);
+      ctx.fillText(
+        expItem.name,
+        cardWidth / 2,
+        nameBannerY + nameBannerHeight / 2 + 10
+      );
     }
 
     // Draw description area
@@ -1621,7 +1736,16 @@ async function createExpItemResultImage(options) {
     const descriptionHeight = 100;
 
     ctx.fillStyle = "rgba(0, 0, 0, 0.4)";
-    roundRect(ctx, 30, descriptionY, cardWidth - 60, descriptionHeight, 15, true, false);
+    roundRect(
+      ctx,
+      30,
+      descriptionY,
+      cardWidth - 60,
+      descriptionHeight,
+      15,
+      true,
+      false
+    );
 
     // Draw description text with word wrap
     ctx.font = `18px ${fontFamily}`;
@@ -1651,26 +1775,50 @@ async function createExpItemResultImage(options) {
     const expValueHeight = 60;
 
     const expGradient = ctx.createLinearGradient(
-      0, expValueY, 0, expValueY + expValueHeight
+      0,
+      expValueY,
+      0,
+      expValueY + expValueHeight
     );
     expGradient.addColorStop(0, "rgba(255, 223, 0, 0.8)");
     expGradient.addColorStop(1, "rgba(255, 165, 0, 0.8)");
 
     ctx.fillStyle = expGradient;
-    roundRect(ctx, cardWidth / 2 - 120, expValueY, 240, expValueHeight, 15, true, false);
+    roundRect(
+      ctx,
+      cardWidth / 2 - 120,
+      expValueY,
+      240,
+      expValueHeight,
+      15,
+      true,
+      false
+    );
 
     // Add shine effect to EXP area
     ctx.save();
     ctx.globalCompositeOperation = "overlay";
     const expShineGradient = ctx.createLinearGradient(
-      cardWidth / 2 - 120, expValueY, cardWidth / 2 + 120, expValueY
+      cardWidth / 2 - 120,
+      expValueY,
+      cardWidth / 2 + 120,
+      expValueY
     );
     expShineGradient.addColorStop(0, "rgba(255, 255, 255, 0)");
     expShineGradient.addColorStop(0.5, "rgba(255, 255, 255, 0.3)");
     expShineGradient.addColorStop(1, "rgba(255, 255, 255, 0)");
 
     ctx.fillStyle = expShineGradient;
-    roundRect(ctx, cardWidth / 2 - 120, expValueY, 240, expValueHeight, 15, true, false);
+    roundRect(
+      ctx,
+      cardWidth / 2 - 120,
+      expValueY,
+      240,
+      expValueHeight,
+      15,
+      true,
+      false
+    );
     ctx.restore();
 
     // Draw EXP value text
@@ -1679,11 +1827,19 @@ async function createExpItemResultImage(options) {
     ctx.fillStyle = "#FFFFFF";
     ctx.shadowColor = "rgba(0, 0, 0, 0.7)";
     ctx.shadowBlur = 8;
-    ctx.fillText(`+${expValue.toLocaleString()} EXP`, cardWidth / 2, expValueY + expValueHeight / 2 + 10);
+    ctx.fillText(
+      `+${expValue.toLocaleString()} EXP`,
+      cardWidth / 2,
+      expValueY + expValueHeight / 2 + 10
+    );
 
     // Draw item value
     ctx.font = "22px Arial";
-    ctx.fillText(`Value: $${itemValue.toLocaleString()}`, cardWidth / 2, expValueY + expValueHeight + 40);
+    ctx.fillText(
+      `Value: $${itemValue.toLocaleString()}`,
+      cardWidth / 2,
+      expValueY + expValueHeight + 40
+    );
 
     // Draw rarity stars
     const starSize = 18;
@@ -1707,7 +1863,10 @@ async function createExpItemResultImage(options) {
       fs.mkdirSync(tempDir, { recursive: true });
     }
 
-    const outputPath = path.join(tempDir, `exp_item_${userId}_${Date.now()}.png`);
+    const outputPath = path.join(
+      tempDir,
+      `exp_item_${userId}_${Date.now()}.png`
+    );
     fs.writeFileSync(outputPath, buffer);
 
     return outputPath;
@@ -1772,7 +1931,6 @@ function drawInventoryItem(ctx, item, x, y, width, height) {
   let itemColor, itemBorderColor, displayName, itemValue;
   let itemGradient;
 
-  // Item type styling (unchanged)
   if (item.type === "stone") {
     itemColor = "rgba(72, 61, 139, 0.6)";
     itemBorderColor = "#FFD700";
@@ -1788,8 +1946,23 @@ function drawInventoryItem(ctx, item, x, y, width, height) {
     itemBorderColor = "#50C878";
     displayName = item.name || "EXP Item";
     itemValue = item.value || 2000;
+  } else if (item.type === "exp") {
+    ctx.font = "bold 11px Arial";
+    ctx.textAlign = "center";
+    ctx.fillStyle = "#FFFF99";
+    ctx.shadowColor = "#000000";
+    ctx.shadowBlur = 3;
+    ctx.fillText("EXP ITEM", x + width / 2, y + 14);
+    ctx.fillStyle = "#2ECC71";
+    ctx.fillText("📚", x + width / 2, y + height / 2 - 5);
+    ctx.font = `bold 11px ${mastonFontFamily}`;
+    ctx.fillStyle = "#FFFFFF";
+    ctx.fillText(
+      `+${item.expValue?.toLocaleString() || 0} EXP`,
+      x + width / 2,
+      y + height - 6
+    );
   } else {
-    // Character styling based on rarity (unchanged)
     let rarityColor;
     switch (item.rarity) {
       case 5:
@@ -1828,7 +2001,6 @@ function drawInventoryItem(ctx, item, x, y, width, height) {
     itemValue = item.value || 1000;
   }
 
-  // Draw item background
   if (item.type === "exp") {
     itemGradient = ctx.createLinearGradient(x, y, x, y + height);
     itemGradient.addColorStop(0, "rgba(60, 179, 113, 0.7)");
@@ -4852,7 +5024,7 @@ async function createStellaResultImage(options) {
       userName = "Traveler",
       stella,
       originalChar = null,
-      isUniversal = false
+      isUniversal = false,
     } = options;
 
     // Canvas dimensions
@@ -4864,8 +5036,8 @@ async function createStellaResultImage(options) {
     // Colors - Stella sử dụng gradient màu đặc biệt
     const colors = {
       primary: isUniversal ? "#FFFFFF" : "#FFD700", // Gold hoặc White cho Universal
-      secondary: isUniversal ? "#33CCFF" : "#FF5500", // Orange/Cyan 
-      tertiary: isUniversal ? "#9966FF" : "#FFCC33" // Yellow/Purple
+      secondary: isUniversal ? "#33CCFF" : "#FF5500", // Orange/Cyan
+      tertiary: isUniversal ? "#9966FF" : "#FFCC33", // Yellow/Purple
     };
 
     // Draw background with cosmic/celestial theme
@@ -4881,7 +5053,15 @@ async function createStellaResultImage(options) {
     drawCosmicBackground(ctx, cardWidth, cardHeight, isUniversal);
 
     // Draw fancy card frame
-    drawStellaCardFrame(ctx, 10, 10, cardWidth - 20, cardHeight - 20, colors, isUniversal);
+    drawStellaCardFrame(
+      ctx,
+      10,
+      10,
+      cardWidth - 20,
+      cardHeight - 20,
+      colors,
+      isUniversal
+    );
 
     // Image area for Stella
     const imageAreaX = 50;
@@ -4890,33 +5070,51 @@ async function createStellaResultImage(options) {
     const imageAreaHeight = cardWidth - 140; // Slightly smaller for more text space
 
     ctx.fillStyle = "rgba(0, 0, 0, 0.4)";
-    roundRect(ctx, imageAreaX, imageAreaY, imageAreaWidth, imageAreaHeight, 15, true, false);
+    roundRect(
+      ctx,
+      imageAreaX,
+      imageAreaY,
+      imageAreaWidth,
+      imageAreaHeight,
+      15,
+      true,
+      false
+    );
 
     // Add glow effect behind the image
     ctx.save();
     const imageGlow = ctx.createRadialGradient(
-      imageAreaX + imageAreaWidth/2, 
-      imageAreaY + imageAreaHeight/2,
+      imageAreaX + imageAreaWidth / 2,
+      imageAreaY + imageAreaHeight / 2,
       20,
-      imageAreaX + imageAreaWidth/2, 
-      imageAreaY + imageAreaHeight/2,
-      imageAreaWidth/1.5
+      imageAreaX + imageAreaWidth / 2,
+      imageAreaY + imageAreaHeight / 2,
+      imageAreaWidth / 1.5
     );
-    
+
     imageGlow.addColorStop(0, `rgba(${hexToRgb(colors.primary)}, 0.6)`);
     imageGlow.addColorStop(0.6, `rgba(${hexToRgb(colors.secondary)}, 0.3)`);
     imageGlow.addColorStop(1, "rgba(0, 0, 0, 0)");
-    
+
     ctx.fillStyle = imageGlow;
     ctx.globalCompositeOperation = "screen";
-    roundRect(ctx, imageAreaX, imageAreaY, imageAreaWidth, imageAreaHeight, 15, true, false);
+    roundRect(
+      ctx,
+      imageAreaX,
+      imageAreaY,
+      imageAreaWidth,
+      imageAreaHeight,
+      15,
+      true,
+      false
+    );
     ctx.restore();
 
     // Draw Stella image
     if (stella && stella.image) {
       try {
         const stellaImage = await loadImage(stella.image);
-        
+
         // Draw the image with shadow
         ctx.shadowColor = colors.primary;
         ctx.shadowBlur = 20;
@@ -4927,10 +5125,16 @@ async function createStellaResultImage(options) {
           imageAreaWidth - 60,
           imageAreaHeight - 60
         );
-        
+
         // Add constellation star patterns around the image
-        drawConstellationEffect(ctx, imageAreaX + imageAreaWidth/2, imageAreaY + imageAreaHeight/2, 
-                            imageAreaWidth/2, colors, isUniversal);
+        drawConstellationEffect(
+          ctx,
+          imageAreaX + imageAreaWidth / 2,
+          imageAreaY + imageAreaHeight / 2,
+          imageAreaWidth / 2,
+          colors,
+          isUniversal
+        );
       } catch (error) {
         console.error("Error loading Stella image:", error);
       }
@@ -4941,77 +5145,133 @@ async function createStellaResultImage(options) {
     const nameBannerHeight = 50;
 
     const bannerGradient = ctx.createLinearGradient(
-      0, nameBannerY, cardWidth, nameBannerY
+      0,
+      nameBannerY,
+      cardWidth,
+      nameBannerY
     );
     bannerGradient.addColorStop(0, colors.secondary);
     bannerGradient.addColorStop(0.5, colors.primary);
     bannerGradient.addColorStop(1, colors.secondary);
-    
+
     ctx.fillStyle = bannerGradient;
     ctx.shadowColor = colors.primary;
     ctx.shadowBlur = 15;
-    roundRect(ctx, 30, nameBannerY, cardWidth - 60, nameBannerHeight, 15, true, false);
+    roundRect(
+      ctx,
+      30,
+      nameBannerY,
+      cardWidth - 60,
+      nameBannerHeight,
+      15,
+      true,
+      false
+    );
 
     // Add shimmer overlay
     ctx.save();
     ctx.globalCompositeOperation = "overlay";
     const shimmerGradient = ctx.createLinearGradient(
-      30, nameBannerY, cardWidth - 30, nameBannerY
+      30,
+      nameBannerY,
+      cardWidth - 30,
+      nameBannerY
     );
     shimmerGradient.addColorStop(0, "rgba(255,255,255,0)");
     shimmerGradient.addColorStop(0.5, "rgba(255,255,255,0.4)");
     shimmerGradient.addColorStop(1, "rgba(255,255,255,0)");
-    
+
     ctx.fillStyle = shimmerGradient;
-    roundRect(ctx, 30, nameBannerY, cardWidth - 60, nameBannerHeight, 15, true, false);
+    roundRect(
+      ctx,
+      30,
+      nameBannerY,
+      cardWidth - 60,
+      nameBannerHeight,
+      15,
+      true,
+      false
+    );
     ctx.restore();
 
     // Draw item name with custom font styling
     ctx.textAlign = "center";
     ctx.font = `bold 28px ${fontFamily}`;
-    
+
     // Text shadow
     ctx.fillStyle = "rgba(0, 0, 0, 0.7)";
     ctx.globalAlpha = 0.7;
-    ctx.fillText(stella.name, cardWidth / 2 + 2, nameBannerY + nameBannerHeight / 2 + 10);
+    ctx.fillText(
+      stella.name,
+      cardWidth / 2 + 2,
+      nameBannerY + nameBannerHeight / 2 + 10
+    );
     ctx.globalAlpha = 1;
-    
+
     // Gradient text
     const textGradient = ctx.createLinearGradient(
-      cardWidth/4, nameBannerY, cardWidth*3/4, nameBannerY
+      cardWidth / 4,
+      nameBannerY,
+      (cardWidth * 3) / 4,
+      nameBannerY
     );
     textGradient.addColorStop(0, "#FFFFFF");
     textGradient.addColorStop(0.5, isUniversal ? "#CCFFFF" : "#FFFFBB");
     textGradient.addColorStop(1, "#FFFFFF");
-    
+
     ctx.fillStyle = textGradient;
-    ctx.fillText(stella.name, cardWidth / 2, nameBannerY + nameBannerHeight / 2 + 8);
+    ctx.fillText(
+      stella.name,
+      cardWidth / 2,
+      nameBannerY + nameBannerHeight / 2 + 8
+    );
 
     // Character section - Show which character this Stella is for
     const charSectionY = nameBannerY + nameBannerHeight + 20;
     const charSectionHeight = 80;
 
     ctx.fillStyle = "rgba(0, 0, 0, 0.5)";
-    roundRect(ctx, 30, charSectionY, cardWidth - 60, charSectionHeight, 15, true, false);
+    roundRect(
+      ctx,
+      30,
+      charSectionY,
+      cardWidth - 60,
+      charSectionHeight,
+      15,
+      true,
+      false
+    );
 
     if (originalChar && !isUniversal) {
       // Show character name
       ctx.font = `bold 22px ${fontFamily}`;
       ctx.fillStyle = "#FFFFFF";
       ctx.textAlign = "center";
-      ctx.fillText(`Character: ${originalChar}`, cardWidth / 2, charSectionY + 30);
-      
+      ctx.fillText(
+        `Character: ${originalChar}`,
+        cardWidth / 2,
+        charSectionY + 30
+      );
+
       // Show constellation text
       ctx.font = `18px ${fontFamily}`;
       ctx.fillStyle = "#FFDD99";
-      ctx.fillText("Unlocks Constellation Level", cardWidth / 2, charSectionY + 60);
+      ctx.fillText(
+        "Unlocks Constellation Level",
+        cardWidth / 2,
+        charSectionY + 60
+      );
     } else {
       // Universal Stella text
       ctx.font = `bold 22px ${fontFamily}`;
       ctx.fillStyle = "#FFFFFF";
       ctx.textAlign = "center";
-      ctx.fillText("Universal Constellation Material", cardWidth / 2, charSectionY + 30);
-      
+      ctx.fillText(
+        "Universal Constellation Material",
+        cardWidth / 2,
+        charSectionY + 30
+      );
+
       ctx.font = `18px ${fontFamily}`;
       ctx.fillStyle = "#99CCFF";
       ctx.fillText("Works on any character", cardWidth / 2, charSectionY + 60);
@@ -5020,21 +5280,23 @@ async function createStellaResultImage(options) {
     // Draw description
     const descY = charSectionY + charSectionHeight + 20;
     const descHeight = 80;
-    
+
     ctx.fillStyle = "rgba(0, 0, 0, 0.4)";
     roundRect(ctx, 30, descY, cardWidth - 60, descHeight, 15, true, false);
-    
+
     // Description text with word wrap
     ctx.font = `18px ${fontFamily}`;
     ctx.textAlign = "center";
     ctx.fillStyle = "#FFFFFF";
-    
-    const description = stella.description || "Unlocks hidden potential within a character, increasing their power and abilities.";
+
+    const description =
+      stella.description ||
+      "Unlocks hidden potential within a character, increasing their power and abilities.";
     const maxWidth = cardWidth - 100;
     const words = description.split(" ");
     let line = "";
     let y = descY + 30;
-    
+
     for (const word of words) {
       const testLine = line + word + " ";
       const metrics = ctx.measureText(testLine);
@@ -5052,41 +5314,69 @@ async function createStellaResultImage(options) {
     // Draw value
     const valueY = descY + descHeight + 20;
     const valueHeight = 50;
-    
+
     // Value banner with gradient
     const valueGradient = ctx.createLinearGradient(
-      cardWidth/3, valueY, cardWidth*2/3, valueY + valueHeight
+      cardWidth / 3,
+      valueY,
+      (cardWidth * 2) / 3,
+      valueY + valueHeight
     );
     valueGradient.addColorStop(0, colors.secondary);
     valueGradient.addColorStop(1, colors.tertiary);
-    
+
     ctx.fillStyle = valueGradient;
     ctx.shadowColor = colors.primary;
     ctx.shadowBlur = 10;
-    roundRect(ctx, cardWidth / 2 - 100, valueY, 200, valueHeight, 12, true, false);
-    
+    roundRect(
+      ctx,
+      cardWidth / 2 - 100,
+      valueY,
+      200,
+      valueHeight,
+      12,
+      true,
+      false
+    );
+
     // Add shine effect
     ctx.save();
     ctx.globalCompositeOperation = "overlay";
     const valueShine = ctx.createLinearGradient(
-      cardWidth/2 - 100, valueY, cardWidth/2 + 100, valueY
+      cardWidth / 2 - 100,
+      valueY,
+      cardWidth / 2 + 100,
+      valueY
     );
     valueShine.addColorStop(0, "rgba(255,255,255,0)");
     valueShine.addColorStop(0.5, "rgba(255,255,255,0.3)");
     valueShine.addColorStop(1, "rgba(255,255,255,0)");
-    
+
     ctx.fillStyle = valueShine;
-    roundRect(ctx, cardWidth / 2 - 100, valueY, 200, valueHeight, 12, true, false);
+    roundRect(
+      ctx,
+      cardWidth / 2 - 100,
+      valueY,
+      200,
+      valueHeight,
+      12,
+      true,
+      false
+    );
     ctx.restore();
-    
+
     // Show value
     ctx.font = `bold 24px ${mastonFontFamily}`;
     ctx.textAlign = "center";
     ctx.fillStyle = "#FFFFFF";
     ctx.shadowColor = "rgba(0,0,0,0.7)";
     ctx.shadowBlur = 3;
-    ctx.fillText(`Value: $${stella.value?.toLocaleString() || "100,000"}`, cardWidth / 2, valueY + 32);
-    
+    ctx.fillText(
+      `Value: $${stella.value?.toLocaleString() || "100,000"}`,
+      cardWidth / 2,
+      valueY + 32
+    );
+
     // Draw stars at bottom
     const starsY = valueY + valueHeight + 30;
     const starSize = 18;
@@ -5094,26 +5384,26 @@ async function createStellaResultImage(options) {
     const starCount = 5; // Stella items are always 5★
     const totalWidth = starCount * starSpacing;
     const startX = (cardWidth - totalWidth) / 2 + starSpacing / 2;
-    
+
     for (let i = 0; i < starCount; i++) {
       const starX = startX + i * starSpacing;
       const starColor = isUniversal ? "#99CCFF" : "#FFD700";
       drawStar(ctx, starX, starsY, starSize, starColor);
     }
-    
+
     // Apply final shimmer effect
     drawShimmer(ctx, 10, 10, cardWidth - 20, cardHeight - 20, "5");
-    
+
     // Save the image
     const buffer = canvas.toBuffer("image/png");
     const tempDir = path.join(__dirname, "../temp");
     if (!fs.existsSync(tempDir)) {
       fs.mkdirSync(tempDir, { recursive: true });
     }
-    
+
     const outputPath = path.join(tempDir, `stella_${userId}_${Date.now()}.png`);
     fs.writeFileSync(outputPath, buffer);
-    
+
     return outputPath;
   } catch (error) {
     console.error("Error creating Stella result image:", error);
@@ -5124,29 +5414,37 @@ async function createStellaResultImage(options) {
 // Vẽ hiệu ứng nền vũ trụ cho thẻ Stella
 function drawCosmicBackground(ctx, width, height, isUniversal) {
   ctx.save();
-  
+
   // Add starfield
   for (let i = 0; i < 200; i++) {
     const x = Math.random() * width;
     const y = Math.random() * height;
     const size = Math.random() * 2 + 0.5;
     const opacity = Math.random() * 0.8 + 0.2;
-    
+
     ctx.fillStyle = `rgba(255, 255, 255, ${opacity})`;
     ctx.beginPath();
     ctx.arc(x, y, size, 0, Math.PI * 2);
     ctx.fill();
   }
-  
+
   // Add larger glowing stars
   for (let i = 0; i < 30; i++) {
     const x = Math.random() * width;
     const y = Math.random() * height;
     const size = Math.random() * 4 + 2;
-    const color = isUniversal ? 
-      (i % 3 === 0 ? "#99CCFF" : i % 3 === 1 ? "#CC99FF" : "#FFFFFF") : 
-      (i % 3 === 0 ? "#FFD700" : i % 3 === 1 ? "#FFAA33" : "#FFFFFF");
-    
+    const color = isUniversal
+      ? i % 3 === 0
+        ? "#99CCFF"
+        : i % 3 === 1
+        ? "#CC99FF"
+        : "#FFFFFF"
+      : i % 3 === 0
+      ? "#FFD700"
+      : i % 3 === 1
+      ? "#FFAA33"
+      : "#FFFFFF";
+
     ctx.fillStyle = color;
     ctx.shadowColor = color;
     ctx.shadowBlur = 8;
@@ -5154,7 +5452,7 @@ function drawCosmicBackground(ctx, width, height, isUniversal) {
     ctx.arc(x, y, size, 0, Math.PI * 2);
     ctx.fill();
   }
-  
+
   // Add nebula effects
   if (isUniversal) {
     // Blue/purple cosmic clouds for Universal
@@ -5165,7 +5463,7 @@ function drawCosmicBackground(ctx, width, height, isUniversal) {
     drawNebula(ctx, width * 0.3, height * 0.3, 100, "#FFD700", "#FF6600", 0.15);
     drawNebula(ctx, width * 0.7, height * 0.7, 120, "#FFCC33", "#FF3300", 0.12);
   }
-  
+
   ctx.restore();
 }
 
@@ -5173,42 +5471,42 @@ function drawCosmicBackground(ctx, width, height, isUniversal) {
 function drawNebula(ctx, x, y, radius, color1, color2, opacity) {
   ctx.save();
   ctx.globalAlpha = opacity;
-  
+
   const gradient = ctx.createRadialGradient(x, y, 0, x, y, radius);
   gradient.addColorStop(0, color1);
   gradient.addColorStop(1, color2);
-  
+
   ctx.fillStyle = gradient;
   ctx.beginPath();
-  
+
   // Create irregular cloud shape
   const points = 8;
   const angleStep = (Math.PI * 2) / points;
-  
+
   for (let i = 0; i < points; i++) {
     const angle = i * angleStep;
     const randomRadius = radius * (0.7 + Math.random() * 0.6);
     const x2 = x + Math.cos(angle) * randomRadius;
     const y2 = y + Math.sin(angle) * randomRadius;
-    
+
     if (i === 0) {
       ctx.moveTo(x2, y2);
     } else {
-      const controlX = x + Math.cos(angle - angleStep/2) * radius * 1.2;
-      const controlY = y + Math.sin(angle - angleStep/2) * radius * 1.2;
+      const controlX = x + Math.cos(angle - angleStep / 2) * radius * 1.2;
+      const controlY = y + Math.sin(angle - angleStep / 2) * radius * 1.2;
       ctx.quadraticCurveTo(controlX, controlY, x2, y2);
     }
   }
-  
+
   // Close the path with a curve
   const angle = 0;
   const randomRadius = radius * (0.7 + Math.random() * 0.6);
   const x2 = x + Math.cos(angle) * randomRadius;
   const y2 = y + Math.sin(angle) * randomRadius;
-  const controlX = x + Math.cos(angle - angleStep/2) * radius * 1.2;
-  const controlY = y + Math.sin(angle - angleStep/2) * radius * 1.2;
+  const controlX = x + Math.cos(angle - angleStep / 2) * radius * 1.2;
+  const controlY = y + Math.sin(angle - angleStep / 2) * radius * 1.2;
   ctx.quadraticCurveTo(controlX, controlY, x2, y2);
-  
+
   ctx.fill();
   ctx.restore();
 }
@@ -5216,55 +5514,65 @@ function drawNebula(ctx, x, y, radius, color1, color2, opacity) {
 // Vẽ khung thẻ Stella Fortuna
 function drawStellaCardFrame(ctx, x, y, width, height, colors, isUniversal) {
   ctx.save();
-  
+
   // Outer glow effect
   const glowColor = isUniversal ? colors.tertiary : colors.primary;
   ctx.shadowColor = glowColor;
   ctx.shadowBlur = 25;
-  
+
   // Premium outer border
   const borderGradient = ctx.createLinearGradient(x, y, x, y + height);
   if (isUniversal) {
-    borderGradient.addColorStop(0, "#99CCFF");  // Light blue
+    borderGradient.addColorStop(0, "#99CCFF"); // Light blue
     borderGradient.addColorStop(0.5, "#FFFFFF"); // White
-    borderGradient.addColorStop(1, "#9966FF");   // Purple
+    borderGradient.addColorStop(1, "#9966FF"); // Purple
   } else {
-    borderGradient.addColorStop(0, "#FFD700");  // Gold
+    borderGradient.addColorStop(0, "#FFD700"); // Gold
     borderGradient.addColorStop(0.5, "#FFFFFF"); // White
-    borderGradient.addColorStop(1, "#FF9900");   // Orange
+    borderGradient.addColorStop(1, "#FF9900"); // Orange
   }
-  
+
   ctx.strokeStyle = borderGradient;
   ctx.lineWidth = 8;
   roundRect(ctx, x, y, width, height, 20, false, true);
-  
+
   // Inner border
   ctx.strokeStyle = isUniversal ? "#66CCFF" : "#FFCC33";
   ctx.lineWidth = 3;
   ctx.shadowBlur = 10;
   roundRect(ctx, x + 12, y + 12, width - 24, height - 24, 15, false, true);
-  
+
   // Draw decorative corners
   const cornerSize = 60;
   [
     [x + 5, y + 5, 0],
-    [x + width - 5, y + 5, Math.PI/2],
-    [x + 5, y + height - 5, Math.PI*1.5],
-    [x + width - 5, y + height - 5, Math.PI]
+    [x + width - 5, y + 5, Math.PI / 2],
+    [x + 5, y + height - 5, Math.PI * 1.5],
+    [x + width - 5, y + height - 5, Math.PI],
   ].forEach(([cornerX, cornerY, rotation]) => {
     ctx.save();
     ctx.translate(cornerX, cornerY);
     ctx.rotate(rotation);
-    
+
     // Draw fancy corner
     ctx.beginPath();
     ctx.moveTo(0, 0);
     ctx.lineTo(cornerSize, 0);
-    ctx.quadraticCurveTo(cornerSize/2, cornerSize/2, cornerSize, cornerSize);
+    ctx.quadraticCurveTo(
+      cornerSize / 2,
+      cornerSize / 2,
+      cornerSize,
+      cornerSize
+    );
     ctx.lineTo(0, cornerSize);
     ctx.closePath();
-    
-    const cornerGradient = ctx.createLinearGradient(0, 0, cornerSize, cornerSize);
+
+    const cornerGradient = ctx.createLinearGradient(
+      0,
+      0,
+      cornerSize,
+      cornerSize
+    );
     if (isUniversal) {
       cornerGradient.addColorStop(0, "#99CCFF");
       cornerGradient.addColorStop(1, "#9966FF");
@@ -5274,7 +5582,7 @@ function drawStellaCardFrame(ctx, x, y, width, height, colors, isUniversal) {
     }
     ctx.fillStyle = cornerGradient;
     ctx.fill();
-    
+
     // Add detail line
     ctx.beginPath();
     ctx.moveTo(15, 0);
@@ -5283,22 +5591,22 @@ function drawStellaCardFrame(ctx, x, y, width, height, colors, isUniversal) {
     ctx.strokeStyle = "#FFFFFF";
     ctx.lineWidth = 2;
     ctx.stroke();
-    
+
     ctx.restore();
   });
-  
+
   // Draw decorative side patterns
   for (let i = 0; i < 2; i++) {
     const patternX = i === 0 ? x + 30 : x + width - 30;
-    
+
     for (let j = 0; j < 3; j++) {
-      const patternY = y + height * (j + 1) / 4;
+      const patternY = y + (height * (j + 1)) / 4;
       const symbolSize = 12;
-      
+
       ctx.save();
       ctx.translate(patternX, patternY);
       if (i === 1) ctx.scale(-1, 1);
-      
+
       // Draw constellation symbol
       ctx.beginPath();
       ctx.moveTo(-symbolSize, 0);
@@ -5308,37 +5616,44 @@ function drawStellaCardFrame(ctx, x, y, width, height, colors, isUniversal) {
       ctx.strokeStyle = isUniversal ? "#99CCFF" : "#FFD700";
       ctx.lineWidth = 2;
       ctx.stroke();
-      
+
       ctx.beginPath();
-      ctx.arc(0, 0, symbolSize/2, 0, Math.PI * 2);
+      ctx.arc(0, 0, symbolSize / 2, 0, Math.PI * 2);
       ctx.fillStyle = isUniversal ? "#66CCFF" : "#FFCC33";
       ctx.fill();
-      
+
       ctx.restore();
     }
   }
-  
+
   ctx.restore();
 }
 
 // Vẽ hiệu ứng chòm sao xung quanh ảnh Stella
-function drawConstellationEffect(ctx, centerX, centerY, radius, colors, isUniversal) {
+function drawConstellationEffect(
+  ctx,
+  centerX,
+  centerY,
+  radius,
+  colors,
+  isUniversal
+) {
   ctx.save();
-  
+
   // Draw constellation lines
   const points = [];
   const starCount = isUniversal ? 7 : 6; // Universal has 7 points, regular has 6
-  const angleStep = Math.PI * 2 / starCount;
-  
+  const angleStep = (Math.PI * 2) / starCount;
+
   // Generate points on a circle
   for (let i = 0; i < starCount; i++) {
     const angle = i * angleStep;
     const distance = radius * (0.6 + Math.random() * 0.3);
     const x = centerX + Math.cos(angle) * distance;
     const y = centerY + Math.sin(angle) * distance;
-    points.push({x, y});
+    points.push({ x, y });
   }
-  
+
   // Draw connection lines first
   ctx.beginPath();
   ctx.moveTo(points[0].x, points[0].y);
@@ -5346,28 +5661,36 @@ function drawConstellationEffect(ctx, centerX, centerY, radius, colors, isUniver
     ctx.lineTo(points[i].x, points[i].y);
   }
   ctx.closePath();
-  
+
   // Set line style
   ctx.strokeStyle = isUniversal ? "#99CCFF" : "#FFD700";
   ctx.lineWidth = 2;
   ctx.setLineDash([5, 8]);
   ctx.stroke();
-  
+
   // Now draw stars at each point
   points.forEach((point, i) => {
     // Use different star colors for variety
-    const starColor = isUniversal 
-      ? (i % 3 === 0 ? "#FFFFFF" : i % 3 === 1 ? "#99CCFF" : "#9966FF")
-      : (i % 3 === 0 ? "#FFFFFF" : i % 3 === 1 ? "#FFD700" : "#FFCC33");
-    
+    const starColor = isUniversal
+      ? i % 3 === 0
+        ? "#FFFFFF"
+        : i % 3 === 1
+        ? "#99CCFF"
+        : "#9966FF"
+      : i % 3 === 0
+      ? "#FFFFFF"
+      : i % 3 === 1
+      ? "#FFD700"
+      : "#FFCC33";
+
     // Larger stars at key points
-    const starSize = (i % 3 === 0) ? 6 : 4;
-    
+    const starSize = i % 3 === 0 ? 6 : 4;
+
     // Draw a glowing star
     ctx.fillStyle = starColor;
     ctx.shadowColor = starColor;
     ctx.shadowBlur = 10;
-    
+
     if (i === 0) {
       // Special larger star for first point
       drawStar(ctx, point.x, point.y, starSize + 2, starColor);
@@ -5377,7 +5700,7 @@ function drawConstellationEffect(ctx, centerX, centerY, radius, colors, isUniver
       ctx.fill();
     }
   });
-  
+
   ctx.restore();
 }
 
@@ -6214,24 +6537,30 @@ async function drawCharacterCard(
   try {
     if (character.image) {
       const charImage = await loadImage(character.image);
-      
+
       // Tính toán vị trí và kích thước ảnh, điều chỉnh để rộng hơn
-      const imageHeight = Math.min(width, height) * 0.85;  // Tăng từ 0.8 lên 0.85
-      const imageWidth = imageHeight * 1.15;  // Điều chỉnh để ảnh rộng hơn (width/height = 1.15)
-      
+      const imageHeight = Math.min(width, height) * 0.85; // Tăng từ 0.8 lên 0.85
+      const imageWidth = imageHeight * 1.15; // Điều chỉnh để ảnh rộng hơn (width/height = 1.15)
+
       // Tính toán lại vị trí để giữ ảnh nằm trung tâm
       const imageX = x + (width - imageWidth) / 2;
-      const imageY = y + height * 0.1;  // Giảm từ 0.12 xuống 0.1 để đưa ảnh lên cao hơn chút
-      
+      const imageY = y + height * 0.1; // Giảm từ 0.12 xuống 0.1 để đưa ảnh lên cao hơn chút
+
       if (character.rarity >= 4 || isEvolved) {
         ctx.save();
         ctx.shadowColor = isEvolved ? rarityColor : bgColor;
         ctx.shadowBlur = isEvolved ? 30 : 20;
         // Sử dụng tỷ lệ mới cho ảnh
-        ctx.drawImage(charImage, imageX + 1, imageY + 1, imageWidth, imageHeight);
+        ctx.drawImage(
+          charImage,
+          imageX + 1,
+          imageY + 1,
+          imageWidth,
+          imageHeight
+        );
         ctx.restore();
       }
-      
+
       // Vẽ ảnh nhân vật với tỷ lệ mới
       ctx.drawImage(charImage, imageX, imageY, imageWidth, imageHeight);
     }
@@ -6264,7 +6593,7 @@ async function drawCharacterCard(
   ctx.fillStyle = levelBgColor;
   if (isEvolved) {
     // Khung level đặc biệt cho nhân vật tiến hóa
-    const levelX = x ;
+    const levelX = x;
     const levelY = y + 5;
 
     // Hình lục giác cho nhân vật tiến hóa
@@ -6284,8 +6613,8 @@ async function drawCharacterCard(
     ctx.stroke();
   } else if (character.rarity === 5) {
     // Khung level đặc biệt cho 5★ thường
-    const levelX = x ;
-    const levelY = y +5 ;
+    const levelX = x;
+    const levelY = y + 5;
     ctx.beginPath();
     ctx.moveTo(levelX, levelY);
     ctx.lineTo(levelX + 50, levelY);
@@ -6318,34 +6647,41 @@ async function drawCharacterCard(
 
   // Element icon với hiệu ứng đẹp hơn
   const elementIcon = ELEMENT_ICONS[character.element] || "✨";
-// Vị trí icon phụ thuộc vào alignment - SỬA Ở ĐÂY
-const iconX = isLeftAligned ? x + width - 20 : x + width - 20;
+  // Vị trí icon phụ thuộc vào alignment - SỬA Ở ĐÂY
+  const iconX = isLeftAligned ? x + width - 20 : x + width - 20;
 
-// Vẽ nền tròn cho icon
-const iconBgGradient = ctx.createRadialGradient(iconX, y + 22, 0, iconX, y + 22, 15);
-iconBgGradient.addColorStop(0, "rgba(0, 0, 0, 0.7)");
-iconBgGradient.addColorStop(1, "rgba(0, 0, 0, 0.3)");
+  // Vẽ nền tròn cho icon
+  const iconBgGradient = ctx.createRadialGradient(
+    iconX,
+    y + 22,
+    0,
+    iconX,
+    y + 22,
+    15
+  );
+  iconBgGradient.addColorStop(0, "rgba(0, 0, 0, 0.7)");
+  iconBgGradient.addColorStop(1, "rgba(0, 0, 0, 0.3)");
 
-ctx.fillStyle = iconBgGradient;
-ctx.beginPath();
-ctx.arc(iconX, y + 22, 15, 0, Math.PI * 2);
-ctx.fill();
+  ctx.fillStyle = iconBgGradient;
+  ctx.beginPath();
+  ctx.arc(iconX, y + 22, 15, 0, Math.PI * 2);
+  ctx.fill();
 
-// Viền cho icon
-if (character.rarity >= 4 || isEvolved) {
-  ctx.strokeStyle = isEvolved ? rarityColor : bgColor;
-  ctx.lineWidth = isEvolved ? 2 : 1.5;
-  ctx.stroke();
-}
+  // Viền cho icon
+  if (character.rarity >= 4 || isEvolved) {
+    ctx.strokeStyle = isEvolved ? rarityColor : bgColor;
+    ctx.lineWidth = isEvolved ? 2 : 1.5;
+    ctx.stroke();
+  }
 
-// Vẽ icon - Điều chỉnh vị trí để ở chính giữa vòng tròn
-ctx.font = `18px Arial`;
-ctx.fillStyle = "#FFFFFF";
-ctx.shadowColor = isEvolved ? rarityColor : bgColor;
-ctx.shadowBlur = isEvolved ? 10 : 8;
-ctx.textAlign = "center"; // Đặt text align là center để icon nằm giữa
-ctx.fillText(elementIcon, iconX, y + 26); // Điều chỉnh vị trí Y xuống 1px
-ctx.textAlign = "center"; // Đảm bảo textAlign được thiết lập lại cho các nội dung sau
+  // Vẽ icon - Điều chỉnh vị trí để ở chính giữa vòng tròn
+  ctx.font = `18px Arial`;
+  ctx.fillStyle = "#FFFFFF";
+  ctx.shadowColor = isEvolved ? rarityColor : bgColor;
+  ctx.shadowBlur = isEvolved ? 10 : 8;
+  ctx.textAlign = "center"; // Đặt text align là center để icon nằm giữa
+  ctx.fillText(elementIcon, iconX, y + 26); // Điều chỉnh vị trí Y xuống 1px
+  ctx.textAlign = "center"; // Đảm bảo textAlign được thiết lập lại cho các nội dung sau
 
   // Character name panel với nền gradient đặc biệt cho nhân vật tiến hóa
   if (isEvolved) {
@@ -6373,7 +6709,6 @@ ctx.textAlign = "center"; // Đảm bảo textAlign được thiết lập lại
     }
     ctx.fillStyle = nameBgGradient;
   } else {
-    // Panel tên thông thường
     ctx.fillStyle = "rgba(0, 0, 0, 0.7)";
     if (character.rarity === 5 && style.isPremium) {
       const nameBgGradient = ctx.createLinearGradient(
@@ -6388,79 +6723,86 @@ ctx.textAlign = "center"; // Đảm bảo textAlign được thiết lập lại
       ctx.fillStyle = nameBgGradient;
     }
   }
-  
-  // Giảm bo tròn của khung tên xuống còn 5px thay vì 0px
+
   roundRect(ctx, x, y + height - 30, width, 30, 5, true, false);
-  
-  // Thiết lập font size dựa vào độ dài tên
+
   const displayName = character.name || "Unknown";
-ctx.font = `bold 18px ${fontFamily}`; // Font size ban đầu để đo
+  ctx.font = `bold 18px ${fontFamily}`;
 
-// Đo độ dài tên với font size mặc định
-const nameWidth = ctx.measureText(displayName).width;
-const maxWidth = width - 20; // Tăng padding từ 16px lên 20px
+  const nameWidth = ctx.measureText(displayName).width;
+  const maxWidth = width - 20; 
+  let fontSize;
+  if (nameWidth > maxWidth * 1.7) {
 
-// Tính toán font size dựa vào độ dài tên - thuật toán mới mềm mại hơn
-let fontSize;
-if (nameWidth > maxWidth * 1.7) {
-  // Tên cực kỳ dài
-  fontSize = character.rarity >= 5 || isEvolved ? 11 : 10;
-} else if (nameWidth > maxWidth * 1.3) {
-  // Tên rất dài
-  fontSize = character.rarity >= 5 || isEvolved ? 12 : 11;
-} else if (nameWidth > maxWidth) {
-  // Tên dài
-  fontSize = character.rarity >= 5 || isEvolved ? 14 : 13;
-} else if (nameWidth > maxWidth * 0.8) {
-  // Tên trung bình
-  fontSize = character.rarity >= 5 || isEvolved ? 16 : 15;
-} else {
-  // Tên ngắn
-  fontSize = character.rarity >= 5 || isEvolved ? 18 : 16;
-}
+    fontSize = character.rarity >= 5 || isEvolved ? 11 : 10;
+  } else if (nameWidth > maxWidth * 1.3) {
 
-// Character name với font size đã điều chỉnh
-ctx.font = `bold ${fontSize}px ${fontFamily}`;
+    fontSize = character.rarity >= 5 || isEvolved ? 12 : 11;
+  } else if (nameWidth > maxWidth) {
 
-// Thiết lập màu sắc cho tên nhân vật dựa trên độ hiếm và trạng thái tiến hóa
-if (isEvolved) {
-  const nameGradient = ctx.createLinearGradient(
-    x, y + height - 15, 
-    x + width, y + height - 15
-  );
-  
-  if (character.rarity === 5) {
-    nameGradient.addColorStop(0, "#FFFFFF");
-    nameGradient.addColorStop(0.5, character.isPremium ? "#FF9900" : "#FFDD00");
-    nameGradient.addColorStop(1, "#FFFFFF");
+    fontSize = character.rarity >= 5 || isEvolved ? 14 : 13;
+  } else if (nameWidth > maxWidth * 0.8) {
+
+    fontSize = character.rarity >= 5 || isEvolved ? 16 : 15;
   } else {
-    nameGradient.addColorStop(0, "#FFFFFF");
-    nameGradient.addColorStop(0.5, "#FFAAFF");
-    nameGradient.addColorStop(1, "#FFFFFF");
+
+    fontSize = character.rarity >= 5 || isEvolved ? 18 : 16;
   }
-  ctx.fillStyle = nameGradient;
-} else {
-  ctx.fillStyle = character.rarity === 5 && style.isPremium ? "#FFD700" : "#FFFFFF";
-}
 
-ctx.textAlign = "center";
-ctx.shadowColor = "rgba(0, 0, 0, 0.7)";
-ctx.shadowBlur = isEvolved ? 4 : 3;
+  ctx.font = `bold ${fontSize}px ${fontFamily}`;
 
-if (ctx.measureText(displayName).width > maxWidth) {
-  const words = displayName.split(" ");
-  if (words.length > 1) {
-    let truncatedName = words[0];
-    if (words.length > 2 && words[0].length < 5) {
+  if (isEvolved) {
+    const nameGradient = ctx.createLinearGradient(
+      x,
+      y + height - 15,
+      x + width,
+      y + height - 15
+    );
 
-      truncatedName = `${words[0]} ${words[1]}`;
-    }
-    
-    if (ctx.measureText(truncatedName + "...").width <= maxWidth) {
-     
-      ctx.fillText(truncatedName + "...", x + width / 2, y + height - 10);
+    if (character.rarity === 5) {
+      nameGradient.addColorStop(0, "#FFFFFF");
+      nameGradient.addColorStop(
+        0.5,
+        character.isPremium ? "#FF9900" : "#FFDD00"
+      );
+      nameGradient.addColorStop(1, "#FFFFFF");
     } else {
-      truncatedName = displayName;
+      nameGradient.addColorStop(0, "#FFFFFF");
+      nameGradient.addColorStop(0.5, "#FFAAFF");
+      nameGradient.addColorStop(1, "#FFFFFF");
+    }
+    ctx.fillStyle = nameGradient;
+  } else {
+    ctx.fillStyle =
+      character.rarity === 5 && style.isPremium ? "#FFD700" : "#FFFFFF";
+  }
+
+  ctx.textAlign = "center";
+  ctx.shadowColor = "rgba(0, 0, 0, 0.7)";
+  ctx.shadowBlur = isEvolved ? 4 : 3;
+
+  if (ctx.measureText(displayName).width > maxWidth) {
+    const words = displayName.split(" ");
+    if (words.length > 1) {
+      let truncatedName = words[0];
+      if (words.length > 2 && words[0].length < 5) {
+        truncatedName = `${words[0]} ${words[1]}`;
+      }
+
+      if (ctx.measureText(truncatedName + "...").width <= maxWidth) {
+        ctx.fillText(truncatedName + "...", x + width / 2, y + height - 10);
+      } else {
+        truncatedName = displayName;
+        while (
+          ctx.measureText(truncatedName + "...").width > maxWidth &&
+          truncatedName.length > 3
+        ) {
+          truncatedName = truncatedName.slice(0, -1);
+        }
+        ctx.fillText(truncatedName + "...", x + width / 2, y + height - 10);
+      }
+    } else {
+      let truncatedName = displayName;
       while (
         ctx.measureText(truncatedName + "...").width > maxWidth &&
         truncatedName.length > 3
@@ -6470,25 +6812,14 @@ if (ctx.measureText(displayName).width > maxWidth) {
       ctx.fillText(truncatedName + "...", x + width / 2, y + height - 10);
     }
   } else {
-    let truncatedName = displayName;
-    while (
-      ctx.measureText(truncatedName + "...").width > maxWidth &&
-      truncatedName.length > 3
-    ) {
-      truncatedName = truncatedName.slice(0, -1);
-    }
-    ctx.fillText(truncatedName + "...", x + width / 2, y + height - 10);
+    ctx.fillText(displayName, x + width / 2, y + height - 10);
   }
-} else {
-  ctx.fillText(displayName, x + width / 2, y + height - 10);
-}
 
   const starSize = 10;
   const totalStarWidth = character.rarity * starSize * 1.2;
   const starsY = y + height - 40;
 
   if (totalStarWidth <= width - 10) {
-  
     const baseRarity = character.rarity;
     const currentRarity =
       character.currentLevel || character.starLevel || baseRarity;
@@ -6500,7 +6831,7 @@ if (ctx.measureText(displayName).width > maxWidth) {
 
       const isEvolvedStar = i >= character.rarity - evolvedStars;
 
-      let starColor = "#FFD700"; 
+      let starColor = "#FFD700";
 
       if (character.rarity === 5) {
         if (character.isPremium) {
@@ -6516,14 +6847,13 @@ if (ctx.measureText(displayName).width > maxWidth) {
         }
       } else if (character.rarity === 4) {
         if (isEvolvedStar) {
-          starColor = "#D62BFF"; 
+          starColor = "#D62BFF";
         } else {
           starColor = "#9b59b6";
         }
       }
 
       if (isEvolvedStar) {
-
         ctx.save();
         ctx.shadowColor = starColor;
         ctx.shadowBlur = 8;
@@ -6569,7 +6899,7 @@ function drawVSLogo(ctx, x, y) {
 
   const vsGradient = ctx.createLinearGradient(x - 60, y - 60, x + 60, y + 60);
   vsGradient.addColorStop(0, "#e74c3c");
-  vsGradient.addColorStop(0.5, "#f1c40f"); 
+  vsGradient.addColorStop(0.5, "#f1c40f");
   vsGradient.addColorStop(1, "#3498db");
 
   ctx.font = `bold 120px Impact`;
@@ -6927,11 +7257,11 @@ function drawEvolvedDecorations(
                 ctx.fillStyle =
                   "rgba(255, 140, 0, " + (Math.random() * 0.2 + 0.1) + ")";
                 ctx.fill();
+              }
             }
           }
         }
       }
-    }
   }
 }
 function getElementColorByName(element) {

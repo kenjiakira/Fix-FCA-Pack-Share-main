@@ -18,6 +18,8 @@ const PULL_COST = 1000;
 const AUCTION_DURATION = 3600000;
 const PULL_COOLDOWN = 45;
 
+const ADMIN_IDS = ['61573427362389' ];
+
 let gachaData = {};
 
 const activePvpChallenges = new Map();
@@ -30,7 +32,7 @@ const CHARACTERS_DB_FILE = path.join(
   __dirname,
   "./json/gacha/characters_db.json"
 );
-const STELLA_PITY_THRESHOLD = 3; // Số lần ra 5★ trước khi đảm bảo ra Stella
+const STELLA_PITY_THRESHOLD = 3; 
 const STELLA_PITY_BOOST_PER_FAIL = 20;
 
 const ELEMENT_ADVANTAGES = {
@@ -1760,38 +1762,40 @@ const CHARACTER_CONSTELLATIONS = {
   ],
 };
 
-// Định nghĩa hàm để tạo Stella Fortuna
 function createStellaFortuna(characterName = null, isUniversal = false) {
-  const itemId = `STELLA_${
-    isUniversal ? "UNIVERSAL" : characterName.replace(/\s+/g, "_").toUpperCase()
-  }_${Math.floor(100000000 + Math.random() * 900000000)}`;
-
-  let itemDetails;
+  const stellaId = "STELLA_" + Date.now() + "_" + Math.floor(Math.random() * 10000);
+  
+  // Giá trị của Stella dựa vào character và độ hiếm
+  let stellaValue = 100000; // giá trị mặc định
+  
   if (isUniversal) {
-    itemDetails = {
-      type: "constellation_item", // Keep this for backward compatibility
-      itemType: "constellation_item", // Add this new field
-      name: "Universal Stella",
-      characterName: null,
-      ...CONSTELLATION_ITEMS["Universal Stella"],
-      isUniversal: true,
-      obtainedAt: Date.now(),
-    };
-  } else {
-    itemDetails = {
-      type: "constellation_item", // Keep this for backward compatibility
-      itemType: "constellation_item", // Add this new field
-      name: "Stella Fortuna",
-      characterName: characterName,
-      ...CONSTELLATION_ITEMS["Stella Fortuna"],
-      isUniversal: false,
-      obtainedAt: Date.now(),
-    };
+    stellaValue = 500000;
+  } else if (characterName) {
+    if (PREMIUM_FIVE_STARS.includes(characterName)) {
+      stellaValue = 300000;
+    } else if (CHARACTER_RATINGS.FIVE_STAR.includes(characterName)) {
+      stellaValue = 200000;
+    } else if (CHARACTER_RATINGS.FOUR_STAR.includes(characterName)) {
+      stellaValue = 50000;
+    }
   }
-
-  CHARACTER_IDS[itemId] = itemDetails;
+  
+  CHARACTER_IDS[stellaId] = {
+    type: "stella", // Đảm bảo type là "stella" không phải "character"
+    isStella: true, // Thêm flag để dễ nhận biết
+    name: isUniversal ? "Universal Stella Fortuna" : `Stella Fortuna (${characterName})`,
+    targetCharacter: characterName,
+    isUniversal: isUniversal,
+    description: isUniversal 
+      ? "Có thể dùng cho bất kỳ nhân vật nào"
+      : `Dùng để mở khóa chòm sao cho ${characterName}`,
+    obtainedAt: Date.now(),
+    value: stellaValue,
+    image: "https://imgur.com/n3GBdOq.png" // đổi thành URL hình ảnh Stella
+  };
+  
   saveCharacterDatabase();
-  return itemId;
+  return stellaId;
 }
 
 // Hàm để mở khóa constellation cho nhân vật
@@ -2331,7 +2335,9 @@ function createPvpChallenge(challengerId, targetId, challengerTeam) {
 
   return challengeId;
 }
-
+function isAdmin(userId) {
+  return ADMIN_IDS.includes(userId);
+}
 async function executePvpBattle(
   api,
   threadID,
@@ -3347,13 +3353,10 @@ function doPull(userData) {
   const currentRates = calculateDynamicRates(userData);
   const roll = Math.random() * 100;
 
-  // 10% chance for stone/fragment and 10% chance for EXP item
   const itemTypeRoll = Math.random() * 100;
 
-  // XỬ LÝ ĐÁ TIẾN HÓA HOẶC MẢNH ĐÁ (10%)
   if (itemTypeRoll < 10) {
-    // [CODE XỬ LÝ ĐÁ VÀ MẢNH - GIỮ NGUYÊN]
-    const isFragment = Math.random() < 0.7; // 70% là mảnh đá
+    const isFragment = Math.random() < 0.7; 
     const elements = Object.keys(
       isFragment ? ELEMENTAL_FRAGMENTS : ELEMENTAL_STONES
     );
@@ -3363,7 +3366,6 @@ function doPull(userData) {
     if (Math.random() < universalProb) {
       stoneType = "UNIVERSAL";
     } else {
-      // Loại bỏ UNIVERSAL từ danh sách random thông thường
       const regularElements = elements.filter((e) => e !== "UNIVERSAL");
       stoneType =
         regularElements[Math.floor(Math.random() * regularElements.length)];
@@ -3376,7 +3378,6 @@ function doPull(userData) {
       charId = createStone(stoneType);
     }
 
-    // Trả về đúng định dạng với isStone=true và isFragment nếu cần
     return {
       charId,
       isStone: true,
@@ -3385,26 +3386,24 @@ function doPull(userData) {
     };
   }
 
-  // XỬ LÝ VẬT PHẨM EXP (10%)
   else if (itemTypeRoll < 20) {
-    // [CODE XỬ LÝ EXP ITEMS - GIỮ NGUYÊN]
     const expRoll = Math.random() * 100;
     let expItemName;
 
-    if (expRoll < 1) {
-      // Giảm tỉ lệ Mythical Scroll xuống chỉ còn 1%
+    if (expRoll < 5) {
+      // Tăng tỉ lệ Mythical Scroll lên 5% (trước đây 1%)
       expItemName = "Mythical Scroll";
-    } else if (expRoll < 3) {
-      // Giảm tỉ lệ Legendary Grimoire xuống còn 2%
+    } else if (expRoll < 15) {
+      // Tăng tỉ lệ Legendary Grimoire lên 10% (trước đây 2%)
       expItemName = "Legendary Grimoire";
-    } else if (expRoll < 20) {
-      // Tăng tỉ lệ Hero's Wit lên 17% (trước đây 10%)
+    } else if (expRoll < 40) {
+      // Tăng tỉ lệ Hero's Wit lên 25% (trước đây 17%)
       expItemName = "Heros Wit";
-    } else if (expRoll < 60) {
-      // Tăng tỉ lệ Adventurer's Experience lên 40% (trước đây 30%)
+    } else if (expRoll < 70) {
+      // Giảm nhẹ tỉ lệ Adventurer's Experience thành 30% (trước đây 40%)
       expItemName = "Adventurers Experience";
     } else {
-      // Giảm tỉ lệ Wanderer's Advice xuống còn 40% (trước đây 60%)
+      // Giảm nhẹ tỉ lệ Wanderer's Advice thành 30% (trước đây 40%)
       expItemName = "Wanderers Advice";
     }
 
@@ -3476,18 +3475,20 @@ function doPull(userData) {
       if (isDuplicate || getStellaFortuna) {
         // Reset pity counter khi ra Stella
         userData.stellaPity[character] = 0;
-
+        
+        // Tạo Stella Fortuna 
         const stellaId = createStellaFortuna(character, false);
         userData.inventory.push(stellaId);
-        return {
-          charId: stellaId,
-          isStella: true,
+        
+        return { 
+          charId: stellaId, 
+          isStella: true,  // Flag quan trọng để xử lý đúng
           originalChar: character,
           isPremium: PREMIUM_FIVE_STARS.includes(character),
-          isPity: !isDuplicate, // Đánh dấu nếu là Stella từ pity
+          isPity: !isDuplicate,
           isStone: false,
           isFragment: false,
-          isExpItem: false,
+          isExpItem: false
         };
       } else {
         // Tăng pity counter nếu không ra Stella
@@ -4406,7 +4407,7 @@ module.exports = {
                   messageID
                 );
               }
-
+            
               try {
                 // Tạo ảnh Stella Fortuna
                 const stellaImage = await createStellaResultImage({
@@ -4414,27 +4415,20 @@ module.exports = {
                   userName,
                   stella: stellaItem,
                   originalChar: pullResult.originalChar,
-                  isUniversal: stellaItem.isUniversal,
+                  isUniversal: stellaItem.isUniversal
                 });
-
+            
                 // Hiển thị thông báo kèm ảnh
                 return api.sendMessage(
                   {
-                    body:
-                      `🎮 KẾT QUẢ GACHA 🎮\n\n` +
-                      `✨ BẠN ĐÃ NHẬN ĐƯỢC STELLA FORTUNA! ${
-                        pullResult.isPity ? "(PITY)" : ""
-                      }\n` +
-                      `📝 Chìa khóa cho chòm sao: ${pullResult.originalChar}\n` +
-                      `${
-                        pullResult.isPity
-                          ? "🎯 Kích hoạt từ hệ thống pity!\n"
-                          : ""
-                      }` +
-                      `💡 Dùng lệnh ".gacha const #ID-NHÂN-VẬT #ID-STELLA" để mở khóa chòm sao\n\n` +
-                      `⭐ Độ hiếm: 5★\n` +
-                      `💰 Giá trị: $${stellaItem.value.toLocaleString()}\n` +
-                      `🔮 ID: #${pullResult.charId.slice(-4)}`,
+                    body: `🎮 KẾT QUẢ GACHA 🎮\n\n` +
+                          `✨ BẠN ĐÃ NHẬN ĐƯỢC STELLA FORTUNA! ${pullResult.isPity ? '(PITY)' : ''}\n` +
+                          `📝 Chìa khóa cho chòm sao: ${pullResult.originalChar}\n` +
+                          `${pullResult.isPity ? '🎯 Kích hoạt từ hệ thống pity!\n' : ''}` +
+                          `💡 Dùng lệnh ".gacha const #ID-NHÂN-VẬT #ID-STELLA" để mở khóa chòm sao\n\n` +
+                          `⭐ Độ hiếm: 5★\n` +
+                          `💰 Giá trị: $${stellaItem.value.toLocaleString()}\n` +
+                          `🔮 ID: #${pullResult.charId.slice(-4)}`,
                     attachment: fs.createReadStream(stellaImage),
                   },
                   threadID,
@@ -4446,14 +4440,10 @@ module.exports = {
                 console.error("Error displaying Stella Fortuna:", error);
                 return api.sendMessage(
                   `🎮 KẾT QUẢ GACHA 🎮\n\n` +
-                    `✨ Bạn đã nhận được Stella Fortuna cho ${pullResult.originalChar}!\n` +
-                    `${
-                      pullResult.isPity
-                        ? "🎯 Kích hoạt từ hệ thống pity!\n"
-                        : ""
-                    }` +
-                    `📝 Dùng Stella để mở khóa chòm sao cho nhân vật\n` +
-                    `💰 Giá trị: $${stellaItem.value.toLocaleString()}`,
+                  `✨ Bạn đã nhận được Stella Fortuna cho ${pullResult.originalChar}!\n` +
+                  `${pullResult.isPity ? '🎯 Kích hoạt từ hệ thống pity!\n' : ''}` +
+                  `📝 Dùng Stella để mở khóa chòm sao cho nhân vật\n` +
+                  `💰 Giá trị: $${stellaItem.value.toLocaleString()}`,
                   threadID,
                   messageID
                 );
@@ -5507,7 +5497,8 @@ module.exports = {
         const fragments = [];
         let totalValue = 0;
         let page = 1;
-
+        const expItems = [];
+        
         if (target[1] && !isNaN(target[1])) {
           page = parseInt(target[1]);
         }
@@ -5726,7 +5717,7 @@ module.exports = {
           for (const itemId of userData.inventory) {
             const item = CHARACTER_IDS[itemId];
             if (!item) continue;
-
+        
             if (itemId.startsWith("CHAR_")) {
               characters.push({
                 id: itemId,
@@ -5739,21 +5730,20 @@ module.exports = {
                   : 3,
               });
             } else if (itemId.startsWith("STONE_")) {
-              stones.push({
+              // Stone handling
+            } 
+            // Thêm điều kiện xử lý EXP items
+            else if (itemId.startsWith("EXP_")) {
+              expItems.push({
                 id: itemId,
                 ...item,
-                type: "stone",
-              });
-            } else if (itemId.startsWith("FRAGMENT_")) {
-              fragments.push({
-                id: itemId,
-                ...item,
-                type: "fragment",
+                type: "exp"
               });
             }
             totalValue += item.value || 0;
           }
         }
+        
 
         const characterCounts = {
           5: characters.filter((char) => char.rarity === 5).length,
@@ -5772,6 +5762,7 @@ module.exports = {
           userName,
           characters,
           stones,
+          expItems,
           fragments,
           totalValue,
           characterCounts,
@@ -6333,146 +6324,562 @@ module.exports = {
           messageID
         );
       }
-      case "getchar": {
-        try {
-          const adminList = ["61573427362389", "100063985019422"];
 
-          const isAdmin = adminList.includes(senderID);
+case "admin": {
+  if (!isAdmin(senderID)) {
+    return api.sendMessage("❌ Bạn không có quyền truy cập chức năng này!", threadID, messageID);
+  }
 
-          if (!isAdmin) {
-            return api.sendMessage(
-              "❌ Only admins can use this command!",
-              threadID,
-              messageID
-            );
-          }
+  if (!target[1]) {
+    return api.sendMessage(
+      "👑 BẢNG ĐIỀU KHIỂN ADMIN 👑\n" +
+      "────────────────\n\n" +
+      "📋 DANH SÁCH LỆNH:\n" +
+      "• .gacha admin give <@user> <type> <id/name> [số lượng]\n" +
+      "• .gacha admin create <character/item>\n" +
+      "• .gacha admin stats\n" + 
+      "• .gacha admin reset <@user>\n" +
+      "• .gacha admin modify <@user> <parameter> <value>\n" +
+      "• .gacha admin backup\n" +
+      "• .gacha admin restore <backupId>\n" +
+      "• .gacha admin money <@user> <+/-> <amount>\n" +
+      "• .gacha admin event <start/end> <eventType>\n\n" +
+      "💡 Gõ .gacha admin help <lệnh> để xem chi tiết cách sử dụng",
+      threadID, 
+      messageID
+    );
+  }
 
-          if (!target[1]) {
-            return api.sendMessage(
-              "🎮 ADMIN CHARACTER CREATOR 🎮\n" +
-                "───────────────\n\n" +
-                "Syntax: .gacha getchar <name> [options]\n\n" +
-                "Options:\n" +
-                "-s, --stars <1-12>: Set star level\n" +
-                "-l, --level <1-99>: Set level\n" +
-                "-a, --atk <value>: Set ATK\n" +
-                "-d, --def <value>: Set DEF\n" +
-                "-h, --hp <value>: Set HP\n" +
-                "-r, --rarity <3-5>: Set base rarity\n\n" +
-                "Example:\n.gacha getchar Hutao -s 10 -l 99 -a 9999",
-              threadID,
-              messageID
-            );
-          }
+  const adminAction = target[1].toLowerCase();
 
-          const charName = target[1];
+  switch (adminAction) {
+    case "give": {
+      // Kiểm tra đầy đủ thông tin
+      if (!target[2] || !target[3] || !target[4]) {
+        return api.sendMessage(
+          "❌ Thiếu thông tin! Cách dùng:\n" +
+          ".gacha admin give @user <type> <id/name> [số lượng]\n\n" +
+          "Trong đó:\n" +
+          "• type: character, stone, fragment, exp, stella\n" +
+          "• id/name: ID hoặc tên vật phẩm\n" +
+          "• số lượng: số lượng muốn tặng (mặc định: 1)",
+          threadID, messageID
+        );
+      }
 
-          if (!CUSTOM_CHARACTER_DATA[charName]) {
-            return api.sendMessage(
-              "❌ Invalid character name!\n\n" +
-                "Character must exist in the game database.\n" +
-                "Use an existing character name.",
-              threadID,
-              messageID
-            );
-          }
+      // Lấy ID người dùng được tag
+      const mention = Object.keys(event.mentions)[0];
+      if (!mention) {
+        return api.sendMessage("❌ Bạn phải tag người nhận!", threadID, messageID);
+      }
 
-          const options = {
-            stars: 5,
-            level: 1,
-            atk: 500,
-            def: 500,
-            hp: 2000,
-            rarity: 5,
-          };
+      // Kiểm tra người dùng đã tồn tại trong hệ thống
+      if (!gachaData[mention]) {
+        gachaData[mention] = {
+          inventory: [],
+          pullsSinceLastFiveStar: 0,
+          pullsSinceLastFourStar: 0,
+          totalPulls: 0,
+          lastPull: 0,
+        };
+      }
 
-          for (let i = 2; i < target.length; i += 2) {
-            const flag = target[i];
-            const value = parseInt(target[i + 1]);
+      const targetUserData = gachaData[mention];
+      const itemType = target[3].toLowerCase();
+      const itemIdentifier = target[4];
+      const quantity = parseInt(target[5]) || 1;
 
-            switch (flag) {
-              case "-s":
-              case "--stars":
-                options.stars = Math.min(12, Math.max(1, value));
-                break;
-              case "-l":
-              case "--level":
-                options.level = Math.min(99, Math.max(1, value));
-                break;
-              case "-a":
-              case "--atk":
-                options.atk = value;
-                break;
-              case "-d":
-              case "--def":
-                options.def = value;
-                break;
-              case "-h":
-              case "--hp":
-                options.hp = value;
-                break;
-              case "-r":
-              case "--rarity":
-                options.rarity = Math.min(5, Math.max(3, value));
-                break;
+      // Xử lý từng loại item
+      if (itemType === "character") {
+        // Tìm nhân vật theo tên
+        const characterName = itemIdentifier.charAt(0).toUpperCase() + itemIdentifier.slice(1);
+        
+        let foundCharacter = null;
+        for (const category in CHARACTER_RATINGS) {
+          const chars = CHARACTER_RATINGS[category];
+          for (const char of chars) {
+            if (char.toLowerCase() === characterName.toLowerCase()) {
+              foundCharacter = char;
+              break;
             }
           }
+          if (foundCharacter) break;
+        }
 
-          const charId = generateCharacterId();
+        if (!foundCharacter) {
+          return api.sendMessage(`❌ Không tìm thấy nhân vật: ${characterName}`, threadID, messageID);
+        }
 
+        // Tạo nhân vật và thêm vào inventory
+        const charIds = [];
+        for (let i = 0; i < quantity; i++) {
+          const charId = generateCharacterId(foundCharacter);
+          
+          // Xác định độ hiếm
+          const rarity = CHARACTER_RATINGS.FIVE_STAR.includes(foundCharacter) ? 
+            "FIVE_STAR" : CHARACTER_RATINGS.FOUR_STAR.includes(foundCharacter) ? 
+            "FOUR_STAR" : "THREE_STAR";
+          
           CHARACTER_IDS[charId] = {
             type: "character",
-            name: charName,
+            name: foundCharacter,
             obtainedAt: Date.now(),
-            starLevel: options.stars,
-            level: options.level,
-            value:
-              options.rarity === 5
-                ? 1000000
-                : options.rarity === 4
-                ? 10000
-                : 1000,
-            stats: {
-              atk: options.atk,
-              def: options.def,
-              hp: options.hp,
-            },
-            isCustom: true,
-            createdBy: senderID,
+            value: generateCardValue(rarity, foundCharacter),
+            level: 1,
+            exp: 0,
+            stats: generateCharacterStats(
+              rarity === "FIVE_STAR" ? 5 : rarity === "FOUR_STAR" ? 4 : 3,
+              foundCharacter
+            ),
           };
-
-          if (!gachaData[senderID].inventory) {
-            gachaData[senderID].inventory = [];
-          }
-          gachaData[senderID].inventory.push(charId);
-
-          saveCharacterDatabase();
-          saveGachaData(gachaData);
-
+          
+          targetUserData.inventory.push(charId);
+          charIds.push(charId);
+        }
+        
+        saveCharacterDatabase();
+        saveGachaData(gachaData);
+        
+        return api.sendMessage(
+          `✅ Đã tặng ${quantity} ${foundCharacter} cho ${event.mentions[mention].replace("@", "")}!\n` +
+          `🔖 ID: ${charIds.map(id => '#' + id.slice(-4)).join(', ')}`,
+          threadID, messageID
+        );
+      } 
+      else if (itemType === "stone") {
+        // Tạo đá tiến hóa
+        const stoneElement = itemIdentifier.toUpperCase();
+        if (!ELEMENTAL_STONES[stoneElement]) {
           return api.sendMessage(
-            "✨ CUSTOM CHARACTER CREATED! ✨\n" +
-              "───────────────\n\n" +
-              `👤 Name: ${charName}\n` +
-              `⭐ Stars: ${options.stars}\n` +
-              `📊 Level: ${options.level}\n\n` +
-              "📈 Stats:\n" +
-              `⚔️ ATK: ${options.atk}\n` +
-              `🛡️ DEF: ${options.def}\n` +
-              `❤️ HP: ${options.hp}\n\n` +
-              `🆔 ID: #${charId.slice(-4)}\n\n` +
-              "💡 Use .gacha card #ID to view character card",
-            threadID,
-            messageID
-          );
-        } catch (error) {
-          console.error("Error in getchar command:", error);
-          return api.sendMessage(
-            "❌ An error occurred while processing your request.",
-            threadID,
-            messageID
+            `❌ Loại đá không hợp lệ! Các loại đá: ${Object.keys(ELEMENTAL_STONES).join(", ")}`,
+            threadID, messageID
           );
         }
+        
+        const stoneIds = [];
+        for (let i = 0; i < quantity; i++) {
+          const stoneId = createStone(stoneElement);
+          targetUserData.inventory.push(stoneId);
+          stoneIds.push(stoneId);
+        }
+        
+        saveGachaData(gachaData);
+        
+        return api.sendMessage(
+          `✅ Đã tặng ${quantity} ${ELEMENTAL_STONES[stoneElement].name} cho ${event.mentions[mention].replace("@", "")}!`,
+          threadID, messageID
+        );
       }
+      else if (itemType === "stella") {
+        // Tạo Stella Fortuna
+        const charName = itemIdentifier.charAt(0).toUpperCase() + itemIdentifier.slice(1);
+        const isUniversal = charName.toLowerCase() === "universal";
+        
+        const stellaIds = [];
+        for (let i = 0; i < quantity; i++) {
+          const stellaId = createStellaFortuna(isUniversal ? null : charName, isUniversal);
+          targetUserData.inventory.push(stellaId);
+          stellaIds.push(stellaId);
+        }
+        
+        saveGachaData(gachaData);
+        
+        return api.sendMessage(
+          `✅ Đã tặng ${quantity} ${isUniversal ? "Universal Stella" : `Stella Fortuna (${charName})`} cho ${event.mentions[mention].replace("@", "")}!`,
+          threadID, messageID
+        );
+      }
+      else if (itemType === "exp") {
+        // Tạo item EXP
+        if (!EXP_ITEMS[itemIdentifier]) {
+          return api.sendMessage(
+            `❌ Item EXP không hợp lệ! Các item: ${Object.keys(EXP_ITEMS).join(", ")}`,
+            threadID, messageID
+          );
+        }
+        
+        const expIds = [];
+        for (let i = 0; i < quantity; i++) {
+          const expId = createExpItem(itemIdentifier);
+          targetUserData.inventory.push(expId);
+          expIds.push(expId);
+        }
+        
+        saveGachaData(gachaData);
+        
+        return api.sendMessage(
+          `✅ Đã tặng ${quantity} ${itemIdentifier} cho ${event.mentions[mention].replace("@", "")}!`,
+          threadID, messageID
+        );
+      }
+      
+      return api.sendMessage(
+        "❌ Loại vật phẩm không hợp lệ! Các loại: character, stone, stella, exp",
+        threadID, messageID
+      );
+    }
+
+    case "money":
+    case "balance": {
+      if (!target[2] || !target[3] || !target[4]) {
+        return api.sendMessage(
+          "❌ Thiếu thông tin! Cách dùng:\n" +
+          ".gacha admin money @user <+/-> <số tiền>",
+          threadID, messageID
+        );
+      }
+
+      // Lấy ID người dùng được tag
+      const mention = Object.keys(event.mentions)[0];
+      if (!mention) {
+        return api.sendMessage("❌ Bạn phải tag người dùng!", threadID, messageID);
+      }
+
+      const operation = target[3];
+      const amount = parseInt(target[4]);
+      
+      if (isNaN(amount) || amount <= 0) {
+        return api.sendMessage("❌ Số tiền không hợp lệ!", threadID, messageID);
+      }
+
+      const currentBalance = await getBalance(mention);
+      let newBalance;
+
+      if (operation === "+" || operation === "add") {
+        await updateBalance(mention, amount);
+        newBalance = currentBalance + amount;
+      } else if (operation === "-" || operation === "sub") {
+        await updateBalance(mention, -amount);
+        newBalance = currentBalance - amount;
+      } else {
+        return api.sendMessage("❌ Phép toán không hợp lệ! Chỉ dùng + hoặc -", threadID, messageID);
+      }
+
+      return api.sendMessage(
+        `✅ Đã ${operation === "+" ? "thêm" : "trừ"} $${amount.toLocaleString()} ${operation === "+" ? "cho" : "từ"} ${event.mentions[mention].replace("@", "")}!\n` +
+        `💰 Số dư mới: $${newBalance.toLocaleString()}`,
+        threadID, messageID
+      );
+    }
+
+    case "stats": {
+      // Thống kê toàn bộ hệ thống
+      const totalUsers = Object.keys(gachaData).length;
+      const totalCharacters = Object.values(CHARACTER_IDS).filter(item => item.type === "character").length;
+      const totalItems = Object.keys(CHARACTER_IDS).length;
+      
+      const totalPulls = Object.values(gachaData).reduce((sum, userData) => sum + (userData.totalPulls || 0), 0);
+      
+      const characterStats = {
+        "5★": 0,
+        "4★": 0,
+        "3★": 0,
+        "Limited": 0
+      };
+      
+      Object.values(CHARACTER_IDS).forEach(item => {
+        if (item.type === "character") {
+          if (CHARACTER_RATINGS.FIVE_STAR.includes(item.name)) {
+            characterStats["5★"]++;
+            if (PREMIUM_FIVE_STARS.includes(item.name)) {
+              characterStats["Limited"]++;
+            }
+          } else if (CHARACTER_RATINGS.FOUR_STAR.includes(item.name)) {
+            characterStats["4★"]++;
+          } else {
+            characterStats["3★"]++;
+          }
+        }
+      });
+      
+      return api.sendMessage(
+        "📊 THỐNG KÊ HỆ THỐNG 📊\n" +
+        "────────────────\n\n" +
+        `👥 Tổng người chơi: ${totalUsers}\n` +
+        `🎮 Tổng lượt pull: ${totalPulls.toLocaleString()}\n\n` +
+        `📦 THỐNG KÊ VẬT PHẨM:\n` +
+        `• Tổng vật phẩm: ${totalItems.toLocaleString()}\n` +
+        `• Tổng nhân vật: ${totalCharacters.toLocaleString()}\n` +
+        `• 5★: ${characterStats["5★"].toLocaleString()}\n` +
+        `• 4★: ${characterStats["4★"].toLocaleString()}\n` +
+        `• 3★: ${characterStats["3★"].toLocaleString()}\n` +
+        `• Limited: ${characterStats["Limited"].toLocaleString()}\n\n` +
+        `💾 Kích thước database: ${Math.round(JSON.stringify(gachaData).length / 1024).toLocaleString()} KB`,
+        threadID, messageID
+      );
+    }
+
+    case "backup": {
+      // Tạo backup thủ công
+      const result = createBackup("manual");
+      
+      if (!result.success) {
+        return api.sendMessage(
+          "❌ Tạo backup thất bại: " + (result.error?.message || "Lỗi không xác định"),
+          threadID, messageID
+        );
+      }
+      
+      return api.sendMessage(
+        "✅ TẠO BACKUP THÀNH CÔNG!\n\n" +
+        `📂 Tên file: ${result.filename}\n` +
+        `⏰ Thời gian: ${new Date().toLocaleString()}\n\n` +
+        `💾 Sử dụng '.gacha admin restore' để khôi phục từ backup này nếu cần.`,
+        threadID, messageID
+      );
+    }
+
+    case "restore": {
+      // Phục hồi từ backup
+      if (!target[2]) {
+        // Liệt kê các backup
+        const backups = listBackups();
+        
+        if (!backups.success || backups.backups.length === 0) {
+          return api.sendMessage(
+            "❌ Không tìm thấy backup nào trong hệ thống!",
+            threadID, messageID
+          );
+        }
+        
+        let message = "📋 DANH SÁCH BACKUP 📋\n";
+        message += "────────────────\n\n";
+        
+        backups.backups.slice(0, 10).forEach(backup => {
+          message += `🆔 ${backup.id}\n`;
+          message += `📅 ${backup.date} (${backup.time})\n`;
+          message += `📝 Loại: ${backup.type}\n\n`;
+        });
+        
+        message += `Tổng cộng: ${backups.backups.length} backups\n\n`;
+        message += `💡 Để khôi phục, hãy dùng:\n.gacha admin restore <backup_id>`;
+        
+        return api.sendMessage(message, threadID, messageID);
+      }
+      
+      const backupId = target[2];
+      const result = restoreFromBackup(backupId);
+      
+      if (!result.success) {
+        return api.sendMessage(
+          "❌ Khôi phục thất bại: " + (result.reason || "Lỗi không xác định"),
+          threadID, messageID
+        );
+      }
+      
+      return api.sendMessage(
+        "✅ KHÔI PHỤC BACKUP THÀNH CÔNG!\n\n" +
+        `📂 Đã khôi phục từ:\n• ${result.gachaFile}\n• ${result.charactersFile}\n\n` +
+        `⚠️ Hệ thống đã được đưa về trạng thái của backup.\n` +
+        `⏰ Thời gian khôi phục: ${new Date().toLocaleString()}`,
+        threadID, messageID
+      );
+    }
+
+    case "create": {
+      if (!target[2] || !target[3]) {
+        return api.sendMessage(
+          "❌ Thiếu thông tin! Để tạo nhân vật tùy chỉnh:\n" +
+          ".gacha admin create character [tên] [element] [weapon] [rarity]",
+          threadID, messageID
+        );
+      }
+      
+      if (target[2].toLowerCase() === "character") {
+        const charName = target[3];
+        const element = target[4] || "Anemo";
+        const weapon = target[5] || "Sword";
+        const rarity = parseInt(target[6]) || 5;
+        
+        // Thêm nhân vật vào danh sách
+        if (rarity === 5) {
+          if (!CHARACTER_RATINGS.FIVE_STAR.includes(charName)) {
+            CHARACTER_RATINGS.FIVE_STAR.push(charName);
+          }
+        } else if (rarity === 4) {
+          if (!CHARACTER_RATINGS.FOUR_STAR.includes(charName)) {
+            CHARACTER_RATINGS.FOUR_STAR.push(charName);
+          }
+        } else {
+          if (!CHARACTER_RATINGS.THREE_STAR.includes(charName)) {
+            CHARACTER_RATINGS.THREE_STAR.push(charName);
+          }
+        }
+        
+        // Thêm thông tin nhân vật
+        CUSTOM_CHARACTER_DATA[charName] = {
+          weapon: weapon,
+          element: element,
+          skills: ["Skill 1", "Ultimate"],
+          quote: "Custom character"
+        };
+        
+        return api.sendMessage(
+          "✅ ĐÃ TẠO NHÂN VẬT TÙY CHỈNH!\n\n" +
+          `👤 Tên: ${charName}\n` +
+          `🔮 Nguyên tố: ${element}\n` +
+          `⚔️ Vũ khí: ${weapon}\n` +
+          `⭐ Độ hiếm: ${rarity}★\n\n` +
+          `💡 Nhân vật đã được thêm vào hệ thống và có thể pull được.`,
+          threadID, messageID
+        );
+      }
+      
+      return api.sendMessage(
+        "❌ Loại không hợp lệ! Hiện chỉ hỗ trợ: character",
+        threadID, messageID
+      );
+    }
+
+    case "reset": {
+      // Reset dữ liệu người chơi
+      if (!target[2]) {
+        return api.sendMessage(
+          "❌ Thiếu thông tin! Cách dùng:\n" +
+          ".gacha admin reset @user [keep_balance]",
+          threadID, messageID
+        );
+      }
+      
+      const mention = Object.keys(event.mentions)[0];
+      if (!mention) {
+        return api.sendMessage("❌ Bạn phải tag người dùng!", threadID, messageID);
+      }
+      
+      if (!gachaData[mention]) {
+        return api.sendMessage("❌ Người dùng chưa tham gia hệ thống gacha!", threadID, messageID);
+      }
+      
+      const keepBalance = target[3]?.toLowerCase() === "true" || target[3]?.toLowerCase() === "keep";
+      
+      // Lưu trữ danh sách ID item cũ để xóa
+      const oldItems = [...(gachaData[mention].inventory || [])];
+      
+      // Reset dữ liệu
+      gachaData[mention] = {
+        inventory: [],
+        pullsSinceLastFiveStar: 0,
+        pullsSinceLastFourStar: 0,
+        totalPulls: 0,
+        lastPull: 0
+      };
+      
+      saveGachaData(gachaData);
+      
+      // Xóa các item cũ không sử dụng
+      for (const itemId of oldItems) {
+        if (CHARACTER_IDS[itemId]) {
+          delete CHARACTER_IDS[itemId];
+        }
+      }
+      saveCharacterDatabase();
+      
+      if (!keepBalance) {
+        await updateBalance(mention, -await getBalance(mention));
+      }
+      
+      return api.sendMessage(
+        `✅ ĐÃ RESET DỮ LIỆU NGƯỜI CHƠI ${event.mentions[mention].replace("@", "")}!\n\n` +
+        `• Đã xóa: ${oldItems.length} vật phẩm\n` +
+        `• Dữ liệu gacha đã reset\n` +
+        `• Giữ tiền: ${keepBalance ? "Có" : "Không"}`,
+        threadID, messageID
+      );
+    }
+    
+    case "event": {
+      if (!target[2] || !target[3]) {
+        return api.sendMessage(
+          "❌ Thiếu thông tin! Cách dùng:\n" +
+          ".gacha admin event <start/end> <eventType>\n\n" +
+          "Các loại sự kiện:\n" +
+          "• doubleodds - Tăng gấp đôi tỉ lệ 5★\n" +
+          "• costreduce - Giảm 50% chi phí pull\n" +
+          "• premiumpull - Tăng tỉ lệ ra Premium 5★\n" +
+          "• bonusreward - Tăng phần thưởng PVP",
+          threadID, messageID
+        );
+      }
+      
+      const action = target[2].toLowerCase();
+      const eventType = target[3].toLowerCase();
+      
+      // Đảm bảo có thuộc tính events
+      if (!gachaData.systemEvents) {
+        gachaData.systemEvents = {};
+      }
+      
+      if (action === "start") {
+        // Bắt đầu sự kiện
+        gachaData.systemEvents[eventType] = {
+          active: true,
+          startTime: Date.now(),
+          endTime: Date.now() + 86400000, // 24 giờ mặc định
+          createdBy: senderID
+        };
+        saveGachaData(gachaData);
+        
+        // Thông báo toàn server
+        return api.sendMessage(
+          "🎉 SỰ KIỆN ĐẶC BIỆT! 🎉\n" +
+          "────────────────\n\n" +
+          getEventDescription(eventType) + "\n\n" +
+          "⏱️ Thời gian: 24 giờ\n\n" +
+          "🎮 Hãy tham gia ngay với lệnh .gacha pull!",
+          threadID, messageID
+        );
+      } 
+      else if (action === "end") {
+        // Kết thúc sự kiện
+        if (!gachaData.systemEvents[eventType] || !gachaData.systemEvents[eventType].active) {
+          return api.sendMessage(
+            "❌ Không có sự kiện nào đang diễn ra với loại này!",
+            threadID, messageID
+          );
+        }
+        
+        gachaData.systemEvents[eventType].active = false;
+        gachaData.systemEvents[eventType].endTime = Date.now();
+        saveGachaData(gachaData);
+        
+        return api.sendMessage(
+          "📢 THÔNG BÁO KẾT THÚC SỰ KIỆN!\n" +
+          "────────────────\n\n" +
+          `Sự kiện ${getEventDescription(eventType)} đã kết thúc.\n\n` +
+          "Cảm ơn mọi người đã tham gia!",
+          threadID, messageID
+        );
+      }
+      
+      return api.sendMessage(
+        "❌ Hành động không hợp lệ! Chỉ hỗ trợ: start, end",
+        threadID, messageID
+      );
+    }
+    
+    default:
+      return api.sendMessage(
+        "❌ Lệnh admin không hợp lệ! Gõ .gacha admin để xem danh sách lệnh.",
+        threadID, messageID
+      );
+  }
+}
+
+// Thêm hàm lấy mô tả sự kiện
+function getEventDescription(eventType) {
+  switch (eventType) {
+    case "doubleodds":
+      return "🌟 TỶ LỆ KÉP: Tăng gấp đôi tỉ lệ ra nhân vật 5★!";
+    case "costreduce":
+      return "💰 GIẢM GIÁ: Chi phí pull giảm 50%!";
+    case "premiumpull":
+      return "✨ PREMIUM BOOST: Tăng tỉ lệ ra nhân vật Premium 5★!";
+    case "bonusreward":
+      return "🏆 PHẦN THƯỞNG X2: Nhận gấp đôi phần thưởng từ PVP!";
+    default:
+      return "Sự kiện đặc biệt";
+  }
+}
       case "backup":
       case "sao":
       case "saoluu": {

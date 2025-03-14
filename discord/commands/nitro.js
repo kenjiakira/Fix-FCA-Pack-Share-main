@@ -6,7 +6,7 @@ const path = require('path');
 const exchangeLogFile = path.join(__dirname, '../../database/exchange_logs.json');
 const linksFile = path.join(__dirname, '../../database/discord_links.json');
 const NITRO_CHANNEL_ID = '1341744524338135125';
-const EXCHANGE_RATE = 10;
+const EXCHANGE_RATE = 0.01;
 
 const STATUS = {
     PENDING: 'pending',
