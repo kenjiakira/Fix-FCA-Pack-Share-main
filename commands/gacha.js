@@ -3353,22 +3353,33 @@ function doPull(userData) {
   const currentRates = calculateDynamicRates(userData);
   const roll = Math.random() * 100;
 
-  const itemTypeRoll = Math.random() * 100;
+  if (userData.pullsSinceLastStone === undefined) userData.pullsSinceLastStone = 0;
+  if (userData.pullsSinceLastUniversalStone === undefined) userData.pullsSinceLastUniversalStone = 0;
 
-  if (itemTypeRoll < 10) {
-    const isFragment = Math.random() < 0.7; 
+  const stonePityThreshold = 30;
+  const forcedStone = userData.pullsSinceLastStone >= stonePityThreshold;
+  
+  const baseUniversalProb = 0.001; 
+  const universalPityBoost = Math.min(0.02, (userData.pullsSinceLastUniversalStone || 0) * 0.0001);
+  const universalProb = baseUniversalProb + universalPityBoost;
+
+  const itemTypeRoll = forcedStone ? 1 : Math.random() * 100;
+
+  if (itemTypeRoll < 10 || forcedStone) {
+    const isFragment = !forcedStone && Math.random() < 0.7;
     const elements = Object.keys(
       isFragment ? ELEMENTAL_FRAGMENTS : ELEMENTAL_STONES
     );
-    const universalProb = isFragment ? 0.01 : 0.001;
-
+    
     let stoneType;
     if (Math.random() < universalProb) {
       stoneType = "UNIVERSAL";
+
+      userData.pullsSinceLastUniversalStone = 0;
     } else {
-      const regularElements = elements.filter((e) => e !== "UNIVERSAL");
-      stoneType =
-        regularElements[Math.floor(Math.random() * regularElements.length)];
+      stoneType = elements[Math.floor(Math.random() * (elements.length - 1))];
+
+      userData.pullsSinceLastUniversalStone = (userData.pullsSinceLastUniversalStone || 0) + 1;
     }
 
     let charId;
@@ -3378,6 +3389,8 @@ function doPull(userData) {
       charId = createStone(stoneType);
     }
 
+    userData.pullsSinceLastStone = 0;
+
     return {
       charId,
       isStone: true,
@@ -3385,25 +3398,19 @@ function doPull(userData) {
       isExpItem: false,
     };
   }
-
   else if (itemTypeRoll < 20) {
     const expRoll = Math.random() * 100;
     let expItemName;
 
     if (expRoll < 5) {
-      // Tăng tỉ lệ Mythical Scroll lên 5% (trước đây 1%)
       expItemName = "Mythical Scroll";
     } else if (expRoll < 15) {
-      // Tăng tỉ lệ Legendary Grimoire lên 10% (trước đây 2%)
       expItemName = "Legendary Grimoire";
     } else if (expRoll < 40) {
-      // Tăng tỉ lệ Hero's Wit lên 25% (trước đây 17%)
       expItemName = "Heros Wit";
     } else if (expRoll < 70) {
-      // Giảm nhẹ tỉ lệ Adventurer's Experience thành 30% (trước đây 40%)
       expItemName = "Adventurers Experience";
     } else {
-      // Giảm nhẹ tỉ lệ Wanderer's Advice thành 30% (trước đây 40%)
       expItemName = "Wanderers Advice";
     }
 
@@ -3417,15 +3424,13 @@ function doPull(userData) {
     };
   }
 
-  // XỬ LÝ NHÂN VẬT (80% còn lại)
   else {
-    // Xác định loại nhân vật dựa vào tỉ lệ
     let character;
     let rarity;
     let evolvedStars = 0;
 
     if (roll < currentRates.FIVE_STAR) {
-      // 5* thường/premium
+
       userData.pullsSinceLastFiveStar = 0;
       userData.pullsSinceLastFourStar = 0;
 
@@ -3446,7 +3451,6 @@ function doPull(userData) {
       if (!userData.stellaPity) {
         userData.stellaPity = {};
       }
-      // [MỚI] Kiểm tra xem người chơi đã có nhân vật 5★ này chưa
       let isDuplicate = false;
       for (const existingCharId of userData.inventory || []) {
         const existingChar = CHARACTER_IDS[existingCharId];
@@ -3471,18 +3475,17 @@ function doPull(userData) {
 
       userData.stellaPity[character] >= stellaPityThreshold;
 
-      // [MỚI] Nếu đã có nhân vật này, tạo Stella Fortuna
       if (isDuplicate || getStellaFortuna) {
-        // Reset pity counter khi ra Stella
+        
         userData.stellaPity[character] = 0;
         
-        // Tạo Stella Fortuna 
         const stellaId = createStellaFortuna(character, false);
         userData.inventory.push(stellaId);
+        userData.pullsSinceLastStone = (userData.pullsSinceLastStone || 0) + 1;
         
         return { 
           charId: stellaId, 
-          isStella: true,  // Flag quan trọng để xử lý đúng
+          isStella: true,
           originalChar: character,
           isPremium: PREMIUM_FIVE_STARS.includes(character),
           isPity: !isDuplicate,
@@ -3491,11 +3494,10 @@ function doPull(userData) {
           isExpItem: false
         };
       } else {
-        // Tăng pity counter nếu không ra Stella
         userData.stellaPity[character]++;
       }
     } else if (roll < currentRates.FIVE_STAR + currentRates.EVOLVED_FOUR_STAR) {
-      // [CODE XỬ LÝ 4★ TIẾN HÓA - GIỮ NGUYÊN]
+
       userData.pullsSinceLastFiveStar++;
       userData.pullsSinceLastFourStar = 0;
 
@@ -3503,7 +3505,7 @@ function doPull(userData) {
         EVOLVED_FOUR_STARS[
           Math.floor(Math.random() * EVOLVED_FOUR_STARS.length)
         ];
-      evolvedStars = Math.floor(Math.random() * 3) + 5; // 5-7★
+      evolvedStars = Math.floor(Math.random() * 3) + 5; 
       rarity = "FOUR_STAR";
     } else if (
       roll <
@@ -3511,13 +3513,11 @@ function doPull(userData) {
         currentRates.EVOLVED_FOUR_STAR +
         currentRates.FOUR_STAR
     ) {
-      // [CODE XỬ LÝ 4★ THƯỜNG - GIỮ NGUYÊN]
       userData.pullsSinceLastFourStar = 0;
       userData.pullsSinceLastFiveStar++;
       character = getRandomCharacter("FOUR_STAR");
       rarity = "FOUR_STAR";
     } else {
-      // [CODE XỬ LÝ 3★ THƯỜNG - GIỮ NGUYÊN]
       userData.pullsSinceLastFourStar++;
       userData.pullsSinceLastFiveStar++;
       character = getRandomCharacter("THREE_STAR");
@@ -3526,12 +3526,9 @@ function doPull(userData) {
 
     const charId = generateCharacterId(character);
 
-    // Xử lý đặc biệt cho 4* đã tiến hóa
     if (evolvedStars > 0) {
-      // [CODE XỬ LÝ TIẾN HÓA - GIỮ NGUYÊN]
-      const evolutionMultiplier = 1 + (evolvedStars - 4) * 0.5; // 5★->1.5x, 6★->2x, 7★->2.5x
+      const evolutionMultiplier = 1 + (evolvedStars - 4) * 0.5; 
 
-      // Tính chỉ số cho nhân vật tiến hóa
       const baseStats = generateCharacterStats(4, character);
 
       for (const stat in baseStats) {
@@ -3555,7 +3552,6 @@ function doPull(userData) {
         stats: baseStats,
       };
     } else {
-      // Xử lý nhân vật thường
       CHARACTER_IDS[charId] = {
         type: "character",
         name: character,
@@ -3569,7 +3565,7 @@ function doPull(userData) {
         ),
       };
     }
-
+    userData.pullsSinceLastStone = (userData.pullsSinceLastStone || 0) + 1;
     saveCharacterDatabase();
     return {
       charId,
@@ -3865,12 +3861,10 @@ function upgradeCharacter(charId1, charId2, userData, forceType = null) {
     upgradeType = level1 >= maxLevel ? "star" : "level";
   }
 
-  // Remove characters from inventory
   userData.inventory = userData.inventory.filter(
     (id) => id !== charId1 && id !== charId2
   );
 
-  // Handle star evolution
   if (upgradeType === "star" && currentStar < maxStar) {
     const newCharId = generateCharacterId();
     const newStar = currentStar + 1;
@@ -3878,8 +3872,8 @@ function upgradeCharacter(charId1, charId2, userData, forceType = null) {
     const isLimited = PREMIUM_FIVE_STARS.includes(char1.name);
 
     const bonusMultiplier = isLimited
-      ? 1 + (newStar - 4) * 0.8 // Limited gets 80% per star
-      : 1 + (newStar - 4) * 0.5; // Normal gets 50% per star
+      ? 1 + (newStar - 4) * 0.8
+      : 1 + (newStar - 4) * 0.5; 
 
     CHARACTER_IDS[newCharId] = {
       name: char1.name,
@@ -3918,7 +3912,6 @@ function upgradeCharacter(charId1, charId2, userData, forceType = null) {
     };
   }
 
-  // Handle level fusion
   if (upgradeType === "level" && level1 < maxLevel) {
     const newCharId = generateCharacterId();
     const level2 = char2.level || 1;
@@ -4227,7 +4220,7 @@ module.exports = {
             messageID
           );
         }
-
+      
         if (balance < PULL_COST) {
           return api.sendMessage(
             "❌ Không đủ Tiền!\n" +
@@ -4240,7 +4233,7 @@ module.exports = {
         const pullResult = doPull(userData);
         const currentRates = calculateDynamicRates(userData);
         await updateBalance(senderID, -PULL_COST);
-
+      
         userData.totalPulls++;
         userData.lastPull = now;
         saveGachaData(gachaData);
@@ -4545,20 +4538,31 @@ module.exports = {
       }
       case "info": {
         const currentRates = calculateDynamicRates(userData);
+        const stonePityCount = userData.pullsSinceLastStone || 0;
+        const stonePityThreshold = 30;
+        const universalPityCount = userData.pullsSinceLastUniversalStone || 0;
+        const universalPityThreshold = 300;
         return api.sendMessage(
           "📊 THÔNG TIN TỈ LỆ GACHA 📊\n" +
-            "───────────────\n\n" +
-            `💰 Giá: ${PULL_COST} $/lần mở\n\n` +
-            "🎯 Tỉ lệ hiện tại:\n" +
-            `5⭐: ${currentRates.FIVE_STAR.toFixed(2)}%\n` +
-            `4⭐ Tiến hóa: ${currentRates.EVOLVED_FOUR_STAR.toFixed(2)}%\n` +
-            `4⭐: ${currentRates.FOUR_STAR.toFixed(2)}%\n` +
-            "💫 Hệ thống tăng tỉ lệ:\n" +
-            "• Tỉ lệ tăng theo số lần không ra item hiếm\n" +
-            "• Tỉ lệ tăng theo tổng số lần mở\n" +
-            `• Đã mở: ${userData.totalPulls} lần\n` +
-            `• Số lần chưa ra 5⭐: ${userData.pullsSinceLastFiveStar} lần\n` +
-            `• Số lần chưa ra 4⭐: ${userData.pullsSinceLastFourStar} lần`,
+          "───────────────\n\n" +
+          `💰 Giá: ${PULL_COST} $/lần mở\n\n` +
+          "🎯 Tỉ lệ hiện tại:\n" +
+          `5⭐: ${currentRates.FIVE_STAR.toFixed(2)}%\n` +
+          `4⭐ Tiến hóa: ${currentRates.EVOLVED_FOUR_STAR.toFixed(2)}%\n` +
+          `4⭐: ${currentRates.FOUR_STAR.toFixed(2)}%\n` +
+          `3⭐: ${currentRates.THREE_STAR.toFixed(2)}%\n\n` +
+          "💫 Hệ thống tăng tỉ lệ:\n" +
+          "• Tỉ lệ tăng theo số lần không ra item hiếm\n" +
+          "• Tỉ lệ tăng theo tổng số lần mở\n" +
+          `• Đã mở: ${userData.totalPulls} lần\n` +
+          `• Số lần chưa ra 5⭐: ${userData.pullsSinceLastFiveStar} lần\n` +
+          `• Số lần chưa ra 4⭐: ${userData.pullsSinceLastFourStar} lần\n` +
+          `• Số lần chưa ra đá: ${stonePityCount} lần\n\n` +
+          (stonePityCount >= stonePityThreshold ? "💎 ĐẢM BẢO NHẬN ĐÁ Ở LẦN MỞ TIẾP THEO!\n\n" : "") +
+          "💎 HỆ THỐNG PITY ĐÁ 💎\n" +
+          "• Mỗi 30 lần mở không ra đá: Đảm bảo nhận đá\n" +
+          `• Đá vũ trụ pity: ${universalPityCount}/${universalPityThreshold} pull\n` +
+          "• Tỉ lệ đá vũ trụ tăng dần theo số lần mở",
           threadID,
           messageID
         );

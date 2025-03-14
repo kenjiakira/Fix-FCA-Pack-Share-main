@@ -68903,15 +68903,15 @@
     "name": "Bennett",
     "obtainedAt": 1741881990724,
     "starLevel": 6,
-    "level": 3,
-    "exp": 6500,
+    "level": 4,
+    "exp": 8500,
     "isMaxEvolved": false,
     "isEvolved": true,
-    "value": 330450,
+    "value": 347302,
     "stats": {
-      "atk": 691,
-      "def": 724,
-      "hp": 2746
+      "atk": 726,
+      "def": 837,
+      "hp": 3751
     }
   },
   "EXP_ADVENTURERS_EXPERIENCE_535878286": {
@@ -70703,13 +70703,13 @@
     "type": "character",
     "name": "Kamisato Ayato",
     "obtainedAt": 1741884128608,
-    "value": 1156230,
-    "level": 1,
-    "exp": 0,
+    "value": 1515239,
+    "level": 7,
+    "exp": 6500,
     "stats": {
-      "atk": 526,
-      "def": 520,
-      "hp": 1828
+      "atk": 689,
+      "def": 749,
+      "hp": 3114
     }
   },
   "CHAR_784894955": {
@@ -76931,6 +76931,295 @@
       "atk": 103,
       "def": 94,
       "hp": 492
+    }
+  },
+  "CHAR_364492827": {
+    "type": "character",
+    "name": "Kaeya",
+    "obtainedAt": 1741939503581,
+    "value": 233,
+    "level": 1,
+    "exp": 0,
+    "stats": {
+      "atk": 100,
+      "def": 97,
+      "hp": 530
+    }
+  },
+  "CHAR_901595434": {
+    "type": "character",
+    "name": "Heizou",
+    "obtainedAt": 1741939546175,
+    "value": 37737,
+    "level": 1,
+    "exp": 0,
+    "stats": {
+      "atk": 324,
+      "def": 313,
+      "hp": 944
+    }
+  },
+  "CHAR_322162143": {
+    "type": "character",
+    "name": "Sigewinne",
+    "obtainedAt": 1741939551108,
+    "value": 461,
+    "level": 1,
+    "exp": 0,
+    "stats": {
+      "atk": 104,
+      "def": 99,
+      "hp": 511
+    }
+  },
+  "CHAR_935620708": {
+    "type": "character",
+    "name": "dehya",
+    "obtainedAt": 1741939724171,
+    "value": 599,
+    "level": 1,
+    "exp": 0,
+    "stats": {
+      "atk": 96,
+      "def": 93,
+      "hp": 489
+    }
+  },
+  "CHAR_950169640": {
+    "type": "character",
+    "name": "dehya",
+    "obtainedAt": 1741939748540,
+    "value": 629,
+    "level": 1,
+    "exp": 0,
+    "stats": {
+      "atk": 107,
+      "def": 94,
+      "hp": 492
+    }
+  },
+  "CHAR_590840201": {
+    "type": "character",
+    "name": "Noelle",
+    "obtainedAt": 1741939871053,
+    "value": 196,
+    "level": 1,
+    "exp": 0,
+    "stats": {
+      "atk": 109,
+      "def": 90,
+      "hp": 512
+    }
+  },
+  "CHAR_722127052": {
+    "type": "character",
+    "name": "candace",
+    "obtainedAt": 1741939876349,
+    "value": 30824,
+    "level": 1,
+    "exp": 0,
+    "stats": {
+      "atk": 294,
+      "def": 317,
+      "hp": 926
+    }
+  },
+  "EXP_WANDERERS_ADVICE_324085546": {
+    "type": "EXP",
+    "name": "Wanderers Advice",
+    "expValue": 500,
+    "description": "Simple advice from a traveler Grants a small amount of EXP",
+    "image": "https://imgur.com/GSSFx9L.png",
+    "rarity": "2",
+    "value": 500,
+    "obtainedAt": 1741939971599
+  },
+  "CHAR_917590740": {
+    "type": "character",
+    "name": "Kaeya",
+    "obtainedAt": 1741940033498,
+    "value": 543,
+    "level": 1,
+    "exp": 0,
+    "stats": {
+      "atk": 100,
+      "def": 102,
+      "hp": 466
+    }
+  },
+  "CHAR_146369549": {
+    "type": "character",
+    "name": "Diona",
+    "obtainedAt": 1741940262698,
+    "value": 746,
+    "level": 1,
+    "exp": 0,
+    "stats": {
+      "atk": 100,
+      "def": 106,
+      "hp": 541
+    }
+  },
+  "CHAR_877489290": {
+    "type": "character",
+    "name": "Freminet",
+    "obtainedAt": 1741940311641,
+    "value": 25966,
+    "level": 1,
+    "exp": 0,
+    "stats": {
+      "atk": 321,
+      "def": 298,
+      "hp": 922
+    }
+  },
+  "CHAR_749104792": {
+    "type": "character",
+    "name": "Lisa",
+    "obtainedAt": 1741940398596,
+    "value": 664,
+    "level": 1,
+    "exp": 0,
+    "stats": {
+      "atk": 104,
+      "def": 92,
+      "hp": 498
+    }
+  },
+  "CHAR_392769278": {
+    "type": "character",
+    "name": "Heizou",
+    "obtainedAt": 1741940425755,
+    "value": 21728,
+    "level": 1,
+    "exp": 0,
+    "stats": {
+      "atk": 309,
+      "def": 327,
+      "hp": 993
+    }
+  },
+  "CHAR_674817864": {
+    "type": "character",
+    "name": "Diona",
+    "obtainedAt": 1741940878422,
+    "value": 242,
+    "level": 1,
+    "exp": 0,
+    "stats": {
+      "atk": 94,
+      "def": 109,
+      "hp": 512
+    }
+  },
+  "CHAR_799505167": {
+    "type": "character",
+    "name": "Diona",
+    "obtainedAt": 1741941397662,
+    "value": 653,
+    "level": 1,
+    "exp": 0,
+    "stats": {
+      "atk": 107,
+      "def": 98,
+      "hp": 508
+    }
+  },
+  "CHAR_645942576": {
+    "type": "character",
+    "name": "Kaeya",
+    "obtainedAt": 1741941609554,
+    "value": 458,
+    "level": 1,
+    "exp": 0,
+    "stats": {
+      "atk": 101,
+      "def": 96,
+      "hp": 504
+    }
+  },
+  "CHAR_162286987": {
+    "type": "character",
+    "name": "Kuki Shinobu",
+    "obtainedAt": 1741941619665,
+    "value": 12721,
+    "level": 1,
+    "exp": 0,
+    "stats": {
+      "atk": 275,
+      "def": 317,
+      "hp": 974
+    }
+  },
+  "CHAR_349720457": {
+    "type": "character",
+    "name": "Lisa",
+    "obtainedAt": 1741941719861,
+    "value": 547,
+    "level": 1,
+    "exp": 0,
+    "stats": {
+      "atk": 95,
+      "def": 95,
+      "hp": 474
+    }
+  },
+  "EXP_HEROS_WIT_107953719": {
+    "type": "EXP",
+    "name": "Heros Wit",
+    "expValue": 10000,
+    "description": "A detailed account of battles past Grants a large amount of EXP",
+    "image": "https://imgur.com/w9WpGB7.png",
+    "rarity": "4",
+    "value": 5000,
+    "obtainedAt": 1741941981147
+  },
+  "EXP_MYTHICAL_SCROLL_786217515": {
+    "type": "EXP",
+    "name": "Mythical Scroll",
+    "expValue": 100000,
+    "description": "Mythical teachings from the gods Grants enormous amounts of EXP",
+    "image": "https://imgur.com/JWVLXxj.png",
+    "rarity": "5",
+    "value": 50000,
+    "obtainedAt": 1741942035304
+  },
+  "FRAGMENT_HYDRO_978134261": {
+    "type": "fragment",
+    "stoneType": "HYDRO",
+    "name": "LazuriteFragment",
+    "element": "Hydro",
+    "emoji": "💧",
+    "description": "Hydro evolution fragment",
+    "image": "https://imgur.com/xUQZRMt.png",
+    "obtainedAt": 1741942055308,
+    "value": 2500,
+    "isFragment": true
+  },
+  "CHAR_935991728": {
+    "type": "character",
+    "name": "Faruzan",
+    "obtainedAt": 1741942149353,
+    "value": 332,
+    "level": 1,
+    "exp": 0,
+    "stats": {
+      "atk": 105,
+      "def": 98,
+      "hp": 495
+    }
+  },
+  "CHAR_652442767": {
+    "type": "character",
+    "name": "collei",
+    "obtainedAt": 1741942247497,
+    "value": 715,
+    "level": 1,
+    "exp": 0,
+    "stats": {
+      "atk": 101,
+      "def": 108,
+      "hp": 453
     }
   }
 }

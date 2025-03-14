@@ -1614,7 +1614,7 @@
   },
   "61561277064921": {
     "rod": "Cần câu Lure Titan",
-    "rodDurability": 9,
+    "rodDurability": 8,
     "inventory": [
       "Cần trúc",
       "Cần Câu Shimano",
@@ -1649,7 +1649,7 @@
           "Cá Rô Phi": 4,
           "Cá Thác Lác": 3,
           "Cá Đối": 6,
-          "Kho báu thần thoại": 1,
+          "Kho báu thần thoại": 2,
           "Cá Diếc": 1,
           "Rương kim cương": 2,
           "Rương vàng": 3,
@@ -1706,27 +1706,27 @@
         }
       },
       "stats": {
-        "totalCaught": 201,
-        "totalValue": 44742875,
+        "totalCaught": 202,
+        "totalValue": 44754750,
         "bestCatch": {
           "name": "Kraken",
           "value": 10687500
         }
       }
     },
-    "exp": 266,
+    "exp": 706,
     "level": 14,
-    "fishingStreak": 7,
+    "fishingStreak": 8,
     "stats": {
-      "totalExp": 48757,
+      "totalExp": 49197,
       "highestStreak": 144,
-      "totalFishes": 201
+      "totalFishes": 202
     },
     "activeBuffs": {},
-    "lastFished": 1741934254865,
+    "lastFished": 1741940280481,
     "userID": "61561277064921",
     "energy": 105,
-    "lastEnergyUpdate": 1741934254865,
+    "lastEnergyUpdate": 1741940280481,
     "baits": {},
     "craftingMaterials": {}
   },
@@ -7258,7 +7258,7 @@
   },
   "100080964828004": {
     "rod": "Cần jig Daiwa Saltiga SJ",
-    "rodDurability": 340,
+    "rodDurability": 339,
     "inventory": [
       "Cần trúc",
       "Cần Câu tay",
@@ -7323,7 +7323,7 @@
           "Cá Chình Bông": 1,
           "Cá Thu": 13,
           "Cá Ngạnh": 1,
-          "Cá Lóc Đồng": 8
+          "Cá Lóc Đồng": 9
         },
         "rare": {
           "Cá Mập Tre": 8,
@@ -7354,29 +7354,29 @@
         "cosmic": {}
       },
       "stats": {
-        "totalCaught": 251,
-        "totalValue": 48547263,
+        "totalCaught": 252,
+        "totalValue": 48554445,
         "bestCatch": {
           "name": "Rồng Biển Cổ Đại",
           "value": 28500000
         }
       }
     },
-    "exp": 9430,
+    "exp": 9568,
     "level": 15,
-    "fishingStreak": 16,
+    "fishingStreak": 17,
     "stats": {
-      "totalExp": 68620,
+      "totalExp": 68758,
       "highestStreak": 129,
-      "totalFishes": 250
+      "totalFishes": 251
     },
     "activeBuffs": {},
-    "lastFished": 1741935550621,
+    "lastFished": 1741941968099,
     "userID": "100080964828004",
-    "energy": 77,
-    "lastEnergyUpdate": 1741935550621,
+    "energy": 102,
+    "lastEnergyUpdate": 1741941968099,
     "baits": {
-      "Mồi Thần Thoại": 19
+      "Mồi Thần Thoại": 18
     },
     "craftingMaterials": {}
   },

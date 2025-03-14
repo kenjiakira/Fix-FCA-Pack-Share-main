@@ -57,16 +57,16 @@ function setupGenshinFont() {
 
 const starImages = {
   normal: {
-    3: "https://imgur.com/RdhkfIM.png", // Blue star 3★
-    4: "https://imgur.com/0p8GU3y.png", // Purple star 4★
+    3: "https://imgur.com/RdhkfIM.png", 
+    4: "https://imgur.com/0p8GU3y.png",
     5: "https://imgur.com/bXDqDjF.png",
-    premium: "https://imgur.com/7Niv8VX.png", // Gold star 5★
+    premium: "https://imgur.com/7Niv8VX.png", 
   },
 
   evolved: {
     gold: "https://imgur.com/HwbiynM.png",
-    red: "https://imgur.com/jxD7wqP.png", // Evolved red star for 5★
-    premium: "https://imgur.com/Q7CcrVt.png", // Premium evolved special star
+    red: "https://imgur.com/jxD7wqP.png", 
+    premium: "https://imgur.com/Q7CcrVt.png", 
   },
 };
 const mastonFontLoaded = fs.existsSync(
@@ -85,12 +85,10 @@ async function drawStarFromImage(
   try {
     const image = await loadImage(starType);
 
-    // Vẽ hiệu ứng ánh sáng xung quanh sao
     if (
       starType === starImages.evolved.premium ||
       starType === starImages.evolved.red
     ) {
-      // Hiệu ứng glow cho sao tiến hóa
       ctx.save();
       ctx.globalCompositeOperation = "lighter";
       const glowSize = starSize * 0.8;
@@ -118,10 +116,9 @@ async function drawStarFromImage(
       ctx.restore();
     }
 
-    // Vẽ ngôi sao với hiệu ứng xoay theo góc truyền vào
     ctx.save();
     ctx.translate(starX, starY);
-    ctx.rotate(rotationAngle); // Áp dụng góc xoay truyền vào
+    ctx.rotate(rotationAngle); 
 
     ctx.drawImage(image, -starSize, -starSize, starSize * 2, starSize * 2);
 
@@ -305,69 +302,49 @@ async function createInventoryImage(options) {
       totalItems = 0,
     } = options;
 
-    // Canvas dimensions
     const cardWidth = 900;
     const headerHeight = 180;
     let totalHeight = headerHeight;
 
-    // Calculate required height
     const sectionSpacing = 30;
     const itemHeight = 100;
 
-    // Preprocess fragments and stones
     const processedStones = processEvoMaterials(stones, fragments);
+    
+    const sortedCharacters = [...characters].sort((a, b) => {
+  
+      if (a.name !== b.name) return a.name.localeCompare(b.name);
+    
+      return b.rarity - a.rarity;
+    });
 
-    // Calculate section heights
-    const stoneHeight =
-      processedStones.length > 0
-        ? itemHeight * Math.ceil(processedStones.length / 5) + 50
-        : 0;
-    const expItemHeight =
-      expItems.length > 0
-        ? itemHeight * Math.ceil(expItems.length / 5) + 50
-        : 0;
-    const char5Height =
-      characterCounts[5] > 0
-        ? itemHeight * Math.ceil(characterCounts[5] / 5) + 50
-        : 0;
-    const char4Height =
-      characterCounts[4] > 0
-        ? itemHeight * Math.ceil(characterCounts[4] / 5) + 50
-        : 0;
-    const char3Height =
-      characterCounts[3] > 0
-        ? itemHeight * Math.ceil(characterCounts[3] / 5) + 50
-        : 0;
+    const stoneHeight = processedStones.length > 0 
+      ? itemHeight * Math.ceil(processedStones.length / 5) + 50 : 0;
+    const expItemHeight = expItems.length > 0 
+      ? itemHeight * Math.ceil(expItems.length / 5) + 50 : 0;
+    
+    const charHeight = sortedCharacters.length > 0 
+      ? itemHeight * Math.ceil(sortedCharacters.length / 5) + 50 : 0;
 
-    // Add heights of all sections that have items
     if (processedStones.length > 0) totalHeight += stoneHeight + sectionSpacing;
     if (expItems.length > 0) totalHeight += expItemHeight + sectionSpacing;
-    if (characterCounts[5] > 0) totalHeight += char5Height + sectionSpacing;
-    if (characterCounts[4] > 0) totalHeight += char4Height + sectionSpacing;
-    if (characterCounts[3] > 0) totalHeight += char3Height + sectionSpacing;
+    if (sortedCharacters.length > 0) totalHeight += charHeight + sectionSpacing;
 
-    // Ensure minimum height
     totalHeight = Math.max(totalHeight, 400);
 
-    // Create canvas
     const canvas = createCanvas(cardWidth, totalHeight);
     const ctx = canvas.getContext("2d");
 
-    // Background
     const bgGradient = ctx.createLinearGradient(0, 0, 0, totalHeight);
-    bgGradient.addColorStop(0, "#1E1E28");
-    bgGradient.addColorStop(1, "#12121E");
+    bgGradient.addColorStop(0, "#252540");
+    bgGradient.addColorStop(0.5, "#1A1A30");
+    bgGradient.addColorStop(1, "#14142A");
     ctx.fillStyle = bgGradient;
     ctx.fillRect(0, 0, cardWidth, totalHeight);
 
-    // Add subtle pattern to background
-    drawBackgroundPattern(ctx, cardWidth, totalHeight, "4", {
-      primary: "#333355",
-      secondary: "#222233",
-    });
+    drawEnhancedBackgroundPattern(ctx, cardWidth, totalHeight);
 
-    // Header section
-    drawInventoryHeader(
+    drawEnhancedInventoryHeader(
       ctx,
       0,
       0,
@@ -378,12 +355,10 @@ async function createInventoryImage(options) {
       totalItems
     );
 
-    // Keep track of Y position as we draw sections
     let currentY = headerHeight + 20;
 
-    // Draw evolution materials section (stones + fragments)
     if (processedStones.length > 0) {
-      currentY = drawInventorySection(
+      currentY = drawEnhancedInventorySection(
         ctx,
         "💎 EVOLUTION MATERIALS",
         processedStones,
@@ -397,12 +372,10 @@ async function createInventoryImage(options) {
       currentY += sectionSpacing;
     }
 
-    // Draw EXP items section
     if (expItems.length > 0) {
-      const expItemSectionHeight =
-        itemHeight * Math.ceil(expItems.length / 5) + 50;
-      const sectionTitle = "EXP ITEMS";
-      currentY = drawInventorySection(
+      const expItemSectionHeight = itemHeight * Math.ceil(expItems.length / 5) + 50;
+      const sectionTitle = "📚 EXP ITEMS";
+      currentY = drawEnhancedInventorySection(
         ctx,
         sectionTitle,
         expItems,
@@ -410,76 +383,34 @@ async function createInventoryImage(options) {
         currentY,
         cardWidth,
         expItemSectionHeight,
-        "#2ECC71", // Màu chính cho EXP items (Xanh lá)
-        "#27AE60" // Màu phụ cho EXP items (Xanh lá đậm hơn)
-      );
-
-      // Thêm khoảng cách giữa các phần
-      currentY += sectionSpacing;
-    }
-
-    // Draw character sections
-    if (characterCounts[5] > 0) {
-      const fiveStarChars = characters.filter((char) => char.rarity === 5);
-      currentY = drawInventorySection(
-        ctx,
-        "⭐⭐⭐⭐⭐ CHARACTERS",
-        fiveStarChars,
-        0,
-        currentY,
-        cardWidth,
-        char5Height,
-        "#FFD700",
-        "#FF8C00"
+        "#2ECC71", 
+        "#27AE60" 
       );
       currentY += sectionSpacing;
     }
 
-    if (characterCounts[4] > 0) {
-      const fourStarChars = characters.filter((char) => char.rarity === 4);
-      currentY = drawInventorySection(
+    if (sortedCharacters.length > 0) {
+      currentY = drawEnhancedInventorySection(
         ctx,
-        "⭐⭐⭐⭐ CHARACTERS",
-        fourStarChars,
+        "✨ CHARACTERS",
+        sortedCharacters,
         0,
         currentY,
         cardWidth,
-        char4Height,
-        "#9b59b6",
-        "#8e44ad"
-      );
-      currentY += sectionSpacing;
-    }
-
-    if (characterCounts[3] > 0) {
-      const threeStarChars = characters.filter((char) => char.rarity === 3);
-      currentY = drawInventorySection(
-        ctx,
-        "⭐⭐⭐ CHARACTERS",
-        threeStarChars,
-        0,
-        currentY,
-        cardWidth,
-        char3Height,
-        "#3498db",
-        "#2980b9"
+        charHeight,
+        "#C79BFF", 
+        "#9B59B6" 
       );
     }
+    addEnhancedDecorativeElements(ctx, cardWidth, totalHeight);
 
-    // Add decoration elements to the canvas
-    addDecorativeElements(ctx, cardWidth, totalHeight);
-
-    // Save the image
     const buffer = canvas.toBuffer("image/png");
     const tempDir = path.join(__dirname, "../temp");
     if (!fs.existsSync(tempDir)) {
       fs.mkdirSync(tempDir, { recursive: true });
     }
 
-    const outputPath = path.join(
-      tempDir,
-      `inventory_${userId}_${Date.now()}.png`
-    );
+    const outputPath = path.join(tempDir, `inventory_${userId}_${Date.now()}.png`);
     fs.writeFileSync(outputPath, buffer);
 
     return outputPath;
@@ -489,6 +420,325 @@ async function createInventoryImage(options) {
   }
 }
 
+function drawEnhancedBackgroundPattern(ctx, width, height) {
+  ctx.save();
+  
+  ctx.strokeStyle = "rgba(80, 80, 120, 0.1)";
+  ctx.lineWidth = 1;
+  
+  const gridSize = 40;
+  for (let x = 0; x < width; x += gridSize) {
+    ctx.beginPath();
+    ctx.moveTo(x, 0);
+    ctx.lineTo(x, height);
+    ctx.stroke();
+  }
+  
+  for (let y = 0; y < height; y += gridSize) {
+    ctx.beginPath();
+    ctx.moveTo(0, y);
+    ctx.lineTo(width, y);
+    ctx.stroke();
+  }
+  
+  for (let i = 0; i < 150; i++) {
+    const x = Math.random() * width;
+    const y = Math.random() * height;
+    const size = Math.random() * 3 + 1;
+    
+    const colors = [
+      "rgba(255, 215, 0, 0.3)", 
+      "rgba(155, 89, 182, 0.3)",  
+      "rgba(52, 152, 219, 0.3)", 
+      "rgba(46, 204, 113, 0.3)",  
+      "rgba(231, 76, 60, 0.3)"  
+    ];
+    
+    ctx.fillStyle = colors[Math.floor(Math.random() * colors.length)];
+    ctx.beginPath();
+    ctx.arc(x, y, size, 0, Math.PI * 2);
+    ctx.fill();
+  }
+  
+  ctx.restore();
+}
+function drawEnhancedInventoryHeader(ctx, x, y, width, height, userName, totalValue, totalItems) {
+  ctx.save();
+
+  const headerGradient = ctx.createLinearGradient(x, y, x, y + height);
+  headerGradient.addColorStop(0, "rgba(60, 60, 90, 0.9)");
+  headerGradient.addColorStop(0.5, "rgba(50, 50, 80, 0.9)");
+  headerGradient.addColorStop(1, "rgba(40, 40, 70, 0.9)");
+
+  ctx.fillStyle = headerGradient;
+  roundRect(ctx, x + 10, y + 10, width - 20, height - 20, 15, true, false);
+
+  ctx.strokeStyle = "rgba(120, 120, 255, 0.5)";
+  ctx.lineWidth = 2;
+  ctx.shadowColor = "rgba(120, 120, 255, 0.7)";
+  ctx.shadowBlur = 15;
+  roundRect(ctx, x + 10, y + 10, width - 20, height - 20, 15, false, true);
+
+  drawEnhancedCornerDecoration(ctx, x + 15, y + 15, 0, "#FFD700");
+  drawEnhancedCornerDecoration(ctx, x + width - 15, y + 15, 90, "#FF6347");
+  drawEnhancedCornerDecoration(ctx, x + 15, y + height - 15, 270, "#4169E1");
+  drawEnhancedCornerDecoration(ctx, x + width - 15, y + height - 15, 180, "#9370DB");
+
+  ctx.textAlign = "center";
+  ctx.fillStyle = "#FFFFFF";
+  ctx.shadowColor = "rgba(0, 0, 0, 0.7)";
+  ctx.shadowBlur = 8;
+  ctx.shadowOffsetY = 2;
+
+  ctx.font = `bold 48px ${fontFamily}`;
+  const titleGradient = ctx.createLinearGradient(width/4, y + 40, width*3/4, y + 60);
+  titleGradient.addColorStop(0, "#FFD700"); 
+  titleGradient.addColorStop(0.5, "#FFFFFF"); 
+  titleGradient.addColorStop(1, "#FFD700");
+  ctx.fillStyle = titleGradient;
+  ctx.fillText("GENSHIN INVENTORY", width / 2, y + 60);
+
+  ctx.font = `bold 28px Arial`;
+  ctx.fillStyle = "#FFFFFF";
+  ctx.shadowColor = "#7B68EE";
+  ctx.shadowBlur = 10;
+  ctx.fillText(userName, width / 2, y + 100);
+
+  const formattedValue = totalValue.toLocaleString("en-US", {
+    style: "currency",
+    currency: "USD",
+    maximumFractionDigits: 0,
+  });
+
+  ctx.font = `22px ${mastonFontFamily}`;
+  const valueGradient = ctx.createLinearGradient(width/3, y + 140, width*2/3, y + 140);
+  valueGradient.addColorStop(0, "#FFD700"); 
+  valueGradient.addColorStop(1, "#FFA500");  
+  ctx.fillStyle = valueGradient;
+  ctx.shadowColor = "rgba(0, 0, 0, 0.5)";
+  ctx.shadowBlur = 4;
+  ctx.fillText(
+    `Total Value: ${formattedValue} • Total Items: ${totalItems}`,
+    width / 2,
+    y + 140
+  );
+
+  for (let i = 0; i < 25; i++) {
+    const sparkX = x + Math.random() * width;
+    const sparkY = y + Math.random() * height;
+    const size = Math.random() * 3 + 1;
+
+    ctx.beginPath();
+    ctx.fillStyle = i % 2 === 0 ? "rgba(255, 255, 255, 0.8)" : "rgba(255, 215, 0, 0.6)";
+    ctx.arc(sparkX, sparkY, size, 0, Math.PI * 2);
+    ctx.fill();
+  }
+
+  ctx.restore();
+}
+function drawEnhancedCornerDecoration(ctx, x, y, rotation, color) {
+  ctx.save();
+  ctx.translate(x, y);
+  ctx.rotate((rotation * Math.PI) / 180);
+
+  const lineLength = 60;
+
+  const gradient = ctx.createLinearGradient(0, 0, lineLength, lineLength);
+  gradient.addColorStop(0, color);
+  gradient.addColorStop(1, `${color}55`);
+
+  ctx.beginPath();
+  ctx.moveTo(0, 0);
+  ctx.lineTo(lineLength, 0);
+  ctx.moveTo(0, 0);
+  ctx.lineTo(0, lineLength);
+
+  ctx.strokeStyle = gradient;
+  ctx.lineWidth = 4;
+  ctx.stroke();
+
+  ctx.beginPath();
+  ctx.moveTo(lineLength - 10, 0);
+  ctx.lineTo(lineLength, 10);
+  ctx.lineTo(lineLength - 10, 20);
+  ctx.lineTo(lineLength - 20, 10);
+  ctx.closePath();
+
+  const diamondGrad = ctx.createRadialGradient(
+    lineLength - 10, 10, 0,
+    lineLength - 10, 10, 15
+  );
+  diamondGrad.addColorStop(0, "#FFFFFF");
+  diamondGrad.addColorStop(0.5, color);
+  diamondGrad.addColorStop(1, "#FFA500");
+
+  ctx.fillStyle = diamondGrad;
+  ctx.shadowColor = color;
+  ctx.shadowBlur = 10;
+  ctx.fill();
+
+  ctx.restore();
+}
+function drawEnhancedInventorySection(
+  ctx,
+  title,
+  items,
+  x,
+  y,
+  width,
+  height,
+  color1,
+  color2
+) {
+  ctx.save();
+
+  const sectionGradient = ctx.createLinearGradient(x, y, x, y + height);
+  sectionGradient.addColorStop(0, "rgba(30, 30, 45, 0.9)");
+  sectionGradient.addColorStop(1, "rgba(20, 20, 35, 0.9)");
+
+  ctx.fillStyle = sectionGradient;
+  ctx.shadowColor = color1;
+  ctx.shadowBlur = 15;
+  roundRect(ctx, x + 15, y, width - 30, height, 12, true, false);
+
+  const titleGradient = ctx.createLinearGradient(x, y, x + width, y);
+  titleGradient.addColorStop(0, color1);
+  titleGradient.addColorStop(0.5, color2);
+  titleGradient.addColorStop(1, color1);
+
+  ctx.fillStyle = titleGradient;
+  ctx.shadowColor = color1;
+  ctx.shadowBlur = 10;
+  roundRect(ctx, x + 25, y - 15, width - 50, 40, 20, true, false);
+
+  ctx.save();
+  ctx.globalCompositeOperation = "overlay";
+  const titleShine = ctx.createLinearGradient(x + 25, y - 15, x + width - 50, y - 15);
+  titleShine.addColorStop(0, "rgba(255, 255, 255, 0)");
+  titleShine.addColorStop(0.5, "rgba(255, 255, 255, 0.5)");
+  titleShine.addColorStop(1, "rgba(255, 255, 255, 0)");
+  ctx.fillStyle = titleShine;
+  roundRect(ctx, x + 25, y - 15, width - 50, 40, 20, true, false);
+  ctx.restore();
+
+  ctx.shadowColor = "rgba(0, 0, 0, 0.8)";
+  ctx.shadowBlur = 5;
+  ctx.font = `bold 22px ${fontFamily}`;
+  ctx.fillStyle = "#FFFFFF";
+  ctx.textAlign = "center";
+  ctx.fillText(title, x + width / 2, y + 15);
+
+  const itemsPerRow = 5;
+  const itemWidth = (width - 60) / itemsPerRow;
+  const itemHeight = 85;
+  const itemPadding = 10;
+
+  let colorGroups = {};
+  let colorIndex = 0;
+  const groupColors = [
+    "rgba(80, 60, 120, 0.3)",   
+    "rgba(60, 80, 120, 0.3)",  
+    "rgba(120, 60, 80, 0.3)",  
+    "rgba(60, 120, 80, 0.3)",  
+    "rgba(120, 100, 50, 0.3)", 
+    "rgba(50, 100, 120, 0.3)",  
+  ];
+
+  items.forEach((item, index) => {
+    const row = Math.floor(index / itemsPerRow);
+    const col = index % itemsPerRow;
+
+    const itemX = x + 30 + col * itemWidth;
+    const itemY = y + 40 + row * (itemHeight + itemPadding);
+
+    if (item.name && item.type === "character") {
+      if (!colorGroups[item.name]) {
+        colorGroups[item.name] = groupColors[colorIndex % groupColors.length];
+        colorIndex++;
+      }
+      
+      ctx.fillStyle = colorGroups[item.name];
+      roundRect(ctx, itemX - 3, itemY - 3, itemWidth - 4, itemHeight + 6, 10, true, false);
+    }
+
+    drawInventoryItem(ctx, item, itemX, itemY, itemWidth - 10, itemHeight);
+  });
+
+  ctx.restore();
+
+  return y + height;
+}
+
+function addEnhancedDecorativeElements(ctx, width, height) {
+  ctx.save();
+
+  const cornerGlow = ctx.createRadialGradient(
+    width / 2, height / 2, width / 4,
+    width / 2, height / 2, width
+  );
+  cornerGlow.addColorStop(0, "rgba(255, 255, 255, 0)");
+  cornerGlow.addColorStop(0.7, "rgba(120, 120, 255, 0.04)");
+  cornerGlow.addColorStop(1, "rgba(120, 120, 255, 0.08)");
+
+  ctx.fillStyle = cornerGlow;
+  ctx.globalCompositeOperation = "overlay";
+  ctx.fillRect(0, 0, width, height);
+
+  for (let i = 0; i < 50; i++) {
+    const x = Math.random() * width;
+    const y = Math.random() * height;
+    const size = Math.random() * 2.5 + 0.8;
+    const opacity = Math.random() * 0.4 + 0.15;
+    
+    const colors = [
+      `rgba(255, 255, 255, ${opacity})`,
+      `rgba(255, 215, 0, ${opacity})`,
+      `rgba(173, 216, 230, ${opacity})`,
+      `rgba(255, 182, 193, ${opacity})`,
+    ];
+    
+    ctx.beginPath();
+    ctx.arc(x, y, size, 0, Math.PI * 2);
+    ctx.fillStyle = colors[Math.floor(Math.random() * colors.length)];
+    ctx.fill();
+  }
+
+  const footerY = height - 40;
+  ctx.beginPath();
+  const footerGradient = ctx.createLinearGradient(width / 4, footerY, (width / 4) * 3, footerY);
+  footerGradient.addColorStop(0, "rgba(120, 120, 255, 0)");
+  footerGradient.addColorStop(0.5, "rgba(120, 120, 255, 0.25)");
+  footerGradient.addColorStop(1, "rgba(120, 120, 255, 0)");
+  ctx.strokeStyle = footerGradient;
+  ctx.lineWidth = 2;
+  ctx.moveTo(width / 4, footerY);
+  ctx.lineTo((width / 4) * 3, footerY);
+  ctx.stroke();
+
+  ctx.font = `italic 16px ${fontFamily}`;
+  ctx.textAlign = "center";
+  ctx.fillStyle = "rgba(255, 255, 255, 0.4)";
+  ctx.shadowColor = "rgba(0, 0, 0, 0.5)";
+  ctx.shadowBlur = 2;
+  ctx.fillText("Genshin Inventory System", width / 2, height - 15);
+
+  for (let i = 0; i < 8; i++) {
+    const x = Math.random() * width;
+    const y = Math.random() * height;
+    const starSize = Math.random() * 8 + 3;
+    
+    const starColors = [
+      "rgba(255, 215, 0, 0.2)",
+      "rgba(173, 216, 230, 0.2)",
+      "rgba(255, 182, 193, 0.2)", 
+      "rgba(152, 251, 152, 0.2)", 
+    ];
+    
+    drawSimpleStar(ctx, x, y, starSize, starColors[i % starColors.length]);
+  }
+
+  ctx.restore();
+}
 function drawInventoryHeader(
   ctx,
   x,
@@ -1946,22 +2196,6 @@ function drawInventoryItem(ctx, item, x, y, width, height) {
     itemBorderColor = "#50C878";
     displayName = item.name || "EXP Item";
     itemValue = item.value || 2000;
-  } else if (item.type === "exp") {
-    ctx.font = "bold 11px Arial";
-    ctx.textAlign = "center";
-    ctx.fillStyle = "#FFFF99";
-    ctx.shadowColor = "#000000";
-    ctx.shadowBlur = 3;
-    ctx.fillText("EXP ITEM", x + width / 2, y + 14);
-    ctx.fillStyle = "#2ECC71";
-    ctx.fillText("📚", x + width / 2, y + height / 2 - 5);
-    ctx.font = `bold 11px ${mastonFontFamily}`;
-    ctx.fillStyle = "#FFFFFF";
-    ctx.fillText(
-      `+${item.expValue?.toLocaleString() || 0} EXP`,
-      x + width / 2,
-      y + height - 6
-    );
   } else {
     let rarityColor;
     switch (item.rarity) {
@@ -2014,13 +2248,11 @@ function drawInventoryItem(ctx, item, x, y, width, height) {
   ctx.fillStyle = itemGradient;
   roundRect(ctx, x, y, width, height, 8, true, false);
 
-  // Fragment progress bar (enhanced and kept)
   if (item.isFragmentGroup && item.count) {
-    const progressBarHeight = 12; // Increased height for more prominence
+    const progressBarHeight = 12;
     const progressBarY = y + height - progressBarHeight - 4;
     const progressBarWidth = width - 20;
 
-    // Background bar
     ctx.fillStyle = "rgba(0, 0, 0, 0.5)";
     roundRect(
       ctx,
@@ -2033,7 +2265,6 @@ function drawInventoryItem(ctx, item, x, y, width, height) {
       false
     );
 
-    // Progress fill
     const fillWidth = Math.min(1, item.count / 10) * progressBarWidth;
     const progressGradient = ctx.createLinearGradient(
       x + 10,
@@ -2095,14 +2326,6 @@ function drawInventoryItem(ctx, item, x, y, width, height) {
     ctx.restore();
 
     item._elementIconPos = { x: x + 8, y: y + 5, size: 20 };
-  } else if (item.type === "exp") {
-    ctx.fillText("📚", x + 8, y + 25);
-  }
-
-  // else if (item.type === "fragment" || item.isFragmentGroup) {
-  //   ctx.fillText("🧩", x + 8, y + 25);
-  // }
-  else if (item.type === "stone") {
   }
 
   if (
@@ -2113,9 +2336,24 @@ function drawInventoryItem(ctx, item, x, y, width, height) {
   ) {
     ctx.font = `14px ${fontFamily}`;
     ctx.shadowColor = itemBorderColor;
+  } else if (item.type === "exp") {
+    const baseFontSize = 14;
+    let fontSize = baseFontSize;
+    ctx.font = `${fontSize}px ${fontFamily}`;
+    
+    if (item.name && ctx.measureText(item.name).width > width - 20) {
+
+      while (fontSize > 8 && ctx.measureText(item.name).width > width - 20) {
+        fontSize -= 1;
+        ctx.font = `${fontSize}px ${fontFamily}`;
+      }
+    }
+    
+    ctx.shadowColor = itemBorderColor;
   } else {
-    ctx.font = "14px Arial";
+    ctx.font = `14px ${fontFamily}`;
   }
+  
   ctx.textAlign = "center";
   ctx.fillStyle = "#FFFFFF";
 
@@ -2158,15 +2396,26 @@ function drawInventoryItem(ctx, item, x, y, width, height) {
   }
 
   if (item.type === "exp") {
-    ctx.font = "bold 11px Arial";
+    ctx.font = `bold 11px ${fontFamily}`;
     ctx.textAlign = "center";
     ctx.fillStyle = "#FFFF99";
     ctx.shadowColor = "#000000";
     ctx.shadowBlur = 3;
     ctx.fillText("EXP ITEM", x + width / 2, y + 14);
-    ctx.font = `bold 11px ${mastonFontFamily}`;
-    ctx.fillText(`+${item.expValue || 0} EXP`, x + width / 2, y + height - 6);
-  } else if (item.type === "character" && item.isPremium && item.rarity === 5) {
+    
+    const expValueText = `+${item.expValue?.toLocaleString() || 0} EXP`;
+    let expFontSize = 11;
+    ctx.font = `bold ${expFontSize}px ${mastonFontFamily}`; 
+    
+    if (ctx.measureText(expValueText).width > width - 15) {
+      while (expFontSize > 8 && ctx.measureText(expValueText).width > width - 15) {
+        expFontSize -= 1;
+        ctx.font = `bold ${expFontSize}px ${mastonFontFamily}`; 
+      }
+    }
+    
+    ctx.fillText(expValueText, x + width / 2, y + height - 6);
+} else if (item.type === "character" && item.isPremium && item.rarity === 5) {
     ctx.font = "bold 11px Arial";
     ctx.textAlign = "center";
     ctx.fillStyle = "#FFD700";
@@ -2192,24 +2441,12 @@ function drawInventoryItem(ctx, item, x, y, width, height) {
       idY = y + height - 25;
     }
 
-    // ctx.fillStyle = "rgba(0, 0, 0, 0.8)";
-    // roundRect(ctx, idX, idY, 40, 20, 5, true, false);
-
-    // if (item.type === "character" && item.rarity === 5) {
-    //   ctx.strokeStyle = item.isPremium ? "#FF5500" : "#FFD700";
-    //   ctx.lineWidth = 2;
-    // } else {
-    //   ctx.strokeStyle = "rgba(255, 255, 255, 0.5)";
-    //   ctx.lineWidth = 1;
-    // }
-    // roundRect(ctx, idX, idY, 40, 20, 5, false, true);
-
     ctx.font = `bold 13px ${mastonFontFamily}`;
 
     if (item.type === "character" && item.rarity === 5) {
       ctx.fillStyle = item.isPremium ? "#FF5500" : "#FFD700";
     } else if (item.type === "character" && item.rarity === 4) {
-      ctx.fillStyle = "#9b59b6"; // Tím cho 4 sao
+      ctx.fillStyle = "#9b59b6"; 
     } else {
       ctx.fillStyle = "#FFFFFF";
     }
@@ -2267,7 +2504,7 @@ function extractStoneTypeFromId(id) {
   return match ? match[1] : "UNKNOWN";
 }
 function processEvoMaterials(stones, fragments) {
-  // Create a map to group fragments by their stoneType
+
   const fragmentMap = {};
   fragments.forEach((fragment) => {
     const stoneType = fragment.stoneType || extractStoneTypeFromId(fragment.id);
@@ -2282,15 +2519,12 @@ function processEvoMaterials(stones, fragments) {
     }
   });
 
-  // Check if any fragment group has 10+ fragments and should be auto-combined
   Object.keys(fragmentMap).forEach((stoneType) => {
     const fragmentGroup = fragmentMap[stoneType];
     if (fragmentGroup.count >= 10) {
-      // Create a new stone equivalent for every 10 fragments
       const fullStoneCount = Math.floor(fragmentGroup.count / 10);
       const remainingFragments = fragmentGroup.count % 10;
 
-      // Add full stones
       for (let i = 0; i < fullStoneCount; i++) {
         stones.push({
           ...fragmentGroup,
@@ -2301,7 +2535,6 @@ function processEvoMaterials(stones, fragments) {
         });
       }
 
-      // Update fragment count
       if (remainingFragments > 0) {
         fragmentGroup.count = remainingFragments;
       } else {
@@ -2310,21 +2543,18 @@ function processEvoMaterials(stones, fragments) {
     }
   });
 
-  // Convert fragment map back to array
   const fragmentGroups = Object.values(fragmentMap);
 
-  // Combine stones and remaining fragments
   const combinedItems = [...stones];
   fragmentGroups.forEach((fragmentGroup) => {
     combinedItems.push(fragmentGroup);
   });
 
-  // Sort by element type
   return combinedItems.sort((a, b) => {
-    // Universal stones first
+  
     if (a.stoneType === "UNIVERSAL") return -1;
     if (b.stoneType === "UNIVERSAL") return 1;
-    // Then by element alphabetically
+   
     return (a.stoneType || "").localeCompare(b.stoneType || "");
   });
 }
@@ -2453,12 +2683,10 @@ async function createStoneResultImage(options) {
     ctx.fillRect(imageAreaX, imageAreaY, imageAreaWidth, imageAreaHeight);
     ctx.restore();
 
-    // Vẽ hình ảnh đ
     if (stoneImage) {
       try {
         const image = await loadImage(stoneImage);
 
-        // Tính toán tỷ lệ để fit vào vùng hiển thị
         const scale =
           Math.min(
             imageAreaWidth / image.width,
@@ -2467,25 +2695,21 @@ async function createStoneResultImage(options) {
         const scaledWidth = image.width * scale;
         const scaledHeight = image.height * scale;
 
-        // Vị trí để đá nằm giữa vùng hiển thị
         const imageX = imageAreaX + (imageAreaWidth - scaledWidth) / 2;
         const imageY = imageAreaY + (imageAreaHeight - scaledHeight) / 2;
 
-        // Vẽ glow trước khi vẽ hình ảnh
         ctx.save();
         ctx.shadowColor = colors.primary;
         ctx.shadowBlur = 30;
         ctx.drawImage(image, imageX, imageY, scaledWidth, scaledHeight);
         ctx.restore();
 
-        // Vẽ hình ảnh đá với độ sáng tăng cao hơn
         ctx.save();
         ctx.globalCompositeOperation = "source-over";
         ctx.filter = "brightness(1.2) contrast(1.15)";
         ctx.drawImage(image, imageX, imageY, scaledWidth, scaledHeight);
         ctx.restore();
 
-        // Thêm hiệu ứng ánh sáng lóe
         drawLightRays(
           ctx,
           cardWidth / 2,
@@ -2495,7 +2719,6 @@ async function createStoneResultImage(options) {
       } catch (error) {
         console.error("Error loading stone image:", error);
 
-        // Fallback khi không load được ảnh
         ctx.font = `bold 24px ${fontFamily}`;
         ctx.fillStyle = colors.primary;
         ctx.textAlign = "center";
@@ -2507,7 +2730,6 @@ async function createStoneResultImage(options) {
       }
     }
 
-    // Vẽ banner tên đá
     const nameBannerY = imageAreaY + imageAreaHeight + 30;
     const nameBannerHeight = 50;
 
@@ -2586,19 +2808,16 @@ async function createStoneResultImage(options) {
       false
     );
 
-    // Mô tả đá
     ctx.font = `20px ${fontFamily}`;
     ctx.textAlign = "center";
     ctx.fillStyle = "#FFFFFF";
 
-    // Cắt mô tả để vừa với vùng hiển thị
     const maxLength = 80;
     let displayDescription = description;
     if (description.length > maxLength) {
       displayDescription = description.substring(0, maxLength) + "...";
     }
 
-    // Tách dòng mô tả nếu cần
     const words = displayDescription.split(" ");
     let line = "";
     let y = descriptionY + 30;
@@ -2643,7 +2862,6 @@ async function createStoneResultImage(options) {
       false
     );
 
-    // Thêm viền
     ctx.strokeStyle = `rgba(255, 255, 255, 0.5)`;
     ctx.lineWidth = 2;
     ctx.shadowColor = colors.primary;
@@ -2659,8 +2877,7 @@ async function createStoneResultImage(options) {
       true
     );
 
-    // Hiển thị giá trị đá
-    ctx.font = `bold 28px ${mastonFontFamily}`; // Changed from Arial to MastonPro
+    ctx.font = `bold 28px ${mastonFontFamily}`;
     ctx.textAlign = "center";
     ctx.shadowColor = "rgba(0, 0, 0, 0.7)";
     ctx.shadowBlur = 5;
@@ -2674,7 +2891,6 @@ async function createStoneResultImage(options) {
     ctx.fillStyle = "#FFFFFF";
     ctx.fillText(formattedValue, cardWidth / 2, valueY + valueHeight / 2 + 10);
 
-    // Hiện element text
     ctx.font = `bold 22px ${fontFamily}`;
     ctx.fillStyle = colors.primary;
     ctx.fillText(
@@ -2684,10 +2900,8 @@ async function createStoneResultImage(options) {
     );
     ctx.restore();
 
-    // Thêm hiệu ứng shimmer
     drawStoneShimmer(ctx, 10, 10, cardWidth - 20, cardHeight - 20, rarity);
 
-    // Lưu ảnh
     const buffer = canvas.toBuffer("image/png");
     const tempDir = path.join(__dirname, "../temp");
     if (!fs.existsSync(tempDir)) {
@@ -2707,7 +2921,6 @@ async function createStoneResultImage(options) {
   }
 }
 
-// Hàm vẽ hiệu ứng tia sáng cho đá
 function drawLightRays(ctx, x, y, colors) {
   ctx.save();
   ctx.globalCompositeOperation = "screen";
@@ -2740,7 +2953,6 @@ function drawLightRays(ctx, x, y, colors) {
   ctx.restore();
 }
 
-// Hàm vẽ hiệu ứng particle theo element
 function drawElementalParticles(ctx, width, height, element, colors) {
   ctx.save();
 
@@ -2756,16 +2968,13 @@ function drawElementalParticles(ctx, width, height, element, colors) {
     ctx.globalAlpha = Math.random() * 0.5 + 0.2;
 
     if (element === "Universal") {
-      // Particle hình sao cho đá vạn năng
       drawStar(ctx, x, y, size * 2, colors.primary);
     } else {
-      // Particle hình tròn cho các đá thường
       ctx.arc(x, y, size, 0, Math.PI * 2);
       ctx.fill();
     }
   }
 
-  // Hiệu ứng đặc biệt theo element
   switch (element) {
     case "Pyro":
       drawFireParticles(ctx, width, height, colors);
@@ -2784,7 +2993,6 @@ function drawElementalParticles(ctx, width, height, element, colors) {
   ctx.restore();
 }
 
-// Hàm vẽ hiệu ứng lửa cho đá Pyro
 function drawFireParticles(ctx, width, height, colors) {
   for (let i = 0; i < 15; i++) {
     const x = Math.random() * width;
@@ -2805,14 +3013,14 @@ function drawFireParticles(ctx, width, height, colors) {
 }
 function getElementColor(element) {
   const elementColors = {
-    Pyro: "#FF5733", // Đỏ cam
-    Hydro: "#0099FF", // Xanh nước
-    Anemo: "#66FFCC", // Ngọc lam nhạt
-    Electro: "#9933FF", // Tím
-    Dendro: "#99FF66", // Xanh lá cây
-    Cryo: "#99FFFF", // Xanh băng
-    Geo: "#FFCC33", // Vàng cam
-    Unknown: "#FFFFFF", // Trắng
+    Pyro: "#FF5733",
+    Hydro: "#0099FF",
+    Anemo: "#66FFCC",
+    Electro: "#9933FF", 
+    Dendro: "#99FF66", 
+    Cryo: "#99FFFF", 
+    Geo: "#FFCC33",
+    Unknown: "#FFFFFF",
   };
 
   return elementColors[element] || elementColors.Unknown;
@@ -2828,7 +3036,6 @@ function drawWaterParticles(ctx, width, height, colors) {
     ctx.lineWidth = 2;
     ctx.beginPath();
 
-    // Vẽ gợn sóng
     for (let j = 0; j < 3; j++) {
       const circleSize = size - j * 10;
       ctx.beginPath();
@@ -2838,7 +3045,6 @@ function drawWaterParticles(ctx, width, height, colors) {
   }
 }
 
-// Hàm vẽ hiệu ứng điện cho đá Electro
 function drawElectroParticles(ctx, width, height, colors) {
   for (let i = 0; i < 8; i++) {
     const startX = Math.random() * width;
@@ -2854,7 +3060,6 @@ function drawElectroParticles(ctx, width, height, colors) {
     ctx.shadowColor = colors.secondary;
     ctx.shadowBlur = 10;
 
-    // Vẽ đường zigzag như tia điện
     ctx.beginPath();
     ctx.moveTo(startX, startY);
 
@@ -2872,9 +3077,8 @@ function drawElectroParticles(ctx, width, height, colors) {
   }
 }
 
-// Hàm vẽ hiệu ứng đặc biệt cho đá Universal
 function drawUniversalParticles(ctx, width, height, colors) {
-  // Vẽ hiệu ứng hào quang
+
   const gradient = ctx.createRadialGradient(
     width / 2,
     height / 2,
@@ -2893,7 +3097,6 @@ function drawUniversalParticles(ctx, width, height, colors) {
   ctx.arc(width / 2, height / 2, 250, 0, Math.PI * 2);
   ctx.fill();
 
-  // Vẽ thêm các ngôi sao nhỏ
   for (let i = 0; i < 30; i++) {
     const x = Math.random() * width;
     const y = Math.random() * height;
@@ -2903,11 +3106,9 @@ function drawUniversalParticles(ctx, width, height, colors) {
   }
 }
 
-// Hàm vẽ viền card cho đá
 function drawStoneCardFrame(ctx, rarity, x, y, width, height, element, colors) {
   ctx.save();
 
-  // Hiệu ứng glow cho viền
   const glowRadius = width * 0.6;
   const glowGradient = ctx.createRadialGradient(
     x + width / 2,
@@ -2928,11 +3129,9 @@ function drawStoneCardFrame(ctx, rarity, x, y, width, height, element, colors) {
   ctx.fillStyle = glowGradient;
   ctx.fillRect(x - 30, y - 30, width + 60, height + 60);
 
-  // Vẽ viền
   const borderGradient = ctx.createLinearGradient(x, y, x, y + height);
 
   if (rarity === 5) {
-    // Đá Universal dùng viền 5★
     borderGradient.addColorStop(0, colors.primary);
     borderGradient.addColorStop(0.5, "#FFFFFF");
     borderGradient.addColorStop(1, colors.primary);
@@ -2943,13 +3142,11 @@ function drawStoneCardFrame(ctx, rarity, x, y, width, height, element, colors) {
     ctx.shadowBlur = 15;
     roundRect(ctx, x - 2, y - 2, width + 4, height + 4, 20, false, true);
 
-    // Vẽ viền trong
     ctx.strokeStyle = colors.secondary;
     ctx.lineWidth = 3;
     ctx.shadowBlur = 5;
     roundRect(ctx, x + 6, y + 6, width - 12, height - 12, 15, false, true);
   } else {
-    // Các đá nguyên tố thường dùng viền 4★
     borderGradient.addColorStop(0, colors.primary);
     borderGradient.addColorStop(0.3, colors.secondary);
     borderGradient.addColorStop(0.7, colors.primary);
@@ -2967,7 +3164,6 @@ function drawStoneCardFrame(ctx, rarity, x, y, width, height, element, colors) {
     roundRect(ctx, x + 6, y + 6, width - 12, height - 12, 12, false, true);
   }
 
-  // Vẽ họa tiết góc
   drawCornerDecorationForStone(ctx, x + 5, y + 5, 0, colors.primary, element);
   drawCornerDecorationForStone(
     ctx,
@@ -2997,23 +3193,19 @@ function drawStoneCardFrame(ctx, rarity, x, y, width, height, element, colors) {
   ctx.restore();
 }
 
-// Hàm vẽ họa tiết góc cho đá
 function drawCornerDecorationForStone(ctx, x, y, rotation, color, element) {
   ctx.save();
   ctx.translate(x, y);
   ctx.rotate((rotation * Math.PI) / 180);
 
-  // Độ dài đường kẻ
   const lineLength = 40;
 
-  // Vẽ hai đường thẳng từ góc
   ctx.beginPath();
   ctx.moveTo(0, 0);
   ctx.lineTo(lineLength, 0);
   ctx.moveTo(0, 0);
   ctx.lineTo(0, lineLength);
 
-  // Gradient cho đường kẻ
   const gradient = ctx.createLinearGradient(0, 0, lineLength, lineLength);
   gradient.addColorStop(0, color);
   gradient.addColorStop(1, `${color}55`);
@@ -3054,7 +3246,6 @@ function drawCornerDecorationForStone(ctx, x, y, rotation, color, element) {
   ctx.restore();
 }
 
-// Các hàm vẽ biểu tượng nhỏ cho từng element
 function drawSmallFlame(ctx, x, y) {
   ctx.beginPath();
   ctx.moveTo(x, y - 8);
@@ -3102,7 +3293,6 @@ function drawSmallSnowflake(ctx, x, y) {
     ctx.rotate((-i * Math.PI) / 3);
   }
 
-  // Add center circle
   ctx.beginPath();
   ctx.arc(x, y, 2, 0, Math.PI * 2);
   ctx.fillStyle = "#FFFFFF";
@@ -3117,7 +3307,6 @@ function drawSmallLeaf(ctx, x, y) {
   ctx.fillStyle = "#99FF66";
   ctx.fill();
 
-  // Add leaf vein
   ctx.beginPath();
   ctx.moveTo(x, y - 8);
   ctx.lineTo(x, y + 8);
@@ -3136,7 +3325,6 @@ function drawSmallDiamond(ctx, x, y) {
   ctx.fillStyle = "#FFCC33";
   ctx.fill();
 
-  // Add inner diamond
   ctx.beginPath();
   ctx.moveTo(x, y - 4);
   ctx.lineTo(x + 3, y);
@@ -3156,7 +3344,6 @@ function drawSmallWind(ctx, x, y) {
   ctx.lineWidth = 1.5;
   ctx.stroke();
 
-  // Add small swirl
   ctx.beginPath();
   ctx.arc(x - 3, y + 3, 3, 0, Math.PI * 1.5, false);
   ctx.strokeStyle = "#99FFE6";
@@ -3188,18 +3375,15 @@ function drawSmallStar(ctx, x, y) {
   ctx.fillStyle = "#FFFFFF";
   ctx.fill();
 
-  // Reset transformation
   ctx.translate(-x, -y);
 }
 
-// Function to create shimmer effect on stone cards
 function drawStoneShimmer(ctx, x, y, width, height, rarity) {
   ctx.save();
 
   const shimmerWidth = width * 0.3;
   const shimmerOpacity = rarity === 5 ? 0.6 : 0.4;
 
-  // Create diagonal shimmer effect
   const gradient = ctx.createLinearGradient(
     x - shimmerWidth,
     y - shimmerWidth,
@@ -3217,7 +3401,6 @@ function drawStoneShimmer(ctx, x, y, width, height, rarity) {
   ctx.globalCompositeOperation = "overlay";
   roundRect(ctx, x, y, width, height, 15, true, false);
 
-  // Add some sparkles for higher rarity stones
   if (rarity === 5) {
     ctx.globalCompositeOperation = "lighter";
 
@@ -6272,14 +6455,12 @@ async function drawCharacterCard(
 ) {
   ctx.save();
 
-  // Kiểm tra nhân vật có tiến hóa không
   const baseRarity = character.rarity;
   const currentRarity =
     character.currentLevel || character.starLevel || baseRarity;
   const isEvolved = currentRarity > baseRarity;
   const evolvedLevels = isEvolved ? currentRarity - baseRarity : 0;
 
-  // Xác định màu và hiệu ứng dựa vào rarity và trạng thái tiến hóa
   const rarityStyles = {
     5: {
       borderWidth: 4,
@@ -6307,30 +6488,28 @@ async function drawCharacterCard(
 
   const style = rarityStyles[character.rarity] || rarityStyles[3];
 
-  // Card background với gradient theo element và tiến hóa
   const bgColor = getElementColorByName(character.element);
   const cardGradient = ctx.createLinearGradient(x, y, x + width, y + height);
 
-  // Gradient dựa theo độ hiếm và trạng thái tiến hóa
   if (character.rarity === 5) {
     if (isEvolved) {
-      // 5★ tiến hóa có gradient đặc biệt
+
       cardGradient.addColorStop(0, `rgba(${hexToRgb(bgColor)}, 0.4)`);
       cardGradient.addColorStop(0.5, `rgba(40, 10, 10, 0.95)`);
       cardGradient.addColorStop(1, `rgba(${hexToRgb(bgColor)}, 0.3)`);
     } else {
-      // 5★ thường
+
       cardGradient.addColorStop(0, `rgba(${hexToRgb(bgColor)}, 0.3)`);
       cardGradient.addColorStop(0.5, `rgba(30, 30, 40, 0.9)`);
       cardGradient.addColorStop(1, `rgba(${hexToRgb(bgColor)}, 0.2)`);
     }
   } else if (character.rarity === 4 && isEvolved) {
-    // 4★ tiến hóa
+
     cardGradient.addColorStop(0, `rgba(${hexToRgb(bgColor)}, 0.35)`);
     cardGradient.addColorStop(0.5, `rgba(40, 10, 50, 0.9)`);
     cardGradient.addColorStop(1, `rgba(${hexToRgb(bgColor)}, 0.25)`);
   } else {
-    // 4★ thường và 3★
+
     cardGradient.addColorStop(0, `rgba(${hexToRgb(bgColor)}, 0.2)`);
     cardGradient.addColorStop(1, "rgba(0, 0, 0, 0.6)");
   }
@@ -6338,17 +6517,14 @@ async function drawCharacterCard(
   ctx.fillStyle = cardGradient;
   roundRect(ctx, x, y, width, height, 10, true, false);
 
-  // Thêm hiệu ứng ánh sáng dựa theo độ hiếm và tiến hóa
   if (character.rarity === 5) {
-    // Chọn màu glow dựa theo premium và tiến hóa
     let glowColor;
     if (style.isPremium) {
-      glowColor = isEvolved ? "#FF3300" : "#FF5500"; // Premium tiến hóa và không tiến hóa
+      glowColor = isEvolved ? "#FF3300" : "#FF5500";
     } else {
-      glowColor = isEvolved ? "#FF0000" : "#FFD700"; // 5★ thường tiến hóa và không tiến hóa
+      glowColor = isEvolved ? "#FF0000" : "#FFD700"; 
     }
 
-    // Tăng độ sáng cho hiệu ứng ánh sáng của nhân vật tiến hóa
     const glowOpacity = isEvolved ? 0.3 : 0.2;
     const glowGradient = ctx.createRadialGradient(
       x + width / 2,
@@ -6367,14 +6543,13 @@ async function drawCharacterCard(
     ctx.fillStyle = glowGradient;
     roundRect(ctx, x - 5, y - 5, width + 10, height + 10, 12, true, false);
 
-    // Thêm hiệu ứng tỏa sáng ở góc
     for (let i = 0; i < 4; i++) {
       const cornerX = x + (i % 2 === 0 ? 0 : width);
       const cornerY = y + (i < 2 ? 0 : height);
       drawCornerGlow(ctx, cornerX, cornerY, 20, glowColor, i);
     }
   } else if (character.rarity === 4 && isEvolved) {
-    // Hiệu ứng ánh sáng đặc biệt cho 4★ tiến hóa
+
     const glowGradient = ctx.createRadialGradient(
       x + width / 2,
       y + height / 2,
@@ -6383,14 +6558,13 @@ async function drawCharacterCard(
       y + height / 2,
       width / 1.2
     );
-    glowGradient.addColorStop(0, `rgba(212, 98, 255, 0.25)`); // Tím đậm hơn
+    glowGradient.addColorStop(0, `rgba(212, 98, 255, 0.25)`);
     glowGradient.addColorStop(1, "rgba(0, 0, 0, 0)");
 
     ctx.fillStyle = glowGradient;
     roundRect(ctx, x - 4, y - 4, width + 8, height + 8, 12, true, false);
   }
 
-  // Khung viền ngoài đặc biệt cho nhân vật tiến hóa
   let rarityColor;
 
   if (character.rarity === 5) {
@@ -6400,23 +6574,19 @@ async function drawCharacterCard(
       rarityColor = isEvolved ? "#FF0000" : "#FFD700";
     }
   } else if (character.rarity === 4) {
-    rarityColor = isEvolved ? "#D62BFF" : "#9b59b6"; // 4★ tiến hóa màu tím sáng hơn
+    rarityColor = isEvolved ? "#D62BFF" : "#9b59b6";
   } else {
     rarityColor = "#3498db";
   }
 
-  // Đổi kiểu viền cho nhân vật tiến hóa
   if (isEvolved) {
-    // Viền đặc biệt cho nhân vật tiến hóa - sử dụng viền kép với hiệu ứng
     ctx.strokeStyle = rarityColor;
-    ctx.lineWidth = style.borderWidth + (evolvedLevels > 2 ? 1 : 0); // Viền dày hơn với nhiều sao tiến hóa
+    ctx.lineWidth = style.borderWidth + (evolvedLevels > 2 ? 1 : 0);
     ctx.shadowColor = rarityColor;
     ctx.shadowBlur = style.glowSize + evolvedLevels * 2;
 
-    // Vẽ viền ngoài
     roundRect(ctx, x, y, width, height, 10, false, true);
 
-    // Vẽ viền trong với gradient
     const innerBorderGradient = ctx.createLinearGradient(x, y, x, y + height);
     if (character.rarity === 5) {
       innerBorderGradient.addColorStop(0, "#FFFFFF");
@@ -6433,7 +6603,6 @@ async function drawCharacterCard(
     ctx.shadowBlur = style.glowSize / 2;
     roundRect(ctx, x + 4, y + 4, width - 8, height - 8, 6, false, true);
 
-    // Vẽ thêm đường trang trí cho nhân vật tiến hóa cao
     if (evolvedLevels >= 2) {
       ctx.strokeStyle = rarityColor;
       ctx.lineWidth = 1;
@@ -6443,14 +6612,12 @@ async function drawCharacterCard(
       ctx.setLineDash([]);
     }
   } else {
-    // Viền thông thường cho nhân vật chưa tiến hóa
     ctx.strokeStyle = rarityColor;
     ctx.lineWidth = style.borderWidth;
     ctx.shadowColor = rarityColor;
     ctx.shadowBlur = style.glowSize;
     roundRect(ctx, x, y, width, height, 10, false, true);
 
-    // Thêm viền trong cho 5★ & 4★
     if (character.rarity >= 4) {
       ctx.strokeStyle =
         character.rarity === 5
@@ -6464,13 +6631,11 @@ async function drawCharacterCard(
     }
   }
 
-  // Thêm logo chỉ số tiến hóa nếu có
   if (isEvolved) {
     const evolvedBadgeSize = 26;
     const badgeX = isLeftAligned ? x + width - evolvedBadgeSize - 10 : x + 10;
     const badgeY = y + height - evolvedBadgeSize - 40;
 
-    // Vẽ nền cho badge
     let badgeColor =
       character.rarity === 5
         ? character.isPremium
@@ -6501,7 +6666,6 @@ async function drawCharacterCard(
     );
     ctx.fill();
 
-    // Viền cho badge
     ctx.strokeStyle = "#FFFFFF";
     ctx.lineWidth = 1.5;
     ctx.beginPath();
@@ -6514,7 +6678,6 @@ async function drawCharacterCard(
     );
     ctx.stroke();
 
-    // Hiển thị số sao tiến hóa
     ctx.font = `bold 14px ${mastonFontFamily}`;
     ctx.textAlign = "center";
     ctx.fillStyle = "#FFFFFF";
@@ -6527,7 +6690,6 @@ async function drawCharacterCard(
     );
   }
 
-  // Vẽ họa tiết trang trí theo rarity và trạng thái tiến hóa
   if (isEvolved) {
     drawEvolvedDecorations(ctx, x, y, width, height, character, evolvedLevels);
   } else {
@@ -6538,19 +6700,17 @@ async function drawCharacterCard(
     if (character.image) {
       const charImage = await loadImage(character.image);
 
-      // Tính toán vị trí và kích thước ảnh, điều chỉnh để rộng hơn
-      const imageHeight = Math.min(width, height) * 0.85; // Tăng từ 0.8 lên 0.85
-      const imageWidth = imageHeight * 1.15; // Điều chỉnh để ảnh rộng hơn (width/height = 1.15)
+      const imageHeight = Math.min(width, height) * 0.85;
+      const imageWidth = imageHeight * 1.15; 
 
-      // Tính toán lại vị trí để giữ ảnh nằm trung tâm
       const imageX = x + (width - imageWidth) / 2;
-      const imageY = y + height * 0.1; // Giảm từ 0.12 xuống 0.1 để đưa ảnh lên cao hơn chút
+      const imageY = y + height * 0.1; 
 
       if (character.rarity >= 4 || isEvolved) {
         ctx.save();
         ctx.shadowColor = isEvolved ? rarityColor : bgColor;
         ctx.shadowBlur = isEvolved ? 30 : 20;
-        // Sử dụng tỷ lệ mới cho ảnh
+   
         ctx.drawImage(
           charImage,
           imageX + 1,
@@ -6561,14 +6721,12 @@ async function drawCharacterCard(
         ctx.restore();
       }
 
-      // Vẽ ảnh nhân vật với tỷ lệ mới
       ctx.drawImage(charImage, imageX, imageY, imageWidth, imageHeight);
     }
   } catch (error) {
     console.error("Error loading character image:", error);
   }
 
-  // Character level với khung đặc biệt cho nhân vật tiến hóa
   let levelBgColor;
   if (isEvolved) {
     if (character.rarity === 5) {
@@ -6589,14 +6747,11 @@ async function drawCharacterCard(
         : "rgba(52, 152, 219, 0.8)";
   }
 
-  // Level badge - khung đặc biệt cho nhân vật tiến hóa
   ctx.fillStyle = levelBgColor;
   if (isEvolved) {
-    // Khung level đặc biệt cho nhân vật tiến hóa
     const levelX = x;
     const levelY = y + 5;
 
-    // Hình lục giác cho nhân vật tiến hóa
     ctx.beginPath();
     ctx.moveTo(levelX + 25, levelY);
     ctx.lineTo(levelX + 50, levelY);
@@ -6607,12 +6762,11 @@ async function drawCharacterCard(
     ctx.closePath();
     ctx.fill();
 
-    // Viền
     ctx.strokeStyle = "#FFFFFF";
     ctx.lineWidth = 1;
     ctx.stroke();
   } else if (character.rarity === 5) {
-    // Khung level đặc biệt cho 5★ thường
+
     const levelX = x;
     const levelY = y + 5;
     ctx.beginPath();
@@ -6625,13 +6779,12 @@ async function drawCharacterCard(
     ctx.fill();
 
     if (style.isPremium) {
-      // Viền cho premium
+ 
       ctx.strokeStyle = "#FFD700";
       ctx.lineWidth = 1;
       ctx.stroke();
     }
   } else {
-    // Khung level đơn giản cho 4★ và 3★
     roundRect(ctx, x + 5, y + 5, 50, 24, 12, true, false);
   }
 
@@ -6641,51 +6794,67 @@ async function drawCharacterCard(
   ctx.shadowColor = "rgba(0, 0, 0, 0.7)";
   ctx.shadowBlur = 4;
   const levelText = isEvolved
-    ? `Lv${character.level || 1}`
-    : `Lv${character.level || 1}`;
-  ctx.fillText(levelText, x + (isEvolved ? 37 : 30), y + 22);
+  ? `Lv${character.level || 1}`
+  : `Lv${character.level || 1}`;
+ctx.fillText(levelText, x + (isEvolved ? 37 : 30), y + 22);
 
-  // Element icon với hiệu ứng đẹp hơn
-  const elementIcon = ELEMENT_ICONS[character.element] || "✨";
-  // Vị trí icon phụ thuộc vào alignment - SỬA Ở ĐÂY
-  const iconX = isLeftAligned ? x + width - 20 : x + width - 20;
+const elementIcon = ELEMENT_ICONS[character.element] || "✨";
 
-  // Vẽ nền tròn cho icon
-  const iconBgGradient = ctx.createRadialGradient(
-    iconX,
-    y + 22,
-    0,
-    iconX,
-    y + 22,
-    15
-  );
-  iconBgGradient.addColorStop(0, "rgba(0, 0, 0, 0.7)");
-  iconBgGradient.addColorStop(1, "rgba(0, 0, 0, 0.3)");
+const iconX = isLeftAligned ? x + width - 20 : x + 20;
 
-  ctx.fillStyle = iconBgGradient;
+const elementColor = getElementColor(character.element);
+
+const iconBgGradient = ctx.createRadialGradient(
+  iconX,
+  y + 22,
+  0,
+  iconX,
+  y + 22,
+  15
+);
+iconBgGradient.addColorStop(0, `rgba(${hexToRgb(elementColor)}, 0.4)`);
+iconBgGradient.addColorStop(0.6, "rgba(0, 0, 0, 0.6)");
+iconBgGradient.addColorStop(1, "rgba(0, 0, 0, 0.3)");
+
+ctx.fillStyle = iconBgGradient;
+ctx.beginPath();
+ctx.arc(iconX, y + 22, 15, 0, Math.PI * 2);
+ctx.fill();
+
+if (character.rarity >= 4 || isEvolved) {
+  ctx.strokeStyle = isEvolved ? rarityColor : elementColor;
+  ctx.lineWidth = isEvolved ? 2 : 1.5;
+  ctx.stroke();
+}
+
+ctx.font = `18px ${fontFamily}`;
+ctx.fillStyle = "#FFFFFF";
+ctx.shadowColor = isEvolved ? rarityColor : elementColor;
+ctx.shadowBlur = isEvolved ? 10 : 8;
+ctx.textAlign = "center";
+ctx.fillText(elementIcon, iconX, y + 26);
+
+if (character.rarity >= 5 || isEvolved) {
+  ctx.save();
+  ctx.globalCompositeOperation = "lighter";
+  const innerGlow = ctx.createRadialGradient(iconX, y + 22, 0, iconX, y + 22, 8);
+  innerGlow.addColorStop(0, `rgba(255, 255, 255, 0.6)`);
+  innerGlow.addColorStop(1, `rgba(255, 255, 255, 0)`);
+  ctx.fillStyle = innerGlow;
   ctx.beginPath();
-  ctx.arc(iconX, y + 22, 15, 0, Math.PI * 2);
+  ctx.arc(iconX, y + 22, 8, 0, Math.PI * 2);
   ctx.fill();
+  ctx.restore();
+}
 
-  // Viền cho icon
-  if (character.rarity >= 4 || isEvolved) {
-    ctx.strokeStyle = isEvolved ? rarityColor : bgColor;
-    ctx.lineWidth = isEvolved ? 2 : 1.5;
-    ctx.stroke();
-  }
-
-  // Vẽ icon - Điều chỉnh vị trí để ở chính giữa vòng tròn
-  ctx.font = `18px Arial`;
+  ctx.font = `18px ${fontFamily}`;
   ctx.fillStyle = "#FFFFFF";
   ctx.shadowColor = isEvolved ? rarityColor : bgColor;
   ctx.shadowBlur = isEvolved ? 10 : 8;
-  ctx.textAlign = "center"; // Đặt text align là center để icon nằm giữa
-  ctx.fillText(elementIcon, iconX, y + 26); // Điều chỉnh vị trí Y xuống 1px
-  ctx.textAlign = "center"; // Đảm bảo textAlign được thiết lập lại cho các nội dung sau
-
-  // Character name panel với nền gradient đặc biệt cho nhân vật tiến hóa
+  ctx.textAlign = "center";
+  ctx.fillText(elementIcon, iconX, y + 26); 
+  ctx.textAlign = "center"; 
   if (isEvolved) {
-    // Panel tên đặc biệt cho nhân vật tiến hóa
     const nameBgGradient = ctx.createLinearGradient(
       x,
       y + height - 30,

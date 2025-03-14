@@ -239,12 +239,13 @@
       "CHAR_773628111",
       "CHAR_761123655",
       "STONE_PYRO_772261802",
-      "EXP_HEROS_WIT_872162144"
+      "EXP_HEROS_WIT_872162144",
+      "CHAR_901595434"
     ],
-    "pullsSinceLastFiveStar": 40,
-    "pullsSinceLastFourStar": 3,
-    "totalPulls": 130,
-    "lastPull": 1741937512595,
+    "pullsSinceLastFiveStar": 41,
+    "pullsSinceLastFourStar": 0,
+    "totalPulls": 131,
+    "lastPull": 1741939546175,
     "stellaPity": {
       "Klee": 1,
       "Venti": 1
@@ -714,10 +715,10 @@
       "EXP_WANDERERS_ADVICE_435519523",
       "CHAR_768410845"
     ],
-    "pullsSinceLastFiveStar": 1,
-    "pullsSinceLastFourStar": 1,
-    "totalPulls": 529,
-    "lastPull": 1741937684726,
+    "pullsSinceLastFiveStar": 3,
+    "pullsSinceLastFourStar": 3,
+    "totalPulls": 531,
+    "lastPull": 1741939748540,
     "stellaPity": {
       "Eula": 0,
       "Nahida": 1,
@@ -757,12 +758,13 @@
       "CHAR_620481876",
       "EXP_WANDERERS_ADVICE_664985924",
       "FRAGMENT_ELECTRO_990729257",
-      "CHAR_537000510"
+      "CHAR_537000510",
+      "FRAGMENT_HYDRO_978134261"
     ],
-    "pullsSinceLastFiveStar": 21,
-    "pullsSinceLastFourStar": 14,
-    "totalPulls": 68,
-    "lastPull": 1741928815725,
+    "pullsSinceLastFiveStar": 22,
+    "pullsSinceLastFourStar": 15,
+    "totalPulls": 70,
+    "lastPull": 1741942247496,
     "pvpTeam": [
       "CHAR_266221097",
       "CHAR_656758808",
@@ -775,7 +777,9 @@
     },
     "stellaPity": {
       "Venti": 1
-    }
+    },
+    "pullsSinceLastStone": 1,
+    "pullsSinceLastUniversalStone": 0
   },
   "100008297661441": {
     "inventory": [
@@ -888,12 +892,15 @@
       "STONE_GEO_894272269",
       "EXP_ADVENTURERS_EXPERIENCE_915968787",
       "CHAR_758273719",
-      "CHAR_433645093"
+      "CHAR_433645093",
+      "EXP_WANDERERS_ADVICE_324085546",
+      "CHAR_392769278",
+      "CHAR_162286987"
     ],
-    "pullsSinceLastFiveStar": 10,
-    "pullsSinceLastFourStar": 2,
-    "totalPulls": 914,
-    "lastPull": 1741937790796,
+    "pullsSinceLastFiveStar": 16,
+    "pullsSinceLastFourStar": 1,
+    "totalPulls": 921,
+    "lastPull": 1741941719860,
     "pvpTeam": [
       "CHAR_100031428",
       "CHAR_582271797",
@@ -1079,12 +1086,13 @@
       "FRAGMENT_ELECTRO_332614511",
       "STONE_DENDRO_885789085",
       "CHAR_921224643",
-      "CHAR_611638194"
+      "CHAR_611638194",
+      "CHAR_722127052"
     ],
-    "pullsSinceLastFiveStar": 23,
-    "pullsSinceLastFourStar": 4,
-    "totalPulls": 369,
-    "lastPull": 1741936251995,
+    "pullsSinceLastFiveStar": 25,
+    "pullsSinceLastFourStar": 1,
+    "totalPulls": 371,
+    "lastPull": 1741940033498,
     "pvpTeam": [
       "CHAR_234264680",
       "CHAR_444386913",
@@ -1133,14 +1141,13 @@
       "EXP_ADVENTURERS_EXPERIENCE_638531134",
       "STONE_ANEMO_371387468"
     ],
-    "pullsSinceLastFiveStar": 26,
-    "pullsSinceLastFourStar": 10,
-    "totalPulls": 89,
-    "lastPull": 1741935582240,
+    "pullsSinceLastFiveStar": 27,
+    "pullsSinceLastFourStar": 11,
+    "totalPulls": 92,
+    "lastPull": 1741942149352,
     "pvpTeam": [
       "CHAR_224443275",
-      "CHAR_933506914",
-      "CHAR_170231641"
+      "CHAR_933506914"
     ],
     "pvpStats": {
       "wins": 1,
@@ -1312,12 +1319,13 @@
       "CHAR_753975364",
       "CHAR_504050393",
       "FRAGMENT_PYRO_175870679",
-      "FRAGMENT_HYDRO_130056991"
+      "FRAGMENT_HYDRO_130056991",
+      "CHAR_877489290"
     ],
-    "pullsSinceLastFiveStar": 20,
-    "pullsSinceLastFourStar": 20,
-    "totalPulls": 186,
-    "lastPull": 1741934329150,
+    "pullsSinceLastFiveStar": 22,
+    "pullsSinceLastFourStar": 0,
+    "totalPulls": 188,
+    "lastPull": 1741940311640,
     "stellaPity": {
       "albedo": 1
     }
@@ -1436,10 +1444,10 @@
       "CHAR_271073400",
       "FRAGMENT_ANEMO_678802969"
     ],
-    "pullsSinceLastFiveStar": 4,
-    "pullsSinceLastFourStar": 4,
-    "totalPulls": 114,
-    "lastPull": 1741936873051,
+    "pullsSinceLastFiveStar": 7,
+    "pullsSinceLastFourStar": 7,
+    "totalPulls": 117,
+    "lastPull": 1741941609552,
     "stellaPity": {
       "Arlecchino": 1,
       "Qiqi": 0,
@@ -1650,10 +1658,10 @@
       "EXP_LEGENDARY_GRIMOIRE_663523165",
       "CHAR_771246552"
     ],
-    "pullsSinceLastFiveStar": 2,
-    "pullsSinceLastFourStar": 2,
-    "totalPulls": 28,
-    "lastPull": 1741925980792,
+    "pullsSinceLastFiveStar": 3,
+    "pullsSinceLastFourStar": 3,
+    "totalPulls": 29,
+    "lastPull": 1741940878421,
     "stellaPity": {
       "Baizhu": 1
     }
