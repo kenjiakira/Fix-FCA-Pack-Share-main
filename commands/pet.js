@@ -85,6 +85,43 @@ const PET_TYPES = {
     foods: ["hạt", "rau", "trái cây"],
     activities: ["chạy wheel", "chui ống", "đồ chơi gặm"],
   },
+  // Add new pet types
+  PIG: {
+    name: "Lợn",
+    price: 3500,
+    maxHunger: 120,
+    maxHappy: 90,
+    maxEnergy: 80,
+    foods: ["bắp", "rau", "cám"],
+    activities: ["lăn bùn", "nghịch nước", "tìm thức ăn"],
+  },
+  RABBIT: {
+    name: "Thỏ",
+    price: 3000,
+    maxHunger: 80,
+    maxHappy: 100,
+    maxEnergy: 110,
+    foods: ["cà rốt", "rau diếp", "cỏ"],
+    activities: ["nhảy nhót", "đào hang", "gặm đồ"],
+  },
+  BIRD: {
+    name: "Chim",
+    price: 2800,
+    maxHunger: 70,
+    maxHappy: 120,
+    maxEnergy: 130,
+    foods: ["hạt", "sâu", "quả mọng"],
+    activities: ["hót", "bay lượn", "tắm cát"],
+  },
+  FISH: {
+    name: "Cá",
+    price: 2000,
+    maxHunger: 60,
+    maxHappy: 80,
+    maxEnergy: 90,
+    foods: ["thức ăn cá", "tảo", "sinh vật phù du"],
+    activities: ["bơi", "chơi đồ trang trí", "săn mồi"],
+  },
 };
 
 const PET_SKILLS = {
@@ -169,6 +206,109 @@ const PET_SKILLS = {
         const tips = Math.floor((Math.random() * 5 + 5) * pet.level);
         return `🎪 Biểu diễn thành công! Nhận được ${tips}$ tiền thưởng`;
       },
+      PIG: {
+        FORAGE: {
+          name: "Forage",
+          description: "Tìm kiếm thức ăn trong đất",
+          cooldown: 300000,
+          minLevel: 1,
+          effect: (pet) => {
+            const rewards = [
+              { item: "nấm", chance: 50, value: 100 },
+              { item: "củ", chance: 30, value: 200 },
+              { item: "khoáng chất", chance: 20, value: 300 },
+            ];
+            const roll = Math.random() * 100;
+            let sum = 0;
+            for (const reward of rewards) {
+              sum += reward.chance;
+              if (roll <= sum) {
+                return `🌱 Tìm thấy ${reward.item}! (${reward.value}$)`;
+              }
+            }
+          },
+        },
+        MUDROLL: {
+          name: "MudRoll",
+          description: "Lăn trong bùn để hồi phục năng lượng",
+          cooldown: 600000,
+          minLevel: 3,
+          effect: (pet) => {
+            const recovery = Math.floor(pet.level * 2) * 5;
+            return `💦 Thư giãn trong bùn! Hồi phục ${recovery} năng lượng`;
+          },
+        },
+      },
+      RABBIT: {
+        JUMP: {
+          name: "Jump",
+          description: "Nhảy cao để tìm đồ giá trị",
+          cooldown: 300000,
+          minLevel: 1,
+          effect: (pet) => {
+            const rewards = Math.floor((Math.random() * 5 + 10) * pet.level);
+            return `🥕 Nhảy cao tìm thấy cà rốt! Nhận ${rewards}$`;
+          },
+        },
+        BURROW: {
+          name: "Burrow",
+          description: "Đào hang để tìm kho báu",
+          cooldown: 600000,
+          minLevel: 3,
+          effect: (pet) => {
+            const found = Math.random() < 0.7;
+            return found
+              ? `💎 Đào được đá quý! Nhận ${pet.level * 150}$`
+              : "🕳️ Chỉ đào được một cái hang trống...";
+          },
+        },
+      },
+      BIRD: {
+        SING: {
+          name: "Sing",
+          description: "Hót hay để thu hút người nghe",
+          cooldown: 300000,
+          minLevel: 1,
+          effect: (pet) => {
+            const tips = Math.floor((Math.random() * 4 + 8) * pet.level);
+            return `🎵 Hót hay tuyệt vời! Nhận được ${tips}$ tiền thưởng`;
+          },
+        },
+        SCOUT: {
+          name: "Scout",
+          description: "Bay cao để tìm khu vực có tài nguyên",
+          cooldown: 600000,
+          minLevel: 3,
+          effect: (pet) => {
+            const places = ["rừng rậm", "đồng cỏ", "núi cao", "thác nước"];
+            const place = places[Math.floor(Math.random() * places.length)];
+            return `🦅 Phát hiện ${place} đầy tài nguyên! Nhận ${pet.level * 120}$`;
+          },
+        },
+      },
+      FISH: {
+        BUBBLE: {
+          name: "Bubble",
+          description: "Thổi bong bóng xinh đẹp để giải trí",
+          cooldown: 300000,
+          minLevel: 1,
+          effect: (pet) => {
+            const tips = Math.floor((Math.random() * 3 + 5) * pet.level);
+            return `🫧 Bong bóng xinh đẹp! Nhận được ${tips}$ tiền thưởng`;
+          },
+        },
+        TREASURE: {
+          name: "Treasure",
+          description: "Tìm kho báu dưới đáy hồ",
+          cooldown: 600000,
+          minLevel: 3,
+          effect: (pet) => {
+            const treasures = ["đồng xu cổ", "ngọc trai", "vỏ sò quý"];
+            const treasure = treasures[Math.floor(Math.random() * treasures.length)];
+            return `🏆 Tìm thấy ${treasure}! Nhận ${pet.level * 100}$`;
+          },
+        },
+      },
     },
   },
 };
@@ -232,7 +372,87 @@ const TRAINING_ACTIVITIES = {
       cost: 500,
       description: "Luyện tập khả năng tích trữ và ghi nhớ",
     },
+    PIG: {
+      "đào đất": {
+        exp: 20,
+        powerGain: 18,
+        cost: 300,
+        description: "Rèn luyện kỹ năng đào đất tìm thức ăn",
+      },
+      "lăn bùn": {
+        exp: 25,
+        powerGain: 22,
+        cost: 400,
+        description: "Luyện tập kỹ thuật lăn trong bùn",
+      },
+      "tìm nấm": {
+        exp: 30,
+        powerGain: 25,
+        cost: 500,
+        description: "Rèn luyện khứu giác để tìm nấm quý hiếm",
+      },
+    },
+    RABBIT: {
+      "nhảy cao": {
+        exp: 20,
+        powerGain: 15,
+        cost: 300,
+        description: "Luyện tập kỹ năng nhảy cao vượt chướng ngại vật",
+      },
+      "đào hang": {
+        exp: 25,
+        powerGain: 18,
+        cost: 400,
+        description: "Hoàn thiện kỹ thuật đào hang an toàn",
+      },
+      "chạy nhanh": {
+        exp: 30,
+        powerGain: 22,
+        cost: 500,
+        description: "Tập luyện tốc độ và sức bền",
+      },
+    },
+    BIRD: {
+      "bay lượn": {
+        exp: 20,
+        powerGain: 15,
+        cost: 300,
+        description: "Rèn luyện kỹ thuật bay và lượn",
+      },
+      "hót hay": {
+        exp: 25,
+        powerGain: 20,
+        cost: 400,
+        description: "Luyện giọng hót thu hút và melodic",
+      },
+      "săn mồi": {
+        exp: 30,
+        powerGain: 25,
+        cost: 500,
+        description: "Hoàn thiện kỹ năng săn bắt côn trùng",
+      },
+    FISH: {
+      "bơi nhanh": {
+        exp: 20,
+        powerGain: 15,
+        cost: 300,
+        description: "Luyện tập kỹ thuật bơi nhanh và linh hoạt",
+      },
+      "nhảy cao": {
+        exp: 25,
+        powerGain: 20,
+        cost: 400,
+        description: "Rèn luyện khả năng nhảy khỏi mặt nước",
+      },
+      "ẩn nấp": {
+        exp: 30,
+        powerGain: 25,
+        cost: 500,
+        description: "Hoàn thiện kỹ năng ngụy trang và ẩn nấp",
+      },
+    },
   },
+},
 };
 
 const PET_FOODS = {
@@ -313,8 +533,117 @@ const PET_FOODS = {
     rarity: "UNCOMMON",
     emoji: "🍎",
   },
+  bắp: {
+    price: 400,
+    hunger: 30,
+    happy: 10,
+    energy: 25,
+    description: "Bắp ngọt bổ dưỡng",
+    effect: "Tăng 15% sức mạnh trong 30 phút",
+    type: "PIG",
+    rarity: "COMMON",
+    emoji: "🌽",
+  },
+  cám: {
+    price: 300,
+    hunger: 35,
+    happy: 5,
+    energy: 20,
+    description: "Cám dinh dưỡng cho lợn",
+    effect: "Tăng 25 điểm sức mạnh",
+    type: "PIG",
+    rarity: "COMMON",
+    emoji: "🧺",
+  },
+  "cà rốt": {
+    price: 350,
+    hunger: 25,
+    happy: 15,
+    energy: 20,
+    description: "Cà rốt tươi giòn",
+    effect: "Tăng 10% tốc độ di chuyển",
+    type: "RABBIT",
+    rarity: "COMMON",
+    emoji: "🥕",
+  },
+  "rau diếp": {
+    price: 250,
+    hunger: 20,
+    happy: 10,
+    energy: 15,
+    description: "Rau diếp xanh mát",
+    effect: "Hồi 5 năng lượng mỗi 5 phút",
+    type: "RABBIT",
+    rarity: "COMMON",
+    emoji: "🥬",
+  },
+  cỏ: {
+    price: 150,
+    hunger: 15,
+    happy: 5,
+    energy: 10,
+    description: "Cỏ tươi mới",
+    effect: "Tăng 3% tốc độ hồi phục",
+    type: "RABBIT",
+    rarity: "COMMON",
+    emoji: "🌿",
+  },
+  sâu: {
+    price: 400,
+    hunger: 30,
+    happy: 15,
+    energy: 25,
+    description: "Sâu tươi giàu protein",
+    effect: "Tăng 15 điểm hạnh phúc",
+    type: "BIRD",
+    rarity: "UNCOMMON",
+    emoji: "🪱",
+  },
+  "quả mọng": {
+    price: 350,
+    hunger: 25,
+    happy: 20,
+    energy: 15,
+    description: "Quả mọng ngọt ngào",
+    effect: "Tăng 8% may mắn khi săn mồi",
+    type: "BIRD",
+    rarity: "UNCOMMON",
+    emoji: "🫐",
+  },
+  "thức ăn cá": {
+    price: 200,
+    hunger: 25,
+    happy: 10,
+    energy: 20,
+    description: "Thức ăn chuyên dụng cho cá",
+    effect: "Tăng 5% sức mạnh",
+    type: "FISH",
+    rarity: "COMMON",
+    emoji: "🦐",
+  },
+  tảo: {
+    price: 250,
+    hunger: 20,
+    happy: 15,
+    energy: 25,
+    description: "Tảo tươi giàu dinh dưỡng",
+    effect: "Tăng 10 điểm sức mạnh",
+    type: "FISH",
+    rarity: "UNCOMMON",
+    emoji: "🦠",
+  },
+  "sinh vật phù du": {
+    price: 500,
+    hunger: 35,
+    happy: 20,
+    energy: 30,
+    description: "Sinh vật phù du cao cấp",
+    effect: "Tăng 20% tốc độ lên level trong 15 phút",
+    type: "FISH",
+    rarity: "RARE",
+    emoji: "🔬",
+  },
 };
-
 function loadPetData() {
   try {
     if (!fs.existsSync(PET_FILE)) {
@@ -420,7 +749,11 @@ module.exports = {
               "👉 Cách dùng: .pet buy [loại thú]\n" +
               "🐕 Chó (dog): 5,000$\n" +
               "🐈 Mèo (cat): 4,500$\n" +
-              "🐹 Hamster (hamster): 2,500$\n\n" +
+              "🐹 Hamster (hamster): 2,500$\n" +
+              "🐷 Lợn (pig): 3,500$\n" +
+              "🐰 Thỏ (rabbit): 3,000$\n" +
+              "🐦 Chim (bird): 2,800$\n" +
+              "🐠 Cá (fish): 2,000$\n\n" +
               "💡 Lưu ý:\n" +
               "• Mỗi người chỉ nuôi được 1 pet\n" +
               "• Có thể đặt tên cho pet khi mua\n" +
@@ -729,88 +1062,73 @@ module.exports = {
           messageID
         );
       }
-
       case "info": {
         const pet = petData[senderID];
         if (!pet) {
           return api.sendMessage("Bạn chưa có thú cưng!", threadID, messageID);
         }
-
+      
         // Tính toán stats trước
         const updatedPet = calculateCurrentStats(pet);
-
+      
         // Đảm bảo power có giá trị
         if (typeof updatedPet.power === "undefined") {
           updatedPet.power = 10;
         }
-
+      
         // Cập nhật vào data
         petData[senderID] = updatedPet;
         savePetData(petData);
-
-        try {
-          const imagePath = await createPetImage({
-            userId: senderID,
-            userName: event.senderID,
-            pet: {
-              ...updatedPet,
-              maxEnergy: PET_TYPES[pet.type].maxEnergy,
-              maxHunger: PET_TYPES[pet.type].maxHunger,
-              maxHappy: PET_TYPES[pet.type].maxHappy,
-              power: updatedPet.power,
-            },
-            type: pet.type,
-          });
-
-          return api.sendMessage(
-            {
-              body:
-                "🐾 THÔNG TIN THÚ CƯNG 🐾\n" +
-                `Tên: ${updatedPet.name}\n` +
-                `Level: ${updatedPet.level} (${updatedPet.exp}/100)\n` +
-                `Thức ăn yêu thích: ${PET_TYPES[updatedPet.type].foods.join(
-                  ", "
-                )}\n` +
-                `Hoạt động yêu thích: ${PET_TYPES[
-                  updatedPet.type
-                ].activities.join(", ")}`,
-              attachment: fs.createReadStream(imagePath),
-            },
-            threadID,
-            () => fs.unlinkSync(imagePath),
-            messageID
-          );
-        } catch (error) {
-          console.error("Error creating pet image:", error);
-          // Fallback về text nếu có lỗi
-          return api.sendMessage(
-            "🐾 THÔNG TIN THÚ CƯNG 🐾\n" +
-              `Tên: ${updatedPet.name}\n` +
-              `Loại: ${PET_TYPES[updatedPet.type].name}\n` +
-              `Level: ${updatedPet.level}\n` +
-              `EXP: ${updatedPet.exp}/100\n\n` +
-              `🔄 Năng lượng: ${createProgressBar(
-                updatedPet.energy,
-                PET_TYPES[updatedPet.type].maxEnergy
-              )} (${updatedPet.energy}%)\n` +
-              `🍖 Độ đói: ${createProgressBar(
-                updatedPet.hunger,
-                PET_TYPES[updatedPet.type].maxHunger
-              )} (${updatedPet.hunger}%)\n` +
-              `😊 Hạnh phúc: ${createProgressBar(
-                updatedPet.happy,
-                PET_TYPES[updatedPet.type].maxHappy
-              )} (${updatedPet.happy}%)\n\n` +
-              `💝 Thức ăn yêu thích: ${PET_TYPES[updatedPet.type].foods.join(
-                ", "
-              )}\n` +
-              `🎮 Hoạt động yêu thích: ${PET_TYPES[
-                updatedPet.type
-              ].activities.join(", ")}`,
-            threadID,
-            messageID
-          );
-        }
+      
+        // Replace canvas-based image with text-based info
+        const petEmojis = {
+          DOG: "🐕",
+          CAT: "🐈",
+          HAMSTER: "🐹",
+          PIG: "🐷",
+          RABBIT: "🐰",
+          BIRD: "🐦",
+          FISH: "🐠"
+        };
+      
+        const petEmoji = petEmojis[updatedPet.type] || "🐾";
+        
+        const petAge = Math.floor((Date.now() - (updatedPet.birthday || Date.now())) / (1000 * 60 * 60 * 24));
+        
+        return api.sendMessage(
+          `${petEmoji} THÔNG TIN THÚ CƯNG ${petEmoji}\n` +
+          `───────────────\n\n` +
+          `👤 Tên: ${updatedPet.name}\n` +
+          `📋 Loại: ${PET_TYPES[updatedPet.type].name}\n` +
+          `🎂 Tuổi: ${petAge} ngày\n` +
+          `📊 Level: ${updatedPet.level} (${updatedPet.exp}/100)\n` +
+          `💪 Sức mạnh: ${updatedPet.power}\n\n` +
+          `🔄 Năng lượng: ${createProgressBar(
+            updatedPet.energy,
+            PET_TYPES[updatedPet.type].maxEnergy
+          )} (${updatedPet.energy}%)\n` +
+          `🍖 Độ đói: ${createProgressBar(
+            updatedPet.hunger,
+            PET_TYPES[updatedPet.type].maxHunger
+          )} (${updatedPet.hunger}%)\n` +
+          `😊 Hạnh phúc: ${createProgressBar(
+            updatedPet.happy,
+            PET_TYPES[updatedPet.type].maxHappy
+          )} (${updatedPet.happy}%)\n\n` +
+          `💝 Thức ăn yêu thích: ${PET_TYPES[updatedPet.type].foods.join(
+            ", "
+          )}\n` +
+          `🎮 Hoạt động yêu thích: ${PET_TYPES[
+            updatedPet.type
+          ].activities.join(", ")}\n\n` +
+          `📈 Thống kê:\n` +
+          `• Đã chơi: ${updatedPet.stats?.gamesPlayed || 0} lần\n` +
+          `• Đã cho ăn: ${updatedPet.stats?.foodEaten || 0} lần\n` +
+          `• Huấn luyện: ${updatedPet.stats?.trainingSessions || 0} buổi\n` +
+          `• Nhiệm vụ: ${updatedPet.stats?.questsCompleted || 0} nhiệm vụ`,
+          threadID,
+          messageID
+        );
       }
       case "shop": {
         const balance = await getBalance(senderID);

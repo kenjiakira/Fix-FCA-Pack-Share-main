@@ -2,17 +2,17 @@
   "61573427362389": {
     "type": "HAMSTER",
     "name": "Linh",
-    "hunger": 36,
-    "happy": 3,
-    "energy": 10,
-    "lastFed": 1741583873935,
-    "lastPlay": 1741515027099,
-    "level": 1,
-    "exp": 75,
+    "hunger": 99,
+    "happy": 60,
+    "energy": 25,
+    "lastFed": 1742038485061,
+    "lastPlay": 1742038900992,
+    "level": 2,
+    "exp": 50,
     "quests": {
       "daily": {
-        "feedCount": 5,
-        "playCount": 1
+        "feedCount": 10,
+        "playCount": 3
       }
     },
     "power": 10
@@ -86,11 +86,11 @@
     "name": "Phát",
     "hunger": 100,
     "happy": 100,
-    "energy": 40,
+    "energy": 100,
     "level": 4,
-    "exp": 15,
-    "power": 335,
-    "lastFed": 1741578387169,
+    "exp": 145,
+    "power": 385,
+    "lastFed": 1742033161251,
     "lastPlay": 1741521621861,
     "skills": {
       "FETCH": {
@@ -115,14 +115,14 @@
     "birthday": 1741502259087,
     "quests": {
       "daily": {
-        "feedCount": 11,
+        "feedCount": 17,
         "playCount": 2
       }
     },
-    "lastTrain": 1741578367845,
+    "lastTrain": 1742013801778,
     "lastSkill": {
       "FETCH": 1741527789964,
-      "GUARD": 1741705607135
+      "GUARD": 1742013796277
     }
   },
   "100048267517770": {
@@ -357,13 +357,13 @@
   "61555903228492": {
     "type": "DOG",
     "name": "Nguyên",
-    "hunger": 78,
-    "happy": 85,
-    "energy": 72,
+    "hunger": 40,
+    "happy": 15,
+    "energy": 10,
     "level": 2,
-    "exp": 15,
-    "power": 35,
-    "lastFed": 1741628978690,
+    "exp": 45,
+    "power": 50,
+    "lastFed": 1742016551701,
     "lastPlay": 1741629098518,
     "skills": {
       "FETCH": {
@@ -388,11 +388,11 @@
     "birthday": 1741509016842,
     "quests": {
       "daily": {
-        "feedCount": 4,
+        "feedCount": 5,
         "playCount": 2
       }
     },
-    "lastTrain": 1741509168822,
+    "lastTrain": 1742016674808,
     "lastSkill": {
       "FETCH": 1741629021425
     }
@@ -441,13 +441,13 @@
   "61550331471452": {
     "type": "HAMSTER",
     "name": "Chuột Hamster",
-    "hunger": 20,
-    "happy": 18,
-    "energy": 20,
+    "hunger": 40,
+    "happy": 10,
+    "energy": 30,
     "level": 1,
-    "exp": 40,
+    "exp": 60,
     "power": 35,
-    "lastFed": 1741585409987,
+    "lastFed": 1741961843064,
     "lastPlay": 1741509882361,
     "skills": {
       "GATHER": {
@@ -472,7 +472,7 @@
     "birthday": 1741509882361,
     "quests": {
       "daily": {
-        "feedCount": 1
+        "feedCount": 3
       }
     },
     "lastTrain": 1741585526829
@@ -516,11 +516,11 @@
     "hunger": 100,
     "happy": 100,
     "energy": 100,
-    "level": 6,
-    "exp": 235,
-    "power": 300,
-    "lastFed": 1741882503750,
-    "lastPlay": 1741852983121,
+    "level": 7,
+    "exp": 20,
+    "power": 390,
+    "lastFed": 1742038349658,
+    "lastPlay": 1742038295237,
     "skills": {
       "HUNT": {
         "level": 1,
@@ -544,15 +544,15 @@
     "birthday": 1741511167970,
     "quests": {
       "daily": {
-        "playCount": 41,
-        "feedCount": 57
+        "playCount": 49,
+        "feedCount": 70
       }
     },
     "lastSkill": {
-      "HUNT": 1741879070026,
-      "CHARM": 1741882492357
+      "HUNT": 1742038070989,
+      "CHARM": 1742038013201
     },
-    "lastTrain": 1741793187209
+    "lastTrain": 1742038305820
   },
   "100035610181048": {
     "type": "DOG",
@@ -633,13 +633,13 @@
     "type": "CAT",
     "name": "Puu",
     "hunger": 100,
-    "happy": 68,
-    "energy": 24,
+    "happy": 100,
+    "energy": 44,
     "level": 3,
-    "exp": 45,
-    "power": 155,
-    "lastFed": 1741770245016,
-    "lastPlay": 1741585748405,
+    "exp": 120,
+    "power": 180,
+    "lastFed": 1742016567026,
+    "lastPlay": 1742016600919,
     "skills": {
       "HUNT": {
         "level": 1,
@@ -663,14 +663,14 @@
     "birthday": 1741584187605,
     "quests": {
       "daily": {
-        "feedCount": 10,
-        "playCount": 5
+        "feedCount": 12,
+        "playCount": 6
       }
     },
-    "lastTrain": 1741770254381,
+    "lastTrain": 1742016583893,
     "lastSkill": {
-      "HUNT": 1741585715757,
-      "CHARM": 1741711866742
+      "HUNT": 1742016528838,
+      "CHARM": 1742016614426
     }
   },
   "61555034078738": {

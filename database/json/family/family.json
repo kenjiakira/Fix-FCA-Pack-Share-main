@@ -223,7 +223,7 @@
         "id": "1740751646336",
         "name": "Hoàng Gia Long",
         "birthDate": 1740751646336,
-        "happiness": 67.42703451388887,
+        "happiness": 53.47098961805554,
         "gender": "👦",
         "nickname": "Yêu Hoàng Gia Long"
       },
@@ -232,15 +232,15 @@
         "name": "Hoàng Lan Anh",
         "gender": "👧",
         "birthDate": 1740848223110,
-        "happiness": 67.70291711805554,
+        "happiness": 53.74687222222221,
         "nickname": "Tí Hoàng Lan Anh",
         "isMarried": false,
         "movedOut": false
       }
     ],
     "home": null,
-    "happiness": 52.72930931712964,
-    "lastChecked": 1741617145369,
+    "happiness": 100,
+    "lastChecked": 1742019079462,
     "lastBaby": 1740751646337,
     "lastIntimate": 1740848160307,
     "isProposer": true,
@@ -2180,7 +2180,7 @@
         "movedOut": false
       }
     ],
-    "happiness": 48.48086435185185,
+    "happiness": 100,
     "lastChecked": 1741625693717,
     "lastBaby": 1740751646337,
     "lastIntimate": 1740848160314,
@@ -2278,9 +2278,9 @@
     "name": null,
     "spouse": null,
     "children": [],
-    "happiness": 38.92208541666667,
+    "happiness": 0,
     "health": 90,
-    "lastChecked": 1741018271021,
+    "lastChecked": 1742039016260,
     "lastBaby": 0,
     "lastIntimate": 0,
     "insurance": {
@@ -2326,6 +2326,21 @@
     "happiness": 50,
     "health": 95,
     "lastChecked": 1741423779988,
+    "lastBaby": 0,
+    "lastIntimate": 0,
+    "insurance": {
+      "active": false,
+      "expiresAt": 0,
+      "discount": 0
+    }
+  },
+  "100068601847791": {
+    "name": null,
+    "spouse": null,
+    "children": [],
+    "happiness": 50,
+    "health": 100,
+    "lastChecked": 1742019166526,
     "lastBaby": 0,
     "lastIntimate": 0,
     "insurance": {

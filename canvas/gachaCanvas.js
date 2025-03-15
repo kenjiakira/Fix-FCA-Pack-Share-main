@@ -2186,16 +2186,46 @@ function drawInventoryItem(ctx, item, x, y, width, height) {
     itemBorderColor = "#FFD700";
     displayName = item.name || "Evolution Stone";
     itemValue = item.value || 25000;
+
+    let fontSize = 14;
+    ctx.font = `${fontSize}px ${fontFamily}`;
+    
+    if (displayName && ctx.measureText(displayName).width > width - 20) {
+      while (fontSize > 9 && ctx.measureText(displayName).width > width - 20) {
+        fontSize -= 1;
+        ctx.font = `${fontSize}px ${fontFamily}`;
+      }
+    }
   } else if (item.type === "fragment" || item.isFragmentGroup) {
     itemColor = "rgba(70, 130, 180, 0.6)";
     itemBorderColor = "#87CEFA";
     displayName = (item.name || "Stone Fragment").replace(" Fragment", "");
     itemValue = item.value || 2500;
+    
+    let fontSize = 14;
+    ctx.font = `${fontSize}px ${fontFamily}`;
+    
+    if (displayName && ctx.measureText(displayName).width > width - 20) {
+      while (fontSize > 9 && ctx.measureText(displayName).width > width - 20) {
+        fontSize -= 1;
+        ctx.font = `${fontSize}px ${fontFamily}`;
+      }
+    }
   } else if (item.type === "exp") {
     itemColor = "rgba(60, 179, 113, 0.7)";
     itemBorderColor = "#50C878";
     displayName = item.name || "EXP Item";
     itemValue = item.value || 2000;
+    
+    let fontSize = 14;
+    ctx.font = `${fontSize}px ${fontFamily}`;
+    
+    if (displayName && ctx.measureText(displayName).width > width - 20) {
+      while (fontSize > 9 && ctx.measureText(displayName).width > width - 20) {
+        fontSize -= 1;
+        ctx.font = `${fontSize}px ${fontFamily}`;
+      }
+    }
   } else {
     let rarityColor;
     switch (item.rarity) {
@@ -2233,8 +2263,16 @@ function drawInventoryItem(ctx, item, x, y, width, height) {
 
     displayName = item.name || "Character";
     itemValue = item.value || 1000;
+    let fontSize = 14;
+    ctx.font = `${fontSize}px ${fontFamily}`;
+    
+    if (displayName && ctx.measureText(displayName).width > width - 20) {
+      while (fontSize > 9 && ctx.measureText(displayName).width > width - 20) {
+        fontSize -= 1;
+        ctx.font = `${fontSize}px ${fontFamily}`;
+      }
+    }
   }
-
   if (item.type === "exp") {
     itemGradient = ctx.createLinearGradient(x, y, x, y + height);
     itemGradient.addColorStop(0, "rgba(60, 179, 113, 0.7)");

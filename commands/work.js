@@ -46,8 +46,25 @@ module.exports = {
         }
 
         try {
-
             const result = await jobSystem.work(senderID, vipBenefits);
+            
+            // Handle the auto-job assignment case
+            if (result.autoAssigned) {
+                await api.sendMessage(
+                    "🎉 BẠN ĐÃ ĐƯỢC NHẬN LÀM SHIPPER!\n" +
+                    "Vì bạn chưa xin việc nên hệ thống đã tự giao việc.\n\n" +
+                    `Công việc: ${result.job.name}\n` +
+                    `Lương: ${result.job.salary.toLocaleString('vi-VN')} $/lần\n\n` +
+                    "💡 Dùng .job info để xem thông tin\n" +
+                    "💡 Dùng .job list để tìm việc tốt hơn\n" +
+                    "💡 Dùng .study list để học bằng cấp mở khóa việc lương cao\n",
+                    threadID
+                );
+                
+                // Now work again with the assigned job
+                const workResult = await jobSystem.work(senderID, vipBenefits);
+                result = workResult;
+            }
             
             const nextCooldown = jobSystem.getJobBasedCooldown(senderID);
             const tax = Math.floor(result.salary * ((result.tax || 0) / 100));
@@ -83,6 +100,14 @@ module.exports = {
                 textMessage += `🌟 Giờ đây bạn nhận được +${((result.leveledUp.bonus - 1) * 100).toFixed(0)}% lương!\n`;
             }
             
+            // Add helpful hints for progression
+            const jobData = jobSystem.getJob(senderID);
+            if (jobData.workCount >= 10 && result.salary < 2000) {
+                textMessage += "\n💡 MẸO: Bạn có thể tìm việc lương cao hơn với:\n";
+                textMessage += "   .job search - Tìm việc phù hợp với bằng cấp\n";
+                textMessage += "   .study list - Xem các bằng cấp để mở khóa việc tốt hơn\n";
+            }
+            
             return api.sendMessage(
                 {
                     body: textMessage,
@@ -104,7 +129,19 @@ module.exports = {
 
         } catch (error) {
             console.error("Work command error:", error);
-            return api.sendMessage(`❌ ${error.message || "Có lỗi xảy ra khi thực hiện công việc!"}`, threadID, messageID);
+            
+            // More helpful error message with guidance
+            let errorMsg = `❌ ${error.message || "Có lỗi xảy ra khi thực hiện công việc!"}`;
+            
+            // If user doesn't have a job, suggest applying for one with specific guidance
+            if (error.message && error.message.includes("chưa có việc làm")) {
+                errorMsg += "\n\n💡 Bạn có thể:\n";
+                errorMsg += "1️⃣ Gõ .job apply j1 để làm Shipper\n";
+                errorMsg += "2️⃣ Gõ .job search để tìm việc phù hợp\n";
+                errorMsg += "3️⃣ Gõ .job list để xem tất cả việc làm";
+            }
+            
+            return api.sendMessage(errorMsg, threadID, messageID);
         }
     }
 };

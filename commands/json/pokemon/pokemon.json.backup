@@ -510,7 +510,34 @@
   },
   "100053857386814": {
     "name": "loz",
-    "pokemons": [],
+    "pokemons": [
+      {
+        "id": 620,
+        "name": "mienshao",
+        "level": 2,
+        "hp": 65,
+        "maxHp": 65,
+        "attack": 125,
+        "defense": 60,
+        "types": [
+          "fighting"
+        ],
+        "moves": [
+          "pound",
+          "double-slap",
+          "mega-punch",
+          "swords-dance"
+        ],
+        "image": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/620.png",
+        "shiny": true,
+        "exp": 0,
+        "expNeeded": 100,
+        "catchDate": 1741882644579,
+        "wins": 0,
+        "battles": 0,
+        "ballCaught": "Ultra Ball"
+      }
+    ],
     "activePokemon": 0,
     "battles": 0,
     "wins": 0,
@@ -518,6 +545,151 @@
       "pokeball": 10,
       "greatball": 5,
       "ultraball": 1,
+      "masterball": 0,
+      "safariball": 0,
+      "fire-stone": 0,
+      "water-stone": 0,
+      "thunder-stone": 0,
+      "leaf-stone": 0,
+      "ice-stone": 0,
+      "moon-stone": 0,
+      "sun-stone": 0,
+      "shiny-stone": 0,
+      "dusk-stone": 0,
+      "dawn-stone": 0,
+      "oval-stone": 0
+    },
+    "lastCatch": null,
+    "friendship": {}
+  },
+  "61552144357464": {
+    "name": "deptrykacdaim2",
+    "pokemons": [
+      {
+        "id": 689,
+        "name": "barbaracle",
+        "level": 50,
+        "hp": 125,
+        "maxHp": 125,
+        "attack": 129,
+        "defense": 125,
+        "types": [
+          "rock",
+          "water"
+        ],
+        "moves": [
+          "scratch",
+          "swords-dance",
+          "cut",
+          "sand-attack"
+        ],
+        "image": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/689.png",
+        "shiny": false,
+        "weather": "stormy",
+        "exp": 99,
+        "expNeeded": 100,
+        "evolutionStage": 0,
+        "wins": 0,
+        "battles": 0,
+        "catchDate": 1741966107297,
+        "ballCaught": "Ultra Ball",
+        "speed": 4
+      },
+      {
+        "id": 845,
+        "name": "cramorant",
+        "level": 23,
+        "hp": 81,
+        "maxHp": 81,
+        "attack": 71,
+        "defense": 54,
+        "types": [
+          "flying",
+          "water"
+        ],
+        "moves": [
+          "fly",
+          "fury-attack",
+          "take-down",
+          "thrash"
+        ],
+        "image": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/845.png",
+        "shiny": false,
+        "weather": "snowy",
+        "exp": 0,
+        "expNeeded": 100,
+        "evolutionStage": 0,
+        "wins": 0,
+        "battles": 0,
+        "catchDate": 1741966295674,
+        "ballCaught": "Ultra Ball"
+      },
+      {
+        "id": 565,
+        "name": "carracosta",
+        "level": 52,
+        "hp": 141,
+        "maxHp": 141,
+        "attack": 129,
+        "defense": 124,
+        "types": [
+          "water",
+          "rock"
+        ],
+        "moves": [
+          "body-slam",
+          "bite",
+          "water-gun",
+          "hydro-pump"
+        ],
+        "image": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/565.png",
+        "shiny": false,
+        "weather": "rainy",
+        "exp": 0,
+        "expNeeded": 100,
+        "evolutionStage": 0,
+        "wins": 0,
+        "battles": 0,
+        "catchDate": 1742014602059,
+        "ballCaught": "Ultra Ball"
+      }
+    ],
+    "activePokemon": 0,
+    "battles": 0,
+    "wins": 0,
+    "inventory": {
+      "pokeball": 10,
+      "greatball": 5,
+      "ultraball": 14,
+      "masterball": 0,
+      "safariball": 0,
+      "fire-stone": 0,
+      "water-stone": 0,
+      "thunder-stone": 0,
+      "leaf-stone": 0,
+      "ice-stone": 0,
+      "moon-stone": 0,
+      "sun-stone": 0,
+      "shiny-stone": 0,
+      "dusk-stone": 0,
+      "dawn-stone": 0,
+      "oval-stone": 0
+    },
+    "lastCatch": null,
+    "friendship": {
+      "0": 2
+    }
+  },
+  "100072567218546": {
+    "name": "oigioioi",
+    "pokemons": [],
+    "activePokemon": 0,
+    "battles": 0,
+    "wins": 0,
+    "inventory": {
+      "pokeball": 10,
+      "greatball": 5,
+      "ultraball": 22,
       "masterball": 0,
       "safariball": 0,
       "fire-stone": 0,

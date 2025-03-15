@@ -25,8 +25,8 @@
       "creditScore": 13
     },
     "100051073987266": {
-      "bankBalance": 4003751,
-      "lastInterest": 1741842607016,
+      "bankBalance": 19007754,
+      "lastInterest": 1741946411136,
       "createdAt": 1740829171641,
       "balanceHistory": [],
       "penalties": [],
@@ -41,16 +41,16 @@
       "creditScore": 13
     },
     "100076957299243": {
-      "bankBalance": 62123062,
-      "lastInterest": 1741883497502,
+      "bankBalance": 73185185,
+      "lastInterest": 1742014451006,
       "createdAt": 1740829429113,
       "balanceHistory": [],
       "penalties": [],
       "creditScore": 13
     },
     "61561277064921": {
-      "bankBalance": 12116811,
-      "lastInterest": 1741881197966,
+      "bankBalance": 37222013,
+      "lastInterest": 1742009970775,
       "createdAt": 1740829666396,
       "balanceHistory": [],
       "penalties": [],
@@ -97,8 +97,8 @@
       "creditScore": 13
     },
     "100053868457890": {
-      "bankBalance": 65319,
-      "lastInterest": 1741588183769,
+      "bankBalance": 65645,
+      "lastInterest": 1742035116110,
       "createdAt": 1740834494470,
       "balanceHistory": [],
       "penalties": [],
@@ -113,16 +113,16 @@
       "creditScore": 13
     },
     "61566378911878": {
-      "bankBalance": 46249,
-      "lastInterest": 1741834641042,
+      "bankBalance": 46295,
+      "lastInterest": 1741960588374,
       "createdAt": 1740836101406,
       "balanceHistory": [],
       "penalties": [],
       "creditScore": 40
     },
     "100048267517770": {
-      "bankBalance": 1003000,
-      "lastInterest": 1741626645476,
+      "bankBalance": 2007012,
+      "lastInterest": 1742015526236,
       "createdAt": 1740842115000,
       "balanceHistory": [],
       "penalties": [],
@@ -193,8 +193,8 @@
       "creditScore": 13
     },
     "100089981373051": {
-      "bankBalance": 592548,
-      "lastInterest": 1741868523652,
+      "bankBalance": 12139793,
+      "lastInterest": 1741970854506,
       "createdAt": 1740899111537,
       "balanceHistory": [],
       "penalties": [],
@@ -241,16 +241,16 @@
       "creditScore": 43
     },
     "100055052811579": {
-      "bankBalance": 600,
-      "lastInterest": 1741424390002,
+      "bankBalance": 603,
+      "lastInterest": 1741973044603,
       "createdAt": 1740976601343,
       "balanceHistory": [],
       "penalties": [],
       "creditScore": 13
     },
     "100044825933221": {
-      "bankBalance": 0,
-      "lastInterest": 1741010867205,
+      "bankBalance": 789484,
+      "lastInterest": 1742017017604,
       "createdAt": 1741010867205,
       "balanceHistory": [],
       "penalties": [],
@@ -297,12 +297,12 @@
       "creditScore": 41
     },
     "61552144357464": {
-      "bankBalance": 1352,
-      "lastInterest": 1741877939684,
+      "bankBalance": 8000000,
+      "lastInterest": 1741964898596,
       "createdAt": 1741184377454,
       "balanceHistory": [],
       "penalties": [],
-      "creditScore": 67,
+      "creditScore": 45,
       "lockedCollateral": 0
     },
     "61568522233427": {
@@ -363,16 +363,16 @@
       "creditScore": 40
     },
     "100072567218546": {
-      "bankBalance": 522342,
-      "lastInterest": 1741928088193,
+      "bankBalance": 2724064,
+      "lastInterest": 1742015518756,
       "createdAt": 1741451835666,
       "balanceHistory": [],
       "penalties": [],
       "creditScore": 40
     },
     "100080964828004": {
-      "bankBalance": 2100000,
-      "lastInterest": 1741878315375,
+      "bankBalance": 2300000,
+      "lastInterest": 1742028810597,
       "createdAt": 1741487213775,
       "balanceHistory": [],
       "penalties": [],
@@ -398,6 +398,14 @@
       "bankBalance": 0,
       "lastInterest": 1741859216426,
       "createdAt": 1741859216426,
+      "balanceHistory": [],
+      "penalties": [],
+      "creditScore": 13
+    },
+    "100043703840887": {
+      "bankBalance": 0,
+      "lastInterest": 1742035962113,
+      "createdAt": 1742035962113,
       "balanceHistory": [],
       "penalties": [],
       "creditScore": 13
@@ -521,12 +529,6 @@
         "type": "out",
         "description": "Chuyển 50,000,000 Xu cho Le Tuan Tu",
         "amount": 50000000,
-        "timestamp": 1741410953839
-      },
-      {
-        "type": "out",
-        "description": "Chuyển 50,000,000 Xu cho Le Tuan Tu",
-        "amount": 50000000,
         "timestamp": 1741410965611
       },
       {
@@ -576,6 +578,12 @@
         "description": "Chuyển 200,000 $ cho Tốn Lù",
         "amount": 200000,
         "timestamp": 1741928284523
+      },
+      {
+        "type": "out",
+        "description": "Chuyển 100,000 $ cho User",
+        "amount": 100000,
+        "timestamp": 1741969032546
       }
     ],
     "100063719077878": [
@@ -670,6 +678,24 @@
         "description": "Nhận 100,000 $ từ Le Tuan Tu",
         "amount": 100000,
         "timestamp": 1741621268950
+      },
+      {
+        "type": "in",
+        "description": "Nhận 500,000 $ từ Anh La Phu Dz",
+        "amount": 500000,
+        "timestamp": 1742015157052
+      },
+      {
+        "type": "in",
+        "description": "Nhận 20,000 $ từ Anh La Phu Dz",
+        "amount": 20000,
+        "timestamp": 1742015174628
+      },
+      {
+        "type": "in",
+        "description": "Nhận 200,000 $ từ Anh La Phu Dz",
+        "amount": 200000,
+        "timestamp": 1742015188423
       }
     ],
     "100048267517770": [
@@ -1136,18 +1162,6 @@
     ],
     "100080964828004": [
       {
-        "type": "in",
-        "description": "Nhận 50,000,000 Xu từ Minh Đức",
-        "amount": 50000000,
-        "timestamp": 1741344563703
-      },
-      {
-        "type": "in",
-        "description": "Nhận 15,000 $ từ Minh Đức",
-        "amount": 15000,
-        "timestamp": 1741486480122
-      },
-      {
         "type": "out",
         "description": "Chuyển 200,000 $ cho Hoàng Giang",
         "amount": 200000,
@@ -1194,21 +1208,21 @@
         "description": "Nhận 10,000 $ từ Minh Đức",
         "amount": 10000,
         "timestamp": 1741527413373
+      },
+      {
+        "type": "in",
+        "description": "Nhận 500,000 $ từ Hoàng Giang",
+        "amount": 500000,
+        "timestamp": 1741944471355
+      },
+      {
+        "type": "out",
+        "description": "Chuyển 450,000 $ cho Hoàng Giang",
+        "amount": 450000,
+        "timestamp": 1741944543425
       }
     ],
     "61552144357464": [
-      {
-        "type": "out",
-        "description": "Chuyển 55,000 $ cho Hoàng Giang",
-        "amount": 55000,
-        "timestamp": 1741454517495
-      },
-      {
-        "type": "out",
-        "description": "Chuyển 20,000 $ cho Lê Văn Nhật",
-        "amount": 20000,
-        "timestamp": 1741454584821
-      },
       {
         "type": "out",
         "description": "Chuyển 15,000 $ cho Hoàng Dương",
@@ -1256,6 +1270,18 @@
         "description": "Nhận 500,000 $ từ Hoàng Giang",
         "amount": 500000,
         "timestamp": 1741931485608
+      },
+      {
+        "type": "in",
+        "description": "Nhận 500,000 $ từ Hoàng Giang",
+        "amount": 500000,
+        "timestamp": 1742014237577
+      },
+      {
+        "type": "out",
+        "description": "Chuyển 500,000 $ cho Hoàng Giang",
+        "amount": 500000,
+        "timestamp": 1742014531047
       }
     ],
     "100047529173949": [
@@ -1334,6 +1360,36 @@
         "description": "Nhận 10,000 Xu từ Hoàng Nguyên",
         "amount": 10000,
         "timestamp": 1741358324807
+      },
+      {
+        "type": "in",
+        "description": "Nhận 500,000 $ từ Aizen Sosuke",
+        "amount": 500000,
+        "timestamp": 1742015907621
+      },
+      {
+        "type": "in",
+        "description": "Nhận 200,000 $ từ Aizen Sosuke",
+        "amount": 200000,
+        "timestamp": 1742015989166
+      },
+      {
+        "type": "in",
+        "description": "Nhận 40,000 $ từ Aizen Sosuke",
+        "amount": 40000,
+        "timestamp": 1742016016351
+      },
+      {
+        "type": "in",
+        "description": "Nhận 2,000 $ từ Aizen Sosuke",
+        "amount": 2000,
+        "timestamp": 1742016039327
+      },
+      {
+        "type": "in",
+        "description": "Nhận 200 $ từ Aizen Sosuke",
+        "amount": 200,
+        "timestamp": 1742016078201
       }
     ],
     "100085397934729": [
@@ -1393,18 +1449,6 @@
     "61561277064921": [
       {
         "type": "in",
-        "description": "Nhận 40,000,000 Xu từ Văn Quyến",
-        "amount": 40000000,
-        "timestamp": 1741421634957
-      },
-      {
-        "type": "in",
-        "description": "Nhận 5,000,000 Xu từ Văn Quyến",
-        "amount": 5000000,
-        "timestamp": 1741439384857
-      },
-      {
-        "type": "in",
         "description": "Nhận 10,000 Xu từ Đức Toàn",
         "amount": 10000,
         "timestamp": 1741439402683
@@ -1450,6 +1494,18 @@
         "description": "Nhận 100,000 $ từ Tran Thu Huyen",
         "amount": 100000,
         "timestamp": 1741883618073
+      },
+      {
+        "type": "out",
+        "description": "Chuyển 500,000 $ cho Tốn Lù",
+        "amount": 500000,
+        "timestamp": 1741946228024
+      },
+      {
+        "type": "out",
+        "description": "Chuyển 400,000 $ cho Tốn Lù",
+        "amount": 400000,
+        "timestamp": 1741946264266
       }
     ],
     "100092325757607": [
@@ -1469,24 +1525,6 @@
       }
     ],
     "100072567218546": [
-      {
-        "type": "out",
-        "description": "Chuyển 4,000,000 Xu cho Minh Đức",
-        "amount": 4000000,
-        "timestamp": 1741426439929
-      },
-      {
-        "type": "out",
-        "description": "Chuyển 20,000 $ cho Minh Đức",
-        "amount": 20000,
-        "timestamp": 1741453312624
-      },
-      {
-        "type": "out",
-        "description": "Chuyển 30,000 $ cho Minh Đức",
-        "amount": 30000,
-        "timestamp": 1741453791489
-      },
       {
         "type": "in",
         "description": "Nhận 55,000 $ từ Minh Đức",
@@ -1522,6 +1560,30 @@
         "description": "Chuyển 500,000 $ cho Minh Đức",
         "amount": 500000,
         "timestamp": 1741931485599
+      },
+      {
+        "type": "out",
+        "description": "Chuyển 500,000 $ cho Hoàng Dương",
+        "amount": 500000,
+        "timestamp": 1741944471344
+      },
+      {
+        "type": "in",
+        "description": "Nhận 450,000 $ từ Hoàng Dương",
+        "amount": 450000,
+        "timestamp": 1741944543435
+      },
+      {
+        "type": "out",
+        "description": "Chuyển 500,000 $ cho Minh Đức",
+        "amount": 500000,
+        "timestamp": 1742014237566
+      },
+      {
+        "type": "in",
+        "description": "Nhận 500,000 $ từ Minh Đức",
+        "amount": 500000,
+        "timestamp": 1742014531061
       }
     ],
     "100055074463541": [
@@ -1890,6 +1952,18 @@
         "description": "Nhận 29,000 $ từ Jehug Wrey",
         "amount": 29000,
         "timestamp": 1741871378061
+      },
+      {
+        "type": "out",
+        "description": "Chuyển 500,000 $ cho Jehug Wrey",
+        "amount": 500000,
+        "timestamp": 1742015712596
+      },
+      {
+        "type": "out",
+        "description": "Chuyển 430,000 $ cho Jehug Wrey",
+        "amount": 430000,
+        "timestamp": 1742016993366
       }
     ],
     "61565429063061": [
@@ -1916,6 +1990,18 @@
         "description": "Nhận 200,000 $ từ Pham Minh Dang",
         "amount": 200000,
         "timestamp": 1741928284540
+      },
+      {
+        "type": "in",
+        "description": "Nhận 500,000 $ từ Deaven Nguyenn",
+        "amount": 500000,
+        "timestamp": 1741946228065
+      },
+      {
+        "type": "in",
+        "description": "Nhận 400,000 $ từ Deaven Nguyenn",
+        "amount": 400000,
+        "timestamp": 1741946264275
       }
     ],
     "61568641631000": [
@@ -1952,6 +2038,18 @@
         "description": "Chuyển 29,000 $ cho Khaq Dwie",
         "amount": 29000,
         "timestamp": 1741871378049
+      },
+      {
+        "type": "in",
+        "description": "Nhận 500,000 $ từ Khaq Dwie",
+        "amount": 500000,
+        "timestamp": 1742015712613
+      },
+      {
+        "type": "in",
+        "description": "Nhận 430,000 $ từ Khaq Dwie",
+        "amount": 430000,
+        "timestamp": 1742016993377
       }
     ],
     "61560872141013": [
@@ -1960,6 +2058,234 @@
         "description": "Nhận 10,000 $ từ Phạm Hùng",
         "amount": 10000,
         "timestamp": 1741883068482
+      }
+    ],
+    "61560539745976": [
+      {
+        "type": "out",
+        "description": "Chuyển 2,000 $ cho User",
+        "amount": 2000,
+        "timestamp": 1741952956003
+      },
+      {
+        "type": "out",
+        "description": "Chuyển 100,000 $ cho Đức Thiện",
+        "amount": 100000,
+        "timestamp": 1742015851197
+      },
+      {
+        "type": "in",
+        "description": "Nhận 738 $ từ Người gửi",
+        "amount": 738,
+        "timestamp": 1742019074821
+      },
+      {
+        "type": "in",
+        "description": "Nhận 500,000 $ từ Người gửi",
+        "amount": 500000,
+        "timestamp": 1742019124861
+      },
+      {
+        "type": "in",
+        "description": "Nhận 200,000 $ từ Người gửi",
+        "amount": 200000,
+        "timestamp": 1742019147972
+      },
+      {
+        "type": "out",
+        "description": "Chuyển 45,000 $ cho User",
+        "amount": 45000,
+        "timestamp": 1742033315144
+      }
+    ],
+    "100085610917366": [
+      {
+        "type": "in",
+        "description": "Nhận 2,000 $ từ Đan Hoàng",
+        "amount": 2000,
+        "timestamp": 1741952956029
+      },
+      {
+        "type": "in",
+        "description": "Nhận 100,000 $ từ Đan Hoàng",
+        "amount": 100000,
+        "timestamp": 1742015851207
+      }
+    ],
+    "100087903284283": [
+      {
+        "type": "in",
+        "description": "Nhận 100,000 $ từ Pham Minh Dang",
+        "amount": 100000,
+        "timestamp": 1741969032562
+      }
+    ],
+    "61570532692675": [
+      {
+        "type": "out",
+        "description": "Chuyển 500,000 $ cho Cha Của Cmay",
+        "amount": 500000,
+        "timestamp": 1742015157029
+      },
+      {
+        "type": "out",
+        "description": "Chuyển 20,000 $ cho Cha Của Cmay",
+        "amount": 20000,
+        "timestamp": 1742015174615
+      },
+      {
+        "type": "out",
+        "description": "Chuyển 200,000 $ cho Cha Của Cmay",
+        "amount": 200000,
+        "timestamp": 1742015188412
+      }
+    ],
+    "61552517971174": [
+      {
+        "type": "out",
+        "description": "Chuyển 500,000 $ cho Anh Khoaa",
+        "amount": 500000,
+        "timestamp": 1742015907605
+      },
+      {
+        "type": "out",
+        "description": "Chuyển 200,000 $ cho Anh Khoaa",
+        "amount": 200000,
+        "timestamp": 1742015989156
+      },
+      {
+        "type": "out",
+        "description": "Chuyển 40,000 $ cho Anh Khoaa",
+        "amount": 40000,
+        "timestamp": 1742016016336
+      },
+      {
+        "type": "out",
+        "description": "Chuyển 2,000 $ cho Anh Khoaa",
+        "amount": 2000,
+        "timestamp": 1742016039319
+      },
+      {
+        "type": "out",
+        "description": "Chuyển 200 $ cho Anh Khoaa",
+        "amount": 200,
+        "timestamp": 1742016078191
+      }
+    ],
+    "100055190113139": [
+      {
+        "type": "out",
+        "description": "Chuyển 738 $ cho Đan Hoàng",
+        "amount": 738,
+        "timestamp": 1742019074812
+      },
+      {
+        "type": "out",
+        "description": "Chuyển 500,000 $ cho Đan Hoàng",
+        "amount": 500000,
+        "timestamp": 1742019124850
+      },
+      {
+        "type": "out",
+        "description": "Chuyển 200,000 $ cho Đan Hoàng",
+        "amount": 200000,
+        "timestamp": 1742019147960
+      }
+    ],
+    "100075056351029": [
+      {
+        "type": "in",
+        "description": "Nhận 45,000 $ từ Đan Hoàng",
+        "amount": 45000,
+        "timestamp": 1742033315170
+      },
+      {
+        "type": "in",
+        "description": "Nhận 738 $ từ Người gửi",
+        "amount": 738,
+        "timestamp": 1742037416548
+      },
+      {
+        "type": "in",
+        "description": "Nhận 500,000 $ từ Người gửi",
+        "amount": 500000,
+        "timestamp": 1742037470565
+      },
+      {
+        "type": "in",
+        "description": "Nhận 200,000 $ từ Người gửi",
+        "amount": 200000,
+        "timestamp": 1742037542754
+      },
+      {
+        "type": "in",
+        "description": "Nhận 20,000 $ từ Người gửi",
+        "amount": 20000,
+        "timestamp": 1742037573610
+      },
+      {
+        "type": "in",
+        "description": "Nhận 500,000 $ từ Người gửi",
+        "amount": 500000,
+        "timestamp": 1742037804673
+      },
+      {
+        "type": "in",
+        "description": "Nhận 200,000 $ từ Người gửi",
+        "amount": 200000,
+        "timestamp": 1742037814153
+      },
+      {
+        "type": "in",
+        "description": "Nhận 30,000 $ từ Người gửi",
+        "amount": 30000,
+        "timestamp": 1742037823709
+      }
+    ],
+    "61550025383225": [
+      {
+        "type": "out",
+        "description": "Chuyển 738 $ cho User",
+        "amount": 738,
+        "timestamp": 1742037416535
+      },
+      {
+        "type": "out",
+        "description": "Chuyển 500,000 $ cho User",
+        "amount": 500000,
+        "timestamp": 1742037470555
+      },
+      {
+        "type": "out",
+        "description": "Chuyển 200,000 $ cho User",
+        "amount": 200000,
+        "timestamp": 1742037542742
+      },
+      {
+        "type": "out",
+        "description": "Chuyển 20,000 $ cho User",
+        "amount": 20000,
+        "timestamp": 1742037573601
+      }
+    ],
+    "61570911036389": [
+      {
+        "type": "out",
+        "description": "Chuyển 500,000 $ cho User",
+        "amount": 500000,
+        "timestamp": 1742037804661
+      },
+      {
+        "type": "out",
+        "description": "Chuyển 200,000 $ cho User",
+        "amount": 200000,
+        "timestamp": 1742037814138
+      },
+      {
+        "type": "out",
+        "description": "Chuyển 30,000 $ cho User",
+        "amount": 30000,
+        "timestamp": 1742037823695
       }
     ]
   },
@@ -1987,20 +2313,20 @@
       ]
     },
     "61552144357464": {
-      "amount": 100000,
-      "interest": 11340,
+      "amount": 1000000,
+      "interest": 94500,
       "remainingAmount": 0,
-      "startDate": 1741452925569,
-      "dueDate": 1742057725569,
+      "startDate": 1742014034169,
+      "dueDate": 1742618834169,
       "status": "paid",
-      "collateral": 30000,
-      "interestRate": 0.0162,
-      "creditScore": 67,
+      "collateral": 300000,
+      "interestRate": 0.0135,
+      "creditScore": 45,
       "history": [
         {
-          "amount": 100000,
-          "startDate": 1741452925569,
-          "endDate": 1741487028361,
+          "amount": 1000000,
+          "startDate": 1742014034169,
+          "endDate": 1742014377908,
           "status": "paid",
           "paidOnTime": true
         }
@@ -2032,7 +2358,7 @@
   "blacklist": {},
   "dailyLoans": {
     "61552144357464": {
-      "date": "Sat Mar 08 2025",
+      "date": "Sat Mar 15 2025",
       "count": 1
     }
   }

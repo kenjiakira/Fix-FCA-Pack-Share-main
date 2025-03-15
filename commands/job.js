@@ -493,6 +493,7 @@ module.exports = {
                     "📋 .job list\n└ Xem danh sách việc làm\n\n" +
                     "📋 .job category <loại>\n└ Xem việc làm theo ngành\n\n" +
                     "📝 .job apply <mã>\n└ Ứng tuyển việc làm\n\n" +
+                    "⚡ .job quick\n└ Nhanh chóng nhận việc phù hợp\n\n" +
                     "ℹ️ .job info\n└ Xem công việc hiện tại\n\n" +
                     "❌ .job quit\n└ Nghỉ việc hiện tại\n\n" +
                     "💼 .job search\n└ Tìm việc phù hợp với bằng cấp\n\n" +
@@ -501,6 +502,63 @@ module.exports = {
                     threadID
                 );
                 return;
+            }
+
+            // Add new "quick" command to auto-assign best job
+            if (command === "quick") {
+                try {
+                    const jobData = jobSystem.getJob(senderID);
+                    if (jobData.currentJob) {
+                        return api.sendMessage(
+                            "❌ Bạn đang có việc làm rồi!\n" +
+                            "Nếu muốn đổi việc, hãy dùng .job quit trước",
+                            threadID
+                        );
+                    }
+                    
+                    if (jobData.lastQuit) {
+                        const timeSinceQuit = Date.now() - jobData.lastQuit;
+                        if (timeSinceQuit < jobSystem.QUIT_COOLDOWN) {
+                            const timeLeft = jobSystem.QUIT_COOLDOWN - timeSinceQuit;
+                            const minutes = Math.floor((timeLeft % 3600000) / 60000);
+                            return api.sendMessage(
+                                `❌ Bạn vừa nghỉ việc! Vui lòng đợi ${minutes} phút nữa để xin việc mới!`,
+                                threadID
+                            );
+                        }
+                    }
+
+                    // Get best job based on education
+                    const suggestedJobs = jobSystem.suggestJobsByEducation(senderID);
+                    let selectedJobId;
+                    
+                    if (suggestedJobs.length > 0) {
+                        selectedJobId = suggestedJobs[0].id;
+                    } else {
+                        selectedJobId = "j1"; // Default to shipper if no matches
+                    }
+                    
+                    const selectedJob = await jobSystem.applyForJob(senderID, selectedJobId);
+                    
+                    let responseMsg = "🎉 CHÚC MỪNG! BẠN ĐÃ ĐƯỢC NHẬN VÀO LÀM VIỆC!\n\n";
+                    responseMsg += `Công việc: ${selectedJob.name}\n`;
+                    responseMsg += `Lương: ${formatNumber(selectedJob.salary)} $/lần\n\n`;
+                    
+                    if (suggestedJobs.length > 1) {
+                        responseMsg += "💡 Các công việc khác phù hợp với bạn:\n";
+                        for (let i = 1; i < Math.min(3, suggestedJobs.length); i++) {
+                            responseMsg += `${i}. ${suggestedJobs[i].name} - ${formatNumber(suggestedJobs[i].salary)} $/lần\n`;
+                        }
+                        responseMsg += "\nDùng .job apply <mã> để nộp đơn công việc khác\n";
+                    }
+                    
+                    responseMsg += "\n💡 Dùng .work để bắt đầu làm việc";
+                    
+                    return api.sendMessage(responseMsg, threadID);
+                    
+                } catch (error) {
+                    return api.sendMessage(`❌ ${error.message}`, threadID);
+                }
             }
 
             switch (command) {
@@ -714,7 +772,8 @@ module.exports = {
                         });
                         
                         msg += "💡 HƯỚNG DẪN:\n";
-                        msg += "➤ Ứng tuyển: .job apply <mã>\n";
+                        msg += "➤ Ứng tuyển nhanh công việc tốt nhất: .job quick\n";
+                        msg += "➤ Ứng tuyển công việc cụ thể: .job apply <mã>\n";
                     }
                     
                     msg += "\n┗━━━━━━━━━━━━━━━━━┛";

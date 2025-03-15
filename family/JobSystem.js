@@ -287,7 +287,25 @@ class JobSystem {
             }
     
             if (!jobData.currentJob || !jobData.currentJob.id) {
-                throw new ExpectedError("❌ Bạn chưa có việc làm!\n vui lòng apply job trước bằng cách gõ\njob apply [mã job]");
+                // Auto-assign a basic job for new users
+                try {
+                    const basicJobId = "j1"; // Shipper - basic job that requires no qualifications
+                    const autoJob = this.applyForJob(userID, basicJobId);
+                    jobData.currentJob = {
+                        id: basicJobId,
+                        startDate: Date.now(),
+                        performance: 100
+                    };
+                    this.saveData();
+                    
+                    // Return special flag to indicate auto-assignment
+                    return { 
+                        autoAssigned: true,
+                        job: JOBS[basicJobId]
+                    };
+                } catch (autoError) {
+                    throw new ExpectedError("❌ Bạn chưa có việc làm!\n vui lòng apply job trước bằng cách gõ\njob apply [mã job]");
+                }
             }
     
             const cooldown = this.getWorkCooldown(userID, vipBenefits);
@@ -325,6 +343,10 @@ class JobSystem {
             
             jobData.lastWorked = Date.now();
             jobData.totalEarned = (jobData.totalEarned || 0) + salary;
+            
+            // Add net earnings calculation (after tax) for easier reference
+            const netEarnings = salary - taxAmount;
+            jobData.lastEarnings = netEarnings;
             
             const newWorkCount = this.workCountTracker.incrementCount(userID);
     
@@ -455,6 +477,47 @@ class JobSystem {
             }
         }
         return ranks[0] || null;
+    }
+
+    // Add new helper method to suggest jobs based on education
+    suggestJobsByEducation(userID) {
+        try {
+            const education = this.loadEducation(userID);
+            const suggestedJobs = [];
+            
+            // Check all jobs for qualification
+            for (const [jobId, jobData] of Object.entries(JOBS)) {
+                const isQualified = this.checkRequirements(jobData.requirements, education.degrees || []);
+                if (isQualified) {
+                    suggestedJobs.push({
+                        id: jobId,
+                        name: jobData.name,
+                        salary: jobData.salary
+                    });
+                }
+            }
+            
+            // Sort by salary (descending) and limit to 5 jobs
+            suggestedJobs.sort((a, b) => b.salary - a.salary);
+            return suggestedJobs.slice(0, 5);
+        } catch (error) {
+            console.error('Error suggesting jobs:', error);
+            return [];
+        }
+    }
+
+    // Add fast-track job application method
+    quickApply(userID) {
+        // Get all suggested jobs based on education
+        const suggestedJobs = this.suggestJobsByEducation(userID);
+        
+        if (suggestedJobs.length === 0) {
+            // Return the basic job if no matches
+            return this.applyForJob(userID, "j1");
+        }
+        
+        // Apply for the best job available
+        return this.applyForJob(userID, suggestedJobs[0].id);
     }
 }
 

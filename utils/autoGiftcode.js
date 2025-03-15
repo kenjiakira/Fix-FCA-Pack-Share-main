@@ -156,8 +156,8 @@ async function sendGiftcodeAnnouncement(api, code, reward) {
 function scheduleAutoGiftcode(api) {
     schedule.scheduleJob('0 12 * * *', async () => {
    
-        const minReward = 100;
-        const maxReward = 1000;
+        const minReward = 100000;
+        const maxReward = 1000000;
         const reward = Math.floor(Math.random() * (maxReward - minReward + 1)) + minReward;
         
         const today = new Date();
@@ -170,7 +170,7 @@ function scheduleAutoGiftcode(api) {
     });
 
     schedule.scheduleJob('0 20 * * *', async () => {
-        const specialReward = Math.floor(Math.random() * 100) + 1000; 
+        const specialReward = Math.floor(Math.random() * 100000) + 1000000; 
         const code = createGiftcode(specialReward, "Giftcode đặc biệt buổi tối");
         await sendGiftcodeAnnouncement(api, code, specialReward);
     });
