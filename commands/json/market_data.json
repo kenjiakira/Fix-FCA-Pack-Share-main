@@ -1,6 +1,6 @@
 {
-  "price": 102,
-  "lastUpdate": 1742038371870,
+  "price": 79,
+  "lastUpdate": 1742097396675,
   "history": [
     {
       "price": 100,
@@ -17,6 +17,26 @@
     {
       "price": 110,
       "timestamp": 1742038371870
+    },
+    {
+      "price": 102,
+      "timestamp": 1742040021007
+    },
+    {
+      "price": 102,
+      "timestamp": 1742043695237
+    },
+    {
+      "price": 84,
+      "timestamp": 1742045879527
+    },
+    {
+      "price": 71,
+      "timestamp": 1742096480650
+    },
+    {
+      "price": 73,
+      "timestamp": 1742097396675
     }
   ]
 }

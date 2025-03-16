@@ -129,9 +129,9 @@
       "createdAt": 1740891826851,
       "autoHarvest": false,
       "weather": {
-        "nextChange": 1742037231634,
+        "nextChange": 1742069144613,
         "timeOfDay": "night",
-        "lastUpdated": 1742015631634
+        "lastUpdated": 1742047544613
       },
       "lastVisits": {
         "61568641631000": 1740901680135,
@@ -377,9 +377,9 @@
       "createdAt": 1740900581883,
       "autoHarvest": false,
       "weather": {
-        "nextChange": 1742037231634,
+        "nextChange": 1742069144613,
         "timeOfDay": "night",
-        "lastUpdated": 1742015631634
+        "lastUpdated": 1742047544613
       },
       "visitors": [
         {
@@ -934,9 +934,9 @@
       "createdAt": 1740900650864,
       "autoHarvest": false,
       "weather": {
-        "nextChange": 1742037231634,
+        "nextChange": 1742069144613,
         "timeOfDay": "night",
-        "lastUpdated": 1742015631634
+        "lastUpdated": 1742047544613
       },
       "visitors": [
         {
@@ -1095,182 +1095,182 @@
       "plots": [
         {
           "id": 0,
-          "status": "damaged",
+          "status": "growing",
           "crop": "chuoi",
-          "plantedAt": 1741491954978,
-          "water": 1.6,
-          "lastWatered": 1741491954978,
+          "plantedAt": 1742047555467,
+          "water": 1,
+          "lastWatered": 1742047555467,
           "readyAt": 1741496985613
         },
         {
           "id": 1,
-          "status": "damaged",
+          "status": "growing",
           "crop": "chuoi",
-          "plantedAt": 1741491954978,
-          "water": 1.6,
-          "lastWatered": 1741491954978,
+          "plantedAt": 1742047555467,
+          "water": 1,
+          "lastWatered": 1742047555467,
           "readyAt": 1741496985613
         },
         {
           "id": 2,
-          "status": "damaged",
+          "status": "growing",
           "crop": "chuoi",
-          "plantedAt": 1741491954978,
-          "water": 1.6,
-          "lastWatered": 1741491954978,
+          "plantedAt": 1742047555467,
+          "water": 1,
+          "lastWatered": 1742047555467,
           "readyAt": 1741496985613
         },
         {
           "id": 3,
-          "status": "damaged",
+          "status": "growing",
           "crop": "chuoi",
-          "plantedAt": 1741491954978,
-          "water": 1.6,
-          "lastWatered": 1741491954978,
+          "plantedAt": 1742047555467,
+          "water": 1,
+          "lastWatered": 1742047555467,
           "readyAt": 1741496985613
         },
         {
           "id": 4,
-          "status": "damaged",
+          "status": "growing",
           "crop": "chuoi",
-          "plantedAt": 1741491954978,
-          "water": 1.6,
-          "lastWatered": 1741491954978,
+          "plantedAt": 1742047555467,
+          "water": 1,
+          "lastWatered": 1742047555467,
           "readyAt": 1741496985613
         },
         {
           "id": 5,
-          "status": "damaged",
+          "status": "growing",
           "crop": "chuoi",
-          "plantedAt": 1741491954978,
-          "water": 1.6,
-          "lastWatered": 1741491954978,
+          "plantedAt": 1742047555467,
+          "water": 1,
+          "lastWatered": 1742047555467,
           "readyAt": 1741496985613
         },
         {
           "id": 6,
-          "status": "damaged",
+          "status": "growing",
           "crop": "chuoi",
-          "plantedAt": 1741491954978,
-          "water": 1.6,
-          "lastWatered": 1741491954978,
+          "plantedAt": 1742047555467,
+          "water": 1,
+          "lastWatered": 1742047555467,
           "readyAt": 1741496985613
         },
         {
           "id": 7,
-          "status": "damaged",
+          "status": "growing",
           "crop": "chuoi",
-          "plantedAt": 1741491954978,
-          "water": 1.6,
-          "lastWatered": 1741491954978,
+          "plantedAt": 1742047555467,
+          "water": 1,
+          "lastWatered": 1742047555467,
           "readyAt": 1741496985613
         },
         {
           "id": 8,
-          "status": "damaged",
+          "status": "growing",
           "crop": "chuoi",
-          "plantedAt": 1741491954978,
-          "water": 1.6,
-          "lastWatered": 1741491954978,
+          "plantedAt": 1742047555467,
+          "water": 1,
+          "lastWatered": 1742047555467,
           "readyAt": 1741496985613
         },
         {
           "id": 9,
-          "status": "damaged",
+          "status": "growing",
           "crop": "chuoi",
-          "plantedAt": 1741491954978,
-          "water": 1.6,
-          "lastWatered": 1741491954978,
+          "plantedAt": 1742047555467,
+          "water": 1,
+          "lastWatered": 1742047555467,
           "readyAt": 1741496985613
         },
         {
           "id": 10,
-          "status": "damaged",
+          "status": "growing",
           "crop": "chuoi",
-          "plantedAt": 1741491954978,
-          "water": 1.6,
-          "lastWatered": 1741491954978,
+          "plantedAt": 1742047555467,
+          "water": 1,
+          "lastWatered": 1742047555467,
           "readyAt": 1741496985613
         },
         {
           "id": 11,
-          "status": "damaged",
+          "status": "growing",
           "crop": "chuoi",
-          "plantedAt": 1741491954978,
-          "water": 1.6,
-          "lastWatered": 1741491954978,
+          "plantedAt": 1742047555467,
+          "water": 1,
+          "lastWatered": 1742047555467,
           "readyAt": 1741496985613
         },
         {
           "id": 12,
-          "status": "damaged",
+          "status": "growing",
           "crop": "chuoi",
-          "plantedAt": 1741491954978,
-          "water": 1.6,
-          "lastWatered": 1741491954978,
+          "plantedAt": 1742047555467,
+          "water": 1,
+          "lastWatered": 1742047555467,
           "readyAt": 1741496985613
         },
         {
           "id": 13,
-          "status": "damaged",
+          "status": "growing",
           "crop": "chuoi",
-          "plantedAt": 1741491954978,
-          "water": 1.6,
-          "lastWatered": 1741491954978,
+          "plantedAt": 1742047555467,
+          "water": 1,
+          "lastWatered": 1742047555467,
           "readyAt": 1741496985613
         },
         {
           "id": 14,
-          "status": "damaged",
+          "status": "growing",
           "crop": "chuoi",
-          "plantedAt": 1741491954978,
-          "water": 1.6,
-          "lastWatered": 1741491954978,
+          "plantedAt": 1742047555467,
+          "water": 1,
+          "lastWatered": 1742047555467,
           "readyAt": 1741496985613
         },
         {
           "id": 15,
-          "status": "damaged",
+          "status": "growing",
           "crop": "chuoi",
-          "plantedAt": 1741491954978,
-          "water": 1.6,
-          "lastWatered": 1741491954978,
+          "plantedAt": 1742047555467,
+          "water": 1,
+          "lastWatered": 1742047555467,
           "readyAt": 1741496985613
         },
         {
           "id": 16,
-          "status": "damaged",
+          "status": "growing",
           "crop": "chuoi",
-          "plantedAt": 1741491954978,
-          "water": 1.6,
-          "lastWatered": 1741491954978,
+          "plantedAt": 1742047555467,
+          "water": 1,
+          "lastWatered": 1742047555467,
           "readyAt": 1741496985613
         },
         {
           "id": 17,
-          "status": "damaged",
+          "status": "growing",
           "crop": "chuoi",
-          "plantedAt": 1741491954978,
-          "water": 1.6,
-          "lastWatered": 1741491954978,
+          "plantedAt": 1742047555467,
+          "water": 1,
+          "lastWatered": 1742047555467,
           "readyAt": 1741496985613
         },
         {
           "id": 18,
-          "status": "damaged",
+          "status": "growing",
           "crop": "chuoi",
-          "plantedAt": 1741491954978,
-          "water": 1.6,
-          "lastWatered": 1741491954978,
+          "plantedAt": 1742047555467,
+          "water": 1,
+          "lastWatered": 1742047555467,
           "readyAt": 1741496985613
         },
         {
           "id": 19,
-          "status": "damaged",
+          "status": "growing",
           "crop": "chuoi",
-          "plantedAt": 1741491954978,
-          "water": 1.6,
-          "lastWatered": 1741491954978,
+          "plantedAt": 1742047555467,
+          "water": 1,
+          "lastWatered": 1742047555467,
           "readyAt": 1741496985613
         }
       ],
@@ -1356,9 +1356,9 @@
       "createdAt": 1740900774563,
       "autoHarvest": false,
       "weather": {
-        "nextChange": 1742037231634,
+        "nextChange": 1742069144613,
         "timeOfDay": "night",
-        "lastUpdated": 1742015631634
+        "lastUpdated": 1742047544613
       },
       "visitors": [
         {
@@ -1422,7 +1422,7 @@
             "target": 5,
             "reward": 100,
             "exp": 20,
-            "progress": 0,
+            "progress": 5,
             "claimed": false
           },
           "feed": {
@@ -2559,9 +2559,9 @@
       "createdAt": 1740901679266,
       "autoHarvest": false,
       "weather": {
-        "nextChange": 1742037231634,
+        "nextChange": 1742069144613,
         "timeOfDay": "night",
-        "lastUpdated": 1742015631634
+        "lastUpdated": 1742047544613
       },
       "visitors": [
         {
@@ -2890,9 +2890,9 @@
       "createdAt": 1740903354286,
       "autoHarvest": false,
       "weather": {
-        "nextChange": 1742037231634,
+        "nextChange": 1742069144613,
         "timeOfDay": "night",
-        "lastUpdated": 1742015631634
+        "lastUpdated": 1742047544613
       },
       "visitors": [
         {
@@ -3295,9 +3295,9 @@
       "createdAt": 1740904238230,
       "autoHarvest": false,
       "weather": {
-        "nextChange": 1742037231634,
+        "nextChange": 1742069144613,
         "timeOfDay": "night",
-        "lastUpdated": 1742015631634
+        "lastUpdated": 1742047544613
       },
       "visitors": [
         {
@@ -4527,9 +4527,9 @@
       "createdAt": 1740911347009,
       "autoHarvest": false,
       "weather": {
-        "nextChange": 1742037231634,
+        "nextChange": 1742069144613,
         "timeOfDay": "night",
-        "lastUpdated": 1742015631634
+        "lastUpdated": 1742047544613
       },
       "lastVisits": {
         "100063719077878": 1740911633073,
@@ -4864,9 +4864,9 @@
       "createdAt": 1740911912646,
       "autoHarvest": false,
       "weather": {
-        "nextChange": 1742037231634,
+        "nextChange": 1742069144613,
         "timeOfDay": "night",
-        "lastUpdated": 1742015631634
+        "lastUpdated": 1742047544613
       },
       "dailyMissions": {
         "date": 1742015631798,
@@ -5172,9 +5172,9 @@
       "createdAt": 1740912236000,
       "autoHarvest": false,
       "weather": {
-        "nextChange": 1742037231634,
+        "nextChange": 1742069144613,
         "timeOfDay": "noon",
-        "lastUpdated": 1742015631634
+        "lastUpdated": 1742047544613
       },
       "dailyMissions": {
         "date": 1742015631818,
@@ -5334,9 +5334,9 @@
       "createdAt": 1740912260598,
       "autoHarvest": false,
       "weather": {
-        "nextChange": 1742037231634,
+        "nextChange": 1742069144613,
         "timeOfDay": "noon",
-        "lastUpdated": 1742015631634
+        "lastUpdated": 1742047544613
       },
       "dailyMissions": {
         "date": 1742015631837,
@@ -5469,9 +5469,9 @@
       "createdAt": 1740912665572,
       "autoHarvest": false,
       "weather": {
-        "nextChange": 1742037231634,
+        "nextChange": 1742069144613,
         "timeOfDay": "noon",
-        "lastUpdated": 1742015631634
+        "lastUpdated": 1742047544613
       },
       "dailyMissions": {
         "date": 1742015631858,
@@ -5700,9 +5700,9 @@
       "createdAt": 1740913354233,
       "autoHarvest": false,
       "weather": {
-        "nextChange": 1742037231634,
+        "nextChange": 1742069144613,
         "timeOfDay": "noon",
-        "lastUpdated": 1742015631634
+        "lastUpdated": 1742047544613
       },
       "dailyMissions": {
         "date": 1742015631879,
@@ -5797,9 +5797,9 @@
       "createdAt": 1740913780741,
       "autoHarvest": false,
       "weather": {
-        "nextChange": 1742037231634,
+        "nextChange": 1742069144613,
         "timeOfDay": "noon",
-        "lastUpdated": 1742015631634
+        "lastUpdated": 1742047544613
       },
       "dailyMissions": {
         "date": 1742015631898,
@@ -5884,9 +5884,9 @@
       "createdAt": 1740916835706,
       "autoHarvest": false,
       "weather": {
-        "nextChange": 1742037231634,
+        "nextChange": 1742069144613,
         "timeOfDay": "noon",
-        "lastUpdated": 1742015631634
+        "lastUpdated": 1742047544613
       },
       "dailyMissions": {
         "date": 1742015631919,
@@ -6245,9 +6245,9 @@
       "createdAt": 1740917432720,
       "autoHarvest": false,
       "weather": {
-        "nextChange": 1742037231634,
+        "nextChange": 1742069144613,
         "timeOfDay": "noon",
-        "lastUpdated": 1742015631634
+        "lastUpdated": 1742047544613
       },
       "dailyMissions": {
         "date": 1742015631939,
@@ -6455,9 +6455,9 @@
       "createdAt": 1740919120496,
       "autoHarvest": false,
       "weather": {
-        "nextChange": 1742037231634,
+        "nextChange": 1742069144613,
         "timeOfDay": "noon",
-        "lastUpdated": 1742015631634
+        "lastUpdated": 1742047544613
       },
       "dailyMissions": {
         "date": 1742015631958,
@@ -6557,9 +6557,9 @@
       "createdAt": 1740920998637,
       "autoHarvest": false,
       "weather": {
-        "nextChange": 1742037231634,
+        "nextChange": 1742069144613,
         "timeOfDay": "noon",
-        "lastUpdated": 1742015631634
+        "lastUpdated": 1742047544613
       },
       "dailyMissions": {
         "date": 1742015631975,
@@ -6683,9 +6683,9 @@
       "createdAt": 1740922284303,
       "autoHarvest": false,
       "weather": {
-        "nextChange": 1742037231634,
+        "nextChange": 1742069144613,
         "timeOfDay": "noon",
-        "lastUpdated": 1742015631634
+        "lastUpdated": 1742047544613
       },
       "dailyMissions": {
         "date": 1742015631992,
@@ -6862,9 +6862,9 @@
       "createdAt": 1740923260993,
       "autoHarvest": false,
       "weather": {
-        "nextChange": 1742037231634,
+        "nextChange": 1742069144613,
         "timeOfDay": "noon",
-        "lastUpdated": 1742015631634
+        "lastUpdated": 1742047544613
       },
       "dailyMissions": {
         "date": 1742015632009,
@@ -7032,9 +7032,9 @@
       "createdAt": 1740927354781,
       "autoHarvest": false,
       "weather": {
-        "nextChange": 1742037231634,
+        "nextChange": 1742069144613,
         "timeOfDay": "noon",
-        "lastUpdated": 1742015631634
+        "lastUpdated": 1742047544613
       },
       "visitors": [
         {
@@ -7221,9 +7221,9 @@
       "createdAt": 1740972822266,
       "autoHarvest": false,
       "weather": {
-        "nextChange": 1742037231634,
+        "nextChange": 1742069144613,
         "timeOfDay": "noon",
-        "lastUpdated": 1742015631634
+        "lastUpdated": 1742047544613
       },
       "dailyMissions": {
         "date": 1742015632043,
@@ -7392,9 +7392,9 @@
       "createdAt": 1740973389345,
       "autoHarvest": false,
       "weather": {
-        "nextChange": 1742037231634,
+        "nextChange": 1742069144613,
         "timeOfDay": "noon",
-        "lastUpdated": 1742015631634
+        "lastUpdated": 1742047544613
       },
       "dailyMissions": {
         "date": 1742015632060,
@@ -7653,9 +7653,9 @@
       "createdAt": 1740974044311,
       "autoHarvest": false,
       "weather": {
-        "nextChange": 1742037231634,
+        "nextChange": 1742069144613,
         "timeOfDay": "night",
-        "lastUpdated": 1742015631634
+        "lastUpdated": 1742047544613
       },
       "dailyMissions": {
         "date": 1742015632076,
@@ -7823,9 +7823,9 @@
       "createdAt": 1740979410905,
       "autoHarvest": false,
       "weather": {
-        "nextChange": 1742037231634,
+        "nextChange": 1742069144613,
         "timeOfDay": "noon",
-        "lastUpdated": 1742015631634
+        "lastUpdated": 1742047544613
       },
       "dailyMissions": {
         "date": 1742015632096,
@@ -7910,9 +7910,9 @@
       "createdAt": 1740979712643,
       "autoHarvest": false,
       "weather": {
-        "nextChange": 1742037231634,
+        "nextChange": 1742069144613,
         "timeOfDay": "noon",
-        "lastUpdated": 1742015631634
+        "lastUpdated": 1742047544613
       },
       "dailyMissions": {
         "date": 1742015632119,
@@ -7995,9 +7995,9 @@
       "createdAt": 1740981832982,
       "autoHarvest": false,
       "weather": {
-        "nextChange": 1742037231634,
+        "nextChange": 1742069144613,
         "timeOfDay": "noon",
-        "lastUpdated": 1742015631634
+        "lastUpdated": 1742047544613
       },
       "dailyMissions": {
         "date": 1742015632140,
@@ -8172,9 +8172,9 @@
       "createdAt": 1740994195639,
       "autoHarvest": false,
       "weather": {
-        "nextChange": 1742037231634,
+        "nextChange": 1742069144613,
         "timeOfDay": "noon",
-        "lastUpdated": 1742015631634
+        "lastUpdated": 1742047544613
       },
       "dailyMissions": {
         "date": 1742015632159,
@@ -8341,9 +8341,9 @@
       "createdAt": 1741011498929,
       "autoHarvest": false,
       "weather": {
-        "nextChange": 1742037231634,
+        "nextChange": 1742069144613,
         "timeOfDay": "noon",
-        "lastUpdated": 1742015631634
+        "lastUpdated": 1742047544613
       },
       "dailyMissions": {
         "date": 1742015632180,
@@ -8433,9 +8433,9 @@
       "createdAt": 1741015401348,
       "autoHarvest": false,
       "weather": {
-        "nextChange": 1742037231634,
+        "nextChange": 1742069144613,
         "timeOfDay": "noon",
-        "lastUpdated": 1742015631634
+        "lastUpdated": 1742047544613
       },
       "dailyMissions": {
         "date": 1742015632201,
@@ -8596,9 +8596,9 @@
       "createdAt": 1741077198576,
       "autoHarvest": false,
       "weather": {
-        "nextChange": 1742037231634,
+        "nextChange": 1742069144613,
         "timeOfDay": "noon",
-        "lastUpdated": 1742015631634
+        "lastUpdated": 1742047544613
       },
       "dailyMissions": {
         "date": 1742015632222,
@@ -8711,9 +8711,9 @@
       "createdAt": 1741081269665,
       "autoHarvest": false,
       "weather": {
-        "nextChange": 1742037231634,
+        "nextChange": 1742069144613,
         "timeOfDay": "noon",
-        "lastUpdated": 1742015631634
+        "lastUpdated": 1742047544613
       },
       "dailyMissions": {
         "date": 1742015632245,
@@ -8907,9 +8907,9 @@
       "createdAt": 1741081780452,
       "autoHarvest": false,
       "weather": {
-        "nextChange": 1742037231634,
+        "nextChange": 1742069144613,
         "timeOfDay": "noon",
-        "lastUpdated": 1742015631634
+        "lastUpdated": 1742047544613
       },
       "dailyMissions": {
         "date": 1742015632268,
@@ -9157,9 +9157,9 @@
       "createdAt": 1741081832663,
       "autoHarvest": false,
       "weather": {
-        "nextChange": 1742037231634,
+        "nextChange": 1742069144613,
         "timeOfDay": "noon",
-        "lastUpdated": 1742015631634
+        "lastUpdated": 1742047544613
       },
       "dailyMissions": {
         "date": 1742015632292,
@@ -9330,9 +9330,9 @@
       "createdAt": 1741082165201,
       "autoHarvest": false,
       "weather": {
-        "nextChange": 1742037231634,
+        "nextChange": 1742069144613,
         "timeOfDay": "morning",
-        "lastUpdated": 1742015631634
+        "lastUpdated": 1742047544613
       },
       "dailyMissions": {
         "date": 1742015632314,
@@ -9447,9 +9447,9 @@
       "createdAt": 1741082406431,
       "autoHarvest": false,
       "weather": {
-        "nextChange": 1742037231634,
+        "nextChange": 1742069144613,
         "timeOfDay": "morning",
-        "lastUpdated": 1742015631634
+        "lastUpdated": 1742047544613
       },
       "dailyMissions": {
         "date": 1742015632332,
@@ -9556,9 +9556,9 @@
       "createdAt": 1741093201296,
       "autoHarvest": false,
       "weather": {
-        "nextChange": 1742037231634,
+        "nextChange": 1742069144613,
         "timeOfDay": "night",
-        "lastUpdated": 1742015631634
+        "lastUpdated": 1742047544613
       },
       "dailyMissions": {
         "date": 1742015632349,
@@ -9822,9 +9822,9 @@
       "createdAt": 1741185108589,
       "autoHarvest": false,
       "weather": {
-        "nextChange": 1742037231634,
+        "nextChange": 1742069144613,
         "timeOfDay": "night",
-        "lastUpdated": 1742015631634
+        "lastUpdated": 1742047544613
       },
       "dailyMissions": {
         "date": 1742015632366,
@@ -10020,9 +10020,9 @@
       "createdAt": 1741273311597,
       "autoHarvest": false,
       "weather": {
-        "nextChange": 1742037231634,
+        "nextChange": 1742069144613,
         "timeOfDay": "evening",
-        "lastUpdated": 1742015631634
+        "lastUpdated": 1742047544613
       },
       "dailyMissions": {
         "date": 1742015632385,
@@ -10302,5 +10302,5 @@
       }
     }
   },
-  "lastUpdate": 1742032738575
+  "lastUpdate": 1742047554849
 }

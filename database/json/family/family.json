@@ -2321,18 +2321,28 @@
   },
   "61552144357464": {
     "name": null,
-    "spouse": null,
+    "spouse": "100072567218546",
     "children": [],
-    "happiness": 50,
-    "health": 95,
-    "lastChecked": 1741423779988,
+    "happiness": 100,
+    "health": 100,
+    "lastChecked": 1742054005674,
     "lastBaby": 0,
-    "lastIntimate": 0,
+    "lastIntimate": 1742054955559,
     "insurance": {
-      "active": false,
-      "expiresAt": 0,
-      "discount": 0
-    }
+      "active": true,
+      "expiresAt": 1744646240152,
+      "discount": 30
+    },
+    "insurances": {
+      "health": {
+        "active": true,
+        "expiresAt": 1744646240152,
+        "discount": 30
+      }
+    },
+    "isProposer": true,
+    "proposedBy": null,
+    "contraceptiveUntil": 1742055325931
   },
   "100068601847791": {
     "name": null,
@@ -2348,5 +2358,23 @@
       "expiresAt": 0,
       "discount": 0
     }
+  },
+  "100072567218546": {
+    "name": null,
+    "spouse": "61552144357464",
+    "children": [],
+    "happiness": 100,
+    "health": 100,
+    "lastChecked": 1742054037631,
+    "lastBaby": 0,
+    "lastIntimate": 1742054955568,
+    "insurance": {
+      "active": false,
+      "expiresAt": 0,
+      "discount": 0
+    },
+    "isProposer": false,
+    "proposedBy": "Minh Đức",
+    "contraceptiveUntil": 1742055325931
   }
 }

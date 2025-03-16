@@ -517,10 +517,10 @@
     "happy": 100,
     "energy": 100,
     "level": 7,
-    "exp": 20,
-    "power": 390,
-    "lastFed": 1742038349658,
-    "lastPlay": 1742038295237,
+    "exp": 150,
+    "power": 430,
+    "lastFed": 1742046887015,
+    "lastPlay": 1742046692671,
     "skills": {
       "HUNT": {
         "level": 1,
@@ -544,15 +544,15 @@
     "birthday": 1741511167970,
     "quests": {
       "daily": {
-        "playCount": 49,
-        "feedCount": 70
+        "playCount": 51,
+        "feedCount": 74
       }
     },
     "lastSkill": {
-      "HUNT": 1742038070989,
-      "CHARM": 1742038013201
+      "HUNT": 1742046577442,
+      "CHARM": 1742046827686
     },
-    "lastTrain": 1742038305820
+    "lastTrain": 1742046486769
   },
   "100035610181048": {
     "type": "DOG",

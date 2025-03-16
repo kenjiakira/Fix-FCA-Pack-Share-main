@@ -6481,7 +6481,6 @@ async function drawTeamCards(
   }
 }
 
-// Draw individual character card for team display
 async function drawCharacterCard(
   ctx,
   character,

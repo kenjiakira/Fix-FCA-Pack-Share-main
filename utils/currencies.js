@@ -1,5 +1,6 @@
 const fs = require('fs');
 const path = require('path');
+const { spawn } = require('child_process');
 
 global.balance = global.balance || {};
 const dataFile = path.join(__dirname, '..', 'database', 'currencies.json');
@@ -227,6 +228,50 @@ function getAllCurrenciesData() {
     }
 }
 
+async function executeClojureCalculation(type, data) {
+    return new Promise((resolve, reject) => {
+        const clojurePath = path.join(__dirname, '../services/clojure/finance.clj');
+        const process = spawn('clojure', ['-M', clojurePath, type, JSON.stringify(data)]);
+        
+        let output = '';
+        
+        process.stdout.on('data', (data) => {
+            output += data.toString();
+        });
+        
+        process.stderr.on('data', (data) => {
+            console.error(`Clojure Error: ${data}`);
+        });
+        
+        process.on('close', (code) => {
+            if (code !== 0) {
+                reject(new Error(`Clojure process exited with code ${code}`));
+                return;
+            }
+            try {
+                resolve(JSON.parse(output));
+            } catch (err) {
+                reject(err);
+            }
+        });
+    });
+}
+
+async function calculateAdvancedInterest(principal, days, vipLevel = 0) {
+    try {
+        const result = await executeClojureCalculation('interest', {
+            principal,
+            days,
+            vipLevel
+        });
+        return result.interest;
+    } catch (err) {
+        console.error('Failed to calculate advanced interest:', err);
+        // Fallback to simple calculation
+        return principal * 0.001 * days;
+    }
+}
+
 loadData(); 
 loadQuestProgress();
 
@@ -235,5 +280,5 @@ module.exports = {
     changeBalance, allBalances, saveQuy, loadQuy, loadQuests, 
     getUserQuests, updateQuestProgress, canClaimRewards, setRewardClaimed, 
     loadQuestProgress, saveQuestProgress, checkDayReset, getVNDate,
-    readData, getAllCurrenciesData
+    readData, getAllCurrenciesData, calculateAdvancedInterest, executeClojureCalculation
 };

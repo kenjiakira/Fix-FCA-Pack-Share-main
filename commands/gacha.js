@@ -2594,7 +2594,7 @@ function applyExpItem(charId, expItemId) {
   const currentLevel = char.level || 1;
   const currentExp = char.exp || 0;
 
-  // Cập nhật cách tính maxLevel
+  // Xác định độ hiếm cơ bản
   let baseRarity = CHARACTER_RATINGS.FIVE_STAR.includes(char.name)
     ? 5
     : CHARACTER_RATINGS.FOUR_STAR.includes(char.name)
@@ -2604,7 +2604,7 @@ function applyExpItem(charId, expItemId) {
   // Tính maxLevel dựa trên độ hiếm và tiến hóa
   const maxLevel = char.starLevel
     ? Math.min(CHARACTER_LEVELS[baseRarity].maxLevel, char.starLevel * 20)
-    : CHARACTER_LEVELS[baseRarity].maxLevel * 0.6; // 60% của level tối đa cho chưa tiến hóa
+    : CHARACTER_LEVELS[baseRarity].maxLevel * 0.6;
 
   if (currentLevel >= maxLevel) {
     return { success: false, reason: "max_level_reached" };
@@ -2612,11 +2612,10 @@ function applyExpItem(charId, expItemId) {
 
   const newExp = currentExp + expItem.expValue;
 
-  // Phần còn lại của hàm giữ nguyên
+  // Thuật toán tăng level
   let newLevel = currentLevel;
   let remainingExp = newExp;
 
-  // Thuật toán tăng level vẫn giữ nguyên, nhưng bảng EXP đã thay đổi
   while (
     newLevel < maxLevel &&
     EXP_PER_LEVEL[newLevel + 1] !== undefined &&
@@ -2631,26 +2630,44 @@ function applyExpItem(charId, expItemId) {
     remainingExp = 0;
   }
 
-  // Cập nhật thuật toán tính stats khi tăng level
+  // Cân bằng lại cách tăng chỉ số
   const levelDifference = newLevel - currentLevel;
   if (levelDifference > 0) {
-    const baseStats = char.stats || generateCharacterStats(baseRarity);
-
-    // Điều chỉnh hệ số tăng stats theo level để cân bằng hơn
-    const statMultiplier =
-      1 + levelDifference * (0.05 + (newLevel / 200) * 0.05);
-
-    char.stats = {
-      atk: Math.floor(baseStats.atk * statMultiplier),
-      def: Math.floor(baseStats.def * statMultiplier * 1.1), // +10%
-      hp: Math.floor(baseStats.hp * statMultiplier * 1.3), // +30%
+    // Tìm chỉ số cơ bản của nhân vật dựa trên độ hiếm gốc
+    const baseStatsByRarity = {
+      3: { atk: 100, def: 100, hp: 500 },
+      4: { atk: 300, def: 300, hp: 1000 },
+      5: { atk: 500, def: 500, hp: 2000 }
+    };
+    
+    // Lấy chỉ số cơ bản ban đầu nếu có, hoặc dùng chỉ số mặc định theo độ hiếm
+    const originalBaseStats = baseStatsByRarity[baseRarity];
+    
+    // THAY ĐỔI CHÍNH: Dùng công thức tuyến tính thay vì hàm mũ để tăng chỉ số
+    // Cấp độ càng cao, tốc độ tăng càng chậm lại để cân bằng
+    const growthFactor = Math.min(2.0, 1 + (newLevel - 1) * 0.03);
+    
+    // Áp dụng hiệu chỉnh cho ngôi sao tiến hóa
+    const starBonus = char.starLevel ? Math.min(1.5, 1 + (char.starLevel - baseRarity) * 0.15) : 1;
+    
+    // Áp dụng giới hạn tối đa cho các chỉ số
+    const maxStatCaps = {
+      atk: baseRarity * 2000 + (char.starLevel || 0) * 1000,
+      def: baseRarity * 1500 + (char.starLevel || 0) * 800,
+      hp: baseRarity * 10000 + (char.starLevel || 0) * 5000
     };
 
-    // Điều chỉnh giá trị nhân vật theo level
+    char.stats = {
+      atk: Math.min(maxStatCaps.atk, Math.floor(originalBaseStats.atk * growthFactor * starBonus * (1 + newLevel * 0.05))),
+      def: Math.min(maxStatCaps.def, Math.floor(originalBaseStats.def * growthFactor * starBonus * (1 + newLevel * 0.04))),
+      hp: Math.min(maxStatCaps.hp, Math.floor(originalBaseStats.hp * growthFactor * starBonus * (1 + newLevel * 0.06)))
+    };
+
     char.value = Math.floor(
-      (char.value || 1000) *
-        (1 + levelDifference * (0.05 + (newLevel / 200) * 0.05))
+      (char.value || 1000) * (1 + levelDifference * 0.05)
     );
+    
+    console.log(`[BALANCE] Character ${char.name} leveled up: ${currentLevel} -> ${newLevel}, Stats: ATK=${char.stats.atk}, DEF=${char.stats.def}, HP=${char.stats.hp}`);
   }
 
   char.level = newLevel;
@@ -2666,6 +2683,39 @@ function applyExpItem(charId, expItemId) {
     remainingExpForNextLevel:
       newLevel < maxLevel ? EXP_PER_LEVEL[newLevel + 1] - remainingExp : 0,
   };
+}
+function rebalanceCharacter(char) {
+  if (!char || !char.stats || !char.level) return false;
+  
+  const baseRarity = CHARACTER_RATINGS.FIVE_STAR.includes(char.name) ? 5 :
+                   CHARACTER_RATINGS.FOUR_STAR.includes(char.name) ? 4 : 3;
+  
+  const maxHP = baseRarity * 10000 + (char.starLevel || 0) * 5000;
+  const maxATK = baseRarity * 2000 + (char.starLevel || 0) * 1000;
+  const maxDEF = baseRarity * 1500 + (char.starLevel || 0) * 800;
+  
+  if (char.stats.hp > maxHP || char.stats.atk > maxATK || char.stats.def > maxDEF) {
+    const originalStats = {...char.stats};
+    
+    char.stats.hp = Math.min(char.stats.hp, maxHP);
+    char.stats.atk = Math.min(char.stats.atk, maxATK);
+    char.stats.def = Math.min(char.stats.def, maxDEF);
+    
+    console.log(`[REBALANCE] Character ${char.name} stats adjusted: ` +
+                `HP: ${originalStats.hp} -> ${char.stats.hp}, ` +
+                `ATK: ${originalStats.atk} -> ${char.stats.atk}, ` +
+                `DEF: ${originalStats.def} -> ${char.stats.def}`);
+    
+    return true;
+  }
+  
+  return false;
+}
+function calculateRequiredStones(currentStar, rarity) {
+  const baseRequirement = Math.max(1, currentStar - rarity + 1);
+  const premiumMultiplier = rarity === 5 ? 1.5 : 1;
+  
+  return Math.ceil(baseRequirement * premiumMultiplier);
 }
 function generateStoneId(stoneType) {
   let stoneId;
@@ -2728,23 +2778,26 @@ function calculateCharacterPower(charId) {
   // Lấy các chỉ số cơ bản
   const stats = char.stats || { atk: 100, def: 100, hp: 500 };
   const level = char.level || 1;
-  const stars =
-    char.starLevel ||
-    (CHARACTER_RATINGS.FIVE_STAR.includes(char.name)
-      ? 5
-      : CHARACTER_RATINGS.FOUR_STAR.includes(char.name)
-      ? 4
-      : 3);
+  const stars = char.starLevel || 
+    (CHARACTER_RATINGS.FIVE_STAR.includes(char.name) ? 5 : 
+     CHARACTER_RATINGS.FOUR_STAR.includes(char.name) ? 4 : 3);
 
-  // Tính sức mạnh cơ bản
-  let power = (stats.atk * 2 + stats.def + stats.hp / 10) * (level / 5);
-
+  // Hệ số cân bằng mới cho các chỉ số
+  // Giảm tầm quan trọng của HP, tăng tầm quan trọng của ATK/DEF
+  let power = (stats.atk * 2.0 + stats.def * 1.0 + Math.min(stats.hp, 50000) / 20) * Math.pow(level / 10, 0.4);
+  
   // Thêm hệ số sao
-  power *= 1 + (stars - 3) * 0.5;
+  power *= 1 + (stars - 3) * 0.15;
 
   // Nhân vật premium mạnh hơn một chút
+  if (char.constellation) {
+    // Tăng tuyến tính theo constellation thay vì lũy thừa
+    power *= 1 + (char.constellation * 0.1);
+  }
+
+  // Nhân vật premium mạnh hơn một chút, nhưng không quá mạnh
   if (PREMIUM_FIVE_STARS.includes(char.name)) {
-    power *= 1.2;
+    power *= 1.15; // Giảm từ 1.2 xuống 1.15
   }
 
   return Math.floor(power);
@@ -2760,8 +2813,10 @@ function calculateTeamPower(teamIds) {
 }
 
 function applyElementalAdvantage(attackerTeam, defenderTeam) {
-  let advantageMultiplier = 1.0;
-
+  // Khởi tạo ma trận lợi thế nguyên tố
+  const elementalMatchups = {};
+  
+  // Lặp qua từng nhân vật trong đội tấn công
   for (const attackerId of attackerTeam) {
     const attacker = CHARACTER_IDS[attackerId];
     if (!attacker) continue;
@@ -2769,6 +2824,7 @@ function applyElementalAdvantage(attackerTeam, defenderTeam) {
     const attackerElement = CUSTOM_CHARACTER_DATA[attacker.name]?.element;
     if (!attackerElement) continue;
 
+    // Lặp qua từng nhân vật trong đội phòng thủ
     for (const defenderId of defenderTeam) {
       const defender = CHARACTER_IDS[defenderId];
       if (!defender) continue;
@@ -2776,13 +2832,28 @@ function applyElementalAdvantage(attackerTeam, defenderTeam) {
       const defenderElement = CUSTOM_CHARACTER_DATA[defender.name]?.element;
       if (!defenderElement) continue;
 
+      // Ghi nhận lợi thế nguyên tố cụ thể từng cặp
+      const matchupKey = `${attackerElement}-${defenderElement}`;
+      if (!elementalMatchups[matchupKey]) {
+        elementalMatchups[matchupKey] = 0;
+      }
+
+      // Tăng điểm nếu có lợi thế
       if (ELEMENT_ADVANTAGES[attackerElement]?.includes(defenderElement)) {
-        advantageMultiplier += 0.1;
+        elementalMatchups[matchupKey]++;
       }
     }
   }
 
-  return advantageMultiplier;
+  // Tính toán tổng lợi thế nguyên tố (cân bằng hơn)
+  let advantagePoints = 0;
+  Object.values(elementalMatchups).forEach(points => {
+    advantagePoints += points;
+  });
+
+  // Chuyển đổi thành hệ số nhân (cân bằng hơn, giảm tác động)
+  // Tối đa 25% boost từ lợi thế nguyên tố
+  return 1 + Math.min(0.25, advantagePoints * 0.05);
 }
 function createPvpChallenge(challengerId, targetId, challengerTeam) {
   const challengeId = `PVP_${challengerId}_${targetId}_${Date.now()}`;
@@ -2797,16 +2868,157 @@ function createPvpChallenge(challengerId, targetId, challengerTeam) {
 
   return challengeId;
 }
+
+function analyzeTeamComposition(teamIds) {
+  const elementCounts = {};
+  const roleTypes = {
+    dps: 0,
+    support: 0,
+    healer: 0,
+    tank: 0
+  };
+  
+  // Các nhân vật theo vai trò
+  const characterRoles = {
+    // DPS
+    "Hutao": "dps",
+    "Ganyu": "dps",
+    "Eula": "dps",
+    "Ayaka": "dps",
+    "Raiden Shogun": "dps",
+    "Yelan": "dps",
+    "Arlecchino": "dps",
+    "Keqing": "dps",
+    "Xiao": "dps",
+    "Wanderer": "dps",
+    "Klee": "dps",
+    "Cyno": "dps",
+    "Diluc": "dps",
+    "Jingliu": "dps",
+    "Acheron": "dps",
+    "Tighnari": "dps",
+    
+    // Support
+    "Yae Miko": "support",
+    "Albedo": "support", 
+    "Zhongli": "support",
+    "Venti": "support",
+    "Nahida": "support",
+    "Mona": "support",
+    "Furina": "support",
+    "Bennett": "support",
+    "Xingqiu": "support",
+    "Fischl": "support",
+    "Yaoyao": "support",
+    "RuanMei": "support",
+    "Tingyun": "support",
+    "FuXuan": "support",
+    "Aglaea": "support",
+    
+    // Healer
+    "Jean": "healer",
+    "Qiqi": "healer",
+    "Baizhu": "healer",
+    "Barbara": "healer",
+    "Bailu": "healer",
+    "Kokomi": "healer",
+    "Yaoyao": "healer",
+    
+    // Tank
+    "Zhongli": "tank",
+    "Noelle": "tank",
+    "Diona": "tank",
+    "Thoma": "tank",
+    "Layla": "tank",
+    "Beidou": "tank"
+  };
+  
+  for (const charId of teamIds) {
+    const char = CHARACTER_IDS[charId];
+    if (!char) continue;
+    
+    // Đếm nguyên tố
+    const charInfo = CUSTOM_CHARACTER_DATA[char.name] || {};
+    const element = charInfo.element || "Unknown";
+    elementCounts[element] = (elementCounts[element] || 0) + 1;
+    
+    // Đếm vai trò
+    const role = characterRoles[char.name] || "dps"; // Mặc định là DPS nếu không xác định
+    roleTypes[role]++;
+  }
+  
+  // Đánh giá sự cân bằng của đội hình
+  let teamAnalysis = "";
+  
+  // Kiểm tra sự đa dạng nguyên tố (điều chỉnh cho đội 5 người)
+  const uniqueElements = Object.keys(elementCounts).length;
+  if (uniqueElements >= 4) {
+    teamAnalysis += "✅ Đội hình đa dạng nguyên tố rất tốt\n";
+  } else if (uniqueElements >= 3) {
+    teamAnalysis += "✅ Đội hình đa dạng nguyên tố\n";
+  } else {
+    teamAnalysis += "⚠️ Thiếu sự đa dạng nguyên tố\n";
+  }
+  
+  // Kiểm tra tính cân bằng vai trò (điều chỉnh cho đội 5 người)
+  if (roleTypes.dps >= 2 && roleTypes.support >= 1 && (roleTypes.healer >= 1 || roleTypes.tank >= 1)) {
+    teamAnalysis += "✅ Đội hình cân bằng vai trò rất tốt\n";
+  } else if (roleTypes.dps >= 1 && (roleTypes.support >= 1 || roleTypes.healer >= 1)) {
+    teamAnalysis += "✅ Đội hình cân bằng vai trò cơ bản\n";
+  } else {
+    teamAnalysis += "⚠️ Đội hình thiếu cân bằng về vai trò\n";
+  }
+  
+  // Đề xuất cải thiện
+  let suggestions = "";
+  if (!roleTypes.healer && teamIds.length < 5) {
+    suggestions += "• Thêm nhân vật có khả năng hồi máu\n";
+  }
+  if (roleTypes.dps < 2 && teamIds.length < 5) {
+    suggestions += "• Thêm nhân vật DPS để tăng sát thương\n";
+  }
+  if (!roleTypes.support && teamIds.length < 5) {
+    suggestions += "• Thêm nhân vật hỗ trợ\n";
+  }
+  if (!roleTypes.tank && teamIds.length < 5) {
+    suggestions += "• Thêm nhân vật tank để tăng khả năng sống sót\n";
+  }
+  
+  // Kiểm tra cộng hưởng nguyên tố
+  const resonances = [];
+  if (elementCounts["Pyro"] >= 2) resonances.push("🔥 Cộng hưởng Hỏa: Tăng ATK 25%");
+  if (elementCounts["Cryo"] >= 2) resonances.push("❄️ Cộng hưởng Băng: Tăng Crit Rate 15%");
+  if (elementCounts["Electro"] >= 2) resonances.push("⚡ Cộng hưởng Lôi: Tăng tích lũy năng lượng");
+  if (elementCounts["Hydro"] >= 2) resonances.push("💧 Cộng hưởng Thủy: Tăng hồi máu 30%");
+  if (elementCounts["Anemo"] >= 2) resonances.push("🌪️ Cộng hưởng Phong: Giảm stamina, tăng tốc độ");
+  if (elementCounts["Geo"] >= 2) resonances.push("🪨 Cộng hưởng Nham: Tăng sức mạnh khiên, tăng DMG Geo");
+  if (elementCounts["Dendro"] >= 2) resonances.push("🌿 Cộng hưởng Thảo: Tăng Elemental Mastery");
+  
+  // Đánh giá đặc biệt cho đội 5 người
+  if (teamIds.length >= 4) {
+    if (uniqueElements >= 4) {
+      teamAnalysis += "✨ Đội hình đa dạng nguyên tố tối ưu!\n";
+    }
+    if (resonances.length >= 2) {
+      teamAnalysis += "✨ Kết hợp nhiều cộng hưởng nguyên tố!\n";
+    }
+    if (roleTypes.dps >= 2 && roleTypes.support >= 1 && roleTypes.healer >= 1) {
+      teamAnalysis += "✨ Đội hình cân bằng hoàn hảo!\n";
+    }
+  }
+  
+  return {
+    elementCounts,
+    roleTypes,
+    analysis: teamAnalysis,
+    suggestions: suggestions,
+    resonances: resonances
+  };
+}
 function isAdmin(userId) {
   return ADMIN_IDS.includes(userId);
 }
-async function executePvpBattle(
-  api,
-  threadID,
-  messageID,
-  challengeData,
-  targetTeam
-) {
+async function executePvpBattle(api, threadID, messageID, challengeData, targetTeam) {
   const challenger = challengeData.challenger;
   const target = challengeData.target;
   const challengerTeam = challengeData.challengerTeam;
@@ -2814,26 +3026,22 @@ async function executePvpBattle(
   const challengerPower = calculateTeamPower(challengerTeam);
   const targetPower = calculateTeamPower(targetTeam);
 
-  const challengerAdvantage = applyElementalAdvantage(
-    challengerTeam,
-    targetTeam
-  );
+  const challengerAdvantage = applyElementalAdvantage(challengerTeam, targetTeam);
   const targetAdvantage = applyElementalAdvantage(targetTeam, challengerTeam);
 
   const finalChallengerPower = challengerPower * challengerAdvantage;
   const finalTargetPower = targetPower * targetAdvantage;
 
-  const totalPower = finalChallengerPower + finalTargetPower;
-  const challengerWinRate = (finalChallengerPower / totalPower) * 100;
+  const powerRatio = finalChallengerPower / (finalChallengerPower + finalTargetPower);
+  let baseWinChance = powerRatio * 100;
+  
+  baseWinChance = Math.max(10, Math.min(90, baseWinChance));
 
-  const randomFactor = Math.random() * 30 - 15;
-  const adjustedWinRate = Math.max(
-    5,
-    Math.min(95, challengerWinRate + randomFactor)
-  );
-
+  const randomFactor = Math.random() * 20 - 10;
+  const adjustedWinChance = Math.max(5, Math.min(95, baseWinChance + randomFactor));
+  
   const roll = Math.random() * 100;
-  const challengerWins = roll < adjustedWinRate;
+  const challengerWins = roll < adjustedWinChance;
 
   const gachaData = loadGachaData();
   const winner = challengerWins ? challenger : target;
@@ -2849,17 +3057,54 @@ async function executePvpBattle(
   gachaData[winner].pvpStats.wins++;
   gachaData[winner].pvpStats.seasonWins = (gachaData[winner].pvpStats.seasonWins || 0) + 1;
   
-  // Tính rank mới sau khi thắng
   const newWins = gachaData[winner].pvpStats.wins;
   const newRankInfo = calculatePvPRank(newWins);
   
-  // Kiểm tra thăng hạng
   if (newRankInfo.rank !== oldRankInfo.rank) {
     handleRankPromotion(api, winner, oldRankInfo.rank, newRankInfo.rank, threadID);
   }
   
+  if (!gachaData[challenger].pvpStats) {
+    gachaData[challenger].pvpStats = { wins: 0, losses: 0, lastBattle: 0, seasonWins: 0 };
+  }
+  
+  if (!gachaData[target].pvpStats) {
+    gachaData[target].pvpStats = { wins: 0, losses: 0, lastBattle: 0, seasonWins: 0 };
+  }
+
+  if (challengerWins) {
+    gachaData[challenger].pvpStats.wins = (gachaData[challenger].pvpStats.wins || 0) + 1;
+    gachaData[target].pvpStats.losses = (gachaData[target].pvpStats.losses || 0) + 1;
+    
+    let winReward = PVP_REWARD_WIN;
+    let loseReward = PVP_REWARD_LOSE;
+    
+    if (finalChallengerPower < finalTargetPower) {
+      const powerDiffFactor = finalTargetPower / finalChallengerPower;
+      winReward = Math.floor(PVP_REWARD_WIN * Math.min(2, 1 + (powerDiffFactor - 1) * 0.5));
+    }
+    
+    await updateBalance(challenger, winReward);
+    await updateBalance(target, loseReward);
+  } else {
+    gachaData[challenger].pvpStats.losses = (gachaData[challenger].pvpStats.losses || 0) + 1;
+    gachaData[target].pvpStats.wins = (gachaData[target].pvpStats.wins || 0) + 1;
+    
+    let winReward = PVP_REWARD_WIN;
+    let loseReward = PVP_REWARD_LOSE;
+    
+    if (finalTargetPower < finalChallengerPower) {
+      const powerDiffFactor = finalChallengerPower / finalTargetPower;
+      winReward = Math.floor(PVP_REWARD_WIN * Math.min(2, 1 + (powerDiffFactor - 1) * 0.5));
+    }
+    
+    await updateBalance(challenger, loseReward);
+    await updateBalance(target, winReward);
+  }
+
+  gachaData[challenger].pvpStats.lastBattle = Date.now();
+  gachaData[target].pvpStats.lastBattle = Date.now();
   saveGachaData(gachaData);
-  // Xử lý thắng/thua và phần thưởng
   if (!gachaData[challenger].pvpStats) {
     gachaData[challenger].pvpStats = { wins: 0, losses: 0, lastBattle: 0 };
   }
@@ -2883,7 +3128,6 @@ async function executePvpBattle(
   gachaData[target].pvpStats.lastBattle = Date.now();
   saveGachaData(gachaData);
 
-  // Lấy thông tin người chơi
   const userDataPath = path.join(__dirname, "../events/cache/userData.json");
   let userData = {};
   try {
@@ -2894,13 +3138,11 @@ async function executePvpBattle(
   const challengerName = userData[challenger]?.name || "Người chơi 1";
   const targetName = userData[target]?.name || "Người chơi 2";
 
-  // Tạo dữ liệu nhân vật chi tiết cho cả hai đội
   const challengerTeamDetails = await Promise.all(
     challengerTeam.map(async (charId) => {
       const char = CHARACTER_IDS[charId];
       if (!char) return null;
 
-      // Xác định rarity gốc của nhân vật từ danh sách
       const baseRarity = CHARACTER_RATINGS.FIVE_STAR.includes(char.name)
         ? 5
         : CHARACTER_RATINGS.FOUR_STAR.includes(char.name)
@@ -2910,15 +3152,14 @@ async function executePvpBattle(
       const charInfo = CUSTOM_CHARACTER_DATA[char.name] || {};
       const image = CUSTOM_CHARACTER_IMAGES[char.name];
 
-      // Tạo cấu trúc đúng như trong gachatest.js
       return {
         name: char.name,
         element: charInfo.element || "Unknown",
         level: char.level || 1,
-        rarity: baseRarity, // Đây là độ hiếm gốc (không phải starLevel)
+        rarity: baseRarity, 
         image: image,
         isPremium: PREMIUM_FIVE_STARS.includes(char.name),
-        starLevel: char.starLevel, // Đây là số sao sau tiến hóa
+        starLevel: char.starLevel,
         currentLevel: char.level,
       };
     })
@@ -2942,16 +3183,15 @@ async function executePvpBattle(
         name: char.name,
         element: charInfo.element || "Unknown",
         level: char.level || 1,
-        rarity: baseRarity, // Độ hiếm gốc
+        rarity: baseRarity, 
         image: image,
         isPremium: PREMIUM_FIVE_STARS.includes(char.name),
-        starLevel: char.starLevel, // Số sao sau tiến hóa
+        starLevel: char.starLevel, 
         currentLevel: char.level,
       };
     })
   );
   try {
-    // Tạo ảnh trận đấu PVP
     const battleImage = await createPvPBattleImage({
       challenger,
       target,
@@ -2971,7 +3211,7 @@ async function executePvpBattle(
         winnerReward: PVP_REWARD_WIN,
         reward: PVP_REWARD_WIN,
       },
-      rankInfo: newRankInfo, // Thêm thông tin rank
+      rankInfo: newRankInfo,
       seasonInfo: {
         id: PVP_SEASONS.current.id,
         name: PVP_SEASONS.current.name
@@ -2979,9 +3219,12 @@ async function executePvpBattle(
     });
 
     let resultMessage = `⚔️ KẾT QUẢ TRẬN ĐẤU PVP ⚔️\n\n`;
-    resultMessage += `🏆 ${challengerWins ? challengerName : targetName} đã chiến thắng!\n`;
-    resultMessage += `💰 Phần thưởng: $${PVP_REWARD_WIN.toLocaleString()}\n`;
-    resultMessage += `${newRankInfo.rank !== oldRankInfo.rank ? `\n🎉 Thăng hạng: ${oldRankInfo.rank} ➡️ ${newRankInfo.rank}!` : ""}`;
+  resultMessage += `🏆 ${challengerWins ? challengerName : targetName} đã chiến thắng!\n`;
+  resultMessage += `💰 Phần thưởng: $${challengerWins ? winReward : PVP_REWARD_WIN}\n`;
+  resultMessage += `📊 Cơ hội thắng ban đầu: ${baseWinChance.toFixed(1)}%\n`;
+  resultMessage += `📊 Cơ hội thắng có bổ trợ: ${adjustedWinChance.toFixed(1)}%\n`;
+  resultMessage += `🎲 Kết quả roll: ${roll.toFixed(1)}\n`;
+  resultMessage += `${newRankInfo.rank !== oldRankInfo.rank ? `\n🎉 Thăng hạng: ${oldRankInfo.rank} ➡️ ${newRankInfo.rank}!` : ""}`;
 
     return api.sendMessage(
       {
@@ -2990,15 +3233,14 @@ async function executePvpBattle(
       },
       threadID,
       () => {
-        // Xóa file tạm sau khi gửi
         fs.unlinkSync(battleImage);
       },
       messageID
     );
+
   } catch (error) {
     console.error("Error creating PvP battle image:", error);
 
-    // Trở về phiên bản văn bản nếu tạo ảnh thất bại
     let fallbackMessage = `⚔️ KẾT QUẢ TRẬN ĐẤU PVP ⚔️\n`;
     fallbackMessage += `━━━━━━━━━━━━━━━━━━━━━\n\n`;
     fallbackMessage += `👤 ${challengerName} (${Math.floor(
@@ -4357,10 +4599,17 @@ function upgradeCharacter(charId1, charId2, userData, forceType = null) {
     const newStar = currentStar + 1;
     const baseStats = char1.stats || { atk: 100, def: 100, hp: 500 };
     const isLimited = PREMIUM_FIVE_STARS.includes(char1.name);
-
+  
+    // Reduce multiplier growth factor from 0.5/0.8 to 0.25/0.4
     const bonusMultiplier = isLimited
-      ? 1 + (newStar - 4) * 0.8
-      : 1 + (newStar - 4) * 0.5; 
+    ? 1 + (newStar - rarity) * 0.3  // Giảm từ 0.4 xuống 0.3
+    : 1 + (newStar - rarity) * 0.2; 
+  
+    const maxStats = {
+      atk: rarity * 1000 + (newStar - rarity) * 500,
+      def: rarity * 800 + (newStar - rarity) * 400,
+      hp: rarity * 5000 + (newStar - rarity) * 2500
+    };
 
     CHARACTER_IDS[newCharId] = {
       name: char1.name,
@@ -4369,27 +4618,30 @@ function upgradeCharacter(charId1, charId2, userData, forceType = null) {
       level: Math.max(char1.level || 1, char2.level || 1),
       value:
         (char1.value || (rarity === 5 ? 1000000 : 10000)) *
-        (isLimited ? 3 : 2) *
+        (isLimited ? 2 : 1.5) *
         bonusMultiplier,
       stats: {
-        atk: Math.floor(
-          ((char1.stats?.atk || 100) + (char2.stats?.atk || 100)) *
-            bonusMultiplier
-        ),
-        def: Math.floor(
-          ((char1.stats?.def || 100) + (char2.stats?.def || 100)) *
-            bonusMultiplier
-        ),
-        hp: Math.floor(
-          ((char1.stats?.hp || 500) + (char2.stats?.hp || 500)) *
-            bonusMultiplier
-        ),
+          atk: Math.min(maxStats.atk, Math.floor(
+          Math.max(char1.stats?.atk || 100, char2.stats?.atk || 100) * 
+          (1 + (Math.min(char1.stats?.atk || 100, char2.stats?.atk || 100) * 0.3) / 100) * 
+          bonusMultiplier
+        )),
+        def: Math.min(maxStats.def, Math.floor(
+          Math.max(char1.stats?.def || 100, char2.stats?.def || 100) * 
+          (1 + (Math.min(char1.stats?.def || 100, char2.stats?.def || 100) * 0.3) / 100) * 
+          bonusMultiplier
+        )),
+        hp: Math.min(maxStats.hp, Math.floor(
+          Math.max(char1.stats?.hp || 500, char2.stats?.hp || 500) * 
+          (1 + (Math.min(char1.stats?.hp || 500, char2.stats?.hp || 500) * 0.3) / 100) * 
+          bonusMultiplier
+        )),
       },
     };
-
+  
     userData.inventory.push(newCharId);
     saveCharacterDatabase();
-
+  
     return {
       success: true,
       type: "evolved",
@@ -4509,6 +4761,12 @@ function getDetailedHelp() {
 3⃣ Sử dụng lệnh: .gacha upgrade #ID1 #ID2 #ID_ĐÁ
 
 🔄 Ví dụ: .gacha upgrade #1234 #5678 #9012
+
+💎 YÊU CẦU ĐÁ TIẾN HÓA:
+• Số đá cần thiết = (Cấp sao hiện tại - Độ hiếm cơ bản + 1)
+• Ví dụ: Nhân vật 5★ tiến lên 6★ cần 2 đá
+• Ví dụ: Nhân vật 5★ tiến lên 8★ cần 4 đá
+• Nhân vật Limited/Premium cần nhiều đá hơn
 
 💎 VỀ ĐÁ TIẾN HÓA:
 • Mỗi nhân vật cần đá cùng nguyên tố (🔥 Pyro, 💧 Hydro...)
@@ -5498,20 +5756,23 @@ module.exports = {
       }
       case "pvp": {
         const pvpAction = target[1]?.toLowerCase();
-
+      
         if (!pvpAction) {
           return api.sendMessage(
-            "⚔️ HƯỚNG DẪN PVP ⚔️\n" +
-              "───────────────\n\n" +
-              "1️⃣ Thiết lập đội hình:\n" +
-              ".gacha pvp team #ID1 #ID2 #ID3\n\n" +
-              "2️⃣ Thách đấu người chơi:\n" +
-              ".gacha pvp challenge @tên\n\n" +
-              "3️⃣ Chấp nhận/từ chối:\n" +
-              ".gacha pvp accept #ID_THÁCH_ĐẤU\n" +
-              ".gacha pvp decline #ID_THÁCH_ĐẤU\n\n" +
-              "4️⃣ Xem thống kê PVP:\n" +
-              ".gacha pvp stats",
+            "⚔️ HỆ THỐNG PVP CẢI TIẾN ⚔️\n" +
+            "───────────────\n\n" +
+            "1️⃣ Thiết lập đội hình (tối đa 5 nhân vật):\n" +
+            ".gacha pvp team #ID1 #ID2 #ID3 #ID4 #ID5\n\n" +
+            "2️⃣ Phân tích đội hình:\n" +
+            ".gacha analyze\n\n" +
+            "3️⃣ Thách đấu người chơi:\n" +
+            ".gacha pvp challenge @tên\n\n" +
+            "4️⃣ Chấp nhận/từ chối:\n" +
+            ".gacha pvp accept #ID_THÁCH_ĐẤU\n" +
+            ".gacha pvp decline #ID_THÁCH_ĐẤU\n\n" +
+            "5️⃣ Xem thống kê PVP:\n" +
+            ".gacha pvp stats\n\n" +
+            "💡 Đội hình lớn hơn (5 nhân vật) giúp tận dụng cộng hưởng nguyên tố và vai trò tốt hơn!",
             threadID,
             messageID
           );
@@ -5519,62 +5780,79 @@ module.exports = {
 
         switch (pvpAction) {
           case "team": {
-            // Xử lý thiết lập đội hình
             if (!target[2]) {
               return api.sendMessage(
-                "❌ Bạn phải chọn ít nhất 1 nhân vật cho đội hình PVP!\n" +
-                  "Cách dùng: .gacha pvp team #ID1 #ID2 #ID3",
+                "❌ Vui lòng cung cấp ID nhân vật cho đội hình PVP!\n\n" +
+                "📝 Cú pháp:\n.gacha pvp team #ID1 #ID2 ... #ID5\n" +
+                "💡 Bạn có thể chọn từ 1-5 nhân vật cho đội hình\n" +
+                "⚠️ Chỉ nhân vật mới có thể tham gia (không dùng được đá, mảnh đá, hoặc vật phẩm)",
                 threadID,
                 messageID
               );
             }
-
-            // Thu thập ID nhân vật
-            const teamIds = [];
-            for (let i = 2; i < Math.min(5, target.length); i++) {
+          
+            const characterIds = [];
+            const maxTeamSize = 5;
+            
+            for (let i = 2; i < 2 + maxTeamSize && i < target.length; i++) {
               const inputId = target[i].replace(/[^\d]/g, "");
-
-              let foundCharId = null;
-              for (const charId of userData.inventory) {
-                if (
-                  charId.startsWith("CHAR_") &&
-                  (charId.endsWith(inputId) || charId.includes(inputId))
-                ) {
-                  foundCharId = charId;
-                  break;
+              if (inputId) {
+                let foundId = null;
+                
+                for (const charId of userData.inventory) {
+                  if (charId.startsWith("CHAR_") && (charId.endsWith(inputId) || charId.includes(inputId))) {
+                    foundId = charId;
+                    break;
+                  }
+                }
+                
+                if (foundId) {
+                  if (!characterIds.includes(foundId)) {
+                    characterIds.push(foundId);
+                  }
+                } else {
+                  return api.sendMessage(
+                    `❌ Không tìm thấy nhân vật với ID #${inputId}!\n\n` +
+                    "💡 Dùng .gacha inv để xem danh sách nhân vật",
+                    threadID,
+                    messageID
+                  );
                 }
               }
-
-              if (!foundCharId) {
-                return api.sendMessage(
-                  `❌ Không tìm thấy nhân vật với ID #${inputId}!`,
-                  threadID,
-                  messageID
-                );
-              }
-
-              teamIds.push(foundCharId);
             }
-
-            // Lưu đội hình PVP
-            if (!userData.pvpTeam) {
-              userData.pvpTeam = [];
+          
+            if (characterIds.length === 0) {
+              return api.sendMessage(
+                "❌ Bạn phải chọn ít nhất 1 nhân vật cho đội hình PVP!",
+                threadID,
+                messageID
+              );
             }
-
-            userData.pvpTeam = teamIds;
+          
+            // Cập nhật đội hình PVP
+            userData.pvpTeam = characterIds;
             saveGachaData(gachaData);
-
-            // Hiển thị thông tin đội hình
-            const teamPower = calculateTeamPower(teamIds);
-            const teamInfo = await formatTeamInfo(teamIds);
-
+          
+            // Tạo thông tin về đội hình
+            const teamInfo = await formatTeamInfo(characterIds);
+            const teamPower = calculateTeamPower(characterIds);
+            
+            // Thêm phân tích đội hình
+            const analysis = analyzeTeamComposition(characterIds);
+            let resonanceInfo = "";
+            if (analysis.resonances.length > 0) {
+              resonanceInfo = "\n\n✨ CỘNG HƯỞNG NGUYÊN TỐ:\n" + analysis.resonances.join("\n");
+            }
+          
             return api.sendMessage(
-              "✅ THIẾT LẬP ĐỘI HÌNH PVP THÀNH CÔNG!\n\n" +
-                "👥 Đội hình của bạn:\n" +
-                teamInfo +
-                "\n" +
-                `💪 Tổng sức mạnh: ${teamPower.toLocaleString()}\n\n` +
-                "Sử dụng '.gacha pvp challenge @tên' để thách đấu!",
+              "✅ ĐÃ THIẾT LẬP ĐỘI HÌNH PVP! ✅\n" +
+              "───────────────\n\n" +
+              "👥 Đội hình của bạn:\n" +
+              teamInfo + "\n" +
+              `💪 Sức mạnh: ${teamPower.toLocaleString()}\n` +
+              `🛡️ Số nhân vật: ${characterIds.length}/5` + resonanceInfo + "\n\n" +
+              "💡 Bạn có thể phân tích đội hình với:\n.gacha analyze\n" +
+              "⚔️ Thách đấu với:\n.gacha pvp challenge @tên",
               threadID,
               messageID
             );
@@ -5651,7 +5929,6 @@ module.exports = {
           }
 
           case "accept": {
-            // Kiểm tra ID thách đấu
             if (!target[2]) {
               return api.sendMessage(
                 "❌ Bạn phải cung cấp ID thách đấu!\n" +
@@ -5824,6 +6101,72 @@ module.exports = {
           }
         }
       }
+      case "analyze": {
+     
+      if (!userData.pvpTeam || userData.pvpTeam.length === 0) {
+        return api.sendMessage(
+          "❌ Bạn chưa thiết lập đội hình PVP!\n" +
+          "Sử dụng lệnh: .gacha pvp team #ID1 #ID2 #ID3",
+          threadID,
+          messageID
+        );
+      }
+      
+      const teamPower = calculateTeamPower(userData.pvpTeam);
+      const teamInfo = await formatTeamInfo(userData.pvpTeam);
+      const analysis = analyzeTeamComposition(userData.pvpTeam);
+      
+      let elementText = "📊 Phân bố nguyên tố:\n";
+      for (const [element, count] of Object.entries(analysis.elementCounts)) {
+        const elementEmoji = {
+          "Pyro": "🔥",
+          "Hydro": "💧", 
+          "Anemo": "🌪️",
+          "Electro": "⚡",
+          "Cryo": "❄️",
+          "Geo": "🪨",
+          "Dendro": "🌿",
+          "Unknown": "❓"
+        }[element] || "❓";
+        
+        elementText += `${elementEmoji} ${element}: ${count}\n`;
+      }
+      
+      let roleText = "👥 Phân bố vai trò:\n";
+      roleText += `⚔️ DPS: ${analysis.roleTypes.dps}\n`;
+      roleText += `🛡️ Tank: ${analysis.roleTypes.tank}\n`;
+      roleText += `💫 Support: ${analysis.roleTypes.support}\n`;
+      roleText += `💚 Healer: ${analysis.roleTypes.healer}\n`;
+      
+      let resonanceText = "";
+      if (analysis.resonances.length > 0) {
+        resonanceText = "✨ Cộng hưởng nguyên tố:\n";
+        resonanceText += analysis.resonances.join("\n");
+      }
+      
+      let suggestionText = "";
+      if (analysis.suggestions) {
+        suggestionText = "💡 Đề xuất cải thiện:\n";
+        suggestionText += analysis.suggestions;
+      }
+      
+      return api.sendMessage(
+        "📋 PHÂN TÍCH ĐỘI HÌNH PVP 📋\n" +
+        "───────────────\n\n" +
+        "👥 Đội hình của bạn:\n" +
+        teamInfo + "\n" +
+        `💪 Sức mạnh tổng: ${teamPower.toLocaleString()}\n\n` +
+        elementText + "\n" +
+        roleText + "\n" +
+        (resonanceText ? resonanceText + "\n\n" : "\n") +
+        "📊 Đánh giá đội hình:\n" +
+        analysis.analysis + "\n" +
+        (suggestionText ? suggestionText : ""),
+        threadID,
+        messageID
+      );
+    }
+    
       case "const":
       case "constellation": {
         if (!target[1] || !target[2]) {
@@ -6281,7 +6624,9 @@ module.exports = {
 
         return api.sendMessage(
           {
-            body: inventoryMessage,
+            body: inventoryMessage + 
+                  "\n⚠️ CHÚ Ý: Nhân vật sao càng cao càng cần nhiều đá tiến hóa!\n" +
+                  "💎 Công thức: Cần (Số sao hiện tại - Độ hiếm cơ bản + 1) đá tiến hóa",
             attachment: fs.createReadStream(inventoryImage),
           },
           threadID,
@@ -6779,6 +7124,7 @@ module.exports = {
               );
             }
           
+            // Tìm nhân vật từ ID
             const inputId1 = target[1].replace(/[^\d]/g, "");
             let foundCharId1 = null;
             for (const charId of userData.inventory) {
@@ -6803,16 +7149,10 @@ module.exports = {
               }
             }
           
-            if (!foundCharId1) {
+            // Kiểm tra tồn tại nhân vật
+            if (!foundCharId1 || !foundCharId2) {
               return api.sendMessage(
-                `❌ Không tìm thấy nhân vật với ID #${inputId1}!\n\n💡 Dùng .gacha inv để xem ID nhân vật`,
-                threadID,
-                messageID
-              );
-            }
-            if (!foundCharId2) {
-              return api.sendMessage(
-                `❌ Không tìm thấy nhân vật với ID #${inputId2}!\n\n💡 Dùng .gacha inv để xem ID nhân vật`,
+                `❌ Không tìm thấy nhân vật!\n\n💡 Dùng .gacha inv để xem ID nhân vật`,
                 threadID,
                 messageID
               );
@@ -6821,123 +7161,97 @@ module.exports = {
             const char1 = CHARACTER_IDS[foundCharId1];
             const char2 = CHARACTER_IDS[foundCharId2];
           
-            if (!char1 || !char2) {
-              return api.sendMessage(
-                "❌ Không tìm thấy thông tin nhân vật!",
-                threadID,
-                messageID
-              );
-            }
-          
+            // Kiểm tra nhân vật cùng loại
             if (char1.name !== char2.name) {
               return api.sendMessage(
                 `❌ Hai nhân vật phải CÙNG LOẠI!\n\n` +
                   `• Nhân vật 1: ${char1.name}\n` +
-                  `• Nhân vật 2: ${char2.name}\n\n` +
-                  `💡 Chọn hai nhân vật cùng tên để tiến hóa`,
+                  `• Nhân vật 2: ${char2.name}\n\n`,
                 threadID,
                 messageID
               );
             }
           
-            const star1 =
-              char1.starLevel ||
-              (CHARACTER_RATINGS.FIVE_STAR.includes(char1.name) ? 5 : 4);
-            const star2 =
-              char2.starLevel ||
-              (CHARACTER_RATINGS.FIVE_STAR.includes(char2.name) ? 5 : 4);
-          
+            // Kiểm tra độ hiếm và nguyên tố
+            const rarity = CHARACTER_RATINGS.FIVE_STAR.includes(char1.name) ? 5 : 4;
+            const star1 = char1.starLevel || rarity;
+            const star2 = char2.starLevel || rarity;
+            
+            // Kiểm tra cùng số sao
             if (star1 !== star2) {
               return api.sendMessage(
                 `❌ Hai nhân vật phải có CÙNG SỐ SAO!\n\n` +
                   `• ${char1.name}: ${star1}★\n` +
-                  `• ${char2.name}: ${star2}★\n\n` +
-                  `💡 Chọn hai nhân vật có cùng số sao để tiến hóa`,
+                  `• ${char2.name}: ${star2}★\n\n`,
                 threadID,
                 messageID
               );
             }
-          
+            
+            // Xác định nguyên tố trước khi tính toán đá cần thiết
             const charInfo = CUSTOM_CHARACTER_DATA[char1.name];
             const charElement = charInfo?.element?.toUpperCase() || "UNKNOWN";
             
-            let foundStoneId = null;
+            // Tính số đá cần thiết
+            const requiredStones = calculateRequiredStones(star1, rarity);
             
-            // Tự động tìm đá phù hợp
-            // 1. Tìm đá cùng nguyên tố trước
+            // Đếm số đá phù hợp trong kho đồ
+            let matchingStones = [];
+            let universalStones = [];
+            
             for (const id of userData.inventory) {
-              if (id.startsWith("STONE_") && id.includes(charElement)) {
-                foundStoneId = id;
-                break;
-              }
-            }
-            
-            // 2. Nếu không có đá cùng nguyên tố, tìm đá universal
-            if (!foundStoneId) {
-              for (const id of userData.inventory) {
-                if (id.startsWith("STONE_") && id.includes("UNIVERSAL")) {
-                  foundStoneId = id;
-                  break;
+              if (id.startsWith("STONE_")) {
+                const stone = CHARACTER_IDS[id];
+                if (stone.stoneType === charElement) {
+                  matchingStones.push(id);
+                } else if (stone.stoneType === "UNIVERSAL") {
+                  universalStones.push(id);
                 }
               }
             }
             
-            // 3. Nếu vẫn không tìm thấy, tìm đá bất kỳ
-            if (!foundStoneId) {
-              for (const id of userData.inventory) {
-                if (id.startsWith("STONE_")) {
-                  foundStoneId = id;
-                  break;
-                }
-              }
-            }
-          
-            if (!foundStoneId) {
+            // Kiểm tra xem có đủ đá không
+            const totalAvailableStones = matchingStones.length + universalStones.length;
+            
+            if (totalAvailableStones < requiredStones) {
               return api.sendMessage(
-                `❌ KHÔNG TÌM THẤY ĐÁ TIẾN HÓA!\n\n` +
-                  `• Nhân vật: ${char1.name} (${charInfo?.element || "Unknown"})\n` +
-                  `• Cần đá tiến hóa phù hợp với nguyên tố ${charElement}\n\n` +
-                  `💡 Dùng .gacha inv để xem danh sách đá tiến hóa trong kho đồ\n` +
-                  `💡 Bạn có thể ghép 10 mảnh đá thành 1 đá tiến hóa`,
+                `❌ KHÔNG ĐỦ ĐÁ TIẾN HÓA!\n\n` +
+                `• Nhân vật: ${char1.name} (${star1}★)\n` +
+                `• Cần: ${requiredStones} đá ${ELEMENTAL_STONES[charElement]?.name || "phù hợp"}\n` +
+                `• Hiện có: ${matchingStones.length} đá ${charElement}, ${universalStones.length} đá Universe\n\n` +
+                `💡 Số đá cần thiết tăng theo cấp sao của nhân vật\n` +
+                `💎 Công thức: (Số sao hiện tại - Độ hiếm cơ bản + 1) đá`,
                 threadID,
                 messageID
               );
             }
           
-            const stone = CHARACTER_IDS[foundStoneId];
-            const stoneElement = stone.stoneType;
-          
-            if (stoneElement !== "UNIVERSAL" && stoneElement !== charElement) {
-              return api.sendMessage(
-                `❌ ĐÁ TIẾN HÓA KHÔNG PHÙ HỢP!\n\n` +
-                  `• Nhân vật: ${char1.name} (${charInfo?.element || "Unknown"})\n` +
-                  `• Đá: ${stone.name} (${stone.element})\n\n` +
-                  `💡 Cần đá ${ELEMENTAL_STONES[charElement]?.name || "phù hợp"} hoặc Brilliant Diamond 💎\n` +
-                  `💡 Hệ thống đã tự tìm đá nhưng không có loại phù hợp`,
-                threadID,
-                messageID
-              );
-            }
-          
-            const rarity = CHARACTER_RATINGS.FIVE_STAR.includes(char1.name) ? 5 : 4;
+            // Kiểm tra đạt cấp tối đa chưa
             const maxStar = rarity === 5 ? 12 : 8;
-          
             if (star1 >= maxStar) {
               return api.sendMessage(
-                `❌ NHÂN VẬT ĐÃ ĐẠT CAO NHẤT!\n\n` +
+                `❌ NHÂN VẬT ĐÃ ĐẠT TỐI ĐA!\n\n` +
                   `• ${char1.name} đã đạt ${star1}★/${maxStar}★\n` +
-                  `• Không thể tiến hóa thêm\n\n` +
-                  `💡 Nhân vật ${rarity}★ chỉ có thể tiến hóa tối đa ${maxStar}★`,
+                  `• Không thể tiến hóa thêm\n\n`,
                 threadID,
                 messageID
               );
             }
-          
+            
+            // Sử dụng đá tiến hóa
+            const elemStonesToUse = Math.min(matchingStones.length, requiredStones);
+            const universalStonesToUse = requiredStones - elemStonesToUse;
+            const stonesToUse = [
+              ...matchingStones.slice(0, elemStonesToUse),
+              ...universalStones.slice(0, universalStonesToUse)
+            ];
+            
+            // Xử lý tiến hóa
             const newCharId = generateCharacterId();
             const newStar = star1 + 1;
-          
             const baseStats = char1.stats || { atk: 100, def: 100, hp: 500 };
-            const bonusMultiplier = 1 + (newStar - rarity) * 0.5;
+            const isLimited = PREMIUM_FIVE_STARS.includes(char1.name);
+            const bonusMultiplier = isLimited ? 1 + (newStar - rarity) * 0.4 : 1 + (newStar - rarity) * 0.25;
           
             CHARACTER_IDS[newCharId] = {
               type: "character",
@@ -6945,51 +7259,38 @@ module.exports = {
               obtainedAt: Date.now(),
               starLevel: newStar,
               level: Math.max(char1.level || 1, char2.level || 1),
-              value:
-                (char1.value || (rarity === 5 ? 1000000 : 10000)) *
-                2 *
-                bonusMultiplier,
+              value: (char1.value || (rarity === 5 ? 1000000 : 10000)) * (isLimited ? 2 : 1.5) * bonusMultiplier,
               stats: {
-                atk: Math.floor(
-                  ((char1.stats?.atk || 100) + (char2.stats?.atk || 100)) *
-                    bonusMultiplier
-                ),
-                def: Math.floor(
-                  ((char1.stats?.def || 100) + (char2.stats?.def || 100)) *
-                    bonusMultiplier
-                ),
-                hp: Math.floor(
-                  ((char1.stats?.hp || 500) + (char2.stats?.hp || 500)) *
-                    bonusMultiplier
-                ),
+                atk: Math.floor(Math.max(char1.stats?.atk || 100, char2.stats?.atk || 100) * 
+                     (1 + (Math.min(char1.stats?.atk || 100, char2.stats?.atk || 100) * 0.3) / 100) * 
+                     bonusMultiplier),
+                def: Math.floor(Math.max(char1.stats?.def || 100, char2.stats?.def || 100) * 
+                     (1 + (Math.min(char1.stats?.def || 100, char2.stats?.def || 100) * 0.3) / 100) * 
+                     bonusMultiplier),
+                hp: Math.floor(Math.max(char1.stats?.hp || 500, char2.stats?.hp || 500) * 
+                     (1 + (Math.min(char1.stats?.hp || 500, char2.stats?.hp || 500) * 0.3) / 100) * 
+                     bonusMultiplier),
               },
             };
           
+            // Xóa nhân vật và đá khỏi inventory
             userData.inventory = userData.inventory.filter(
-              (id) =>
-                id !== foundCharId1 && id !== foundCharId2 && id !== foundStoneId
+              (id) => id !== foundCharId1 && id !== foundCharId2 && !stonesToUse.includes(id)
             );
-          
+            
+            // Thêm nhân vật mới vào inventory
             userData.inventory.push(newCharId);
-          
+            
+            // Lưu dữ liệu
             saveCharacterDatabase();
             saveGachaData(gachaData);
-          
-            const atkIncrease = Math.floor(
-              ((CHARACTER_IDS[newCharId].stats.atk - baseStats.atk) /
-                baseStats.atk) *
-                100
-            );
-            const defIncrease = Math.floor(
-              ((CHARACTER_IDS[newCharId].stats.def - baseStats.def) /
-                baseStats.def) *
-                100
-            );
-            const hpIncrease = Math.floor(
-              ((CHARACTER_IDS[newCharId].stats.hp - baseStats.hp) / baseStats.hp) *
-                100
-            );
-          
+            
+            // Tính % tăng chỉ số
+            const atkIncrease = Math.floor(((CHARACTER_IDS[newCharId].stats.atk - baseStats.atk) / baseStats.atk) * 100);
+            const defIncrease = Math.floor(((CHARACTER_IDS[newCharId].stats.def - baseStats.def) / baseStats.def) * 100);
+            const hpIncrease = Math.floor(((CHARACTER_IDS[newCharId].stats.hp - baseStats.hp) / baseStats.hp) * 100);
+            
+            // Hiển thị thông báo với thông tin về đá đã dùng
             return api.sendMessage(
               "🌟 TIẾN HÓA THÀNH CÔNG! 🌟\n" +
                 "━━━━━━━━━━━━━━━━━━━━━\n\n" +
@@ -7001,12 +7302,13 @@ module.exports = {
                 `❤️ HP: ${CHARACTER_IDS[newCharId].stats.hp} (+${hpIncrease}%)\n\n` +
                 `💰 Giá trị: $${CHARACTER_IDS[newCharId].value.toLocaleString()}\n` +
                 `🆔 ID mới: #${newCharId.slice(-4)}\n\n` +
-                `${stone.emoji} Đã sử dụng: ${stone.name} (Tự động tìm)\n` +
-                `📝 Lưu ý: Cả 2 nhân vật gốc và đá tiến hóa đã biến mất`,
+                `💎 Đã sử dụng: ${requiredStones} đá tiến hóa\n` +
+                `⚠️ Nhân vật sao càng cao càng cần nhiều đá để tiến hóa`,
               threadID,
               messageID
             );
           }
+          
 case "admin": {
   if (!isAdmin(senderID)) {
     return api.sendMessage("❌ Bạn không có quyền truy cập chức năng này!", threadID, messageID);

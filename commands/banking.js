@@ -1,6 +1,6 @@
 const fs = require('fs');
 const path = require('path');
-const { getBalance, updateBalance } = require('../utils/currencies');
+const { getBalance, updateBalance, calculateAdvancedInterest, executeClojureCalculation } = require('../utils/currencies');
 const { getVIPBenefits } = require('../vip/vipCheck');
 
 function formatNumber(number) {
@@ -607,6 +607,20 @@ module.exports = {
                 case "check":
                     try {
                         const creditInfo = calculateDetailedCreditScore(senderID, bankingData);
+                        
+                        // Add advanced risk assessment using Clojure
+                        const riskAssessment = await executeClojureCalculation('risk', {
+                            transactions: bankingData.transactions[senderID] || [],
+                            balance: bankBalance,
+                            creditScore: creditInfo.score
+                        });
+                        
+                        // Add portfolio optimization
+                        const portfolioSuggestion = await executeClojureCalculation('portfolio', {
+                            totalAssets: walletBalance + bankBalance,
+                            riskScore: riskAssessment.score
+                        });
+
                         const transactions = bankingData.transactions[senderID] || [];
                         const activeLoan = bankingData.loans[senderID];
                         const recentTrans = transactions.slice(-3);
@@ -627,16 +641,17 @@ module.exports = {
                         }
 
                         return api.sendMessage(
-                            "🏦 THÔNG TIN TÀI KHOẢN 🏦\n" +
+                            "🏦 THÔNG TIN TÀI CHÍNH NÂNG CAO 🏦\n" +
                             "━━━━━━━━━━━━━━━━━━\n" +
                             `💰 Số dư ví: ${walletBalance.toLocaleString('vi-VN')} $\n` +
                             `🏦 Số dư ngân hàng: ${bankBalance.toLocaleString('vi-VN')} $\n` +
                             `💵 Tổng tài sản: ${(walletBalance + bankBalance).toLocaleString('vi-VN')} $\n\n` +
                             `📊 Điểm tín dụng: ${creditInfo.score}/100\n` +
-                            `├─ Giao dịch: ${Math.min(100, Math.round(creditInfo.details.transactionScore.score))}%\n` +
-                            `├─ Độ tuổi tài khoản: ${creditInfo.details.ageScore.days} ngày\n` +
-                            `├─ Độ ổn định: ${Math.min(100, Math.round(creditInfo.details.stabilityScore.score))}%\n` +
-                            `└─ Lịch sử vay: ${Math.round(creditInfo.details.loanScore.score * 100)}%\n\n` +
+                            `🎯 Đánh giá rủi ro: ${riskAssessment.category}\n` +
+                            `📈 Điểm rủi ro: ${Math.round(riskAssessment.score)}/100\n\n` +
+                            "💡 Đề xuất phân bổ tài sản:\n" +
+                            `├─ Tiết kiệm: ${Math.round(portfolioSuggestion.savings).toLocaleString('vi-VN')} $\n` +
+                            `└─ Đầu tư: ${Math.round(portfolioSuggestion.investments).toLocaleString('vi-VN')} $\n\n` +
                             `📝 Giao dịch gần đây:\n${transHistory}${loanInfo}`,
                             threadID, messageID
                         );
