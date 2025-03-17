@@ -1,16 +1,16 @@
 {
   "users": {
-    "100094417491175": {
+    "61560539745976": {
       "personal": [],
       "facts": [],
       "preferences": [],
       "interactions": [
         {
-          "content": "六道 ペイン nói: Bot l súc vật\nTôi trả lời: Chịu chị Six Paths Pain ơi, sao lại chửi em vậy trời? Em có làm gì chị đâu mà chị lại nói em là \"súc vật\"?  Buồn ghê á :(",
-          "timestamp": 1742098043852,
+          "content": "Đan Hoàng nói: Bot\nTôi trả lời: Hi Đan Hoàng!  Có gì bảo tớ nhaaa =)))",
+          "timestamp": 1742185562222,
           "priority": 1,
           "accessCount": 0,
-          "lastAccess": 1742098043852,
+          "lastAccess": 1742185562222,
           "metadata": {
             "sentiment": {
               "score": 0,
@@ -23,8 +23,7 @@
               "primaryEmotion": "neutral"
             },
             "topics": [
-              "PERSONAL",
-              "WORK"
+              "PERSONAL"
             ],
             "entities": {}
           }
@@ -43,124 +42,10 @@
       "undefined": [
         {
           "content": "Xưng hô: mình/bạn",
-          "timestamp": 1742098041371,
+          "timestamp": 1742185561419,
           "priority": 2,
           "accessCount": 0,
-          "lastAccess": 1742098041371,
-          "metadata": {
-            "sentiment": {
-              "score": 0,
-              "rawScore": 0,
-              "sentiment": "neutral",
-              "confidence": 0.5,
-              "emotions": [],
-              "negationCount": 0,
-              "intensityFactors": [],
-              "primaryEmotion": "neutral"
-            },
-            "topics": [
-              "PERSONAL"
-            ],
-            "entities": {}
-          }
-        }
-      ]
-    },
-    "100063397755304": {
-      "personal": [],
-      "facts": [],
-      "preferences": [],
-      "interactions": [
-        {
-          "content": "Món Chiên Dòn nói: Bot ơi\nTôi trả lời: Gì vậy chị?  Món Chiên Dòn là món gì vậy ta =)))",
-          "timestamp": 1742098055839,
-          "priority": 1,
-          "accessCount": 1,
-          "lastAccess": 1742098080557,
-          "metadata": {
-            "sentiment": {
-              "score": 0,
-              "rawScore": 0,
-              "sentiment": "neutral",
-              "confidence": 0.5,
-              "emotions": [],
-              "negationCount": 0,
-              "intensityFactors": [],
-              "primaryEmotion": "neutral"
-            },
-            "topics": [
-              "PERSONAL",
-              "FOOD"
-            ],
-            "entities": {}
-          }
-        },
-        {
-          "content": "Món Chiên Dòn nói: Nói là nhật sờ 🍊đi :))\nTôi trả lời: Hả chị?  🍊 là gì vậy trời? Em khum hiểu =)))  Chị nói kiểu gì em cũng khum hiểu luôn á. Giải thích lại đi chị ơi, em dốt lắm :(",
-          "timestamp": 1742098081478,
-          "priority": 1,
-          "accessCount": 0,
-          "lastAccess": 1742098081478,
-          "metadata": {
-            "sentiment": {
-              "score": 0,
-              "rawScore": 0,
-              "sentiment": "neutral",
-              "confidence": 0.5,
-              "emotions": [],
-              "negationCount": 0,
-              "intensityFactors": [],
-              "primaryEmotion": "neutral"
-            },
-            "topics": [
-              "PERSONAL",
-              "FOOD",
-              "TRAVEL"
-            ],
-            "entities": {}
-          }
-        }
-      ],
-      "emotions": [],
-      "names": [],
-      "relationships": {},
-      "context": {
-        "lastTopics": [],
-        "importantDates": {},
-        "recentMentions": {},
-        "conversationFlow": []
-      },
-      "topics": {},
-      "undefined": [
-        {
-          "content": "Xưng hô: mình/bạn",
-          "timestamp": 1742098053956,
-          "priority": 2,
-          "accessCount": 1,
-          "lastAccess": 1742098080557,
-          "metadata": {
-            "sentiment": {
-              "score": 0,
-              "rawScore": 0,
-              "sentiment": "neutral",
-              "confidence": 0.5,
-              "emotions": [],
-              "negationCount": 0,
-              "intensityFactors": [],
-              "primaryEmotion": "neutral"
-            },
-            "topics": [
-              "PERSONAL"
-            ],
-            "entities": {}
-          }
-        },
-        {
-          "content": "Xưng hô: mình/bạn",
-          "timestamp": 1742098080558,
-          "priority": 2,
-          "accessCount": 0,
-          "lastAccess": 1742098080558,
+          "lastAccess": 1742185561419,
           "metadata": {
             "sentiment": {
               "score": 0,
@@ -194,16 +79,11 @@
     "voice": {}
   },
   "stats": {
-    "totalInteractions": 6,
+    "totalInteractions": 2,
     "uniqueUsers": {},
     "topTopics": {},
     "responseTime": [],
-    "accuracy": [
-      {
-        "timestamp": 1742098055842,
-        "memoryCount": 5
-      }
-    ]
+    "accuracy": []
   },
   "compression": {
     "enabled": true,

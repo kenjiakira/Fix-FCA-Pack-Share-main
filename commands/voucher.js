@@ -297,7 +297,7 @@ module.exports = {
     name: "voucher",
     aliases: ["vch", "coupon", "hunt"],
     dev: "HNT",
-    category: "Economy",
+    category: "VIP",
     info: "Quản lý voucher giảm giá",
     usages: [
         ".voucher - Xem danh sách voucher",

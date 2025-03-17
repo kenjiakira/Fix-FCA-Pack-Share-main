@@ -1,6 +1,6 @@
 const fs = require('fs');
 const path = require('path');
-const { getBalance, updateBalance, calculateAdvancedInterest, executeClojureCalculation } = require('../utils/currencies');
+const { getBalance, updateBalance } = require('../utils/currencies');
 const { getVIPBenefits } = require('../vip/vipCheck');
 
 function formatNumber(number) {
@@ -608,18 +608,16 @@ module.exports = {
                     try {
                         const creditInfo = calculateDetailedCreditScore(senderID, bankingData);
                         
-                        // Add advanced risk assessment using Clojure
-                        const riskAssessment = await executeClojureCalculation('risk', {
-                            transactions: bankingData.transactions[senderID] || [],
-                            balance: bankBalance,
-                            creditScore: creditInfo.score
-                        });
+                        // Simplified risk assessment without Clojure
+                        const riskScore = Math.min(100, (creditInfo.score * 0.7) + 
+                            (((bankBalance / 1000000) * 10) * 0.3));
                         
-                        // Add portfolio optimization
-                        const portfolioSuggestion = await executeClojureCalculation('portfolio', {
-                            totalAssets: walletBalance + bankBalance,
-                            riskScore: riskAssessment.score
-                        });
+                        const riskCategory = riskScore >= 80 ? "Thấp" : 
+                                           riskScore >= 50 ? "Trung bình" : "Cao";
+
+                        // Basic portfolio suggestion
+                        const suggestedSavings = Math.round((walletBalance + bankBalance) * 0.7);
+                        const suggestedInvestments = Math.round((walletBalance + bankBalance) * 0.3);
 
                         const transactions = bankingData.transactions[senderID] || [];
                         const activeLoan = bankingData.loans[senderID];
@@ -647,11 +645,11 @@ module.exports = {
                             `🏦 Số dư ngân hàng: ${bankBalance.toLocaleString('vi-VN')} $\n` +
                             `💵 Tổng tài sản: ${(walletBalance + bankBalance).toLocaleString('vi-VN')} $\n\n` +
                             `📊 Điểm tín dụng: ${creditInfo.score}/100\n` +
-                            `🎯 Đánh giá rủi ro: ${riskAssessment.category}\n` +
-                            `📈 Điểm rủi ro: ${Math.round(riskAssessment.score)}/100\n\n` +
+                            `🎯 Đánh giá rủi ro: ${riskCategory}\n` +
+                            `📈 Điểm rủi ro: ${Math.round(riskScore)}/100\n\n` +
                             "💡 Đề xuất phân bổ tài sản:\n" +
-                            `├─ Tiết kiệm: ${Math.round(portfolioSuggestion.savings).toLocaleString('vi-VN')} $\n` +
-                            `└─ Đầu tư: ${Math.round(portfolioSuggestion.investments).toLocaleString('vi-VN')} $\n\n` +
+                            `├─ Tiết kiệm: ${suggestedSavings.toLocaleString('vi-VN')} $\n` +
+                            `└─ Đầu tư: ${suggestedInvestments.toLocaleString('vi-VN')} $\n\n` +
                             `📝 Giao dịch gần đây:\n${transHistory}${loanInfo}`,
                             threadID, messageID
                         );

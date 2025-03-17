@@ -28,24 +28,24 @@ class GameLogic {
                 [this.ICONS.RED, this.ICONS.RED, this.ICONS.RED, this.ICONS.RED]
             ]
         };
-        this.MAX_PROFIT_CAP = 300000; // 300tr xu limit
+        this.MAX_PROFIT_CAP = 300000000; // 300tr xu limit
         this.DAILY_PROFIT_CAP = 50000;
         this.activeUsers = new Set();
         this.timeBasedStats = {};
         this.riskFactors = new Map();
         this.lastResults = new Map();
-        this.BAUCUA_WIN_LIMIT = 200000; // 200tr limit cho bầu cua
-        this.BAUCUA_DAILY_LIMIT = 30000; // 30tr limit mỗi ngày
+        this.BAUCUA_WIN_LIMIT = 200000000; // 200tr limit cho bầu cua
+        this.BAUCUA_DAILY_LIMIT = 30000000; // 30tr limit mỗi ngày
         this.luckyNumbers = [3, 7, 9];
         this.specialDates = ['Saturday', 'Sunday'];
         this.bonusHours = [12, 20, 22];
 
         // Thêm các ngưỡng kiểm soát mới
         this.RISK_THRESHOLDS = {
-            HIGH_ROLLER: 100000, // 100tr
-            SUPER_HIGH_ROLLER: 200000, // 200tr
-            DAILY_MONITOR: 50000, // 50tr/ngày
-            SESSION_MONITOR: 20000 // 20tr/phiên
+            HIGH_ROLLER: 100000000, // 100tr
+            SUPER_HIGH_ROLLER: 200000000, // 200tr
+            DAILY_MONITOR: 50000000, // 50tr/ngày
+            SESSION_MONITOR: 20000000 // 20tr/phiên
         };
         
         this.SPECIAL_CONDITIONS = {
@@ -119,11 +119,11 @@ class GameLogic {
         let baseWinChance = 0.45; 
 
         // High bet amount controls
-        if (betAmount >= 250000) { // 250tr
+        if (betAmount >= 250000000) { // 250tr
             baseWinChance *= 0.1; // 90% lose rate
-        } else if (betAmount >= 150000) { // 150tr
+        } else if (betAmount >= 150000000) { // 150tr
             baseWinChance *= 0.2; // 80% lose rate
-        } else if (betAmount >= 100000) { // 100tr
+        } else if (betAmount >= 100000000) { // 100tr
             baseWinChance *= 0.3; // 70% lose rate
         }
 
@@ -249,11 +249,11 @@ class GameLogic {
         }
 
         // Ensure the final win chance respects the high bet limits
-        if (betAmount >= 250000) {
+        if (betAmount >= 250000000) {
             return Math.min(baseWinChance, 0.1); // Max 10% win chance
-        } else if (betAmount >= 150000) {
+        } else if (betAmount >= 150000000) {
             return Math.min(baseWinChance, 0.2); // Max 20% win chance
-        } else if (betAmount >= 100000) {
+        } else if (betAmount >= 100000000) {
             return Math.min(baseWinChance, 0.3); // Max 30% win chance
         }
 
@@ -292,7 +292,7 @@ class GameLogic {
         }
 
         // Kiểm soát theo volume
-        if (currentVolume > 50000) { // >50tr
+        if (currentVolume > 50000000) { // >50tr
             baseWinChance *= 0.8;
         }
 
@@ -338,8 +338,8 @@ class GameLogic {
         if (stats.totalWin > stats.totalBet * 1.5) baseOdds *= 0.7;
         
         // Giảm mạnh với cược lớn
-        if (betAmount > 100) baseOdds *= 0.8;
-        if (betAmount > 500) baseOdds *= 0.6;
+        if (betAmount > 100000) baseOdds *= 0.8;
+        if (betAmount > 500000) baseOdds *= 0.6;
         
         // Kiểm tra pattern đáng ngờ
         if (pattern.isExploiting) baseOdds *= 0.5;
@@ -354,8 +354,8 @@ class GameLogic {
         const rawReward = betAmount * multiplier;
         let feeRate = 0.02; // Phí cơ bản 1%
         
-        if (betAmount >= 1000) feeRate = 0.04; // 2% cho cược từ 1M
-        if (betAmount >= 10000) feeRate = 0.06; // 3% cho cược từ 10M
+        if (betAmount >= 1000000) feeRate = 0.04; // 2% cho cược từ 1M
+        if (betAmount >= 10000000) feeRate = 0.06; // 3% cho cược từ 10M
     
         const fee = Math.ceil(rawReward * feeRate);
         const finalReward = rawReward - fee;
@@ -369,10 +369,10 @@ class GameLogic {
 
     calculateFeeRate(winAmount) {
         // Tăng phí theo mức thắng
-        if (winAmount > 1000) return 0.18;
-        if (winAmount > 500) return 0.15;
-        if (winAmount > 200) return 0.12;
-        if (winAmount > 100) return 0.08;
+        if (winAmount > 1000000) return 0.18;
+        if (winAmount > 500000) return 0.15;
+        if (winAmount > 200000) return 0.12;
+        if (winAmount > 100000) return 0.08;
         return 0.05;
     }
 
@@ -465,14 +465,14 @@ class GameLogic {
 
     shouldTriggerJackpot(userId) {
         const quy = loadQuy();
-        if (quy < 100) return false;
+        if (quy < 100000) return false;
 
         const randomChance = Math.random();
         const baseJackpotChance = 0.001; 
 
         let jackpotChance = baseJackpotChance;
-        if (quy > 1000) jackpotChance *= 1.5;
-        if (quy > 5000) jackpotChance *= 2;
+        if (quy > 1000000) jackpotChance *= 1.5;
+        if (quy > 5000000) jackpotChance *= 2;
 
         if (this.playerStats[userId]?.recentBigWins > 0) {
             jackpotChance *= 0.5;
@@ -522,7 +522,7 @@ class GameLogic {
         // Điều kiện cho phép x4:
         if (recentLosses >= 3) return true; // Thua nhiều
         if (totalGames >= 20 && (stats.wins/totalGames) < 0.4) return true; // Tỷ lệ thắng thấp
-        if (quy > 1000) return Math.random() < 0.08; // Quỹ lớn tăng tỷ lệ
+        if (quy > 1000000) return Math.random() < 0.08; // Quỹ lớn tăng tỷ lệ
         if (this.calculateGameOdds(userId, stats.betAmount)) return false; // Không cho x4 nếu đang kiểm soát
         return Math.random() < 0.05; // Cơ hội cơ bản 5%
     }
@@ -669,10 +669,10 @@ class GameLogic {
 
     calculateFeeRate(winAmount) {
         // Tăng phí theo mức thắng
-        if (winAmount > 1000) return 0.25
-        if (winAmount > 500) return 0.18;
-        if (winAmount > 200) return 0.16;
-        if (winAmount > 100) return 0.13;
+        if (winAmount > 100000000) return 0.25
+        if (winAmount > 50000000) return 0.18;
+        if (winAmount > 20000000) return 0.16;
+        if (winAmount > 10000000) return 0.13;
         return 0.10;
 
         // Tăng phí dựa trên thời gian và volume
@@ -686,7 +686,7 @@ class GameLogic {
 
         // Tăng phí với người thắng nhiều
         const currentVolume = this.realTimeStats.hourlyVolume.get(hour) || 0;
-        if (currentVolume > 100000) { // >100tr
+        if (currentVolume > 100000000) { // >100tr
             return baseRate * 1.3; // Tăng 30%
         }
 

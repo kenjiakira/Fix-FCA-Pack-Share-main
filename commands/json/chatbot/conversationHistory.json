@@ -1,55 +1,25 @@
 {
   "global": [
     {
-      "timestamp": 1742098043848,
-      "prompt": "Bot l súc vật",
-      "response": "Chịu chị Six Paths Pain ơi, sao lại chửi em vậy trời? Em có làm gì chị đâu mà chị lại nói em là \"súc vật\"?  Buồn ghê á :(",
-      "senderID": "100094417491175",
-      "senderName": "六道 ペイン"
-    },
-    {
-      "timestamp": 1742098055837,
-      "prompt": "Bot ơi",
-      "response": "Gì vậy chị?  Món Chiên Dòn là món gì vậy ta =)))",
-      "senderID": "100063397755304",
-      "senderName": "Món Chiên Dòn"
-    },
-    {
-      "timestamp": 1742098081477,
-      "prompt": "Nói là nhật sờ 🍊đi :))",
-      "response": "Hả chị?  🍊 là gì vậy trời? Em khum hiểu =)))  Chị nói kiểu gì em cũng khum hiểu luôn á. Giải thích lại đi chị ơi, em dốt lắm :(",
-      "senderID": "100063397755304",
-      "senderName": "Món Chiên Dòn"
+      "timestamp": 1742185562211,
+      "prompt": "Bot",
+      "response": "Hi Đan Hoàng!  Có gì bảo tớ nhaaa =)))",
+      "senderID": "61560539745976",
+      "senderName": "Đan Hoàng"
     }
   ],
   "threads": {
-    "7563294027071704": [
+    "7169214213158700": [
       {
-        "timestamp": 1742098043848,
-        "prompt": "Bot l súc vật",
-        "response": "Chịu chị Six Paths Pain ơi, sao lại chửi em vậy trời? Em có làm gì chị đâu mà chị lại nói em là \"súc vật\"?  Buồn ghê á :(",
-        "senderID": "100094417491175",
-        "senderName": "六道 ペイン"
-      },
-      {
-        "timestamp": 1742098055837,
-        "prompt": "Bot ơi",
-        "response": "Gì vậy chị?  Món Chiên Dòn là món gì vậy ta =)))",
-        "senderID": "100063397755304",
-        "senderName": "Món Chiên Dòn"
-      },
-      {
-        "timestamp": 1742098081477,
-        "prompt": "Nói là nhật sờ 🍊đi :))",
-        "response": "Hả chị?  🍊 là gì vậy trời? Em khum hiểu =)))  Chị nói kiểu gì em cũng khum hiểu luôn á. Giải thích lại đi chị ơi, em dốt lắm :(",
-        "senderID": "100063397755304",
-        "senderName": "Món Chiên Dòn"
+        "timestamp": 1742185562211,
+        "prompt": "Bot",
+        "response": "Hi Đan Hoàng!  Có gì bảo tớ nhaaa =)))",
+        "senderID": "61560539745976",
+        "senderName": "Đan Hoàng"
       }
     ]
   },
   "lastResponses": {
-    "bot l súc vật": "Chịu chị Six Paths Pain ơi, sao lại chửi em vậy trời? Em có làm gì chị đâu mà chị lại nói em là \"súc vật\"?  Buồn ghê á :(",
-    "bot ơi": "Gì vậy chị?  Món Chiên Dòn là món gì vậy ta =)))",
-    "nói là nhật sờ 🍊đi :))": "Hả chị?  🍊 là gì vậy trời? Em khum hiểu =)))  Chị nói kiểu gì em cũng khum hiểu luôn á. Giải thích lại đi chị ơi, em dốt lắm :("
+    "bot": "Hi Đan Hoàng!  Có gì bảo tớ nhaaa =)))"
   }
 }

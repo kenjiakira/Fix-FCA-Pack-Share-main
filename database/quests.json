@@ -4,35 +4,35 @@
       "name": "Người chơi tích cực",
       "description": "Chơi tổng cộng 20 lần minigame bất kỳ",
       "target": 20,
-      "reward": 500,
+      "reward": 500000,
       "type": "counter"
     },
     "win_games": {
       "name": "Tay chơi may mắn",
       "description": "Thắng tổng cộng 10 lần trong bất kỳ minigame",
       "target": 10,
-      "reward": 1000,
+      "reward": 1000000,
       "type": "counter"  
     },
     "win_coinflip": {
       "name": "Trùm Coinflip",
       "description": "Thắng 8 lần trong Coinflip",
       "target": 8,
-      "reward": 800,
+      "reward": 800000,
       "type": "counter"
     },
     "win_bctc": {
       "name": "Cao thủ bầu cua",
       "description": "Thắng 12 lần trong Bầu Cua",
       "target": 12,
-      "reward": 1200,
+      "reward": 1200000,
       "type": "counter"
     },
     "successful_steals": {
       "name": "Siêu Đạo Chích",
       "description": "Trộm thành công 5 lần",
       "target": 5,
-      "reward": 750,
+      "reward": 750000,
       "type": "counter"
     }
   }

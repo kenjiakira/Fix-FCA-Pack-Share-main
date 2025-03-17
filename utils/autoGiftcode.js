@@ -4,6 +4,36 @@ const schedule = require('node-schedule');
 
 const GIFTCODES_PATH = path.join(__dirname, '..', 'database', 'json', 'giftcodes.json');
 
+const GIFTCODE_TYPES = {
+    NORMAL: {
+        prefix: 'N',
+        minReward: 100000,
+        maxReward: 1000000,
+        rarity: 'Thường'
+    },
+    RARE: {
+        prefix: 'R',
+        minReward: 1000000,
+        maxReward: 3000000,
+        rarity: 'Hiếm',
+        maxUses: 50
+    },
+    EPIC: {
+        prefix: 'E',
+        minReward: 3000000,
+        maxReward: 8000000,
+        rarity: 'Epic',
+        maxUses: 20
+    },
+    LEGENDARY: {
+        prefix: 'L',
+        minReward: 8000000,
+        maxReward: 20000000,
+        rarity: 'Huyền Thoại',
+        maxUses: 5
+    }
+};
+
 function ensureDirectoryExists(filePath) {
     const dirname = path.dirname(filePath);
     if (!fs.existsSync(dirname)) {
@@ -11,17 +41,17 @@ function ensureDirectoryExists(filePath) {
     }
 }
 
-function generateCode(length = 12) {
+function generateCode(length = 12, type = 'NORMAL') {
     const chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
-    let code = '';
-    for (let i = 0; i < length; i++) {
+    let code = GIFTCODE_TYPES[type].prefix;
+    for (let i = 0; i < length - 1; i++) {
         code += chars.charAt(Math.floor(Math.random() * chars.length));
     }
     return code;
 }
 
-function createGiftcode(reward, description, expiryHours = 24) {
-    const code = generateCode();
+function createGiftcode(reward, description, expiryHours = 24, type = 'NORMAL') {
+    const code = generateCode(12, type);
     const giftcodeData = loadGiftcodes();
     
     giftcodeData.codes[code] = {
@@ -29,7 +59,10 @@ function createGiftcode(reward, description, expiryHours = 24) {
         description: description,
         createdAt: new Date().toISOString(),
         expiry: new Date(Date.now() + expiryHours * 60 * 60 * 1000).toISOString(),
-        usedBy: []
+        usedBy: [],
+        type: type,
+        rarity: GIFTCODE_TYPES[type].rarity,
+        maxUses: GIFTCODE_TYPES[type].maxUses || Infinity
     };
 
     saveGiftcodes(giftcodeData);
@@ -79,7 +112,7 @@ function cleanExpiredCodes() {
     saveGiftcodes(giftcodeData);
 }
 
-async function sendGiftcodeAnnouncement(api, code, reward) {
+async function sendGiftcodeAnnouncement(api, code, reward, type) {
     try {
         let threads = await api.getThreadList(100, null, ['INBOX']);
         let threadIDs = threads
@@ -93,6 +126,7 @@ async function sendGiftcodeAnnouncement(api, code, reward) {
                        "━━━━━━━━━━━━━━━━━━\n\n" +
                        `📝 Code: ${code}\n` +
                        `💝 Phần thưởng: ${reward.toLocaleString('vi-VN')} $\n` +
+                       `🔰 Loại: ${GIFTCODE_TYPES[type].rarity}\n` +
                        "⏰ Thời hạn: 24 giờ\n\n" +
                        "💡 Sử dụng lệnh: .giftcode redeem <code> để nhận quà";
 
@@ -154,25 +188,40 @@ async function sendGiftcodeAnnouncement(api, code, reward) {
 }
 
 function scheduleAutoGiftcode(api) {
+    // Giftcode thường (12h trưa)
     schedule.scheduleJob('0 12 * * *', async () => {
-   
-        const minReward = 100000;
-        const maxReward = 1000000;
-        const reward = Math.floor(Math.random() * (maxReward - minReward + 1)) + minReward;
-        
-        const today = new Date();
-        if (today.getDay() === 0) { 
-            reward *= 2; 
-        }
-        
-        const code = createGiftcode(reward, "Giftcode tự động hàng ngày");
-        await sendGiftcodeAnnouncement(api, code, reward);
+        const type = 'NORMAL';
+        const config = GIFTCODE_TYPES[type];
+        const reward = Math.floor(Math.random() * (config.maxReward - config.minReward + 1)) + config.minReward;
+        const code = createGiftcode(reward, "Giftcode thường hàng ngày", 24, type);
+        await sendGiftcodeAnnouncement(api, code, reward, type);
     });
 
+    // Giftcode hiếm (20h tối)
     schedule.scheduleJob('0 20 * * *', async () => {
-        const specialReward = Math.floor(Math.random() * 100000) + 1000000; 
-        const code = createGiftcode(specialReward, "Giftcode đặc biệt buổi tối");
-        await sendGiftcodeAnnouncement(api, code, specialReward);
+        const type = 'RARE';
+        const config = GIFTCODE_TYPES[type];
+        const reward = Math.floor(Math.random() * (config.maxReward - config.minReward + 1)) + config.minReward;
+        const code = createGiftcode(reward, "Giftcode hiếm buổi tối", 12, type);
+        await sendGiftcodeAnnouncement(api, code, reward, type);
+    });
+
+    // Giftcode Epic (Chủ nhật)
+    schedule.scheduleJob('0 18 * * 0', async () => {
+        const type = 'EPIC';
+        const config = GIFTCODE_TYPES[type];
+        const reward = Math.floor(Math.random() * (config.maxReward - config.minReward + 1)) + config.minReward;
+        const code = createGiftcode(reward, "Giftcode Epic cuối tuần", 6, type);
+        await sendGiftcodeAnnouncement(api, code, reward, type);
+    });
+
+    // Giftcode Huyền Thoại (Ngày lễ)
+    schedule.scheduleJob('0 12 1 1,2,3,4,5 *', async () => {
+        const type = 'LEGENDARY';
+        const config = GIFTCODE_TYPES[type];
+        const reward = Math.floor(Math.random() * (config.maxReward - config.minReward + 1)) + config.minReward;
+        const code = createGiftcode(reward, "Giftcode Huyền Thoại ngày lễ", 4, type);
+        await sendGiftcodeAnnouncement(api, code, reward, type);
     });
 
     schedule.scheduleJob('0 * * * *', cleanExpiredCodes);

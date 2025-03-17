@@ -17,7 +17,7 @@ class EducationSystem {
         name: "Trường Mẫu giáo",
         minAge: 3,
         maxAge: 6,
-        cost: 2000,
+        cost: 200000,
         duration: 3,
         subjects: ["Kỹ năng sống", "Vận động", "Âm nhạc", "Mỹ thuật"],
         benefits: {
@@ -29,7 +29,7 @@ class EducationSystem {
         name: "Trường Tiểu học",
         minAge: 6,
         maxAge: 11,
-        cost: 5000,
+        cost: 500000,
         duration: 5,
         subjects: ["Toán", "Văn", "Tiếng Anh", "Tự nhiên - Xã hội"],
         benefits: {
@@ -41,7 +41,7 @@ class EducationSystem {
         name: "Trường THCS",
         minAge: 11,
         maxAge: 15,
-        cost: 10000,
+        cost: 1000000,
         duration: 4,
         subjects: ["Toán", "Văn", "Tiếng Anh", "Vật lý", "Hóa học", "Sinh học"],
         benefits: {
@@ -53,7 +53,7 @@ class EducationSystem {
         name: "Trường THPT",
         minAge: 15,
         maxAge: 18,
-        cost: 15000,
+        cost: 1500000,
         duration: 3,
         subjects: [
           "Toán",

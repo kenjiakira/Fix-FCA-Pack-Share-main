@@ -17,7 +17,7 @@ class JobSystem {
         ];
 
         this.QUIT_COOLDOWN = 60 * 60 * 1000; 
-        this.WORK_COOLDOWN = 10 * 60 * 1000; 
+        this.WORK_COOLDOWN = 3 * 60 * 1000; 
     }
 
     loadData() {
@@ -410,17 +410,17 @@ class JobSystem {
         const job = JOBS[jobId];
         if (!job) return this.WORK_COOLDOWN;
 
-        const baseSalary = 50; 
+        const baseSalary = 300000; 
         const baseCooldown = this.WORK_COOLDOWN;
         
         let salaryRatio = job.salary / baseSalary;
         
         if (salaryRatio > 1) {
          
-            salaryRatio = Math.pow(salaryRatio, 0.6);
+            salaryRatio = Math.pow(salaryRatio, 0.4);
         }
         
-        salaryRatio = Math.min(Math.max(salaryRatio, 1), 12); 
+        salaryRatio = Math.min(Math.max(salaryRatio, 1), 6); 
         
         const jobType = job.type || 'shipper';
         const currentLevel = this.getJobLevel(jobType, jobData.workCount || 0);

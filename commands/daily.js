@@ -159,11 +159,11 @@ class DailyRewardManager {
 
       switch (userData.packageId) {
         case 3:
-          return { hasVip: true, bonus: 800, packageId: 3 };
+          return { hasVip: true, bonus: 800000, packageId: 3 };
         case 2:
-          return { hasVip: true, bonus: 500, packageId: 2 };
+          return { hasVip: true, bonus: 500000, packageId: 2 };
         default:
-          return { hasVip: true, bonus: 300, packageId: 1 };
+          return { hasVip: true, bonus: 300000, packageId: 1 };
       }
     } catch (error) {
       console.error("Error getting VIP bonus:", error);

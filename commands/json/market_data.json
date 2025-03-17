@@ -1,42 +1,102 @@
 {
-  "price": 79,
-  "lastUpdate": 1742097396675,
+  "price": 173,
+  "lastUpdate": 1742185069983,
   "history": [
     {
-      "price": 100,
-      "timestamp": 1742031409978
+      "price": 134,
+      "timestamp": 1742109113177
     },
     {
-      "price": 95,
-      "timestamp": 1742032408362
+      "price": 132,
+      "timestamp": 1742110613541
     },
     {
-      "price": 102,
-      "timestamp": 1742036406777
+      "price": 112,
+      "timestamp": 1742111650767
     },
     {
-      "price": 110,
-      "timestamp": 1742038371870
+      "price": 97,
+      "timestamp": 1742112825022
     },
     {
-      "price": 102,
-      "timestamp": 1742040021007
+      "price": 115,
+      "timestamp": 1742113988688
     },
     {
-      "price": 102,
-      "timestamp": 1742043695237
+      "price": 131,
+      "timestamp": 1742115085547
     },
     {
-      "price": 84,
-      "timestamp": 1742045879527
+      "price": 151,
+      "timestamp": 1742118178254
     },
     {
-      "price": 71,
-      "timestamp": 1742096480650
+      "price": 130,
+      "timestamp": 1742128343189
     },
     {
-      "price": 73,
-      "timestamp": 1742097396675
+      "price": 111,
+      "timestamp": 1742129342548
+    },
+    {
+      "price": 106,
+      "timestamp": 1742130340780
+    },
+    {
+      "price": 127,
+      "timestamp": 1742131800244
+    },
+    {
+      "price": 135,
+      "timestamp": 1742132964985
+    },
+    {
+      "price": 131,
+      "timestamp": 1742134741136
+    },
+    {
+      "price": 107,
+      "timestamp": 1742135892819
+    },
+    {
+      "price": 108,
+      "timestamp": 1742136836049
+    },
+    {
+      "price": 129,
+      "timestamp": 1742138091788
+    },
+    {
+      "price": 150,
+      "timestamp": 1742139039497
+    },
+    {
+      "price": 166,
+      "timestamp": 1742140143668
+    },
+    {
+      "price": 188,
+      "timestamp": 1742141716151
+    },
+    {
+      "price": 162,
+      "timestamp": 1742142618415
+    },
+    {
+      "price": 177,
+      "timestamp": 1742180839204
+    },
+    {
+      "price": 148,
+      "timestamp": 1742181974237
+    },
+    {
+      "price": 171,
+      "timestamp": 1742183363302
+    },
+    {
+      "price": 175,
+      "timestamp": 1742185069983
     }
   ]
 }

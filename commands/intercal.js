@@ -1,7 +1,7 @@
 module.exports = {
     name: "intercal",
     info: "INTERCAL Code Executor",
-    category: "Tiện ích",
+    category: "Tiện Ích",
     usages: ".intercal [code]",
     cooldowns: 5,
     dev: "HNT",

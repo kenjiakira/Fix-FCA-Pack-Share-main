@@ -11,13 +11,13 @@ const CONFIG = {
         consumption: 0.5,
         durability: 100,
         maxDurability: 100,
-        repairCost: 1000  // Base repair cost
+        repairCost: 100000  // Base repair cost
     },
     
     upgradeCosts: {
-        power: [1000, 2000, 4000, 8000, 16000],
-        efficiency: [1500, 3000, 6000, 12000, 24000],
-        cooling: [2000, 4000, 8000, 16000, 32000]
+        power: [100000, 200000, 400000, 800000, 1600000],
+        efficiency: [150000, 300000, 600000, 1200000, 2400000],
+        cooling: [200000, 400000, 800000, 1600000, 3200000]
     },
 
     miningSuccess: {

@@ -66,7 +66,7 @@ module.exports = {
   dev: "HNT",
   category: "VIP",
   usedby: 0,
-  description: "Làm nét ảnh",
+  info: "Làm nét ảnh",
   usages: "[reply ảnh]",
   onPrefix: false,
   VIP: true,

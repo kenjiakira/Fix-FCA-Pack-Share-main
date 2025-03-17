@@ -57,6 +57,10 @@ module.exports = {
                     return api.sendMessage("❌ Bạn đã sử dụng code này rồi!", threadID, messageID);
                 }
 
+                if (giftcode.maxUses && giftcode.usedBy.length >= giftcode.maxUses) {
+                    return api.sendMessage("❌ Code đã đạt giới hạn số lần sử dụng!", threadID, messageID);
+                }
+
                 const expiryDate = new Date(giftcode.expiry);
                 if (expiryDate < new Date()) {
                     return api.sendMessage("❌ Code đã hết hạn sử dụng!", threadID, messageID);
@@ -69,10 +73,12 @@ module.exports = {
                 updateBalance(senderID, giftcode.reward);
 
                 return api.sendMessage(
-                    "🎉 Đổi code thành công!\n\n" +
+                    "🎉 ĐỔI CODE THÀNH CÔNG!\n\n" +
                     `📝 Mã code: ${code}\n` +
                     `💝 Quà tặng: ${formatNumber(giftcode.reward)} Xu\n` +
-                    `📜 Mô tả: ${giftcode.description}\n\n` +
+                    `🏆 Độ hiếm: ${giftcode.rarity}\n` +
+                    `📜 Mô tả: ${giftcode.description}\n` +
+                    `👥 Số người đã dùng: ${giftcode.usedBy.length}${giftcode.maxUses ? `/${giftcode.maxUses}` : ''}\n\n` +
                     `💰 Số dư hiện tại: ${formatNumber(getBalance(senderID))} Xu`,
                     threadID, messageID
                 );

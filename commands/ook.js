@@ -1,7 +1,7 @@
 module.exports = {
     name: "ook",
     info: "Ook!",
-    category: "Tiện ích",
+    category: "Tiện Ích",
     usages: ".ook encode [text] | .ook decode [code]",
     cooldowns: 5,
     dev: "HNT",

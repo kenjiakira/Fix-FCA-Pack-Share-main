@@ -5,6 +5,7 @@ module.exports = {
   name: "gachatest",
   Dev: "HNT",
   onPrefix: true,
+  hide: true,
   usedby: 2,
   usages: ".gachatest [rarity: 3-5] [premium/normal] [stars] | .gachatest pvp [mode] [mix]",
   cooldowns: 5,

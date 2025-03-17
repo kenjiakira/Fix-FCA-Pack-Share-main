@@ -11,6 +11,7 @@ const {
   createPvPBattleImage,
   createStellaResultImage,
 } = require("../canvas/gachaCanvas");
+const { info } = require("console");
 const MAX_BACKUPS = 14;
 
 const GACHA_DATA_FILE = path.join(__dirname, "./json/gacha/gacha.json");
@@ -88,13 +89,13 @@ const CUSTOM_CHARACTER_IMAGES = {
   Tingyun: "https://imgur.com/xMCkonE.png",
   Gorou: "https://imgur.com/8WFB75F.png",
   Mika: "https://imgur.com/rkihX4u.png",
-  Argenti: "https://imgur.com/TKUu64N.png",
+  Argenti: "https://i.imgur.com/Exej55c.png",
   Jingliu: "https://imgur.com/Ueo3nnj.png",
   Lisa: "https://imgur.com/WyX41nu.png",
   "Kuki Shinobu": "https://imgur.com/QB2OkkW.png",
   Freminet: "https://imgur.com/fh2TcW7.png",
   Tighnari: "https://imgur.com/xVR5BRG.png",
-  fugue: "https://imgur.com/6Flahsx.png",
+  fugue: "https://imgur.com/HVQOHiJ.png",
   Hutao: "https://imgur.com/9tuCA1v.png",
   Yelan: "https://imgur.com/oiNOdqD.png",
   Furina: "https://imgur.com/Ovo2GXz.png",
@@ -626,7 +627,15 @@ March7th: {
   constellation: "Glacies Memoria",
   skills: ["Frigid Snapshot", "Everlasting Ice", "Frostbound Guardian"],
   quote: "A perfect shot! Oh, don’t forget to take a picture!"
-}
+},
+fugue : {
+  weapon: "Catalyst",
+  element: "Pyro",
+  vision: "Pyro",
+  constellation: "Ignis Harmonia",
+  skills: ["Flame Waltz", "Inferno Rhapsody", "Blazing Crescendo"],
+  quote: "The flames of passion burn bright within me."
+},
 
 };
 const RATES = {
@@ -4874,6 +4883,7 @@ module.exports = {
   name: "gacha",
   dev: "HNT",
   usedby: 0,
+  info: "game Gacha mở thẻ",
   onPrefix: true,
   category: "Games",
   usages: ".gacha [pull/auction/info/help]",
@@ -5137,7 +5147,6 @@ module.exports = {
               );
             }, 2000);
             if (pullResult.isStella) {
-              result.type = "stella";
               userData.inventory.push(pullResult.charId);
               saveGachaData(gachaData);
             
@@ -5150,8 +5159,89 @@ module.exports = {
                 );
               }
             
+              // Phần mới: Tìm nhân vật tương ứng trong inventory để tự động nâng cấp
+              const targetCharacterName = stellaItem.targetCharacter || pullResult.originalChar;
+              let foundCharId = null;
+              let foundChar = null;
+            
+              // Tìm nhân vật phù hợp để nâng cấp (character cùng tên, chưa max constellation)
+              for (const id of userData.inventory) {
+                const char = CHARACTER_IDS[id];
+                if (char && char.type === "character" && char.name === targetCharacterName) {
+                  // Kiểm tra nhân vật đã max constellation chưa (tối đa C6)
+                  const currentConstellation = char.constellation || 0;
+                  if (currentConstellation < 6) {
+                    foundCharId = id;
+                    foundChar = char;
+                    break;
+                  }
+                }
+              }
+            
+              // Nếu tìm thấy nhân vật phù hợp, tự động nâng cấp constellation
+              if (foundCharId && foundChar) {
+                const currentLevel = foundChar.constellation || 0;
+                const nextLevel = currentLevel + 1;
+                foundChar.constellation = nextLevel;
+            
+                // Lấy thông tin constellation tương ứng
+                const constellationData = CHARACTER_CONSTELLATIONS[foundChar.name];
+                let constellationName = "Unknown";
+                let constellationEffect = "Tăng sức mạnh tổng thể";
+            
+                if (constellationData && constellationData[currentLevel]) {
+                  const constellationInfo = constellationData[currentLevel];
+                  constellationName = constellationInfo.name;
+                  constellationEffect = constellationInfo.description;
+            
+                  // Tăng sức mạnh theo constellation
+                  foundChar.stats = foundChar.stats || { atk: 100, def: 100, hp: 500 };
+                  const boost = 1 + constellationInfo.powerBoost;
+            
+                  foundChar.stats.atk = Math.floor(foundChar.stats.atk * boost);
+                  foundChar.stats.def = Math.floor(foundChar.stats.def * boost);
+                  foundChar.stats.hp = Math.floor(foundChar.stats.hp * boost);
+            
+                  // Thêm hiệu ứng đặc biệt
+                  foundChar.specialEffects = foundChar.specialEffects || [];
+                  foundChar.specialEffects.push(constellationInfo.effect);
+            
+                  // Tăng giá trị nhân vật
+                  foundChar.value = Math.floor(foundChar.value * (1 + constellationInfo.powerBoost));
+                }
+            
+                // Xóa Stella Fortuna khỏi inventory sau khi đã sử dụng
+                userData.inventory = userData.inventory.filter(id => id !== pullResult.charId);
+                saveGachaData(gachaData);
+                saveCharacterDatabase();
+            
+                // Chỉ gửi thông báo văn bản, không gửi ảnh
+                announceConstellationUnlock(
+                  api, 
+                  threadID, 
+                  userName, 
+                  foundChar.name, 
+                  nextLevel, 
+                  constellationName, 
+                  constellationEffect
+                );
+            
+                // Trả về thông báo kết quả pull dạng văn bản
+                return api.sendMessage(
+                  `🎮 KẾT QUẢ GACHA 🎮\n\n` +
+                  `✨ BẠN ĐÃ NHẬN ĐƯỢC STELLA FORTUNA! ${pullResult.isPity ? '(PITY)' : ''}\n` +
+                  `📝 Đã tự động mở khóa chòm sao C${nextLevel} cho ${foundChar.name}\n` +
+                  `${pullResult.isPity ? '🎯 Kích hoạt từ hệ thống pity!\n' : ''}` +
+                  `💪 Sức mạnh nhân vật đã tăng ${Math.round(constellationData[currentLevel].powerBoost * 100)}%\n\n` +
+                  `⭐ Độ hiếm: 5★\n` +
+                  `🔮 ID nhân vật: #${foundCharId.slice(-4)}`,
+                  threadID,
+                  messageID
+                );
+              }
+            
+              // Trường hợp không tìm thấy nhân vật phù hợp hoặc tất cả đã max constellation
               try {
-                // Tạo ảnh Stella Fortuna
                 const stellaImage = await createStellaResultImage({
                   userId: senderID,
                   userName,
@@ -5160,13 +5250,13 @@ module.exports = {
                   isUniversal: stellaItem.isUniversal
                 });
             
-                // Hiển thị thông báo kèm ảnh
                 return api.sendMessage(
                   {
                     body: `🎮 KẾT QUẢ GACHA 🎮\n\n` +
                           `✨ BẠN ĐÃ NHẬN ĐƯỢC STELLA FORTUNA! ${pullResult.isPity ? '(PITY)' : ''}\n` +
                           `📝 Chìa khóa cho chòm sao: ${pullResult.originalChar}\n` +
                           `${pullResult.isPity ? '🎯 Kích hoạt từ hệ thống pity!\n' : ''}` +
+                          `💡 ${!foundChar ? 'Bạn chưa có nhân vật này trong kho đồ' : 'Nhân vật này đã đạt C6 (max)'}\n` +
                           `💡 Dùng lệnh ".gacha const #ID-NHÂN-VẬT #ID-STELLA" để mở khóa chòm sao\n\n` +
                           `⭐ Độ hiếm: 5★\n` +
                           `💰 Giá trị: $${stellaItem.value.toLocaleString()}\n` +
@@ -5178,13 +5268,14 @@ module.exports = {
                   messageID
                 );
               } catch (error) {
-                // Fallback nếu có lỗi
-                console.error("Error displaying Stella Fortuna:", error);
+                console.error("Error creating Stella Fortuna image:", error);
                 return api.sendMessage(
                   `🎮 KẾT QUẢ GACHA 🎮\n\n` +
-                  `✨ Bạn đã nhận được Stella Fortuna cho ${pullResult.originalChar}!\n` +
-                  `${pullResult.isPity ? '🎯 Kích hoạt từ hệ thống pity!\n' : ''}` +
-                  `📝 Dùng Stella để mở khóa chòm sao cho nhân vật\n` +
+                  `✨ BẠN ĐÃ NHẬN ĐƯỢC STELLA FORTUNA!\n` +
+                  `📝 Chìa khóa cho chòm sao: ${pullResult.originalChar}\n` +
+                  `💡 ${!foundChar ? 'Bạn chưa có nhân vật này trong kho đồ' : 'Nhân vật này đã đạt C6 (max)'}\n` +
+                  `💡 Dùng lệnh ".gacha const #ID-NHÂN-VẬT #ID-STELLA" để mở khóa chòm sao\n\n` +
+                  `⭐ Độ hiếm: 5★\n` +
                   `💰 Giá trị: $${stellaItem.value.toLocaleString()}`,
                   threadID,
                   messageID
@@ -5218,9 +5309,8 @@ module.exports = {
         else if (CHARACTER_RATINGS.FOUR_STAR.includes(characterName))
           rarity = "⭐⭐⭐⭐";
 
-        const charInfo =
-          CUSTOM_CHARACTER_DATA[CHARACTER_IDS[charId].name] ||
-          (await genshin.characters(CHARACTER_IDS[charId].name.toLowerCase()));
+        const charInfo = CUSTOM_CHARACTER_DATA[CHARACTER_IDS[charId].name] ||
+        (await genshin.characters(CHARACTER_IDS[charId].name.toLowerCase()).catch(() => null));
         const imagePath = await getCharacterImage(CHARACTER_IDS[charId].name);
 
         const charRarity = CHARACTER_RATINGS.FIVE_STAR.includes(
@@ -6243,41 +6333,43 @@ module.exports = {
 
         // Xóa Stella Fortuna khỏi inventory sau khi unlock thành công
         userData.inventory = userData.inventory.filter((id) => id !== foundStellaId);
-        saveGachaData(gachaData);
+saveGachaData(gachaData);
 
-        const char = CHARACTER_IDS[foundCharId];
-        const constellationData = CHARACTER_CONSTELLATIONS[char.name];
-        const currentCLevel = result.newConstellation;
-        const constellationName = constellationData && constellationData[currentCLevel-1] ? 
-                                constellationData[currentCLevel-1].name : "Constellation " + currentCLevel;
-        
-        // Thông báo cá nhân
-        api.sendMessage(
-          "🌟 MỞ KHÓA CHÒM SAO THÀNH CÔNG! 🌟\n" +
-          "━━━━━━━━━━━━━━━━━━━━━\n\n" +
-          `👤 Nhân vật: ${result.character}\n` +
-          `🌠 Cấp độ chòm sao: C${result.newConstellation}\n` +
-          `✨ Hiệu ứng mới: ${result.effect}\n\n` +
-          `📊 CHỈ SỐ MỚI:\n` +
-          `⚔️ ATK: ${char.stats.atk}\n` +
-          `🛡️ DEF: ${char.stats.def}\n` +
-          `❤️ HP: ${char.stats.hp}\n\n` +
-          `💰 Giá trị mới: $${char.value.toLocaleString()}\n\n` +
-          `💡 Stella Fortuna đã được sử dụng.`,
-          threadID,
-          messageID
-        );
-        announceConstellationUnlock(
-          api, 
-          threadID, 
-          userName, 
-          char.name, 
-          result.newConstellation, 
-          constellationName,
-          result.effect
-        );
-        
-        return;
+const char = CHARACTER_IDS[foundCharId];
+const constellationData = CHARACTER_CONSTELLATIONS[char.name];
+const currentCLevel = result.newConstellation;
+const constellationName = constellationData && constellationData[currentCLevel-1] ? 
+                        constellationData[currentCLevel-1].name : "Constellation " + currentCLevel;
+
+// Chỉ thông báo bằng văn bản, không gửi ảnh
+api.sendMessage(
+  "🌟 MỞ KHÓA CHÒM SAO THÀNH CÔNG! 🌟\n" +
+  "━━━━━━━━━━━━━━━━━━━━━\n\n" +
+  `👤 Nhân vật: ${result.character}\n` +
+  `🌠 Cấp độ chòm sao: C${result.newConstellation}\n` +
+  `✨ Hiệu ứng mới: ${result.effect}\n\n` +
+  `📊 CHỈ SỐ MỚI:\n` +
+  `⚔️ ATK: ${char.stats.atk}\n` +
+  `🛡️ DEF: ${char.stats.def}\n` +
+  `❤️ HP: ${char.stats.hp}\n\n` +
+  `💰 Giá trị mới: $${char.value.toLocaleString()}\n\n` +
+  `💡 Stella Fortuna đã được sử dụng.`,
+  threadID,
+  messageID
+);
+
+// Thông báo công khai trong nhóm
+announceConstellationUnlock(
+  api, 
+  threadID, 
+  userName, 
+  char.name, 
+  result.newConstellation, 
+  constellationName,
+  result.effect
+);
+
+return;
         }
       case "stellastats":
       case "spity": {

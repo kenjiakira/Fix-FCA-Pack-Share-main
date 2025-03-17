@@ -6930,6 +6930,15 @@ if (character.rarity >= 5 || isEvolved) {
     }
   }
 
+  ctx.textAlign = "center"; 
+  if (isEvolved) {
+    // Giữ phần code xử lý nhân vật đã tiến hóa
+  } else {
+    // Loại bỏ phần hiển thị constellation không phù hợp
+    ctx.fillStyle = "rgba(0, 0, 0, 0.6)";
+    // Chỉ hiển thị tên nhân vật và rarity, không hiển thị thông tin chòm sao
+  }
+
   roundRect(ctx, x, y + height - 30, width, 30, 5, true, false);
 
   const displayName = character.name || "Unknown";

@@ -14,7 +14,7 @@ module.exports = {
     },
     river: {
         name: "Sông",
-        cost: 25,
+        cost: 2500,
         fish: {
             trash: 10,          
             common: 60,         
@@ -27,7 +27,7 @@ module.exports = {
     },
     ocean: {
         name: "Biển",
-        cost: 50,
+        cost: 5000,
         fish: {
             trash: 8,           
             common: 50,         
@@ -40,7 +40,7 @@ module.exports = {
     },
     deepSea: {
         name: "Biển sâu",
-        cost: 250,
+        cost: 25000,
         fish: {
             trash: 5,           
             common: 40,         
@@ -53,7 +53,7 @@ module.exports = {
     },
     abyss: {
         name: "Vực Sâu",
-        cost: 1000,
+        cost: 100000,
         fish: {
             trash: 3,           
             common: 25,         
@@ -66,7 +66,7 @@ module.exports = {
     },
     atlantis: {
         name: "Atlantis",
-        cost: 2500,
+        cost: 250000,
         fish: {
             trash: 2,           
             common: 15,         
@@ -79,7 +79,7 @@ module.exports = {
     },
    spaceOcean: {
         name: "Đại Dương Vũ Trụ",
-        cost: 5000,
+        cost: 500000,
         fish: {
             trash: 0,           
             common: 20,          
@@ -92,7 +92,7 @@ module.exports = {
     },
     dragonRealm: {
         name: "Thủy Cung Rồng",
-        cost: 10000,
+        cost: 1000000,
         fish: {
             trash: 0,           
             common: 20,          
@@ -105,7 +105,7 @@ module.exports = {
     },
     vipReserve: {
         name: "Khu VIP VÀNG",
-        cost: 1500,
+        cost: 150000,
         description: "Khu vực câu cá độc quyền dành riêng cho người dùng VIP",
         fish: {
             trash: 0,           
@@ -119,7 +119,7 @@ module.exports = {
     },
     vipBronzeResort: {
         name: "Khu Nghỉ Dưỡng",
-        cost: 500,
+        cost: 50000,
         fish: {
             trash: 3,           
             common: 42,          
@@ -132,7 +132,7 @@ module.exports = {
     },
     vipSilverLagoon: {
         name: "Hồ Bạc",
-        cost: 1000,
+        cost: 100000,
         fish: {
             trash: 2,           
             common: 30,          

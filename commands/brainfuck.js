@@ -1,7 +1,7 @@
 module.exports = {
     name: "brainfuck",
     info: "Brainfuck",
-    category: "Tiện ích",
+    category: "Tiện Ích",
     usages: ".brainfuck encode/decode/toook/frook/minify/art [input]",
     cooldowns: 5,
     dev: "HNT",

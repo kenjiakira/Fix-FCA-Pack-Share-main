@@ -16,7 +16,7 @@
       {
         "name": "Lê Nguyễn Ngọc Hà",
         "birthDate": 1739294195453,
-        "happiness": 85.42663204861113,
+        "happiness": 48.49801333333335,
         "gender": "👧",
         "nickname": "Bé Lê Nguyễn Ngọc Hà",
         "isMarried": true,
@@ -27,84 +27,84 @@
       {
         "name": "Lê Long An",
         "birthDate": 1740021625933,
-        "happiness": 58.425192569444434,
+        "happiness": 21.496573854166655,
         "gender": "👦",
         "nickname": "Yêu Lê Long An"
       },
       {
         "name": "Lê Huỳnh Hà Mỹ",
         "birthDate": 1740570488833,
-        "happiness": 78.65667930555556,
+        "happiness": 41.72806059027778,
         "gender": "👧",
         "nickname": "Cưng Lê Huỳnh Hà Mỹ"
       },
       {
         "name": "Lê Thị Thảo Vy",
         "birthDate": 1740628350879,
-        "happiness": 78.65667930555556,
+        "happiness": 41.72806059027778,
         "gender": "👧",
         "nickname": "Angel Lê Thị Thảo Vy"
       },
       {
         "name": "Lê Ngọc Mỹ Diệu",
         "birthDate": 1740631108270,
-        "happiness": 78.65667930555556,
+        "happiness": 41.72806059027778,
         "gender": "👧",
         "nickname": "Bé Lê Ngọc Mỹ Diệu"
       },
       {
         "name": "Lê Trần Hà An",
         "birthDate": 1740632843769,
-        "happiness": 78.65667930555556,
+        "happiness": 41.72806059027778,
         "gender": "👧",
         "nickname": "Angel Lê Trần Hà An"
       },
       {
         "name": "Lê Ninh Minh Hy",
         "birthDate": 1740634947158,
-        "happiness": 78.65667930555556,
+        "happiness": 41.72806059027778,
         "gender": "👦",
         "nickname": "Yêu Lê Ninh Minh Hy"
       },
       {
         "name": "Lê Trạch Đông",
         "birthDate": 1740664000276,
-        "happiness": 81.90703434027778,
+        "happiness": 44.978415625,
         "gender": "👦",
         "nickname": "Yêu Lê Trạch Đông"
       },
       {
         "name": "Lê Vũ Thủ Đức",
         "birthDate": 1740664700545,
-        "happiness": 81.90703434027778,
+        "happiness": 44.978415625,
         "gender": "👦",
         "nickname": "Bé Lê Vũ Thủ Đức"
       },
       {
         "name": "Lê Dương Hà Em",
         "birthDate": 1740730076410,
-        "happiness": 85.42663204861113,
+        "happiness": 48.49801333333335,
         "gender": "👧",
         "nickname": "Angel Lê Dương Hà Em"
       },
       {
         "name": "Lê Nam Tống",
         "birthDate": 1740730699984,
-        "happiness": 81.90703434027778,
+        "happiness": 44.978415625,
         "gender": "👦",
         "nickname": "Cưng Lê Nam Tống"
       },
       {
         "name": "Lê Công Nhạn",
         "birthDate": 1740734965419,
-        "happiness": 81.90703434027778,
+        "happiness": 44.978415625,
         "gender": "👦",
         "nickname": "Bé Lê Công Nhạn"
       },
       {
         "name": "Lê Phan Thuỳ Linh",
         "birthDate": 1740736513405,
-        "happiness": 81.90703434027778,
+        "happiness": 44.978415625,
         "gender": "👧",
         "nickname": "Angel Lê Phan Thuỳ Linh"
       },
@@ -112,14 +112,14 @@
         "id": "1740808645971",
         "name": "Lê Ngọc Thái Hà",
         "birthDate": 1709272645971,
-        "happiness": 88.73734434027777,
+        "happiness": 51.808725624999994,
         "gender": "👧",
         "nickname": "Cưng Lê Ngọc Thái Hà"
       }
     ],
     "home": null,
-    "happiness": 27.81984664351852,
-    "lastChecked": 1741078431198,
+    "happiness": 0,
+    "lastChecked": 1742141975418,
     "lastBaby": 1740808645973,
     "lastIntimate": 1740808616977,
     "isProposer": true,
@@ -223,7 +223,7 @@
         "id": "1740751646336",
         "name": "Hoàng Gia Long",
         "birthDate": 1740751646336,
-        "happiness": 53.47098961805554,
+        "happiness": 49.4663336111111,
         "gender": "👦",
         "nickname": "Yêu Hoàng Gia Long"
       },
@@ -232,15 +232,15 @@
         "name": "Hoàng Lan Anh",
         "gender": "👧",
         "birthDate": 1740848223110,
-        "happiness": 53.74687222222221,
+        "happiness": 49.742216215277764,
         "nickname": "Tí Hoàng Lan Anh",
         "isMarried": false,
         "movedOut": false
       }
     ],
     "home": null,
-    "happiness": 100,
-    "lastChecked": 1742019079462,
+    "happiness": 93.32557332175926,
+    "lastChecked": 1742134413556,
     "lastBaby": 1740751646337,
     "lastIntimate": 1740848160307,
     "isProposer": true,
@@ -641,8 +641,8 @@
     "spouse": null,
     "children": [],
     "home": null,
-    "happiness": 50,
-    "lastChecked": 1739327875929,
+    "happiness": 0,
+    "lastChecked": 1742181144822,
     "lastBaby": 0,
     "lastIntimate": 0,
     "health": 90
@@ -1982,13 +1982,56 @@
   },
   "61566378911878": {
     "name": null,
-    "spouse": null,
-    "children": [],
-    "happiness": 50,
-    "lastChecked": 1739890751789,
+    "spouse": "100081770013413",
+    "children": [
+      {
+        "id": "1742139953057",
+        "name": "Skibidi",
+        "gender": "👧",
+        "birthDate": 1742139953057,
+        "happiness": 100,
+        "nickname": "Bé Skibidi",
+        "isMarried": false,
+        "movedOut": false
+      },
+      {
+        "id": "1742141101739",
+        "name": "Nig con",
+        "gender": "👧",
+        "birthDate": 1742141101739,
+        "happiness": 100,
+        "nickname": "Bé Nig con",
+        "isMarried": false,
+        "movedOut": false
+      },
+      {
+        "id": "1742141225746",
+        "name": "Nig gái",
+        "gender": "👧",
+        "birthDate": 1742141225746,
+        "happiness": 100,
+        "nickname": "Bo Nig gái",
+        "isMarried": false,
+        "movedOut": false
+      },
+      {
+        "id": "1742141263764",
+        "name": "Hưng gay",
+        "gender": "👦",
+        "birthDate": 1742141263764,
+        "happiness": 100,
+        "nickname": "Pin Hưng gay",
+        "isMarried": false,
+        "movedOut": false
+      }
+    ],
+    "happiness": 100,
+    "lastChecked": 1742134517350,
     "lastBaby": 0,
-    "lastIntimate": 0,
-    "health": 90
+    "lastIntimate": 1742141252005,
+    "health": 100,
+    "isProposer": true,
+    "proposedBy": null
   },
   "61568733064572": {
     "name": null,
@@ -2165,7 +2208,7 @@
         "id": "1740751646336",
         "name": "Hoàng Gia Long",
         "birthDate": 1740751646336,
-        "happiness": 64.87796753472222,
+        "happiness": 47.18062493055555,
         "gender": "👦",
         "nickname": "Yêu Hoàng Gia Long"
       },
@@ -2174,14 +2217,14 @@
         "name": "Hoàng Lan Anh",
         "gender": "👧",
         "birthDate": 1740848223110,
-        "happiness": 69.08851861111111,
+        "happiness": 51.39117600694445,
         "nickname": "Tí Hoàng Lan Anh",
         "isMarried": false,
         "movedOut": false
       }
     ],
-    "happiness": 100,
-    "lastChecked": 1741625693717,
+    "happiness": 70.50442899305555,
+    "lastChecked": 1742135377184,
     "lastBaby": 1740751646337,
     "lastIntimate": 1740848160314,
     "isProposer": false,
@@ -2322,12 +2365,23 @@
   "61552144357464": {
     "name": null,
     "spouse": "100072567218546",
-    "children": [],
+    "children": [
+      {
+        "id": "1742118291051",
+        "name": "ali chim bé",
+        "gender": "👦",
+        "birthDate": 1742118291051,
+        "happiness": 100,
+        "nickname": "Pin ali chim bé",
+        "isMarried": false,
+        "movedOut": false
+      }
+    ],
     "happiness": 100,
     "health": 100,
     "lastChecked": 1742054005674,
     "lastBaby": 0,
-    "lastIntimate": 1742054955559,
+    "lastIntimate": 1742118277597,
     "insurance": {
       "active": true,
       "expiresAt": 1744646240152,
@@ -2362,12 +2416,23 @@
   "100072567218546": {
     "name": null,
     "spouse": "61552144357464",
-    "children": [],
+    "children": [
+      {
+        "id": "1742118291051",
+        "name": "ali chim bé",
+        "gender": "👦",
+        "birthDate": 1742118291051,
+        "happiness": 100,
+        "nickname": "Pin ali chim bé",
+        "isMarried": false,
+        "movedOut": false
+      }
+    ],
     "happiness": 100,
     "health": 100,
     "lastChecked": 1742054037631,
     "lastBaby": 0,
-    "lastIntimate": 1742054955568,
+    "lastIntimate": 1742118277614,
     "insurance": {
       "active": false,
       "expiresAt": 0,
@@ -2376,5 +2441,93 @@
     "isProposer": false,
     "proposedBy": "Minh Đức",
     "contraceptiveUntil": 1742055325931
+  },
+  "100081770013413": {
+    "name": null,
+    "spouse": "61566378911878",
+    "children": [
+      {
+        "id": "1742139953057",
+        "name": "Skibidi",
+        "gender": "👧",
+        "birthDate": 1742139953057,
+        "happiness": 100,
+        "nickname": "Bé Skibidi",
+        "isMarried": false,
+        "movedOut": false
+      },
+      {
+        "id": "1742141101739",
+        "name": "Nig con",
+        "gender": "👧",
+        "birthDate": 1742141101739,
+        "happiness": 100,
+        "nickname": "Bé Nig con",
+        "isMarried": false,
+        "movedOut": false
+      },
+      {
+        "id": "1742141225746",
+        "name": "Nig gái",
+        "gender": "👧",
+        "birthDate": 1742141225746,
+        "happiness": 100,
+        "nickname": "Bo Nig gái",
+        "isMarried": false,
+        "movedOut": false
+      },
+      {
+        "id": "1742141263764",
+        "name": "Hưng gay",
+        "gender": "👦",
+        "birthDate": 1742141263764,
+        "happiness": 100,
+        "nickname": "Pin Hưng gay",
+        "isMarried": false,
+        "movedOut": false
+      }
+    ],
+    "happiness": 100,
+    "health": 100,
+    "lastChecked": 1742134517351,
+    "lastBaby": 0,
+    "lastIntimate": 1742141252012,
+    "insurance": {
+      "active": false,
+      "expiresAt": 0,
+      "discount": 0
+    },
+    "isProposer": false,
+    "proposedBy": "Da Đen Ao Hồ"
+  },
+  "100075056351029": {
+    "name": null,
+    "spouse": null,
+    "children": [],
+    "happiness": 50,
+    "health": 100,
+    "lastChecked": 1742134820419,
+    "lastBaby": 0,
+    "lastIntimate": 0,
+    "insurance": {
+      "active": false,
+      "expiresAt": 0,
+      "discount": 0
+    }
+  },
+  "61560539745976": {
+    "name": null,
+    "spouse": null,
+    "children": [],
+    "happiness": 50,
+    "health": 100,
+    "lastChecked": 1742138931497,
+    "lastBaby": 0,
+    "lastIntimate": 0,
+    "insurance": {
+      "active": false,
+      "expiresAt": 0,
+      "discount": 0
+    }
   }
 }
