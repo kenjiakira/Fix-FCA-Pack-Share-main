@@ -110,6 +110,17 @@ async function processQueue(api, event) {
     setTimeout(() => processQueue(api, event), 500);
 }
 
+async function updateQuestProgress(userId, quest) {
+    try {
+        const userQuests = require('../utils/currencies').getUserQuests(userId);
+        if (!userQuests.completed[quest]) {
+            userQuests.progress[quest] = (userQuests.progress[quest] || 0) + 1;
+        }
+    } catch (error) {
+        console.error("Error updating quest progress:", error);
+    }
+}
+
 module.exports = {
     name: 'rankup',
     ver: '2.1',
@@ -182,6 +193,9 @@ module.exports = {
 
                     processQueue(api, event);
                 }
+
+                // Cập nhật tiến độ nhiệm vụ chat_active
+                await updateQuestProgress(userId, 'chat_active');
 
                 fs.writeFileSync(userDataPath, JSON.stringify(userData, null, 2));
             }

@@ -1,21 +1,5 @@
 {
   "users": {
-    "100006842495827": {
-      "packageId": 3,
-      "name": "VIP GOLD",
-      "expireTime": 1742220355467,
-      "benefits": {
-        "workBonus": 40,
-        "cooldownReduction": 30,
-        "dailyBonus": true,
-        "fishingCooldown": 120000,
-        "fishExpMultiplier": 4,
-        "packageId": 3,
-        "name": "VIP GOLD ⭐⭐⭐",
-        "rareBonus": 0.3,
-        "trashReduction": 0.6
-      }
-    },
     "61573075153597": {
       "packageId": 3,
       "name": "VIP GOLD",
@@ -51,7 +35,7 @@
     "61573427362389": {
       "packageId": 3,
       "name": "VIP GOLD",
-      "expireTime": 1744625201693,
+      "expireTime": 1745406526854,
       "benefits": {
         "workBonus": 40,
         "cooldownReduction": 30,
@@ -64,24 +48,34 @@
         "stolenCooldown": 900000,
         "packageId": 3,
         "name": "VIP GOLD"
+      },
+      "purchaseInfo": {
+        "purchaseDate": 1742209726854,
+        "months": 1,
+        "voucherApplied": null
       }
     },
     "100065381078044": {
-      "packageId": 2,
-      "name": "VIP SILVER",
-      "expireTime": 1744024519986,
+      "packageId": 3,
+      "name": "VIP GOLD",
+      "expireTime": 1745462150175,
       "benefits": {
-        "workBonus": 20,
-        "cooldownReduction": 20,
+        "workBonus": 40,
+        "cooldownReduction": 30,
         "dailyBonus": true,
-        "fishingCooldown": 240000,
-        "fishExpMultiplier": 3,
-        "rareBonus": 0.2,
-        "trashReduction": 0.4,
-        "stolenProtection": 0.6,
+        "fishingCooldown": 120000,
+        "fishExpMultiplier": 4,
+        "rareBonus": 0.3,
+        "trashReduction": 0.6,
+        "stolenProtection": 1,
         "stolenCooldown": 900000,
-        "packageId": 2,
-        "name": "VIP SILVER"
+        "packageId": 3,
+        "name": "VIP GOLD"
+      },
+      "purchaseInfo": {
+        "purchaseDate": 1742265350175,
+        "months": 1,
+        "voucherApplied": null
       }
     },
     "100063719077878": {
@@ -102,56 +96,10 @@
         "name": "VIP GOLD"
       }
     },
-    "61565910856313": {
-      "packageId": 2,
-      "name": "VIP SILVER",
-      "expireTime": 1819248688775,
-      "benefits": {
-        "workBonus": 20,
-        "cooldownReduction": 20,
-        "dailyBonus": true,
-        "fishingCooldown": 240000,
-        "fishExpMultiplier": 3,
-        "rareBonus": 0.2,
-        "trashReduction": 0.4,
-        "stolenProtection": 0.6,
-        "stolenCooldown": 900000,
-        "packageId": 2,
-        "name": "VIP SILVER"
-      },
-      "purchaseInfo": {
-        "purchaseDate": 1741488688775,
-        "months": 30,
-        "voucherApplied": null
-      }
-    },
-    "61565429063061": {
-      "packageId": 3,
-      "name": "VIP GOLD",
-      "expireTime": 1860422338279,
-      "benefits": {
-        "workBonus": 40,
-        "cooldownReduction": 30,
-        "dailyBonus": true,
-        "fishingCooldown": 120000,
-        "fishExpMultiplier": 4,
-        "rareBonus": 0.3,
-        "trashReduction": 0.6,
-        "stolenProtection": 1,
-        "stolenCooldown": 900000,
-        "packageId": 3,
-        "name": "VIP GOLD"
-      },
-      "purchaseInfo": {
-        "purchaseDate": 1742140738279,
-        "months": 37,
-        "voucherApplied": null
-      }
-    },
     "100076957299243": {
       "packageId": 3,
       "name": "VIP GOLD",
-      "expireTime": 1860424914018,
+      "expireTime": 1745406564651,
       "benefits": {
         "workBonus": 40,
         "cooldownReduction": 30,
@@ -166,8 +114,8 @@
         "name": "VIP GOLD"
       },
       "purchaseInfo": {
-        "purchaseDate": 1742143314018,
-        "months": 37,
+        "purchaseDate": 1742209764651,
+        "months": 1,
         "voucherApplied": null
       }
     }

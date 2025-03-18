@@ -90,7 +90,7 @@ class DailyRewardManager {
   }
 
   calculateReward(streak) {
-    const baseAmount = randomInt(15, 61) * 100;
+    const baseAmount = randomInt(1500, 6100) * 100;
     let multiplier = Math.min(1 + streak * 0.1, 2.5);
 
     const today = new Date().getDay();
@@ -852,6 +852,17 @@ class DailyRewardManager {
 
 const dailyManager = new DailyRewardManager();
 
+async function updateDailyCheckin(userId) {
+  try {
+    const userQuests = require('../utils/currencies').getUserQuests(userId);
+    if (!userQuests.completed['daily_checkin']) {
+      userQuests.progress['daily_checkin'] = (userQuests.progress['daily_checkin'] || 0) + 1;
+    }
+  } catch (error) {
+    console.error("Error updating daily checkin quest:", error);
+  }
+}
+
 module.exports = {
   name: "daily",
   dev: "HNT",
@@ -874,23 +885,23 @@ module.exports = {
         streak: 0,
       };
       const timeSinceLastClaim = now - userClaim.lastClaim;
+      const CLAIM_INTERVAL = 4 * 60 * 60 * 1000; // 4 giờ
 
-      if (timeSinceLastClaim < 24 * 60 * 60 * 1000) {
-        const hoursLeft = Math.ceil(
-          (24 * 60 * 60 * 1000 - timeSinceLastClaim) / (60 * 60 * 1000)
-        );
-        const minutesLeft =
-          Math.ceil((24 * 60 * 60 * 1000 - timeSinceLastClaim) / (60 * 1000)) %
-          60;
+      if (timeSinceLastClaim < CLAIM_INTERVAL) {
+        const hoursLeft = Math.floor((CLAIM_INTERVAL - timeSinceLastClaim) / (60 * 60 * 1000));
+        const minutesLeft = Math.floor((CLAIM_INTERVAL - timeSinceLastClaim) % (60 * 60 * 1000) / (60 * 1000));
         return api.sendMessage(
           `⏳ Vui lòng đợi ${hoursLeft} giờ ${minutesLeft} phút nữa!\n` +
-            `Streak hiện tại: ${userClaim.streak || 0} ngày`,
+          `Streak hiện tại: ${userClaim.streak || 0} ngày`,
           threadID,
           messageID
         );
       }
 
-      const streak = dailyManager.calculateStreak(senderID, now);
+      // Reset streak chỉ khi quá 48h không claim
+      const streakReset = timeSinceLastClaim >= 48 * 60 * 60 * 1000;
+      const streak = streakReset ? 1 : dailyManager.calculateStreak(senderID, now);
+
       const amount = dailyManager.calculateReward(streak);
       const expAmount = dailyManager.calculateExpReward(streak);
       const dayBonus = dailyManager.getDayBonus();
@@ -920,6 +931,9 @@ module.exports = {
         vipInfo,
         currentBalance,
       });
+
+      // Cập nhật nhiệm vụ điểm danh
+      await updateDailyCheckin(senderID);
 
       return api.sendMessage(
         {

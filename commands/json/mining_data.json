@@ -3,94 +3,159 @@
     "miner": {
       "power": 1,
       "consumption": 0.5,
-      "durability": 95.5,
+      "durability": 94.5,
       "maxDurability": 100
     },
-    "coins": 3,
+    "coins": 0,
     "upgrades": {
       "power": 0,
       "efficiency": 0,
       "cooling": 0
     },
-    "lastMining": 1742098183990,
+    "lastMining": 1742211648300,
     "stats": {
-      "totalMined": 378,
-      "successfulMines": 5,
+      "totalMined": 664,
+      "successfulMines": 7,
       "failedMines": 4
     },
     "quests": {
       "daily": {
-        "type": "mine",
+        "type": "upgrade",
         "progress": 0,
-        "target": 10,
-        "lastReset": 1742130592117
+        "target": 3,
+        "lastReset": 1742220436123
       }
     },
     "settings": {
       "autoSell": true
-    }
+    },
+    "miningStreak": 2
   },
   "100076957299243": {
     "miner": {
       "power": 1,
       "consumption": 0.5,
-      "durability": 83.5,
+      "durability": 71.75,
       "maxDurability": 100
     },
-    "coins": 0,
+    "coins": 1209,
     "upgrades": {
       "power": 5,
       "efficiency": 5,
       "cooling": 5
     },
-    "lastMining": 1742143033582,
+    "lastMining": 1742300604020,
     "stats": {
-      "totalMined": 11415,
-      "successfulMines": 30,
-      "failedMines": 3
+      "totalMined": 22238,
+      "successfulMines": 56,
+      "failedMines": 5
     },
     "quests": {
       "daily": {
-        "type": "market",
-        "progress": 17,
+        "type": "upgrade",
+        "progress": 0,
         "target": 3,
-        "lastReset": 1742130577231,
-        "claimed": true
+        "lastReset": 1742220132673
       }
     },
     "settings": {
-      "autoSell": true
-    }
+      "autoSell": false
+    },
+    "miningStreak": 6
   },
   "100068382888605": {
     "miner": {
       "power": 1,
       "consumption": 0.5,
-      "durability": 77.5,
+      "durability": 77.125,
       "maxDurability": 100
     },
-    "coins": 0,
+    "coins": 437,
     "upgrades": {
       "power": 5,
       "efficiency": 5,
       "cooling": 5
     },
-    "lastMining": 1742138115148,
+    "lastMining": 1742292710443,
     "stats": {
-      "totalMined": 15090,
-      "successfulMines": 43,
+      "totalMined": 15527,
+      "successfulMines": 44,
       "failedMines": 2
     },
     "quests": {
       "daily": {
-        "type": "mine",
-        "progress": 10,
-        "target": 10,
-        "lastReset": 1742128343189
+        "type": "market",
+        "progress": 0,
+        "target": 3,
+        "lastReset": 1742292710440
       }
-    }
+    },
+    "miningStreak": 1
   },
   "100087903284283": {
+    "miner": {
+      "power": 1,
+      "consumption": 0.5,
+      "durability": 97.05000000000001,
+      "maxDurability": 100,
+      "repairCost": 1000
+    },
+    "coins": 0,
+    "upgrades": {
+      "power": 1,
+      "efficiency": 1,
+      "cooling": 1
+    },
+    "lastMining": 1742292364935,
+    "stats": {
+      "totalMined": 212,
+      "successfulMines": 2,
+      "failedMines": 4
+    },
+    "quests": {
+      "daily": {
+        "type": "upgrade",
+        "progress": 0,
+        "target": 3,
+        "lastReset": 1742264990234
+      }
+    },
+    "miningStreak": 1
+  },
+  "100051073987266": {
+    "miner": {
+      "power": 1,
+      "consumption": 0.5,
+      "durability": 80.125,
+      "maxDurability": 100,
+      "repairCost": 1000
+    },
+    "coins": 2124838,
+    "upgrades": {
+      "power": 5,
+      "efficiency": 5,
+      "cooling": 5
+    },
+    "lastMining": 1742300584107,
+    "stats": {
+      "totalMined": 17545,
+      "successfulMines": 43,
+      "failedMines": 1
+    },
+    "quests": {
+      "daily": {
+        "type": "upgrade",
+        "progress": 0,
+        "target": 3,
+        "lastReset": 1742221941454
+      }
+    },
+    "settings": {
+      "autoSell": false
+    },
+    "miningStreak": 17
+  },
+  "61555034078738": {
     "miner": {
       "power": 1,
       "consumption": 0.5,
@@ -98,85 +163,24 @@
       "maxDurability": 100,
       "repairCost": 1000
     },
-    "coins": 100,
+    "coins": 401,
     "upgrades": {
-      "power": 1,
+      "power": 3,
       "efficiency": 1,
       "cooling": 1
     },
-    "lastMining": 1742040814517,
+    "lastMining": 1742191112370,
     "stats": {
-      "totalMined": 100,
-      "successfulMines": 1,
-      "failedMines": 3
-    },
-    "quests": {
-      "daily": {
-        "type": "market",
-        "progress": 0,
-        "target": 3,
-        "lastReset": 1742031443585
-      }
-    }
-  },
-  "100051073987266": {
-    "miner": {
-      "power": 1,
-      "consumption": 0.5,
-      "durability": 90.5,
-      "maxDurability": 100,
-      "repairCost": 1000
-    },
-    "coins": 4554,
-    "upgrades": {
-      "power": 5,
-      "efficiency": 5,
-      "cooling": 5
-    },
-    "lastMining": 1742142618417,
-    "stats": {
-      "totalMined": 6825,
-      "successfulMines": 18,
+      "totalMined": 401,
+      "successfulMines": 3,
       "failedMines": 1
     },
     "quests": {
       "daily": {
         "type": "mine",
-        "progress": 7,
+        "progress": 3,
         "target": 10,
-        "lastReset": 1742128349650
-      }
-    },
-    "settings": {
-      "autoSell": false
-    }
-  },
-  "61555034078738": {
-    "miner": {
-      "power": 1,
-      "consumption": 0.5,
-      "durability": 99.5,
-      "maxDurability": 100,
-      "repairCost": 1000
-    },
-    "coins": 0,
-    "upgrades": {
-      "power": 0,
-      "efficiency": 0,
-      "cooling": 0
-    },
-    "lastMining": 1742040040906,
-    "stats": {
-      "totalMined": 0,
-      "successfulMines": 0,
-      "failedMines": 1
-    },
-    "quests": {
-      "daily": {
-        "type": "market",
-        "progress": 0,
-        "target": 3,
-        "lastReset": 1742040040903
+        "lastReset": 1742189938709
       }
     },
     "settings": {
@@ -187,149 +191,153 @@
     "miner": {
       "power": 1,
       "consumption": 0.5,
-      "durability": 88,
+      "durability": 75.375,
       "maxDurability": 100,
       "repairCost": 1000
     },
-    "coins": 4553,
+    "coins": 16418,
     "upgrades": {
-      "power": 3,
-      "efficiency": 3,
-      "cooling": 3
+      "power": 6,
+      "efficiency": 6,
+      "cooling": 5
     },
-    "lastMining": 1742185069984,
+    "lastMining": 1742292452892,
     "stats": {
-      "totalMined": 4553,
-      "successfulMines": 18,
-      "failedMines": 6
+      "totalMined": 15913,
+      "successfulMines": 46,
+      "failedMines": 8
     },
     "quests": {
       "daily": {
         "type": "upgrade",
-        "progress": 0,
+        "progress": 2,
         "target": 3,
-        "lastReset": 1742183363302
+        "lastReset": 1742270852680
       }
     },
     "settings": {
       "autoSell": false
-    }
+    },
+    "miningStreak": 9
   },
   "100028202556430": {
     "miner": {
       "power": 1,
       "consumption": 0.5,
-      "durability": 84,
+      "durability": 76.27500000000009,
       "maxDurability": 100,
       "repairCost": 1000
     },
-    "coins": 687,
+    "coins": 1511069,
     "upgrades": {
-      "power": 5,
-      "efficiency": 5,
-      "cooling": 5
+      "power": 8,
+      "efficiency": 6,
+      "cooling": 6
     },
-    "lastMining": 1742136985097,
+    "lastMining": 1742299842751,
     "stats": {
-      "totalMined": 12187,
-      "successfulMines": 30,
+      "totalMined": 22801,
+      "successfulMines": 51,
       "failedMines": 2
     },
     "quests": {
       "daily": {
         "type": "upgrade",
-        "progress": 15,
+        "progress": 0,
         "target": 3,
-        "lastReset": 1742097506140
+        "lastReset": 1742296960589
       }
     },
     "settings": {
       "autoSell": false
-    }
+    },
+    "miningStreak": 19
   },
   "100055074463541": {
     "miner": {
       "power": 1,
       "consumption": 0.5,
-      "durability": 96.5,
+      "durability": 93.375,
       "maxDurability": 100,
       "repairCost": 1000
     },
-    "coins": 0,
+    "coins": 70832,
     "upgrades": {
       "power": 5,
       "efficiency": 5,
       "cooling": 5
     },
-    "lastMining": 1742136384134,
+    "lastMining": 1742297361393,
     "stats": {
-      "totalMined": 1647,
-      "successfulMines": 6,
-      "failedMines": 1
+      "totalMined": 3754,
+      "successfulMines": 12,
+      "failedMines": 2
     },
     "quests": {
       "daily": {
         "type": "upgrade",
-        "progress": 15,
+        "progress": 0,
         "target": 3,
-        "lastReset": 1742098676591,
-        "claimed": true
+        "lastReset": 1742296727491
       }
     },
     "settings": {
-      "autoSell": true
-    }
+      "autoSell": false
+    },
+    "miningStreak": 0
   },
   "61561277064921": {
     "miner": {
       "power": 1,
       "consumption": 0.5,
-      "durability": 98.5,
+      "durability": 80.92500000000013,
       "maxDurability": 100,
       "repairCost": 1000
     },
-    "coins": 0,
+    "coins": 1173334,
     "upgrades": {
-      "power": 0,
-      "efficiency": 0,
-      "cooling": 0
+      "power": 5,
+      "efficiency": 6,
+      "cooling": 6
     },
-    "lastMining": 1742139189632,
+    "lastMining": 1742299050479,
     "stats": {
-      "totalMined": 0,
-      "successfulMines": 0,
-      "failedMines": 3
+      "totalMined": 16053,
+      "successfulMines": 42,
+      "failedMines": 5
     },
     "quests": {
       "daily": {
-        "type": "upgrade",
-        "progress": 0,
+        "type": "market",
+        "progress": 13,
         "target": 3,
-        "lastReset": 1742100002703
+        "lastReset": 1742273745524,
+        "claimed": true
       }
     },
     "settings": {
       "autoSell": false
-    }
+    },
+    "miningStreak": 26
   },
   "100050363228652": {
     "miner": {
       "power": 1,
       "consumption": 0.5,
-      "durability": 99.5,
+      "durability": 99,
       "maxDurability": 100,
       "repairCost": 1000
     },
-    "coins": 0,
+    "coins": 150,
     "upgrades": {
       "power": 0,
       "efficiency": 0,
       "cooling": 0
     },
-    "lastMining": 1742103250178,
+    "lastMining": 1742225627869,
     "stats": {
-      "totalMined": 0,
-      "successfulMines": 0,
+      "totalMined": 150,
+      "successfulMines": 1,
       "failedMines": 1
     },
     "quests": {
@@ -337,12 +345,13 @@
         "type": "upgrade",
         "progress": 0,
         "target": 3,
-        "lastReset": 1742103250176
+        "lastReset": 1742225627868
       }
     },
     "settings": {
       "autoSell": false
-    }
+    },
+    "miningStreak": 1
   },
   "100000265737421": {
     "miner": {
@@ -380,33 +389,34 @@
     "miner": {
       "power": 1,
       "consumption": 0.5,
-      "durability": 97,
+      "durability": 96.125,
       "maxDurability": 100,
       "repairCost": 1000
     },
-    "coins": 1411,
+    "coins": 2189,
     "upgrades": {
       "power": 5,
       "efficiency": 5,
       "cooling": 5
     },
-    "lastMining": 1742142526926,
+    "lastMining": 1742212980777,
     "stats": {
-      "totalMined": 1826,
-      "successfulMines": 4,
+      "totalMined": 2604,
+      "successfulMines": 6,
       "failedMines": 2
     },
     "quests": {
       "daily": {
-        "type": "upgrade",
-        "progress": 15,
-        "target": 3,
-        "lastReset": 1742105921041
+        "type": "mine",
+        "progress": 2,
+        "target": 10,
+        "lastReset": 1742194426279
       }
     },
     "settings": {
       "autoSell": false
-    }
+    },
+    "miningStreak": 1
   },
   "100080149704587": {
     "miner": {
@@ -444,84 +454,119 @@
     "miner": {
       "power": 1,
       "consumption": 0.5,
-      "durability": 99.5,
+      "durability": 98.5,
       "maxDurability": 100,
       "repairCost": 1000
     },
-    "coins": 114,
+    "coins": 262,
     "upgrades": {
       "power": 0,
       "efficiency": 0,
       "cooling": 0
     },
-    "lastMining": 1742115135870,
+    "lastMining": 1742216635568,
     "stats": {
-      "totalMined": 114,
-      "successfulMines": 1,
-      "failedMines": 0
+      "totalMined": 262,
+      "successfulMines": 2,
+      "failedMines": 1
     },
     "quests": {
       "daily": {
-        "type": "mine",
-        "progress": 1,
-        "target": 10,
-        "lastReset": 1742115135868
+        "type": "market",
+        "progress": 0,
+        "target": 3,
+        "lastReset": 1742214735619
       }
     },
     "settings": {
       "autoSell": false
-    }
+    },
+    "miningStreak": 1
   },
   "61566789515977": {
     "miner": {
       "power": 1,
       "consumption": 0.5,
-      "durability": 99.5,
+      "durability": 97.5,
       "maxDurability": 100,
       "repairCost": 1000
     },
-    "coins": 0,
+    "coins": 14214,
     "upgrades": {
       "power": 0,
       "efficiency": 0,
       "cooling": 0
     },
-    "lastMining": 1742118197257,
+    "lastMining": 1742300620660,
     "stats": {
-      "totalMined": 100,
-      "successfulMines": 1,
-      "failedMines": 0
+      "totalMined": 314,
+      "successfulMines": 3,
+      "failedMines": 2
     },
     "quests": {
       "daily": {
-        "type": "mine",
-        "progress": 1,
-        "target": 10,
-        "lastReset": 1742118197255
+        "type": "market",
+        "progress": 3,
+        "target": 3,
+        "lastReset": 1742292239761
       }
     },
     "settings": {
       "autoSell": false
-    }
+    },
+    "miningStreak": 0
   },
   "100058320200877": {
     "miner": {
       "power": 1,
       "consumption": 0.5,
-      "durability": 99.5,
+      "durability": 97.29999999999998,
       "maxDurability": 100,
       "repairCost": 1000
     },
-    "coins": 100,
+    "coins": 82140,
+    "upgrades": {
+      "power": 3,
+      "efficiency": 3,
+      "cooling": 4
+    },
+    "lastMining": 1742302008595,
+    "stats": {
+      "totalMined": 1340,
+      "successfulMines": 5,
+      "failedMines": 1
+    },
+    "quests": {
+      "daily": {
+        "type": "mine",
+        "progress": 3,
+        "target": 10,
+        "lastReset": 1742292302089
+      }
+    },
+    "settings": {
+      "autoSell": false
+    },
+    "miningStreak": 3
+  },
+  "61566378911878": {
+    "miner": {
+      "power": 1,
+      "consumption": 0.5,
+      "durability": 99,
+      "maxDurability": 100,
+      "repairCost": 1000
+    },
+    "coins": 209,
     "upgrades": {
       "power": 0,
       "efficiency": 0,
       "cooling": 0
     },
-    "lastMining": 1742118421755,
+    "lastMining": 1742299714590,
     "stats": {
-      "totalMined": 100,
-      "successfulMines": 1,
+      "totalMined": 209,
+      "successfulMines": 2,
       "failedMines": 0
     },
     "quests": {
@@ -529,44 +574,13 @@
         "type": "upgrade",
         "progress": 0,
         "target": 3,
-        "lastReset": 1742118421753
+        "lastReset": 1742299714589
       }
     },
     "settings": {
       "autoSell": false
-    }
-  },
-  "61566378911878": {
-    "miner": {
-      "power": 1,
-      "consumption": 0.5,
-      "durability": 99.5,
-      "maxDurability": 100,
-      "repairCost": 1000
     },
-    "coins": 109,
-    "upgrades": {
-      "power": 0,
-      "efficiency": 0,
-      "cooling": 0
-    },
-    "lastMining": 1742118450182,
-    "stats": {
-      "totalMined": 109,
-      "successfulMines": 1,
-      "failedMines": 0
-    },
-    "quests": {
-      "daily": {
-        "type": "market",
-        "progress": 0,
-        "target": 3,
-        "lastReset": 1742118450181
-      }
-    },
-    "settings": {
-      "autoSell": false
-    }
+    "miningStreak": 1
   },
   "100035610181048": {
     "miner": {
@@ -604,58 +618,59 @@
     "miner": {
       "power": 1,
       "consumption": 0.5,
-      "durability": 99.5,
+      "durability": 98.5,
       "maxDurability": 100,
       "repairCost": 1000
     },
-    "coins": 144,
+    "coins": 238,
     "upgrades": {
       "power": 0,
       "efficiency": 0,
       "cooling": 0
     },
-    "lastMining": 1742137422341,
+    "lastMining": 1742220155706,
     "stats": {
-      "totalMined": 144,
-      "successfulMines": 1,
-      "failedMines": 0
+      "totalMined": 268,
+      "successfulMines": 2,
+      "failedMines": 1
     },
     "quests": {
       "daily": {
         "type": "mine",
-        "progress": 1,
+        "progress": 2,
         "target": 10,
         "lastReset": 1742137422340
       }
     },
     "settings": {
       "autoSell": false
-    }
+    },
+    "miningStreak": 1
   },
   "61568641631000": {
     "miner": {
       "power": 1,
       "consumption": 0.5,
-      "durability": 99,
+      "durability": 97,
       "maxDurability": 100,
       "repairCost": 1000
     },
-    "coins": 148,
+    "coins": 427,
     "upgrades": {
-      "power": 0,
-      "efficiency": 0,
-      "cooling": 0
+      "power": 3,
+      "efficiency": 3,
+      "cooling": 3
     },
-    "lastMining": 1742185275326,
+    "lastMining": 1742187341516,
     "stats": {
-      "totalMined": 148,
-      "successfulMines": 1,
-      "failedMines": 1
+      "totalMined": 427,
+      "successfulMines": 2,
+      "failedMines": 4
     },
     "quests": {
       "daily": {
         "type": "upgrade",
-        "progress": 0,
+        "progress": 9,
         "target": 3,
         "lastReset": 1742138091788
       }
@@ -695,5 +710,186 @@
     "settings": {
       "autoSell": false
     }
+  },
+  "100053970942155": {
+    "miner": {
+      "power": 1,
+      "consumption": 0.5,
+      "durability": 99.5,
+      "maxDurability": 100,
+      "repairCost": 100000
+    },
+    "coins": 100,
+    "upgrades": {
+      "power": 0,
+      "efficiency": 0,
+      "cooling": 0
+    },
+    "lastMining": 1742188041327,
+    "stats": {
+      "totalMined": 100,
+      "successfulMines": 1,
+      "failedMines": 0
+    },
+    "quests": {
+      "daily": {
+        "type": "market",
+        "progress": 0,
+        "target": 3,
+        "lastReset": 1742188041325
+      }
+    },
+    "settings": {
+      "autoSell": false
+    }
+  },
+  "100063719077878": {
+    "miner": {
+      "power": 1,
+      "consumption": 0.5,
+      "durability": 97.79999999999998,
+      "maxDurability": 100,
+      "repairCost": 100000,
+      "miningEvents": {
+        "normal": [
+          "⛏️ Đào được mạch quặng thường!",
+          "💎 Tìm thấy mỏ nhỏ!",
+          "🔨 Khai thác thành công!"
+        ],
+        "critical": [
+          "🌟 WOW! Đào trúng mỏ lớn!",
+          "⚡ SIÊU HIẾM! Mạch quặng nguyên chất!",
+          "🎯 JACKPOT! Kho báu cổ đại!"
+        ],
+        "fail": [
+          "💢 Máy đào quá nóng!",
+          "💨 Bụi đá che khuất tầm nhìn!",
+          "⚠️ Địa hình không ổn định!"
+        ]
+      }
+    },
+    "coins": 973,
+    "upgrades": {
+      "power": 4,
+      "efficiency": 4,
+      "cooling": 4
+    },
+    "lastMining": 1742300523106,
+    "stats": {
+      "totalMined": 973,
+      "successfulMines": 4,
+      "failedMines": 1
+    },
+    "quests": {
+      "daily": {
+        "type": "market",
+        "progress": 0,
+        "target": 3,
+        "lastReset": 1742292697564
+      }
+    },
+    "settings": {
+      "autoSell": false
+    },
+    "miningStreak": 1
+  },
+  "100065381078044": {
+    "miner": {
+      "power": 1,
+      "consumption": 0.5,
+      "durability": 100,
+      "maxDurability": 100,
+      "repairCost": 100000,
+      "miningEvents": {
+        "normal": [
+          "⛏️ Đào được mạch quặng thường!",
+          "💎 Tìm thấy mỏ nhỏ!",
+          "🔨 Khai thác thành công!"
+        ],
+        "critical": [
+          "🌟 WOW! Đào trúng mỏ lớn!",
+          "⚡ SIÊU HIẾM! Mạch quặng nguyên chất!",
+          "🎯 JACKPOT! Kho báu cổ đại!"
+        ],
+        "fail": [
+          "💢 Máy đào quá nóng!",
+          "💨 Bụi đá che khuất tầm nhìn!",
+          "⚠️ Địa hình không ổn định!"
+        ]
+      }
+    },
+    "coins": 0,
+    "upgrades": {
+      "power": 5,
+      "efficiency": 0,
+      "cooling": 4
+    },
+    "lastMining": 0,
+    "stats": {
+      "totalMined": 0,
+      "successfulMines": 0,
+      "failedMines": 0
+    },
+    "quests": {
+      "daily": {
+        "type": "mine",
+        "progress": 0,
+        "target": 10,
+        "lastReset": 1742298860697
+      }
+    },
+    "settings": {
+      "autoSell": false
+    }
+  },
+  "61553593760589": {
+    "miner": {
+      "power": 1,
+      "consumption": 0.5,
+      "durability": 99.5,
+      "maxDurability": 100,
+      "repairCost": 100000,
+      "miningEvents": {
+        "normal": [
+          "⛏️ Đào được mạch quặng thường!",
+          "💎 Tìm thấy mỏ nhỏ!",
+          "🔨 Khai thác thành công!"
+        ],
+        "critical": [
+          "🌟 WOW! Đào trúng mỏ lớn!",
+          "⚡ SIÊU HIẾM! Mạch quặng nguyên chất!",
+          "🎯 JACKPOT! Kho báu cổ đại!"
+        ],
+        "fail": [
+          "💢 Máy đào quá nóng!",
+          "💨 Bụi đá che khuất tầm nhìn!",
+          "⚠️ Địa hình không ổn định!"
+        ]
+      }
+    },
+    "coins": 100,
+    "upgrades": {
+      "power": 0,
+      "efficiency": 0,
+      "cooling": 0
+    },
+    "lastMining": 1742299599686,
+    "stats": {
+      "totalMined": 100,
+      "successfulMines": 1,
+      "failedMines": 0
+    },
+    "quests": {
+      "daily": {
+        "type": "market",
+        "progress": 0,
+        "target": 3,
+        "lastReset": 1742299599685
+      }
+    },
+    "settings": {
+      "autoSell": false
+    },
+    "miningStreak": 1
   }
 }

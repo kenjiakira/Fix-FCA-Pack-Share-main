@@ -411,30 +411,40 @@ class JobSystem {
         if (!job) return this.WORK_COOLDOWN;
 
         const baseSalary = 300000; 
-        const baseCooldown = this.WORK_COOLDOWN;
+        const baseCooldown = 3 * 60 * 1000; // 3 phút cho công việc cơ bản
         
         let salaryRatio = job.salary / baseSalary;
-        
-        if (salaryRatio > 1) {
-         
-            salaryRatio = Math.pow(salaryRatio, 0.4);
+        let cooldownMultiplier;
+
+        // Tính hệ số cooldown dựa trên mức lương
+        if (salaryRatio <= 1) {
+            cooldownMultiplier = 1; // 3 phút cho lương <= 300k
+        } else if (salaryRatio <= 2) {
+            cooldownMultiplier = 2; // 6 phút cho lương 300k-600k
+        } else if (salaryRatio <= 4) {
+            cooldownMultiplier = 3; // 9 phút cho lương 600k-1.2m
+        } else if (salaryRatio <= 8) {
+            cooldownMultiplier = 4; // 12 phút cho lương 1.2m-2.4m
+        } else if (salaryRatio <= 16) {
+            cooldownMultiplier = 5; // 15 phút cho lương 2.4m-4.8m
+        } else {
+            cooldownMultiplier = 6; // 18 phút cho lương >4.8m
         }
-        
-        salaryRatio = Math.min(Math.max(salaryRatio, 1), 6); 
-        
+                
         const jobType = job.type || 'shipper';
         const currentLevel = this.getJobLevel(jobType, jobData.workCount || 0);
-        let rankAdjustment = 1.0;
-        
         if (currentLevel && currentLevel.bonus > 1) {
-       
+          
             const reductionFactor = Math.min((currentLevel.bonus - 1) * 0.6, 0.3);
-            rankAdjustment = 1 - reductionFactor;
+            cooldownMultiplier *= (1 - reductionFactor);
         }
-        
-        const jobBasedCooldown = Math.floor(baseCooldown * salaryRatio * rankAdjustment);
 
-        return jobBasedCooldown;
+        const finalCooldown = Math.max(
+            Math.floor(baseCooldown * cooldownMultiplier),
+            baseCooldown
+        );
+
+        return finalCooldown;
     }
 
     checkRequirements(requirements, degrees) {

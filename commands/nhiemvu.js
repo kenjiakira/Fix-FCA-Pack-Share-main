@@ -1,5 +1,6 @@
 const { getBalance, updateBalance, loadQuests, getUserQuests, canClaimRewards, setRewardClaimed } = require('../utils/currencies');
 const { getVIPBenefits } = require('../vip/vipCheck');
+const { getStreak, updateStreak } = require('../utils/streakSystem');
 
 function formatNumber(number) {
     return number.toLocaleString('vi-VN');
@@ -20,7 +21,8 @@ module.exports = {
         const quests = await loadQuests();
         const userQuests = getUserQuests(senderID);
         const vipBenefits = getVIPBenefits(senderID);
-        
+        const streak = getStreak(senderID);
+
         const completedQuests = Object.entries(quests.dailyQuests)
             .filter(([questId, quest]) => {
                 const progress = userQuests.progress[questId] || 0;
@@ -52,7 +54,7 @@ module.exports = {
                 `📝 Đã hoàn thành ${completedQuests.length} nhiệm vụ.\n` +
                 `⭐ Tiếp tục cố gắng nhé!`,
                 threadID, messageID
-            );zz
+            );
         }
 
         let message = "📋 NHIỆM VỤ HÀNG NGÀY\n━━━━━━━━━━━━━━━━━━\n\n";
@@ -62,6 +64,13 @@ module.exports = {
             message += `• Thưởng nhiệm vụ +${vipBenefits.packageId === 3 ? '100' : 
                         vipBenefits.packageId === 2 ? '50' : '20'}%\n`;
             message += `• Tích lũy nhanh hơn ${vipBenefits.packageId * 20}%\n\n`;
+        }
+
+        // Thêm thông tin streak
+        message += `🔥 Chuỗi hoàn thành: ${streak.current} ngày\n`;
+        if (streak.current > 0) {
+            const nextMilestone = [3,7,14,30].find(x => x > streak.current) || 30;
+            message += `📅 Phần thưởng chuỗi tiếp theo: ${nextMilestone} ngày (${formatNumber(quests.streakRewards[nextMilestone])} $)\n\n`;
         }
 
         let totalCompleted = 0;
@@ -80,6 +89,16 @@ module.exports = {
             message += `💰 Phần thưởng: ${formatNumber(quest.reward)} $ ${vipBenefits ? 
                 `(+${formatNumber(Math.floor(quest.reward * (vipBenefits.packageId === 3 ? 1 : 
                                                             vipBenefits.packageId === 2 ? 0.5 : 0.2)))} $ VIP)` : ''}\n\n`;
+        }
+
+        // Kiểm tra và cập nhật streak rewards
+        if (totalCompleted === totalQuests) {
+            const streakReward = await updateStreak(senderID);
+            if (streakReward > 0) {
+                message += `\n🎊 PHẦN THƯỞNG CHUỖI ĐẶC BIỆT 🎊\n`;
+                message += `💰 +${formatNumber(streakReward)} $ cho ${streak.current} ngày liên tiếp!\n`;
+                updateBalance(senderID, streakReward);
+            }
         }
 
         if (totalCompleted === totalQuests && canClaimRewards(senderID) === false) {

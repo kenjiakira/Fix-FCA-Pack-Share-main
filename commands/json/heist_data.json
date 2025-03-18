@@ -3,5 +3,192 @@
   "stats": {},
   "leaderboard": {},
   "cooldowns": {},
-  "activeSessions": {}
+  "activeSessions": {},
+  "players": {
+    "61573427362389": {
+      "equipment": {},
+      "weapons": {},
+      "stats": {
+        "heistsJoined": 5,
+        "heistsWon": 3,
+        "moneyStolen": 200000,
+        "arrests": 2
+      },
+      "inventory": {
+        "weapons": {
+          "pistol": {
+            "name": "🔫 Súng lục",
+            "damage": 25,
+            "accuracy": 0.7,
+            "price": 5000
+          },
+          "rifle": {
+            "name": "🔫 Súng trường",
+            "damage": 60,
+            "accuracy": 0.8,
+            "price": 20000
+          },
+          "shotgun": {
+            "name": "🔫 Súng ngắn",
+            "damage": 40,
+            "accuracy": 0.5,
+            "price": 10000
+          }
+        },
+        "equipment": {
+          "medkit": {
+            "name": "💊 Bộ cứu thương",
+            "healing": 50,
+            "price": 5000
+          },
+          "handcuffs": {
+            "name": "⛓️ Còng",
+            "capture": true,
+            "price": 3000
+          }
+        }
+      },
+      "currentRole": "police"
+    },
+    "61561277064921": {
+      "equipment": {},
+      "weapons": {},
+      "stats": {
+        "heistsJoined": 4,
+        "heistsWon": 0,
+        "moneyStolen": 0,
+        "arrests": 0
+      },
+      "inventory": {
+        "weapons": {
+          "pistol": {
+            "name": "🔫 Súng lục",
+            "damage": 25,
+            "accuracy": 0.7,
+            "price": 5000
+          },
+          "shotgun": {
+            "name": "🔫 Súng ngắn",
+            "damage": 40,
+            "accuracy": 0.5,
+            "price": 10000
+          },
+          "rifle": {
+            "name": "🔫 Súng trường",
+            "damage": 60,
+            "accuracy": 0.8,
+            "price": 20000
+          }
+        },
+        "equipment": {
+          "mask": {
+            "name": "🎭 Mặt nạ",
+            "stealth": 20,
+            "price": 3000
+          },
+          "armor": {
+            "name": "🛡️ Giáp",
+            "defense": 30,
+            "price": 8000
+          },
+          "medkit": {
+            "name": "💊 Bộ cứu thương",
+            "healing": 50,
+            "price": 5000
+          }
+        }
+      },
+      "currentRole": "robber"
+    },
+    "100055074463541": {
+      "equipment": {},
+      "weapons": {},
+      "stats": {
+        "heistsJoined": 1,
+        "heistsWon": 0,
+        "moneyStolen": 0,
+        "arrests": 0
+      },
+      "inventory": {
+        "weapons": {
+          "pistol": {
+            "name": "🔫 Súng lục",
+            "damage": 25,
+            "accuracy": 0.7,
+            "price": 5000
+          }
+        },
+        "equipment": {}
+      }
+    },
+    "61568522233427": {
+      "equipment": {},
+      "weapons": {},
+      "stats": {
+        "heistsJoined": 2,
+        "heistsWon": 2,
+        "moneyStolen": 100000,
+        "arrests": 0
+      },
+      "inventory": {
+        "weapons": {
+          "pistol": {
+            "name": "🔫 Súng lục",
+            "damage": 25,
+            "accuracy": 0.7,
+            "price": 5000
+          },
+          "rifle": {
+            "name": "🔫 Súng trường",
+            "damage": 60,
+            "accuracy": 0.8,
+            "price": 20000
+          },
+          "shotgun": {
+            "name": "🔫 Súng ngắn",
+            "damage": 40,
+            "accuracy": 0.5,
+            "price": 10000
+          }
+        },
+        "equipment": {
+          "armor": {
+            "name": "🛡️ Giáp",
+            "defense": 30,
+            "price": 8000
+          }
+        }
+      }
+    },
+    "100076957299243": {
+      "equipment": {},
+      "weapons": {},
+      "stats": {
+        "heistsJoined": 1,
+        "heistsWon": 0,
+        "moneyStolen": 0,
+        "arrests": 0
+      },
+      "inventory": {
+        "weapons": {},
+        "equipment": {}
+      },
+      "currentRole": "police"
+    },
+    "100068382888605": {
+      "equipment": {},
+      "weapons": {},
+      "stats": {
+        "heistsJoined": 1,
+        "heistsWon": 0,
+        "moneyStolen": 0,
+        "arrests": 1
+      },
+      "inventory": {
+        "weapons": {},
+        "equipment": {}
+      },
+      "currentRole": "police"
+    }
+  }
 }

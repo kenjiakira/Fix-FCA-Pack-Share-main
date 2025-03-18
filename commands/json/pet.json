@@ -2,16 +2,16 @@
   "61573427362389": {
     "type": "HAMSTER",
     "name": "Linh",
-    "hunger": 0,
-    "happy": 0,
-    "energy": 0,
-    "lastFed": 1742038485061,
+    "hunger": 35,
+    "happy": 8,
+    "energy": 25,
+    "lastFed": 1742210549055,
     "lastPlay": 1742038900992,
     "level": 2,
-    "exp": 50,
+    "exp": 70,
     "quests": {
       "daily": {
-        "feedCount": 10,
+        "feedCount": 12,
         "playCount": 3
       }
     },
@@ -515,12 +515,12 @@
     "name": "Con Chó",
     "hunger": 100,
     "happy": 100,
-    "energy": 70,
+    "energy": 94,
     "level": 7,
-    "exp": 580,
-    "power": 495,
-    "lastFed": 1742141272454,
-    "lastPlay": 1742141263196,
+    "exp": 675,
+    "power": 515,
+    "lastFed": 1742217014021,
+    "lastPlay": 1742217006782,
     "skills": {
       "HUNT": {
         "level": 1,
@@ -544,15 +544,15 @@
     "birthday": 1741511167970,
     "quests": {
       "daily": {
-        "playCount": 63,
-        "feedCount": 87
+        "playCount": 65,
+        "feedCount": 90
       }
     },
     "lastSkill": {
       "HUNT": 1742141383392,
-      "CHARM": 1742141327306
+      "CHARM": 1742210417649
     },
-    "lastTrain": 1742142058792
+    "lastTrain": 1742210449132
   },
   "100035610181048": {
     "type": "DOG",

@@ -45,8 +45,7 @@ module.exports = {
                     return api.sendMessage("❌ Gói VIP không hợp lệ! (1: Bronze, 2: Silver, 3: Gold)", threadID, messageID);
                 }
 
-                const duration = packageId === 3 ? 37 : 30; 
-                const result = vipService.setVIP(userID, packageId, duration);
+                const result = vipService.setVIP(userID, packageId, 1);
                 
                 if (!result.success) {
                     return api.sendMessage(`❌ ${result.message}`, threadID, messageID);

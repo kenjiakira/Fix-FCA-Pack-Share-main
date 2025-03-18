@@ -70,7 +70,9 @@ module.exports = {
             }
 
             if (!target[0]) {
-                let msg = "DANH SÁCH LỆNH\n\n";
+                let msg = "🎮 HƯỚNG DẪN SỬ DỤNG BOT 🎮\n";
+                msg += "━━━━━━━━━━━━━━━━━━\n\n";
+                msg += "📱 DANH MỤC LỆNH:\n\n";
                 
                 const sortedCategories = Object.values(categories)
                     .sort((a, b) => a.priority - b.priority);
@@ -78,14 +80,31 @@ module.exports = {
                 sortedCategories.forEach((category, index) => {
                     const icon = this.getCategoryIcon(category.name);
                     msg += `${index + 1}. ${icon} ${category.name}\n`;
-                    msg += `➣ Số lệnh: ${category.commands.length}\n\n`;
+                    msg += `➣ Số lệnh: ${category.commands.length}\n`;
+                    msg += `➣ ${this.getCategoryDescription(category.name)}\n\n`;
                 });
 
-                msg += "╚═══════════════╝\n\n";
-                msg += "📌 Hướng dẫn sử dụng:\n";
-                msg += "• Reply số để xem chi tiết\n";
+                msg += "📌 CÁCH SỬ DỤNG:\n\n";
+                msg += "1️⃣ Xem chi tiết danh mục:\n";
+                msg += "• Reply số thứ tự để xem\n";
+                msg += "• VD: Reply 1 để xem danh mục System\n\n";
+                
+                msg += "2️⃣ Tìm kiếm lệnh:\n";
                 msg += `• ${prefix}help <tên lệnh>\n`;
-                msg += `• ${prefix}help <số trang>\n\n`;
+                msg += "• VD: help coin để xem lệnh coin\n\n";
+                
+                msg += "3️⃣ Xem theo trang:\n";
+                msg += `• ${prefix}help <số trang>\n`;
+                msg += "• VD: help 1 để xem trang 1\n\n";
+                
+                msg += "4️⃣ Xem tất cả lệnh:\n";
+                msg += `• ${prefix}help all\n\n`;
+                
+                msg += "💡 MẸO HAY:\n";
+                msg += "• Dùng help để xem lại hướng dẫn\n";
+                msg += "• Đọc kỹ cách dùng trước khi dùng lệnh\n";
+                msg += "• Hỏi admin nếu cần trợ giúp thêm\n\n";
+                
                 msg += `📊 Tổng số lệnh: ${totalCommands}`;
 
                 const sent = await api.sendMessage(msg, threadID);
@@ -245,14 +264,23 @@ module.exports = {
 
     getCommandInfo(cmd, prefix) {
         const icon = this.getCommandIcon(cmd);
-        return `╔═${cmd.name.toUpperCase()}═╗\n\n` +
-               `${icon} Tên: ${cmd.name}\n` +
-               `📝 Mô tả: ${cmd.info || "Không có"}\n` +
-               `💡 Cách dùng: ${cmd.usages || prefix + cmd.name}\n` +
-               `👥 Quyền hạn: ${this.getPermissionText(cmd.usedby)}\n` +
-               `⏱️ Cooldown: ${cmd.cooldowns || 0}s\n` +
-               `👨‍💻 Author: ${cmd.dev || "Không có"}\n\n` +
-               `╚════════════════╝`;
+        let msg = `🔎 CHI TIẾT LỆNH: ${cmd.name.toUpperCase()} 🔎\n`;
+        msg += "━━━━━━━━━━━━━━━━━━\n\n";
+        
+        msg += `${icon} Tên lệnh: ${cmd.name}\n`;
+        msg += `📝 Mô tả: ${cmd.info || "Không có"}\n`;
+        msg += `💡 Cách dùng: ${cmd.usages || prefix + cmd.name}\n`;
+        msg += `👥 Quyền hạn: ${this.getPermissionText(cmd.usedby)}\n`;
+        msg += `⏱️ Thời gian chờ: ${cmd.cooldowns || 0}s\n`;
+        msg += `👨‍💻 Tác giả: ${cmd.dev || "Không có"}\n\n`;
+        
+        msg += "📌 VÍ DỤ SỬ DỤNG:\n";
+        msg += this.getCommandExamples(cmd.name, prefix);
+        
+        msg += "\n💡 MẸO:\n";
+        msg += this.getCommandTips(cmd.name);
+        
+        return msg;
     },
 
     getCategoryPriority(category) {
@@ -306,5 +334,41 @@ module.exports = {
             case 4: return "Quản trị viên & Điều hành viên"; 
             default: return "Không xác định";
         }
+    },
+
+    getCategoryDescription(category) {
+        const descriptions = {
+            "System": "Các lệnh hệ thống và quản lý bot",
+            "Admin Commands": "Lệnh dành cho quản trị viên",
+            "Groups": "Quản lý và tương tác nhóm chat",
+            "Games": "Các trò chơi giải trí hấp dẫn",
+            "Media": "Tải nhạc, video và xem phim",
+            "Tài Chính": "Quản lý tiền bạc và giao dịch",
+            "Tools": "Công cụ tiện ích hữu ích",
+            "Giải Trí": "Lệnh vui vẻ giải trí",
+            "Tiện Ích": "Các tiện ích phụ trợ",
+            "AI": "Tương tác với trí tuệ nhân tạo",
+            "VIP": "Tính năng đặc biệt cho VIP",
+            "Khác": "Các lệnh khác"
+        };
+        return descriptions[category] || "Không có mô tả";
+    },
+
+    getCommandExamples(cmdName, prefix) {
+        const examples = {
+            "help": `• ${prefix}help\n• ${prefix}help coin\n• ${prefix}help 1`,
+            "coin": `• ${prefix}coin mine\n• ${prefix}coin info\n• ${prefix}coin upgrade`,
+            "market": `• ${prefix}market\n• ${prefix}market buy\n• ${prefix}market sell`,
+        };
+        return examples[cmdName] || `• ${prefix}${cmdName}`;
+    },
+
+    getCommandTips(cmdName) {
+        const tips = {
+            "help": "• Đọc kỹ hướng dẫn trước khi dùng lệnh\n• Dùng help all để xem tất cả lệnh",
+            "coin": "• Nâng cấp đều các chỉ số để hiệu quả nhất\n• Bật autosell để tự động bán coin",
+            "market": "• Theo dõi biến động giá để mua bán\n• Dùng chart để xem biểu đồ giá",
+        };
+        return tips[cmdName] || "• Đọc kỹ hướng dẫn trước khi sử dụng";
     }
 };

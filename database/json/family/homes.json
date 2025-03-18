@@ -23,16 +23,16 @@
     "condition": 100,
     "lastMaintenance": 1741517891820
   },
-  "61552144357464": {
-    "type": "villa",
-    "purchaseDate": 1742137650665,
-    "condition": 100,
-    "lastMaintenance": 1742137650665
-  },
   "100081770013413": {
     "type": "condo",
     "purchaseDate": 1742141061019,
     "condition": 100,
     "lastMaintenance": 1742141061019
+  },
+  "61552144357464": {
+    "type": "studio",
+    "purchaseDate": 1742217781532,
+    "condition": 100,
+    "lastMaintenance": 1742217781532
   }
 }

@@ -2,6 +2,17 @@ const fs = require('fs');
 const path = require('path');
 const { sendThreadNotification } = require('../utils/logs');
 
+async function updateInviteQuest(inviterId) {
+    try {
+        const userQuests = require('../utils/currencies').getUserQuests(inviterId);
+        if (!userQuests.completed['invite_friends']) {
+            userQuests.progress['invite_friends'] = (userQuests.progress['invite_friends'] || 0) + 1;
+        }
+    } catch (error) {
+        console.error("Error updating invite quest:", error);
+    }
+}
+
 module.exports = {
   name: "thread",
   info: "Thông báo khi nhóm thay đổi chủ đề, emoji, tên, admin hoặc ảnh", 
@@ -367,6 +378,12 @@ module.exports = {
               `🚫 Đã kick các thành viên mới do nhóm đang bật chế độ chống thêm thành viên.`,
               threadID
           );
+
+          // Cập nhật nhiệm vụ mời người cho người thêm thành viên
+          if (author !== api.getCurrentUserID()) {
+              await updateInviteQuest(author);
+          }
+
       } catch (error) {
           console.error("Anti-member error:", error);
           api.sendMessage(

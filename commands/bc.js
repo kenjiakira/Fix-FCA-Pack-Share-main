@@ -9,12 +9,12 @@ function formatNumber(number) {
 }
 
 module.exports = {
-    name: "bctc",
+    name: "bc",
     dev: "HNT",
     category: "Games",
     info: "Chơi Bầu Cua Tôm Cá",
     onPrefix: true,
-    usages: "bctc [bầu/cua/tôm/cá/gà/nai] [số tiền/allin]",
+    usages: "bc [bầu/cua/tôm/cá/gà/nai] [số tiền/allin]",
     cooldowns: 0,
     lastPlayed: {},
 
@@ -142,7 +142,7 @@ module.exports = {
             
             const sourceImageUrl = "https://i.imgur.com/ecUhWOE.png";
             
-            const localImagePath = path.join(__dirname, 'bctc', 'baucua.png');
+            const localImagePath = path.join(__dirname, 'bc', 'baucua.png');
             
             const outputIconSize = 300; 
             const resultWidth = outputIconSize * 3;
@@ -253,11 +253,11 @@ module.exports = {
                 "┃     HƯỚNG DẪN CHƠI     ┃\n" +
                 "┗━━━━━━━━━━━━━━━┛\n\n" +
                 "📝 Cách đặt cược:\n" +
-                ".bctc [lựa chọn] [số tiền/allin]\n\n" +
+                ".bc [lựa chọn] [số tiền/allin]\n\n" +
                 "📋 Ví dụ:\n" +
-                "• .bctc bầu 50000\n" +
-                "• .bctc bầu 50000 cua 50000\n" +
-                "• .bctc nai allin\n\n" +
+                "• .bc bầu 50000\n" +
+                "• .bc bầu 50000 cua 50000\n" +
+                "• .bc nai allin\n\n" +
                 "🎲 Các lựa chọn:\n" +
                 Object.entries(this.EMOJIS).map(([k, v]) => `${v} ${k}`).join(" | ") + "\n\n" +
                 "💰 Số dư: " + formatNumber(balance) + " $",
@@ -350,7 +350,7 @@ module.exports = {
                 updateQuestProgress(senderID, "play_games");
                 if (finalReward > totalBet) {
                     updateQuestProgress(senderID, "win_games");
-                    updateQuestProgress(senderID, "win_bctc");
+                    updateQuestProgress(senderID, "win_bc");
                 }
 
                 try {

@@ -2,38 +2,51 @@
   "dailyQuests": {
     "play_games": {
       "name": "Người chơi tích cực",
-      "description": "Chơi tổng cộng 20 lần minigame bất kỳ",
-      "target": 20,
-      "reward": 500000,
+      "description": "Chơi tổng cộng 25 lần minigame bất kỳ", 
+      "target": 25,
+      "reward": 800000,
       "type": "counter"
     },
     "win_games": {
       "name": "Tay chơi may mắn",
-      "description": "Thắng tổng cộng 10 lần trong bất kỳ minigame",
-      "target": 10,
+      "description": "Thắng tổng cộng 15 lần trong bất kỳ minigame",
+      "target": 15,
+      "reward": 1500000,
+      "type": "counter"
+    },
+    "high_bet": {
+      "name": "Đại Gia Chơi Lớn",
+      "description": "Cược tổng cộng 10 triệu trong ngày",
+      "target": 10000000,
+      "reward": 2000000,
+      "type": "accumulate"
+    },
+    "chat_active": {
+      "name": "Thành Viên Năng Nổ",
+      "description": "Gửi 50 tin nhắn trong nhóm",
+      "target": 50,
+      "reward": 500000,
+      "type": "counter"
+    },
+    "invite_friends": {
+      "name": "Người Dẫn Đường",
+      "description": "Mời 3 người bạn vào nhóm",
+      "target": 3,
       "reward": 1000000,
-      "type": "counter"  
-    },
-    "win_coinflip": {
-      "name": "Trùm Coinflip",
-      "description": "Thắng 8 lần trong Coinflip",
-      "target": 8,
-      "reward": 800000,
       "type": "counter"
     },
-    "win_bctc": {
-      "name": "Cao thủ bầu cua",
-      "description": "Thắng 12 lần trong Bầu Cua",
-      "target": 12,
-      "reward": 1200000,
-      "type": "counter"
-    },
-    "successful_steals": {
-      "name": "Siêu Đạo Chích",
-      "description": "Trộm thành công 5 lần",
-      "target": 5,
-      "reward": 750000,
+    "daily_checkin": {
+      "name": "Điểm Danh Siêng Năng",
+      "description": "Điểm danh 6 lần trong ngày (mỗi 4 tiếng)", 
+      "target": 6,
+      "reward": 500000,
       "type": "counter"
     }
+  },
+  "streakRewards": {
+    "3": 500000,
+    "7": 2000000,
+    "14": 5000000,
+    "30": 15000000
   }
 }
