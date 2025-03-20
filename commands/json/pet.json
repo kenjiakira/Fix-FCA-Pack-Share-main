@@ -515,12 +515,12 @@
     "name": "Con Chó",
     "hunger": 100,
     "happy": 100,
-    "energy": 94,
-    "level": 7,
-    "exp": 675,
-    "power": 515,
-    "lastFed": 1742217014021,
-    "lastPlay": 1742217006782,
+    "energy": 50,
+    "level": 8,
+    "exp": 60,
+    "power": 535,
+    "lastFed": 1742388679753,
+    "lastPlay": 1742388693659,
     "skills": {
       "HUNT": {
         "level": 1,
@@ -544,15 +544,15 @@
     "birthday": 1741511167970,
     "quests": {
       "daily": {
-        "playCount": 65,
-        "feedCount": 90
+        "playCount": 67,
+        "feedCount": 92
       }
     },
     "lastSkill": {
       "HUNT": 1742141383392,
-      "CHARM": 1742210417649
+      "CHARM": 1742396397006
     },
-    "lastTrain": 1742210449132
+    "lastTrain": 1742388701315
   },
   "100035610181048": {
     "type": "DOG",

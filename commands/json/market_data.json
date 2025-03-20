@@ -1,198 +1,5071 @@
 {
-  "price": 64,
-  "lastUpdate": 1742302088462,
+  "price": 78,
+  "lastUpdate": 1742448541643,
   "history": [
     {
-      "price": 148,
-      "timestamp": 1742181974237
+      "price": 91,
+      "timestamp": 1742393107687,
+      "volumeImpact": 0,
+      "scarcityMultiplier": 1
     },
     {
-      "price": 171,
-      "timestamp": 1742183363302
+      "price": 77,
+      "timestamp": 1742393119565,
+      "volumeImpact": 0,
+      "scarcityMultiplier": 1
     },
     {
-      "price": 175,
-      "timestamp": 1742185069983
+      "price": 81,
+      "timestamp": 1742393144686,
+      "volumeImpact": 0,
+      "scarcityMultiplier": 1
     },
     {
-      "price": 173,
-      "timestamp": 1742186154339
+      "price": 90,
+      "timestamp": 1742393160032,
+      "volumeImpact": 0,
+      "scarcityMultiplier": 1
     },
     {
-      "price": 167,
-      "timestamp": 1742187057915
-    },
-    {
-      "price": 145,
-      "timestamp": 1742188029244
-    },
-    {
-      "price": 158,
-      "timestamp": 1742189274251
-    },
-    {
-      "price": 145,
-      "timestamp": 1742190472103
-    },
-    {
-      "price": 151,
-      "timestamp": 1742193547963
-    },
-    {
-      "price": 181,
-      "timestamp": 1742194656185
-    },
-    {
-      "price": 183,
-      "timestamp": 1742195816402
-    },
-    {
-      "price": 215,
-      "timestamp": 1742196979599
-    },
-    {
-      "price": 182,
-      "timestamp": 1742200960308
-    },
-    {
-      "price": 147,
-      "timestamp": 1742206407825
-    },
-    {
-      "price": 169,
-      "timestamp": 1742207412132
-    },
-    {
-      "price": 202,
-      "timestamp": 1742208330952
-    },
-    {
-      "price": 203,
-      "timestamp": 1742209893379
-    },
-    {
-      "price": 174,
-      "timestamp": 1742211030785
-    },
-    {
-      "price": 155,
-      "timestamp": 1742212980776
-    },
-    {
-      "price": 127,
-      "timestamp": 1742214735619
-    },
-    {
-      "price": 102,
-      "timestamp": 1742215702414
-    },
-    {
-      "price": 100,
-      "timestamp": 1742216614477
-    },
-    {
-      "price": 104,
-      "timestamp": 1742218342925
-    },
-    {
-      "price": 85,
-      "timestamp": 1742220132673
+      "price": 91,
+      "timestamp": 1742393181878,
+      "volumeImpact": 0,
+      "scarcityMultiplier": 1
     },
     {
       "price": 86,
-      "timestamp": 1742221587462
+      "timestamp": 1742393216071,
+      "volumeImpact": 0,
+      "scarcityMultiplier": 1
     },
     {
-      "price": 70,
-      "timestamp": 1742222672256
+      "price": 81,
+      "timestamp": 1742393316157,
+      "volumeImpact": 0,
+      "scarcityMultiplier": 1
     },
     {
-      "price": 84,
-      "timestamp": 1742223690758
+      "price": 82,
+      "timestamp": 1742393335729,
+      "volumeImpact": 0,
+      "scarcityMultiplier": 1
+    },
+    {
+      "price": 95,
+      "timestamp": 1742393347489,
+      "volumeImpact": 0,
+      "scarcityMultiplier": 1
     },
     {
       "price": 96,
-      "timestamp": 1742224601854
+      "timestamp": 1742393374494,
+      "volumeImpact": 0,
+      "scarcityMultiplier": 1
+    },
+    {
+      "price": 102,
+      "timestamp": 1742393398928,
+      "volumeImpact": 0,
+      "scarcityMultiplier": 1
     },
     {
       "price": 79,
-      "timestamp": 1742225564054
+      "timestamp": 1742393410199,
+      "volumeImpact": 0,
+      "scarcityMultiplier": 1
     },
     {
-      "price": 67,
-      "timestamp": 1742226711203
+      "price": 83,
+      "timestamp": 1742393423121,
+      "volumeImpact": 0,
+      "scarcityMultiplier": 1
     },
     {
-      "price": 70,
-      "timestamp": 1742228130714
+      "price": 102,
+      "timestamp": 1742393434494,
+      "volumeImpact": 0,
+      "scarcityMultiplier": 1
     },
     {
-      "price": 68,
-      "timestamp": 1742229116058
+      "price": 101,
+      "timestamp": 1742393454490,
+      "volumeImpact": 0,
+      "scarcityMultiplier": 1
     },
     {
-      "price": 65,
-      "timestamp": 1742264945637
+      "price": 101,
+      "timestamp": 1742393581709,
+      "volumeImpact": 0,
+      "scarcityMultiplier": 1
     },
     {
-      "price": 66,
-      "timestamp": 1742269295449
+      "price": 108,
+      "timestamp": 1742393607189,
+      "volumeImpact": 0,
+      "scarcityMultiplier": 1
     },
     {
-      "price": 75,
-      "timestamp": 1742270852680
+      "price": 112,
+      "timestamp": 1742393623130,
+      "volumeImpact": 0,
+      "scarcityMultiplier": 1
     },
     {
-      "price": 76,
-      "timestamp": 1742271948934
+      "price": 138,
+      "timestamp": 1742393750976,
+      "volumeImpact": 0,
+      "scarcityMultiplier": 1
     },
     {
-      "price": 64,
-      "timestamp": 1742273234038
+      "price": 121,
+      "timestamp": 1742393852890,
+      "volumeImpact": 0,
+      "scarcityMultiplier": 1
     },
     {
-      "price": 52,
-      "timestamp": 1742291744164
+      "price": 104,
+      "timestamp": 1742393862995,
+      "volumeImpact": 0,
+      "scarcityMultiplier": 1
     },
     {
-      "price": 50,
-      "timestamp": 1742292697564
+      "price": 101,
+      "timestamp": 1742393874603,
+      "volumeImpact": 0,
+      "scarcityMultiplier": 1
     },
     {
-      "price": 52,
-      "timestamp": 1742294559679
-    },
-    {
-      "price": 50,
-      "timestamp": 1742295560383
-    },
-    {
-      "price": 58,
-      "timestamp": 1742296475168
-    },
-    {
-      "price": 67,
-      "timestamp": 1742297422064
-    },
-    {
-      "price": 75,
-      "timestamp": 1742298384523
+      "price": 88,
+      "timestamp": 1742393941543,
+      "volumeImpact": 0,
+      "scarcityMultiplier": 1
     },
     {
       "price": 84,
-      "timestamp": 1742299319409
-    },
-    {
-      "price": 73,
-      "timestamp": 1742300243474
+      "timestamp": 1742394081109,
+      "volumeImpact": 0,
+      "scarcityMultiplier": 1
     },
     {
       "price": 72,
-      "timestamp": 1742301163077
+      "timestamp": 1742394162295,
+      "volumeImpact": 0,
+      "scarcityMultiplier": 1
+    },
+    {
+      "price": 76,
+      "timestamp": 1742394173589,
+      "volumeImpact": 0,
+      "scarcityMultiplier": 1
+    },
+    {
+      "price": 80,
+      "timestamp": 1742394231983,
+      "volumeImpact": 0,
+      "scarcityMultiplier": 1
+    },
+    {
+      "price": 63,
+      "timestamp": 1742394258488,
+      "volumeImpact": 0,
+      "scarcityMultiplier": 1
+    },
+    {
+      "price": 66,
+      "timestamp": 1742394294328,
+      "volumeImpact": 0,
+      "scarcityMultiplier": 1
+    },
+    {
+      "price": 69,
+      "timestamp": 1742394334304,
+      "volumeImpact": 0,
+      "scarcityMultiplier": 1
+    },
+    {
+      "price": 72,
+      "timestamp": 1742394382625,
+      "volumeImpact": 0,
+      "scarcityMultiplier": 1
+    },
+    {
+      "price": 76,
+      "timestamp": 1742394408645,
+      "volumeImpact": 0,
+      "scarcityMultiplier": 1
+    },
+    {
+      "price": 80,
+      "timestamp": 1742394418703,
+      "volumeImpact": 0,
+      "scarcityMultiplier": 1
+    },
+    {
+      "price": 81,
+      "timestamp": 1742394437040,
+      "volumeImpact": 0,
+      "scarcityMultiplier": 1
+    },
+    {
+      "price": 88,
+      "timestamp": 1742394457853,
+      "volumeImpact": 0,
+      "scarcityMultiplier": 1
+    },
+    {
+      "price": 109,
+      "timestamp": 1742394481187,
+      "volumeImpact": 0,
+      "scarcityMultiplier": 1
+    },
+    {
+      "price": 93,
+      "timestamp": 1742394575267,
+      "volumeImpact": 0,
+      "scarcityMultiplier": 1
+    },
+    {
+      "price": 114,
+      "timestamp": 1742394591055,
+      "volumeImpact": 0,
+      "scarcityMultiplier": 1
+    },
+    {
+      "price": 97,
+      "timestamp": 1742394601515,
+      "volumeImpact": 0,
+      "scarcityMultiplier": 1
+    },
+    {
+      "price": 75,
+      "timestamp": 1742394624388,
+      "volumeImpact": 0,
+      "scarcityMultiplier": 1
+    },
+    {
+      "price": 79,
+      "timestamp": 1742394645794,
+      "volumeImpact": 0,
+      "scarcityMultiplier": 1
+    },
+    {
+      "price": 83,
+      "timestamp": 1742394667768,
+      "volumeImpact": 0,
+      "scarcityMultiplier": 1
+    },
+    {
+      "price": 79,
+      "timestamp": 1742394678085,
+      "volumeImpact": 0,
+      "scarcityMultiplier": 1
+    },
+    {
+      "price": 83,
+      "timestamp": 1742394717608,
+      "volumeImpact": 0,
+      "scarcityMultiplier": 1
+    },
+    {
+      "price": 77,
+      "timestamp": 1742394754152,
+      "volumeImpact": 0,
+      "scarcityMultiplier": 1
+    },
+    {
+      "price": 81,
+      "timestamp": 1742394779795,
+      "volumeImpact": 0,
+      "scarcityMultiplier": 1
+    },
+    {
+      "price": 75,
+      "timestamp": 1742394790822,
+      "volumeImpact": 0,
+      "scarcityMultiplier": 1
+    },
+    {
+      "price": 79,
+      "timestamp": 1742394802020,
+      "volumeImpact": 0,
+      "scarcityMultiplier": 1
+    },
+    {
+      "price": 83,
+      "timestamp": 1742394826608,
+      "volumeImpact": 0,
+      "scarcityMultiplier": 1
+    },
+    {
+      "price": 78,
+      "timestamp": 1742394853177,
+      "volumeImpact": 0,
+      "scarcityMultiplier": 1
+    },
+    {
+      "price": 82,
+      "timestamp": 1742394903524,
+      "volumeImpact": 0,
+      "scarcityMultiplier": 1
+    },
+    {
+      "price": 77,
+      "timestamp": 1742394923908,
+      "volumeImpact": 0,
+      "scarcityMultiplier": 1
+    },
+    {
+      "price": 81,
+      "timestamp": 1742394965694,
+      "volumeImpact": 0,
+      "scarcityMultiplier": 1
     },
     {
       "price": 62,
-      "timestamp": 1742302088462
+      "timestamp": 1742395025843,
+      "volumeImpact": 0,
+      "scarcityMultiplier": 1
+    },
+    {
+      "price": 65,
+      "timestamp": 1742395053272,
+      "volumeImpact": 0,
+      "scarcityMultiplier": 1
+    },
+    {
+      "price": 68,
+      "timestamp": 1742395072699,
+      "volumeImpact": 0,
+      "scarcityMultiplier": 1
+    },
+    {
+      "price": 71,
+      "timestamp": 1742395111046,
+      "volumeImpact": 0,
+      "scarcityMultiplier": 1
+    },
+    {
+      "price": 75,
+      "timestamp": 1742395140896,
+      "volumeImpact": 0,
+      "scarcityMultiplier": 1
+    },
+    {
+      "price": 79,
+      "timestamp": 1742395255723,
+      "volumeImpact": 0,
+      "scarcityMultiplier": 1
+    },
+    {
+      "price": 83,
+      "timestamp": 1742395397361,
+      "volumeImpact": 0,
+      "scarcityMultiplier": 1
+    },
+    {
+      "price": 85,
+      "timestamp": 1742395425590,
+      "volumeImpact": 0,
+      "scarcityMultiplier": 1
+    },
+    {
+      "price": 89,
+      "timestamp": 1742395458442,
+      "volumeImpact": 0,
+      "scarcityMultiplier": 1
+    },
+    {
+      "price": 93,
+      "timestamp": 1742395488567,
+      "volumeImpact": 0,
+      "scarcityMultiplier": 1
+    },
+    {
+      "price": 103,
+      "timestamp": 1742395501278,
+      "volumeImpact": 0,
+      "scarcityMultiplier": 1
+    },
+    {
+      "price": 127,
+      "timestamp": 1742395525431,
+      "volumeImpact": 0,
+      "scarcityMultiplier": 1
+    },
+    {
+      "price": 145,
+      "timestamp": 1742395559088,
+      "volumeImpact": 0,
+      "scarcityMultiplier": 1
+    },
+    {
+      "price": 173,
+      "timestamp": 1742395571976,
+      "volumeImpact": 0,
+      "scarcityMultiplier": 1
+    },
+    {
+      "price": 149,
+      "timestamp": 1742395585931,
+      "volumeImpact": 0,
+      "scarcityMultiplier": 1
+    },
+    {
+      "price": 172,
+      "timestamp": 1742395621354,
+      "volumeImpact": 0,
+      "scarcityMultiplier": 1
+    },
+    {
+      "price": 191,
+      "timestamp": 1742395637000,
+      "volumeImpact": 0,
+      "scarcityMultiplier": 1
+    },
+    {
+      "price": 209,
+      "timestamp": 1742395663014,
+      "volumeImpact": 0,
+      "scarcityMultiplier": 1
+    },
+    {
+      "price": 213,
+      "timestamp": 1742395711616,
+      "volumeImpact": 0,
+      "scarcityMultiplier": 1
+    },
+    {
+      "price": 209,
+      "timestamp": 1742395722392,
+      "volumeImpact": 0,
+      "scarcityMultiplier": 1
+    },
+    {
+      "price": 202,
+      "timestamp": 1742395738462,
+      "volumeImpact": 0,
+      "scarcityMultiplier": 1
+    },
+    {
+      "price": 195,
+      "timestamp": 1742395748950,
+      "volumeImpact": 0,
+      "scarcityMultiplier": 1
+    },
+    {
+      "price": 189,
+      "timestamp": 1742395763781,
+      "volumeImpact": 0,
+      "scarcityMultiplier": 1
+    },
+    {
+      "price": 165,
+      "timestamp": 1742395775579,
+      "volumeImpact": 0,
+      "scarcityMultiplier": 1
+    },
+    {
+      "price": 198,
+      "timestamp": 1742395789920,
+      "volumeImpact": 0,
+      "scarcityMultiplier": 1
+    },
+    {
+      "price": 178,
+      "timestamp": 1742395802754,
+      "volumeImpact": 0,
+      "scarcityMultiplier": 1
+    },
+    {
+      "price": 149,
+      "timestamp": 1742395814876,
+      "volumeImpact": 0,
+      "scarcityMultiplier": 1
+    },
+    {
+      "price": 182,
+      "timestamp": 1742395832935,
+      "volumeImpact": 0,
+      "scarcityMultiplier": 1
+    },
+    {
+      "price": 177,
+      "timestamp": 1742395848416,
+      "volumeImpact": 0,
+      "scarcityMultiplier": 1
+    },
+    {
+      "price": 211,
+      "timestamp": 1742395865023,
+      "volumeImpact": 0,
+      "scarcityMultiplier": 1
+    },
+    {
+      "price": 191,
+      "timestamp": 1742395919568,
+      "volumeImpact": 0,
+      "scarcityMultiplier": 1
+    },
+    {
+      "price": 143,
+      "timestamp": 1742395936114,
+      "volumeImpact": 0,
+      "scarcityMultiplier": 1
+    },
+    {
+      "price": 176,
+      "timestamp": 1742395946136,
+      "volumeImpact": 0,
+      "scarcityMultiplier": 1
+    },
+    {
+      "price": 166,
+      "timestamp": 1742395965514,
+      "volumeImpact": 0,
+      "scarcityMultiplier": 1
+    },
+    {
+      "price": 136,
+      "timestamp": 1742395990781,
+      "volumeImpact": 0,
+      "scarcityMultiplier": 1
+    },
+    {
+      "price": 164,
+      "timestamp": 1742396075283,
+      "volumeImpact": 0,
+      "scarcityMultiplier": 1
+    },
+    {
+      "price": 205,
+      "timestamp": 1742396087774,
+      "volumeImpact": 0,
+      "scarcityMultiplier": 1
+    },
+    {
+      "price": 248,
+      "timestamp": 1742396130936,
+      "volumeImpact": 0,
+      "scarcityMultiplier": 1
+    },
+    {
+      "price": 217,
+      "timestamp": 1742396151290,
+      "volumeImpact": 0,
+      "scarcityMultiplier": 1
+    },
+    {
+      "price": 260,
+      "timestamp": 1742396173557,
+      "volumeImpact": 0,
+      "scarcityMultiplier": 1
+    },
+    {
+      "price": 252,
+      "timestamp": 1742396185008,
+      "volumeImpact": 0,
+      "scarcityMultiplier": 1
+    },
+    {
+      "price": 278,
+      "timestamp": 1742396204759,
+      "volumeImpact": 0,
+      "scarcityMultiplier": 1
+    },
+    {
+      "price": 212,
+      "timestamp": 1742396222346,
+      "volumeImpact": 0,
+      "scarcityMultiplier": 1
+    },
+    {
+      "price": 251,
+      "timestamp": 1742396233208,
+      "volumeImpact": 0,
+      "scarcityMultiplier": 1
+    },
+    {
+      "price": 190,
+      "timestamp": 1742396252901,
+      "volumeImpact": 0,
+      "scarcityMultiplier": 1
+    },
+    {
+      "price": 152,
+      "timestamp": 1742396271812,
+      "volumeImpact": 0,
+      "scarcityMultiplier": 1
+    },
+    {
+      "price": 124,
+      "timestamp": 1742396289032,
+      "volumeImpact": 0,
+      "scarcityMultiplier": 1
+    },
+    {
+      "price": 93,
+      "timestamp": 1742396328204,
+      "volumeImpact": 0,
+      "scarcityMultiplier": 1
+    },
+    {
+      "price": 107,
+      "timestamp": 1742396346158,
+      "volumeImpact": 0,
+      "scarcityMultiplier": 1
+    },
+    {
+      "price": 118,
+      "timestamp": 1742396379480,
+      "volumeImpact": 0,
+      "scarcityMultiplier": 1
+    },
+    {
+      "price": 145,
+      "timestamp": 1742396419357,
+      "volumeImpact": 0,
+      "scarcityMultiplier": 1
+    },
+    {
+      "price": 121,
+      "timestamp": 1742396476177,
+      "volumeImpact": 0,
+      "scarcityMultiplier": 1
+    },
+    {
+      "price": 137,
+      "timestamp": 1742396486626,
+      "volumeImpact": 0,
+      "scarcityMultiplier": 1
+    },
+    {
+      "price": 131,
+      "timestamp": 1742396500527,
+      "volumeImpact": 0,
+      "scarcityMultiplier": 1
+    },
+    {
+      "price": 161,
+      "timestamp": 1742396572064,
+      "volumeImpact": 0,
+      "scarcityMultiplier": 1
+    },
+    {
+      "price": 191,
+      "timestamp": 1742396582269,
+      "volumeImpact": 0,
+      "scarcityMultiplier": 1
+    },
+    {
+      "price": 177,
+      "timestamp": 1742396593524,
+      "volumeImpact": 0,
+      "scarcityMultiplier": 1
+    },
+    {
+      "price": 138,
+      "timestamp": 1742396608404,
+      "volumeImpact": 0,
+      "scarcityMultiplier": 1
+    },
+    {
+      "price": 120,
+      "timestamp": 1742396622084,
+      "volumeImpact": 0,
+      "scarcityMultiplier": 1
+    },
+    {
+      "price": 94,
+      "timestamp": 1742396639108,
+      "volumeImpact": 0,
+      "scarcityMultiplier": 1
+    },
+    {
+      "price": 102,
+      "timestamp": 1742396652236,
+      "volumeImpact": 0,
+      "scarcityMultiplier": 1
+    },
+    {
+      "price": 82,
+      "timestamp": 1742396663765,
+      "volumeImpact": 0,
+      "scarcityMultiplier": 1
+    },
+    {
+      "price": 64,
+      "timestamp": 1742396676208,
+      "volumeImpact": 0,
+      "scarcityMultiplier": 1
+    },
+    {
+      "price": 67,
+      "timestamp": 1742396690287,
+      "volumeImpact": 0,
+      "scarcityMultiplier": 1
+    },
+    {
+      "price": 70,
+      "timestamp": 1742396718741,
+      "volumeImpact": 0,
+      "scarcityMultiplier": 1
+    },
+    {
+      "price": 74,
+      "timestamp": 1742396731737,
+      "volumeImpact": 0,
+      "scarcityMultiplier": 1
+    },
+    {
+      "price": 78,
+      "timestamp": 1742396748508,
+      "volumeImpact": 0,
+      "scarcityMultiplier": 1
+    },
+    {
+      "price": 82,
+      "timestamp": 1742396761956,
+      "volumeImpact": 0,
+      "scarcityMultiplier": 1
+    },
+    {
+      "price": 96,
+      "timestamp": 1742396778559,
+      "volumeImpact": 0,
+      "scarcityMultiplier": 1
+    },
+    {
+      "price": 73,
+      "timestamp": 1742396794846,
+      "volumeImpact": 0,
+      "scarcityMultiplier": 1
+    },
+    {
+      "price": 77,
+      "timestamp": 1742396805938,
+      "volumeImpact": 0,
+      "scarcityMultiplier": 1
+    },
+    {
+      "price": 81,
+      "timestamp": 1742396821375,
+      "volumeImpact": 0,
+      "scarcityMultiplier": 1
+    },
+    {
+      "price": 89,
+      "timestamp": 1742396832540,
+      "volumeImpact": 0,
+      "scarcityMultiplier": 1
+    },
+    {
+      "price": 78,
+      "timestamp": 1742396849267,
+      "volumeImpact": 0,
+      "scarcityMultiplier": 1
+    },
+    {
+      "price": 82,
+      "timestamp": 1742396867620,
+      "volumeImpact": 0,
+      "scarcityMultiplier": 1
+    },
+    {
+      "price": 84,
+      "timestamp": 1742396900028,
+      "volumeImpact": 0,
+      "scarcityMultiplier": 1
+    },
+    {
+      "price": 88,
+      "timestamp": 1742396910572,
+      "volumeImpact": 0,
+      "scarcityMultiplier": 1
+    },
+    {
+      "price": 80,
+      "timestamp": 1742396924135,
+      "volumeImpact": 0,
+      "scarcityMultiplier": 1
+    },
+    {
+      "price": 74,
+      "timestamp": 1742396940707,
+      "volumeImpact": 0,
+      "scarcityMultiplier": 1
+    },
+    {
+      "price": 78,
+      "timestamp": 1742396951665,
+      "volumeImpact": 0,
+      "scarcityMultiplier": 1
+    },
+    {
+      "price": 82,
+      "timestamp": 1742396964715,
+      "volumeImpact": 0,
+      "scarcityMultiplier": 1
+    },
+    {
+      "price": 68,
+      "timestamp": 1742396977327,
+      "volumeImpact": 0,
+      "scarcityMultiplier": 1
+    },
+    {
+      "price": 71,
+      "timestamp": 1742396988009,
+      "volumeImpact": 0,
+      "scarcityMultiplier": 1
+    },
+    {
+      "price": 75,
+      "timestamp": 1742397005347,
+      "volumeImpact": 0,
+      "scarcityMultiplier": 1
+    },
+    {
+      "price": 79,
+      "timestamp": 1742397018661,
+      "volumeImpact": 0,
+      "scarcityMultiplier": 1
+    },
+    {
+      "price": 83,
+      "timestamp": 1742397033509,
+      "volumeImpact": 0,
+      "scarcityMultiplier": 1
+    },
+    {
+      "price": 88,
+      "timestamp": 1742397049409,
+      "volumeImpact": 0,
+      "scarcityMultiplier": 1
+    },
+    {
+      "price": 73,
+      "timestamp": 1742397064342,
+      "volumeImpact": 0,
+      "scarcityMultiplier": 1
+    },
+    {
+      "price": 77,
+      "timestamp": 1742397078515,
+      "volumeImpact": 0,
+      "scarcityMultiplier": 1
+    },
+    {
+      "price": 81,
+      "timestamp": 1742397096909,
+      "volumeImpact": 0,
+      "scarcityMultiplier": 1
+    },
+    {
+      "price": 91,
+      "timestamp": 1742397112252,
+      "volumeImpact": 0,
+      "scarcityMultiplier": 1
+    },
+    {
+      "price": 107,
+      "timestamp": 1742397126756,
+      "volumeImpact": 0,
+      "scarcityMultiplier": 1
+    },
+    {
+      "price": 99,
+      "timestamp": 1742397136832,
+      "volumeImpact": 0,
+      "scarcityMultiplier": 1
+    },
+    {
+      "price": 79,
+      "timestamp": 1742397147369,
+      "volumeImpact": 0,
+      "scarcityMultiplier": 1
+    },
+    {
+      "price": 83,
+      "timestamp": 1742397168383,
+      "volumeImpact": 0,
+      "scarcityMultiplier": 1
+    },
+    {
+      "price": 77,
+      "timestamp": 1742397187618,
+      "volumeImpact": 0,
+      "scarcityMultiplier": 1
+    },
+    {
+      "price": 81,
+      "timestamp": 1742397201337,
+      "volumeImpact": 0,
+      "scarcityMultiplier": 1
+    },
+    {
+      "price": 95,
+      "timestamp": 1742397217221,
+      "volumeImpact": 0,
+      "scarcityMultiplier": 1
+    },
+    {
+      "price": 112,
+      "timestamp": 1742397228641,
+      "volumeImpact": 0,
+      "scarcityMultiplier": 1
+    },
+    {
+      "price": 93,
+      "timestamp": 1742397243076,
+      "volumeImpact": 0,
+      "scarcityMultiplier": 1
+    },
+    {
+      "price": 70,
+      "timestamp": 1742397260790,
+      "volumeImpact": 0,
+      "scarcityMultiplier": 1
+    },
+    {
+      "price": 74,
+      "timestamp": 1742397273915,
+      "volumeImpact": 0,
+      "scarcityMultiplier": 1
+    },
+    {
+      "price": 78,
+      "timestamp": 1742397292603,
+      "volumeImpact": 0,
+      "scarcityMultiplier": 1
+    },
+    {
+      "price": 82,
+      "timestamp": 1742397303120,
+      "volumeImpact": 0,
+      "scarcityMultiplier": 1
+    },
+    {
+      "price": 102,
+      "timestamp": 1742397318809,
+      "volumeImpact": 0,
+      "scarcityMultiplier": 1
+    },
+    {
+      "price": 127,
+      "timestamp": 1742397329816,
+      "volumeImpact": 0,
+      "scarcityMultiplier": 1
+    },
+    {
+      "price": 148,
+      "timestamp": 1742397340992,
+      "volumeImpact": 0,
+      "scarcityMultiplier": 1
+    },
+    {
+      "price": 135,
+      "timestamp": 1742397357669,
+      "volumeImpact": 0,
+      "scarcityMultiplier": 1
+    },
+    {
+      "price": 129,
+      "timestamp": 1742397388868,
+      "volumeImpact": 0,
+      "scarcityMultiplier": 1
+    },
+    {
+      "price": 158,
+      "timestamp": 1742397406760,
+      "volumeImpact": 0,
+      "scarcityMultiplier": 1
+    },
+    {
+      "price": 153,
+      "timestamp": 1742397431870,
+      "volumeImpact": 0,
+      "scarcityMultiplier": 1
+    },
+    {
+      "price": 185,
+      "timestamp": 1742397445748,
+      "volumeImpact": 0,
+      "scarcityMultiplier": 1
+    },
+    {
+      "price": 139,
+      "timestamp": 1742397477810,
+      "volumeImpact": 0,
+      "scarcityMultiplier": 1
+    },
+    {
+      "price": 120,
+      "timestamp": 1742397516458,
+      "volumeImpact": 0,
+      "scarcityMultiplier": 1
+    },
+    {
+      "price": 118,
+      "timestamp": 1742397535191,
+      "volumeImpact": 0,
+      "scarcityMultiplier": 1
+    },
+    {
+      "price": 119,
+      "timestamp": 1742397548011,
+      "volumeImpact": 0,
+      "scarcityMultiplier": 1
+    },
+    {
+      "price": 110,
+      "timestamp": 1742397577150,
+      "volumeImpact": 0,
+      "scarcityMultiplier": 1
+    },
+    {
+      "price": 86,
+      "timestamp": 1742397595072,
+      "volumeImpact": 0,
+      "scarcityMultiplier": 1
+    },
+    {
+      "price": 88,
+      "timestamp": 1742397629616,
+      "volumeImpact": 0,
+      "scarcityMultiplier": 1
+    },
+    {
+      "price": 82,
+      "timestamp": 1742397643456,
+      "volumeImpact": 0,
+      "scarcityMultiplier": 1
+    },
+    {
+      "price": 78,
+      "timestamp": 1742397654730,
+      "volumeImpact": 0,
+      "scarcityMultiplier": 1
+    },
+    {
+      "price": 82,
+      "timestamp": 1742397667619,
+      "volumeImpact": 0,
+      "scarcityMultiplier": 1
+    },
+    {
+      "price": 89,
+      "timestamp": 1742397680518,
+      "volumeImpact": 0,
+      "scarcityMultiplier": 1
+    },
+    {
+      "price": 80,
+      "timestamp": 1742397695662,
+      "volumeImpact": 0,
+      "scarcityMultiplier": 1
+    },
+    {
+      "price": 66,
+      "timestamp": 1742397710993,
+      "volumeImpact": 0,
+      "scarcityMultiplier": 1
+    },
+    {
+      "price": 69,
+      "timestamp": 1742397722832,
+      "volumeImpact": 0,
+      "scarcityMultiplier": 1
+    },
+    {
+      "price": 72,
+      "timestamp": 1742397732944,
+      "volumeImpact": 0,
+      "scarcityMultiplier": 1
+    },
+    {
+      "price": 76,
+      "timestamp": 1742397753105,
+      "volumeImpact": 0,
+      "scarcityMultiplier": 1
+    },
+    {
+      "price": 80,
+      "timestamp": 1742397765848,
+      "volumeImpact": 0,
+      "scarcityMultiplier": 1
+    },
+    {
+      "price": 80,
+      "timestamp": 1742397779743,
+      "volumeImpact": 0,
+      "scarcityMultiplier": 1
+    },
+    {
+      "price": 63,
+      "timestamp": 1742397790938,
+      "volumeImpact": 0,
+      "scarcityMultiplier": 1
+    },
+    {
+      "price": 66,
+      "timestamp": 1742397802097,
+      "volumeImpact": 0,
+      "scarcityMultiplier": 1
+    },
+    {
+      "price": 69,
+      "timestamp": 1742397813633,
+      "volumeImpact": 0,
+      "scarcityMultiplier": 1
+    },
+    {
+      "price": 72,
+      "timestamp": 1742397824518,
+      "volumeImpact": 0,
+      "scarcityMultiplier": 1
+    },
+    {
+      "price": 76,
+      "timestamp": 1742397841620,
+      "volumeImpact": 0,
+      "scarcityMultiplier": 1
+    },
+    {
+      "price": 80,
+      "timestamp": 1742397853166,
+      "volumeImpact": 0,
+      "scarcityMultiplier": 1
+    },
+    {
+      "price": 92,
+      "timestamp": 1742397871134,
+      "volumeImpact": 0,
+      "scarcityMultiplier": 1
+    },
+    {
+      "price": 98,
+      "timestamp": 1742397885986,
+      "volumeImpact": 0,
+      "scarcityMultiplier": 1
+    },
+    {
+      "price": 115,
+      "timestamp": 1742397897889,
+      "volumeImpact": 0,
+      "scarcityMultiplier": 1
+    },
+    {
+      "price": 98,
+      "timestamp": 1742397908883,
+      "volumeImpact": 0,
+      "scarcityMultiplier": 1
+    },
+    {
+      "price": 87,
+      "timestamp": 1742397919276,
+      "volumeImpact": 0,
+      "scarcityMultiplier": 1
+    },
+    {
+      "price": 97,
+      "timestamp": 1742397929691,
+      "volumeImpact": 0,
+      "scarcityMultiplier": 1
+    },
+    {
+      "price": 108,
+      "timestamp": 1742397942011,
+      "volumeImpact": 0,
+      "scarcityMultiplier": 1
+    },
+    {
+      "price": 122,
+      "timestamp": 1742397955978,
+      "volumeImpact": 0,
+      "scarcityMultiplier": 1
+    },
+    {
+      "price": 137,
+      "timestamp": 1742397969156,
+      "volumeImpact": 0,
+      "scarcityMultiplier": 1
+    },
+    {
+      "price": 115,
+      "timestamp": 1742398016339,
+      "volumeImpact": 0,
+      "scarcityMultiplier": 1
+    },
+    {
+      "price": 96,
+      "timestamp": 1742398045943,
+      "volumeImpact": 0,
+      "scarcityMultiplier": 1
+    },
+    {
+      "price": 99,
+      "timestamp": 1742398060017,
+      "volumeImpact": 0,
+      "scarcityMultiplier": 1
+    },
+    {
+      "price": 94,
+      "timestamp": 1742398093584,
+      "volumeImpact": 0,
+      "scarcityMultiplier": 1
+    },
+    {
+      "price": 104,
+      "timestamp": 1742398106233,
+      "volumeImpact": 0,
+      "scarcityMultiplier": 1
+    },
+    {
+      "price": 97,
+      "timestamp": 1742398116281,
+      "volumeImpact": 0,
+      "scarcityMultiplier": 1
+    },
+    {
+      "price": 102,
+      "timestamp": 1742398143010,
+      "volumeImpact": 0,
+      "scarcityMultiplier": 1
+    },
+    {
+      "price": 116,
+      "timestamp": 1742398159279,
+      "volumeImpact": 0,
+      "scarcityMultiplier": 1
+    },
+    {
+      "price": 116,
+      "timestamp": 1742398183678,
+      "volumeImpact": 0,
+      "scarcityMultiplier": 1
+    },
+    {
+      "price": 139,
+      "timestamp": 1742398232718,
+      "volumeImpact": 0,
+      "scarcityMultiplier": 1
+    },
+    {
+      "price": 132,
+      "timestamp": 1742398266739,
+      "volumeImpact": 0,
+      "scarcityMultiplier": 1
+    },
+    {
+      "price": 141,
+      "timestamp": 1742398280097,
+      "volumeImpact": 0,
+      "scarcityMultiplier": 1
+    },
+    {
+      "price": 112,
+      "timestamp": 1742398301592,
+      "volumeImpact": 0,
+      "scarcityMultiplier": 1
+    },
+    {
+      "price": 102,
+      "timestamp": 1742398316389,
+      "volumeImpact": 0,
+      "scarcityMultiplier": 1
+    },
+    {
+      "price": 92,
+      "timestamp": 1742398330940,
+      "volumeImpact": 0,
+      "scarcityMultiplier": 1
+    },
+    {
+      "price": 79,
+      "timestamp": 1742398343555,
+      "volumeImpact": 0,
+      "scarcityMultiplier": 1
+    },
+    {
+      "price": 83,
+      "timestamp": 1742398358199,
+      "volumeImpact": 0,
+      "scarcityMultiplier": 1
+    },
+    {
+      "price": 99,
+      "timestamp": 1742398374625,
+      "volumeImpact": 0,
+      "scarcityMultiplier": 1
+    },
+    {
+      "price": 111,
+      "timestamp": 1742398390754,
+      "volumeImpact": 0,
+      "scarcityMultiplier": 1
+    },
+    {
+      "price": 132,
+      "timestamp": 1742398452793,
+      "volumeImpact": 0,
+      "scarcityMultiplier": 1
+    },
+    {
+      "price": 105,
+      "timestamp": 1742398486999,
+      "volumeImpact": 0,
+      "scarcityMultiplier": 1
+    },
+    {
+      "price": 102,
+      "timestamp": 1742398501557,
+      "volumeImpact": 0,
+      "scarcityMultiplier": 1
+    },
+    {
+      "price": 80,
+      "timestamp": 1742398512305,
+      "volumeImpact": 0,
+      "scarcityMultiplier": 1
+    },
+    {
+      "price": 79,
+      "timestamp": 1742398526249,
+      "volumeImpact": 0,
+      "scarcityMultiplier": 1
+    },
+    {
+      "price": 83,
+      "timestamp": 1742398541356,
+      "volumeImpact": 0,
+      "scarcityMultiplier": 1
+    },
+    {
+      "price": 74,
+      "timestamp": 1742398558866,
+      "volumeImpact": 0,
+      "scarcityMultiplier": 1
+    },
+    {
+      "price": 78,
+      "timestamp": 1742398570292,
+      "volumeImpact": 0,
+      "scarcityMultiplier": 1
+    },
+    {
+      "price": 82,
+      "timestamp": 1742398581357,
+      "volumeImpact": 0,
+      "scarcityMultiplier": 1
+    },
+    {
+      "price": 74,
+      "timestamp": 1742398594290,
+      "volumeImpact": 0,
+      "scarcityMultiplier": 1
+    },
+    {
+      "price": 78,
+      "timestamp": 1742398612031,
+      "volumeImpact": 0,
+      "scarcityMultiplier": 1
+    },
+    {
+      "price": 82,
+      "timestamp": 1742398627800,
+      "volumeImpact": 0,
+      "scarcityMultiplier": 1
+    },
+    {
+      "price": 101,
+      "timestamp": 1742398643494,
+      "volumeImpact": 0,
+      "scarcityMultiplier": 1
+    },
+    {
+      "price": 103,
+      "timestamp": 1742398656319,
+      "volumeImpact": 0,
+      "scarcityMultiplier": 1
+    },
+    {
+      "price": 82,
+      "timestamp": 1742398671799,
+      "volumeImpact": 0,
+      "scarcityMultiplier": 1
+    },
+    {
+      "price": 58,
+      "timestamp": 1742398708865,
+      "volumeImpact": 0,
+      "scarcityMultiplier": 1
+    },
+    {
+      "price": 61,
+      "timestamp": 1742398724345,
+      "volumeImpact": 0,
+      "scarcityMultiplier": 1
+    },
+    {
+      "price": 64,
+      "timestamp": 1742398735193,
+      "volumeImpact": 0,
+      "scarcityMultiplier": 1
+    },
+    {
+      "price": 67,
+      "timestamp": 1742398749291,
+      "volumeImpact": 0,
+      "scarcityMultiplier": 1
+    },
+    {
+      "price": 70,
+      "timestamp": 1742398765415,
+      "volumeImpact": 0,
+      "scarcityMultiplier": 1
+    },
+    {
+      "price": 74,
+      "timestamp": 1742398787210,
+      "volumeImpact": 0,
+      "scarcityMultiplier": 1
+    },
+    {
+      "price": 78,
+      "timestamp": 1742398809412,
+      "volumeImpact": 0,
+      "scarcityMultiplier": 1
+    },
+    {
+      "price": 82,
+      "timestamp": 1742398820239,
+      "volumeImpact": 0,
+      "scarcityMultiplier": 1
+    },
+    {
+      "price": 69,
+      "timestamp": 1742398848981,
+      "volumeImpact": 0,
+      "scarcityMultiplier": 1
+    },
+    {
+      "price": 72,
+      "timestamp": 1742398867401,
+      "volumeImpact": 0,
+      "scarcityMultiplier": 1
+    },
+    {
+      "price": 76,
+      "timestamp": 1742398889388,
+      "volumeImpact": 0,
+      "scarcityMultiplier": 1
+    },
+    {
+      "price": 80,
+      "timestamp": 1742398900911,
+      "volumeImpact": 0,
+      "scarcityMultiplier": 1
+    },
+    {
+      "price": 56,
+      "timestamp": 1742398913527,
+      "volumeImpact": 0,
+      "scarcityMultiplier": 1
+    },
+    {
+      "price": 59,
+      "timestamp": 1742398924870,
+      "volumeImpact": 0,
+      "scarcityMultiplier": 1
+    },
+    {
+      "price": 62,
+      "timestamp": 1742398935728,
+      "volumeImpact": 0,
+      "scarcityMultiplier": 1
+    },
+    {
+      "price": 65,
+      "timestamp": 1742398947096,
+      "volumeImpact": 0,
+      "scarcityMultiplier": 1
+    },
+    {
+      "price": 68,
+      "timestamp": 1742398962989,
+      "volumeImpact": 0,
+      "scarcityMultiplier": 1
+    },
+    {
+      "price": 71,
+      "timestamp": 1742398980680,
+      "volumeImpact": 0,
+      "scarcityMultiplier": 1
+    },
+    {
+      "price": 75,
+      "timestamp": 1742398994743,
+      "volumeImpact": 0,
+      "scarcityMultiplier": 1
+    },
+    {
+      "price": 79,
+      "timestamp": 1742399005626,
+      "volumeImpact": 0,
+      "scarcityMultiplier": 1
+    },
+    {
+      "price": 83,
+      "timestamp": 1742399015627,
+      "volumeImpact": 0,
+      "scarcityMultiplier": 1
+    },
+    {
+      "price": 65,
+      "timestamp": 1742399027814,
+      "volumeImpact": 0,
+      "scarcityMultiplier": 1
+    },
+    {
+      "price": 68,
+      "timestamp": 1742399041001,
+      "volumeImpact": 0,
+      "scarcityMultiplier": 1
+    },
+    {
+      "price": 71,
+      "timestamp": 1742399055316,
+      "volumeImpact": 0,
+      "scarcityMultiplier": 1
+    },
+    {
+      "price": 75,
+      "timestamp": 1742399068419,
+      "volumeImpact": 0,
+      "scarcityMultiplier": 1
+    },
+    {
+      "price": 79,
+      "timestamp": 1742399082880,
+      "volumeImpact": 0,
+      "scarcityMultiplier": 1
+    },
+    {
+      "price": 83,
+      "timestamp": 1742399095879,
+      "volumeImpact": 0,
+      "scarcityMultiplier": 1
+    },
+    {
+      "price": 78,
+      "timestamp": 1742399106733,
+      "volumeImpact": 0,
+      "scarcityMultiplier": 1
+    },
+    {
+      "price": 82,
+      "timestamp": 1742399116999,
+      "volumeImpact": 0,
+      "scarcityMultiplier": 1
+    },
+    {
+      "price": 79,
+      "timestamp": 1742399130627,
+      "volumeImpact": 0,
+      "scarcityMultiplier": 1
+    },
+    {
+      "price": 83,
+      "timestamp": 1742399149190,
+      "volumeImpact": 0,
+      "scarcityMultiplier": 1
+    },
+    {
+      "price": 71,
+      "timestamp": 1742399165708,
+      "volumeImpact": 0,
+      "scarcityMultiplier": 1
+    },
+    {
+      "price": 75,
+      "timestamp": 1742399185580,
+      "volumeImpact": 0,
+      "scarcityMultiplier": 1
+    },
+    {
+      "price": 79,
+      "timestamp": 1742399197906,
+      "volumeImpact": 0,
+      "scarcityMultiplier": 1
+    },
+    {
+      "price": 83,
+      "timestamp": 1742399217508,
+      "volumeImpact": 0,
+      "scarcityMultiplier": 1
+    },
+    {
+      "price": 77,
+      "timestamp": 1742399228026,
+      "volumeImpact": 0,
+      "scarcityMultiplier": 1
+    },
+    {
+      "price": 81,
+      "timestamp": 1742399240203,
+      "volumeImpact": 0,
+      "scarcityMultiplier": 1
+    },
+    {
+      "price": 83,
+      "timestamp": 1742399252742,
+      "volumeImpact": 0,
+      "scarcityMultiplier": 1
+    },
+    {
+      "price": 88,
+      "timestamp": 1742399269712,
+      "volumeImpact": 0,
+      "scarcityMultiplier": 1
+    },
+    {
+      "price": 95,
+      "timestamp": 1742399282016,
+      "volumeImpact": 0,
+      "scarcityMultiplier": 1
+    },
+    {
+      "price": 110,
+      "timestamp": 1742399300360,
+      "volumeImpact": 0,
+      "scarcityMultiplier": 1
+    },
+    {
+      "price": 110,
+      "timestamp": 1742399323477,
+      "volumeImpact": 0,
+      "scarcityMultiplier": 1
+    },
+    {
+      "price": 89,
+      "timestamp": 1742399335048,
+      "volumeImpact": 0,
+      "scarcityMultiplier": 1
+    },
+    {
+      "price": 105,
+      "timestamp": 1742399357521,
+      "volumeImpact": 0,
+      "scarcityMultiplier": 1
+    },
+    {
+      "price": 87,
+      "timestamp": 1742399380577,
+      "volumeImpact": 0,
+      "scarcityMultiplier": 1
+    },
+    {
+      "price": 85,
+      "timestamp": 1742399394927,
+      "volumeImpact": 0,
+      "scarcityMultiplier": 1
+    },
+    {
+      "price": 97,
+      "timestamp": 1742399416344,
+      "volumeImpact": 0,
+      "scarcityMultiplier": 1
+    },
+    {
+      "price": 79,
+      "timestamp": 1742399428222,
+      "volumeImpact": 0,
+      "scarcityMultiplier": 1
+    },
+    {
+      "price": 83,
+      "timestamp": 1742399459161,
+      "volumeImpact": 0,
+      "scarcityMultiplier": 1
+    },
+    {
+      "price": 94,
+      "timestamp": 1742399471771,
+      "volumeImpact": 0,
+      "scarcityMultiplier": 1
+    },
+    {
+      "price": 72,
+      "timestamp": 1742399555932,
+      "volumeImpact": 0,
+      "scarcityMultiplier": 1
+    },
+    {
+      "price": 76,
+      "timestamp": 1742399601807,
+      "volumeImpact": 0,
+      "scarcityMultiplier": 1
+    },
+    {
+      "price": 80,
+      "timestamp": 1742399624693,
+      "volumeImpact": 0,
+      "scarcityMultiplier": 1
+    },
+    {
+      "price": 60,
+      "timestamp": 1742399655976,
+      "volumeImpact": 0,
+      "scarcityMultiplier": 1
+    },
+    {
+      "price": 63,
+      "timestamp": 1742399680018,
+      "volumeImpact": 0,
+      "scarcityMultiplier": 1
+    },
+    {
+      "price": 66,
+      "timestamp": 1742399696146,
+      "volumeImpact": 0,
+      "scarcityMultiplier": 1
+    },
+    {
+      "price": 69,
+      "timestamp": 1742399781484,
+      "volumeImpact": 0,
+      "scarcityMultiplier": 1
+    },
+    {
+      "price": 72,
+      "timestamp": 1742399915232,
+      "volumeImpact": 0,
+      "scarcityMultiplier": 1
+    },
+    {
+      "price": 76,
+      "timestamp": 1742399954200,
+      "volumeImpact": 0,
+      "scarcityMultiplier": 1
+    },
+    {
+      "price": 80,
+      "timestamp": 1742399985311,
+      "volumeImpact": 0,
+      "scarcityMultiplier": 1
+    },
+    {
+      "price": 62,
+      "timestamp": 1742400021036,
+      "volumeImpact": 0,
+      "scarcityMultiplier": 1
+    },
+    {
+      "price": 65,
+      "timestamp": 1742400050735,
+      "volumeImpact": 0,
+      "scarcityMultiplier": 1
+    },
+    {
+      "price": 68,
+      "timestamp": 1742400069312,
+      "volumeImpact": 0,
+      "scarcityMultiplier": 1
+    },
+    {
+      "price": 71,
+      "timestamp": 1742400092003,
+      "volumeImpact": 0,
+      "scarcityMultiplier": 1
+    },
+    {
+      "price": 75,
+      "timestamp": 1742400109061,
+      "volumeImpact": 0,
+      "scarcityMultiplier": 1
+    },
+    {
+      "price": 79,
+      "timestamp": 1742400135215,
+      "volumeImpact": 0,
+      "scarcityMultiplier": 1
+    },
+    {
+      "price": 83,
+      "timestamp": 1742400164012,
+      "volumeImpact": 0,
+      "scarcityMultiplier": 1
+    },
+    {
+      "price": 93,
+      "timestamp": 1742400181611,
+      "volumeImpact": 0,
+      "scarcityMultiplier": 1
+    },
+    {
+      "price": 90,
+      "timestamp": 1742400191912,
+      "volumeImpact": 0,
+      "scarcityMultiplier": 1
+    },
+    {
+      "price": 77,
+      "timestamp": 1742400210016,
+      "volumeImpact": 0,
+      "scarcityMultiplier": 1
+    },
+    {
+      "price": 81,
+      "timestamp": 1742400235919,
+      "volumeImpact": 0,
+      "scarcityMultiplier": 1
+    },
+    {
+      "price": 66,
+      "timestamp": 1742400248254,
+      "volumeImpact": 0,
+      "scarcityMultiplier": 1
+    },
+    {
+      "price": 69,
+      "timestamp": 1742400269134,
+      "volumeImpact": 0,
+      "scarcityMultiplier": 1
+    },
+    {
+      "price": 72,
+      "timestamp": 1742400287398,
+      "volumeImpact": 0,
+      "scarcityMultiplier": 1
+    },
+    {
+      "price": 76,
+      "timestamp": 1742400302370,
+      "volumeImpact": 0,
+      "scarcityMultiplier": 1
+    },
+    {
+      "price": 80,
+      "timestamp": 1742400316987,
+      "volumeImpact": 0,
+      "scarcityMultiplier": 1
+    },
+    {
+      "price": 94,
+      "timestamp": 1742400328714,
+      "volumeImpact": 0,
+      "scarcityMultiplier": 1
+    },
+    {
+      "price": 86,
+      "timestamp": 1742400360914,
+      "volumeImpact": 0,
+      "scarcityMultiplier": 1
+    },
+    {
+      "price": 89,
+      "timestamp": 1742400374197,
+      "volumeImpact": 0,
+      "scarcityMultiplier": 1
+    },
+    {
+      "price": 83,
+      "timestamp": 1742400395415,
+      "volumeImpact": 0,
+      "scarcityMultiplier": 1
+    },
+    {
+      "price": 87,
+      "timestamp": 1742400409579,
+      "volumeImpact": 0,
+      "scarcityMultiplier": 1
+    },
+    {
+      "price": 85,
+      "timestamp": 1742400431273,
+      "volumeImpact": 0,
+      "scarcityMultiplier": 1
+    },
+    {
+      "price": 91,
+      "timestamp": 1742400444955,
+      "volumeImpact": 0,
+      "scarcityMultiplier": 1
+    },
+    {
+      "price": 81,
+      "timestamp": 1742400461411,
+      "volumeImpact": 0,
+      "scarcityMultiplier": 1
+    },
+    {
+      "price": 83,
+      "timestamp": 1742400484719,
+      "volumeImpact": 0,
+      "scarcityMultiplier": 1
+    },
+    {
+      "price": 92,
+      "timestamp": 1742400500157,
+      "volumeImpact": 0,
+      "scarcityMultiplier": 1
+    },
+    {
+      "price": 91,
+      "timestamp": 1742400517332,
+      "volumeImpact": 0,
+      "scarcityMultiplier": 1
+    },
+    {
+      "price": 109,
+      "timestamp": 1742400531626,
+      "volumeImpact": 0,
+      "scarcityMultiplier": 1
+    },
+    {
+      "price": 104,
+      "timestamp": 1742400548673,
+      "volumeImpact": 0,
+      "scarcityMultiplier": 1
+    },
+    {
+      "price": 113,
+      "timestamp": 1742400567448,
+      "volumeImpact": 0,
+      "scarcityMultiplier": 1
+    },
+    {
+      "price": 90,
+      "timestamp": 1742400583006,
+      "volumeImpact": 0,
+      "scarcityMultiplier": 1
+    },
+    {
+      "price": 90,
+      "timestamp": 1742400604820,
+      "volumeImpact": 0,
+      "scarcityMultiplier": 1
+    },
+    {
+      "price": 72,
+      "timestamp": 1742400620186,
+      "volumeImpact": 0,
+      "scarcityMultiplier": 1
+    },
+    {
+      "price": 76,
+      "timestamp": 1742400646845,
+      "volumeImpact": 0,
+      "scarcityMultiplier": 1
+    },
+    {
+      "price": 80,
+      "timestamp": 1742400667901,
+      "volumeImpact": 0,
+      "scarcityMultiplier": 1
+    },
+    {
+      "price": 66,
+      "timestamp": 1742400682610,
+      "volumeImpact": 0,
+      "scarcityMultiplier": 1
+    },
+    {
+      "price": 69,
+      "timestamp": 1742400697603,
+      "volumeImpact": 0,
+      "scarcityMultiplier": 1
+    },
+    {
+      "price": 72,
+      "timestamp": 1742400713886,
+      "volumeImpact": 0,
+      "scarcityMultiplier": 1
+    },
+    {
+      "price": 76,
+      "timestamp": 1742400736562,
+      "volumeImpact": 0,
+      "scarcityMultiplier": 1
+    },
+    {
+      "price": 80,
+      "timestamp": 1742400750020,
+      "volumeImpact": 0,
+      "scarcityMultiplier": 1
+    },
+    {
+      "price": 79,
+      "timestamp": 1742400772889,
+      "volumeImpact": 0,
+      "scarcityMultiplier": 1
+    },
+    {
+      "price": 83,
+      "timestamp": 1742400783490,
+      "volumeImpact": 0,
+      "scarcityMultiplier": 1
+    },
+    {
+      "price": 73,
+      "timestamp": 1742400804740,
+      "volumeImpact": 0,
+      "scarcityMultiplier": 1
+    },
+    {
+      "price": 77,
+      "timestamp": 1742400818651,
+      "volumeImpact": 0,
+      "scarcityMultiplier": 1
+    },
+    {
+      "price": 81,
+      "timestamp": 1742400839136,
+      "volumeImpact": 0,
+      "scarcityMultiplier": 1
+    },
+    {
+      "price": 83,
+      "timestamp": 1742400857260,
+      "volumeImpact": 0,
+      "scarcityMultiplier": 1
+    },
+    {
+      "price": 86,
+      "timestamp": 1742400878605,
+      "volumeImpact": 0,
+      "scarcityMultiplier": 1
+    },
+    {
+      "price": 69,
+      "timestamp": 1742400889697,
+      "volumeImpact": 0,
+      "scarcityMultiplier": 1
+    },
+    {
+      "price": 72,
+      "timestamp": 1742400917729,
+      "volumeImpact": 0,
+      "scarcityMultiplier": 1
+    },
+    {
+      "price": 76,
+      "timestamp": 1742400933432,
+      "volumeImpact": 0,
+      "scarcityMultiplier": 1
+    },
+    {
+      "price": 80,
+      "timestamp": 1742400950459,
+      "volumeImpact": 0,
+      "scarcityMultiplier": 1
+    },
+    {
+      "price": 66,
+      "timestamp": 1742401017578,
+      "volumeImpact": 0,
+      "scarcityMultiplier": 1
+    },
+    {
+      "price": 69,
+      "timestamp": 1742401037652,
+      "volumeImpact": 0,
+      "scarcityMultiplier": 1
+    },
+    {
+      "price": 72,
+      "timestamp": 1742401060709,
+      "volumeImpact": 0,
+      "scarcityMultiplier": 1
+    },
+    {
+      "price": 76,
+      "timestamp": 1742401097170,
+      "volumeImpact": 0,
+      "scarcityMultiplier": 1
+    },
+    {
+      "price": 80,
+      "timestamp": 1742401144510,
+      "volumeImpact": 0,
+      "scarcityMultiplier": 1
+    },
+    {
+      "price": 92,
+      "timestamp": 1742401177999,
+      "volumeImpact": 0,
+      "scarcityMultiplier": 1
+    },
+    {
+      "price": 75,
+      "timestamp": 1742401208761,
+      "volumeImpact": 0,
+      "scarcityMultiplier": 1
+    },
+    {
+      "price": 79,
+      "timestamp": 1742401223495,
+      "volumeImpact": 0,
+      "scarcityMultiplier": 1
+    },
+    {
+      "price": 83,
+      "timestamp": 1742401244638,
+      "volumeImpact": 0,
+      "scarcityMultiplier": 1
+    },
+    {
+      "price": 92,
+      "timestamp": 1742401259280,
+      "volumeImpact": 0,
+      "scarcityMultiplier": 1
+    },
+    {
+      "price": 113,
+      "timestamp": 1742401280578,
+      "volumeImpact": 0,
+      "scarcityMultiplier": 1
+    },
+    {
+      "price": 129,
+      "timestamp": 1742401298161,
+      "volumeImpact": 0,
+      "scarcityMultiplier": 1
+    },
+    {
+      "price": 158,
+      "timestamp": 1742401308890,
+      "volumeImpact": 0,
+      "scarcityMultiplier": 1
+    },
+    {
+      "price": 130,
+      "timestamp": 1742401321963,
+      "volumeImpact": 0,
+      "scarcityMultiplier": 1
+    },
+    {
+      "price": 145,
+      "timestamp": 1742401342067,
+      "volumeImpact": 0,
+      "scarcityMultiplier": 1
+    },
+    {
+      "price": 160,
+      "timestamp": 1742401353889,
+      "volumeImpact": 0,
+      "scarcityMultiplier": 1
+    },
+    {
+      "price": 191,
+      "timestamp": 1742401374142,
+      "volumeImpact": 0,
+      "scarcityMultiplier": 1
+    },
+    {
+      "price": 236,
+      "timestamp": 1742401386589,
+      "volumeImpact": 0,
+      "scarcityMultiplier": 1
+    },
+    {
+      "price": 194,
+      "timestamp": 1742401401246,
+      "volumeImpact": 0,
+      "scarcityMultiplier": 1
+    },
+    {
+      "price": 220,
+      "timestamp": 1742401413248,
+      "volumeImpact": 0,
+      "scarcityMultiplier": 1
+    },
+    {
+      "price": 203,
+      "timestamp": 1742401426195,
+      "volumeImpact": 0,
+      "scarcityMultiplier": 1
+    },
+    {
+      "price": 193,
+      "timestamp": 1742401436766,
+      "volumeImpact": 0,
+      "scarcityMultiplier": 1
+    },
+    {
+      "price": 192,
+      "timestamp": 1742401459053,
+      "volumeImpact": 0,
+      "scarcityMultiplier": 1
+    },
+    {
+      "price": 179,
+      "timestamp": 1742401480030,
+      "volumeImpact": 0,
+      "scarcityMultiplier": 1
+    },
+    {
+      "price": 136,
+      "timestamp": 1742401500986,
+      "volumeImpact": 0,
+      "scarcityMultiplier": 1
+    },
+    {
+      "price": 138,
+      "timestamp": 1742401511255,
+      "volumeImpact": 0,
+      "scarcityMultiplier": 1
+    },
+    {
+      "price": 150,
+      "timestamp": 1742401521898,
+      "volumeImpact": 0,
+      "scarcityMultiplier": 1
+    },
+    {
+      "price": 176,
+      "timestamp": 1742401537312,
+      "volumeImpact": 0,
+      "scarcityMultiplier": 1
+    },
+    {
+      "price": 159,
+      "timestamp": 1742401555512,
+      "volumeImpact": 0,
+      "scarcityMultiplier": 1
+    },
+    {
+      "price": 151,
+      "timestamp": 1742401567250,
+      "volumeImpact": 0,
+      "scarcityMultiplier": 1
+    },
+    {
+      "price": 150,
+      "timestamp": 1742401579241,
+      "volumeImpact": 0,
+      "scarcityMultiplier": 1
+    },
+    {
+      "price": 123,
+      "timestamp": 1742401595636,
+      "volumeImpact": 0,
+      "scarcityMultiplier": 1
+    },
+    {
+      "price": 138,
+      "timestamp": 1742401613759,
+      "volumeImpact": 0,
+      "scarcityMultiplier": 1
+    },
+    {
+      "price": 131,
+      "timestamp": 1742401630896,
+      "volumeImpact": 0,
+      "scarcityMultiplier": 1
+    },
+    {
+      "price": 160,
+      "timestamp": 1742401647644,
+      "volumeImpact": 0,
+      "scarcityMultiplier": 1
+    },
+    {
+      "price": 127,
+      "timestamp": 1742401657746,
+      "volumeImpact": 0,
+      "scarcityMultiplier": 1
+    },
+    {
+      "price": 150,
+      "timestamp": 1742401673856,
+      "volumeImpact": 0,
+      "scarcityMultiplier": 1
+    },
+    {
+      "price": 147,
+      "timestamp": 1742401690240,
+      "volumeImpact": 0,
+      "scarcityMultiplier": 1
+    },
+    {
+      "price": 161,
+      "timestamp": 1742401713659,
+      "volumeImpact": 0,
+      "scarcityMultiplier": 1
+    },
+    {
+      "price": 178,
+      "timestamp": 1742401727662,
+      "volumeImpact": 0,
+      "scarcityMultiplier": 1
+    },
+    {
+      "price": 172,
+      "timestamp": 1742401756032,
+      "volumeImpact": 0,
+      "scarcityMultiplier": 1
+    },
+    {
+      "price": 176,
+      "timestamp": 1742401780356,
+      "volumeImpact": 0,
+      "scarcityMultiplier": 1
+    },
+    {
+      "price": 174,
+      "timestamp": 1742401801257,
+      "volumeImpact": 0,
+      "scarcityMultiplier": 1
+    },
+    {
+      "price": 199,
+      "timestamp": 1742401819186,
+      "volumeImpact": 0,
+      "scarcityMultiplier": 1
+    },
+    {
+      "price": 181,
+      "timestamp": 1742401834594,
+      "volumeImpact": 0,
+      "scarcityMultiplier": 1
+    },
+    {
+      "price": 199,
+      "timestamp": 1742401855074,
+      "volumeImpact": 0,
+      "scarcityMultiplier": 1
+    },
+    {
+      "price": 195,
+      "timestamp": 1742401879810,
+      "volumeImpact": 0,
+      "scarcityMultiplier": 1
+    },
+    {
+      "price": 177,
+      "timestamp": 1742401898069,
+      "volumeImpact": 0,
+      "scarcityMultiplier": 1
+    },
+    {
+      "price": 136,
+      "timestamp": 1742401908636,
+      "volumeImpact": 0,
+      "scarcityMultiplier": 1
+    },
+    {
+      "price": 141,
+      "timestamp": 1742401926226,
+      "volumeImpact": 0,
+      "scarcityMultiplier": 1
+    },
+    {
+      "price": 176,
+      "timestamp": 1742401948336,
+      "volumeImpact": 0,
+      "scarcityMultiplier": 1
+    },
+    {
+      "price": 139,
+      "timestamp": 1742401959977,
+      "volumeImpact": 0,
+      "scarcityMultiplier": 1
+    },
+    {
+      "price": 117,
+      "timestamp": 1742401972382,
+      "volumeImpact": 0,
+      "scarcityMultiplier": 1
+    },
+    {
+      "price": 117,
+      "timestamp": 1742401992480,
+      "volumeImpact": 0,
+      "scarcityMultiplier": 1
+    },
+    {
+      "price": 124,
+      "timestamp": 1742402009991,
+      "volumeImpact": 0,
+      "scarcityMultiplier": 1
+    },
+    {
+      "price": 107,
+      "timestamp": 1742402026969,
+      "volumeImpact": 0,
+      "scarcityMultiplier": 1
+    },
+    {
+      "price": 101,
+      "timestamp": 1742402038730,
+      "volumeImpact": 0,
+      "scarcityMultiplier": 1
+    },
+    {
+      "price": 126,
+      "timestamp": 1742402052419,
+      "volumeImpact": 0,
+      "scarcityMultiplier": 1
+    },
+    {
+      "price": 154,
+      "timestamp": 1742402063908,
+      "volumeImpact": 0,
+      "scarcityMultiplier": 1
+    },
+    {
+      "price": 126,
+      "timestamp": 1742402085338,
+      "volumeImpact": 0,
+      "scarcityMultiplier": 1
+    },
+    {
+      "price": 116,
+      "timestamp": 1742402097766,
+      "volumeImpact": 0,
+      "scarcityMultiplier": 1
+    },
+    {
+      "price": 104,
+      "timestamp": 1742402114140,
+      "volumeImpact": 0,
+      "scarcityMultiplier": 1
+    },
+    {
+      "price": 106,
+      "timestamp": 1742402128153,
+      "volumeImpact": 0,
+      "scarcityMultiplier": 1
+    },
+    {
+      "price": 99,
+      "timestamp": 1742402140772,
+      "volumeImpact": 0,
+      "scarcityMultiplier": 1
+    },
+    {
+      "price": 103,
+      "timestamp": 1742402157452,
+      "volumeImpact": 0,
+      "scarcityMultiplier": 1
+    },
+    {
+      "price": 77,
+      "timestamp": 1742402168804,
+      "volumeImpact": 0,
+      "scarcityMultiplier": 1
+    },
+    {
+      "price": 81,
+      "timestamp": 1742402181793,
+      "volumeImpact": 0,
+      "scarcityMultiplier": 1
+    },
+    {
+      "price": 90,
+      "timestamp": 1742402193421,
+      "volumeImpact": 0,
+      "scarcityMultiplier": 1
+    },
+    {
+      "price": 109,
+      "timestamp": 1742402206015,
+      "volumeImpact": 0,
+      "scarcityMultiplier": 1
+    },
+    {
+      "price": 90,
+      "timestamp": 1742402229046,
+      "volumeImpact": 0,
+      "scarcityMultiplier": 1
+    },
+    {
+      "price": 102,
+      "timestamp": 1742402249252,
+      "volumeImpact": 0,
+      "scarcityMultiplier": 1
+    },
+    {
+      "price": 115,
+      "timestamp": 1742402275514,
+      "volumeImpact": 0,
+      "scarcityMultiplier": 1
+    },
+    {
+      "price": 128,
+      "timestamp": 1742402293344,
+      "volumeImpact": 0,
+      "scarcityMultiplier": 1
+    },
+    {
+      "price": 107,
+      "timestamp": 1742402305102,
+      "volumeImpact": 0,
+      "scarcityMultiplier": 1
+    },
+    {
+      "price": 97,
+      "timestamp": 1742402322105,
+      "volumeImpact": 0,
+      "scarcityMultiplier": 1
+    },
+    {
+      "price": 88,
+      "timestamp": 1742402338170,
+      "volumeImpact": 0,
+      "scarcityMultiplier": 1
+    },
+    {
+      "price": 90,
+      "timestamp": 1742402355495,
+      "volumeImpact": 0,
+      "scarcityMultiplier": 1
+    },
+    {
+      "price": 106,
+      "timestamp": 1742402370795,
+      "volumeImpact": 0,
+      "scarcityMultiplier": 1
+    },
+    {
+      "price": 118,
+      "timestamp": 1742402385676,
+      "volumeImpact": 0,
+      "scarcityMultiplier": 1
+    },
+    {
+      "price": 92,
+      "timestamp": 1742402406120,
+      "volumeImpact": 0,
+      "scarcityMultiplier": 1
+    },
+    {
+      "price": 92,
+      "timestamp": 1742402423510,
+      "volumeImpact": 0,
+      "scarcityMultiplier": 1
+    },
+    {
+      "price": 113,
+      "timestamp": 1742402434646,
+      "volumeImpact": 0,
+      "scarcityMultiplier": 1
+    },
+    {
+      "price": 106,
+      "timestamp": 1742402462596,
+      "volumeImpact": 0,
+      "scarcityMultiplier": 1
+    },
+    {
+      "price": 82,
+      "timestamp": 1742402480913,
+      "volumeImpact": 0,
+      "scarcityMultiplier": 1
+    },
+    {
+      "price": 86,
+      "timestamp": 1742402504577,
+      "volumeImpact": 0,
+      "scarcityMultiplier": 1
+    },
+    {
+      "price": 84,
+      "timestamp": 1742402523186,
+      "volumeImpact": 0,
+      "scarcityMultiplier": 1
+    },
+    {
+      "price": 104,
+      "timestamp": 1742402547737,
+      "volumeImpact": 0,
+      "scarcityMultiplier": 1
+    },
+    {
+      "price": 94,
+      "timestamp": 1742402580598,
+      "volumeImpact": 0,
+      "scarcityMultiplier": 1
+    },
+    {
+      "price": 112,
+      "timestamp": 1742402590644,
+      "volumeImpact": 0,
+      "scarcityMultiplier": 1
+    },
+    {
+      "price": 108,
+      "timestamp": 1742402601823,
+      "volumeImpact": 0,
+      "scarcityMultiplier": 1
+    },
+    {
+      "price": 126,
+      "timestamp": 1742402627774,
+      "volumeImpact": 0,
+      "scarcityMultiplier": 1
+    },
+    {
+      "price": 88,
+      "timestamp": 1742402723116,
+      "volumeImpact": 0,
+      "scarcityMultiplier": 1
+    },
+    {
+      "price": 76,
+      "timestamp": 1742402741379,
+      "volumeImpact": 0,
+      "scarcityMultiplier": 1
+    },
+    {
+      "price": 80,
+      "timestamp": 1742402765219,
+      "volumeImpact": 0,
+      "scarcityMultiplier": 1
+    },
+    {
+      "price": 62,
+      "timestamp": 1742402779800,
+      "volumeImpact": 0,
+      "scarcityMultiplier": 1
+    },
+    {
+      "price": 65,
+      "timestamp": 1742402914375,
+      "volumeImpact": 0,
+      "scarcityMultiplier": 1
+    },
+    {
+      "price": 68,
+      "timestamp": 1742402945745,
+      "volumeImpact": 0,
+      "scarcityMultiplier": 1
+    },
+    {
+      "price": 71,
+      "timestamp": 1742402984522,
+      "volumeImpact": 0,
+      "scarcityMultiplier": 1
+    },
+    {
+      "price": 75,
+      "timestamp": 1742403025515,
+      "volumeImpact": 0,
+      "scarcityMultiplier": 1
+    },
+    {
+      "price": 79,
+      "timestamp": 1742403056991,
+      "volumeImpact": 0,
+      "scarcityMultiplier": 1
+    },
+    {
+      "price": 83,
+      "timestamp": 1742403080299,
+      "volumeImpact": 0,
+      "scarcityMultiplier": 1
+    },
+    {
+      "price": 87,
+      "timestamp": 1742403128963,
+      "volumeImpact": 0,
+      "scarcityMultiplier": 1
+    },
+    {
+      "price": 106,
+      "timestamp": 1742403165823,
+      "volumeImpact": 0,
+      "scarcityMultiplier": 1
+    },
+    {
+      "price": 79,
+      "timestamp": 1742403195476,
+      "volumeImpact": 0,
+      "scarcityMultiplier": 1
+    },
+    {
+      "price": 83,
+      "timestamp": 1742403331304,
+      "volumeImpact": 0,
+      "scarcityMultiplier": 1
+    },
+    {
+      "price": 81,
+      "timestamp": 1742403341884,
+      "volumeImpact": 0,
+      "scarcityMultiplier": 1
+    },
+    {
+      "price": 65,
+      "timestamp": 1742403462144,
+      "volumeImpact": 0,
+      "scarcityMultiplier": 1
+    },
+    {
+      "price": 68,
+      "timestamp": 1742403502403,
+      "volumeImpact": 0,
+      "scarcityMultiplier": 1
+    },
+    {
+      "price": 71,
+      "timestamp": 1742403598982,
+      "volumeImpact": 0,
+      "scarcityMultiplier": 1
+    },
+    {
+      "price": 75,
+      "timestamp": 1742403633954,
+      "volumeImpact": 0,
+      "scarcityMultiplier": 1
+    },
+    {
+      "price": 79,
+      "timestamp": 1742403672357,
+      "volumeImpact": 0,
+      "scarcityMultiplier": 1
+    },
+    {
+      "price": 83,
+      "timestamp": 1742403697907,
+      "volumeImpact": 0,
+      "scarcityMultiplier": 1
+    },
+    {
+      "price": 69,
+      "timestamp": 1742403813301,
+      "volumeImpact": 0,
+      "scarcityMultiplier": 1
+    },
+    {
+      "price": 72,
+      "timestamp": 1742403920080,
+      "volumeImpact": 0,
+      "scarcityMultiplier": 1
+    },
+    {
+      "price": 76,
+      "timestamp": 1742403953535,
+      "volumeImpact": 0,
+      "scarcityMultiplier": 1
+    },
+    {
+      "price": 80,
+      "timestamp": 1742404212907,
+      "volumeImpact": 0,
+      "scarcityMultiplier": 1
+    },
+    {
+      "price": 78,
+      "timestamp": 1742404290088,
+      "volumeImpact": 0,
+      "scarcityMultiplier": 1
+    },
+    {
+      "price": 82,
+      "timestamp": 1742404340075,
+      "volumeImpact": 0,
+      "scarcityMultiplier": 1
+    },
+    {
+      "price": 63,
+      "timestamp": 1742404377377,
+      "volumeImpact": 0,
+      "scarcityMultiplier": 1
+    },
+    {
+      "price": 66,
+      "timestamp": 1742404528015,
+      "volumeImpact": 0,
+      "scarcityMultiplier": 1
+    },
+    {
+      "price": 69,
+      "timestamp": 1742404540959,
+      "volumeImpact": 0,
+      "scarcityMultiplier": 1
+    },
+    {
+      "price": 72,
+      "timestamp": 1742404555803,
+      "volumeImpact": 0,
+      "scarcityMultiplier": 1
+    },
+    {
+      "price": 76,
+      "timestamp": 1742404578494,
+      "volumeImpact": 0,
+      "scarcityMultiplier": 1
+    },
+    {
+      "price": 80,
+      "timestamp": 1742404619731,
+      "volumeImpact": 0,
+      "scarcityMultiplier": 1
+    },
+    {
+      "price": 88,
+      "timestamp": 1742404633566,
+      "volumeImpact": 0,
+      "scarcityMultiplier": 1
+    },
+    {
+      "price": 108,
+      "timestamp": 1742404644378,
+      "volumeImpact": 0,
+      "scarcityMultiplier": 1
+    },
+    {
+      "price": 85,
+      "timestamp": 1742404664988,
+      "volumeImpact": 0,
+      "scarcityMultiplier": 1
+    },
+    {
+      "price": 84,
+      "timestamp": 1742404724510,
+      "volumeImpact": 0,
+      "scarcityMultiplier": 1
+    },
+    {
+      "price": 71,
+      "timestamp": 1742404783690,
+      "volumeImpact": 0,
+      "scarcityMultiplier": 1
+    },
+    {
+      "price": 75,
+      "timestamp": 1742404822730,
+      "volumeImpact": 0,
+      "scarcityMultiplier": 1
+    },
+    {
+      "price": 79,
+      "timestamp": 1742404849973,
+      "volumeImpact": 0,
+      "scarcityMultiplier": 1
+    },
+    {
+      "price": 83,
+      "timestamp": 1742404880391,
+      "volumeImpact": 0,
+      "scarcityMultiplier": 1
+    },
+    {
+      "price": 76,
+      "timestamp": 1742404977229,
+      "volumeImpact": 0,
+      "scarcityMultiplier": 1
+    },
+    {
+      "price": 80,
+      "timestamp": 1742405071513,
+      "volumeImpact": 0,
+      "scarcityMultiplier": 1
+    },
+    {
+      "price": 93,
+      "timestamp": 1742405333500,
+      "volumeImpact": 0,
+      "scarcityMultiplier": 1
+    },
+    {
+      "price": 84,
+      "timestamp": 1742405360289,
+      "volumeImpact": 0,
+      "scarcityMultiplier": 1
+    },
+    {
+      "price": 98,
+      "timestamp": 1742405390241,
+      "volumeImpact": 0,
+      "scarcityMultiplier": 1
+    },
+    {
+      "price": 78,
+      "timestamp": 1742405408154,
+      "volumeImpact": 0,
+      "scarcityMultiplier": 1
+    },
+    {
+      "price": 82,
+      "timestamp": 1742405678167,
+      "volumeImpact": 0,
+      "scarcityMultiplier": 1
+    },
+    {
+      "price": 71,
+      "timestamp": 1742405688454,
+      "volumeImpact": 0,
+      "scarcityMultiplier": 1
+    },
+    {
+      "price": 75,
+      "timestamp": 1742405726791,
+      "volumeImpact": 0,
+      "scarcityMultiplier": 1
+    },
+    {
+      "price": 79,
+      "timestamp": 1742405809014,
+      "volumeImpact": 0,
+      "scarcityMultiplier": 1
+    },
+    {
+      "price": 83,
+      "timestamp": 1742405912670,
+      "volumeImpact": 0,
+      "scarcityMultiplier": 1
+    },
+    {
+      "price": 85,
+      "timestamp": 1742405995142,
+      "volumeImpact": 0,
+      "scarcityMultiplier": 1
+    },
+    {
+      "price": 85,
+      "timestamp": 1742406120305,
+      "volumeImpact": 0,
+      "scarcityMultiplier": 1
+    },
+    {
+      "price": 83,
+      "timestamp": 1742406237115,
+      "volumeImpact": 0,
+      "scarcityMultiplier": 1
+    },
+    {
+      "price": 83,
+      "timestamp": 1742406310542,
+      "volumeImpact": 0,
+      "scarcityMultiplier": 1
+    },
+    {
+      "price": 63,
+      "timestamp": 1742406330175,
+      "volumeImpact": 0,
+      "scarcityMultiplier": 1
+    },
+    {
+      "price": 66,
+      "timestamp": 1742406417998,
+      "volumeImpact": 0,
+      "scarcityMultiplier": 1
+    },
+    {
+      "price": 69,
+      "timestamp": 1742406470817,
+      "volumeImpact": 0,
+      "scarcityMultiplier": 1
+    },
+    {
+      "price": 72,
+      "timestamp": 1742406496790,
+      "volumeImpact": 0,
+      "scarcityMultiplier": 1
+    },
+    {
+      "price": 76,
+      "timestamp": 1742406557951,
+      "volumeImpact": 0,
+      "scarcityMultiplier": 1
+    },
+    {
+      "price": 80,
+      "timestamp": 1742406611762,
+      "volumeImpact": 0,
+      "scarcityMultiplier": 1
+    },
+    {
+      "price": 65,
+      "timestamp": 1742406668617,
+      "volumeImpact": 0,
+      "scarcityMultiplier": 1
+    },
+    {
+      "price": 68,
+      "timestamp": 1742406703498,
+      "volumeImpact": 0,
+      "scarcityMultiplier": 1
+    },
+    {
+      "price": 71,
+      "timestamp": 1742406747600,
+      "volumeImpact": 0,
+      "scarcityMultiplier": 1
+    },
+    {
+      "price": 75,
+      "timestamp": 1742406828799,
+      "volumeImpact": 0,
+      "scarcityMultiplier": 1
+    },
+    {
+      "price": 79,
+      "timestamp": 1742406916131,
+      "volumeImpact": 0,
+      "scarcityMultiplier": 1
+    },
+    {
+      "price": 83,
+      "timestamp": 1742406926602,
+      "volumeImpact": 0,
+      "scarcityMultiplier": 1
+    },
+    {
+      "price": 104,
+      "timestamp": 1742406997331,
+      "volumeImpact": 0,
+      "scarcityMultiplier": 1
+    },
+    {
+      "price": 86,
+      "timestamp": 1742407016753,
+      "volumeImpact": 0,
+      "scarcityMultiplier": 1
+    },
+    {
+      "price": 103,
+      "timestamp": 1742407037628,
+      "volumeImpact": 0,
+      "scarcityMultiplier": 1
+    },
+    {
+      "price": 99,
+      "timestamp": 1742407067632,
+      "volumeImpact": 0,
+      "scarcityMultiplier": 1
+    },
+    {
+      "price": 90,
+      "timestamp": 1742407101485,
+      "volumeImpact": 0,
+      "scarcityMultiplier": 1
+    },
+    {
+      "price": 93,
+      "timestamp": 1742407117905,
+      "volumeImpact": 0,
+      "scarcityMultiplier": 1
+    },
+    {
+      "price": 100,
+      "timestamp": 1742407150080,
+      "volumeImpact": 0,
+      "scarcityMultiplier": 1
+    },
+    {
+      "price": 79,
+      "timestamp": 1742407160618,
+      "volumeImpact": 0,
+      "scarcityMultiplier": 1
+    },
+    {
+      "price": 83,
+      "timestamp": 1742407190127,
+      "volumeImpact": 0,
+      "scarcityMultiplier": 1
+    },
+    {
+      "price": 79,
+      "timestamp": 1742435639308,
+      "volumeImpact": 0,
+      "scarcityMultiplier": 1
+    },
+    {
+      "price": 83,
+      "timestamp": 1742435871630,
+      "volumeImpact": 0,
+      "scarcityMultiplier": 1
+    },
+    {
+      "price": 65,
+      "timestamp": 1742435899160,
+      "volumeImpact": 0,
+      "scarcityMultiplier": 1
+    },
+    {
+      "price": 68,
+      "timestamp": 1742435911142,
+      "volumeImpact": 0,
+      "scarcityMultiplier": 1
+    },
+    {
+      "price": 71,
+      "timestamp": 1742435930507,
+      "volumeImpact": 0,
+      "scarcityMultiplier": 1
+    },
+    {
+      "price": 75,
+      "timestamp": 1742436084577,
+      "volumeImpact": 0,
+      "scarcityMultiplier": 1
+    },
+    {
+      "price": 79,
+      "timestamp": 1742436095927,
+      "volumeImpact": 0,
+      "scarcityMultiplier": 1
+    },
+    {
+      "price": 83,
+      "timestamp": 1742436110654,
+      "volumeImpact": 0,
+      "scarcityMultiplier": 1
+    },
+    {
+      "price": 101,
+      "timestamp": 1742436424813,
+      "volumeImpact": 0,
+      "scarcityMultiplier": 1
+    },
+    {
+      "price": 105,
+      "timestamp": 1742436738581,
+      "volumeImpact": 0,
+      "scarcityMultiplier": 1
+    },
+    {
+      "price": 101,
+      "timestamp": 1742436759653,
+      "volumeImpact": 0,
+      "scarcityMultiplier": 1
+    },
+    {
+      "price": 115,
+      "timestamp": 1742436781589,
+      "volumeImpact": 0,
+      "scarcityMultiplier": 1
+    },
+    {
+      "price": 93,
+      "timestamp": 1742436994290,
+      "volumeImpact": 0,
+      "scarcityMultiplier": 1
+    },
+    {
+      "price": 92,
+      "timestamp": 1742437011661,
+      "volumeImpact": 0,
+      "scarcityMultiplier": 1
+    },
+    {
+      "price": 108,
+      "timestamp": 1742437239645,
+      "volumeImpact": 0,
+      "scarcityMultiplier": 1
+    },
+    {
+      "price": 125,
+      "timestamp": 1742437250042,
+      "volumeImpact": 0,
+      "scarcityMultiplier": 1
+    },
+    {
+      "price": 137,
+      "timestamp": 1742437261504,
+      "volumeImpact": 0,
+      "scarcityMultiplier": 1
+    },
+    {
+      "price": 106,
+      "timestamp": 1742437271971,
+      "volumeImpact": 0,
+      "scarcityMultiplier": 1
+    },
+    {
+      "price": 120,
+      "timestamp": 1742437311651,
+      "volumeImpact": 0,
+      "scarcityMultiplier": 1
+    },
+    {
+      "price": 149,
+      "timestamp": 1742437345705,
+      "volumeImpact": 0,
+      "scarcityMultiplier": 1
+    },
+    {
+      "price": 184,
+      "timestamp": 1742437356577,
+      "volumeImpact": 0,
+      "scarcityMultiplier": 1
+    },
+    {
+      "price": 221,
+      "timestamp": 1742437392418,
+      "volumeImpact": 0,
+      "scarcityMultiplier": 1
+    },
+    {
+      "price": 236,
+      "timestamp": 1742437432360,
+      "volumeImpact": 0,
+      "scarcityMultiplier": 1
+    },
+    {
+      "price": 183,
+      "timestamp": 1742437452854,
+      "volumeImpact": 0,
+      "scarcityMultiplier": 1
+    },
+    {
+      "price": 156,
+      "timestamp": 1742437492307,
+      "volumeImpact": 0,
+      "scarcityMultiplier": 1
+    },
+    {
+      "price": 125,
+      "timestamp": 1742437541577,
+      "volumeImpact": 0,
+      "scarcityMultiplier": 1
+    },
+    {
+      "price": 118,
+      "timestamp": 1742437553920,
+      "volumeImpact": 0,
+      "scarcityMultiplier": 1
+    },
+    {
+      "price": 118,
+      "timestamp": 1742437582822,
+      "volumeImpact": 0,
+      "scarcityMultiplier": 1
+    },
+    {
+      "price": 105,
+      "timestamp": 1742437653612,
+      "volumeImpact": 0,
+      "scarcityMultiplier": 1
+    },
+    {
+      "price": 101,
+      "timestamp": 1742437674614,
+      "volumeImpact": 0,
+      "scarcityMultiplier": 1
+    },
+    {
+      "price": 115,
+      "timestamp": 1742437741741,
+      "volumeImpact": 0,
+      "scarcityMultiplier": 1
+    },
+    {
+      "price": 104,
+      "timestamp": 1742437839274,
+      "volumeImpact": 0,
+      "scarcityMultiplier": 1
+    },
+    {
+      "price": 101,
+      "timestamp": 1742437873501,
+      "volumeImpact": 0,
+      "scarcityMultiplier": 1
+    },
+    {
+      "price": 90,
+      "timestamp": 1742437901999,
+      "volumeImpact": 0,
+      "scarcityMultiplier": 1
+    },
+    {
+      "price": 108,
+      "timestamp": 1742437942957,
+      "volumeImpact": 0,
+      "scarcityMultiplier": 1
+    },
+    {
+      "price": 127,
+      "timestamp": 1742437956426,
+      "volumeImpact": 0,
+      "scarcityMultiplier": 1
+    },
+    {
+      "price": 156,
+      "timestamp": 1742437969772,
+      "volumeImpact": 0,
+      "scarcityMultiplier": 1
+    },
+    {
+      "price": 176,
+      "timestamp": 1742437994647,
+      "volumeImpact": 0,
+      "scarcityMultiplier": 1
+    },
+    {
+      "price": 215,
+      "timestamp": 1742438016087,
+      "volumeImpact": 0,
+      "scarcityMultiplier": 1
+    },
+    {
+      "price": 201,
+      "timestamp": 1742438042239,
+      "volumeImpact": 0,
+      "scarcityMultiplier": 1
+    },
+    {
+      "price": 233,
+      "timestamp": 1742438121691,
+      "volumeImpact": 0,
+      "scarcityMultiplier": 1
+    },
+    {
+      "price": 232,
+      "timestamp": 1742438164598,
+      "volumeImpact": 0,
+      "scarcityMultiplier": 1
+    },
+    {
+      "price": 232,
+      "timestamp": 1742438179566,
+      "volumeImpact": 0,
+      "scarcityMultiplier": 1
+    },
+    {
+      "price": 255,
+      "timestamp": 1742438291310,
+      "volumeImpact": 0,
+      "scarcityMultiplier": 1
+    },
+    {
+      "price": 236,
+      "timestamp": 1742438310322,
+      "volumeImpact": 0,
+      "scarcityMultiplier": 1
+    },
+    {
+      "price": 260,
+      "timestamp": 1742438330526,
+      "volumeImpact": 0,
+      "scarcityMultiplier": 1
+    },
+    {
+      "price": 307,
+      "timestamp": 1742438351756,
+      "volumeImpact": 0,
+      "scarcityMultiplier": 1
+    },
+    {
+      "price": 328,
+      "timestamp": 1742438451995,
+      "volumeImpact": 0,
+      "scarcityMultiplier": 1
+    },
+    {
+      "price": 280,
+      "timestamp": 1742438479935,
+      "volumeImpact": 0,
+      "scarcityMultiplier": 1
+    },
+    {
+      "price": 254,
+      "timestamp": 1742438632869,
+      "volumeImpact": 0,
+      "scarcityMultiplier": 1
+    },
+    {
+      "price": 314,
+      "timestamp": 1742438669398,
+      "volumeImpact": 0,
+      "scarcityMultiplier": 1
+    },
+    {
+      "price": 353,
+      "timestamp": 1742438694738,
+      "volumeImpact": 0,
+      "scarcityMultiplier": 1
+    },
+    {
+      "price": 347,
+      "timestamp": 1742438705727,
+      "volumeImpact": 0,
+      "scarcityMultiplier": 1
+    },
+    {
+      "price": 409,
+      "timestamp": 1742438715738,
+      "volumeImpact": 0,
+      "scarcityMultiplier": 1
+    },
+    {
+      "price": 504,
+      "timestamp": 1742438726990,
+      "volumeImpact": 0,
+      "scarcityMultiplier": 1
+    },
+    {
+      "price": 545,
+      "timestamp": 1742438758737,
+      "volumeImpact": 0,
+      "scarcityMultiplier": 1
+    },
+    {
+      "price": 491,
+      "timestamp": 1742438778649,
+      "volumeImpact": 0,
+      "scarcityMultiplier": 1
+    },
+    {
+      "price": 416,
+      "timestamp": 1742438842655,
+      "volumeImpact": 0,
+      "scarcityMultiplier": 1
+    },
+    {
+      "price": 317,
+      "timestamp": 1742438900273,
+      "volumeImpact": 0,
+      "scarcityMultiplier": 1
+    },
+    {
+      "price": 285,
+      "timestamp": 1742438910333,
+      "volumeImpact": 0,
+      "scarcityMultiplier": 1
+    },
+    {
+      "price": 232,
+      "timestamp": 1742438933413,
+      "volumeImpact": 0,
+      "scarcityMultiplier": 1
+    },
+    {
+      "price": 268,
+      "timestamp": 1742438946666,
+      "volumeImpact": 0,
+      "scarcityMultiplier": 1
+    },
+    {
+      "price": 274,
+      "timestamp": 1742438968958,
+      "volumeImpact": 0,
+      "scarcityMultiplier": 1
+    },
+    {
+      "price": 260,
+      "timestamp": 1742438979471,
+      "volumeImpact": 0,
+      "scarcityMultiplier": 1
+    },
+    {
+      "price": 211,
+      "timestamp": 1742439036480,
+      "volumeImpact": 0,
+      "scarcityMultiplier": 1
+    },
+    {
+      "price": 242,
+      "timestamp": 1742439064842,
+      "volumeImpact": 0,
+      "scarcityMultiplier": 1
+    },
+    {
+      "price": 269,
+      "timestamp": 1742439094744,
+      "volumeImpact": 0,
+      "scarcityMultiplier": 1
+    },
+    {
+      "price": 227,
+      "timestamp": 1742439152265,
+      "volumeImpact": 0,
+      "scarcityMultiplier": 1
+    },
+    {
+      "price": 233,
+      "timestamp": 1742439198093,
+      "volumeImpact": 0,
+      "scarcityMultiplier": 1
+    },
+    {
+      "price": 209,
+      "timestamp": 1742439404945,
+      "volumeImpact": 0,
+      "scarcityMultiplier": 1
+    },
+    {
+      "price": 258,
+      "timestamp": 1742439458476,
+      "volumeImpact": 0,
+      "scarcityMultiplier": 1
+    },
+    {
+      "price": 269,
+      "timestamp": 1742439579405,
+      "volumeImpact": 0,
+      "scarcityMultiplier": 1
+    },
+    {
+      "price": 293,
+      "timestamp": 1742439594956,
+      "volumeImpact": 0,
+      "scarcityMultiplier": 1
+    },
+    {
+      "price": 307,
+      "timestamp": 1742439698044,
+      "volumeImpact": 0,
+      "scarcityMultiplier": 1
+    },
+    {
+      "price": 369,
+      "timestamp": 1742440097130,
+      "volumeImpact": 0,
+      "scarcityMultiplier": 1
+    },
+    {
+      "price": 436,
+      "timestamp": 1742440259050,
+      "volumeImpact": 0,
+      "scarcityMultiplier": 1
+    },
+    {
+      "price": 525,
+      "timestamp": 1742440337849,
+      "volumeImpact": 0,
+      "scarcityMultiplier": 1
+    },
+    {
+      "price": 457,
+      "timestamp": 1742440393668,
+      "volumeImpact": 0,
+      "scarcityMultiplier": 1
+    },
+    {
+      "price": 507,
+      "timestamp": 1742440416445,
+      "volumeImpact": 0,
+      "scarcityMultiplier": 1
+    },
+    {
+      "price": 529,
+      "timestamp": 1742440458933,
+      "volumeImpact": 0,
+      "scarcityMultiplier": 1
+    },
+    {
+      "price": 550,
+      "timestamp": 1742440539447,
+      "volumeImpact": 0,
+      "scarcityMultiplier": 1
+    },
+    {
+      "price": 609,
+      "timestamp": 1742440552150,
+      "volumeImpact": 0,
+      "scarcityMultiplier": 1
+    },
+    {
+      "price": 685,
+      "timestamp": 1742440614336,
+      "volumeImpact": 0,
+      "scarcityMultiplier": 1
+    },
+    {
+      "price": 632,
+      "timestamp": 1742440630615,
+      "volumeImpact": 0,
+      "scarcityMultiplier": 1
+    },
+    {
+      "price": 521,
+      "timestamp": 1742440659672,
+      "volumeImpact": 0,
+      "scarcityMultiplier": 1
+    },
+    {
+      "price": 524,
+      "timestamp": 1742440780822,
+      "volumeImpact": 0,
+      "scarcityMultiplier": 1
+    },
+    {
+      "price": 587,
+      "timestamp": 1742440815474,
+      "volumeImpact": 0,
+      "scarcityMultiplier": 1
+    },
+    {
+      "price": 718,
+      "timestamp": 1742440837106,
+      "volumeImpact": 0,
+      "scarcityMultiplier": 1
+    },
+    {
+      "price": 683,
+      "timestamp": 1742440864086,
+      "volumeImpact": 0,
+      "scarcityMultiplier": 1
+    },
+    {
+      "price": 484,
+      "timestamp": 1742440909494,
+      "volumeImpact": 0,
+      "scarcityMultiplier": 1
+    },
+    {
+      "price": 554,
+      "timestamp": 1742440934855,
+      "volumeImpact": 0,
+      "scarcityMultiplier": 1
+    },
+    {
+      "price": 616,
+      "timestamp": 1742440952197,
+      "volumeImpact": 0,
+      "scarcityMultiplier": 1
+    },
+    {
+      "price": 555,
+      "timestamp": 1742440977584,
+      "volumeImpact": 0,
+      "scarcityMultiplier": 1
+    },
+    {
+      "price": 464,
+      "timestamp": 1742440993534,
+      "volumeImpact": 0,
+      "scarcityMultiplier": 1
+    },
+    {
+      "price": 358,
+      "timestamp": 1742441012598,
+      "volumeImpact": 0,
+      "scarcityMultiplier": 1
+    },
+    {
+      "price": 407,
+      "timestamp": 1742441026061,
+      "volumeImpact": 0,
+      "scarcityMultiplier": 1
+    },
+    {
+      "price": 357,
+      "timestamp": 1742441051067,
+      "volumeImpact": 0,
+      "scarcityMultiplier": 1
+    },
+    {
+      "price": 372,
+      "timestamp": 1742441127644,
+      "volumeImpact": 0,
+      "scarcityMultiplier": 1
+    },
+    {
+      "price": 288,
+      "timestamp": 1742441184685,
+      "volumeImpact": 0,
+      "scarcityMultiplier": 1
+    },
+    {
+      "price": 260,
+      "timestamp": 1742441199226,
+      "volumeImpact": 0,
+      "scarcityMultiplier": 1
+    },
+    {
+      "price": 215,
+      "timestamp": 1742441221692,
+      "volumeImpact": 0,
+      "scarcityMultiplier": 1
+    },
+    {
+      "price": 183,
+      "timestamp": 1742441251382,
+      "volumeImpact": 0,
+      "scarcityMultiplier": 1
+    },
+    {
+      "price": 167,
+      "timestamp": 1742441268858,
+      "volumeImpact": 0,
+      "scarcityMultiplier": 1
+    },
+    {
+      "price": 155,
+      "timestamp": 1742441290883,
+      "volumeImpact": 0,
+      "scarcityMultiplier": 1
+    },
+    {
+      "price": 136,
+      "timestamp": 1742441355748,
+      "volumeImpact": 0,
+      "scarcityMultiplier": 1
+    },
+    {
+      "price": 125,
+      "timestamp": 1742441399950,
+      "volumeImpact": 0,
+      "scarcityMultiplier": 1
+    },
+    {
+      "price": 119,
+      "timestamp": 1742441413010,
+      "volumeImpact": 0,
+      "scarcityMultiplier": 1
+    },
+    {
+      "price": 100,
+      "timestamp": 1742441423737,
+      "volumeImpact": 0,
+      "scarcityMultiplier": 1
+    },
+    {
+      "price": 81,
+      "timestamp": 1742441436904,
+      "volumeImpact": 0,
+      "scarcityMultiplier": 1
+    },
+    {
+      "price": 79,
+      "timestamp": 1742441450494,
+      "volumeImpact": 0,
+      "scarcityMultiplier": 1
+    },
+    {
+      "price": 83,
+      "timestamp": 1742441461415,
+      "volumeImpact": 0,
+      "scarcityMultiplier": 1
+    },
+    {
+      "price": 81,
+      "timestamp": 1742441482342,
+      "volumeImpact": 0,
+      "scarcityMultiplier": 1
+    },
+    {
+      "price": 80,
+      "timestamp": 1742441495001,
+      "volumeImpact": 0,
+      "scarcityMultiplier": 1
+    },
+    {
+      "price": 91,
+      "timestamp": 1742441511798,
+      "volumeImpact": 0,
+      "scarcityMultiplier": 1
+    },
+    {
+      "price": 101,
+      "timestamp": 1742441523260,
+      "volumeImpact": 0,
+      "scarcityMultiplier": 1
+    },
+    {
+      "price": 110,
+      "timestamp": 1742441540313,
+      "volumeImpact": 0,
+      "scarcityMultiplier": 1
+    },
+    {
+      "price": 89,
+      "timestamp": 1742441551865,
+      "volumeImpact": 0,
+      "scarcityMultiplier": 1
+    },
+    {
+      "price": 84,
+      "timestamp": 1742441565198,
+      "volumeImpact": 0,
+      "scarcityMultiplier": 1
+    },
+    {
+      "price": 86,
+      "timestamp": 1742441637127,
+      "volumeImpact": 0,
+      "scarcityMultiplier": 1
+    },
+    {
+      "price": 85,
+      "timestamp": 1742441663286,
+      "volumeImpact": 0,
+      "scarcityMultiplier": 1
+    },
+    {
+      "price": 96,
+      "timestamp": 1742441774940,
+      "volumeImpact": 0,
+      "scarcityMultiplier": 1
+    },
+    {
+      "price": 114,
+      "timestamp": 1742441805136,
+      "volumeImpact": 0,
+      "scarcityMultiplier": 1
+    },
+    {
+      "price": 103,
+      "timestamp": 1742441815776,
+      "volumeImpact": 0,
+      "scarcityMultiplier": 1
+    },
+    {
+      "price": 79,
+      "timestamp": 1742441894919,
+      "volumeImpact": 0,
+      "scarcityMultiplier": 1
+    },
+    {
+      "price": 83,
+      "timestamp": 1742441908339,
+      "volumeImpact": 0,
+      "scarcityMultiplier": 1
+    },
+    {
+      "price": 72,
+      "timestamp": 1742441996468,
+      "volumeImpact": 0,
+      "scarcityMultiplier": 1
+    },
+    {
+      "price": 76,
+      "timestamp": 1742442055385,
+      "volumeImpact": 0,
+      "scarcityMultiplier": 1
+    },
+    {
+      "price": 80,
+      "timestamp": 1742442128382,
+      "volumeImpact": 0,
+      "scarcityMultiplier": 1
+    },
+    {
+      "price": 80,
+      "timestamp": 1742442151858,
+      "volumeImpact": 0,
+      "scarcityMultiplier": 1
+    },
+    {
+      "price": 67,
+      "timestamp": 1742442229320,
+      "volumeImpact": 0,
+      "scarcityMultiplier": 1
+    },
+    {
+      "price": 70,
+      "timestamp": 1742442256514,
+      "volumeImpact": 0,
+      "scarcityMultiplier": 1
+    },
+    {
+      "price": 74,
+      "timestamp": 1742442269533,
+      "volumeImpact": 0,
+      "scarcityMultiplier": 1
+    },
+    {
+      "price": 78,
+      "timestamp": 1742442302496,
+      "volumeImpact": 0,
+      "scarcityMultiplier": 1
+    },
+    {
+      "price": 82,
+      "timestamp": 1742442878861,
+      "volumeImpact": 0,
+      "scarcityMultiplier": 1
+    },
+    {
+      "price": 68,
+      "timestamp": 1742442990263,
+      "volumeImpact": 0,
+      "scarcityMultiplier": 1
+    },
+    {
+      "price": 71,
+      "timestamp": 1742443089990,
+      "volumeImpact": 0,
+      "scarcityMultiplier": 1
+    },
+    {
+      "price": 75,
+      "timestamp": 1742443167755,
+      "volumeImpact": 0,
+      "scarcityMultiplier": 1
+    },
+    {
+      "price": 79,
+      "timestamp": 1742443186424,
+      "volumeImpact": 0,
+      "scarcityMultiplier": 1
+    },
+    {
+      "price": 83,
+      "timestamp": 1742443710373,
+      "volumeImpact": 0,
+      "scarcityMultiplier": 1
+    },
+    {
+      "price": 81,
+      "timestamp": 1742443910102,
+      "volumeImpact": 0,
+      "scarcityMultiplier": 1
+    },
+    {
+      "price": 87,
+      "timestamp": 1742443926536,
+      "volumeImpact": 0,
+      "scarcityMultiplier": 1
+    },
+    {
+      "price": 87,
+      "timestamp": 1742444006180,
+      "volumeImpact": 0,
+      "scarcityMultiplier": 1
+    },
+    {
+      "price": 87,
+      "timestamp": 1742444041380,
+      "volumeImpact": 0,
+      "scarcityMultiplier": 1
+    },
+    {
+      "price": 70,
+      "timestamp": 1742444088025,
+      "volumeImpact": 0,
+      "scarcityMultiplier": 1
+    },
+    {
+      "price": 74,
+      "timestamp": 1742444106712,
+      "volumeImpact": 0,
+      "scarcityMultiplier": 1
+    },
+    {
+      "price": 78,
+      "timestamp": 1742444145980,
+      "volumeImpact": 0,
+      "scarcityMultiplier": 1
+    },
+    {
+      "price": 82,
+      "timestamp": 1742444156441,
+      "volumeImpact": 0,
+      "scarcityMultiplier": 1
+    },
+    {
+      "price": 69,
+      "timestamp": 1742444177730,
+      "volumeImpact": 0,
+      "scarcityMultiplier": 1
+    },
+    {
+      "price": 72,
+      "timestamp": 1742444188942,
+      "volumeImpact": 0,
+      "scarcityMultiplier": 1
+    },
+    {
+      "price": 76,
+      "timestamp": 1742444201198,
+      "volumeImpact": 0,
+      "scarcityMultiplier": 1
+    },
+    {
+      "price": 80,
+      "timestamp": 1742444215364,
+      "volumeImpact": 0,
+      "scarcityMultiplier": 1
+    },
+    {
+      "price": 76,
+      "timestamp": 1742444226013,
+      "volumeImpact": 0,
+      "scarcityMultiplier": 1
+    },
+    {
+      "price": 80,
+      "timestamp": 1742444242879,
+      "volumeImpact": 0,
+      "scarcityMultiplier": 1
+    },
+    {
+      "price": 85,
+      "timestamp": 1742444257548,
+      "volumeImpact": 0,
+      "scarcityMultiplier": 1
+    },
+    {
+      "price": 61,
+      "timestamp": 1742444273107,
+      "volumeImpact": 0,
+      "scarcityMultiplier": 1
+    },
+    {
+      "price": 64,
+      "timestamp": 1742444283384,
+      "volumeImpact": 0,
+      "scarcityMultiplier": 1
+    },
+    {
+      "price": 67,
+      "timestamp": 1742444297275,
+      "volumeImpact": 0,
+      "scarcityMultiplier": 1
+    },
+    {
+      "price": 70,
+      "timestamp": 1742444314584,
+      "volumeImpact": 0,
+      "scarcityMultiplier": 1
+    },
+    {
+      "price": 74,
+      "timestamp": 1742444325567,
+      "volumeImpact": 0,
+      "scarcityMultiplier": 1
+    },
+    {
+      "price": 78,
+      "timestamp": 1742444341839,
+      "volumeImpact": 0,
+      "scarcityMultiplier": 1
+    },
+    {
+      "price": 82,
+      "timestamp": 1742444351873,
+      "volumeImpact": 0,
+      "scarcityMultiplier": 1
+    },
+    {
+      "price": 99,
+      "timestamp": 1742444367641,
+      "volumeImpact": 0,
+      "scarcityMultiplier": 1
+    },
+    {
+      "price": 106,
+      "timestamp": 1742444380224,
+      "volumeImpact": 0,
+      "scarcityMultiplier": 1
+    },
+    {
+      "price": 131,
+      "timestamp": 1742444393700,
+      "volumeImpact": 0,
+      "scarcityMultiplier": 1
+    },
+    {
+      "price": 117,
+      "timestamp": 1742444417756,
+      "volumeImpact": 0,
+      "scarcityMultiplier": 1
+    },
+    {
+      "price": 112,
+      "timestamp": 1742444428784,
+      "volumeImpact": 0,
+      "scarcityMultiplier": 1
+    },
+    {
+      "price": 122,
+      "timestamp": 1742444443750,
+      "volumeImpact": 0,
+      "scarcityMultiplier": 1
+    },
+    {
+      "price": 127,
+      "timestamp": 1742444454769,
+      "volumeImpact": 0,
+      "scarcityMultiplier": 1
+    },
+    {
+      "price": 138,
+      "timestamp": 1742444472106,
+      "volumeImpact": 0,
+      "scarcityMultiplier": 1
+    },
+    {
+      "price": 121,
+      "timestamp": 1742444488914,
+      "volumeImpact": 0,
+      "scarcityMultiplier": 1
+    },
+    {
+      "price": 123,
+      "timestamp": 1742444504921,
+      "volumeImpact": 0,
+      "scarcityMultiplier": 1
+    },
+    {
+      "price": 118,
+      "timestamp": 1742444547120,
+      "volumeImpact": 0,
+      "scarcityMultiplier": 1
+    },
+    {
+      "price": 123,
+      "timestamp": 1742444560015,
+      "volumeImpact": 0,
+      "scarcityMultiplier": 1
+    },
+    {
+      "price": 127,
+      "timestamp": 1742444570699,
+      "volumeImpact": 0,
+      "scarcityMultiplier": 1
+    },
+    {
+      "price": 155,
+      "timestamp": 1742444603785,
+      "volumeImpact": 0,
+      "scarcityMultiplier": 1
+    },
+    {
+      "price": 127,
+      "timestamp": 1742444655612,
+      "volumeImpact": 0,
+      "scarcityMultiplier": 1
+    },
+    {
+      "price": 106,
+      "timestamp": 1742444678350,
+      "volumeImpact": 0,
+      "scarcityMultiplier": 1
+    },
+    {
+      "price": 125,
+      "timestamp": 1742444717222,
+      "volumeImpact": 0,
+      "scarcityMultiplier": 1
+    },
+    {
+      "price": 155,
+      "timestamp": 1742444730345,
+      "volumeImpact": 0,
+      "scarcityMultiplier": 1
+    },
+    {
+      "price": 188,
+      "timestamp": 1742444745245,
+      "volumeImpact": 0,
+      "scarcityMultiplier": 1
+    },
+    {
+      "price": 162,
+      "timestamp": 1742444783351,
+      "volumeImpact": 0,
+      "scarcityMultiplier": 1
+    },
+    {
+      "price": 151,
+      "timestamp": 1742444808587,
+      "volumeImpact": 0,
+      "scarcityMultiplier": 1
+    },
+    {
+      "price": 129,
+      "timestamp": 1742444920171,
+      "volumeImpact": 0,
+      "scarcityMultiplier": 1
+    },
+    {
+      "price": 131,
+      "timestamp": 1742444960793,
+      "volumeImpact": 0,
+      "scarcityMultiplier": 1
+    },
+    {
+      "price": 139,
+      "timestamp": 1742445069690,
+      "volumeImpact": 0,
+      "scarcityMultiplier": 1
+    },
+    {
+      "price": 114,
+      "timestamp": 1742445128166,
+      "volumeImpact": 0,
+      "scarcityMultiplier": 1
+    },
+    {
+      "price": 110,
+      "timestamp": 1742445150459,
+      "volumeImpact": 0,
+      "scarcityMultiplier": 1
+    },
+    {
+      "price": 100,
+      "timestamp": 1742445188416,
+      "volumeImpact": 0,
+      "scarcityMultiplier": 1
+    },
+    {
+      "price": 98,
+      "timestamp": 1742445201024,
+      "volumeImpact": 0,
+      "scarcityMultiplier": 1
+    },
+    {
+      "price": 103,
+      "timestamp": 1742445214137,
+      "volumeImpact": 0,
+      "scarcityMultiplier": 1
+    },
+    {
+      "price": 108,
+      "timestamp": 1742445258430,
+      "volumeImpact": 0,
+      "scarcityMultiplier": 1
+    },
+    {
+      "price": 81,
+      "timestamp": 1742445274636,
+      "volumeImpact": 0,
+      "scarcityMultiplier": 1
+    },
+    {
+      "price": 69,
+      "timestamp": 1742445316651,
+      "volumeImpact": 0,
+      "scarcityMultiplier": 1
+    },
+    {
+      "price": 72,
+      "timestamp": 1742445338568,
+      "volumeImpact": 0,
+      "scarcityMultiplier": 1
+    },
+    {
+      "price": 76,
+      "timestamp": 1742445360765,
+      "volumeImpact": 0,
+      "scarcityMultiplier": 1
+    },
+    {
+      "price": 80,
+      "timestamp": 1742445461946,
+      "volumeImpact": 0,
+      "scarcityMultiplier": 1
+    },
+    {
+      "price": 65,
+      "timestamp": 1742445536280,
+      "volumeImpact": 0,
+      "scarcityMultiplier": 1
+    },
+    {
+      "price": 68,
+      "timestamp": 1742445561916,
+      "volumeImpact": 0,
+      "scarcityMultiplier": 1
+    },
+    {
+      "price": 71,
+      "timestamp": 1742445575779,
+      "volumeImpact": 0,
+      "scarcityMultiplier": 1
+    },
+    {
+      "price": 75,
+      "timestamp": 1742445592989,
+      "volumeImpact": 0,
+      "scarcityMultiplier": 1
+    },
+    {
+      "price": 79,
+      "timestamp": 1742445620032,
+      "volumeImpact": 0,
+      "scarcityMultiplier": 1
+    },
+    {
+      "price": 83,
+      "timestamp": 1742445861638,
+      "volumeImpact": 0,
+      "scarcityMultiplier": 1
+    },
+    {
+      "price": 103,
+      "timestamp": 1742445932671,
+      "volumeImpact": 0,
+      "scarcityMultiplier": 1
+    },
+    {
+      "price": 124,
+      "timestamp": 1742446081068,
+      "volumeImpact": 0,
+      "scarcityMultiplier": 1
+    },
+    {
+      "price": 139,
+      "timestamp": 1742446091263,
+      "volumeImpact": 0,
+      "scarcityMultiplier": 1
+    },
+    {
+      "price": 159,
+      "timestamp": 1742446101851,
+      "volumeImpact": 0,
+      "scarcityMultiplier": 1
+    },
+    {
+      "price": 120,
+      "timestamp": 1742446130469,
+      "volumeImpact": 0,
+      "scarcityMultiplier": 1
+    },
+    {
+      "price": 96,
+      "timestamp": 1742446141163,
+      "volumeImpact": 0,
+      "scarcityMultiplier": 1
+    },
+    {
+      "price": 107,
+      "timestamp": 1742446163818,
+      "volumeImpact": 0,
+      "scarcityMultiplier": 1
+    },
+    {
+      "price": 92,
+      "timestamp": 1742446177097,
+      "volumeImpact": 0,
+      "scarcityMultiplier": 1
+    },
+    {
+      "price": 80,
+      "timestamp": 1742446208745,
+      "volumeImpact": 0,
+      "scarcityMultiplier": 1
+    },
+    {
+      "price": 62,
+      "timestamp": 1742446290863,
+      "volumeImpact": 0,
+      "scarcityMultiplier": 1
+    },
+    {
+      "price": 65,
+      "timestamp": 1742446302672,
+      "volumeImpact": 0,
+      "scarcityMultiplier": 1
+    },
+    {
+      "price": 68,
+      "timestamp": 1742446315390,
+      "volumeImpact": 0,
+      "scarcityMultiplier": 1
+    },
+    {
+      "price": 71,
+      "timestamp": 1742446329720,
+      "volumeImpact": 0,
+      "scarcityMultiplier": 1
+    },
+    {
+      "price": 75,
+      "timestamp": 1742446352021,
+      "volumeImpact": 0,
+      "scarcityMultiplier": 1
+    },
+    {
+      "price": 79,
+      "timestamp": 1742446372245,
+      "volumeImpact": 0,
+      "scarcityMultiplier": 1
+    },
+    {
+      "price": 83,
+      "timestamp": 1742446382638,
+      "volumeImpact": 0,
+      "scarcityMultiplier": 1
+    },
+    {
+      "price": 69,
+      "timestamp": 1742446393833,
+      "volumeImpact": 0,
+      "scarcityMultiplier": 1
+    },
+    {
+      "price": 72,
+      "timestamp": 1742446404363,
+      "volumeImpact": 0,
+      "scarcityMultiplier": 1
+    },
+    {
+      "price": 76,
+      "timestamp": 1742446416637,
+      "volumeImpact": 0,
+      "scarcityMultiplier": 1
+    },
+    {
+      "price": 80,
+      "timestamp": 1742446429464,
+      "volumeImpact": 0,
+      "scarcityMultiplier": 1
+    },
+    {
+      "price": 95,
+      "timestamp": 1742446454864,
+      "volumeImpact": 0,
+      "scarcityMultiplier": 1
+    },
+    {
+      "price": 95,
+      "timestamp": 1742446476256,
+      "volumeImpact": 0,
+      "scarcityMultiplier": 1
+    },
+    {
+      "price": 71,
+      "timestamp": 1742446488362,
+      "volumeImpact": 0,
+      "scarcityMultiplier": 1
+    },
+    {
+      "price": 75,
+      "timestamp": 1742446499891,
+      "volumeImpact": 0,
+      "scarcityMultiplier": 1
+    },
+    {
+      "price": 79,
+      "timestamp": 1742446510881,
+      "volumeImpact": 0,
+      "scarcityMultiplier": 1
+    },
+    {
+      "price": 83,
+      "timestamp": 1742446525648,
+      "volumeImpact": 0,
+      "scarcityMultiplier": 1
+    },
+    {
+      "price": 90,
+      "timestamp": 1742446539619,
+      "volumeImpact": 0,
+      "scarcityMultiplier": 1
+    },
+    {
+      "price": 73,
+      "timestamp": 1742446551477,
+      "volumeImpact": 0,
+      "scarcityMultiplier": 1
+    },
+    {
+      "price": 77,
+      "timestamp": 1742446563311,
+      "volumeImpact": 0,
+      "scarcityMultiplier": 1
+    },
+    {
+      "price": 81,
+      "timestamp": 1742446577491,
+      "volumeImpact": 0,
+      "scarcityMultiplier": 1
+    },
+    {
+      "price": 83,
+      "timestamp": 1742446592239,
+      "volumeImpact": 0,
+      "scarcityMultiplier": 1
+    },
+    {
+      "price": 87,
+      "timestamp": 1742446608540,
+      "volumeImpact": 0,
+      "scarcityMultiplier": 1
+    },
+    {
+      "price": 67,
+      "timestamp": 1742446623630,
+      "volumeImpact": 0,
+      "scarcityMultiplier": 1
+    },
+    {
+      "price": 70,
+      "timestamp": 1742446634175,
+      "volumeImpact": 0,
+      "scarcityMultiplier": 1
+    },
+    {
+      "price": 74,
+      "timestamp": 1742446644585,
+      "volumeImpact": 0,
+      "scarcityMultiplier": 1
+    },
+    {
+      "price": 78,
+      "timestamp": 1742446656010,
+      "volumeImpact": 0,
+      "scarcityMultiplier": 1
+    },
+    {
+      "price": 82,
+      "timestamp": 1742446672470,
+      "volumeImpact": 0,
+      "scarcityMultiplier": 1
+    },
+    {
+      "price": 59,
+      "timestamp": 1742446685694,
+      "volumeImpact": 0,
+      "scarcityMultiplier": 1
+    },
+    {
+      "price": 62,
+      "timestamp": 1742446696781,
+      "volumeImpact": 0,
+      "scarcityMultiplier": 1
+    },
+    {
+      "price": 65,
+      "timestamp": 1742446714892,
+      "volumeImpact": 0,
+      "scarcityMultiplier": 1
+    },
+    {
+      "price": 68,
+      "timestamp": 1742446730420,
+      "volumeImpact": 0,
+      "scarcityMultiplier": 1
+    },
+    {
+      "price": 71,
+      "timestamp": 1742446740993,
+      "volumeImpact": 0,
+      "scarcityMultiplier": 1
+    },
+    {
+      "price": 75,
+      "timestamp": 1742446757018,
+      "volumeImpact": 0,
+      "scarcityMultiplier": 1
+    },
+    {
+      "price": 79,
+      "timestamp": 1742446767653,
+      "volumeImpact": 0,
+      "scarcityMultiplier": 1
+    },
+    {
+      "price": 83,
+      "timestamp": 1742446800147,
+      "volumeImpact": 0,
+      "scarcityMultiplier": 1
+    },
+    {
+      "price": 90,
+      "timestamp": 1742446812104,
+      "volumeImpact": 0,
+      "scarcityMultiplier": 1
+    },
+    {
+      "price": 96,
+      "timestamp": 1742446869550,
+      "volumeImpact": 0,
+      "scarcityMultiplier": 1
+    },
+    {
+      "price": 94,
+      "timestamp": 1742446889433,
+      "volumeImpact": 0,
+      "scarcityMultiplier": 1
+    },
+    {
+      "price": 88,
+      "timestamp": 1742447194674,
+      "volumeImpact": 0,
+      "scarcityMultiplier": 1
+    },
+    {
+      "price": 76,
+      "timestamp": 1742447340121,
+      "volumeImpact": 0,
+      "scarcityMultiplier": 1
+    },
+    {
+      "price": 80,
+      "timestamp": 1742447480099,
+      "volumeImpact": 0,
+      "scarcityMultiplier": 1
+    },
+    {
+      "price": 73,
+      "timestamp": 1742447493661,
+      "volumeImpact": 0,
+      "scarcityMultiplier": 1
+    },
+    {
+      "price": 77,
+      "timestamp": 1742447506780,
+      "volumeImpact": 0,
+      "scarcityMultiplier": 1
+    },
+    {
+      "price": 81,
+      "timestamp": 1742447540011,
+      "volumeImpact": 0,
+      "scarcityMultiplier": 1
+    },
+    {
+      "price": 74,
+      "timestamp": 1742447551722,
+      "volumeImpact": 0,
+      "scarcityMultiplier": 1
+    },
+    {
+      "price": 78,
+      "timestamp": 1742447603408,
+      "volumeImpact": 0,
+      "scarcityMultiplier": 1
+    },
+    {
+      "price": 82,
+      "timestamp": 1742447741741,
+      "volumeImpact": 0,
+      "scarcityMultiplier": 1
+    },
+    {
+      "price": 89,
+      "timestamp": 1742447752266,
+      "volumeImpact": 0,
+      "scarcityMultiplier": 1
+    },
+    {
+      "price": 77,
+      "timestamp": 1742447772357,
+      "volumeImpact": 0,
+      "scarcityMultiplier": 1
+    },
+    {
+      "price": 81,
+      "timestamp": 1742447783500,
+      "volumeImpact": 0,
+      "scarcityMultiplier": 1
+    },
+    {
+      "price": 83,
+      "timestamp": 1742447804898,
+      "volumeImpact": 0,
+      "scarcityMultiplier": 1
+    },
+    {
+      "price": 85,
+      "timestamp": 1742447830597,
+      "volumeImpact": 0,
+      "scarcityMultiplier": 1
+    },
+    {
+      "price": 83,
+      "timestamp": 1742447847493,
+      "volumeImpact": 0,
+      "scarcityMultiplier": 1
+    },
+    {
+      "price": 88,
+      "timestamp": 1742447862817,
+      "volumeImpact": 0,
+      "scarcityMultiplier": 1
+    },
+    {
+      "price": 95,
+      "timestamp": 1742447885125,
+      "volumeImpact": 0,
+      "scarcityMultiplier": 1
+    },
+    {
+      "price": 97,
+      "timestamp": 1742447900064,
+      "volumeImpact": 0,
+      "scarcityMultiplier": 1
+    },
+    {
+      "price": 103,
+      "timestamp": 1742447918479,
+      "volumeImpact": 0,
+      "scarcityMultiplier": 1
+    },
+    {
+      "price": 93,
+      "timestamp": 1742447933068,
+      "volumeImpact": 0,
+      "scarcityMultiplier": 1
+    },
+    {
+      "price": 80,
+      "timestamp": 1742447953513,
+      "volumeImpact": 0,
+      "scarcityMultiplier": 1
+    },
+    {
+      "price": 76,
+      "timestamp": 1742448002174,
+      "volumeImpact": 0,
+      "scarcityMultiplier": 1
+    },
+    {
+      "price": 80,
+      "timestamp": 1742448023272,
+      "volumeImpact": 0,
+      "scarcityMultiplier": 1
+    },
+    {
+      "price": 83,
+      "timestamp": 1742448075169,
+      "volumeImpact": 0,
+      "scarcityMultiplier": 1
+    },
+    {
+      "price": 80,
+      "timestamp": 1742448129202,
+      "volumeImpact": 0,
+      "scarcityMultiplier": 1
+    },
+    {
+      "price": 69,
+      "timestamp": 1742448140756,
+      "volumeImpact": 0,
+      "scarcityMultiplier": 1
+    },
+    {
+      "price": 72,
+      "timestamp": 1742448154508,
+      "volumeImpact": 0,
+      "scarcityMultiplier": 1
+    },
+    {
+      "price": 76,
+      "timestamp": 1742448166464,
+      "volumeImpact": 0,
+      "scarcityMultiplier": 1
+    },
+    {
+      "price": 80,
+      "timestamp": 1742448179335,
+      "volumeImpact": 0,
+      "scarcityMultiplier": 1
+    },
+    {
+      "price": 83,
+      "timestamp": 1742448207334,
+      "volumeImpact": 0,
+      "scarcityMultiplier": 1
+    },
+    {
+      "price": 95,
+      "timestamp": 1742448222029,
+      "volumeImpact": 0,
+      "scarcityMultiplier": 1
+    },
+    {
+      "price": 83,
+      "timestamp": 1742448237397,
+      "volumeImpact": 0,
+      "scarcityMultiplier": 1
+    },
+    {
+      "price": 86,
+      "timestamp": 1742448248656,
+      "volumeImpact": 0,
+      "scarcityMultiplier": 1
+    },
+    {
+      "price": 97,
+      "timestamp": 1742448259573,
+      "volumeImpact": 0,
+      "scarcityMultiplier": 1
+    },
+    {
+      "price": 100,
+      "timestamp": 1742448278057,
+      "volumeImpact": 0,
+      "scarcityMultiplier": 1
+    },
+    {
+      "price": 85,
+      "timestamp": 1742448299236,
+      "volumeImpact": 0,
+      "scarcityMultiplier": 1
+    },
+    {
+      "price": 74,
+      "timestamp": 1742448314125,
+      "volumeImpact": 0,
+      "scarcityMultiplier": 1
+    },
+    {
+      "price": 78,
+      "timestamp": 1742448324242,
+      "volumeImpact": 0,
+      "scarcityMultiplier": 1
+    },
+    {
+      "price": 82,
+      "timestamp": 1742448463817,
+      "volumeImpact": 0,
+      "scarcityMultiplier": 1
+    },
+    {
+      "price": 91,
+      "timestamp": 1742448486008,
+      "volumeImpact": 0,
+      "scarcityMultiplier": 1
+    },
+    {
+      "price": 98,
+      "timestamp": 1742448499646,
+      "volumeImpact": 0,
+      "scarcityMultiplier": 1
+    },
+    {
+      "price": 92,
+      "timestamp": 1742448511143,
+      "volumeImpact": 0,
+      "scarcityMultiplier": 1
+    },
+    {
+      "price": 104,
+      "timestamp": 1742448530937,
+      "volumeImpact": 0,
+      "scarcityMultiplier": 1
+    },
+    {
+      "price": 74,
+      "timestamp": 1742448541643,
+      "volumeImpact": 0,
+      "scarcityMultiplier": 1
     }
-  ]
+  ],
+  "tradingVolume": {
+    "buy": 0,
+    "sell": 0,
+    "lastReset": 1742391547771,
+    "totalVolume": 0
+  },
+  "blockchain": {
+    "blockHeight": 1,
+    "currentReward": 50,
+    "lastBlockTime": 1742447540011,
+    "difficulty": 1.1,
+    "halvingEvents": []
+  },
+  "blockHistory": {
+    "blocks": [
+      {
+        "height": 0,
+        "miner": "Unknown",
+        "reward": 50,
+        "timestamp": 1742446889433,
+        "difficulty": 1
+      },
+      {
+        "height": 0,
+        "miner": "Unknown",
+        "reward": 50,
+        "timestamp": 1742447340122,
+        "difficulty": 1
+      },
+      {
+        "height": 0,
+        "miner": "Unknown",
+        "reward": 50,
+        "timestamp": 1742447506780,
+        "difficulty": 1
+      },
+      {
+        "height": 0,
+        "miner": "Unknown",
+        "reward": 50,
+        "timestamp": 1742447540011,
+        "difficulty": 1
+      },
+      {
+        "height": 1,
+        "miner": "Unknown",
+        "reward": 50,
+        "timestamp": 1742447545411,
+        "difficulty": 1.1
+      },
+      {
+        "height": 1,
+        "miner": "Unknown",
+        "reward": 50,
+        "timestamp": 1742447546885,
+        "difficulty": 1.1
+      },
+      {
+        "height": 1,
+        "miner": "Unknown",
+        "reward": 50,
+        "timestamp": 1742447549574,
+        "difficulty": 1.1
+      },
+      {
+        "height": 1,
+        "miner": "Unknown",
+        "reward": 50,
+        "timestamp": 1742447551722,
+        "difficulty": 1.1
+      },
+      {
+        "height": 1,
+        "miner": "Unknown",
+        "reward": 50,
+        "timestamp": 1742447603408,
+        "difficulty": 1.1
+      },
+      {
+        "height": 1,
+        "miner": "Unknown",
+        "reward": 50,
+        "timestamp": 1742447605716,
+        "difficulty": 1.1
+      },
+      {
+        "height": 1,
+        "miner": "Unknown",
+        "reward": 50,
+        "timestamp": 1742447748690,
+        "difficulty": 1.1
+      },
+      {
+        "height": 1,
+        "miner": "Unknown",
+        "reward": 50,
+        "timestamp": 1742447783500,
+        "difficulty": 1.1
+      },
+      {
+        "height": 1,
+        "miner": "Unknown",
+        "reward": 50,
+        "timestamp": 1742447804898,
+        "difficulty": 1.1
+      },
+      {
+        "height": 1,
+        "miner": "Unknown",
+        "reward": 50,
+        "timestamp": 1742447918481,
+        "difficulty": 1.1
+      },
+      {
+        "height": 1,
+        "miner": "Unknown",
+        "reward": 50,
+        "timestamp": 1742447939462,
+        "difficulty": 1.1
+      },
+      {
+        "height": 1,
+        "miner": "Unknown",
+        "reward": 50,
+        "timestamp": 1742448002175,
+        "difficulty": 1.1
+      },
+      {
+        "height": 1,
+        "miner": "Unknown",
+        "reward": 50,
+        "timestamp": 1742448129205,
+        "difficulty": 1.1
+      },
+      {
+        "height": 1,
+        "miner": "Unknown",
+        "reward": 50,
+        "timestamp": 1742448168329,
+        "difficulty": 1.1
+      },
+      {
+        "height": 1,
+        "miner": "Unknown",
+        "reward": 50,
+        "timestamp": 1742448179336,
+        "difficulty": 1.1
+      },
+      {
+        "height": 1,
+        "miner": "Unknown",
+        "reward": 50,
+        "timestamp": 1742448225432,
+        "difficulty": 1.1
+      },
+      {
+        "height": 1,
+        "miner": "Unknown",
+        "reward": 50,
+        "timestamp": 1742448244249,
+        "difficulty": 1.1
+      },
+      {
+        "height": 1,
+        "miner": "Unknown",
+        "reward": 50,
+        "timestamp": 1742448281977,
+        "difficulty": 1.1
+      },
+      {
+        "height": 1,
+        "miner": "Unknown",
+        "reward": 50,
+        "timestamp": 1742448300884,
+        "difficulty": 1.1
+      },
+      {
+        "height": 1,
+        "miner": "Unknown",
+        "reward": 50,
+        "timestamp": 1742448314125,
+        "difficulty": 1.1
+      },
+      {
+        "height": 1,
+        "miner": "Unknown",
+        "reward": 50,
+        "timestamp": 1742448320057,
+        "difficulty": 1.1
+      },
+      {
+        "height": 1,
+        "miner": "Unknown",
+        "reward": 50,
+        "timestamp": 1742448324242,
+        "difficulty": 1.1
+      },
+      {
+        "height": 1,
+        "miner": "Unknown",
+        "reward": 50,
+        "timestamp": 1742448463818,
+        "difficulty": 1.1
+      },
+      {
+        "height": 1,
+        "miner": "Unknown",
+        "reward": 50,
+        "timestamp": 1742448464956,
+        "difficulty": 1.1
+      },
+      {
+        "height": 1,
+        "miner": "Unknown",
+        "reward": 50,
+        "timestamp": 1742448486009,
+        "difficulty": 1.1
+      },
+      {
+        "height": 1,
+        "miner": "Unknown",
+        "reward": 50,
+        "timestamp": 1742448500493,
+        "difficulty": 1.1
+      },
+      {
+        "height": 1,
+        "miner": "Unknown",
+        "reward": 50,
+        "timestamp": 1742448541643,
+        "difficulty": 1.1
+      }
+    ],
+    "maxBlocks": 100
+  }
 }

@@ -189,6 +189,21 @@
         "equipment": {}
       },
       "currentRole": "police"
+    },
+    "61552144357464": {
+      "equipment": {},
+      "weapons": {},
+      "stats": {
+        "heistsJoined": 0,
+        "heistsWon": 0,
+        "moneyStolen": 0,
+        "arrests": 0
+      },
+      "inventory": {
+        "weapons": {},
+        "equipment": {}
+      },
+      "currentRole": "robber"
     }
   }
 }

@@ -706,5 +706,257 @@
     },
     "lastCatch": null,
     "friendship": {}
+  },
+  "100085610917366": {
+    "name": "Pikachu",
+    "pokemons": [
+      {
+        "id": 151,
+        "name": "mew",
+        "level": 6,
+        "hp": 58,
+        "maxHp": 58,
+        "attack": 37,
+        "defense": 32,
+        "types": [
+          "psychic"
+        ],
+        "moves": [
+          "pound",
+          "mega-punch",
+          "pay-day",
+          "fire-punch"
+        ],
+        "image": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/151.png",
+        "shiny": false,
+        "weather": "foggy",
+        "exp": 0,
+        "expNeeded": 100,
+        "evolutionStage": 0,
+        "wins": 0,
+        "battles": 0,
+        "catchDate": 1742312797321,
+        "ballCaught": "Ultra Ball"
+      }
+    ],
+    "activePokemon": 0,
+    "battles": 0,
+    "wins": 0,
+    "inventory": {
+      "pokeball": 10,
+      "greatball": 5,
+      "ultraball": 1,
+      "masterball": 0,
+      "safariball": 0,
+      "fire-stone": 0,
+      "water-stone": 0,
+      "thunder-stone": 0,
+      "leaf-stone": 0,
+      "ice-stone": 0,
+      "moon-stone": 0,
+      "sun-stone": 0,
+      "shiny-stone": 0,
+      "dusk-stone": 0,
+      "dawn-stone": 0,
+      "oval-stone": 0
+    },
+    "lastCatch": null,
+    "friendship": {}
+  },
+  "100081770013413": {
+    "name": "Hgay",
+    "pokemons": [
+      {
+        "id": 842,
+        "name": "appletun",
+        "level": 8,
+        "hp": 64,
+        "maxHp": 64,
+        "attack": 41,
+        "defense": 36,
+        "types": [
+          "grass",
+          "dragon"
+        ],
+        "moves": [
+          "stomp",
+          "headbutt",
+          "body-slam",
+          "take-down"
+        ],
+        "image": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/842.png",
+        "shiny": false,
+        "weather": "sunny",
+        "exp": 0,
+        "expNeeded": 100,
+        "evolutionStage": 0,
+        "wins": 0,
+        "battles": 0,
+        "catchDate": 1742313551968,
+        "ballCaught": "Ultra Ball"
+      },
+      {
+        "id": 206,
+        "name": "dunsparce",
+        "level": 8,
+        "hp": 100,
+        "maxHp": 100,
+        "attack": 70,
+        "defense": 70,
+        "types": [
+          "normal"
+        ],
+        "moves": [
+          "bind",
+          "headbutt",
+          "body-slam",
+          "take-down"
+        ],
+        "image": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/206.png",
+        "shiny": false,
+        "exp": 0,
+        "expNeeded": 100,
+        "catchDate": 1742313749646,
+        "wins": 0,
+        "battles": 0,
+        "ballCaught": "Ultra Ball"
+      },
+      {
+        "id": 850,
+        "name": "sizzlipede",
+        "level": 6,
+        "hp": 40,
+        "maxHp": 40,
+        "attack": 37,
+        "defense": 31,
+        "types": [
+          "fire",
+          "bug"
+        ],
+        "moves": [
+          "slam",
+          "wrap",
+          "bite",
+          "ember"
+        ],
+        "image": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/850.png",
+        "shiny": false,
+        "weather": "rainy",
+        "exp": 0,
+        "expNeeded": 100,
+        "evolutionStage": 0,
+        "wins": 0,
+        "battles": 0,
+        "catchDate": 1742313898172,
+        "ballCaught": "Great Ball"
+      },
+      {
+        "id": 206,
+        "name": "dunsparce",
+        "level": 7,
+        "hp": 61,
+        "maxHp": 61,
+        "attack": 39,
+        "defense": 34,
+        "types": [
+          "normal"
+        ],
+        "moves": [
+          "bind",
+          "headbutt",
+          "body-slam",
+          "take-down"
+        ],
+        "image": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/206.png",
+        "shiny": false,
+        "weather": "sunny",
+        "exp": 0,
+        "expNeeded": 100,
+        "evolutionStage": 0,
+        "wins": 0,
+        "battles": 0,
+        "catchDate": 1742314066489,
+        "ballCaught": "Great Ball"
+      }
+    ],
+    "activePokemon": 0,
+    "battles": 0,
+    "wins": 0,
+    "inventory": {
+      "pokeball": 10,
+      "greatball": 3,
+      "ultraball": 0,
+      "masterball": 0,
+      "safariball": 0,
+      "fire-stone": 0,
+      "water-stone": 0,
+      "thunder-stone": 0,
+      "leaf-stone": 0,
+      "ice-stone": 0,
+      "moon-stone": 0,
+      "sun-stone": 0,
+      "shiny-stone": 0,
+      "dusk-stone": 0,
+      "dawn-stone": 0,
+      "oval-stone": 0
+    },
+    "lastCatch": null,
+    "friendship": {}
+  },
+  "61560539745976": {
+    "name": "Dan",
+    "pokemons": [
+      {
+        "id": 223,
+        "name": "remoraid",
+        "level": 47,
+        "hp": 57,
+        "maxHp": 57,
+        "attack": 92,
+        "defense": 49,
+        "types": [
+          "water"
+        ],
+        "moves": [
+          "double-edge",
+          "supersonic",
+          "flamethrower",
+          "water-gun"
+        ],
+        "image": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/223.png",
+        "shiny": false,
+        "weather": "stormy",
+        "exp": 0,
+        "expNeeded": 100,
+        "evolutionStage": 0,
+        "wins": 0,
+        "battles": 0,
+        "catchDate": 1742315396232,
+        "ballCaught": "Ultra Ball"
+      }
+    ],
+    "activePokemon": 0,
+    "battles": 0,
+    "wins": 0,
+    "inventory": {
+      "pokeball": 10,
+      "greatball": 5,
+      "ultraball": 1,
+      "masterball": 0,
+      "safariball": 0,
+      "fire-stone": 0,
+      "water-stone": 0,
+      "thunder-stone": 0,
+      "leaf-stone": 0,
+      "ice-stone": 0,
+      "moon-stone": 0,
+      "sun-stone": 0,
+      "shiny-stone": 0,
+      "dusk-stone": 0,
+      "dawn-stone": 0,
+      "oval-stone": 0
+    },
+    "lastCatch": null,
+    "friendship": {}
   }
 }

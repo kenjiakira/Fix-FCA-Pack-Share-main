@@ -3,6 +3,7 @@ const path = require("path");
 const { createCanvas, loadImage, registerFont } = require("canvas");
 const { allBalances } = require("../utils/currencies");
 const axios = require("axios");
+const npcManager = require('../utils/npcManager');
 
 module.exports = {
   name: "top",
@@ -432,10 +433,31 @@ module.exports = {
   },
   async getAvatarPath(userId) {
     try {
-      // Đường dẫn đến avatar mặc định
+      if (userId.startsWith('npc_')) {
+        const npc = npcManager.getNPCs().find(n => n.id === userId);
+        if (npc && npc.avatar) {
+          try {
+            const response = await axios.get(npc.avatar, {
+              responseType: "arraybuffer",
+              timeout: 5000
+            });
+            
+            const avatarDir = path.join(__dirname, "./cache/npc");
+            if (!fs.existsSync(avatarDir)) {
+              fs.mkdirSync(avatarDir, { recursive: true });
+            }
+            
+            const npcAvatarPath = path.join(avatarDir, `${userId}.jpg`);
+            fs.writeFileSync(npcAvatarPath, response.data);
+            return npcAvatarPath;
+          } catch (error) {
+            console.error(`Failed to fetch NPC avatar for ${userId}:`, error.message);
+          }
+        }
+      }
+
       const defaultAvatarPath = path.join(__dirname, "./cache/avatar.jpg");
       
-      // Đảm bảo thư mục avatars tồn tại
       const avatarsDir = path.join(__dirname, "./cache");
       if (!fs.existsSync(avatarsDir)) {
         fs.mkdirSync(avatarsDir, { recursive: true });
@@ -546,8 +568,29 @@ module.exports = {
     }
 
     let allBalancesData;
+    let userData;
+
     try {
+      // Load userData first
+      try {
+        const rawData = fs.readFileSync("./events/cache/userData.json");
+        userData = JSON.parse(rawData);
+      } catch (error) {
+        console.error("Lỗi khi đọc userData.json:", error);
+        userData = {};
+      }
+
+      // Then load balances and add NPCs
       allBalancesData = allBalances();
+      const npcs = npcManager.getNPCs();
+      npcs.forEach(npc => {
+        allBalancesData[npc.id] = npc.balance;
+        userData[npc.id] = {
+          name: npc.name,
+          avatar: npc.avatar
+        };
+      });
+      
     } catch (error) {
       console.error("Lỗi khi lấy dữ liệu số dư:", error);
       return api.sendMessage(
@@ -555,15 +598,6 @@ module.exports = {
         threadID,
         messageID
       );
-    }
-
-    let userData;
-    try {
-      const rawData = fs.readFileSync("./events/cache/userData.json");
-      userData = JSON.parse(rawData);
-    } catch (error) {
-      console.error("Lỗi khi đọc userData.json:", error);
-      userData = {};
     }
 
     const sortedBalances = Object.entries(allBalancesData)
@@ -575,9 +609,19 @@ module.exports = {
       await Promise.all(
         sortedBalances.slice(0, 10).map(async ([userID]) => {
           try {
-            const avatarPath = await this.getAvatarPath(userID);
-            if (avatarPath) {
-              userAvatars[userID] = avatarPath;
+            if (userID.startsWith('npc_')) {
+              const npc = npcManager.getNPCs().find(n => n.id === userID);
+              if (npc) {
+                const npcAvatarPath = await this.getAvatarPath(userID);
+                if (npcAvatarPath) {
+                  userAvatars[userID] = npcAvatarPath;
+                }
+              }
+            } else {
+              const avatarPath = await this.getAvatarPath(userID);
+              if (avatarPath) {
+                userAvatars[userID] = avatarPath;
+              }
             }
           } catch (e) {
             console.error(`Failed to get avatar for ${userID}:`, e.message);

@@ -47,11 +47,12 @@
       "e3",
       "e4",
       "ueh",
-      "neu"
+      "neu",
+      "eng1"
     ],
     "currentDegree": {
-      "id": "eng1",
-      "startTime": 1742093346655,
+      "id": "eng2",
+      "startTime": 1742396038883,
       "progress": 0
     }
   },
@@ -332,7 +333,11 @@
     "degrees": [
       "e1"
     ],
-    "currentDegree": null
+    "currentDegree": {
+      "id": "hmu",
+      "startTime": 1742402447087,
+      "progress": 0
+    }
   },
   "61550331471452": {
     "degrees": [
@@ -585,11 +590,12 @@
       "eng1",
       "e2",
       "hmu",
-      "eng2"
+      "eng2",
+      "e3"
     ],
     "currentDegree": {
-      "id": "e3",
-      "startTime": 1742214197146,
+      "id": "e4",
+      "startTime": 1742447924701,
       "progress": 0
     }
   },
@@ -615,11 +621,12 @@
   "61553593760589": {
     "degrees": [
       "e1",
-      "e1"
+      "e1",
+      "e3"
     ],
     "currentDegree": {
       "id": "e3",
-      "startTime": 1742100152433,
+      "startTime": 1742402261458,
       "progress": 0
     }
   },
@@ -746,11 +753,12 @@
     "degrees": [
       "e1",
       "e3",
-      "e4"
+      "e4",
+      "eng1"
     ],
     "currentDegree": {
-      "id": "eng1",
-      "startTime": 1741664898149,
+      "id": "aws",
+      "startTime": 1742311433004,
       "progress": 0
     }
   },
@@ -766,11 +774,12 @@
   },
   "61560539745976": {
     "degrees": [
-      "e1"
+      "e1",
+      "hmu"
     ],
     "currentDegree": {
-      "id": "hmu",
-      "startTime": 1742019447326,
+      "id": "e3",
+      "startTime": 1742395889736,
       "progress": 0
     }
   },
@@ -785,7 +794,11 @@
       "e1",
       "e2"
     ],
-    "currentDegree": null
+    "currentDegree": {
+      "id": "e3",
+      "startTime": 1742391330717,
+      "progress": 0
+    }
   },
   "61574083951740": {
     "degrees": [
@@ -822,11 +835,32 @@
   },
   "100081770013413": {
     "degrees": [
+      "e1",
+      "e2"
+    ],
+    "currentDegree": {
+      "id": "hmu",
+      "startTime": 1742311794772,
+      "progress": 0
+    }
+  },
+  "100088600797175": {
+    "degrees": [
       "e1"
     ],
     "currentDegree": {
-      "id": "e2",
-      "startTime": 1742131144779,
+      "id": "hmu",
+      "startTime": 1742391815385,
+      "progress": 0
+    }
+  },
+  "100085610917366": {
+    "degrees": [
+      "e1"
+    ],
+    "currentDegree": {
+      "id": "e3",
+      "startTime": 1742390759921,
       "progress": 0
     }
   }

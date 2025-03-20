@@ -511,28 +511,28 @@
       {
         "name": "elephant",
         "birthDate": 1739465020428,
-        "happiness": 41.236843229166666,
+        "happiness": 0,
         "gender": "👦",
         "nickname": "Cưng elephant"
       },
       {
         "name": "son goku",
         "birthDate": 1739726732326,
-        "happiness": 49.86057631944445,
+        "happiness": 4.1352912847222285,
         "gender": "👦",
         "nickname": "Sunshine son goku"
       },
       {
         "name": "chowder",
         "birthDate": 1740740193550,
-        "happiness": 85.6087775,
+        "happiness": 39.88349246527778,
         "gender": "👦",
         "nickname": "Cưng chowder"
       }
     ],
     "home": null,
-    "happiness": 10.638330208333329,
-    "lastChecked": 1740999454388,
+    "happiness": 0,
+    "lastChecked": 1742316342597,
     "lastBaby": 1740740193550,
     "lastIntimate": 1740740133434,
     "isProposer": false,
@@ -2208,7 +2208,7 @@
         "id": "1740751646336",
         "name": "Hoàng Gia Long",
         "birthDate": 1740751646336,
-        "happiness": 47.18062493055555,
+        "happiness": 38.633177118055556,
         "gender": "👦",
         "nickname": "Yêu Hoàng Gia Long"
       },
@@ -2217,14 +2217,14 @@
         "name": "Hoàng Lan Anh",
         "gender": "👧",
         "birthDate": 1740848223110,
-        "happiness": 51.39117600694445,
+        "happiness": 42.84372819444445,
         "nickname": "Tí Hoàng Lan Anh",
         "isMarried": false,
         "movedOut": false
       }
     ],
-    "happiness": 70.50442899305555,
-    "lastChecked": 1742135377184,
+    "happiness": 56.258682638888885,
+    "lastChecked": 1742381543681,
     "lastBaby": 1740751646337,
     "lastIntimate": 1740848160314,
     "isProposer": false,
@@ -2519,9 +2519,9 @@
     "name": null,
     "spouse": null,
     "children": [],
-    "happiness": 50,
+    "happiness": 39.963831712962964,
     "health": 100,
-    "lastChecked": 1742138931497,
+    "lastChecked": 1742312356485,
     "lastBaby": 0,
     "lastIntimate": 0,
     "insurance": {
