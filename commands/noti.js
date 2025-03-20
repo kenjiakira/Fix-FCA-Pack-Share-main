@@ -233,9 +233,9 @@ module.exports = {
 
       for (const chunk of threadChunks) {
         for (const id of chunk) {
-          let retries = 0;
-          const maxRetries = 3;
-
+          try {
+            const msg = await new Promise((resolve, reject) => {
+              const timeout = setTimeout(() => {
           while (retries < maxRetries) {
             try {
               const msg = await new Promise((resolve, reject) => {
