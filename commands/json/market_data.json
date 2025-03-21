@@ -1,6 +1,6 @@
 {
-  "price": 978224,
-  "lastUpdate": 1742554428270,
+  "price": 1432657,
+  "lastUpdate": 1742554490202,
   "history": [
     {
       "price": 91,
@@ -17245,6 +17245,18 @@
       "timestamp": 1742554428270,
       "volumeImpact": 0,
       "scarcityMultiplier": 1.4047700548450253
+    },
+    {
+      "price": 978224,
+      "timestamp": 1742554460157,
+      "volumeImpact": 0,
+      "scarcityMultiplier": 1.4048239506934668
+    },
+    {
+      "price": 1386847,
+      "timestamp": 1742554490202,
+      "volumeImpact": 0,
+      "scarcityMultiplier": 1.404874014968589
     }
   ],
   "tradingVolume": {
@@ -17262,125 +17274,6 @@
   },
   "blockHistory": {
     "blocks": [
-      {
-        "height": 108,
-        "miner": "Unknown",
-        "reward": 25,
-        "timestamp": 1742549357418,
-        "difficulty": 2999.0627541746
-      },
-      {
-        "height": 108,
-        "miner": "Unknown",
-        "reward": 25,
-        "timestamp": 1742549369191,
-        "difficulty": 2999.0627541746
-      },
-      {
-        "height": 109,
-        "miner": "Unknown",
-        "reward": 25,
-        "timestamp": 1742549375035,
-        "difficulty": 3298.96902959206
-      },
-      {
-        "height": 109,
-        "miner": "Unknown",
-        "reward": 25,
-        "timestamp": 1742549438196,
-        "difficulty": 3298.96902959206
-      },
-      {
-        "height": 109,
-        "miner": "Unknown",
-        "reward": 25,
-        "timestamp": 1742549446898,
-        "difficulty": 3298.96902959206
-      },
-      {
-        "height": 109,
-        "miner": "Unknown",
-        "reward": 25,
-        "timestamp": 1742549455671,
-        "difficulty": 3298.96902959206
-      },
-      {
-        "height": 109,
-        "miner": "Unknown",
-        "reward": 25,
-        "timestamp": 1742549457489,
-        "difficulty": 3298.96902959206
-      },
-      {
-        "height": 109,
-        "miner": "Unknown",
-        "reward": 25,
-        "timestamp": 1742549484035,
-        "difficulty": 3298.96902959206
-      },
-      {
-        "height": 109,
-        "miner": "Unknown",
-        "reward": 25,
-        "timestamp": 1742549501022,
-        "difficulty": 3298.96902959206
-      },
-      {
-        "height": 109,
-        "miner": "Unknown",
-        "reward": 25,
-        "timestamp": 1742549508494,
-        "difficulty": 3298.96902959206
-      },
-      {
-        "height": 109,
-        "miner": "Unknown",
-        "reward": 25,
-        "timestamp": 1742549517119,
-        "difficulty": 3298.96902959206
-      },
-      {
-        "height": 109,
-        "miner": "Unknown",
-        "reward": 25,
-        "timestamp": 1742549541224,
-        "difficulty": 3298.96902959206
-      },
-      {
-        "height": 109,
-        "miner": "Unknown",
-        "reward": 25,
-        "timestamp": 1742549550802,
-        "difficulty": 3298.96902959206
-      },
-      {
-        "height": 109,
-        "miner": "Unknown",
-        "reward": 25,
-        "timestamp": 1742549551501,
-        "difficulty": 3298.96902959206
-      },
-      {
-        "height": 109,
-        "miner": "Unknown",
-        "reward": 25,
-        "timestamp": 1742549571934,
-        "difficulty": 3298.96902959206
-      },
-      {
-        "height": 109,
-        "miner": "Unknown",
-        "reward": 25,
-        "timestamp": 1742549611329,
-        "difficulty": 3298.96902959206
-      },
-      {
-        "height": 109,
-        "miner": "Unknown",
-        "reward": 25,
-        "timestamp": 1742549614118,
-        "difficulty": 3298.96902959206
-      },
       {
         "height": 109,
         "miner": "Unknown",
@@ -18128,6 +18021,125 @@
         "miner": "Unknown",
         "reward": 25,
         "timestamp": 1742554452196,
+        "difficulty": 4830.020556225737
+      },
+      {
+        "height": 113,
+        "miner": "Unknown",
+        "reward": 25,
+        "timestamp": 1742554458213,
+        "difficulty": 4830.020556225737
+      },
+      {
+        "height": 113,
+        "miner": "Unknown",
+        "reward": 25,
+        "timestamp": 1742554462086,
+        "difficulty": 4830.020556225737
+      },
+      {
+        "height": 113,
+        "miner": "Unknown",
+        "reward": 25,
+        "timestamp": 1742554463675,
+        "difficulty": 4830.020556225737
+      },
+      {
+        "height": 113,
+        "miner": "Unknown",
+        "reward": 25,
+        "timestamp": 1742554463705,
+        "difficulty": 4830.020556225737
+      },
+      {
+        "height": 113,
+        "miner": "Unknown",
+        "reward": 25,
+        "timestamp": 1742554468889,
+        "difficulty": 4830.020556225737
+      },
+      {
+        "height": 113,
+        "miner": "Unknown",
+        "reward": 25,
+        "timestamp": 1742554480403,
+        "difficulty": 4830.020556225737
+      },
+      {
+        "height": 113,
+        "miner": "Unknown",
+        "reward": 25,
+        "timestamp": 1742554481457,
+        "difficulty": 4830.020556225737
+      },
+      {
+        "height": 113,
+        "miner": "Unknown",
+        "reward": 25,
+        "timestamp": 1742554485792,
+        "difficulty": 4830.020556225737
+      },
+      {
+        "height": 113,
+        "miner": "Unknown",
+        "reward": 25,
+        "timestamp": 1742554485818,
+        "difficulty": 4830.020556225737
+      },
+      {
+        "height": 113,
+        "miner": "Unknown",
+        "reward": 25,
+        "timestamp": 1742554489329,
+        "difficulty": 4830.020556225737
+      },
+      {
+        "height": 113,
+        "miner": "Unknown",
+        "reward": 25,
+        "timestamp": 1742554490203,
+        "difficulty": 4830.020556225737
+      },
+      {
+        "height": 113,
+        "miner": "Unknown",
+        "reward": 25,
+        "timestamp": 1742554492245,
+        "difficulty": 4830.020556225737
+      },
+      {
+        "height": 113,
+        "miner": "Unknown",
+        "reward": 25,
+        "timestamp": 1742554492596,
+        "difficulty": 4830.020556225737
+      },
+      {
+        "height": 113,
+        "miner": "Unknown",
+        "reward": 25,
+        "timestamp": 1742554501078,
+        "difficulty": 4830.020556225737
+      },
+      {
+        "height": 113,
+        "miner": "Unknown",
+        "reward": 25,
+        "timestamp": 1742554501305,
+        "difficulty": 4830.020556225737
+      },
+      {
+        "height": 113,
+        "miner": "Unknown",
+        "reward": 25,
+        "timestamp": 1742554504410,
+        "difficulty": 4830.020556225737
+      },
+      {
+        "height": 113,
+        "miner": "Unknown",
+        "reward": 25,
+        "timestamp": 1742554507337,
         "difficulty": 4830.020556225737
       }
     ],

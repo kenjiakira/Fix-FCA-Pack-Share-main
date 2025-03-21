@@ -690,12 +690,6 @@
   "61556258566916": [
     {
       "type": "out",
-      "amount": 2020000,
-      "timestamp": 1742474850987,
-      "description": "Chuyển 2000000 $ cho Yu Ki"
-    },
-    {
-      "type": "out",
       "amount": 505000,
       "timestamp": 1742548612738,
       "description": "Chuyển 500000 $ cho Mai Phuongg"
@@ -717,6 +711,12 @@
       "amount": 2000000,
       "timestamp": 1742554253407,
       "description": "Nhận 2000000 $ từ miuzmiuz"
+    },
+    {
+      "type": "in",
+      "amount": 1000000,
+      "timestamp": 1742554492347,
+      "description": "Nhận 1000000 $ từ miuzmiuz"
     }
   ],
   "61558004992510": [
@@ -1053,12 +1053,6 @@
     {
       "type": "in",
       "amount": 1000000,
-      "timestamp": 1742549756188,
-      "description": "Nhận 1000000 $ từ User"
-    },
-    {
-      "type": "in",
-      "amount": 1000000,
       "timestamp": 1742550451414,
       "description": "Nhận 1000000 $ từ User"
     },
@@ -1079,6 +1073,12 @@
       "amount": 300000000,
       "timestamp": 1742554381535,
       "description": "Nhận 300000000 $ từ miuzmiuz"
+    },
+    {
+      "type": "in",
+      "amount": 90000000,
+      "timestamp": 1742554477559,
+      "description": "Nhận 90000000 $ từ miuzmiuz"
     }
   ],
   "100049109850406": [
@@ -1973,18 +1973,6 @@
   ],
   "61574017508383": [
     {
-      "type": "in",
-      "amount": 2000000,
-      "timestamp": 1742554085665,
-      "description": "Nhận 2000000 $ từ Con Người"
-    },
-    {
-      "type": "out",
-      "amount": 6060000,
-      "timestamp": 1742554207729,
-      "description": "Chuyển 6000000 $ cho Yu Ki"
-    },
-    {
       "type": "out",
       "amount": 2020000,
       "timestamp": 1742554253407,
@@ -2001,6 +1989,18 @@
       "amount": 303000000,
       "timestamp": 1742554381535,
       "description": "Chuyển 300000000 $ cho Yu Ki"
+    },
+    {
+      "type": "out",
+      "amount": 90900000,
+      "timestamp": 1742554477559,
+      "description": "Chuyển 90000000 $ cho Yu Ki"
+    },
+    {
+      "type": "out",
+      "amount": 1010000,
+      "timestamp": 1742554492347,
+      "description": "Chuyển 1000000 $ cho Con Người"
     }
   ],
   "61552281914806": [

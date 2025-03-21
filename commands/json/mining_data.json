@@ -284,7 +284,7 @@
     "miner": {
       "power": 1,
       "consumption": 0.5,
-      "durability": 24.799999999999635,
+      "durability": 24.399999999999636,
       "maxDurability": 100
     },
     "coins": 1089532,
@@ -293,10 +293,10 @@
       "efficiency": 10,
       "cooling": 10
     },
-    "lastMining": 1742549614124,
+    "lastMining": 1742554489331,
     "stats": {
-      "totalMined": 681077,
-      "successfulMines": 357,
+      "totalMined": 681084,
+      "successfulMines": 358,
       "failedMines": 69
     },
     "quests": {
@@ -307,7 +307,7 @@
         "lastReset": "2025-03-20T17:00:01.616Z"
       }
     },
-    "miningStreak": 1,
+    "miningStreak": 2,
     "trading": {
       "lastReset": 1742441012598,
       "dailyBuy": 1000000,
@@ -324,19 +324,19 @@
         "rewardBonus": 0.3
       }
     },
-    "energy": 232.25,
-    "lastEnergyUpdate": 1742554426323,
+    "energy": 230.5,
+    "lastEnergyUpdate": 1742554489329,
     "name": "Unknown",
     "settings": {
       "inPool": true,
       "poolFee": 0.02,
-      "joinedPool": 1742549614121,
+      "joinedPool": 1742554489329,
       "poolId": "main",
       "autoSell": true
     },
     "resources": {
       "diamond": 18,
-      "crystal": 35,
+      "crystal": 36,
       "platinum": 25
     },
     "powerSystem": {
@@ -757,20 +757,20 @@
     "miner": {
       "power": 1,
       "consumption": 0.5,
-      "durability": 52.39999999999954,
+      "durability": 51.99999999999954,
       "maxDurability": 100,
       "repairCost": 1000
     },
-    "coins": 1070,
+    "coins": 1075,
     "upgrades": {
       "power": 10,
       "efficiency": 10,
       "cooling": 10
     },
-    "lastMining": 1742554392524,
+    "lastMining": 1742554501306,
     "stats": {
-      "totalMined": 82884,
-      "successfulMines": 278,
+      "totalMined": 82889,
+      "successfulMines": 279,
       "failedMines": 83
     },
     "quests": {
@@ -784,7 +784,7 @@
     "settings": {
       "autoSell": false
     },
-    "miningStreak": 5,
+    "miningStreak": 6,
     "trading": {
       "lastReset": 1742440909494,
       "dailyBuy": 0,
@@ -846,6 +846,10 @@
       {
         "amount": 5,
         "timestamp": 1742554392523
+      },
+      {
+        "amount": 5,
+        "timestamp": 1742554501305
       }
     ],
     "resources": {
@@ -863,8 +867,8 @@
         "rewardBonus": 0.1
       }
     },
-    "energy": 162.5,
-    "lastEnergyUpdate": 1742554392519,
+    "energy": 160,
+    "lastEnergyUpdate": 1742554501305,
     "name": "Unknown",
     "powerSystem": {
       "generatorLevel": 5,
@@ -1117,20 +1121,20 @@
     "miner": {
       "power": 1,
       "consumption": 0.5,
-      "durability": 18.20499999999996,
+      "durability": 15.404999999999962,
       "maxDurability": 100,
       "repairCost": 1000
     },
-    "coins": 30,
+    "coins": 0,
     "upgrades": {
       "power": 5,
       "efficiency": 6,
       "cooling": 6
     },
-    "lastMining": 1742554452201,
+    "lastMining": 1742554507340,
     "stats": {
-      "totalMined": 33079,
-      "successfulMines": 118,
+      "totalMined": 33104,
+      "successfulMines": 123,
       "failedMines": 41
     },
     "quests": {
@@ -1144,33 +1148,8 @@
     "settings": {
       "autoSell": false
     },
-    "miningStreak": 4,
-    "minedCoins": [
-      {
-        "amount": 5,
-        "timestamp": 1742553231697
-      },
-      {
-        "amount": 5,
-        "timestamp": 1742553248978
-      },
-      {
-        "amount": 5,
-        "timestamp": 1742554410160
-      },
-      {
-        "amount": 5,
-        "timestamp": 1742554428463
-      },
-      {
-        "amount": 5,
-        "timestamp": 1742554446657
-      },
-      {
-        "amount": 5,
-        "timestamp": 1742554452199
-      }
-    ],
+    "miningStreak": 9,
+    "minedCoins": [],
     "trading": {
       "lastReset": 1742393443164,
       "dailyBuy": 0,
@@ -1187,12 +1166,12 @@
       }
     },
     "name": "Unknown",
-    "energy": 187.3,
-    "lastEnergyUpdate": 1742554452196,
+    "energy": 117.30000000000001,
+    "lastEnergyUpdate": 1742554507336,
     "resources": {
-      "crystal": 8,
+      "crystal": 10,
       "platinum": 4,
-      "diamond": 3
+      "diamond": 4
     },
     "specialUpgrades": {},
     "powerSystem": {
@@ -2969,8 +2948,8 @@
       }
     },
     "coins": 13,
-    "energy": 16.5,
-    "lastEnergyUpdate": 1742552642786,
+    "energy": 264,
+    "lastEnergyUpdate": 1742554442786,
     "powerSystem": {
       "generatorLevel": 5,
       "lastFuelUse": {
@@ -4080,7 +4059,7 @@
     "miner": {
       "power": 1,
       "consumption": 0.8,
-      "durability": 950.5600000000011,
+      "durability": 948.640000000001,
       "maxDurability": 100,
       "repairCost": 150000,
       "miningEvents": {
@@ -4101,9 +4080,9 @@
         ]
       }
     },
-    "coins": 10,
-    "energy": 171.2,
-    "lastEnergyUpdate": 1742554428717,
+    "coins": 25,
+    "energy": 23.19999999999999,
+    "lastEnergyUpdate": 1742554509427,
     "powerSystem": {
       "generatorLevel": 1,
       "lastFuelUse": {
@@ -4179,11 +4158,11 @@
       "efficiency": 8,
       "cooling": 8
     },
-    "lastMining": 1742554428718,
+    "lastMining": 1742554509428,
     "stats": {
-      "totalMined": 7540,
-      "successfulMines": 45,
-      "failedMines": 32
+      "totalMined": 7555,
+      "successfulMines": 48,
+      "failedMines": 33
     },
     "quests": {
       "daily": {
@@ -4197,7 +4176,7 @@
       "autoSell": false,
       "inPool": true,
       "poolFee": 0.02,
-      "joinedPool": 1742554428717,
+      "joinedPool": 1742554504411,
       "poolId": "main"
     },
     "trading": {
@@ -4229,9 +4208,21 @@
       {
         "amount": 5,
         "timestamp": 1742554428717
+      },
+      {
+        "amount": 5,
+        "timestamp": 1742554485818
+      },
+      {
+        "amount": 5,
+        "timestamp": 1742554492596
+      },
+      {
+        "amount": 5,
+        "timestamp": 1742554504411
       }
     ],
-    "miningStreak": 4,
+    "miningStreak": 0,
     "specialUpgrades": {},
     "lastStorageFeeTime": 1742553982608,
     "factory": {
@@ -4653,8 +4644,8 @@
       }
     },
     "coins": 13,
-    "energy": 4.399999999999995,
-    "lastEnergyUpdate": 1742554418257,
+    "energy": 5.499999999999995,
+    "lastEnergyUpdate": 1742554478257,
     "powerSystem": {
       "generatorLevel": 0,
       "lastFuelUse": {
@@ -5843,7 +5834,7 @@
     "miner": {
       "power": 1,
       "consumption": 0.8,
-      "durability": 909.5600000000023,
+      "durability": 907.1600000000022,
       "maxDurability": 100,
       "repairCost": 150000,
       "miningEvents": {
@@ -5864,9 +5855,9 @@
         ]
       }
     },
-    "coins": 1,
-    "energy": 286.45000000000005,
-    "lastEnergyUpdate": 1742554438386,
+    "coins": 16,
+    "energy": 226.45000000000005,
+    "lastEnergyUpdate": 1742554513503,
     "powerSystem": {
       "generatorLevel": 0,
       "lastFuelUse": {
@@ -5942,11 +5933,11 @@
       "efficiency": 3,
       "cooling": 5
     },
-    "lastMining": 1742547010525,
+    "lastMining": 1742554513504,
     "stats": {
-      "totalMined": 11319,
-      "successfulMines": 89,
-      "failedMines": 48
+      "totalMined": 11334,
+      "successfulMines": 92,
+      "failedMines": 49
     },
     "quests": {
       "daily": {
@@ -5976,10 +5967,23 @@
         "rewardBonus": 0.05
       }
     },
-    "minedCoins": [],
+    "minedCoins": [
+      {
+        "amount": 5,
+        "timestamp": 1742554481458
+      },
+      {
+        "amount": 5,
+        "timestamp": 1742554490203
+      },
+      {
+        "amount": 5,
+        "timestamp": 1742554501079
+      }
+    ],
     "resources": {
       "crystal": 10,
-      "platinum": 12,
+      "platinum": 13,
       "diamond": 3
     },
     "specialUpgrades": {},

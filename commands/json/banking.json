@@ -1660,12 +1660,6 @@
         "type": "out",
         "description": "Chuyển 500,000 $ cho Yzu Yu",
         "amount": 500000,
-        "timestamp": 1742052507051
-      },
-      {
-        "type": "out",
-        "description": "Chuyển 500,000 $ cho Yzu Yu",
-        "amount": 500000,
         "timestamp": 1742052515799
       },
       {
@@ -1715,6 +1709,12 @@
         "description": "Nhận 2,000,000 $ từ miuzmiuz",
         "amount": 2000000,
         "timestamp": 1742554253600
+      },
+      {
+        "type": "in",
+        "description": "Nhận 1,000,000 $ từ miuzmiuz",
+        "amount": 1000000,
+        "timestamp": 1742554492572
       }
     ],
     "61558004992510": [
@@ -2248,12 +2248,6 @@
     "61558946907944": [
       {
         "type": "in",
-        "description": "Nhận 20,000 $ từ User",
-        "amount": 20000,
-        "timestamp": 1742534221427
-      },
-      {
-        "type": "in",
         "description": "Nhận 100,000 $ từ User",
         "amount": 100000,
         "timestamp": 1742534721668
@@ -2305,6 +2299,12 @@
         "description": "Nhận 300,000,000 $ từ miuzmiuz",
         "amount": 300000000,
         "timestamp": 1742554381811
+      },
+      {
+        "type": "in",
+        "description": "Nhận 90,000,000 $ từ miuzmiuz",
+        "amount": 90000000,
+        "timestamp": 1742554477803
       }
     ],
     "100049109850406": [
@@ -3538,18 +3538,6 @@
         "type": "out",
         "description": "Chuyển 500,000 $ cho Yu Ki",
         "amount": 500000,
-        "timestamp": 1742217189206
-      },
-      {
-        "type": "out",
-        "description": "Chuyển 500,000 $ cho Yu Ki",
-        "amount": 500000,
-        "timestamp": 1742217522728
-      },
-      {
-        "type": "out",
-        "description": "Chuyển 500,000 $ cho Yu Ki",
-        "amount": 500000,
         "timestamp": 1742217543574
       },
       {
@@ -3593,6 +3581,18 @@
         "description": "Chuyển 300,000,000 $ cho Yu Ki",
         "amount": 300000000,
         "timestamp": 1742554381797
+      },
+      {
+        "type": "out",
+        "description": "Chuyển 90,000,000 $ cho Yu Ki",
+        "amount": 90000000,
+        "timestamp": 1742554477783
+      },
+      {
+        "type": "out",
+        "description": "Chuyển 1,000,000 $ cho Con Người",
+        "amount": 1000000,
+        "timestamp": 1742554492561
       }
     ],
     "61552281914806": [
