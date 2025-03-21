@@ -17284,13 +17284,6 @@
         "height": 109,
         "miner": "Unknown",
         "reward": 25,
-        "timestamp": 1742549714618,
-        "difficulty": 3298.96902959206
-      },
-      {
-        "height": 109,
-        "miner": "Unknown",
-        "reward": 25,
         "timestamp": 1742549792962,
         "difficulty": 3298.96902959206
       },
@@ -18146,6 +18139,13 @@
         "miner": "Unknown",
         "reward": 25,
         "timestamp": 1742554507337,
+        "difficulty": 4830.020556225737
+      },
+      {
+        "height": 113,
+        "miner": "Unknown",
+        "reward": 25,
+        "timestamp": 1742554523921,
         "difficulty": 4830.020556225737
       }
     ],

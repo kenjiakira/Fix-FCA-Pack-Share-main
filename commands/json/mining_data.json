@@ -757,20 +757,20 @@
     "miner": {
       "power": 1,
       "consumption": 0.5,
-      "durability": 51.59999999999954,
+      "durability": 51.19999999999954,
       "maxDurability": 100,
       "repairCost": 1000
     },
-    "coins": 1075,
+    "coins": 1080,
     "upgrades": {
       "power": 10,
       "efficiency": 10,
       "cooling": 10
     },
-    "lastMining": 1742554521320,
+    "lastMining": 1742554523926,
     "stats": {
-      "totalMined": 82889,
-      "successfulMines": 279,
+      "totalMined": 82894,
+      "successfulMines": 280,
       "failedMines": 84
     },
     "quests": {
@@ -784,7 +784,7 @@
     "settings": {
       "autoSell": false
     },
-    "miningStreak": 0,
+    "miningStreak": 1,
     "trading": {
       "lastReset": 1742440909494,
       "dailyBuy": 0,
@@ -850,11 +850,15 @@
       {
         "amount": 5,
         "timestamp": 1742554501305
+      },
+      {
+        "amount": 5,
+        "timestamp": 1742554523922
       }
     ],
     "resources": {
       "crystal": 30,
-      "platinum": 21,
+      "platinum": 22,
       "diamond": 13
     },
     "minerLevel": {
@@ -867,8 +871,8 @@
         "rewardBonus": 0.1
       }
     },
-    "energy": 150,
-    "lastEnergyUpdate": 1742554521319,
+    "energy": 140,
+    "lastEnergyUpdate": 1742554523921,
     "name": "Unknown",
     "powerSystem": {
       "generatorLevel": 5,
