@@ -1117,20 +1117,20 @@
     "miner": {
       "power": 1,
       "consumption": 0.5,
-      "durability": 18.764999999999958,
+      "durability": 18.20499999999996,
       "maxDurability": 100,
       "repairCost": 1000
     },
-    "coins": 25,
+    "coins": 30,
     "upgrades": {
       "power": 5,
       "efficiency": 6,
       "cooling": 6
     },
-    "lastMining": 1742554446659,
+    "lastMining": 1742554452201,
     "stats": {
-      "totalMined": 33074,
-      "successfulMines": 117,
+      "totalMined": 33079,
+      "successfulMines": 118,
       "failedMines": 41
     },
     "quests": {
@@ -1144,7 +1144,7 @@
     "settings": {
       "autoSell": false
     },
-    "miningStreak": 3,
+    "miningStreak": 4,
     "minedCoins": [
       {
         "amount": 5,
@@ -1165,6 +1165,10 @@
       {
         "amount": 5,
         "timestamp": 1742554446657
+      },
+      {
+        "amount": 5,
+        "timestamp": 1742554452199
       }
     ],
     "trading": {
@@ -1183,8 +1187,8 @@
       }
     },
     "name": "Unknown",
-    "energy": 201.3,
-    "lastEnergyUpdate": 1742554446656,
+    "energy": 187.3,
+    "lastEnergyUpdate": 1742554452196,
     "resources": {
       "crystal": 8,
       "platinum": 4,
@@ -3480,7 +3484,7 @@
     "miner": {
       "power": 1,
       "consumption": 0.8,
-      "durability": 967.6400000000002,
+      "durability": 967.0000000000002,
       "maxDurability": 100,
       "repairCost": 150000,
       "miningEvents": {
@@ -3502,8 +3506,8 @@
       }
     },
     "coins": 55,
-    "energy": 9.840000000000003,
-    "lastEnergyUpdate": 1742553810773,
+    "energy": 20.24000000000001,
+    "lastEnergyUpdate": 1742554448539,
     "powerSystem": {
       "generatorLevel": 2,
       "lastFuelUse": 0,
@@ -3514,11 +3518,11 @@
       "efficiency": 4,
       "cooling": 4
     },
-    "lastMining": 1742553810775,
+    "lastMining": 1742554448541,
     "stats": {
       "totalMined": 2770,
       "successfulMines": 28,
-      "failedMines": 18
+      "failedMines": 19
     },
     "quests": {
       "daily": {
@@ -3597,7 +3601,7 @@
         "timestamp": 1742553810774
       }
     ],
-    "miningStreak": 3,
+    "miningStreak": 0,
     "specialUpgrades": {
       "coolingsystem": {
         "level": 1,
@@ -3610,7 +3614,7 @@
       "crystal": 3,
       "platinum": 3
     },
-    "lastStorageFeeTime": 1742550291874,
+    "lastStorageFeeTime": 1742554448539,
     "factory": {
       "owned": null,
       "workers": 0,
@@ -6640,4 +6644,9 @@
         "timestamp": 1742553754777
       },
       {
-  
+        "amount": 5,
+        "timestamp": 1742553762423
+      }
+    ]
+  }
+}

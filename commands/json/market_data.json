@@ -17266,13 +17266,6 @@
         "height": 108,
         "miner": "Unknown",
         "reward": 25,
-        "timestamp": 1742549297201,
-        "difficulty": 2999.0627541746
-      },
-      {
-        "height": 108,
-        "miner": "Unknown",
-        "reward": 25,
         "timestamp": 1742549357418,
         "difficulty": 2999.0627541746
       },
@@ -18129,6 +18122,13 @@
         "reward": 25,
         "timestamp": 1742554446656,
         "difficulty": 4830.020556225737
+      },
+      {
+        "height": 113,
+        "miner": "Unknown",
+        "reward": 25,
+        "timestamp": 1742554452196,
+        "difficulty": 4830.020556225737
       }
     ],
     "maxBlocks": 100
@@ -18958,3 +18958,4 @@
       "duration": 172800000
     }
   ]
+}
