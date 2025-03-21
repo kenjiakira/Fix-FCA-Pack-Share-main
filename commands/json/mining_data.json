@@ -5838,7 +5838,7 @@
     "miner": {
       "power": 1,
       "consumption": 0.8,
-      "durability": 906.5600000000022,
+      "durability": 905.9600000000022,
       "maxDurability": 100,
       "repairCost": 150000,
       "miningEvents": {
@@ -5860,8 +5860,8 @@
       }
     },
     "coins": 16,
-    "energy": 211.45000000000005,
-    "lastEnergyUpdate": 1742554519518,
+    "energy": 196.45000000000005,
+    "lastEnergyUpdate": 1742554525242,
     "powerSystem": {
       "generatorLevel": 0,
       "lastFuelUse": {
@@ -5937,11 +5937,11 @@
       "efficiency": 3,
       "cooling": 5
     },
-    "lastMining": 1742554519519,
+    "lastMining": 1742554525244,
     "stats": {
       "totalMined": 11334,
       "successfulMines": 92,
-      "failedMines": 50
+      "failedMines": 51
     },
     "quests": {
       "daily": {
