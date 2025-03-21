@@ -7,7 +7,8 @@
     "notify_avatar": false,
     "notify_color": false,
     "notify_name": false,
-    "notify_nick": false
+    "notify_nick": false,
+    "notify_greet": false
   },
   "8704938436228026": {
     "notifications": false,
@@ -40,5 +41,8 @@
     "notify_avatar": false,
     "notify_name": false,
     "notify_nick": false
+  },
+  "7601509346549933": {
+    "notify_greet": false
   }
 }

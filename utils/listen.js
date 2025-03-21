@@ -27,7 +27,72 @@ const { logChatRecord, notifyAdmins } = require('./logs');
     } catch (err) {
         console.error(err);
     }
-
+    const trackUserActivity = (event, threadsDB, usersDB) => {
+        try {
+            // Nếu là tin nhắn nhóm
+            if (event.type === "message" && event.threadID !== event.senderID) {
+                const { threadID, senderID, messageID } = event;
+                
+                // Khởi tạo cấu trúc dữ liệu cho thread nếu chưa có
+                if (!threadsDB[threadID]) {
+                    threadsDB[threadID] = {
+                        members: [],
+                        messageCount: {},
+                        lastActivity: Date.now()
+                    };
+                }
+                
+                // Thêm thành viên vào danh sách nếu chưa có
+                if (!threadsDB[threadID].members) {
+                    threadsDB[threadID].members = [];
+                }
+                
+                if (!threadsDB[threadID].members.includes(senderID)) {
+                    threadsDB[threadID].members.push(senderID);
+                }
+                
+                // Cập nhật số tin nhắn
+                if (!threadsDB[threadID].messageCount) {
+                    threadsDB[threadID].messageCount = {};
+                }
+                
+                threadsDB[threadID].messageCount[senderID] = 
+                    (threadsDB[threadID].messageCount[senderID] || 0) + 1;
+                
+                // Cập nhật dữ liệu người dùng
+                if (!usersDB[senderID]) {
+                    usersDB[senderID] = {
+                        name: null,
+                        gender: null,
+                        messageCount: {},
+                        threadIDs: [],
+                        lastActivity: Date.now()
+                    };
+                }
+                
+                // Thêm nhóm vào danh sách nhóm của người dùng
+                if (!usersDB[senderID].threadIDs) {
+                    usersDB[senderID].threadIDs = [];
+                }
+                
+                if (!usersDB[senderID].threadIDs.includes(threadID)) {
+                    usersDB[senderID].threadIDs.push(threadID);
+                }
+                
+                // Cập nhật số tin nhắn trong usersDB
+                if (!usersDB[senderID].messageCount) {
+                    usersDB[senderID].messageCount = {};
+                }
+                
+                usersDB[senderID].messageCount[threadID] = 
+                    (usersDB[senderID].messageCount[threadID] || 0) + 1;
+                
+                usersDB[senderID].lastActivity = Date.now();
+            }
+        } catch (error) {
+            console.error("Error tracking user activity:", error);
+        }
+    };
     function getThreadPrefix(threadID) {
         const prefixPath = './database/threadPrefix.json';
         try {
@@ -58,7 +123,20 @@ const { logChatRecord, notifyAdmins } = require('./logs');
 
         api.listenMqtt(async (err, event) => {
             if (err) return console.error(gradient.passion(err));
-
+            if (event.type === "message" || event.type === "message_reply") {
+                trackUserActivity(event, threadsDB, usersDB);
+                
+                // Lưu dữ liệu định kỳ (để tránh lưu quá nhiều)
+                if (!global.saveTimeout) {
+                    global.saveTimeout = setTimeout(() => {
+                        fs.writeFileSync("./database/threads.json", JSON.stringify(threadsDB, null, 2));
+                        fs.writeFileSync("./database/users.json", JSON.stringify(usersDB, null, 2));
+                        global.saveTimeout = null;
+                        console.log("Saved user and thread data");
+                    }, 60000); // Lưu mỗi phút nếu có thay đổi
+                }
+            }
+            
             const { logMessageType } = event;
 
             async function getUserName(api, senderID) {

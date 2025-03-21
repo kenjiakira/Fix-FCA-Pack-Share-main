@@ -2090,8 +2090,8 @@ const userDataPath = path.join(
 let API_KEYS = [];
 
 let ELEVENLABS_CONFIG = {
-  api_key: "sk_48fd9693e2349c1d959cb299b1de19a7a1c7091aafbc9619",
-  voice_id: "G5NmRdAgzsxbjFboK8I5",
+  api_key: "sk_28c77620a0fdc337bed703d3a943d080ab1abd7fd8ff4907",
+  voice_id: "JO7qamskf1kMDqIXJaz4",
   model_id: "eleven_multilingual_v2",
 };
 

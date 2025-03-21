@@ -2,7 +2,6 @@ const os = require('os');
 const { exec } = require('child_process');
 const util = require('util');
 const fs = require('fs');
-const disk = require('diskusage');
 const execPromise = util.promisify(exec);
 
 const threadsDB = JSON.parse(fs.readFileSync("./database/threads.json", "utf8") || "{}");
@@ -59,7 +58,6 @@ module.exports = {
         uptimeMessage += `▸ CPU: ${systemInfo.cpuUsage}% | ${systemInfo.cpuModel}\n`;
         uptimeMessage += `▸ Số nhân CPU: ${systemInfo.coreCount} | Tốc độ: ${systemInfo.cpuSpeed}MHz\n`;
         uptimeMessage += `▸ RAM đã dùng: ${systemInfo.usedMemory}/${systemInfo.totalMemory}GB (${systemInfo.memoryUsagePercent}%)\n`;
-        uptimeMessage += `▸ Ổ cứng đã dùng: ${systemInfo.usedDisk}/${systemInfo.totalDisk}GB\n`;
         uptimeMessage += `══════════════════\n`;
         uptimeMessage += `📊 Thông Tin Quy Trình\n`;
         uptimeMessage += `▸ Phiên bản Node.js: ${nodeVersion}\n`;
@@ -87,49 +85,8 @@ function sleep(ms) {
     return new Promise(resolve => setTimeout(resolve, ms));
 }
 
-async function getCPUUsage() {
-    return new Promise((resolve) => {
-        const startMeasure = getCPUTimes();
-        setTimeout(() => {
-            const endMeasure = getCPUTimes();
-            const idleDifference = endMeasure.idle - startMeasure.idle;
-            const totalDifference = endMeasure.total - startMeasure.total;
-            const cpuUsage = (1 - idleDifference / totalDifference) * 100;
-            resolve(cpuUsage.toFixed(2));
-        }, 1000);
-    });
-}
-
-function getCPUTimes() {
-    const cpus = os.cpus();
-    let idle = 0, total = 0;
-
-    for (const cpu of cpus) {
-        for (const type in cpu.times) {
-            total += cpu.times[type];
-        }
-        idle += cpu.times.idle;
-    }
-
-    return { idle, total };
-}
-
-async function getDiskInfo() {
-    try {
-        const { available, total } = await disk.check('/');
-        return {
-            totalDisk: (total / (1024 ** 3)).toFixed(2),
-            freeDisk: (available / (1024 ** 3)).toFixed(2),
-            usedDisk: ((total - available) / (1024 ** 3)).toFixed(2)
-        };
-    } catch {
-        return { totalDisk: 'N/A', freeDisk: 'N/A', usedDisk: 'N/A' };
-    }
-}
-
 async function getSystemInfo() {
     const platform = os.platform();
-    const release = os.release();
     const arch = os.arch();
     const hostname = os.hostname();
     const cpuModel = os.cpus()[0].model;
@@ -139,9 +96,6 @@ async function getSystemInfo() {
     const freeMemory = (os.freemem() / (1024 * 1024 * 1024)).toFixed(2);
     const usedMemory = (totalMemory - freeMemory).toFixed(2);
     const memoryUsagePercent = ((usedMemory / totalMemory) * 100).toFixed(1);
-    const cpuUsage = await getCPUUsage();
-    const diskInfo = await getDiskInfo();
-    const loadAvg = os.loadavg();
     const networkInterfaces = os.networkInterfaces();
     const processMemoryUsage = process.memoryUsage();
     
@@ -153,16 +107,14 @@ async function getSystemInfo() {
         }).join(', ');
 
     return {
-        platform, release, arch, hostname, cpuModel, coreCount, cpuSpeed,
-        totalMemory, freeMemory, usedMemory, cpuUsage, memoryUsagePercent,
+        platform, arch, hostname, cpuModel, coreCount, cpuSpeed,
+        totalMemory, freeMemory, usedMemory, memoryUsagePercent,
         networkInfo,
-        loadAverage: loadAvg[0].toFixed(2),
         processMemory: {
             heapUsed: (processMemoryUsage.heapUsed / 1024 / 1024).toFixed(2),
             heapTotal: (processMemoryUsage.heapTotal / 1024 / 1024).toFixed(2),
             rss: (processMemoryUsage.rss / 1024 / 1024).toFixed(2)
-        },
-        ...diskInfo 
+        }
     };
 }
 

@@ -204,6 +204,66 @@
         "equipment": {}
       },
       "currentRole": "robber"
+    },
+    "100043703840887": {
+      "equipment": {},
+      "weapons": {},
+      "stats": {
+        "heistsJoined": 1,
+        "heistsWon": 1,
+        "moneyStolen": 50000,
+        "arrests": 0
+      },
+      "inventory": {
+        "weapons": {},
+        "equipment": {}
+      },
+      "currentRole": "robber"
+    },
+    "61558946907944": {
+      "equipment": {},
+      "weapons": {},
+      "stats": {
+        "heistsJoined": 0,
+        "heistsWon": 0,
+        "moneyStolen": 0,
+        "arrests": 0
+      },
+      "inventory": {
+        "weapons": {},
+        "equipment": {}
+      },
+      "currentRole": "police"
+    },
+    "61559353204667": {
+      "equipment": {},
+      "weapons": {},
+      "stats": {
+        "heistsJoined": 1,
+        "heistsWon": 1,
+        "moneyStolen": 50000,
+        "arrests": 0
+      },
+      "inventory": {
+        "weapons": {},
+        "equipment": {}
+      },
+      "currentRole": "robber"
+    },
+    "100072567218546": {
+      "equipment": {},
+      "weapons": {},
+      "stats": {
+        "heistsJoined": 0,
+        "heistsWon": 0,
+        "moneyStolen": 0,
+        "arrests": 0
+      },
+      "inventory": {
+        "weapons": {},
+        "equipment": {}
+      },
+      "currentRole": "robber"
     }
   }
 }

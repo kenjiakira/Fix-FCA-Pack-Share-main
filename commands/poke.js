@@ -16,6 +16,7 @@ module.exports = {
     usedby: 0,
     info: "săn Pokemon",
     onPrefix: true,
+    category: "Games",
     usages: ".poke [catch/bag/select/battle/info]",
     cooldowns: 2,
 

@@ -1,10 +1,24 @@
 const moment = require('moment');
+const path = require('path');
+const fs = require('fs');
 
 module.exports = {
     name: "greet", 
     prog: "HNT",
     ver: 1.1,
     onEvents: async function ({ event, api }) {
+      
+        const threadSettingsPath = path.join(__dirname, '../database/threadSettings.json');
+        let settings = {};
+        try {
+            settings = JSON.parse(fs.readFileSync(threadSettingsPath, 'utf8'));
+        } catch (err) {
+            console.error("Error reading thread settings:", err);
+            return;
+        }
+
+        if (settings[event.threadID]?.notify_greet === false) return;
+
         const greetKeywords = ["hello", "hi", "hai", "chào", "chao", "hí", "híí", "hì", "hìì", "lô", "hii", "helo", "hê nhô"];
         const byeKeywords = ["bye", "bai", "off", "byee", "pai", "paii"];
         const sleepKeywords = ["ngủ", "đi ngủ", "ngủ ngon", "ngủ nha", "ngủ đây", "ngủ đi", "ngủ thôi"];

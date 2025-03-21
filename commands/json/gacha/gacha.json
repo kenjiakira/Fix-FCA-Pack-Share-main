@@ -97,73 +97,42 @@
       "STONE_ANEMO_333669491",
       "EXP_ADVENTURERS_EXPERIENCE_726083505",
       "FRAGMENT_HYDRO_187685532",
-      "CHAR_489980883",
       "STONE_CRYO_605352147",
       "STONE_ELECTRO_193194241",
-      "CHAR_773628111",
-      "CHAR_761123655",
       "STONE_PYRO_772261802",
       "EXP_HEROS_WIT_872162144",
-      "CHAR_901595434",
       "STONE_PYRO_959236226",
-      "CHAR_930804670",
       "STONE_CRYO_962915313",
-      "CHAR_992713178",
       "STONE_PYRO_467112530",
-      "CHAR_386888129",
-      "CHAR_820642069",
       "EXP_HEROS_WIT_118124868",
-      "CHAR_209142724",
-      "CHAR_193978677",
       "EXP_HEROS_WIT_565116167",
       "EXP_HEROS_WIT_728687556",
-      "CHAR_552234963",
       "FRAGMENT_HYDRO_382716478",
-      "CHAR_626068454",
-      "CHAR_154615927",
-      "CHAR_226445464",
-      "CHAR_313911336",
-      "CHAR_705066789",
-      "CHAR_852564328",
-      "CHAR_756941410",
       "EXP_WANDERERS_ADVICE_651960891",
-      "CHAR_698657886",
-      "CHAR_788534636",
       "FRAGMENT_HYDRO_978731910",
       "FRAGMENT_DENDRO_833895798",
       "EXP_ADVENTURERS_EXPERIENCE_849800406",
-      "CHAR_938922910",
-      "CHAR_702090223",
       "STONE_HYDRO_371840720",
-      "CHAR_436024518",
-      "CHAR_344454939",
       "EXP_WANDERERS_ADVICE_450096585",
-      "CHAR_913026192",
       "EXP_WANDERERS_ADVICE_918614315",
-      "CHAR_794833174",
       "EXP_ADVENTURERS_EXPERIENCE_360601286",
       "EXP_HEROS_WIT_499901618",
       "EXP_WANDERERS_ADVICE_668293072",
       "EXP_HEROS_WIT_878806596",
-      "CHAR_314256466",
       "STONE_HYDRO_605903972",
       "EXP_HEROS_WIT_923245903",
-      "CHAR_171800994",
       "EXP_LEGENDARY_GRIMOIRE_441854985",
-      "CHAR_743088708",
       "EXP_HEROS_WIT_588801045",
-      "CHAR_187508509",
       "EXP_HEROS_WIT_872502235",
-      "CHAR_228650142",
       "STONE_CRYO_548721977",
-      "CHAR_221357508",
       "FRAGMENT_ANEMO_163146104",
-      "FRAGMENT_GEO_314763590"
+      "FRAGMENT_GEO_314763590",
+      "FRAGMENT_ANEMO_390714567"
     ],
-    "pullsSinceLastFiveStar": 10,
-    "pullsSinceLastFourStar": 6,
-    "totalPulls": 284,
-    "lastPull": 1742446954623,
+    "pullsSinceLastFiveStar": 16,
+    "pullsSinceLastFourStar": 0,
+    "totalPulls": 291,
+    "lastPull": 1742484728616,
     "stellaPity": {
       "Klee": 1,
       "Venti": 1,
@@ -180,8 +149,8 @@
       "losses": 1,
       "lastBattle": 1741884343614
     },
-    "pullsSinceLastStone": 1,
-    "pullsSinceLastUniversalStone": 12
+    "pullsSinceLastStone": 4,
+    "pullsSinceLastUniversalStone": 13
   },
   "100048267517770": {
     "inventory": [
@@ -439,11 +408,11 @@
       "EXP_MYTHICAL_SCROLL_477943346",
       "EXP_ADVENTURERS_EXPERIENCE_493743559"
     ],
-    "pullsSinceLastFiveStar": 2,
-    "pullsSinceLastFourStar": 2,
-    "totalPulls": 254,
-    "lastPull": 1742372993517,
-    "pullsSinceLastStone": 6,
+    "pullsSinceLastFiveStar": 3,
+    "pullsSinceLastFourStar": 3,
+    "totalPulls": 255,
+    "lastPull": 1742494179477,
+    "pullsSinceLastStone": 7,
     "pullsSinceLastUniversalStone": 0,
     "stellaPity": {
       "Tighnari": 1
@@ -596,10 +565,10 @@
       "FRAGMENT_PYRO_229511384",
       "EXP_ADVENTURERS_EXPERIENCE_558304244"
     ],
-    "pullsSinceLastFiveStar": 29,
-    "pullsSinceLastFourStar": 5,
-    "totalPulls": 1589,
-    "lastPull": 1742444459963,
+    "pullsSinceLastFiveStar": 30,
+    "pullsSinceLastFourStar": 6,
+    "totalPulls": 1590,
+    "lastPull": 1742454092147,
     "pvpTeam": [
       "CHAR_835751513",
       "CHAR_835161986",
@@ -634,7 +603,7 @@
       "Kamisato Ayato": 1,
       "Acheron": 1
     },
-    "pullsSinceLastStone": 4,
+    "pullsSinceLastStone": 5,
     "pullsSinceLastUniversalStone": 76
   },
   "100028202556430": {
@@ -1011,12 +980,21 @@
       "STONE_ANEMO_934256469",
       "FRAGMENT_GEO_591331021",
       "STONE_ANEMO_815853184",
-      "FRAGMENT_ELECTRO_797492028"
+      "FRAGMENT_ELECTRO_797492028",
+      "FRAGMENT_HYDRO_531332158",
+      "FRAGMENT_CRYO_873707523",
+      "CHAR_943598480",
+      "CHAR_181714325",
+      "EXP_ADVENTURERS_EXPERIENCE_350255562",
+      "CHAR_493992805",
+      "STONE_ELECTRO_699132807",
+      "CHAR_695194703",
+      "CHAR_674169393"
     ],
-    "pullsSinceLastFiveStar": 42,
-    "pullsSinceLastFourStar": 11,
-    "totalPulls": 1355,
-    "lastPull": 1742401773979,
+    "pullsSinceLastFiveStar": 51,
+    "pullsSinceLastFourStar": 0,
+    "totalPulls": 1368,
+    "lastPull": 1742553510537,
     "pvpTeam": [
       "CHAR_144510188",
       "CHAR_927098477",
@@ -1045,8 +1023,8 @@
       "Hutao": 1,
       "Yelan": 1
     },
-    "pullsSinceLastStone": 1,
-    "pullsSinceLastUniversalStone": 52
+    "pullsSinceLastStone": 3,
+    "pullsSinceLastUniversalStone": 55
   },
   "100055074463541": {
     "inventory": [
@@ -1143,11 +1121,11 @@
       "CHAR_994881994",
       "STONE_ELECTRO_325897997"
     ],
-    "pullsSinceLastFiveStar": 12,
-    "pullsSinceLastFourStar": 12,
-    "totalPulls": 32,
-    "lastPull": 1742220139084,
-    "pullsSinceLastStone": 20,
+    "pullsSinceLastFiveStar": 13,
+    "pullsSinceLastFourStar": 13,
+    "totalPulls": 33,
+    "lastPull": 1742468674316,
+    "pullsSinceLastStone": 21,
     "pullsSinceLastUniversalStone": 1,
     "stellaPity": {
       "Tingyun": 1
@@ -1351,14 +1329,16 @@
       "EXP_ADVENTURERS_EXPERIENCE_719965589",
       "CHAR_964494826",
       "EXP_WANDERERS_ADVICE_334353493",
-      "EXP_ADVENTURERS_EXPERIENCE_989257082"
+      "EXP_ADVENTURERS_EXPERIENCE_989257082",
+      "STONE_ANEMO_712523858",
+      "CHAR_737317528"
     ],
-    "pullsSinceLastFiveStar": 1,
-    "pullsSinceLastFourStar": 1,
-    "totalPulls": 235,
-    "lastPull": 1742444351782,
-    "pullsSinceLastStone": 10,
-    "pullsSinceLastUniversalStone": 12,
+    "pullsSinceLastFiveStar": 8,
+    "pullsSinceLastFourStar": 0,
+    "totalPulls": 243,
+    "lastPull": 1742536801577,
+    "pullsSinceLastStone": 6,
+    "pullsSinceLastUniversalStone": 13,
     "stellaPity": {
       "Furina": 1,
       "fugue": 1,
@@ -1566,19 +1546,31 @@
       "EXP_ADVENTURERS_EXPERIENCE_598679631",
       "CHAR_813889910",
       "CHAR_911800945",
-      "CHAR_281900862"
+      "CHAR_281900862",
+      "EXP_HEROS_WIT_210918598",
+      "FRAGMENT_HYDRO_341918912",
+      "CHAR_417955151",
+      "CHAR_436411208",
+      "FRAGMENT_ANEMO_649305893",
+      "STONE_PYRO_118483048",
+      "FRAGMENT_CRYO_512403348",
+      "FRAGMENT_HYDRO_820503917",
+      "EXP_WANDERERS_ADVICE_451408390",
+      "CHAR_411583241",
+      "FRAGMENT_HYDRO_660389004"
     ],
-    "pullsSinceLastFiveStar": 10,
-    "pullsSinceLastFourStar": 3,
-    "totalPulls": 133,
-    "lastPull": 1742448463936,
+    "pullsSinceLastFiveStar": 16,
+    "pullsSinceLastFourStar": 2,
+    "totalPulls": 161,
+    "lastPull": 1742534837099,
     "stellaPity": {
       "Xiao": 1,
       "Eula": 1,
-      "Jingliu": 1
+      "Jingliu": 1,
+      "Zhongli": 1
     },
-    "pullsSinceLastStone": 16,
-    "pullsSinceLastUniversalStone": 9,
+    "pullsSinceLastStone": 1,
+    "pullsSinceLastUniversalStone": 15,
     "pvpTeam": [
       "CHAR_761450889"
     ],
@@ -1703,7 +1695,6 @@
       "STONE_GEO_271744331",
       "FRAGMENT_ELECTRO_663276657",
       "EXP_WANDERERS_ADVICE_429094900",
-      "CHAR_308001977",
       "EXP_ADVENTURERS_EXPERIENCE_367487241",
       "CHAR_953570192",
       "STONE_HYDRO_211735845",
@@ -1871,11 +1862,11 @@
       "EXP_HEROS_WIT_997884435",
       "STONE_HYDRO_620681565"
     ],
-    "pullsSinceLastFiveStar": 2,
-    "pullsSinceLastFourStar": 2,
-    "totalPulls": 69,
-    "lastPull": 1742133979867,
-    "pullsSinceLastStone": 0,
+    "pullsSinceLastFiveStar": 3,
+    "pullsSinceLastFourStar": 3,
+    "totalPulls": 70,
+    "lastPull": 1742457036630,
+    "pullsSinceLastStone": 1,
     "pullsSinceLastUniversalStone": 6,
     "stellaPity": {
       "Tingyun": 1
@@ -1915,11 +1906,11 @@
       "EXP_ADVENTURERS_EXPERIENCE_302671938",
       "CHAR_559438305"
     ],
-    "pullsSinceLastFiveStar": 9,
-    "pullsSinceLastFourStar": 0,
-    "totalPulls": 10,
-    "lastPull": 1742316153861,
-    "pullsSinceLastStone": 9,
+    "pullsSinceLastFiveStar": 10,
+    "pullsSinceLastFourStar": 1,
+    "totalPulls": 11,
+    "lastPull": 1742471882206,
+    "pullsSinceLastStone": 10,
     "pullsSinceLastUniversalStone": 0
   },
   "61550626076611": {
@@ -1989,5 +1980,21 @@
     "lastPull": 1742222777336,
     "pullsSinceLastStone": 3,
     "pullsSinceLastUniversalStone": 2
+  },
+  "61550807250827": {
+    "inventory": [],
+    "pullsSinceLastFiveStar": 0,
+    "pullsSinceLastFourStar": 0,
+    "totalPulls": 0,
+    "lastPull": 0
+  },
+  "61570532692675": {
+    "inventory": [],
+    "pullsSinceLastFiveStar": 1,
+    "pullsSinceLastFourStar": 1,
+    "totalPulls": 1,
+    "lastPull": 1742551675178,
+    "pullsSinceLastStone": 1,
+    "pullsSinceLastUniversalStone": 0
   }
 }

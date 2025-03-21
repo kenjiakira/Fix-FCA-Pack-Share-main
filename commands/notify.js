@@ -59,6 +59,13 @@ module.exports = {
                 desc: 'thông báo đổi biệt danh',
                 detail: 'thông báo khi có người thay đổi biệt danh',
                 usage: 'notify nick on/off'
+            },
+            greet: {
+                name: 'greet',
+                icon: '💬',
+                desc: 'tự động trả lời lời chào',
+                detail: 'bot sẽ tự động trả lời khi người dùng chào',
+                usage: 'notify greet on/off'
             }
         };
 
@@ -200,7 +207,7 @@ module.exports = {
                 
                 fs.writeFileSync(rankConfigPath, JSON.stringify(rankConfig, null, 2));
                 return api.sendMessage(`✅ Đã ${action === 'on' ? 'bật' : 'tắt'} thông báo rankup!`, threadID);
-            } else if (type === 'admin' || type === 'avatar' || type === 'name' || type === 'nick') {
+            } else if (type === 'admin' || type === 'avatar' || type === 'name' || type === 'nick' || type === 'greet') {
                 let settings = loadConfig(threadSettingsPath);
                 if (!settings[threadID]) settings[threadID] = {};
                 

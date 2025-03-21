@@ -117459,5 +117459,800 @@
       "def": 97,
       "hp": 490
     }
+  },
+  "FRAGMENT_HYDRO_531332158": {
+    "type": "fragment",
+    "stoneType": "HYDRO",
+    "name": "LazuriteFragment",
+    "element": "Hydro",
+    "emoji": "💧",
+    "description": "Hydro evolution fragment",
+    "image": "https://imgur.com/xUQZRMt.png",
+    "obtainedAt": 1742449204870,
+    "value": 2500,
+    "isFragment": true
+  },
+  "CHAR_665967964": {
+    "type": "character",
+    "name": "Sigewinne",
+    "obtainedAt": 1742454092147,
+    "value": 418,
+    "level": 1,
+    "exp": 0,
+    "stats": {
+      "atk": 97,
+      "def": 102,
+      "hp": 548
+    }
+  },
+  "CHAR_430183939": {
+    "type": "character",
+    "name": "DanHeng",
+    "obtainedAt": 1742457036632,
+    "value": 374,
+    "level": 1,
+    "exp": 0,
+    "stats": {
+      "atk": 97,
+      "def": 97,
+      "hp": 535
+    }
+  },
+  "CHAR_701688480": {
+    "type": "character",
+    "name": "Kaeya",
+    "obtainedAt": 1742463294924,
+    "value": 405,
+    "level": 1,
+    "exp": 0,
+    "stats": {
+      "atk": 93,
+      "def": 107,
+      "hp": 541
+    }
+  },
+  "FRAGMENT_CRYO_873707523": {
+    "type": "fragment",
+    "stoneType": "CRYO",
+    "name": "JadeFragment",
+    "element": "Cryo",
+    "emoji": "❄️",
+    "description": "Cryo evolution fragment",
+    "image": "https://imgur.com/tU6KMBs.png",
+    "obtainedAt": 1742463346071,
+    "value": 2500,
+    "isFragment": true
+  },
+  "CHAR_778989623": {
+    "type": "character",
+    "name": "Thoma",
+    "obtainedAt": 1742464037512,
+    "value": 46609,
+    "level": 1,
+    "exp": 0,
+    "stats": {
+      "atk": 278,
+      "def": 320,
+      "hp": 1087
+    }
+  },
+  "CHAR_638011735": {
+    "type": "character",
+    "name": "Lynette",
+    "obtainedAt": 1742464409764,
+    "starLevel": 6,
+    "level": 1,
+    "exp": 0,
+    "isMaxEvolved": false,
+    "isEvolved": true,
+    "value": 300000,
+    "stats": {
+      "atk": 608,
+      "def": 618,
+      "hp": 2134
+    }
+  },
+  "EXP_HEROS_WIT_210918598": {
+    "type": "EXP",
+    "name": "Heros Wit",
+    "expValue": 10000,
+    "description": "A detailed account of battles past Grants a large amount of EXP",
+    "image": "https://imgur.com/w9WpGB7.png",
+    "rarity": "4",
+    "value": 5000,
+    "obtainedAt": 1742466289789
+  },
+  "CHAR_943598480": {
+    "type": "character",
+    "name": "Sucrose",
+    "obtainedAt": 1742466766232,
+    "starLevel": 5,
+    "level": 1,
+    "exp": 0,
+    "isMaxEvolved": false,
+    "isEvolved": true,
+    "value": 225000,
+    "stats": {
+      "atk": 489,
+      "def": 468,
+      "hp": 1426
+    }
+  },
+  "CHAR_181714325": {
+    "type": "character",
+    "name": "Razor",
+    "obtainedAt": 1742466814495,
+    "value": 38991,
+    "level": 1,
+    "exp": 0,
+    "stats": {
+      "atk": 304,
+      "def": 289,
+      "hp": 938
+    }
+  },
+  "FRAGMENT_HYDRO_341918912": {
+    "type": "fragment",
+    "stoneType": "HYDRO",
+    "name": "LazuriteFragment",
+    "element": "Hydro",
+    "emoji": "💧",
+    "description": "Hydro evolution fragment",
+    "image": "https://imgur.com/xUQZRMt.png",
+    "obtainedAt": 1742466896834,
+    "value": 2500,
+    "isFragment": true
+  },
+  "CHAR_417955151": {
+    "type": "character",
+    "name": "Fischl",
+    "obtainedAt": 1742467357434,
+    "starLevel": 7,
+    "level": 1,
+    "exp": 0,
+    "isMaxEvolved": true,
+    "isEvolved": true,
+    "value": 375000,
+    "stats": {
+      "atk": 810,
+      "def": 675,
+      "hp": 2727
+    }
+  },
+  "CHAR_927749644": {
+    "type": "character",
+    "name": "Xinyan",
+    "obtainedAt": 1742467475556,
+    "value": 587,
+    "level": 1,
+    "exp": 0,
+    "stats": {
+      "atk": 102,
+      "def": 109,
+      "hp": 516
+    }
+  },
+  "CHAR_312844434": {
+    "type": "character",
+    "name": "collei",
+    "obtainedAt": 1742467890749,
+    "value": 314,
+    "level": 1,
+    "exp": 0,
+    "stats": {
+      "atk": 95,
+      "def": 91,
+      "hp": 461
+    }
+  },
+  "CHAR_157459994": {
+    "type": "character",
+    "name": "Amber",
+    "obtainedAt": 1742468239113,
+    "value": 785,
+    "level": 1,
+    "exp": 0,
+    "stats": {
+      "atk": 91,
+      "def": 102,
+      "hp": 474
+    }
+  },
+  "CHAR_436411208": {
+    "type": "character",
+    "name": "Zhongli",
+    "obtainedAt": 1742468245696,
+    "value": 2387358,
+    "level": 1,
+    "exp": 0,
+    "stats": {
+      "atk": 612,
+      "def": 587,
+      "hp": 2825
+    }
+  },
+  "CHAR_436838890": {
+    "type": "character",
+    "name": "Luka",
+    "obtainedAt": 1742468674317,
+    "value": 486,
+    "level": 1,
+    "exp": 0,
+    "stats": {
+      "atk": 102,
+      "def": 97,
+      "hp": 509
+    }
+  },
+  "FRAGMENT_ANEMO_649305893": {
+    "type": "fragment",
+    "stoneType": "ANEMO",
+    "name": "TurquoiseFragment",
+    "element": "Anemo",
+    "emoji": "🌪️",
+    "description": "Anemo evolution fragment",
+    "image": "https://imgur.com/tl1G3g6.png",
+    "obtainedAt": 1742469142290,
+    "value": 2500,
+    "isFragment": true
+  },
+  "CHAR_576526121": {
+    "type": "character",
+    "name": "kaveh",
+    "obtainedAt": 1742470809349,
+    "value": 318,
+    "level": 1,
+    "exp": 0,
+    "stats": {
+      "atk": 102,
+      "def": 100,
+      "hp": 455
+    }
+  },
+  "CHAR_654681631": {
+    "type": "character",
+    "name": "Serval",
+    "obtainedAt": 1742470990094,
+    "value": 116,
+    "level": 1,
+    "exp": 0,
+    "stats": {
+      "atk": 97,
+      "def": 92,
+      "hp": 549
+    }
+  },
+  "STONE_PYRO_118483048": {
+    "type": "stone",
+    "stoneType": "PYRO",
+    "name": "AgnidusAgate",
+    "element": "Pyro",
+    "emoji": "🔥",
+    "description": "Ascension stone for Pyro characters",
+    "image": "https://imgur.com/J0J2lfG.png",
+    "obtainedAt": 1742471590923,
+    "value": 25000
+  },
+  "CHAR_932601329": {
+    "type": "character",
+    "name": "Luka",
+    "obtainedAt": 1742471882206,
+    "value": 788,
+    "level": 1,
+    "exp": 0,
+    "stats": {
+      "atk": 98,
+      "def": 109,
+      "hp": 468
+    }
+  },
+  "CHAR_154758423": {
+    "type": "character",
+    "name": "Sushang",
+    "obtainedAt": 1742474669802,
+    "value": 183,
+    "level": 1,
+    "exp": 0,
+    "stats": {
+      "atk": 102,
+      "def": 103,
+      "hp": 485
+    }
+  },
+  "FRAGMENT_ANEMO_390714567": {
+    "type": "fragment",
+    "stoneType": "ANEMO",
+    "name": "TurquoiseFragment",
+    "element": "Anemo",
+    "emoji": "🌪️",
+    "description": "Anemo evolution fragment",
+    "image": "https://imgur.com/tl1G3g6.png",
+    "obtainedAt": 1742474875577,
+    "value": 2500,
+    "isFragment": true
+  },
+  "CHAR_699979895": {
+    "type": "character",
+    "name": "Mika",
+    "obtainedAt": 1742475047269,
+    "value": 507,
+    "level": 1,
+    "exp": 0,
+    "stats": {
+      "atk": 103,
+      "def": 108,
+      "hp": 534
+    }
+  },
+  "CHAR_374278623": {
+    "type": "character",
+    "name": "Sushang",
+    "obtainedAt": 1742475233129,
+    "value": 326,
+    "level": 1,
+    "exp": 0,
+    "stats": {
+      "atk": 108,
+      "def": 94,
+      "hp": 454
+    }
+  },
+  "STONE_ANEMO_712523858": {
+    "type": "stone",
+    "stoneType": "ANEMO",
+    "name": "VayudaTurquoise",
+    "element": "Anemo",
+    "emoji": "🌪️",
+    "description": "Ascension stone for Anemo characters",
+    "image": "https://imgur.com/puantrR.png",
+    "obtainedAt": 1742475871979,
+    "value": 25000
+  },
+  "CHAR_219544808": {
+    "type": "character",
+    "name": "Amber",
+    "obtainedAt": 1742479979272,
+    "value": 717,
+    "level": 1,
+    "exp": 0,
+    "stats": {
+      "atk": 94,
+      "def": 100,
+      "hp": 524
+    }
+  },
+  "CHAR_915354884": {
+    "type": "character",
+    "name": "Diona",
+    "obtainedAt": 1742480045203,
+    "value": 733,
+    "level": 1,
+    "exp": 0,
+    "stats": {
+      "atk": 103,
+      "def": 95,
+      "hp": 450
+    }
+  },
+  "CHAR_717834984": {
+    "type": "character",
+    "name": "Barbara",
+    "obtainedAt": 1742480430372,
+    "value": 179,
+    "level": 1,
+    "exp": 0,
+    "stats": {
+      "atk": 100,
+      "def": 109,
+      "hp": 526
+    }
+  },
+  "CHAR_274156830": {
+    "type": "character",
+    "name": "Noelle",
+    "obtainedAt": 1742480478579,
+    "value": 285,
+    "level": 1,
+    "exp": 0,
+    "stats": {
+      "atk": 105,
+      "def": 105,
+      "hp": 522
+    }
+  },
+  "CHAR_537297930": {
+    "type": "character",
+    "name": "Mika",
+    "obtainedAt": 1742480570164,
+    "value": 426,
+    "level": 1,
+    "exp": 0,
+    "stats": {
+      "atk": 97,
+      "def": 96,
+      "hp": 549
+    }
+  },
+  "CHAR_946902723": {
+    "type": "character",
+    "name": "Mika",
+    "obtainedAt": 1742481622149,
+    "value": 760,
+    "level": 1,
+    "exp": 0,
+    "stats": {
+      "atk": 109,
+      "def": 94,
+      "hp": 541
+    }
+  },
+  "FRAGMENT_CRYO_512403348": {
+    "type": "fragment",
+    "stoneType": "CRYO",
+    "name": "JadeFragment",
+    "element": "Cryo",
+    "emoji": "❄️",
+    "description": "Cryo evolution fragment",
+    "image": "https://imgur.com/tU6KMBs.png",
+    "obtainedAt": 1742481815162,
+    "value": 2500,
+    "isFragment": true
+  },
+  "FRAGMENT_HYDRO_820503917": {
+    "type": "fragment",
+    "stoneType": "HYDRO",
+    "name": "LazuriteFragment",
+    "element": "Hydro",
+    "emoji": "💧",
+    "description": "Hydro evolution fragment",
+    "image": "https://imgur.com/xUQZRMt.png",
+    "obtainedAt": 1742482477999,
+    "value": 2500,
+    "isFragment": true
+  },
+  "CHAR_425971391": {
+    "type": "character",
+    "name": "Kaeya",
+    "obtainedAt": 1742482575616,
+    "value": 565,
+    "level": 1,
+    "exp": 0,
+    "stats": {
+      "atk": 102,
+      "def": 100,
+      "hp": 479
+    }
+  },
+  "CHAR_397676206": {
+    "type": "character",
+    "name": "Sushang",
+    "obtainedAt": 1742482675905,
+    "value": 422,
+    "level": 1,
+    "exp": 0,
+    "stats": {
+      "atk": 91,
+      "def": 98,
+      "hp": 535
+    }
+  },
+  "CHAR_575725677": {
+    "type": "character",
+    "name": "Faruzan",
+    "obtainedAt": 1742483214328,
+    "value": 674,
+    "level": 1,
+    "exp": 0,
+    "stats": {
+      "atk": 100,
+      "def": 91,
+      "hp": 474
+    }
+  },
+  "CHAR_962371787": {
+    "type": "character",
+    "name": "Luka",
+    "obtainedAt": 1742483582972,
+    "value": 381,
+    "level": 1,
+    "exp": 0,
+    "stats": {
+      "atk": 105,
+      "def": 99,
+      "hp": 530
+    }
+  },
+  "CHAR_117009947": {
+    "type": "character",
+    "name": "Xinyan",
+    "obtainedAt": 1742483679931,
+    "value": 386,
+    "level": 1,
+    "exp": 0,
+    "stats": {
+      "atk": 99,
+      "def": 90,
+      "hp": 489
+    }
+  },
+  "CHAR_882520965": {
+    "type": "character",
+    "name": "sayu",
+    "obtainedAt": 1742484728617,
+    "value": 45210,
+    "level": 1,
+    "exp": 0,
+    "stats": {
+      "atk": 306,
+      "def": 309,
+      "hp": 951
+    }
+  },
+  "EXP_WANDERERS_ADVICE_451408390": {
+    "type": "EXP",
+    "name": "Wanderers Advice",
+    "expValue": 500,
+    "description": "Simple advice from a traveler Grants a small amount of EXP",
+    "image": "https://imgur.com/GSSFx9L.png",
+    "rarity": "2",
+    "value": 500,
+    "obtainedAt": 1742484735438
+  },
+  "CHAR_411583241": {
+    "type": "character",
+    "name": "Sucrose",
+    "obtainedAt": 1742485032921,
+    "value": 19276,
+    "level": 1,
+    "exp": 0,
+    "stats": {
+      "atk": 328,
+      "def": 281,
+      "hp": 1026
+    }
+  },
+  "CHAR_392036510": {
+    "type": "character",
+    "name": "Diona",
+    "obtainedAt": 1742485368570,
+    "value": 621,
+    "level": 1,
+    "exp": 0,
+    "stats": {
+      "atk": 102,
+      "def": 91,
+      "hp": 540
+    }
+  },
+  "FRAGMENT_HYDRO_660389004": {
+    "type": "fragment",
+    "stoneType": "HYDRO",
+    "name": "LazuriteFragment",
+    "element": "Hydro",
+    "emoji": "💧",
+    "description": "Hydro evolution fragment",
+    "image": "https://imgur.com/xUQZRMt.png",
+    "obtainedAt": 1742487268031,
+    "value": 2500,
+    "isFragment": true
+  },
+  "CHAR_490740472": {
+    "type": "character",
+    "name": "Faruzan",
+    "obtainedAt": 1742494179477,
+    "value": 238,
+    "level": 1,
+    "exp": 0,
+    "stats": {
+      "atk": 106,
+      "def": 91,
+      "hp": 474
+    }
+  },
+  "CHAR_546770734": {
+    "type": "character",
+    "name": "Sigewinne",
+    "obtainedAt": 1742494839602,
+    "value": 515,
+    "level": 1,
+    "exp": 0,
+    "stats": {
+      "atk": 90,
+      "def": 99,
+      "hp": 533
+    }
+  },
+  "CHAR_474708856": {
+    "type": "character",
+    "name": "Chiori",
+    "obtainedAt": 1742495070778,
+    "value": 655,
+    "level": 1,
+    "exp": 0,
+    "stats": {
+      "atk": 105,
+      "def": 102,
+      "hp": 495
+    }
+  },
+  "CHAR_390372615": {
+    "type": "character",
+    "name": "Sushang",
+    "obtainedAt": 1742523910883,
+    "value": 756,
+    "level": 1,
+    "exp": 0,
+    "stats": {
+      "atk": 90,
+      "def": 96,
+      "hp": 543
+    }
+  },
+  "CHAR_116030021": {
+    "type": "character",
+    "name": "Diona",
+    "obtainedAt": 1742524704458,
+    "value": 728,
+    "level": 1,
+    "exp": 0,
+    "stats": {
+      "atk": 90,
+      "def": 103,
+      "hp": 536
+    }
+  },
+  "CHAR_678915485": {
+    "type": "character",
+    "name": "Lisa",
+    "obtainedAt": 1742528254036,
+    "value": 274,
+    "level": 1,
+    "exp": 0,
+    "stats": {
+      "atk": 106,
+      "def": 102,
+      "hp": 489
+    }
+  },
+  "CHAR_265428611": {
+    "type": "character",
+    "name": "Xinyan",
+    "obtainedAt": 1742534837099,
+    "value": 573,
+    "level": 1,
+    "exp": 0,
+    "stats": {
+      "atk": 99,
+      "def": 90,
+      "hp": 527
+    }
+  },
+  "CHAR_737317528": {
+    "type": "character",
+    "name": "Heizou",
+    "obtainedAt": 1742536801578,
+    "value": 20062,
+    "level": 1,
+    "exp": 0,
+    "stats": {
+      "atk": 308,
+      "def": 313,
+      "hp": 1005
+    }
+  },
+  "EXP_ADVENTURERS_EXPERIENCE_350255562": {
+    "type": "EXP",
+    "name": "Adventurers Experience",
+    "expValue": 2000,
+    "description": "A record of adventures and discoveries Grants a moderate amount of EXP",
+    "image": "https://imgur.com/LFkAr11.png",
+    "rarity": "3",
+    "value": 1500,
+    "obtainedAt": 1742549613771
+  },
+  "CHAR_493992805": {
+    "type": "character",
+    "name": "Freminet",
+    "obtainedAt": 1742549661089,
+    "value": 14701,
+    "level": 1,
+    "exp": 0,
+    "stats": {
+      "atk": 319,
+      "def": 329,
+      "hp": 1012
+    }
+  },
+  "CHAR_965423688": {
+    "type": "character",
+    "name": "Gorou",
+    "obtainedAt": 1742549744785,
+    "value": 663,
+    "level": 1,
+    "exp": 0,
+    "stats": {
+      "atk": 90,
+      "def": 91,
+      "hp": 451
+    }
+  },
+  "CHAR_435912256": {
+    "type": "character",
+    "name": "dehya",
+    "obtainedAt": 1742549812877,
+    "value": 681,
+    "level": 1,
+    "exp": 0,
+    "stats": {
+      "atk": 108,
+      "def": 96,
+      "hp": 531
+    }
+  },
+  "STONE_ELECTRO_699132807": {
+    "type": "stone",
+    "stoneType": "ELECTRO",
+    "name": "VajradaAmethyst",
+    "element": "Electro",
+    "emoji": "⚡",
+    "description": "Ascension stone for Electro characters",
+    "image": "https://imgur.com/iJr7tkQ.png",
+    "obtainedAt": 1742551654293,
+    "value": 25000
+  },
+  "CHAR_516999589": {
+    "type": "character",
+    "name": "collei",
+    "obtainedAt": 1742551675179,
+    "value": 369,
+    "level": 1,
+    "exp": 0,
+    "stats": {
+      "atk": 105,
+      "def": 106,
+      "hp": 536
+    }
+  },
+  "CHAR_695194703": {
+    "type": "character",
+    "name": "Xiangling",
+    "obtainedAt": 1742551927515,
+    "starLevel": 5,
+    "level": 1,
+    "exp": 0,
+    "isMaxEvolved": false,
+    "isEvolved": true,
+    "value": 225000,
+    "stats": {
+      "atk": 426,
+      "def": 421,
+      "hp": 1380
+    }
+  },
+  "CHAR_487531269": {
+    "type": "character",
+    "name": "Sampo",
+    "obtainedAt": 1742552980332,
+    "value": 436,
+    "level": 1,
+    "exp": 0,
+    "stats": {
+      "atk": 107,
+      "def": 102,
+      "hp": 524
+    }
+  },
+  "CHAR_674169393": {
+    "type": "character",
+    "name": "Rosaria",
+    "obtainedAt": 1742553510537,
+    "value": 35657,
+    "level": 1,
+    "exp": 0,
+    "stats": {
+      "atk": 312,
+      "def": 319,
+      "hp": 1057
+    }
   }
 }

@@ -19,6 +19,7 @@ module.exports = {
   usedby: 0,
   info: "Hệ thống gia đình",
   onPrefix: true,
+  category: "Games",
   usages: ".family [info/marry/divorce/child/temple]",
   cooldowns: 5,
 

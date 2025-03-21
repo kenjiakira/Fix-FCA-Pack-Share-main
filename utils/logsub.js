@@ -73,10 +73,24 @@ const handleLogSubscribe = async (api, event, adminConfig) => {
                     api.getCurrentUserID()
                 );
                 
-                return api.sendMessage(
-                    `✅ 𝗕𝗼𝘁 𝗖𝗼𝗻𝗻𝗲𝗰𝘁𝗲𝗱\n━━━━━━━━━━━━━━━━━━\n${adminConfig.botName} Bot đã kết nối thành công!\nGõ "${adminConfig.prefix}help all" để xem toàn bộ lệnh.\n\nLiên hệ: ${adminConfig.ownerName}`,
-                    event.threadID
-                );
+                const guideMsg = `=== [ BOT GUIDE ] ===\n\n`
+                    + `👋 Xin chào! Tôi là ${adminConfig.botName}\n\n`
+                    + `📝 HƯỚNG DẪN CƠ BẢN:\n\n`
+                    + `1. Prefix của bot: ${adminConfig.prefix}\n`
+                    + `2. Xem danh sách lệnh: ${adminConfig.prefix}help\n`
+                    + `3. Xem chi tiết lệnh: ${adminConfig.prefix}help <tên lệnh>\n`
+                    + `4. Xem theo danh mục: ${adminConfig.prefix}help và reply số\n\n`
+                    + `💡 MẸO HAY:\n`
+                    + `• Đọc kỹ hướng dẫn trước khi dùng lệnh\n`
+                    + `• Tham khảo ${adminConfig.prefix}help all để xem tất cả lệnh\n`
+                    + `• Liên hệ admin nếu cần trợ giúp: ${adminConfig.ownerName}\n\n`
+                    + `⚠️ LƯU Ý:\n`
+                    + `• Không spam để tránh bị bot block\n`
+                    + `• Tôn trọng bot và thành viên khác\n`
+                    + `• Vui lòng sử dụng bot đúng mục đích\n\n`
+                    + `[Gõ "${adminConfig.prefix}help" để xem chi tiết hơn]`;
+
+                return api.sendMessage(guideMsg, event.threadID);
             } catch (error) {
                 console.error("Error setting bot nickname:", error);
             }

@@ -188,14 +188,6 @@ const reloadModules = () => {
         
             console.log(boldText(gradient.retro(`Starting bot on port ${currentPort}...`)));
         
-            const { startDashboard } = require('./dashboard/server');
-            try {
-                const dashPort = await startDashboard();
-                console.log(boldText(gradient.cristal(`Dashboard running at http://localhost:${dashPort}`)));
-            } catch (error) {
-                console.error(boldText(gradient.passion(`Failed to start dashboard: ${error.message}`)));
-            }
-        
             console.log(boldText(gradient.retro("Logging via AppState...")));
         
             const { scheduleAutoGiftcode } = require('./utils/autoGiftcode');

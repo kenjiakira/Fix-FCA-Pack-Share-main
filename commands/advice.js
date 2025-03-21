@@ -51,7 +51,7 @@ function saveNewAdvice(problem, advice) {
 module.exports = {
     name: "advice",
     usedby: 0,
-    category: "Tư Vấn",
+    category: "AI",
     info: "Tư vấn và giải quyết vấn đề",
     dev: "HNT",
     onPrefix: true,
