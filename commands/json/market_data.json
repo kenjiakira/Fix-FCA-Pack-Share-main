@@ -1,6 +1,6 @@
 {
-  "price": 1432657,
-  "lastUpdate": 1742554490202,
+  "price": 2349233,
+  "lastUpdate": 1742554521319,
   "history": [
     {
       "price": 91,
@@ -17257,6 +17257,12 @@
       "timestamp": 1742554490202,
       "volumeImpact": 0,
       "scarcityMultiplier": 1.404874014968589
+    },
+    {
+      "price": 1432657,
+      "timestamp": 1742554521319,
+      "volumeImpact": 0,
+      "scarcityMultiplier": 1.40491482124034
     }
   ],
   "tradingVolume": {
