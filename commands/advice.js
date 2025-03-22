@@ -36,12 +36,12 @@ function saveNewAdvice(problem, advice) {
             advice: advice,
             timestamp: Date.now()
         });
-        
+
         // Chỉ giữ lại 100 advices gần nhất
         if (usedAdvices.length > 100) {
             usedAdvices.splice(0, usedAdvices.length - 100);
         }
-        
+
         fs.writeFileSync(ADVICES_FILE, JSON.stringify(usedAdvices, null, 2));
     } catch (err) {
         console.error('Lỗi lưu advice:', err);
@@ -78,7 +78,7 @@ module.exports = {
 
         try {
             const genAI = new GoogleGenerativeAI(config.GEMINI.API_KEY);
-            const model = genAI.getGenerativeModel({ 
+            const model = genAI.getGenerativeModel({
                 model: "gemini-1.5-flash",
                 generationConfig: {
                     temperature: 0.7,
@@ -107,14 +107,14 @@ module.exports = {
             saveNewAdvice(problem, advice);
 
             const message = `💭 LỜI KHUYÊN: ${problem.toUpperCase()}\n` +
-                          `\n${advice}\n` +
-                          `\n━━━━━━━━━━━━━━━━━━━\n` +
-                          `👍 Thả cảm xúc để xem lời khuyên khác`;
+                `\n${advice}\n` +
+                `\n━━━━━━━━━━━━━━━━━━━\n` +
+                `👍 Thả cảm xúc để xem lời khuyên khác`;
 
             await api.sendMessage(message, threadID, (error, info) => {
                 if (!error) {
-                    global.client.callReact.push({ 
-                        messageID: info.messageID, 
+                    global.client.callReact.push({
+                        messageID: info.messageID,
                         name: this.name,
                         problem: problem
                     });
@@ -132,10 +132,10 @@ module.exports = {
     callReact: async function ({ reaction, api, event }) {
         if (reaction !== '👍') return;
         const { threadID } = event;
-        
+
         try {
             const genAI = new GoogleGenerativeAI(config.GEMINI.API_KEY);
-            const model = genAI.getGenerativeModel({ 
+            const model = genAI.getGenerativeModel({
                 model: "gemini-1.5-flash",
                 generationConfig: {
                     temperature: 0.7,
@@ -164,13 +164,13 @@ module.exports = {
             saveNewAdvice(reaction.problem, advice);
 
             const message = `💭 LỜI KHUYÊN: ${reaction.problem.toUpperCase()}\n` +
-                          `\n${advice}\n` +
-                          `\n━━━━━━━━━━━━━━━━━━━\n` +
-                          `👍 Thả cảm xúc để xem lời khuyên khác`;
+                `\n${advice}\n` +
+                `\n━━━━━━━━━━━━━━━━━━━\n` +
+                `👍 Thả cảm xúc để xem lời khuyên khác`;
 
             const sent = await api.sendMessage(message, threadID);
-            global.client.callReact.push({ 
-                messageID: sent.messageID, 
+            global.client.callReact.push({
+                messageID: sent.messageID,
                 name: this.name,
                 problem: reaction.problem
             });

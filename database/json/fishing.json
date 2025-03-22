@@ -195,7 +195,7 @@
   },
   "100068382888605": {
     "rod": "Cần jig Daiwa Saltiga SJ",
-    "rodDurability": 459,
+    "rodDurability": 458,
     "inventory": [
       "Cần Câu tay",
       "Cần trúc",
@@ -342,17 +342,17 @@
     },
     "exp": 557794,
     "level": 37,
-    "fishingStreak": 14,
+    "fishingStreak": 1,
     "stats": {
       "totalExp": 4048297,
       "highestStreak": 1370,
       "totalFishes": 1402
     },
     "activeBuffs": {},
-    "lastFished": 1742446201979,
+    "lastFished": 1742611555661,
     "userID": "100068382888605",
     "energy": 220,
-    "lastEnergyUpdate": 1742446201979,
+    "lastEnergyUpdate": 1742611555661,
     "baits": {},
     "craftingMaterials": {}
   },
@@ -503,11 +503,12 @@
     "userID": "100044841742945"
   },
   "100055417691992": {
-    "rod": "Cần lure Bulava Titanium",
-    "rodDurability": 114,
+    "rod": "Cần jig Daiwa Saltiga SJ",
+    "rodDurability": 499,
     "inventory": [
       "Cần trúc",
-      "Cần lure Bulava Titanium"
+      "Cần lure Bulava Titanium",
+      "Cần jig Daiwa Saltiga SJ"
     ],
     "collection": {
       "byRarity": {
@@ -572,17 +573,17 @@
     },
     "exp": 1376,
     "level": 5,
-    "fishingStreak": 5,
+    "fishingStreak": 1,
     "stats": {
       "totalExp": 6743,
       "highestStreak": 65,
       "totalFishes": 72
     },
     "activeBuffs": {},
-    "lastFished": 1742444376506,
+    "lastFished": 1742613063493,
     "userID": "100055417691992",
     "energy": 60,
-    "lastEnergyUpdate": 1742444376506,
+    "lastEnergyUpdate": 1742613063494,
     "baits": {},
     "craftingMaterials": {}
   },
@@ -775,7 +776,7 @@
   },
   "100076957299243": {
     "rod": "Cần câu Daiwa Gekkabijin MX",
-    "rodDurability": 222,
+    "rodDurability": 220,
     "inventory": [
       "Cần trúc",
       "Cần Câu tay",
@@ -831,11 +832,11 @@
           "Cá Thu": 7,
           "Cá Trắm Cỏ": 4,
           "Cá Lăng": 3,
-          "Cá Chim Trắng": 2,
+          "Cá Chim Trắng": 3,
           "Cá Tai Tượng": 6,
           "Cá Sặc Rằn": 1,
           "Cá Hú": 1,
-          "Cá Lóc Đồng": 2,
+          "Cá Lóc Đồng": 3,
           "Cá Trê Vàng": 2
         },
         "rare": {
@@ -848,28 +849,30 @@
         "mythical": {}
       },
       "stats": {
-        "totalCaught": 150,
-        "totalValue": 11645216,
+        "totalCaught": 152,
+        "totalValue": 11963618,
         "bestCatch": {
           "name": "Rương kim cương",
           "value": 3562500
         }
       }
     },
-    "exp": 978,
+    "exp": 2148,
     "level": 11,
-    "fishingStreak": 31,
+    "fishingStreak": 33,
     "stats": {
-      "totalExp": 26932,
+      "totalExp": 28102,
       "highestStreak": 83,
-      "totalFishes": 150
+      "totalFishes": 152
     },
     "activeBuffs": {},
-    "lastFished": 1742466623675,
+    "lastFished": 1742567180109,
     "userID": "100076957299243",
-    "energy": 85,
-    "lastEnergyUpdate": 1742466623675,
-    "baits": {},
+    "energy": 86,
+    "lastEnergyUpdate": 1742567180109,
+    "baits": {
+      "Mồi Thần Thoại": 400
+    },
     "craftingMaterials": {}
   },
   "61550049193361": {
@@ -1522,7 +1525,7 @@
   },
   "61570532692675": {
     "rod": "Cần jig Daiwa Saltiga SJ",
-    "rodDurability": 498,
+    "rodDurability": 497,
     "inventory": [
       "Cần trúc",
       "Cần Câu Daiwa",
@@ -1539,7 +1542,8 @@
           "Cá Rô": 6,
           "Cá Út": 2,
           "Cá Linh": 1,
-          "Cá He": 1
+          "Cá He": 1,
+          "Cá Rô Phi": 1
         },
         "uncommon": {
           "Cá Quả": 2,
@@ -1551,29 +1555,29 @@
         "mythical": {}
       },
       "stats": {
-        "totalCaught": 32,
-        "totalValue": 371267,
+        "totalCaught": 33,
+        "totalValue": 402047,
         "bestCatch": {
           "name": "Cá Thu",
           "value": 246240
         }
       }
     },
-    "exp": 339,
+    "exp": 367,
     "level": 2,
-    "fishingStreak": 32,
+    "fishingStreak": 33,
     "stats": {
-      "totalExp": 1339,
-      "highestStreak": 32,
-      "totalFishes": 32
+      "totalExp": 1367,
+      "highestStreak": 33,
+      "totalFishes": 33
     },
     "activeBuffs": {},
-    "lastFished": 1742549480015,
+    "lastFished": 1742585432395,
     "userID": "61570532692675",
-    "energy": 40,
-    "lastEnergyUpdate": 1742549480015,
+    "energy": 45,
+    "lastEnergyUpdate": 1742585432395,
     "baits": {
-      "Mồi Thần Thoại": 198
+      "Mồi Thần Thoại": 197
     },
     "craftingMaterials": {}
   },
@@ -1627,14 +1631,15 @@
     "userID": "100094538943472"
   },
   "61561277064921": {
-    "rod": "Cần câu Daiwa Gekkabijin MX",
-    "rodDurability": 234,
+    "rod": "Cần jig Daiwa Saltiga SJ",
+    "rodDurability": 492,
     "inventory": [
       "Cần trúc",
       "Cần Câu Shimano",
       "Cần câu Daiwa Gekkabijin MX",
       "Cần câu Lure Titan",
-      "Cần Trúc"
+      "Cần Trúc",
+      "Cần jig Daiwa Saltiga SJ"
     ],
     "collection": {
       "byRarity": {
@@ -1643,7 +1648,7 @@
           "Chai nhựa": 2,
           "Mảnh gỗ mục": 1,
           "Lon bia": 2,
-          "Túi nilon": 3,
+          "Túi nilon": 4,
           "Rác": 1
         },
         "common": {
@@ -1677,11 +1682,11 @@
         "uncommon": {
           "Cá Lóc": 1,
           "Cá Bông Lau": 4,
-          "Cá Tai Tượng": 9,
+          "Cá Tai Tượng": 10,
           "Cá Chép Giòn": 11,
           "Cá Chim Trắng": 8,
-          "Cá Trắm Cỏ": 13,
-          "Cá Tra Sông": 7,
+          "Cá Trắm Cỏ": 14,
+          "Cá Tra Sông": 9,
           "Cá Quả": 3,
           "Cá Basa": 3,
           "Cá Chình Bông": 1,
@@ -1691,9 +1696,9 @@
           "Cá Điêu Hồng": 2,
           "Cá Lăng": 2,
           "Cá Sặc Rằn": 2,
-          "Cá Lóc Đồng": 5,
-          "Cá Thu": 7,
-          "Cá Trê Vàng": 10
+          "Cá Lóc Đồng": 7,
+          "Cá Thu": 9,
+          "Cá Trê Vàng": 11
         },
         "rare": {
           "Cá Mập Báo": 4,
@@ -1722,28 +1727,30 @@
         }
       },
       "stats": {
-        "totalCaught": 261,
-        "totalValue": 49075084,
+        "totalCaught": 271,
+        "totalValue": 50787820,
         "bestCatch": {
           "name": "Kraken",
           "value": 10687500
         }
       }
     },
-    "exp": 5725,
+    "exp": 6849,
     "level": 14,
-    "fishingStreak": 2,
+    "fishingStreak": 12,
     "stats": {
-      "totalExp": 54216,
+      "totalExp": 55340,
       "highestStreak": 144,
-      "totalFishes": 261
+      "totalFishes": 271
     },
     "activeBuffs": {},
-    "lastFished": 1742536389198,
+    "lastFished": 1742613120729,
     "userID": "61561277064921",
-    "energy": 105,
-    "lastEnergyUpdate": 1742536389198,
-    "baits": {},
+    "energy": 101,
+    "lastEnergyUpdate": 1742613120729,
+    "baits": {
+      "Mồi Thần Thoại": 194
+    },
     "craftingMaterials": {}
   },
   "100058320200877": {
@@ -2435,7 +2442,7 @@
   },
   "100083237157086": {
     "rod": "Cần câu Lure Titan",
-    "rodDurability": 34,
+    "rodDurability": 33,
     "inventory": [
       "Cần trúc",
       "Cần câu Lure Titan",
@@ -2464,7 +2471,7 @@
           "Cá Duồng": 3,
           "Cá Rô Phi": 3,
           "Cá Mương": 1,
-          "Cá He": 1,
+          "Cá He": 2,
           "Cá Trê Đen": 2,
           "Cá Linh": 1,
           "Cá Bống Tượng": 1,
@@ -2496,45 +2503,46 @@
         "mythical": {}
       },
       "stats": {
-        "totalCaught": 79,
-        "totalValue": 451437,
+        "totalCaught": 80,
+        "totalValue": 455037,
         "bestCatch": {
           "name": "Cá Mè Trắng",
           "value": 64125
         }
       }
     },
-    "exp": 137,
+    "exp": 164,
     "level": 4,
-    "fishingStreak": 10,
+    "fishingStreak": 11,
     "stats": {
-      "totalExp": 3777,
+      "totalExp": 3804,
       "highestStreak": 64,
-      "totalFishes": 79
+      "totalFishes": 80
     },
     "activeBuffs": {},
-    "lastFished": 1742489336344,
+    "lastFished": 1742612370378,
     "userID": "100083237157086",
     "energy": 55,
-    "lastEnergyUpdate": 1742489336344,
+    "lastEnergyUpdate": 1742612370378,
     "baits": {},
     "craftingMaterials": {}
   },
   "100008297661441": {
-    "rod": "Cần lure Bulava Dura Amanda XT",
-    "rodDurability": 197,
+    "rod": "Cần jig Daiwa Saltiga SJ",
+    "rodDurability": 494,
     "inventory": [
       "Cần trúc",
       "Cần Câu Daiwa",
       "Cần câu Bulava Durga Ultra",
       "Cần câu Daiwa Crossfire",
-      "Cần lure Bulava Dura Amanda XT"
+      "Cần lure Bulava Dura Amanda XT",
+      "Cần jig Daiwa Saltiga SJ"
     ],
     "collection": {
       "byRarity": {
         "trash": {
           "Rong biển": 2,
-          "Rác": 3,
+          "Rác": 4,
           "Chai nhựa": 1,
           "Giày cũ": 2,
           "Mảnh gỗ mục": 1
@@ -2548,17 +2556,17 @@
           "Kho báu cổ đại": 3,
           "Cá Mè Trắng": 8,
           "Rương bạc": 3,
-          "Cá Duồng": 5,
+          "Cá Duồng": 6,
           "Cá Lòng Tong": 4,
           "Cá Trích": 2,
           "Cá Út": 3,
           "Cá Sặc": 4,
           "Cá He": 6,
-          "Cá Thác Lác": 4,
+          "Cá Thác Lác": 5,
           "Cá Đối": 8,
           "Cá Bống Tượng": 5,
-          "Cá Linh": 5,
-          "Cá Mương": 3,
+          "Cá Linh": 6,
+          "Cá Mương": 4,
           "Cá Rô Đồng": 3,
           "Cá Chuối": 3,
           "Rương kim cương": 2,
@@ -2571,7 +2579,7 @@
           "Cá Thu": 8,
           "Cá Bông Lau": 3,
           "Cá Quả": 3,
-          "Cá Trê Vàng": 11,
+          "Cá Trê Vàng": 13,
           "Cá Chim Trắng": 9,
           "Cá Lóc Đồng": 6,
           "Cá Điêu Hồng": 4,
@@ -2581,9 +2589,9 @@
           "Cá Tai Tượng": 7,
           "Cá Trê Trắng": 5,
           "Cá Sặc Rằn": 1,
-          "Cá Trắm Cỏ": 8,
+          "Cá Trắm Cỏ": 10,
           "Cá Basa": 4,
-          "Cá Chép Giòn": 5,
+          "Cá Chép Giòn": 6,
           "Cá Chình Bông": 3,
           "Cá Ngạnh": 2
         },
@@ -2617,36 +2625,39 @@
         }
       },
       "stats": {
-        "totalCaught": 283,
-        "totalValue": 31833911,
+        "totalCaught": 293,
+        "totalValue": 32889301,
         "bestCatch": {
           "name": "Thủy Quái Vũ Trụ",
           "value": 10687500
         }
       }
     },
-    "exp": 2489,
+    "exp": 3210,
     "level": 17,
-    "fishingStreak": 9,
+    "fishingStreak": 19,
     "stats": {
-      "totalExp": 89925,
+      "totalExp": 90646,
       "highestStreak": 229,
-      "totalFishes": 283
+      "totalFishes": 293
     },
     "activeBuffs": {},
-    "lastFished": 1742553414787,
+    "lastFished": 1742612283912,
     "userID": "100008297661441",
     "energy": 120,
-    "lastEnergyUpdate": 1742553414788,
-    "baits": {},
+    "lastEnergyUpdate": 1742612283912,
+    "baits": {
+      "Mồi Thần Thoại": 194
+    },
     "craftingMaterials": {}
   },
   "100055074463541": {
-    "rod": "Cần Câu Daiwa",
-    "rodDurability": 49,
+    "rod": "Cần jig Daiwa Saltiga SJ",
+    "rodDurability": 500,
     "inventory": [
       "Cần trúc",
-      "Cần Câu Daiwa"
+      "Cần Câu Daiwa",
+      "Cần jig Daiwa Saltiga SJ"
     ],
     "collection": {
       "byRarity": {
@@ -2702,10 +2713,10 @@
     "activeBuffs": {},
     "lastFished": 1741495945771,
     "userID": "100055074463541",
-    "energy": 45,
-    "lastEnergyUpdate": 1741496845771,
+    "energy": 60,
+    "lastEnergyUpdate": 1742560465771,
     "baits": {
-      "Mồi Thần Thoại": 1
+      "Mồi Thần Thoại": 201
     },
     "craftingMaterials": {}
   },
@@ -4594,7 +4605,7 @@
   },
   "100028202556430": {
     "rod": "Cần jig Daiwa Saltiga SJ",
-    "rodDurability": 494,
+    "rodDurability": 493,
     "inventory": [
       "Cần trúc",
       "Cần Câu Daiwa",
@@ -4629,7 +4640,8 @@
           "Cá Diếc": 1,
           "Cá Bống Tượng": 1,
           "Cá Rô Biển": 1,
-          "Cá Sặc": 1
+          "Cá Sặc": 1,
+          "Cá Đối": 1
         },
         "uncommon": {
           "Cá Lóc Đồng": 4,
@@ -4656,29 +4668,29 @@
         "cosmic": {}
       },
       "stats": {
-        "totalCaught": 81,
-        "totalValue": 5197763,
+        "totalCaught": 82,
+        "totalValue": 5250089,
         "bestCatch": {
           "name": "Cá Vây Xanh",
           "value": 1710000
         }
       }
     },
-    "exp": 852,
+    "exp": 909,
     "level": 7,
-    "fishingStreak": 8,
+    "fishingStreak": 9,
     "stats": {
-      "totalExp": 10780,
+      "totalExp": 10837,
       "highestStreak": 29,
-      "totalFishes": 81
+      "totalFishes": 82
     },
     "activeBuffs": {},
-    "lastFished": 1742549531431,
+    "lastFished": 1742580713264,
     "userID": "100028202556430",
-    "energy": 65,
-    "lastEnergyUpdate": 1742549531431,
+    "energy": 70,
+    "lastEnergyUpdate": 1742580713264,
     "baits": {
-      "Mồi Thần Thoại": 198
+      "Mồi Thần Thoại": 197
     },
     "craftingMaterials": {}
   },
@@ -5127,11 +5139,12 @@
     "craftingMaterials": {}
   },
   "100093208808025": {
-    "rod": "Cần Câu Daiwa",
-    "rodDurability": 19,
+    "rod": "Cần jig Daiwa Saltiga SJ",
+    "rodDurability": 498,
     "inventory": [
       "Cần trúc",
-      "Cần Câu Daiwa"
+      "Cần Câu Daiwa",
+      "Cần jig Daiwa Saltiga SJ"
     ],
     "collection": {
       "byRarity": {
@@ -5147,14 +5160,15 @@
           "Cá Rô Phi": 1,
           "Cá Lòng Tong": 1,
           "Cá Mương": 2,
-          "Cá Rô Đồng": 2,
+          "Cá Rô Đồng": 3,
           "Kho báu thần thoại": 1,
           "Cá Chuối": 1,
           "Cá Thác Lác": 1,
           "Cá Trê Đen": 1,
           "Cá Út": 1,
           "Cá Trích": 1,
-          "Cá He": 1
+          "Cá He": 1,
+          "Cá Bống Tượng": 1
         },
         "uncommon": {
           "Cá Trê": 1,
@@ -5173,28 +5187,30 @@
         "cosmic": {}
       },
       "stats": {
-        "totalCaught": 30,
-        "totalValue": 1945703,
+        "totalCaught": 32,
+        "totalValue": 1988826,
         "bestCatch": {
           "name": "Kho báu thần thoại",
           "value": 1425000
         }
       }
     },
-    "exp": 872,
+    "exp": 944,
     "level": 3,
-    "fishingStreak": 2,
+    "fishingStreak": 4,
     "stats": {
-      "totalExp": 3072,
+      "totalExp": 3144,
       "highestStreak": 28,
-      "totalFishes": 30
+      "totalFishes": 32
     },
     "activeBuffs": {},
-    "lastFished": 1742466406432,
+    "lastFished": 1742613931776,
     "userID": "100093208808025",
-    "energy": 60,
-    "lastEnergyUpdate": 1742489986432,
-    "baits": {},
+    "energy": 50,
+    "lastEnergyUpdate": 1742613931777,
+    "baits": {
+      "Mồi Thần Thoại": 203
+    },
     "craftingMaterials": {}
   },
   "100003266041596": {
@@ -5356,8 +5372,8 @@
     "activeBuffs": {},
     "lastFished": 1742462984108,
     "userID": "100085397934729",
-    "energy": 50,
-    "lastEnergyUpdate": 1742462984108,
+    "energy": 60,
+    "lastEnergyUpdate": 1742583404108,
     "baits": {},
     "craftingMaterials": {}
   },
@@ -6846,7 +6862,7 @@
   },
   "61552144357464": {
     "rod": "Cần jig Daiwa Saltiga SJ",
-    "rodDurability": 445,
+    "rodDurability": 444,
     "inventory": [
       "Cần trúc",
       "Cần Câu tay",
@@ -6884,7 +6900,7 @@
           "Cá Rô Phi": 3,
           "Kho báu thần thoại": 2,
           "Cá Mè Trắng": 5,
-          "Cá Sặc": 5,
+          "Cá Sặc": 6,
           "Cá He": 3,
           "Rương bạc": 3,
           "Rương vàng": 1,
@@ -6933,29 +6949,29 @@
         "cosmic": {}
       },
       "stats": {
-        "totalCaught": 249,
-        "totalValue": 25306146,
+        "totalCaught": 250,
+        "totalValue": 25333848,
         "bestCatch": {
           "name": "Rồng Biển Cổ Đại",
           "value": 9500000
         }
       }
     },
-    "exp": 3,
+    "exp": 22,
     "level": 15,
-    "fishingStreak": 21,
+    "fishingStreak": 22,
     "stats": {
-      "totalExp": 59193,
+      "totalExp": 59212,
       "highestStreak": 85,
-      "totalFishes": 247
+      "totalFishes": 248
     },
     "activeBuffs": {},
-    "lastFished": 1742545011745,
+    "lastFished": 1742557827426,
     "userID": "61552144357464",
-    "energy": 105,
-    "lastEnergyUpdate": 1742545011745,
+    "energy": 110,
+    "lastEnergyUpdate": 1742557827426,
     "baits": {
-      "Mồi Thần Thoại": 682
+      "Mồi Thần Thoại": 681
     },
     "craftingMaterials": {}
   },
@@ -7129,7 +7145,7 @@
   },
   "61553593760589": {
     "rod": "Cần câu Daiwa Gekkabijin MX",
-    "rodDurability": 299,
+    "rodDurability": 291,
     "inventory": [
       "Cần trúc",
       "Cần câu Daiwa Gekkabijin MX"
@@ -7147,20 +7163,22 @@
           "Cá Diếc": 2,
           "Cá Linh": 2,
           "Cá Rô Biển": 1,
-          "Cá Trích": 1,
+          "Cá Trích": 2,
           "Cá Duồng": 2,
-          "Cá He": 2,
-          "Cá Bống Tượng": 2,
+          "Cá He": 3,
+          "Cá Bống Tượng": 3,
           "Rương kim cương": 1,
           "Cá Mè Trắng": 1,
           "Cá Út": 3,
           "Cá Lòng Tong": 1,
           "Cá Rô Phi": 1,
-          "Cá Tra": 1
+          "Cá Tra": 2,
+          "Rương bạc": 1,
+          "Cá Thác Lác": 1
         },
         "uncommon": {
           "Cá Trê Vàng": 2,
-          "Cá Trắm Cỏ": 1,
+          "Cá Trắm Cỏ": 2,
           "Cá Lóc Đồng": 2
         },
         "rare": {},
@@ -7169,29 +7187,29 @@
         "cosmic": {}
       },
       "stats": {
-        "totalCaught": 32,
-        "totalValue": 107494,
+        "totalCaught": 39,
+        "totalValue": 394102,
         "bestCatch": {
-          "name": "Cá Mè Trắng",
-          "value": 25650
+          "name": "Cá Trắm Cỏ",
+          "value": 152361
         }
       }
     },
-    "exp": 478,
+    "exp": 1171,
     "level": 2,
-    "fishingStreak": 28,
+    "fishingStreak": 8,
     "stats": {
-      "totalExp": 1478,
+      "totalExp": 2171,
       "highestStreak": 28,
-      "totalFishes": 32
+      "totalFishes": 39
     },
     "activeBuffs": {},
-    "lastFished": 1742467980748,
+    "lastFished": 1742587965555,
     "userID": "61553593760589",
-    "energy": 45,
-    "lastEnergyUpdate": 1742467980748,
+    "energy": 17,
+    "lastEnergyUpdate": 1742587965555,
     "baits": {
-      "Mồi Thần Thoại": 9
+      "Mồi Thần Thoại": 1
     },
     "craftingMaterials": {}
   },
@@ -8125,7 +8143,7 @@
   },
   "61558946907944": {
     "rod": "Cần câu Bulava Durga Ultra",
-    "rodDurability": 63,
+    "rodDurability": 58,
     "inventory": [
       "Cần trúc",
       "Cần Câu tay",
@@ -8139,11 +8157,11 @@
           "Lon bia": 2
         },
         "common": {
-          "Cá Linh": 1,
+          "Cá Linh": 2,
           "Kho báu cổ đại": 2,
-          "Cá Sặc": 2,
+          "Cá Sặc": 3,
           "Cá Trích": 3,
-          "Cá Rô Phi": 1,
+          "Cá Rô Phi": 2,
           "Cá Tra": 4,
           "Cá Rô Đồng": 2,
           "Cá Diếc": 2,
@@ -8171,8 +8189,8 @@
           "Cá Lóc Đồng": 3,
           "Cá Tra Sông": 4,
           "Cá Thu": 4,
-          "Cá Tai Tượng": 3,
-          "Cá Trê Vàng": 1
+          "Cá Tai Tượng": 4,
+          "Cá Trê Vàng": 2
         },
         "rare": {
           "Cá Mập Tre": 1,
@@ -8188,27 +8206,27 @@
         "cosmic": {}
       },
       "stats": {
-        "totalCaught": 77,
-        "totalValue": 1146628,
+        "totalCaught": 82,
+        "totalValue": 1231606,
         "bestCatch": {
           "name": "Kho báu thần thoại",
           "value": 712500
         }
       }
     },
-    "exp": 970,
+    "exp": 1256,
     "level": 7,
-    "fishingStreak": 4,
+    "fishingStreak": 9,
     "stats": {
-      "totalExp": 10898,
+      "totalExp": 11184,
       "highestStreak": 31,
-      "totalFishes": 77
+      "totalFishes": 82
     },
     "activeBuffs": {},
-    "lastFished": 1742553564373,
+    "lastFished": 1742609158429,
     "userID": "61558946907944",
     "energy": 70,
-    "lastEnergyUpdate": 1742553564373,
+    "lastEnergyUpdate": 1742609158430,
     "baits": {},
     "craftingMaterials": {}
   },
@@ -8978,7 +8996,7 @@
   },
   "100065381078044": {
     "rod": "Cần jig Daiwa Saltiga SJ",
-    "rodDurability": 261,
+    "rodDurability": 258,
     "inventory": [
       "Cần trúc",
       "Cần câu Daiwa Gekkabijin MX",
@@ -9014,12 +9032,12 @@
           "Rương vàng": 4,
           "Cá Mương": 4,
           "Cá Rô Biển": 2,
-          "Cá Sặc": 2,
+          "Cá Sặc": 3,
           "Cá He": 2,
           "Cá Rô Đồng": 2
         },
         "uncommon": {
-          "Cá Chim Trắng": 11,
+          "Cá Chim Trắng": 13,
           "Cá Lăng": 1,
           "Cá Bông Lau": 1,
           "Cá Quả": 1,
@@ -9058,29 +9076,29 @@
         }
       },
       "stats": {
-        "totalCaught": 238,
-        "totalValue": 247841692,
+        "totalCaught": 241,
+        "totalValue": 248286805,
         "bestCatch": {
           "name": "Astral Serpentine",
           "value": 111720000
         }
       }
     },
-    "exp": 326682,
+    "exp": 328038,
     "level": 37,
-    "fishingStreak": 66,
+    "fishingStreak": 69,
     "stats": {
-      "totalExp": 3865676,
-      "highestStreak": 66,
-      "totalFishes": 238
+      "totalExp": 3867032,
+      "highestStreak": 69,
+      "totalFishes": 241
     },
     "activeBuffs": {},
-    "lastFished": 1742466652034,
+    "lastFished": 1742582973756,
     "userID": "100065381078044",
-    "energy": 220,
-    "lastEnergyUpdate": 1742466652034,
+    "energy": 210,
+    "lastEnergyUpdate": 1742582973756,
     "baits": {
-      "Mồi Thần Thoại": 92
+      "Mồi Thần Thoại": 89
     },
     "craftingMaterials": {}
   },
@@ -9552,11 +9570,12 @@
     "craftingMaterials": {}
   },
   "61560539745976": {
-    "rod": "Cần câu Lure Titan",
-    "rodDurability": 34,
+    "rod": "Cần jig Daiwa Saltiga SJ",
+    "rodDurability": 499,
     "inventory": [
       "Cần trúc",
-      "Cần câu Lure Titan"
+      "Cần câu Lure Titan",
+      "Cần jig Daiwa Saltiga SJ"
     ],
     "collection": {
       "byRarity": {
@@ -9568,7 +9587,8 @@
           "Kho báu thần thoại": 1,
           "Rương bạc": 1,
           "Cá Sặc": 1,
-          "Cá He": 1
+          "Cá He": 1,
+          "Cá Mè Trắng": 1
         },
         "uncommon": {
           "Cá Tai Tượng": 1
@@ -9579,33 +9599,35 @@
         "cosmic": {}
       },
       "stats": {
-        "totalCaught": 7,
-        "totalValue": 37304,
+        "totalCaught": 8,
+        "totalValue": 591344,
         "bestCatch": {
-          "name": "Cá Tai Tượng",
-          "value": 25650
+          "name": "Cá Mè Trắng",
+          "value": 554040
         }
       }
     },
-    "exp": 973,
+    "exp": 999,
     "level": 1,
-    "fishingStreak": 8,
+    "fishingStreak": 9,
     "energy": 40,
-    "lastEnergyUpdate": 1742477458733,
+    "lastEnergyUpdate": 1742563466910,
     "stats": {
-      "totalExp": 973,
-      "highestStreak": 8,
-      "totalFishes": 7
+      "totalExp": 999,
+      "highestStreak": 9,
+      "totalFishes": 8
     },
     "activeBuffs": {},
-    "lastFished": 1742477458733,
+    "lastFished": 1742563466909,
     "userID": "61560539745976",
-    "baits": {},
+    "baits": {
+      "Mồi Thần Thoại": 19
+    },
     "craftingMaterials": {}
   },
   "100081770013413": {
     "rod": "Cần câu Lure Titan",
-    "rodDurability": 23,
+    "rodDurability": 22,
     "inventory": [
       "Cần trúc",
       "Cần câu Lure Titan"
@@ -9618,7 +9640,8 @@
           "Túi nilon": 1,
           "Giày cũ": 1,
           "Lon bia": 1,
-          "Lốp xe cũ": 1
+          "Lốp xe cũ": 1,
+          "Mảnh gỗ mục": 1
         },
         "common": {
           "Cá Trê Đen": 2,
@@ -9647,29 +9670,29 @@
         "cosmic": {}
       },
       "stats": {
-        "totalCaught": 30,
-        "totalValue": 148976,
+        "totalCaught": 31,
+        "totalValue": 153964,
         "bestCatch": {
           "name": "Cá Thu",
           "value": 28500
         }
       }
     },
-    "exp": 314,
+    "exp": 318,
     "level": 2,
-    "fishingStreak": 8,
+    "fishingStreak": 9,
     "energy": 45,
-    "lastEnergyUpdate": 1742479019474,
+    "lastEnergyUpdate": 1742562623792,
     "stats": {
-      "totalExp": 1314,
+      "totalExp": 1318,
       "highestStreak": 11,
-      "totalFishes": 30
+      "totalFishes": 31
     },
     "activeBuffs": {},
-    "lastFished": 1742479019474,
+    "lastFished": 1742562623792,
     "userID": "100081770013413",
     "baits": {
-      "Mồi Cao Cấp": 6
+      "Mồi Cao Cấp": 5
     },
     "craftingMaterials": {}
   },
@@ -9717,12 +9740,13 @@
     "craftingMaterials": {}
   },
   "100085610917366": {
-    "rod": "Cần Câu Daiwa",
-    "rodDurability": 39,
+    "rod": "Cần jig Daiwa Saltiga SJ",
+    "rodDurability": 499,
     "inventory": [
       "Cần trúc",
       "Cần Trúc",
-      "Cần Câu Daiwa"
+      "Cần Câu Daiwa",
+      "Cần jig Daiwa Saltiga SJ"
     ],
     "collection": {
       "byRarity": {
@@ -9742,7 +9766,8 @@
           "Cá Đối": 1,
           "Cá He": 1,
           "Rương bạc": 1,
-          "Cá Rô Đồng": 1
+          "Cá Rô Đồng": 1,
+          "Cá Rô Phi": 1
         },
         "uncommon": {
           "Cá Lóc Đồng": 1,
@@ -9756,29 +9781,29 @@
         "cosmic": {}
       },
       "stats": {
-        "totalCaught": 22,
-        "totalValue": 162591,
+        "totalCaught": 23,
+        "totalValue": 193371,
         "bestCatch": {
           "name": "Cá Thu",
           "value": 36936
         }
       }
     },
-    "exp": 499,
+    "exp": 527,
     "level": 2,
-    "fishingStreak": 23,
-    "energy": 55,
-    "lastEnergyUpdate": 1742491388601,
+    "fishingStreak": 24,
+    "energy": 45,
+    "lastEnergyUpdate": 1742563371287,
     "stats": {
-      "totalExp": 1499,
-      "highestStreak": 23,
-      "totalFishes": 22
+      "totalExp": 1527,
+      "highestStreak": 24,
+      "totalFishes": 23
     },
     "activeBuffs": {},
-    "lastFished": 1742479328601,
+    "lastFished": 1742563371287,
     "userID": "100085610917366",
     "baits": {
-      "Mồi Thần Thoại": 24
+      "Mồi Thần Thoại": 23
     },
     "craftingMaterials": {}
   },

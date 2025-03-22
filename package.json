@@ -14,6 +14,7 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "3": "^2.1.0",
     "@discordjs/opus": "^0.10.0",
     "@discordjs/voice": "^0.18.0",
     "@distube/yt-dlp": "^2.0.1",
@@ -124,6 +125,8 @@
     "simple-youtube-api": "^5.2.1",
     "socket.io": "^4.7.5",
     "speedtest-cli": "^0.1.0",
+    "sqlite": "^5.1.1",
+    "sqlite3": "^5.1.7",
     "start": "^5.1.0",
     "streamifier": "^0.1.1",
     "tesseract.js": "^5.1.1",

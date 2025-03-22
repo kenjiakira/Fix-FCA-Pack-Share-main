@@ -416,26 +416,28 @@ class JobSystem {
         let salaryRatio = job.salary / baseSalary;
         let cooldownMultiplier;
 
-        // Tính hệ số cooldown dựa trên mức lương
+        // Tăng thời gian chờ cho các công việc lương cao
         if (salaryRatio <= 1) {
             cooldownMultiplier = 1; // 3 phút cho lương <= 300k
         } else if (salaryRatio <= 2) {
             cooldownMultiplier = 2; // 6 phút cho lương 300k-600k
         } else if (salaryRatio <= 4) {
-            cooldownMultiplier = 3; // 9 phút cho lương 600k-1.2m
+            cooldownMultiplier = 4; // 12 phút cho lương 600k-1.2m
         } else if (salaryRatio <= 8) {
-            cooldownMultiplier = 4; // 12 phút cho lương 1.2m-2.4m
+            cooldownMultiplier = 6; // 18 phút cho lương 1.2m-2.4m
         } else if (salaryRatio <= 16) {
-            cooldownMultiplier = 5; // 15 phút cho lương 2.4m-4.8m
+            cooldownMultiplier = 8; // 24 phút cho lương 2.4m-4.8m
+        } else if (salaryRatio <= 32) {
+            cooldownMultiplier = 12; // 36 phút cho lương 4.8m-9.6m
         } else {
-            cooldownMultiplier = 6; // 18 phút cho lương >4.8m
+            cooldownMultiplier = 16; // 48 phút cho lương >9.6m
         }
                 
         const jobType = job.type || 'shipper';
         const currentLevel = this.getJobLevel(jobType, jobData.workCount || 0);
         if (currentLevel && currentLevel.bonus > 1) {
-          
-            const reductionFactor = Math.min((currentLevel.bonus - 1) * 0.6, 0.3);
+            // Giảm tối đa 20% thời gian chờ dựa trên cấp bậc
+            const reductionFactor = Math.min((currentLevel.bonus - 1) * 0.4, 0.2);
             cooldownMultiplier *= (1 - reductionFactor);
         }
 

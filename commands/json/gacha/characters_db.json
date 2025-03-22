@@ -118254,5 +118254,248 @@
       "def": 319,
       "hp": 1057
     }
+  },
+  "CHAR_396681825": {
+    "type": "character",
+    "name": "Amber",
+    "obtainedAt": 1742558315606,
+    "value": 648,
+    "level": 1,
+    "exp": 0,
+    "stats": {
+      "atk": 92,
+      "def": 99,
+      "hp": 469
+    }
+  },
+  "CHAR_446053811": {
+    "type": "character",
+    "name": "Sushang",
+    "obtainedAt": 1742558562731,
+    "value": 213,
+    "level": 1,
+    "exp": 0,
+    "stats": {
+      "atk": 104,
+      "def": 98,
+      "hp": 527
+    }
+  },
+  "CHAR_836513176": {
+    "type": "character",
+    "name": "Xiangling",
+    "obtainedAt": 1742559490839,
+    "value": 34986,
+    "level": 1,
+    "exp": 0,
+    "stats": {
+      "atk": 318,
+      "def": 273,
+      "hp": 930
+    }
+  },
+  "CHAR_132037836": {
+    "type": "character",
+    "name": "Diona",
+    "obtainedAt": 1742562041560,
+    "value": 733,
+    "level": 1,
+    "exp": 0,
+    "stats": {
+      "atk": 102,
+      "def": 103,
+      "hp": 511
+    }
+  },
+  "CHAR_814610229": {
+    "type": "character",
+    "name": "dehya",
+    "obtainedAt": 1742565214950,
+    "value": 573,
+    "level": 1,
+    "exp": 0,
+    "stats": {
+      "atk": 107,
+      "def": 96,
+      "hp": 467
+    }
+  },
+  "EXP_HEROS_WIT_618253521": {
+    "type": "EXP",
+    "name": "Heros Wit",
+    "expValue": 10000,
+    "description": "A detailed account of battles past Grants a large amount of EXP",
+    "image": "https://imgur.com/w9WpGB7.png",
+    "rarity": "4",
+    "value": 5000,
+    "obtainedAt": 1742565258917
+  },
+  "CHAR_245372988": {
+    "type": "character",
+    "name": "Bennett",
+    "obtainedAt": 1742565269649,
+    "value": 25214,
+    "level": 1,
+    "exp": 0,
+    "stats": {
+      "atk": 270,
+      "def": 314,
+      "hp": 1020
+    }
+  },
+  "CHAR_989068016": {
+    "type": "character",
+    "name": "Xinyan",
+    "obtainedAt": 1742565348566,
+    "value": 671,
+    "level": 1,
+    "exp": 0,
+    "stats": {
+      "atk": 98,
+      "def": 95,
+      "hp": 514
+    }
+  },
+  "CHAR_818516544": {
+    "type": "character",
+    "name": "Baizhu",
+    "obtainedAt": 1742565450707,
+    "value": 2955507,
+    "level": 1,
+    "exp": 0,
+    "stats": {
+      "atk": 485,
+      "def": 518,
+      "hp": 2083
+    }
+  },
+  "CHAR_566031370": {
+    "type": "character",
+    "name": "candace",
+    "obtainedAt": 1742565499355,
+    "value": 27735,
+    "level": 1,
+    "exp": 0,
+    "stats": {
+      "atk": 274,
+      "def": 279,
+      "hp": 986
+    }
+  },
+  "CHAR_456423174": {
+    "type": "character",
+    "name": "Gorou",
+    "obtainedAt": 1742565503327,
+    "value": 554,
+    "level": 1,
+    "exp": 0,
+    "stats": {
+      "atk": 103,
+      "def": 98,
+      "hp": 477
+    }
+  },
+  "CHAR_844874056": {
+    "type": "character",
+    "name": "Faruzan",
+    "obtainedAt": 1742565549753,
+    "value": 432,
+    "level": 1,
+    "exp": 0,
+    "stats": {
+      "atk": 94,
+      "def": 101,
+      "hp": 496
+    }
+  },
+  "CHAR_137107741": {
+    "type": "character",
+    "name": "Faruzan",
+    "obtainedAt": 1742565573058,
+    "value": 791,
+    "level": 1,
+    "exp": 0,
+    "stats": {
+      "atk": 109,
+      "def": 101,
+      "hp": 520
+    }
+  },
+  "CHAR_220480035": {
+    "type": "character",
+    "name": "Noelle",
+    "obtainedAt": 1742565984446,
+    "value": 565,
+    "level": 1,
+    "exp": 0,
+    "stats": {
+      "atk": 97,
+      "def": 92,
+      "hp": 549
+    }
+  },
+  "CHAR_263430122": {
+    "type": "character",
+    "name": "DanHeng",
+    "obtainedAt": 1742565997301,
+    "value": 758,
+    "level": 1,
+    "exp": 0,
+    "stats": {
+      "atk": 105,
+      "def": 100,
+      "hp": 466
+    }
+  },
+  "CHAR_465810615": {
+    "type": "character",
+    "name": "Faruzan",
+    "obtainedAt": 1742566005661,
+    "value": 297,
+    "level": 1,
+    "exp": 0,
+    "stats": {
+      "atk": 99,
+      "def": 96,
+      "hp": 488
+    }
+  },
+  "FRAGMENT_DENDRO_265172909": {
+    "type": "fragment",
+    "stoneType": "DENDRO",
+    "name": "EmeraldFragment",
+    "element": "Dendro",
+    "emoji": "🌿",
+    "description": "Dendro evolution fragment",
+    "image": "https://imgur.com/uVp1eNU.png",
+    "obtainedAt": 1742566022392,
+    "value": 2500,
+    "isFragment": true
+  },
+  "CHAR_620229350": {
+    "type": "character",
+    "name": "Lisa",
+    "obtainedAt": 1742566047954,
+    "value": 253,
+    "level": 1,
+    "exp": 0,
+    "stats": {
+      "atk": 94,
+      "def": 93,
+      "hp": 538
+    }
+  },
+  "CHAR_765964309": {
+    "type": "character",
+    "name": "Amber",
+    "obtainedAt": 1742566215955,
+    "value": 693,
+    "level": 1,
+    "exp": 0,
+    "stats": {
+      "atk": 108,
+      "def": 95,
+      "hp": 490
+    }
   }
 }

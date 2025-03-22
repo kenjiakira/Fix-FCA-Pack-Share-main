@@ -127,12 +127,13 @@
       "STONE_CRYO_548721977",
       "FRAGMENT_ANEMO_163146104",
       "FRAGMENT_GEO_314763590",
-      "FRAGMENT_ANEMO_390714567"
+      "FRAGMENT_ANEMO_390714567",
+      "CHAR_836513176"
     ],
-    "pullsSinceLastFiveStar": 16,
+    "pullsSinceLastFiveStar": 17,
     "pullsSinceLastFourStar": 0,
-    "totalPulls": 291,
-    "lastPull": 1742484728616,
+    "totalPulls": 292,
+    "lastPull": 1742559490837,
     "stellaPity": {
       "Klee": 1,
       "Venti": 1,
@@ -149,7 +150,7 @@
       "losses": 1,
       "lastBattle": 1741884343614
     },
-    "pullsSinceLastStone": 4,
+    "pullsSinceLastStone": 5,
     "pullsSinceLastUniversalStone": 13
   },
   "100048267517770": {
@@ -989,12 +990,14 @@
       "CHAR_493992805",
       "STONE_ELECTRO_699132807",
       "CHAR_695194703",
-      "CHAR_674169393"
+      "CHAR_674169393",
+      "CHAR_818516544",
+      "CHAR_566031370"
     ],
-    "pullsSinceLastFiveStar": 51,
-    "pullsSinceLastFourStar": 0,
-    "totalPulls": 1368,
-    "lastPull": 1742553510537,
+    "pullsSinceLastFiveStar": 4,
+    "pullsSinceLastFourStar": 3,
+    "totalPulls": 1376,
+    "lastPull": 1742566215953,
     "pvpTeam": [
       "CHAR_144510188",
       "CHAR_927098477",
@@ -1012,7 +1015,7 @@
       "Tighnari": 0,
       "Keqing": 0,
       "Nahida": 2,
-      "Baizhu": 1,
+      "Baizhu": 2,
       "Jean": 1,
       "Zhongli": 1,
       "Herta": 0,
@@ -1023,7 +1026,7 @@
       "Hutao": 1,
       "Yelan": 1
     },
-    "pullsSinceLastStone": 3,
+    "pullsSinceLastStone": 11,
     "pullsSinceLastUniversalStone": 55
   },
   "100055074463541": {
@@ -1277,9 +1280,7 @@
   },
   "100055417691992": {
     "inventory": [
-      "FRAGMENT_HYDRO_293512619",
       "FRAGMENT_CRYO_989216232",
-      "FRAGMENT_DENDRO_782472857",
       "CHAR_660369447",
       "FRAGMENT_PYRO_255310519",
       "FRAGMENT_HYDRO_267968705",
@@ -1333,11 +1334,11 @@
       "STONE_ANEMO_712523858",
       "CHAR_737317528"
     ],
-    "pullsSinceLastFiveStar": 8,
-    "pullsSinceLastFourStar": 0,
-    "totalPulls": 243,
-    "lastPull": 1742536801577,
-    "pullsSinceLastStone": 6,
+    "pullsSinceLastFiveStar": 11,
+    "pullsSinceLastFourStar": 3,
+    "totalPulls": 246,
+    "lastPull": 1742565984445,
+    "pullsSinceLastStone": 9,
     "pullsSinceLastUniversalStone": 13,
     "stellaPity": {
       "Furina": 1,
@@ -1994,6 +1995,38 @@
     "pullsSinceLastFourStar": 1,
     "totalPulls": 1,
     "lastPull": 1742551675178,
+    "pullsSinceLastStone": 1,
+    "pullsSinceLastUniversalStone": 0
+  },
+  "100071639513410": {
+    "inventory": [
+      "EXP_HEROS_WIT_618253521",
+      "FRAGMENT_DENDRO_265172909"
+    ],
+    "pullsSinceLastFiveStar": 0,
+    "pullsSinceLastFourStar": 0,
+    "totalPulls": 2,
+    "lastPull": 1742566022391,
+    "pullsSinceLastStone": 0,
+    "pullsSinceLastUniversalStone": 1
+  },
+  "100093208808025": {
+    "inventory": [
+      "CHAR_245372988"
+    ],
+    "pullsSinceLastFiveStar": 4,
+    "pullsSinceLastFourStar": 3,
+    "totalPulls": 4,
+    "lastPull": 1742566005661,
+    "pullsSinceLastStone": 4,
+    "pullsSinceLastUniversalStone": 0
+  },
+  "61566378911878": {
+    "inventory": [],
+    "pullsSinceLastFiveStar": 1,
+    "pullsSinceLastFourStar": 1,
+    "totalPulls": 1,
+    "lastPull": 1742565573058,
     "pullsSinceLastStone": 1,
     "pullsSinceLastUniversalStone": 0
   }
