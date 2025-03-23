@@ -513,14 +513,14 @@
   "61568522233427": {
     "type": "CAT",
     "name": "Con Chó",
-    "hunger": 100,
+    "hunger": 95,
     "happy": 100,
-    "energy": 60,
+    "energy": 77,
     "level": 8,
-    "exp": 520,
-    "power": 665,
-    "lastFed": 1742581322301,
-    "lastPlay": 1742581470918,
+    "exp": 580,
+    "power": 685,
+    "lastFed": 1742654182987,
+    "lastPlay": 1742657512858,
     "skills": {
       "HUNT": {
         "level": 1,
@@ -544,15 +544,15 @@
     "birthday": 1741511167970,
     "quests": {
       "daily": {
-        "playCount": 75,
-        "feedCount": 106
+        "playCount": 76,
+        "feedCount": 108
       }
     },
     "lastSkill": {
       "HUNT": 1742580526252,
       "CHARM": 1742581362985
     },
-    "lastTrain": 1742581296857
+    "lastTrain": 1742654172519
   },
   "100035610181048": {
     "type": "DOG",
@@ -714,5 +714,38 @@
       }
     },
     "lastTrain": 1741623112726
+  },
+  "61558946907944": {
+    "type": "CAT",
+    "name": "Mèo",
+    "hunger": 100,
+    "happy": 100,
+    "energy": 100,
+    "level": 1,
+    "exp": 0,
+    "power": 10,
+    "lastFed": 1742633833878,
+    "lastPlay": 1742633833878,
+    "skills": {
+      "HUNT": {
+        "level": 1,
+        "exp": 0,
+        "lastUsed": 0
+      },
+      "CHARM": {
+        "level": 1,
+        "exp": 0,
+        "lastUsed": 0
+      }
+    },
+    "inventory": [],
+    "stats": {
+      "gamesPlayed": 0,
+      "foodEaten": 0,
+      "trainingSessions": 0,
+      "questsCompleted": 0
+    },
+    "achievements": {},
+    "birthday": 1742633833878
   }
 }

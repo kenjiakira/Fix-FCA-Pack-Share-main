@@ -1,0 +1,38 @@
+{
+  "61573427362389": {
+    "lastMined": 1742638504129,
+    "miningPower": 1,
+    "wallet": {
+      "mainnet": 72,
+      "code": "DAVOO1PP"
+    },
+    "level": 1,
+    "experience": 72,
+    "miners": [
+      "basic"
+    ],
+    "achievements": [],
+    "stats": {
+      "totalMined": 72,
+      "miningCount": 1,
+      "teamContribution": 0
+    },
+    "notifications": [
+      {
+        "type": "item_found",
+        "message": "Bạn đã tìm thấy 1 Vàng Thô khi đào!",
+        "time": 1742638504129
+      },
+      {
+        "type": "item_found",
+        "message": "Bạn đã tìm thấy 1 Kim Cương khi đào!",
+        "time": 1742638504129
+      }
+    ],
+    "created": 1742638504129,
+    "items": {
+      "gold_nugget": 1,
+      "diamond": 1
+    }
+  }
+}

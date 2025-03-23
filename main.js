@@ -204,8 +204,14 @@ const reloadModules = () => {
                 try {
                     scheduleAutoGiftcode(api);
                     console.log('📦 Auto Giftcode system initialized!');
+                    
+                    const quicklotto = require('./commands/lotto.js');
+                    if (quicklotto.onLoad) {
+                        quicklotto.onLoad({ api });
+                        console.log('🎰 QuickLotto system initialized!');
+                    }
                 } catch (error) {
-                    console.error('Failed to initialize Auto Giftcode system:', error);
+                    console.error('Failed to initialize systems:', error);
                 }
         
                 console.log(boldText(gradient.retro("SUCCESSFULLY LOGGED IN VIA APPSTATE")));

@@ -2,42 +2,48 @@
   "farms": {
     "61561277064921": {
       "id": "61561277064921",
-      "exp": 0,
+      "exp": 20,
       "plots": [
         {
           "id": 0,
-          "status": "growing",
-          "crop": "lua",
-          "plantedAt": 1742613182031,
-          "water": 3,
-          "lastWatered": 1742613196349
+          "status": "empty",
+          "crop": null,
+          "plantedAt": null,
+          "water": 0,
+          "lastWatered": null,
+          "readyAt": 1742617904114
         },
         {
           "id": 1,
-          "status": "growing",
-          "crop": "lua",
-          "plantedAt": 1742613182031,
-          "water": 3,
-          "lastWatered": 1742613196349
+          "status": "empty",
+          "crop": null,
+          "plantedAt": null,
+          "water": 0,
+          "lastWatered": null,
+          "readyAt": 1742617904114
         },
         {
           "id": 2,
-          "status": "growing",
-          "crop": "lua",
-          "plantedAt": 1742613182031,
-          "water": 3,
-          "lastWatered": 1742613196349
+          "status": "empty",
+          "crop": null,
+          "plantedAt": null,
+          "water": 0,
+          "lastWatered": null,
+          "readyAt": 1742617904114
         },
         {
           "id": 3,
-          "status": "growing",
-          "crop": "lua",
-          "plantedAt": 1742613182031,
-          "water": 3,
-          "lastWatered": 1742613196349
+          "status": "empty",
+          "crop": null,
+          "plantedAt": null,
+          "water": 0,
+          "lastWatered": null,
+          "readyAt": 1742617904114
         }
       ],
-      "inventory": {},
+      "inventory": {
+        "lúa": 0
+      },
       "animals": {},
       "items": {},
       "lastActive": 1742613166153,
@@ -57,7 +63,7 @@
             "target": 5,
             "reward": 70,
             "exp": 12,
-            "progress": 0,
+            "progress": 4,
             "claimed": false
           },
           "visit": {
@@ -86,42 +92,48 @@
     },
     "100055417691992": {
       "id": "100055417691992",
-      "exp": 0,
+      "exp": 20,
       "plots": [
         {
           "id": 0,
-          "status": "growing",
-          "crop": "lua",
-          "plantedAt": 1742613311190,
-          "water": 1,
-          "lastWatered": 1742613311190
+          "status": "empty",
+          "crop": null,
+          "plantedAt": null,
+          "water": 0,
+          "lastWatered": null,
+          "readyAt": 1742617904114
         },
         {
           "id": 1,
-          "status": "growing",
-          "crop": "lua",
-          "plantedAt": 1742613311190,
-          "water": 1,
-          "lastWatered": 1742613311190
+          "status": "empty",
+          "crop": null,
+          "plantedAt": null,
+          "water": 0,
+          "lastWatered": null,
+          "readyAt": 1742617904114
         },
         {
           "id": 2,
-          "status": "growing",
-          "crop": "lua",
-          "plantedAt": 1742613311190,
-          "water": 1,
-          "lastWatered": 1742613311190
+          "status": "empty",
+          "crop": null,
+          "plantedAt": null,
+          "water": 0,
+          "lastWatered": null,
+          "readyAt": 1742617904114
         },
         {
           "id": 3,
-          "status": "growing",
-          "crop": "lua",
-          "plantedAt": 1742613311190,
-          "water": 1,
-          "lastWatered": 1742613311190
+          "status": "empty",
+          "crop": null,
+          "plantedAt": null,
+          "water": 0,
+          "lastWatered": null,
+          "readyAt": 1742617904114
         }
       ],
-      "inventory": {},
+      "inventory": {
+        "lúa": 0
+      },
       "animals": {},
       "items": {},
       "lastActive": 1742613298063,
@@ -161,7 +173,7 @@
             "target": 3,
             "reward": 80,
             "exp": 15,
-            "progress": 0,
+            "progress": 1,
             "claimed": false
           }
         },
@@ -169,5 +181,5 @@
       }
     }
   },
-  "lastUpdate": 1742613311161
+  "lastUpdate": 1742618333052
 }

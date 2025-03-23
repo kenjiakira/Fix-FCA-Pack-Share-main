@@ -1,6 +1,6 @@
 const fs = require("fs");
 const path = require("path");
-const { getBalance, updateBalance } = require("../utils/currencies");
+const { getBalance, updateBalance, updateQuestProgress } = require("../utils/currencies");
 const { getVIPBenefits } = require("../vip/vipCheck");
 const cooldowns = new Map();
 

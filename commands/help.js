@@ -296,7 +296,8 @@ module.exports = {
             "Tiện Ích": 9,
             "AI": 10,
             "VIP": 11,
-            "Khác": 12
+            "Anime": 12,
+            "Khác": 13
         };
         return priorities[category] || 10;
     },
@@ -314,6 +315,7 @@ module.exports = {
             "Tiện Ích": "🔧",
             "AI": "🤖",
             "VIP": "👑",
+            "Anime": "🎌",
             "Khác": "📌"
         };
         return icons[category] || "📍";
@@ -349,6 +351,7 @@ module.exports = {
             "Tiện Ích": "Các tiện ích phụ trợ",
             "AI": "Tương tác với trí tuệ nhân tạo",
             "VIP": "Tính năng đặc biệt cho VIP",
+            "Anime": "Thông tin và hình ảnh anime",
             "Khác": "Các lệnh khác"
         };
         return descriptions[category] || "Không có mô tả";

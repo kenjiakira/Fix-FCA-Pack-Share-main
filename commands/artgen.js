@@ -24,7 +24,7 @@ const BANNED_WORDS = [
 module.exports = {
     name: "artgen",
     dev: "HNT",
-    category: "Image",
+    category: "Media",
     info: "Tạo ảnh AIu",
     usedby: 0,
     dmUser: false,

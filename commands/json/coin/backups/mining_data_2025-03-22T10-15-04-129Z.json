@@ -1,0 +1,53 @@
+{
+  "61573427362389": {
+    "lastMined": 1742638268001,
+    "miningPower": 1,
+    "wallet": {
+      "mainnet": 72,
+      "code": "GBV0IU2H"
+    },
+    "level": 1,
+    "experience": 72,
+    "miners": [
+      "basic"
+    ],
+    "achievements": [],
+    "stats": {
+      "totalMined": 72,
+      "miningCount": 1,
+      "teamContribution": 0
+    },
+    "notifications": [],
+    "created": 1742638268001
+  },
+  "100058320200877": {
+    "lastMined": 1742638383698,
+    "miningPower": 1,
+    "wallet": {
+      "mainnet": 72,
+      "code": "OGXWJ9QM"
+    },
+    "level": 1,
+    "experience": 72,
+    "miners": [
+      "basic"
+    ],
+    "achievements": [],
+    "stats": {
+      "totalMined": 72,
+      "miningCount": 1,
+      "teamContribution": 0
+    },
+    "notifications": [
+      {
+        "type": "item_found",
+        "message": "Bạn đã tìm thấy 1 Vàng Thô khi đào!",
+        "time": 1742638383698
+      }
+    ],
+    "created": 1742638365719,
+    "items": {
+      "gold_nugget": 1
+    }
+  }
+}

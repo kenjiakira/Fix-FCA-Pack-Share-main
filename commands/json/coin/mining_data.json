@@ -1,0 +1,125 @@
+{
+  "61573427362389": {
+    "lastMined": 0,
+    "miningPower": 1,
+    "wallet": {
+      "mainnet": 0,
+      "code": "AYY3VY2Y"
+    },
+    "level": 1,
+    "experience": 0,
+    "miners": [
+      "basic"
+    ],
+    "achievements": [],
+    "stats": {
+      "totalMined": 0,
+      "miningCount": 0,
+      "teamContribution": 0
+    },
+    "notifications": [],
+    "created": 1742642427167
+  },
+  "100028202556430": {
+    "lastMined": 1742642455528,
+    "miningPower": 1,
+    "wallet": {
+      "mainnet": 72,
+      "code": "KP91M3IX"
+    },
+    "level": 1,
+    "experience": 72,
+    "miners": [
+      "basic"
+    ],
+    "achievements": [],
+    "stats": {
+      "totalMined": 72,
+      "miningCount": 1,
+      "teamContribution": 0
+    },
+    "notifications": [],
+    "created": 1742642455527
+  },
+  "100068382888605": {
+    "lastMined": 1742642461731,
+    "miningPower": 1,
+    "wallet": {
+      "mainnet": 72,
+      "code": "ZFJPG88E"
+    },
+    "level": 1,
+    "experience": 72,
+    "miners": [
+      "basic"
+    ],
+    "achievements": [],
+    "stats": {
+      "totalMined": 72,
+      "miningCount": 1,
+      "teamContribution": 0
+    },
+    "notifications": [
+      {
+        "type": "item_found",
+        "message": "Bạn đã tìm thấy 1 Vàng Thô khi đào!",
+        "time": 1742642461731
+      }
+    ],
+    "created": 1742642461731,
+    "items": {
+      "gold_nugget": 1
+    }
+  },
+  "100055417691992": {
+    "lastMined": 1742642517320,
+    "miningPower": 1,
+    "wallet": {
+      "mainnet": 72,
+      "code": "LLLQ51PR"
+    },
+    "level": 1,
+    "experience": 72,
+    "miners": [
+      "basic"
+    ],
+    "achievements": [],
+    "stats": {
+      "totalMined": 72,
+      "miningCount": 1,
+      "teamContribution": 0
+    },
+    "notifications": [
+      {
+        "type": "item_found",
+        "message": "Bạn đã tìm thấy 1 Vàng Thô khi đào!",
+        "time": 1742642517320
+      }
+    ],
+    "created": 1742642517320,
+    "items": {
+      "gold_nugget": 1
+    }
+  },
+  "100093208808025": {
+    "lastMined": 1742642699873,
+    "miningPower": 1,
+    "wallet": {
+      "mainnet": 72,
+      "code": "V6M10RJB"
+    },
+    "level": 1,
+    "experience": 72,
+    "miners": [
+      "basic"
+    ],
+    "achievements": [],
+    "stats": {
+      "totalMined": 72,
+      "miningCount": 1,
+      "teamContribution": 0
+    },
+    "notifications": [],
+    "created": 1742642699873
+  }
+}

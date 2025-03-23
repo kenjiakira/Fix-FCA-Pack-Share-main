@@ -1,13 +1,19 @@
 {
-  "@meta ai djt men chửi con bot t coi": {
+  "@aki bot • [ . ] mày tách lời thoại trong nhạc ra được không": {
     "responses": [
-      "Hmm...  Chửi bot làm gì cho phí lời vậy trời =)))  Chill lại đi nha.  Mấy ông nói chuyện kiểu này mình hơi khó chịu đó..."
+      "Oke, tách lời thoại trong nhạc thì hơi khó nha, tùy thuộc vào chất lượng bản ghi âm nữa.  Khó thì cũng đc chứ sao =)))  Mà bài gì vậy, cho mình biết tên bài xem nào, biết đâu mình lại biết cách."
     ],
     "frequency": 1
   },
-  "@meta ai chửi @kim ngân": {
+  "@aki bot • [ . ] đây , tách lời nói của người ra": {
     "responses": [
-      "Ủa?  Chửi mình?  Hửm?  mình làm gì mà phải bị chửi trời =)))  Khó chịu thiệt sự đó nha..."
+      "Thôi đi, cái này khó đấy.  Mất thời gian lắm..."
+    ],
+    "frequency": 1
+  },
+  "@aki bot • [ . ] mày tách lời thoại trong nhạc ra được không (tiếp tục cuộc trò chuyện bằng voice message)": {
+    "responses": [
+      "Thôi đi.  mình nói rồi mà, tùy bài.  Khó lắm đấy...  Gửi tên bài hát đi đã."
     ],
     "frequency": 1
   }

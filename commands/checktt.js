@@ -1,5 +1,6 @@
 const fs = require('fs');
 const path = require('path');
+const getThreadParticipantIDs = require('../utils/getParticipantIDs');
 
 function trackInteraction(userID, threadID, count = 1) {
     try {
@@ -38,9 +39,8 @@ function trackInteraction(userID, threadID, count = 1) {
 
 module.exports = {
     name: "checktt",
-    version: "1.0.1",
     dev: "Kenji Akira",
-    category: "Box Chat",
+    category: "Groups",
     info: "Kiểm tra mức độ tương tác của thành viên",
     usages: "checktt [all/tag]",
     cooldowns: 5,
@@ -70,55 +70,10 @@ module.exports = {
             } catch (readError) {
                 console.error("Error reading database files:", readError);
             }
+
+            // Replace old participant fetching logic with getThreadParticipantIDs utility
+            let participantIDs = await getThreadParticipantIDs(api, threadID);
             
-            let threadInfo = null;
-            let participantIDs = [];
-            
-            try {
-                threadInfo = await api.getThreadInfo(threadID);
-                if (threadInfo && threadInfo.participantIDs) {
-                    participantIDs = threadInfo.participantIDs;
-                }
-            } catch (apiError) {
-                console.error("Error fetching thread info from API:", apiError);
-        
-            }
-            
-            if (participantIDs.length === 0) {
-                console.log("Falling back to local database for participants");
-                
-                if (threadsDB[threadID] && threadsDB[threadID].members) {
-                    participantIDs = threadsDB[threadID].members;
-                } else if (threadsDB[threadID] && threadsDB[threadID].userInfo) {
-                 
-                    participantIDs = Object.keys(threadsDB[threadID].userInfo);
-                }
-                
-                if (participantIDs.length === 0 && threadsDB[threadID] && threadsDB[threadID].messageCount) {
-                    participantIDs = Object.keys(threadsDB[threadID].messageCount);
-                }
-            }
-            
-            if (participantIDs.length === 0) {
-                for (const userID in usersDB) {
-                    if (usersDB[userID].threadIDs && usersDB[userID].threadIDs.includes(threadID)) {
-                        participantIDs.push(userID);
-                    }
-                }
-            }
-            
-            if (Object.keys(userData).length > 0) {
-                const activeUserIDs = Object.keys(userData).filter(id => 
-                    userData[id].lastMessageTime && 
-                    !participantIDs.includes(id) &&
-                    (
-                        (userData[id].threads && userData[id].threads[threadID]) ||
-                        (userData[id].messageCount && userData[id].messageCount[threadID]) ||
-                        (userData[id].threadInfo && userData[id].threadInfo.includes(threadID))
-                    )
-                );
-                participantIDs = [...participantIDs, ...activeUserIDs];
-            }
             if (participantIDs.length === 0) {
                 participantIDs = [senderID];
                 
@@ -134,20 +89,15 @@ module.exports = {
             for (const userID of participantIDs) {
                 let messageCount = 0;
                 
-                if (threadInfo && threadInfo.messageCount && threadInfo.messageCount[userID]) {
-                    messageCount = threadInfo.messageCount[userID];
+                // Check message count from different data sources
+                if (userData[userID] && userData[userID].messageCount && userData[userID].messageCount[threadID]) {
+                    messageCount = userData[userID].messageCount[threadID];
                 }
-                
                 else if (threadsDB[threadID] && threadsDB[threadID].messageCount && threadsDB[threadID].messageCount[userID]) {
                     messageCount = threadsDB[threadID].messageCount[userID];
                 }
-                
                 else if (usersDB[userID] && usersDB[userID].messageCount && usersDB[userID].messageCount[threadID]) {
                     messageCount = usersDB[userID].messageCount[threadID];
-                }
-                
-                else if (userData[userID] && userData[userID].messageCount && userData[userID].messageCount[threadID]) {
-                    messageCount = userData[userID].messageCount[threadID];
                 }
                 
                 if (isNaN(messageCount) || messageCount < 0) {

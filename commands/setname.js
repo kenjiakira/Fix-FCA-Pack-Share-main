@@ -1,5 +1,6 @@
 const fs = require("fs");
 const path = require("path");
+const getThreadParticipantIDs = require("../utils/getParticipantIDs");
 
 const nicknameConfigPath = path.join(__dirname, "../database/json/setname/nicknames.json");
 const setnameStatusPath = path.join(__dirname, "../database/json/setname/setnameStatus.json");
@@ -17,8 +18,9 @@ module.exports = {
   category: "Groups",
   info: "Đặt biệt danh cho thành viên trong nhóm",
   onPrefix: true,
+  usedby: 2,
   dmUser: false,
-  usages: "setname <biệt danh> (reply/tag) | setname auto <mẫu biệt danh> | setname on/off | setname auto off",
+  usages: "setname <biệt danh> (reply/tag) | setname auto <mẫu biệt danh> | setname on/off | setname auto off | setname all <biệt danh>",
   cooldowns: 5,
 
   onLaunch: async ({ api, event, target }) => {
@@ -39,6 +41,39 @@ module.exports = {
         
         return api.sendMessage(
           `Đã ${target[0] === "on" ? "bật" : "tắt"} chức năng đổi biệt danh trong nhóm này`,
+          threadID,
+          messageID
+        );
+      }
+
+      if (target[0] === "all") {
+        const newNickname = target.slice(1).join(" ");
+        if (!newNickname || newNickname.length > 50) {
+          return api.sendMessage(
+            "Biệt danh không được để trống và không được quá 50 ký tự",
+            threadID, messageID
+          );
+        }
+
+        const participantIDs = await getThreadParticipantIDs(api, threadID);
+        
+        if (participantIDs.length === 0) {
+          return api.sendMessage("Không thể lấy được danh sách thành viên trong nhóm!", threadID, messageID);
+        }
+
+        await api.sendMessage("Đang thực hiện đổi biệt danh cho tất cả thành viên...", threadID);
+
+        for (const participantID of participantIDs) {
+          try {
+            await api.changeNickname(newNickname, threadID, participantID);
+            await new Promise(resolve => setTimeout(resolve, 1000));
+          } catch (error) {
+            console.error(`Error setting nickname for user ${participantID}:`, error);
+          }
+        }
+
+        return api.sendMessage(
+          `Đã đổi biệt danh cho tất cả thành viên thành: ${newNickname}`,
           threadID,
           messageID
         );
@@ -82,8 +117,10 @@ module.exports = {
         return api.sendMessage(
           "Cách sử dụng lệnh setname:\n\n" +
           "1. Reply và đặt tên: setname <biệt danh>\n" +
-          "2. Tag và đặt tên: @tag setname <biệt danh>" +
-          "3. Auto đổi biệt danh: setname auto <mẫu biệt danh> | setname auto on/off để bật/tắt",
+          "2. Tag và đặt tên: @tag setname <biệt danh>\n" +
+          "3. Auto đổi biệt danh: setname auto <mẫu biệt danh>\n" +
+          "4. Đổi biệt danh cho tất cả: setname all <biệt danh>\n" +
+          "5. Bật/tắt auto: setname auto on/off",
           threadID, messageID
         );
       }

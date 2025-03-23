@@ -2,6 +2,7 @@ const axios = require('axios');
 const fs = require('fs');
 const path = require('path');
 const { createCanvas, loadImage } = require('canvas');
+const getThreadParticipantIDs = require('../utils/getParticipantIDs');
 
 module.exports = {
   name: "ghep",
@@ -10,28 +11,31 @@ module.exports = {
   onPrefix: true,
   usages: "ghep",
   cooldowns: 30,
-  
+
   onLaunch: async ({ api, event }) => {
     try {
       const { threadID, senderID } = event;
-      
+
       const waitingMsg = await api.sendMessage("⏳ Đang ghép đôi...", threadID);
-      
+
       let partnerId;
-      
+
       if (event.type === 'message_reply') {
         partnerId = event.messageReply.senderID;
-      } 
+      }
       else if (Object.keys(event.mentions).length > 0) {
         partnerId = Object.keys(event.mentions)[0];
       }
       else {
-        return api.sendMessage(
-          "Cú pháp: ghép [@Tag/Reply]\n" +
-          "- Reply: Reply tin nhắn người muốn ghép\n" +
-          "- Tag: @mention người muốn ghép",
-          threadID
-        );
+        const participants = await getThreadParticipantIDs(api, threadID);
+
+        const availablePartners = participants.filter(id => id !== senderID);
+
+        if (availablePartners.length === 0) {
+          return api.sendMessage("❌ Không tìm thấy đối tượng phù hợp trong nhóm!", threadID);
+        }
+
+        partnerId = availablePartners[Math.floor(Math.random() * availablePartners.length)];
       }
 
       if (partnerId === senderID) {
@@ -42,7 +46,7 @@ module.exports = {
       const zodiacSigns = ['Bạch Dương', 'Kim Ngưu', 'Song Tử', 'Cự Giải', 'Sư Tử', 'Xử Nữ', 'Thiên Bình', 'Bọ Cạp', 'Nhân Mã', 'Ma Kết', 'Bảo Bình', 'Song Ngư'];
       const userZodiac = zodiacSigns[Math.floor(Math.random() * zodiacSigns.length)];
       const partnerZodiac = zodiacSigns[Math.floor(Math.random() * zodiacSigns.length)];
-      
+
       const loveQuotes = [
         "Yêu là khi hai trái tim cùng đập một nhịp",
         "Tình yêu không cần lý do, chỉ cần có nhau",
@@ -58,7 +62,7 @@ module.exports = {
         "Anh không cần cả thế giới, anh chỉ cần một em thôi",
         "Em là cả bầu trời của riêng anh"
       ];
-      
+
       const futures = [
         "Tương lai: Sẽ có một đám cưới đẹp như mơ 💒",
         "Tương lai: Có 2 con, một trai một gái 👶👶",
@@ -98,13 +102,13 @@ module.exports = {
 
       const pathUser = path.join(avatarCacheDir, 'user.jpg');
       const pathPartner = path.join(avatarCacheDir, 'partner.jpg');
-      
+
       fs.writeFileSync(pathUser, userImg);
       fs.writeFileSync(pathPartner, partnerImg);
 
       const userDataPath = path.join(__dirname, '../events/cache/userData.json');
       let userName, partnerName;
-      
+
       try {
         const userData = await api.getUserInfo([senderID, partnerId]);
         userName = userData[senderID]?.name || "Người dùng";
@@ -124,11 +128,11 @@ module.exports = {
 
       fs.writeFileSync(pathUser, userImg);
       fs.writeFileSync(pathPartner, partnerImg);
-      
+
       // Tải ảnh lên để sử dụng trong canvas
       const img1 = await loadImage(pathUser);
       const img2 = await loadImage(pathPartner);
-      
+
       const canvas = createCanvas(1024, 512);
       const ctx = canvas.getContext('2d');
 
@@ -144,7 +148,7 @@ module.exports = {
       for (let i = 0; i < 2; i++) {
         const x = i === 0 ? 256 : 768;
         const name = i === 0 ? userName : partnerName;
-        
+
         // Draw avatar circle
         ctx.beginPath();
         ctx.arc(x, 256, 200, 0, Math.PI * 2);
@@ -233,15 +237,15 @@ module.exports = {
 
       await api.sendMessage({
         body: `🎐 Ghép đôi thành công!\n` +
-              `💝 ${userName} (${userZodiac}) 💓 ${partnerName} (${partnerZodiac})\n` +
-              `🔒 Tỉ lệ hợp đôi: ${compatibility}%\n` +
-              `${getCompatibilityMessage(compatibility)}\n\n` +
-              `💫 Phân tích chi tiết:\n` +
-              `- Hợp nhau về tính cách: ${Math.floor(Math.random() * 100)}%\n` +
-              `- Hợp nhau về sở thích: ${Math.floor(Math.random() * 100)}%\n` +
-              `- Có cơ hội tiến xa: ${Math.floor(Math.random() * 100)}%\n\n` +
-              `💌 Lời thì thầm: ${loveQuotes[Math.floor(Math.random() * loveQuotes.length)]}\n` +
-              `🔮 ${futures[Math.floor(Math.random() * futures.length)]}`,
+          `💝 ${userName} (${userZodiac}) 💓 ${partnerName} (${partnerZodiac})\n` +
+          `🔒 Tỉ lệ hợp đôi: ${compatibility}%\n` +
+          `${getCompatibilityMessage(compatibility)}\n\n` +
+          `💫 Phân tích chi tiết:\n` +
+          `- Hợp nhau về tính cách: ${Math.floor(Math.random() * 100)}%\n` +
+          `- Hợp nhau về sở thích: ${Math.floor(Math.random() * 100)}%\n` +
+          `- Có cơ hội tiến xa: ${Math.floor(Math.random() * 100)}%\n\n` +
+          `💌 Lời thì thầm: ${loveQuotes[Math.floor(Math.random() * loveQuotes.length)]}\n` +
+          `🔮 ${futures[Math.floor(Math.random() * futures.length)]}`,
         attachment: fs.createReadStream(mergedPath)
       }, event.threadID, event.messageID);
 

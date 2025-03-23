@@ -2537,15 +2537,15 @@
         "name": "Niggi",
         "gender": "👦",
         "birthDate": 1742563915615,
-        "happiness": 100,
+        "happiness": 96.62842993055555,
         "nickname": "Bé Niggi",
         "isMarried": false,
         "movedOut": false
       }
     ],
-    "happiness": 100,
+    "happiness": 94.38071655092592,
     "health": 100,
-    "lastChecked": 1742563613947,
+    "lastChecked": 1742660715166,
     "lastBaby": 0,
     "lastIntimate": 1742563893971,
     "insurance": {
@@ -2623,7 +2623,18 @@
   "100085610917366": {
     "name": null,
     "spouse": "61560539745976",
-    "children": [],
+    "children": [
+      {
+        "id": "1742563915615",
+        "name": "Niggi",
+        "gender": "👦",
+        "birthDate": 1742563915615,
+        "happiness": 100,
+        "nickname": "Bé Niggi",
+        "isMarried": false,
+        "movedOut": false
+      }
+    ],
     "happiness": 100,
     "health": 100,
     "lastChecked": 1742563613948,

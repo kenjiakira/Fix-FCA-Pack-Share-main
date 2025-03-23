@@ -1,0 +1,173 @@
+{
+  "61573427362389": {
+    "lastMined": 1742639790719,
+    "miningPower": 1,
+    "wallet": {
+      "mainnet": 82,
+      "code": "DUAZPI04"
+    },
+    "level": 1,
+    "experience": 82,
+    "miners": [
+      "basic"
+    ],
+    "achievements": [],
+    "stats": {
+      "totalMined": 82,
+      "miningCount": 3,
+      "teamContribution": 0
+    },
+    "notifications": [
+      {
+        "type": "item_found",
+        "message": "Bạn đã tìm thấy 1 Vàng Thô khi đào!",
+        "time": 1742638721969
+      }
+    ],
+    "created": 1742638721969,
+    "items": {
+      "gold_nugget": 1
+    }
+  },
+  "100076957299243": {
+    "lastMined": 1742639684298,
+    "miningPower": 1,
+    "wallet": {
+      "mainnet": 72,
+      "code": "YMDAY004"
+    },
+    "level": 1,
+    "experience": 72,
+    "miners": [
+      "basic"
+    ],
+    "achievements": [],
+    "stats": {
+      "totalMined": 72,
+      "miningCount": 1,
+      "teamContribution": 0
+    },
+    "notifications": [
+      {
+        "type": "item_found",
+        "message": "Bạn đã tìm thấy 1 Vàng Thô khi đào!",
+        "time": 1742639684298
+      }
+    ],
+    "created": 1742639684298,
+    "items": {
+      "gold_nugget": 1
+    }
+  },
+  "61552475785283": {
+    "lastMined": 1742639700752,
+    "miningPower": 1,
+    "wallet": {
+      "mainnet": 72,
+      "code": "ORT2ML6V"
+    },
+    "level": 1,
+    "experience": 72,
+    "miners": [
+      "basic"
+    ],
+    "achievements": [],
+    "stats": {
+      "totalMined": 72,
+      "miningCount": 1,
+      "teamContribution": 0
+    },
+    "notifications": [
+      {
+        "type": "item_found",
+        "message": "Bạn đã tìm thấy 1 Vàng Thô khi đào!",
+        "time": 1742639700752
+      }
+    ],
+    "created": 1742639700752,
+    "items": {
+      "gold_nugget": 1
+    }
+  },
+  "100065381078044": {
+    "lastMined": 1742639896750,
+    "miningPower": 1,
+    "wallet": {
+      "mainnet": 72,
+      "code": "M3X1NYS6"
+    },
+    "level": 1,
+    "experience": 72,
+    "miners": [
+      "basic"
+    ],
+    "achievements": [],
+    "stats": {
+      "totalMined": 72,
+      "miningCount": 1,
+      "teamContribution": 0
+    },
+    "notifications": [
+      {
+        "type": "item_found",
+        "message": "Bạn đã tìm thấy 1 Vàng Thô khi đào!",
+        "time": 1742639896749
+      }
+    ],
+    "created": 1742639874977,
+    "items": {
+      "gold_nugget": 1
+    }
+  },
+  "100070513205314": {
+    "lastMined": 1742640460052,
+    "miningPower": 1,
+    "wallet": {
+      "mainnet": 72,
+      "code": "8ACUBCRV"
+    },
+    "level": 1,
+    "experience": 72,
+    "miners": [
+      "basic"
+    ],
+    "achievements": [],
+    "stats": {
+      "totalMined": 72,
+      "miningCount": 1,
+      "teamContribution": 0
+    },
+    "notifications": [
+      {
+        "type": "item_found",
+        "message": "Bạn đã tìm thấy 1 Vàng Thô khi đào!",
+        "time": 1742640460052
+      }
+    ],
+    "created": 1742640438322,
+    "items": {
+      "gold_nugget": 1
+    }
+  },
+  "61558946907944": {
+    "lastMined": 1742640467208,
+    "miningPower": 1,
+    "wallet": {
+      "mainnet": 72,
+      "code": "Q0BBU6MK"
+    },
+    "level": 1,
+    "experience": 72,
+    "miners": [
+      "basic"
+    ],
+    "achievements": [],
+    "stats": {
+      "totalMined": 72,
+      "miningCount": 1,
+      "teamContribution": 0
+    },
+    "notifications": [],
+    "created": 1742640467208
+  }
+}

@@ -51,7 +51,7 @@ function saveNewDebate(topic, analysis) {
 module.exports = {
     name: "debate",
     usedby: 0,
-    category: "Học Tập",
+    category: "AI",
     info: "Phân tích đa chiều một vấn đề",
     dev: "HNT",
     onPrefix: true,

@@ -118497,5 +118497,977 @@
       "def": 95,
       "hp": 490
     }
+  },
+  "EXP_WANDERERS_ADVICE_853509703": {
+    "type": "EXP",
+    "name": "Wanderers Advice",
+    "expValue": 500,
+    "description": "Simple advice from a traveler Grants a small amount of EXP",
+    "image": "https://imgur.com/GSSFx9L.png",
+    "rarity": "2",
+    "value": 500,
+    "obtainedAt": 1742624513481
+  },
+  "STONE_CRYO_353237989": {
+    "type": "stone",
+    "stoneType": "CRYO",
+    "name": "ShivadaJade",
+    "element": "Cryo",
+    "emoji": "❄️",
+    "description": "Ascension stone for Cryo characters",
+    "image": "https://imgur.com/k7PooZ5.png",
+    "obtainedAt": 1742624545163,
+    "value": 25000
+  },
+  "CHAR_749104894": {
+    "type": "character",
+    "name": "Gorou",
+    "obtainedAt": 1742634343300,
+    "value": 278,
+    "level": 1,
+    "exp": 0,
+    "stats": {
+      "atk": 97,
+      "def": 96,
+      "hp": 513
+    }
+  },
+  "CHAR_655550731": {
+    "type": "character",
+    "name": "Xiangling",
+    "obtainedAt": 1742636421111,
+    "value": 23019,
+    "level": 1,
+    "exp": 0,
+    "stats": {
+      "atk": 306,
+      "def": 276,
+      "hp": 1030
+    }
+  },
+  "CHAR_909573065": {
+    "type": "character",
+    "name": "Chiori",
+    "obtainedAt": 1742636494383,
+    "value": 286,
+    "level": 1,
+    "exp": 0,
+    "stats": {
+      "atk": 109,
+      "def": 105,
+      "hp": 469
+    }
+  },
+  "CHAR_854641415": {
+    "type": "character",
+    "name": "Chiori",
+    "obtainedAt": 1742636526016,
+    "value": 281,
+    "level": 1,
+    "exp": 0,
+    "stats": {
+      "atk": 103,
+      "def": 91,
+      "hp": 450
+    }
+  },
+  "CHAR_999048611": {
+    "type": "character",
+    "name": "Serval",
+    "obtainedAt": 1742636614037,
+    "value": 559,
+    "level": 1,
+    "exp": 0,
+    "stats": {
+      "atk": 90,
+      "def": 101,
+      "hp": 502
+    }
+  },
+  "CHAR_570787058": {
+    "type": "character",
+    "name": "Sampo",
+    "obtainedAt": 1742639160668,
+    "value": 270,
+    "level": 1,
+    "exp": 0,
+    "stats": {
+      "atk": 105,
+      "def": 100,
+      "hp": 533
+    }
+  },
+  "EXP_LEGENDARY_GRIMOIRE_508695424": {
+    "type": "EXP",
+    "name": "Legendary Grimoire",
+    "expValue": 50000,
+    "description": "Ancient knowledge from legendary heroes Grants massive amounts of EXP",
+    "image": "https://imgur.com/NNSmgia.png",
+    "rarity": "5",
+    "value": 25000,
+    "obtainedAt": 1742639265670
+  },
+  "CHAR_630410020": {
+    "type": "character",
+    "name": "Sampo",
+    "obtainedAt": 1742639322175,
+    "value": 139,
+    "level": 1,
+    "exp": 0,
+    "stats": {
+      "atk": 107,
+      "def": 102,
+      "hp": 487
+    }
+  },
+  "CHAR_401570171": {
+    "type": "character",
+    "name": "Yaoyao",
+    "obtainedAt": 1742639381414,
+    "value": 1373492,
+    "level": 1,
+    "exp": 0,
+    "stats": {
+      "atk": 526,
+      "def": 497,
+      "hp": 2160
+    }
+  },
+  "CHAR_341190684": {
+    "type": "character",
+    "name": "March7th",
+    "obtainedAt": 1742639507496,
+    "value": 14555,
+    "level": 1,
+    "exp": 0,
+    "stats": {
+      "atk": 300,
+      "def": 321,
+      "hp": 953
+    }
+  },
+  "CHAR_982482090": {
+    "type": "character",
+    "name": "Luka",
+    "obtainedAt": 1742639535425,
+    "value": 199,
+    "level": 1,
+    "exp": 0,
+    "stats": {
+      "atk": 107,
+      "def": 95,
+      "hp": 453
+    }
+  },
+  "CHAR_702085062": {
+    "type": "character",
+    "name": "Mona",
+    "obtainedAt": 1742639576026,
+    "value": 2310762,
+    "level": 1,
+    "exp": 0,
+    "stats": {
+      "atk": 527,
+      "def": 529,
+      "hp": 2150
+    }
+  },
+  "CHAR_368956217": {
+    "type": "character",
+    "name": "Noelle",
+    "obtainedAt": 1742639591736,
+    "value": 335,
+    "level": 1,
+    "exp": 0,
+    "stats": {
+      "atk": 90,
+      "def": 91,
+      "hp": 527
+    }
+  },
+  "EXP_WANDERERS_ADVICE_210621787": {
+    "type": "EXP",
+    "name": "Wanderers Advice",
+    "expValue": 500,
+    "description": "Simple advice from a traveler Grants a small amount of EXP",
+    "image": "https://imgur.com/GSSFx9L.png",
+    "rarity": "2",
+    "value": 500,
+    "obtainedAt": 1742639666062
+  },
+  "CHAR_572457477": {
+    "type": "character",
+    "name": "Serval",
+    "obtainedAt": 1742639673906,
+    "value": 713,
+    "level": 1,
+    "exp": 0,
+    "stats": {
+      "atk": 102,
+      "def": 97,
+      "hp": 486
+    }
+  },
+  "EXP_LEGENDARY_GRIMOIRE_146401060": {
+    "type": "EXP",
+    "name": "Legendary Grimoire",
+    "expValue": 50000,
+    "description": "Ancient knowledge from legendary heroes Grants massive amounts of EXP",
+    "image": "https://imgur.com/NNSmgia.png",
+    "rarity": "5",
+    "value": 25000,
+    "obtainedAt": 1742639718104
+  },
+  "CHAR_596234109": {
+    "type": "character",
+    "name": "Amber",
+    "obtainedAt": 1742639725727,
+    "value": 760,
+    "level": 1,
+    "exp": 0,
+    "stats": {
+      "atk": 100,
+      "def": 90,
+      "hp": 472
+    }
+  },
+  "CHAR_287963764": {
+    "type": "character",
+    "name": "Serval",
+    "obtainedAt": 1742639766404,
+    "value": 505,
+    "level": 1,
+    "exp": 0,
+    "stats": {
+      "atk": 90,
+      "def": 107,
+      "hp": 548
+    }
+  },
+  "CHAR_757836654": {
+    "type": "character",
+    "name": "Sushang",
+    "obtainedAt": 1742639785668,
+    "value": 327,
+    "level": 1,
+    "exp": 0,
+    "stats": {
+      "atk": 90,
+      "def": 96,
+      "hp": 479
+    }
+  },
+  "CHAR_831137788": {
+    "type": "character",
+    "name": "Serval",
+    "obtainedAt": 1742639905423,
+    "value": 531,
+    "level": 1,
+    "exp": 0,
+    "stats": {
+      "atk": 95,
+      "def": 90,
+      "hp": 541
+    }
+  },
+  "CHAR_564582356": {
+    "type": "character",
+    "name": "DanHeng",
+    "obtainedAt": 1742641875088,
+    "value": 628,
+    "level": 1,
+    "exp": 0,
+    "stats": {
+      "atk": 95,
+      "def": 90,
+      "hp": 491
+    }
+  },
+  "CHAR_153719960": {
+    "type": "character",
+    "name": "Chongyun",
+    "obtainedAt": 1742641938166,
+    "value": 17014,
+    "level": 1,
+    "exp": 0,
+    "stats": {
+      "atk": 329,
+      "def": 274,
+      "hp": 998
+    }
+  },
+  "CHAR_521810661": {
+    "type": "character",
+    "name": "Sushang",
+    "obtainedAt": 1742642115400,
+    "value": 349,
+    "level": 1,
+    "exp": 0,
+    "stats": {
+      "atk": 105,
+      "def": 101,
+      "hp": 457
+    }
+  },
+  "EXP_ADVENTURERS_EXPERIENCE_160825912": {
+    "type": "EXP",
+    "name": "Adventurers Experience",
+    "expValue": 2000,
+    "description": "A record of adventures and discoveries Grants a moderate amount of EXP",
+    "image": "https://imgur.com/LFkAr11.png",
+    "rarity": "3",
+    "value": 1500,
+    "obtainedAt": 1742642255831
+  },
+  "CHAR_977217650": {
+    "type": "character",
+    "name": "kaveh",
+    "obtainedAt": 1742642307748,
+    "value": 758,
+    "level": 1,
+    "exp": 0,
+    "stats": {
+      "atk": 107,
+      "def": 92,
+      "hp": 459
+    }
+  },
+  "CHAR_525266550": {
+    "type": "character",
+    "name": "DanHeng",
+    "obtainedAt": 1742644612459,
+    "value": 283,
+    "level": 1,
+    "exp": 0,
+    "stats": {
+      "atk": 98,
+      "def": 108,
+      "hp": 543
+    }
+  },
+  "CHAR_507747048": {
+    "type": "character",
+    "name": "Sampo",
+    "obtainedAt": 1742648130574,
+    "value": 181,
+    "level": 1,
+    "exp": 0,
+    "stats": {
+      "atk": 102,
+      "def": 101,
+      "hp": 507
+    }
+  },
+  "CHAR_992607609": {
+    "type": "character",
+    "name": "Chiori",
+    "obtainedAt": 1742648269611,
+    "value": 293,
+    "level": 1,
+    "exp": 0,
+    "stats": {
+      "atk": 98,
+      "def": 100,
+      "hp": 547
+    }
+  },
+  "CHAR_683790736": {
+    "type": "character",
+    "name": "Luka",
+    "obtainedAt": 1742648605412,
+    "value": 691,
+    "level": 1,
+    "exp": 0,
+    "stats": {
+      "atk": 91,
+      "def": 108,
+      "hp": 475
+    }
+  },
+  "CHAR_455568719": {
+    "type": "character",
+    "name": "Xinyan",
+    "obtainedAt": 1742648614454,
+    "value": 743,
+    "level": 1,
+    "exp": 0,
+    "stats": {
+      "atk": 109,
+      "def": 90,
+      "hp": 493
+    }
+  },
+  "CHAR_943631332": {
+    "type": "character",
+    "name": "Chiori",
+    "obtainedAt": 1742648664124,
+    "value": 629,
+    "level": 1,
+    "exp": 0,
+    "stats": {
+      "atk": 95,
+      "def": 107,
+      "hp": 537
+    }
+  },
+  "CHAR_452723552": {
+    "type": "character",
+    "name": "Sucrose",
+    "obtainedAt": 1742648720558,
+    "value": 14162,
+    "level": 1,
+    "exp": 0,
+    "stats": {
+      "atk": 280,
+      "def": 329,
+      "hp": 1050
+    }
+  },
+  "CHAR_814294795": {
+    "type": "character",
+    "name": "Diona",
+    "obtainedAt": 1742648757624,
+    "value": 349,
+    "level": 1,
+    "exp": 0,
+    "stats": {
+      "atk": 104,
+      "def": 105,
+      "hp": 516
+    }
+  },
+  "CHAR_171844397": {
+    "type": "character",
+    "name": "Sucrose",
+    "obtainedAt": 1742648773073,
+    "starLevel": 5,
+    "level": 1,
+    "exp": 0,
+    "isMaxEvolved": false,
+    "isEvolved": true,
+    "value": 225000,
+    "stats": {
+      "atk": 405,
+      "def": 448,
+      "hp": 1446
+    }
+  },
+  "CHAR_807350296": {
+    "type": "character",
+    "name": "kaveh",
+    "obtainedAt": 1742648835658,
+    "value": 670,
+    "level": 1,
+    "exp": 0,
+    "stats": {
+      "atk": 96,
+      "def": 96,
+      "hp": 540
+    }
+  },
+  "STONE_GEO_615726797": {
+    "type": "stone",
+    "stoneType": "GEO",
+    "name": "PrithivaTopaz",
+    "element": "Geo",
+    "emoji": "🪨",
+    "description": "Ascension stone for Geo characters",
+    "image": "https://imgur.com/LCLoXOH.png",
+    "obtainedAt": 1742648906008,
+    "value": 25000
+  },
+  "CHAR_673521199": {
+    "type": "character",
+    "name": "Lisa",
+    "obtainedAt": 1742648915559,
+    "value": 162,
+    "level": 1,
+    "exp": 0,
+    "stats": {
+      "atk": 109,
+      "def": 96,
+      "hp": 530
+    }
+  },
+  "CHAR_710152821": {
+    "type": "character",
+    "name": "Ayaka",
+    "obtainedAt": 1742649018496,
+    "value": 2934806,
+    "level": 1,
+    "exp": 0,
+    "stats": {
+      "atk": 513,
+      "def": 528,
+      "hp": 2068
+    }
+  },
+  "EXP_MYTHICAL_SCROLL_144512241": {
+    "type": "EXP",
+    "name": "Mythical Scroll",
+    "expValue": 100000,
+    "description": "Mythical teachings from the gods Grants enormous amounts of EXP",
+    "image": "https://imgur.com/JWVLXxj.png",
+    "rarity": "5",
+    "value": 50000,
+    "obtainedAt": 1742649096171
+  },
+  "CHAR_376130731": {
+    "type": "character",
+    "name": "Mika",
+    "obtainedAt": 1742649168221,
+    "value": 160,
+    "level": 1,
+    "exp": 0,
+    "stats": {
+      "atk": 95,
+      "def": 91,
+      "hp": 462
+    }
+  },
+  "CHAR_624690851": {
+    "type": "character",
+    "name": "Beidou",
+    "obtainedAt": 1742649226198,
+    "value": 43330,
+    "level": 1,
+    "exp": 0,
+    "stats": {
+      "atk": 281,
+      "def": 290,
+      "hp": 1051
+    }
+  },
+  "CHAR_684215641": {
+    "type": "character",
+    "name": "Sushang",
+    "obtainedAt": 1742649437185,
+    "value": 288,
+    "level": 1,
+    "exp": 0,
+    "stats": {
+      "atk": 103,
+      "def": 93,
+      "hp": 461
+    }
+  },
+  "CHAR_625191339": {
+    "type": "character",
+    "name": "Lisa",
+    "obtainedAt": 1742649537458,
+    "value": 534,
+    "level": 1,
+    "exp": 0,
+    "stats": {
+      "atk": 95,
+      "def": 91,
+      "hp": 533
+    }
+  },
+  "CHAR_849220703": {
+    "type": "character",
+    "name": "collei",
+    "obtainedAt": 1742649627282,
+    "value": 283,
+    "level": 1,
+    "exp": 0,
+    "stats": {
+      "atk": 108,
+      "def": 106,
+      "hp": 542
+    }
+  },
+  "STONE_CRYO_892662430": {
+    "type": "stone",
+    "stoneType": "CRYO",
+    "name": "ShivadaJade",
+    "element": "Cryo",
+    "emoji": "❄️",
+    "description": "Ascension stone for Cryo characters",
+    "image": "https://imgur.com/k7PooZ5.png",
+    "obtainedAt": 1742649681047,
+    "value": 25000
+  },
+  "CHAR_912586834": {
+    "type": "character",
+    "name": "kaveh",
+    "obtainedAt": 1742649746870,
+    "value": 286,
+    "level": 1,
+    "exp": 0,
+    "stats": {
+      "atk": 108,
+      "def": 98,
+      "hp": 499
+    }
+  },
+  "CHAR_959520180": {
+    "type": "character",
+    "name": "sayu",
+    "obtainedAt": 1742649868652,
+    "value": 31189,
+    "level": 1,
+    "exp": 0,
+    "stats": {
+      "atk": 307,
+      "def": 299,
+      "hp": 904
+    }
+  },
+  "STONE_GEO_758032485": {
+    "type": "stone",
+    "stoneType": "GEO",
+    "name": "PrithivaTopaz",
+    "element": "Geo",
+    "emoji": "🪨",
+    "description": "Ascension stone for Geo characters",
+    "image": "https://imgur.com/LCLoXOH.png",
+    "obtainedAt": 1742651592911,
+    "value": 25000
+  },
+  "CHAR_701776511": {
+    "type": "character",
+    "name": "Barbara",
+    "obtainedAt": 1742651718055,
+    "value": 472,
+    "level": 1,
+    "exp": 0,
+    "stats": {
+      "atk": 107,
+      "def": 109,
+      "hp": 549
+    }
+  },
+  "CHAR_271210238": {
+    "type": "character",
+    "name": "Gorou",
+    "obtainedAt": 1742651897312,
+    "value": 110,
+    "level": 1,
+    "exp": 0,
+    "stats": {
+      "atk": 95,
+      "def": 99,
+      "hp": 479
+    }
+  },
+  "CHAR_376877612": {
+    "type": "character",
+    "name": "Rosaria",
+    "obtainedAt": 1742652887030,
+    "value": 10102,
+    "level": 1,
+    "exp": 0,
+    "stats": {
+      "atk": 309,
+      "def": 319,
+      "hp": 912
+    }
+  },
+  "CHAR_347772953": {
+    "type": "character",
+    "name": "collei",
+    "obtainedAt": 1742652932902,
+    "value": 423,
+    "level": 1,
+    "exp": 0,
+    "stats": {
+      "atk": 92,
+      "def": 98,
+      "hp": 451
+    }
+  },
+  "CHAR_252235027": {
+    "type": "character",
+    "name": "Serval",
+    "obtainedAt": 1742653441209,
+    "value": 743,
+    "level": 1,
+    "exp": 0,
+    "stats": {
+      "atk": 104,
+      "def": 93,
+      "hp": 524
+    }
+  },
+  "EXP_WANDERERS_ADVICE_533244235": {
+    "type": "EXP",
+    "name": "Wanderers Advice",
+    "expValue": 500,
+    "description": "Simple advice from a traveler Grants a small amount of EXP",
+    "image": "https://imgur.com/GSSFx9L.png",
+    "rarity": "2",
+    "value": 500,
+    "obtainedAt": 1742653533956
+  },
+  "CHAR_326086907": {
+    "type": "character",
+    "name": "Kaeya",
+    "obtainedAt": 1742655114624,
+    "value": 486,
+    "level": 1,
+    "exp": 0,
+    "stats": {
+      "atk": 90,
+      "def": 106,
+      "hp": 468
+    }
+  },
+  "FRAGMENT_DENDRO_509052014": {
+    "type": "fragment",
+    "stoneType": "DENDRO",
+    "name": "EmeraldFragment",
+    "element": "Dendro",
+    "emoji": "🌿",
+    "description": "Dendro evolution fragment",
+    "image": "https://imgur.com/uVp1eNU.png",
+    "obtainedAt": 1742655286083,
+    "value": 2500,
+    "isFragment": true
+  },
+  "EXP_MYTHICAL_SCROLL_732001892": {
+    "type": "EXP",
+    "name": "Mythical Scroll",
+    "expValue": 100000,
+    "description": "Mythical teachings from the gods Grants enormous amounts of EXP",
+    "image": "https://imgur.com/JWVLXxj.png",
+    "rarity": "5",
+    "value": 50000,
+    "obtainedAt": 1742655349016
+  },
+  "CHAR_375930686": {
+    "type": "character",
+    "name": "March7th",
+    "obtainedAt": 1742655400204,
+    "value": 23151,
+    "level": 1,
+    "exp": 0,
+    "stats": {
+      "atk": 293,
+      "def": 320,
+      "hp": 1021
+    }
+  },
+  "CHAR_723290179": {
+    "type": "character",
+    "name": "Luka",
+    "obtainedAt": 1742655447480,
+    "value": 501,
+    "level": 1,
+    "exp": 0,
+    "stats": {
+      "atk": 103,
+      "def": 97,
+      "hp": 482
+    }
+  },
+  "EXP_ADVENTURERS_EXPERIENCE_773421997": {
+    "type": "EXP",
+    "name": "Adventurers Experience",
+    "expValue": 2000,
+    "description": "A record of adventures and discoveries Grants a moderate amount of EXP",
+    "image": "https://imgur.com/LFkAr11.png",
+    "rarity": "3",
+    "value": 1500,
+    "obtainedAt": 1742655498491
+  },
+  "CHAR_850113646": {
+    "type": "character",
+    "name": "Luka",
+    "obtainedAt": 1742655560702,
+    "value": 453,
+    "level": 1,
+    "exp": 0,
+    "stats": {
+      "atk": 99,
+      "def": 95,
+      "hp": 509
+    }
+  },
+  "CHAR_159786402": {
+    "type": "character",
+    "name": "Diona",
+    "obtainedAt": 1742655717247,
+    "value": 239,
+    "level": 1,
+    "exp": 0,
+    "stats": {
+      "atk": 95,
+      "def": 107,
+      "hp": 455
+    }
+  },
+  "CHAR_524990974": {
+    "type": "character",
+    "name": "Xiangling",
+    "obtainedAt": 1742655769980,
+    "value": 39124,
+    "level": 1,
+    "exp": 0,
+    "stats": {
+      "atk": 270,
+      "def": 297,
+      "hp": 902
+    }
+  },
+  "CHAR_190712600": {
+    "type": "character",
+    "name": "dehya",
+    "obtainedAt": 1742655881489,
+    "value": 350,
+    "level": 1,
+    "exp": 0,
+    "stats": {
+      "atk": 97,
+      "def": 93,
+      "hp": 500
+    }
+  },
+  "CHAR_210765926": {
+    "type": "character",
+    "name": "Xinyan",
+    "obtainedAt": 1742655958079,
+    "value": 125,
+    "level": 1,
+    "exp": 0,
+    "stats": {
+      "atk": 104,
+      "def": 99,
+      "hp": 519
+    }
+  },
+  "EXP_ADVENTURERS_EXPERIENCE_419205081": {
+    "type": "EXP",
+    "name": "Adventurers Experience",
+    "expValue": 2000,
+    "description": "A record of adventures and discoveries Grants a moderate amount of EXP",
+    "image": "https://imgur.com/LFkAr11.png",
+    "rarity": "3",
+    "value": 1500,
+    "obtainedAt": 1742656076488
+  },
+  "CHAR_854753253": {
+    "type": "character",
+    "name": "collei",
+    "obtainedAt": 1742656174593,
+    "value": 705,
+    "level": 1,
+    "exp": 0,
+    "stats": {
+      "atk": 103,
+      "def": 90,
+      "hp": 498
+    }
+  },
+  "STELLA_1742656398627_3814": {
+    "id": "STELLA_1742656398627_3814",
+    "type": "stella",
+    "isStella": true,
+    "name": "Stella Fortuna (Nahida)",
+    "targetCharacter": "Nahida",
+    "isUniversal": false,
+    "rarity": 5,
+    "description": "Dùng để mở khóa chòm sao cho Nahida",
+    "obtainedAt": 1742656398627,
+    "value": 200000,
+    "image": "https://imgur.com/n3GBdOq.png"
+  },
+  "FRAGMENT_PYRO_838359340": {
+    "type": "fragment",
+    "stoneType": "PYRO",
+    "name": "AgateFragment",
+    "element": "Pyro",
+    "emoji": "🔥",
+    "description": "Pyro evolution fragment",
+    "image": "https://imgur.com/Ec9w0A3.png",
+    "obtainedAt": 1742656446960,
+    "value": 2500,
+    "isFragment": true
+  },
+  "FRAGMENT_HYDRO_253013582": {
+    "type": "fragment",
+    "stoneType": "HYDRO",
+    "name": "LazuriteFragment",
+    "element": "Hydro",
+    "emoji": "💧",
+    "description": "Hydro evolution fragment",
+    "image": "https://imgur.com/xUQZRMt.png",
+    "obtainedAt": 1742656539677,
+    "value": 2500,
+    "isFragment": true
+  },
+  "CHAR_340851412": {
+    "type": "character",
+    "name": "Amber",
+    "obtainedAt": 1742656593605,
+    "value": 149,
+    "level": 1,
+    "exp": 0,
+    "stats": {
+      "atk": 99,
+      "def": 109,
+      "hp": 515
+    }
+  },
+  "CHAR_986318382": {
+    "type": "character",
+    "name": "Serval",
+    "obtainedAt": 1742656647756,
+    "value": 113,
+    "level": 1,
+    "exp": 0,
+    "stats": {
+      "atk": 103,
+      "def": 93,
+      "hp": 525
+    }
+  },
+  "CHAR_138872634": {
+    "type": "character",
+    "name": "DanHeng",
+    "obtainedAt": 1742656708048,
+    "value": 500,
+    "level": 1,
+    "exp": 0,
+    "stats": {
+      "atk": 108,
+      "def": 107,
+      "hp": 512
+    }
+  },
+  "CHAR_738687485": {
+    "type": "character",
+    "name": "Amber",
+    "obtainedAt": 1742657931285,
+    "value": 315,
+    "level": 1,
+    "exp": 0,
+    "stats": {
+      "atk": 107,
+      "def": 109,
+      "hp": 543
+    }
+  },
+  "STONE_ELECTRO_210128546": {
+    "type": "stone",
+    "stoneType": "ELECTRO",
+    "name": "VajradaAmethyst",
+    "element": "Electro",
+    "emoji": "⚡",
+    "description": "Ascension stone for Electro characters",
+    "image": "https://imgur.com/iJr7tkQ.png",
+    "obtainedAt": 1742657984172,
+    "value": 25000
+  },
+  "STONE_CRYO_311234372": {
+    "type": "stone",
+    "stoneType": "CRYO",
+    "name": "ShivadaJade",
+    "element": "Cryo",
+    "emoji": "❄️",
+    "description": "Ascension stone for Cryo characters",
+    "image": "https://imgur.com/k7PooZ5.png",
+    "obtainedAt": 1742658119182,
+    "value": 25000
   }
 }

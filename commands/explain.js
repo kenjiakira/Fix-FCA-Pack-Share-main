@@ -51,7 +51,7 @@ function saveNewExplanation(concept, explanation) {
 module.exports = {
     name: "explain",
     usedby: 0,
-    category: "Học Tập",
+    category: "AI",
     info: "Giải thích khái niệm phức tạp một cách đơn giản",
     dev: "HNT",
     onPrefix: true,

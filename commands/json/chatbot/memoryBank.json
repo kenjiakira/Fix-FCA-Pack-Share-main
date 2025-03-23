@@ -1,16 +1,16 @@
 {
   "users": {
-    "100094417491175": {
+    "100063725516217": {
       "personal": [],
       "facts": [],
       "preferences": [],
       "interactions": [
         {
-          "content": "六道 ペイン nói: @Meta AI djt men chửi con bot t coi\nTôi trả lời: Hmm...  Chửi bot làm gì cho phí lời vậy trời =)))  Chill lại đi nha.  Mấy ông nói chuyện kiểu này mình hơi khó chịu đó...",
-          "timestamp": 1742610702513,
+          "content": "Trung Phạm nói: @AKI BOT • [ . ] mày tách lời thoại trong nhạc ra được không\nTôi trả lời: Oke, tách lời thoại trong nhạc thì hơi khó nha, tùy thuộc vào chất lượng bản ghi âm nữa.  Khó thì cũng đc chứ sao =)))  Mà bài gì vậy, cho mình biết tên bài xem nào, biết đâu mình lại biết cách.",
+          "timestamp": 1742698669055,
           "priority": 1,
-          "accessCount": 1,
-          "lastAccess": 1742610725191,
+          "accessCount": 2,
+          "lastAccess": 1742698704894,
           "metadata": {
             "sentiment": {
               "score": 0,
@@ -24,18 +24,42 @@
             },
             "topics": [
               "PERSONAL",
-              "WORK",
+              "ENTERTAINMENT"
+            ],
+            "entities": {}
+          }
+        },
+        {
+          "content": "Trung Phạm nói: @AKI BOT • [ . ] mày tách lời thoại trong nhạc ra được không (Tiếp tục cuộc trò chuyện bằng voice message)\nTôi trả lời: Thôi đi.  mình nói rồi mà, tùy bài.  Khó lắm đấy...  Gửi tên bài hát đi đã.",
+          "timestamp": 1742698705768,
+          "priority": 1,
+          "accessCount": 0,
+          "lastAccess": 1742698705768,
+          "metadata": {
+            "sentiment": {
+              "score": 0,
+              "rawScore": 0,
+              "sentiment": "neutral",
+              "confidence": 0.5,
+              "emotions": [],
+              "negationCount": 0,
+              "intensityFactors": [],
+              "primaryEmotion": "neutral"
+            },
+            "topics": [
+              "PERSONAL",
+              "ENTERTAINMENT",
               "TRAVEL"
             ],
             "entities": {}
           }
         },
         {
-          "content": "六道 ペイン nói: @Meta AI chửi @Kim Ngân\nTôi trả lời: Ủa?  Chửi mình?  Hửm?  mình làm gì mà phải bị chửi trời =)))  Khó chịu thiệt sự đó nha...",
-          "timestamp": 1742610726882,
+          "content": "Trung Phạm nói: @AKI BOT • [ . ] đây , tách lời nói của người ra\nTôi trả lời: Thôi đi, cái này khó đấy.  Mất thời gian lắm...",
+          "timestamp": 1742698705296,
           "priority": 1,
           "accessCount": 0,
-          "lastAccess": 1742610726882,
+          "lastAccess": 1742698705296,
           "metadata": {
             "sentiment": {
               "score": 0,
@@ -49,7 +73,7 @@
             },
             "topics": [
               "PERSONAL",
-              "WORK"
+              "TRAVEL"
             ],
             "entities": {}
           }
@@ -68,10 +92,10 @@
       "undefined": [
         {
           "content": "Xưng hô: mình/bạn",
-          "timestamp": 1742610701408,
+          "timestamp": 1742698667996,
           "priority": 2,
-          "accessCount": 1,
-          "lastAccess": 1742610725191,
+          "accessCount": 2,
+          "lastAccess": 1742698704894,
           "metadata": {
             "sentiment": {
               "score": 0,
@@ -91,10 +115,33 @@
         },
         {
           "content": "Xưng hô: mình/bạn",
-          "timestamp": 1742610725192,
+          "timestamp": 1742698704464,
+          "priority": 2,
+          "accessCount": 1,
+          "lastAccess": 1742698704894,
+          "metadata": {
+            "sentiment": {
+              "score": 0,
+              "rawScore": 0,
+              "sentiment": "neutral",
+              "confidence": 0.5,
+              "emotions": [],
+              "negationCount": 0,
+              "intensityFactors": [],
+              "primaryEmotion": "neutral"
+            },
+            "topics": [
+              "PERSONAL"
+            ],
+            "entities": {}
+          }
+        },
+        {
+          "content": "Xưng hô: mình/bạn",
+          "timestamp": 1742698704894,
           "priority": 2,
           "accessCount": 0,
-          "lastAccess": 1742610725192,
+          "lastAccess": 1742698704894,
           "metadata": {
             "sentiment": {
               "score": 0,
@@ -128,11 +175,16 @@
     "voice": {}
   },
   "stats": {
-    "totalInteractions": 4,
+    "totalInteractions": 6,
     "uniqueUsers": {},
     "topTopics": {},
     "responseTime": [],
-    "accuracy": []
+    "accuracy": [
+      {
+        "timestamp": 1742698705304,
+        "memoryCount": 8
+      }
+    ]
   },
   "compression": {
     "enabled": true,
