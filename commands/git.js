@@ -15,7 +15,6 @@ module.exports = {
         const { threadID, messageID } = event;
 
         try {
-            // Check if in git repository
             const isGitRepo = fs.existsSync(path.join(__dirname, '../.git'));
             if (!isGitRepo) {
                 return api.sendMessage("❌ Thư mục này chưa được khởi tạo Git!", threadID, messageID);
@@ -26,20 +25,15 @@ module.exports = {
 
             switch (action) {
                 case "push":
-                    // Status message
                     const loadingMsg = await api.sendMessage("⏳ Đang push code lên Github...", threadID);
 
                     try {
-                        // Add all changes
                         execSync('git add .', { cwd: path.join(__dirname, '../') });
 
-                        // Commit with message
                         execSync(`git commit -m "${commitMsg}"`, { cwd: path.join(__dirname, '../') });
 
-                        // Push to remote
                         execSync('git push', { cwd: path.join(__dirname, '../') });
 
-                        // Success message
                         api.unsendMessage(loadingMsg.messageID);
                         return api.sendMessage(
                             "✅ Đã push code lên Github thành công!\n\n" +
@@ -48,7 +42,6 @@ module.exports = {
                         );
 
                     } catch (err) {
-                        // Error handling
                         api.unsendMessage(loadingMsg.messageID);
                         return api.sendMessage(
                             `❌ Lỗi khi push code: ${err.message}\n\n` +
@@ -63,7 +56,6 @@ module.exports = {
                     break;
 
                 case "status":
-                    // Get git status
                     const status = execSync('git status', { 
                         cwd: path.join(__dirname, '../'),
                         encoding: 'utf8'
@@ -75,7 +67,6 @@ module.exports = {
                     );
 
                 case "log":
-                    // Get last 5 commits
                     const logs = execSync('git log -5 --oneline', { 
                         cwd: path.join(__dirname, '../'),
                         encoding: 'utf8'

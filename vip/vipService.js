@@ -111,19 +111,25 @@ class VipService {
             return { success: false, message: "Invalid package type" };
         }
         
+        // Get base price from sale price (ensuring we get a proper number)
         const basePrice = parseInt(pkg.price.sale.replace(/,/g, ''));
         let finalPrice = basePrice;
         let discount = 0;
-        let duration = months; 
+        let duration = months;  // Duration in months
+        
+        // Apply long-term discount if applicable
         if (months > 1 && pkg.longTermOptions && pkg.longTermOptions[months]) {
             const option = pkg.longTermOptions[months];
             discount = option.discount;
+            // Calculate discounted price for multi-month subscription
             const totalBasePrice = basePrice * months;
             finalPrice = Math.floor(totalBasePrice * (100 - discount) / 100);
         } else if (months > 1) {
+            // If no specific discount for this duration, just multiply by months
             finalPrice = basePrice * months;
         }
         
+        // Apply voucher discount if available
         if (voucher && voucher.discount) {
             const voucherDiscount = voucher.discount;
             const voucherDiscountAmount = Math.floor(finalPrice * voucherDiscount / 100);
@@ -133,10 +139,10 @@ class VipService {
         return {
             success: true,
             originalPrice: basePrice,
-            finalPrice: Math.floor(finalPrice), 
+            finalPrice: Math.floor(finalPrice), // Ensure it's a whole number
             totalDiscount: discount,
             months: months,
-            daysToAdd: months * 30 + (packageKey === 'GOLD' ? months * 7 : 0),
+            daysToAdd: months * 30 + (packageKey === 'GOLD' ? months * 7 : 0), // Gold gets bonus days
             packageInfo: pkg
         };
     }
@@ -161,6 +167,7 @@ class VipService {
                 return { success: false, message: "Invalid VIP package ID" };
             }
             
+            // Calculate days based on months and add bonus days for Gold package
             const daysToAdd = months * 30 + (packageId === 3 ? months * 7 : 0);
             
             vipData.users[userId] = {
@@ -205,6 +212,7 @@ class VipService {
         try {
             let voucher = null;
             
+            // Validate voucher if provided
             if (voucherCode) {
                 voucher = this.validateVoucher(userId, voucherCode);
                 if (!voucher.success) {
@@ -213,6 +221,7 @@ class VipService {
                 voucher = voucher.data;
             }
             
+            // Map package type to package ID
             const packageMap = { 'bronze': 1, 'silver': 2, 'gold': 3 };
             const packageId = packageMap[packageType.toLowerCase()];
             
@@ -220,8 +229,10 @@ class VipService {
                 return { success: false, message: "Invalid package type" };
             }
             
+            // Calculate expected price
             const priceInfo = this.calculateVipPrice(packageType, months, voucher);
             
+            // Verify payment amount with some tolerance (e.g., 1000 VND)
             const tolerance = 1000;
             if (Math.abs(priceInfo.finalPrice - paidAmount) > tolerance) {
                 return { 
@@ -232,8 +243,10 @@ class VipService {
                 };
             }
             
+            // Set VIP status
             const result = this.setVIP(userId, packageId, months, voucher);
             
+            // If successful and voucher was used, mark it as used
             if (result.success && voucher) {
                 this.markVoucherAsUsed(userId, voucherCode);
             }
@@ -375,37 +388,6 @@ class VipService {
         } catch (error) {
             console.error('Error checking VIP expiration:', error);
             return { success: false, message: "Error during VIP expiration check" };
-        }
-    }
-
-    async checkDownloadAccess(senderID, threadID, api) {
-        try {
-            const senderVIP = this.getVIPBenefits(senderID);
-            
-            const threadInfo = await api.getThreadInfo(threadID);
-            
-            if (threadInfo.isGroup) {
-                const adminID = threadInfo.adminIDs[0]; 
-                const adminVIP = this.getVIPBenefits(adminID);
-                
-                return {
-                    hasAccess: senderVIP.packageId === 3 && adminVIP.packageId === 3,
-                    message: !senderVIP.packageId === 3 ? 
-                        "⚠️ Bạn cần có VIP GOLD để tải nội dung này" :
-                        "⚠️ Chỉ được phép tải trong nhóm có quản trị viên VIP GOLD"
-                };
-            } else {
-                return {
-                    hasAccess: senderVIP.packageId === 3,
-                    message: "⚠️ Bạn cần có VIP GOLD để tải nội dung này"
-                };
-            }
-        } catch (error) {
-            console.error('Error checking download access:', error);
-            return {
-                hasAccess: false,
-                message: "❌ Lỗi kiểm tra quyền truy cập"
-            };
         }
     }
 }

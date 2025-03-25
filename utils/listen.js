@@ -123,6 +123,20 @@ const { logChatRecord, notifyAdmins } = require('./logs');
 
         api.listenMqtt(async (err, event) => {
             if (err) return console.error(gradient.passion(err));
+            // Add this check near the beginning of the listener
+            if (event.type === "message" || event.type === "message_reply") {
+                try {
+                    const bannedUsers = JSON.parse(fs.readFileSync(path.join(__dirname, '../commands/json/banned.json')));
+                    if (bannedUsers[event.senderID]) {
+                        if (event.body?.startsWith(getThreadPrefix(event.threadID))) {
+                            api.sendMessage("⚠️ Bạn đã bị cấm sử dụng bot!", event.threadID, event.messageID);
+                        }
+                        return;
+                    }
+                } catch (error) {
+                    console.error("Ban check error:", error);
+                }
+            }
             if (event.type === "message" || event.type === "message_reply") {
                 trackUserActivity(event, threadsDB, usersDB);
                 

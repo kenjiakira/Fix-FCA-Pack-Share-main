@@ -64,9 +64,13 @@ module.exports = {
             
             const platform = Object.entries(patterns).find(([_, pattern]) => pattern.test(url))?.[0];
             if (platform && !['facebook', 'tiktok'].includes(platform)) {
-                const accessCheck = await vipService.checkDownloadAccess(event.senderID, event.threadID, api);
-                if (!accessCheck.hasAccess) {
-                    return api.sendMessage(accessCheck.message, event.threadID);
+                const benefits = vipService.getVIPBenefits(event.senderID);
+                if (benefits.packageId !== 3) {
+                    return api.sendMessage(
+                        "⚠️ Bạn cần có VIP GOLD để tải nội dung từ nền tảng này.\n" +
+                        "💎 Gõ '.vip gold' để xem thông tin nâng cấp VIP GOLD.",
+                        event.threadID
+                    );
                 }
             }
             

@@ -1,25 +1,100 @@
 {
   "global": [
     {
-      "timestamp": 1742884472848,
-      "prompt": "xàm",
-      "response": "ừ",
-      "senderID": "61573427362389",
-      "senderName": "Ngọc Từ"
+      "timestamp": 1742890117542,
+      "prompt": "Gì ai mượn trả lời",
+      "response": "Hỏi gì cứ hỏi nha =)))",
+      "senderID": "61571418352875",
+      "senderName": "User"
+    },
+    {
+      "timestamp": 1742890135695,
+      "prompt": "Đéo hỏi mày",
+      "response": "Mày muốn gì? 🙄",
+      "senderID": "61571418352875",
+      "senderName": "User"
+    },
+    {
+      "timestamp": 1742890151350,
+      "prompt": "Chả muốn gi",
+      "response": "Thì kệ =))",
+      "senderID": "61571418352875",
+      "senderName": "User"
+    },
+    {
+      "timestamp": 1742890161620,
+      "prompt": "Kệ t chứ",
+      "response": "Oke =))",
+      "senderID": "61571418352875",
+      "senderName": "User"
+    },
+    {
+      "timestamp": 1742890171061,
+      "prompt": "Ok cút",
+      "response": "🙄  Thì sao?",
+      "senderID": "61571418352875",
+      "senderName": "User"
+    },
+    {
+      "timestamp": 1742890182526,
+      "prompt": "Chả sao",
+      "response": "Okay =))",
+      "senderID": "61571418352875",
+      "senderName": "User"
     }
   ],
   "threads": {
-    "6589198804475799": [
+    "7601509346549933": [
       {
-        "timestamp": 1742884472848,
-        "prompt": "xàm",
-        "response": "ừ",
-        "senderID": "61573427362389",
-        "senderName": "Ngọc Từ"
+        "timestamp": 1742890117542,
+        "prompt": "Gì ai mượn trả lời",
+        "response": "Hỏi gì cứ hỏi nha =)))",
+        "senderID": "61571418352875",
+        "senderName": "User"
+      },
+      {
+        "timestamp": 1742890135695,
+        "prompt": "Đéo hỏi mày",
+        "response": "Mày muốn gì? 🙄",
+        "senderID": "61571418352875",
+        "senderName": "User"
+      },
+      {
+        "timestamp": 1742890151350,
+        "prompt": "Chả muốn gi",
+        "response": "Thì kệ =))",
+        "senderID": "61571418352875",
+        "senderName": "User"
+      },
+      {
+        "timestamp": 1742890161620,
+        "prompt": "Kệ t chứ",
+        "response": "Oke =))",
+        "senderID": "61571418352875",
+        "senderName": "User"
+      },
+      {
+        "timestamp": 1742890171061,
+        "prompt": "Ok cút",
+        "response": "🙄  Thì sao?",
+        "senderID": "61571418352875",
+        "senderName": "User"
+      },
+      {
+        "timestamp": 1742890182526,
+        "prompt": "Chả sao",
+        "response": "Okay =))",
+        "senderID": "61571418352875",
+        "senderName": "User"
       }
     ]
   },
   "lastResponses": {
-    "xàm": "ừ"
+    "gì ai mượn trả lời": "Hỏi gì cứ hỏi nha =)))",
+    "đéo hỏi mày": "Mày muốn gì? 🙄",
+    "chả muốn gi": "Thì kệ =))",
+    "kệ t chứ": "Oke =))",
+    "ok cút": "🙄  Thì sao?",
+    "chả sao": "Okay =))"
   }
 }

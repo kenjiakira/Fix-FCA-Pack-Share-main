@@ -72,6 +72,31 @@ module.exports = {
             console.error("Kick command error:", error);
             return api.sendMessage("❌ Đã xảy ra lỗi!", threadID, messageID);
         }
+    },
+
+    kickUser: async function(api, threadID, userID, reason = "") {
+        try {
+            const botID = api.getCurrentUserID();
+            const threadInfo = await api.getThreadInfo(threadID);
+            const threadAdmins = threadInfo?.adminIDs?.map(admin => admin.id) || [];
+            
+            if (!threadAdmins.includes(botID)) {
+                return false;
+            }
+
+            const adminConfig = JSON.parse(fs.readFileSync("./admin.json", "utf8"));
+            const botAdmins = adminConfig.adminUIDs || [];
+
+            if (userID === botID || threadAdmins.includes(userID) || botAdmins.includes(userID)) {
+                return false;
+            }
+
+            await api.removeUserFromGroup(userID, threadID);
+            return true;
+        } catch (error) {
+            console.error("Kick error:", error);
+            return false;
+        }
     }
 };
 

@@ -30,11 +30,11 @@ function requiresVIP(platform) {
     return !['facebook', 'tiktok'].includes(platform);
 }
 
-async function checkVIPAccess(userId, platform, api, threadID) {
+async function checkVIPAccess(userId, platform) {
     if (!requiresVIP(platform)) return true;
     
-    const accessCheck = await vipService.checkDownloadAccess(userId, threadID, api);
-    return accessCheck.hasAccess;
+    const benefits = vipService.getVIPBenefits(userId);
+    return benefits.packageId === 3; // Only VIP Gold can access
 }
 
 module.exports = {
@@ -58,12 +58,14 @@ module.exports = {
                 if (pattern.test(url)) {
                     if (platform === 'douyin' && !url.includes('douyin.com')) continue;
                     
-                    // Check VIP access before handling
                     if (requiresVIP(platform)) {
-                        const hasAccess = await checkVIPAccess(event.senderID, platform, api, event.threadID);
+                        const hasAccess = await checkVIPAccess(event.senderID, platform);
                         if (!hasAccess) {
-                            const accessCheck = await vipService.checkDownloadAccess(event.senderID, event.threadID, api);
-                            api.sendMessage(accessCheck.message, event.threadID);
+                            api.sendMessage(
+                                "⚠️ Bạn cần có VIP GOLD để tải nội dung từ nền tảng này.\n" +
+                                "💎 Gõ '.vip gold' để xem thông tin nâng cấp VIP GOLD.", 
+                                event.threadID
+                            );
                             return;
                         }
                     }
