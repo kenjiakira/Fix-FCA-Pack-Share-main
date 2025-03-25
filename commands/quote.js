@@ -3,10 +3,8 @@ const config = require('../config/api');
 const fs = require('fs');
 const path = require('path');
 
-// Đường dẫn đến file lưu trữ quotes đã sử dụng
 const QUOTES_FILE = path.join(__dirname, './json/used_quotes.json');
 
-// Khởi tạo file nếu chưa tồn tại
 function initializeQuotesFile() {
     if (!fs.existsSync(path.dirname(QUOTES_FILE))) {
         fs.mkdirSync(path.dirname(QUOTES_FILE), { recursive: true });
@@ -16,7 +14,6 @@ function initializeQuotesFile() {
     }
 }
 
-// Đọc quotes đã sử dụng
 function getUsedQuotes() {
     try {
         initializeQuotesFile();
@@ -27,7 +24,6 @@ function getUsedQuotes() {
     }
 }
 
-// Lưu quote mới
 function saveNewQuote(topic, quote) {
     try {
         const usedQuotes = getUsedQuotes();
@@ -37,7 +33,6 @@ function saveNewQuote(topic, quote) {
             timestamp: Date.now()
         });
         
-        // Chỉ giữ lại 100 quotes gần nhất
         if (usedQuotes.length > 100) {
             usedQuotes.splice(0, usedQuotes.length - 100);
         }
@@ -102,7 +97,6 @@ module.exports = {
             const result = await model.generateContent(prompt);
             const quote = result.response.text();
 
-            // Lưu quote mới
             saveNewQuote(topic, quote);
 
             const message = `💫 CHỦ ĐỀ: ${topic.toUpperCase()}\n` +

@@ -5,6 +5,7 @@ module.exports = {
     name: "douyin",
     dev: "HNT",
     category: "Media",
+    usedby: 2,
     info: "Tải video từ Douyin",
     usages: "douyin [link]",
     cooldowns: 5,

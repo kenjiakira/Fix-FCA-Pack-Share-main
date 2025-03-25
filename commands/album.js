@@ -6,7 +6,15 @@ const { createCanvas, loadImage } = Canvas;
 
 const layoutConfig = require('./json/album/layouts.json');
 
-function getLayoutConfig(imageCount) {
+function getLayoutConfig(imageCount, layout = 'auto') {
+    if (layout !== 'auto' && layoutConfig.layouts[layout]) {
+        return {
+            ...layoutConfig.layouts[layout],
+            effects: layoutConfig.effects,
+            optimization: layoutConfig.optimization
+        };
+    }
+    
     const config = layoutConfig.layouts[imageCount.toString()] || layoutConfig.layouts.default;
     return {
         ...config,
@@ -41,17 +49,114 @@ function applyEffects(ctx, x, y, width, height, effects) {
     }
 }
 
+// New function to apply filters to images
+function applyFilter(ctx, x, y, width, height, filter) {
+    if (!filter || filter === 'none') return;
+    
+    const imageData = ctx.getImageData(x, y, width, height);
+    const data = imageData.data;
+    
+    switch (filter) {
+        case 'grayscale':
+            for (let i = 0; i < data.length; i += 4) {
+                const avg = (data[i] + data[i + 1] + data[i + 2]) / 3;
+                data[i] = avg;
+                data[i + 1] = avg;
+                data[i + 2] = avg;
+            }
+            break;
+        case 'sepia':
+            for (let i = 0; i < data.length; i += 4) {
+                const r = data[i];
+                const g = data[i + 1];
+                const b = data[i + 2];
+                data[i] = Math.min(255, (r * 0.393) + (g * 0.769) + (b * 0.189));
+                data[i + 1] = Math.min(255, (r * 0.349) + (g * 0.686) + (b * 0.168));
+                data[i + 2] = Math.min(255, (r * 0.272) + (g * 0.534) + (b * 0.131));
+            }
+            break;
+        case 'invert':
+            for (let i = 0; i < data.length; i += 4) {
+                data[i] = 255 - data[i];
+                data[i + 1] = 255 - data[i + 1];
+                data[i + 2] = 255 - data[i + 2];
+            }
+            break;
+    }
+    
+    ctx.putImageData(imageData, x, y);
+}
+
+// New function to add text to images
+function addCaption(ctx, text, x, y, width) {
+    if (!text) return;
+    
+    ctx.save();
+    ctx.fillStyle = '#FFFFFF';
+    ctx.strokeStyle = '#000000';
+    ctx.lineWidth = 2;
+    ctx.font = '24px Arial';
+    ctx.textAlign = 'center';
+    ctx.textBaseline = 'top';
+    
+    // Add background shadow for better visibility
+    ctx.shadowColor = 'rgba(0, 0, 0, 0.7)';
+    ctx.shadowBlur = 3;
+    ctx.shadowOffsetX = 1;
+    ctx.shadowOffsetY = 1;
+    
+    // Word wrap and position text
+    const words = text.split(' ');
+    let line = '';
+    let lineY = y + 10;
+    for (let n = 0; n < words.length; n++) {
+        const testLine = line + words[n] + ' ';
+        const metrics = ctx.measureText(testLine);
+        if (metrics.width > width - 20 && n > 0) {
+            ctx.strokeText(line, x + width/2, lineY);
+            ctx.fillText(line, x + width/2, lineY);
+            line = words[n] + ' ';
+            lineY += 30;
+        } else {
+            line = testLine;
+        }
+    }
+    
+    ctx.strokeText(line, x + width/2, lineY);
+    ctx.fillText(line, x + width/2, lineY);
+    ctx.restore();
+}
+
 module.exports = {
     name: "album",
     dev: "HNT",
     category: "Media",
-    info: "Ghép nhiều ảnh thành album",
-    usages: "[Reply ảnh cần ghép]",
+    info: "Ghép nhiều ảnh thành album với nhiều tùy chọn",
+    usages: "[bg: <màu>] [layout: <kiểu>] [filter: <bộ lọc>] [caption: <chữ>] [Reply ảnh cần ghép]",
     cooldowns: 5,
     onPrefix: true,
 
-    onLaunch: async function({ api, event }) {
+    onLaunch: async function({ api, event, target }) {
         const { threadID, messageID, messageReply } = event;
+        
+        // Parse command arguments
+        let backgroundColor = '#121212';
+        let layoutType = 'auto';
+        let filter = 'none';
+        let caption = '';
+        
+        // Process command arguments
+        for (const arg of target) {
+            if (arg.startsWith('bg:')) {
+                backgroundColor = arg.substring(3).trim() || backgroundColor;
+            } else if (arg.startsWith('layout:')) {
+                layoutType = arg.substring(7).trim() || layoutType;
+            } else if (arg.startsWith('filter:')) {
+                filter = arg.substring(7).trim() || filter;
+            } else if (arg.startsWith('caption:')) {
+                caption = arg.substring(8).trim() || caption;
+            }
+        }
 
         if (!messageReply || !messageReply.attachments || messageReply.attachments.length < 2) {
             return api.sendMessage("Vui lòng reply nhiều ảnh để ghép album (ít nhất 2 ảnh).", threadID, messageID);
@@ -67,12 +172,29 @@ module.exports = {
         try {
             const images = await Promise.all(
                 attachments.map(async (attachment) => {
-                    const response = await axios.get(attachment.url, { responseType: 'arraybuffer' });
-                    return await loadImage(Buffer.from(response.data));
+                    try {
+                        const response = await axios.get(attachment.url, { responseType: 'arraybuffer' });
+                        return await loadImage(Buffer.from(response.data));
+                    } catch (err) {
+                        console.error("Error loading image:", err);
+                        return null;
+                    }
                 })
             );
+            
+            // Filter out any images that failed to load
+            const validImages = images.filter(img => img !== null);
+            
+            if (validImages.length < 2) {
+                return api.sendMessage("❌ Không đủ ảnh hợp lệ để tạo album (cần ít nhất 2 ảnh).", threadID, messageID);
+            }
 
-            const config = getLayoutConfig(images.length);
+            const config = getLayoutConfig(validImages.length, layoutType);
+            
+            // Override background color if specified
+            if (backgroundColor) {
+                config.background = backgroundColor;
+            }
             
             // Calculate dimensions
             const imageSize = Math.min(
@@ -92,9 +214,9 @@ module.exports = {
 
             // Draw images based on special layout or default grid
             if (config.special) {
-                for (let i = 0; i < images.length && i < config.special.positions.length; i++) {
+                for (let i = 0; i < validImages.length && i < config.special.positions.length; i++) {
                     const pos = config.special.positions[i];
-                    const img = images[i];
+                    const img = validImages[i];
                     
                     const x = config.padding + (pos.x * (imageSize + config.padding));
                     const y = config.padding + (pos.y * (imageSize + config.padding));
@@ -118,6 +240,15 @@ module.exports = {
                     const offsetY = (height - drawHeight) / 2;
 
                     ctx.drawImage(img, x + offsetX, y + offsetY, drawWidth, drawHeight);
+                    
+                    // Apply filter to this image area
+                    applyFilter(ctx, x, y, width, height, filter);
+                    
+                    // Add caption if this is the main/first image
+                    if (i === 0 && caption) {
+                        addCaption(ctx, caption, x, y + height - 80, width);
+                    }
+                    
                     ctx.restore();
                 }
             } else {
@@ -126,8 +257,8 @@ module.exports = {
                 let y = config.padding;
                 let col = 0;
 
-                for (let i = 0; i < images.length; i++) {
-                    const img = images[i];
+                for (let i = 0; i < validImages.length; i++) {
+                    const img = validImages[i];
                     
                     ctx.save();
                     applyEffects(ctx, x, y, imageSize, imageSize, config.effects);
@@ -146,6 +277,15 @@ module.exports = {
                     const offsetY = (imageSize - drawHeight) / 2;
 
                     ctx.drawImage(img, x + offsetX, y + offsetY, drawWidth, drawHeight);
+                    
+                    // Apply filter to this image
+                    applyFilter(ctx, x, y, imageSize, imageSize, filter);
+                    
+                    // Add caption to first image only
+                    if (i === 0 && caption) {
+                        addCaption(ctx, caption, x, y + imageSize - 80, imageSize);
+                    }
+                    
                     ctx.restore();
 
                     col++;
@@ -177,7 +317,7 @@ module.exports = {
             out.on('finish', () => {
                 api.sendMessage(
                     {
-                        body: "✅ Album đã được tạo thành công!",
+                        body: `✅ Album đã được tạo thành công!\n${filter !== 'none' ? `• Bộ lọc: ${filter}\n` : ''}${caption ? `• Chú thích: "${caption}"\n` : ''}• Bố cục: ${layoutType !== 'auto' ? layoutType : 'tự động'}`,
                         attachment: fs.createReadStream(outputPath)
                     },
                     threadID,

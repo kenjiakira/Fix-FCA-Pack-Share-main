@@ -3,6 +3,7 @@ const fs = require('fs');
 const path = require('path');
 const { createCanvas, loadImage } = require('canvas');
 const getThreadParticipantIDs = require('../utils/getParticipantIDs');
+let userImg, partnerImg;
 
 module.exports = {
   name: "ghep",
@@ -81,19 +82,90 @@ module.exports = {
       ];
 
       const getAvatar = async (uid) => {
+        if (uid === 'default') {
+          return createDefaultAvatar();
+        }
+        
         const avatarUrl = `https://graph.facebook.com/${uid}/picture?width=512&height=512&access_token=6628568379%7Cc1e620fa708a1d5696fb991c1bde5662`;
         try {
-          const response = await axios.get(avatarUrl, { responseType: 'arraybuffer' });
+          const response = await axios.get(avatarUrl, {
+            responseType: 'arraybuffer',
+            timeout: 15000, // Tăng timeout lên 15 giây
+            validateStatus: function (status) {
+              return status >= 200 && status < 300;
+            },
+            headers: {
+              'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/100.0.4896.127 Safari/537.36'
+            }
+          });
+          
+          if (!response.data || response.data.length === 0) {
+            console.log(`Empty avatar data for ${uid}, using default`);
+            return createDefaultAvatar();
+          }
+          
           return response.data;
         } catch (err) {
-          throw new Error('Failed to get avatar');
+          console.error(`Failed to get avatar for ${uid}: ${err.message}`);
+          return createDefaultAvatar();
+          // Create a default avatar
+          const canvas = createCanvas(512, 512);
+          const ctx = canvas.getContext('2d');
+          
+          // Fill background
+          const gradient = ctx.createLinearGradient(0, 0, 512, 512);
+          gradient.addColorStop(0, '#4a148c');
+          gradient.addColorStop(1, '#311b92');
+          ctx.fillStyle = gradient;
+          ctx.fillRect(0, 0, 512, 512);
+          
+          // Add text
+          ctx.font = 'bold 200px Arial';
+          ctx.fillStyle = '#ffffff';
+          ctx.textAlign = 'center';
+          ctx.textBaseline = 'middle';
+          ctx.fillText('?', 256, 256);
+          
+          return canvas.toBuffer('image/jpeg');
         }
       };
 
-      const [userImg, partnerImg] = await Promise.all([
-        getAvatar(senderID),
-        getAvatar(partnerId)
-      ]);
+      try {
+        [userImg, partnerImg] = await Promise.all([
+          getAvatar(senderID).catch(err => {
+            console.error(`Failed to get user avatar: ${err.message}`);
+            return createDefaultAvatar();
+          }),
+          getAvatar(partnerId).catch(err => {
+            console.error(`Failed to get partner avatar: ${err.message}`);
+            return createDefaultAvatar(); 
+          })
+        ]);
+      } catch (error) {
+        console.error("Error getting avatars:", error);
+       
+        userImg = createDefaultAvatar();
+        partnerImg = createDefaultAvatar();
+      }
+      
+      function createDefaultAvatar() {
+        const canvas = createCanvas(512, 512);
+        const ctx = canvas.getContext('2d');
+        
+        const gradient = ctx.createLinearGradient(0, 0, 512, 512);
+        gradient.addColorStop(0, '#4a148c');
+        gradient.addColorStop(1, '#311b92');
+        ctx.fillStyle = gradient;
+        ctx.fillRect(0, 0, 512, 512);
+        
+        ctx.font = 'bold 200px Arial';
+        ctx.fillStyle = '#ffffff';
+        ctx.textAlign = 'center';
+        ctx.textBaseline = 'middle';
+        ctx.fillText('?', 256, 256);
+        
+        return canvas.toBuffer('image/jpeg');
+      }
 
       const avatarCacheDir = path.join(__dirname, './cache/avatar');
       if (!fs.existsSync(avatarCacheDir)) {
@@ -129,7 +201,6 @@ module.exports = {
       fs.writeFileSync(pathUser, userImg);
       fs.writeFileSync(pathPartner, partnerImg);
 
-      // Tải ảnh lên để sử dụng trong canvas
       const img1 = await loadImage(pathUser);
       const img2 = await loadImage(pathPartner);
 
@@ -143,13 +214,11 @@ module.exports = {
       ctx.fillStyle = gradient;
       ctx.fillRect(0, 0, 1024, 512);
 
-      // Draw avatars and names
       ctx.save();
       for (let i = 0; i < 2; i++) {
         const x = i === 0 ? 256 : 768;
         const name = i === 0 ? userName : partnerName;
 
-        // Draw avatar circle
         ctx.beginPath();
         ctx.arc(x, 256, 200, 0, Math.PI * 2);
         ctx.strokeStyle = 'white';
@@ -161,7 +230,6 @@ module.exports = {
         ctx.restore();
         ctx.save();
 
-        // Draw name below avatar
         ctx.font = 'bold 32px Arial';
         ctx.fillStyle = 'white';
         ctx.textAlign = 'center';
@@ -174,7 +242,6 @@ module.exports = {
         ctx.shadowColor = 'transparent';
       }
 
-      // Draw heart shape
       ctx.beginPath();
       ctx.moveTo(512, 180);
       ctx.bezierCurveTo(512, 160, 472, 120, 412, 120);
@@ -187,13 +254,11 @@ module.exports = {
       ctx.lineWidth = 5;
       ctx.stroke();
 
-      // Tạo clipping path dựa trên phần trăm tương thích
       ctx.save();
       ctx.beginPath();
       ctx.rect(332, 120, (692 - 332) * (compatibility / 100), 368 - 120);
       ctx.clip();
 
-      // Fill phần trái tim theo tỉ lệ - vẽ lại đường dẫn trái tim thay vì dùng Path2D
       ctx.beginPath();
       ctx.moveTo(512, 180);
       ctx.bezierCurveTo(512, 160, 472, 120, 412, 120);
@@ -203,7 +268,6 @@ module.exports = {
       ctx.bezierCurveTo(692, 200, 692, 120, 612, 120);
       ctx.bezierCurveTo(552, 120, 512, 160, 512, 180);
 
-      // Tạo gradient và fill
       const heartGradient = ctx.createLinearGradient(332, 120, 692, 368);
       heartGradient.addColorStop(0, '#ff0844');
       heartGradient.addColorStop(1, '#ff4563');

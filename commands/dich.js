@@ -54,7 +54,6 @@ module.exports = {
     onLaunch: async function({ api, event, target }) {
         const { threadID, messageID } = event;
         
-        // Nếu không có tham số, hiển thị hướng dẫn
         if (!target[0] && !event.messageReply) {
             return api.sendMessage(
                 "🌐 DỊCH THUẬT 🌐\n" +
@@ -80,17 +79,14 @@ module.exports = {
             let langCode = 'vi';
             let content = '';
 
-            // Xử lý reply
             if (event.messageReply) {
                 langCode = this.getLanguageCode(target[0] || 'việt');
                 content = event.messageReply.body;
             }
-            // Xử lý lệnh trực tiếp
             else {
                 langCode = this.getLanguageCode(target[0]);
                 content = target.slice(1).join(" ");
                 
-                // Nếu không có ngôn ngữ, mặc định dịch sang tiếng Việt
                 if (!content) {
                     content = target.join(" ");
                     langCode = 'vi';

@@ -1,0 +1,100 @@
+{
+  "61573427362389": {
+    "address": "0x7d6a24d030101233e4480458f7419125dce6a94d",
+    "tokens": {},
+    "staked": {},
+    "createdAt": 1742873465555,
+    "nfts": [],
+    "farming": {
+      "power": 1,
+      "lastClaim": 1742878637503,
+      "totalFarmed": 10,
+      "streak": 0,
+      "lastStreakDate": "Tue Mar 25 2025",
+      "level": 1
+    },
+    "quests": {
+      "daily": {
+        "farm_tokens": 20
+      },
+      "weekly": {},
+      "achievements": []
+    },
+    "referrals": []
+  },
+  "100076957299243": {
+    "address": "0x023e03b5cf36c2348d973c02b7c765c7f3138de0",
+    "tokens": {
+      "FARM": 20
+    },
+    "staked": {},
+    "createdAt": 1742880162764,
+    "nfts": [],
+    "farming": {
+      "power": 1,
+      "lastClaim": 1742880177259,
+      "totalFarmed": 20,
+      "streak": 0,
+      "lastStreakDate": "Tue Mar 25 2025",
+      "level": 1
+    },
+    "quests": {
+      "daily": {
+        "farm_tokens": 20
+      },
+      "weekly": {},
+      "achievements": []
+    },
+    "referrals": []
+  },
+  "100055074463541": {
+    "address": "0x665bd6f73dfd9e861ff31f72df7ba72468db3db6",
+    "tokens": {
+      "FARM": 20
+    },
+    "staked": {},
+    "nfts": [],
+    "farming": {
+      "power": 1,
+      "lastClaim": 1742880193588,
+      "totalFarmed": 20,
+      "streak": 0,
+      "lastStreakDate": "Tue Mar 25 2025",
+      "level": 1
+    },
+    "quests": {
+      "daily": {
+        "farm_tokens": 20
+      },
+      "weekly": {},
+      "achievements": []
+    },
+    "referrals": [],
+    "createdAt": 1742880193587
+  },
+  "100068382888605": {
+    "address": "0xa38faaf91aef39dbc35d6205476195d3a411febf",
+    "tokens": {
+      "FARM": 20
+    },
+    "staked": {},
+    "nfts": [],
+    "farming": {
+      "power": 1,
+      "lastClaim": 1742881086698,
+      "totalFarmed": 20,
+      "streak": 0,
+      "lastStreakDate": "Tue Mar 25 2025",
+      "level": 1
+    },
+    "quests": {
+      "daily": {
+        "farm_tokens": 20
+      },
+      "weekly": {},
+      "achievements": []
+    },
+    "referrals": [],
+    "createdAt": 1742881086697
+  }
+}

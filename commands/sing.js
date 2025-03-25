@@ -1,30 +1,8 @@
 const fs = require('fs-extra');
-const ytdl = require('@distube/ytdl-core');
+const { getDownloadDetails } = require('youtube-downloader-cc-api');
 const Youtube = require('youtube-search-api');
 const path = require('path');
 const axios = require('axios');
-
-const cookiesPath = path.resolve(__dirname, '../cookies.json');
-console.log(`Đường dẫn cookies: ${cookiesPath}`);
-
-let agent;
-try {
-    const cookies = JSON.parse(fs.readFileSync(cookiesPath));
-    // Tạo agent chỉ một lần từ cookies, đúng theo hướng dẫn
-    agent = ytdl.createAgent(cookies);
-    console.log("Tạo agent thành công với cookies");
-} catch (error) {
-    console.error("Lỗi đọc cookies:", error);
-    // Backup plan: Tạo proxy agent nếu không có cookies
-    console.log("Sử dụng proxy agent thay thế");
-    try {
-        agent = ytdl.createProxyAgent({ uri: "http://localhost:8118" });
-    } catch (proxyError) {
-        console.error("Không thể tạo proxy agent:", proxyError);
-        // Fallback to no agent
-        agent = null;
-    }
-}
 
 
 const userAgents = [
@@ -71,182 +49,58 @@ const downloadMusicFromYoutube = async (link, filePath, retryCount = 0) => {
         await fs.ensureDir(cacheDir);
         filePath = await getAvailableFilePath(filePath);
 
-        // Cấu hình theo đúng documentation
-        const options = {
-            // Sử dụng agent đã được tạo từ cookies ở trên
-            agent,
-            // KHÔNG nên cài đặt cookies ở đây khi đã dùng agent
-            requestOptions: {
-                headers: {
-                    'Accept': '*/*',
-                    'Accept-Language': 'en-US,en;q=0.9,vi;q=0.8',
-                    'User-Agent': userAgents[retryCount % userAgents.length]
-                },
-                timeout: 30000 
-            },
-            // Thêm nhiều client để tăng khả năng thành công
-            playerClients: [
-                "ANDROID_MUSIC", "ANDROID_CREATOR", "ANDROID", 
-                "IOS_MUSIC", "IOS_CREATOR", "IOS",  
-                "WEB_CREATOR", "WEB_MUSIC", "WEB", "MWEB",
-                "TV_EMBEDDED", "TV"
-            ],
-            quality: 'highestaudio',
-            // Tránh bị chặn theo khu vực
-            geoBypass: true
-        };
-
-        // Bước 1: Lấy thông tin video
-        console.log(`Đang lấy thông tin video: ${link}`);
-        const data = await ytdl.getInfo(link, options);
-
-        // Kiểm tra video bị hạn chế độ tuổi
-        if (data.videoDetails.age_restricted) {
-            console.log("Video bị hạn chế độ tuổi, thử cách khác...");
-            throw new Error('AGE_RESTRICTED');
-        }
-
-        // Bước 2: Lọc và chọn định dạng audio
-        const formats = ytdl.filterFormats(data.formats, 'audioonly');
-        if (formats.length === 0) {
-            console.log("Không tìm thấy định dạng audio, thử tìm với bất kỳ định dạng nào có audio");
-            // Thử tìm bất kỳ định dạng nào có audio
-            formats.push(...data.formats.filter(f => f.hasAudio));
-        }
-
-        if (formats.length === 0) {
-            throw new Error('NO_AUDIO_FORMATS');
-        }
-
-        console.log(`Tìm thấy ${formats.length} định dạng audio`);
+        console.log(`Đang tải bài hát từ: ${link}`);
         
-        // Theo thứ tự ưu tiên
-        const formatPriorities = [140, 251, 250, 249, 171, 18, 22];
-        let format = null;
+        // Sử dụng Downloader CC API để lấy thông tin và link download
+        const response = await getDownloadDetails(link, "mp3", "stream");
         
-        // Thử theo itag
-        for (const itag of formatPriorities) {
-            format = formats.find(f => f.itag === itag);
-            if (format) {
-                console.log(`Sử dụng format với itag: ${itag}`);
-                break;
+        if (!response || !response.download) {
+            throw new Error('DOWNLOAD_LINK_NOT_FOUND');
+        }
+
+        // Tải file từ link download
+        const download = await axios({
+            method: 'GET',
+            url: response.download,
+            responseType: 'stream',
+            timeout: 30000,
+            headers: {
+                'User-Agent': userAgents[retryCount % userAgents.length]
             }
-        }
-        
-        // Thử theo chất lượng nếu không có itag phù hợp
-        if (!format) {
-            format = formats.find(f => f.audioQuality === 'AUDIO_QUALITY_MEDIUM') || 
-                    formats.find(f => f.hasAudio) ||
-                    formats[0];
-            
-            console.log(`Sử dụng format dự phòng: ${format?.itag || 'unknown'}`);
-        }
+        });
 
-        if (!format) {
-            if (retryCount < 3) {
-                console.log("Không tìm thấy format phù hợp, thử lại...");
-                return downloadMusicFromYoutube(link, filePath, retryCount + 1);
-            }
-            throw new Error('RESTRICTED');
-        }
-
-        const result = {
-            title: data.videoDetails.title,
-            dur: Number(data.videoDetails.lengthSeconds),
-            timestart: Date.now(),
-        };
-
-        // Bước 3: Tạo stream với định dạng đã chọn
         return new Promise((resolve, reject) => {
             const writeStream = fs.createWriteStream(filePath);
             
-            console.log(`Bắt đầu tải: ${data.videoDetails.title}`);
-            const stream = ytdl(link, { 
-                ...options,
-                format: format,
-                highWaterMark: 1<<25,
-                timeout: 60000
+            download.data.pipe(writeStream);
+
+            writeStream.on('finish', () => {
+                const result = {
+                    data: filePath,
+                    info: {
+                        title: response.title,
+                        dur: 0, // API không cung cấp duration
+                        timestart: Date.now()
+                    }
+                };
+                resolve(result);
             });
 
-            // Xử lý lỗi stream
-            stream.on('error', async (err) => {
-                console.error("Stream error:", err);
-                
-                // Xử lý lỗi rate limit (429)
-                if (err.message && (err.message.includes('429') || err.message.includes('Too Many Requests'))) {
-                    console.log("YouTube đang rate limit, đợi và thử lại sau...");
-                    
-                    // Tăng thời gian chờ theo số lần thử
-                    const waitTime = (retryCount + 1) * 5000;
-                    await new Promise(resolve => setTimeout(resolve, waitTime));
-                }
-
-                try {
-                    writeStream.end();
-                    if (fs.existsSync(filePath)) {
-                        await fs.unlink(filePath);
-                    }
-                } catch (e) {
-                    console.error('Cleanup error:', e);
-                }
-                
-                if (retryCount < 3) {
-                    console.log(`Thử lại lần ${retryCount + 1}...`);
-                    try {
-                        const result = await downloadMusicFromYoutube(link, filePath, retryCount + 1);
-                        resolve(result);
-                    } catch (retryError) {
-                        reject(retryError);
-                    }
-                } else {
-                    reject(new Error('Không thể tải bài hát này sau nhiều lần thử!'));
-                }
+            writeStream.on('error', (err) => {
+                console.error("Lỗi ghi file:", err);
+                reject(new Error('FILE_WRITE_ERROR'));
             });
 
-            // Ghi dữ liệu
-            stream.pipe(writeStream)
-                .on('error', (err) => {
-                    console.error("Lỗi ghi file:", err);
-                    reject(new Error('FILE_WRITE_ERROR'));
-                })
-                .on('finish', async () => {
-                    try {
-                        if (!fs.existsSync(filePath)) {
-                            reject(new Error('FILE_NOT_FOUND_AFTER_WRITE'));
-                            return;
-                        }
-                        
-                        const stats = fs.statSync(filePath);
-                        console.log(`Tải thành công, kích thước: ${stats.size} bytes`);
-                        
-                        if (stats.size < 1024) {
-                            reject(new Error('FILE_TOO_SMALL'));
-                            return;
-                        }
-                        
-                        resolve({
-                            data: filePath,
-                            info: result,
-                        });
-                    } catch (err) {
-                        console.error("Lỗi kiểm tra file sau khi ghi:", err);
-                        reject(new Error('FILE_VALIDATION_ERROR'));
-                    }
-                });
+            download.data.on('error', (err) => {
+                console.error("Lỗi download:", err);
+                writeStream.end();
+                reject(new Error('DOWNLOAD_ERROR'));
+            });
         });
+
     } catch (error) {
         console.error('Lỗi tải nhạc:', error);
         
-        // Xử lý lỗi cụ thể
-        if (error.message?.includes('429')) {
-            console.log("YouTube rate limit detected, đợi và thử lại");
-            if (retryCount < 5) {
-                await new Promise(resolve => setTimeout(resolve, (retryCount + 1) * 10000));
-                return downloadMusicFromYoutube(link, filePath, retryCount + 1);
-            }
-        }
-        
-        // Dọn dẹp
         if (fs.existsSync(filePath)) {
             try {
                 await fs.unlink(filePath);
@@ -255,15 +109,12 @@ const downloadMusicFromYoutube = async (link, filePath, retryCount = 0) => {
             }
         }
         
-        // Thử lại cho các lỗi khác
-        if (retryCount < 3 && error.message !== 'VIDEO_RESTRICTED' && error.message !== 'AGE_RESTRICTED') {
+        if (retryCount < 3) {
+            console.log(`Thử lại lần ${retryCount + 1}...`);
             return downloadMusicFromYoutube(link, filePath, retryCount + 1);
         }
         
-        // Trả về thông báo lỗi phù hợp
-        throw error.message === 'VIDEO_RESTRICTED' || error.message === 'AGE_RESTRICTED'
-            ? new Error('Không thể tải bài hát này do nội dung bị hạn chế độ tuổi hoặc riêng tư!')
-            : new Error('Không thể tải bài hát này, vui lòng thử bài khác!');
+        throw new Error('Không thể tải bài hát này, vui lòng thử bài khác!');
     }
 };
 
@@ -477,22 +328,12 @@ onReply: async function({ event, api }) {
             }
 
             const songs = await Promise.all(results.items.map(async item => {
-                try {
-                    const videoInfo = await ytdl.getBasicInfo(`https://www.youtube.com/watch?v=${item.id}`);
-                    return {
-                        title: item.title,
-                        url: `https://www.youtube.com/watch?v=${item.id}`,
-                        channel: item.channelTitle,
-                        duration: convertHMS(videoInfo.videoDetails.lengthSeconds)
-                    };
-                } catch (error) {
-                    return {
-                        title: item.title,
-                        url: `https://www.youtube.com/watch?v=${item.id}`,
-                        channel: item.channelTitle,
-                        duration: "N/A"
-                    };
-                }
+                return {
+                    title: item.title,
+                    url: `https://www.youtube.com/watch?v=${item.id}`,
+                    channel: item.channelTitle,
+                    duration: "N/A" // API mới không cung cấp duration
+                };
             }));
 
             const body = "🎵 Kết quả tìm kiếm:\n\n" + 

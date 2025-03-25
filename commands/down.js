@@ -2,6 +2,7 @@ const axios = require('axios');
 const fs = require('fs');
 const path = require('path');
 const Downloader = require('../utils/downloader');
+const vipService = require('../vip/vipService');
 
 const PLATFORM_INFO = {
     NO_WATERMARK: ['tiktok', 'douyin', 'capcut', 'hipi', 'xiaohongshu'],
@@ -12,6 +13,20 @@ const PLATFORM_INFO = {
     ],
     CHINA: ['douyin', 'xiaohongshu', 'ixigua', 'weibo'],
     UNSTABLE: ['instagram-stories', 'instagram-private', 'facebook-private']
+};
+
+const patterns = {
+    capcut: /https:\/\/www\.capcut\.com\/t\/\S*/,
+    facebook: /https:\/\/www\.facebook\.com\/\S*/,
+    tiktok: /https:\/\/(vm|vt|www|v)?\.?tiktok\.com\/.+/, 
+    douyin: /https:\/\/(v\.|www\.)?(douyin\.com|iesdouyin\.com)\/.+/,
+    youtube: /^(https?:\/\/)?(www\.)?(youtube\.com|youtu\.?be)\/.+$/,
+    instagram: /https?:\/\/(www\.)?instagram\.com\/(p|reel|stories)\/\S+/,
+    twitter: /https?:\/\/(www\.)?(twitter\.com|x\.com)\/\S+/,
+    weibo: /https?:\/\/(www\.)?(weibo\.com|weibo\.cn)\/\S+/,
+    xiaohongshu: /https?:\/\/(www\.)?(xiaohongshu\.com|xhslink\.com)\/\S+/,
+    threads: /https?:\/\/(www\.)?threads\.net\/@?[a-zA-Z0-9._-]+\/post\/[a-zA-Z0-9]+/,
+    pinterest: /https?:\/\/(www\.)?pinterest\.(com|ca|fr|jp|co\.uk)\/pin\/[0-9]+/,
 };
 
 module.exports = {
@@ -29,10 +44,13 @@ module.exports = {
             if (!target[0]) {
                 return api.sendMessage(
                     "📥 ZM Media Downloader\n\n" +
-                    "1. Nền tảng không watermark:\n" +
-                    `${PLATFORM_INFO.NO_WATERMARK.join(', ')}\n\n` +
+                    "🆓 Nền tảng miễn phí:\n" +
+                    "tiktok, facebook\n\n" +
+                    "💎 Nền tảng yêu cầu VIP GOLD:\n" +
+                    "1. Không watermark:\n" +
+                    `${PLATFORM_INFO.NO_WATERMARK.filter(p => !['tiktok', 'facebook'].includes(p)).join(', ')}\n\n` +
                     "2. Nền tảng ổn định:\n" +
-                    `${PLATFORM_INFO.STABLE.join(', ')}\n\n` +
+                    `${PLATFORM_INFO.STABLE.filter(p => !['tiktok', 'facebook'].includes(p)).join(', ')}\n\n` +
                     "3. Nền tảng Trung Quốc:\n" +
                     `${PLATFORM_INFO.CHINA.join(', ')}\n\n` +
                     "4. Nền tảng không ổn định:\n" +
@@ -43,6 +61,15 @@ module.exports = {
             }
 
             const url = target[0];
+            
+            const platform = Object.entries(patterns).find(([_, pattern]) => pattern.test(url))?.[0];
+            if (platform && !['facebook', 'tiktok'].includes(platform)) {
+                const accessCheck = await vipService.checkDownloadAccess(event.senderID, event.threadID, api);
+                if (!accessCheck.hasAccess) {
+                    return api.sendMessage(accessCheck.message, event.threadID);
+                }
+            }
+            
             loadingMsg = await api.sendMessage("⏳ Đang xử lý...", event.threadID);
 
             const data = await Downloader.getMediaInfo(url);

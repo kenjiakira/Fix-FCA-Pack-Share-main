@@ -3,10 +3,8 @@ const config = require('../config/api');
 const fs = require('fs');
 const path = require('path');
 
-// Đường dẫn đến file lưu trữ debates đã sử dụng
 const DEBATES_FILE = path.join(__dirname, './json/used_debates.json');
 
-// Khởi tạo file nếu chưa tồn tại
 function initializeDebatesFile() {
     if (!fs.existsSync(path.dirname(DEBATES_FILE))) {
         fs.mkdirSync(path.dirname(DEBATES_FILE), { recursive: true });
@@ -16,7 +14,6 @@ function initializeDebatesFile() {
     }
 }
 
-// Đọc debates đã sử dụng
 function getUsedDebates() {
     try {
         initializeDebatesFile();
@@ -27,7 +24,6 @@ function getUsedDebates() {
     }
 }
 
-// Lưu debate mới
 function saveNewDebate(topic, analysis) {
     try {
         const usedDebates = getUsedDebates();
@@ -37,7 +33,6 @@ function saveNewDebate(topic, analysis) {
             timestamp: Date.now()
         });
         
-        // Chỉ giữ lại 100 debates gần nhất
         if (usedDebates.length > 100) {
             usedDebates.splice(0, usedDebates.length - 100);
         }

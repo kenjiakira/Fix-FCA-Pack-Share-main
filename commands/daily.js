@@ -11,11 +11,7 @@ class DailyRewardManager {
     this.claims = {};
     this.loaded = false;
   }
-  /**
-   * Gets the user's name from userData.json
-   * @param {string} userId - User ID
-   * @returns {Promise<string>} - User's name
-   */
+  
   async getUserName(userId) {
     try {
       const userDataPath = path.join(
@@ -26,7 +22,6 @@ class DailyRewardManager {
       try {
         const userData = JSON.parse(await fs.readFile(userDataPath, "utf8"));
 
-        // Kiểm tra nếu userData có thông tin về người dùng và có trường name
         if (userData[userId] && userData[userId].name) {
           return userData[userId].name;
         }
@@ -34,7 +29,6 @@ class DailyRewardManager {
         console.error("Error reading user data:", error);
       }
 
-      // Trả về tên mặc định nếu không tìm thấy
       return "Người dùng";
     } catch (error) {
       console.error("Error getting user name:", error);
@@ -121,8 +115,8 @@ class DailyRewardManager {
     let multiplier = Math.min(1 + streak * 0.05, 2.0);
 
     const today = new Date().getDay();
-    if (today === 0) multiplier += 0.3; // Sunday bonus
-    if (today === 6) multiplier += 0.2; // Saturday bonus
+    if (today === 0) multiplier += 0.3; 
+    if (today === 6) multiplier += 0.2; 
 
     return Math.floor(baseExp * multiplier);
   }
@@ -201,11 +195,6 @@ class DailyRewardManager {
     }
   }
 
-  /**
-   * Creates a beautiful daily reward canvas image
-   * @param {Object} options - Options for creating the image
-   * @returns {Promise<string>} - Path to the generated image
-   */
   async createDailyRewardImage(options) {
     try {
       const {
@@ -219,49 +208,46 @@ class DailyRewardManager {
         currentBalance = 0,
       } = options;
 
-      // Create canvas
       const width = 800;
       const height = 1150;
       const canvas = createCanvas(width, height);
       const ctx = canvas.getContext("2d");
 
-      // Get day of week to determine theme colors
       const today = new Date().getDay();
       let primaryColor, secondaryColor, accentColor;
 
-      // Set colors based on day of week for visual variety
       switch (today) {
-        case 0: // Sunday - Gold
+        case 0: 
           primaryColor = "#FFD700";
           secondaryColor = "#FFA500";
           accentColor = "#FF8C00";
           break;
-        case 1: // Monday - Blue
+        case 1: 
           primaryColor = "#1E88E5";
           secondaryColor = "#1565C0";
           accentColor = "#0D47A1";
           break;
-        case 2: // Tuesday - Purple
+        case 2: 
           primaryColor = "#8E24AA";
           secondaryColor = "#6A1B9A";
           accentColor = "#4A148C";
           break;
-        case 3: // Wednesday - Green
+        case 3: 
           primaryColor = "#43A047";
           secondaryColor = "#2E7D32";
           accentColor = "#1B5E20";
           break;
-        case 4: // Thursday - Orange
+        case 4:
           primaryColor = "#FF7043";
           secondaryColor = "#F4511E";
           accentColor = "#E64A19";
           break;
-        case 5: // Friday - Teal
+        case 5: 
           primaryColor = "#26A69A";
           secondaryColor = "#00897B";
           accentColor = "#00695C";
           break;
-        case 6: // Saturday - Red
+        case 6: 
           primaryColor = "#EF5350";
           secondaryColor = "#E53935";
           accentColor = "#C62828";
@@ -272,15 +258,13 @@ class DailyRewardManager {
           accentColor = "#283593";
       }
 
-      // Create gradient background
       const gradient = ctx.createLinearGradient(0, 0, width, height);
-      gradient.addColorStop(0, "#1a237e"); // Deep blue
-      gradient.addColorStop(0.7, "#303f9f"); // Mid blue
-      gradient.addColorStop(1, "#3949ab"); // Light blue
+      gradient.addColorStop(0, "#1a237e");
+      gradient.addColorStop(0.7, "#303f9f");
+      gradient.addColorStop(1, "#3949ab");
       ctx.fillStyle = gradient;
       ctx.fillRect(0, 0, width, height);
 
-      // Add star particles effect
       ctx.fillStyle = "rgba(255, 255, 255, 0.3)";
       for (let i = 0; i < 150; i++) {
         const x = Math.random() * width;
@@ -291,7 +275,6 @@ class DailyRewardManager {
         ctx.fill();
       }
 
-      // Add decorative grid
       ctx.strokeStyle = "rgba(255, 255, 255, 0.1)";
       ctx.lineWidth = 1;
       for (let i = 0; i < width; i += 80) {
@@ -307,7 +290,6 @@ class DailyRewardManager {
         ctx.stroke();
       }
 
-      // Add decorative corners
       const cornerSize = 40;
       const drawCorner = (x, y, flipX, flipY) => {
         ctx.save();
@@ -329,7 +311,6 @@ class DailyRewardManager {
       drawCorner(50, height - 50, false, true);
       drawCorner(width - 50, height - 50, true, true);
 
-      // Header section
       const headerHeight = 150;
       const headerGradient = ctx.createLinearGradient(
         0,
@@ -342,7 +323,6 @@ class DailyRewardManager {
       ctx.fillStyle = headerGradient;
       ctx.fillRect(0, 0, width, headerHeight);
 
-      // Day and Date
       const today_date = new Date();
       const dateStr = today_date.toLocaleDateString("vi-VN", {
         weekday: "long",
@@ -356,7 +336,6 @@ class DailyRewardManager {
       ctx.textAlign = "center";
       ctx.fillText(dateStr, width / 2, 50);
 
-      // Title with glow effect
       ctx.shadowColor = primaryColor;
       ctx.shadowBlur = 15;
       ctx.font = "bold 45px Arial";

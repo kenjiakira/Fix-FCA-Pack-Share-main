@@ -4,16 +4,6 @@ const { createRankCard } = require('../canvas/rankCard');
 
 const userDataPath = path.join(__dirname, '../events/cache/userData.json');
 
-function updateUserRank(userData) {
-    const sortedUsers = Object.entries(userData)
-        .map(([id, data]) => ({ id, ...data }))
-        .sort((a, b) => b.exp - a.exp); 
-
-    sortedUsers.forEach((user, index) => {
-        userData[user.id].rank = index + 1; 
-    });
-}
-
 async function getUserName(api, senderID) {
     try {
         const userDataPath = path.join(__dirname, '../events/cache/userData.json');

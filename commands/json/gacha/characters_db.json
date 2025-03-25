@@ -56519,14 +56519,14 @@
     "name": "Qiqi",
     "obtainedAt": 1741833397141,
     "starLevel": 7,
-    "level": 11,
-    "value": 57556013,
+    "level": 12,
+    "value": 60433813,
     "stats": {
-      "atk": 1309,
-      "def": 1216,
-      "hp": 5610
+      "atk": 1383,
+      "def": 1279,
+      "hp": 5947
     },
-    "exp": 60000
+    "exp": 119000
   },
   "CHAR_633384243": {
     "type": "character",
@@ -119469,5 +119469,427 @@
     "image": "https://imgur.com/k7PooZ5.png",
     "obtainedAt": 1742658119182,
     "value": 25000
+  },
+  "CHAR_569648964": {
+    "type": "character",
+    "name": "Sampo",
+    "obtainedAt": 1742735341084,
+    "value": 299,
+    "level": 1,
+    "exp": 0,
+    "stats": {
+      "atk": 99,
+      "def": 100,
+      "hp": 536
+    }
+  },
+  "CHAR_988388675": {
+    "type": "character",
+    "name": "Luka",
+    "obtainedAt": 1742735389127,
+    "value": 582,
+    "level": 1,
+    "exp": 0,
+    "stats": {
+      "atk": 94,
+      "def": 91,
+      "hp": 531
+    }
+  },
+  "CHAR_667015250": {
+    "type": "character",
+    "name": "Sampo",
+    "obtainedAt": 1742739983422,
+    "value": 372,
+    "level": 1,
+    "exp": 0,
+    "stats": {
+      "atk": 90,
+      "def": 90,
+      "hp": 526
+    }
+  },
+  "CHAR_307314383": {
+    "type": "character",
+    "name": "Kaeya",
+    "obtainedAt": 1742808857730,
+    "value": 417,
+    "level": 1,
+    "exp": 0,
+    "stats": {
+      "atk": 90,
+      "def": 108,
+      "hp": 491
+    }
+  },
+  "CHAR_983894099": {
+    "type": "character",
+    "name": "Diona",
+    "obtainedAt": 1742818125793,
+    "value": 630,
+    "level": 1,
+    "exp": 0,
+    "stats": {
+      "atk": 99,
+      "def": 103,
+      "hp": 524
+    }
+  },
+  "CHAR_644773621": {
+    "type": "character",
+    "name": "Ningguang",
+    "obtainedAt": 1742818480349,
+    "value": 33260,
+    "level": 1,
+    "exp": 0,
+    "stats": {
+      "atk": 299,
+      "def": 318,
+      "hp": 963
+    }
+  },
+  "CHAR_883346474": {
+    "type": "character",
+    "name": "Razor",
+    "obtainedAt": 1742819414684,
+    "value": 12438,
+    "level": 1,
+    "exp": 0,
+    "stats": {
+      "atk": 329,
+      "def": 278,
+      "hp": 950
+    }
+  },
+  "FRAGMENT_CRYO_639572172": {
+    "type": "fragment",
+    "stoneType": "CRYO",
+    "name": "JadeFragment",
+    "element": "Cryo",
+    "emoji": "❄️",
+    "description": "Cryo evolution fragment",
+    "image": "https://imgur.com/tU6KMBs.png",
+    "obtainedAt": 1742820386081,
+    "value": 2500,
+    "isFragment": true
+  },
+  "CHAR_651912801": {
+    "type": "character",
+    "name": "collei",
+    "obtainedAt": 1742820435657,
+    "value": 486,
+    "level": 1,
+    "exp": 0,
+    "stats": {
+      "atk": 98,
+      "def": 103,
+      "hp": 465
+    }
+  },
+  "CHAR_907759609": {
+    "type": "character",
+    "name": "Chiori",
+    "obtainedAt": 1742822235157,
+    "value": 118,
+    "level": 1,
+    "exp": 0,
+    "stats": {
+      "atk": 99,
+      "def": 91,
+      "hp": 468
+    }
+  },
+  "CHAR_740877716": {
+    "type": "character",
+    "name": "Sucrose",
+    "obtainedAt": 1742825906073,
+    "value": 15335,
+    "level": 1,
+    "exp": 0,
+    "stats": {
+      "atk": 293,
+      "def": 307,
+      "hp": 1087
+    }
+  },
+  "CHAR_539751696": {
+    "type": "character",
+    "name": "Diona",
+    "obtainedAt": 1742878235240,
+    "value": 503,
+    "level": 1,
+    "exp": 0,
+    "stats": {
+      "atk": 105,
+      "def": 109,
+      "hp": 461
+    }
+  },
+  "CHAR_224999261": {
+    "type": "character",
+    "name": "kaveh",
+    "obtainedAt": 1742878290904,
+    "value": 729,
+    "level": 1,
+    "exp": 0,
+    "stats": {
+      "atk": 101,
+      "def": 107,
+      "hp": 529
+    }
+  },
+  "CHAR_874709423": {
+    "type": "character",
+    "name": "Barbara",
+    "obtainedAt": 1742878416482,
+    "value": 643,
+    "level": 1,
+    "exp": 0,
+    "stats": {
+      "atk": 98,
+      "def": 91,
+      "hp": 495
+    }
+  },
+  "CHAR_967993127": {
+    "type": "character",
+    "name": "Gorou",
+    "obtainedAt": 1742878426765,
+    "value": 461,
+    "level": 1,
+    "exp": 0,
+    "stats": {
+      "atk": 108,
+      "def": 107,
+      "hp": 499
+    }
+  },
+  "CHAR_685199361": {
+    "type": "character",
+    "name": "Mika",
+    "obtainedAt": 1742878482168,
+    "value": 353,
+    "level": 1,
+    "exp": 0,
+    "stats": {
+      "atk": 96,
+      "def": 107,
+      "hp": 500
+    }
+  },
+  "CHAR_538284963": {
+    "type": "character",
+    "name": "Amber",
+    "obtainedAt": 1742878502732,
+    "value": 393,
+    "level": 1,
+    "exp": 0,
+    "stats": {
+      "atk": 103,
+      "def": 108,
+      "hp": 480
+    }
+  },
+  "CHAR_428025466": {
+    "type": "character",
+    "name": "collei",
+    "obtainedAt": 1742878567825,
+    "value": 784,
+    "level": 1,
+    "exp": 0,
+    "stats": {
+      "atk": 100,
+      "def": 102,
+      "hp": 476
+    }
+  },
+  "CHAR_949048802": {
+    "type": "character",
+    "name": "Bennett",
+    "obtainedAt": 1742878611360,
+    "value": 41063,
+    "level": 1,
+    "exp": 0,
+    "stats": {
+      "atk": 308,
+      "def": 303,
+      "hp": 1022
+    }
+  },
+  "STELLA_1742878633012_9403": {
+    "id": "STELLA_1742878633012_9403",
+    "type": "stella",
+    "isStella": true,
+    "name": "Stella Fortuna (Nahida)",
+    "targetCharacter": "Nahida",
+    "isUniversal": false,
+    "rarity": 5,
+    "description": "Dùng để mở khóa chòm sao cho Nahida",
+    "obtainedAt": 1742878633012,
+    "value": 200000,
+    "image": "https://imgur.com/n3GBdOq.png"
+  },
+  "CHAR_627284271": {
+    "type": "character",
+    "name": "Amber",
+    "obtainedAt": 1742878895993,
+    "value": 285,
+    "level": 1,
+    "exp": 0,
+    "stats": {
+      "atk": 108,
+      "def": 108,
+      "hp": 454
+    }
+  },
+  "CHAR_736790502": {
+    "type": "character",
+    "name": "Luka",
+    "obtainedAt": 1742878992855,
+    "value": 510,
+    "level": 1,
+    "exp": 0,
+    "stats": {
+      "atk": 108,
+      "def": 100,
+      "hp": 503
+    }
+  },
+  "CHAR_269857530": {
+    "type": "character",
+    "name": "Barbara",
+    "obtainedAt": 1742879052268,
+    "value": 186,
+    "level": 1,
+    "exp": 0,
+    "stats": {
+      "atk": 96,
+      "def": 100,
+      "hp": 518
+    }
+  },
+  "CHAR_332557854": {
+    "type": "character",
+    "name": "Thoma",
+    "obtainedAt": 1742879131219,
+    "value": 18271,
+    "level": 1,
+    "exp": 0,
+    "stats": {
+      "atk": 288,
+      "def": 297,
+      "hp": 951
+    }
+  },
+  "CHAR_490124789": {
+    "type": "character",
+    "name": "Kaeya",
+    "obtainedAt": 1742879147628,
+    "value": 328,
+    "level": 1,
+    "exp": 0,
+    "stats": {
+      "atk": 97,
+      "def": 104,
+      "hp": 505
+    }
+  },
+  "EXP_ADVENTURERS_EXPERIENCE_753144723": {
+    "type": "EXP",
+    "name": "Adventurers Experience",
+    "expValue": 2000,
+    "description": "A record of adventures and discoveries Grants a moderate amount of EXP",
+    "image": "https://imgur.com/LFkAr11.png",
+    "rarity": "3",
+    "value": 1500,
+    "obtainedAt": 1742879296340
+  },
+  "CHAR_755341838": {
+    "type": "character",
+    "name": "Xinyan",
+    "obtainedAt": 1742879307425,
+    "value": 765,
+    "level": 1,
+    "exp": 0,
+    "stats": {
+      "atk": 105,
+      "def": 97,
+      "hp": 535
+    }
+  },
+  "CHAR_969888565": {
+    "type": "character",
+    "name": "Gorou",
+    "obtainedAt": 1742879419612,
+    "value": 481,
+    "level": 1,
+    "exp": 0,
+    "stats": {
+      "atk": 95,
+      "def": 107,
+      "hp": 484
+    }
+  },
+  "EXP_ADVENTURERS_EXPERIENCE_863948098": {
+    "type": "EXP",
+    "name": "Adventurers Experience",
+    "expValue": 2000,
+    "description": "A record of adventures and discoveries Grants a moderate amount of EXP",
+    "image": "https://imgur.com/LFkAr11.png",
+    "rarity": "3",
+    "value": 1500,
+    "obtainedAt": 1742879625901
+  },
+  "CHAR_278721142": {
+    "type": "character",
+    "name": "Diona",
+    "obtainedAt": 1742879711076,
+    "value": 516,
+    "level": 1,
+    "exp": 0,
+    "stats": {
+      "atk": 104,
+      "def": 100,
+      "hp": 459
+    }
+  },
+  "CHAR_763675942": {
+    "type": "character",
+    "name": "Gorou",
+    "obtainedAt": 1742879836131,
+    "value": 348,
+    "level": 1,
+    "exp": 0,
+    "stats": {
+      "atk": 97,
+      "def": 107,
+      "hp": 466
+    }
+  },
+  "CHAR_667622039": {
+    "type": "character",
+    "name": "Serval",
+    "obtainedAt": 1742879978080,
+    "value": 484,
+    "level": 1,
+    "exp": 0,
+    "stats": {
+      "atk": 99,
+      "def": 102,
+      "hp": 520
+    }
+  },
+  "CHAR_372310902": {
+    "type": "character",
+    "name": "Sucrose",
+    "obtainedAt": 1742880037535,
+    "value": 18302,
+    "level": 1,
+    "exp": 0,
+    "stats": {
+      "atk": 324,
+      "def": 292,
+      "hp": 1087
+    }
   }
 }

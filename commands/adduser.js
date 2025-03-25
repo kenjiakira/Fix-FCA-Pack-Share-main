@@ -1,7 +1,5 @@
 const threadInfoCache = new Map();
-const userInfoCache = new Map();
-const MAX_RETRIES = 3;
-const INITIAL_RETRY_DELAY = 2000;
+const getThreadParticipantIDs = require("../utils/getParticipantIDs");
 
 module.exports = {
     name: "adduser",
@@ -45,60 +43,18 @@ module.exports = {
         }
       }
 
-      async function getThreadInfoWithRetry(threadID, retryCount = 0) {
-        try {
-          const cachedInfo = threadInfoCache.get(threadID);
-          if (cachedInfo && Date.now() - cachedInfo.timestamp < 300000) { 
-            return cachedInfo.data;
-          }
-
-          const delay = retryCount > 0 ? INITIAL_RETRY_DELAY * Math.pow(2, retryCount - 1) : 0;
-          if (delay > 0) {
-            await new Promise(resolve => setTimeout(resolve, delay));
-          }
-
-          const threadInfo = await api.getThreadInfo(threadID);
-          if (!threadInfo) {
-            throw new Error("Không thể lấy thông tin nhóm");
-          }
-
-          threadInfoCache.set(threadID, {
-            data: threadInfo,
-            timestamp: Date.now()
-          });
-
-          return threadInfo;
-
-        } catch (error) {
-          console.error(`Lỗi lấy thông tin nhóm (Lần thử ${retryCount + 1}):`, error);
-
-          if (error.message?.includes("blocked") || 
-              error.error?.includes("blocked") ||
-              error.error?.includes("limit") ||
-              error.message?.includes("limit")) {
-            throw new Error("Facebook đang tạm thời chặn bot. Vui lòng thử lại sau 1-2 phút.");
-          }
-
-          if (retryCount < MAX_RETRIES) {
-            return getThreadInfoWithRetry(threadID, retryCount + 1);
-          }
-
-          throw new Error(`Không thể lấy thông tin nhóm sau ${MAX_RETRIES} lần thử. Vui lòng thử lại sau.`);
-        }
-      }
-
-      let threadInfo;
+      let participantIDs = [];
       try {
-        threadInfo = await getThreadInfoWithRetry(threadID);
+        participantIDs = await getThreadParticipantIDs(api, threadID);
+        
+        if (!participantIDs || participantIDs.length === 0) {
+          throw new Error("Không thể lấy danh sách thành viên nhóm");
+        }
       } catch (error) {
-        console.error("Thread info error:", error);
+        console.error("Error getting participants:", error);
         return out(`❌ ${error.message}`);
       }
 
-      const participantIDs = threadInfo.participantIDs || [];
-      const approvalMode = threadInfo.approvalMode || false;
-      const adminIDs = threadInfo.adminIDs || [];
-      
       const parsedParticipantIDs = participantIDs.map(e => parseInt(e));
 
       if (!target[0]) return out("⚠️ Vui lòng nhập ID hoặc link profile người dùng cần thêm!");
@@ -109,18 +65,13 @@ module.exports = {
           return out(`⚠️ ${name ? name : "Người dùng"} đã có trong nhóm!`);
         }
 
-        var admins = adminIDs.map(e => parseInt(e.id));
         try {
           await new Promise(resolve => setTimeout(resolve, 1000));
           await api.addUserToGroup(id, threadID);
           
           threadInfoCache.delete(threadID);
+          return out(`✅ Đã thêm ${name ? name : "người dùng"} vào nhóm!`);
           
-          if (approvalMode === true && !admins.includes(botID)) {
-            return out(`✅ Đã thêm ${name ? name : "người dùng"} vào danh sách phê duyệt!`);
-          } else {
-            return out(`✅ Đã thêm ${name ? name : "người dùng"} vào nhóm!`);
-          }
         } catch (error) {
           console.error("Add user error:", error);
           

@@ -227,7 +227,49 @@ function getAllCurrenciesData() {
         return {};
     }
 }
-
+function getStats() {
+    const balances = global.balance;
+    const userCount = Object.keys(balances).length;
+    
+    if (userCount === 0) {
+      return {
+        totalMoney: 0,
+        userCount: 0,
+        averageBalance: 0,
+        richestUsers: [],
+        poorestUsers: [],
+        moneyDistribution: { positive: 0, negative: 0, zero: 0 }
+      };
+    }
+    
+    const totalMoney = Object.values(balances).reduce((sum, balance) => sum + balance, 0);
+    
+    const averageBalance = totalMoney / userCount;
+    
+    const sortedUsers = Object.entries(balances)
+      .sort((a, b) => b[1] - a[1]);
+    
+    const richestUsers = sortedUsers.slice(0, 10);
+    const poorestUsers = sortedUsers.filter(user => user[1] >= 0).slice(-5).reverse();
+    
+    const moneyDistribution = {
+      positive: Object.values(balances).filter(b => b > 0).length,
+      negative: Object.values(balances).filter(b => b < 0).length,
+      zero: Object.values(balances).filter(b => b === 0).length
+    };
+    
+    const commonFund = loadQuy();
+    
+    return {
+      totalMoney,
+      userCount,
+      averageBalance,
+      richestUsers,
+      poorestUsers,
+      moneyDistribution,
+      commonFund
+    };
+  }
 async function executeClojureCalculation(type, data) {
     return new Promise((resolve, reject) => {
         const clojurePath = path.join(__dirname, '../services/clojure/finance.clj');
@@ -267,7 +309,6 @@ async function calculateAdvancedInterest(principal, days, vipLevel = 0) {
         return result.interest;
     } catch (err) {
         console.error('Failed to calculate advanced interest:', err);
-        // Fallback to simple calculation
         return principal * 0.001 * days;
     }
 }
@@ -280,5 +321,5 @@ module.exports = {
     changeBalance, allBalances, saveQuy, loadQuy, loadQuests, 
     getUserQuests, updateQuestProgress, canClaimRewards, setRewardClaimed, 
     loadQuestProgress, saveQuestProgress, checkDayReset, getVNDate,
-    readData, getAllCurrenciesData, calculateAdvancedInterest, executeClojureCalculation
+    readData, getAllCurrenciesData, calculateAdvancedInterest, executeClojureCalculation, getStats
 };

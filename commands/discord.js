@@ -21,7 +21,7 @@ module.exports = {
     dev: "HNT",
     category: "Admin Commands",
     info: "Tương tác với Discord Server",
-    usages: "discord [info/chat/send/invite]", // Updated usages
+    usages: "discord [info/chat/send/invite]", 
     cooldowns: 5,
     onPrefix: true,
 

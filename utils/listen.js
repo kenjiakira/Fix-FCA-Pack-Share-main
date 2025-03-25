@@ -126,14 +126,13 @@ const { logChatRecord, notifyAdmins } = require('./logs');
             if (event.type === "message" || event.type === "message_reply") {
                 trackUserActivity(event, threadsDB, usersDB);
                 
-                // Lưu dữ liệu định kỳ (để tránh lưu quá nhiều)
                 if (!global.saveTimeout) {
                     global.saveTimeout = setTimeout(() => {
                         fs.writeFileSync("./database/threads.json", JSON.stringify(threadsDB, null, 2));
                         fs.writeFileSync("./database/users.json", JSON.stringify(usersDB, null, 2));
                         global.saveTimeout = null;
                         console.log("Saved user and thread data");
-                    }, 60000); // Lưu mỗi phút nếu có thay đổi
+                    }, 60000);
                 }
             }
             

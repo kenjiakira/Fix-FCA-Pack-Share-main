@@ -3,10 +3,8 @@ const config = require('../config/api');
 const fs = require('fs');
 const path = require('path');
 
-// Đường dẫn đến file lưu trữ explanations đã sử dụng
 const EXPLANATIONS_FILE = path.join(__dirname, './json/used_explanations.json');
 
-// Khởi tạo file nếu chưa tồn tại
 function initializeExplanationsFile() {
     if (!fs.existsSync(path.dirname(EXPLANATIONS_FILE))) {
         fs.mkdirSync(path.dirname(EXPLANATIONS_FILE), { recursive: true });
@@ -16,7 +14,6 @@ function initializeExplanationsFile() {
     }
 }
 
-// Đọc explanations đã sử dụng
 function getUsedExplanations() {
     try {
         initializeExplanationsFile();
@@ -27,7 +24,6 @@ function getUsedExplanations() {
     }
 }
 
-// Lưu explanation mới
 function saveNewExplanation(concept, explanation) {
     try {
         const usedExplanations = getUsedExplanations();
@@ -37,7 +33,6 @@ function saveNewExplanation(concept, explanation) {
             timestamp: Date.now()
         });
         
-        // Chỉ giữ lại 100 explanations gần nhất
         if (usedExplanations.length > 100) {
             usedExplanations.splice(0, usedExplanations.length - 100);
         }
@@ -104,7 +99,6 @@ module.exports = {
             const result = await model.generateContent(prompt);
             const explanation = result.response.text();
 
-            // Lưu explanation mới
             saveNewExplanation(concept, explanation);
 
             const message = `🎓 GIẢI THÍCH: ${concept.toUpperCase()}\n` +

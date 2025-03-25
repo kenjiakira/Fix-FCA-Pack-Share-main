@@ -1,19 +1,7 @@
 {
-  "@aki bot • [ . ] mày tách lời thoại trong nhạc ra được không": {
+  "xàm": {
     "responses": [
-      "Oke, tách lời thoại trong nhạc thì hơi khó nha, tùy thuộc vào chất lượng bản ghi âm nữa.  Khó thì cũng đc chứ sao =)))  Mà bài gì vậy, cho mình biết tên bài xem nào, biết đâu mình lại biết cách."
-    ],
-    "frequency": 1
-  },
-  "@aki bot • [ . ] đây , tách lời nói của người ra": {
-    "responses": [
-      "Thôi đi, cái này khó đấy.  Mất thời gian lắm..."
-    ],
-    "frequency": 1
-  },
-  "@aki bot • [ . ] mày tách lời thoại trong nhạc ra được không (tiếp tục cuộc trò chuyện bằng voice message)": {
-    "responses": [
-      "Thôi đi.  mình nói rồi mà, tùy bài.  Khó lắm đấy...  Gửi tên bài hát đi đã."
+      "ừ"
     ],
     "frequency": 1
   }

@@ -1,0 +1,154 @@
+{
+  "m8o1a78u9k7v4hg9g1h": {
+    "id": "m8o1a78u9k7v4hg9g1h",
+    "name": "LayerNode-htt",
+    "ticker": "LayerNode",
+    "type": "Infrastructure",
+    "description": "Hạ tầng blockchain, layer 2 và giải pháp mở rộng",
+    "tasks": [
+      {
+        "id": "connect_wallet",
+        "name": "Connect Wallet",
+        "difficulty": "easy",
+        "reward": 177,
+        "description": "Kết nối ví của bạn với LayerNode-htt để bắt đầu tương tác với dự án."
+      },
+      {
+        "id": "test_network",
+        "name": "Test Network",
+        "difficulty": "medium",
+        "reward": 390,
+        "description": "Tham gia thử nghiệm mạng lưới testnet của LayerNode-htt."
+      },
+      {
+        "id": "run_node",
+        "name": "Run Node",
+        "difficulty": "hard",
+        "reward": 664,
+        "description": "Vận hành node để hỗ trợ mạng lưới của LayerNode-htt."
+      },
+      {
+        "id": "provide_feedback",
+        "name": "Provide Feedback",
+        "difficulty": "medium",
+        "reward": 169,
+        "description": "Cung cấp phản hồi về các tính năng của LayerNode-htt."
+      }
+    ],
+    "tokenPrice": 0.2630460988057925,
+    "dailyGrowthRate": 0.0055640457756676275,
+    "priceHistory": [
+      {
+        "day": 1,
+        "price": "0.254235",
+        "timestamp": 1742274412592
+      },
+      {
+        "day": 2,
+        "price": "0.247736",
+        "timestamp": 1742360812592
+      },
+      {
+        "day": 3,
+        "price": "0.242983",
+        "timestamp": 1742447212592
+      },
+      {
+        "day": 4,
+        "price": "0.256301",
+        "timestamp": 1742533612592
+      },
+      {
+        "day": 5,
+        "price": "0.246428",
+        "timestamp": 1742620012592
+      },
+      {
+        "day": 6,
+        "price": "0.257045",
+        "timestamp": 1742706412592
+      },
+      {
+        "day": 7,
+        "price": "0.255337",
+        "timestamp": 1742792812592
+      },
+      {
+        "day": 8,
+        "price": "0.263046",
+        "timestamp": 1742879212592
+      }
+    ],
+    "totalSupply": 7791940,
+    "remainingSupply": 7790540,
+    "team": [
+      {
+        "role": "Advisor",
+        "experience": "Former Microsoft",
+        "years": 4
+      },
+      {
+        "role": "CMO",
+        "experience": "Former Google",
+        "years": 8
+      },
+      {
+        "role": "Community Manager",
+        "experience": "Former Amazon",
+        "years": 5
+      },
+      {
+        "role": "CTO",
+        "experience": "Former Binance",
+        "years": 4
+      }
+    ],
+    "roadmap": [
+      {
+        "period": "Q1 2025",
+        "milestones": [
+          "Thêm tính năng NFT",
+          "Cập nhật giao diện người dùng",
+          "Niêm yết trên CEX lớn"
+        ]
+      },
+      {
+        "period": "Q2 2025",
+        "milestones": [
+          "Nâng cấp hệ thống quản trị",
+          "Ra mắt mainnet"
+        ]
+      },
+      {
+        "period": "Q3 2025",
+        "milestones": [
+          "Ra mắt mainnet",
+          "Cập nhật giao diện người dùng"
+        ]
+      },
+      {
+        "period": "Q4 2025",
+        "milestones": [
+          "Ra mắt mainnet",
+          "Audit bảo mật",
+          "Mở rộng cộng đồng"
+        ]
+      }
+    ],
+    "investment": {
+      "seedRound": "0.053",
+      "privateRound": "0.158",
+      "publicRound": "0.263",
+      "investors": [
+        "Multicoin Capital",
+        "Galaxy Digital",
+        "Binance Labs",
+        "Coinbase Ventures"
+      ]
+    },
+    "riskLevel": "low",
+    "communitySize": 36208,
+    "createdAt": 1742879212593,
+    "lastUpdated": 1742879212593
+  }
+}

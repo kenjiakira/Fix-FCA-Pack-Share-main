@@ -9,7 +9,7 @@ let userData = {};
 
 function formatNumber(number) {
     if (number === undefined || number === null) return "0";
-    return number.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+    return Math.floor(number).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
 }
 
 function loadBankingData() {

@@ -441,9 +441,9 @@
   "61550331471452": {
     "type": "HAMSTER",
     "name": "Chuột Hamster",
-    "hunger": 40,
-    "happy": 10,
-    "energy": 30,
+    "hunger": 0,
+    "happy": 0,
+    "energy": 0,
     "level": 1,
     "exp": 60,
     "power": 35,
@@ -513,14 +513,14 @@
   "61568522233427": {
     "type": "CAT",
     "name": "Con Chó",
-    "hunger": 95,
+    "hunger": 100,
     "happy": 100,
-    "energy": 77,
+    "energy": 100,
     "level": 8,
-    "exp": 580,
-    "power": 685,
-    "lastFed": 1742654182987,
-    "lastPlay": 1742657512858,
+    "exp": 670,
+    "power": 705,
+    "lastFed": 1742826075985,
+    "lastPlay": 1742826066198,
     "skills": {
       "HUNT": {
         "level": 1,
@@ -544,15 +544,15 @@
     "birthday": 1741511167970,
     "quests": {
       "daily": {
-        "playCount": 76,
-        "feedCount": 108
+        "playCount": 78,
+        "feedCount": 111
       }
     },
     "lastSkill": {
-      "HUNT": 1742580526252,
+      "HUNT": 1742825972074,
       "CHARM": 1742581362985
     },
-    "lastTrain": 1742654172519
+    "lastTrain": 1742825957099
   },
   "100035610181048": {
     "type": "DOG",
@@ -718,14 +718,14 @@
   "61558946907944": {
     "type": "CAT",
     "name": "Mèo",
-    "hunger": 100,
-    "happy": 100,
-    "energy": 100,
+    "hunger": 65,
+    "happy": 38,
+    "energy": 35,
     "level": 1,
-    "exp": 0,
+    "exp": 35,
     "power": 10,
-    "lastFed": 1742633833878,
-    "lastPlay": 1742633833878,
+    "lastFed": 1742826075999,
+    "lastPlay": 1742826092621,
     "skills": {
       "HUNT": {
         "level": 1,
@@ -746,6 +746,12 @@
       "questsCompleted": 0
     },
     "achievements": {},
-    "birthday": 1742633833878
+    "birthday": 1742633833878,
+    "quests": {
+      "daily": {
+        "feedCount": 2,
+        "playCount": 1
+      }
+    }
   }
 }

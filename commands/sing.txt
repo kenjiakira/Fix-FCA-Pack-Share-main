@@ -1,159 +1,129 @@
-Installation
-npm install @distube/ytdl-core@latest
-Make sure you're installing the latest version of @distube/ytdl-core to keep up with the latest fixes.
+🎬 YouTube Downloader CC API
+A simple and easy-to-use Node.js package that allows you to download YouTube videos as MP3 or MP4 and updated in March 21 2025. Built and maintained by Jonell Magallanes.
 
-Usage
-const ytdl = require("@distube/ytdl-core");
-// TypeScript: import ytdl from '@distube/ytdl-core'; with --esModuleInterop
-// TypeScript: import * as ytdl from '@distube/ytdl-core'; with --allowSyntheticDefaultImports
-// TypeScript: import ytdl = require('@distube/ytdl-core'); with neither of the above
+🔗 Admin: Jonell Magallanes
 
-// Download a video
-ytdl("http://www.youtube.com/watch?v=aqz-KE-bpKQ").pipe(require("fs").createWriteStream("video.mp4"));
+📥 Installation
+First, install the package using npm:
 
-// Get video info
-ytdl.getBasicInfo("http://www.youtube.com/watch?v=aqz-KE-bpKQ").then(info => {
-  console.log(info.videoDetails.title);
-});
+npm install youtube-downloader-cc-api
+This will automatically install all required dependencies.
 
-// Get video info with download formats
-ytdl.getInfo("http://www.youtube.com/watch?v=aqz-KE-bpKQ").then(info => {
-  console.log(info.formats);
-});
-Cookies Support
-const ytdl = require("@distube/ytdl-core");
+✨ Features
+✅ Download YouTube videos as MP3 (audio) or MP4 (video)
+✅ Choose between two response types:
 
-// (Optional) Below are examples, NOT the recommended options
-const cookies = [
-  { name: "cookie1", value: "COOKIE1_HERE" },
-  { name: "cookie2", value: "COOKIE2_HERE" },
-];
+"stream" → Returns a JSON response with a download link
+"direct" → Automatically downloads the file locally
+✅ Fast and simple API for developers
+🚀 How to Use
+1️⃣ Import the Library
+Before using the downloader, you need to import the function:
 
-// (Optional) http-cookie-agent / undici agent options
-// Below are examples, NOT the recommended options
-const agentOptions = {
-  pipelining: 5,
-  maxRedirections: 0,
-  localAddress: "127.0.0.1",
-};
+const { getDownloadDetails } = require("youtube-downloader-cc-api");
+2️⃣ Fetch Download Details
+Now, call the function with three parameters:
 
-// agent should be created once if you don't want to change your cookie
-const agent = ytdl.createAgent(cookies, agentOptions);
+YouTube URL → The video you want to download
+Type → Choose "mp3" for audio or "mp4" for video
+Response Type → "stream" for JSON output or "direct" to auto-download
+🎧 Example: Get Download Link (Stream Response)
+If you only need the download link, use the "stream" response type:
 
-ytdl.getBasicInfo("http://www.youtube.com/watch?v=aqz-KE-bpKQ", { agent });
-ytdl.getInfo("http://www.youtube.com/watch?v=aqz-KE-bpKQ", { agent });
-How to get cookies
-Install EditThisCookie extension for your browser.
-Go to YouTube.
-Log in to your account. (You should use a new account for this purpose)
-Click on the extension icon and click "Export" icon.
-Your cookies will be added to your clipboard and paste it into your code.
-[!WARNING] Don't logout it by clicking logout button on youtube/google account manager, it will expire your cookies. You can delete your browser's cookies to log it out on your browser. Or use incognito mode to get your cookies then close it.
+const { getDownloadDetails } = require("youtube-downloader-cc-api");
 
-[!WARNING] Paste all the cookies array from clipboard into createAgent function. Don't remove/edit any cookies if you don't know what you're doing.
+(async () => {
+  try {
+    const url = "https://youtu.be/Rb1HSnuR8WE"; // Replace with your YouTube link
+    const type = "mp3"; // Choose "mp3" or "mp4"
+    const responseType = "stream"; // Get the JSON response (link only)
 
-[!WARNING] Make sure your account, which logged in when you getting your cookies, use 1 IP at the same time only. It will make your cookies alive longer.
+    const response = await getDownloadDetails(url, type, responseType);
+    console.log("Download Details:", response);
+  } catch (error) {
+    console.error("Error:", error.message);
+  }
+})();
+📝 Output (Stream Response)
+If responseType is "stream", the function returns a JSON object like this:
 
-const ytdl = require("@distube/ytdl-core");
-const agent = ytdl.createAgent([
-  {
-    domain: ".youtube.com",
-    expirationDate: 1234567890,
-    hostOnly: false,
-    httpOnly: true,
-    name: "---xxx---",
-    path: "/",
-    sameSite: "no_restriction",
-    secure: true,
-    session: false,
-    value: "---xxx---",
-  },
-  {
-    "...": "...",
-  },
-]);
-Or you can paste your cookies array into a file and use fs.readFileSync to read it.
-const ytdl = require("@distube/ytdl-core");
-const fs = require("fs");
-const agent = ytdl.createAgent(JSON.parse(fs.readFileSync("cookies.json")));
-Proxy Support
-const ytdl = require("@distube/ytdl-core");
+{
+  "url": "https://youtu.be/Rb1HSnuR8WE",
+  "download": "https://yt-downloader-ccprojects-production.up.railway.app/download/1737550613.mp3",
+  "title": "Family Guy Funny Spelling",
+  "response": "Time Response: Wed Jan 22 12:56:57 2025",
+  "author": "Jonell Hutchin Magallanes"
+}
+🔹 Best for: Developers who want to display the download link to users instead of downloading the file directly.
 
-const agent = ytdl.createProxyAgent({ uri: "my.proxy.server" });
+🎥 Example: Auto-Download (Direct Response)
+If you want to automatically download the video or audio file, use the "direct" response type:
 
-ytdl.getBasicInfo("http://www.youtube.com/watch?v=aqz-KE-bpKQ", { agent });
-ytdl.getInfo("http://www.youtube.com/watch?v=aqz-KE-bpKQ", { agent });
-Use both proxy and cookies:
+const { getDownloadDetails } = require("youtube-downloader-cc-api");
 
-const ytdl = require("@distube/ytdl-core");
+(async () => {
+  try {
+    const url = "https://youtu.be/Rb1HSnuR8WE"; // Replace with your YouTube link
+    const type = "mp4"; // Choose "mp3" or "mp4"
+    const responseType = "direct"; // Auto-download the file
 
-const agent = ytdl.createProxyAgent({ uri: "my.proxy.server" }, [{ name: "cookie", value: "COOKIE_HERE" }]);
+    const response = await getDownloadDetails(url, type, responseType);
+    console.log(`✅ File saved at: ${response.path}`);
+  } catch (error) {
+    console.error("Error:", error.message);
+  }
+})();
+📂 Output (Direct Download)
+If responseType is "direct", the function will automatically download the file to your local machine:
 
-ytdl.getBasicInfo("http://www.youtube.com/watch?v=aqz-KE-bpKQ", { agent });
-ytdl.getInfo("http://www.youtube.com/watch?v=aqz-KE-bpKQ", { agent });
-IP Rotation
-Built-in ip rotation (getRandomIPv6) won't be updated and will be removed in the future, create your own ip rotation instead.
+Downloading [####################] 100% | 8.6MB/8.6MB bytes
+✅ Download complete!
+File saved at: /your/path/downloaded_file.mp4
+🔹 Best for: Users who want to instantly download the video/audio without extra steps.
 
-To implement IP rotation, you need to assign the desired IP address to the localAddress property within undici.Agent.Options. Therefore, you'll need to use a different ytdl.Agent for each IP address you want to use.
+📜 API Reference
+✅ getDownloadDetails(url, type, responseType)
+This function fetches the download details for a given YouTube video.
 
-const ytdl = require("@distube/ytdl-core");
-const { getRandomIPv6 } = require("@distube/ytdl-core/lib/utils");
+Parameter	Type	Required	Description
+url	String	Yes	The YouTube video URL.
+type	String	Yes	Choose "mp3" for audio or "mp4" for video.
+responseType	String	Yes	"stream" (get link as JSON) or "direct" (auto-download).
+🛠️ Install Dependencies (Optional)
+The required dependencies are automatically installed, but if needed, you can manually install them:
 
-const agentForARandomIP = ytdl.createAgent(undefined, {
-  localAddress: getRandomIPv6("2001:2::/48"),
-});
+npm install axios cli-progress fs path
+🎯 Example Output in Node.js
+When you run the example code, you will see output like this:
 
-ytdl.getBasicInfo("http://www.youtube.com/watch?v=aqz-KE-bpKQ", { agent: agentForARandomIP });
+For stream response type:
 
-const agentForAnotherRandomIP = ytdl.createAgent(undefined, {
-  localAddress: getRandomIPv6("2001:2::/48"),
-});
+{
+  "url": "https://youtu.be/Rb1HSnuR8WE",
+  "download": "https://yt-downloader-ccprojects-production.up.railway.app/download/1737550613.mp3",
+  "title": "Family Guy Funny Spelling",
+  "response": "Time Response: Wed Jan 22 12:56:57 2025",
+  "author": "Jonell Hutchin Magallanes"
+}
+For direct response type:
 
-ytdl.getInfo("http://www.youtube.com/watch?v=aqz-KE-bpKQ", { agent: agentForAnotherRandomIP });
-API
-You can find the API documentation in the original repo. Except a few changes:
+Downloading [####################] 100% | 8.6MB/8.6MB bytes
+✅ Download complete!
+File saved at: /your/path/downloaded_file.mp4
+🌐 Main Server of Youtube DL
+This Main Server of Youtube DL CC visit https://jonell01-youtube-dl-ccapi-hutchin.hf.space/ for more info
 
-ytdl.getInfoOptions
-requestOptions is now undici's RequestOptions.
-agent: ytdl.Agent
-playerClients: An array of player clients to use. Accepts WEB, WEB_EMBEDDED, TV, IOS, and ANDROID. Defaults to ["WEB_EMBEDDED", "IOS", "ANDROID","TV"].
-fetch: Custom fetch implementation. Defaults to undici's request.
-ytdl.createAgent([cookies]): ytdl.Agent
-cookies: an array of json cookies exported with EditThisCookie.
+🎉 Conclusion
+The YouTube Downloader CC API makes it easy and efficient to download YouTube videos in MP3 or MP4 format. Whether you want to get a download link or automatically save the file, this library is built to be simple and developer-friendly.
 
-ytdl.createProxyAgent(proxy[, cookies]): ytdl.Agent
-proxy: ProxyAgentOptions contains your proxy server information.
+🚀 Start using it today and integrate YouTube downloads into your projects!
 
-How to implement ytdl.Agent with your own Dispatcher
-You can find the example here
+💬 Join Our Community
+Join the Chatbot Community Group on Facebook to connect with other developers:
+🔗 Chatbot Community
 
-Limitations
-ytdl cannot download videos that fall into the following
+🎖️ Special Thanks:
+💡 Salamat sa CCPRAKJIK 19 na commands ko 🤑
 
-Regionally restricted (requires a proxy)
-Private (if you have access, requires cookies)
-Rentals (if you have access, requires cookies)
-YouTube Premium content (if you have access, requires cookies)
-Only HLS Livestreams are currently supported. Other formats will get filtered out in ytdl.chooseFormats
-Generated download links are valid for 6 hours, and may only be downloadable from the same IP address.
-
-Rate Limiting
-When doing too many requests YouTube might block. This will result in your requests getting denied with HTTP-StatusCode 429. The following steps might help you:
-
-Update @distube/ytdl-core to the latest version
-Use proxies (you can find an example here)
-Extend the Proxy Idea by rotating (IPv6-)Addresses
-read this for more information about this
-Use cookies (you can find an example here)
-for this to take effect you have to FIRST wait for the current rate limit to expire
-Wait it out (it usually goes away within a few days)
-Update Checks
-The issue of using an outdated version of ytdl-core became so prevalent, that ytdl-core now checks for updates at run time, and every 12 hours. If it finds an update, it will print a warning to the console advising you to update. Due to the nature of this library, it is important to always use the latest version as YouTube continues to update.
-
-If you'd like to disable this update check, you can do so by providing the YTDL_NO_UPDATE env variable.
-
-env YTDL_NO_UPDATE=1 node myapp.js
-Related Projects
-DisTube - A Discord.js module to simplify your music commands and play songs with audio filters on Discord without any API key.
-@distube/ytsr - DisTube fork of ytsr.
-@distube/ytpl - DisTube fork of ytpl.
+Readme
+Keywords

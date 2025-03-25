@@ -1,5 +1,5 @@
 const axios = require('axios');
-const fs = require('fs');
+const fs = require('fs-extra');
 const path = require('path');
 
 module.exports = {
@@ -38,26 +38,54 @@ module.exports = {
         }
       }
 
-      const avatarUrl = `https://graph.facebook.com/${uid}/picture?width=512&height=512&access_token=6628568379%7Cc1e620fa708a1d5696fb991c1bde5662`;
+      const cacheDir = path.join(__dirname, "cache/avatars");
+      await fs.ensureDir(cacheDir);
+      
+      const avatarPath = path.join(cacheDir, `${uid}.jpg`);
+      const metadataPath = path.join(cacheDir, `${uid}.meta`);
 
-      const response = await axios.get(avatarUrl, { responseType: 'arraybuffer' });
+      let shouldDownload = true;
 
-      const avatarPath = path.join(__dirname, '../commands/cache/avatar.jpg');
-      fs.writeFileSync(avatarPath, response.data);
-
-      api.sendMessage({
-        body: `📸 Avatar của ID: ${uid}`,
-        attachment: fs.createReadStream(avatarPath)
-      }, event.threadID, event.messageID);
-
-      fs.unlink(avatarPath, (err) => {
-        if (err) {
-          console.error('Lỗi khi xóa tệp hình ảnh:', err);
+      if (fs.existsSync(avatarPath) && fs.existsSync(metadataPath)) {
+        const metadata = JSON.parse(await fs.readFile(metadataPath, "utf-8"));
+        const cacheAge = Date.now() - metadata.timestamp;
+        
+        if (cacheAge < 24 * 60 * 60 * 1000) {
+          shouldDownload = false;
         }
-      });
+      }
+
+      if (shouldDownload) {
+        const avatarUrl = `https://graph.facebook.com/${uid}/picture?width=512&height=512&access_token=6628568379%7Cc1e620fa708a1d5696fb991c1bde5662`;
+        
+        const response = await axios.get(avatarUrl, {
+          responseType: 'arraybuffer',
+          timeout: 10000,
+          validateStatus: function (status) {
+            return status >= 200 && status < 300;
+          }
+        });
+
+        await fs.writeFile(avatarPath, response.data);
+        await fs.writeFile(metadataPath, JSON.stringify({ timestamp: Date.now() }));
+      }
+
+      await api.sendMessage(
+        {
+          body: `📸 Avatar của ID: ${uid}`,
+          attachment: fs.createReadStream(avatarPath)
+        },
+        event.threadID,
+        event.messageID
+      );
 
     } catch (error) {
-      return api.sendMessage("❌ Không thể lấy avatar, vui lòng thử lại sau!", event.threadID, event.messageID);
+      console.error('Error in avt command:', error);
+      return api.sendMessage(
+        "❌ Không thể lấy avatar, vui lòng thử lại sau!",
+        event.threadID,
+        event.messageID
+      );
     }
   }
 };

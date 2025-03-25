@@ -146,7 +146,6 @@ module.exports = {
     } catch (error) {
       console.error('Avatar Box Error:', error);
       
-      // Handle different error cases
       if (error.response?.status === 404 || error.message.includes('not found')) {
         return api.sendMessage(
           "❌ Không tìm thấy nhóm này hoặc nhóm không có ảnh đại diện!",

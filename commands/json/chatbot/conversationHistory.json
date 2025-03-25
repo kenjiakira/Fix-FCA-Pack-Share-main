@@ -1,55 +1,25 @@
 {
   "global": [
     {
-      "timestamp": 1742698669054,
-      "prompt": "@AKI BOT • [ . ] mày tách lời thoại trong nhạc ra được không",
-      "response": "Oke, tách lời thoại trong nhạc thì hơi khó nha, tùy thuộc vào chất lượng bản ghi âm nữa.  Khó thì cũng đc chứ sao =)))  Mà bài gì vậy, cho mình biết tên bài xem nào, biết đâu mình lại biết cách.",
-      "senderID": "100063725516217",
-      "senderName": "Trung Phạm"
-    },
-    {
-      "timestamp": 1742698705294,
-      "prompt": "@AKI BOT • [ . ] đây , tách lời nói của người ra",
-      "response": "Thôi đi, cái này khó đấy.  Mất thời gian lắm...",
-      "senderID": "100063725516217",
-      "senderName": "Trung Phạm"
-    },
-    {
-      "timestamp": 1742698705766,
-      "prompt": "@AKI BOT • [ . ] mày tách lời thoại trong nhạc ra được không (Tiếp tục cuộc trò chuyện bằng voice message)",
-      "response": "Thôi đi.  mình nói rồi mà, tùy bài.  Khó lắm đấy...  Gửi tên bài hát đi đã.",
-      "senderID": "100063725516217",
-      "senderName": "Trung Phạm"
+      "timestamp": 1742884472848,
+      "prompt": "xàm",
+      "response": "ừ",
+      "senderID": "61573427362389",
+      "senderName": "Ngọc Từ"
     }
   ],
   "threads": {
-    "9340319915984181": [
+    "6589198804475799": [
       {
-        "timestamp": 1742698669054,
-        "prompt": "@AKI BOT • [ . ] mày tách lời thoại trong nhạc ra được không",
-        "response": "Oke, tách lời thoại trong nhạc thì hơi khó nha, tùy thuộc vào chất lượng bản ghi âm nữa.  Khó thì cũng đc chứ sao =)))  Mà bài gì vậy, cho mình biết tên bài xem nào, biết đâu mình lại biết cách.",
-        "senderID": "100063725516217",
-        "senderName": "Trung Phạm"
-      },
-      {
-        "timestamp": 1742698705294,
-        "prompt": "@AKI BOT • [ . ] đây , tách lời nói của người ra",
-        "response": "Thôi đi, cái này khó đấy.  Mất thời gian lắm...",
-        "senderID": "100063725516217",
-        "senderName": "Trung Phạm"
-      },
-      {
-        "timestamp": 1742698705766,
-        "prompt": "@AKI BOT • [ . ] mày tách lời thoại trong nhạc ra được không (Tiếp tục cuộc trò chuyện bằng voice message)",
-        "response": "Thôi đi.  mình nói rồi mà, tùy bài.  Khó lắm đấy...  Gửi tên bài hát đi đã.",
-        "senderID": "100063725516217",
-        "senderName": "Trung Phạm"
+        "timestamp": 1742884472848,
+        "prompt": "xàm",
+        "response": "ừ",
+        "senderID": "61573427362389",
+        "senderName": "Ngọc Từ"
       }
     ]
   },
   "lastResponses": {
-    "@aki bot • [ . ] mày tách lời thoại trong nhạc ra được không": "Oke, tách lời thoại trong nhạc thì hơi khó nha, tùy thuộc vào chất lượng bản ghi âm nữa.  Khó thì cũng đc chứ sao =)))  Mà bài gì vậy, cho mình biết tên bài xem nào, biết đâu mình lại biết cách.",
-    "@aki bot • [ . ] đây , tách lời nói của người ra": "Thôi đi, cái này khó đấy.  Mất thời gian lắm...",
-    "@aki bot • [ . ] mày tách lời thoại trong nhạc ra được không (tiếp tục cuộc trò chuyện bằng voice message)": "Thôi đi.  mình nói rồi mà, tùy bài.  Khó lắm đấy...  Gửi tên bài hát đi đã."
+    "xàm": "ừ"
   }
 }

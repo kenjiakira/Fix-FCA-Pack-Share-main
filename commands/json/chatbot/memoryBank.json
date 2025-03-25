@@ -1,40 +1,16 @@
 {
   "users": {
-    "100063725516217": {
+    "61573427362389": {
       "personal": [],
       "facts": [],
       "preferences": [],
       "interactions": [
         {
-          "content": "Trung Phạm nói: @AKI BOT • [ . ] mày tách lời thoại trong nhạc ra được không\nTôi trả lời: Oke, tách lời thoại trong nhạc thì hơi khó nha, tùy thuộc vào chất lượng bản ghi âm nữa.  Khó thì cũng đc chứ sao =)))  Mà bài gì vậy, cho mình biết tên bài xem nào, biết đâu mình lại biết cách.",
-          "timestamp": 1742698669055,
-          "priority": 1,
-          "accessCount": 2,
-          "lastAccess": 1742698704894,
-          "metadata": {
-            "sentiment": {
-              "score": 0,
-              "rawScore": 0,
-              "sentiment": "neutral",
-              "confidence": 0.5,
-              "emotions": [],
-              "negationCount": 0,
-              "intensityFactors": [],
-              "primaryEmotion": "neutral"
-            },
-            "topics": [
-              "PERSONAL",
-              "ENTERTAINMENT"
-            ],
-            "entities": {}
-          }
-        },
-        {
-          "content": "Trung Phạm nói: @AKI BOT • [ . ] mày tách lời thoại trong nhạc ra được không (Tiếp tục cuộc trò chuyện bằng voice message)\nTôi trả lời: Thôi đi.  mình nói rồi mà, tùy bài.  Khó lắm đấy...  Gửi tên bài hát đi đã.",
-          "timestamp": 1742698705768,
+          "content": "Ngọc Từ nói: xàm\nTôi trả lời: ừ",
+          "timestamp": 1742884472849,
           "priority": 1,
           "accessCount": 0,
-          "lastAccess": 1742698705768,
+          "lastAccess": 1742884472849,
           "metadata": {
             "sentiment": {
               "score": 0,
@@ -47,33 +23,7 @@
               "primaryEmotion": "neutral"
             },
             "topics": [
-              "PERSONAL",
-              "ENTERTAINMENT",
-              "TRAVEL"
-            ],
-            "entities": {}
-          }
-        },
-        {
-          "content": "Trung Phạm nói: @AKI BOT • [ . ] đây , tách lời nói của người ra\nTôi trả lời: Thôi đi, cái này khó đấy.  Mất thời gian lắm...",
-          "timestamp": 1742698705296,
-          "priority": 1,
-          "accessCount": 0,
-          "lastAccess": 1742698705296,
-          "metadata": {
-            "sentiment": {
-              "score": 0,
-              "rawScore": 0,
-              "sentiment": "neutral",
-              "confidence": 0.5,
-              "emotions": [],
-              "negationCount": 0,
-              "intensityFactors": [],
-              "primaryEmotion": "neutral"
-            },
-            "topics": [
-              "PERSONAL",
-              "TRAVEL"
+              "PERSONAL"
             ],
             "entities": {}
           }
@@ -92,56 +42,10 @@
       "undefined": [
         {
           "content": "Xưng hô: mình/bạn",
-          "timestamp": 1742698667996,
-          "priority": 2,
-          "accessCount": 2,
-          "lastAccess": 1742698704894,
-          "metadata": {
-            "sentiment": {
-              "score": 0,
-              "rawScore": 0,
-              "sentiment": "neutral",
-              "confidence": 0.5,
-              "emotions": [],
-              "negationCount": 0,
-              "intensityFactors": [],
-              "primaryEmotion": "neutral"
-            },
-            "topics": [
-              "PERSONAL"
-            ],
-            "entities": {}
-          }
-        },
-        {
-          "content": "Xưng hô: mình/bạn",
-          "timestamp": 1742698704464,
-          "priority": 2,
-          "accessCount": 1,
-          "lastAccess": 1742698704894,
-          "metadata": {
-            "sentiment": {
-              "score": 0,
-              "rawScore": 0,
-              "sentiment": "neutral",
-              "confidence": 0.5,
-              "emotions": [],
-              "negationCount": 0,
-              "intensityFactors": [],
-              "primaryEmotion": "neutral"
-            },
-            "topics": [
-              "PERSONAL"
-            ],
-            "entities": {}
-          }
-        },
-        {
-          "content": "Xưng hô: mình/bạn",
-          "timestamp": 1742698704894,
+          "timestamp": 1742884471131,
           "priority": 2,
           "accessCount": 0,
-          "lastAccess": 1742698704894,
+          "lastAccess": 1742884471131,
           "metadata": {
             "sentiment": {
               "score": 0,
@@ -175,16 +79,11 @@
     "voice": {}
   },
   "stats": {
-    "totalInteractions": 6,
+    "totalInteractions": 2,
     "uniqueUsers": {},
     "topTopics": {},
     "responseTime": [],
-    "accuracy": [
-      {
-        "timestamp": 1742698705304,
-        "memoryCount": 8
-      }
-    ]
+    "accuracy": []
   },
   "compression": {
     "enabled": true,

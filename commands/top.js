@@ -5,6 +5,10 @@ const { allBalances } = require("../utils/currencies");
 const axios = require("axios");
 const npcManager = require('../utils/npcManager');
 
+function formatNumber(number) {
+  if (number === undefined || number === null) return "0";
+  return Math.floor(number).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+}
 module.exports = {
   name: "top",
   dev: "HNT",
@@ -111,13 +115,12 @@ module.exports = {
       // Medallion icons
       const medals = ["🥇", "🥈", "🥉"];
       const rankColors = [
-        "#FFD700", // Gold
-        "#C0C0C0", // Silver
-        "#CD7F32", // Bronze
-        "rgba(255, 255, 255, 0.2)", // Glass-like for the rest
+        "#FFD700", 
+        "#C0C0C0",
+        "#CD7F32", 
+        "rgba(255, 255, 255, 0.2)", 
       ];
 
-      // Create vertical list of users
       let startY = 180;
       const rowHeight = 90;
 
@@ -128,7 +131,7 @@ module.exports = {
           : userData[userID]
           ? userData[userID].name
           : "Người dùng ẩn danh";
-        const formattedBalance = balance
+          const formattedBalance = formatNumber(balance)
           .toString()
           .replace(/\B(?=(\d{3})+(?!\d))/g, ",");
 
@@ -658,9 +661,7 @@ module.exports = {
         : userData[userID]
         ? userData[userID].name
         : "Người dùng ẩn danh";
-      const formattedBalance = balance
-        .toString()
-        .replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+        const formattedBalance = formatNumber(balance);
 
       textFallback += `${rankEmoji[index]} ${
         index + 1
@@ -679,8 +680,7 @@ module.exports = {
       textFallback += `\n🎯 Vị trí của bạn: #${userPosition} trong top 10 người giàu nhất!`;
     } else {
       const userBalance = allBalancesData[senderID] || 0;
-      const formattedUserBalance = userBalance
-        .toString()
+      const formattedUserBalance = formatNumber(userBalance)
         .replace(/\B(?=(\d{3})+(?!\d))/g, ",");
       textFallback += `\n💫 Bạn không có trong top 10.\n💰 Số $ hiện tại: ${formattedUserBalance} $`;
     }

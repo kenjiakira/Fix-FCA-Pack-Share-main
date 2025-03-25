@@ -6,6 +6,7 @@ const simpleYT = require('simple-youtube-api');
 const getFBInfo = require('@xaviabot/fb-downloader');
 const { ZM_API, YOUTUBE } = require('../config/api');
 const Downloader = require('../utils/downloader');
+const vipService = require('../vip/vipService');
 
 const youtube = new simpleYT(YOUTUBE.API_KEY);
 const cacheDir = path.join(__dirname, 'cache');
@@ -24,6 +25,17 @@ const patterns = {
     threads: /https?:\/\/(www\.)?threads\.net\/@?[a-zA-Z0-9._-]+\/post\/[a-zA-Z0-9]+/,
     pinterest: /https?:\/\/(www\.)?pinterest\.(com|ca|fr|jp|co\.uk)\/pin\/[0-9]+/,
 };
+
+function requiresVIP(platform) {
+    return !['facebook', 'tiktok'].includes(platform);
+}
+
+async function checkVIPAccess(userId, platform, api, threadID) {
+    if (!requiresVIP(platform)) return true;
+    
+    const accessCheck = await vipService.checkDownloadAccess(userId, threadID, api);
+    return accessCheck.hasAccess;
+}
 
 module.exports = {
     name: 'atd',
@@ -44,9 +56,18 @@ module.exports = {
         for (const url of urls) {
             for (const [platform, pattern] of Object.entries(patterns)) {
                 if (pattern.test(url)) {
-               
                     if (platform === 'douyin' && !url.includes('douyin.com')) continue;
                     
+                    // Check VIP access before handling
+                    if (requiresVIP(platform)) {
+                        const hasAccess = await checkVIPAccess(event.senderID, platform, api, event.threadID);
+                        if (!hasAccess) {
+                            const accessCheck = await vipService.checkDownloadAccess(event.senderID, event.threadID, api);
+                            api.sendMessage(accessCheck.message, event.threadID);
+                            return;
+                        }
+                    }
+
                     let handler;
                     
                     switch (platform) {

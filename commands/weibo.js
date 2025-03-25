@@ -5,6 +5,7 @@ module.exports = {
     name: "weibo",
     nickName: ["wb"],
     dev: "HNT",
+    usedby: 2,
     category: "Media",
     info: "Tải media từ Weibo",
     usages: "weibo [link]",

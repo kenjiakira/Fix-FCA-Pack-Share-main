@@ -7,19 +7,57 @@ module.exports = {
     category: "Khác",
     info: "Xem danh sách admin, mod và support team",
     usages: [
-        "/admin - Xem danh sách quản trị viên"
+        "/admin - Xem danh sách quản trị viên",
+        "/admin add admin [uid] - Thêm admin mới",
+        "/admin add mod [uid] - Thêm mod mới"
     ],
     cooldowns: 5,
     onPrefix: true,
 
-    onLaunch: async function({ api, event }) {
-        const { threadID, messageID } = event;
+    onLaunch: async function({ api, event, target }) {
+        const { threadID, messageID, senderID } = event;
         const adminPath = path.join(__dirname, '..', 'admin.json');
         
         try {
             const adminData = JSON.parse(fs.readFileSync(adminPath, 'utf8'));
-            const userDataPath = path.join(__dirname, '..', 'events/cache/userData.json');
             
+            if (target[0] === "add") {
+                if (!adminData.adminUIDs.includes(senderID)) {
+                    return api.sendMessage("❌ Bạn không có quyền sử dụng lệnh này!", threadID, messageID);
+                }
+
+                if (!target[1] || !target[2]) {
+                    return api.sendMessage("❌ Vui lòng sử dụng đúng cú pháp: /admin add [admin/mod] [uid]", threadID, messageID);
+                }
+
+                const type = target[1].toLowerCase();
+                const uid = target[2];
+
+                if (type !== "admin" && type !== "mod") {
+                    return api.sendMessage("❌ Loại người dùng không hợp lệ! (admin/mod)", threadID, messageID);
+                }
+
+                if (!/^\d+$/.test(uid)) {
+                    return api.sendMessage("❌ UID không hợp lệ!", threadID, messageID);
+                }
+
+                if (type === "admin") {
+                    if (adminData.adminUIDs.includes(uid)) {
+                        return api.sendMessage("❌ Người dùng này đã là admin!", threadID, messageID);
+                    }
+                    adminData.adminUIDs.push(uid);
+                } else {
+                    if (adminData.moderatorUIDs.includes(uid)) {
+                        return api.sendMessage("❌ Người dùng này đã là mod!", threadID, messageID);
+                    }
+                    adminData.moderatorUIDs.push(uid);
+                }
+
+                fs.writeFileSync(adminPath, JSON.stringify(adminData, null, 2));
+                return api.sendMessage(`✅ Đã thêm thành công ${type === "admin" ? "Admin" : "Mod"} mới!`, threadID, messageID);
+            }
+
+            const userDataPath = path.join(__dirname, '..', 'events/cache/userData.json');
             const userData = JSON.parse(fs.readFileSync(userDataPath, 'utf8'));
         
             async function getUserInfoSafely(api, uid, userData) {
@@ -138,7 +176,7 @@ module.exports = {
             
         } catch (error) {
             console.error('Lỗi:', error);
-            return api.sendMessage("❌ Đã xảy ra lỗi khi tải thông tin!", threadID, messageID);
+            return api.sendMessage("❌ Đã xảy ra lỗi khi xử lý yêu cầu!", threadID, messageID);
         }
     }
 };

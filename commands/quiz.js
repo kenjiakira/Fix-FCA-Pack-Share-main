@@ -83,7 +83,7 @@ const getRandomCategory = () => {
     return categories[Math.floor(Math.random() * categories.length)];
 };
 
-// Thêm hàm sáo trộn đáp án
+// Sửa lại hàm sáo trộn đáp án
 const shuffleAnswers = (question) => {
     // Tạo mảng các phương án
     const options = [
@@ -99,16 +99,25 @@ const shuffleAnswers = (question) => {
         [options[i], options[j]] = [options[j], options[i]];
     }
     
+    // Tạo một mapping mới với vị trí đã sáo trộn
+    const newOptions = {
+        A: options[0].text,
+        B: options[1].text,
+        C: options[2].text,
+        D: options[3].text
+    };
+    
+    // Tìm đáp án đúng sau khi sáo trộn
+    let correctAnswer = 'A'; // Mặc định
+    if (options[1].isCorrect) correctAnswer = 'B';
+    else if (options[2].isCorrect) correctAnswer = 'C';
+    else if (options[3].isCorrect) correctAnswer = 'D';
+    
     // Cập nhật question với các phương án đã sáo trộn
     const shuffledQuestion = {
         ...question,
-        options: {
-            A: options[0].text,
-            B: options[1].text,
-            C: options[2].text,
-            D: options[3].text
-        },
-        correct: options.find(opt => opt.isCorrect).key
+        options: newOptions,
+        correct: correctAnswer
     };
     
     return shuffledQuestion;

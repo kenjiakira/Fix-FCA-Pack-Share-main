@@ -3,10 +3,8 @@ const config = require('../config/api');
 const fs = require('fs');
 const path = require('path');
 
-// Đường dẫn đến file lưu trữ facts đã sử dụng
 const FACTS_FILE = path.join(__dirname, './json/used_facts.json');
 
-// Khởi tạo file nếu chưa tồn tại
 function initializeFactsFile() {
     if (!fs.existsSync(path.dirname(FACTS_FILE))) {
         fs.mkdirSync(path.dirname(FACTS_FILE), { recursive: true });
@@ -16,7 +14,6 @@ function initializeFactsFile() {
     }
 }
 
-// Đọc facts đã sử dụng
 function getUsedFacts() {
     try {
         initializeFactsFile();
@@ -27,7 +24,6 @@ function getUsedFacts() {
     }
 }
 
-// Lưu fact mới
 function saveNewFact(fact) {
     try {
         const usedFacts = getUsedFacts();
@@ -36,7 +32,6 @@ function saveNewFact(fact) {
             timestamp: Date.now()
         });
         
-        // Chỉ giữ lại 100 facts gần nhất
         if (usedFacts.length > 100) {
             usedFacts.splice(0, usedFacts.length - 100);
         }

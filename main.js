@@ -205,6 +205,27 @@ const reloadModules = () => {
                     scheduleAutoGiftcode(api);
                     console.log('📦 Auto Giftcode system initialized!');
                     
+                    // Add airdrop system initialization
+                    const airdropSystem = require('./commands/airdrop.js');
+                    if (airdropSystem.onLoad) {
+                        airdropSystem.onLoad({ api });
+                        console.log('🎯 Airdrop system initialized!');
+                        
+                        // Schedule periodic market updates
+                        cron.schedule('*/5 * * * *', () => {
+                            if (airdropSystem.updateMarket) {
+                                airdropSystem.updateMarket();
+                            }
+                        });
+                        
+                        // Schedule new project listings
+                        cron.schedule('0 */4 * * *', () => {
+                            if (airdropSystem.listNewProjects) {
+                                airdropSystem.listNewProjects({ api });
+                            }
+                        });
+                    }
+                    
                     const quicklotto = require('./commands/lotto.js');
                     if (quicklotto.onLoad) {
                         quicklotto.onLoad({ api });

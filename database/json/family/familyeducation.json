@@ -338,11 +338,12 @@
   },
   "100093208808025": {
     "degrees": [
-      "e1"
+      "e1",
+      "hmu"
     ],
     "currentDegree": {
-      "id": "hmu",
-      "startTime": 1742402447087,
+      "id": "e2",
+      "startTime": 1742743054372,
       "progress": 0
     }
   },
@@ -844,11 +845,12 @@
   "100081770013413": {
     "degrees": [
       "e1",
-      "e2"
+      "e2",
+      "hmu"
     ],
     "currentDegree": {
-      "id": "hmu",
-      "startTime": 1742311794772,
+      "id": "e3",
+      "startTime": 1742741833706,
       "progress": 0
     }
   },

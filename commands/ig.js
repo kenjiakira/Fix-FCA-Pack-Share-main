@@ -5,6 +5,7 @@ module.exports = {
     name: "ig",
     dev: "HNT",
     category: "Media",
+    usedby: 2,
     info: "Tải media từ Instagram",
     usages: "instagram [link]",
     cooldowns: 5,

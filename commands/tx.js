@@ -239,35 +239,6 @@ module.exports = {
                 threadID, messageID
             );
 
-            // Add NPC logic before main game starts
-            if (npcManager.shouldNPCPlay()) {
-                const npc = npcManager.getRandomNPC();
-                if (npc) {
-                    const npcBet = npcManager.getNPCBet(npc);
-                    const npcChoice = npcManager.makeNPCChoice(npc);
-                    
-                    await api.sendMessage(
-                        `👾 ${npc.name} tham gia phiên này!\n` +
-                        `💰 Đặt cược: ${formatNumber(npcBet)} $\n` +
-                        `🎯 Lựa chọn: ${npcChoice.toUpperCase()}`,
-                        threadID
-                    );
-
-                    // After 5s when result is shown
-                    setTimeout(async () => {
-                        const { result } = this.generateDiceResults(npc.id, npcChoice, 'normal', npc.balance);
-                        const wonAmount = npcChoice === result ? npcBet * 1.95 : -npcBet;
-                        npcManager.updateNPCBalance(npc.id, wonAmount);
-                        
-                        const npcResult = npcChoice === result ? 
-                          `🎉 ${npc.name} thắng: ${formatNumber(wonAmount)} $` :
-                          `💔 ${npc.name} thua: ${formatNumber(npcBet)} $`;
-                          
-                        await api.sendMessage(npcResult, threadID);
-                    }, 6000);
-                }
-            }
-
             setTimeout(async () => {
                 try {
                     const { dice1, dice2, dice3, total, result } = this.generateDiceResults(senderID, choice, target[1].toLowerCase(), balance);
