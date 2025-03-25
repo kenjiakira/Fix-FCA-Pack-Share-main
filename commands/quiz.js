@@ -249,7 +249,7 @@ module.exports = {
     info: "Trả lời câu hỏi trắc nghiệm",
     usages: "quiz",
     onPrefix: true,
-    cooldowns: 30,
+    cooldowns: 120,
 
     onLaunch: async function({ api, event }) {
         const { threadID, messageID, senderID } = event;
@@ -295,7 +295,7 @@ module.exports = {
                           `D. ${quiz.options.D}\n\n` +
                           `💡 Trả lời bằng cách reply tin nhắn với A, B, C hoặc D\n` +
                           `💰 Phần thưởng: ${REWARD_AMOUNT}$\n` +
-                          `⏰ Thời gian: 30 giây`;
+                          `⏰ Thời gian: 2 phút`;
 
             const sent = await api.sendMessage(message, threadID);
 
@@ -305,7 +305,7 @@ module.exports = {
                     api.sendMessage(`⏱️ Hết thời gian!\nĐáp án đúng là: ${session.correct}`, threadID);
                     quizSessions.delete(threadID);
                 }
-            }, 30000);
+            }, 120000);
 
             global.client.onReply.push({
                 name: this.name,

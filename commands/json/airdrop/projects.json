@@ -80,7 +80,7 @@
       }
     ],
     "totalSupply": 7791940,
-    "remainingSupply": 7790540,
+    "remainingSupply": 7790363,
     "team": [
       {
         "role": "Advisor",
@@ -150,5 +150,661 @@
     "communitySize": 36208,
     "createdAt": 1742879212593,
     "lastUpdated": 1742879212593
+  },
+  "m8ofk62275we8m370z6": {
+    "id": "m8ofk62275we8m370z6",
+    "name": "PancakeDeFi-f4p",
+    "ticker": "PancakeDeFi",
+    "type": "DeFi",
+    "description": "Các dự án tài chính phi tập trung, swap token và cung cấp thanh khoản",
+    "tasks": [
+      {
+        "id": "connect_wallet",
+        "name": "Connect Wallet",
+        "difficulty": "easy",
+        "reward": 136,
+        "description": "Kết nối ví của bạn với PancakeDeFi-f4p để bắt đầu tương tác với dự án."
+      },
+      {
+        "id": "swap_token",
+        "name": "Swap Token",
+        "difficulty": "medium",
+        "reward": 142,
+        "description": "Thực hiện swap token trên sàn giao dịch của PancakeDeFi-f4p."
+      },
+      {
+        "id": "add_liquidity",
+        "name": "Add Liquidity",
+        "difficulty": "hard",
+        "reward": 485,
+        "description": "Cung cấp thanh khoản cho cặp token trên PancakeDeFi-f4p."
+      },
+      {
+        "id": "stake_token",
+        "name": "Stake Token",
+        "difficulty": "medium",
+        "reward": 193,
+        "description": "Stake token để nhận phần thưởng hàng ngày từ PancakeDeFi-f4p."
+      },
+      {
+        "id": "refer_friend",
+        "name": "Refer a Friend",
+        "difficulty": "hard",
+        "reward": 218,
+        "description": "Giới thiệu bạn bè tham gia vào PancakeDeFi-f4p để nhận thưởng."
+      }
+    ],
+    "tokenPrice": 0.0583229303500115,
+    "dailyGrowthRate": 0.027249932508813808,
+    "priceHistory": [
+      {
+        "day": 1,
+        "price": "0.054020",
+        "timestamp": 1742298392234
+      },
+      {
+        "day": 2,
+        "price": "0.055444",
+        "timestamp": 1742384792234
+      },
+      {
+        "day": 3,
+        "price": "0.057156",
+        "timestamp": 1742471192234
+      },
+      {
+        "day": 4,
+        "price": "0.057138",
+        "timestamp": 1742557592234
+      },
+      {
+        "day": 5,
+        "price": "0.056274",
+        "timestamp": 1742643992234
+      },
+      {
+        "day": 6,
+        "price": "0.058826",
+        "timestamp": 1742730392234
+      },
+      {
+        "day": 7,
+        "price": "0.058354",
+        "timestamp": 1742816792234
+      },
+      {
+        "day": 8,
+        "price": "0.058323",
+        "timestamp": 1742903192234
+      }
+    ],
+    "totalSupply": 21394004,
+    "remainingSupply": 21394004,
+    "team": [
+      {
+        "role": "CTO",
+        "experience": "Former Coinbase",
+        "years": 6
+      },
+      {
+        "role": "Founder",
+        "experience": "Former Microsoft",
+        "years": 7
+      },
+      {
+        "role": "CTO",
+        "experience": "Former Microsoft",
+        "years": 11
+      },
+      {
+        "role": "CTO",
+        "experience": "Former Binance",
+        "years": 6
+      }
+    ],
+    "roadmap": [
+      {
+        "period": "Q1 2025",
+        "milestones": [
+          "Phát hành testnet",
+          "Ra mắt mainnet"
+        ]
+      },
+      {
+        "period": "Q2 2025",
+        "milestones": [
+          "Phát hành testnet",
+          "Ra mắt mainnet",
+          "Phát hành tính năng staking"
+        ]
+      },
+      {
+        "period": "Q3 2025",
+        "milestones": [
+          "Thêm tính năng NFT",
+          "Ra mắt mainnet",
+          "Tối ưu hóa hiệu suất",
+          "Tích hợp với các dự án khác"
+        ]
+      },
+      {
+        "period": "Q4 2025",
+        "milestones": [
+          "Tích hợp với các dự án khác",
+          "Mở rộng sang thị trường mới"
+        ]
+      }
+    ],
+    "investment": {
+      "seedRound": "0.012",
+      "privateRound": "0.035",
+      "publicRound": "0.058",
+      "investors": [
+        "Galaxy Digital",
+        "Coinbase Ventures",
+        "DeFiance Capital"
+      ]
+    },
+    "riskLevel": "medium",
+    "communitySize": 26170,
+    "createdAt": 1742903192235,
+    "lastUpdated": 1742903192235
+  },
+  "m8ofk623nwbyv36qqy9": {
+    "id": "m8ofk623nwbyv36qqy9",
+    "name": "SandboxLegends-i5s",
+    "ticker": "SandboxLegends",
+    "type": "GameFi",
+    "description": "Trò chơi blockchain cho phép kiếm token bằng cách chơi game",
+    "tasks": [
+      {
+        "id": "connect_wallet",
+        "name": "Connect Wallet",
+        "difficulty": "easy",
+        "reward": 102,
+        "description": "Kết nối ví của bạn với SandboxLegends-i5s để bắt đầu tương tác với dự án."
+      },
+      {
+        "id": "play_game",
+        "name": "Play Game",
+        "difficulty": "medium",
+        "reward": 351,
+        "description": "Chơi game trong hệ sinh thái của SandboxLegends-i5s để kiếm token."
+      },
+      {
+        "id": "invite_friends",
+        "name": "Invite Friends",
+        "difficulty": "hard",
+        "reward": 387,
+        "description": "Mời bạn bè tham gia vào cộng đồng của SandboxLegends-i5s."
+      },
+      {
+        "id": "join_tournament",
+        "name": "Join Tournament",
+        "difficulty": "hard",
+        "reward": 414,
+        "description": "Tham gia giải đấu để cạnh tranh phần thưởng từ SandboxLegends-i5s."
+      },
+      {
+        "id": "daily_login",
+        "name": "Daily Login",
+        "difficulty": "easy",
+        "reward": 75,
+        "description": "Đăng nhập hàng ngày vào platform của SandboxLegends-i5s."
+      }
+    ],
+    "tokenPrice": 0.03018772070272089,
+    "dailyGrowthRate": 0.05044992461435038,
+    "priceHistory": [
+      {
+        "day": 1,
+        "price": "0.020330",
+        "timestamp": 1742298392249
+      },
+      {
+        "day": 2,
+        "price": "0.021519",
+        "timestamp": 1742384792249
+      },
+      {
+        "day": 3,
+        "price": "0.022907",
+        "timestamp": 1742471192249
+      },
+      {
+        "day": 4,
+        "price": "0.023695",
+        "timestamp": 1742557592249
+      },
+      {
+        "day": 5,
+        "price": "0.024808",
+        "timestamp": 1742643992249
+      },
+      {
+        "day": 6,
+        "price": "0.025332",
+        "timestamp": 1742730392249
+      },
+      {
+        "day": 7,
+        "price": "0.027753",
+        "timestamp": 1742816792249
+      },
+      {
+        "day": 8,
+        "price": "0.030188",
+        "timestamp": 1742903192249
+      }
+    ],
+    "totalSupply": 58014016,
+    "remainingSupply": 58011358,
+    "team": [
+      {
+        "role": "Advisor",
+        "experience": "Former Apple",
+        "years": 8
+      },
+      {
+        "role": "Community Manager",
+        "experience": "Former Coinbase",
+        "years": 9
+      },
+      {
+        "role": "CTO",
+        "experience": "Former Amazon",
+        "years": 3
+      },
+      {
+        "role": "Founder",
+        "experience": "Former Microsoft",
+        "years": 2
+      },
+      {
+        "role": "CMO",
+        "experience": "Former Google",
+        "years": 10
+      }
+    ],
+    "roadmap": [
+      {
+        "period": "Q1 2025",
+        "milestones": [
+          "Audit bảo mật",
+          "Nâng cấp hệ thống quản trị",
+          "Phát hành ứng dụng di động",
+          "Phát hành phiên bản 2.0"
+        ]
+      },
+      {
+        "period": "Q2 2025",
+        "milestones": [
+          "Cập nhật giao diện người dùng",
+          "Phát hành phiên bản 2.0",
+          "Tối ưu hóa hiệu suất",
+          "Ra mắt mainnet"
+        ]
+      },
+      {
+        "period": "Q3 2025",
+        "milestones": [
+          "Cập nhật giao diện người dùng",
+          "Phát hành ứng dụng di động"
+        ]
+      },
+      {
+        "period": "Q4 2025",
+        "milestones": [
+          "Niêm yết trên CEX lớn",
+          "Phát hành phiên bản 2.0",
+          "Mở rộng cộng đồng",
+          "Tối ưu hóa hiệu suất"
+        ]
+      }
+    ],
+    "investment": {
+      "seedRound": "0.006",
+      "privateRound": "0.018",
+      "publicRound": "0.030",
+      "investors": [
+        "Pantera Capital",
+        "Multicoin Capital",
+        "Spartan Group",
+        "Three Arrows Capital"
+      ]
+    },
+    "riskLevel": "high",
+    "communitySize": 3469,
+    "createdAt": 1742903192249,
+    "lastUpdated": 1742903192249
+  },
+  "m8ogako322xar8mrbvh": {
+    "id": "m8ogako322xar8mrbvh",
+    "name": "MetaGallery-bwk",
+    "ticker": "MetaGallery",
+    "type": "NFT",
+    "description": "Thị trường NFT và các bộ sưu tập kỹ thuật số",
+    "tasks": [
+      {
+        "id": "connect_wallet",
+        "name": "Connect Wallet",
+        "difficulty": "easy",
+        "reward": 76,
+        "description": "Kết nối ví của bạn với MetaGallery-bwk để bắt đầu tương tác với dự án."
+      },
+      {
+        "id": "mint_nft",
+        "name": "Mint NFT",
+        "difficulty": "medium",
+        "reward": 104,
+        "description": "Mint một NFT độc quyền từ bộ sưu tập MetaGallery-bwk."
+      },
+      {
+        "id": "list_nft",
+        "name": "List NFT",
+        "difficulty": "medium",
+        "reward": 88,
+        "description": "Đăng bán NFT của bạn trên thị trường của MetaGallery-bwk."
+      },
+      {
+        "id": "trade_nft",
+        "name": "Trade NFT",
+        "difficulty": "hard",
+        "reward": 197,
+        "description": "Mua hoặc bán một NFT trên thị trường của MetaGallery-bwk."
+      },
+      {
+        "id": "join_discord",
+        "name": "Join Discord",
+        "difficulty": "easy",
+        "reward": 56,
+        "description": "Tham gia server Discord của cộng đồng MetaGallery-bwk."
+      },
+      {
+        "id": "follow_twitter",
+        "name": "Follow Twitter",
+        "difficulty": "easy",
+        "reward": 39,
+        "description": "Theo dõi tài khoản Twitter chính thức của MetaGallery-bwk."
+      }
+    ],
+    "tokenPrice": 0.1233491175031527,
+    "dailyGrowthRate": 0.06224371903044153,
+    "priceHistory": [
+      {
+        "day": 1,
+        "price": "0.081717",
+        "timestamp": 1742299624227
+      },
+      {
+        "day": 2,
+        "price": "0.083759",
+        "timestamp": 1742386024227
+      },
+      {
+        "day": 3,
+        "price": "0.087958",
+        "timestamp": 1742472424227
+      },
+      {
+        "day": 4,
+        "price": "0.096581",
+        "timestamp": 1742558824227
+      },
+      {
+        "day": 5,
+        "price": "0.104518",
+        "timestamp": 1742645224227
+      },
+      {
+        "day": 6,
+        "price": "0.115922",
+        "timestamp": 1742731624227
+      },
+      {
+        "day": 7,
+        "price": "0.119075",
+        "timestamp": 1742818024227
+      },
+      {
+        "day": 8,
+        "price": "0.123349",
+        "timestamp": 1742904424227
+      }
+    ],
+    "totalSupply": 30978207,
+    "remainingSupply": 30978131,
+    "team": [
+      {
+        "role": "CTO",
+        "experience": "Former Microsoft",
+        "years": 9
+      },
+      {
+        "role": "Founder",
+        "experience": "Former Binance",
+        "years": 9
+      },
+      {
+        "role": "Advisor",
+        "experience": "Former Apple",
+        "years": 7
+      }
+    ],
+    "roadmap": [
+      {
+        "period": "Q1 2025",
+        "milestones": [
+          "Ra mắt mainnet",
+          "Mở rộng cộng đồng",
+          "Phát hành tính năng staking",
+          "Mở rộng sang thị trường mới"
+        ]
+      },
+      {
+        "period": "Q2 2025",
+        "milestones": [
+          "Thêm tính năng NFT",
+          "Phát hành ứng dụng di động",
+          "Phát hành phiên bản 2.0",
+          "Ra mắt mainnet"
+        ]
+      },
+      {
+        "period": "Q3 2025",
+        "milestones": [
+          "Tích hợp với các dự án khác",
+          "Mở rộng cộng đồng",
+          "Phát hành ứng dụng di động",
+          "Ra mắt mainnet"
+        ]
+      },
+      {
+        "period": "Q4 2025",
+        "milestones": [
+          "Tích hợp với các dự án khác",
+          "Phát hành phiên bản 2.0",
+          "Phát hành testnet",
+          "Niêm yết trên CEX lớn"
+        ]
+      }
+    ],
+    "investment": {
+      "seedRound": "0.025",
+      "privateRound": "0.074",
+      "publicRound": "0.123",
+      "investors": [
+        "Paradigm",
+        "Polychain Capital"
+      ]
+    },
+    "riskLevel": "high",
+    "communitySize": 33999,
+    "createdAt": 1742904424228,
+    "lastUpdated": 1742904424228
+  },
+  "m8oh6mzvqlmg2ikvpo": {
+    "id": "m8oh6mzvqlmg2ikvpo",
+    "name": "MakerDecision-8u2",
+    "ticker": "MakerDecision",
+    "type": "DAO",
+    "description": "Tổ chức tự trị phi tập trung, quản trị cộng đồng",
+    "tasks": [
+      {
+        "id": "connect_wallet",
+        "name": "Connect Wallet",
+        "difficulty": "easy",
+        "reward": 102,
+        "description": "Kết nối ví của bạn với MakerDecision-8u2 để bắt đầu tương tác với dự án."
+      },
+      {
+        "id": "join_dao",
+        "name": "Join DAO",
+        "difficulty": "easy",
+        "reward": 73,
+        "description": "Tham gia vào DAO của MakerDecision-8u2 để tham gia quản trị."
+      },
+      {
+        "id": "vote_proposal",
+        "name": "Vote on Proposal",
+        "difficulty": "medium",
+        "reward": 193,
+        "description": "Bỏ phiếu cho một đề xuất trong DAO của MakerDecision-8u2."
+      },
+      {
+        "id": "create_proposal",
+        "name": "Create Proposal",
+        "difficulty": "hard",
+        "reward": 593,
+        "description": "Tạo một đề xuất mới cho cộng đồng của MakerDecision-8u2."
+      },
+      {
+        "id": "participate_discussion",
+        "name": "Participate in Discussion",
+        "difficulty": "medium",
+        "reward": 156,
+        "description": "Tham gia thảo luận trong diễn đàn của MakerDecision-8u2."
+      }
+    ],
+    "tokenPrice": 0.3417938503033999,
+    "dailyGrowthRate": 0.028217823744650698,
+    "priceHistory": [
+      {
+        "day": 1,
+        "price": "0.261865",
+        "timestamp": 1742301120235
+      },
+      {
+        "day": 2,
+        "price": "0.275997",
+        "timestamp": 1742387520235
+      },
+      {
+        "day": 3,
+        "price": "0.293002",
+        "timestamp": 1742473920235
+      },
+      {
+        "day": 4,
+        "price": "0.311879",
+        "timestamp": 1742560320235
+      },
+      {
+        "day": 5,
+        "price": "0.328979",
+        "timestamp": 1742646720235
+      },
+      {
+        "day": 6,
+        "price": "0.338443",
+        "timestamp": 1742733120235
+      },
+      {
+        "day": 7,
+        "price": "0.334561",
+        "timestamp": 1742819520235
+      },
+      {
+        "day": 8,
+        "price": "0.341794",
+        "timestamp": 1742905920235
+      }
+    ],
+    "totalSupply": 26226005,
+    "remainingSupply": 26226005,
+    "team": [
+      {
+        "role": "Advisor",
+        "experience": "Former Binance",
+        "years": 9
+      },
+      {
+        "role": "Founder",
+        "experience": "Former Coinbase",
+        "years": 2
+      },
+      {
+        "role": "Founder",
+        "experience": "Former Microsoft",
+        "years": 3
+      },
+      {
+        "role": "Community Manager",
+        "experience": "Former Coinbase",
+        "years": 9
+      },
+      {
+        "role": "Lead Developer",
+        "experience": "Former Binance",
+        "years": 5
+      }
+    ],
+    "roadmap": [
+      {
+        "period": "Q1 2025",
+        "milestones": [
+          "Cập nhật giao diện người dùng",
+          "Tối ưu hóa hiệu suất"
+        ]
+      },
+      {
+        "period": "Q2 2025",
+        "milestones": [
+          "Tích hợp với các dự án khác",
+          "Audit bảo mật"
+        ]
+      },
+      {
+        "period": "Q3 2025",
+        "milestones": [
+          "Niêm yết trên CEX lớn",
+          "Phát hành testnet"
+        ]
+      },
+      {
+        "period": "Q4 2025",
+        "milestones": [
+          "Niêm yết trên CEX lớn",
+          "Cập nhật giao diện người dùng",
+          "Phát hành tính năng staking",
+          "Mở rộng cộng đồng"
+        ]
+      }
+    ],
+    "investment": {
+      "seedRound": "0.068",
+      "privateRound": "0.205",
+      "publicRound": "0.342",
+      "investors": [
+        "Paradigm",
+        "Polychain Capital",
+        "a16z Crypto",
+        "Pantera Capital"
+      ]
+    },
+    "riskLevel": "medium",
+    "communitySize": 6324,
+    "createdAt": 1742905920236,
+    "lastUpdated": 1742905920236
   }
 }

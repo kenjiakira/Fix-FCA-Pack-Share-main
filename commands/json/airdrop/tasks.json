@@ -5,6 +5,32 @@
       "test_network",
       "run_node",
       "provide_feedback"
+    ],
+    "m8ofk623nwbyv36qqy9": [
+      "daily_login",
+      "play_game",
+      "invite_friends",
+      "join_tournament"
+    ]
+  },
+  "61553593760589": {
+    "m8ofk623nwbyv36qqy9": [
+      "connect_wallet"
+    ],
+    "m8ogako322xar8mrbvh": [
+      "connect_wallet"
+    ]
+  },
+  "100093208808025": {
+    "m8o1a78u9k7v4hg9g1h": [
+      "connect_wallet"
+    ],
+    "m8ofk623nwbyv36qqy9": [
+      "play_game",
+      "join_tournament",
+      "invite_friends",
+      "daily_login",
+      "connect_wallet"
     ]
   }
 }

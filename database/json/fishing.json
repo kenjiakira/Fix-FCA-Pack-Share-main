@@ -6985,7 +6985,7 @@
   },
   "61566378911878": {
     "rod": "Cần Câu tay",
-    "rodDurability": 10,
+    "rodDurability": 9,
     "inventory": [
       "Cần trúc",
       "Cần Câu tay",
@@ -7024,7 +7024,7 @@
         },
         "uncommon": {
           "Cá Trắm Cỏ": 3,
-          "Cá Chim Trắng": 2,
+          "Cá Chim Trắng": 3,
           "Cá Sặc Rằn": 1,
           "Cá Basa": 1,
           "Cá Quả": 2,
@@ -7042,27 +7042,27 @@
         "cosmic": {}
       },
       "stats": {
-        "totalCaught": 85,
-        "totalValue": 362033,
+        "totalCaught": 86,
+        "totalValue": 375713,
         "bestCatch": {
           "name": "Rương vàng",
           "value": 118750
         }
       }
     },
-    "exp": 791,
+    "exp": 903,
     "level": 4,
-    "fishingStreak": 4,
+    "fishingStreak": 5,
     "stats": {
-      "totalExp": 4431,
+      "totalExp": 4543,
       "highestStreak": 72,
-      "totalFishes": 82
+      "totalFishes": 83
     },
     "activeBuffs": {},
-    "lastFished": 1742826257814,
+    "lastFished": 1742901216408,
     "userID": "61566378911878",
     "energy": 55,
-    "lastEnergyUpdate": 1742826257815,
+    "lastEnergyUpdate": 1742901216409,
     "baits": {},
     "craftingMaterials": {}
   },
@@ -9646,7 +9646,7 @@
   },
   "100081770013413": {
     "rod": "Cần câu Lure Titan",
-    "rodDurability": 17,
+    "rodDurability": 16,
     "inventory": [
       "Cần trúc",
       "Cần câu Lure Titan"
@@ -9658,7 +9658,7 @@
           "Rác": 3,
           "Túi nilon": 1,
           "Giày cũ": 1,
-          "Lon bia": 1,
+          "Lon bia": 2,
           "Lốp xe cũ": 1,
           "Mảnh gỗ mục": 1
         },
@@ -9690,26 +9690,26 @@
         "cosmic": {}
       },
       "stats": {
-        "totalCaught": 35,
-        "totalValue": 175132,
+        "totalCaught": 36,
+        "totalValue": 181545,
         "bestCatch": {
           "name": "Cá Thu",
           "value": 28500
         }
       }
     },
-    "exp": 421,
+    "exp": 425,
     "level": 2,
-    "fishingStreak": 2,
+    "fishingStreak": 3,
     "energy": 45,
-    "lastEnergyUpdate": 1742828206190,
+    "lastEnergyUpdate": 1742901107377,
     "stats": {
-      "totalExp": 1421,
+      "totalExp": 1425,
       "highestStreak": 12,
-      "totalFishes": 35
+      "totalFishes": 36
     },
     "activeBuffs": {},
-    "lastFished": 1742828206190,
+    "lastFished": 1742901107377,
     "userID": "100081770013413",
     "baits": {},
     "craftingMaterials": {}

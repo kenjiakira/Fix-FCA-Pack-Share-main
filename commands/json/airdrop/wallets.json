@@ -20,7 +20,15 @@
       "weekly": {},
       "achievements": []
     },
-    "referrals": []
+    "referrals": [],
+    "hasClaimedBefore": true,
+    "claimHistory": [
+      {
+        "amount": 33.04033330223853,
+        "fee": 4,
+        "timestamp": 1742903454258
+      }
+    ]
   },
   "100076957299243": {
     "address": "0x023e03b5cf36c2348d973c02b7c765c7f3138de0",
@@ -50,21 +58,21 @@
   "100055074463541": {
     "address": "0x665bd6f73dfd9e861ff31f72df7ba72468db3db6",
     "tokens": {
-      "FARM": 20
+      "FARM": 40
     },
     "staked": {},
     "nfts": [],
     "farming": {
       "power": 1,
-      "lastClaim": 1742880193588,
-      "totalFarmed": 20,
+      "lastClaim": 1742902652803,
+      "totalFarmed": 40,
       "streak": 0,
       "lastStreakDate": "Tue Mar 25 2025",
       "level": 1
     },
     "quests": {
       "daily": {
-        "farm_tokens": 20
+        "farm_tokens": 40
       },
       "weekly": {},
       "achievements": []
@@ -96,5 +104,93 @@
     },
     "referrals": [],
     "createdAt": 1742881086697
+  },
+  "100093208808025": {
+    "address": "0xfc7c3a7395d1c5a71df401f7115708e9441e5074",
+    "tokens": {},
+    "staked": {},
+    "createdAt": 1742902754954,
+    "nfts": [],
+    "farming": {
+      "power": 1,
+      "lastClaim": 1742902777042,
+      "totalFarmed": 20,
+      "streak": 0,
+      "lastStreakDate": "Tue Mar 25 2025",
+      "level": 1
+    },
+    "quests": {
+      "daily": {
+        "farm_tokens": 20
+      },
+      "weekly": {},
+      "achievements": []
+    },
+    "referrals": [],
+    "hasClaimedBefore": true,
+    "claimHistory": [
+      {
+        "amount": 62.83873923293791,
+        "fee": 7,
+        "timestamp": 1742905517765
+      },
+      {
+        "amount": 34.11948081391606,
+        "fee": 6,
+        "timestamp": 1742905792746
+      }
+    ]
+  },
+  "61553593760589": {
+    "address": "0x0cf6b6d47b6eb8abf323de4440b5c82ad2c027df",
+    "tokens": {
+      "FARM": 20,
+      "SandboxLegends-i5s": 102,
+      "MetaGallery-bwk": 76
+    },
+    "staked": {},
+    "createdAt": 1742902799714,
+    "nfts": [],
+    "farming": {
+      "power": 1,
+      "lastClaim": 1742902809888,
+      "totalFarmed": 20,
+      "streak": 0,
+      "lastStreakDate": "Tue Mar 25 2025",
+      "level": 1
+    },
+    "quests": {
+      "daily": {
+        "farm_tokens": 20
+      },
+      "weekly": {},
+      "achievements": []
+    },
+    "referrals": []
+  },
+  "100058320200877": {
+    "address": "0xd05678da7a3d6de38390e6c078d7520f9bc7b2cf",
+    "tokens": {
+      "FARM": 20
+    },
+    "staked": {},
+    "createdAt": 1742902829802,
+    "nfts": [],
+    "farming": {
+      "power": 1,
+      "lastClaim": 1742902947651,
+      "totalFarmed": 20,
+      "streak": 0,
+      "lastStreakDate": "Tue Mar 25 2025",
+      "level": 1
+    },
+    "quests": {
+      "daily": {
+        "farm_tokens": 20
+      },
+      "weekly": {},
+      "achievements": []
+    },
+    "referrals": []
   }
 }

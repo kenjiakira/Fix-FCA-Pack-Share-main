@@ -1950,6 +1950,15 @@ module.exports = {
                     }
                 }
                 case "claim": {
+                    // Khởi tạo dữ liệu ví trước khi sử dụng
+                    const wallet = initUserData(senderID);
+                    if (!wallet) {
+                        return api.sendMessage(
+                            "❌ Bạn chưa có ví! Dùng '.airdrop connect' để tạo ví.",
+                            threadID, messageID
+                        );
+                    }
+                    
                     const totalValue = calculateRewards(senderID);
                     if (totalValue <= 0) {
                         return api.sendMessage(
@@ -1957,14 +1966,28 @@ module.exports = {
                             threadID, messageID
                         );
                     }
-                
-                    const withdrawalFee = Math.min(Math.ceil(totalValue * 0.05), 100); 
+                    
+                    // Tỷ lệ phí phân tầng theo giá trị claim
+                    let feePercentage;
+                    if (totalValue < 1000) {
+                        feePercentage = 0.15; // 15% cho số tiền nhỏ
+                    } else if (totalValue < 5000) {
+                        feePercentage = 0.12; // 12% cho số tiền trung bình
+                    } else if (totalValue < 10000) {
+                        feePercentage = 0.10; // 10% cho số tiền lớn
+                    } else {
+                        feePercentage = 0.08; // 8% cho số tiền rất lớn
+                    }
+                    
+                    const withdrawalFee = Math.floor(totalValue * feePercentage);
                     const finalAmount = Math.floor(totalValue - withdrawalFee);
                     
+                    // Giữ giảm phí lần đầu để khuyến khích người mới
                     const isFirstClaim = !wallet.hasClaimedBefore;
-                    const actualFee = isFirstClaim ? Math.ceil(withdrawalFee / 2) : withdrawalFee;
-                    const actualAmount = isFirstClaim ? Math.floor(totalValue - actualFee) : finalAmount;
+                    const actualFee = isFirstClaim ? Math.ceil(withdrawalFee * 0.7) : withdrawalFee; // Giảm 30% cho lần đầu
+                    const actualAmount = totalValue - actualFee;
                     
+                    // Thống kê
                     if (!global.airdropStats) {
                         global.airdropStats = {
                             totalFeesCollected: 0,
@@ -1975,24 +1998,32 @@ module.exports = {
                     global.airdropStats.totalFeesCollected += actualFee;
                     global.airdropStats.totalClaimedAmount += actualAmount;
                     global.airdropStats.claimCount++;
-                
+                    
                     updateBalance(senderID, actualAmount);
-                
-                    if (wallets[senderID]) {
-                        wallets[senderID].tokens = {};
-                        wallets[senderID].staked = {};
-                        wallets[senderID].hasClaimedBefore = true;
-                        saveData();
-                    }
-                
+                    
+                    // Reset ví sau khi claim
+                    wallet.tokens = {};
+                    wallet.staked = {};
+                    wallet.hasClaimedBefore = true;
+                    
+                    // Lưu lịch sử claim
+                    if (!wallet.claimHistory) wallet.claimHistory = [];
+                    wallet.claimHistory.push({
+                        amount: actualAmount,
+                        fee: actualFee,
+                        timestamp: Date.now()
+                    });
+                    
+                    saveData();
+                    
                     return api.sendMessage(
                         `✅ Đã claim thành công!\n` +
                         `💰 Nhận được: $${actualAmount}\n` +
-                        `💸 Phí giao dịch: $${actualFee} (${isFirstClaim ? "50% giảm giá lần đầu" : "5%"})\n\n` +
-                        `💡 Tip: Claim số tiền càng lớn, tỷ lệ phí càng hiệu quả!`,
+                        `💸 Phí giao dịch: $${actualFee} (${(feePercentage * 100).toFixed(0)}%${isFirstClaim ? ", giảm 30% lần đầu" : ""})\n\n` +
+                        `💡 Tip: Claim số tiền càng lớn, % phí càng thấp!`,
                         threadID, messageID
                     );
-                }
+                }   
 
                 case "farm": {
                     initUserData(senderID);
