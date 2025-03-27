@@ -1,16 +1,60 @@
 {
   "users": {
     "100087149330001": {
-      "personal": [],
+      "personal": [
+        {
+          "content": "sở thích của t là mấy th chim 20cm",
+          "timestamp": 1743090469195,
+          "priority": 2,
+          "accessCount": 0,
+          "lastAccess": 1743090469195,
+          "metadata": {
+            "sentiment": {
+              "score": 0.2,
+              "rawScore": 0,
+              "sentiment": "neutral",
+              "confidence": 0.5,
+              "emotions": [],
+              "negationCount": 0,
+              "intensityFactors": [],
+              "primaryEmotion": "neutral"
+            },
+            "topics": [],
+            "entities": {}
+          }
+        }
+      ],
       "facts": [],
-      "preferences": [],
+      "preferences": [
+        {
+          "content": "sở thích của t là mấy th chim 20cm",
+          "timestamp": 1743090469199,
+          "priority": 2,
+          "accessCount": 0,
+          "lastAccess": 1743090469199,
+          "metadata": {
+            "sentiment": {
+              "score": 0.2,
+              "rawScore": 0,
+              "sentiment": "neutral",
+              "confidence": 0.5,
+              "emotions": [],
+              "negationCount": 0,
+              "intensityFactors": [],
+              "primaryEmotion": "neutral"
+            },
+            "topics": [],
+            "entities": {}
+          }
+        }
+      ],
       "interactions": [
         {
           "content": "Trần Thị Thu Phương nói: so sánh giữa ngủ sớm và ngủ muộn\nTôi trả lời: Ngủ sớm thì khỏe, dậy sớm làm được nhiều việc hơn, nhưng ngủ muộn lại có cảm giác tự do lắm ý =)))  Tùy thuộc vào sở thích của bạn thôi!",
           "timestamp": 1743090431905,
           "priority": 1,
-          "accessCount": 0,
-          "lastAccess": 1743090431905,
+          "accessCount": 1,
+          "lastAccess": 1743090467420,
           "metadata": {
             "sentiment": {
               "score": 0,
@@ -45,8 +89,31 @@
           "content": "Xưng hô: mình/bạn",
           "timestamp": 1743090430336,
           "priority": 2,
+          "accessCount": 1,
+          "lastAccess": 1743090467420,
+          "metadata": {
+            "sentiment": {
+              "score": 0,
+              "rawScore": 0,
+              "sentiment": "neutral",
+              "confidence": 0.5,
+              "emotions": [],
+              "negationCount": 0,
+              "intensityFactors": [],
+              "primaryEmotion": "neutral"
+            },
+            "topics": [
+              "PERSONAL"
+            ],
+            "entities": {}
+          }
+        },
+        {
+          "content": "Xưng hô: mình/bạn",
+          "timestamp": 1743090467421,
+          "priority": 2,
           "accessCount": 0,
-          "lastAccess": 1743090430336,
+          "lastAccess": 1743090467421,
           "metadata": {
             "sentiment": {
               "score": 0,
@@ -80,7 +147,7 @@
     "voice": {}
   },
   "stats": {
-    "totalInteractions": 2,
+    "totalInteractions": 6,
     "uniqueUsers": {},
     "topTopics": {},
     "responseTime": [],
@@ -88,6 +155,10 @@
       {
         "timestamp": 1743090431909,
         "memoryCount": 5
+      },
+      {
+        "timestamp": 1743090469208,
+        "memoryCount": 8
       }
     ]
   },
