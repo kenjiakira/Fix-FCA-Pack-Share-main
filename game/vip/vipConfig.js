@@ -33,7 +33,6 @@ const VIP_PACKAGES = {
             },
             money: {
                 farm: "Tăng lợi nhuận/giảm thời gian",
-                work: "+60% thu nhập/-5% thời gian",
                 daily: "+20%", 
                 quest: "+20%",
                 event: "+30%",
@@ -50,7 +49,6 @@ const VIP_PACKAGES = {
             }
         },
         benefits: {
-            workBonus: 10,
             cooldownReduction: 10,
             dailyBonus: true,
             fishingCooldown: 300000,
@@ -95,7 +93,6 @@ const VIP_PACKAGES = {
             },
             money: {
                 farm: "Tăng lợi nhuận/giảm thời gian",
-                work: "+60% thu nhập/-15% thời gian",
                 daily: "+40%",
                 quest: "+50%", 
                 event: "+60%",
@@ -112,7 +109,6 @@ const VIP_PACKAGES = {
             }
         },
         benefits: {
-            workBonus: 20,
             cooldownReduction: 20,
             dailyBonus: true,
             fishingCooldown: 240000, 
@@ -158,11 +154,11 @@ const VIP_PACKAGES = {
             },
             money: {
                 farm: "Tăng lợi nhuận/giảm thời gian",
-                work: "+60% thu nhập/-30% thời gian",
                 daily: "+60%",
                 quest: "+100%",
                 event: "+100%",
-                protection: "100% chống cướp"
+                protection: "100% chống cướp",
+                platform: "Tải VD toàn bộ nền tảng"
             },
             bank: {
                 loan: "Vay tối đa 150% tài sản",
@@ -175,7 +171,6 @@ const VIP_PACKAGES = {
             }
         },
         benefits: {
-            workBonus: 40,
             cooldownReduction: 30,
             dailyBonus: true,
             fishingCooldown: 120000, 
@@ -183,7 +178,8 @@ const VIP_PACKAGES = {
             rareBonus: 0.3,
             trashReduction: 0.6,
             stolenProtection: 1.0,
-            stolenCooldown: 900000
+            stolenCooldown: 900000,
+            fullPlatformAccess: true
         }
     }
 };

@@ -29,6 +29,10 @@ try {
 
 // Cập nhật cơ chế lưu question để sử dụng biến global questionsDB
 const saveQuestion = async (question) => {
+    if (!question.difficulty) {
+        question.difficulty = Math.floor(Math.random() * 3) + 1; // 1-3
+    }
+    
     // Kiểm tra trùng nội dung
     const isDuplicate = questionsDB.some(q => 
         q.question.toLowerCase().replace(/\s+/g, '') === 

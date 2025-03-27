@@ -2,16 +2,16 @@
   "61573427362389": {
     "type": "HAMSTER",
     "name": "Linh",
-    "hunger": 35,
-    "happy": 8,
-    "energy": 25,
-    "lastFed": 1742210549055,
+    "hunger": 50,
+    "happy": 11,
+    "energy": 35,
+    "lastFed": 1743078866149,
     "lastPlay": 1742038900992,
     "level": 2,
-    "exp": 70,
+    "exp": 80,
     "quests": {
       "daily": {
-        "feedCount": 12,
+        "feedCount": 13,
         "playCount": 3
       }
     },

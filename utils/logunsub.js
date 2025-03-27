@@ -20,14 +20,27 @@ const handleLogUnsubscribe = async (api, event) => {
             return;
         }
 
+        const threadsDBPath = path.join(__dirname, '../database/threads.json');
+        let threadsDB = {};
+        try {
+            if (fs.existsSync(threadsDBPath)) {
+                threadsDB = JSON.parse(fs.readFileSync(threadsDBPath, 'utf8'));
+            }
+        } catch (err) {
+            console.error("Error loading threads:", err);
+        }
+
         let threadName = "Unnamed group";
-        let participantIDs = [];
+        let memberCount = 0;
 
         try {
             const threadInfo = await api.getThreadInfo(event.threadID);
             if (threadInfo) {
                 threadName = threadInfo.threadName || "Unnamed group";
-                participantIDs = threadInfo.participantIDs || [];
+            }
+            
+            if (threadsDB[event.threadID] && threadsDB[event.threadID].members) {
+                memberCount = threadsDB[event.threadID].members.length;
             }
         } catch (error) {
             console.error("Error getting thread info:", error);
@@ -49,7 +62,7 @@ const handleLogUnsubscribe = async (api, event) => {
         leaveMessage = leaveMessage
             .replace(/{userName}/g, userName)
             .replace(/{actionType}/g, actionType)
-            .replace(/{memberCount}/g, participantIDs.length)
+            .replace(/{memberCount}/g, memberCount)
             .replace(/{threadName}/g, threadName);
 
         await api.sendMessage(leaveMessage, event.threadID);

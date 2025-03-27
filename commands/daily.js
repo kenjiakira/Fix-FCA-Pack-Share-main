@@ -344,7 +344,6 @@ class DailyRewardManager {
       ctx.fillText("PHẦN THƯỞNG HÀNG NGÀY", width / 2, 100);
       ctx.shadowBlur = 0;
 
-      // Add decorative line
       const lineGradient = ctx.createLinearGradient(100, 120, width - 100, 120);
       lineGradient.addColorStop(0, "rgba(255, 255, 255, 0.2)");
       lineGradient.addColorStop(0.5, primaryColor);
@@ -357,21 +356,13 @@ class DailyRewardManager {
       ctx.lineTo(width - 100, 120);
       ctx.stroke();
 
-      // User Avatar and Info Section
       let avatarPath = null;
       try {
         avatarPath = await this.getAvatarPath(userId);
       } catch (avatarErr) {
         console.error("Error getting avatar:", avatarErr);
       }
-
-      // Draw avatar background
-      ctx.fillStyle = "rgba(255, 255, 255, 0.1)";
-      ctx.fillRect(50, 170, width - 100, 130);
-      ctx.strokeStyle = "rgba(255, 255, 255, 0.3)";
-      ctx.lineWidth = 1;
-      ctx.strokeRect(50, 170, width - 100, 130);
-
+      
       try {
         if (avatarPath) {
           const avatar = await loadImage(avatarPath);
@@ -380,44 +371,35 @@ class DailyRewardManager {
           ctx.shadowBlur = 10;
           ctx.shadowOffsetX = 2;
           ctx.shadowOffsetY = 2;
-
+      
           ctx.beginPath();
           ctx.arc(125, 235, 50, 0, Math.PI * 2);
           ctx.closePath();
           ctx.clip();
-
+      
           ctx.drawImage(avatar, 75, 185, 100, 100);
           ctx.restore();
-
-          // Add avatar border with day-themed color
+      
           ctx.strokeStyle = primaryColor;
           ctx.lineWidth = 2;
           ctx.beginPath();
           ctx.arc(125, 235, 50, 0, Math.PI * 2);
           ctx.stroke();
         } else {
-          // Fallback avatar
           ctx.beginPath();
           ctx.arc(125, 235, 50, 0, Math.PI * 2);
-          const placeholderGradient = ctx.createLinearGradient(
-            75,
-            185,
-            175,
-            285
-          );
+          const placeholderGradient = ctx.createLinearGradient(75, 185, 175, 285);
           placeholderGradient.addColorStop(0, secondaryColor);
           placeholderGradient.addColorStop(1, accentColor);
           ctx.fillStyle = placeholderGradient;
           ctx.fill();
-
-          // Add initial letter
+      
           const initial = (userName?.charAt(0) || "?").toUpperCase();
-          ctx.font = "bold 50px Arial";
-          ctx.fillStyle = "#ffffff";
-          ctx.textAlign = "center";
+          ctx.font = 'bold 50px Arial';
+          ctx.fillStyle = '#ffffff';
+          ctx.textAlign = 'center';
           ctx.fillText(initial, 125, 250);
-
-          // Add border
+      
           ctx.strokeStyle = primaryColor;
           ctx.lineWidth = 2;
           ctx.beginPath();
@@ -427,33 +409,25 @@ class DailyRewardManager {
       } catch (avatarDrawErr) {
         console.error("Error drawing avatar:", avatarDrawErr);
       }
-
-      // Username
       ctx.font = "bold 28px Arial";
       ctx.fillStyle = "#ffffff";
       ctx.textAlign = "left";
       ctx.fillText(`${userName}`, 200, 215);
 
-      // Streak display with flame icon
       ctx.font = "bold 22px Arial";
 
-      // Create gradient for streak text
       const streakGradient = ctx.createLinearGradient(200, 245, 500, 245);
       if (streak >= 30) {
-        // Legendary streak - Gold gradient
         streakGradient.addColorStop(0, "#FFD700");
         streakGradient.addColorStop(0.5, "#FFA500");
         streakGradient.addColorStop(1, "#FF8C00");
       } else if (streak >= 14) {
-        // Epic streak - Purple gradient
         streakGradient.addColorStop(0, "#9C27B0");
         streakGradient.addColorStop(1, "#673AB7");
       } else if (streak >= 7) {
-        // Rare streak - Blue gradient
         streakGradient.addColorStop(0, "#2196F3");
         streakGradient.addColorStop(1, "#03A9F4");
       } else {
-        // Normal streak - Gray gradient
         streakGradient.addColorStop(0, "#9E9E9E");
         streakGradient.addColorStop(1, "#757575");
       }
@@ -818,15 +792,92 @@ class DailyRewardManager {
    * @param {string} userId - User ID
    * @returns {Promise<string>} - Path to the avatar image
    */
-  async getAvatarPath(userId) {
-    const avatarUrl = `https://graph.facebook.com/${userId}/picture?width=200&height=200`;
-    const avatarPath = path.join(__dirname, "cache", "daily", `${userId}_avatar.png`);
-    const response = await axios.get(avatarUrl, {
-      responseType: "arraybuffer",
-    });
-    await fs.writeFile(avatarPath, response.data);
-    return avatarPath;
+async getAvatarPath(userId) {
+  try {
+    const avatarsDir = path.join(__dirname, "./cache");
+    if (!fs.existsSync(avatarsDir)) {
+      fs.mkdirSync(avatarsDir, { recursive: true });
+    }
+    
+    // Tạo avatar mặc định nếu chưa có 
+    const defaultAvatarPath = path.join(__dirname, "./cache/avatar.jpg");
+    if (!fs.existsSync(defaultAvatarPath)) {
+      try {
+        console.log("⚠️ Default avatar not found, creating one...");
+        const defaultCanvas = createCanvas(200, 200);
+        const ctx = defaultCanvas.getContext('2d');
+        
+        const gradient = ctx.createLinearGradient(0, 0, 200, 200);
+        gradient.addColorStop(0, '#4a148c');
+        gradient.addColorStop(1, '#311b92');
+        ctx.fillStyle = gradient;
+        ctx.fillRect(0, 0, 200, 200);
+        
+        ctx.font = 'bold 120px Arial';
+        ctx.textAlign = 'center';
+        ctx.textBaseline = 'middle';
+        ctx.fillStyle = '#ffffff';
+        ctx.fillText('?', 100, 100);
+        
+        const buffer = defaultCanvas.toBuffer('image/jpeg');
+        fs.writeFileSync(defaultAvatarPath, buffer);
+        console.log("✅ Default avatar created successfully");
+      } catch (createErr) {
+        console.error("Error creating default avatar:", createErr);
+      }
+    }
+    
+    const cacheDir = path.join(__dirname, "./cache/avatars");
+    if (!fs.existsSync(cacheDir)) {
+      fs.mkdirSync(cacheDir, { recursive: true });
+    }
+
+    const avatarPath = path.join(cacheDir, `${userId}.jpg`);
+    const metadataPath = path.join(cacheDir, `${userId}.meta`);
+
+    if (fs.existsSync(avatarPath) && fs.existsSync(metadataPath)) {
+      const metadata = JSON.parse(fs.readFileSync(metadataPath, "utf-8"));
+      const cacheAge = Date.now() - metadata.timestamp;
+
+      if (cacheAge < 24 * 60 * 60 * 1000) {
+        console.log(
+          `Using cached avatar for user ${userId} (${Math.floor(
+            cacheAge / (60 * 60 * 1000)
+          )} hours old)`
+        );
+        return avatarPath;
+      }
+    }
+
+    try {
+      const avatarUrl = `https://graph.facebook.com/${userId}/picture?width=512&height=512&access_token=6628568379%7Cc1e620fa708a1d5696fb991c1bde5662`;
+      const response = await axios.get(avatarUrl, {
+        responseType: "arraybuffer",
+        timeout: 5000,
+        validateStatus: function (status) {
+          return status >= 200 && status < 300;
+        }
+      });
+
+      fs.writeFileSync(avatarPath, response.data);
+      fs.writeFileSync(metadataPath, JSON.stringify({ timestamp: Date.now() }));
+
+      console.log(`Fetched new avatar for user ${userId}`);
+      return avatarPath;
+    } catch (fetchError) {
+      console.error(`Failed to fetch avatar for ${userId}:`, fetchError.message);
+      console.log(`Using default avatar for user ${userId}`);
+      return defaultAvatarPath;
+    }
+  } catch (error) {
+    console.error(`Error in getAvatarPath for ${userId}:`, error.message);
+    const defaultAvatarPath = path.join(__dirname, "./cache/avatar.jpg");
+    if (fs.existsSync(defaultAvatarPath)) {
+      return defaultAvatarPath;
+    }
+    return null;
   }
+}
 }
 
 const dailyManager = new DailyRewardManager();

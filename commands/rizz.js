@@ -3,10 +3,8 @@ const config = require('../utils/api');
 const fs = require('fs');
 const path = require('path');
 
-// Đường dẫn đến file lưu trữ rizz đã sử dụng
 const RIZZ_FILE = path.join(__dirname, './json/used_rizz.json');
 
-// Khởi tạo file nếu chưa tồn tại
 function initializeRizzFile() {
     if (!fs.existsSync(path.dirname(RIZZ_FILE))) {
         fs.mkdirSync(path.dirname(RIZZ_FILE), { recursive: true });
@@ -16,7 +14,6 @@ function initializeRizzFile() {
     }
 }
 
-// Đọc rizz đã sử dụng
 function getUsedRizz() {
     try {
         initializeRizzFile();
@@ -27,7 +24,6 @@ function getUsedRizz() {
     }
 }
 
-// Lưu rizz mới
 function saveNewRizz(rizz) {
     try {
         const usedRizz = getUsedRizz();
@@ -36,7 +32,6 @@ function saveNewRizz(rizz) {
             timestamp: Date.now()
         });
         
-        // Chỉ giữ lại 100 rizz gần nhất
         if (usedRizz.length > 100) {
             usedRizz.splice(0, usedRizz.length - 100);
         }
@@ -98,7 +93,6 @@ module.exports = {
                 }
             });
 
-            // Random một phong cách
             const styles = Object.keys(rizzStyles);
             const randomStyle = styles[Math.floor(Math.random() * styles.length)];
 
@@ -121,7 +115,6 @@ module.exports = {
             const result = await model.generateContent(prompt);
             const rizz = result.response.text();
 
-            // Lưu rizz mới
             saveNewRizz(rizz);
 
             const message = `💘 ${rizzStyles[randomStyle].name.toUpperCase()}\n` +
@@ -160,7 +153,6 @@ module.exports = {
                 }
             });
 
-            // Random một phong cách
             const styles = Object.keys(rizzStyles);
             const randomStyle = styles[Math.floor(Math.random() * styles.length)];
 

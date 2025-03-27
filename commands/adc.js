@@ -3,7 +3,7 @@ module.exports = {
   usedby: 2,
   dev: "HNT",
   category: "Admin Commands",
-  info: "Thêm lệnh và chia sẻ code qua pastebin/drive/buildtool links",
+  info: "Thêm lệnh và chia sẻ code",
   onPrefix: true,
   cooldowns: 10,
   usages: `Cách dùng:

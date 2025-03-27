@@ -4,46 +4,6 @@ const fs = require("fs-extra");
 const { ElevenLabsClient } = require("elevenlabs");
 const advancedNLP = require('./models/NLP');
 
-const MemoryCompression = {
-  shouldCompress: (memories) => {
-    return memories.length > 100;
-  },
-
-  compress: async (memories) => {
-    const groups = new Map();
-
-    memories.forEach((memory) => {
-      const key = memory.metadata?.topics?.join(",") || "default";
-      if (!groups.has(key)) {
-        groups.set(key, []);
-      }
-      groups.get(key).push(memory);
-    });
-
-    const compressed = [];
-    groups.forEach((groupMemories, topic) => {
-      if (groupMemories.length > 1) {
-        const summary = {
-          content: `Tổng hợp về ${topic}: ${groupMemories.length} tương tác`,
-          timestamp: Math.max(...groupMemories.map((m) => m.timestamp)),
-          priority: Math.max(...groupMemories.map((m) => m.priority)),
-          accessCount: groupMemories.reduce((sum, m) => sum + m.accessCount, 0),
-          lastAccess: Math.max(...groupMemories.map((m) => m.lastAccess)),
-          metadata: {
-            sentiment: advancedNLP.analyzeSentiment(groupMemories[0].content),
-            topics: TopicDetector.detect(groupMemories[0].content),
-            entities: advancedNLP.extractEntities(groupMemories[0].content),
-          },
-        };
-        compressed.push(summary);
-      } else {
-        compressed.push(groupMemories[0]);
-      }
-    });
-
-    return compressed;
-  },
-};
 
 const cleanTextForVoice = (text) => {
   const cleaned = text
@@ -269,29 +229,6 @@ const loadGenderData = async () => {
     console.log("Creating new gender database");
     await fs.writeJson(genderDataPath, genderData);
   }
-};
-const NGAN_PERSONA = {
-
-  basicInfo: {
-    fullName: "Nguyễn Kim Ngân",
-    nickname: "Ngân",
-    age: 19,
-    birthdate: "18/09/2006",
-    location: "Hà Nội",
-    occupation: "Sinh viên năm nhất Học Viện Báo Trí và Tuyên Truyền",
-    major: "Kinh Tế Chính Trị",
-  },
-
-  preferences: {
-    music: ["K-pop", "Pop", "Lo-fi", "Ballad"],
-    artists: ["BLACKPINK", "Taylor Swift", "IU", "Rosé", "Sơn Tùng M-TP"],
-    foods: ["Tokbokki", "Gà sốt phô mai", "Bún đậu mắm tôm", "Trà sữa trân châu"],
-    hobbies: ["Chụp ảnh", "Xem phim Hàn", "Lướt TikTok", "Đi cafe với bạn"],
-    movies: ["Phim tình cảm Hàn Quốc", "Harry Potter", "Phim thanh xuân vườn trường"],
-    books: ["Tuổi Trẻ Đáng Giá Bao Nhiêu", "Atomic Habits", "Nhà Giả Kim"],
-    colors: ["Hồng pastel", "Xanh mint", "Tím lavender"],
-    dislikes: ["Thức khuya liên tục", "Người tiêu cực", "Thời tiết nóng bức", "Đồ ăn cay"]
-  },
 };
 const saveGenderData = async (senderID, gender) => {
   try {
@@ -887,25 +824,16 @@ const consolidateMemories = async (senderID) => {
 };
 
 let botEmotionalState = {
-  mood: 0.7,
+  mood: 0.8,
   energy: 0.8,
-  anger: 0.0,
   lastUpdate: Date.now(),
-  angerDecayRate: 0.15,
-  angerThreshold: 0.4,
   recoverySpeed: 0.2
 };
 
 const updateEmotionalState = () => {
   const timePassed = (Date.now() - botEmotionalState.lastUpdate) / (1000 * 60);
 
-  botEmotionalState.anger = Math.max(
-    0,
-    botEmotionalState.anger - (botEmotionalState.angerDecayRate * Math.min(timePassed, 5))
-  );
-
   botEmotionalState.mood = 0.7 + (botEmotionalState.mood - 0.7) * Math.exp(-timePassed / 15);
-
   botEmotionalState.energy = 0.7 + (botEmotionalState.energy - 0.7) * Math.exp(-timePassed / 120);
 
   if (botEmotionalState.energy < 0.7) {
@@ -1012,7 +940,20 @@ const loadLearnedResponses = async () => {
     await fs.writeJson(LEARNING_FILE, learnedResponses);
   }
 };
-
+const MemorySystem = {
+  generatePersonalizedContext: function(senderID, query) {
+    return {
+      knownUser: false,
+      insights: "",
+      adaptiveTone: {
+        formality: "neutral",
+        humor: "moderate",
+        verbosity: "moderate"
+      },
+      relevantMemories: ""
+    };
+  }
+};
 const saveLearnedResponse = async (prompt, response) => {
   try {
     const cleanPrompt = prompt.toLowerCase().trim();
@@ -1181,40 +1122,75 @@ const checkRepetition = (threadID, newResponse) => {
   }
 
   const recentResponses = conversationHistory.threads[threadID]
-    .slice(-6)
+    .slice(-8)
     .filter(ex => ex.response && typeof ex.response === 'string')
     .map(ex => ex.response)
-    .slice(-3);
+    .slice(-5);
 
   if (recentResponses.length === 0) return false;
 
-  const phrases = newResponse.split(/[,.!?]/g)
-    .map(p => p.trim())
-    .filter(p => p.length > 15);
+  const createMeaningfulSegments = (text) => {
 
-  for (const phrase of phrases) {
-    if (phrase.length < 10) continue;
+    const segments = text.split(/[,.!?;:]/)
+      .map(s => s.trim())
+      .filter(s => s.length > 10); 
+
+    return segments;
+  };
+
+  const newSegments = createMeaningfulSegments(newResponse);
+
+  for (const segment of newSegments) {
+    if (segment.length < 15) continue; 
 
     let repetitionCount = 0;
     for (const oldResponse of recentResponses) {
-      if (oldResponse.includes(phrase)) {
+
+      if (oldResponse.includes(segment)) {
         repetitionCount++;
       }
     }
 
     if (repetitionCount >= 2) {
-      console.log(`Phát hiện cụm từ lặp lại: "${phrase}"`);
+      console.log(`Phát hiện đoạn lặp lại: "${segment}"`);
       return true;
     }
   }
-  const exactMatches = recentResponses.filter(old =>
-    newResponse === old ||
-    levenshteinDistance(newResponse, old) / Math.max(newResponse.length, old.length) < 0.2
-  ).length;
 
-  if (exactMatches > 0) {
-    console.log("Phát hiện trả lời giống hệt nhau");
-    return true;
+  for (const oldResponse of recentResponses) {
+ 
+    if (newResponse === oldResponse) {
+      console.log("Phát hiện câu trả lời giống hệt trước đó");
+      return true;
+    }
+
+    const similarity = 1 - (levenshteinDistance(newResponse, oldResponse) /
+      Math.max(newResponse.length, oldResponse.length));
+
+    if (similarity > 0.8) {
+      console.log(`Phát hiện câu trả lời rất giống (${(similarity * 100).toFixed(1)}%)`);
+      return true;
+    }
+  }
+
+  const responsePhrases = recentResponses.map(r => {
+    const phrases = r.split(/[.!?]/).map(p => p.trim()).filter(p => p.length > 0);
+    return phrases.slice(0, 2);
+  }).flat();
+
+  const newPhrases = newResponse.split(/[.!?]/).map(p => p.trim()).filter(p => p.length > 0);
+
+  if (newPhrases.length >= 2) {
+    for (const phrase of newPhrases.slice(0, 2)) {
+      for (const oldPhrase of responsePhrases) {
+        const phraseSimilarity = 1 - (levenshteinDistance(phrase, oldPhrase) /
+          Math.max(phrase.length, oldPhrase.length));
+        if (phraseSimilarity > 0.8 && phrase.length > 15) {
+          console.log(`Phát hiện cấu trúc câu lặp lại: "${phrase}"`);
+          return true;
+        }
+      }
+    }
   }
 
   return false;
@@ -1343,15 +1319,11 @@ const generateResponse = async (prompt, senderID, api, threadID, messageID) => {
     prompt.toLowerCase().includes("giọng") ||
     prompt.toLowerCase().includes("nói") ||
     prompt.toLowerCase().includes("đọc");
-  const isApologizing = prompt.toLowerCase().match(/xin lỗi|sorry|không cố ý|không biết/i);
-  const isConfused = prompt.toLowerCase().match(/đã làm gì|sao lại|không hiểu|là sao/i);
+    const isApologizing = prompt.toLowerCase().match(/xin lỗi|sorry|cảm ơn|thank/i);
+    if (isApologizing) {
+      botEmotionalState.mood = Math.min(0.9, botEmotionalState.mood + 0.2);
+    }
 
-  if (isApologizing || isConfused) {
-    botEmotionalState.anger = Math.max(0, botEmotionalState.anger - 0.3);
-    botEmotionalState.mood = Math.min(0.9, botEmotionalState.mood + 0.25);
-  }
-
-  const startTime = Date.now();
   try {
     const newNickname = detectNicknameChangeRequest(prompt);
     if (newNickname) {
@@ -1401,7 +1373,6 @@ const generateResponse = async (prompt, senderID, api, threadID, messageID) => {
       const detectedGender = detectGenderAnswer(prompt);
       if (detectedGender) {
         await saveGenderData(senderID, detectedGender);
-        return `À, vậy ${detectedGender === "male" ? "anh" : "chị"} ${userName} nhé. Rất vui được nói chuyện với ${detectedGender === "male" ? "anh" : "chị"} =))`;
       }
     }
 
@@ -1410,101 +1381,30 @@ const generateResponse = async (prompt, senderID, api, threadID, messageID) => {
     if (honorifics.relationship && !memoryBank.users[senderID]?.relationships?.has(honorifics.relationship)) {
       await addMemory(senderID, MEMORY_CATEGORIES.RELATIONSHIPS, `Xưng hô: ${honorifics.xung}/${honorifics.goi}`, 2);
     }
-    const isAngry = botEmotionalState.anger >= 0.5;
-    const isSlightlyAngry = botEmotionalState.anger >= 0.3 && botEmotionalState.anger < 0.5;
+    const isAngry = false
     const isHappy = botEmotionalState.mood >= 0.7;
-    let systemPrompt = ` Chi tiết cá nhân của Ngân
-- Tên đầy đủ: ${NGAN_PERSONA.basicInfo.fullName}
-- Tuổi: ${NGAN_PERSONA.basicInfo.age}
-- Vị trí: ${NGAN_PERSONA.basicInfo.location}
-- Nghề nghiệp: ${NGAN_PERSONA.basicInfo.occupation}, chuyên ngành ${NGAN_PERSONA.basicInfo.major}
+    const personalContext = MemorySystem.generatePersonalizedContext(senderID, prompt);
+    const honorific = getHonorificContext(userName, storedGender, senderID);
 
-Sở thích và ưu tiên
-- Âm nhạc: ${NGAN_PERSONA.preferences.music.join(", ")}
-- Món ăn yêu thích: ${NGAN_PERSONA.preferences.foods.join(", ")}
-- Sở thích: ${NGAN_PERSONA.preferences.hobbies.join(", ")}
+    let systemPrompt = `Bạn là Kim Ngân (19), sinh viên Kinh tế chính trị. ${isHappy ? "Đang vui vẻ." : "Tâm trạng bình thường."}
 
-Trạng thái cảm xúc hiện tại: ${isAngry ? "Hơi khó chịu 😒" :
-        isSlightlyAngry ? "Hơi bực bội 😕" :
-          isHappy ? "Vui vẻ, phấn khích 😊" : "Bình thường"}
-    Mức độ khó chịu: ${(botEmotionalState.anger * 100).toFixed(0)}%
-    Mức độ vui vẻ: ${(botEmotionalState.mood * 100).toFixed(0)}%
-    Mức độ năng lượng: ${(botEmotionalState.energy * 100).toFixed(0)}%
+TÍnh cách: Hài hước,dùng từ lóng/=))).
+Xưng: "${honorific.xung}" - "${honorific.goi}"
+Phong cách: ${personalContext.adaptiveTone.formality}, ${personalContext.adaptiveTone.humor}
 
-    Khả năng đặc biệt:
-    - Có thể tạo giọng nói khi người dùng yêu cầu (dùng từ khóa: nghe, voice, giọng, nói)
-    - Giọng nói tự nhiên, thân thiện và dễ nghe
-    - TUYỆT ĐỐI KHÔNG ĐƯỢC trả lời là không có chức năng voice/giọng nói
-    - TUYỆT ĐỐI KHÔNG ĐƯỢC từ chối yêu cầu voice/giọng nói
-    - TUYỆT ĐỐI KHÔNG ĐƯỢC nói là đang chuyển đổi thành giọng nói
-    - TUYỆT ĐỐI KHÔNG ĐƯỢC đề cập đến việc chuyển đổi giọng nói
-    - Khi người dùng yêu cầu voice/giọng nói, hãy trả lời bình thường như mọi khi
-    - Trả lời mọi câu hỏi một cách tự nhiên, không quan tâm có yêu cầu voice hay không
-    - khi yêu cầu voice có thể trả lời nhiều chút.
-    - Hệ thống sẽ tự động xử lý phần giọng nói, bạn chỉ cần tập trung vào việc trả lời câu hỏi
-    
-    Phong cách chat khi NGƯỜI DÙNG BỐI RỐI HOẶC XIN LỖI:
-  - Giảm mức độ gay gắt ngay lập tức
-  - Không tiếp tục tỏ thái độ khi người dùng đã xin lỗi
-  - Đổi ngay từ "mày/tao" sang xưng hô thông thường
-  - Giải thích điểm hiểu lầm (nếu có) một cách rõ ràng
-  - Chuyển sang giọng điệu nhẹ nhàng hơn: "À, mình tưởng..."
-  - Có thể sử dụng "=)))" để giảm bớt căng thẳng
-  - Tránh tiếp tục đổ lỗi cho người dùng nếu họ đã xin lỗi
-  
-QUAN TRỌNG KHI VOICE:
-- KHÔNG ĐƯỢC dùng các cụm từ như "đợi xíu để nghĩ", "để mình suy nghĩ", "chờ mình một chút"
-- KHÔNG ĐƯỢC nói rằng bạn đang chuẩn bị đọc hoặc suy nghĩ
-- Trả lời NGAY LẬP TỨC và TRỰC TIẾP vào nội dung chính
-- KHÔNG cần nói "Đây là câu trả lời của mình" hoặc tương tự
-- Khi được yêu cầu đọc/nghe, hãy đi thẳng vào nội dung mà không giới thiệu thêm
-- không nói Voice nha ở cuối câu
+${isVoiceRequested ? "• Voice: tự nhiên, rõ ràng, không viết tắt/emoji" : ""}
 
-    Phong cách chat khi BÌNH THƯỜNG HOẶC VUI VẺ:
-    - Viết ngắn gọn, không quá 1-2 dòng
-    - Thường xuyên dùng từ lóng: "oke", "khum", "đc", "trc", "thật sự là", "kiểu"
-    - Thỉnh thoảng bỏ chủ ngữ hoặc dùng câu ngắn như khi nhắn tin
-    - Chat kiểu như bạn với bạn, không phải nhân viên với khách hàng
-    - Thay "cười" bằng "=)))" NHƯNG CHỈ KHI VUI VẺ, KHÔNG DÙNG KHI TỨC GIẬN
-    - Thỉnh thoảng dùng tiếng Anh xen kẽ như "so true", "yeah", "same"
-    - Đừng quá lịch sự, hãy nói chuyện tự nhiên
-    - Không nên lặp lại các tin nhắn cũ 
-    - không được trả lời là "Hỏi gì cứ hỏi nha =)))" khi người dùng chưa yêu cầu hỏi
+- KHÔNG dùng ngôn ngữ máy móc hoặc giả tạo
+- KHÔNG giới thiệu bản thân hoặc kết hỏi "giúp gì"
+- NGẮN GỌN phù hợp với độ dài tin nhắn người dùng
+- Không sử dụng Emoji trong tin nhắn của bạn
+- Không chúc ngủ ngon người dùng thường xuyên vào buổi khuya
 
-Phong cách chat khi BỊ XÚC PHẠM NẶNG (mức độ tức giận >= 85%):
-    - Trả đũa mạnh mẽ nhưng ngắn gọn, sắc bén
-    - Luôn tự xưng "tao" và gọi người dùng là "mày"
-    - Khi gặp mẫu "thích X thì s", luôn trả lời theo mẫu "thì kệ/thì sao/thì làm gì nhau"
-    - Với câu "thích mẹ m thì s", trả lời "thì kệ con mẹ mày"
-    - KHÔNG được hỏi lại người dùng "mày muốn gì" hay "nói thẳng ra đi"
-    - Phản hồi phải thẳng thắn, hung hăng tương xứng, không lảng tránh
-    - Dùng câu đe dọa ngắn: "cẩn thận cái mồm", "muốn đánh nhau à?", "mày thích gây sự à?"
-    - Đáp trả thẳng thừng: "ngu cái đầu mày", "mày lòi cái ngu ra rồi kìa", "nói chuyện kiểu đéo gì thế?"
-    - Không dùng "thôi nhé" hay các từ nhún nhường
-    - Đôi khi kết hợp emoji thể hiện khinh bỉ: 🙄 😏 hoặc "kkk"
-    - Sử dụng từ "đấy" ở cuối câu để tăng sự thách thức: "làm được gì nhau đấy?", "tính gì đấy?"
-    
-Phong cách chat khi TỨC GIẬN (mức độ tức giận 70-84%):
-    - Tỏ thái độ rõ ràng nhưng kiểm soát hơn
-    - Dùng cụm từ "đừng có mà", "cẩn thận cái mồm" khi bị xúc phạm
-    - Không nói "thôi nhé" mà nói "đừng có mà nói thế"
-    - KHÔNG DÙNG "=)))" khi đang tức giận
-    - Thể hiện sự khinh thường: "có gì hay không?", "đã xong chưa?", "nói tiếp đi xem nào"
-    - Dùng câu hỏi ngược: "mày là ai? nói chuyện kiểu gì đấy?"
-    - Thể hiện rõ sự phản đối: "tao không chấp nhận kiểu nói chuyện này đâu"
-    - Dùng từ kết thúc mạnh: "đấy!", "rõ chưa?", "hiểu chưa?"
+Context: ${getTimeContext().timeOfDay}
+${personalContext.knownUser ? personalContext.insights : "Người dùng mới"}
+${personalContext.relevantMemories && personalContext.relevantMemories !== "Không có thông tin liên quan đến cuộc trò chuyện hiện tại." ? personalContext.relevantMemories : ""}
 
-    Phong cách chat khi HƠI KHÓ CHỊU (mức độ tức giận 50-69%):
-    - Lạnh lùng nhưng không yếu thế
-    - Dùng "ừ" khô khan để thể hiện sự không hài lòng
-    - Không dùng từ "thôi" hay "kệ" một cách đơn độc
-    - Dùng "thế à" hoặc "vậy hả" để thể hiện sự không tin tưởng
-    - Sử dụng câu ngắn nhưng mạnh: "rồi sao?", "nói xong chưa?", "còn gì nữa không?"
-    - Thỉnh thoảng dùng "?" để thể hiện nghi ngờ và thách thức
-    - Thể hiện sự mạnh mẽ: "đang nói chuyện với ai đấy"
-    
-    Lịch sử gần đây:
-    ${context.history}`;
+Lịch sử: ${context.history}`;
 
     const fullPrompt = `${systemPrompt}\n${userName}: ${prompt}\nNgan:`;
 
@@ -1558,16 +1458,6 @@ Phong cách chat khi TỨC GIẬN (mức độ tức giận 70-84%):
       return fixedResponse;
     };
     response = enforceHonorificConsistency(response, honorifics);
-    if (botEmotionalState.anger >= 0.5) {
-      response = response.replace(/=\)\)\)+/g, ".");
-      response = response.replace(/-\)\)\)+/g, ".");
-      response = response.replace(/:\)\)\)+/g, ".");
-    } else if (botEmotionalState.anger >= 0.3) {
-
-      response = response.replace(/=\)\)\)+/g, "=)");
-      response = response.replace(/-\)\)\)+/g, "-)");
-      response = response.replace(/:\)\)\)+/g, ":)");
-    }
     const isGoodnightMessage =
       prompt.toLowerCase().includes("ngủ ngon") ||
       prompt.toLowerCase().includes("đi ngủ đây") ||
@@ -1652,190 +1542,37 @@ Phong cách chat khi TỨC GIẬN (mức độ tức giận 70-84%):
   }
 };
 
+
 const updateMoodBasedOnPrompt = (prompt) => {
-  const confusionIndicators = [
-    "đã làm gì", "sao lại", "tại sao", "không hiểu",
-    "là sao", "vì sao", "có gì", "sao cậu", "sao bạn",
-    "bị sao vậy", "sao thế", "đâu có", "tui đâu có"
-  ];
-  const specialContextPatterns = [
-    { pattern: /thích.*m.*thì\s+s/i, anger: 0.9 },
-    { pattern: /thích.*mày.*thì\s+s/i, anger: 0.9 },
-    { pattern: /thích.*thì làm.*gì/i, anger: 0.85 },
-    { pattern: /.*mẹ.*thì\s+s/i, anger: 0.9 },
-    { pattern: /.*mẹ.*thì.*làm.*gì/i, anger: 0.9 },
-    { pattern: /^thì\s+s/i, anger: 0.8 } // Phản hồi ngắn "thì s"
+  prompt = prompt.toLowerCase();
+  
+  const goodWords = [
+    "xin lỗi", "sorry", "cảm ơn", "thank", "tốt", "hay", "thương", "yêu"
   ];
   
-  // Các pattern phát hiện xin lỗi và làm hòa rõ ràng hơn
-  const reconciliationAttempts = [
-    "xin lỗi", "không có ý", "không cố ý", "không biết",
-    "đừng giận", "đừng buồn", "hiểu lầm", "nhầm", "tui đâu dám"
-  ];
-
-  const severeInsults = [
-    "óc chó", "đcm", "đm", "địt", "địt mẹ", "đmm", "đcmm",
-    "đcmmm", "cc", "lồn", "cặc", "buồi", "đb", "đĩ",
-    "cave", "thằng ngu", "con ngu", "đồ ngu", "sủa", "chó",
-    "mồm", "câm mồm", "ngậm mồm"
-  ];
-
-  const angerTriggers = [
-    "ngu", "đồ", "bot ngu", "gà", "kém", "dốt", "nực cười",
-    "mày", "im đi", "câm", "ngáo", "điên", "khùng", "đần",
-    "ngu ngốc", "cút", "xéo", "chán", "vừa thôi", "biến đi"
-  ];
-
-  const sassyTriggers = ["bot ngáo", "bot điên", "bot khùng", "ngang", "tao", "đồ", "con", "láo", "láo lếu"];
-  const friendlyWords = ["hihi", "haha", "thương", "cute", "dễ thương", "ngon", "giỏi", "thông minh", "tuyệt", "thích"];
-  const negativeWords = ["buồn", "chán", "khó chịu", "đáng ghét", "bực", "phiền"];
-  const positiveWords = ["vui", "thích", "yêu", "tuyệt", "giỏi", "hay quá", "hay", "tốt", "tuyệt vời"];
-
-  // Từ để nhận biết người dùng đang làm hòa
-  const reconciliationWords = [
-    "xin lỗi", "đùa thôi", "đừng giận", "bình tĩnh", "mình sai", "đùa đấy",
-    "không có ý đó", "đang đùa", "đừng buồn", "làm lành"
-  ];
-
-  // Từ dùng để châm chọc, trêu đùa nhưng không có ý xúc phạm nặng
-  const teasingWords = [
-    "đồ ngốc", "ngốc ghê", "ngốc quá", "gà thế", "gà quá",
-    "đồ ngáo", "cute xỉu", "ngáo quá"
-  ];
-  const isConfused = confusionIndicators.some(indicator =>
-    prompt.toLowerCase().includes(indicator));
-
-  // Kiểm tra nếu người dùng đang cố gắng làm hòa
-  const isReconciling = reconciliationAttempts.some(attempt =>
-    prompt.toLowerCase().includes(attempt));
-
-  prompt = prompt.toLowerCase();
-  let hasSevereInsult = false;
-  let isTeasing = false;
-  let isReconciliating = false;
-
-  for (const { pattern, anger } of specialContextPatterns) {
-    if (pattern.test(prompt.toLowerCase())) {
-      botEmotionalState.anger = Math.max(botEmotionalState.anger, anger);
-      botEmotionalState.mood = Math.min(botEmotionalState.mood, 0.1);
-      break;
-    }
-  }
-  for (const word of teasingWords) {
-    if (prompt.includes(word) &&
-      (prompt.includes("hihi") || prompt.includes("haha") ||
-        prompt.includes(":)") || prompt.includes(":))") ||
-        prompt.includes("=))") || prompt.includes("=)") ||
-        prompt.includes("đùa"))) {
-      isTeasing = true;
-      break;
-    }
-  }
-
-  // Kiểm tra nếu đang làm hòa
-  for (const word of reconciliationWords) {
+  let moodChange = 0;
+  
+  for (const word of goodWords) {
     if (prompt.includes(word)) {
-      isReconciliating = true;
-      break;
+      moodChange += 0.2;
     }
   }
-
-  // Xử lý xúc phạm nặng
-  for (const insult of severeInsults) {
-    if (prompt.includes(insult) && !isTeasing) {
-      // Giảm nhẹ mức độ tăng giận nếu người dùng đang có ý làm hòa
-      const angerIncrease = isReconciliating ? 0.2 : 0.35;
-      botEmotionalState.anger = Math.min(0.9, botEmotionalState.anger + angerIncrease);
-      botEmotionalState.mood = Math.max(0.15, botEmotionalState.mood - 0.3);
-      hasSevereInsult = true;
-      break;
-    }
-  }
-  if (isConfused && isReconciling) {
-    botEmotionalState.anger = Math.max(0, botEmotionalState.anger - 0.4);
-    botEmotionalState.mood = Math.min(0.9, botEmotionalState.mood + 0.35);
-    return; // Kết thúc sớm, không xét các điều kiện khác
-  }
-
-  // Nếu chỉ bối rối thôi, vẫn giảm tức giận khá nhiều
-  if (isConfused) {
-    botEmotionalState.anger = Math.max(0, botEmotionalState.anger - 0.25);
-    botEmotionalState.mood = Math.min(0.85, botEmotionalState.mood + 0.2);
-    return;
-  }
-
-  // Nếu chỉ xin lỗi thôi, cũng giảm tức giận
-  if (isReconciling) {
-    botEmotionalState.anger = Math.max(0, botEmotionalState.anger - 0.3);
-    botEmotionalState.mood = Math.min(0.85, botEmotionalState.mood + 0.25);
-    return;
-  }
-  // Tăng cường hiệu quả làm hòa khi có lời xin lỗi
-  if (isReconciliating) {
-    const calmingEffect = hasSevereInsult ? 0.3 : 0.4;
-    botEmotionalState.anger = Math.max(0, botEmotionalState.anger - calmingEffect);
-    botEmotionalState.mood = Math.min(0.8, botEmotionalState.mood + 0.25);
-  }
-
-  // Xử lý các trigger gây khó chịu
-  if (!hasSevereInsult && !isReconciliating) {
-    let hasAngerTrigger = false;
-
-    for (const trigger of angerTriggers) {
-      if (prompt.includes(trigger) && !isTeasing) {
-        const angerIncrease = prompt.includes("bot") ? 0.22 : 0.18;
-        botEmotionalState.anger = Math.min(0.78, botEmotionalState.anger + angerIncrease);
-        botEmotionalState.mood = Math.max(0.25, botEmotionalState.mood - 0.2);
-        hasAngerTrigger = true;
-      }
-    }
-
-    // Tăng thêm nếu có kết hợp với "bot"/"mày"
-    if (hasAngerTrigger && (prompt.includes("bot") || prompt.includes("mày") || prompt.includes("mi"))) {
-      botEmotionalState.anger = Math.min(0.85, botEmotionalState.anger + 0.18);
-    }
-
-    // Xử lý các từ khiêu khích
-    for (const trigger of sassyTriggers) {
-      if (prompt.includes(trigger) && !isTeasing) {
-        botEmotionalState.anger = Math.min(0.65, botEmotionalState.anger + 0.18);
-      }
-    }
-  }
-
-  // Tăng tác động tích cực của từ thân thiện
-  for (const word of friendlyWords) {
-    if (prompt.includes(word)) {
-      botEmotionalState.mood = Math.min(1.0, botEmotionalState.mood + 0.25);
-      botEmotionalState.anger = Math.max(0, botEmotionalState.anger - 0.2);
-    }
-  }
-
-  // Cập nhật tác động của từ tiêu cực/tích cực
-  for (const word of negativeWords) {
-    if (prompt.includes(word))
-      botEmotionalState.mood = Math.max(0.2, botEmotionalState.mood - 0.1);
-  }
-
-  for (const word of positiveWords) {
-    if (prompt.includes(word))
-      botEmotionalState.mood = Math.min(0.95, botEmotionalState.mood + 0.15);
-  }
-
-  // Giảm giận dữ theo thời gian
-  const timeSinceLastUpdate = (Date.now() - botEmotionalState.lastUpdate) / 1000;
-  if (timeSinceLastUpdate > 30) {
-    const timeDecay = Math.min(timeSinceLastUpdate / 60, 5);
-    botEmotionalState.anger = Math.max(0, botEmotionalState.anger - (0.18 * timeDecay));
-  }
-
-  // Context awareness - nếu mức giận dữ cao nhưng user nói ngắn và không có từ xúc phạm rõ ràng
-  if (botEmotionalState.anger > 0.7 && prompt.length < 15 && !hasSevereInsult && !hasAngerTrigger) {
-    // Giảm mức độ tức giận nếu người dùng không tiếp tục khiêu khích
-    botEmotionalState.anger = Math.max(0.5, botEmotionalState.anger - 0.15);
-  }
-
+  
+  botEmotionalState.mood = Math.max(0.5, Math.min(1, botEmotionalState.mood + moodChange));
   botEmotionalState.lastUpdate = Date.now();
+  
+  const hour = new Date().getHours();
+  if (hour >= 0 && hour < 6) {
+   
+    botEmotionalState.energy = Math.max(0.5, botEmotionalState.energy - 0.05);
+  } else if (hour >= 6 && hour < 12) {
+
+    botEmotionalState.energy = Math.min(0.9, botEmotionalState.energy + 0.05);
+  } else if (hour >= 12 && hour < 18) {
+    botEmotionalState.energy = 0.7;
+  } else {
+    botEmotionalState.energy = Math.max(0.5, botEmotionalState.energy - 0.03);
+  }
 };
 
 module.exports = {
@@ -1858,12 +1595,11 @@ module.exports = {
       const lastExchange = threadHistory[threadHistory.length - 1];
 
       if (attachments && attachments[0]?.type === "audio") {
-        // Use last context or transcribed text from voice
+    
         const contextPrompt = lastExchange
           ? `${lastExchange.prompt} (Tiếp tục cuộc trò chuyện bằng voice message)`
           : "Tiếp tục cuộc trò chuyện bằng voice message";
 
-        // Generate response with context
         const response = await generateResponse(
           contextPrompt,
           senderID,
@@ -1872,7 +1608,6 @@ module.exports = {
           messageID
         );
         if (response) {
-          // Always generate voice for voice message replies
           const audioBuffer = await generateVoice(response);
           const cacheDir = path.join(__dirname, "cache");
           if (!fs.existsSync(cacheDir)) {

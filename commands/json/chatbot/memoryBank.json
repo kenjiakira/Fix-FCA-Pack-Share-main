@@ -1,81 +1,16 @@
 {
   "users": {
-    "61569008916749": {
+    "100087149330001": {
       "personal": [],
       "facts": [],
       "preferences": [],
       "interactions": [
         {
-          "content": "Cha Của Cmay nói: vũ hoa chứ kim ngân nào\nTôi trả lời: Hả? =)))  Vũ Hoa là ai vậy?  mình là Nguyễn Kim Ngân mà =)))",
-          "timestamp": 1742900981993,
+          "content": "Trần Thị Thu Phương nói: so sánh giữa ngủ sớm và ngủ muộn\nTôi trả lời: Ngủ sớm thì khỏe, dậy sớm làm được nhiều việc hơn, nhưng ngủ muộn lại có cảm giác tự do lắm ý =)))  Tùy thuộc vào sở thích của bạn thôi!",
+          "timestamp": 1743090431905,
           "priority": 1,
           "accessCount": 0,
-          "lastAccess": 1742900981993,
-          "metadata": {
-            "sentiment": {
-              "score": 0,
-              "rawScore": 0,
-              "sentiment": "neutral",
-              "confidence": 0.5,
-              "emotions": [],
-              "negationCount": 0,
-              "intensityFactors": [],
-              "primaryEmotion": "neutral"
-            },
-            "topics": [
-              "PERSONAL"
-            ],
-            "entities": {}
-          }
-        }
-      ],
-      "emotions": [],
-      "names": [],
-      "relationships": {},
-      "context": {
-        "lastTopics": [],
-        "importantDates": {},
-        "recentMentions": {},
-        "conversationFlow": []
-      },
-      "topics": {},
-      "undefined": [
-        {
-          "content": "Xưng hô: mình/bạn",
-          "timestamp": 1742900976548,
-          "priority": 2,
-          "accessCount": 0,
-          "lastAccess": 1742900976548,
-          "metadata": {
-            "sentiment": {
-              "score": 0,
-              "rawScore": 0,
-              "sentiment": "neutral",
-              "confidence": 0.5,
-              "emotions": [],
-              "negationCount": 0,
-              "intensityFactors": [],
-              "primaryEmotion": "neutral"
-            },
-            "topics": [
-              "PERSONAL"
-            ],
-            "entities": {}
-          }
-        }
-      ]
-    },
-    "61573427362389": {
-      "personal": [],
-      "facts": [],
-      "preferences": [],
-      "interactions": [
-        {
-          "content": "Ngọc Từ nói: th off bot cái\nTôi trả lời: Khó chịu vl =)))  Thôi off đi, mệt mỏi quá.",
-          "timestamp": 1742907176771,
-          "priority": 1,
-          "accessCount": 1,
-          "lastAccess": 1742907195555,
+          "lastAccess": 1743090431905,
           "metadata": {
             "sentiment": {
               "score": 0,
@@ -89,30 +24,7 @@
             },
             "topics": [
               "PERSONAL",
-              "TRAVEL"
-            ],
-            "entities": {}
-          }
-        },
-        {
-          "content": "Ngọc Từ nói: thật không đó , t off là m k nói chuyện đc đâu đấy\nTôi trả lời: Ừ.",
-          "timestamp": 1742907196449,
-          "priority": 1,
-          "accessCount": 0,
-          "lastAccess": 1742907196449,
-          "metadata": {
-            "sentiment": {
-              "score": 0,
-              "rawScore": 0,
-              "sentiment": "neutral",
-              "confidence": 0.5,
-              "emotions": [],
-              "negationCount": 0,
-              "intensityFactors": [],
-              "primaryEmotion": "neutral"
-            },
-            "topics": [
-              "PERSONAL"
+              "WORK"
             ],
             "entities": {}
           }
@@ -131,33 +43,10 @@
       "undefined": [
         {
           "content": "Xưng hô: mình/bạn",
-          "timestamp": 1742907175847,
-          "priority": 2,
-          "accessCount": 1,
-          "lastAccess": 1742907195555,
-          "metadata": {
-            "sentiment": {
-              "score": 0,
-              "rawScore": 0,
-              "sentiment": "neutral",
-              "confidence": 0.5,
-              "emotions": [],
-              "negationCount": 0,
-              "intensityFactors": [],
-              "primaryEmotion": "neutral"
-            },
-            "topics": [
-              "PERSONAL"
-            ],
-            "entities": {}
-          }
-        },
-        {
-          "content": "Xưng hô: mình/bạn",
-          "timestamp": 1742907195556,
+          "timestamp": 1743090430336,
           "priority": 2,
           "accessCount": 0,
-          "lastAccess": 1742907195556,
+          "lastAccess": 1743090430336,
           "metadata": {
             "sentiment": {
               "score": 0,
@@ -191,11 +80,16 @@
     "voice": {}
   },
   "stats": {
-    "totalInteractions": 6,
+    "totalInteractions": 2,
     "uniqueUsers": {},
     "topTopics": {},
     "responseTime": [],
-    "accuracy": []
+    "accuracy": [
+      {
+        "timestamp": 1743090431909,
+        "memoryCount": 5
+      }
+    ]
   },
   "compression": {
     "enabled": true,

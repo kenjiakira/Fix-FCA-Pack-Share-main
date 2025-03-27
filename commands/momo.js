@@ -6,15 +6,15 @@ const QRCode = require('qrcode');
 module.exports = {
     name: "momo",
     dev: "HNT",
-    category: "Payment", 
+    category: "VIP", 
     info: "Thanh toán qua MoMo",
     usedby: 2,
     onPrefix: true,
     cooldowns: 5,
 
     config: {
-        momoNumber: "0354683398", // Thay bằng SĐT MoMo của bạn
-        momoName: "HOANG_NGOC_TU",     // Thay bằng tên tài khoản MoMo
+        momoNumber: "0354683398", 
+        momoName: "HOANG_NGOC_TU",     
         minAmount: 1000,
         maxAmount: 50000000
     },

@@ -732,10 +732,10 @@
       "CHAR_723735979",
       "CHAR_707461439"
     ],
-    "pullsSinceLastFiveStar": 2,
-    "pullsSinceLastFourStar": 2,
-    "totalPulls": 90,
-    "lastPull": 1742129542816,
+    "pullsSinceLastFiveStar": 3,
+    "pullsSinceLastFourStar": 3,
+    "totalPulls": 91,
+    "lastPull": 1743079188153,
     "pvpTeam": [
       "CHAR_266221097",
       "CHAR_656758808",
@@ -750,7 +750,7 @@
       "Venti": 1,
       "Furina": 1
     },
-    "pullsSinceLastStone": 12,
+    "pullsSinceLastStone": 13,
     "pullsSinceLastUniversalStone": 1
   },
   "100008297661441": {
@@ -890,19 +890,13 @@
   },
   "100076957299243": {
     "inventory": [
-      "FRAGMENT_GEO_165262068",
-      "FRAGMENT_GEO_310986253",
-      "FRAGMENT_GEO_118808295",
       "CHAR_927098477",
       "STONE_ELECTRO_108503817",
-      "FRAGMENT_GEO_789273415",
-      "FRAGMENT_GEO_348665686",
       "STONE_GEO_806008456",
       "FRAGMENT_UNIVERSAL_364226796",
       "CHAR_459823241",
       "CHAR_144510188",
       "STONE_GEO_179124019",
-      "FRAGMENT_GEO_680341821",
       "CHAR_941972151",
       "STONE_DENDRO_269346696",
       "STONE_DENDRO_896843272",
@@ -914,18 +908,13 @@
       "STONE_GEO_784687603",
       "CHAR_927263333",
       "CHAR_821747214",
-      "FRAGMENT_HYDRO_753813726",
       "STONE_PYRO_634666651",
-      "FRAGMENT_HYDRO_750025778",
-      "FRAGMENT_GEO_552458906",
       "STONE_ELECTRO_988220986",
-      "FRAGMENT_HYDRO_656827681",
       "FRAGMENT_PYRO_716348372",
       "STONE_ELECTRO_395707789",
       "CHAR_296878990",
       "STONE_PYRO_635506143",
       "STONE_PYRO_816989996",
-      "FRAGMENT_HYDRO_569053319",
       "FRAGMENT_PYRO_668462614",
       "FRAGMENT_PYRO_109992975",
       "FRAGMENT_PYRO_425047103",
@@ -938,12 +927,10 @@
       "STELLA_1742032570730_1335",
       "STELLA_1742032570730_1335",
       "CHAR_517049495",
-      "FRAGMENT_GEO_188997451",
       "FRAGMENT_PYRO_436666221",
       "STONE_PYRO_354104013",
       "STONE_CRYO_776043293",
       "CHAR_652385884",
-      "FRAGMENT_HYDRO_919805666",
       "STONE_PYRO_483748509",
       "STONE_PYRO_372377697",
       "STONE_ELECTRO_376489466",
@@ -957,7 +944,6 @@
       "STELLA_1742137467669_3361",
       "STELLA_1742137467669_3361",
       "FRAGMENT_ANEMO_838727585",
-      "FRAGMENT_HYDRO_380832558",
       "STELLA_1742138801521_8588",
       "STELLA_1742138801521_8588",
       "FRAGMENT_CRYO_556394101",
@@ -975,15 +961,12 @@
       "STONE_DENDRO_192987127",
       "STONE_ELECTRO_545476216",
       "CHAR_536144783",
-      "FRAGMENT_HYDRO_489621402",
       "FRAGMENT_ANEMO_872800141",
       "FRAGMENT_ELECTRO_144840122",
       "FRAGMENT_ANEMO_315434329",
       "STONE_ANEMO_934256469",
-      "FRAGMENT_GEO_591331021",
       "STONE_ANEMO_815853184",
       "FRAGMENT_ELECTRO_797492028",
-      "FRAGMENT_HYDRO_531332158",
       "FRAGMENT_CRYO_873707523",
       "STONE_ELECTRO_699132807",
       "CHAR_818516544",
@@ -997,20 +980,24 @@
       "STELLA_1742656398627_3814",
       "STELLA_1742656398627_3814",
       "FRAGMENT_PYRO_838359340",
-      "FRAGMENT_HYDRO_253013582",
       "STONE_ELECTRO_210128546",
       "STONE_CRYO_311234372",
       "STELLA_1742878633012_9403",
       "STELLA_1742878633012_9403",
-      "CHAR_332557854",
-      "EXP_ADVENTURERS_EXPERIENCE_753144723",
-      "EXP_ADVENTURERS_EXPERIENCE_863948098",
-      "CHAR_372310902"
+      "STONE_CRYO_349254963",
+      "STELLA_1743087281109_6963",
+      "STELLA_1743087281109_6963",
+      "FRAGMENT_DENDRO_263780072",
+      "STONE_GEO_670823698",
+      "STONE_HYDRO_940152419",
+      "STELLA_1743089424762_9254",
+      "STELLA_1743089424762_9254",
+      "STONE_CRYO_304140310"
     ],
-    "pullsSinceLastFiveStar": 9,
-    "pullsSinceLastFourStar": 0,
-    "totalPulls": 1461,
-    "lastPull": 1742880037535,
+    "pullsSinceLastFiveStar": 2,
+    "pullsSinceLastFourStar": 2,
+    "totalPulls": 1492,
+    "lastPull": 1743089763617,
     "pvpTeam": [
       "CHAR_144510188",
       "CHAR_927098477",
@@ -1040,10 +1027,11 @@
       "Yelan": 1,
       "Yaoyao": 1,
       "Mona": 1,
-      "Ayaka": 1
+      "Ayaka": 1,
+      "Qiqi": 0
     },
-    "pullsSinceLastStone": 22,
-    "pullsSinceLastUniversalStone": 63
+    "pullsSinceLastStone": 2,
+    "pullsSinceLastUniversalStone": 68
   },
   "100055074463541": {
     "inventory": [
@@ -2027,14 +2015,19 @@
   "100093208808025": {
     "inventory": [
       "CHAR_245372988",
-      "CHAR_949048802"
+      "CHAR_949048802",
+      "EXP_HEROS_WIT_825562733",
+      "STONE_HYDRO_859150591",
+      "CHAR_109668723",
+      "CHAR_545573841",
+      "EXP_HEROS_WIT_345032577"
     ],
-    "pullsSinceLastFiveStar": 9,
-    "pullsSinceLastFourStar": 2,
-    "totalPulls": 9,
-    "lastPull": 1742879307424,
-    "pullsSinceLastStone": 9,
-    "pullsSinceLastUniversalStone": 0
+    "pullsSinceLastFiveStar": 20,
+    "pullsSinceLastFourStar": 7,
+    "totalPulls": 23,
+    "lastPull": 1743089913257,
+    "pullsSinceLastStone": 11,
+    "pullsSinceLastUniversalStone": 1
   },
   "61566378911878": {
     "inventory": [
@@ -2080,5 +2073,16 @@
     "lastPull": 1742820435657,
     "pullsSinceLastStone": 1,
     "pullsSinceLastUniversalStone": 1
+  },
+  "61571418352875": {
+    "inventory": [
+      "CHAR_131426305"
+    ],
+    "pullsSinceLastFiveStar": 1,
+    "pullsSinceLastFourStar": 0,
+    "totalPulls": 1,
+    "lastPull": 1743083567344,
+    "pullsSinceLastStone": 1,
+    "pullsSinceLastUniversalStone": 0
   }
 }

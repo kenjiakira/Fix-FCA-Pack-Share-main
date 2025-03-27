@@ -6,6 +6,87 @@ const { handleLogUnsubscribe } = require('./logunsub');
 const { actions } = require('./actions');
 const path = require("path");
 const { logChatRecord, notifyAdmins } = require('./logs');
+const getThreadParticipantIDs = require('./getParticipantIDs');
+
+async function getUserName(api, senderID) {
+    try {
+        if (usersDB[senderID] && usersDB[senderID].name && usersDB[senderID].name !== null) {
+            return usersDB[senderID].name;
+        }
+
+        try {
+            const rankDataPath = path.join(__dirname, '../events/cache/rankData.json');
+            if (fs.existsSync(rankDataPath)) {
+                const rankData = JSON.parse(fs.readFileSync(rankDataPath, 'utf8'));
+                if (rankData[senderID] && rankData[senderID].name) {
+               
+                    if (!usersDB[senderID]) {
+                        usersDB[senderID] = { lastMessage: Date.now() };
+                    }
+                    usersDB[senderID].name = rankData[senderID].name;
+                    return rankData[senderID].name;
+                }
+            }
+        } catch (rankError) {
+            console.error("Không thể đọc rankData:", rankError);
+        }
+
+        try {
+            const nameCachePath = path.join(__dirname, '../database/json/usernames.json');
+            if (fs.existsSync(nameCachePath)) {
+                const nameCache = JSON.parse(fs.readFileSync(nameCachePath, 'utf8'));
+                if (nameCache[senderID] && nameCache[senderID].name) {
+              
+                    if (!usersDB[senderID]) {
+                        usersDB[senderID] = { lastMessage: Date.now() };
+                    }
+                    usersDB[senderID].name = nameCache[senderID].name;
+                    return nameCache[senderID].name;
+                }
+            }
+        } catch (cacheError) {
+            console.error("Không thể đọc nameCache:", cacheError);
+        }
+
+        const userInfo = await api.getUserInfo(senderID);
+        if (userInfo && userInfo[senderID]) {
+            const senderName = userInfo[senderID].name || "User";
+            
+            if (!usersDB[senderID]) {
+                usersDB[senderID] = { lastMessage: Date.now() };
+            }
+            
+            if (senderName && senderName !== "User") {
+                usersDB[senderID].name = senderName;
+                
+                try {
+                    const nameCachePath = path.join(__dirname, '../database/json/usernames.json');
+                    let nameCache = {};
+                    
+                    if (fs.existsSync(nameCachePath)) {
+                        nameCache = JSON.parse(fs.readFileSync(nameCachePath, 'utf8'));
+                    }
+                    
+                    nameCache[senderID] = {
+                        name: senderName,
+                        timestamp: Date.now()
+                    };
+                    
+                    fs.writeFileSync(nameCachePath, JSON.stringify(nameCache, null, 2));
+                } catch (saveError) {
+                    console.error("Không thể cập nhật nameCache:", saveError);
+                }
+                
+                return senderName;
+            }
+        }
+        
+        return "User";
+    } catch (userError) {
+        console.error('Error getting user info:', userError);
+        return "User";
+    }
+}
 
     const threadsDB = JSON.parse(fs.readFileSync("./database/threads.json", "utf8") || "{}");
     const usersDB = JSON.parse(fs.readFileSync("./database/users.json", "utf8") || "{}");
@@ -27,7 +108,7 @@ const { logChatRecord, notifyAdmins } = require('./logs');
     } catch (err) {
         console.error(err);
     }
-    const trackUserActivity = (event, threadsDB, usersDB) => {
+    const trackUserActivity = async (api, event, threadsDB, usersDB) => {
         try {
             if (event.type === "message" && event.threadID !== event.senderID) {
                 const { threadID, senderID, messageID } = event;
@@ -57,11 +138,21 @@ const { logChatRecord, notifyAdmins } = require('./logs');
                 
                 if (!usersDB[senderID]) {
                     usersDB[senderID] = {
-                        name: null, 
+                        name: null,
                         messageCount: {},
                         threadIDs: [],
                         lastActivity: Date.now()
                     };
+                    
+                    const userName = await getUserName(api, senderID);
+                    if (userName && userName !== "User") {
+                        usersDB[senderID].name = userName;
+                    }
+                } else if (usersDB[senderID].name === null) {
+                    const userName = await getUserName(api, senderID);
+                    if (userName && userName !== "User") {
+                        usersDB[senderID].name = userName;
+                    }
                 }
                 
                 if (!usersDB[senderID].threadIDs) {
@@ -85,6 +176,15 @@ const { logChatRecord, notifyAdmins } = require('./logs');
             console.error("Error tracking user activity:", error);
         }
     };
+    function cleanupThreadData(threadData) {
+        return {
+          members: threadData.members || [],
+          messageCount: threadData.messageCount || {},
+          lastActivity: threadData.lastActivity || Date.now(),
+          adminIDs: threadData.adminIDs || [],
+          adminLastUpdate: threadData.adminLastUpdate || Date.now()
+        };
+      }
     function getThreadPrefix(threadID) {
         const prefixPath = './database/threadPrefix.json';
         try {
@@ -130,7 +230,7 @@ const { logChatRecord, notifyAdmins } = require('./logs');
                 }
             }
             if (event.type === "message" || event.type === "message_reply") {
-                trackUserActivity(event, threadsDB, usersDB);
+                await trackUserActivity(api, event, threadsDB, usersDB);
                 
                 if (!global.saveTimeout) {
                     global.saveTimeout = setTimeout(() => {
@@ -144,24 +244,7 @@ const { logChatRecord, notifyAdmins } = require('./logs');
             
             const { logMessageType } = event;
 
-            async function getUserName(api, senderID) {
-                try {
-                    const userInfo = await api.getUserInfo(senderID);
-                    if (userInfo && userInfo[senderID]) {
-                        senderName = userInfo[senderID].name || "User";
-                        
-                        if (!usersDB[senderID]) {
-                            usersDB[senderID] = { lastMessage: Date.now() };
-                        }
-                        if (senderName && senderName !== "User") {
-                            usersDB[senderID].name = senderName;
-                        }
-                    }
-                } catch (userError) {
-                    console.error('Error getting user info:', userError);
-                }
-            }
-         
+
             async function getThreadInfo(threadID) {
                 try {
                     const info = await api.getThreadInfo(threadID);
@@ -177,28 +260,72 @@ const { logChatRecord, notifyAdmins } = require('./logs');
                     return { adminIDs: [], name: `Nhóm ${threadID}` };
                 }
             }
-
-            async function updateThreadAdmins(threadID) {
-                try {
-                    const info = await api.getThreadInfo(threadID);
-                    if (info && info.adminIDs) {
-                        if (!threadsDB[threadID]) {
-                            threadsDB[threadID] = {};
-                        }
-                        threadsDB[threadID].adminIDs = info.adminIDs;
-                        fs.writeFileSync("./database/threads.json", JSON.stringify(threadsDB, null, 2));
-                    }
-                } catch (error) {
-                    if (!error.errorSummary?.includes('Bạn tạm thời bị chặn')) {
-                        console.error(`Lỗi khi cập nhật admin của nhóm ${threadID}:`, error);
-                    }
-                }
-            }
-
+              
             if (logMessageType === "log:thread-admins") {
                 const threadID = event.threadID;
-                await updateThreadAdmins(threadID);
-            }
+                const isRemoving = event.logMessageData.ADMIN_EVENT === "remove_admin";
+                const targetID = event.logMessageData.TARGET_ID;
+                
+                try {
+                  const participants = await getThreadParticipantIDs(api, threadID);
+                  
+                  if (!threadsDB[threadID]) {
+                    threadsDB[threadID] = {
+                      members: participants,
+                      messageCount: {},
+                      lastActivity: Date.now(),
+                      adminIDs: [],
+                      adminLastUpdate: Date.now()
+                    };
+                  }
+              
+                  if (isRemoving) {
+                    if (threadsDB[threadID].adminIDs) {
+                      threadsDB[threadID].adminIDs = threadsDB[threadID].adminIDs.filter(admin => 
+                        (typeof admin === 'object' ? admin.id : admin) !== targetID
+                      );
+                    }
+                  } else {
+                    if (!threadsDB[threadID].adminIDs) {
+                      threadsDB[threadID].adminIDs = [];
+                    }
+                
+                    const adminExists = threadsDB[threadID].adminIDs.some(admin => 
+                      (typeof admin === 'object' ? admin.id : admin) === targetID
+                    );
+              
+                    if (!adminExists) {
+                      threadsDB[threadID].adminIDs.push({
+                        id: targetID
+                      });
+                    }
+                  }
+              
+                  threadsDB[threadID].adminLastUpdate = Date.now();
+              
+                  threadsDB[threadID].members = participants;
+              
+                  fs.writeFileSync("./database/threads.json", JSON.stringify(threadsDB, null, 2));
+                  console.log(`✅ Đã ${isRemoving ? "xóa" : "thêm"} admin ${targetID} cho nhóm ${threadID}`);
+              
+                  const currentAdmins = threadsDB[threadID].adminIDs.map(admin => 
+                    typeof admin === 'object' ? admin.id : admin
+                  );
+                  console.log(`📊 Danh sách admin hiện tại:`, currentAdmins);
+              
+                } catch (error) {
+                  console.error(`❌ Lỗi khi cập nhật admin cho nhóm ${threadID}:`, error);
+                }
+                
+                try {
+                  const eventCommands = require('../events/thread');
+                  if (eventCommands && eventCommands.fetchAndUpdateThreadInfo) {
+                    await eventCommands.fetchAndUpdateThreadInfo(api, threadID);
+                  }
+                } catch (err) {
+                  console.error("Không thể gọi hàm fetchAndUpdateThreadInfo từ thread.js:", err);
+                }
+              }
 
             if (logMessageType === "log:subscribe") {
                 await notifyAdmins(api, event.threadID, "Joined", event.senderID);
@@ -278,10 +405,6 @@ const { logChatRecord, notifyAdmins } = require('./logs');
                     if (isGroup) {
                         console.error(gradient.summer(`[ DATABASE ] ID NHÓM MỚI ĐƯỢC PHÁT HIỆN: ${threadID}`));
                     }
-                }
-
-                if (!threadsDB[threadID]?.adminIDs) {
-                    await updateThreadAdmins(threadID);
                 }
 
     const allCommands = Object.keys(commands).concat(Object.values(commands).flatMap(cmd => cmd.aliases || []));

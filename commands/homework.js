@@ -165,11 +165,11 @@ const analyzeHomework = async (apiKey, prompt, imagePart) => {
   try {
     const genAI = new GoogleGenerativeAI(apiKey);
     const model = genAI.getGenerativeModel({ 
-      model: "gemini-1.5-flash", 
+      model: "gemini-2.5-pro-exp-03-25", 
       generationConfig: {
-        temperature: 0.7,
+        temperature: 0.2,
         topK: 1,
-        topP: 1,
+        topP: 0.8,
         maxOutputTokens: 4096,
       },
     });

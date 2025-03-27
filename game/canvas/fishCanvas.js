@@ -161,7 +161,7 @@ const defaultFishImagePaths = {
   uncommon: path.join(__dirname, "../game/fishing/uncommon.jpg"),
   rare: path.join(__dirname, "../game/fishing/rare.jpg"),
   legendary: path.join(__dirname, "../game/fishing/legendary.jpg"),
-  mythical: path.join(__dirname, "..v/fishing/mythical.jpg"),
+  mythical: path.join(__dirname, "..game/fishing/mythical.jpg"),
   cosmic: path.join(__dirname, "../game/fishing/cosmic.jpg"),
 };
 

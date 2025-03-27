@@ -12,13 +12,13 @@ function loadConfig(filePath, defaultValue = {}) {
 }
 
 module.exports = {
-    name: "notify",
+    name: "thongbao",
     dev: "HNT",
     usedby: 5, 
     category: "Groups",
     info: "Quản lý cài đặt thông báo nhóm",
     onPrefix: true,
-    usages: "notify [loại] [tùy chọn]",
+    usages: "thongbao [loại] [tùy chọn]",
     cooldowns: 5,
 
     onLaunch: async ({ api, event, target, prefix }) => {
@@ -30,42 +30,42 @@ module.exports = {
                 icon: '👋', 
                 desc: 'thông báo chào/tạm biệt', 
                 detail: 'tự động gửi tin nhắn khi có thành viên vào/rời',
-                usage: 'notify sub on/off' 
+                usage: 'thongbao sub on/off' 
             },
             admin: {
                 name: 'admin',
                 icon: '👑',
                 desc: 'thông báo thay đổi quản trị viên',
                 detail: 'thông báo khi có thay đổi về quản trị viên nhóm',
-                usage: 'notify admin on/off'
+                usage: 'thongbao admin on/off'
             },
             avatar: {
                 name: 'avatar',
                 icon: '🖼️',
                 desc: 'thông báo đổi ảnh nhóm',
                 detail: 'thông báo khi có người thay đổi ảnh nhóm',
-                usage: 'notify avatar on/off'
+                usage: 'thongbao avatar on/off'
             },
             name: {
                 name: 'name',
                 icon: '✏️',
                 desc: 'thông báo đổi tên nhóm',
                 detail: 'thông báo khi có người thay đổi tên nhóm',
-                usage: 'notify name on/off'
+                usage: 'thongbao name on/off'
             },
             nick: {
                 name: 'nick',
                 icon: '📝',
                 desc: 'thông báo đổi biệt danh',
                 detail: 'thông báo khi có người thay đổi biệt danh',
-                usage: 'notify nick on/off'
+                usage: 'thongbao nick on/off'
             },
             greet: {
                 name: 'greet',
                 icon: '💬',
                 desc: 'tự động trả lời lời chào',
                 detail: 'bot sẽ tự động trả lời khi người dùng chào',
-                usage: 'notify greet on/off'
+                usage: 'thongbao greet on/off'
             }
         };
 
@@ -87,7 +87,7 @@ module.exports = {
                 if (key === 'sub') status = subStatus ? "ON ✅" : "OFF ❌";
                 else if (key === 'config') status = `Welcome: ${welcomeMsg} | Leave: ${leaveMsg}`;
                 else if (key === 'rank') status = rankStatus ? "ON ✅" : "OFF ❌";
-                else if (key === 'admin' || key === 'avatar' || key === 'name' || key === 'nick') status = settings[threadID][`notify_${key}`] !== false ? "ON ✅" : "OFF ❌";
+                else if (key === 'admin' || key === 'avatar' || key === 'name' || key === 'nick') status = settings[threadID][`thongbao_${key}`] !== false ? "ON ✅" : "OFF ❌";
 
                 msg += `${value.icon} ${key.toUpperCase()}: ${value.desc}\n`;
                 msg += `↬ Chi tiết: ${value.detail}\n`;
@@ -116,7 +116,7 @@ module.exports = {
                     type.split(' ').filter(f => features[f]);
 
                 if (!action || !['on', 'off'].includes(action)) {
-                    return api.sendMessage("⚠️ Vui lòng sử dụng: notify all on/off hoặc notify feature1 feature2 on/off", threadID);
+                    return api.sendMessage("⚠️ Vui lòng sử dụng: thongbao all on/off hoặc thongbao feature1 feature2 on/off", threadID);
                 }
 
                 let settings = loadConfig(threadSettingsPath);
@@ -127,7 +127,7 @@ module.exports = {
                     if (feature === 'sub') {
                         settings[threadID].notifications = (action === 'on');
                     } else if (['admin', 'avatar', 'name', 'nick'].includes(feature)) {
-                        settings[threadID][`notify_${feature}`] = (action === 'on');
+                        settings[threadID][`thongbao_${feature}`] = (action === 'on');
                     }
                     updatedFeatures.push(features[feature].desc);
                 }
@@ -141,7 +141,7 @@ module.exports = {
 
             if (type === 'config') {
                 if (!action || !target[2]) {
-                    return api.sendMessage("⚠️ Vui lòng sử dụng: notify config [welcome/leave] [nội dung]", threadID);
+                    return api.sendMessage("⚠️ Vui lòng sử dụng: thongbao config [welcome/leave] [nội dung]", threadID);
                 }
 
                 if (!['welcome', 'leave'].includes(action)) {
@@ -212,7 +212,7 @@ module.exports = {
                 if (!settings[threadID]) settings[threadID] = {};
                 
                 if (!['on', 'off'].includes(action)) {
-                    const status = settings[threadID][`notify_${type}`] !== false ? 'BẬT' : 'TẮT';
+                    const status = settings[threadID][`thongbao_${type}`] !== false ? 'BẬT' : 'TẮT';
                     return api.sendMessage(
                         `Thông báo ${features[type].desc} đang ${status} trong nhóm này\n` +
                         `Sử dụng: ${features[type].usage}`, 
@@ -220,7 +220,7 @@ module.exports = {
                     );
                 }
 
-                settings[threadID][`notify_${type}`] = (action === 'on');
+                settings[threadID][`thongbao_${type}`] = (action === 'on');
                 fs.writeFileSync(threadSettingsPath, JSON.stringify(settings, null, 2));
                 
                 return api.sendMessage(
@@ -228,7 +228,7 @@ module.exports = {
                     threadID
                 );
             } else {
-                return api.sendMessage("❌ Lệnh không hợp lệ! Sử dụng: notify để xem hướng dẫn", threadID);
+                return api.sendMessage("❌ Lệnh không hợp lệ! Sử dụng: thongbao để xem hướng dẫn", threadID);
             }
         } catch (error) {
             console.error("Notify command error:", error);

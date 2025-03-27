@@ -144,49 +144,49 @@ const PET_SKILLS = {
             return `🦴 Tìm thấy ${reward.item}! (${reward.value}$)`;
           }
         }
-      },
+      }
     },
     GUARD: {
       name: "Guard",
       description: "Bảo vệ chủ nhân, tăng thu nhập",
-      cooldown: 600000, 
+      cooldown: 600000, // 10 phút
       minLevel: 3,
       effect: (pet) => {
         const bonus = Math.floor(pet.level * 1.5) * 100;
         return `🛡️ Canh gác thành công! Nhận thêm ${bonus}$ tiền thưởng`;
-      },
-    },
+      }
+    }
   },
+
   CAT: {
     HUNT: {
       name: "Hunt",
-      description: "Săn bắt chuột, kiếm tiền",
+      description: "Săn bắt chuột, kiếm tiền", 
       cooldown: 300000,
       minLevel: 1,
       effect: (pet) => {
         const caught = Math.random() < 0.7;
         const reward = Math.floor(pet.level * 100);
-        return caught
-          ? `🐭 Bắt được chuột! Nhận ${reward}$`
-          : "😿 Không bắt được gì...";
-      },
+        return caught ? `🐭 Bắt được chuột! Nhận ${reward}$` : "😿 Không bắt được gì...";
+      }
     },
     CHARM: {
-      name: "Charm",
+      name: "Charm", 
       description: "Quyến rũ người khác để nhận quà",
       cooldown: 600000,
-      minLevel: 3,
+      minLevel: 3, 
       effect: (pet) => {
         const gifts = ["pate cao cấp", "đồ chơi mới", "khăn ấm"];
         const gift = gifts[Math.floor(Math.random() * gifts.length)];
         return `😺 Dùng vẻ đáng yêu để nhận được ${gift}!`;
-      },
-    },
+      }
+    }
   },
+
   HAMSTER: {
-    GATHER: {
-      name: "Gather",
-      description: "Thu thập hạt và thức ăn",
+    COLLECT: {
+      name: "Collect",
+      description: "Thu thập hạt và đồ ăn",
       cooldown: 300000,
       minLevel: 1,
       effect: (pet) => {
@@ -194,122 +194,124 @@ const PET_SKILLS = {
         const count = Math.floor(Math.random() * 3) + 1;
         const item = items[Math.floor(Math.random() * items.length)];
         return `🌰 Thu thập được ${count}x ${item}!`;
-      },
+      }
     },
-    PERFORM: {
-      name: "Perform",
-      description: "Biểu diễn đáng yêu để kiếm tiền",
+    WHEEL: {
+      name: "Wheel",
+      description: "Chạy wheel để tăng sức mạnh",
       cooldown: 600000,
       minLevel: 3,
       effect: (pet) => {
-        const tips = Math.floor((Math.random() * 5 + 5) * pet.level);
-        return `🎪 Biểu diễn thành công! Nhận được ${tips}$ tiền thưởng`;
-      },
-      PIG: {
-        FORAGE: {
-          name: "Forage",
-          description: "Tìm kiếm thức ăn trong đất",
-          cooldown: 300000,
-          minLevel: 1,
-          effect: (pet) => {
-            const rewards = [
-              { item: "nấm", chance: 50, value: 100 },
-              { item: "củ", chance: 30, value: 200 },
-              { item: "khoáng chất", chance: 20, value: 300 },
-            ];
-            const roll = Math.random() * 100;
-            let sum = 0;
-            for (const reward of rewards) {
-              sum += reward.chance;
-              if (roll <= sum) {
-                return `🌱 Tìm thấy ${reward.item}! (${reward.value}$)`;
-              }
-            }
-          },
-        },
-        MUDROLL: {
-          name: "MudRoll",
-          description: "Lăn trong bùn để hồi phục năng lượng",
-          cooldown: 600000,
-          minLevel: 3,
-          effect: (pet) => {
-            const recovery = Math.floor(pet.level * 2) * 5;
-            return `💦 Thư giãn trong bùn! Hồi phục ${recovery} năng lượng`;
-          },
-        },
-      },
-      RABBIT: {
-        JUMP: {
-          name: "Jump",
-          description: "Nhảy cao để tìm đồ giá trị",
-          cooldown: 300000,
-          minLevel: 1,
-          effect: (pet) => {
-            const rewards = Math.floor((Math.random() * 5 + 10) * pet.level);
-            return `🥕 Nhảy cao tìm thấy cà rốt! Nhận ${rewards}$`;
-          },
-        },
-        BURROW: {
-          name: "Burrow",
-          description: "Đào hang để tìm kho báu",
-          cooldown: 600000,
-          minLevel: 3,
-          effect: (pet) => {
-            const found = Math.random() < 0.7;
-            return found
-              ? `💎 Đào được đá quý! Nhận ${pet.level * 150}$`
-              : "🕳️ Chỉ đào được một cái hang trống...";
-          },
-        },
-      },
-      BIRD: {
-        SING: {
-          name: "Sing",
-          description: "Hót hay để thu hút người nghe",
-          cooldown: 300000,
-          minLevel: 1,
-          effect: (pet) => {
-            const tips = Math.floor((Math.random() * 4 + 8) * pet.level);
-            return `🎵 Hót hay tuyệt vời! Nhận được ${tips}$ tiền thưởng`;
-          },
-        },
-        SCOUT: {
-          name: "Scout",
-          description: "Bay cao để tìm khu vực có tài nguyên",
-          cooldown: 600000,
-          minLevel: 3,
-          effect: (pet) => {
-            const places = ["rừng rậm", "đồng cỏ", "núi cao", "thác nước"];
-            const place = places[Math.floor(Math.random() * places.length)];
-            return `🦅 Phát hiện ${place} đầy tài nguyên! Nhận ${pet.level * 120}$`;
-          },
-        },
-      },
-      FISH: {
-        BUBBLE: {
-          name: "Bubble",
-          description: "Thổi bong bóng xinh đẹp để giải trí",
-          cooldown: 300000,
-          minLevel: 1,
-          effect: (pet) => {
-            const tips = Math.floor((Math.random() * 3 + 5) * pet.level);
-            return `🫧 Bong bóng xinh đẹp! Nhận được ${tips}$ tiền thưởng`;
-          },
-        },
-        TREASURE: {
-          name: "Treasure",
-          description: "Tìm kho báu dưới đáy hồ",
-          cooldown: 600000,
-          minLevel: 3,
-          effect: (pet) => {
-            const treasures = ["đồng xu cổ", "ngọc trai", "vỏ sò quý"];
-            const treasure = treasures[Math.floor(Math.random() * treasures.length)];
-            return `🏆 Tìm thấy ${treasure}! Nhận ${pet.level * 100}$`;
-          },
-        },
-      },
-    },
+        const power = Math.floor(pet.level * 1.2) * 10;
+        return `🎡 Chạy wheel thành công! Tăng ${power} sức mạnh`;
+      }
+    }
   },
+
+  PIG: {
+    FORAGE: {
+      name: "Forage",
+      description: "Tìm kiếm thức ăn trong đất",
+      cooldown: 300000,
+      minLevel: 1,
+      effect: (pet) => {
+        const rewards = [
+          { item: "nấm", chance: 50, value: 100 },
+          { item: "củ", chance: 30, value: 200 }, 
+          { item: "khoáng chất", chance: 20, value: 300 }
+        ];
+        const roll = Math.random() * 100;
+        let sum = 0;
+        for (const reward of rewards) {
+          sum += reward.chance;
+          if (roll <= sum) {
+            return `🌱 Tìm thấy ${reward.item}! (${reward.value}$)`;
+          }
+        }
+      }
+    },
+    MUDROLL: {
+      name: "MudRoll",
+      description: "Lăn trong bùn để hồi phục năng lượng",
+      cooldown: 600000,
+      minLevel: 3,
+      effect: (pet) => {
+        const recovery = Math.floor(pet.level * 2) * 5;
+        return `💦 Thư giãn trong bùn! Hồi phục ${recovery} năng lượng`;
+      }
+    }
+  },
+
+  RABBIT: {
+    JUMP: {
+      name: "Jump", 
+      description: "Nhảy cao để tìm đồ giá trị",
+      cooldown: 300000,
+      minLevel: 1,
+      effect: (pet) => {
+        const rewards = Math.floor((Math.random() * 5 + 10) * pet.level);
+        return `🥕 Nhảy cao tìm thấy cà rốt! Nhận ${rewards}$`;
+      }
+    },
+    BURROW: {
+      name: "Burrow",
+      description: "Đào hang để tìm kho báu",
+      cooldown: 600000, 
+      minLevel: 3,
+      effect: (pet) => {
+        const found = Math.random() < 0.7;
+        return found ? `💎 Đào được đá quý! Nhận ${pet.level * 150}$` : "🕳️ Chỉ đào được một cái hang trống...";
+      }
+    }
+  },
+
+  BIRD: {
+    SING: {
+      name: "Sing",
+      description: "Hót hay để thu hút người nghe",
+      cooldown: 300000,
+      minLevel: 1,
+      effect: (pet) => {
+        const tips = Math.floor((Math.random() * 4 + 8) * pet.level);
+        return `🎵 Hót hay tuyệt vời! Nhận được ${tips}$ tiền thưởng`;
+      }
+    },
+    SCOUT: {
+      name: "Scout",
+      description: "Bay cao để tìm khu vực có tài nguyên",
+      cooldown: 600000,
+      minLevel: 3, 
+      effect: (pet) => {
+        const places = ["rừng rậm", "đồng cỏ", "núi cao", "thác nước"];
+        const place = places[Math.floor(Math.random() * places.length)];
+        return `🦅 Phát hiện ${place} đầy tài nguyên! Nhận ${pet.level * 120}$`;
+      }
+    }
+  },
+
+  FISH: {
+    BUBBLE: {
+      name: "Bubble",
+      description: "Thổi bong bóng xinh đẹp để giải trí",
+      cooldown: 300000, 
+      minLevel: 1,
+      effect: (pet) => {
+        const tips = Math.floor((Math.random() * 3 + 5) * pet.level);
+        return `🫧 Bong bóng xinh đẹp! Nhận được ${tips}$ tiền thưởng`;
+      }
+    },
+    TREASURE: {
+      name: "Treasure",
+      description: "Tìm kho báu dưới đáy hồ",
+      cooldown: 600000,
+      minLevel: 3,
+      effect: (pet) => {
+        const treasures = ["đồng xu cổ", "ngọc trai", "vỏ sò quý"];
+        const treasure = treasures[Math.floor(Math.random() * treasures.length)];
+        return `🏆 Tìm thấy ${treasure}! Nhận ${pet.level * 100}$`;
+      }
+    }
+  }
 };
 const TRAINING_ACTIVITIES = {
   DOG: {
@@ -371,87 +373,87 @@ const TRAINING_ACTIVITIES = {
       cost: 500,
       description: "Luyện tập khả năng tích trữ và ghi nhớ",
     },
-    PIG: {
-      "đào đất": {
-        exp: 20,
-        powerGain: 18,
-        cost: 300,
-        description: "Rèn luyện kỹ năng đào đất tìm thức ăn",
-      },
-      "lăn bùn": {
-        exp: 25,
-        powerGain: 22,
-        cost: 400,
-        description: "Luyện tập kỹ thuật lăn trong bùn",
-      },
-      "tìm nấm": {
-        exp: 30,
-        powerGain: 25,
-        cost: 500,
-        description: "Rèn luyện khứu giác để tìm nấm quý hiếm",
-      },
+  },
+  PIG: {
+    "đào đất": {
+      exp: 20,
+      powerGain: 18,
+      cost: 300,
+      description: "Rèn luyện kỹ năng đào đất tìm thức ăn",
     },
-    RABBIT: {
-      "nhảy cao": {
-        exp: 20,
-        powerGain: 15,
-        cost: 300,
-        description: "Luyện tập kỹ năng nhảy cao vượt chướng ngại vật",
-      },
-      "đào hang": {
-        exp: 25,
-        powerGain: 18,
-        cost: 400,
-        description: "Hoàn thiện kỹ thuật đào hang an toàn",
-      },
-      "chạy nhanh": {
-        exp: 30,
-        powerGain: 22,
-        cost: 500,
-        description: "Tập luyện tốc độ và sức bền",
-      },
+    "lăn bùn": {
+      exp: 25,
+      powerGain: 22,
+      cost: 400,
+      description: "Luyện tập kỹ thuật lăn trong bùn",
     },
-    BIRD: {
-      "bay lượn": {
-        exp: 20,
-        powerGain: 15,
-        cost: 300,
-        description: "Rèn luyện kỹ thuật bay và lượn",
-      },
-      "hót hay": {
-        exp: 25,
-        powerGain: 20,
-        cost: 400,
-        description: "Luyện giọng hót thu hút và melodic",
-      },
-      "săn mồi": {
-        exp: 30,
-        powerGain: 25,
-        cost: 500,
-        description: "Hoàn thiện kỹ năng săn bắt côn trùng",
-      },
-    FISH: {
-      "bơi nhanh": {
-        exp: 20,
-        powerGain: 15,
-        cost: 300,
-        description: "Luyện tập kỹ thuật bơi nhanh và linh hoạt",
-      },
-      "nhảy cao": {
-        exp: 25,
-        powerGain: 20,
-        cost: 400,
-        description: "Rèn luyện khả năng nhảy khỏi mặt nước",
-      },
-      "ẩn nấp": {
-        exp: 30,
-        powerGain: 25,
-        cost: 500,
-        description: "Hoàn thiện kỹ năng ngụy trang và ẩn nấp",
-      },
+    "tìm nấm": {
+      exp: 30,
+      powerGain: 25,
+      cost: 500,
+      description: "Rèn luyện khứu giác để tìm nấm quý hiếm",
     },
   },
-},
+  RABBIT: {
+    "nhảy cao": {
+      exp: 20,
+      powerGain: 15,
+      cost: 300,
+      description: "Luyện tập kỹ năng nhảy cao vượt chướng ngại vật",
+    },
+    "đào hang": {
+      exp: 25,
+      powerGain: 18,
+      cost: 400,
+      description: "Hoàn thiện kỹ thuật đào hang an toàn",
+    },
+    "chạy nhanh": {
+      exp: 30,
+      powerGain: 22,
+      cost: 500,
+      description: "Tập luyện tốc độ và sức bền",
+    },
+  },
+  BIRD: {
+    "bay lượn": {
+      exp: 20,
+      powerGain: 15,
+      cost: 300,
+      description: "Rèn luyện kỹ thuật bay và lượn",
+    },
+    "hót hay": {
+      exp: 25,
+      powerGain: 20,
+      cost: 400,
+      description: "Luyện giọng hót thu hút và melodic",
+    },
+    "săn mồi": {
+      exp: 30,
+      powerGain: 25,
+      cost: 500,
+      description: "Hoàn thiện kỹ năng săn bắt côn trùng",
+    }
+  },
+  FISH: {
+    "bơi nhanh": {
+      exp: 20,
+      powerGain: 15,
+      cost: 300,
+      description: "Luyện tập kỹ thuật bơi nhanh và linh hoạt",
+    },
+    "nhảy cao": {
+      exp: 25,
+      powerGain: 20,
+      cost: 400,
+      description: "Rèn luyện khả năng nhảy khỏi mặt nước",
+    },
+    "ẩn nấp": {
+      exp: 30,
+      powerGain: 25,
+      cost: 500,
+      description: "Hoàn thiện kỹ năng ngụy trang và ẩn nấp",
+    },
+  }
 };
 
 const PET_FOODS = {

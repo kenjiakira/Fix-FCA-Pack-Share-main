@@ -99,26 +99,29 @@ async function loadQuestProgress() {
         global.userQuests = {};
     }
 }
+function roundMoney(amount) {
+    return Math.floor(amount); 
+}
 
 function getBalance(userID) {
-    return global.balance[userID] || 0;
+    return roundMoney(global.balance[userID] || 0);
 }
 
 function updateBalance(userID, amount) {
-    global.balance[userID] = (global.balance[userID] || 0) + amount;
+    global.balance[userID] = roundMoney((global.balance[userID] || 0) + amount);
     saveData();
 }
 
 function setBalance(userID, amount) {
-    global.balance[userID] = amount;
+    global.balance[userID] = roundMoney(amount);
     saveData();
 }
     
 function changeBalance(userID, amount) {
     if (typeof global.balance[userID] === "undefined") {
-        global.balance[userID] = 0; 
+        global.balance[userID] = 0;
     }
-    global.balance[userID] += amount;
+    global.balance[userID] = roundMoney(global.balance[userID] + amount);
 }
 
 function allBalances() {
@@ -306,10 +309,10 @@ async function calculateAdvancedInterest(principal, days, vipLevel = 0) {
             days,
             vipLevel
         });
-        return result.interest;
+        return roundMoney(result.interest);
     } catch (err) {
         console.error('Failed to calculate advanced interest:', err);
-        return principal * 0.001 * days;
+        return roundMoney(principal * 0.001 * days);
     }
 }
 

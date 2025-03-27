@@ -7,7 +7,6 @@ const API_KEYS = JSON.parse(fs.readFileSync(path.join(__dirname, "./json/chatbot
 const PUZZLES_FILE = path.join(__dirname, './json/puzzle/puzzles.json');
 const HISTORY_FILE = path.join(__dirname, './json/puzzle/history.json');
 
-// Create directories if they don't exist
 function ensureDirectoryExists(filePath) {
     const dirname = path.dirname(filePath);
     if (!fs.existsSync(dirname)) {
@@ -18,7 +17,6 @@ function ensureDirectoryExists(filePath) {
 ensureDirectoryExists(PUZZLES_FILE);
 ensureDirectoryExists(HISTORY_FILE);
 
-// Initialize files if they don't exist
 if (!fs.existsSync(PUZZLES_FILE)) {
     fs.writeFileSync(PUZZLES_FILE, '[]');
 }
@@ -28,8 +26,7 @@ if (!fs.existsSync(HISTORY_FILE)) {
 
 const puzzleSessions = new Map();
 const REWARD_BASE = 5000;
-const HINT_COOLDOWN = 30000; // 30 seconds between hints
-const MAX_HINTS = 3;
+const HINT_COOLDOWN = 30000;
 
 function formatNumber(number) {
     return number.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
@@ -49,7 +46,6 @@ function checkAnswer(userAnswer, correctAnswer, variations = []) {
     
     if (normalizedUser === normalizedCorrect) return true;
     
-    // Check variations
     return variations.some(variation => 
         normalizeAnswer(variation) === normalizedUser
     );
@@ -77,13 +73,10 @@ async function generatePuzzle() {
         const result = await model.generateContent(prompt);
         const response = result.response.text().trim();
         
-        // Clean up the response
         let jsonStr = response;
         
-        // Remove any markdown code block markers
         jsonStr = jsonStr.replace(/```(json)?/g, '').trim();
         
-        // Find the first { and last }
         const startIndex = jsonStr.indexOf('{');
         const endIndex = jsonStr.lastIndexOf('}');
         
@@ -91,13 +84,11 @@ async function generatePuzzle() {
             throw new Error('Invalid JSON structure');
         }
         
-        // Extract only the JSON part
         jsonStr = jsonStr.slice(startIndex, endIndex + 1);
         
         try {
             const puzzle = JSON.parse(jsonStr);
             
-            // Validate the puzzle object
             if (!puzzle.question || !puzzle.answer || !Array.isArray(puzzle.hints) || 
                 !puzzle.explanation || !puzzle.difficulty || !puzzle.category ||
                 !Array.isArray(puzzle.variations)) {
@@ -110,7 +101,6 @@ async function generatePuzzle() {
             console.error('JSON Parse Error:', parseError);
             console.error('Raw JSON string:', jsonStr);
             
-            // Return a fallback puzzle
             return {
                 question: "Một người có 5 quả táo, chia đều cho 2 người. Làm thế nào để công bằng?",
                 answer: "cắt đôi mỗi quả táo",
@@ -131,7 +121,7 @@ module.exports = {
     dev: "HNT",
     onPrefix: true,
     category: "Games",
-    info: "Giải câu đố logic/toán học do AI tạo",
+    info: "Giải câu đố logic/toán học",
     usages: "puzzle",
     cooldowns: 120,
 

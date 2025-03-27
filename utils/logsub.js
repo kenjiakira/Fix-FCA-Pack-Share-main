@@ -79,7 +79,8 @@ const handleLogSubscribe = async (api, event, adminConfig) => {
                     + `1. Prefix của bot: ${adminConfig.prefix}\n`
                     + `2. Xem danh sách lệnh: ${adminConfig.prefix}help\n`
                     + `3. Xem chi tiết lệnh: ${adminConfig.prefix}help <tên lệnh>\n`
-                    + `4. Xem theo danh mục: ${adminConfig.prefix}help và reply số\n\n`
+                    + `4. Xem theo danh mục: ${adminConfig.prefix}help và reply số\n`
+                    + `5. Xem danh sách Game: ${adminConfig.prefix}game\n\n`
                     + `💡 MẸO HAY:\n`
                     + `• Đọc kỹ hướng dẫn trước khi dùng lệnh\n`
                     + `• Tham khảo ${adminConfig.prefix}help all để xem tất cả lệnh\n`
@@ -91,24 +92,43 @@ const handleLogSubscribe = async (api, event, adminConfig) => {
                     + `[Gõ "${adminConfig.prefix}help" để xem chi tiết hơn]`;
                 
                 const botImages = [
-                    "https://imgur.com/UXlo2NL.gif",  
-                    "https://imgur.com/x9y8nEb.gif",  
-                    "https://imgur.com/TgVrFvF.gif"
+                    "https://imgur.com/UXlo2NL.jpg",  
+                    "https://imgur.com/x9y8nEb.jpg",  
+                    "https://imgur.com/TgVrFvF.jpg"
             
                 ];
                 
+
                 const randomImage = botImages[Math.floor(Math.random() * botImages.length)];
-                
+
                 try {
                     const cachePath = path.join(__dirname, 'cache');
                     if (!fs.existsSync(cachePath)) {
                         fs.mkdirSync(cachePath, { recursive: true });
                     }
                     
-                    const response = await axios.get(randomImage, { responseType: 'arraybuffer' });
-                    const tempPath = path.join(__dirname, 'cache', `botWelcome_${Date.now()}.gif`);
+                    console.log(`Đang tải ảnh từ URL: ${randomImage}`);
+                    
+                    const response = await axios.get(randomImage, { 
+                        responseType: 'arraybuffer',
+                        timeout: 10000 
+                    });
+                    
+                    if (!response || !response.data || !response.data.length) {
+                        throw new Error("Dữ liệu ảnh trống hoặc không hợp lệ");
+                    }
+                    
+                    const fileExt = randomImage.endsWith('.gif') ? 'gif' : 
+                                   (randomImage.endsWith('.png') ? 'png' : 'jpg');
+                    const tempPath = path.join(cachePath, `botWelcome_${Date.now()}.${fileExt}`);
                     
                     fs.writeFileSync(tempPath, Buffer.from(response.data));
+                    
+                    if (!fs.existsSync(tempPath) || fs.statSync(tempPath).size === 0) {
+                        throw new Error("File tạm không tồn tại hoặc kích thước bằng 0");
+                    }
+                    
+                    console.log(`Đã tải ảnh thành công: ${tempPath}`);
                     
                     await api.sendMessage(
                         {
@@ -130,7 +150,8 @@ const handleLogSubscribe = async (api, event, adminConfig) => {
                     
                     return;
                 } catch (imgError) {
-                    console.error("Error sending welcome image:", imgError);
+                    console.error("Error sending welcome image:", imgError.message);
+                    console.error("Stack trace:", imgError.stack);
                     
                     return api.sendMessage(guideMsg, event.threadID);
                 }

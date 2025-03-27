@@ -285,8 +285,8 @@ module.exports = {
                 return api.sendMessage(`❌ Lựa chọn '${choice}' không hợp lệ.`, threadID, messageID);
             }
 
-            if (isNaN(amount) || amount < 100) {
-                return api.sendMessage("❌ Số tiền cược tối thiểu là 100 $.", threadID, messageID);
+            if (isNaN(amount) || amount < 1000) {
+                return api.sendMessage("❌ Số tiền cược tối thiểu là 1000 $.", threadID, messageID);
             }
 
             if (isAllIn && i > 0) {

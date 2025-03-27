@@ -81,8 +81,8 @@
       "creditScore": 34
     },
     "100076957299243": {
-      "bankBalance": 162072,
-      "lastInterest": 1742878313907,
+      "bankBalance": 920000000,
+      "lastInterest": 1743068876681,
       "createdAt": 1742634046974,
       "balanceHistory": [],
       "penalties": [],
@@ -332,6 +332,24 @@
         "description": "Chuyển 100,000 $ cho Vũ Wag",
         "amount": 100000,
         "timestamp": 1742639502263
+      },
+      {
+        "type": "out",
+        "description": "Chuyển 4,000,000 $ cho Khuong Duy",
+        "amount": 4000000,
+        "timestamp": 1743089054562
+      },
+      {
+        "type": "in",
+        "description": "Nhận 500,000 $ từ キ　hana hiori　ᶻz ꜝꜝ",
+        "amount": 500000,
+        "timestamp": 1743089232283
+      },
+      {
+        "type": "out",
+        "description": "Chuyển 9,000,000 $ cho キ　hana hiori　ᶻz ꜝꜝ",
+        "amount": 9000000,
+        "timestamp": 1743089608129
       }
     ],
     "61552475785283": [
@@ -380,6 +398,12 @@
         "description": "Nhận 30,500,000 $ từ Hoang Long",
         "amount": 30500000,
         "timestamp": 1742827996173
+      },
+      {
+        "type": "in",
+        "description": "Nhận 4,000,000 $ từ Tran Thu Huyen",
+        "amount": 4000000,
+        "timestamp": 1743089054582
       }
     ],
     "100068382888605": [
@@ -432,6 +456,18 @@
         "description": "Chuyển 50,000 $ cho Thùy Linh",
         "amount": 50000,
         "timestamp": 1742657765613
+      },
+      {
+        "type": "out",
+        "description": "Chuyển 500,000 $ cho Tran Thu Huyen",
+        "amount": 500000,
+        "timestamp": 1743089232270
+      },
+      {
+        "type": "in",
+        "description": "Nhận 9,000,000 $ từ Tran Thu Huyen",
+        "amount": 9000000,
+        "timestamp": 1743089608168
       }
     ],
     "61553593760589": [

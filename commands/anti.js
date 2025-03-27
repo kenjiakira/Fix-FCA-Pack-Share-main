@@ -37,12 +37,6 @@ module.exports = {
       desc: "chống thêm thành viên",
       detail: "tự kick thành viên mới",
     },
-    nick: {
-      name: "antinc",
-      icon: "📝",
-      desc: "chống đổi biệt danh",
-      detail: "chỉ QTV được phép",
-    },
     name: {
       name: "antiname",
       icon: "✏️",

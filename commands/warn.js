@@ -5,7 +5,6 @@ const WARNS_DIR = path.join(__dirname, '.', 'json');
 const WARNS_FILE = path.join(WARNS_DIR, 'warns.json');
 const BANNED_FILE = path.join(WARNS_DIR, 'banned.json');
 
-// Initialize files
 if (!fs.existsSync(WARNS_DIR)) {
     fs.mkdirSync(WARNS_DIR, { recursive: true });
 }

@@ -6,7 +6,7 @@ module.exports = {
     name: "git",
     dev: "HNT",
     category: "Admin Commands", 
-    info: "Tự động commit và push code lên Github",
+    info: "Github",
     usedby: 1,
     onPrefix: true,
     cooldowns: 30,

@@ -8,7 +8,7 @@ const getStreamFromURL = async (url) => {
         method: 'GET',
         responseType: 'arraybuffer'
     });
-    const buffer = Buffer.from(response.data);  // Remove 'utf-8' encoding
+    const buffer = Buffer.from(response.data);  
     const streamPass = new stream.PassThrough();
     streamPass.end(buffer);
     return streamPass;

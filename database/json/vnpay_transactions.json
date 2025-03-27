@@ -1,27 +1,23 @@
 {
-  "transactions": [
+"28784067331237237": {
+  "members": [
+    "61573427362389",
+    "100056955484415"
+  ],
+  "messageCount": {
+    "61573427362389": 54,
+    "100056955484415": 2
+  },
+  "lastActivity": 1743049726879,
+ 
+  "adminIDs": [
     {
-      "userId": "61573427362389",
-      "vipType": "GOLD",
-      "amount": 50000,
-      "txnRef": "1741422900122_62389",
-      "orderInfo": "VIP_GOLD_61573427362389",
-      "createDate": "20250308153500",
-      "status": "pending",
-      "paymentUrl": "https://sandbox.vnpayment.vn/paymentv2/vpcpay.html?vnp_Amount=5000000&vnp_Command=pay&vnp_CreateDate=20250308153500&vnp_CurrCode=VND&vnp_IpAddr=192.168.1.5&vnp_Locale=vn&vnp_OrderInfo=VIP_GOLD_61573427362389&vnp_OrderType=other&vnp_ReturnUrl=https%3A%2F%2Fyour-webhook-domain.com%2Fvnpay-callback&vnp_TmnCode=ZHF608YZ&vnp_TxnRef=1741422900122_62389&vnp_Version=2.1.0&vnp_SecureHash=b3f8999d8690e3343dc6961c7e32a1c87e041c1377e04b43d4e59820663d8e89a4da0e90580142b9a8e201cdc01814016fb2b85a63300dbb485f7c385c83bcf8"
+      "id": "61573427362389"
+    },
+    {
+      "id": "100056955484415"
     }
   ],
-  "pendingTransactions": {
-    "1741422900122_62389": {
-      "userId": "61573427362389",
-      "vipType": "GOLD",
-      "amount": 50000,
-      "txnRef": "1741422900122_62389",
-      "orderInfo": "VIP_GOLD_61573427362389",
-      "createDate": "20250308153500",
-      "status": "pending",
-      "paymentUrl": "https://sandbox.vnpayment.vn/paymentv2/vpcpay.html?vnp_Amount=5000000&vnp_Command=pay&vnp_CreateDate=20250308153500&vnp_CurrCode=VND&vnp_IpAddr=192.168.1.5&vnp_Locale=vn&vnp_OrderInfo=VIP_GOLD_61573427362389&vnp_OrderType=other&vnp_ReturnUrl=https%3A%2F%2Fyour-webhook-domain.com%2Fvnpay-callback&vnp_TmnCode=ZHF608YZ&vnp_TxnRef=1741422900122_62389&vnp_Version=2.1.0&vnp_SecureHash=b3f8999d8690e3343dc6961c7e32a1c87e041c1377e04b43d4e59820663d8e89a4da0e90580142b9a8e201cdc01814016fb2b85a63300dbb485f7c385c83bcf8"
-    }
-  },
-  "completedTransactions": []
+  "adminLastUpdate": 1743082135658
+}
 }

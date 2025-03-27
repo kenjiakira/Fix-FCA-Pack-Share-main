@@ -9,6 +9,18 @@
       "type": "NORMAL",
       "rarity": "Thường",
       "maxUses": null
+    },
+    "RKZ4LR4YDA4S": {
+      "reward": 1646080,
+      "description": "Giftcode hiếm buổi tối",
+      "createdAt": "2025-03-27T13:00:00.056Z",
+      "expiry": "2025-03-28T01:00:00.056Z",
+      "usedBy": [
+        "100058320200877"
+      ],
+      "type": "RARE",
+      "rarity": "Hiếm",
+      "maxUses": 50
     }
   }
 }

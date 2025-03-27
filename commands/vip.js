@@ -180,11 +180,11 @@ module.exports = {
                 (pkg.perks.fishing.special ? ` • Đặc biệt: ${pkg.perks.fishing.special}\n` : '') +
                 `\n💰 THU NHẬP:\n` +
                 ` • Nông trại: ${pkg.perks.money.farm}\n` +
-                ` • Làm việc: ${pkg.perks.money.work}\n` +
                 ` • Quà hàng ngày: ${pkg.perks.money.daily}\n` +
                 ` • Phần thưởng nhiệm vụ: ${pkg.perks.money.quest}\n` +
                 ` • Phần thưởng sự kiện: ${pkg.perks.money.event}\n` +
                 ` • Bảo vệ tài sản: ${pkg.perks.money.protection}\n` +
+                (pkg.perks.money.platform ? ` • ${pkg.perks.money.platform}\n` : '') +
                 `\n🏦 NGÂN HÀNG:\n` +
                 ` • Khả năng vay: ${pkg.perks.bank.loan}\n` +
                 ` • Lãi suất vay: ${pkg.perks.bank.interest}\n` +
@@ -202,7 +202,6 @@ module.exports = {
         }
 
         if (!target[0]) {
-            // Show only a simple menu without listing all packages details
             const promptMessage = "💎 HỆ THỐNG VIP 💎\n\n" +
                 "Vui lòng chọn một trong những lựa chọn sau:\n\n" +
                 "👉 .vip bronze - Xem chi tiết gói VIP BRONZE 🥉\n" +
@@ -218,7 +217,6 @@ module.exports = {
             return api.sendMessage(promptMessage, threadID, messageID);
         }
 
-        // Since the packageName is not recognized, send a message saying the command is invalid
         if (!["bronze", "silver", "gold", "check"].includes(packageName)) {
             return api.sendMessage(
                 "❌ Lệnh không hợp lệ. Vui lòng nhập '.vip' để xem hướng dẫn sử dụng.",

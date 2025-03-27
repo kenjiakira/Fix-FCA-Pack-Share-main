@@ -528,14 +528,14 @@ module.exports = {
 
                 const luckyCanvas = await createLuckyNumberCanvas(guess, displayNumber, isWin, reward);
                 const luckyBuffer = luckyCanvas.toBuffer('image/png');
-                fs.writeFileSync('./cache/lucky.png', luckyBuffer);
+                fs.writeFileSync('./commands/cache/lucky.png', luckyBuffer);
 
                 api.sendMessage(
                     {
                         body: isWin 
                             ? `🎉 CHÚC MỪNG! BẠN ĐÃ THẮNG!\n💵 Số dư mới: ${await getBalance(senderID)}$`
                             : `💔 TIẾC QUÁ, BẠN ĐÃ THUA!\n💵 Số dư mới: ${await getBalance(senderID)}$`,
-                        attachment: fs.createReadStream('./cache/lucky.png')
+                        attachment: fs.createReadStream('./commands/cache/lucky.png')
                     },
                     threadID, messageID
                 );
@@ -573,12 +573,12 @@ module.exports = {
 
                 const slotCanvas = await createSlotCanvas(spins, slotReward, multiplier);
                 const slotBuffer = slotCanvas.toBuffer('image/png');
-                fs.writeFileSync('./cache/slot.png', slotBuffer);
+                fs.writeFileSync('./commands/cache/slot.png', slotBuffer);
 
                 api.sendMessage(
                     {
                         body: `💵 Số dư mới: ${await getBalance(senderID)}$`,
-                        attachment: fs.createReadStream('./cache/slot.png')
+                        attachment: fs.createReadStream('./commands/cache/slot.png')
                     },
                     threadID, messageID
                 );
@@ -607,12 +607,12 @@ module.exports = {
 
                 const spinCanvas = await createSpinCanvas(spin, spinReward);
                 const spinBuffer = spinCanvas.toBuffer('image/png');
-                fs.writeFileSync('./cache/spin.png', spinBuffer);
+                fs.writeFileSync('./commands/cache/spin.png', spinBuffer);
 
                 api.sendMessage(
                     {
                         body: `💵 Số dư mới: ${await getBalance(senderID)}$`,
-                        attachment: fs.createReadStream('./cache/spin.png')
+                        attachment: fs.createReadStream('./commands/cache/spin.png')
                     },
                     threadID, messageID
                 );
@@ -622,13 +622,12 @@ module.exports = {
                 api.sendMessage("❌ Lựa chọn không hợp lệ!", threadID, messageID);
                 break;
         }
-
-        // Xóa cache sau 5 giây
+        
         setTimeout(() => {
             try {
-                fs.unlinkSync('./cache/lucky.png');
-                fs.unlinkSync('./cache/slot.png');
-                fs.unlinkSync('./cache/spin.png');
+                fs.unlinkSync('./commands/cache/lucky.png');
+                fs.unlinkSync('./commands/cache/slot.png');
+                fs.unlinkSync('./commands/cache/spin.png');
             } catch (err) {}
         }, 5000);
     }

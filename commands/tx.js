@@ -4,6 +4,7 @@ const fs = require("fs");
 const { createCanvas, loadImage } = require("canvas");
 const { getBalance, updateBalance, loadQuy, saveQuy, updateQuestProgress, readData } = require('../utils/currencies');
 const gameLogic = require('../utils/gameLogic');
+const getName = require('../utils/getName');
 
 const HISTORY_FILE = path.join(__dirname, './json/tx_history.json');
 
@@ -229,7 +230,7 @@ module.exports = {
             updateBalance(senderID, -betAmount);
             await api.sendMessage(
                 `『 PHIÊN ${sessionId} 』\n\n` +
-                `👤 Người chơi: ${event.senderID}\n` +
+                `👤 Người chơi: ${getName(event.senderID)}\n` +
                 `💰 Đặt cược: ${formatNumber(betAmount)} $\n` +
                 `🎯 Lựa chọn: ${choice.toUpperCase()}\n` +
                 `📌 Lịch sử:\n${getHistoryString(threadID)}\n` +

@@ -5,7 +5,7 @@ module.exports = {
     name: "admin",
     dev: "HNT",
     category: "Khác",
-    info: "Xem danh sách admin, mod và support team",
+    info: "Xem danh sách admin",
     usages: [
         "/admin - Xem danh sách quản trị viên",
         "/admin add admin [uid] - Thêm admin mới",

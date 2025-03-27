@@ -146,7 +146,7 @@
   "61553593760589": {
     "address": "0x0cf6b6d47b6eb8abf323de4440b5c82ad2c027df",
     "tokens": {
-      "FARM": 20,
+      "FARM": 31,
       "SandboxLegends-i5s": 102,
       "MetaGallery-bwk": 76
     },
@@ -155,15 +155,15 @@
     "nfts": [],
     "farming": {
       "power": 1,
-      "lastClaim": 1742902809888,
-      "totalFarmed": 20,
-      "streak": 0,
-      "lastStreakDate": "Tue Mar 25 2025",
+      "lastClaim": 1743087284624,
+      "totalFarmed": 31,
+      "streak": 1,
+      "lastStreakDate": "Thu Mar 27 2025",
       "level": 1
     },
     "quests": {
       "daily": {
-        "farm_tokens": 20
+        "farm_tokens": 31
       },
       "weekly": {},
       "achievements": []

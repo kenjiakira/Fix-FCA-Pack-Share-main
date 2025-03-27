@@ -778,7 +778,7 @@
   },
   "100076957299243": {
     "rod": "Cần câu Daiwa Gekkabijin MX",
-    "rodDurability": 208,
+    "rodDurability": 203,
     "inventory": [
       "Cần trúc",
       "Cần Câu tay",
@@ -815,13 +815,13 @@
           "Cá Trích": 4,
           "Cá He": 4,
           "Rương bạc": 1,
-          "Cá Rô Đồng": 3,
+          "Cá Rô Đồng": 5,
           "Cá Sặc": 8,
           "Cá Chuối": 4,
           "Cá Út": 2,
           "Kho báu cổ đại": 1,
           "Cá Rô Biển": 4,
-          "Rương kim cương": 2,
+          "Rương kim cương": 3,
           "Cá Trê Đen": 1,
           "Cá Duồng": 2,
           "Kho báu thần thoại": 2
@@ -829,9 +829,9 @@
         "uncommon": {
           "Cá Trê": 2,
           "Cá Hương": 1,
-          "Cá Tra Sông": 9,
+          "Cá Tra Sông": 10,
           "Cá Quả": 1,
-          "Cá Chép Giòn": 7,
+          "Cá Chép Giòn": 8,
           "Cá Thu": 8,
           "Cá Trắm Cỏ": 6,
           "Cá Lăng": 3,
@@ -852,29 +852,29 @@
         "mythical": {}
       },
       "stats": {
-        "totalCaught": 164,
-        "totalValue": 13115559,
+        "totalCaught": 169,
+        "totalValue": 13491245,
         "bestCatch": {
           "name": "Rương kim cương",
           "value": 3562500
         }
       }
     },
-    "exp": 1775,
+    "exp": 4941,
     "level": 12,
-    "fishingStreak": 45,
+    "fishingStreak": 50,
     "stats": {
-      "totalExp": 33920,
+      "totalExp": 37086,
       "highestStreak": 83,
-      "totalFishes": 164
+      "totalFishes": 169
     },
     "activeBuffs": {},
-    "lastFished": 1742880073636,
+    "lastFished": 1743089165461,
     "userID": "100076957299243",
-    "energy": 84,
-    "lastEnergyUpdate": 1742880073637,
+    "energy": 77,
+    "lastEnergyUpdate": 1743089165461,
     "baits": {
-      "Mồi Thần Thoại": 388
+      "Mồi Thần Thoại": 383
     },
     "craftingMaterials": {}
   },
@@ -1759,7 +1759,7 @@
   },
   "100058320200877": {
     "rod": "Cần jig Daiwa Saltiga SJ",
-    "rodDurability": 308,
+    "rodDurability": 307,
     "inventory": [
       "Cần trúc",
       "Cần Câu tay",
@@ -1874,19 +1874,19 @@
     },
     "exp": 30001,
     "level": 20,
-    "fishingStreak": 5,
+    "fishingStreak": 1,
     "stats": {
       "totalExp": 184734,
       "highestStreak": 316,
       "totalFishes": 390
     },
     "activeBuffs": {},
-    "lastFished": 1742876896742,
+    "lastFished": 1743082882215,
     "userID": "100058320200877",
     "energy": 135,
-    "lastEnergyUpdate": 1742876896743,
+    "lastEnergyUpdate": 1743082882215,
     "baits": {
-      "Mồi Thần Thoại": 222
+      "Mồi Thần Thoại": 221
     },
     "craftingMaterials": {}
   },
@@ -2273,8 +2273,8 @@
     "activeBuffs": {},
     "lastFished": 1742397059667,
     "userID": "100051073987266",
-    "energy": 135,
-    "lastEnergyUpdate": 1742397059667,
+    "energy": 145,
+    "lastEnergyUpdate": 1743057119667,
     "baits": {
       "Mồi Thần Thoại": 130
     },
@@ -3316,8 +3316,8 @@
     "activeBuffs": {},
     "lastFished": 1741611715507,
     "userID": "100006842495827",
-    "energy": 155,
-    "lastEnergyUpdate": 1741611715507,
+    "energy": 165,
+    "lastEnergyUpdate": 1743054955507,
     "baits": {},
     "craftingMaterials": {}
   },
@@ -5147,7 +5147,7 @@
   },
   "100093208808025": {
     "rod": "Cần jig Daiwa Saltiga SJ",
-    "rodDurability": 495,
+    "rodDurability": 494,
     "inventory": [
       "Cần trúc",
       "Cần Câu Daiwa",
@@ -5158,7 +5158,8 @@
         "trash": {
           "Rong biển": 1,
           "Rác": 1,
-          "Chai nhựa": 1
+          "Chai nhựa": 1,
+          "Giày cũ": 1
         },
         "common": {
           "Kho báu cổ đại": 1,
@@ -5195,29 +5196,29 @@
         "cosmic": {}
       },
       "stats": {
-        "totalCaught": 34,
-        "totalValue": 2080243,
+        "totalCaught": 35,
+        "totalValue": 2154115,
         "bestCatch": {
           "name": "Kho báu thần thoại",
           "value": 1425000
         }
       }
     },
-    "exp": 1025,
+    "exp": 1029,
     "level": 3,
-    "fishingStreak": 1,
+    "fishingStreak": 2,
     "stats": {
-      "totalExp": 3225,
+      "totalExp": 3229,
       "highestStreak": 28,
-      "totalFishes": 34
+      "totalFishes": 35
     },
     "activeBuffs": {},
-    "lastFished": 1742819554822,
+    "lastFished": 1743089299680,
     "userID": "100093208808025",
     "energy": 50,
-    "lastEnergyUpdate": 1742819554822,
+    "lastEnergyUpdate": 1743089299680,
     "baits": {
-      "Mồi Thần Thoại": 200
+      "Mồi Thần Thoại": 199
     },
     "craftingMaterials": {}
   },
