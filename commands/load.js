@@ -130,10 +130,9 @@ module.exports = {
             }
         };
 
-        // Update the loadCanvas function
         const loadCanvas = (canvasName) => {
             try {
-                const canvasPath = path.join(__dirname, '../canvas', `${canvasName}.js`);
+                const canvasPath = path.join(__dirname, '../game/canvas', `${canvasName}.js`);
                 
                 if (!fs.existsSync(canvasPath)) {
                     console.log(chalk.red(`❌ Canvas "${canvasName}" không tồn tại!`));
@@ -142,13 +141,11 @@ module.exports = {
 
                 delete require.cache[require.resolve(canvasPath)];
                 const newCanvas = require(canvasPath);
-
-                // Kiểm tra xem canvas có phải là module hợp lệ không 
+ 
                 if (typeof newCanvas !== 'object' && typeof newCanvas !== 'function') {
                     return { success: false, error: 'INVALID_STRUCTURE', details: 'Canvas phải là một module hợp lệ' };
                 }
 
-                // Gán lại vào global.canvas nếu tồn tại
                 if (global.canvas) {
                     for (const key in newCanvas) {
                         if (typeof newCanvas[key] === 'function') {
@@ -272,12 +269,11 @@ module.exports = {
             }
 
         } else if (target[0] === 'Allcanvas') {
-            const canvasDir = path.join(__dirname, '../canvas');
+            const canvasDir = path.join(__dirname, '../game/canvas');
             if (!fs.existsSync(canvasDir)) {
                 return api.sendMessage("❌ Thư mục canvas không tồn tại!", event.threadID, event.messageID);
             }
 
-            // Initialize global.canvas if not exists
             if (!global.canvas) {
                 global.canvas = {};
             }

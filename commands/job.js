@@ -1,4 +1,4 @@
-const { JOB_CATEGORIES, JOBS, JOB_RANKS } = require('../config/family/jobConfig');
+const { JOB_CATEGORIES, JOBS, JOB_RANKS } = require('../game/config/family/jobConfig');
 const fs = require('fs');
 const {getBalance} = require('../utils/currencies');
 const path = require('path');
@@ -9,7 +9,7 @@ function formatNumber(number) {
     return number.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
 }
 
-const JobSystem = require('../family/JobSystem');
+const JobSystem = require('../game/family/JobSystem');
 const jobSystem = new JobSystem();
 
 module.exports = {
@@ -788,7 +788,7 @@ module.exports = {
                     }
 
                     const jobData = JOBS[jobId];
-                    const DEGREES = require('../config/family/educationConfig').DEGREES;
+                    const DEGREES = require('../game/config/family/educationConfig').DEGREES;
                     
                     let msg = "┏━━『 CHI TIẾT CÔNG VIỆC 』━━┓\n\n";
                     msg += `💼 ${jobData.name}\n`;

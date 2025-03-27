@@ -3,24 +3,22 @@ const path = require("path");
 const {
   getBalance,
   updateBalance,
-  updateQuestProgress,
 } = require("../utils/currencies");
-const fishingItems = require("../config/fishing/items");
-const fishTypes = require("../config/fishing/fish");
-const locations = require("../config/fishing/locations");
+const fishingItems = require("../game/config/fishing/items");
+const fishTypes = require("../game/config/fishing/fish");
+const locations = require("../game/config/fishing/locations");
 const {
   treasures,
-  specialEvents,
   expMultipliers,
   levelRewards,
   defaultCollection,
   expRequirements,
   streakBonuses,
-} = require("../config/fishing/constants");
-const { getVIPBenefits } = require("../vip/vipCheck");
-const fishCanvas = require("../canvas/fishCanvas");
-const { recipes, craftingMaterials } = require("../config/fishing/crafting");
-const baits = require("../config/fishing/baits");
+} = require("../game/config/fishing/constants");
+const { getVIPBenefits } = require("../game/vip/vipCheck");
+const fishCanvas = require("../game/canvas/fishCanvas");
+const { recipes, craftingMaterials } = require("../game/config/fishing/crafting");
+const baits = require("../game/config/fishing/baits");
 
 const levelRequirements = {
   pond: 1,
@@ -67,7 +65,7 @@ const messages = {
 
 function calculateRequiredExp(level) {
   const { baseExp, multiplierPerLevel } =
-    require("../config/fishing/constants").expRequirements;
+    require("../game/config/fishing/constants").expRequirements;
   return Math.floor(baseExp * Math.pow(multiplierPerLevel, level - 1));
 }
 

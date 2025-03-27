@@ -1,12 +1,10 @@
 const { GoogleGenerativeAI } = require("@google/generative-ai");
-const config = require('../config/api');
+const config = require('../utils/api');
 const fs = require('fs');
 const path = require('path');
 
-// Đường dẫn đến file lưu trữ advices đã sử dụng
 const ADVICES_FILE = path.join(__dirname, './json/used_advices.json');
 
-// Khởi tạo file nếu chưa tồn tại
 function initializeAdvicesFile() {
     if (!fs.existsSync(path.dirname(ADVICES_FILE))) {
         fs.mkdirSync(path.dirname(ADVICES_FILE), { recursive: true });
@@ -16,7 +14,6 @@ function initializeAdvicesFile() {
     }
 }
 
-// Đọc advices đã sử dụng
 function getUsedAdvices() {
     try {
         initializeAdvicesFile();
@@ -27,7 +24,6 @@ function getUsedAdvices() {
     }
 }
 
-// Lưu advice mới
 function saveNewAdvice(problem, advice) {
     try {
         const usedAdvices = getUsedAdvices();
@@ -37,7 +33,6 @@ function saveNewAdvice(problem, advice) {
             timestamp: Date.now()
         });
 
-        // Chỉ giữ lại 100 advices gần nhất
         if (usedAdvices.length > 100) {
             usedAdvices.splice(0, usedAdvices.length - 100);
         }

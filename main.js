@@ -4,7 +4,6 @@ const cron = require('node-cron');
 const chalk = require("chalk");
 const { exec } = require("child_process");
 const { handleListenEvents } = require("./utils/listen");
-const lockfile = require('proper-lockfile');
 const portfinder = require('portfinder');
 const path = require('path');
 
@@ -192,11 +191,40 @@ const reloadModules = () => {
         
             const { scheduleAutoGiftcode } = require('./utils/autoGiftcode');
         
-            login({ appState: JSON.parse(fs.readFileSync(config.APPSTATE_PATH, "utf8")), logLevel: "silent" }, async function(err, api) {
+            const loginOptions = {
+                appState: JSON.parse(fs.readFileSync(config.APPSTATE_PATH, "utf8")),
+                logLevel: "silent",
+                forceLogin: true,
+                userAgent: "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36",
+                autoMarkDelivery: false,
+                autoMarkRead: false
+            };
+
+            login(loginOptions, async function(err, api) {
                 if (err) {
-                    console.error(boldText(gradient.passion(`Login error: ${JSON.stringify(err)}`)));
-                    if (err.code === 'ENOTFOUND' && err.syscall === 'getaddrinfo' && err.hostname === 'www.facebook.com') {
-                        console.log(boldText(gradient.cristal("Detected Facebook connection error")));
+                    console.error(boldText(gradient.passion("FCA LOGIN ERROR:")));
+                    if (typeof err === 'object') {
+                        if (err.error === 'login-approval') {
+                            console.error(boldText(gradient.passion("Error: Login approval required. Please check your Facebook account.")));
+                        } else if (err.error === 'Wrong username/password.') {
+                            console.error(boldText(gradient.passion("Error: Invalid credentials in appstate.")));
+                        } else {
+                            console.error(boldText(gradient.passion(`Login error details: ${JSON.stringify(err)}`)));
+                        }
+                    } else {
+                        console.error(boldText(gradient.passion(`Login error: ${err}`)));
+                    }
+
+                    if (err.error === 'login-approval' || err.error === 'Wrong username/password.') {
+                        console.log(boldText(gradient.cristal("\nTrying to refresh login session...")));
+                        try {
+                            // Wait 5 seconds before retry
+                            await new Promise(resolve => setTimeout(resolve, 5000));
+                            return startBot();
+                        } catch (retryErr) {
+                            console.error(boldText(gradient.passion("Failed to refresh session:")), retryErr);
+                            process.exit(1);
+                        }
                     }
                     return;
                 }
@@ -205,20 +233,17 @@ const reloadModules = () => {
                     scheduleAutoGiftcode(api);
                     console.log('📦 Auto Giftcode system initialized!');
                     
-                    // Add airdrop system initialization
                     const airdropSystem = require('./commands/airdrop.js');
                     if (airdropSystem.onLoad) {
                         airdropSystem.onLoad({ api });
                         console.log('🎯 Airdrop system initialized!');
                         
-                        // Schedule periodic market updates
                         cron.schedule('*/5 * * * *', () => {
                             if (airdropSystem.updateMarket) {
                                 airdropSystem.updateMarket();
                             }
                         });
                         
-                        // Schedule new project listings
                         cron.schedule('0 */4 * * *', () => {
                             if (airdropSystem.listNewProjects) {
                                 airdropSystem.listNewProjects({ api });
@@ -258,43 +283,82 @@ const reloadModules = () => {
                 console.log(boldText(gradient.cristal('OWNER: ' + adminConfig.ownerName + '\n╰───────────⟡')));
                 
                 if (fs.existsSync('./database/threadID.json')) {
-                    const data = JSON.parse(fs.readFileSync('./database/threadID.json', 'utf8'));
-                    if (data.threadID) {
-                        api.sendMessage('✅ Restarted Thành Công\n━━━━━━━━━━━━━━━━━━\nBot đã Restart Xong.', data.threadID, _0x3bb26a => {
-                            if (_0x3bb26a) {
-                                console.error(boldText('Failed to send message:', _0x3bb26a));
-                            } else {
-                                console.log(boldText('Restart message sent successfully.'));
-                                fs.unlinkSync('./database/threadID.json');
-                                console.log(boldText('threadID.json has been deleted.'));
-                            }
-                        });
+                    try {
+                        const data = JSON.parse(fs.readFileSync('./database/threadID.json', 'utf8'));
+                        if (data.threadID) {
+                            const sendMessage = () => new Promise((resolve, reject) => {
+                                api.sendMessage(
+                                    '✅ Restarted Thành Công\n━━━━━━━━━━━━━━━━━━\nBot đã Restart Xong.', 
+                                    data.threadID,
+                                    (error, info) => {
+                                        if (error) reject(error);
+                                        else resolve(info);
+                                    }
+                                );
+                            });
+
+                            await sendMessage()
+                                .then(() => {
+                                    console.log(boldText(gradient.atlas('✓ Restart message sent successfully.')));
+                                    try {
+                                        fs.unlinkSync('./database/threadID.json');
+                                        console.log(boldText(gradient.atlas('✓ threadID.json has been deleted.')));
+                                    } catch (err) {
+                                        console.error(boldText(gradient.passion('Error deleting threadID.json:', err)));
+                                    }
+                                })
+                                .catch(error => {
+                                    console.error(boldText(gradient.passion(`Failed to send restart message: ${typeof error === 'object' ? JSON.stringify(error) : error}`)));
+                                    if (error?.error === 'Not logged in.' || error?.error === 'Not logged in') {
+                                        console.error(boldText(gradient.passion('Bot is not properly logged in. Please check your credentials.')));
+                                    } else if (error?.error === 'Thread does not exist.') {
+                                        console.error(boldText(gradient.passion('Thread ID no longer exists or bot was removed from thread.')));
+                                    }
+                                });
+                        }
+                    } catch (error) {
+                        console.error(boldText(gradient.passion('Error processing threadID.json:', error)));
                     }
                 }
-                
+
                 if (fs.existsSync('./database/prefix/threadID.json')) {
-              
-                    const data = JSON.parse(fs.readFileSync('./database/prefix/threadID.json', 'utf8'));
-                
-                    if (data.threadID) {
-                   
-                        api.sendMessage(
-                            `✅ Bot đã thay đổi tiền tố hệ thống thành ${adminConfig.prefix}`,
-                            data.threadID,
-                            (error) => {
-                                if (error) {
-                                   
-                                    console.log("Lỗi gửi tin nhắn:", error);
-                                } else {
-                                  
-                                    fs.unlinkSync('./database/prefix/threadID.json');
-                                    console.log("threadID.json đã bị xóa.");
-                                }
-                            }
-                        );
+                    try {
+                        const data = JSON.parse(fs.readFileSync('./database/prefix/threadID.json', 'utf8'));
+                        if (data.threadID) {
+                            const sendMessage = () => new Promise((resolve, reject) => {
+                                api.sendMessage(
+                                    `✅ Bot đã thay đổi tiền tố hệ thống thành ${adminConfig.prefix}`,
+                                    data.threadID,
+                                    (error, info) => {
+                                        if (error) reject(error);
+                                        else resolve(info);
+                                    }
+                                );
+                            });
+
+                            await sendMessage()
+                                .then(() => {
+                                    try {
+                                        fs.unlinkSync('./database/prefix/threadID.json');
+                                        console.log(boldText(gradient.atlas('✓ Prefix update message sent and threadID.json deleted.')));
+                                    } catch (err) {
+                                        console.error(boldText(gradient.passion('Error deleting prefix threadID.json:', err)));
+                                    }
+                                })
+                                .catch(error => {
+                                    console.error(boldText(gradient.passion(`Failed to send prefix update message: ${typeof error === 'object' ? JSON.stringify(error) : error}`)));
+                                    if (error?.error === 'Not logged in.' || error?.error === 'Not logged in') {
+                                        console.error(boldText(gradient.passion('Bot is not properly logged in. Please check your credentials.')));
+                                    } else if (error?.error === 'Thread does not exist.') {
+                                        console.error(boldText(gradient.passion('Thread ID no longer exists or bot was removed from thread.')));
+                                    }
+                                });
+                        }
+                    } catch (error) {
+                        console.error(boldText(gradient.passion('Error processing prefix threadID.json:', error)));
                     }
                 }
-                        '║ • ARJHIL DUCAYANAN',
+                
                 console.log(boldText(gradient.passion("━━━━[ READY INITIALIZING DATABASE ]━━━━━━━")));
                 console.log(boldText(gradient.cristal(`╔════════════════════`)));
                 console.log(boldText(gradient.cristal(`║ DATABASE SYSTEM STATS`)));

@@ -2,41 +2,6 @@ const fs = require('fs');
 const path = require('path');
 const getThreadParticipantIDs = require('../utils/getParticipantIDs');
 
-function trackInteraction(userID, threadID, count = 1) {
-    try {
-        const userDataPath = path.join(__dirname, "../events/cache/userData.json");
-        const messageDataPath = path.join(__dirname, "../database/messageStats.json");
-        
-        let userData = {};
-        if (fs.existsSync(userDataPath)) {
-            userData = JSON.parse(fs.readFileSync(userDataPath, "utf8") || "{}");
-        }
-        
-        let messageStats = {};
-        if (fs.existsSync(messageDataPath)) {
-            messageStats = JSON.parse(fs.readFileSync(messageDataPath, "utf8") || "{}");
-        }
-        
-        if (!messageStats[threadID]) messageStats[threadID] = {};
-        if (!messageStats[threadID][userID]) messageStats[threadID][userID] = 0;
-        
-        messageStats[threadID][userID] += count;
-        
-        if (!userData[userID]) userData[userID] = {};
-        if (!userData[userID].messageCount) userData[userID].messageCount = {};
-        userData[userID].messageCount[threadID] = messageStats[threadID][userID];
-        userData[userID].lastMessageTime = Date.now();
-        
-        fs.writeFileSync(messageDataPath, JSON.stringify(messageStats, null, 2), "utf8");
-        fs.writeFileSync(userDataPath, JSON.stringify(userData, null, 2), "utf8");
-        
-        return true;
-    } catch (error) {
-        console.error("Error tracking interaction:", error);
-        return false;
-    }
-}
-
 module.exports = {
     name: "checktt",
     dev: "Kenji Akira",
@@ -71,7 +36,6 @@ module.exports = {
                 console.error("Error reading database files:", readError);
             }
 
-            // Replace old participant fetching logic with getThreadParticipantIDs utility
             let participantIDs = await getThreadParticipantIDs(api, threadID);
             
             if (participantIDs.length === 0) {
@@ -89,7 +53,6 @@ module.exports = {
             for (const userID of participantIDs) {
                 let messageCount = 0;
                 
-                // Check message count from different data sources
                 if (userData[userID] && userData[userID].messageCount && userData[userID].messageCount[threadID]) {
                     messageCount = userData[userID].messageCount[threadID];
                 }
@@ -132,7 +95,6 @@ module.exports = {
                 }
                 
                 if (userName.startsWith("Người dùng ") || userName === "Facebook User" || userName === "User") {
-           
                     if (userData[userID] && userData[userID].name && !userData[userID].name.startsWith("Người dùng ") 
                         && userData[userID].name !== "User" && userData[userID].name !== "Facebook User") {
                         userName = userData[userID].name;
@@ -185,12 +147,9 @@ module.exports = {
                 return api.sendMessage(msg, threadID, messageID);
             }
             
-            return api.sendMessage("❌ Không tìm thấy thông tin tương tác!", threadID, messageID);
-            
         } catch (error) {
             console.error("Error in checktt command:", error);
             return api.sendMessage("❌ Đã xảy ra lỗi, vui lòng thử lại sau!", threadID, messageID);
         }
     }
 };
-    trackInteraction(trackInteraction);

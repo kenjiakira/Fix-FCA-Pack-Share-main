@@ -15,6 +15,9 @@
         "selfListen": false,
         "listenEvents": true,
         "forceLogin": true,
-        "userAgent": "Mozilla/5.0 (Linux; Android 9; SM-G973U Build/PPR1.180610.011) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/69.0.3497.100 Mobile Safari/537.36"
+        "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36",
+        "logLevel": "silent",
+        "autoMarkRead": false,
+        "autoMarkDelivery": false
     }
 }

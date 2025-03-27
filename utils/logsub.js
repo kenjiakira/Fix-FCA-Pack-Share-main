@@ -89,8 +89,51 @@ const handleLogSubscribe = async (api, event, adminConfig) => {
                     + `• Tôn trọng bot và thành viên khác\n`
                     + `• Vui lòng sử dụng bot đúng mục đích\n\n`
                     + `[Gõ "${adminConfig.prefix}help" để xem chi tiết hơn]`;
-
-                return api.sendMessage(guideMsg, event.threadID);
+                
+                const botImages = [
+                    "https://imgur.com/UXlo2NL.gif",  
+                    "https://imgur.com/x9y8nEb.gif",  
+                    "https://imgur.com/TgVrFvF.gif"
+            
+                ];
+                
+                const randomImage = botImages[Math.floor(Math.random() * botImages.length)];
+                
+                try {
+                    const cachePath = path.join(__dirname, 'cache');
+                    if (!fs.existsSync(cachePath)) {
+                        fs.mkdirSync(cachePath, { recursive: true });
+                    }
+                    
+                    const response = await axios.get(randomImage, { responseType: 'arraybuffer' });
+                    const tempPath = path.join(__dirname, 'cache', `botWelcome_${Date.now()}.gif`);
+                    
+                    fs.writeFileSync(tempPath, Buffer.from(response.data));
+                    
+                    await api.sendMessage(
+                        {
+                            body: guideMsg,
+                            attachment: fs.createReadStream(tempPath)
+                        },
+                        event.threadID
+                    );
+                    
+                    setTimeout(() => {
+                        try {
+                            if (fs.existsSync(tempPath)) {
+                                fs.unlinkSync(tempPath);
+                            }
+                        } catch (e) {
+                            console.error("Error deleting temp file:", e);
+                        }
+                    }, 10000);
+                    
+                    return;
+                } catch (imgError) {
+                    console.error("Error sending welcome image:", imgError);
+                    
+                    return api.sendMessage(guideMsg, event.threadID);
+                }
             } catch (error) {
                 console.error("Error setting bot nickname:", error);
             }

@@ -1,7 +1,7 @@
 const axios = require('axios');
 const fs = require('fs');
 const path = require('path');
-const { ZM_API } = require('../config/api');
+const { ZM_API } = require('../utils/api');
 
 module.exports = {
     name: "pinterest",

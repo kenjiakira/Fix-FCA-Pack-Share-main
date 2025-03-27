@@ -1,7 +1,7 @@
 const fs = require('fs');
 const path = require('path');
 const { getBalance, updateBalance } = require('../utils/currencies');
-const { getVIPBenefits } = require('../vip/vipCheck');
+const { getVIPBenefits } = require('../game/vip/vipCheck');
 
 function formatNumber(number) {
     return number.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");

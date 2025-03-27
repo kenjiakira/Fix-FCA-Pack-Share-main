@@ -66,7 +66,7 @@ module.exports = {
                     };
 
                     // Lưu vào file cache
-                    const cacheFile = path.join(__dirname, '../cache/momo_transactions.json');
+                    const cacheFile = path.join(__dirname, './cache/momo_transactions.json');
                     let transactions = {};
                     
                     if (fs.existsSync(cacheFile)) {
@@ -102,7 +102,7 @@ module.exports = {
 
                 case "check":
                 case "status": {
-                    const cacheFile = path.join(__dirname, '../cache/momo_transactions.json');
+                    const cacheFile = path.join(__dirname, './cache/momo_transactions.json');
                     if (!fs.existsSync(cacheFile)) {
                         return api.sendMessage(
                             "❌ Không tìm thấy giao dịch nào!",

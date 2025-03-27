@@ -1,5 +1,5 @@
 const { GoogleGenerativeAI } = require("@google/generative-ai");
-const config = require('../config/api');
+const config = require('../utils/api');
 
 module.exports = {
     name: "joke",

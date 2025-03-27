@@ -1,10 +1,10 @@
 const fs = require('fs');
 const path = require('path');
 const axios = require('axios');
-const pokeSystem = require('../poke/pokemonSystem');
+const pokeSystem = require('../game/poke/pokemonSystem');
 const currencies = require('../utils/currencies');
-const { system: catchSystem } = require('../poke/catchSystem');
-const { createBattleImage, createWinnerImage } = require('../poke/canvasHelper'); 
+const { system: catchSystem } = require('../game/poke/catchSystem');
+const { createBattleImage } = require('../game/poke/canvasHelper'); 
 const PET_COOLDOWN = 300000;
 const TRAIN_COOLDOWN = 300000; 
 const petCooldowns = new Map();
@@ -363,7 +363,7 @@ module.exports = {
                     );
 
 case "pve": {
-    const pveSystem = require('../poke/pveSystem');
+    const pveSystem = require('../game/poke/pveSystem');
     
     if (!param) {
         const difficulties = pveSystem.getDifficultyInfo();
@@ -1096,7 +1096,7 @@ case "battle": {
                 }
 
                 case "train": {
-                    const minigameSystem = require('../poke/minigameSystem');
+                    const minigameSystem = require('../game/poke/minigameSystem');
                     const lastTrain = trainCooldowns.get(senderID) || 0;
                     const cooldownLeft = TRAIN_COOLDOWN - (Date.now() - lastTrain);
                     
@@ -1469,7 +1469,7 @@ case "battle": {
             }
 
             case "minigame": {
-                const minigameSystem = require('../poke/minigameSystem');
+                const minigameSystem = require('../game/poke/minigameSystem');
                 const result = await minigameSystem.checkAnswer(senderID, body.trim());
                 
                 if (result.error) {

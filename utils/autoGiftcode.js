@@ -120,7 +120,6 @@ async function sendGiftcodeAnnouncement(api, code, reward, type) {
             .map(thread => thread.threadID);
 
         let successCount = 0;
-        let failedThreads = [];
         
         const message = "🎉 GIFTCODE MỚI 🎉\n" +
                        "━━━━━━━━━━━━━━━━━━\n\n" +
@@ -138,37 +137,25 @@ async function sendGiftcodeAnnouncement(api, code, reward, type) {
 
         for (const chunk of threadChunks) {
             for (const threadID of chunk) {
-                let retries = 0;
-                const maxRetries = 3;
+                try {
+                    await new Promise((resolve, reject) => {
+                        const timeout = setTimeout(() => {
+                            reject(new Error('Send message timeout'));
+                        }, 30000);
 
-                while (retries < maxRetries) {
-                    try {
-                        await new Promise((resolve, reject) => {
-                            const timeout = setTimeout(() => {
-                                reject(new Error('Send message timeout'));
-                            }, 30000);
-
-                            api.sendMessage(message, threadID, (err) => {
-                                clearTimeout(timeout);
-                                if (err) reject(err);
-                                else resolve();
-                            });
+                        api.sendMessage(message, threadID, (err) => {
+                            clearTimeout(timeout);
+                            if (err) reject(err);
+                            else resolve();
                         });
+                    });
 
-                        successCount++;
-                        await new Promise(resolve => setTimeout(resolve, 5000));
-                        break;
+                    successCount++;
+                    await new Promise(resolve => setTimeout(resolve, 5000));
 
-                    } catch (err) {
-                        console.error(`Lỗi khi gửi đến nhóm ${threadID}, lần thử ${retries + 1}:`, err.message);
-                        retries++;
-                        
-                        if (retries === maxRetries) {
-                            failedThreads.push(threadID);
-                        }
-                        
-                        await new Promise(resolve => setTimeout(resolve, 10000));
-                    }
+                } catch (err) {
+                    // Skip failed messages silently
+                    continue;
                 }
             }
             await new Promise(resolve => setTimeout(resolve, 15000));
@@ -177,7 +164,6 @@ async function sendGiftcodeAnnouncement(api, code, reward, type) {
         console.log(
             `📊 Báo cáo gửi giftcode:\n` +
             `✅ Thành công: ${successCount}/${threadIDs.length} nhóm\n` +
-            `❌ Thất bại: ${failedThreads.length} nhóm\n` +
             `🎁 Giftcode: ${code}\n` +
             `💝 $: ${reward.toLocaleString('vi-VN')}`
         );

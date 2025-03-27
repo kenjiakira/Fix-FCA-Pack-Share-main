@@ -2,7 +2,7 @@ const axios = require('axios');
 const fs = require('fs');
 const path = require('path');
 const Downloader = require('../utils/downloader');
-const vipService = require('../vip/vipService');
+const vipService = require('../game/vip/vipService');
 
 const PLATFORM_INFO = {
     NO_WATERMARK: ['tiktok', 'douyin', 'capcut', 'hipi', 'xiaohongshu'],

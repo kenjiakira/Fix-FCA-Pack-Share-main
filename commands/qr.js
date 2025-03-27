@@ -1,7 +1,7 @@
 const axios = require('axios');
 const fs = require('fs');
 const path = require('path');
-const vipService = require('../vip/vipService');
+const vipService = require('../game/vip/vipService');
 
 const BANK_LIST = [
     "mbbank", "dongabank", "vietinbank", "vietcombank", "techcombank",

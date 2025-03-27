@@ -1,8 +1,8 @@
 const fs = require('fs');
 const path = require('path');
-const { createRankCard, calculateRequiredXp } = require('../canvas/rankCard');
+const { createRankCard, calculateRequiredXp } = require('../game/canvas/rankCard');
 
-const userDataPath = path.join(__dirname, 'cache', 'userData.json');
+const userDataPath = path.join(__dirname, 'cache', 'rankData.json');
 const messageQueue = [];
 
 function updateUserRank(userData) {
@@ -26,47 +26,6 @@ function updateUserRank(userData) {
         }
     });
 }
-
-const nameCachePath = path.join(__dirname, '../database/json/usernames.json');
-let nameCache = {};
-
-function initNameCache() {
-    try {
-        if (fs.existsSync(nameCachePath)) {
-            nameCache = JSON.parse(fs.readFileSync(nameCachePath));
-        } else {
-            if (!fs.existsSync(path.dirname(nameCachePath))) {
-                fs.mkdirSync(path.dirname(nameCachePath), { recursive: true });
-            }
-            fs.writeFileSync(nameCachePath, JSON.stringify({}));
-        }
-    } catch (err) {
-        console.error('Name cache init error:', err);
-    }
-}
-
-function saveName(userID, name) {
-    try {
-        nameCache[userID] = {
-            name: name,
-            timestamp: Date.now()
-        };
-        fs.writeFileSync(nameCachePath, JSON.stringify(nameCache, null, 2));
-    } catch (err) {
-        console.error('Name cache save error:', err);
-    }
-}
-
-async function getUserName(api, senderID, threadID) {
-    try {
-        const userInfo = await api.getUserInfo(senderID);
-        return userInfo[senderID]?.name || "Name";
-    } catch (error) {
-        console.log('getUserName error:', error);
-        return "Name";
-    }
-}
-
 
 const rankConfigPath = path.join(__dirname, '../database/json/rankConfig.json');
 

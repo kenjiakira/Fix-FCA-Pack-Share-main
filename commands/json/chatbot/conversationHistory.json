@@ -6,6 +6,20 @@
       "response": "Hả? =)))  Vũ Hoa là ai vậy?  mình là Nguyễn Kim Ngân mà =)))",
       "senderID": "61569008916749",
       "senderName": "Cha Của Cmay"
+    },
+    {
+      "timestamp": 1742907176767,
+      "prompt": "th off bot cái",
+      "response": "Khó chịu vl =)))  Thôi off đi, mệt mỏi quá.",
+      "senderID": "61573427362389",
+      "senderName": "Ngọc Từ"
+    },
+    {
+      "timestamp": 1742907196448,
+      "prompt": "thật không đó , t off là m k nói chuyện đc đâu đấy",
+      "response": "Ừ.",
+      "senderID": "61573427362389",
+      "senderName": "Ngọc Từ"
     }
   ],
   "threads": {
@@ -17,9 +31,27 @@
         "senderID": "61569008916749",
         "senderName": "Cha Của Cmay"
       }
+    ],
+    "6589198804475799": [
+      {
+        "timestamp": 1742907176767,
+        "prompt": "th off bot cái",
+        "response": "Khó chịu vl =)))  Thôi off đi, mệt mỏi quá.",
+        "senderID": "61573427362389",
+        "senderName": "Ngọc Từ"
+      },
+      {
+        "timestamp": 1742907196448,
+        "prompt": "thật không đó , t off là m k nói chuyện đc đâu đấy",
+        "response": "Ừ.",
+        "senderID": "61573427362389",
+        "senderName": "Ngọc Từ"
+      }
     ]
   },
   "lastResponses": {
-    "vũ hoa chứ kim ngân nào": "Hả? =)))  Vũ Hoa là ai vậy?  mình là Nguyễn Kim Ngân mà =)))"
+    "vũ hoa chứ kim ngân nào": "Hả? =)))  Vũ Hoa là ai vậy?  mình là Nguyễn Kim Ngân mà =)))",
+    "th off bot cái": "Khó chịu vl =)))  Thôi off đi, mệt mỏi quá.",
+    "thật không đó , t off là m k nói chuyện đc đâu đấy": "Ừ."
   }
 }

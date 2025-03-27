@@ -1,8 +1,8 @@
 const { updateBalance, updateQuestProgress, } = require('../utils/currencies');
-const { getVIPBenefits } = require('../vip/vipCheck');
+const { getVIPBenefits } = require('../game/vip/vipCheck');
 const { createUserData } = require('../utils/userData');
-const JobSystem = require('../family/JobSystem');
-const createWorkResultImage = require('../canvas/workImageGenerator');
+const JobSystem = require('../game/family/JobSystem');
+const createWorkResultImage = require('../game/canvas/workImageGenerator');
 const fs = require('fs');
 
 module.exports = {

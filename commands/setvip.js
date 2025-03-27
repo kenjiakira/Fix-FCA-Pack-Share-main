@@ -1,5 +1,4 @@
-const vipService = require('../vip/vipService');
-const { getPackageById } = require('../vip/vipConfig');
+const vipService = require('../game/vip/vipService');
 
 module.exports = {
     name: "setvip",

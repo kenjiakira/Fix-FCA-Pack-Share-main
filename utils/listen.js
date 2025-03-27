@@ -29,11 +29,9 @@ const { logChatRecord, notifyAdmins } = require('./logs');
     }
     const trackUserActivity = (event, threadsDB, usersDB) => {
         try {
-            // Nếu là tin nhắn nhóm
             if (event.type === "message" && event.threadID !== event.senderID) {
                 const { threadID, senderID, messageID } = event;
                 
-                // Khởi tạo cấu trúc dữ liệu cho thread nếu chưa có
                 if (!threadsDB[threadID]) {
                     threadsDB[threadID] = {
                         members: [],
@@ -42,7 +40,6 @@ const { logChatRecord, notifyAdmins } = require('./logs');
                     };
                 }
                 
-                // Thêm thành viên vào danh sách nếu chưa có
                 if (!threadsDB[threadID].members) {
                     threadsDB[threadID].members = [];
                 }
@@ -51,7 +48,6 @@ const { logChatRecord, notifyAdmins } = require('./logs');
                     threadsDB[threadID].members.push(senderID);
                 }
                 
-                // Cập nhật số tin nhắn
                 if (!threadsDB[threadID].messageCount) {
                     threadsDB[threadID].messageCount = {};
                 }
@@ -59,18 +55,15 @@ const { logChatRecord, notifyAdmins } = require('./logs');
                 threadsDB[threadID].messageCount[senderID] = 
                     (threadsDB[threadID].messageCount[senderID] || 0) + 1;
                 
-                // Cập nhật dữ liệu người dùng
                 if (!usersDB[senderID]) {
                     usersDB[senderID] = {
-                        name: null,
-                        gender: null,
+                        name: null, 
                         messageCount: {},
                         threadIDs: [],
                         lastActivity: Date.now()
                     };
                 }
                 
-                // Thêm nhóm vào danh sách nhóm của người dùng
                 if (!usersDB[senderID].threadIDs) {
                     usersDB[senderID].threadIDs = [];
                 }
@@ -79,7 +72,6 @@ const { logChatRecord, notifyAdmins } = require('./logs');
                     usersDB[senderID].threadIDs.push(threadID);
                 }
                 
-                // Cập nhật số tin nhắn trong usersDB
                 if (!usersDB[senderID].messageCount) {
                     usersDB[senderID].messageCount = {};
                 }
@@ -123,7 +115,7 @@ const { logChatRecord, notifyAdmins } = require('./logs');
 
         api.listenMqtt(async (err, event) => {
             if (err) return console.error(gradient.passion(err));
-            // Add this check near the beginning of the listener
+           
             if (event.type === "message" || event.type === "message_reply") {
                 try {
                     const bannedUsers = JSON.parse(fs.readFileSync(path.join(__dirname, '../commands/json/banned.json')));
@@ -155,16 +147,21 @@ const { logChatRecord, notifyAdmins } = require('./logs');
             async function getUserName(api, senderID) {
                 try {
                     const userInfo = await api.getUserInfo(senderID);
-                    if (!userInfo || !userInfo[senderID]) return `Người dùng ${senderID}`;
-                    return userInfo[userID].name || `Người dùng ${senderID}`;
-                } catch (error) {
-                    if (!error.errorSummary?.includes('Bạn tạm thời bị chặn')) {
-                        console.error(`Lỗi khi lấy tên người dùng ${senderID}:`, error);
+                    if (userInfo && userInfo[senderID]) {
+                        senderName = userInfo[senderID].name || "User";
+                        
+                        if (!usersDB[senderID]) {
+                            usersDB[senderID] = { lastMessage: Date.now() };
+                        }
+                        if (senderName && senderName !== "User") {
+                            usersDB[senderID].name = senderName;
+                        }
                     }
-                    return `Người dùng ${senderID}`;
+                } catch (userError) {
+                    console.error('Error getting user info:', userError);
                 }
             }
-
+         
             async function getThreadInfo(threadID) {
                 try {
                     const info = await api.getThreadInfo(threadID);

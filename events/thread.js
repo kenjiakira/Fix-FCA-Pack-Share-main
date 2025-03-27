@@ -24,7 +24,50 @@ module.exports = {
 
   nameCache: {},
   nameCachePath: path.join(__dirname, '../database/json/usernames.json'),
-
+  fetchAndUpdateThreadInfo: async function(api, threadID) {
+    try {
+        const threadInfo = await api.getThreadInfo(threadID);
+        const threadsDB = JSON.parse(fs.readFileSync("./database/threads.json", "utf8") || "{}");
+        
+        if (!threadsDB[threadID]) {
+            threadsDB[threadID] = {};
+        }
+        
+        threadsDB[threadID].name = threadInfo.name || `Nhóm ${threadID}`;
+        threadsDB[threadID].threadType = threadInfo.isGroup ? 'GROUP' : 'OTHER';
+        threadsDB[threadID].adminIDs = threadInfo.adminIDs || [];
+        threadsDB[threadID].participantIDs = threadInfo.participantIDs || [];
+        
+        if (threadInfo.imageSrc) {
+            threadsDB[threadID].avatarUrl = threadInfo.imageSrc;
+        } else if (threadInfo.thumbSrc) {
+            threadsDB[threadID].avatarUrl = threadInfo.thumbSrc;
+        }
+        
+        if (threadInfo.emoji) threadsDB[threadID].emoji = threadInfo.emoji;
+        if (threadInfo.color) threadsDB[threadID].color = threadInfo.color;
+        if (threadInfo.nicknames) threadsDB[threadID].nicknames = threadInfo.nicknames;
+        if (threadInfo.messageCount) threadsDB[threadID].totalMessages = threadInfo.messageCount;
+        if (threadInfo.approval_mode) threadsDB[threadID].approvalMode = threadInfo.approval_mode;
+        
+        if (threadInfo.userInfo && Array.isArray(threadInfo.userInfo)) {
+            threadsDB[threadID].userInfo = threadInfo.userInfo.map(user => ({
+                id: user.id,
+                name: user.name,
+                gender: user.gender,
+                profileUrl: user.profileUrl || null,
+                shortName: user.firstName || user.name
+            }));
+        }
+        fs.writeFileSync("./database/threads.json", JSON.stringify(threadsDB, null, 2));
+        console.log(`Đã cập nhật đầy đủ thông tin cho nhóm ${threadID}`);
+        
+        return threadsDB[threadID];
+    } catch (error) {
+        console.error(`Error updating thread info for ${threadID}:`, error);
+        return null;
+    }
+},
   initNameCache: function() {
     try {
       if (fs.existsSync(this.nameCachePath)) {
@@ -277,7 +320,33 @@ module.exports = {
 
       fs.writeFileSync(antitagPath, JSON.stringify(antitagData, null, 4));
     }
-
+    if (logMessageType === "log:thread-name") {
+      try {
+        const authorName = await getAuthorName();
+        const newName = logMessageData.name || "Tên nhóm mới";
+        
+        try {
+          const threadsDB = JSON.parse(fs.readFileSync("./database/threads.json", "utf8") || "{}");
+          if (threadsDB[threadID]) {
+            threadsDB[threadID].name = newName;
+            fs.writeFileSync("./database/threads.json", JSON.stringify(threadsDB, null, 2));
+            console.log(`Đã cập nhật tên nhóm ${threadID} thành: ${newName}`);
+          }
+        } catch (dbError) {
+          console.error("Lỗi khi cập nhật tên nhóm vào database:", dbError);
+        }
+        
+        let msg = `👥 THAY ĐỔI TÊN NHÓM\n` +
+                 `━━━━━━━━━━━━━━━━━━\n\n` +
+                 `👤 Người thay đổi: ${authorName}\n` +
+                 `🏷️ Tên mới: ${newName}\n` +
+                 `⏰ Thời gian: ${new Date().toLocaleString('vi-VN')}`;
+                 
+        await sendThreadNotification(api, threadID, msg, 'name');
+      } catch (error) {
+        console.error('Thread Name Update Error:', error);
+      }
+    }
     if (logMessageType === "log:unsubscribe") {
       const antioutPath = path.join(__dirname, '../commands/json/antiout.json');
       if (!fs.existsSync(antioutPath)) return;
@@ -404,18 +473,44 @@ module.exports = {
     };
 
     if (logMessageType === "log:thread-image") {
-        try {
-            const authorName = await getAuthorName();
-            const msg = `👥 THAY ĐỔI ẢNH NHÓM\n` +
-                       `━━━━━━━━━━━━━━━━━━\n\n` +
-                       `👤 Người thay đổi: ${authorName}\n` +
-                       `⏰ Thời gian: ${new Date().toLocaleString('vi-VN')}`;
-            
-            await sendThreadNotification(api, threadID, msg, 'avatar');
-        } catch (error) {
-            console.error('Thread Image Update Error:', error.message);
-        }
-    }
+      try {
+          const authorName = await getAuthorName();
+          const msg = `👥 THAY ĐỔI ẢNH NHÓM\n` +
+                     `━━━━━━━━━━━━━━━━━━\n\n` +
+                     `👤 Người thay đổi: ${authorName}\n` +
+                     `⏰ Thời gian: ${new Date().toLocaleString('vi-VN')}`;
+          
+          try {
+              const threadInfo = await api.getThreadInfo(threadID);
+              const threadsDB = JSON.parse(fs.readFileSync("./database/threads.json", "utf8") || "{}");
+              
+              if (!threadsDB[threadID]) {
+                  threadsDB[threadID] = {
+                      members: [],
+                      adminIDs: [],
+                      messageCount: {},
+                      lastActivity: Date.now(),
+                      name: threadInfo.name || `Nhóm ${threadID}`
+                  };
+              }
+              
+              if (threadInfo.imageSrc) {
+                  threadsDB[threadID].avatarUrl = threadInfo.imageSrc;
+              } else if (threadInfo.thumbSrc) {
+                  threadsDB[threadID].avatarUrl = threadInfo.thumbSrc; 
+              }
+              
+              fs.writeFileSync("./database/threads.json", JSON.stringify(threadsDB, null, 2));
+              console.log(`Đã cập nhật avatar URL cho nhóm ${threadID}`);
+          } catch (avatarError) {
+              console.error("Lỗi khi cập nhật avatar URL:", avatarError);
+          }
+          
+          await sendThreadNotification(api, threadID, msg, 'avatar');
+      } catch (error) {
+          console.error('Thread Image Update Error:', error.message);
+      }
+  }
 
     if (logMessageType === "log:thread-admins") {
       try {

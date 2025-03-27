@@ -1,7 +1,6 @@
 const fs = require("fs");
 const path = require("path");
 const { getBalance, updateBalance } = require("../utils/currencies");
-const { createPetImage } = require("../canvas/petCanvas");
 
 const PET_FILE = path.join(__dirname, "./json/pet.json");
 const QUEST_TYPES = {

@@ -10,7 +10,7 @@ const {
   createExpItemResultImage,
   createPvPBattleImage,
   createStellaResultImage,
-} = require("../canvas/gachaCanvas");
+} = require("../game/canvas/gachaCanvas");
 const { info } = require("console");
 const MAX_BACKUPS = 14;
 

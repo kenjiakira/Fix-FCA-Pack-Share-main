@@ -4,7 +4,6 @@ const fs = require("fs");
 const { createCanvas, loadImage } = require("canvas");
 const { getBalance, updateBalance, loadQuy, saveQuy, updateQuestProgress, readData } = require('../utils/currencies');
 const gameLogic = require('../utils/gameLogic');
-const npcManager = require('../utils/npcManager');
 
 const HISTORY_FILE = path.join(__dirname, './json/tx_history.json');
 

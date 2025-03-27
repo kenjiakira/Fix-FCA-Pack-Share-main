@@ -1,5 +1,5 @@
 const axios = require('axios');
-const { COC_API } = require('../config/api');
+const { COC_API } = require('../utils/api');
 const fs = require('fs');
 const path = require('path');
 

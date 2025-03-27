@@ -1,9 +1,9 @@
 const { updateBalance, getBalance } = require("../utils/currencies");
-const FamilySystem = require("../family/FamilySystem");
+const FamilySystem = require("../game/family/FamilySystem");
 const {
   MARRIAGE_COST,
   DIVORCE_COST,
-} = require("../config/family/familyConfig");
+} = require("../game/config/family/familyConfig");
 const fs = require("fs");
 const path = require("path");
 
@@ -139,7 +139,7 @@ module.exports = {
                       const {
                         CARS,
                         BRANDS,
-                      } = require("../config/family/carConfig");
+                      } = require("../game/config/family/carConfig");
                       const car = CARS[carId];
                       return (
                         `║  ▸ ${BRANDS[car.brand]} ${car.name}\n` +
@@ -669,7 +669,7 @@ module.exports = {
             CONTRACEPTIVES,
             MEDICINES,
             INSURANCE,
-          } = require("../config/family/familyConfig");
+          } = require("../game/config/family/familyConfig");
 
           if (!subCommand) {
             return api.sendMessage(
@@ -857,7 +857,7 @@ module.exports = {
             CONTRACEPTIVES,
             MEDICINES,
             INSURANCE,
-          } = require("../config/family/familyConfig");
+          } = require("../game/config/family/familyConfig");
           const index = parseInt(target[2]) - 1;
           let items;
           let category;
@@ -1417,7 +1417,7 @@ case "tree": {
         }
 
         case "home": {
-          const { HOMES } = require("../config/family/homeConfig");
+          const { HOMES } = require("../game/config/family/homeConfig");
 
           if (!subCommand) {
             return api.sendMessage(

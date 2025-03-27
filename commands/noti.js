@@ -126,7 +126,7 @@ module.exports = {
 
     let attachments = [];
 
-    const tmpFolderPath = path.join(__dirname, "tmp");
+    const tmpFolderPath = path.join(__dirname, "cache");
     if (!fs.existsSync(tmpFolderPath)) {
       fs.mkdirSync(tmpFolderPath);
     }
@@ -287,107 +287,4 @@ module.exports = {
       );
     }
   },
-};
-
-const formatMessage = (content, notiCode, senderName) => {
-  return {
-    body: [
-      content ? `${content}\n` : "",
-      "💌 Reply tin nhắn này để phản hồi với admin"
-    ].join("\n")
-  };
-};
-
-const processAttachments = async (attachments = []) => {
-  const results = [];
-  const tmpDir = path.join(__dirname, "tmp");
-  fs.existsSync(tmpDir) || fs.mkdirSync(tmpDir);
-
-  for (const att of attachments) {
-    try {
-      const ext = att.type === "photo" ? "jpg" : "mp4";
-      const filepath = path.join(tmpDir, `${Date.now()}_${Math.random().toString(36).slice(2)}.${ext}`);
-      
-      const response = await axios({
-        method: "GET",
-        url: att.url,
-        responseType: "stream"
-      });
-
-      await new Promise((resolve, reject) => {
-        response.data
-          .pipe(fs.createWriteStream(filepath))
-          .on("finish", resolve)
-          .on("error", reject);
-      });
-
-      results.push(fs.createReadStream(filepath));
-    } catch (err) {
-      console.error("Attachment processing error:", err);
-    }
-  }
-  return results;
-};
-
-const sendNotification = async (api, messageObject, threadIDs) => {
-  const results = {
-    success: 0,
-    failed: []
-  };
-
-  const chunks = threadIDs.reduce((acc, id, i) => {
-    const idx = Math.floor(i / 10);
-    acc[idx] = acc[idx] || [];
-    acc[idx].push(id);
-    return acc;
-  }, []);
-
-  for (const chunk of chunks) {
-    await Promise.all(chunk.map(async id => {
-      for (let retry = 0; retry < 3; retry++) {
-        try {
-          await new Promise((resolve, reject) => {
-            const timeout = setTimeout(() => reject(new Error("Timeout")), 30000);
-            api.sendMessage(messageObject, id, (err, info) => {
-              clearTimeout(timeout);
-              err ? reject(err) : resolve(info);
-            });
-          });
-          results.success++;
-          break;
-        } catch (err) {
-          if (retry === 2) results.failed.push(id);
-          await new Promise(r => setTimeout(r, 10000));
-        }
-      }
-    }));
-    await new Promise(r => setTimeout(r, 15000));
-  }
-
-  return results;
-};
-
-const handleNotiRequest = async (api, event, content) => {
-  const notiCode = `NOTI-${Date.now().toString(36)}`;
-  const senderName = await module.exports.getUserName(api, event.senderID);
-  
-  const attachments = await processAttachments(
-    event.messageReply?.attachments || []
-  );
-
-  const { header, body } = formatMessage(content, notiCode, senderName);
-  const messageObject = {
-    body: [header, "━━━━━━━━━━━━━━━━━━", body, "━━━━━━━━━━━━━━━━━━"].join("\n"),
-    attachment: attachments
-  };
-
-  const threads = (await api.getThreadList(100, null, ["INBOX"]))
-    .filter(t => t.isGroup)
-    .map(t => t.threadID);
-
-  const results = await sendNotification(api, messageObject, threads);
-  
-  attachments.forEach(att => att.path && fs.unlinkSync(att.path));
-  
-  return { notiCode, results, totalThreads: threads.length };
 };

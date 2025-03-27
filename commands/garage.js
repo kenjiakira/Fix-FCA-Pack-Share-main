@@ -1,5 +1,5 @@
 const { getBalance, updateBalance } = require('../utils/currencies');
-const { CARS, VEHICLE_TYPES, BRANDS, MAINTENANCE_COST } = require('../config/family/carConfig');
+const { CARS, VEHICLE_TYPES, BRANDS, MAINTENANCE_COST } = require('../game/config/family/carConfig');
 const fs = require('fs');
 const path = require('path');
 

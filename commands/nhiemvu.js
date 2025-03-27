@@ -1,5 +1,5 @@
-const { getBalance, updateBalance, loadQuests, getUserQuests, canClaimRewards, setRewardClaimed } = require('../utils/currencies');
-const { getVIPBenefits } = require('../vip/vipCheck');
+const { updateBalance, loadQuests, getUserQuests, canClaimRewards, setRewardClaimed } = require('../utils/currencies');
+const { getVIPBenefits } = require('../game/vip/vipCheck');
 const { getStreak, updateStreak } = require('../utils/streakSystem');
 
 function formatNumber(number) {

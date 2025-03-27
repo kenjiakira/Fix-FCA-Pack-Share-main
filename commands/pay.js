@@ -2,7 +2,7 @@ const { updateBalance, getBalance, saveData } = require('../utils/currencies');
 const fs = require('fs');
 const path = require('path');
 const { updateTransaction } = require('./banking'); 
-const { createTransactionBill } = require('../canvas/transactionBill');
+const { createTransactionBill } = require('../game/canvas/transactionBill');
 
 const transactionsPath = path.join(__dirname, '../commands/json/transactions.json');
 const userDataPath = path.join(__dirname, '../events/cache/userData.json');

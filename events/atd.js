@@ -4,11 +4,10 @@ const path = require('path');
 const ytdl = require('@distube/ytdl-core');
 const simpleYT = require('simple-youtube-api');
 const getFBInfo = require('@xaviabot/fb-downloader');
-const { ZM_API, YOUTUBE } = require('../config/api');
+const { ZM_API, YOUTUBE } = require('../utils/api');
 const Downloader = require('../utils/downloader');
-const vipService = require('../vip/vipService');
+const vipService = require('../game/vip/vipService');
 
-const youtube = new simpleYT(YOUTUBE.API_KEY);
 const cacheDir = path.join(__dirname, 'cache');
 if (!fs.existsSync(cacheDir)) fs.mkdirSync(cacheDir);
 

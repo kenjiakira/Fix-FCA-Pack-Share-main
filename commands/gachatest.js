@@ -1,4 +1,4 @@
-const { createPullResultImage, createPvPBattleImage } = require("../canvas/gachaCanvas");
+const { createPullResultImage, createPvPBattleImage } = require("../game/canvas/gachaCanvas");
 const fs = require("fs");
 
 module.exports = {
@@ -13,20 +13,16 @@ module.exports = {
   onLaunch: async function ({ api, event, target }) {
     const { threadID, messageID, senderID } = event;
     
-    // Kiểm tra nếu người dùng muốn test ảnh PVP
     if (target[0]?.toLowerCase() === "pvp") {
       return await testPvPBattleImage(api, event, target.slice(1));
     }
     
     const rarity = target[0] || "5";
     
-    // Xử lý các tham số đơn giản hơn
     let isPremium = target.includes("premium") || target.includes("prem") || target.includes("p");
     
-    // Tìm số sao trong các tham số - tìm tham số là số hoặc có dạng "e7", "s8", v.v.
     let starLevel = null;
     for (const param of target) {
-      // Nếu tham số là số thuần túy
       if (!isNaN(parseInt(param))) {
         const num = parseInt(param);
         if (num > parseInt(rarity)) {
@@ -34,7 +30,6 @@ module.exports = {
           break;
         }
       }
-      // Nếu tham số có dạng "e7", "s8", "lvl9", v.v.
       else if (/^[esl]\d+$/i.test(param)) {
         const num = parseInt(param.slice(1));
         if (num > parseInt(rarity)) {
@@ -44,7 +39,6 @@ module.exports = {
       }
     }
     
-    // Giới hạn tối đa 10 sao
     if (starLevel && starLevel > 10) {
       starLevel = 10;
     }
@@ -54,16 +48,12 @@ module.exports = {
     }
 
     try {
-      // Tạo thẻ nhân vật test
       const testChar = createTestCharacter(rarity, isPremium, starLevel);
       
-      // Tạo ảnh pull
       const imagePath = await createPullResultImage(testChar);
       
-      // Tạo thông báo mô tả
       let message = buildCharacterMessage(testChar);
 
-      // Thêm hướng dẫn sử dụng tối giản
       const helpText = "\n\n📌 Cú pháp đơn giản:\n" +
                        ".gachatest 5 p e7 → 5★ Premium tiến hóa 7★\n" +
                        ".gachatest 4 e8 → 4★ Normal tiến hóa 8★\n" +
@@ -87,9 +77,8 @@ module.exports = {
   }
 };
 
-// Tạo thẻ nhân vật test
 function createTestCharacter(rarity, isPremium, starLevel) {
-  // Nhiều nhân vật để test cho nhiều trường hợp
+
   const charNames = {
     "5": {
       normal: "Nahida",

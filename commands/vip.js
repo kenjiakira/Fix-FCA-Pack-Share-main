@@ -1,8 +1,8 @@
 const { on } = require('events');
 const fs = require('fs');
 const path = require('path');
-const vipService = require('../vip/vipService');
-const { VIP_PACKAGES } = require('../vip/vipConfig');
+const vipService = require('../game/vip/vipService');
+const { VIP_PACKAGES } = require('../game/vip/vipConfig');
 
 function formatPrice(price) {
     const numericValue = typeof price === 'string' ? 

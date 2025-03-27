@@ -107,21 +107,23 @@
   },
   "100093208808025": {
     "address": "0xfc7c3a7395d1c5a71df401f7115708e9441e5074",
-    "tokens": {},
+    "tokens": {
+      "FARM": 40
+    },
     "staked": {},
     "createdAt": 1742902754954,
     "nfts": [],
     "farming": {
       "power": 1,
-      "lastClaim": 1742902777042,
-      "totalFarmed": 20,
+      "lastClaim": 1742906881893,
+      "totalFarmed": 60,
       "streak": 0,
       "lastStreakDate": "Tue Mar 25 2025",
       "level": 1
     },
     "quests": {
       "daily": {
-        "farm_tokens": 20
+        "farm_tokens": 60
       },
       "weekly": {},
       "achievements": []
@@ -171,22 +173,22 @@
   "100058320200877": {
     "address": "0xd05678da7a3d6de38390e6c078d7520f9bc7b2cf",
     "tokens": {
-      "FARM": 20
+      "FARM": 40
     },
     "staked": {},
     "createdAt": 1742902829802,
     "nfts": [],
     "farming": {
       "power": 1,
-      "lastClaim": 1742902947651,
-      "totalFarmed": 20,
+      "lastClaim": 1742906615890,
+      "totalFarmed": 40,
       "streak": 0,
       "lastStreakDate": "Tue Mar 25 2025",
       "level": 1
     },
     "quests": {
       "daily": {
-        "farm_tokens": 20
+        "farm_tokens": 40
       },
       "weekly": {},
       "achievements": []

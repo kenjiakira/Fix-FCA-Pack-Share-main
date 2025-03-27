@@ -1,6 +1,6 @@
 const fs = require('fs');
 const path = require('path');
-const { createRankCard } = require('../canvas/rankCard');
+const { createRankCard } = require('../game/canvas/rankCard');
 
 const userDataPath = path.join(__dirname, '../events/cache/userData.json');
 
