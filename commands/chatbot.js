@@ -1,9 +1,83 @@
-const { GoogleGenerativeAI } = require("@google/generative-ai");
+const { GoogleGenerativeAI, Part } = require("@google/generative-ai");
 const path = require("path");
 const fs = require("fs-extra");
 const { ElevenLabsClient } = require("elevenlabs");
 const advancedNLP = require('./models/NLP');
+const fetch = (...args) => import('node-fetch').then(({default: fetch}) => fetch(...args));
 
+const processAudioMessage = async (audioAttachment) => {
+  try {
+    const cacheDir = path.join(__dirname, "cache");
+    if (!fs.existsSync(cacheDir)) {
+      fs.mkdirSync(cacheDir, { recursive: true });
+    }
+
+    const audioPath = path.join(cacheDir, `input_${Date.now()}.mp3`);
+    await downloadVoiceMessage(audioAttachment.url, audioPath);
+
+    const audioBuffer = await fs.readFile(audioPath);
+    const base64Audio = audioBuffer.toString('base64');
+
+    fs.unlink(audioPath, (err) => {
+      if (err) console.error("Error deleting temp audio file:", err);
+    });
+
+    return {
+      data: audioBuffer,
+      base64: base64Audio,
+      mimeType: 'audio/mp3'
+    };
+
+  } catch (error) {
+    console.error("Error processing audio:", error);
+    throw error;
+  }
+};
+
+const generateResponseFromAudio = async (audioData, senderID, api, threadID, messageID) => {
+  try {
+    const apiKey = API_KEYS[0];
+    const genAI = new GoogleGenerativeAI(apiKey);
+    const model = genAI.getGenerativeModel({
+      model: "gemini-2.0-flash"
+    });
+
+    const audioContent = [
+      "Lắng nghe và trả lời tin nhắn voice này. Trả lời bằng tiếng Việt.", 
+      {
+        inlineData: {
+          mimeType: 'audio/mp3',
+          data: audioData.base64
+        }
+      }
+    ];
+
+    const result = await model.generateContent(audioContent);
+    const response = await result.response.text();
+
+    return await generateResponse(response, senderID, api, threadID, messageID);
+
+  } catch (error) {
+    console.error("Error generating response from audio:", error);
+    throw error;
+  }
+};
+
+const downloadVoiceMessage = async (url, path) => {
+  try {
+    const response = await fetch(url);
+    if (!response.ok) {
+      throw new Error(`Failed to download: ${response.status} ${response.statusText}`);
+    }
+    const arrayBuffer = await response.arrayBuffer();
+    const buffer = Buffer.from(arrayBuffer);
+    await fs.writeFile(path, buffer);
+    return path;
+  } catch (error) {
+    console.error("Error downloading voice message:", error);
+    throw error;
+  }
+};
 
 const cleanTextForVoice = (text) => {
   const cleaned = text
@@ -1591,52 +1665,30 @@ module.exports = {
     const { threadID, messageID, body, senderID, attachments } = event;
 
     try {
-      const threadHistory = conversationHistory.threads[threadID] || [];
-      const lastExchange = threadHistory[threadHistory.length - 1];
-
       if (attachments && attachments[0]?.type === "audio") {
-    
-        const contextPrompt = lastExchange
-          ? `${lastExchange.prompt} (Tiếp tục cuộc trò chuyện bằng voice message)`
-          : "Tiếp tục cuộc trò chuyện bằng voice message";
-
-        const response = await generateResponse(
-          contextPrompt,
-          senderID,
+        const audioData = await processAudioMessage(attachments[0]);
+        const response = await generateResponseFromAudio(
+          audioData,
+          senderID, 
           api,
           threadID,
           messageID
         );
+
         if (response) {
           const audioBuffer = await generateVoice(response);
-          const cacheDir = path.join(__dirname, "cache");
-          if (!fs.existsSync(cacheDir)) {
-            fs.mkdirSync(cacheDir, { recursive: true });
-          }
-
-          const voicePath = path.join(cacheDir, `voice_${senderID}.mp3`);
+          const voicePath = path.join(__dirname, "cache", `voice_${senderID}.mp3`);
           await fs.writeFile(voicePath, audioBuffer);
 
-          // Send both text and voice
-          const sent = await api.sendMessage(
+          await api.sendMessage(
             {
               body: response,
-              attachment: fs.createReadStream(voicePath),
+              attachment: fs.createReadStream(voicePath)
             },
             threadID,
             messageID
           );
 
-          if (sent) {
-            global.client.onReply.push({
-              name: this.name,
-              messageID: sent.messageID,
-              author: event.senderID,
-              isVoiceContext: true, // Mark this as voice context
-            });
-          }
-
-          // Clean up voice file
           setTimeout(() => {
             fs.unlink(voicePath, (err) => {
               if (err) console.error("Error deleting voice file:", err);
@@ -1646,7 +1698,6 @@ module.exports = {
         return;
       }
 
-      // Handle text replies
       if (!body) return;
 
       const response = await generateResponse(
@@ -1657,7 +1708,6 @@ module.exports = {
         messageID
       );
       if (response) {
-        // Check if we should continue voice context
         const lastReply = global.client.onReply.find(
           (r) => r.messageID === messageID
         );
@@ -1672,25 +1722,25 @@ module.exports = {
           if (!fs.existsSync(cacheDir)) {
             fs.mkdirSync(cacheDir, { recursive: true });
           }
-
+        
           const voicePath = path.join(cacheDir, `voice_${senderID}.mp3`);
           await fs.writeFile(voicePath, audioBuffer);
-
+        
           const sent = await api.sendMessage(
             {
-              body: response,
               attachment: fs.createReadStream(voicePath),
             },
             threadID,
             messageID
           );
-
+        
           if (sent) {
             global.client.onReply.push({
               name: this.name,
               messageID: sent.messageID,
               author: event.senderID,
               isVoiceContext: true,
+              lastResponse: response 
             });
           }
 
@@ -1809,35 +1859,35 @@ module.exports = {
             body?.toLowerCase().includes("nghe") ||
             body?.toLowerCase().includes("giọng");
 
-          if (shouldUseVoice) {
-            const expandedResponse = expandAbbreviations(response);
-            const cleanedResponse = cleanTextForVoice(expandedResponse);
-            const audioBuffer = await generateVoice(response);
-            const cacheDir = path.join(__dirname, "cache");
-            if (!fs.existsSync(cacheDir)) {
-              fs.mkdirSync(cacheDir, { recursive: true });
-            }
-
-            const voicePath = path.join(cacheDir, `voice_${senderID}.mp3`);
-            await fs.writeFile(voicePath, audioBuffer);
-
-            const sent = await api.sendMessage(
-              {
-                body: response,
-                attachment: fs.createReadStream(voicePath),
-              },
-              threadID,
-              messageID
-            );
-
-            if (sent) {
-              global.client.onReply.push({
-                name: this.name,
-                messageID: sent.messageID,
-                author: event.senderID,
-                isVoiceContext: true,
-              });
-            }
+            if (shouldUseVoice) {
+              const expandedResponse = expandAbbreviations(response);
+              const cleanedResponse = cleanTextForVoice(expandedResponse);
+              const audioBuffer = await generateVoice(response);
+              const cacheDir = path.join(__dirname, "cache");
+              if (!fs.existsSync(cacheDir)) {
+                fs.mkdirSync(cacheDir, { recursive: true });
+              }
+            
+              const voicePath = path.join(cacheDir, `voice_${senderID}.mp3`);
+              await fs.writeFile(voicePath, audioBuffer);
+            
+              const sent = await api.sendMessage(
+                {
+                  attachment: fs.createReadStream(voicePath),
+                },
+                threadID,
+                messageID
+              );
+            
+              if (sent) {
+                global.client.onReply.push({
+                  name: this.name,
+                  messageID: sent.messageID,
+                  author: event.senderID,
+                  isVoiceContext: true,
+                  lastResponse: response  
+                });
+              }
 
             setTimeout(() => {
               fs.unlink(voicePath, (err) => {

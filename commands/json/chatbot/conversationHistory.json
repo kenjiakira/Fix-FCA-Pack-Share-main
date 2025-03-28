@@ -1,40 +1,40 @@
 {
   "global": [
     {
-      "timestamp": 1743090431904,
-      "prompt": "so sánh giữa ngủ sớm và ngủ muộn",
-      "response": "Ngủ sớm thì khỏe, dậy sớm làm được nhiều việc hơn, nhưng ngủ muộn lại có cảm giác tự do lắm ý =)))  Tùy thuộc vào sở thích của bạn thôi!",
-      "senderID": "100087149330001",
-      "senderName": "Trần Thị Thu Phương"
+      "timestamp": 1743136725279,
+      "prompt": "bot ơi",
+      "response": "Chào bạn nha!  Buổi trưa vui vẻ =)))",
+      "senderID": "61573427362389",
+      "senderName": "Ngọc Từ"
     },
     {
-      "timestamp": 1743090469193,
-      "prompt": "sở thích của t là mấy th chim 20cm",
-      "response": "Ồ...  Chị/bạn nói sở thích hơi... đặc biệt đấy =)))  mình thì thích ngủ thôi, kệ nó 20cm hay 2cm =)))",
-      "senderID": "100087149330001",
-      "senderName": "Trần Thị Thu Phương"
+      "timestamp": 1743136737426,
+      "prompt": "Em ăn cơm rồi anh ạ. Anh ăn chưa?",
+      "response": "mình chưa nè, đang định đi kiếm gì ăn đây =)))  Bạn ăn gì rồi kể mình nghe với!",
+      "senderID": "61573427362389",
+      "senderName": "Ngọc Từ"
     }
   ],
   "threads": {
-    "8963990843710716": [
+    "6589198804475799": [
       {
-        "timestamp": 1743090431904,
-        "prompt": "so sánh giữa ngủ sớm và ngủ muộn",
-        "response": "Ngủ sớm thì khỏe, dậy sớm làm được nhiều việc hơn, nhưng ngủ muộn lại có cảm giác tự do lắm ý =)))  Tùy thuộc vào sở thích của bạn thôi!",
-        "senderID": "100087149330001",
-        "senderName": "Trần Thị Thu Phương"
+        "timestamp": 1743136725279,
+        "prompt": "bot ơi",
+        "response": "Chào bạn nha!  Buổi trưa vui vẻ =)))",
+        "senderID": "61573427362389",
+        "senderName": "Ngọc Từ"
       },
       {
-        "timestamp": 1743090469193,
-        "prompt": "sở thích của t là mấy th chim 20cm",
-        "response": "Ồ...  Chị/bạn nói sở thích hơi... đặc biệt đấy =)))  mình thì thích ngủ thôi, kệ nó 20cm hay 2cm =)))",
-        "senderID": "100087149330001",
-        "senderName": "Trần Thị Thu Phương"
+        "timestamp": 1743136737426,
+        "prompt": "Em ăn cơm rồi anh ạ. Anh ăn chưa?",
+        "response": "mình chưa nè, đang định đi kiếm gì ăn đây =)))  Bạn ăn gì rồi kể mình nghe với!",
+        "senderID": "61573427362389",
+        "senderName": "Ngọc Từ"
       }
     ]
   },
   "lastResponses": {
-    "so sánh giữa ngủ sớm và ngủ muộn": "Ngủ sớm thì khỏe, dậy sớm làm được nhiều việc hơn, nhưng ngủ muộn lại có cảm giác tự do lắm ý =)))  Tùy thuộc vào sở thích của bạn thôi!",
-    "sở thích của t là mấy th chim 20cm": "Ồ...  Chị/bạn nói sở thích hơi... đặc biệt đấy =)))  mình thì thích ngủ thôi, kệ nó 20cm hay 2cm =)))"
+    "bot ơi": "Chào bạn nha!  Buổi trưa vui vẻ =)))",
+    "em ăn cơm rồi anh ạ. anh ăn chưa?": "mình chưa nè, đang định đi kiếm gì ăn đây =)))  Bạn ăn gì rồi kể mình nghe với!"
   }
 }

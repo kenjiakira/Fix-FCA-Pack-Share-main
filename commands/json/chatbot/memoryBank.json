@@ -1,60 +1,39 @@
 {
   "users": {
-    "100087149330001": {
-      "personal": [
-        {
-          "content": "sở thích của t là mấy th chim 20cm",
-          "timestamp": 1743090469195,
-          "priority": 2,
-          "accessCount": 0,
-          "lastAccess": 1743090469195,
-          "metadata": {
-            "sentiment": {
-              "score": 0.2,
-              "rawScore": 0,
-              "sentiment": "neutral",
-              "confidence": 0.5,
-              "emotions": [],
-              "negationCount": 0,
-              "intensityFactors": [],
-              "primaryEmotion": "neutral"
-            },
-            "topics": [],
-            "entities": {}
-          }
-        }
-      ],
+    "61573427362389": {
+      "personal": [],
       "facts": [],
-      "preferences": [
-        {
-          "content": "sở thích của t là mấy th chim 20cm",
-          "timestamp": 1743090469199,
-          "priority": 2,
-          "accessCount": 0,
-          "lastAccess": 1743090469199,
-          "metadata": {
-            "sentiment": {
-              "score": 0.2,
-              "rawScore": 0,
-              "sentiment": "neutral",
-              "confidence": 0.5,
-              "emotions": [],
-              "negationCount": 0,
-              "intensityFactors": [],
-              "primaryEmotion": "neutral"
-            },
-            "topics": [],
-            "entities": {}
-          }
-        }
-      ],
+      "preferences": [],
       "interactions": [
         {
-          "content": "Trần Thị Thu Phương nói: so sánh giữa ngủ sớm và ngủ muộn\nTôi trả lời: Ngủ sớm thì khỏe, dậy sớm làm được nhiều việc hơn, nhưng ngủ muộn lại có cảm giác tự do lắm ý =)))  Tùy thuộc vào sở thích của bạn thôi!",
-          "timestamp": 1743090431905,
+          "content": "Ngọc Từ nói: bot ơi\nTôi trả lời: Chào bạn nha!  Buổi trưa vui vẻ =)))",
+          "timestamp": 1743136725281,
           "priority": 1,
           "accessCount": 1,
-          "lastAccess": 1743090467420,
+          "lastAccess": 1743136736795,
+          "metadata": {
+            "sentiment": {
+              "score": 0,
+              "rawScore": 0,
+              "sentiment": "neutral",
+              "confidence": 0.5,
+              "emotions": [],
+              "negationCount": 0,
+              "intensityFactors": [],
+              "primaryEmotion": "neutral"
+            },
+            "topics": [
+              "PERSONAL"
+            ],
+            "entities": {}
+          }
+        },
+        {
+          "content": "Ngọc Từ nói: Em ăn cơm rồi anh ạ. Anh ăn chưa?\nTôi trả lời: mình chưa nè, đang định đi kiếm gì ăn đây =)))  Bạn ăn gì rồi kể mình nghe với!",
+          "timestamp": 1743136737429,
+          "priority": 1,
+          "accessCount": 0,
+          "lastAccess": 1743136737429,
           "metadata": {
             "sentiment": {
               "score": 0,
@@ -68,7 +47,8 @@
             },
             "topics": [
               "PERSONAL",
-              "WORK"
+              "FOOD",
+              "TRAVEL"
             ],
             "entities": {}
           }
@@ -87,10 +67,10 @@
       "undefined": [
         {
           "content": "Xưng hô: mình/bạn",
-          "timestamp": 1743090430336,
+          "timestamp": 1743136723666,
           "priority": 2,
           "accessCount": 1,
-          "lastAccess": 1743090467420,
+          "lastAccess": 1743136736795,
           "metadata": {
             "sentiment": {
               "score": 0,
@@ -110,10 +90,10 @@
         },
         {
           "content": "Xưng hô: mình/bạn",
-          "timestamp": 1743090467421,
+          "timestamp": 1743136736796,
           "priority": 2,
           "accessCount": 0,
-          "lastAccess": 1743090467421,
+          "lastAccess": 1743136736796,
           "metadata": {
             "sentiment": {
               "score": 0,
@@ -147,20 +127,11 @@
     "voice": {}
   },
   "stats": {
-    "totalInteractions": 6,
+    "totalInteractions": 4,
     "uniqueUsers": {},
     "topTopics": {},
     "responseTime": [],
-    "accuracy": [
-      {
-        "timestamp": 1743090431909,
-        "memoryCount": 5
-      },
-      {
-        "timestamp": 1743090469208,
-        "memoryCount": 8
-      }
-    ]
+    "accuracy": []
   },
   "compression": {
     "enabled": true,

@@ -3,7 +3,7 @@ const config = require('../utils/api');
 const fs = require('fs');
 const path = require('path');
 
-const FACTS_FILE = path.join(__dirname, './json/used_facts.json');
+const FACTS_FILE = path.join(__dirname, './json/AI/used_facts.json');
 
 function initializeFactsFile() {
     if (!fs.existsSync(path.dirname(FACTS_FILE))) {

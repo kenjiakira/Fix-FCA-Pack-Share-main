@@ -120510,5 +120510,96 @@
       "def": 100,
       "hp": 475
     }
+  },
+  "CHAR_978589252": {
+    "type": "character",
+    "name": "Amber",
+    "obtainedAt": 1743090495523,
+    "value": 244,
+    "level": 1,
+    "exp": 0,
+    "stats": {
+      "atk": 100,
+      "def": 98,
+      "hp": 521
+    }
+  },
+  "CHAR_691107582": {
+    "type": "character",
+    "name": "collei",
+    "obtainedAt": 1743090604556,
+    "value": 235,
+    "level": 1,
+    "exp": 0,
+    "stats": {
+      "atk": 93,
+      "def": 99,
+      "hp": 468
+    }
+  },
+  "CHAR_974530930": {
+    "type": "character",
+    "name": "Noelle",
+    "obtainedAt": 1743090651217,
+    "value": 391,
+    "level": 1,
+    "exp": 0,
+    "stats": {
+      "atk": 92,
+      "def": 92,
+      "hp": 465
+    }
+  },
+  "CHAR_823784881": {
+    "type": "character",
+    "name": "Sampo",
+    "obtainedAt": 1743090694318,
+    "value": 530,
+    "level": 1,
+    "exp": 0,
+    "stats": {
+      "atk": 98,
+      "def": 101,
+      "hp": 465
+    }
+  },
+  "CHAR_395759680": {
+    "type": "character",
+    "name": "Luka",
+    "obtainedAt": 1743090711958,
+    "value": 329,
+    "level": 1,
+    "exp": 0,
+    "stats": {
+      "atk": 104,
+      "def": 93,
+      "hp": 531
+    }
+  },
+  "CHAR_161275394": {
+    "type": "character",
+    "name": "Barbara",
+    "obtainedAt": 1743090764741,
+    "value": 182,
+    "level": 1,
+    "exp": 0,
+    "stats": {
+      "atk": 94,
+      "def": 104,
+      "hp": 525
+    }
+  },
+  "CHAR_688893091": {
+    "type": "character",
+    "name": "collei",
+    "obtainedAt": 1743090793656,
+    "value": 597,
+    "level": 1,
+    "exp": 0,
+    "stats": {
+      "atk": 95,
+      "def": 91,
+      "hp": 469
+    }
   }
 }

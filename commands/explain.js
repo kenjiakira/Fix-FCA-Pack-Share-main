@@ -3,7 +3,7 @@ const config = require('../utils/api');
 const fs = require('fs');
 const path = require('path');
 
-const EXPLANATIONS_FILE = path.join(__dirname, './json/used_explanations.json');
+const EXPLANATIONS_FILE = path.join(__dirname, './json/AI/used_explanations.json');
 
 function initializeExplanationsFile() {
     if (!fs.existsSync(path.dirname(EXPLANATIONS_FILE))) {

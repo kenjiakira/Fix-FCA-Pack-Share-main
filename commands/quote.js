@@ -3,7 +3,7 @@ const config = require('../utils/api');
 const fs = require('fs');
 const path = require('path');
 
-const QUOTES_FILE = path.join(__dirname, './json/used_quotes.json');
+const QUOTES_FILE = path.join(__dirname, './json/AI/used_quotes.json');
 
 function initializeQuotesFile() {
     if (!fs.existsSync(path.dirname(QUOTES_FILE))) {

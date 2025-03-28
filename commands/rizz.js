@@ -3,7 +3,7 @@ const config = require('../utils/api');
 const fs = require('fs');
 const path = require('path');
 
-const RIZZ_FILE = path.join(__dirname, './json/used_rizz.json');
+const RIZZ_FILE = path.join(__dirname, './json/AI/used_rizz.json');
 
 function initializeRizzFile() {
     if (!fs.existsSync(path.dirname(RIZZ_FILE))) {

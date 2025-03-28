@@ -283,6 +283,17 @@ onReply: async function({ event, api }) {
 
     onLaunch: async function({ event, api }) {
         const { threadID, messageID } = event;
+        const notice = await api.sendMessage(
+            "⚠️ Lệnh này đang được sửa lỗi...\n" +
+            "🔧 Một số bài hát có thể không tải được\n" +
+            "✨ Chúng tôi đang cố gắng khắc phục trong thời gian sớm nhất!\n\n" +
+            "💡 Bạn vẫn có thể thử sử dụng, nhưng có thể gặp lỗi.",
+            threadID
+        );
+
+        // Auto-unsend notice after 5 seconds
+        setTimeout(() => api.unsendMessage(notice.messageID), 5000);
+
         const input = event.body.trim().split(" ").slice(1).join(" ");
         let messagesToDelete = [];
 

@@ -4,7 +4,7 @@ const fs = require('fs');
 const path = require('path');
 const { getBalance, updateBalance } = require('../utils/currencies');
 
-const HISTORY_FILE = path.join(__dirname, './json/quicklotto_history.json');
+const HISTORY_FILE = path.join(__dirname, './json/currencies/quicklotto_history.json');
 const SETTINGS_FILE = path.join(__dirname, './json/lotto_settings.json');
 const TICKETS_FILE = path.join(__dirname, './json/lotto_tickets.json');
 

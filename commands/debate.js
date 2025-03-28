@@ -3,7 +3,7 @@ const config = require('../utils/api');
 const fs = require('fs');
 const path = require('path');
 
-const DEBATES_FILE = path.join(__dirname, './json/used_debates.json');
+const DEBATES_FILE = path.join(__dirname, './json/AI/used_debates.json');
 
 function initializeDebatesFile() {
     if (!fs.existsSync(path.dirname(DEBATES_FILE))) {

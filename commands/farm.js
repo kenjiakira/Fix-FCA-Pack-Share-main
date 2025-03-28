@@ -308,39 +308,42 @@ module.exports = {
                     );
                 }
 
+
                 case "info": {
                     const plots = Object.entries(userFarm.crops);
                     const now = Date.now();
-
-                    let farmInfo = "🏡 NÔNG TRẠI CỦA BẠN 🏡\n";
-                    farmInfo += "━━━━━━━━━━━━━━━━━━\n\n";
-                    farmInfo += `👨‍🌾 Cấp độ: ${userFarm.level} ` +
-                        `(${userFarm.experience}/${userFarm.level * 100} EXP)\n`;
-                    farmInfo += `🌱 Đất trống: ${userFarm.plots - plots.length}/${userFarm.plots} ô\n\n`;
-
+                
+                    let farmInfo = "🌾 NÔNG TRẠI CỦA BẠN 🌾\n";
+                    farmInfo += "━━━━━━━━━━━━━\n\n";
+                    
+                    farmInfo += `📊 THÔNG TIN CƠ BẢN\n`;
+                    farmInfo += `💫 Cấp độ: ${userFarm.level}\n`;
+                    farmInfo += `⭐ EXP: ${userFarm.experience}/${userFarm.level * 100}\n`;
+                    farmInfo += `🏡 Đất: ${userFarm.plots - plots.length} trống / ${userFarm.plots} tổng\n\n`;
+                
                     if (plots.length > 0) {
-                        farmInfo += "🌾 CÂY ĐANG TRỒNG:\n";
+                        farmInfo += "🌱 CÂY ĐANG TRỒNG:\n";
                         plots.forEach(([plotId, crop]) => {
                             const timeLeft = crop.thuAt - now;
-                            farmInfo += `${CROPS[crop.type].name} - `;
-                            if (timeLeft <= 0) {
-                                farmInfo += "✅ Sẵn sàng thu hoạch!\n";
-                            } else {
-                                farmInfo += `⏳ ${Math.ceil(timeLeft / 60000)} phút\n`;
-                            }
+                            const cropEmoji = CROPS[crop.type].name.split(' ')[0];
+                            farmInfo += `${cropEmoji} ${CROPS[crop.type].name.split(' ')[1]}\n`;
+                            farmInfo += `┗━ ID: ${plotId.slice(-4)}\n`;
+                            farmInfo += `┗━ ${timeLeft <= 0 ? '✅ Sẵn sàng thu!' : `⏳ Còn ${Math.ceil(timeLeft / 60000)} phút`}\n`;
                         });
                         farmInfo += "\n";
                     }
-
-                    farmInfo += "📊 THỐNG KÊ:\n";
-                    farmInfo += `Đã thu hoạch: ${userFarm.stats.totalHarvested} cây\n`;
-                    farmInfo += `Tổng thu nhập: ${userFarm.stats.totalProfit}$\n\n`;
-
-                    farmInfo += "💡 HƯỚNG DẪN:\n";
-                    farmInfo += ".farm trồng [tên] - Trồng cây\n";
-                    farmInfo += ".farm thu - Thu hoạch\n";
-                    farmInfo += ".farm shop - Mua hạt giống";
-
+                
+                    farmInfo += "📈 THÀNH TÍCH:\n";
+                    farmInfo += `🌾 Đã thu: ${userFarm.stats.totalHarvested} cây\n`;
+                    farmInfo += `💰 Thu nhập: ${userFarm.stats.totalProfit.toLocaleString()}$\n\n`;
+                
+                    farmInfo += "⌨️ LỆNH NHANH:\n";
+                    farmInfo += "┏━━━━━━━━━━━━━┓\n";
+                    farmInfo += "┣ .farm trồng → Trồng cây\n";
+                    farmInfo += "┣ .farm thu → Thu hoạch\n";
+                    farmInfo += "┣ .farm shop → Cửa hàng\n";
+                    farmInfo += "┗━━━━━━━━━━━━━┛";
+                
                     return api.sendMessage(farmInfo, threadID, messageID);
                 }
 
@@ -348,42 +351,47 @@ module.exports = {
                     const subAction = target[1]?.toLowerCase();
                 
                     if (subAction === "tools") {
-                        let toolsMessage = "🛠️ CỬA HÀNG CÔNG CỤ 🛠️\n";
+                        let toolsMessage = "🛠️ CỬA HÀNG DỤNG CỤ 🛠️\n";
                         toolsMessage += "━━━━━━━━━━━━━━━━━━\n\n";
                 
+                        toolsMessage += "📦 ĐANG BÁN:\n";
                         Object.entries(TOOLS).forEach(([id, tool]) => {
-                            toolsMessage += `${tool.name} - ${tool.price}$\n`;
-                            toolsMessage += `✨ Hiệu quả: Tăng ${formatBonusPercentage(tool.bonus)}% sản lượng\n`;
-                            toolsMessage += `📌 Mua: .farm mua ${id}\n\n`;
-                        });
-                
-                        toolsMessage += "\n🔜 SẮP RA MẮT:\n";
-                        Object.entries(UPCOMING_TOOLS).forEach(([id, tool]) => {
                             toolsMessage += `${tool.name}\n`;
-                            toolsMessage += `💫 Hiệu quả: Tăng ${formatBonusPercentage(tool.bonus)}% sản lượng\n`;
-                            toolsMessage += `⏳ Đang phát triển...\n\n`;
+                            toolsMessage += `┣ 💰 Giá: ${tool.price.toLocaleString()}$\n`;
+                            toolsMessage += `┣ ✨ Hiệu quả +${formatBonusPercentage(tool.bonus)}%\n`;
+                            toolsMessage += `┗ 📝 .farm mua ${id}\n\n`;
+                        });
+            
+                        toolsMessage += "\n🔜 SẮP RA MẮT:\n";
+                        Object.entries(UPCOMING_TOOLS).forEach(([_, tool]) => {
+                            toolsMessage += `${tool.name}\n`;
+                            toolsMessage += `┣ ✨ Hiệu quả +${formatBonusPercentage(tool.bonus)}%\n`;
+                            toolsMessage += `┗ ⏳ Đang phát triển...\n\n`;
                         });
                 
                         return api.sendMessage(toolsMessage, threadID, messageID);
                     }
                 
-                    let shopMessage = "🏪 CỬA HÀNG NÔNG TRẠI 🏪\n";
+                    let shopMessage = "🏪 CỬA HÀNG HẠT GIỐNG 🏪\n";
                     shopMessage += "━━━━━━━━━━━━━━━━━━\n\n";
-                    shopMessage += "🌱 HẠT GIỐNG ĐANG BÁN:\n";
                 
+                
+                    shopMessage += "📦 ĐANG BÁN:\n";
                     Object.entries(CROPS).forEach(([id, crop]) => {
-                        shopMessage += `${crop.name} - ${crop.price}$\n`;
-                        shopMessage += `⏳ Thời gian: ${Math.floor(crop.growTime / 60000)} phút\n`;
-                        shopMessage += `💰 Thu hoạch: ${crop.thuAmount.min}-${crop.thuAmount.max} (${crop.profit}$/cái)\n`;
-                        shopMessage += `📌 Mua: .farm trồng ${id}\n\n`;
+                        shopMessage += `${crop.name}\n`;
+                        shopMessage += `┣ 💰 Giá: ${crop.price.toLocaleString()}$\n`;
+                        shopMessage += `┣ ⏳ Thời gian: ${Math.floor(crop.growTime / 60000)} phút\n`;
+                        shopMessage += `┣ 📦 Thu hoạch: ${crop.thuAmount.min}-${crop.thuAmount.max}\n`;
+                        shopMessage += `┣ 💵 ${crop.profit.toLocaleString()}$/cái\n`;
+                        shopMessage += `┗ 📝 .farm trồng ${id}\n\n`;
                     });
                 
                     shopMessage += "\n🔜 SẮP RA MẮT:\n";
                     Object.entries(UPCOMING_CROPS).forEach(([id, crop]) => {
-                        shopMessage += `${crop.name}\n`;
-                        shopMessage += `⏳ Thời gian: ${Math.floor(crop.growTime / 60000)} phút\n`;
-                        shopMessage += `💰 Thu hoạch: ${crop.thuAmount.min}-${crop.thuAmount.max} (${crop.profit}$/cái)\n`;
-                        shopMessage += `📋 Đang phát triển...\n\n`;
+                        shopMessage += `┣${crop.name}\n`;
+                        shopMessage += `┣⏳ Thời gian: ${Math.floor(crop.growTime / 60000)} phút\n`;
+                        shopMessage += `┣💰 Thu hoạch: ${crop.thuAmount.min}-${crop.thuAmount.max} (${crop.profit}$/cái)\n`;
+                        shopMessage += `┗📋 Đang phát triển...\n\n`;
                     });
                 
                     shopMessage += "\n🛠️ CÔNG CỤ: .farm shop tools";

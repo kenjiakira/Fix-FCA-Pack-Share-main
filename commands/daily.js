@@ -7,7 +7,7 @@ const axios = require("axios");
 
 class DailyRewardManager {
   constructor() {
-    this.filepath = path.join(__dirname, "json", "userClaims.json");
+    this.filepath = path.join(__dirname, "json","currencies", "userClaims.json");
     this.claims = {};
     this.loaded = false;
   }
@@ -792,92 +792,92 @@ class DailyRewardManager {
    * @param {string} userId - User ID
    * @returns {Promise<string>} - Path to the avatar image
    */
-async getAvatarPath(userId) {
-  try {
-    const avatarsDir = path.join(__dirname, "./cache");
-    if (!fs.existsSync(avatarsDir)) {
-      fs.mkdirSync(avatarsDir, { recursive: true });
-    }
-    
-    // Tạo avatar mặc định nếu chưa có 
-    const defaultAvatarPath = path.join(__dirname, "./cache/avatar.jpg");
-    if (!fs.existsSync(defaultAvatarPath)) {
-      try {
-        console.log("⚠️ Default avatar not found, creating one...");
-        const defaultCanvas = createCanvas(200, 200);
-        const ctx = defaultCanvas.getContext('2d');
-        
-        const gradient = ctx.createLinearGradient(0, 0, 200, 200);
-        gradient.addColorStop(0, '#4a148c');
-        gradient.addColorStop(1, '#311b92');
-        ctx.fillStyle = gradient;
-        ctx.fillRect(0, 0, 200, 200);
-        
-        ctx.font = 'bold 120px Arial';
-        ctx.textAlign = 'center';
-        ctx.textBaseline = 'middle';
-        ctx.fillStyle = '#ffffff';
-        ctx.fillText('?', 100, 100);
-        
-        const buffer = defaultCanvas.toBuffer('image/jpeg');
-        fs.writeFileSync(defaultAvatarPath, buffer);
-        console.log("✅ Default avatar created successfully");
-      } catch (createErr) {
-        console.error("Error creating default avatar:", createErr);
-      }
-    }
-    
-    const cacheDir = path.join(__dirname, "./cache/avatars");
-    if (!fs.existsSync(cacheDir)) {
-      fs.mkdirSync(cacheDir, { recursive: true });
-    }
-
-    const avatarPath = path.join(cacheDir, `${userId}.jpg`);
-    const metadataPath = path.join(cacheDir, `${userId}.meta`);
-
-    if (fs.existsSync(avatarPath) && fs.existsSync(metadataPath)) {
-      const metadata = JSON.parse(fs.readFileSync(metadataPath, "utf-8"));
-      const cacheAge = Date.now() - metadata.timestamp;
-
-      if (cacheAge < 24 * 60 * 60 * 1000) {
-        console.log(
-          `Using cached avatar for user ${userId} (${Math.floor(
-            cacheAge / (60 * 60 * 1000)
-          )} hours old)`
-        );
-        return avatarPath;
-      }
-    }
-
+  async getAvatarPath(userId) {
     try {
-      const avatarUrl = `https://graph.facebook.com/${userId}/picture?width=512&height=512&access_token=6628568379%7Cc1e620fa708a1d5696fb991c1bde5662`;
-      const response = await axios.get(avatarUrl, {
-        responseType: "arraybuffer",
-        timeout: 5000,
-        validateStatus: function (status) {
-          return status >= 200 && status < 300;
+      const avatarsDir = path.join(__dirname, "./cache");
+      if (!fsSync.existsSync(avatarsDir)) {
+        fsSync.mkdirSync(avatarsDir, { recursive: true });
+      }
+      
+      // Create default avatar if it doesn't exist
+      const defaultAvatarPath = path.join(__dirname, "./cache/avatar.jpg");
+      if (!fsSync.existsSync(defaultAvatarPath)) {
+        try {
+          console.log("⚠️ Default avatar not found, creating one...");
+          const defaultCanvas = createCanvas(200, 200);
+          const ctx = defaultCanvas.getContext('2d');
+          
+          const gradient = ctx.createLinearGradient(0, 0, 200, 200);
+          gradient.addColorStop(0, '#4a148c');
+          gradient.addColorStop(1, '#311b92');
+          ctx.fillStyle = gradient;
+          ctx.fillRect(0, 0, 200, 200);
+          
+          ctx.font = 'bold 120px Arial';
+          ctx.textAlign = 'center';
+          ctx.textBaseline = 'middle';
+          ctx.fillStyle = '#ffffff';
+          ctx.fillText('?', 100, 100);
+          
+          const buffer = defaultCanvas.toBuffer('image/jpeg');
+          await fs.writeFile(defaultAvatarPath, buffer);
+          console.log("✅ Default avatar created successfully");
+        } catch (createErr) {
+          console.error("Error creating default avatar:", createErr);
         }
-      });
-
-      fs.writeFileSync(avatarPath, response.data);
-      fs.writeFileSync(metadataPath, JSON.stringify({ timestamp: Date.now() }));
-
-      console.log(`Fetched new avatar for user ${userId}`);
-      return avatarPath;
-    } catch (fetchError) {
-      console.error(`Failed to fetch avatar for ${userId}:`, fetchError.message);
-      console.log(`Using default avatar for user ${userId}`);
-      return defaultAvatarPath;
+      }
+      
+      const cacheDir = path.join(__dirname, "./cache/avatars");
+      if (!fsSync.existsSync(cacheDir)) {
+        fsSync.mkdirSync(cacheDir, { recursive: true });
+      }
+  
+      const avatarPath = path.join(cacheDir, `${userId}.jpg`);
+      const metadataPath = path.join(cacheDir, `${userId}.meta`);
+  
+      if (fsSync.existsSync(avatarPath) && fsSync.existsSync(metadataPath)) {
+        const metadata = JSON.parse(fsSync.readFileSync(metadataPath, "utf-8"));
+        const cacheAge = Date.now() - metadata.timestamp;
+  
+        if (cacheAge < 24 * 60 * 60 * 1000) {
+          console.log(
+            `Using cached avatar for user ${userId} (${Math.floor(
+              cacheAge / (60 * 60 * 1000)
+            )} hours old)`
+          );
+          return avatarPath;
+        }
+      }
+  
+      try {
+        const avatarUrl = `https://graph.facebook.com/${userId}/picture?width=512&height=512&access_token=6628568379%7Cc1e620fa708a1d5696fb991c1bde5662`;
+        const response = await axios.get(avatarUrl, {
+          responseType: "arraybuffer",
+          timeout: 5000,
+          validateStatus: function (status) {
+            return status >= 200 && status < 300;
+          }
+        });
+  
+        await fs.writeFile(avatarPath, response.data);
+        await fs.writeFile(metadataPath, JSON.stringify({ timestamp: Date.now() }));
+  
+        console.log(`Fetched new avatar for user ${userId}`);
+        return avatarPath;
+      } catch (fetchError) {
+        console.error(`Failed to fetch avatar for ${userId}:`, fetchError.message);
+        console.log(`Using default avatar for user ${userId}`);
+        return defaultAvatarPath;
+      }
+    } catch (error) {
+      console.error(`Error in getAvatarPath for ${userId}:`, error.message);
+      const defaultAvatarPath = path.join(__dirname, "./cache/avatar.jpg");
+      if (fsSync.existsSync(defaultAvatarPath)) {
+        return defaultAvatarPath;
+      }
+      return null;
     }
-  } catch (error) {
-    console.error(`Error in getAvatarPath for ${userId}:`, error.message);
-    const defaultAvatarPath = path.join(__dirname, "./cache/avatar.jpg");
-    if (fs.existsSync(defaultAvatarPath)) {
-      return defaultAvatarPath;
-    }
-    return null;
   }
-}
 }
 
 const dailyManager = new DailyRewardManager();

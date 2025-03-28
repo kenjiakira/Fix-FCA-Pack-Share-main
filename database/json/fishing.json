@@ -778,7 +778,7 @@
   },
   "100076957299243": {
     "rod": "Cần câu Daiwa Gekkabijin MX",
-    "rodDurability": 203,
+    "rodDurability": 202,
     "inventory": [
       "Cần trúc",
       "Cần Câu tay",
@@ -840,7 +840,7 @@
           "Cá Sặc Rằn": 1,
           "Cá Hú": 1,
           "Cá Lóc Đồng": 3,
-          "Cá Trê Vàng": 2
+          "Cá Trê Vàng": 3
         },
         "rare": {
           "Cá Hồi": 1,
@@ -852,29 +852,29 @@
         "mythical": {}
       },
       "stats": {
-        "totalCaught": 169,
-        "totalValue": 13491245,
+        "totalCaught": 170,
+        "totalValue": 13613083,
         "bestCatch": {
           "name": "Rương kim cương",
           "value": 3562500
         }
       }
     },
-    "exp": 4941,
+    "exp": 5481,
     "level": 12,
-    "fishingStreak": 50,
+    "fishingStreak": 51,
     "stats": {
-      "totalExp": 37086,
+      "totalExp": 37626,
       "highestStreak": 83,
-      "totalFishes": 169
+      "totalFishes": 170
     },
     "activeBuffs": {},
-    "lastFished": 1743089165461,
+    "lastFished": 1743090570615,
     "userID": "100076957299243",
-    "energy": 77,
-    "lastEnergyUpdate": 1743089165461,
+    "energy": 74,
+    "lastEnergyUpdate": 1743090570617,
     "baits": {
-      "Mồi Thần Thoại": 383
+      "Mồi Thần Thoại": 382
     },
     "craftingMaterials": {}
   },
@@ -10148,6 +10148,47 @@
     "activeBuffs": {},
     "lastFished": 0,
     "userID": "61550032527858",
+    "baits": {},
+    "craftingMaterials": {}
+  },
+  "61571418352875": {
+    "rod": "Cần trúc",
+    "rodDurability": 10,
+    "inventory": [
+      "Cần trúc"
+    ],
+    "collection": {
+      "byRarity": {
+        "trash": {},
+        "common": {},
+        "uncommon": {},
+        "rare": {},
+        "legendary": {},
+        "mythical": {},
+        "cosmic": {}
+      },
+      "stats": {
+        "totalCaught": 0,
+        "totalValue": 0,
+        "bestCatch": {
+          "name": "",
+          "value": 0
+        }
+      }
+    },
+    "exp": 0,
+    "level": 1,
+    "fishingStreak": 0,
+    "energy": 50,
+    "lastEnergyUpdate": 1743130078494,
+    "stats": {
+      "totalExp": 0,
+      "highestStreak": 0,
+      "totalFishes": 0
+    },
+    "activeBuffs": {},
+    "lastFished": 0,
+    "userID": "61571418352875",
     "baits": {},
     "craftingMaterials": {}
   }
