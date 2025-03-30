@@ -249,6 +249,7 @@ module.exports = {
     name: "quiz",
     dev: "HNT",
     usedby: 0,
+    hide: true,
     category: "Games",
     info: "Trả lời câu hỏi trắc nghiệm",
     usages: "quiz",

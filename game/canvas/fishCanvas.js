@@ -156,13 +156,13 @@ function parseColor(color, fallback = "#ffffff") {
 }
 
 const defaultFishImagePaths = {
-  trash: path.join(__dirname, "../game/fishing/trash.jpg"),
-  common: path.join(__dirname, "../game/fishing/common.jpg"),
-  uncommon: path.join(__dirname, "../game/fishing/uncommon.jpg"),
-  rare: path.join(__dirname, "../game/fishing/rare.jpg"),
-  legendary: path.join(__dirname, "../game/fishing/legendary.jpg"),
-  mythical: path.join(__dirname, "..game/fishing/mythical.jpg"),
-  cosmic: path.join(__dirname, "../game/fishing/cosmic.jpg"),
+  trash: path.join(__dirname, "./fishing/trash.jpg"),
+  common: path.join(__dirname, "./fishing/common.jpg"),
+  uncommon: path.join(__dirname, "./fishing/uncommon.jpg"),
+  rare: path.join(__dirname, "./fishing/rare.jpg"),
+  legendary: path.join(__dirname, "./fishing/legendary.jpg"),
+  mythical: path.join(__dirname, "./fishing/mythical.jpg"),
+  cosmic: path.join(__dirname, "./fishing/cosmic.jpg"),
 };
 
 try {
@@ -233,7 +233,7 @@ async function createPlaceholderFishImages() {
 async function getAvatarPath(userId) {
   try {
     // Ensure avatars directory exists
-    const avatarsDir = path.join(__dirname, "../commands/cache/avatars");
+    const avatarsDir = path.join(__dirname, "./cache/avatars");
     if (!fs.existsSync(avatarsDir)) {
       fs.mkdirSync(avatarsDir, { recursive: true });
     }
@@ -966,9 +966,9 @@ async function createFishResultImage(options) {
       if (!fishImage) {
         try {
           const possiblePaths = [
-            path.join(__dirname, '../game/config/fishing/fish.js'),
-            path.join(__dirname, '../game/fishing/fish.js'),
-            path.join(__dirname, '../commands/config/fish.js')
+            path.join(__dirname, '../config/fishing/fish.js'),
+            path.join(__dirname, '../fishing/fish.js'),
+            path.join(__dirname, '../config/fish.js')
           ];
           
           let fishConfig = null;
@@ -1856,7 +1856,7 @@ async function createCollectionImage(options) {
             );
 
             try {
-              const fishModule = require('../game/config/fishing/fish.js');
+              const fishModule = require('./config/fishing/fish.js');
               const fishList = fishModule[rarity.id] || [];
               const fishData = fishList.find(f => f.name === fishName);
               

@@ -1,11 +1,25 @@
 {
   "codes": {
-    "NQP6ST7I9IYY": {
-      "reward": 872699,
+    "NH29QU0Q5ATK": {
+      "reward": 463702,
       "description": "Giftcode thường hàng ngày",
-      "createdAt": "2025-03-27T05:00:00.065Z",
-      "expiry": "2025-03-28T05:00:00.065Z",
-      "usedBy": [],
+      "createdAt": "2025-03-29T05:00:00.062Z",
+      "expiry": "2025-03-30T05:00:00.063Z",
+      "usedBy": [
+        "61553076033146"
+      ],
+      "type": "NORMAL",
+      "rarity": "Thường",
+      "maxUses": null
+    },
+    "N8RL6SB4861I": {
+      "reward": 573125,
+      "description": "Giftcode thường hàng ngày",
+      "createdAt": "2025-03-30T05:00:00.027Z",
+      "expiry": "2025-03-31T05:00:00.027Z",
+      "usedBy": [
+        "61556565254088"
+      ],
       "type": "NORMAL",
       "rarity": "Thường",
       "maxUses": null

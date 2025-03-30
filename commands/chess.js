@@ -8,6 +8,7 @@ module.exports = {
     dev: "HNT",
     category: "Games",
     onPrefix: true,
+    hide: true,
     info: "Chơi cờ vua",
     usedby: 0,
     usages: "@tag người chơi để bắt đầu ván cờ",

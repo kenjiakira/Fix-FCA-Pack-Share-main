@@ -227,13 +227,13 @@ function drawProgressBar(ctx, currentExp, requiredXp) {
 }
 
 async function drawAvatar(ctx, senderID, level) {
-    const customization = JSON.parse(fs.readFileSync(path.join(__dirname, '../database/json/rankCustomization.json'), 'utf8'));
+    const customization = JSON.parse(fs.readFileSync(path.join(__dirname, '../../database/json/rankCustomization.json'), 'utf8'));
     const customAvatar = customization.avatars[senderID];
     
     // Kiểm tra VIP status
     let isVIP = false;
     let vipLevel = 0;
-    const vipJsonPath = path.join(__dirname, '../commands/json/vip.json');
+    const vipJsonPath = path.join(__dirname, '../../commands/json/vip.json');
     try {
         const vipData = JSON.parse(fs.readFileSync(vipJsonPath, 'utf8'));
         const userVIP = vipData.users[senderID];
@@ -699,7 +699,7 @@ async function createRankCard(senderID, name, currentExp, level, rank, outputPat
     const canvas = createCanvas(width, height);
     const ctx = canvas.getContext('2d');
 
-    const customization = JSON.parse(fs.readFileSync(path.join(__dirname, '../database/json/rankCustomization.json'), 'utf8'));
+    const customization = JSON.parse(fs.readFileSync(path.join(__dirname, '../../database/json/rankCustomization.json'), 'utf8'));
     const customBg = customization.backgrounds[senderID];
     
     if (customBg) {

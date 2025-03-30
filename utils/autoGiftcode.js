@@ -127,7 +127,7 @@ async function sendGiftcodeAnnouncement(api, code, reward, type) {
                        `💝 Phần thưởng: ${reward.toLocaleString('vi-VN')} $\n` +
                        `🔰 Loại: ${GIFTCODE_TYPES[type].rarity}\n` +
                        "⏰ Thời hạn: 24 giờ\n\n" +
-                       "💡 Sử dụng lệnh: .giftcode redeem <code> để nhận quà";
+                       "💡 Sử dụng lệnh: .rewards redeem <code> để nhận quà";
 
         const chunkSize = 10;
         const threadChunks = [];

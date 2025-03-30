@@ -1,182 +1,145 @@
 const fs = require('fs');
+const axios = require('axios');
 const path = require('path');
+const { createReadStream, unlinkSync } = require('fs');
 
 module.exports = {
-    name: "admin",
-    dev: "HNT",
-    category: "Khác",
-    info: "Xem danh sách admin",
-    usages: [
-        "/admin - Xem danh sách quản trị viên",
-        "/admin add admin [uid] - Thêm admin mới",
-        "/admin add mod [uid] - Thêm mod mới"
-    ],
-    cooldowns: 5,
-    onPrefix: true,
+  name: "admin",
+  category: "Admin Commands",
+  info: "Quản lý bot",
+  dev: "Merged by HNT",
+  usedby: 2,
+  cooldowns: 10,
+  usages: "[subcommand]",
+  onPrefix: true,
 
-    onLaunch: async function({ api, event, target }) {
-        const { threadID, messageID, senderID } = event;
-        const adminPath = path.join(__dirname, '..', 'admin.json');
-        
-        try {
-            const adminData = JSON.parse(fs.readFileSync(adminPath, 'utf8'));
-            
-            if (target[0] === "add") {
-                if (!adminData.adminUIDs.includes(senderID)) {
-                    return api.sendMessage("❌ Bạn không có quyền sử dụng lệnh này!", threadID, messageID);
-                }
+  onLaunch: async function ({ api, event, target }) {
+    const subcommand = target[0]?.toLowerCase();
+    const threadID = event.threadID;
+    const messageID = event.messageID;
 
-                if (!target[1] || !target[2]) {
-                    return api.sendMessage("❌ Vui lòng sử dụng đúng cú pháp: /admin add [admin/mod] [uid]", threadID, messageID);
-                }
-
-                const type = target[1].toLowerCase();
-                const uid = target[2];
-
-                if (type !== "admin" && type !== "mod") {
-                    return api.sendMessage("❌ Loại người dùng không hợp lệ! (admin/mod)", threadID, messageID);
-                }
-
-                if (!/^\d+$/.test(uid)) {
-                    return api.sendMessage("❌ UID không hợp lệ!", threadID, messageID);
-                }
-
-                if (type === "admin") {
-                    if (adminData.adminUIDs.includes(uid)) {
-                        return api.sendMessage("❌ Người dùng này đã là admin!", threadID, messageID);
-                    }
-                    adminData.adminUIDs.push(uid);
-                } else {
-                    if (adminData.moderatorUIDs.includes(uid)) {
-                        return api.sendMessage("❌ Người dùng này đã là mod!", threadID, messageID);
-                    }
-                    adminData.moderatorUIDs.push(uid);
-                }
-
-                fs.writeFileSync(adminPath, JSON.stringify(adminData, null, 2));
-                return api.sendMessage(`✅ Đã thêm thành công ${type === "admin" ? "Admin" : "Mod"} mới!`, threadID, messageID);
-            }
-
-            const userDataPath = path.join(__dirname, '..', 'events/cache/userData.json');
-            const userData = JSON.parse(fs.readFileSync(userDataPath, 'utf8'));
-        
-            async function getUserInfoSafely(api, uid, userData) {
-                try {
-                    const userInfo = await api.getUserInfo(uid);
-                    if (userInfo && userInfo[uid]) {
-                        return {
-                            uid: uid,
-                            name: userInfo[uid].name || userData[uid]?.name || "Không xác định",
-                            vanity: userInfo[uid].vanity || uid,
-                            gender: userInfo[uid].gender || userData[uid]?.gender,
-                            isValid: true
-                        };
-                    }
-                } catch (err) {
-                    console.log(`Info: Không thể lấy thông tin của ID ${uid}, sử dụng dữ liệu cached`);
-                    return {
-                        uid: uid,
-                        name: userData[uid]?.name || "Người dùng Facebook",
-                        vanity: uid,
-                        gender: userData[uid]?.gender || 0,
-                        isValid: false
-                    };
-                }
-            }
-
-            const adminList = [];
-            for (const adminUID of adminData.adminUIDs) {
-                if (!adminUID) continue;
-                const info = await getUserInfoSafely(api, adminUID, userData);
-                if (info) {
-                    adminList.push({
-                        ...info,
-                        type: "Admin"
-                    });
-                }
-            }
-
-            const modList = [];
-            for (const modUID of adminData.moderatorUIDs) {
-                if (!modUID) continue;
-                const info = await getUserInfoSafely(api, modUID, userData);
-                if (info) {
-                    modList.push({
-                        ...info,
-                        type: "Moderator"
-                    });
-                }
-            }
-
-            const supportList = [];
-            for (const supportUID of (adminData.supportUIDs || [])) {
-                if (!supportUID) continue;
-                const info = await getUserInfoSafely(api, supportUID, userData);
-                if (info) {
-                    supportList.push({
-                        ...info,
-                        type: "SupportTeam"
-                    });
-                }
-            }
-
-            let msg = "👥 QUẢN LÝ HỆ THỐNG BOT\n";
-            msg += "━━━━━━━━━━━━━━━━━━\n\n";
-
-            msg += "👑 ADMIN:\n";
-            if (adminList.length === 0) {
-                msg += "Chưa có Admin nào\n\n";
-            } else {
-                for (let i = 0; i < adminList.length; i++) {
-                    const admin = adminList[i];
-                    const genderIcon = admin.gender === 2 ? "👨" : admin.gender === 1 ? "👩" : "👤";
-                    
-                    msg += `${genderIcon} ${admin.name}${!admin.isValid ? " (💾)" : ""}\n`;
-                    msg += `   ├─ID: ${admin.uid}\n`;
-                    msg += `   └─FB: facebook.com/${admin.vanity}\n`;
-                    if (i < adminList.length - 1) msg += "\n";
-                }
-                msg += "\n";
-            }
-
-            if (modList.length > 0) {
-                msg += "⚔️ ĐIỀU HÀNH VIÊN:\n";
-                for (let i = 0; i < modList.length; i++) {
-                    const mod = modList[i];
-                    const genderIcon = mod.gender === 2 ? "👨" : mod.gender === 1 ? "👩" : "👤";
-                    
-                    msg += `${genderIcon} ${mod.name}${!mod.isValid ? " (💾)" : ""}\n`;
-                    msg += `   ├─ID: ${mod.uid}\n`;
-                    msg += `   └─FB: facebook.com/${mod.vanity}\n`;
-                    if (i < modList.length - 1) msg += "\n";
-                }
-                msg += "\n";
-            }
-
-            if (supportList.length > 0) {
-                msg += "💎 SUPPORT TEAM:\n";
-                for (let i = 0; i < supportList.length; i++) {
-                    const support = supportList[i];
-                    const genderIcon = support.gender === 2 ? "👨" : support.gender === 1 ? "👩" : "👤";
-                    
-                    msg += `${genderIcon} ${support.name}${!support.isValid ? " (💾)" : ""}\n`;
-                    msg += `   ├─ID: ${support.uid}\n`;
-                    msg += `   └─FB: facebook.com/${support.vanity}\n`;
-                    if (i < supportList.length - 1) msg += "\n";
-                }
-            }
-
-            msg += "\n🤖 THÔNG TIN BOT:\n";
-            msg += `Tên: ${adminData.botName || "AKI BOT"}\n`;
-            msg += `Chủ sở hữu: ${adminData.ownerName || "Kenji Akira"}\n`;
-            msg += `Prefix: ${adminData.prefix || "."}\n`;
-            msg += `Facebook: facebook.com/${adminData.facebookLink || "61573427362389"}\n`;
-            
-            return api.sendMessage(msg, threadID, messageID);
-            
-        } catch (error) {
-            console.error('Lỗi:', error);
-            return api.sendMessage("❌ Đã xảy ra lỗi khi xử lý yêu cầu!", threadID, messageID);
+    switch (subcommand) {
+      case "out":
+        if (!target[1]) {
+          return api.removeUserFromGroup(api.getCurrentUserID(), threadID);
         }
+        if (!isNaN(target[1])) {
+          return api.removeUserFromGroup(api.getCurrentUserID(), target.slice(1).join(" "));
+        }
+        break;
+
+      case "shutdown":
+        const confirmationMessage = `❓ Xác nhận tắt bot\n${global.line}\nPhản hồi tin nhắn này (👍) để xác nhận tắt bot hoặc phản hồi (👎) để hủy bỏ.`;
+        const sentMessage = await api.sendMessage(confirmationMessage, threadID);
+        global.client.callReact.push({ messageID: sentMessage.messageID, name: this.name, action: "shutdown" });
+        break;
+
+      case "restart":
+        api.sendMessage("🔃 Đang khởi động lại\n━━━━━━━━━━━━━━━━━━\nBot đang khởi động lại...", threadID, (err) => {
+          if (err) {
+            console.error("Gửi tin nhắn khởi động lại thất bại:", err);
+          } else {
+            process.exit(1);
+          }
+        });
+        break;
+
+      case "setavt":
+        const tempPath = path.join(__dirname, "cache", `avatar_${Date.now()}.png`);
+        const loadingMessage = await api.sendMessage("⏳ Đang xử lý hình ảnh...", threadID);
+
+        try {
+          let imageUrl, caption = "";
+          if (target.length > 1) {
+            if (target[1].match(/(http(s?):)([/|.|\w|\s|-])*\.(?:jpg|gif|png)/g)) {
+              imageUrl = target[1];
+              caption = target.slice(2).join(" ");
+            } else {
+              caption = target.slice(1).join(" ");
+            }
+          }
+
+          if (event.messageReply && event.messageReply.attachments[0]) {
+            const attachment = event.messageReply.attachments[0];
+            if (!['photo', 'animated_image'].includes(attachment.type)) {
+              api.unsendMessage(loadingMessage.messageID);
+              return api.sendMessage("❌ Vui lòng chỉ dùng hình ảnh hoặc GIF!", threadID, messageID);
+            }
+            imageUrl = attachment.url;
+          } else if (!imageUrl) {
+            api.unsendMessage(loadingMessage.messageID);
+            return api.sendMessage(
+              "📝 Hướng dẫn sử dụng setavatar:\n\n" +
+              "1. Reply ảnh + admin setavt [caption]\n" +
+              "2. admin setavt [link ảnh] [caption]\n\n" +
+              "💡 Caption là tùy chọn, có thể để trống",
+              threadID, messageID
+            );
+          }
+
+          const response = await axios.get(imageUrl, { responseType: 'arraybuffer' });
+          const imageBuffer = Buffer.from(response.data);
+
+          if (imageBuffer.length > 10 * 1024 * 1024) {
+            api.unsendMessage(loadingMessage.messageID);
+            return api.sendMessage("❌ Kích thước ảnh quá lớn! Vui lòng chọn ảnh dưới 10MB", threadID, messageID);
+          }
+
+          fs.writeFileSync(tempPath, imageBuffer);
+
+          api.sendMessage("⌛ Đang cập nhật avatar...", threadID, loadingMessage.messageID);
+
+          await api.changeAvatar(createReadStream(tempPath), caption);
+
+          api.unsendMessage(loadingMessage.messageID);
+          api.sendMessage({
+            body: `✅ Đã thay đổi avatar bot thành công!\n${caption ? `📝 Caption: ${caption}` : ""}`,
+            attachment: createReadStream(tempPath)
+          }, threadID, messageID);
+
+        } catch (error) {
+          console.error('Set Avatar Error:', error);
+          api.unsendMessage(loadingMessage.messageID);
+          api.sendMessage(
+            "❌ Lỗi khi thay đổi avatar bot:\n" +
+            `${error.message || "Vui lòng thử lại sau"}`,
+            threadID, messageID
+          );
+        } finally {
+          if (fs.existsSync(tempPath)) {
+            unlinkSync(tempPath);
+          }
+        }
+        break;
+
+      case "file":
+        const fileCommand = require('./file');
+        return fileCommand.onLaunch({ api, event, target: target.slice(1) });
+
+      default:
+        api.sendMessage(
+          "❓ Lệnh không hợp lệ. Các subcommand hợp lệ:\n" +
+          "- out\n" +
+          "- shutdown\n" +
+          "- restart\n" +
+          "- setavt\n" +
+          "- file\n\n" +
+          threadID, messageID
+        );
     }
+  },
+
+  callReact: async function ({ reaction, event, api }) {
+    const { threadID } = event;
+
+    if (reaction === '👍' && global.client.callReact.find(r => r.action === "shutdown")) {
+      await api.sendMessage("📴 Đang tắt bot\n━━━━━━━━━━━━━━━━━━\nBot sẽ tắt trong giây lát...", threadID);
+      console.log("Bot đang được tắt theo yêu cầu...");
+      setTimeout(() => {
+        process.exit(0);
+      }, 1000);
+    } else if (reaction === '👎') {
+      api.sendMessage("❌ Tắt bot đã bị hủy", threadID);
+    }
+  }
 };

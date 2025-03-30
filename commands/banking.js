@@ -13,37 +13,85 @@ const FILES = {
 };
 
 const LOAN_CONFIG = {
-    minAmount: 100,
-    maxLoanRatio: 0.5, 
-    baseInterestRate: 0.015,
-    maxLoanDuration: 7, 
-    minimumBalanceAge: 7, 
+    minAmount: 500, // Tăng mức vay tối thiểu
+    maxLoanRatio: 0.3, // Giảm tỉ lệ vay tối đa từ 0.5 xuống 0.3
+    baseInterestRate: 0.02, // Tăng lãi suất cơ bản
+    maxLoanDuration: 5, // Giảm thời gian vay tối đa từ 7 xuống 5 ngày
+    minimumBalanceAge: 14, // Tăng thời gian yêu cầu tài khoản từ 7 lên 14 ngày
     creditScoreFactors: {
-        transactionHistory: 0.3, 
-        repaymentHistory: 0.4,
-        balanceStability: 0.3  
+        transactionHistory: 0.3,
+        repaymentHistory: 0.5, // Tăng tầm quan trọng của lịch sử trả nợ
+        balanceStability: 0.2
     },
-    penaltyRate: 0.03,
-    collateralRatio: 0.3,
+    penaltyRate: 0.05, // Tăng mức phạt từ 0.03 lên 0.05
+    collateralRatio: 0.5, // Tăng tỉ lệ thế chấp từ 0.3 lên 0.5
+    creditScoreThresholds: {
+        minimum: 50, // Điểm tín dụng tối thiểu để được vay
+        good: 70,
+        excellent: 85
+    },
+    repaymentPenalties: {
+        firstWarning: 3, // Số ngày trước khi gửi cảnh báo đầu tiên
+        secondWarning: 1, // Số ngày trước khi gửi cảnh báo thứ hai
+        gracePeriod: 1, // Thời gian gia hạn (ngày) trước khi áp dụng phạt
+        creditScoreDeduction: {
+            late1Day: -5, // Phạt điểm tín dụng khi trễ 1 ngày
+            late3Days: -15,
+            late5Days: -30,
+            default: -50 // Phạt khi vỡ nợ
+        }
+    },
+    cooldownPeriod: 3 * 24 * 60 * 60 * 1000, // 3 ngày thời gian nghỉ giữa các khoản vay
+    maxActiveLoans: 1,
+    eligibilityCriteria: {
+        minimumTransactions: 5, // Số giao dịch tối thiểu
+        minimumBalance: 5000, // Số dư tối thiểu
+    },
+    // Giữ nguyên vipBenefits hiện tại
     vipBenefits: {
-        1: { 
-            maxLoanRatio: 0.8, 
-            interestDiscount: 0.1, 
-            collateralRequired: true, 
-            creditScoreRequired: true 
+        1: {
+            maxLoanRatio: 0.5, // Giảm xuống từ 0.8
+            interestDiscount: 0.1,
+            collateralRequired: true,
+            creditScoreRequired: true
         },
-        2: { 
-            maxLoanRatio: 1, 
-            interestDiscount: 0.2, 
+        2: {
+            maxLoanRatio: 0.8, // Giảm xuống từ 1.0
+            interestDiscount: 0.2,
             collateralRequired: true,
             creditScoreRequired: false
         },
-        3: { 
-            maxLoanRatio: 1.5, 
-            interestDiscount: 0.3, 
+        3: {
+            maxLoanRatio: 1.2, // Giảm xuống từ 1.5
+            interestDiscount: 0.3,
             collateralRequired: false,
             creditScoreRequired: false
         }
+    }
+};
+
+const LOAN_APPROVAL = {
+    levels: {
+        automatic: {
+            maxAmount: 50000,
+            minCreditScore: 70
+        },
+        review: {
+            maxAmount: 200000,
+            minCreditScore: 60,
+            waitTime: 4 * 60 * 60 * 1000 
+        },
+        committee: {
+            maxAmount: Infinity,
+            minCreditScore: 50,
+            waitTime: 12 * 60 * 60 * 1000 
+        }
+    },
+    rejectionCooldown: 7 * 24 * 60 * 60 * 1000, 
+    appeals: {
+        allowed: true,
+        cooldown: 3 * 24 * 60 * 60 * 1000, 
+        maxAttempts: 2
     }
 };
 
@@ -57,14 +105,14 @@ const CREDIT_SCORE = {
             threshold: 1000000,
         },
         accountAge: {
-            weight: 0.30, 
+            weight: 0.30,
             threshold: 30,
-            minAge: 3,    
+            minAge: 3,
         },
         balanceStability: {
             weight: 0.20,
-            minBalance: 100000, 
-            duration: 7, 
+            minBalance: 100000,
+            duration: 7,
         },
         loanHistory: {
             weight: 0.25,
@@ -86,7 +134,7 @@ const SECURITY_CONFIG = {
     creditScore: {
         minTransactionAmount: 50000,
         dailyTransactionLimit: 10,
-        minTransactionInterval: 30 * 60 * 1000 
+        minTransactionInterval: 30 * 60 * 1000
     }
 };
 
@@ -150,8 +198,8 @@ function calculateCreditScore(userId, bankingData) {
 
     const validTransactions = transactions.filter(t => {
         const isValidAmount = t.amount >= SECURITY_CONFIG.creditScore.minTransactionAmount;
-        const hasMinInterval = transactions.every(other => 
-            t === other || 
+        const hasMinInterval = transactions.every(other =>
+            t === other ||
             Math.abs(t.timestamp - other.timestamp) >= SECURITY_CONFIG.creditScore.minTransactionInterval
         );
         return isValidAmount && hasMinInterval;
@@ -176,7 +224,7 @@ function calculateCreditScore(userId, bankingData) {
 
     const accountAge = (Date.now() - (userData.createdAt || Date.now())) / (24 * 60 * 60 * 1000);
     if (accountAge < CREDIT_SCORE.factors.accountAge.minAge) {
-        score += 0; 
+        score += 0;
     } else {
         const ageScore = Math.min(100, (accountAge / CREDIT_SCORE.factors.accountAge.threshold) * 100);
         score += ageScore * CREDIT_SCORE.factors.accountAge.weight;
@@ -184,7 +232,7 @@ function calculateCreditScore(userId, bankingData) {
 
     let balanceScore = 0;
     if (userData.bankBalance >= CREDIT_SCORE.factors.balanceStability.minBalance) {
-        const hasStableBalance = userData.balanceHistory?.some(h => 
+        const hasStableBalance = userData.balanceHistory?.some(h =>
             h.balance >= CREDIT_SCORE.factors.balanceStability.minBalance &&
             Date.now() - h.timestamp <= CREDIT_SCORE.factors.balanceStability.duration * 24 * 60 * 60 * 1000
         );
@@ -194,12 +242,12 @@ function calculateCreditScore(userId, bankingData) {
 
     let loanScore = 0;
     if (loanHistory.length > 0) {
-        const successfulPayments = loanHistory.filter(loan => 
+        const successfulPayments = loanHistory.filter(loan =>
             loan.status === 'paid' && loan.paidOnTime
         ).length;
         loanScore = Math.min(100, (successfulPayments / CREDIT_SCORE.factors.loanHistory.successfulPayments) * 100);
     } else if (!activeLoan) {
-        loanScore = 50; 
+        loanScore = 50;
     }
     score += loanScore * CREDIT_SCORE.factors.loanHistory.weight;
 
@@ -209,11 +257,11 @@ function calculateCreditScore(userId, bankingData) {
         });
     }
 
-    const recentTransactions = transactions.filter(t => 
-        Date.now() - t.timestamp < 7 * 24 * 60 * 60 * 1000 
+    const recentTransactions = transactions.filter(t =>
+        Date.now() - t.timestamp < 7 * 24 * 60 * 60 * 1000
     );
     if (recentTransactions.length >= 5) {
-        score += 10; 
+        score += 10;
     }
 
     return Math.max(CREDIT_SCORE.minScore, Math.min(CREDIT_SCORE.maxScore, Math.round(score)));
@@ -245,15 +293,15 @@ function calculateDetailedCreditScore(userId, bankingData) {
 
     let stabilityScore = 0;
     if (userData.balanceHistory) {
-        const recentBalances = userData.balanceHistory.filter(b => 
+        const recentBalances = userData.balanceHistory.filter(b =>
             b.timestamp > Date.now() - (CREDIT_SCORE.factors.balanceStability.duration * 24 * 60 * 60 * 1000)
         );
         const hasStableBalance = recentBalances.every(b => b.balance >= CREDIT_SCORE.factors.balanceStability.minBalance);
-        stabilityScore = hasStableBalance ? 100 : Math.min(100, 
+        stabilityScore = hasStableBalance ? 100 : Math.min(100,
             (userData.bankBalance / CREDIT_SCORE.factors.balanceStability.minBalance) * 50
         );
     }
-    
+
     details.stabilityScore = {
         score: Math.round(stabilityScore * CREDIT_SCORE.factors.balanceStability.weight),
         description: `Độ ổn định số dư: ${Math.min(100, Math.round(stabilityScore))}%`
@@ -261,10 +309,10 @@ function calculateDetailedCreditScore(userId, bankingData) {
 
     let loanScore = 0;
     if (loanHistory.length > 0 || activeLoan) {
-        const successfulPayments = loanHistory.filter(loan => 
+        const successfulPayments = loanHistory.filter(loan =>
             loan.status === 'paid' && loan.paidOnTime
         ).length;
-        
+
         if (activeLoan && activeLoan.status === 'active') {
             const isOverdue = Date.now() > activeLoan.dueDate;
             if (isOverdue) {
@@ -276,7 +324,7 @@ function calculateDetailedCreditScore(userId, bankingData) {
             loanScore = Math.min(100, (successfulPayments * 20));
         }
     }
-    
+
     details.loanScore = {
         score: Math.round(loanScore * CREDIT_SCORE.factors.loanHistory.weight),
         description: `Lịch sử vay: ${loanScore}%`,
@@ -288,7 +336,7 @@ function calculateDetailedCreditScore(userId, bankingData) {
     };
 
     creditScore = Object.values(details).reduce((sum, detail) => sum + detail.score, 0);
-    
+
     if (userData.penalties) {
         creditScore += userData.penalties.reduce((total, penalty) => total + penalty.points, 0);
     }
@@ -297,7 +345,7 @@ function calculateDetailedCreditScore(userId, bankingData) {
 
     const transferTransactions = transactions.filter(t => t.type === 'out').length;
     const receiveTransactions = transactions.filter(t => t.type === 'in').length;
-    
+
     details.transactionScore = {
         score: Math.round(transactionScore * CREDIT_SCORE.factors.transactionVolume.weight),
         total: totalTransactionVolume,
@@ -314,7 +362,7 @@ function calculateDetailedCreditScore(userId, bankingData) {
 
 function calculateInterestRate(creditScore, loanAmount, totalAssets) {
     let rate = LOAN_CONFIG.baseInterestRate;
-    
+
     if (creditScore >= 80) rate *= 0.8;
     else if (creditScore >= 60) rate *= 0.9;
     else if (creditScore <= 30) rate *= 1.5;
@@ -389,7 +437,7 @@ function initializeUserData(userId, bankingData) {
 function updateBalanceHistory(userId, bankingData, newBalance) {
     const userData = bankingData.users[userId];
     if (!userData.balanceHistory) userData.balanceHistory = [];
-    
+
     userData.balanceHistory.push({
         balance: newBalance,
         timestamp: Date.now()
@@ -401,7 +449,7 @@ function updateBalanceHistory(userId, bankingData, newBalance) {
 function isBlacklisted(userId, bankingData) {
     const blacklistEntry = bankingData.blacklist[userId];
     if (!blacklistEntry) return false;
-    
+
     if (Date.now() - blacklistEntry.timestamp > SECURITY_CONFIG.blacklistDuration) {
         delete bankingData.blacklist[userId];
         return false;
@@ -412,7 +460,7 @@ function isBlacklisted(userId, bankingData) {
 function checkLoanLimit(userId, bankingData) {
     const today = new Date().toDateString();
     const dailyLoans = bankingData.dailyLoans[userId] || {};
-    
+
     if (dailyLoans.date === today) {
         if (dailyLoans.count >= SECURITY_CONFIG.maxLoansPerDay) {
             return false;
@@ -429,7 +477,7 @@ function checkLoanLimit(userId, bankingData) {
 function lockCollateral(userId, amount, bankingData) {
     const userData = bankingData.users[userId];
     if (!userData.lockedCollateral) userData.lockedCollateral = {};
-    
+
     userData.lockedCollateral[Date.now()] = {
         amount: amount,
         unlockTime: Date.now() + (LOAN_CONFIG.maxLoanDuration * 24 * 60 * 60 * 1000)
@@ -439,16 +487,16 @@ function lockCollateral(userId, amount, bankingData) {
 function validateTransaction(userId, bankingData, amount) {
     const transactions = bankingData.transactions[userId] || [];
     const lastTransaction = transactions[transactions.length - 1];
-    
+
     if (amount < SECURITY_CONFIG.minTransactionAmount) {
         return { valid: false, reason: "Số tiền giao dịch quá nhỏ!" };
     }
-    
-    if (lastTransaction && 
+
+    if (lastTransaction &&
         Date.now() - lastTransaction.timestamp < SECURITY_CONFIG.minTransactionInterval) {
         return { valid: false, reason: "Vui lòng đợi ít phút giữa các giao dịch!" };
     }
-    
+
     return { valid: true };
 }
 
@@ -542,9 +590,9 @@ async function calculateUserStats(userId, bankingData, walletBalance = 0) {
     const creditScore = userData.creditScore || CREDIT_SCORE.defaultScore;
     const totalBalance = userData.bankBalance + walletBalance;
     const balanceRatio = totalBalance > 0 ? userData.bankBalance / totalBalance : 0;
-    stats.riskScore = Math.min(100, 
-        (creditScore * 0.4) + 
-        (balanceRatio * 50 * 0.3) + 
+    stats.riskScore = Math.min(100,
+        (creditScore * 0.4) +
+        (balanceRatio * 50 * 0.3) +
         (stats.streak * 2 * 0.3)
     );
 
@@ -565,16 +613,15 @@ async function getTopUsers(bankingData) {
     return users;
 }
 
-// Thêm hàm mới để xử lý nợ quá hạn
 async function handleOverdueLoan(userId, bankingData) {
     const userData = bankingData.users[userId];
     const loan = bankingData.loans[userId];
-    
+
     if (!loan || loan.status !== 'active') return null;
-    
+
     const daysOverdue = Math.floor((Date.now() - loan.dueDate) / (24 * 60 * 60 * 1000));
     if (daysOverdue <= 0) return null;
-    
+
     const penaltyInfo = {
         daysOverdue,
         originalAmount: loan.remainingAmount,
@@ -589,14 +636,14 @@ async function handleOverdueLoan(userId, bankingData) {
         const maxPenaltyDays = Math.min(daysOverdue, BANK_CONFIG.defaultPenalty.maxPenaltyDays);
         penaltyInfo.penaltyAmount = loan.remainingAmount * penaltyRate * maxPenaltyDays;
         penaltyInfo.totalDue = loan.remainingAmount + penaltyInfo.penaltyAmount;
-        
+
         // Giảm điểm tín dụng
         userData.creditScore = Math.max(0, userData.creditScore + BANK_CONFIG.defaultPenalty.creditScore);
-        
+
         // Kiểm tra điều kiện blacklist
         if (!userData.latePayments) userData.latePayments = 0;
         userData.latePayments++;
-        
+
         if (userData.latePayments >= BANK_CONFIG.defaultPenalty.blacklistThreshold) {
             bankingData.blacklist[userId] = {
                 timestamp: Date.now(),
@@ -605,7 +652,7 @@ async function handleOverdueLoan(userId, bankingData) {
             };
             penaltyInfo.status = 'blacklisted';
         }
-        
+
         // Xử lý tài sản thế chấp nếu quá 7 ngày
         if (daysOverdue >= BANK_CONFIG.defaultPenalty.maxPenaltyDays) {
             if (userData.lockedCollateral) {
@@ -618,7 +665,7 @@ async function handleOverdueLoan(userId, bankingData) {
             }
         }
     }
-    
+
     return penaltyInfo;
 }
 
@@ -628,19 +675,19 @@ module.exports = {
     category: "Tài Chính",
     onPrefix: true,
     usages: ".banking [gửi/rút/check/vay/trả/khoản_vay]\n",
-    info: "Hệ thống ngân hàng trực tuyến với dịch vụ cho vay",
+    info: "Hệ thống ngân hàng trực tuyến",
     cooldowns: 3,
 
-    onLaunch: async function({ api, event, target }) {
+    onLaunch: async function ({ api, event, target }) {
         const { threadID, messageID, senderID } = event;
-        
+
         if (!target[0]) {
             return api.sendMessage(getBankingHelp(), threadID, messageID);
         }
 
         try {
             const { threadID, messageID, senderID } = event;
-            
+
             const bankingData = loadBankingData();
             let walletBalance;
             try {
@@ -649,7 +696,7 @@ module.exports = {
                 console.error('Lỗi lấy số dư ví:', err);
                 walletBalance = 0;
             }
-            
+
             if (!bankingData.users[senderID]) {
                 try {
                     bankingData.users[senderID] = initializeUserData(senderID, bankingData);
@@ -711,7 +758,7 @@ module.exports = {
                         await updateBalance(senderID, -amount);
                         userData.bankBalance += amount;
                         await saveBankingData(bankingData);
-                        
+
                         const newBalance = await getBalance(senderID);
                         return api.sendMessage(
                             `✅ Đã gửi ${amount.toLocaleString('vi-VN')} $ vào ngân hàng!\n` +
@@ -768,7 +815,7 @@ module.exports = {
                         const creditInfo = calculateDetailedCreditScore(senderID, bankingData);
                         const stats = await calculateUserStats(senderID, bankingData, walletBalance);
                         const loan = bankingData.loans[senderID];
-                        
+
                         // Xác định mức độ rủi ro
                         let riskLevel;
                         if (stats.riskScore >= BANK_CONFIG.riskLevels.low.threshold) {
@@ -778,7 +825,7 @@ module.exports = {
                         } else {
                             riskLevel = BANK_CONFIG.riskLevels.high;
                         }
-                        
+
                         let loanStatus = "";
                         if (loan && loan.status === 'active') {
                             const penaltyInfo = await handleOverdueLoan(senderID, bankingData);
@@ -787,9 +834,9 @@ module.exports = {
                                     `📅 Quá hạn: ${penaltyInfo.daysOverdue} ngày\n` +
                                     `💰 Tiền phạt: ${formatNumber(penaltyInfo.penaltyAmount)} $\n` +
                                     `💳 Tổng nợ: ${formatNumber(penaltyInfo.totalDue)} $\n` +
-                                    `⚠️ Trạng thái: ${penaltyInfo.status === 'blacklisted' ? '🚫 Đã bị cấm' : 
-                                                    penaltyInfo.status === 'liquidated' ? '📥 Đã tịch thu tài sản' : 
-                                                    '⏳ Đang phạt quá hạn'}`;
+                                    `⚠️ Trạng thái: ${penaltyInfo.status === 'blacklisted' ? '🚫 Đã bị cấm' :
+                                        penaltyInfo.status === 'liquidated' ? '📥 Đã tịch thu tài sản' :
+                                            '⏳ Đang phạt quá hạn'}`;
                             } else {
                                 const daysLeft = Math.ceil((loan.dueDate - Date.now()) / (24 * 60 * 60 * 1000));
                                 loanStatus = `\n\nKHOẢN VAY HIỆN TẠI\n` +
@@ -799,7 +846,7 @@ module.exports = {
                             }
                         }
 
-                        const vipInfo = stats.vipStatus.packageId > 0 ? 
+                        const vipInfo = stats.vipStatus.packageId > 0 ?
                             `\n👑 VIP ${stats.vipStatus.packageId}\n` +
                             `💹 Lãi suất: ${(BANK_CONFIG.vipInterestRates[stats.vipStatus.packageId] * 100).toFixed(2)}%/ngày` : '';
 
@@ -839,7 +886,46 @@ module.exports = {
                             return api.sendMessage("❌ Vui lòng nhập số tiền muốn vay hợp lệ!", threadID, messageID);
                         }
 
+                        if (amount < LOAN_CONFIG.minAmount) {
+                            return api.sendMessage(
+                                `❌ Số tiền vay tối thiểu là ${formatNumber(LOAN_CONFIG.minAmount)} $!`,
+                                threadID, messageID
+                            );
+                        }
+
+                        // Kiểm tra thời gian chờ giữa các khoản vay
+                        const loanHistory = bankingData.loans[senderID]?.history || [];
+                        const lastLoan = loanHistory[loanHistory.length - 1];
+
+                        if (lastLoan && (Date.now() - lastLoan.endDate < LOAN_CONFIG.cooldownPeriod)) {
+                            const remainingHours = Math.ceil((LOAN_CONFIG.cooldownPeriod - (Date.now() - lastLoan.endDate)) / (60 * 60 * 1000));
+                            return api.sendMessage(
+                                `❌ Bạn cần đợi thêm ${remainingHours} giờ trước khi có thể vay tiếp!\n` +
+                                "📝 Chính sách mới yêu cầu thời gian chờ giữa các khoản vay.",
+                                threadID, messageID
+                            );
+                        }
+
+                        // Kiểm tra tiêu chí đủ điều kiện vay
+                        const transactions = bankingData.transactions[senderID] || [];
+                        if (transactions.length < LOAN_CONFIG.eligibilityCriteria.minimumTransactions) {
+                            return api.sendMessage(
+                                `❌ Bạn cần có ít nhất ${LOAN_CONFIG.eligibilityCriteria.minimumTransactions} giao dịch để đủ điều kiện vay!\n` +
+                                `📊 Số giao dịch hiện tại: ${transactions.length}`,
+                                threadID, messageID
+                            );
+                        }
+
                         const totalAssets = walletBalance + bankBalance;
+
+                        if (totalAssets < LOAN_CONFIG.eligibilityCriteria.minimumBalance) {
+                            return api.sendMessage(
+                                `❌ Tổng tài sản của bạn phải đạt tối thiểu ${formatNumber(LOAN_CONFIG.eligibilityCriteria.minimumBalance)} $ để vay!\n` +
+                                `💰 Tổng tài sản hiện tại: ${formatNumber(totalAssets)} $`,
+                                threadID, messageID
+                            );
+                        }
+
                         const vipBenefits = getVIPBenefits(senderID);
                         const vipLevel = vipBenefits?.packageId || 0;
                         const vipLoanConfig = LOAN_CONFIG.vipBenefits[vipLevel];
@@ -847,115 +933,91 @@ module.exports = {
 
                         if (vipLoanConfig) {
                             maxLoanAmount = totalAssets * vipLoanConfig.maxLoanRatio;
-                            
-                            if (amount > maxLoanAmount) {
-                                return api.sendMessage(
-                                    `❌ Với VIP ${vipLevel}, số tiền vay tối đa của bạn là ${formatNumber(maxLoanAmount)} $!`,
-                                    threadID, messageID
-                                );
-                            }
-
-                            const existingLoan = bankingData.loans[senderID];
-                            if (existingLoan && existingLoan.status === 'active') {
-                                return api.sendMessage(
-                                    "❌ Bạn đang có khoản vay chưa thanh toán!\n" +
-                                    `💰 Số tiền nợ: ${formatNumber(existingLoan.remainingAmount)} $\n` +
-                                    `📅 Hạn trả: ${new Date(existingLoan.dueDate).toLocaleDateString('vi-VN')}`,
-                                    threadID, messageID
-                                );
-                            }
-
-                            let interestRate = calculateInterestRate(100, amount, totalAssets); 
-                            interestRate *= (1 - vipLoanConfig.interestDiscount);
-
-                            const interest = Math.ceil(amount * interestRate * LOAN_CONFIG.maxLoanDuration);
-                            const totalRepayment = amount + interest;
-                            const dueDate = Date.now() + (LOAN_CONFIG.maxLoanDuration * 24 * 60 * 60 * 1000);
-
-                            let requiredCollateral = 0;
-                            if (vipLoanConfig.collateralRequired) {
-                                requiredCollateral = amount * LOAN_CONFIG.collateralRatio;
-                                if (bankBalance < requiredCollateral) {
-                                    return api.sendMessage(
-                                        `❌ Bạn cần có ít nhất ${formatNumber(requiredCollateral)} $ trong ngân hàng để đảm bảo khoản vay!\n` +
-                                        "📝 Số tiền này sẽ bị phong tỏa cho đến khi trả hết nợ.",
-                                        threadID, messageID
-                                    );
-                                }
-                                userData.bankBalance -= requiredCollateral;
-                                userData.lockedCollateral = requiredCollateral;
-                            }
-
-                            // Tạo khoản vay mới
-                            bankingData.loans[senderID] = {
-                                amount: amount,
-                                interest: interest,
-                                remainingAmount: totalRepayment,
-                                startDate: Date.now(),
-                                dueDate: dueDate,
-                                status: 'active',
-                                collateral: requiredCollateral,
-                                interestRate: interestRate,
-                                creditScore: 100,
-                                isVipLoan: true,
-                                vipLevel: vipLevel
-                            };
-
-                            await updateBalance(senderID, amount);
-                            await saveBankingData(bankingData);
-
-                            return api.sendMessage(
-                                "🏦 THÔNG TIN KHOẢN VAY VIP 🏦\n" +
-                                "━━━━━━━━━━━━━━━━━━\n" +
-                                `👑 Cấp VIP: ${vipLevel}\n` +
-                                `💰 Số tiền vay: ${formatNumber(amount)} $\n` +
-                                `💹 Lãi suất: ${(interestRate * 100).toFixed(2)}%/ngày\n` +
-                                `${requiredCollateral ? `🔒 Tài sản đảm bảo: ${formatNumber(requiredCollateral)} $\n` : ''}` +
-                                `💵 Tiền lãi: ${formatNumber(interest)} $\n` +
-                                `💳 Tổng số tiền phải trả: ${formatNumber(totalRepayment)} $\n` +
-                                `📅 Hạn trả: ${new Date(dueDate).toLocaleDateString('vi-VN')}\n\n` +
-                                "✨ Đặc quyền VIP:\n" +
-                                `• Giảm ${vipLoanConfig.interestDiscount * 100}% lãi suất\n` +
-                                `• ${vipLoanConfig.collateralRequired ? 'Giảm' : 'Miễn'} tài sản đảm bảo\n` +
-                                `• Không yêu cầu điểm tín dụng`,
-                                threadID, messageID
-                            );
                         }
 
                         if (amount > maxLoanAmount) {
                             return api.sendMessage(
-                                `❌ Số tiền vay tối đa là ${maxLoanAmount.toLocaleString('vi-VN')} $ (50% tổng tài sản)!`,
+                                `❌ Với ${vipLevel ? `VIP ${vipLevel}` : "tài khoản thường"}, số tiền vay tối đa của bạn là ${formatNumber(maxLoanAmount)} $!`,
+                                threadID, messageID
+                            );
+                        }
+
+                        const existingLoan = bankingData.loans[senderID];
+                        if (existingLoan && existingLoan.status === 'active') {
+                            return api.sendMessage(
+                                "❌ Bạn đang có khoản vay chưa thanh toán!\n" +
+                                `💰 Số tiền nợ: ${formatNumber(existingLoan.remainingAmount)} $\n` +
+                                `📅 Hạn trả: ${new Date(existingLoan.dueDate).toLocaleDateString('vi-VN')}`,
                                 threadID, messageID
                             );
                         }
 
                         const creditScore = calculateCreditScore(senderID, bankingData);
                         const accountAge = (Date.now() - (userData.createdAt || Date.now())) / (24 * 60 * 60 * 1000);
-                        
-                        if (accountAge < CREDIT_SCORE.factors.accountAge.minAge) {
+
+                        if (accountAge < LOAN_CONFIG.minimumBalanceAge) {
                             return api.sendMessage(
-                                `❌ Tài khoản của bạn cần tối thiểu ${CREDIT_SCORE.factors.accountAge.minAge} ngày tuổi để vay!\n` +
-                                `⏳ Thời gian còn lại: ${Math.ceil(CREDIT_SCORE.factors.accountAge.minAge - accountAge)} ngày`,
+                                `❌ Tài khoản của bạn cần tối thiểu ${LOAN_CONFIG.minimumBalanceAge} ngày tuổi để vay!\n` +
+                                `⏳ Thời gian còn lại: ${Math.ceil(LOAN_CONFIG.minimumBalanceAge - accountAge)} ngày`,
                                 threadID, messageID
                             );
                         }
 
-                        const minRequiredScore = amount > (maxLoanAmount * 0.7) ? 40 : 30;
-                        if (creditScore < minRequiredScore) {
+                        if (creditScore < LOAN_CONFIG.creditScoreThresholds.minimum && !vipLevel) {
                             return api.sendMessage(
-                                `❌ Điểm tín dụng tối thiểu để vay ${amount.toLocaleString('vi-VN')} $ là ${minRequiredScore} điểm!\n` +
+                                `❌ Điểm tín dụng tối thiểu để vay là ${LOAN_CONFIG.creditScoreThresholds.minimum} điểm!\n` +
                                 `📊 Điểm tín dụng hiện tại: ${creditScore}\n` +
                                 "📝 Hãy thực hiện nhiều giao dịch và duy trì số dư để tăng điểm tín dụng.",
                                 threadID, messageID
                             );
                         }
 
+                        // Xác định cấp độ phê duyệt khoản vay
+                        let approvalLevel;
+                        if (amount <= LOAN_APPROVAL.levels.automatic.maxAmount && creditScore >= LOAN_APPROVAL.levels.automatic.minCreditScore) {
+                            approvalLevel = "automatic";
+                        } else if (amount <= LOAN_APPROVAL.levels.review.maxAmount && creditScore >= LOAN_APPROVAL.levels.review.minCreditScore) {
+                            approvalLevel = "review";
+                        } else {
+                            approvalLevel = "committee";
+                        }
+
+                        // Nếu không phải phê duyệt tự động, thông báo chờ
+                        if (approvalLevel !== "automatic" && !vipLevel) {
+                            const waitTime = LOAN_APPROVAL.levels[approvalLevel].waitTime;
+                            const waitHours = Math.ceil(waitTime / (60 * 60 * 1000));
+
+                            // Lưu yêu cầu vay vào hệ thống
+                            if (!bankingData.loanRequests) bankingData.loanRequests = {};
+                            bankingData.loanRequests[senderID] = {
+                                amount: amount,
+                                requestTime: Date.now(),
+                                approvalLevel: approvalLevel,
+                                processingTime: Date.now() + waitTime,
+                                status: 'pending'
+                            };
+                            await saveBankingData(bankingData);
+
+                            return api.sendMessage(
+                                "🕒 YÊU CẦU VAY ĐANG CHỜ PHÊ DUYỆT\n" +
+                                "━━━━━━━━━━━━━━━━━━\n" +
+                                `💰 Số tiền yêu cầu: ${formatNumber(amount)} $\n` +
+                                `⏳ Thời gian chờ: Khoảng ${waitHours} giờ\n` +
+                                `📋 Cấp độ phê duyệt: ${approvalLevel === "review" ? "Xét duyệt" : "Ủy ban"}\n\n` +
+                                "📌 Lưu ý:\n" +
+                                "• Yêu cầu của bạn đang được xem xét\n" +
+                                "• Bạn sẽ nhận được thông báo khi có kết quả\n" +
+                                "• Nâng cấp lên VIP để được vay tức thì",
+                                threadID, messageID
+                            );
+                        }
+
                         userData.creditScore = creditScore;
 
-                        const requiredCollateral = amount * LOAN_CONFIG.collateralRatio;
-                        if (bankBalance < requiredCollateral) {
+                        const requiredCollateral = amount * (vipLevel ? vipLoanConfig.collateralRatio || LOAN_CONFIG.collateralRatio : LOAN_CONFIG.collateralRatio);
+                        if (bankBalance < requiredCollateral && (!vipLevel || vipLoanConfig.collateralRequired)) {
                             return api.sendMessage(
-                                `❌ Bạn cần có ít nhất ${requiredCollateral.toLocaleString('vi-VN')} $ trong ngân hàng để đảm bảo khoản vay!\n` +
+                                `❌ Bạn cần có ít nhất ${formatNumber(requiredCollateral)} $ trong ngân hàng để đảm bảo khoản vay!\n` +
                                 "📝 Số tiền này sẽ bị phong tỏa cho đến khi trả hết nợ.",
                                 threadID, messageID
                             );
@@ -968,37 +1030,30 @@ module.exports = {
                             );
                         }
 
-                        if (!checkLoanLimit(senderID, bankingData)) {
-                            return api.sendMessage(
-                                `❌ Bạn đã đạt giới hạn ${SECURITY_CONFIG.maxLoansPerDay} khoản vay trong ngày!`,
-                                threadID, messageID
-                            );
+                        let interestRate = calculateInterestRate(creditScore, amount, totalAssets);
+                        if (vipLevel && vipLoanConfig) {
+                            interestRate *= (1 - vipLoanConfig.interestDiscount);
                         }
 
-                        const existingLoan = bankingData.loans[senderID];
-                        if (existingLoan && existingLoan.status === 'active') {
-                            return api.sendMessage(
-                                "❌ Bạn đang có khoản vay chưa thanh toán!\n" +
-                                `💰 Số tiền nợ: ${existingLoan.remainingAmount.toLocaleString('vi-VN')} $\n` +
-                                `📅 Hạn trả: ${new Date(existingLoan.dueDate).toLocaleDateString('vi-VN')}`,
-                                threadID, messageID
-                            );
-                        }
-
-                        const interestRate = calculateInterestRate(creditScore, amount, totalAssets);
                         const interest = Math.ceil(amount * interestRate * LOAN_CONFIG.maxLoanDuration);
                         const totalRepayment = amount + interest;
                         const dueDate = Date.now() + (LOAN_CONFIG.maxLoanDuration * 24 * 60 * 60 * 1000);
 
-                        userData.bankBalance -= requiredCollateral;
-                        lockCollateral(senderID, requiredCollateral, bankingData);
+                        let actualCollateral = 0;
+                        if (!vipLevel || vipLoanConfig.collateralRequired) {
+                            userData.bankBalance -= requiredCollateral;
+                            lockCollateral(senderID, requiredCollateral, bankingData);
+                            actualCollateral = requiredCollateral;
+                        }
 
+                        // Cập nhật thống kê vay hàng ngày
                         const today = new Date().toDateString();
                         if (!bankingData.dailyLoans[senderID]) {
                             bankingData.dailyLoans[senderID] = { date: today, count: 0 };
                         }
                         bankingData.dailyLoans[senderID].count++;
 
+                        // Tạo khoản vay mới với chính sách nghiêm ngặt
                         bankingData.loans[senderID] = {
                             amount: amount,
                             interest: interest,
@@ -1006,29 +1061,47 @@ module.exports = {
                             startDate: Date.now(),
                             dueDate: dueDate,
                             status: 'active',
-                            collateral: requiredCollateral,
+                            collateral: actualCollateral,
                             interestRate: interestRate,
-                            creditScore: creditScore
+                            creditScore: creditScore,
+                            warningsSent: 0,
+                            lastReminderDate: null,
+                            paymentHistory: [],
+                            vipStatus: vipLevel
+                        };
+
+                        // Lập lịch nhắc nhở trả nợ
+                        if (!bankingData.repaymentReminders) bankingData.repaymentReminders = {};
+                        bankingData.repaymentReminders[senderID] = {
+                            loanId: Date.now(),
+                            amount: totalRepayment,
+                            dueDate: dueDate,
+                            firstWarningDate: dueDate - (LOAN_CONFIG.repaymentPenalties.firstWarning * 24 * 60 * 60 * 1000),
+                            secondWarningDate: dueDate - (LOAN_CONFIG.repaymentPenalties.secondWarning * 24 * 60 * 60 * 1000)
                         };
 
                         await updateBalance(senderID, amount);
                         await saveBankingData(bankingData);
-                        
+
+                        const loanTerms = [
+                            "📜 ĐIỀU KHOẢN VAY MỚI:",
+                            `1. Khoản vay phải được trả trong ${LOAN_CONFIG.maxLoanDuration} ngày`,
+                            `2. Tài sản đảm bảo: ${actualCollateral > 0 ? formatNumber(actualCollateral) + ' $' : 'Không yêu cầu (VIP)'}`,
+                            `3. Phạt quá hạn: ${(LOAN_CONFIG.penaltyRate * 100).toFixed(1)}%/ngày`,
+                            "4. Trễ hạn sẽ bị trừ điểm tín dụng nghiêm trọng",
+                            "5. Vỡ nợ sẽ bị cấm vay trong 30 ngày"
+                        ];
+
                         return api.sendMessage(
-                            "🏦 THÔNG TIN KHOẢN VAY 🏦\n" +
+                            "🏦 KHOẢN VAY ĐÃ ĐƯỢC PHÊ DUYỆT 🏦\n" +
                             "━━━━━━━━━━━━━━━━━━\n" +
                             `📊 Điểm tín dụng: ${creditScore}/100\n` +
-                            `💰 Số tiền vay: ${amount.toLocaleString('vi-VN')} $\n` +
+                            `💰 Số tiền vay: ${formatNumber(amount)} $\n` +
                             `💹 Lãi suất: ${(interestRate * 100).toFixed(2)}%/ngày\n` +
-                            `🔒 Tài sản đảm bảo: ${requiredCollateral.toLocaleString('vi-VN')} $\n` +
-                            `💵 Tiền lãi: ${interest.toLocaleString('vi-VN')} $\n` +
-                            `💳 Tổng số tiền phải trả: ${totalRepayment.toLocaleString('vi-VN')} $\n` +
+                            `💵 Tiền lãi: ${formatNumber(interest)} $\n` +
+                            `💳 Tổng số tiền phải trả: ${formatNumber(totalRepayment)} $\n` +
                             `📅 Hạn trả: ${new Date(dueDate).toLocaleDateString('vi-VN')}\n\n` +
-                            "📌 Điều khoản vay:\n" +
-                            "1. Khoản vay phải được trả trong 7 ngày\n" +
-                            "2. Tài sản đảm bảo sẽ bị phong tỏa\n" +
-                            "3. Quá hạn trả sẽ bị phạt 3%/ngày\n" +
-                            "4. Xử lý tài sản đảm bảo nếu không trả nợ",
+                            loanTerms.join("\n"),
                             threadID, messageID
                         );
                     } catch (err) {
@@ -1067,7 +1140,7 @@ module.exports = {
                                 userData.bankBalance += userData.lockedCollateral;
                                 userData.lockedCollateral = 0;
                             }
-                            
+
                             if (!bankingData.loans[senderID].history) {
                                 bankingData.loans[senderID].history = [];
                             }
@@ -1081,7 +1154,7 @@ module.exports = {
                         }
 
                         await saveBankingData(bankingData);
-                        
+
                         const message = [
                             `✅ Đã trả ${paymentAmount.toLocaleString('vi-VN')} $ cho khoản vay!`
                         ];
@@ -1179,14 +1252,14 @@ module.exports = {
         }
     },
 
-    updateTransaction: async function(userId, type, description, amount) {
+    updateTransaction: async function (userId, type, description, amount) {
         try {
             const bankingData = await loadBankingData();
             if (!bankingData.transactions) bankingData.transactions = {};
             if (!bankingData.transactions[userId]) {
                 bankingData.transactions[userId] = [];
             }
-            
+
             bankingData.transactions[userId].push({
                 type,
                 description,
@@ -1201,6 +1274,7 @@ module.exports = {
             await saveBankingData(bankingData);
         } catch (err) {
             console.error('Lỗi cập nhật giao dịch:', err);
-            throw err; 
+            throw err;
         }
-    }};
+    }
+};

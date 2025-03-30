@@ -3,12 +3,16 @@ const path = require("path");
 const fs = require("fs-extra");
 const { updateBalance } = require('../utils/currencies');
 
-const MESSAGE_LIFETIME = 5000;
+const MESSAGE_LIFETIME = 5000; // For status messages
+const QUESTION_LIFETIME = 60000; // Keep questions visible for 1 minute
 const ANSWER_COOLDOWN = 10000;
+const QUESTION_TIME_LIMIT = 120000;
+
 const API_KEYS = JSON.parse(fs.readFileSync(path.join(__dirname, "./json/chatbot/key.json"))).api_keys;
 const QUESTIONS_FILE = path.join(__dirname, './json/quiz/questions.json');
 const usedQuestions = new Set();
 const gameStates = new Map();
+const lastAnswerTime = new Map();
 const MONEY_LADDER = [
 
     0, 200, 400, 600, 1000, 2000,
@@ -74,35 +78,57 @@ function getRandomCategory() {
 }
 
 function shuffleAnswers(question) {
-    const answerPairs = [
-        ['A', question.options.A],
-        ['B', question.options.B],
-        ['C', question.options.C],
-        ['D', question.options.D]
-    ];
-
     const correctText = question.options[question.correct];
 
-    for (let i = answerPairs.length - 1; i > 0; i--) {
+    const optionKeys = ['A', 'B', 'C', 'D'];
+    const optionValues = [
+        question.options.A,
+        question.options.B,
+        question.options.C,
+        question.options.D
+    ];
+
+    for (let i = optionValues.length - 1; i > 0; i--) {
+
         const j = Math.floor(Math.random() * (i + 1));
-        [answerPairs[i], answerPairs[j]] = [answerPairs[j], answerPairs[i]];
+
+        [optionValues[i], optionValues[j]] = [optionValues[j], optionValues[i]];
     }
 
-    const shuffledOptions = {};
-    let newCorrect = '';
+    const shuffledOptions = {
+        A: optionValues[0],
+        B: optionValues[1],
+        C: optionValues[2],
+        D: optionValues[3]
+    };
 
-    answerPairs.forEach(([letter, text]) => {
-        shuffledOptions[letter] = text;
-        if (text === correctText) {
-            newCorrect = letter;
+    let newCorrect = '';
+    for (const [key, value] of Object.entries(shuffledOptions)) {
+        if (value === correctText) {
+            newCorrect = key;
+            break;
         }
-    });
+    }
+
+    const questionIdHash = question.id ?
+        question.id.split('').reduce((a, b) => a + b.charCodeAt(0), 0) :
+        Date.now();
+
+    if (questionIdHash % 4 === 0 && newCorrect === 'A') {
+
+        [shuffledOptions.A, shuffledOptions.C] = [shuffledOptions.C, shuffledOptions.A];
+        newCorrect = 'C';
+    } else if (questionIdHash % 4 === 1 && newCorrect === 'A') {
+
+        [shuffledOptions.A, shuffledOptions.D] = [shuffledOptions.D, shuffledOptions.A];
+        newCorrect = 'D';
+    }
 
     return {
         ...question,
         options: shuffledOptions,
         correct: newCorrect,
-        original_correct: question.correct 
+        original_correct: question.correct
     };
 }
 
@@ -125,11 +151,17 @@ module.exports = {
     name: "altp",
     dev: "HNT",
     category: "Games",
+    hide: true,
     info: "Ai Là Triệu Phú",
     usages: "altp [new/stop]",
     onPrefix: true,
     cooldowns: 60,
-
+    onUnload: function () {
+        if (global.altpTimeoutChecker) {
+            clearInterval(global.altpTimeoutChecker);
+            delete global.altpTimeoutChecker;
+        }
+    },
     onLaunch: async function ({ api, event, target }) {
         const { threadID, messageID, senderID } = event;
 
@@ -146,7 +178,30 @@ module.exports = {
         if (gameStates.has(threadID)) {
             return api.sendMessage("⚠️ Đã có người đang chơi trong nhóm này!", threadID);
         }
+        if (!global.altpTimeoutChecker) {
+            global.altpTimeoutChecker = setInterval(() => {
+                const now = Date.now();
 
+                gameStates.forEach((state, threadID) => {
+                    if (state.questionTime && now - state.questionTime > QUESTION_TIME_LIMIT) {
+
+                        const moneyWon = state.level > 0 ? MONEY_LADDER[state.level - 1] : 0;
+
+                        api.sendMessage(
+                            `⏰ Hết thời gian! Người chơi không trả lời trong 2 phút.\n` +
+                            `💰 Kết thúc trò chơi với ${moneyWon}$`,
+                            threadID
+                        );
+
+                        if (moneyWon > 0 && state.player) {
+                            updateBalance(state.player, moneyWon);
+                        }
+
+                        gameStates.delete(threadID);
+                    }
+                });
+            }, 5000);
+        }
         gameStates.set(threadID, {
             level: 0,
             lifelines: { ...LIFELINES },
@@ -154,16 +209,35 @@ module.exports = {
             player: senderID,
             moneyWon: 0
         });
+        const moneyLadderDisplay = MONEY_LADDER.slice(1).map((money, idx) => {
+            const level = idx + 1;
+            const milestone = [5, 10, 15].includes(level) ? '🔶 ' : '   ';
+            return `${milestone}${level}. ${money.toLocaleString()}$`;
+        }).join('\n');
 
-        const welcome = `🎮 AI LÀ TRIỆU PHÚ\n\n` +
-            `👤 Người chơi: ${senderID}\n` +
-            `💰 Mốc tiền thưởng:\n` +
-            MONEY_LADDER.slice(1).map((money, idx) =>
-                `${idx + 1}. ${money}$`
-            ).join('\n') + '\n\n' +
-            `🛟 Trợ giúp:\n` +
-            Object.values(LIFELINES).map(help => `• ${help}`).join('\n') + '\n\n' +
-            `↪️ Reply "ready" để bắt đầu!`;
+        const welcome = `
+    ╭「 🎮 AI LÀ TRIỆU PHÚ 🎮 」╮
+    
+    👤 Người chơi: ${senderID}
+    
+    💰 MỐC TIỀN THƯỞNG:
+    ${moneyLadderDisplay}
+    
+    🔶 = Mốc đảm bảo tiền thưởng
+    
+🛟 TRỢ GIÚP:
+✂️ 50:50 - Loại bỏ 2 đáp án sai (Reply "5050")
+👥 Hỏi ý kiến khán giả (Reply "AUDIENCE")
+📞 Gọi điện thoại cho người thân (Reply "CALL")
+
+    ⏱️ LUẬT CHƠI:
+    • Mỗi câu hỏi có thời gian trả lời là 2 phút
+    • Reply A, B, C, D để chọn đáp án
+    • Trả lời đúng để tiến lên câu tiếp theo
+    • Trả lời sai để kết thúc cuộc chơi
+    
+    ↪️ Reply "READY" để bắt đầu!
+    ╰────────────────╯`;
 
         const sent = await api.sendMessage(welcome, threadID);
 
@@ -178,9 +252,9 @@ module.exports = {
     onReply: async function ({ api, event, Users }) {
         const { threadID, messageID, senderID, body } = event;
         const gameState = gameStates.get(threadID);
-    
+
         if (!gameState || gameState.player !== senderID) return;
-    
+
         const now = Date.now();
         const lastTime = lastAnswerTime.get(senderID) || 0;
         if (now - lastTime < ANSWER_COOLDOWN) {
@@ -192,23 +266,21 @@ module.exports = {
             setTimeout(() => api.unsendMessage(msg.messageID), MESSAGE_LIFETIME);
             return;
         }
-    
+
         const answer = body.trim().toUpperCase();
         lastAnswerTime.set(senderID, now);
-    
+
         if (answer === "READY" && gameState.level === 0) {
             try {
                 const question = await this.getQuestion(gameState.level);
                 gameState.currentQuestion = question;
-    
+
                 const questionMsg = this.formatQuestion(question, gameState);
                 const sent = await api.sendMessage(questionMsg, threadID);
-    
-                if (gameState.lastMessage) {
-                    setTimeout(() => api.unsendMessage(gameState.lastMessage), MESSAGE_LIFETIME);
-                }
+
                 gameState.lastMessage = sent.messageID;
-    
+                gameState.questionTime = Date.now();
+
                 global.client.onReply.push({
                     name: this.name,
                     messageID: sent.messageID,
@@ -226,9 +298,10 @@ module.exports = {
                 return;
             }
         }
-    
-        if (answer.startsWith("HELP")) {
-            const helpType = answer.split(" ")[1];
+
+        if (answer.startsWith("HELP") || ["5050", "AUDIENCE", "CALL"].includes(answer)) {
+            const helpType = answer.startsWith("HELP") ? answer.split(" ")[1] : answer;
+
             if (gameState.lifelines[helpType]) {
                 let helpMsg = "";
                 if (helpType === "5050") {
@@ -249,31 +322,62 @@ module.exports = {
         }
 
         if (["A", "B", "C", "D"].includes(answer)) {
+            if (gameState.questionTime && Date.now() - gameState.questionTime > QUESTION_TIME_LIMIT) {
+                const moneyWon = gameState.level > 0 ? MONEY_LADDER[gameState.level - 1] : 0;
+                const timeoutMsg = await api.sendMessage(
+                    `⏰ Hết thời gian! Bạn đã trả lời quá 2 phút cho phép.\n` +
+                    `💰 Bạn ra về với ${moneyWon}$`,
+                    threadID
+                );
+                setTimeout(() => api.unsendMessage(timeoutMsg.messageID), MESSAGE_LIFETIME * 2);
+
+                if (moneyWon > 0) {
+                    updateBalance(senderID, moneyWon);
+                }
+                gameStates.delete(threadID);
+                return;
+            }
             if (answer === gameState.currentQuestion.correct) {
                 gameState.level++;
 
                 if (gameState.level === MONEY_LADDER.length) {
-                    const prize = MONEY_LADDER[gameState.level - 1];
-                    updateBalance(senderID, prize);
-                    api.sendMessage(
-                        `🎉 CHÚC MỪNG TRIỆU PHÚ MỚI!\n` +
-                        `Bạn đã chiến thắng và nhận được ${prize}$`,
+                    const winMsg = await api.sendMessage(
+                        `🎉 CHÚC MỪNG! BẠN ĐÃ TRỞ THÀNH TRIỆU PHÚ!\n` +
+                        `💰 Phần thưởng: ${MONEY_LADDER[gameState.level - 1]}$\n` +
+                        `🏆 Bạn đã chinh phục thành công tất cả ${MONEY_LADDER.length - 1} câu hỏi!`,
                         threadID
                     );
+
+                    updateBalance(senderID, MONEY_LADDER[gameState.level - 1]);
                     gameStates.delete(threadID);
                     return;
                 }
 
                 try {
+                    if (gameState.lastMessage) {
+                        api.unsendMessage(gameState.lastMessage);
+                    }
+
                     const nextQuestion = await this.getQuestion(gameState.level);
                     gameState.currentQuestion = nextQuestion;
 
+                    const prizeMoney = MONEY_LADDER[gameState.level - 1];
                     const congratsMsg = await api.sendMessage(
-                        `✨ Chính xác! Bạn đã đạt mốc ${MONEY_LADDER[gameState.level - 1]}$\n\nCâu tiếp theo:`,
+                        `╭───「 ✅ CHÍNH XÁC! 」───╮\n` +
+                        `🎉 Chúc mừng bạn đã đạt mốc ${prizeMoney.toLocaleString()}$!\n` +
+                        `${[5, 10, 15].includes(gameState.level) ? '🔶 Đây là mốc đảm bảo tiền thưởng!\n' : ''}` +
+                        `🔼 Tiếp tục với câu hỏi tiếp theo...\n` +
+                        `╰───────────────────╯`,
                         threadID
                     );
                     setTimeout(() => api.unsendMessage(congratsMsg.messageID), MESSAGE_LIFETIME);
-                    
+
+                    const questionMsg = this.formatQuestion(nextQuestion, gameState);
+                    const sent = await api.sendMessage(questionMsg, threadID);
+
+                    gameState.lastMessage = sent.messageID;
+                    gameState.questionTime = Date.now();
+
                     global.client.onReply.push({
                         name: this.name,
                         messageID: sent.messageID,
@@ -281,6 +385,7 @@ module.exports = {
                         gameData: gameState
                     });
                 } catch (err) {
+                    console.error("Error getting next question:", err);
                     api.sendMessage("❌ Lỗi khi lấy câu hỏi tiếp theo!", threadID);
                     gameStates.delete(threadID);
                 }
@@ -292,7 +397,7 @@ module.exports = {
                     threadID
                 );
                 setTimeout(() => api.unsendMessage(loseMsg.messageID), MESSAGE_LIFETIME * 2);
-                
+
                 if (moneyWon > 0) {
                     updateBalance(senderID, moneyWon);
                 }
@@ -308,23 +413,66 @@ module.exports = {
 
         const currentPrize = MONEY_LADDER[gameState.level] || 0;
         const questionNumber = gameState.level + 1;
+        const totalQuestions = MONEY_LADDER.length - 1;
 
-        return `❓ CÂU HỎI SỐ ${questionNumber} - ${currentPrize}$\n\n` +
+        let moneyLadderDisplay = '';
+        const milestoneLevels = [5, 10, 15];
+        const currentLevel = gameState.level;
+
+        const displayRange = 2;
+        const startIdx = Math.max(0, currentLevel - displayRange);
+        const endIdx = Math.min(MONEY_LADDER.length - 1, currentLevel + displayRange);
+
+        for (let i = endIdx; i >= startIdx; i--) {
+            const marker = i === currentLevel ? '▶️ ' : '   ';
+            const milestone = milestoneLevels.includes(i + 1) ? '🔶 ' : '';
+            moneyLadderDisplay += `${marker}${milestone}${i + 1}. ${MONEY_LADDER[i]}$\n`;
+        }
+
+        const lifelinesDisplay = Object.entries(gameState.lifelines).map(([code, name]) => {
+            let icon = '⚪';
+            if (code === "5050") icon = '✂️';
+            if (code === "AUDIENCE") icon = '👥';
+            if (code === "CALL") icon = '📞';
+            return `${icon} ${name} (HELP ${code})`;
+        }).join('\n');
+
+        let timeDisplay = '';
+        if (gameState.questionTime) {
+            const elapsedMs = Date.now() - gameState.questionTime;
+            const remainingSecs = Math.max(0, Math.floor((QUESTION_TIME_LIMIT - elapsedMs) / 1000));
+            const minutes = Math.floor(remainingSecs / 60);
+            const seconds = remainingSecs % 60;
+
+            let timeIcon = '⏱️';
+            let timeWarning = '';
+
+            if (remainingSecs < 30) {
+                timeIcon = '⏰';
+                timeWarning = ' ⚠️ SẮP HẾT THỜI GIAN!';
+            } else if (remainingSecs < 60) {
+                timeIcon = '⏰';
+            }
+
+            timeDisplay = `${timeIcon} Thời gian còn lại: ${minutes}:${seconds.toString().padStart(2, '0')}${timeWarning}`;
+        }
+
+        return `📊 TIẾN TRÌNH: ${questionNumber}/${totalQuestions} | 💰 TIỀN THƯỞNG: ${currentPrize}$\n\n` +
+            `${moneyLadderDisplay}\n` +
+            `❓ CÂU HỎI SỐ ${questionNumber} - ${question.category}\n\n` +
             `${question.question}\n\n` +
-            `A. ${question.options.A}\n` +
-            `B. ${question.options.B}\n` +
-            `C. ${question.options.C}\n` +
-            `D. ${question.options.D}\n\n` +
-            `🛟 Trợ giúp còn lại:\n` +
-            Object.entries(gameState.lifelines)
-                .map(([code, name]) => `• ${name} (HELP ${code})`)
-                .join('\n');
+            `A ${question.options.A}\n` +
+            `B ${question.options.B}\n` +
+            `C ${question.options.C}\n` +
+            `D ${question.options.D}\n\n` +
+            `${timeDisplay ? timeDisplay + '\n\n' : ''}` +
+            `🛟 TRỢ GIÚP CÒN LẠI:\n${lifelinesDisplay}`;
     },
 
     async getQuestion(level) {
         const getDifficulty = (level) => {
-            if (level < 5) return 1; 
-            if (level < 10) return 2; 
+            if (level < 5) return 1;
+            if (level < 10) return 2;
             return 3;
         };
 
@@ -370,7 +518,8 @@ module.exports = {
                 try {
                     console.log(`Đang tạo câu hỏi AI lần ${attempts + 1}...`);
                     const result = await model.generateContent(prompt);
-                    const response = result.response.text();
+                    // Fix: Add await when getting text from response
+                    const response = await result.response.text();
 
                     if (!response) {
                         throw new Error("API trả về phản hồi trống");
@@ -405,7 +554,7 @@ module.exports = {
 
                     if (isValid) {
                         console.log("✅ Tạo câu hỏi AI thành công!");
-                        await saveQuestion(question);
+                        saveQuestion(question).catch(err => console.error("Lỗi lưu câu hỏi:", err));
                         return shuffleAnswers(question);
                     }
                 } catch (err) {
@@ -413,20 +562,29 @@ module.exports = {
                     attempts++;
                 }
             }
-            throw new Error("Không thể tạo câu hỏi AI sau 3 lần thử");
+            throw new Error(`Không thể tạo câu hỏi AI sau 3 lần thử (độ khó: ${difficulty}, chủ đề: ${category})`);
         } catch (apiError) {
-            console.log("⚠️ Không thể dùng AI, chuyển sang dùng câu hỏi dự phòng...");
+            console.error(`⚠️ Không thể dùng AI, chuyển sang dùng câu hỏi dự phòng... Lỗi:`, apiError);
         }
 
-        if (fs.existsSync(QUESTIONS_FILE)) {
+        try {
+            const quizDir = path.dirname(QUESTIONS_FILE);
+            if (!fs.existsSync(quizDir)) {
+                fs.mkdirSync(quizDir, { recursive: true });
+            }
+
+            if (!fs.existsSync(QUESTIONS_FILE)) {
+                fs.writeJsonSync(QUESTIONS_FILE, [], { spaces: 2 });
+            }
+
             const questions = await fs.readJson(QUESTIONS_FILE);
-            const suitableQuestions = questions.filter(q => 
-                q.difficulty === difficulty && 
+            const suitableQuestions = questions.filter(q =>
+                q.difficulty === difficulty &&
                 !usedQuestions.has(q.id)
             );
 
             if (suitableQuestions.length > 0) {
-                console.log("✅ Đã tìm thấy câu hỏi dự phòng phù hợp");
+                console.log(`✅ Đã tìm thấy ${suitableQuestions.length} câu hỏi dự phòng phù hợp ở độ khó ${difficulty}`);
                 const randomIndex = Math.floor(Math.random() * suitableQuestions.length);
                 const question = suitableQuestions[randomIndex];
                 usedQuestions.add(question.id);
@@ -437,8 +595,13 @@ module.exports = {
 
                 return shuffleAnswers(question);
             }
-        }
 
-        throw new Error("Không thể lấy câu hỏi. Vui lòng thử lại sau.");
+            console.log(`⚠️ Không tìm thấy câu hỏi phù hợp ở độ khó ${difficulty}, tạo câu hỏi mặc định`);
+            return shuffleAnswers(generateDefaultQuestion(difficulty));
+        } catch (fileError) {
+            console.error("Lỗi khi đọc file câu hỏi:", fileError);
+
+            return shuffleAnswers(generateDefaultQuestion(difficulty));
+        }
     }
 };

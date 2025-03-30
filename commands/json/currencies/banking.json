@@ -81,7 +81,7 @@
       "creditScore": 34
     },
     "100076957299243": {
-      "bankBalance": 920000000,
+      "bankBalance": 0,
       "lastInterest": 1743068876681,
       "createdAt": 1742634046974,
       "balanceHistory": [],
@@ -270,6 +270,18 @@
         "description": "Chuyển 10,000 $ cho Ông Sói",
         "amount": 10000,
         "timestamp": 1742738555358
+      },
+      {
+        "type": "out",
+        "description": "Chuyển 10,000 $ cho Kim Ngân",
+        "amount": 10000,
+        "timestamp": 1743245557857
+      },
+      {
+        "type": "out",
+        "description": "Chuyển 100,000 $ cho Khuong Duy",
+        "amount": 100000,
+        "timestamp": 1743245563660
       }
     ],
     "100008297661441": [
@@ -358,6 +370,12 @@
         "description": "Chuyển 9,000,000 $ cho キ　hana hiori　ᶻz ꜝꜝ",
         "amount": 9000000,
         "timestamp": 1743089608129
+      },
+      {
+        "type": "out",
+        "description": "Chuyển 10,000,000 $ cho Da Đen Ao Hồ",
+        "amount": 10000000,
+        "timestamp": 1743243823037
       }
     ],
     "61552475785283": [
@@ -412,6 +430,12 @@
         "description": "Nhận 4,000,000 $ từ Tran Thu Huyen",
         "amount": 4000000,
         "timestamp": 1743089054582
+      },
+      {
+        "type": "in",
+        "description": "Nhận 100,000 $ từ Ngọc Từ",
+        "amount": 100000,
+        "timestamp": 1743245563675
       }
     ],
     "100068382888605": [
@@ -550,6 +574,12 @@
         "description": "Nhận 10,000,000 $ từ Pham Minh Dang",
         "amount": 10000000,
         "timestamp": 1742804901215
+      },
+      {
+        "type": "in",
+        "description": "Nhận 6,000,000 $ từ Con Người",
+        "amount": 6000000,
+        "timestamp": 1743255549320
       }
     ],
     "100071639513410": [
@@ -590,6 +620,12 @@
         "description": "Nhận 1,000,000 $ từ Nguyễn Đình Đạt",
         "amount": 1000000,
         "timestamp": 1742825256336
+      },
+      {
+        "type": "in",
+        "description": "Nhận 10,000,000 $ từ Tran Thu Huyen",
+        "amount": 10000000,
+        "timestamp": 1743243823051
       }
     ],
     "100085610917366": [
@@ -644,6 +680,22 @@
         "description": "Chuyển 30,500,000 $ cho Khuong Duy",
         "amount": 30500000,
         "timestamp": 1742827996165
+      }
+    ],
+    "100092325757607": [
+      {
+        "type": "in",
+        "description": "Nhận 10,000 $ từ Ngọc Từ",
+        "amount": 10000,
+        "timestamp": 1743245557872
+      }
+    ],
+    "61556258566916": [
+      {
+        "type": "out",
+        "description": "Chuyển 6,000,000 $ cho Yu Ki",
+        "amount": 6000000,
+        "timestamp": 1743255549308
       }
     ]
   },

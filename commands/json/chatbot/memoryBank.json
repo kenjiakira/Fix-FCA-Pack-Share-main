@@ -1,16 +1,16 @@
 {
   "users": {
-    "61573427362389": {
+    "100087149330001": {
       "personal": [],
       "facts": [],
       "preferences": [],
       "interactions": [
         {
-          "content": "Ngọc Từ nói: bot ơi\nTôi trả lời: Chào bạn nha!  Buổi trưa vui vẻ =)))",
-          "timestamp": 1743136725281,
+          "content": "Trần Thị Thu Phương nói: dm bot ảo v\nTôi trả lời: Chị Phương nói gì thế ạ =)))  mình thấy vui lắm cơ!",
+          "timestamp": 1743311300001,
           "priority": 1,
-          "accessCount": 1,
-          "lastAccess": 1743136736795,
+          "accessCount": 0,
+          "lastAccess": 1743311300001,
           "metadata": {
             "sentiment": {
               "score": 0,
@@ -24,31 +24,6 @@
             },
             "topics": [
               "PERSONAL"
-            ],
-            "entities": {}
-          }
-        },
-        {
-          "content": "Ngọc Từ nói: Em ăn cơm rồi anh ạ. Anh ăn chưa?\nTôi trả lời: mình chưa nè, đang định đi kiếm gì ăn đây =)))  Bạn ăn gì rồi kể mình nghe với!",
-          "timestamp": 1743136737429,
-          "priority": 1,
-          "accessCount": 0,
-          "lastAccess": 1743136737429,
-          "metadata": {
-            "sentiment": {
-              "score": 0,
-              "rawScore": 0,
-              "sentiment": "neutral",
-              "confidence": 0.5,
-              "emotions": [],
-              "negationCount": 0,
-              "intensityFactors": [],
-              "primaryEmotion": "neutral"
-            },
-            "topics": [
-              "PERSONAL",
-              "FOOD",
-              "TRAVEL"
             ],
             "entities": {}
           }
@@ -67,33 +42,10 @@
       "undefined": [
         {
           "content": "Xưng hô: mình/bạn",
-          "timestamp": 1743136723666,
-          "priority": 2,
-          "accessCount": 1,
-          "lastAccess": 1743136736795,
-          "metadata": {
-            "sentiment": {
-              "score": 0,
-              "rawScore": 0,
-              "sentiment": "neutral",
-              "confidence": 0.5,
-              "emotions": [],
-              "negationCount": 0,
-              "intensityFactors": [],
-              "primaryEmotion": "neutral"
-            },
-            "topics": [
-              "PERSONAL"
-            ],
-            "entities": {}
-          }
-        },
-        {
-          "content": "Xưng hô: mình/bạn",
-          "timestamp": 1743136736796,
+          "timestamp": 1743311298310,
           "priority": 2,
           "accessCount": 0,
-          "lastAccess": 1743136736796,
+          "lastAccess": 1743311298310,
           "metadata": {
             "sentiment": {
               "score": 0,
@@ -127,7 +79,7 @@
     "voice": {}
   },
   "stats": {
-    "totalInteractions": 4,
+    "totalInteractions": 2,
     "uniqueUsers": {},
     "topTopics": {},
     "responseTime": [],

@@ -1,0 +1,64 @@
+{
+  "100076957299243": [
+    {
+      "type": "out",
+      "amount": 10100000,
+      "timestamp": 1743243822703,
+      "description": "Chuyển 10000000 $ cho Da Đen Ao Hồ"
+    }
+  ],
+  "61566378911878": [
+    {
+      "type": "in",
+      "amount": 10000000,
+      "timestamp": 1743243822703,
+      "description": "Nhận 10000000 $ từ Tran Thu Huyen"
+    }
+  ],
+  "61573427362389": [
+    {
+      "type": "out",
+      "amount": 10300,
+      "timestamp": 1743245557567,
+      "description": "Chuyển 10000 $ cho Kim Ngân"
+    },
+    {
+      "type": "out",
+      "amount": 101000,
+      "timestamp": 1743245563441,
+      "description": "Chuyển 100000 $ cho Khuong Duy"
+    }
+  ],
+  "100092325757607": [
+    {
+      "type": "in",
+      "amount": 10000,
+      "timestamp": 1743245557567,
+      "description": "Nhận 10000 $ từ Ngọc Từ"
+    }
+  ],
+  "100058320200877": [
+    {
+      "type": "in",
+      "amount": 100000,
+      "timestamp": 1743245563441,
+      "description": "Nhận 100000 $ từ Ngọc Từ"
+    }
+  ],
+  "61556258566916": [
+    {
+      "type": "out",
+      "amount": 6060000,
+      "timestamp": 1743255549040,
+      "description": "Chuyển 6000000 $ cho Yu Ki"
+    }
+  ],
+  "61558946907944": [
+    {
+      "type": "in",
+      "amount": 6000000,
+      "timestamp": 1743255549040,
+      "description": "Nhận 6000000 $ từ Con Người"
+    }
+  ]
+}

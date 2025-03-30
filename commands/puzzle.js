@@ -119,6 +119,7 @@ async function generatePuzzle() {
 module.exports = {
     name: "puzzle",
     dev: "HNT",
+    hide: true,
     onPrefix: true,
     category: "Games",
     info: "Giải câu đố logic/toán học",

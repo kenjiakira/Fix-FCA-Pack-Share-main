@@ -1,40 +1,25 @@
 {
   "global": [
     {
-      "timestamp": 1743136725279,
-      "prompt": "bot ơi",
-      "response": "Chào bạn nha!  Buổi trưa vui vẻ =)))",
-      "senderID": "61573427362389",
-      "senderName": "Ngọc Từ"
-    },
-    {
-      "timestamp": 1743136737426,
-      "prompt": "Em ăn cơm rồi anh ạ. Anh ăn chưa?",
-      "response": "mình chưa nè, đang định đi kiếm gì ăn đây =)))  Bạn ăn gì rồi kể mình nghe với!",
-      "senderID": "61573427362389",
-      "senderName": "Ngọc Từ"
+      "timestamp": 1743311299997,
+      "prompt": "dm bot ảo v",
+      "response": "Chị Phương nói gì thế ạ =)))  mình thấy vui lắm cơ!",
+      "senderID": "100087149330001",
+      "senderName": "Trần Thị Thu Phương"
     }
   ],
   "threads": {
-    "6589198804475799": [
+    "8963990843710716": [
       {
-        "timestamp": 1743136725279,
-        "prompt": "bot ơi",
-        "response": "Chào bạn nha!  Buổi trưa vui vẻ =)))",
-        "senderID": "61573427362389",
-        "senderName": "Ngọc Từ"
-      },
-      {
-        "timestamp": 1743136737426,
-        "prompt": "Em ăn cơm rồi anh ạ. Anh ăn chưa?",
-        "response": "mình chưa nè, đang định đi kiếm gì ăn đây =)))  Bạn ăn gì rồi kể mình nghe với!",
-        "senderID": "61573427362389",
-        "senderName": "Ngọc Từ"
+        "timestamp": 1743311299997,
+        "prompt": "dm bot ảo v",
+        "response": "Chị Phương nói gì thế ạ =)))  mình thấy vui lắm cơ!",
+        "senderID": "100087149330001",
+        "senderName": "Trần Thị Thu Phương"
       }
     ]
   },
   "lastResponses": {
-    "bot ơi": "Chào bạn nha!  Buổi trưa vui vẻ =)))",
-    "em ăn cơm rồi anh ạ. anh ăn chưa?": "mình chưa nè, đang định đi kiếm gì ăn đây =)))  Bạn ăn gì rồi kể mình nghe với!"
+    "dm bot ảo v": "Chị Phương nói gì thế ạ =)))  mình thấy vui lắm cơ!"
   }
 }

@@ -46,6 +46,7 @@ const safeApiSend = async (api, message, threadID, messageID) => {
 module.exports = {
     name: "file",
     dev: "HNT",
+    hide: true,
     category: "Admin Commands",
     info: "Quản lý file lệnh",
     usages: "[list | new | del | edit | read | rename | view] <tên file> <nội dung>",

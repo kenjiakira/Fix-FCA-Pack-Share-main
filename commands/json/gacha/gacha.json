@@ -565,12 +565,13 @@
       "FRAGMENT_HYDRO_728712321",
       "CHAR_417809380",
       "FRAGMENT_PYRO_229511384",
-      "EXP_ADVENTURERS_EXPERIENCE_558304244"
+      "EXP_ADVENTURERS_EXPERIENCE_558304244",
+      "CHAR_607896375"
     ],
-    "pullsSinceLastFiveStar": 30,
-    "pullsSinceLastFourStar": 6,
-    "totalPulls": 1590,
-    "lastPull": 1742454092147,
+    "pullsSinceLastFiveStar": 32,
+    "pullsSinceLastFourStar": 0,
+    "totalPulls": 1592,
+    "lastPull": 1743160221518,
     "pvpTeam": [
       "CHAR_835751513",
       "CHAR_835161986",
@@ -605,7 +606,7 @@
       "Kamisato Ayato": 1,
       "Acheron": 1
     },
-    "pullsSinceLastStone": 5,
+    "pullsSinceLastStone": 7,
     "pullsSinceLastUniversalStone": 76
   },
   "100028202556430": {
@@ -992,12 +993,32 @@
       "STONE_HYDRO_940152419",
       "STELLA_1743089424762_9254",
       "STELLA_1743089424762_9254",
-      "STONE_CRYO_304140310"
+      "STONE_CRYO_304140310",
+      "STONE_GEO_385533495",
+      "FRAGMENT_PYRO_572389410",
+      "FRAGMENT_PYRO_855245715",
+      "STONE_GEO_755856216",
+      "FRAGMENT_DENDRO_810017826",
+      "STONE_CRYO_927723022",
+      "EXP_HEROS_WIT_874252658",
+      "EXP_ADVENTURERS_EXPERIENCE_198123974",
+      "EXP_HEROS_WIT_517774141",
+      "FRAGMENT_ANEMO_148430394",
+      "EXP_WANDERERS_ADVICE_291422472",
+      "FRAGMENT_HYDRO_562954714",
+      "CHAR_755073066",
+      "FRAGMENT_ANEMO_393514545",
+      "STONE_ANEMO_216869987",
+      "EXP_WANDERERS_ADVICE_724145993",
+      "CHAR_436793867",
+      "EXP_ADVENTURERS_EXPERIENCE_920350695",
+      "STELLA_1743304197753_5505",
+      "STELLA_1743304197753_5505"
     ],
-    "pullsSinceLastFiveStar": 6,
-    "pullsSinceLastFourStar": 6,
-    "totalPulls": 1496,
-    "lastPull": 1743090764740,
+    "pullsSinceLastFiveStar": 1,
+    "pullsSinceLastFourStar": 1,
+    "totalPulls": 1545,
+    "lastPull": 1743305642835,
     "pvpTeam": [
       "CHAR_144510188",
       "CHAR_927098477",
@@ -1030,8 +1051,8 @@
       "Ayaka": 1,
       "Qiqi": 0
     },
-    "pullsSinceLastStone": 6,
-    "pullsSinceLastUniversalStone": 68
+    "pullsSinceLastStone": 7,
+    "pullsSinceLastUniversalStone": 78
   },
   "100055074463541": {
     "inventory": [
@@ -1179,14 +1200,18 @@
   },
   "100058320200877": {
     "inventory": [
-      "STONE_ELECTRO_842783225"
+      "STONE_ELECTRO_842783225",
+      "STONE_ELECTRO_435921024",
+      "CHAR_788013361",
+      "EXP_ADVENTURERS_EXPERIENCE_370474928",
+      "CHAR_688009541"
     ],
-    "pullsSinceLastFiveStar": 3,
-    "pullsSinceLastFourStar": 3,
-    "totalPulls": 4,
-    "lastPull": 1742300943705,
-    "pullsSinceLastStone": 1,
-    "pullsSinceLastUniversalStone": 0
+    "pullsSinceLastFiveStar": 6,
+    "pullsSinceLastFourStar": 0,
+    "totalPulls": 9,
+    "lastPull": 1743305413155,
+    "pullsSinceLastStone": 3,
+    "pullsSinceLastUniversalStone": 1
   },
   "100047529173949": {
     "inventory": [],
@@ -1213,11 +1238,11 @@
       "CHAR_801974136",
       "CHAR_740877716"
     ],
-    "pullsSinceLastFiveStar": 14,
-    "pullsSinceLastFourStar": 0,
-    "totalPulls": 15,
-    "lastPull": 1742825906073,
-    "pullsSinceLastStone": 1,
+    "pullsSinceLastFiveStar": 15,
+    "pullsSinceLastFourStar": 1,
+    "totalPulls": 16,
+    "lastPull": 1743174009824,
+    "pullsSinceLastStone": 2,
     "pullsSinceLastUniversalStone": 0
   },
   "61561277064921": {
@@ -2020,14 +2045,22 @@
       "STONE_HYDRO_859150591",
       "CHAR_109668723",
       "CHAR_545573841",
-      "EXP_HEROS_WIT_345032577"
+      "EXP_HEROS_WIT_345032577",
+      "EXP_MYTHICAL_SCROLL_451691173",
+      "CHAR_326487302",
+      "EXP_ADVENTURERS_EXPERIENCE_280594576",
+      "CHAR_426220530",
+      "CHAR_223252065"
     ],
-    "pullsSinceLastFiveStar": 23,
-    "pullsSinceLastFourStar": 10,
-    "totalPulls": 26,
-    "lastPull": 1743090793656,
-    "pullsSinceLastStone": 14,
-    "pullsSinceLastUniversalStone": 1
+    "pullsSinceLastFiveStar": 8,
+    "pullsSinceLastFourStar": 2,
+    "totalPulls": 40,
+    "lastPull": 1743305086090,
+    "pullsSinceLastStone": 26,
+    "pullsSinceLastUniversalStone": 1,
+    "stellaPity": {
+      "Jean": 1
+    }
   },
   "61566378911878": {
     "inventory": [

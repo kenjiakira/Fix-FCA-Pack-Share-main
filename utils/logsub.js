@@ -1,7 +1,7 @@
 const fs = require('fs');
 const path = require('path');
 const axios = require('axios');
-const { handleNewMember } = require('../commands/setname');
+const { handleNewMember } = require('../commands/groups');
 
 async function sendWelcomeMessage(api, threadID, userName, threadName, memberNumber) {
     try {

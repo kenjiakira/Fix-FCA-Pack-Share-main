@@ -7,7 +7,7 @@ module.exports = {
     dev: "HNT",
     category: "Admin Commands", 
     info: "Github",
-    usedby: 1,
+    usedby: 2,
     onPrefix: true,
     cooldowns: 30,
     
