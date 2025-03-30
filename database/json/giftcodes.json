@@ -1,17 +1,5 @@
 {
   "codes": {
-    "NH29QU0Q5ATK": {
-      "reward": 463702,
-      "description": "Giftcode thường hàng ngày",
-      "createdAt": "2025-03-29T05:00:00.062Z",
-      "expiry": "2025-03-30T05:00:00.063Z",
-      "usedBy": [
-        "61553076033146"
-      ],
-      "type": "NORMAL",
-      "rarity": "Thường",
-      "maxUses": null
-    },
     "N8RL6SB4861I": {
       "reward": 573125,
       "description": "Giftcode thường hàng ngày",
@@ -23,6 +11,31 @@
       "type": "NORMAL",
       "rarity": "Thường",
       "maxUses": null
+    },
+    "EAIE8M5S0SAB": {
+      "reward": 5085214,
+      "description": "Giftcode Epic cuối tuần",
+      "createdAt": "2025-03-30T11:00:00.432Z",
+      "expiry": "2025-03-30T17:00:00.432Z",
+      "usedBy": [
+        "61560539745976",
+        "61551242543942",
+        "61573427362389",
+        "61566590835088",
+        "100083810402652",
+        "100085610917366",
+        "100075056351029",
+        "100083411540341",
+        "61566378911878",
+        "584291935",
+        "100093208808025",
+        "100058320200877",
+        "61566789515977",
+        "100081770013413"
+      ],
+      "type": "EPIC",
+      "rarity": "Epic",
+      "maxUses": 20
     }
   }
 }

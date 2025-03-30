@@ -112,7 +112,7 @@ const defaultPetImagePaths = {
 };
 
 try {
-  const fontsDir = path.join(__dirname, "../fonts");
+  const fontsDir = path.join(__dirname, "../../fonts");
   if (fs.existsSync(path.join(fontsDir, "Roboto-Bold.ttf"))) {
     registerFont(path.join(fontsDir, "Roboto-Bold.ttf"), {
       family: "Roboto",

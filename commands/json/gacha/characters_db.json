@@ -121478,5 +121478,56 @@
       "def": 104,
       "hp": 457
     }
+  },
+  "CHAR_100549205": {
+    "type": "character",
+    "name": "Noelle",
+    "obtainedAt": 1743314006957,
+    "value": 391,
+    "level": 1,
+    "exp": 0,
+    "stats": {
+      "atk": 104,
+      "def": 98,
+      "hp": 502
+    }
+  },
+  "FRAGMENT_ELECTRO_712653546": {
+    "type": "fragment",
+    "stoneType": "ELECTRO",
+    "name": "AmethystFragment",
+    "element": "Electro",
+    "emoji": "⚡",
+    "description": "Electro evolution fragment",
+    "image": "https://imgur.com/JxRxK1i.png",
+    "obtainedAt": 1743315554093,
+    "value": 2500,
+    "isFragment": true
+  },
+  "CHAR_310547581": {
+    "type": "character",
+    "name": "Amber",
+    "obtainedAt": 1743328480430,
+    "value": 723,
+    "level": 1,
+    "exp": 0,
+    "stats": {
+      "atk": 102,
+      "def": 90,
+      "hp": 480
+    }
+  },
+  "CHAR_306126090": {
+    "type": "character",
+    "name": "kaveh",
+    "obtainedAt": 1743333614104,
+    "value": 250,
+    "level": 1,
+    "exp": 0,
+    "stats": {
+      "atk": 90,
+      "def": 96,
+      "hp": 544
+    }
   }
 }

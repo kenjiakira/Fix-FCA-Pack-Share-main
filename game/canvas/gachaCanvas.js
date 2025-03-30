@@ -233,7 +233,7 @@ const rarityColors = {
 };
 
 try {
-  const fontsDir = path.join(__dirname, "../fonts");
+  const fontsDir = path.join(__dirname, "../../fonts");
   if (fs.existsSync(path.join(fontsDir, "Genshin-Regular.ttf"))) {
     registerFont(path.join(fontsDir, "Genshin-Regular.ttf"), {
       family: "Genshin",

@@ -169,59 +169,103 @@ async function createTaiXiuCanvas(data, showResult = false) {
     const canvas = Canvas.createCanvas(800, 600);
     const ctx = canvas.getContext('2d');
     
+    // Draw luxurious background with more effects
     drawBackground(ctx, canvas.width, canvas.height);
-    
     drawHeader(ctx, canvas.width, 'TÀI XỈU');
+    
+    // Add casino decorations
+    for (let i = 0; i < 8; i++) {
+        const x = Math.random() * canvas.width;
+        const y = Math.random() * canvas.height;
+        drawDiamond(ctx, x, y, Math.random() * 5 + 3);
+    }
     
     ctx.font = '18px "BeVietnam"';
     ctx.fillStyle = '#d4af37';
     ctx.textAlign = 'right';
-    ctx.fillText(`Session ID: ${sessionId}`, canvas.width - 30, 100);
+    const sessionText = `Session ID: ${sessionId}`;
+    const sessionMetrics = ctx.measureText(sessionText);
     
+    ctx.fillStyle = 'rgba(20, 20, 40, 0.8)';
+    ctx.beginPath();
+    ctx.roundRect(canvas.width - sessionMetrics.width - 45, 85, sessionMetrics.width + 30, 25, 5);
+    ctx.fill();
+    ctx.strokeStyle = '#d4af37';
+    ctx.lineWidth = 1;
+    ctx.stroke();
+    ctx.fillStyle = '#d4af37';
+    ctx.fillText(sessionText, canvas.width - 30, 102);
+
+    // Enhanced player info display
     drawPlayerInfo(ctx, playerName, betAmount, choice.toUpperCase(), 50, 120, canvas.width - 100);
     
+    // History section with animation effect
     const historyHeight = 60;
-    ctx.fillStyle = 'rgba(20, 20, 40, 0.7)';
+    const historyGradient = ctx.createLinearGradient(50, 270, 50, 270 + historyHeight);
+    historyGradient.addColorStop(0, 'rgba(20, 20, 40, 0.9)');
+    historyGradient.addColorStop(1, 'rgba(30, 30, 60, 0.9)');
+    
+    ctx.fillStyle = historyGradient;
     ctx.beginPath();
     ctx.roundRect(50, 270, canvas.width - 100, historyHeight, 10);
     ctx.fill();
     
-    ctx.font = '18px "BeVietnam"';
-    ctx.fillStyle = '#d4af37';
+    ctx.strokeStyle = '#d4af37';
+    ctx.lineWidth = 2;
+    ctx.stroke();
+    
+    // History title with icon
+    ctx.font = 'bold 18px "BeVietnam"';
+    ctx.fillStyle = '#ffd700';
     ctx.textAlign = 'left';
     ctx.fillText('📌 Lịch sử:', 70, 270 + historyHeight/2 + 5);
     
+    // Draw history with animation
     if (history && history.length > 0) {
         ctx.font = '24px Arial';
         ctx.textAlign = 'left';
         let historyX = 180;
-        for (const item of history) {
-            ctx.fillStyle = item === '⚫' ? '#ffffff' : '#ffd700';
+        history.forEach((item, index) => {
+            const delay = index * 100;
+            const alpha = Math.min(1, (Date.now() % 1000) / 1000);
+            
+            ctx.fillStyle = item === '⚫' ? `rgba(255, 255, 255, ${alpha})` : `rgba(255, 215, 0, ${alpha})`;
             ctx.fillText(item, historyX, 270 + historyHeight/2 + 7);
             historyX += 30;
-        }
+        });
     } else {
         ctx.font = '18px "BeVietnam"';
         ctx.fillStyle = '#999999';
         ctx.fillText('Chưa có lịch sử', 180, 270 + historyHeight/2 + 5);
     }
-    
+
     if (showResult) {
-        ctx.fillStyle = 'rgba(30, 30, 60, 0.9)';
+        // Result box with glass effect
+        ctx.fillStyle = 'rgba(30, 30, 60, 0.85)';
         ctx.beginPath();
         ctx.roundRect(130, 350, canvas.width - 260, 180, 20);
         ctx.fill();
         
+        // Glowing border based on result
         ctx.strokeStyle = result === choice.toLowerCase() ? '#4ecca3' : '#e94560';
         ctx.lineWidth = 3;
+        ctx.shadowColor = result === choice.toLowerCase() ? '#4ecca3' : '#e94560';
+        ctx.shadowBlur = 15;
         ctx.stroke();
+        ctx.shadowBlur = 0;
         
         try {
+            // Enhanced dice display
             const diceSize = 80;
             const diceMargin = 20;
             const totalDiceWidth = (diceSize * 3) + (diceMargin * 2);
             const startX = (canvas.width - totalDiceWidth) / 2;
             const diceY = 360;
+            
+            // Draw dice with shadows and glow
+            ctx.shadowColor = '#000000';
+            ctx.shadowBlur = 10;
+            ctx.shadowOffsetY = 5;
             
             for (let i = 0; i < 3; i++) {
                 const diceValue = [dice1, dice2, dice3][i];
@@ -229,160 +273,360 @@ async function createTaiXiuCanvas(data, showResult = false) {
                 ctx.drawImage(diceImage, startX + (diceSize + diceMargin) * i, diceY, diceSize, diceSize);
             }
             
-            ctx.font = '28px "BeVietnam Bold"';
+            ctx.shadowBlur = 0;
+            ctx.shadowOffsetY = 0;
+
+            // Draw total with style
+            ctx.font = 'bold 28px "BeVietnam Bold"';
             ctx.fillStyle = '#ffffff';
             ctx.textAlign = 'center';
             ctx.fillText(`${dice1} + ${dice2} + ${dice3} = ${total}`, canvas.width / 2, diceY + diceSize + 25);
             
-            ctx.font = '36px "BeVietnam Bold"';
+            // Result text with glow effect
+            ctx.font = 'bold 36px "BeVietnam Bold"';
             ctx.fillStyle = result === choice.toLowerCase() ? '#4ecca3' : '#e94560';
+            ctx.shadowColor = result === choice.toLowerCase() ? '#4ecca3' : '#e94560';
+            ctx.shadowBlur = 10;
             ctx.fillText(result.toUpperCase(), canvas.width / 2, diceY + diceSize + 65);
-            
+            ctx.shadowBlur = 0;
+
+            // Win/Lose amount with animation
             ctx.font = '22px "BeVietnam"';
             ctx.textAlign = 'center';
-            ctx.fillStyle = '#ffffff';
             
-
             if (result === choice.toLowerCase()) {
                 ctx.fillStyle = '#4ecca3';
-                // Move up from 560 to 530
-                ctx.fillText(`🎉 Thắng: ${formatNumber(betAmount * 2)}$`, canvas.width / 2, 550);
+                const winText = `🎉 Thắng: ${formatNumber(betAmount * 2)}$`;
+                const glowIntensity = (Math.sin(Date.now() / 200) + 1) / 2;
+                ctx.shadowColor = '#4ecca3';
+                ctx.shadowBlur = 10 * glowIntensity;
+                ctx.fillText(winText, canvas.width / 2, 550);
+                ctx.shadowBlur = 0;
             } else {
                 ctx.fillStyle = '#e94560';
-                // Move up from 560 to 530
                 ctx.fillText(`💔 Thua: ${formatNumber(betAmount)}$`, canvas.width / 2, 550);
             }
             
+            // Balance display with gold effect
             ctx.fillStyle = '#ffd700';
-  
+            ctx.shadowColor = '#ffd700';
+            ctx.shadowBlur = 5;
             ctx.fillText(`💰 Số dư: ${formatNumber(balance)}$`, canvas.width / 2, 575);
+            ctx.shadowBlur = 0;
+            
         } catch (error) {
             console.error("Error drawing dice images:", error);
-            
+            // Fallback display
             ctx.font = '32px "BeVietnam Bold"';
             ctx.fillStyle = '#ffffff';
             ctx.textAlign = 'center';
             ctx.fillText(`${dice1} + ${dice2} + ${dice3} = ${total}`, canvas.width / 2, 400);
-            
-            ctx.fillStyle = result === choice.toLowerCase() ? '#4ecca3' : '#e94560';
-            ctx.font = '36px "BeVietnam Bold"';
-            ctx.fillText(result.toUpperCase(), canvas.width / 2, 450);
         }
     } else {
+        // Loading animation
         ctx.fillStyle = 'rgba(30, 30, 60, 0.9)';
         ctx.beginPath();
         ctx.roundRect(130, 350, canvas.width - 260, 180, 20);
         ctx.fill();
         
+        // Animated border
         ctx.strokeStyle = '#d4af37';
         ctx.lineWidth = 3;
-        ctx.stroke();
+        const borderProgress = (Date.now() % 2000) / 2000;
+        animateLoadingBorder(ctx, 130, 350, canvas.width - 260, 180, 20, borderProgress);
         
         ctx.font = '32px "BeVietnam Bold"';
         ctx.fillStyle = '#ffffff';
         ctx.textAlign = 'center';
         ctx.fillText('🎲 ĐANG LẮC XÚC XẮC...', canvas.width / 2, 420);
         
+        // Loading dots animation
         const dotCount = Math.floor(Date.now() / 500) % 4;
-        let dots = '';
-        for (let i = 0; i < dotCount; i++) {
-            dots += '.';
-        }
         ctx.font = '24px "BeVietnam"';
-        ctx.fillText(`Vui lòng đợi${dots}`, canvas.width / 2, 470);
+        ctx.fillText(`Vui lòng đợi${'.'.repeat(dotCount)}`, canvas.width / 2, 470);
     }
     
     return canvas.toBuffer();
 }
 
+// Thêm các hàm helper mới
+function animateLoadingBorder(ctx, x, y, width, height, radius, progress) {
+    ctx.beginPath();
+    const totalLength = (width + height) * 2;
+    const currentPos = totalLength * progress;
+    
+    // Vẽ đường viền động
+    ctx.strokeStyle = '#ffd700';
+    ctx.lineWidth = 3;
+    ctx.lineDashOffset = -currentPos;
+    ctx.setLineDash([30, 15]);
+    ctx.strokeRect(x, y, width, height);
+    ctx.setLineDash([]);
+}
+
+function drawAnimatedDice(ctx, x, y, rotation) {
+    ctx.save();
+    ctx.translate(x, y);
+    ctx.rotate(rotation);
+    
+    ctx.fillStyle = '#ffffff';
+    ctx.strokeStyle = '#000000';
+    ctx.lineWidth = 2;
+    
+    ctx.beginPath();
+    ctx.roundRect(-20, -20, 40, 40, 5);
+    ctx.fill();
+    ctx.stroke();
+    
+    // Vẽ các chấm ngẫu nhiên
+    const dots = Math.floor(Math.random() * 6) + 1;
+    ctx.fillStyle = '#000000';
+    for (let i = 0; i < dots; i++) {
+        const angle = (i / dots) * Math.PI * 2;
+        const dotX = Math.cos(angle) * 8;
+        const dotY = Math.sin(angle) * 8;
+        ctx.beginPath();
+        ctx.arc(dotX, dotY, 3, 0, Math.PI * 2);
+        ctx.fill();
+    }
+    
+    ctx.restore();
+}
 async function createChanLeCanvas(data, showResult = false) {
     const { playerName, betAmount, choice, pattern, result, isSpecial, balance } = data;
     
     const canvas = Canvas.createCanvas(800, 600);
     const ctx = canvas.getContext('2d');
     
+    // Background with luxury effect
     drawBackground(ctx, canvas.width, canvas.height);
-    
     drawHeader(ctx, canvas.width, 'CHẴN LẺ');
     
+    // Add sparkling effects
+    for (let i = 0; i < 10; i++) {
+        const x = Math.random() * canvas.width;
+        const y = Math.random() * canvas.height;
+        const size = Math.random() * 4 + 2;
+        const alpha = Math.min(1, (Date.now() % 1000) / 1000);
+        
+        ctx.fillStyle = `rgba(255, 215, 0, ${alpha})`;
+        ctx.beginPath();
+        ctx.arc(x, y, size, 0, Math.PI * 2);
+        ctx.fill();
+    }
+
+    // Enhanced player info with glowing border
     drawPlayerInfo(ctx, playerName, betAmount, choice.toUpperCase(), 50, 120, canvas.width - 100);
     
     if (showResult) {
-        ctx.fillStyle = 'rgba(30, 30, 60, 0.9)';
+        // Luxury result box with glass effect
+        ctx.fillStyle = 'rgba(30, 30, 60, 0.92)';
         ctx.beginPath();
         ctx.roundRect(100, 300, canvas.width - 200, 220, 20);
         ctx.fill();
         
+        // Dynamic glowing border
+        const borderGlow = Math.sin(Date.now() / 500) * 5 + 10;
         ctx.strokeStyle = result === choice ? '#4ecca3' : '#e94560';
         ctx.lineWidth = 3;
+        ctx.shadowColor = result === choice ? '#4ecca3' : '#e94560';
+        ctx.shadowBlur = borderGlow;
         ctx.stroke();
+        ctx.shadowBlur = 0;
         
-        ctx.font = '36px "BeVietnam Bold"';
+        // Pattern display with animated numbers - Căn chỉnh lại vị trí
+        ctx.font = '42px "BeVietnam Bold"';
         ctx.fillStyle = '#ffffff';
         ctx.textAlign = 'center';
-        ctx.fillText(pattern.join(' '), canvas.width / 2, 350);
         
-        ctx.font = '42px "BeVietnam Bold"';
+        // Tính toán vị trí bắt đầu để các số nằm chính giữa
+        const numberSpacing = 60; // Khoảng cách giữa các số
+        const totalWidth = (pattern.length - 1) * numberSpacing;
+        const startX = canvas.width/2 - totalWidth/2;
+        
+        pattern.forEach((num, index) => {
+            const x = startX + index * numberSpacing;
+            const y = 350;
+            const scale = 1 + Math.sin((Date.now() + index * 200) / 500) * 0.1;
+            
+            // Vẽ viền cho số
+            ctx.save();
+            ctx.translate(x, y);
+            ctx.scale(scale, scale);
+            
+            // Background circle cho số
+            ctx.fillStyle = num % 2 === 0 ? 'rgba(255, 0, 0, 0.2)' : 'rgba(255, 255, 255, 0.2)';
+            ctx.beginPath();
+            ctx.arc(0, 0, 25, 0, Math.PI * 2);
+            ctx.fill();
+            
+            // Vẽ số
+            ctx.fillStyle = '#ffffff';
+            ctx.fillText(num, 0, 0);
+            ctx.restore();
+        });
+        
+        // Result text with enhanced styling
+        ctx.font = '48px "BeVietnam Bold"';
         if (isSpecial) {
+            // Special result with rainbow effect
+            const gradient = ctx.createLinearGradient(
+                canvas.width/2 - 100, 410,
+                canvas.width/2 + 100, 410
+            );
+            gradient.addColorStop(0, '#ffd700');
+            gradient.addColorStop(0.5, '#ffffff');
+            gradient.addColorStop(1, '#ffd700');
+            ctx.fillStyle = gradient;
             ctx.shadowColor = '#ffd700';
             ctx.shadowBlur = 15;
-            ctx.fillStyle = '#ffd700';
+            
+            // Thêm glow effect cho special
+            ctx.strokeStyle = '#ffd700';
+            ctx.lineWidth = 2;
+            ctx.strokeText(result.toUpperCase(), canvas.width / 2, 410);
         } else {
             ctx.fillStyle = result === choice ? '#4ecca3' : '#e94560';
+            ctx.shadowColor = result === choice ? '#4ecca3' : '#e94560';
+            ctx.shadowBlur = 10;
         }
         ctx.fillText(result.toUpperCase(), canvas.width / 2, 410);
         ctx.shadowBlur = 0;
         
+        // Special result indicator with particles
         if (isSpecial) {
-            ctx.font = '24px "BeVietnam"';
+            ctx.font = '26px "BeVietnam"';
             ctx.fillStyle = '#ffd700';
+            
+            // Draw particles around special text
+            const particleCount = 12;
+            const radius = 100;
+            ctx.globalAlpha = 0.6;
+            for (let i = 0; i < particleCount; i++) {
+                const angle = (i / particleCount) * Math.PI * 2;
+                const x = canvas.width/2 + Math.cos(angle + Date.now()/1000) * radius;
+                const y = 450 + Math.sin(angle + Date.now()/1000) * radius/3;
+                
+                const particleSize = Math.random() * 6 + 3;
+                ctx.beginPath();
+                ctx.arc(x, y, particleSize, 0, Math.PI * 2);
+                ctx.fill();
+            }
+            ctx.globalAlpha = 1.0;
+            
             ctx.fillText('✨ KẾT QUẢ ĐẶC BIỆT ✨', canvas.width / 2, 450);
         }
         
-        ctx.font = '24px "BeVietnam"';
+        // Enhanced win/lose display
+        ctx.font = '26px "BeVietnam Bold"';
         ctx.textAlign = 'center';
         
         if (result === choice) {
             const multiplier = isSpecial ? 4 : 2;
             ctx.fillStyle = '#4ecca3';
-            ctx.fillText(`🎉 Thắng: ${formatNumber(betAmount * multiplier)}$ (x${multiplier})`, canvas.width / 2, 490);
+            const winAmount = formatNumber(betAmount * multiplier);
+            
+            // Add win amount animation
+            const glowIntensity = (Math.sin(Date.now() / 200) + 1) / 2;
+            ctx.shadowColor = '#4ecca3';
+            ctx.shadowBlur = 10 * glowIntensity;
+            ctx.fillText(`🎉 Thắng: ${winAmount}$ (x${multiplier})`, canvas.width / 2, 490);
+            ctx.shadowBlur = 0;
+            
+            // Add celebration particles
+            if (isSpecial) {
+                drawCelebrationParticles(ctx, canvas.width/2, 490);
+            }
         } else {
             ctx.fillStyle = '#e94560';
             ctx.fillText(`💔 Thua: ${formatNumber(betAmount)}$`, canvas.width / 2, 490);
         }
         
+        // Balance with golden glow
         ctx.fillStyle = '#ffd700';
-        ctx.fillText(`💰 Số dư: ${formatNumber(balance)}$`, canvas.width / 2, 530);
+        ctx.shadowColor = '#ffd700';
+        ctx.shadowBlur = 5;
+        ctx.fillText(`💰 Số dư: ${formatNumber(balance)}$`, canvas.width / 2, 550);
+        ctx.shadowBlur = 0;
+        
     } else {
-        ctx.fillStyle = 'rgba(30, 30, 60, 0.9)';
+        // Loading state with animated elements
+        ctx.fillStyle = 'rgba(30, 30, 60, 0.92)';
         ctx.beginPath();
         ctx.roundRect(100, 300, canvas.width - 200, 220, 20);
         ctx.fill();
         
+        // Animated border
+        const time = Date.now();
         ctx.strokeStyle = '#d4af37';
         ctx.lineWidth = 3;
+        ctx.setLineDash([20, 10]);
+        ctx.lineDashOffset = -time / 50;
         ctx.stroke();
+        ctx.setLineDash([]);
         
+        // Animated numbers
         const numbers = ['0', '1', '2', '3', '4', '5', '6', '7', '8', '9'];
-        ctx.font = '48px "BeVietnam Bold"';
+        ctx.font = '52px "BeVietnam Bold"';
         ctx.fillStyle = '#ffffff';
         ctx.textAlign = 'center';
         
-        const currentTime = Date.now();
-        const positions = [canvas.width / 2 - 100, canvas.width / 2, canvas.width / 2 + 100];
+        const positions = [
+            canvas.width/2 - 120,
+            canvas.width/2,
+            canvas.width/2 + 120
+        ];
         
-        for (let i = 0; i < 3; i++) {
-            const num = numbers[Math.floor((currentTime / 100 + i * 3) % numbers.length)];
-            ctx.fillText(num, positions[i], 370);
-        }
+        positions.forEach((x, i) => {
+            const y = 370;
+            const num = numbers[Math.floor((time/100 + i*3) % numbers.length)];
+            const scale = 1 + Math.sin((time + i*200)/300) * 0.1;
+            
+            ctx.save();
+            ctx.translate(x, y);
+            ctx.scale(scale, scale);
+            ctx.fillText(num, 0, 0);
+            ctx.restore();
+        });
         
+        // Loading text with wave effect
         ctx.font = '32px "BeVietnam Bold"';
-        ctx.fillText('⏳ ĐANG TÍNH TOÁN...', canvas.width / 2, 450);
+        const text = '⏳ ĐANG TÍNH TOÁN...';
+        const chars = text.split('');
+        
+        chars.forEach((char, i) => {
+            const x = canvas.width/2 - (chars.length * 12) + i * 24;
+            const y = 450 + Math.sin((time + i*100)/300) * 5;
+            ctx.fillText(char, x, y);
+        });
+        
+        // Animated loading dots
+        const dotCount = Math.floor(time / 500) % 4;
+        ctx.font = '24px "BeVietnam"';
+        ctx.fillText(`Vui lòng đợi${'.'.repeat(dotCount)}`, canvas.width / 2, 500);
     }
     
     return canvas.toBuffer();
 }
-
+function drawCelebrationParticles(ctx, x, y) {
+    const particleCount = 20;
+    const maxRadius = 50;
+    
+    ctx.globalAlpha = 0.3;
+    for (let i = 0; i < particleCount; i++) {
+        const angle = (i / particleCount) * Math.PI * 2;
+        const radius = Math.random() * maxRadius;
+        const particleX = x + Math.cos(angle) * radius;
+        const particleY = y + Math.sin(angle) * radius;
+        
+        const size = Math.random() * 4 + 2;
+        ctx.fillStyle = ['#ffd700', '#ffffff', '#4ecca3'][Math.floor(Math.random() * 3)];
+        ctx.beginPath();
+        ctx.arc(particleX, particleY, size, 0, Math.PI * 2);
+        ctx.fill();
+    }
+    ctx.globalAlpha = 1.0;
+}
 async function createCoinflipCanvas(data, showResult = false) {
     const { playerName, betAmount, choice, result, multiplier, balance } = data;
     

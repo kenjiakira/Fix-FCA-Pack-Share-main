@@ -2,9 +2,16 @@ const { GoogleGenerativeAI } = require("@google/generative-ai");
 const path = require("path");
 const fs = require("fs-extra");
 const { updateBalance } = require('../utils/currencies');
+const {
+    createAltpCanvas,
+    createAltpResultCanvas,
+    createAudienceHelpCanvas,
+    createPhoneAFriendCanvas,
+    createFiftyFiftyCanvas,
+    canvasToStream
+} = require('../game/canvas/altpCanvas.js');
 
-const MESSAGE_LIFETIME = 5000; // For status messages
-const QUESTION_LIFETIME = 60000; // Keep questions visible for 1 minute
+const MESSAGE_LIFETIME = 15000;
 const ANSWER_COOLDOWN = 10000;
 const QUESTION_TIME_LIMIT = 120000;
 
@@ -131,7 +138,27 @@ function shuffleAnswers(question) {
         original_correct: question.correct
     };
 }
-
+function getHelpMessage(helpType, question) {
+    if (helpType === "5050") {
+        const newOptions = fiftyFifty(question.correct, question.options);
+        return `✂️ 50:50 | Các đáp án còn lại:\n` +
+            Object.entries(newOptions)
+                .filter(([_, text]) => text !== "---")
+                .map(([key, text]) => `${key}. ${text}`)
+                .join("\n");
+    } else if (helpType === "AUDIENCE") {
+        const results = simulateAudienceHelp(question.correct);
+        return `👥 Ý kiến khán giả:\n` +
+            `A: ${results.A}%\n` +
+            `B: ${results.B}%\n` +
+            `C: ${results.C}%\n` +
+            `D: ${results.D}%`;
+    } else if (helpType === "CALL") {
+        const response = phoneAFriend(question.correct);
+        return `📞 Gọi điện thoại:\n${response}`;
+    }
+    return "❌ Loại trợ giúp không hợp lệ!";
+}
 async function saveQuestion(question) {
     try {
         const questions = fs.existsSync(QUESTIONS_FILE)
@@ -238,8 +265,32 @@ module.exports = {
     
     ↪️ Reply "READY" để bắt đầu!
     ╰────────────────╯`;
+        let sent;
 
-        const sent = await api.sendMessage(welcome, threadID);
+        try {
+            const welcomeCanvas = await createAltpCanvas({
+                type: 'welcome',
+                gameState: {
+                    level: 0,
+                    lifelines: { ...LIFELINES }
+                }
+            });
+
+            const welcomeAttachment = await canvasToStream(welcomeCanvas, 'altp_welcome');
+
+            sent = await api.sendMessage({
+                body: "🎮 AI LÀ TRIỆU PHÚ | Reply READY để bắt đầu!",
+                attachment: welcomeAttachment
+            }, threadID);
+        } catch (err) {
+            console.error("Canvas error:", err);
+            // Fallback to text message
+            sent = await api.sendMessage(welcome, threadID);
+        }
+
+        if (!sent) {
+            throw new Error("Failed to send welcome message");
+        }
 
         global.client.onReply.push({
             name: this.name,
@@ -248,7 +299,6 @@ module.exports = {
             gameData: gameStates.get(threadID)
         });
     },
-
     onReply: async function ({ api, event, Users }) {
         const { threadID, messageID, senderID, body } = event;
         const gameState = gameStates.get(threadID);
@@ -274,20 +324,52 @@ module.exports = {
             try {
                 const question = await this.getQuestion(gameState.level);
                 gameState.currentQuestion = question;
+                gameState.questionTime = Date.now(); // Add this line to track question time
 
-                const questionMsg = this.formatQuestion(question, gameState);
-                const sent = await api.sendMessage(questionMsg, threadID);
+                try {
+                    const questionCanvas = await createAltpCanvas({
+                        type: 'question',
+                        gameState: gameState,
+                        question: question,
+                        timeLeft: 120 // Start with full time
+                    });
 
-                gameState.lastMessage = sent.messageID;
-                gameState.questionTime = Date.now();
+                    const questionAttachment = await canvasToStream(questionCanvas, 'altp_question');
 
-                global.client.onReply.push({
-                    name: this.name,
-                    messageID: sent.messageID,
-                    author: senderID,
-                    gameData: gameState
-                });
-                return;
+                    const questionMessage = await api.sendMessage({
+                        body: `❓ CÂU HỎI SỐ ${gameState.level + 1}`,
+                        attachment: questionAttachment
+                    }, threadID);
+
+                    gameState.lastMessage = questionMessage.messageID;
+
+                    // Use questionMessage instead of sent
+                    global.client.onReply.push({
+                        name: this.name,
+                        messageID: questionMessage.messageID, // Fixed: use questionMessage instead of sent
+                        author: senderID,
+                        gameData: gameState
+                    });
+
+                } catch (err) {
+                    console.error("Canvas error:", err);
+                    // Fallback to text
+                    const fallbackMessage = await api.sendMessage(
+                        this.formatQuestion(question, gameState),
+                        threadID
+                    );
+                    gameState.lastMessage = fallbackMessage.messageID;
+
+                    // Use fallbackMessage instead of sent
+                    global.client.onReply.push({
+                        name: this.name,
+                        messageID: fallbackMessage.messageID, // Fixed: use fallbackMessage instead of sent
+                        author: senderID,
+                        gameData: gameState
+                    });
+                }
+
+                return; // Add return to stop further execution
             } catch (err) {
                 const errorMsg = await api.sendMessage(
                     "❌ Lỗi khi lấy câu hỏi, vui lòng thử lại!",
@@ -303,20 +385,43 @@ module.exports = {
             const helpType = answer.startsWith("HELP") ? answer.split(" ")[1] : answer;
 
             if (gameState.lifelines[helpType]) {
-                let helpMsg = "";
-                if (helpType === "5050") {
-                    const newOptions = fiftyFifty(gameState.currentQuestion.correct, gameState.currentQuestion.options);
-                    gameState.currentQuestion.options = newOptions;
-                    helpMsg = this.formatQuestion(gameState.currentQuestion, gameState);
-                } else if (helpType === "AUDIENCE") {
-                    const results = simulateAudienceHelp(gameState.currentQuestion.correct);
-                    helpMsg = `📊 Kết quả khảo sát:\nA: ${results.A}%\nB: ${results.B}%\nC: ${results.C}%\nD: ${results.D}%`;
-                } else if (helpType === "CALL") {
-                    helpMsg = `📞 Người thân trả lời: ${phoneAFriend(gameState.currentQuestion.correct)}`;
+                try {
+                    let helpCanvas;
+                    if (helpType === "5050") {
+                        const newOptions = fiftyFifty(gameState.currentQuestion.correct, gameState.currentQuestion.options);
+                        gameState.currentQuestion.options = newOptions;
+                        helpCanvas = await createFiftyFiftyCanvas(gameState.currentQuestion);
+                    } else if (helpType === "AUDIENCE") {
+                        const results = simulateAudienceHelp(gameState.currentQuestion.correct);
+                        helpCanvas = await createAudienceHelpCanvas(results);
+                    } else if (helpType === "CALL") {
+                        const response = phoneAFriend(gameState.currentQuestion.correct);
+                        helpCanvas = await createPhoneAFriendCanvas(response);
+                    }
+
+                    const helpAttachment = await canvasToStream(helpCanvas, `altp_help_${helpType.toLowerCase()}`);
+                    const sent = await api.sendMessage({
+                        body: `🛟 Sử dụng trợ giúp ${LIFELINES[helpType]}`,
+                        attachment: helpAttachment
+                    }, threadID);
+
+                    delete gameState.lifelines[helpType];
+
+                    setTimeout(() => api.unsendMessage(sent.messageID), MESSAGE_LIFETIME * 2);
+
+                } catch (err) {
+                    console.error("Lỗi khi tạo canvas trợ giúp:", err);
+
+                    const helpMsg = getHelpMessage(helpType, gameState.currentQuestion);
+                    const sent = await api.sendMessage(helpMsg, threadID);
+                    setTimeout(() => api.unsendMessage(sent.messageID), MESSAGE_LIFETIME * 2);
+
+                    delete gameState.lifelines[helpType];
                 }
-                delete gameState.lifelines[helpType];
-                const sent = await api.sendMessage(helpMsg, threadID);
-                setTimeout(() => api.unsendMessage(sent.messageID), MESSAGE_LIFETIME * 2);
+                return;
+            } else {
+                const msg = await api.sendMessage("⚠️ Bạn đã sử dụng quyền trợ giúp này!", threadID);
+                setTimeout(() => api.unsendMessage(msg.messageID), MESSAGE_LIFETIME);
                 return;
             }
         }
@@ -341,7 +446,7 @@ module.exports = {
                 gameState.level++;
 
                 if (gameState.level === MONEY_LADDER.length) {
-                    const winMsg = await api.sendMessage(
+                    await api.sendMessage(
                         `🎉 CHÚC MỪNG! BẠN ĐÃ TRỞ THÀNH TRIỆU PHÚ!\n` +
                         `💰 Phần thưởng: ${MONEY_LADDER[gameState.level - 1]}$\n` +
                         `🏆 Bạn đã chinh phục thành công tất cả ${MONEY_LADDER.length - 1} câu hỏi!`,
@@ -357,33 +462,99 @@ module.exports = {
                     if (gameState.lastMessage) {
                         api.unsendMessage(gameState.lastMessage);
                     }
-
+            
+                    // Lưu lại câu hỏi hiện tại trước khi lấy câu hỏi mới
+                    const currentQuestion = { ...gameState.currentQuestion };
+                    
+                    // Chuẩn bị câu hỏi mới cho vòng tiếp theo
                     const nextQuestion = await this.getQuestion(gameState.level);
-                    gameState.currentQuestion = nextQuestion;
-
-                    const prizeMoney = MONEY_LADDER[gameState.level - 1];
-                    const congratsMsg = await api.sendMessage(
-                        `╭───「 ✅ CHÍNH XÁC! 」───╮\n` +
-                        `🎉 Chúc mừng bạn đã đạt mốc ${prizeMoney.toLocaleString()}$!\n` +
-                        `${[5, 10, 15].includes(gameState.level) ? '🔶 Đây là mốc đảm bảo tiền thưởng!\n' : ''}` +
-                        `🔼 Tiếp tục với câu hỏi tiếp theo...\n` +
-                        `╰───────────────────╯`,
-                        threadID
-                    );
-                    setTimeout(() => api.unsendMessage(congratsMsg.messageID), MESSAGE_LIFETIME);
-
-                    const questionMsg = this.formatQuestion(nextQuestion, gameState);
-                    const sent = await api.sendMessage(questionMsg, threadID);
-
-                    gameState.lastMessage = sent.messageID;
                     gameState.questionTime = Date.now();
+            
+                    try {
+                        // Tạo canvas kết quả cho câu hỏi VỪA TRẢ LỜI
+                        const resultCanvas = await createAltpResultCanvas({
+                            isCorrect: true,
+                            question: currentQuestion,  // Sử dụng câu hỏi đã lưu
+                            answer: answer,
+                            level: gameState.level - 1, // Mức độ của câu hỏi vừa trả lời
+                            prizeMoney: MONEY_LADDER[gameState.level - 1],
+                            isMilestone: [5, 10, 15].includes(gameState.level - 1)
+                        });
+                        const resultAttachment = await canvasToStream(resultCanvas, 'altp_result');
+            
+                        const correctMessage = await api.sendMessage({
+                            body: "✅ CHÍNH XÁC!",
+                            attachment: resultAttachment
+                        }, threadID);
+            
+                        const resultDisplayTime = 8000; 
+                        setTimeout(() => api.unsendMessage(correctMessage.messageID), resultDisplayTime);
+            
+                        // Chỉ cập nhật gameState.currentQuestion sau khi đã hiển thị kết quả
+                        gameState.currentQuestion = nextQuestion;
+            
+                        // Tạo câu hỏi mới sau khi đã hiển thị kết quả
+                        setTimeout(async () => {
+                            try {
+                                const questionCanvas = await createAltpCanvas({
+                                    type: 'question',
+                                    gameState: gameState,
+                                    question: nextQuestion, // Sử dụng câu hỏi mới
+                                    timeLeft: 120
+                                });
 
-                    global.client.onReply.push({
-                        name: this.name,
-                        messageID: sent.messageID,
-                        author: senderID,
-                        gameData: gameState
-                    });
+                                const questionAttachment = await canvasToStream(questionCanvas, 'altp_question');
+
+                                const newQuestionMessage = await api.sendMessage({
+                                    body: `❓ CÂU HỎI SỐ ${gameState.level + 1}`,
+                                    attachment: questionAttachment
+                                }, threadID);
+
+                                gameState.lastMessage = newQuestionMessage.messageID;
+
+                                global.client.onReply.push({
+                                    name: this.name,
+                                    messageID: newQuestionMessage.messageID,
+                                    author: senderID,
+                                    gameData: gameState
+                                });
+                            } catch (err) {
+                                console.error("Canvas error for next question:", err);
+                      
+                                const questionMsg = this.formatQuestion(nextQuestion, gameState);
+                                const newTextMessage = await api.sendMessage(questionMsg, threadID);
+
+                                gameState.lastMessage = newTextMessage.messageID;
+
+                                global.client.onReply.push({
+                                    name: this.name,
+                                    messageID: newTextMessage.messageID,
+                                    author: senderID,
+                                    gameData: gameState
+                                });
+                            }
+                        }, 6000); 
+
+                    } catch (err) {
+                        console.error("Canvas error for next question:", err);
+                        const questionMsg = this.formatQuestion(nextQuestion, gameState);
+                        const newTextMessage = await api.sendMessage(questionMsg, threadID);
+
+                        setTimeout(async () => {
+                            try {
+                                gameState.lastMessage = newTextMessage.messageID;
+
+                                global.client.onReply.push({
+                                    name: this.name,
+                                    messageID: newTextMessage.messageID,
+                                    author: senderID,
+                                    gameData: gameState
+                                });
+                            } catch (err) {
+                                console.error("Error in setTimeout callback:", err);
+                            }
+                        }, 6000);
+                    }
                 } catch (err) {
                     console.error("Error getting next question:", err);
                     api.sendMessage("❌ Lỗi khi lấy câu hỏi tiếp theo!", threadID);

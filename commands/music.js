@@ -33,15 +33,64 @@ module.exports = {
     cooldowns: 5,
     onPrefix: true,
 
+    onReply: async function({ api, event }) {
+        const { threadID, messageID, body } = event;
+        if (!global.musicCache || !global.musicCache[threadID]) return;
+        
+        const input = body.toLowerCase().trim();
+        const { tracks, searchMessageID } = global.musicCache[threadID];
+        const choice = parseInt(input);
+
+        if (isNaN(choice) || choice < 1 || choice > 6) {
+            return api.sendMessage("Vui lòng chọn số từ 1 đến 6", threadID, messageID);
+        }
+
+        const track = tracks[choice - 1];
+        const loadingMsg = await api.sendMessage(`⏳ Đang tải "${track.name}"...`, threadID);
+
+        try {
+            const spotifyUrl = `https://open.spotify.com/track/${track.id}`;
+            const downloadResponse = await axios.get(`http://87.106.100.187:6312/download/spotify?url=${spotifyUrl}`);
+            
+            if (!downloadResponse.data.status) {
+                throw new Error("Không thể tải bài hát");
+            }
+
+            const result = downloadResponse.data.result;
+            const filePath = path.join(cacheDir, `spotify_dl_${Date.now()}.mp3`);
+            
+            await streamPipeline(
+                (await axios({url: result.download_url, responseType: 'stream'})).data,
+                fs.createWriteStream(filePath)
+            );
+
+            await api.sendMessage({
+                body: `🎵 Đã tải xong:\n\n`+
+                      `🎤 ${result.title}\n`+
+                      `👤 ${result.artist}\n`+
+                      `⏱️ ${Math.floor(result.duration/1000/60)}:${Math.floor(result.duration/1000)%60}`,
+                attachment: fs.createReadStream(filePath)
+            }, threadID, () => {
+                fs.unlinkSync(filePath);
+                if (loadingMsg) api.unsendMessage(loadingMsg.messageID);
+                api.unsendMessage(searchMessageID);
+                delete global.musicCache[threadID];
+            }, messageID);
+
+        } catch (error) {
+            if (loadingMsg) api.unsendMessage(loadingMsg.messageID);
+            api.sendMessage(`❌ Lỗi tải nhạc: ${error.message}`, threadID, messageID);
+        }
+    },
+
     onLaunch: async function({ api, event, target }) {
-        const { threadID, messageID, messageReply } = event;
+        const { threadID, messageID } = event;
 
         if (!target[0]) {
             return api.sendMessage(
                 "🎵 Music Tools\n"+
-                "➜ search <tên bài>: Tìm và phát preview\n"+
-                "➜ detect: Reply audio/video để nhận diện\n"+
-                "➜ top: Xem bài hát thịnh hành", 
+                "➜ search <tên bài>: Tìm và tải nhạc\n"+
+                "➜ detect: Reply audio/video để nhận diện", 
                 threadID
             );
         }
@@ -49,31 +98,61 @@ module.exports = {
         const command = target[0].toLowerCase();
         const args = target.slice(1);
 
-        let loadingMsg = null;
         try {
             switch(command) {
                 case 'search':
-                    await handleSpotifySearch(api, event, target, loadingMsg);
+                    const query = args.join(' ');
+                    if (!query) return api.sendMessage('❌ Vui lòng nhập tên bài hát', threadID);
+
+                    const loadingMsg = await api.sendMessage('🔎 Đang tìm kiếm...', threadID);
+                    const token = await getSpotifyToken();
+                    const response = await axios.get('https://api.spotify.com/v1/search', {
+                        params: { q: query, type: 'track', limit: 6 },
+                        headers: { 'Authorization': `Bearer ${token}` }
+                    });
+
+                    const tracks = response.data.tracks.items;
+                    if (!tracks.length) throw new Error('Không tìm thấy bài hát');
+
+                    const body = "🎵 Kết quả tìm kiếm:\n\n" + 
+                        tracks.map((track, index) => {
+                            const duration = `${Math.floor(track.duration_ms/60000)}:${((track.duration_ms/1000)%60).toFixed(0).padStart(2,'0')}`;
+                            return `${index + 1}. ${track.name}\n└── 👤 ${track.artists.map(a => a.name).join(', ')}\n└── ⏱️ ${duration}\n`;
+                        }).join("\n") +
+                        "\n💭 Reply số từ 1-6 để tải nhạc";
+
+                    const msg = await api.sendMessage(body, threadID, messageID);
+                    api.unsendMessage(loadingMsg.messageID);
+
+                    global.musicCache = global.musicCache || {};
+                    global.musicCache[threadID] = {
+                        tracks,
+                        searchMessageID: msg.messageID
+                    };
+
+                    global.client.onReply.push({
+                        name: this.name,
+                        messageID: msg.messageID,
+                        author: event.senderID
+                    });
                     break;
-                    
+
                 case 'detect':
-                    await handleShazamDetect(api, event, messageReply, loadingMsg);
+                    await handleShazamDetect(api, event, event.messageReply);
                     break;
 
                 default:
                     api.sendMessage("❌ Lệnh không hợp lệ. Gõ 'music' để xem hướng dẫn", threadID);
             }
         } catch (error) {
-            console.error('Music Command Error:', error);
-            if (loadingMsg) api.unsendMessage(loadingMsg.messageID);
-            api.sendMessage(`❌ Lỗi: ${error.message}`, threadID, messageID);
+            api.sendMessage(`❌ Lỗi: ${error.message}`, threadID);
         }
     }
 };
 
-async function handleSpotifySearch(api, event, args, loadingMsg) {
+async function handleSpotifySearch(api, event, target, loadingMsg) {
     const { threadID, messageID } = event;
-    const query = args.join(' ');
+    const query = target.join(' ');
 
     if (!query) {
         return api.sendMessage('❌ Vui lòng nhập tên bài hát cần tìm', threadID, messageID);
@@ -84,38 +163,83 @@ async function handleSpotifySearch(api, event, args, loadingMsg) {
     try {
         const token = await getSpotifyToken();
         const response = await axios.get('https://api.spotify.com/v1/search', {
-            params: { q: query, type: 'track', limit: 1 },
+            params: { q: query, type: 'track', limit: 6 },
             headers: { 'Authorization': `Bearer ${token}` }
         });
 
-        const track = response.data.tracks.items[0];
-        if (!track) throw new Error('Không tìm thấy bài hát');
+        const tracks = response.data.tracks.items;
+        if (!tracks.length) throw new Error('Không tìm thấy bài hát');
 
-        const duration = `${Math.floor(track.duration_ms/60000)}:${((track.duration_ms/1000)%60).toFixed(0).padStart(2,'0')}`;
-        
-        if (track.preview_url) {
-            const filePath = path.join(cacheDir, `spotify_${track.id}.mp3`);
-            await streamPipeline(
-                (await axios({url: track.preview_url, responseType: 'stream'})).data,
-                fs.createWriteStream(filePath)
-            );
+        const body = "🎵 Kết quả tìm kiếm:\n\n" + 
+            tracks.map((track, index) => {
+                const duration = `${Math.floor(track.duration_ms/60000)}:${((track.duration_ms/1000)%60).toFixed(0).padStart(2,'0')}`;
+                return `${index + 1}. ${track.name}\n└── 👤 ${track.artists.map(a => a.name).join(', ')}\n└── ⏱️ ${duration}\n`;
+            }).join("\n");
 
-            await api.sendMessage({
-                body: `🎵 ${track.name}\n`+
-                      `👤 ${track.artists.map(a => a.name).join(', ')}\n`+
-                      `💿 ${track.album.name}\n`+
-                      `⏱️ ${duration}\n`+
-                      `🔗 https://open.spotify.com/track/${track.id}`,
-                attachment: fs.createReadStream(filePath)
-            }, threadID, () => {
-                fs.unlinkSync(filePath);
-                if (loadingMsg) api.unsendMessage(loadingMsg.messageID);
-            }, messageID);
-        } else {
-            throw new Error('Không có bản preview cho bài hát này');
-        }
+        global.musicCache = global.musicCache || {};
+        global.musicCache[threadID] = tracks;
+
+        await api.sendMessage(body + "\n💭 Reply số từ 1-6 để tải nhạc", threadID, (err, info) => {
+            if (err) return;
+            global.client.onReply.push({
+                name: "music",
+                messageID: info.messageID,
+                author: event.senderID,
+                type: "download"
+            });
+        });
+        if (loadingMsg) api.unsendMessage(loadingMsg.messageID);
+
     } catch (error) {
         throw new Error(`Lỗi tìm kiếm: ${error.message}`);
+    }
+}
+
+async function handleSpotifyDownload(api, event, target, loadingMsg) {
+    const { threadID, messageID } = event;
+    const choice = parseInt(target[0]);
+
+    if (!global.musicCache?.[threadID]) {
+        return api.sendMessage("❌ Vui lòng tìm kiếm bài hát trước khi tải", threadID, messageID);
+    }
+
+    if (isNaN(choice) || choice < 1 || choice > 6) {
+        return api.sendMessage("❌ Vui lòng chọn số từ 1 đến 6", threadID, messageID);
+    }
+
+    const track = global.musicCache[threadID][choice - 1];
+    loadingMsg = await api.sendMessage(`⏳ Đang tải "${track.name}"...`, threadID);
+
+    try {
+        const spotifyUrl = `https://open.spotify.com/track/${track.id}`;
+        const downloadResponse = await axios.get(`http://87.106.100.187:6312/download/spotify?url=${spotifyUrl}`);
+        
+        if (!downloadResponse.data.status) {
+            throw new Error("Không thể tải bài hát");
+        }
+
+        const result = downloadResponse.data.result;
+        const filePath = path.join(cacheDir, `spotify_dl_${Date.now()}.mp3`);
+        
+        await streamPipeline(
+            (await axios({url: result.download_url, responseType: 'stream'})).data,
+            fs.createWriteStream(filePath)
+        );
+
+        await api.sendMessage({
+            body: `🎵 Đã tải xong:\n\n`+
+                  `🎤 ${result.title}\n`+
+                  `👤 ${result.artist}\n`+
+                  `⏱️ ${Math.floor(result.duration/1000/60)}:${Math.floor(result.duration/1000)%60}`,
+            attachment: fs.createReadStream(filePath)
+        }, threadID, () => {
+            fs.unlinkSync(filePath);
+            if (loadingMsg) api.unsendMessage(loadingMsg.messageID);
+            delete global.musicCache[threadID];
+        }, messageID);
+
+    } catch (error) {
+        throw new Error(`Lỗi tải nhạc: ${error.message}`);
     }
 }
 

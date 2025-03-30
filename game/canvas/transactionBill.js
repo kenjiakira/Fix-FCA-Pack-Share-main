@@ -5,7 +5,7 @@ const QRCode = require('qrcode');
 
 // Try to register custom fonts if available
 try {
-  const fontsDir = path.join(__dirname, '../fonts');
+  const fontsDir = path.join(__dirname, '../../fonts');
   if (fs.existsSync(path.join(fontsDir, 'Montserrat-Bold.ttf'))) {
     registerFont(path.join(fontsDir, 'Montserrat-Bold.ttf'), { family: 'Montserrat', weight: 'bold' });
   }
@@ -114,7 +114,7 @@ function generateTransactionId() {
       fee = 0,
       total = 0,
       remainingBalance = 0,
-      outputDir = path.resolve(__dirname, '../commands/cache'),
+      outputDir = path.resolve(__dirname, '../../commands/cache'),
       theme = 'blue' // 'blue', 'purple', 'green', 'dark', 'gold'
     } = options;
 

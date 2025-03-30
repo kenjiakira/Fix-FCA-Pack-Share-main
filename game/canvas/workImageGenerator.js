@@ -11,7 +11,7 @@ async function createWorkResultImage(result, vipBenefits, senderID) {
     const ctx = canvas.getContext("2d");
 
     // Load and register fonts (assuming you have these fonts in an assets directory)
-    const assetsPath = path.join(__dirname, "../fonts");
+    const assetsPath = path.join(__dirname, "../../fonts");
     registerFont(path.join(assetsPath, "Montserrat-Bold.ttf"), {
       family: "Montserrat",
       weight: "bold",

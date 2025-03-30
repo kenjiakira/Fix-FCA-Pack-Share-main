@@ -7,8 +7,8 @@ module.exports = {
         try {
             console.log("Loading Pokemon fonts...");
             
-            const pokeSolidPath = path.join(__dirname, '../fonts/Pokemon_Solid.ttf');
-            const pokeHollowPath = path.join(__dirname, '../fonts/Pokemon_Hollow.ttf');
+            const pokeSolidPath = path.join(__dirname, '../../fonts/Pokemon_Solid.ttf');
+            const pokeHollowPath = path.join(__dirname, '../../fonts/Pokemon_Hollow.ttf');
             
             if (!fs.existsSync(pokeSolidPath)) {
               console.log(`Font not found at path: ${pokeSolidPath}`);
@@ -28,7 +28,7 @@ module.exports = {
 
             const [pokemonImg, bgImage] = await Promise.all([
                 loadImage(winnerPokemonImage),
-                loadImage(path.join(__dirname, '../commands/cache/pokemon/winner.png'))
+                loadImage(path.join(__dirname, '../../commands/cache/pokemon/winner.png'))
             ]);
 
             const canvas = createCanvas(1280, 720);

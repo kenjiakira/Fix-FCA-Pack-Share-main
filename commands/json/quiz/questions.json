@@ -953,5 +953,720 @@
       "D": "Nhiều tab khiến ổ cứng hoạt động quá tải, dẫn đến chậm."
     },
     "correct": "A"
+  },
+  {
+    "id": "m8v7vu436dqpi",
+    "category": "dia_ly",
+    "question": "Làm thế nào sự dịch chuyển mảng kiến tạo dẫn đến hình thành dãy Himalaya?",
+    "options": {
+      "A": "Sự bào mòn của gió và nước tạo nên các thung lũng sâu, làm nổi bật dãy núi.",
+      "B": "Sự va chạm giữa mảng Ấn Độ và mảng Á-Âu tạo nên sự nâng lên, hình thành dãy núi.",
+      "C": "Sự phun trào núi lửa dữ dội đẩy lớp đá lên cao, tạo thành dãy núi.",
+      "D": "Sự tích tụ trầm tích hàng triệu năm tạo nên lớp đất đá dày, hình thành dãy núi."
+    },
+    "correct": "B",
+    "difficulty": 2
+  },
+  {
+    "id": "m8v7xo20f9doo",
+    "category": "lich_su",
+    "question": "Làm thế nào sự kiện Nhật đảo chính Pháp (1945) dẫn đến sự tuyên bố độc lập của Việt Nam?",
+    "options": {
+      "A": "Nhật Bản muốn kiểm soát Đông Dương, làm suy yếu Pháp, tạo điều kiện cho Việt Nam nổi dậy giành độc lập.",
+      "B": "Sự kiện này làm mất uy tín của Pháp, tạo cơ hội cho Việt Minh tranh thủ thời cơ tuyên bố độc lập.",
+      "C": "Sự kiện này không có ảnh hưởng trực tiếp đến việc tuyên bố độc lập của Việt Nam.",
+      "D": "Nhật đầu hàng Đồng Minh tạo ra khoảng trống quyền lực, Việt Minh nhanh chóng nắm lấy cơ hội."
+    },
+    "correct": "D",
+    "difficulty": 1
+  },
+  {
+    "id": "m8v80qmpj6oxw",
+    "category": "toan_hoc",
+    "question": "Làm thế nào việc tăng bán kính hình tròn gấp đôi dẫn đến thay đổi diện tích?",
+    "options": {
+      "A": "Diện tích tăng gấp đôi do diện tích và bán kính tỉ lệ thuận.",
+      "B": "Chu vi tăng gấp đôi, diện tích không đổi.",
+      "C": "Diện tích tăng gấp bốn lần do diện tích tỉ lệ với bình phương bán kính.",
+      "D": "Diện tích giảm một nửa do bán kính tăng."
+    },
+    "correct": "C",
+    "difficulty": 3
+  },
+  {
+    "id": "m8v880vpa3jv7",
+    "category": "lich_su",
+    "question": "Làm thế nào sự kiện Nhật đảo chính Pháp năm 1945 dẫn đến sự tuyên bố độc lập của Việt Nam?",
+    "options": {
+      "A": "Nhật Bản viện trợ vũ khí cho Việt Minh, giúp họ dễ dàng đánh bại quân Pháp.",
+      "B": "Sự kiện này làm bùng nổ các cuộc khởi nghĩa vũ trang, buộc Pháp phải nhượng bộ Việt Nam.",
+      "C": "Nhật đầu hàng Đồng minh, làm suy yếu Pháp, tạo cơ hội cho Việt Minh nổi dậy giành độc lập.",
+      "D": "Nhật chiếm đóng Đông Dương tạo điều kiện cho Việt Minh xây dựng lực lượng và chuẩn bị cho cách mạng."
+    },
+    "correct": "C",
+    "difficulty": 3
+  },
+  {
+    "id": "m8v89m11z2hep",
+    "category": "the_thao",
+    "question": "Làm thế nào việc sử dụng công nghệ VAR ảnh hưởng đến tính công bằng trong bóng đá chuyên nghiệp?",
+    "options": {
+      "A": "Tạo ra sự công bằng tuyệt đối, loại bỏ hoàn toàn sai sót và tranh cãi trong trận đấu.",
+      "B": "Không ảnh hưởng đến tính công bằng, chỉ là công cụ hỗ trợ trọng tài.",
+      "C": "Giúp trọng tài đưa ra quyết định nhanh hơn, nhưng không đảm bảo tính chính xác tuyệt đối.",
+      "D": "Tăng tính chính xác, giảm sai sót trọng tài, nhưng có thể gây gián đoạn trận đấu và tranh cãi."
+    },
+    "correct": "D",
+    "difficulty": 2
+  },
+  {
+    "id": "m8v8c4fmzl90i",
+    "category": "nghe_thuat",
+    "question": "Làm thế nào việc sử dụng ánh sáng và bóng tối trong sân khấu kịch tạo nên không khí kịch tính?",
+    "options": {
+      "A": "Giúp thu hút sự chú ý của khán giả vào điểm nhấn chính trên sân khấu.",
+      "B": "Điều chỉnh nhịp điệu của vở kịch, tăng thêm sự hồi hộp, căng thẳng.",
+      "C": "Tạo ra các mảng sáng tối, nhấn mạnh tâm trạng, cảm xúc nhân vật và sự kiện.",
+      "D": "Tạo chiều sâu và không gian biểu cảm, hỗ trợ diễn xuất của diễn viên."
+    },
+    "correct": "C",
+    "difficulty": 2
+  },
+  {
+    "id": "m8v8ellec63io",
+    "category": "dia_ly",
+    "question": "Tại sao hiện tượng triều cường lại gây ngập lụt ở các vùng ven biển?",
+    "options": {
+      "A": "Do sự biến đổi khí hậu dẫn đến mực nước biển dâng cao và tần suất triều cường mạnh tăng lên.",
+      "B": "Do lượng mưa lớn kết hợp với thủy triều dâng cao, vượt quá khả năng thoát nước của hệ thống kênh rạch.",
+      "C": "Do quá trình xây dựng đô thị làm thu hẹp diện tích thoát nước, khiến nước biển dễ dàng tràn vào.",
+      "D": "Do sức hút của Mặt Trăng và Mặt Trời cùng tác động lên nước biển, làm mực nước dâng cao bất thường."
+    },
+    "correct": "B",
+    "difficulty": 3
+  },
+  {
+    "id": "m8v8o2ozakp85",
+    "category": "the_thao",
+    "question": "Tại sao việc sử dụng doping lại dẫn đến án phạt nặng trong thể thao chuyên nghiệp?",
+    "options": {
+      "A": "Vi phạm luật chơi, gây bất công, ảnh hưởng sức khỏe vận động viên.",
+      "B": "Ảnh hưởng đến sức khỏe vận động viên, tạo tiền lệ xấu, mất niềm tin khán giả.",
+      "C": "Bảo vệ tính công bằng,  khuyến khích thi đấu lành mạnh, nâng cao uy tín.",
+      "D": "Làm mất hình ảnh môn thể thao,  giảm thu hút khán giả, gây thiệt hại tài chính."
+    },
+    "correct": "C",
+    "difficulty": 1
+  },
+  {
+    "id": "m8v8po0z1pzkt",
+    "category": "dia_ly",
+    "question": "Làm thế nào sự dịch chuyển địa tầng gây ra động đất?",
+    "options": {
+      "A": "Sự thay đổi trọng lực đột ngột gây ra sự mất cân bằng, dẫn đến động đất.",
+      "B": "Sự tích tụ và giải phóng năng lượng đàn hồi trong lớp đá gây ra rung chấn.",
+      "C": "Sự phun trào núi lửa tạo ra sóng xung kích làm rung chuyển mặt đất.",
+      "D": "Sự va chạm của các mảng kiến tạo tạo ra áp lực, dẫn đến đứt gãy và động đất."
+    },
+    "correct": "D",
+    "difficulty": 2
+  },
+  {
+    "id": "m8v8q1yv40kri",
+    "category": "the_thao",
+    "question": "Làm thế nào việc sử dụng công nghệ VAR dẫn đến sự công bằng hơn trong bóng đá?",
+    "options": {
+      "A": "Tạo ra sự minh bạch trong quá trình ra quyết định, tăng tính khách quan và giảm tranh cãi.",
+      "B": "Tăng cường uy tín của trọng tài, nhưng cũng gây tranh cãi về thời gian và ảnh hưởng đến nhịp độ trận đấu.",
+      "C": "Cung cấp bằng chứng hình ảnh rõ ràng, giảm thiểu sai sót trọng tài, dẫn đến quyết định chính xác hơn.",
+      "D": "Giúp trọng tài xem xét lại các tình huống khó xử lý, hạn chế các quyết định sai lầm ảnh hưởng đến kết quả trận đấu."
+    },
+    "correct": "C",
+    "difficulty": 3
+  },
+  {
+    "id": "m8v8vcbbwowkv",
+    "category": "the_thao",
+    "question": "Làm thế nào việc sử dụng chiến thuật phòng ngự phản công dẫn đến chiến thắng trong bóng đá?",
+    "options": {
+      "A": "Tập trung bảo vệ khung thành, chờ thời cơ phản công nhanh, tận dụng sai lầm đối phương ghi bàn.",
+      "B": "Kiểm soát bóng hoàn toàn, tạo ra nhiều cơ hội ghi bàn hơn đối thủ.",
+      "C": "Tận dụng sức mạnh cá nhân, đột phá và ghi bàn.",
+      "D": "Phòng ngự chắc chắn, tấn công dồn dập, áp đảo đối phương về thể lực."
+    },
+    "correct": "A",
+    "difficulty": 1
+  },
+  {
+    "id": "m8vbixkcctnrs",
+    "category": "the_thao",
+    "question": "Tại sao việc sử dụng trọng tài VAR lại gây tranh cãi trong bóng đá chuyên nghiệp?",
+    "options": {
+      "A": "Khó khăn trong việc xác định chính xác lỗi vi phạm, gây bất đồng ý kiến.",
+      "B": "Tạo ra nhiều thời gian chết, làm gián đoạn nhịp độ trận đấu.",
+      "C": "Ảnh hưởng tâm lý cầu thủ và huấn luyện viên, tạo áp lực lớn.",
+      "D": "Thiếu tính khách quan do sự chủ quan của trọng tài điều khiển VAR."
+    },
+    "correct": "A",
+    "difficulty": 2
+  },
+  {
+    "id": "m8ve7rbfjmspw",
+    "category": "cong_nghe",
+    "question": "Làm thế nào việc sử dụng điện toán đám mây dẫn đến giảm chi phí cho doanh nghiệp?",
+    "options": {
+      "A": "Tăng khả năng mở rộng và linh hoạt, tối ưu hóa tài nguyên.",
+      "B": "Giảm chi phí phần cứng, bảo trì và nhân sự CNTT.",
+      "C": "Cải thiện hiệu quả làm việc, chia sẻ dữ liệu dễ dàng hơn.",
+      "D": "Tiết kiệm không gian lưu trữ dữ liệu vật lý, dễ dàng sao lưu."
+    },
+    "correct": "A",
+    "difficulty": 1
+  },
+  {
+    "id": "m8ve9o6pbvj1e",
+    "category": "toan_hoc",
+    "question": "Tại sao hình tam giác đều có ba cạnh bằng nhau lại có ba góc bằng nhau?",
+    "options": {
+      "A": "Sự cân bằng giữa ba cạnh tạo ra sự phân bổ đều góc, dẫn đến ba góc bằng nhau.",
+      "B": "Tính chất của tam giác đều quy định ba cạnh và ba góc phải bằng nhau.",
+      "C": "Do tính đối xứng của hình tam giác đều, các cạnh bằng nhau dẫn đến các góc đối diện cũng bằng nhau.",
+      "D": "Ba cạnh bằng nhau tạo ra sự cân bằng trong hình học, dẫn đến ba góc bằng 60 độ."
+    },
+    "correct": "C",
+    "difficulty": 2
+  },
+  {
+    "id": "m8vgfvvty22js",
+    "category": "Nghệ thuật",
+    "difficulty": 1,
+    "question": "Tại sao tranh sơn mài lại có độ bóng và bền màu?",
+    "options": {
+      "A": "Do lớp sơn được đánh bóng kỹ và chất liệu sơn mài bền.",
+      "B": "Do sử dụng chất liệu giấy dó nên tranh bền.",
+      "C": "Do tranh được vẽ bằng màu nước nên nhẹ và bóng.",
+      "D": "Do kỹ thuật vẽ tranh hiện đại nên tranh bền."
+    },
+    "correct": "A"
+  },
+  {
+    "id": "m8vgloe5ya2fr",
+    "category": "Toán học",
+    "difficulty": 1,
+    "question": "Tại sao 2 + 2 lại bằng 4?",
+    "options": {
+      "A": "Vì đó là phép cộng hai số nguyên dương.",
+      "B": "Vì đó là kết quả của phép tính cơ bản.",
+      "C": "Vì hai quả táo cộng hai quả táo bằng bốn quả táo.",
+      "D": "Đó là quy tắc toán học cơ bản."
+    },
+    "correct": "A"
+  },
+  {
+    "id": "m8vhsrsop19pd",
+    "category": "Khoa học",
+    "difficulty": 1,
+    "question": "Tại sao trời mưa lại có cầu vồng?",
+    "options": {
+      "A": "Ánh sáng mặt trời bị khúc xạ và tán sắc qua các giọt nước.",
+      "B": "Do sự phản xạ của ánh sáng mặt trời trên mặt đất.",
+      "C": "Do hơi nước ngưng tụ tạo thành mây.",
+      "D": "Do gió thổi mạnh làm mây chuyển động."
+    },
+    "correct": "A"
+  },
+  {
+    "id": "m8vhziwyjtgf3",
+    "category": "Vật lý",
+    "difficulty": 1,
+    "question": "Tại sao quả bóng thả xuống đất lại nảy lên?",
+    "options": {
+      "A": "Do lực đàn hồi của quả bóng và mặt đất.",
+      "B": "Do trọng lực tác dụng lên quả bóng.",
+      "C": "Do quả bóng có khối lượng.",
+      "D": "Do ma sát giữa bóng và mặt đất."
+    },
+    "correct": "A"
+  },
+  {
+    "id": "m8vi13jwvu7h9",
+    "category": "Hóa học",
+    "difficulty": 1,
+    "question": "Tại sao nước đá lại nổi trên mặt nước?",
+    "options": {
+      "A": "Nước đá nhẹ hơn nước ở thể lỏng.",
+      "B": "Nước đá có nhiệt độ thấp hơn nước.",
+      "C": "Nước đá có khối lượng riêng nhỏ hơn nước.",
+      "D": "Nước đá tan chảy thành nước."
+    },
+    "correct": "C"
+  },
+  {
+    "id": "m8vi3n922k43r",
+    "category": "Đời sống",
+    "difficulty": 1,
+    "question": "Tại sao ăn nhiều rau xanh lại tốt cho sức khỏe?",
+    "options": {
+      "A": "Cung cấp vitamin và chất xơ, giúp hệ tiêu hóa khỏe mạnh.",
+      "B": "Làm cho da dẻ hồng hào, tươi tắn hơn.",
+      "C": "Giúp giảm cân hiệu quả, duy trì vóc dáng.",
+      "D": "Tăng cường sức đề kháng, phòng ngừa bệnh tật."
+    },
+    "correct": "A"
+  },
+  {
+    "id": "m8vi6wbuvwcqy",
+    "category": "Nghệ thuật",
+    "difficulty": 1,
+    "question": "Làm thế nào âm nhạc tạo nên cảm xúc cho người nghe?",
+    "options": {
+      "A": "Thông qua giai điệu, tiết tấu, hòa âm tác động lên cảm xúc.",
+      "B": "Âm nhạc mô phỏng hiện thực cuộc sống.",
+      "C": "Nhạc cụ được làm từ chất liệu đặc biệt.",
+      "D": "Âm nhạc có lịch sử lâu đời."
+    },
+    "correct": "A"
+  },
+  {
+    "id": "m8vi8pci43545",
+    "category": "Đời sống",
+    "difficulty": 1,
+    "question": "Tại sao ăn nhiều rau xanh lại tốt cho sức khỏe?",
+    "options": {
+      "A": "Cung cấp nhiều vitamin và chất xơ, giúp hệ tiêu hóa khỏe mạnh.",
+      "B": "Làm đẹp da, tăng cường sức đề kháng cho cơ thể.",
+      "C": "Giúp giảm cân hiệu quả, ngăn ngừa bệnh tật.",
+      "D": "Cung cấp năng lượng dồi dào, giúp hoạt động hiệu quả."
+    },
+    "correct": "A"
+  },
+  {
+    "id": "m8vic91q8pffa",
+    "category": "Đời sống",
+    "difficulty": 1,
+    "question": "Tại sao rau xanh lại tốt cho sức khỏe?",
+    "options": {
+      "A": "Cung cấp nhiều vitamin và chất xơ.",
+      "B": "Giúp da dẻ mịn màng, tươi tắn.",
+      "C": "Làm giảm nguy cơ mắc bệnh tim mạch.",
+      "D": "Giúp hệ tiêu hóa hoạt động tốt hơn."
+    },
+    "correct": "A"
+  },
+  {
+    "id": "m8viclqotdo71",
+    "category": "Văn học",
+    "difficulty": 1,
+    "question": "Làm thế nào việc sử dụng biện pháp tu từ làm cho văn bản trở nên sinh động hơn?",
+    "options": {
+      "A": "Tạo hình ảnh, âm thanh cụ thể, gây ấn tượng mạnh.",
+      "B": "Làm cho câu văn trở nên dài dòng, khó hiểu.",
+      "C": "Giúp người đọc dễ dàng nắm bắt nội dung chính.",
+      "D": "Không ảnh hưởng đến sự sinh động của văn bản."
+    },
+    "correct": "A"
+  },
+  {
+    "id": "m8vid9bdc825o",
+    "category": "Thể thao",
+    "difficulty": 1,
+    "question": "Tại sao cầu thủ bóng đá lại thường xuyên bị phạt thẻ vàng?",
+    "options": {
+      "A": "Vì phạm lỗi nhẹ trong trận đấu.",
+      "B": "Vì ghi bàn thắng đẹp mắt.",
+      "C": "Vì chơi quá hay.",
+      "D": "Vì ăn mừng quá khích."
+    },
+    "correct": "A"
+  },
+  {
+    "id": "m8vigtbe12g5m",
+    "category": "Lịch sử",
+    "difficulty": 1,
+    "question": "Làm thế nào sự phát minh ra chữ viết dẫn đến sự phát triển của xã hội?",
+    "options": {
+      "A": "Giúp lưu giữ thông tin, kiến thức, truyền đạt kinh nghiệm qua các thế hệ.",
+      "B": "Tạo điều kiện cho việc quản lý, tổ chức xã hội tốt hơn.",
+      "C": "Thúc đẩy sự giao lưu, trao đổi văn hóa giữa các cộng đồng.",
+      "D": "Tất cả các phương án trên đều đúng."
+    },
+    "correct": "D"
+  },
+  {
+    "id": "m8vihizt31sib",
+    "category": "Thể thao",
+    "difficulty": 1,
+    "question": "Tại sao cầu thủ bóng đá lại thường xuyên bị đau cơ?",
+    "options": {
+      "A": "Do vận động mạnh, gây tổn thương cơ bắp.",
+      "B": "Vì họ ăn uống không đủ chất dinh dưỡng.",
+      "C": "Do thời tiết quá lạnh ảnh hưởng đến cơ thể.",
+      "D": "Vì họ luyện tập không đúng cách, thiếu bài khởi động."
+    },
+    "correct": "A"
+  },
+  {
+    "id": "m8vihwxskfvou",
+    "category": "Thể thao",
+    "difficulty": 1,
+    "question": "Làm thế nào một cú đánh bóng chày mạnh mẽ dẫn đến bóng bay xa?",
+    "options": {
+      "A": "Sức mạnh của cú đánh tạo ra tốc độ ban đầu lớn cho bóng.",
+      "B": "Trọng lực của Trái Đất làm chậm bóng lại.",
+      "C": "Lực cản không khí làm giảm tốc độ bóng.",
+      "D": "Sự kết hợp của tốc độ ban đầu và lực cản không khí."
+    },
+    "correct": "D"
+  },
+  {
+    "id": "m8vijh0lduewo",
+    "category": "Công nghệ",
+    "difficulty": 1,
+    "question": "Tại sao máy tính lại cần hệ điều hành?",
+    "options": {
+      "A": "Để điều khiển phần cứng và quản lý phần mềm.",
+      "B": "Để chơi game mượt mà hơn.",
+      "C": "Để tăng tốc độ xử lý dữ liệu.",
+      "D": "Để kết nối internet nhanh hơn."
+    },
+    "correct": "A"
+  },
+  {
+    "id": "m8vijth7tyfdc",
+    "category": "Hóa học",
+    "difficulty": 1,
+    "question": "Tại sao nước đá lại nổi trên mặt nước?",
+    "options": {
+      "A": "Nước đá nhẹ hơn nước ở thể lỏng.",
+      "B": "Nước đá có nhiệt độ thấp hơn nước.",
+      "C": "Nước đá có cấu trúc tinh thể đặc biệt.",
+      "D": "Nước đá tan chảy thành nước."
+    },
+    "correct": "A"
+  },
+  {
+    "id": "m8viomytvk1x4",
+    "category": "Lịch sử",
+    "difficulty": 1,
+    "question": "Làm thế nào cuộc cách mạng tháng Tám năm 1945 dẫn đến sự ra đời của nước Việt Nam Dân chủ Cộng hòa?",
+    "options": {
+      "A": "Nhân dân giành chính quyền, Hồ Chí Minh đọc Tuyên ngôn độc lập.",
+      "B": "Pháp quay lại xâm lược, chia cắt đất nước.",
+      "C": "Mỹ can thiệp vào chiến tranh Việt Nam.",
+      "D": "Nhật Bản đầu hàng quân Đồng minh."
+    },
+    "correct": "A"
+  },
+  {
+    "id": "m8vip7z6klijq",
+    "category": "Vật lý",
+    "difficulty": 1,
+    "question": "Tại sao quả bóng thả xuống đất lại nảy lên?",
+    "options": {
+      "A": "Do lực đàn hồi của quả bóng và mặt đất.",
+      "B": "Do sức hút của Trái Đất giảm dần.",
+      "C": "Do quả bóng tự động bật lên.",
+      "D": "Do gió thổi làm quả bóng nảy lên."
+    },
+    "correct": "A"
+  },
+  {
+    "id": "m8viwddq0og2p",
+    "category": "Công nghệ",
+    "difficulty": 1,
+    "question": "Tại sao máy tính lại cần phần mềm?",
+    "options": {
+      "A": "Phần mềm giúp máy tính hoạt động.",
+      "B": "Phần mềm chứa dữ liệu của máy tính.",
+      "C": "Phần mềm là bộ phận cứng của máy tính.",
+      "D": "Phần mềm không cần thiết cho máy tính."
+    },
+    "correct": "A"
+  },
+  {
+    "id": "m8viyacgbts8o",
+    "category": "Hóa học",
+    "difficulty": 1,
+    "question": "Tại sao nước đá lại nổi trên mặt nước?",
+    "options": {
+      "A": "Nước đá nhẹ hơn nước ở thể lỏng.",
+      "B": "Nước đá có nhiệt độ thấp hơn nước.",
+      "C": "Nước đá có cấu trúc tinh thể rỗng.",
+      "D": "Nước đá tan chảy thành nước."
+    },
+    "correct": "C"
+  },
+  {
+    "id": "m8viz12x21fjs",
+    "category": "Công nghệ",
+    "difficulty": 1,
+    "question": "Tại sao máy tính lại cần hệ điều hành?",
+    "options": {
+      "A": "Để quản lý phần cứng và phần mềm.",
+      "B": "Để chơi game mượt mà hơn.",
+      "C": "Để tăng tốc độ xử lý dữ liệu.",
+      "D": "Để kết nối internet dễ dàng hơn."
+    },
+    "correct": "A"
+  },
+  {
+    "id": "m8vizdoop2fkt",
+    "category": "Vật lý",
+    "difficulty": 1,
+    "question": "Tại sao quả bóng thả xuống đất lại nảy lên?",
+    "options": {
+      "A": "Do lực đàn hồi của quả bóng và mặt đất.",
+      "B": "Do trọng lực tác dụng lên quả bóng.",
+      "C": "Do quả bóng tự động bật lên.",
+      "D": "Do ma sát giữa bóng và mặt đất."
+    },
+    "correct": "A"
+  },
+  {
+    "id": "m8vizzh1fr8av",
+    "category": "Đời sống",
+    "difficulty": 1,
+    "question": "Tại sao ăn nhiều rau xanh lại tốt cho sức khỏe?",
+    "options": {
+      "A": "Cung cấp vitamin và khoáng chất cần thiết.",
+      "B": "Giúp hệ tiêu hóa hoạt động tốt hơn.",
+      "C": "Giúp cơ thể khỏe mạnh, tăng sức đề kháng.",
+      "D": "Cả A, B và C đều đúng."
+    },
+    "correct": "D"
+  },
+  {
+    "id": "m8vj1iqmn18sv",
+    "category": "Lịch sử",
+    "difficulty": 1,
+    "question": "Tại sao nhà nước Văn Lang lại được coi là nhà nước đầu tiên của Việt Nam?",
+    "options": {
+      "A": "Vì đó là nhà nước có tổ chức bộ máy cai quản lãnh thổ rộng lớn, có quân đội và luật pháp.",
+      "B": "Vì đó là nhà nước có nền kinh tế phát triển mạnh mẽ nhất thời bấy giờ.",
+      "C": "Vì đó là nhà nước có nhiều công trình kiến trúc đồ sộ.",
+      "D": "Vì đó là nhà nước có quan hệ ngoại giao rộng rãi với các nước láng giềng."
+    },
+    "correct": "A"
+  },
+  {
+    "id": "m8vj2945ysy5b",
+    "category": "Thể thao",
+    "difficulty": 1,
+    "question": "Làm thế nào một cú đánh bóng gôn mạnh mẽ dẫn đến bóng bay xa?",
+    "options": {
+      "A": "Lực đánh mạnh tạo tốc độ ban đầu lớn cho bóng.",
+      "B": "Bóng được làm từ chất liệu nhẹ, dễ bay.",
+      "C": "Gậy gôn giúp truyền lực hiệu quả vào bóng.",
+      "D": "Sự kết hợp của lực đánh mạnh, gậy và bóng."
+    },
+    "correct": "D"
+  },
+  {
+    "id": "m8vj3xi7bmxwp",
+    "category": "Nghệ thuật",
+    "difficulty": 1,
+    "question": "Tại sao tranh sơn dầu lại bền hơn tranh màu nước?",
+    "options": {
+      "A": "Sơn dầu khô chậm, tạo lớp màng bảo vệ tốt hơn.",
+      "B": "Màu nước dễ bị phai màu do tác động của ánh sáng.",
+      "C": "Sơn dầu có độ bám dính cao hơn màu nước trên bề mặt.",
+      "D": "Cả A và C đều đúng."
+    },
+    "correct": "D"
+  },
+  {
+    "id": "m8vj4fhig886z",
+    "category": "Lịch sử",
+    "difficulty": 1,
+    "question": "Tại sao người ta lại ăn Tết Nguyên Đán?",
+    "options": {
+      "A": "Để mừng năm mới, cầu may mắn, mùa màng bội thu.",
+      "B": "Để tưởng nhớ các vị vua thời xưa.",
+      "C": "Để kỷ niệm ngày sinh nhật của Đức Phật.",
+      "D": "Để chào đón mùa xuân sang."
+    },
+    "correct": "A"
+  },
+  {
+    "id": "m8vj7jy4x5g4w",
+    "category": "Hóa học",
+    "difficulty": 1,
+    "question": "Tại sao nước đá lại nổi trên mặt nước?",
+    "options": {
+      "A": "Nước đá nhẹ hơn nước ở trạng thái lỏng.",
+      "B": "Nước đá có nhiệt độ thấp hơn nước lỏng.",
+      "C": "Nước đá có cấu trúc tinh thể đặc biệt.",
+      "D": "Nước đá tan chảy khi tiếp xúc với nước."
+    },
+    "correct": "A"
+  },
+  {
+    "id": "m8vj81zzagswo",
+    "category": "Sinh học",
+    "difficulty": 1,
+    "question": "Tại sao cây xanh lại cần ánh sáng mặt trời?",
+    "options": {
+      "A": "Để thực hiện quá trình quang hợp tạo chất dinh dưỡng.",
+      "B": "Để cây hấp thụ nước và muối khoáng tốt hơn.",
+      "C": "Để cây sinh trưởng và phát triển nhanh hơn.",
+      "D": "Để cây có thể hô hấp hiệu quả hơn."
+    },
+    "correct": "A"
+  },
+  {
+    "id": "m8vjvn84tbohs",
+    "category": "Vật lý",
+    "difficulty": 1,
+    "question": "Tại sao bóng thả xuống đất lại nảy lên?",
+    "options": {
+      "A": "Do lực đàn hồi của mặt đất đẩy bóng lên.",
+      "B": "Do trọng lực tác dụng lên bóng.",
+      "C": "Do bóng tự nảy lên.",
+      "D": "Do ma sát giữa bóng và mặt đất."
+    },
+    "correct": "A"
+  },
+  {
+    "id": "m8vjw08sn9rhj",
+    "category": "Khoa học",
+    "difficulty": 1,
+    "question": "Tại sao trời mưa lại có cầu vồng?",
+    "options": {
+      "A": "Ánh sáng mặt trời bị khúc xạ và phản xạ qua các giọt nước.",
+      "B": "Do sự thay đổi nhiệt độ đột ngột trong không khí.",
+      "C": "Là hiện tượng tự nhiên không có nguyên nhân cụ thể.",
+      "D": "Do phản ứng hóa học giữa hơi nước và ôxy."
+    },
+    "correct": "A"
+  },
+  {
+    "id": "m8vjwhu4drnvq",
+    "category": "Thể thao",
+    "difficulty": 1,
+    "question": "Làm thế nào việc tập luyện thường xuyên dẫn đến sức khỏe tốt hơn?",
+    "options": {
+      "A": "Cơ thể trở nên dẻo dai, khỏe mạnh hơn.",
+      "B": "Tăng cường sức mạnh và khả năng chịu đựng.",
+      "C": "Giảm nguy cơ mắc các bệnh mãn tính.",
+      "D": "Cả A, B và C đều đúng."
+    },
+    "correct": "D"
+  },
+  {
+    "id": "m8vjx3p8ajudz",
+    "category": "Văn học",
+    "difficulty": 1,
+    "question": "Làm thế nào nhân vật chính trong truyện cổ tích thường vượt qua khó khăn?",
+    "options": {
+      "A": "Nhờ sự giúp đỡ của người khác.",
+      "B": "Nhờ sự thông minh, nhanh trí của mình.",
+      "C": "Nhờ may mắn và tình cờ.",
+      "D": "Nhờ sức mạnh siêu nhiên."
+    },
+    "correct": "B"
+  },
+  {
+    "id": "m8vjypi93dsyh",
+    "category": "Toán học",
+    "difficulty": 1,
+    "question": "Tại sao 2 cộng 2 lại bằng 4?",
+    "options": {
+      "A": "Đó là định nghĩa của phép cộng.",
+      "B": "Vì hai nhóm hai vật gộp lại thành bốn vật.",
+      "C": "Theo quy tắc cộng trong toán học.",
+      "D": "Kết quả của phép tính 2 + 2."
+    },
+    "correct": "A"
+  },
+  {
+    "id": "m8vjz0pnou806",
+    "category": "Hóa học",
+    "difficulty": 1,
+    "question": "Tại sao nước đá lại nổi trên mặt nước?",
+    "options": {
+      "A": "Nước đá nhẹ hơn nước ở thể lỏng.",
+      "B": "Nước đá có nhiệt độ thấp hơn nước lỏng.",
+      "C": "Nước đá có cấu trúc tinh thể đặc biệt.",
+      "D": "Nước đá tan chảy ở 0 độ C."
+    },
+    "correct": "A"
+  },
+  {
+    "id": "m8vjzjrdbi8cz",
+    "category": "Sinh học",
+    "difficulty": 1,
+    "question": "Tại sao cây xanh lại cần ánh sáng mặt trời?",
+    "options": {
+      "A": "Để thực hiện quá trình quang hợp tạo chất dinh dưỡng.",
+      "B": "Để tăng tốc độ sinh trưởng và phát triển.",
+      "C": "Để hấp thụ nước và muối khoáng từ đất.",
+      "D": "Để duy trì nhiệt độ thân cây."
+    },
+    "correct": "A"
+  },
+  {
+    "id": "m8vk06ou9c3yc",
+    "category": "Địa lý",
+    "difficulty": 1,
+    "question": "Tại sao mùa hè thường nóng hơn mùa đông?",
+    "options": {
+      "A": "Do góc chiếu của ánh sáng mặt trời lớn hơn, thời gian chiếu sáng dài hơn.",
+      "B": "Do trái đất ở gần mặt trời hơn vào mùa hè.",
+      "C": "Do lượng mưa nhiều hơn vào mùa hè.",
+      "D": "Do gió mùa đông bắc thổi mạnh hơn."
+    },
+    "correct": "A"
+  },
+  {
+    "id": "m8vk0qpc6of4y",
+    "category": "Khoa học",
+    "difficulty": 1,
+    "question": "Tại sao quả bóng rơi xuống đất?",
+    "options": {
+      "A": "Do lực hút của Trái Đất.",
+      "B": "Do quả bóng quá nặng.",
+      "C": "Do gió thổi quả bóng xuống.",
+      "D": "Do quả bóng muốn nằm yên."
+    },
+    "correct": "A"
+  },
+  {
+    "id": "m8vk1acqiap8i",
+    "category": "Thể thao",
+    "difficulty": 2,
+    "question": "Làm thế nào việc sử dụng vợt có trọng lượng khác nhau ảnh hưởng đến hiệu quả cú đánh trong quần vợt?",
+    "options": {
+      "A": "Vợt nhẹ giúp đánh nhanh, linh hoạt nhưng thiếu lực; vợt nặng giúp đánh mạnh nhưng chậm hơn.",
+      "B": "Vợt nhẹ tăng tốc độ bóng, vợt nặng tăng lực bóng, tùy thuộc vào kỹ thuật người chơi.",
+      "C": "Vợt nặng làm giảm độ chính xác, vợt nhẹ gây mỏi tay nhanh hơn.",
+      "D": "Trọng lượng vợt không ảnh hưởng đến hiệu quả cú đánh, chỉ phụ thuộc vào kỹ thuật."
+    },
+    "correct": "B"
+  },
+  {
+    "id": "m8vk3xc0pl22g",
+    "category": "Địa lý",
+    "difficulty": 1,
+    "question": "Tại sao mùa hè thường nóng hơn mùa đông?",
+    "options": {
+      "A": "Mặt trời chiếu thẳng góc hơn, thời gian chiếu sáng dài hơn.",
+      "B": "Trái đất quay chậm hơn, hấp thụ nhiều nhiệt hơn.",
+      "C": "Gió mùa đông thổi mạnh hơn, làm giảm nhiệt độ.",
+      "D": "Lượng mưa mùa hè ít hơn, làm tăng nhiệt độ."
+    },
+    "correct": "A"
+  },
+  {
+    "id": "m8vk4c5d3ghlo",
+    "category": "Công nghệ",
+    "difficulty": 1,
+    "question": "Tại sao máy tính lại cần phần mềm?",
+    "options": {
+      "A": "Phần mềm điều khiển hoạt động của máy tính.",
+      "B": "Phần mềm giúp máy tính hoạt động nhanh hơn.",
+      "C": "Phần mềm chứa dữ liệu của máy tính.",
+      "D": "Phần mềm làm cho máy tính đẹp hơn."
+    },
+    "correct": "A"
   }
 ]

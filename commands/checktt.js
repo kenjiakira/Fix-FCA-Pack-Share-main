@@ -1,6 +1,7 @@
 const fs = require('fs');
 const path = require('path');
 const getThreadParticipantIDs = require('../utils/getParticipantIDs');
+const { createCheckTTCanvas, getAvatarPath } = require('../game/canvas/checkttCanvas');
 
 module.exports = {
     name: "checktt",
@@ -30,7 +31,6 @@ module.exports = {
                 
                 if (fs.existsSync(userDataPath)) {
                     userData = JSON.parse(fs.readFileSync(userDataPath, "utf8") || "{}");
-                    console.log(`Loaded ${Object.keys(userData).length} user records from userData.json`);
                 }
             } catch (readError) {
                 console.error("Error reading database files:", readError);
@@ -47,6 +47,14 @@ module.exports = {
             }
             
             participantIDs = [...new Set(participantIDs)];
+            
+            let threadName = "Nhóm chat";
+            try {
+                const threadInfo = await api.getThreadInfo(threadID);
+                threadName = threadInfo.threadName || "Nhóm chat";
+            } catch (err) {
+                console.error("Error getting thread name:", err);
+            }
 
             const memberStats = [];
             
@@ -117,36 +125,74 @@ module.exports = {
             
             memberStats.sort((a, b) => b.count - a.count);
             
-            if (Object.keys(mentions).length > 0) {
-                let msg = "📊 THỐNG KÊ TƯƠNG TÁC 📊\n\n";
-                for (const userID in mentions) {
-                    const member = memberStats.find(m => m.userID === userID);
-                    if (member) {
-                        const rank = memberStats.findIndex(m => m.userID === userID) + 1;
-                        msg += `${member.name}: ${member.count} tin nhắn (Hạng ${rank}/${memberStats.length})`;
-                        
-                        if (member.level > 1) {
-                            msg += ` - Lv.${member.level}`;
-                        }
-                        
-                        msg += "\n";
-                    }
-                }
-                return api.sendMessage(msg, threadID, messageID);
-            } else {
-                let msg = "📊 THỐNG KÊ TƯƠNG TÁC NHÓM 📊\n\n";
-                memberStats.forEach((member, index) => {
-                    msg += `${index + 1}. ${member.name}: ${member.count} tin nhắn`;
+            const specificUsers = Object.keys(mentions).length > 0;
+            const filteredStats = specificUsers 
+                ? memberStats.filter(m => Object.keys(mentions).includes(m.userID))
+                : memberStats;
+            
+            let textFallback = specificUsers 
+                ? "📊 THỐNG KÊ TƯƠNG TÁC 📊\n\n"
+                : "📊 THỐNG KÊ TƯƠNG TÁC NHÓM 📊\n\n";
+                
+            if (specificUsers) {
+                for (const member of filteredStats) {
+                    const rank = memberStats.findIndex(m => m.userID === member.userID) + 1;
+                    textFallback += `${member.name}: ${member.count} tin nhắn (Hạng ${rank}/${memberStats.length})`;
                     
                     if (member.level > 1) {
-                        msg += ` (Lv.${member.level})`;
+                        textFallback += ` - Lv.${member.level}`;
                     }
                     
-                    msg += "\n";
+                    textFallback += "\n";
+                }
+            } else {
+                filteredStats.forEach((member, index) => {
+                    textFallback += `${index + 1}. ${member.name}: ${member.count} tin nhắn`;
+                    
+                    if (member.level > 1) {
+                        textFallback += ` (Lv.${member.level})`;
+                    }
+                    
+                    textFallback += "\n";
                 });
-                return api.sendMessage(msg, threadID, messageID);
             }
             
+            try {
+                const userAvatars = {};
+                
+                await Promise.all(filteredStats.slice(0, 15).map(async (member) => {
+                    try {
+                        userAvatars[member.userID] = await getAvatarPath(member.userID);
+                    } catch (err) {
+                        console.error(`Error getting avatar for ${member.userID}:`, err);
+                    }
+                }));
+
+                const imagePath = await createCheckTTCanvas(
+                    filteredStats,
+                    threadID,
+                    threadName,
+                    senderID,
+                    userAvatars
+                );
+                
+                return api.sendMessage({
+                    body: `📊 Thống kê tương tác ${specificUsers ? 'các thành viên được tag' : 'nhóm'}`,
+                    attachment: fs.createReadStream(imagePath)
+                }, threadID, (err) => {
+                    if (err) {
+                        console.error("Error sending canvas image:", err);
+                        api.sendMessage(textFallback, threadID, messageID);
+                    }
+                    
+                    if (fs.existsSync(imagePath)) {
+                        fs.unlinkSync(imagePath);
+                    }
+                });
+            } catch (canvasError) {
+                console.error("Error creating canvas image:", canvasError);
+                return api.sendMessage(textFallback, threadID, messageID);
+            }
         } catch (error) {
             console.error("Error in checktt command:", error);
             return api.sendMessage("❌ Đã xảy ra lỗi, vui lòng thử lại sau!", threadID, messageID);

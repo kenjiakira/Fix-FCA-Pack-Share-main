@@ -436,6 +436,18 @@
         "description": "Nhận 100,000 $ từ Ngọc Từ",
         "amount": 100000,
         "timestamp": 1743245563675
+      },
+      {
+        "type": "in",
+        "description": "Nhận 7,000,000 $ từ Hoang Long",
+        "amount": 7000000,
+        "timestamp": 1743333952064
+      },
+      {
+        "type": "in",
+        "description": "Nhận 1,000,000 $ từ Hoang Long",
+        "amount": 1000000,
+        "timestamp": 1743333969293
       }
     ],
     "100068382888605": [
@@ -680,6 +692,18 @@
         "description": "Chuyển 30,500,000 $ cho Khuong Duy",
         "amount": 30500000,
         "timestamp": 1742827996165
+      },
+      {
+        "type": "out",
+        "description": "Chuyển 7,000,000 $ cho Khuong Duy",
+        "amount": 7000000,
+        "timestamp": 1743333952041
+      },
+      {
+        "type": "out",
+        "description": "Chuyển 1,000,000 $ cho Khuong Duy",
+        "amount": 1000000,
+        "timestamp": 1743333969285
       }
     ],
     "100092325757607": [
