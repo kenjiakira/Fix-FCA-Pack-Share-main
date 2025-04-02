@@ -4,6 +4,8 @@ const Database = require('better-sqlite3');
 const { getBalance, updateBalance } = require('../utils/currencies');
 const BACKUP_DIR = path.join(__dirname, './json/coin/backups');
 const DB_PATH = path.join(__dirname, '../database/coindb.sqlite');
+const { createMarketCanvas, bufferToStream } = require('../game/canvas/coinCanvas');
+
 const DB_DIR = path.dirname(DB_PATH);
 const crypto = require('crypto');
 const MAX_BUY_PERCENT = 0.1;
@@ -2085,7 +2087,6 @@ module.exports = {
                         `📊 Tiến độ: ${formatNumber(totalSupply / LISTING_THRESHOLD * 100, 2)}% (${formatNumber(totalSupply)}/
                               ${formatNumber(LISTING_THRESHOLD).toLocaleString()} MC)`;
 
-                    // Tính XP cần cho cấp tiếp theo sau khi đã lên cấp (nếu có)
                     const nextLevelXP = calculateRequiredXP(finalUser.level);
 
                     return api.sendMessage(
@@ -2126,75 +2127,109 @@ module.exports = {
                     return api.sendMessage(msg, threadID, messageID);
                 }
                 case "check":
-                case "thịtrường": {
-                    const marketData = db.prepare('SELECT * FROM market_data WHERE id = 1').get();
-                    if (!marketData) {
-                        return api.sendMessage("❌ Lỗi: Không thể lấy dữ liệu thị trường!", threadID, messageID);
-                    }
-
-                    const supplyResult = db.prepare('SELECT SUM(wallet_mainnet) as total FROM mining_data').get();
-                    const totalSupply = supplyResult?.total || 0;
-
-                    if (!marketData.is_listed) {
-                        let preListingMsg = `📣 COIN CHƯA ĐƯỢC LIST 📣\n`;
-                        preListingMsg += "━━━━━━━━━━━━━━━━━━\n\n";
-                        preListingMsg += `⏳ Coin sẽ được list khi đạt ${LISTING_THRESHOLD.toLocaleString()} MC\n`;
-                        preListingMsg += `📊 Tiến độ listing: ${formatNumber(totalSupply / LISTING_THRESHOLD * 100, 2)}%\n`;
-                        preListingMsg += `💎 Tổng cung hiện tại: ${formatNumber(totalSupply)} MC\n`;
-                        preListingMsg += `💰 Giá khởi điểm dự kiến: ${formatNumber(INITIAL_PRICE)}$\n\n`;
-
+                    case "thịtrường": {
+                        const marketData = db.prepare('SELECT * FROM market_data WHERE id = 1').get();
+                        if (!marketData) {
+                            return api.sendMessage("❌ Lỗi: Không thể lấy dữ liệu thị trường!", threadID, messageID);
+                        }
+                    
+                        // Lấy dữ liệu cần thiết
+                        const supplyResult = db.prepare('SELECT SUM(wallet_mainnet) as total FROM mining_data').get();
+                        const totalSupply = supplyResult?.total || 0;
+                        
                         const userWallet = db.prepare('SELECT wallet_mainnet FROM mining_data WHERE user_id = ?').get(senderID);
-                        preListingMsg += `💼 MC của bạn: ${formatNumber(userWallet?.wallet_mainnet || 0, 2)}\n\n`;
-                        preListingMsg += `💡 LƯU Ý: Chưa thể mua/bán coin cho đến khi listed\n`;
-                        preListingMsg += `⛏️ Hãy tiếp tục đào để đạt ngưỡng listing!`;
-
-                        return api.sendMessage(preListingMsg, threadID, messageID);
+                        const userCoins = userWallet?.wallet_mainnet || 0;
+                        
+                        const holdingPercent = totalSupply > 0 ? (userCoins / totalSupply) * 100 : 0;
+                        
+                        // Lấy lịch sử giá
+                        const priceHistory = db.prepare(`
+                            SELECT price, time 
+                            FROM price_history 
+                            ORDER BY time DESC 
+                            LIMIT 7
+                        `).all();
+                    
+                        // Tính phần trăm thay đổi
+                        let changePercent = 0;
+                        if (priceHistory.length >= 2) {
+                            const currentPrice = marketData.price || 0;
+                            const previousPrice = priceHistory[1]?.price || currentPrice;
+                            changePercent = ((currentPrice - previousPrice) / previousPrice) * 100;
+                        }
+                    
+                        // Xác định sentiment message
+                        let sentimentMsg = "";
+                        const sentiment = marketData.sentiment || 0;
+                        if (sentiment > 0.5) sentimentMsg = "Rất lạc quan 🌟";
+                        else if (sentiment > 0.2) sentimentMsg = "Lạc quan 🔆";
+                        else if (sentiment > -0.2) sentimentMsg = "Trung lập ⚖️";
+                        else if (sentiment > -0.5) sentimentMsg = "Bi quan 🌧️";
+                        else sentimentMsg = "Rất bi quan ⛈️";
+                    
+                        // Tạo dữ liệu cho canvas
+                        const canvasData = {
+                            price: marketData.price || 0,
+                            changePercent,
+                            trend: marketData.trend || "stable",
+                            supply_demand_ratio: marketData.supply_demand_ratio || 1,
+                            sentiment: marketData.sentiment || 0,
+                            sentimentMsg,
+                            totalSupply,
+                            userCoins,
+                            holdingPercent,
+                            priceHistory,
+                            is_listed: marketData.is_listed
+                        };
+                    
+                        try {
+                            // Tạo canvas market
+                            const marketCanvas = await createMarketCanvas(canvasData);
+                            const marketAttachment = await bufferToStream(marketCanvas);
+                    
+                            return api.sendMessage(
+                                {
+                                    body: "🎴 THỊ TRƯỜNG MAINNET COIN 🎴",
+                                    attachment: marketAttachment
+                                },
+                                threadID,
+                                messageID
+                            );
+                        } catch (canvasErr) {
+                            console.error("Canvas error:", canvasErr);
+                            
+                            // Xác định trend icon dựa vào changePercent
+                            const trendIcon = changePercent > 0 ? "📈" : changePercent < 0 ? "📉" : "📊";
+                            
+                            // Fallback về text message nếu canvas lỗi
+                            let marketMsg = `${trendIcon} THỊ TRƯỜNG MAINNET COIN ${trendIcon}\n`;
+                            marketMsg += "━━━━━━━━━━━━━━━━━━\n\n";
+                            marketMsg += `💰 Giá hiện tại: 1 MC = ${formatNumber(marketData.price || 0)}$\n`;
+                            marketMsg += `${changePercent >= 0 ? "🟢" : "🔴"} Biến động: ${formatNumber(changePercent, 2)}%\n`;
+                            marketMsg += `⚖️ Cung/Cầu: ${formatNumber(marketData.supply_demand_ratio || 1, 2)}\n`;
+                            marketMsg += `🧠 Tâm lý thị trường: ${sentimentMsg}\n`;
+                            marketMsg += `💎 Tổng cung: ${formatNumber(totalSupply)} MC\n\n`;
+                            
+                            // Thông tin người dùng
+                            marketMsg += `💼 MC của bạn: ${formatNumber(userCoins, 2)}\n`;
+                            marketMsg += `💵 Giá trị: ${formatNumber(userCoins * (marketData.price || 0))} $\n`;
+                            
+                            // Xác định biểu tượng cho tỷ lệ nắm giữ
+                            const holdingIcon = holdingPercent > 5 ? "🏆" : holdingPercent > 1 ? "🔶" : "📊";
+                            marketMsg += `${holdingIcon} Tỷ lệ nắm giữ: ${formatNumber(holdingPercent, 2)}% tổng cung\n`;
+                            
+                            if (holdingPercent > 3) {
+                                marketMsg += `⚠️ Lưu ý: Bạn đang là whale, giao dịch của bạn có thể ảnh hưởng đến giá!\n`;
+                            }
+                            
+                            marketMsg += "\n💡 GIAO DỊCH:\n";
+                            marketMsg += ".coin buy [số lượng] - Mua MC\n";
+                            marketMsg += ".coin sell [số lượng] - Bán MC\n";
+                        
+                            return api.sendMessage(marketMsg, threadID, messageID);
+                        }
+                        break;
                     }
-
-                    const trendIcon = marketData.trend === "up" ? "📈" :
-                        (marketData.trend === "down" ? "📉" : "📊");
-
-                    let sentimentMsg = "";
-                    const sentiment = marketData.sentiment || 0;
-                    if (sentiment > 0.5) sentimentMsg = "Rất lạc quan 🌟";
-                    else if (sentiment > 0.2) sentimentMsg = "Lạc quan 🔆";
-                    else if (sentiment > -0.2) sentimentMsg = "Trung lập ⚖️";
-                    else if (sentiment > -0.5) sentimentMsg = "Bi quan 🌧️";
-                    else sentimentMsg = "Rất bi quan ⛈️";
-
-                    const priceHistory = db.prepare(`
-                                            SELECT price, time 
-                                            FROM price_history 
-                                            ORDER BY time DESC 
-                                            LIMIT 7
-                                        `).all();
-
-                    // Tính phần trăm thay đổi
-                    let changePercent = 0;
-                    if (priceHistory.length >= 2) {
-                        const currentPrice = marketData.price || 0;
-                        const previousPrice = priceHistory[1]?.price || currentPrice;
-                        changePercent = ((currentPrice - previousPrice) / previousPrice) * 100;
-                    }
-
-                    let marketMsg = `${trendIcon} THỊ TRƯỜNG MAINNET COIN ${trendIcon}\n`;
-                    marketMsg += "━━━━━━━━━━━━━━━━━━\n\n";
-                    marketMsg += `💰 Giá hiện tại: 1 MC = ${formatNumber(marketData.price || 0)}$\n`;
-                    marketMsg += `${changePercent >= 0 ? "🟢" : "🔴"} Biến động: ${formatNumber(changePercent, 2)}%\n`;
-                    marketMsg += `⚖️ Cung/Cầu: ${formatNumber(marketData.supply_demand_ratio || 1, 2)}\n`;
-                    marketMsg += `🧠 Tâm lý thị trường: ${sentimentMsg}\n`;
-                    marketMsg += `💎 Tổng cung: ${formatNumber(totalSupply)} MC\n\n`;
-                    const userWallet = db.prepare('SELECT wallet_mainnet FROM mining_data WHERE user_id = ?').get(senderID);
-                    const userCoins = userWallet?.wallet_mainnet || 0;
-                    marketMsg += `\n💼 MC của bạn: ${formatNumber(userCoins, 2)}\n`;
-                    marketMsg += `💵 Giá trị: ${formatNumber(userCoins * (marketData.price || 0))} $\n\n`;
-
-                    marketMsg += "💡 GIAO DỊCH:\n";
-                    marketMsg += ".coin sell [số lượng] - Bán MC lấy $\n";
-
-                    return api.sendMessage(marketMsg, threadID, messageID);
-                    break;
-                }
                 case "force": {
 
 
@@ -2742,14 +2777,18 @@ module.exports = {
                     if (!userInfo) {
                         return api.sendMessage("❌ Không tìm thấy thông tin người dùng!", threadID, messageID);
                     }
-
-                    // Tạo message trong scope của case
+                
+                    const totalSupply = db.prepare('SELECT SUM(wallet_mainnet) as total FROM mining_data').get().total || 0;
+                    
+                    const holdingPercent = totalSupply > 0 ? (userInfo.mainnet / totalSupply) * 100 : 0;
+                
                     let infoMessage = "📊 THÔNG TIN CÁ NHÂN 📊\n" +
                         "━━━━━━━━━━━━━━━━━━\n\n" +
                         `👤 Cấp độ: ${userInfo.level} (${userInfo.experience}/${userInfo.nextLevel} XP)\n` +
                         `⚡ Sức mạnh đào: ${userInfo.miningPower.toFixed(2)}x\n` +
                         `💎 Mainnet Coins: ${userInfo.mainnet.toFixed(2)}\n` +
-                        `🔑 Mã ví: ${userInfo.walletCode}\n\n`;
+                        `🔑 Mã ví: ${userInfo.walletCode}\n` +
+                        `📈 Tỷ lệ nắm giữ: ${formatNumber(holdingPercent, 2)}% (${formatNumber(userInfo.mainnet)}/${formatNumber(totalSupply)} MC)\n\n`;                
 
                     if (userInfo.team) {
                         infoMessage += "🏰 THÔNG TIN TEAM\n" +
@@ -2775,9 +2814,9 @@ module.exports = {
                         `Mining Sessions: ${userInfo.stats.miningCount}\n` +
                         `Days Active: ${userInfo.stats.daysActive}`;
 
-                    return api.sendMessage(infoMessage, threadID, messageID);
-                    break;
-                }
+                        return api.sendMessage(infoMessage, threadID, messageID);
+                        break;
+                    }
                 case "shop": {
                     const userMiners = db.prepare(`
                             SELECT miner_id 

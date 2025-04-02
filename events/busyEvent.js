@@ -70,7 +70,9 @@ module.exports = {
                         threadName = threadInfo.threadName;
                     }
                 } catch (threadError) {
-                    console.error('Error getting thread info:', threadError);
+                    if (!threadError.errorSummary || !threadError.errorSummary.includes('Bạn tạm thời bị chặn')) {
+                        console.error('Error getting thread info:', threadError);
+                    }
                 }
                 
                 let senderName = "Người dùng Facebook";
@@ -80,9 +82,11 @@ module.exports = {
                         senderName = userInfo[senderID].name || senderName;
                     }
                 } catch (userError) {
-                    console.error('Error getting user info:', userError);
+                    if (!userError.errorSummary || !userError.errorSummary.includes('Bạn tạm thời bị chặn')) {
+                        console.error('Error getting user info:', userError);
+                    }
                 }
-                
+
                 for (let userID in mentions) {
                     if (busyData.users?.[userID]) {
                         const userData = busyData.users[userID];

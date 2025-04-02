@@ -753,5 +753,104 @@
         "playCount": 1
       }
     }
+  },
+  "61555632365104": {
+    "type": "CAT",
+    "name": "Ccho Nghĩa",
+    "hunger": 100,
+    "happy": 100,
+    "energy": 100,
+    "level": 1,
+    "exp": 0,
+    "power": 10,
+    "lastFed": 1743490883508,
+    "lastPlay": 1743490883508,
+    "skills": {
+      "HUNT": {
+        "level": 1,
+        "exp": 0,
+        "lastUsed": 0
+      },
+      "CHARM": {
+        "level": 1,
+        "exp": 0,
+        "lastUsed": 0
+      }
+    },
+    "inventory": [],
+    "stats": {
+      "gamesPlayed": 0,
+      "foodEaten": 0,
+      "trainingSessions": 0,
+      "questsCompleted": 0
+    },
+    "achievements": {},
+    "birthday": 1743490883508
+  },
+  "100089362226968": {
+    "type": "RABBIT",
+    "name": "Bbilove",
+    "hunger": 80,
+    "happy": 100,
+    "energy": 110,
+    "level": 1,
+    "exp": 0,
+    "power": 10,
+    "lastFed": 1743490897688,
+    "lastPlay": 1743490897688,
+    "skills": {
+      "JUMP": {
+        "level": 1,
+        "exp": 0,
+        "lastUsed": 0
+      },
+      "BURROW": {
+        "level": 1,
+        "exp": 0,
+        "lastUsed": 0
+      }
+    },
+    "inventory": [],
+    "stats": {
+      "gamesPlayed": 0,
+      "foodEaten": 0,
+      "trainingSessions": 0,
+      "questsCompleted": 0
+    },
+    "achievements": {},
+    "birthday": 1743490897688
+  },
+  "100076346764439": {
+    "type": "CAT",
+    "name": "Mèo",
+    "hunger": 100,
+    "happy": 100,
+    "energy": 100,
+    "level": 1,
+    "exp": 0,
+    "power": 10,
+    "lastFed": 1743490915079,
+    "lastPlay": 1743490915079,
+    "skills": {
+      "HUNT": {
+        "level": 1,
+        "exp": 0,
+        "lastUsed": 0
+      },
+      "CHARM": {
+        "level": 1,
+        "exp": 0,
+        "lastUsed": 0
+      }
+    },
+    "inventory": [],
+    "stats": {
+      "gamesPlayed": 0,
+      "foodEaten": 0,
+      "trainingSessions": 0,
+      "questsCompleted": 0
+    },
+    "achievements": {},
+    "birthday": 1743490915079
   }
 }

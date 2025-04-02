@@ -304,7 +304,7 @@ module.exports = {
                     sourceImage = await Promise.race([
                         loadImage(sourceImageUrl),
                         new Promise((_, reject) => 
-                            setTimeout(() => reject(new Error('Image loading timeout')), 5000)
+                            setTimeout(() => reject(new Error('Image loading timeout')), 20000)
                         )
                     ]);
                 }
@@ -378,6 +378,19 @@ module.exports = {
 
     onLaunch: async function({ api, event, target = [] }) {
         try {
+            const autoUnsend = (messageID, delay = 10000) => {
+                setTimeout(async () => {
+                    try {
+                        await api.unsendMessage(messageID);
+                    } catch (unsendError) {
+                        if (unsendError.error === 3252001) {
+                            console.log("Bot tạm thời bị chặn từ việc gỡ tin nhắn");
+                        } else {
+                            console.error("Lỗi khi gỡ tin nhắn:", unsendError);
+                        }
+                    }
+                }, delay);
+            };
             const { threadID, messageID, senderID } = event;
             const balance = getBalance(senderID);
             let refundProcessed = false;
@@ -433,12 +446,15 @@ module.exports = {
                 try {
                     const waitingCanvas = await createTaiXiuCanvas(canvasData, false);
                     const waitingStream = await bufferToReadStream(waitingCanvas, 'taixiu_wait');
-                    await api.sendMessage({
+                    const waitingMsg = await api.sendMessage({
                         body: `『 TÀI XỈU - ${sessionId} 』\n⏳ Đang lắc xúc xắc...`,
                         attachment: waitingStream
                     }, threadID, messageID);
+                    
+                    // Tự động xóa sau 5 giây (khi kết quả hiện lên)
+                    setTimeout(() => autoUnsend(waitingMsg.messageID), 20000);
                 } catch (error) {
-                    await api.sendMessage(
+                    const waitingMsg = await api.sendMessage(
                         `『 TÀI XỈU - ${sessionId} 』\n\n` +
                         `👤 Người chơi: ${getName(senderID)}\n` +
                         `💰 Đặt cược: ${formatNumber(betAmount)} $\n` +
@@ -448,6 +464,9 @@ module.exports = {
                         "┗━━━━━━━━━━━━━━━━┛", 
                         threadID, messageID
                     );
+                    
+                    // Tự động xóa sau 5 giây
+                    setTimeout(() => autoUnsend(waitingMsg.messageID), 20000);
                 }
                 
                 setTimeout(async () => {
@@ -504,10 +523,13 @@ module.exports = {
                         try {
                             const resultCanvas = await createTaiXiuCanvas(resultData, true);
                             const resultStream = await bufferToReadStream(resultCanvas, 'taixiu_result');
-                            await api.sendMessage({
+                            const sentMessage = await api.sendMessage({
                                 body: `『 TÀI XỈU - ${sessionId} 』\n${jackpotMessage}`,
                                 attachment: resultStream
                             }, threadID, messageID);
+                            
+                            // Tự động xóa sau 10 giây
+                            autoUnsend(sentMessage.messageID);
                         } catch (error) {
                             console.error('Tài xỉu canvas error:', error);
                             
@@ -539,7 +561,7 @@ module.exports = {
                             await api.sendMessage("❌ Có lỗi xảy ra, đã hoàn tiền cược.", threadID, messageID);
                         }
                     }
-                }, 5000);
+                }, 20000);
                 
                 return;
             }
@@ -615,10 +637,13 @@ module.exports = {
                         try {
                             const resultCanvas = await createChanLeCanvas(resultData, true);
                             const resultStream = await bufferToReadStream(resultCanvas, 'chanle_result');
-                            await api.sendMessage({
+                            const sentMessage = await api.sendMessage({
                                 body: "『 CHẴN LẺ 』\nKết quả đã sẵn sàng!",
                                 attachment: resultStream
                             }, threadID, messageID);
+                            
+                            // Tự động xóa sau 10 giây
+                            autoUnsend(sentMessage.messageID);
                         } catch (error) {
                             console.error('Chẵn lẻ canvas error:', error);
                             
@@ -645,7 +670,7 @@ module.exports = {
                             await api.sendMessage("❌ Có lỗi xảy ra, đã hoàn tiền cược.", threadID, messageID);
                         }
                     }
-                }, 5000);
+                }, 20000);
                 
                 return;
             }
@@ -717,10 +742,13 @@ module.exports = {
                         
                         try {
                             const resultCanvas = await createCoinflipCanvas(resultData, true);
-                            await api.sendMessage({
+                            const sentMessage = await api.sendMessage({
                                 body: "『 COINFLIP 』\nKết quả đã sẵn sàng!",
                                 attachment: fs.createReadStream(resultCanvas)
                             }, threadID, messageID);
+                            
+                            // Tự động xóa sau 10 giây
+                            autoUnsend(sentMessage.messageID);
                         } catch (error) {
                             console.error('Coinflip canvas error:', error);
                             
@@ -822,10 +850,13 @@ module.exports = {
                         try {
                             const resultCanvas = await createBaucuaCanvas(resultData, true);
                             const resultStream = await bufferToReadStream(resultCanvas, 'baucua_result');
-                            await api.sendMessage({
+                            const sentMessage = await api.sendMessage({
                                 body: "『 BẦU CUA 』\nKết quả đã sẵn sàng!",
                                 attachment: resultStream
                             }, threadID, messageID);
+                            
+                            // Tự động xóa sau 10 giây
+                            autoUnsend(sentMessage.messageID);
                         } catch (error) {
                             console.error('Baucua canvas error:', error);
                             

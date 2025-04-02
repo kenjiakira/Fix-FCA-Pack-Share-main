@@ -471,9 +471,9 @@ module.exports = {
             return api.sendMessage(
                 "🎮 MINIGAME CASINO 🎮\n" +
                 "━━━━━━━━━━━━━━━━━━\n\n" +
-                "1. lucky [số tiền] [số dự đoán] - Đoán số may mắn từ 1-15\n" +
-                "2. slot [số tiền] - Chơi Slot Machine\n" +
-                "3. spin [số tiền] - Vòng quay may mắn\n\n" +
+                "1.mini lucky [số tiền] [số dự đoán] - Đoán số may mắn từ 1-15\n" +
+                "2.mini slot [số tiền] - Chơi Slot Machine\n" +
+                "3.mini spin [số tiền] - Vòng quay may mắn\n\n" +
                 "💰 Tỷ lệ thắng:\n" +
                 "• Lucky Number: x3 nếu đoán đúng\n" +
                 "• Slot Machine: x1.5-x3 tùy combo\n" +

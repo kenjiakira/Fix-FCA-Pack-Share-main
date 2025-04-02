@@ -4936,10 +4936,10 @@ module.exports = {
         `${help.basic}\n\n` +
           "💡 Gõ các lệnh sau để xem hướng dẫn chi tiết:\n" +
           ".gacha help auction - Hướng dẫn đấu giá\n" +
-          ".gacha help upgrade - Hướng dẫn nâng cấp" +
-          ".gacha help levelup - Hướng dẫn nâng cấp bằng EXP" +
-          ".gacha help trade - Hướng dẫn trao đổi vật phẩm" +
-          ".gacha help const - Hướng dẫn hệ thống constellation",
+          ".gacha help upgrade - Hướng dẫn nâng cấp\n" +
+          ".gacha help levelup - Hướng dẫn nâng cấp bằng EXP\n" +
+          ".gacha help trade - Hướng dẫn trao đổi vật phẩm\n" +
+          ".gacha help const - Hướng dẫn hệ thống constellation\n",
         threadID,
         messageID
       );

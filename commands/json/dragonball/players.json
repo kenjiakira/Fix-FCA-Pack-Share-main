@@ -1,0 +1,369 @@
+{
+  "100056955484415": {
+    "name": "Kenji Akira",
+    "planet": "SAIYAN",
+    "stats": {
+      "power": 2669,
+      "damage": 170,
+      "ki": 4,
+      "health": 1000,
+      "exp": 215,
+      "zeni": 7817,
+      "inventory": {
+        "items": [],
+        "equipped": []
+      }
+    },
+    "skills": [
+      "GOKU:ATOMIC"
+    ],
+    "masters": [
+      "GOKU"
+    ],
+    "lastTrain": 1743523945907,
+    "created": 1743498185294,
+    "inventory": {
+      "dragonBalls": [
+        {
+          "planet": "SAIYAN",
+          "star": 7
+        },
+        {
+          "planet": "SAIYAN",
+          "star": 5
+        },
+        {
+          "planet": "SAIYAN",
+          "star": 4
+        }
+      ]
+    },
+    "quests": {
+      "active": [
+        "BEGINNER_2"
+      ],
+      "completed": [
+        "BEGINNER_1"
+      ],
+      "progress": {
+        "BEGINNER_1": 3,
+        "BEGINNER_2": 2000
+      }
+    },
+    "evolution": {
+      "name": "Saiyan thường",
+      "level": 0,
+      "description": "Chiến binh Saiyan bình thường",
+      "achievedAt": "2025-04-01T13:41:39.756Z"
+    }
+  },
+  "100093208808025": {
+    "name": "キ　hana hiori　ᶻz ꜝꜝ",
+    "planet": "EARTH",
+    "stats": {
+      "power": 8087,
+      "damage": 350,
+      "ki": 4,
+      "health": 1000,
+      "exp": 4103,
+      "zeni": 53403,
+      "inventory": {
+        "items": [],
+        "equipped": []
+      },
+      "quests": {
+        "active": [],
+        "completed": [],
+        "progress": {}
+      },
+      "level": 2
+    },
+    "skills": [
+      "KAME:DRAGON_PUNCH"
+    ],
+    "masters": [],
+    "lastTrain": 1743527313261,
+    "created": 1743518661835,
+    "inventory": {
+      "dragonBalls": [
+        {
+          "planet": "EARTH",
+          "star": 4
+        },
+        {
+          "planet": "EARTH",
+          "star": 7
+        },
+        {
+          "planet": "EARTH",
+          "star": 1
+        }
+      ]
+    },
+    "quests": {
+      "active": [
+        "MEET_MASTER_1"
+      ],
+      "completed": [
+        "BEGINNER_1",
+        "BEGINNER_2",
+        "EARTH_WOLF"
+      ],
+      "progress": {
+        "BEGINNER_1": 3,
+        "BEGINNER_2": 2000,
+        "EARTH_WOLF": 5,
+        "MEET_MASTER_1": 0
+      }
+    },
+    "lastMonsterFight": 1743527022353
+  },
+  "100063397755304": {
+    "name": "User",
+    "planet": "EARTH",
+    "stats": {
+      "power": 2325,
+      "damage": 170,
+      "ki": 98,
+      "health": 1000,
+      "exp": 152,
+      "zeni": 6397,
+      "inventory": {
+        "items": [],
+        "equipped": []
+      },
+      "quests": {
+        "active": [],
+        "completed": [],
+        "progress": {}
+      }
+    },
+    "skills": [
+      "KAME:DRAGON_PUNCH"
+    ],
+    "masters": [],
+    "lastTrain": 1743520523444,
+    "created": 1743518674002,
+    "inventory": {
+      "dragonBalls": [
+        {
+          "planet": "EARTH",
+          "star": 5
+        }
+      ],
+      "items": [
+        {
+          "id": "senzu",
+          "quantity": 1,
+          "type": "consumable"
+        }
+      ]
+    },
+    "quests": {
+      "active": [
+        "EARTH_WOLF"
+      ],
+      "completed": [
+        "BEGINNER_1",
+        "BEGINNER_2"
+      ],
+      "progress": {
+        "BEGINNER_1": 4,
+        "BEGINNER_2": 2000,
+        "EARTH_WOLF": 0
+      }
+    }
+  },
+  "100068382888605": {
+    "name": "Pham Minh Dang",
+    "planet": "EARTH",
+    "stats": {
+      "power": 5091,
+      "damage": 300,
+      "ki": 4,
+      "health": 1000,
+      "exp": 2317,
+      "zeni": 28515,
+      "inventory": {
+        "items": [],
+        "equipped": []
+      },
+      "quests": {
+        "active": [],
+        "completed": [],
+        "progress": {}
+      },
+      "level": 2
+    },
+    "skills": [
+      "KAME:DRAGON_PUNCH"
+    ],
+    "masters": [],
+    "lastTrain": 1743528521614,
+    "created": 1743519137050,
+    "inventory": {
+      "dragonBalls": [
+        {
+          "planet": "EARTH",
+          "star": 3
+        },
+        {
+          "planet": "EARTH",
+          "star": 6
+        },
+        {
+          "planet": "EARTH",
+          "star": 2
+        }
+      ],
+      "items": [
+        {
+          "id": "senzu",
+          "quantity": 2,
+          "type": "consumable"
+        }
+      ]
+    },
+    "lastMonsterFight": 1743528478167,
+    "quests": {
+      "active": [
+        "MEET_MASTER_1"
+      ],
+      "completed": [
+        "BEGINNER_1",
+        "BEGINNER_2",
+        "EARTH_WOLF"
+      ],
+      "progress": {
+        "BEGINNER_1": 10,
+        "BEGINNER_2": 2000,
+        "EARTH_WOLF": 5,
+        "MEET_MASTER_1": 0
+      }
+    }
+  },
+  "61566378911878": {
+    "name": "Da Đen Ao Hồ",
+    "planet": "EARTH",
+    "stats": {
+      "power": 1108,
+      "damage": 100,
+      "ki": 100,
+      "health": 1000,
+      "exp": 415,
+      "zeni": 2321,
+      "inventory": {
+        "items": [],
+        "equipped": []
+      },
+      "quests": {
+        "active": [],
+        "completed": [],
+        "progress": {}
+      }
+    },
+    "skills": [],
+    "masters": [],
+    "lastTrain": 1743522083430,
+    "created": 1743521447528,
+    "inventory": {
+      "dragonBalls": []
+    }
+  },
+  "100008297661441": {
+    "name": "Anh Khoaa",
+    "planet": "SAIYAN",
+    "stats": {
+      "power": 1246,
+      "damage": 110,
+      "ki": 100,
+      "health": 1000,
+      "exp": 378,
+      "zeni": 5474,
+      "inventory": {
+        "items": [],
+        "equipped": []
+      },
+      "quests": {
+        "active": [],
+        "completed": [],
+        "progress": {}
+      }
+    },
+    "skills": [],
+    "masters": [],
+    "lastTrain": 1743525025656,
+    "created": 1743524710186,
+    "inventory": {
+      "dragonBalls": []
+    },
+    "evolution": {
+      "name": "Saiyan thường",
+      "level": 0,
+      "description": "Chiến binh Saiyan bình thường",
+      "achievedAt": "2025-04-01T16:25:21.368Z"
+    }
+  },
+  "61573427362389": {
+    "name": "User",
+    "planet": "NAMEK",
+    "stats": {
+      "power": 1271,
+      "damage": 100,
+      "ki": 100,
+      "health": 1000,
+      "exp": 501,
+      "zeni": 2711,
+      "inventory": {
+        "items": [],
+        "equipped": []
+      },
+      "quests": {
+        "active": [],
+        "completed": [],
+        "progress": {}
+      }
+    },
+    "skills": [],
+    "masters": [],
+    "lastTrain": 1743525848503,
+    "created": 1743525151917,
+    "inventory": {
+      "dragonBalls": []
+    },
+    "evolution": {
+      "name": "Namek thường",
+      "level": 0,
+      "description": "Chiến binh Namek bình thường",
+      "achievedAt": "2025-04-01T16:32:42.747Z"
+    }
+  },
+  "100094519976306": {
+    "name": "Gia Huy ",
+    "planet": "SAIYAN",
+    "stats": {
+      "power": 1000,
+      "damage": 100,
+      "ki": 100,
+      "health": 1000,
+      "exp": 0,
+      "zeni": 1000,
+      "inventory": {
+        "items": [],
+        "equipped": []
+      },
+      "quests": {
+        "active": [],
+        "completed": [],
+        "progress": {}
+      }
+    },
+    "skills": [],
+    "masters": [],
+    "lastTrain": 0,
+    "created": 1743526294836,
+    "inventory": {
+      "dragonBalls": []
+    }
+  }
+}

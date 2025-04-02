@@ -118,12 +118,16 @@ module.exports = {
 
       default:
         api.sendMessage(
-          "❓ Lệnh không hợp lệ. Các subcommand hợp lệ:\n" +
-          "- out\n" +
-          "- shutdown\n" +
-          "- restart\n" +
-          "- setavt\n" +
-          "- file\n\n" +
+          "📝 HƯỚNG DẪN SỬ DỤNG LỆNH ADMIN 📝\n" +
+          "━━━━━━━━━━━━━━━━━━\n\n" +
+          "🔸 admin out: Rời khỏi nhóm chat hiện tại\n" +
+          "🔸 admin out [threadID]: Rời khỏi nhóm chat cụ thể\n\n" +
+          "🔸 admin shutdown: Tắt bot với xác nhận\n\n" +
+          "🔸 admin restart: Khởi động lại bot\n\n" +
+          "🔸 admin setavt: Thay đổi avatar bot\n" +
+          "   ➤ Reply ảnh + admin setavt [caption]\n" +
+          "   ➤ admin setavt [link ảnh] [caption]\n\n" +
+          "🔸 admin file: Quản lý tệp tin hệ thống\n",
           threadID, messageID
         );
     }

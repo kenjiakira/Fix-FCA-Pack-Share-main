@@ -1,6 +1,6 @@
 module.exports = {
     name: "unsend",
-    usedby: 5,
+    usedby: 0,
     category: "Groups",
     dev: "HNT",
     onPrefix: false,
@@ -8,6 +8,7 @@ module.exports = {
     nickName: ["un", "gỡ", "xóa"],
     info: "Hủy tin nhắn",
 
+    
     onLaunch: async function ({ api, event }) {
         const { threadID } = event;
 

@@ -26,15 +26,17 @@ module.exports = {
     
     if (!cmd || !['quest', 'redeem', 'create', 'list'].includes(cmd)) {
       return api.sendMessage(
-        "📋 HỆ THỐNG PHẦN THƯỞNG\n━━━━━━━━━━━━━━━━━━\n\n" +
-        "1. Nhiệm vụ hằng ngày:\n→ .rewards quest\n\n" +
-        "2. Đổi giftcode:\n→ .rewards redeem <code>\n" +
+        "🎁 HƯỚNG DẪN SỬ DỤNG REWARDS\n━━━━━━━━━━━━━━━━━━\n\n" +
+        "1️⃣ Nhiệm vụ hằng ngày:\n→ .rewards quest\n" +
+        "💡 Hoàn thành để nhận xu và phần thưởng\n\n" +
+        "2️⃣ Đổi giftcode:\n→ .rewards redeem <code>\n" +
+        "💡 Nhập mã code để nhận quà\n" +
         (isAdmin ? 
-        "\n3. Admin Commands:\n→ .rewards create <số xu> <mô tả>\n→ .rewards list\n" : "") +
-        "\n💡 Thông tin:\n" +
-        "• Nhiệm vụ reset vào 0h hàng ngày\n" +
-        "• Giftcode tự động phát lúc 12h trưa\n" +
-        "• Duy trì chuỗi hoàn thành để nhận thưởng",
+        "\n👑 Lệnh Admin:\n→ .rewards create <số xu> <mô tả>\n→ .rewards list\n" : "") +
+        "\n📌 Thông tin quan trọng:\n" +
+        "• ⏰ Nhiệm vụ reset lúc 0h\n" +
+        "• 🎁 Giftcode tự động phát 12h & 20h\n" +
+        "• 🔥 Duy trì chuỗi để nhận thêm thưởng",
         threadID, messageID
       );
     }
@@ -102,15 +104,16 @@ module.exports = {
     
     if (vipBenefits) {
       message += `👑 Đặc quyền VIP ${vipBenefits.packageId}:\n`;
-      message += `• Thưởng nhiệm vụ +${vipBenefits.packageId === 3 ? '100' : 
+      message += `• ⬆️ Thưởng nhiệm vụ +${vipBenefits.packageId === 3 ? '100' : 
                   vipBenefits.packageId === 2 ? '50' : '20'}%\n`;
-      message += `• Tích lũy nhanh hơn ${vipBenefits.packageId * 20}%\n\n`;
+      message += `• 🚀 Tích lũy nhanh hơn ${vipBenefits.packageId * 20}%\n\n`;
     }
 
     message += `🔥 Chuỗi hoàn thành: ${streak.current} ngày\n`;
     if (streak.current > 0) {
       const nextMilestone = [3,7,14,30].find(x => x > streak.current) || 30;
-      message += `📅 Phần thưởng chuỗi tiếp theo: ${nextMilestone} ngày (${formatNumber(quests.streakRewards[nextMilestone])} $)\n\n`;
+      message += `⭐ Mốc thưởng tiếp theo: ${nextMilestone} ngày\n`;
+      message += `💰 Phần thưởng: ${formatNumber(quests.streakRewards[nextMilestone])} $\n\n`;
     }
 
     let totalCompleted = 0;

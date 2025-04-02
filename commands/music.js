@@ -3,6 +3,8 @@ const fs = require('fs-extra');
 const path = require('path');
 const { Shazam } = require('node-shazam');
 const { promisify } = require('util');
+const Spotify = require('spotifydl-core').default;
+const scdl = require('soundcloud-downloader').default;
 const streamPipeline = promisify(require('stream').pipeline);
 
 const cacheDir = path.join(__dirname, 'cache');
@@ -24,12 +26,36 @@ async function getSpotifyToken() {
     return response.data.access_token;
 }
 
+// Add this helper function at the top level
+async function downloadWithRetry(spotify, trackUrl, filePath, maxRetries = 3) {
+    for (let i = 0; i < maxRetries; i++) {
+        try {
+            // Try getting track info first
+            const track = await spotify.getTrack(trackUrl);
+            if (!track) throw new Error("Không thể lấy thông tin bài hát");
+            
+            // Try downloading with options
+            await spotify.downloadTrack(trackUrl, filePath, {
+                shouldAutoCorrect: true,
+                separate: true, // Try separated download mode
+                maxTimeout: 30000, // Increase timeout
+            });
+            
+            return true;
+        } catch (err) {
+            if (i === maxRetries - 1) throw err;
+            await new Promise(resolve => setTimeout(resolve, 1000)); // Wait 1s before retry
+        }
+    }
+    return false;
+}
+
 module.exports = {
     name: "music",
     info: "Công cụ nhạc: tìm kiếm, nhận diện, phát preview",
     dev: "HNT",
     category: "Media",
-    usages: "[search <tên bài hát>] | [detect <reply audio/video>]",
+    usages: "[search <tên bài hát>] | [soundcloud search <tên bài hát>] | [soundcloud url <link>] | [detect <reply audio/video>]",
     cooldowns: 5,
     onPrefix: true,
 
@@ -38,7 +64,7 @@ module.exports = {
         if (!global.musicCache || !global.musicCache[threadID]) return;
         
         const input = body.toLowerCase().trim();
-        const { tracks, searchMessageID } = global.musicCache[threadID];
+        const { tracks, searchMessageID, type } = global.musicCache[threadID];
         const choice = parseInt(input);
 
         if (isNaN(choice) || choice < 1 || choice > 6) {
@@ -46,36 +72,38 @@ module.exports = {
         }
 
         const track = tracks[choice - 1];
-        const loadingMsg = await api.sendMessage(`⏳ Đang tải "${track.name}"...`, threadID);
+        const loadingMsg = await api.sendMessage("⏳ Đang tải nhạc...", threadID);
 
         try {
-            const spotifyUrl = `https://open.spotify.com/track/${track.id}`;
-            const downloadResponse = await axios.get(`http://87.106.100.187:6312/download/spotify?url=${spotifyUrl}`);
-            
-            if (!downloadResponse.data.status) {
-                throw new Error("Không thể tải bài hát");
+            if (type === 'soundcloud') {
+                await handleSoundCloud(api, event, [track.url], loadingMsg);
+            } else {
+                const spotify = new Spotify({
+                    clientId: '3d659375536044498834cc9012c58c44',
+                    clientSecret: '73bc86542acb4593b2b217616189d4dc'
+                });
+                
+                const filePath = path.join(cacheDir, `spotify_dl_${Date.now()}.mp3`);
+                
+                await downloadWithRetry(spotify, track.external_urls.spotify, filePath);
+                
+                if (!fs.existsSync(filePath) || fs.statSync(filePath).size < 1024) {
+                    throw new Error("Tải nhạc thất bại, file không hợp lệ");
+                }
+
+                await api.sendMessage({
+                    body: `🎵 Đã tải xong:\n\n`+
+                          `🎤 ${track.name}\n`+
+                          `👤 ${track.artists.map(a => a.name).join(', ')}\n`+
+                          `⏱️ ${Math.floor(track.duration_ms/60000)}:${((track.duration_ms/1000)%60).toFixed(0)}`,
+                    attachment: fs.createReadStream(filePath)
+                }, threadID, () => {
+                    fs.unlinkSync(filePath);
+                    if (loadingMsg) api.unsendMessage(loadingMsg.messageID);
+                    api.unsendMessage(searchMessageID);
+                    delete global.musicCache[threadID];
+                }, messageID);
             }
-
-            const result = downloadResponse.data.result;
-            const filePath = path.join(cacheDir, `spotify_dl_${Date.now()}.mp3`);
-            
-            await streamPipeline(
-                (await axios({url: result.download_url, responseType: 'stream'})).data,
-                fs.createWriteStream(filePath)
-            );
-
-            await api.sendMessage({
-                body: `🎵 Đã tải xong:\n\n`+
-                      `🎤 ${result.title}\n`+
-                      `👤 ${result.artist}\n`+
-                      `⏱️ ${Math.floor(result.duration/1000/60)}:${Math.floor(result.duration/1000)%60}`,
-                attachment: fs.createReadStream(filePath)
-            }, threadID, () => {
-                fs.unlinkSync(filePath);
-                if (loadingMsg) api.unsendMessage(loadingMsg.messageID);
-                api.unsendMessage(searchMessageID);
-                delete global.musicCache[threadID];
-            }, messageID);
 
         } catch (error) {
             if (loadingMsg) api.unsendMessage(loadingMsg.messageID);
@@ -89,7 +117,9 @@ module.exports = {
         if (!target[0]) {
             return api.sendMessage(
                 "🎵 Music Tools\n"+
-                "➜ search <tên bài>: Tìm và tải nhạc\n"+
+                "➜ search <Bảo trì> : Tìm và tải nhạc từ Spotify\n"+
+                "➜ soundcloud search <tên bài>: Tìm và tải nhạc từ SoundCloud\n"+ 
+                "➜ soundcloud url <link>: Tải nhạc từ link SoundCloud\n"+
                 "➜ detect: Reply audio/video để nhận diện", 
                 threadID
             );
@@ -139,6 +169,20 @@ module.exports = {
 
                 case 'detect':
                     await handleShazamDetect(api, event, event.messageReply);
+                    break;
+
+                case 'soundcloud':
+                    if (!args[0]) return api.sendMessage("❌ Vui lòng nhập 'search <tên bài>' hoặc 'url <link>'", threadID);
+                    const subCommand = args[0].toLowerCase();
+                    const subArgs = args.slice(1);
+                    
+                    if (subCommand === 'search') {
+                        await handleSoundCloudSearch(api, event, subArgs);
+                    } else if (subCommand === 'url') {
+                        await handleSoundCloud(api, event, subArgs);
+                    } else {
+                        api.sendMessage("❌ Lệnh không hợp lệ. Sử dụng 'search <tên bài>' hoặc 'url <link>'", threadID);
+                    }
                     break;
 
                 default:
@@ -211,26 +255,24 @@ async function handleSpotifyDownload(api, event, target, loadingMsg) {
     loadingMsg = await api.sendMessage(`⏳ Đang tải "${track.name}"...`, threadID);
 
     try {
-        const spotifyUrl = `https://open.spotify.com/track/${track.id}`;
-        const downloadResponse = await axios.get(`http://87.106.100.187:6312/download/spotify?url=${spotifyUrl}`);
+        const spotify = new Spotify({
+            clientId: '3d659375536044498834cc9012c58c44',
+            clientSecret: '73bc86542acb4593b2b217616189d4dc'
+        });
         
-        if (!downloadResponse.data.status) {
-            throw new Error("Không thể tải bài hát");
-        }
-
-        const result = downloadResponse.data.result;
         const filePath = path.join(cacheDir, `spotify_dl_${Date.now()}.mp3`);
         
-        await streamPipeline(
-            (await axios({url: result.download_url, responseType: 'stream'})).data,
-            fs.createWriteStream(filePath)
-        );
+        await downloadWithRetry(spotify, track.external_urls.spotify, filePath);
+        
+        if (!fs.existsSync(filePath) || fs.statSync(filePath).size < 1024) {
+            throw new Error("Tải nhạc thất bại, file không hợp lệ");
+        }
 
         await api.sendMessage({
             body: `🎵 Đã tải xong:\n\n`+
-                  `🎤 ${result.title}\n`+
-                  `👤 ${result.artist}\n`+
-                  `⏱️ ${Math.floor(result.duration/1000/60)}:${Math.floor(result.duration/1000)%60}`,
+                  `🎤 ${track.name}\n`+
+                  `👤 ${track.artists.map(a => a.name).join(', ')}\n`+
+                  `⏱️ ${Math.floor(track.duration_ms/60000)}:${((track.duration_ms/1000)%60).toFixed(0)}`,
             attachment: fs.createReadStream(filePath)
         }, threadID, () => {
             fs.unlinkSync(filePath);
@@ -296,5 +338,95 @@ async function handleShazamDetect(api, event, messageReply, loadingMsg) {
 
     } catch (error) {
         throw new Error(`Lỗi nhận diện: ${error.message}`);
+    }
+}
+
+async function handleSoundCloud(api, event, args) {
+    const { threadID, messageID } = event;
+    
+    if (!args[0]) {
+        return api.sendMessage("❌ Vui lòng nhập URL SoundCloud", threadID, messageID);
+    }
+
+    const url = args[0];
+    if (!url.includes('soundcloud.com')) {
+        return api.sendMessage("❌ URL không hợp lệ. Vui lòng nhập URL SoundCloud", threadID, messageID);
+    }
+
+    const loadingMsg = await api.sendMessage("⏳ Đang tải nhạc từ SoundCloud...", threadID);
+
+    try {
+        const filePath = path.join(cacheDir, `soundcloud_${Date.now()}.mp3`);
+        const info = await scdl.getInfo(url);
+        
+        const stream = await scdl.download(url);
+        await streamPipeline(stream, fs.createWriteStream(filePath));
+
+        await api.sendMessage({
+            body: `🎵 Đã tải xong:\n\n`+
+                  `🎤 ${info.title}\n`+
+                  `👤 ${info.user.username}\n`+
+                  `👁️ ${info.playback_count} lượt nghe\n`+
+                  `❤️ ${info.likes_count} lượt thích`,
+            attachment: fs.createReadStream(filePath)
+        }, threadID, () => {
+            fs.unlinkSync(filePath);
+            if (loadingMsg) api.unsendMessage(loadingMsg.messageID);
+        }, messageID);
+
+    } catch (error) {
+        if (loadingMsg) api.unsendMessage(loadingMsg.messageID);
+        throw new Error(`Lỗi tải nhạc SoundCloud: ${error.message}`);
+    }
+}
+
+// Thêm hàm xử lý tìm kiếm SoundCloud
+async function handleSoundCloudSearch(api, event, args) {
+    const { threadID, messageID } = event;
+    const query = args.join(' ');
+    
+    if (!query) return api.sendMessage("❌ Vui lòng nhập tên bài hát cần tìm", threadID, messageID);
+    
+    const loadingMsg = await api.sendMessage("🔎 Đang tìm kiếm trên SoundCloud...", threadID);
+
+    try {
+        // Tìm kiếm tracks
+        const searchResults = await scdl.search({
+            query: query,
+            resourceType: 'tracks',
+            limit: 6
+        });
+
+        if (!searchResults.collection?.length) {
+            throw new Error("Không tìm thấy bài hát");
+        }
+
+        const tracks = searchResults.collection;
+        const body = "🎵 Kết quả tìm kiếm SoundCloud:\n\n" + 
+            tracks.map((track, index) => {
+                const duration = Math.floor(track.duration/1000);
+                return `${index + 1}. ${track.title}\n└── 👤 ${track.user.username}\n└── ⏱️ ${Math.floor(duration/60)}:${(duration%60).toString().padStart(2,'0')}\n`;
+            }).join("\n") +
+            "\n💭 Reply số từ 1-6 để tải nhạc";
+
+        const msg = await api.sendMessage(body, threadID);
+        if (loadingMsg) api.unsendMessage(loadingMsg.messageID);
+
+        global.musicCache = global.musicCache || {};
+        global.musicCache[threadID] = {
+            tracks: tracks.map(t => ({url: t.permalink_url})),
+            searchMessageID: msg.messageID,
+            type: 'soundcloud'
+        };
+
+        global.client.onReply.push({
+            name: "music",
+            messageID: msg.messageID,
+            author: event.senderID
+        });
+
+    } catch (error) {
+        if (loadingMsg) api.unsendMessage(loadingMsg.messageID);
+        throw new Error(`Lỗi tìm kiếm SoundCloud: ${error.message}`);
     }
 }

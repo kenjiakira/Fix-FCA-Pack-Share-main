@@ -83,7 +83,9 @@ async function getUserName(api, senderID) {
         
         return "User";
     } catch (userError) {
-        console.error('Error getting user info:', userError);
+        if (!userError.errorSummary || !userError.errorSummary.includes('Bạn tạm thời bị chặn')) {
+            console.error('Error getting user info:', userError);
+        }
         return "User";
     }
 }

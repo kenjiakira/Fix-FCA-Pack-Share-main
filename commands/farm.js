@@ -190,8 +190,13 @@ module.exports = {
         try {
             switch (action) {
                 case "trồng": {
-                    const cropType = target[1]?.toLowerCase();
-                    if (!cropType || !CROPS[cropType]) {
+                    // Kiểm tra các cây muốn trồng
+                    const cropArgs = target.slice(1).join(' ').split(/[.,]/); // Hỗ trợ phân tách bằng dấu chấm hoặc dấu phẩy
+                    const cropTypes = cropArgs
+                        .map(arg => arg.trim().toLowerCase())
+                        .filter(arg => arg && CROPS[arg]); // Lọc các loại cây hợp lệ
+                
+                    if (cropTypes.length === 0) {
                         return api.sendMessage(
                             "❌ Vui lòng chọn loại cây trồng hợp lệ!\n" +
                             Object.entries(CROPS).map(([id, crop]) =>
@@ -200,7 +205,8 @@ module.exports = {
                             threadID, messageID
                         );
                     }
-
+                
+                    // Kiểm tra số ô đất trống
                     const availablePlots = userFarm.plots - Object.keys(userFarm.crops).length;
                     if (availablePlots <= 0) {
                         return api.sendMessage(
@@ -208,76 +214,121 @@ module.exports = {
                             threadID, messageID
                         );
                     }
-
-                    const modifiedCrop = applyVipBonuses(userFarm, senderID, CROPS[cropType]);
+                
+                    // Giới hạn số lượng cây trồng theo số ô trống
+                    const cropsToPlant = cropTypes.slice(0, availablePlots);
+                    
+                    if (cropsToPlant.length < cropTypes.length) {
+                        api.sendMessage(
+                            `⚠️ Chỉ có ${availablePlots} ô đất trống, sẽ trồng ${cropsToPlant.length}/${cropTypes.length} cây!`,
+                            threadID
+                        );
+                    }
+                
+                    // Tính tổng chi phí
+                    let totalCost = 0;
+                    const cropDetails = [];
+                
+                    for (const cropType of cropsToPlant) {
+                        const modifiedCrop = applyVipBonuses(userFarm, senderID, CROPS[cropType]);
+                        totalCost += modifiedCrop.price;
+                        cropDetails.push({
+                            type: cropType,
+                            cost: modifiedCrop.price,
+                            growTime: modifiedCrop.growTime,
+                            modifiedCrop
+                        });
+                    }
+                
+                    // Kiểm tra tiền
                     const balance = await getBalance(senderID);
-                    if (balance < modifiedCrop.price) {
+                    if (balance < totalCost) {
                         return api.sendMessage(
-                            `❌ Không đủ tiền! Cần ${modifiedCrop.price}$`,
+                            `❌ Không đủ tiền! Cần ${totalCost}$ để trồng ${cropsToPlant.length} cây.`,
                             threadID, messageID
                         );
                     }
-
-                    await updateBalance(senderID, -modifiedCrop.price);
-                    const plotId = Date.now().toString();
-                    userFarm.crops[plotId] = {
-                        type: cropType,
-                        trồngedAt: Date.now(),
-                        thuAt: Date.now() + modifiedCrop.growTime,
-                        vipBonus: vipBenefits.packageId > 0
-                    };
-
-                    saveFarmData(farmData);
-
-                    const harvestTime = new Date(Date.now() + modifiedCrop.growTime);
-                    const harvestTimeStr = `${harvestTime.getHours()}:${harvestTime.getMinutes().toString().padStart(2, '0')}`;
-                    
-                    let message = `✅ Đã trồng ${CROPS[cropType].name}!\n`;
-                    message += `⏳ Thu hoạch sau: ${Math.floor(modifiedCrop.growTime / 60000)} phút\n`;
-                    message += `🕐 Hoàn thành lúc: ${harvestTimeStr}\n`;
-                    if (vipBenefits.packageId > 0) {
-                        message += `🌟 Đang áp dụng ưu đãi ${vipBenefits.name}\n`;
-                    }
-                    message += `📌 ID Ô: ${plotId}\n`;
-                    message += `📝 Nhập .farm thu khi cây trưởng thành`;
                 
-                    return api.sendMessage(message, threadID, messageID);
+                    await updateBalance(senderID, -totalCost);
+                    
+                    let plantedMessage = "✅ ĐÃ TRỒNG CÂY THÀNH CÔNG\n";
+                    plantedMessage += "━━━━━━━━━━━━━━━━━━\n\n";
+                
+                    for (const cropDetail of cropDetails) {
+                        const plotId = Date.now().toString() + Math.random().toString(36).substr(2, 5);
+                        
+                        userFarm.crops[plotId] = {
+                            type: cropDetail.type,
+                            plantedAt: Date.now(),
+                            thuAt: Date.now() + cropDetail.growTime,
+                            vipBonus: vipBenefits.packageId > 0
+                        };
+                
+                        const harvestTime = new Date(Date.now() + cropDetail.growTime);
+                        const harvestTimeStr = `${harvestTime.getHours()}:${harvestTime.getMinutes().toString().padStart(2, '0')}`;
+                        
+                        plantedMessage += `${CROPS[cropDetail.type].name}\n`;
+                        plantedMessage += `┣ ⏳ Thu hoạch sau: ${Math.floor(cropDetail.growTime / 60000)} phút\n`;
+                        plantedMessage += `┣ 🕐 Hoàn thành lúc: ${harvestTimeStr}\n`;
+                        plantedMessage += `┗ 📌 ID: ${plotId.slice(-5)}\n\n`;
+                    }
+                
+                    if (vipBenefits.packageId > 0) {
+                        plantedMessage += `🌟 Đang áp dụng ưu đãi ${vipBenefits.name}\n`;
+                    }
+                    
+                    plantedMessage += `📝 Nhập .farm thu khi cây trưởng thành`;
+                    
+                    saveFarmData(farmData);
+                    return api.sendMessage(plantedMessage, threadID, messageID);
                 }
+                
 
                 case "thu": {
                     const now = Date.now();
                     const readyCrops = Object.entries(userFarm.crops).filter(
                         ([_, crop]) => now >= crop.thuAt
                     );
-
+                
                     if (readyCrops.length === 0) {
                         return api.sendMessage(
                             "❌ Chưa có cây nào sẵn sàng để thu hoạch!",
                             threadID, messageID
                         );
                     }
-
+                
                     let totalProfit = 0;
                     let thuReport = [];
-
+                
                     for (const [plotId, crop] of readyCrops) {
+             
+                        if (!CROPS[crop.type]) {
+                            console.error(`Invalid crop type: ${crop.type}`);
+                            delete userFarm.crops[plotId];
+                            continue;
+                        }
+                        
                         const modifiedCrop = applyVipBonuses(userFarm, senderID, CROPS[crop.type]);
-                        const amount = Math.floor(
+                        let amount = Math.floor(
                             Math.random() * (modifiedCrop.thuAmount.max - modifiedCrop.thuAmount.min + 1) +
                             modifiedCrop.thuAmount.min
                         );
-
+                        
+                        if (crop.toolsUsed && crop.toolsUsed.includes('fertilizer')) {
+                            amount = Math.floor(amount * 1.5);
+                        }
+                
                         const profit = amount * modifiedCrop.profit;
                         totalProfit += profit;
-
+                
                         if (!userFarm.inventory[crop.type]) {
                             userFarm.inventory[crop.type] = 0;
                         }
                         userFarm.inventory[crop.type] += amount;
-
-                        thuReport.push(`${modifiedCrop.name}: x${amount} (${profit}$)`);
+                
+                        thuReport.push(`${modifiedCrop.name}: x${amount} (${profit.toLocaleString()}$)`);
                         delete userFarm.crops[plotId];
-
+                
                         userFarm.stats.totalHarvested += amount;
                         userFarm.stats.totalProfit += profit;
                         userFarm.experience += amount;
@@ -324,10 +375,19 @@ module.exports = {
                     if (plots.length > 0) {
                         farmInfo += "🌱 CÂY ĐANG TRỒNG:\n";
                         plots.forEach(([plotId, crop]) => {
+                            // Fix: Kiểm tra cả hai thuộc tính để tương thích với cả dữ liệu cũ
+                            const plantTime = crop.plantedAt || crop.trồngedAt || Date.now();
                             const timeLeft = crop.thuAt - now;
-                            const cropEmoji = CROPS[crop.type].name.split(' ')[0];
-                            farmInfo += `${cropEmoji} ${CROPS[crop.type].name.split(' ')[1]}\n`;
-                            farmInfo += `┗━ ID: ${plotId.slice(-4)}\n`;
+                            const cropInfo = CROPS[crop.type];
+                            
+                            if (!cropInfo) {
+                                console.error(`Crop type not found: ${crop.type}`);
+                                return;
+                            }
+                            
+                            const cropEmoji = cropInfo.name.split(' ')[0];
+                            farmInfo += `${cropEmoji} ${cropInfo.name.split(' ')[1]}\n`;
+                            farmInfo += `┣━ ID: ${plotId.slice(-5)}\n`;
                             farmInfo += `┗━ ${timeLeft <= 0 ? '✅ Sẵn sàng thu!' : `⏳ Còn ${Math.ceil(timeLeft / 60000)} phút`}\n`;
                         });
                         farmInfo += "\n";
