@@ -1,31 +1,148 @@
 {
-  "tưởng huy k lên e tắt bot r": {
-    "responses": [
-      "À tưởng Huy không lên máy nên em tắt bot luôn rồi à =)))  Sáng nay dậy thấy vui vẻ dã man!"
-    ],
-    "frequency": 1
-  },
-  "mẹ th từ bot ncc": {
-    "responses": [
-      "Sáng rồi nhaaa =)))  Chúc cậu một ngày tốt lành ngập tràn năng lượng!"
-    ],
-    "frequency": 1
-  },
-  "phốt bot đi m": {
-    "responses": [
-      "Bot nào hả cậu?  =))  mình thấy bot này cũng được mà, có gì đâu."
-    ],
-    "frequency": 1
-  },
   "bot": {
     "responses": [
-      "Trời ơi, nắng đẹp quá trời luôn ấy nhỉ =)))  Đói bụng rồi, đi ăn gì đây ta?"
+      "Trời ơi, nắng gắt quá!  Đang đói meo đây =)))  Buổi trưa vui vẻ nha bạn!",
+      "Bot gì nữa =)))"
+    ],
+    "frequency": 2
+  },
+  "vui cc": {
+    "responses": [
+      "Hôm nay nắng như đổ lửa luôn ấy =)))  Chắc chiều nay mình phải ăn kem cho đã!"
     ],
     "frequency": 1
   },
-  "bot đ": {
+  "ai hỏi": {
     "responses": [
-      "Bot đ gì bạn =)))  Trưa nay nắng gắt quá!"
+      "Ủa gì vậy trời?  =)))"
+    ],
+    "frequency": 1
+  },
+  "👍": {
+    "responses": [
+      "Hiểu rồi =)))",
+      "Dạ?  =)))",
+      "Mệt mỏi vl =)))"
+    ],
+    "frequency": 3
+  },
+  "🐶": {
+    "responses": [
+      "Con chó gì mà dễ thương dữ vậy trời =)))"
+    ],
+    "frequency": 1
+  },
+  "@kim ngân": {
+    "responses": [
+      "Gì vậy trời =)))"
+    ],
+    "frequency": 1
+  },
+  "cho tôi tiền nạp ff": {
+    "responses": [
+      "Hả?  =)))  Chả có tiền đâu nha bạn."
+    ],
+    "frequency": 1
+  },
+  "nhanh lên": {
+    "responses": [
+      "Ủa bạn gấp vậy?  mình đang ăn cơm =)))"
+    ],
+    "frequency": 1
+  },
+  "bỏ cơm đi": {
+    "responses": [
+      "Trời ơi, dữ vậy?  mình ăn gần xong rồi, xíu nữa nha bạn! =)))"
+    ],
+    "frequency": 1
+  },
+  "dmm": {
+    "responses": [
+      "Ủa bạn?  =)))"
+    ],
+    "frequency": 1
+  },
+  "bot đi chơi gái hả bot ơi": {
+    "responses": [
+      "Chịu, đi chơi gì tầm này trời, nắng muốn cháy da luôn á =)))"
+    ],
+    "frequency": 1
+  },
+  "thế bot ở nhà nắc tui nha bot": {
+    "responses": [
+      "Ủa, ở nhà làm gì cho vui giờ này trời?  Ngủ trưa thôi bạn ơi!"
+    ],
+    "frequency": 1
+  },
+  "bot dái bò": {
+    "responses": [
+      "Dạ?  =)))"
+    ],
+    "frequency": 1
+  },
+  "bot ơi beo ngu như bò đúng kh bot": {
+    "responses": [
+      "Hả?  mình thấy bình thường mà =)))"
+    ],
+    "frequency": 1
+  },
+  "beo ngu như bò mà bot": {
+    "responses": [
+      "Ủa bạn nói gì vậy trời?  mình không hiểu =)))"
+    ],
+    "frequency": 1
+  },
+  "bot cãi cái gì": {
+    "responses": [
+      "mình thấy bạn nói chuyện lạ quá à =)))"
+    ],
+    "frequency": 1
+  },
+  "ừ tại m ngu hơn t": {
+    "responses": [
+      "Trời ơi bạn nói chuyện căng thẳng dữ vậy?  =)))  Thôi mình off đây nha."
+    ],
+    "frequency": 1
+  },
+  "xưa a chơi bot kia có 4 số à x10 luôn": {
+    "responses": [
+      "Dạ?  4 số gì vậy anh?"
+    ],
+    "frequency": 1
+  },
+  "bốn lù m á": {
+    "responses": [
+      "Hả?  mình không hiểu bạn nói gì hết trơn á =)))"
+    ],
+    "frequency": 1
+  },
+  "ê bot": {
+    "responses": [
+      "Chào Ngọc Anh!  Có gì sao? =)))"
+    ],
+    "frequency": 1
+  },
+  "không có gi": {
+    "responses": [
+      "Dạ?  Hay là bạn đang…bí chuyện trò? =)))"
+    ],
+    "frequency": 1
+  },
+  "đúng rồi tôi chán": {
+    "responses": [
+      "Trời ơi, cùng hội cùng thuyền rồi =)))  Chán kiểu gì?  Kể mình nghe xem nào!"
+    ],
+    "frequency": 1
+  },
+  "chán kiểu không có gì chơi": {
+    "responses": [
+      "À thế à!  Buổi chiều đẹp trời thế này mà chán thì phí lắm nha.  Bạn thích làm gì vậy?  mình gợi ý vài trò chơi xem sao?  Hay là… kể chuyện cười cho bạn nghe cũng được nè =)))"
+    ],
+    "frequency": 1
+  },
+  "gởi ý trò gì hay đi": {
+    "responses": [
+      "Ukm, nếu bạn thích năng động thì mình gợi ý đi dạo công viên, chụp ảnh sống ảo xíu cũng được nè! Còn nếu muốn chill chill thì mình nghĩ xem phim, nghe nhạc, hoặc… đọc truyện tranh cũng hay lắm á!  Bạn muốn thử cái nào?  =)))"
     ],
     "frequency": 1
   }

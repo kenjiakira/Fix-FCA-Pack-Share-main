@@ -780,7 +780,7 @@
   },
   "100076957299243": {
     "rod": "Cần câu Daiwa Gekkabijin MX",
-    "rodDurability": 188,
+    "rodDurability": 187,
     "inventory": [
       "Cần trúc",
       "Cần Câu tay",
@@ -820,7 +820,7 @@
           "Rương bạc": 1,
           "Cá Rô Đồng": 5,
           "Cá Sặc": 8,
-          "Cá Chuối": 4,
+          "Cá Chuối": 5,
           "Cá Út": 3,
           "Kho báu cổ đại": 1,
           "Cá Rô Biển": 4,
@@ -855,29 +855,29 @@
         "mythical": {}
       },
       "stats": {
-        "totalCaught": 184,
-        "totalValue": 14583916,
+        "totalCaught": 185,
+        "totalValue": 14610721,
         "bestCatch": {
           "name": "Rương kim cương",
           "value": 3562500
         }
       }
     },
-    "exp": 3664,
+    "exp": 3799,
     "level": 13,
-    "fishingStreak": 65,
+    "fishingStreak": 66,
     "stats": {
-      "totalExp": 43239,
+      "totalExp": 43374,
       "highestStreak": 83,
-      "totalFishes": 184
+      "totalFishes": 185
     },
     "activeBuffs": {},
-    "lastFished": 1743598209939,
+    "lastFished": 1743661042223,
     "userID": "100076957299243",
     "energy": 100,
-    "lastEnergyUpdate": 1743598209939,
+    "lastEnergyUpdate": 1743661042223,
     "baits": {
-      "Mồi Thần Thoại": 368
+      "Mồi Thần Thoại": 367
     },
     "craftingMaterials": {}
   },
@@ -10313,7 +10313,7 @@
   },
   "61550739941534": {
     "rod": "Cần trúc",
-    "rodDurability": 6,
+    "rodDurability": 5,
     "inventory": [
       "Cần trúc"
     ],
@@ -10345,16 +10345,16 @@
     },
     "exp": 544,
     "level": 1,
-    "fishingStreak": 4,
-    "energy": 50,
-    "lastEnergyUpdate": 1743605873855,
+    "fishingStreak": 1,
+    "energy": 40,
+    "lastEnergyUpdate": 1743656914218,
     "stats": {
       "totalExp": 544,
       "highestStreak": 4,
       "totalFishes": 4
     },
     "activeBuffs": {},
-    "lastFished": 1743566993855,
+    "lastFished": 1743656914217,
     "userID": "61550739941534",
     "baits": {},
     "craftingMaterials": {}

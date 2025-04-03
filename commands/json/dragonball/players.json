@@ -3,12 +3,12 @@
     "name": "キ　hana hiori　ᶻz ꜝꜝ",
     "planet": "EARTH",
     "stats": {
-      "power": 1801083584,
-      "damage": 62160,
+      "power": 1801096496,
+      "damage": 64160,
       "ki": 75743,
       "health": 119178,
-      "exp": 5016200,
-      "zeni": 438783,
+      "exp": 18519708,
+      "zeni": 379973,
       "inventory": {
         "items": [],
         "equipped": []
@@ -19,9 +19,9 @@
         "progress": {}
       },
       "level": 4,
-      "currentKi": 53021,
+      "currentKi": 37871,
       "maxHealth": 114178,
-      "currentHealth": 119178
+      "currentHealth": 35753
     },
     "skills": [
       "KAME:DRAGON_PUNCH",
@@ -33,7 +33,7 @@
       "KAME:ENERGY_SHIELD"
     ],
     "masters": [],
-    "lastTrain": 1743619996226,
+    "lastTrain": 1743657778985,
     "created": 1743518661835,
     "inventory": {
       "dragonBalls": [
@@ -44,14 +44,17 @@
         {
           "planet": "EARTH",
           "star": 5
+        },
+        {
+          "planet": "EARTH",
+          "star": 2
+        },
+        {
+          "planet": "EARTH",
+          "star": 1
         }
       ],
       "items": [
-        {
-          "id": "senzu",
-          "quantity": 1,
-          "type": "consumable"
-        },
         {
           "id": "radar",
           "quantity": 1,
@@ -63,6 +66,11 @@
             "color": "#00FF00"
           },
           "equipped": true
+        },
+        {
+          "id": "senzu",
+          "quantity": 10,
+          "type": "consumable"
         }
       ]
     },
@@ -121,19 +129,25 @@
         "expireAt": 1743685037283
       }
     ],
-    "campProgress": 5,
-    "lastCampFight": 1743648783399
+    "campProgress": 0,
+    "lastCampFight": 1743657558133,
+    "originalKi": 75743,
+    "baseStats": {
+      "damage": 63160,
+      "health": 119178,
+      "ki": 75743
+    }
   },
   "100063397755304": {
     "name": "Người Bí Ẩn",
     "planet": "EARTH",
     "stats": {
-      "power": 21937,
-      "damage": 530,
+      "power": 62800,
+      "damage": 1220,
       "ki": 58,
       "health": 976,
-      "exp": 6216,
-      "zeni": 28536,
+      "exp": 41509,
+      "zeni": 8333,
       "inventory": {
         "items": [],
         "equipped": []
@@ -143,22 +157,29 @@
         "completed": [],
         "progress": {}
       },
-      "currentKi": 29,
+      "currentKi": 31,
       "level": 2,
-      "currentHealth": 292
+      "currentHealth": 53
     },
     "skills": [
-      "KAME:DRAGON_PUNCH",
-      "KAME:KAMEJOKO"
+      "KAME:DRAGON_PUNCH"
     ],
     "masters": [],
-    "lastTrain": 1743605965130,
+    "lastTrain": 1743661032096,
     "created": 1743518674002,
     "inventory": {
       "dragonBalls": [
         {
           "planet": "EARTH",
           "star": 5
+        },
+        {
+          "planet": "EARTH",
+          "star": 3
+        },
+        {
+          "planet": "EARTH",
+          "star": 7
         }
       ],
       "items": [
@@ -166,46 +187,60 @@
           "id": "senzu",
           "quantity": 1,
           "type": "consumable"
+        },
+        {
+          "id": "crystal",
+          "quantity": 1,
+          "type": "special"
         }
       ]
     },
     "quests": {
       "active": [
-        "BASIC_TRAINING"
+        "EARTH_SAIBAMEN"
       ],
       "completed": [
         "BEGINNER_1",
         "BEGINNER_2",
-        "EARTH_WOLF"
+        "EARTH_WOLF",
+        "BASIC_TRAINING"
       ],
       "progress": {
         "BEGINNER_1": 4,
         "BEGINNER_2": 2000,
         "EARTH_WOLF": 6,
-        "BASIC_TRAINING": 0
+        "BASIC_TRAINING": 5,
+        "EARTH_SAIBAMEN": 2
       }
     },
     "evolution": {
-      "name": "Con người thường",
+      "name": "Con người",
       "level": 0,
       "description": "Con người bình thường với tiềm năng chưa khai phá",
-      "achievedAt": "2025-04-02T05:00:57.305Z"
+      "achievedAt": "2025-04-03T05:14:08.024Z",
+      "auraColor": "#FFFFFF"
     },
-    "lastPvpFight": 1743604913700,
-    "lastMonsterFight": 1743571321070,
-    "campProgress": 0,
-    "lastCampFight": 1743605881953
+    "lastPvpFight": 1743660460172,
+    "lastMonsterFight": 1743659086944,
+    "campProgress": 1,
+    "lastCampFight": 1743659196609,
+    "originalKi": 58,
+    "baseStats": {
+      "damage": 730,
+      "health": 976,
+      "ki": 58
+    }
   },
   "100068382888605": {
     "name": "Pham Minh Dang",
     "planet": "EARTH",
     "stats": {
-      "power": 925959180,
-      "damage": 114964,
-      "ki": 26235,
+      "power": 930504815,
+      "damage": 119564,
+      "ki": 36235,
       "health": 328640,
-      "exp": 50000000,
-      "zeni": 932666,
+      "exp": 9991204,
+      "zeni": 2417707,
       "inventory": {
         "items": [],
         "equipped": []
@@ -216,28 +251,22 @@
         "progress": {}
       },
       "level": 5,
-      "currentKi": 25235,
+      "currentKi": 11576,
       "maxHealth": 323640,
-      "currentHealth": 328640
+      "currentHealth": 129907.91999999998
     },
     "skills": [
       "KAME:DRAGON_PUNCH",
       "KAME:KAMEJOKO",
       "KAME:SOLAR_FLARE",
       "KAME:KAIOKEN",
-      "KAME:SPIRIT_BOMB",
-      "KAME:HYPNOSIS",
-      "KAME:ENERGY_SHIELD"
+      "KAME:SPIRIT_BOMB"
     ],
     "masters": [],
-    "lastTrain": 1743617414670,
+    "lastTrain": 1743661654385,
     "created": 1743519137050,
     "inventory": {
       "dragonBalls": [
-        {
-          "planet": "EARTH",
-          "star": 4
-        },
         {
           "planet": "EARTH",
           "star": 5
@@ -245,6 +274,14 @@
         {
           "planet": "EARTH",
           "star": 6
+        },
+        {
+          "planet": "EARTH",
+          "star": 7
+        },
+        {
+          "planet": "EARTH",
+          "star": 4
         }
       ],
       "items": [
@@ -293,14 +330,17 @@
             "color": "#00FF00"
           },
           "equipped": true
+        },
+        {
+          "id": "broly_disciple",
+          "quantity": 1,
+          "type": "special"
         }
       ]
     },
     "lastMonsterFight": 1743599968229,
     "quests": {
-      "active": [
-        "EARTH_BOSS"
-      ],
+      "active": [],
       "completed": [
         "BEGINNER_1",
         "BEGINNER_2",
@@ -319,7 +359,6 @@
         "BEGINNER_1": 10,
         "BEGINNER_2": 2000,
         "EARTH_WOLF": 5,
-        "MEET_MASTER_1": 5,
         "EARTH_SAIBAMEN": 9,
         "EARTH_RED_RIBBON": 10,
         "POWER_LV1": 26379,
@@ -327,11 +366,10 @@
         "DRAGON_BALL_1": 3,
         "EARTH_ANDROID19": 3,
         "POWER_LV2": 50000,
-        "EARTH_CELL_JR": 5,
-        "EARTH_BOSS": 0
+        "EARTH_CELL_JR": 5
       }
     },
-    "lastPvpFight": 1743616822447,
+    "lastPvpFight": 1743661161101,
     "evolution": {
       "name": "Thần Khi Trái Đất",
       "level": 6,
@@ -339,8 +377,8 @@
       "achievedAt": "2025-04-02T17:13:21.959Z",
       "auraColor": "#FFFFFF"
     },
-    "campProgress": 8,
-    "lastCampFight": 1743617392113,
+    "campProgress": 1,
+    "lastCampFight": 1743659068123,
     "amulets": [
       {
         "id": "wisdom_amulet",
@@ -383,7 +421,8 @@
         "expireAt": 1743703318350
       }
     ],
-    "originalHealth": 23200
+    "originalHealth": 23200,
+    "lastBossFight": 1743661733289
   },
   "61566378911878": {
     "name": "Da Đen Ao Hồ",
@@ -473,7 +512,8 @@
         "active": [],
         "completed": [],
         "progress": {}
-      }
+      },
+      "currentKi": 100
     },
     "skills": [],
     "masters": [],
@@ -488,7 +528,7 @@
       "description": "Chiến binh Namek bình thường",
       "achievedAt": "2025-04-01T16:32:42.747Z"
     },
-    "lastPvpFight": 1743651409104
+    "lastPvpFight": 1743661219584
   },
   "100094519976306": {
     "name": "Gia Huy ",
@@ -529,12 +569,12 @@
     "name": "Khang Bùi",
     "planet": "NAMEK",
     "stats": {
-      "power": 16280,
-      "damage": 310,
-      "ki": 120,
-      "health": 1000,
-      "exp": 41297,
-      "zeni": 33651,
+      "power": 1004706786,
+      "damage": 4360,
+      "ki": 2035,
+      "health": 6500,
+      "exp": 762312,
+      "zeni": 78602,
       "inventory": {
         "items": [],
         "equipped": []
@@ -544,12 +584,20 @@
         "completed": [],
         "progress": {}
       },
-      "currentHealth": 1000,
-      "currentKi": 120
+      "currentHealth": 125,
+      "currentKi": 1960,
+      "maxHealth": 5500
     },
-    "skills": [],
+    "skills": [
+      "PICCOLO:SPECIAL_BEAM_CANNON",
+      "PICCOLO:REGENERATION",
+      "PICCOLO:LIGHT_GRENADE",
+      "PICCOLO:HELLZONE_GRENADE",
+      "PICCOLO:DEMONICAL_FLAVOR",
+      "PICCOLO:MULTIFORM"
+    ],
     "masters": [],
-    "lastTrain": 1743653085054,
+    "lastTrain": 1743661652470,
     "created": 1743561242983,
     "inventory": {
       "dragonBalls": [
@@ -559,25 +607,49 @@
         },
         {
           "planet": "NAMEK",
-          "star": 6
+          "star": 4
         },
         {
           "planet": "NAMEK",
-          "star": 7
+          "star": 5
         },
         {
           "planet": "NAMEK",
           "star": 2
+        },
+        {
+          "planet": "NAMEK",
+          "star": 1
+        }
+      ],
+      "items": [
+        {
+          "id": "radar",
+          "quantity": 1,
+          "type": "equipment",
+          "usedTime": 1743658876396,
+          "visualEffect": {
+            "type": "accessory",
+            "position": "hand",
+            "color": "#00FF00"
+          },
+          "equipped": true
+        },
+        {
+          "id": "senzu",
+          "quantity": 1,
+          "type": "consumable"
         }
       ]
     },
     "evolution": {
-      "name": "Namek thường",
-      "level": 0,
-      "description": "Chiến binh Namek bình thường",
-      "achievedAt": "2025-04-02T02:34:11.711Z"
+      "name": "Red-Eyed Namek",
+      "level": 5,
+      "description": "Năng lượng cơ thể chuyển đổi hoàn toàn, mắt đỏ ngầu",
+      "achievedAt": "2025-04-03T06:01:52.786Z",
+      "auraColor": "#FFFFFF"
     },
-    "lastPvpFight": 1743605417059,
+    "lastPvpFight": 1743661219584,
     "quests": {
       "active": [
         "NAMEK_APPULE"
@@ -589,7 +661,7 @@
       "progress": {
         "BEGINNER_1": 3,
         "BEGINNER_2": 3771,
-        "NAMEK_APPULE": 0
+        "NAMEK_APPULE": 4
       }
     },
     "amulets": [
@@ -601,18 +673,19 @@
         "emoji": "🧠",
         "expireAt": 1743690866531
       }
-    ]
+    ],
+    "lastMonsterFight": 1743661367042
   },
   "100065381078044": {
     "name": "Le Tuan Tu",
     "planet": "SAIYAN",
     "stats": {
-      "power": 1000156373,
-      "damage": 10955,
-      "ki": 948,
-      "health": 35598,
-      "exp": 50000000,
-      "zeni": 20348,
+      "power": 1002195636,
+      "damage": 14455,
+      "ki": 2948,
+      "health": 65598,
+      "exp": 1323004,
+      "zeni": 62315,
       "inventory": {
         "items": [],
         "equipped": []
@@ -622,19 +695,19 @@
         "completed": [],
         "progress": {}
       },
-      "maxHealth": 27464,
-      "currentKi": 6960,
-      "currentHealth": 47464
+      "maxHealth": 50598,
+      "currentHealth": 62665,
+      "currentKi": 616,
+      "level": 3
     },
     "skills": [
       "GOKU:ATOMIC",
       "GOKU:REGENERATE_ENERGY",
-      "GOKU:SELF_DESTRUCT",
       "GOKU:WHISTLE",
       "GOKU:BIND"
     ],
     "masters": [],
-    "lastTrain": 1743652067323,
+    "lastTrain": 1743661616646,
     "created": 1743562364905,
     "inventory": {
       "dragonBalls": [
@@ -645,9 +718,9 @@
       ],
       "items": [
         {
-          "id": "senzu",
+          "id": "armor",
           "quantity": 1,
-          "type": "consumable"
+          "type": "equipment"
         }
       ]
     },
@@ -660,20 +733,38 @@
     },
     "quests": {
       "active": [
-        "SAIYAN_RADITZ"
+        "SAIYAN_ELITE"
       ],
       "completed": [
         "BEGINNER_1",
-        "BEGINNER_2"
+        "BEGINNER_2",
+        "SAIYAN_RADITZ",
+        "BASIC_TRAINING",
+        "SAIYAN_NAPPA",
+        "SAIYAN_WARRIOR",
+        "POWER_LV1"
       ],
       "progress": {
         "BEGINNER_1": 3,
         "BEGINNER_2": 7847,
-        "SAIYAN_RADITZ": 2
+        "SAIYAN_RADITZ": 6,
+        "BASIC_TRAINING": 5,
+        "SAIYAN_NAPPA": 8,
+        "SAIYAN_WARRIOR": 10,
+        "POWER_LV1": 10000,
+        "SAIYAN_ELITE": 4
       }
     },
-    "lastMonsterFight": 1743574723001,
-    "lastPvpFight": 1743651409104
+    "lastMonsterFight": 1743661643053,
+    "lastPvpFight": 1743654577280,
+    "campProgress": 0,
+    "lastCampFight": 1743657727922,
+    "originalKi": 2948,
+    "baseStats": {
+      "damage": 12955,
+      "health": 65598,
+      "ki": 2948
+    }
   },
   "61563982612558": {
     "name": "Mr Satan",
@@ -753,14 +844,14 @@
     "name": "Tran Thu Huyen",
     "planet": "SAIYAN",
     "stats": {
-      "power": 15787,
+      "power": 31639,
       "damage": 210,
       "ki": 180,
       "currentKi": 140,
       "health": 1600,
       "currentHealth": 1000,
-      "exp": 16836,
-      "zeni": 15000,
+      "exp": 38193,
+      "zeni": 22949,
       "inventory": {
         "items": [],
         "equipped": []
@@ -776,7 +867,7 @@
       "GOKU:ATOMIC"
     ],
     "masters": [],
-    "lastTrain": 1743616345943,
+    "lastTrain": 1743661022982,
     "created": 1743570305333,
     "inventory": {
       "dragonBalls": [
@@ -794,11 +885,16 @@
     },
     "quests": {
       "active": [
-        "BEGINNER_1"
+        "SAIYAN_RADITZ"
       ],
-      "completed": [],
+      "completed": [
+        "BEGINNER_1",
+        "BEGINNER_2"
+      ],
       "progress": {
-        "BEGINNER_1": 3
+        "BEGINNER_1": 4,
+        "BEGINNER_2": 2000,
+        "SAIYAN_RADITZ": 0
       }
     }
   },
@@ -843,14 +939,14 @@
     "name": "Mạnh Đức",
     "planet": "SAIYAN",
     "stats": {
-      "power": 11219,
+      "power": 12029,
       "damage": 260,
       "ki": 138,
       "currentKi": 111,
       "health": 1000,
       "currentHealth": 1000,
-      "exp": 1644,
-      "zeni": 16070,
+      "exp": 7178,
+      "zeni": 16279,
       "inventory": {
         "items": [],
         "equipped": []
@@ -866,7 +962,7 @@
       "GOKU:REGENERATE_ENERGY"
     ],
     "masters": [],
-    "lastTrain": 1743614475389,
+    "lastTrain": 1743657916827,
     "created": 1743613049346,
     "inventory": {
       "dragonBalls": []
@@ -953,14 +1049,13 @@
     "name": "Kenji Akira",
     "planet": "SAIYAN",
     "stats": {
-      "power": 691355460,
+      "power": 691766295,
       "damage": 25000,
       "ki": 3068,
-      "currentKi": 3836,
       "health": 30000,
-      "currentHealth": 40000,
-      "exp": 50000000,
-      "zeni": 12751637,
+      "currentHealth": 9000,
+      "exp": 50000020,
+      "zeni": 12758766,
       "inventory": {
         "items": [],
         "equipped": []
@@ -969,7 +1064,9 @@
         "active": [],
         "completed": [],
         "progress": {}
-      }
+      },
+      "currentKi": 1350,
+      "level": 2
     },
     "skills": [
       "GOKU:ATOMIC",
@@ -979,30 +1076,39 @@
       "GOKU:BIND"
     ],
     "masters": [],
-    "lastTrain": 1743652190858,
+    "lastTrain": 1743659892851,
     "created": 1743645725827,
     "inventory": {
-      "dragonBalls": [],
+      "dragonBalls": [
+        {
+          "planet": "SAIYAN",
+          "star": 7
+        }
+      ],
       "items": [
         {
           "id": "senzu",
-          "quantity": 94,
+          "quantity": 93,
           "type": "consumable"
         }
       ]
     },
     "quests": {
       "active": [
-        "SAIYAN_RADITZ"
+        "SAIYAN_NAPPA"
       ],
       "completed": [
         "BEGINNER_1",
-        "BEGINNER_2"
+        "BEGINNER_2",
+        "SAIYAN_RADITZ",
+        "BASIC_TRAINING"
       ],
       "progress": {
         "BEGINNER_1": 3,
         "BEGINNER_2": 2000,
-        "SAIYAN_RADITZ": 4
+        "SAIYAN_RADITZ": 6,
+        "BASIC_TRAINING": 5,
+        "SAIYAN_NAPPA": 0
       }
     },
     "evolution": {
@@ -1012,8 +1118,16 @@
       "achievedAt": "2025-04-03T03:49:50.860Z",
       "auraColor": "#FF0000"
     },
-    "lastPvpFight": 1743651340618,
-    "lastMonsterFight": 1743649734520,
-    "regenSkillsUsed": {}
+    "lastPvpFight": 1743661161101,
+    "lastMonsterFight": 1743656522861,
+    "regenSkillsUsed": {},
+    "campProgress": 1,
+    "lastCampFight": 1743658793215,
+    "originalKi": 3068,
+    "baseStats": {
+      "damage": 25000,
+      "health": 30000,
+      "ki": 3068
+    }
   }
 }

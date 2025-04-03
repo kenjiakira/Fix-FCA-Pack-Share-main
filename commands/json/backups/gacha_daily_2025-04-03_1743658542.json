@@ -1010,13 +1010,12 @@
       "EXP_HEROS_WIT_845657728",
       "EXP_LEGENDARY_GRIMOIRE_531845894",
       "FRAGMENT_GEO_300052429",
-      "EXP_WANDERERS_ADVICE_603139086",
-      "CHAR_384945701"
+      "EXP_WANDERERS_ADVICE_603139086"
     ],
-    "pullsSinceLastFiveStar": 1,
-    "pullsSinceLastFourStar": 1,
-    "totalPulls": 1592,
-    "lastPull": 1743660880590,
+    "pullsSinceLastFiveStar": 37,
+    "pullsSinceLastFourStar": 7,
+    "totalPulls": 1589,
+    "lastPull": 1743657794094,
     "pvpTeam": [
       "CHAR_144510188",
       "CHAR_927098477",
@@ -1047,10 +1046,9 @@
       "Yaoyao": 1,
       "Mona": 1,
       "Ayaka": 1,
-      "Qiqi": 0,
-      "fugue": 1
+      "Qiqi": 0
     },
-    "pullsSinceLastStone": 13,
+    "pullsSinceLastStone": 10,
     "pullsSinceLastUniversalStone": 80
   },
   "100055074463541": {
@@ -2157,11 +2155,11 @@
       "EXP_HEROS_WIT_750698078",
       "EXP_WANDERERS_ADVICE_687536858"
     ],
-    "pullsSinceLastFiveStar": 11,
-    "pullsSinceLastFourStar": 4,
-    "totalPulls": 16,
-    "lastPull": 1743660351768,
-    "pullsSinceLastStone": 4,
+    "pullsSinceLastFiveStar": 10,
+    "pullsSinceLastFourStar": 3,
+    "totalPulls": 15,
+    "lastPull": 1743580243878,
+    "pullsSinceLastStone": 3,
     "pullsSinceLastUniversalStone": 3
   },
   "100056955484415": {
@@ -2209,15 +2207,6 @@
     "totalPulls": 3,
     "lastPull": 1743575952197,
     "pullsSinceLastStone": 3,
-    "pullsSinceLastUniversalStone": 0
-  },
-  "100087511500419": {
-    "inventory": [],
-    "pullsSinceLastFiveStar": 1,
-    "pullsSinceLastFourStar": 1,
-    "totalPulls": 1,
-    "lastPull": 1743661055023,
-    "pullsSinceLastStone": 1,
     "pullsSinceLastUniversalStone": 0
   }
 }
