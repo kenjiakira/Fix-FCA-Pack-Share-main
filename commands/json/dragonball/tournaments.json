@@ -1,0 +1,35 @@
+{
+  "active": {
+    "type": "TENKAICHI",
+    "status": "registration",
+    "startTime": 1743583436706,
+    "endTime": null,
+    "organizer": {
+      "id": "100068382888605",
+      "name": "Pham Minh Dang"
+    },
+    "matches": [],
+    "rounds": {},
+    "currentRound": 0,
+    "winners": {
+      "first": null,
+      "second": null,
+      "semifinalists": []
+    }
+  },
+  "history": [],
+  "registrations": {
+    "100068382888605": {
+      "id": "100068382888605",
+      "name": "Pham Minh Dang",
+      "power": 208124,
+      "registrationTime": 1743583436706
+    },
+    "100056955484415": {
+      "id": "100056955484415",
+      "name": "Kenji Akira",
+      "power": 248326,
+      "registrationTime": 1743605152139
+    }
+  }
+}

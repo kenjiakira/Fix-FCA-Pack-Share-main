@@ -852,5 +852,88 @@
     },
     "achievements": {},
     "birthday": 1743490915079
+  },
+  "100083810402652": {
+    "type": "DOG",
+    "name": "Đăng",
+    "hunger": 100,
+    "happy": 100,
+    "energy": 100,
+    "level": 2,
+    "exp": 125,
+    "power": 80,
+    "lastFed": 1743609092589,
+    "lastPlay": 1743608171124,
+    "skills": {
+      "FETCH": {
+        "level": 1,
+        "exp": 0,
+        "lastUsed": 0
+      },
+      "GUARD": {
+        "level": 1,
+        "exp": 0,
+        "lastUsed": 0
+      }
+    },
+    "inventory": [],
+    "stats": {
+      "gamesPlayed": 0,
+      "foodEaten": 0,
+      "trainingSessions": 0,
+      "questsCompleted": 0
+    },
+    "achievements": {},
+    "birthday": 1743607147243,
+    "quests": {
+      "daily": {
+        "feedCount": 10,
+        "playCount": 2
+      }
+    },
+    "lastTrain": 1743608485472,
+    "lastSkill": {
+      "FETCH": 1743608960364
+    }
+  },
+  "61570242251744": {
+    "type": "HAMSTER",
+    "name": "Lê huy",
+    "hunger": 100,
+    "happy": 100,
+    "energy": 80,
+    "level": 2,
+    "exp": 0,
+    "power": 30,
+    "lastFed": 1743608888342,
+    "lastPlay": 1743608974984,
+    "skills": {
+      "COLLECT": {
+        "level": 1,
+        "exp": 0,
+        "lastUsed": 0
+      },
+      "WHEEL": {
+        "level": 1,
+        "exp": 0,
+        "lastUsed": 0
+      }
+    },
+    "inventory": [],
+    "stats": {
+      "gamesPlayed": 0,
+      "foodEaten": 0,
+      "trainingSessions": 0,
+      "questsCompleted": 0
+    },
+    "achievements": {},
+    "birthday": 1743607681125,
+    "quests": {
+      "daily": {
+        "playCount": 2,
+        "feedCount": 5
+      }
+    },
+    "lastTrain": 1743607960484
   }
 }

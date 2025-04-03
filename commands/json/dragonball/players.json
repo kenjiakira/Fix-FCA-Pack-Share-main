@@ -1,72 +1,14 @@
 {
-  "100056955484415": {
-    "name": "Kenji Akira",
-    "planet": "SAIYAN",
-    "stats": {
-      "power": 2669,
-      "damage": 170,
-      "ki": 4,
-      "health": 1000,
-      "exp": 215,
-      "zeni": 7817,
-      "inventory": {
-        "items": [],
-        "equipped": []
-      }
-    },
-    "skills": [
-      "GOKU:ATOMIC"
-    ],
-    "masters": [
-      "GOKU"
-    ],
-    "lastTrain": 1743523945907,
-    "created": 1743498185294,
-    "inventory": {
-      "dragonBalls": [
-        {
-          "planet": "SAIYAN",
-          "star": 7
-        },
-        {
-          "planet": "SAIYAN",
-          "star": 5
-        },
-        {
-          "planet": "SAIYAN",
-          "star": 4
-        }
-      ]
-    },
-    "quests": {
-      "active": [
-        "BEGINNER_2"
-      ],
-      "completed": [
-        "BEGINNER_1"
-      ],
-      "progress": {
-        "BEGINNER_1": 3,
-        "BEGINNER_2": 2000
-      }
-    },
-    "evolution": {
-      "name": "Saiyan thường",
-      "level": 0,
-      "description": "Chiến binh Saiyan bình thường",
-      "achievedAt": "2025-04-01T13:41:39.756Z"
-    }
-  },
   "100093208808025": {
     "name": "キ　hana hiori　ᶻz ꜝꜝ",
     "planet": "EARTH",
     "stats": {
-      "power": 8087,
-      "damage": 350,
-      "ki": 4,
-      "health": 1000,
-      "exp": 4103,
-      "zeni": 53403,
+      "power": 1801083584,
+      "damage": 62160,
+      "ki": 75743,
+      "health": 119178,
+      "exp": 5016200,
+      "zeni": 438783,
       "inventory": {
         "items": [],
         "equipped": []
@@ -76,58 +18,122 @@
         "completed": [],
         "progress": {}
       },
-      "level": 2
+      "level": 4,
+      "currentKi": 53021,
+      "maxHealth": 114178,
+      "currentHealth": 119178
     },
     "skills": [
-      "KAME:DRAGON_PUNCH"
+      "KAME:DRAGON_PUNCH",
+      "KAME:KAMEJOKO",
+      "KAME:SOLAR_FLARE",
+      "KAME:KAIOKEN",
+      "KAME:SPIRIT_BOMB",
+      "KAME:HYPNOSIS",
+      "KAME:ENERGY_SHIELD"
     ],
     "masters": [],
-    "lastTrain": 1743527313261,
+    "lastTrain": 1743619996226,
     "created": 1743518661835,
     "inventory": {
       "dragonBalls": [
         {
           "planet": "EARTH",
-          "star": 4
+          "star": 6
         },
         {
           "planet": "EARTH",
-          "star": 7
+          "star": 5
+        }
+      ],
+      "items": [
+        {
+          "id": "senzu",
+          "quantity": 1,
+          "type": "consumable"
         },
         {
-          "planet": "EARTH",
-          "star": 1
+          "id": "radar",
+          "quantity": 1,
+          "type": "equipment",
+          "usedTime": 1743614327654,
+          "visualEffect": {
+            "type": "accessory",
+            "position": "hand",
+            "color": "#00FF00"
+          },
+          "equipped": true
         }
       ]
     },
     "quests": {
       "active": [
-        "MEET_MASTER_1"
+        "EARTH_ANDROID19"
       ],
       "completed": [
         "BEGINNER_1",
         "BEGINNER_2",
-        "EARTH_WOLF"
+        "EARTH_WOLF",
+        "MEET_MASTER_1",
+        "EARTH_SAIBAMEN",
+        "EARTH_RED_RIBBON",
+        "POWER_LV1",
+        "EARTH_TAMBOURINE",
+        "DRAGON_BALL_1"
       ],
       "progress": {
         "BEGINNER_1": 3,
         "BEGINNER_2": 2000,
         "EARTH_WOLF": 5,
-        "MEET_MASTER_1": 0
+        "MEET_MASTER_1": 5,
+        "EARTH_SAIBAMEN": 8,
+        "EARTH_RED_RIBBON": 10,
+        "POWER_LV1": 24438,
+        "EARTH_TAMBOURINE": 6,
+        "DRAGON_BALL_1": 3,
+        "EARTH_ANDROID19": 0
       }
     },
-    "lastMonsterFight": 1743527022353
+    "lastMonsterFight": 1743592405419,
+    "lastPvpFight": 1743617828638,
+    "evolution": {
+      "name": "Tứ Phân Thần Công",
+      "level": 7,
+      "description": "Kỹ thuật tối thượng của các bậc thầy Trái Đất",
+      "achievedAt": "2025-04-02T17:58:47.578Z",
+      "auraColor": "#FFFFFF"
+    },
+    "amulets": [
+      {
+        "id": "wisdom_amulet",
+        "name": "Bùa Trí Tuệ",
+        "effect": "exp_boost",
+        "boost": 2,
+        "emoji": "🧠",
+        "expireAt": 1743677698019
+      },
+      {
+        "id": "immortal_amulet",
+        "name": "Bùa Bất Tử",
+        "effect": "immortal",
+        "boost": 1,
+        "emoji": "🧿",
+        "expireAt": 1743685037283
+      }
+    ],
+    "campProgress": 5,
+    "lastCampFight": 1743648783399
   },
   "100063397755304": {
-    "name": "User",
+    "name": "Người Bí Ẩn",
     "planet": "EARTH",
     "stats": {
-      "power": 2325,
-      "damage": 170,
-      "ki": 98,
-      "health": 1000,
-      "exp": 152,
-      "zeni": 6397,
+      "power": 21937,
+      "damage": 530,
+      "ki": 58,
+      "health": 976,
+      "exp": 6216,
+      "zeni": 28536,
       "inventory": {
         "items": [],
         "equipped": []
@@ -136,13 +142,17 @@
         "active": [],
         "completed": [],
         "progress": {}
-      }
+      },
+      "currentKi": 29,
+      "level": 2,
+      "currentHealth": 292
     },
     "skills": [
-      "KAME:DRAGON_PUNCH"
+      "KAME:DRAGON_PUNCH",
+      "KAME:KAMEJOKO"
     ],
     "masters": [],
-    "lastTrain": 1743520523444,
+    "lastTrain": 1743605965130,
     "created": 1743518674002,
     "inventory": {
       "dragonBalls": [
@@ -161,73 +171,7 @@
     },
     "quests": {
       "active": [
-        "EARTH_WOLF"
-      ],
-      "completed": [
-        "BEGINNER_1",
-        "BEGINNER_2"
-      ],
-      "progress": {
-        "BEGINNER_1": 4,
-        "BEGINNER_2": 2000,
-        "EARTH_WOLF": 0
-      }
-    }
-  },
-  "100068382888605": {
-    "name": "Pham Minh Dang",
-    "planet": "EARTH",
-    "stats": {
-      "power": 5091,
-      "damage": 300,
-      "ki": 4,
-      "health": 1000,
-      "exp": 2317,
-      "zeni": 28515,
-      "inventory": {
-        "items": [],
-        "equipped": []
-      },
-      "quests": {
-        "active": [],
-        "completed": [],
-        "progress": {}
-      },
-      "level": 2
-    },
-    "skills": [
-      "KAME:DRAGON_PUNCH"
-    ],
-    "masters": [],
-    "lastTrain": 1743528521614,
-    "created": 1743519137050,
-    "inventory": {
-      "dragonBalls": [
-        {
-          "planet": "EARTH",
-          "star": 3
-        },
-        {
-          "planet": "EARTH",
-          "star": 6
-        },
-        {
-          "planet": "EARTH",
-          "star": 2
-        }
-      ],
-      "items": [
-        {
-          "id": "senzu",
-          "quantity": 2,
-          "type": "consumable"
-        }
-      ]
-    },
-    "lastMonsterFight": 1743528478167,
-    "quests": {
-      "active": [
-        "MEET_MASTER_1"
+        "BASIC_TRAINING"
       ],
       "completed": [
         "BEGINNER_1",
@@ -235,23 +179,222 @@
         "EARTH_WOLF"
       ],
       "progress": {
+        "BEGINNER_1": 4,
+        "BEGINNER_2": 2000,
+        "EARTH_WOLF": 6,
+        "BASIC_TRAINING": 0
+      }
+    },
+    "evolution": {
+      "name": "Con người thường",
+      "level": 0,
+      "description": "Con người bình thường với tiềm năng chưa khai phá",
+      "achievedAt": "2025-04-02T05:00:57.305Z"
+    },
+    "lastPvpFight": 1743604913700,
+    "lastMonsterFight": 1743571321070,
+    "campProgress": 0,
+    "lastCampFight": 1743605881953
+  },
+  "100068382888605": {
+    "name": "Pham Minh Dang",
+    "planet": "EARTH",
+    "stats": {
+      "power": 925959180,
+      "damage": 114964,
+      "ki": 26235,
+      "health": 328640,
+      "exp": 50000000,
+      "zeni": 932666,
+      "inventory": {
+        "items": [],
+        "equipped": []
+      },
+      "quests": {
+        "active": [],
+        "completed": [],
+        "progress": {}
+      },
+      "level": 5,
+      "currentKi": 25235,
+      "maxHealth": 323640,
+      "currentHealth": 328640
+    },
+    "skills": [
+      "KAME:DRAGON_PUNCH",
+      "KAME:KAMEJOKO",
+      "KAME:SOLAR_FLARE",
+      "KAME:KAIOKEN",
+      "KAME:SPIRIT_BOMB",
+      "KAME:HYPNOSIS",
+      "KAME:ENERGY_SHIELD"
+    ],
+    "masters": [],
+    "lastTrain": 1743617414670,
+    "created": 1743519137050,
+    "inventory": {
+      "dragonBalls": [
+        {
+          "planet": "EARTH",
+          "star": 4
+        },
+        {
+          "planet": "EARTH",
+          "star": 5
+        },
+        {
+          "planet": "EARTH",
+          "star": 6
+        }
+      ],
+      "items": [
+        {
+          "id": "senzu",
+          "quantity": 10,
+          "type": "consumable"
+        },
+        {
+          "id": "armor",
+          "quantity": 3,
+          "type": "equipment",
+          "usedTime": 1743602036629,
+          "visualEffect": {
+            "type": "overlay",
+            "position": "body",
+            "color": "#FFFFFF"
+          },
+          "equipped": true
+        },
+        {
+          "id": "scouter",
+          "quantity": 2,
+          "type": "equipment",
+          "usedTime": 1743602052392,
+          "visualEffect": {
+            "type": "overlay",
+            "position": "face",
+            "color": "#FF0000"
+          },
+          "equipped": true
+        },
+        {
+          "id": "crystal",
+          "quantity": 2,
+          "type": "quest_item"
+        },
+        {
+          "id": "radar",
+          "quantity": 1,
+          "type": "equipment",
+          "usedTime": 1743614311235,
+          "visualEffect": {
+            "type": "accessory",
+            "position": "hand",
+            "color": "#00FF00"
+          },
+          "equipped": true
+        }
+      ]
+    },
+    "lastMonsterFight": 1743599968229,
+    "quests": {
+      "active": [
+        "EARTH_BOSS"
+      ],
+      "completed": [
+        "BEGINNER_1",
+        "BEGINNER_2",
+        "EARTH_WOLF",
+        "MEET_MASTER_1",
+        "EARTH_SAIBAMEN",
+        "EARTH_RED_RIBBON",
+        "POWER_LV1",
+        "EARTH_TAMBOURINE",
+        "DRAGON_BALL_1",
+        "EARTH_ANDROID19",
+        "POWER_LV2",
+        "EARTH_CELL_JR"
+      ],
+      "progress": {
         "BEGINNER_1": 10,
         "BEGINNER_2": 2000,
         "EARTH_WOLF": 5,
-        "MEET_MASTER_1": 0
+        "MEET_MASTER_1": 5,
+        "EARTH_SAIBAMEN": 9,
+        "EARTH_RED_RIBBON": 10,
+        "POWER_LV1": 26379,
+        "EARTH_TAMBOURINE": 6,
+        "DRAGON_BALL_1": 3,
+        "EARTH_ANDROID19": 3,
+        "POWER_LV2": 50000,
+        "EARTH_CELL_JR": 5,
+        "EARTH_BOSS": 0
       }
-    }
+    },
+    "lastPvpFight": 1743616822447,
+    "evolution": {
+      "name": "Thần Khi Trái Đất",
+      "level": 6,
+      "description": "Biến đổi khí thành năng lượng thần thánh",
+      "achievedAt": "2025-04-02T17:13:21.959Z",
+      "auraColor": "#FFFFFF"
+    },
+    "campProgress": 8,
+    "lastCampFight": 1743617392113,
+    "amulets": [
+      {
+        "id": "wisdom_amulet",
+        "name": "Bùa Trí Tuệ",
+        "effect": "exp_boost",
+        "boost": 2,
+        "emoji": "🧠",
+        "expireAt": 1743681876030
+      },
+      {
+        "id": "power_amulet",
+        "name": "Bùa Sức Mạnh",
+        "effect": "damage_boost",
+        "boost": 1.5,
+        "emoji": "💪",
+        "expireAt": 1743686580522
+      },
+      {
+        "id": "energy_amulet",
+        "name": "Bùa Năng Lượng",
+        "effect": "ki_boost",
+        "boost": 1.5,
+        "emoji": "⚡",
+        "expireAt": 1743686588634
+      },
+      {
+        "id": "defense_amulet",
+        "name": "Bùa Da Trâu",
+        "effect": "health_boost",
+        "boost": 1.5,
+        "emoji": "🛡️",
+        "expireAt": 1743686596315
+      },
+      {
+        "id": "immortal_amulet",
+        "name": "Bùa Bất Tử",
+        "effect": "immortal",
+        "boost": 1,
+        "emoji": "🧿",
+        "expireAt": 1743703318350
+      }
+    ],
+    "originalHealth": 23200
   },
   "61566378911878": {
     "name": "Da Đen Ao Hồ",
     "planet": "EARTH",
     "stats": {
-      "power": 1108,
+      "power": 1884,
       "damage": 100,
       "ki": 100,
       "health": 1000,
-      "exp": 415,
-      "zeni": 2321,
+      "exp": 1187,
+      "zeni": 2646,
       "inventory": {
         "items": [],
         "equipped": []
@@ -264,22 +407,30 @@
     },
     "skills": [],
     "masters": [],
-    "lastTrain": 1743522083430,
+    "lastTrain": 1743594498736,
     "created": 1743521447528,
     "inventory": {
       "dragonBalls": []
+    },
+    "lastPvpFight": 1743617828638,
+    "evolution": {
+      "name": "Con người thường",
+      "level": 0,
+      "description": "Con người bình thường với tiềm năng chưa khai phá",
+      "achievedAt": "2025-04-02T10:42:33.697Z",
+      "auraColor": "#FFFFFF"
     }
   },
   "100008297661441": {
     "name": "Anh Khoaa",
     "planet": "SAIYAN",
     "stats": {
-      "power": 1246,
+      "power": 1972,
       "damage": 110,
       "ki": 100,
       "health": 1000,
-      "exp": 378,
-      "zeni": 5474,
+      "exp": 1936,
+      "zeni": 7463,
       "inventory": {
         "items": [],
         "equipped": []
@@ -292,7 +443,7 @@
     },
     "skills": [],
     "masters": [],
-    "lastTrain": 1743525025656,
+    "lastTrain": 1743585418184,
     "created": 1743524710186,
     "inventory": {
       "dragonBalls": []
@@ -305,15 +456,15 @@
     }
   },
   "61573427362389": {
-    "name": "User",
+    "name": "Ngọc Từ",
     "planet": "NAMEK",
     "stats": {
-      "power": 1271,
+      "power": 3256,
       "damage": 100,
       "ki": 100,
       "health": 1000,
-      "exp": 501,
-      "zeni": 2711,
+      "exp": 2955,
+      "zeni": 4769,
       "inventory": {
         "items": [],
         "equipped": []
@@ -326,7 +477,7 @@
     },
     "skills": [],
     "masters": [],
-    "lastTrain": 1743525848503,
+    "lastTrain": 1743606315294,
     "created": 1743525151917,
     "inventory": {
       "dragonBalls": []
@@ -336,18 +487,19 @@
       "level": 0,
       "description": "Chiến binh Namek bình thường",
       "achievedAt": "2025-04-01T16:32:42.747Z"
-    }
+    },
+    "lastPvpFight": 1743651409104
   },
   "100094519976306": {
     "name": "Gia Huy ",
     "planet": "SAIYAN",
     "stats": {
-      "power": 1000,
+      "power": 1366,
       "damage": 100,
       "ki": 100,
       "health": 1000,
-      "exp": 0,
-      "zeni": 1000,
+      "exp": 268,
+      "zeni": 1119,
       "inventory": {
         "items": [],
         "equipped": []
@@ -360,10 +512,508 @@
     },
     "skills": [],
     "masters": [],
-    "lastTrain": 0,
+    "lastTrain": 1743613492891,
     "created": 1743526294836,
     "inventory": {
       "dragonBalls": []
+    },
+    "evolution": {
+      "name": "Saiyan thường",
+      "level": 0,
+      "description": "Chiến binh Saiyan bình thường",
+      "achievedAt": "2025-04-02T17:04:52.892Z",
+      "auraColor": "#FFFFFF"
     }
+  },
+  "100055074463541": {
+    "name": "Khang Bùi",
+    "planet": "NAMEK",
+    "stats": {
+      "power": 16280,
+      "damage": 310,
+      "ki": 120,
+      "health": 1000,
+      "exp": 41297,
+      "zeni": 33651,
+      "inventory": {
+        "items": [],
+        "equipped": []
+      },
+      "quests": {
+        "active": [],
+        "completed": [],
+        "progress": {}
+      },
+      "currentHealth": 1000,
+      "currentKi": 120
+    },
+    "skills": [],
+    "masters": [],
+    "lastTrain": 1743653085054,
+    "created": 1743561242983,
+    "inventory": {
+      "dragonBalls": [
+        {
+          "planet": "NAMEK",
+          "star": 3
+        },
+        {
+          "planet": "NAMEK",
+          "star": 6
+        },
+        {
+          "planet": "NAMEK",
+          "star": 7
+        },
+        {
+          "planet": "NAMEK",
+          "star": 2
+        }
+      ]
+    },
+    "evolution": {
+      "name": "Namek thường",
+      "level": 0,
+      "description": "Chiến binh Namek bình thường",
+      "achievedAt": "2025-04-02T02:34:11.711Z"
+    },
+    "lastPvpFight": 1743605417059,
+    "quests": {
+      "active": [
+        "NAMEK_APPULE"
+      ],
+      "completed": [
+        "BEGINNER_1",
+        "BEGINNER_2"
+      ],
+      "progress": {
+        "BEGINNER_1": 3,
+        "BEGINNER_2": 3771,
+        "NAMEK_APPULE": 0
+      }
+    },
+    "amulets": [
+      {
+        "id": "wisdom_amulet",
+        "name": "Bùa Trí Tuệ",
+        "effect": "exp_boost",
+        "boost": 2,
+        "emoji": "🧠",
+        "expireAt": 1743690866531
+      }
+    ]
+  },
+  "100065381078044": {
+    "name": "Le Tuan Tu",
+    "planet": "SAIYAN",
+    "stats": {
+      "power": 1000156373,
+      "damage": 10955,
+      "ki": 948,
+      "health": 35598,
+      "exp": 50000000,
+      "zeni": 20348,
+      "inventory": {
+        "items": [],
+        "equipped": []
+      },
+      "quests": {
+        "active": [],
+        "completed": [],
+        "progress": {}
+      },
+      "maxHealth": 27464,
+      "currentKi": 6960,
+      "currentHealth": 47464
+    },
+    "skills": [
+      "GOKU:ATOMIC",
+      "GOKU:REGENERATE_ENERGY",
+      "GOKU:SELF_DESTRUCT",
+      "GOKU:WHISTLE",
+      "GOKU:BIND"
+    ],
+    "masters": [],
+    "lastTrain": 1743652067323,
+    "created": 1743562364905,
+    "inventory": {
+      "dragonBalls": [
+        {
+          "planet": "SAIYAN",
+          "star": 2
+        }
+      ],
+      "items": [
+        {
+          "id": "senzu",
+          "quantity": 1,
+          "type": "consumable"
+        }
+      ]
+    },
+    "evolution": {
+      "name": "Super Saiyan God",
+      "level": 4,
+      "description": "𝗦𝘂̛́𝗰 𝗺𝗮̣𝗻𝗵 thần thánh của các vị thần",
+      "achievedAt": "2025-04-03T03:38:19.577Z",
+      "auraColor": "#FF0000"
+    },
+    "quests": {
+      "active": [
+        "SAIYAN_RADITZ"
+      ],
+      "completed": [
+        "BEGINNER_1",
+        "BEGINNER_2"
+      ],
+      "progress": {
+        "BEGINNER_1": 3,
+        "BEGINNER_2": 7847,
+        "SAIYAN_RADITZ": 2
+      }
+    },
+    "lastMonsterFight": 1743574723001,
+    "lastPvpFight": 1743651409104
+  },
+  "61563982612558": {
+    "name": "Mr Satan",
+    "planet": "EARTH",
+    "stats": {
+      "power": 4178,
+      "damage": 150,
+      "ki": 100,
+      "currentKi": 100,
+      "health": 1000,
+      "currentHealth": 1000,
+      "exp": 3693,
+      "zeni": 3426,
+      "inventory": {
+        "items": [],
+        "equipped": []
+      },
+      "quests": {
+        "active": [],
+        "completed": [],
+        "progress": {}
+      }
+    },
+    "skills": [
+      "KAME:DRAGON_PUNCH"
+    ],
+    "masters": [],
+    "lastTrain": 1743609119580,
+    "created": 1743569439603,
+    "inventory": {
+      "dragonBalls": []
+    },
+    "evolution": {
+      "name": "Con người thường",
+      "level": 0,
+      "description": "Con người bình thường với tiềm năng chưa khai phá",
+      "achievedAt": "2025-04-02T04:51:24.895Z"
+    }
+  },
+  "100079828954790": {
+    "name": "Hu Hi",
+    "planet": "EARTH",
+    "stats": {
+      "power": 1767,
+      "damage": 100,
+      "ki": 100,
+      "currentKi": 100,
+      "health": 1000,
+      "currentHealth": 1000,
+      "exp": 1260,
+      "zeni": 2568,
+      "inventory": {
+        "items": [],
+        "equipped": []
+      },
+      "quests": {
+        "active": [],
+        "completed": [],
+        "progress": {}
+      }
+    },
+    "skills": [],
+    "masters": [],
+    "lastTrain": 1743569551794,
+    "created": 1743569465069,
+    "inventory": {
+      "dragonBalls": []
+    },
+    "evolution": {
+      "name": "Con người thường",
+      "level": 0,
+      "description": "Con người bình thường với tiềm năng chưa khai phá",
+      "achievedAt": "2025-04-02T04:51:16.503Z"
+    }
+  },
+  "100076957299243": {
+    "name": "Tran Thu Huyen",
+    "planet": "SAIYAN",
+    "stats": {
+      "power": 15787,
+      "damage": 210,
+      "ki": 180,
+      "currentKi": 140,
+      "health": 1600,
+      "currentHealth": 1000,
+      "exp": 16836,
+      "zeni": 15000,
+      "inventory": {
+        "items": [],
+        "equipped": []
+      },
+      "quests": {
+        "active": [],
+        "completed": [],
+        "progress": {}
+      },
+      "maxHealth": 1400
+    },
+    "skills": [
+      "GOKU:ATOMIC"
+    ],
+    "masters": [],
+    "lastTrain": 1743616345943,
+    "created": 1743570305333,
+    "inventory": {
+      "dragonBalls": [
+        {
+          "planet": "SAIYAN",
+          "star": 1
+        }
+      ]
+    },
+    "evolution": {
+      "name": "Saiyan thường",
+      "level": 0,
+      "description": "Chiến binh Saiyan bình thường",
+      "achievedAt": "2025-04-02T05:05:14.111Z"
+    },
+    "quests": {
+      "active": [
+        "BEGINNER_1"
+      ],
+      "completed": [],
+      "progress": {
+        "BEGINNER_1": 3
+      }
+    }
+  },
+  "100083810402652": {
+    "name": "User",
+    "planet": "EARTH",
+    "stats": {
+      "power": 1709,
+      "damage": 100,
+      "ki": 100,
+      "currentKi": 100,
+      "health": 1000,
+      "currentHealth": 1000,
+      "exp": 552,
+      "zeni": 1327,
+      "inventory": {
+        "items": [],
+        "equipped": []
+      },
+      "quests": {
+        "active": [],
+        "completed": [],
+        "progress": {}
+      }
+    },
+    "skills": [],
+    "masters": [],
+    "lastTrain": 1743606835359,
+    "created": 1743606753777,
+    "inventory": {
+      "dragonBalls": []
+    },
+    "evolution": {
+      "name": "Con người thường",
+      "level": 0,
+      "description": "Con người bình thường với tiềm năng chưa khai phá",
+      "achievedAt": "2025-04-02T15:12:57.459Z",
+      "auraColor": "#FFFFFF"
+    }
+  },
+  "100061680206019": {
+    "name": "Mạnh Đức",
+    "planet": "SAIYAN",
+    "stats": {
+      "power": 11219,
+      "damage": 260,
+      "ki": 138,
+      "currentKi": 111,
+      "health": 1000,
+      "currentHealth": 1000,
+      "exp": 1644,
+      "zeni": 16070,
+      "inventory": {
+        "items": [],
+        "equipped": []
+      },
+      "quests": {
+        "active": [],
+        "completed": [],
+        "progress": {}
+      }
+    },
+    "skills": [
+      "GOKU:ATOMIC",
+      "GOKU:REGENERATE_ENERGY"
+    ],
+    "masters": [],
+    "lastTrain": 1743614475389,
+    "created": 1743613049346,
+    "inventory": {
+      "dragonBalls": []
+    },
+    "evolution": {
+      "name": "Saiyan thường",
+      "level": 0,
+      "description": "Chiến binh Saiyan bình thường",
+      "achievedAt": "2025-04-02T16:57:49.640Z",
+      "auraColor": "#FFFFFF"
+    },
+    "quests": {
+      "active": [
+        "SAIYAN_RADITZ"
+      ],
+      "completed": [
+        "BEGINNER_1",
+        "BEGINNER_2"
+      ],
+      "progress": {
+        "BEGINNER_1": 3,
+        "BEGINNER_2": 2000,
+        "SAIYAN_RADITZ": 0
+      }
+    },
+    "lastPvpFight": 1743614511918
+  },
+  "100035899503301": {
+    "name": "Người trái đất",
+    "planet": "EARTH",
+    "stats": {
+      "power": 15214,
+      "damage": 320,
+      "ki": 83,
+      "currentKi": 82,
+      "health": 1000,
+      "currentHealth": 1000,
+      "exp": 3485,
+      "zeni": 16453,
+      "inventory": {
+        "items": [],
+        "equipped": []
+      },
+      "quests": {
+        "active": [],
+        "completed": [],
+        "progress": {}
+      }
+    },
+    "skills": [
+      "KAME:DRAGON_PUNCH",
+      "KAME:KAMEJOKO"
+    ],
+    "masters": [],
+    "lastTrain": 1743614526996,
+    "created": 1743613097948,
+    "inventory": {
+      "dragonBalls": [
+        {
+          "planet": "EARTH",
+          "star": 6
+        }
+      ]
+    },
+    "evolution": {
+      "name": "Con người thường",
+      "level": 0,
+      "description": "Con người bình thường với tiềm năng chưa khai phá",
+      "achievedAt": "2025-04-02T16:58:39.554Z",
+      "auraColor": "#FFFFFF"
+    },
+    "lastPvpFight": 1743614511918,
+    "quests": {
+      "active": [
+        "BEGINNER_1"
+      ],
+      "completed": [],
+      "progress": {
+        "BEGINNER_1": 3
+      }
+    }
+  },
+  "100056955484415": {
+    "name": "Kenji Akira",
+    "planet": "SAIYAN",
+    "stats": {
+      "power": 691355460,
+      "damage": 25000,
+      "ki": 3068,
+      "currentKi": 3836,
+      "health": 30000,
+      "currentHealth": 40000,
+      "exp": 50000000,
+      "zeni": 12751637,
+      "inventory": {
+        "items": [],
+        "equipped": []
+      },
+      "quests": {
+        "active": [],
+        "completed": [],
+        "progress": {}
+      }
+    },
+    "skills": [
+      "GOKU:ATOMIC",
+      "GOKU:REGENERATE_ENERGY",
+      "GOKU:SELF_DESTRUCT",
+      "GOKU:WHISTLE",
+      "GOKU:BIND"
+    ],
+    "masters": [],
+    "lastTrain": 1743652190858,
+    "created": 1743645725827,
+    "inventory": {
+      "dragonBalls": [],
+      "items": [
+        {
+          "id": "senzu",
+          "quantity": 94,
+          "type": "consumable"
+        }
+      ]
+    },
+    "quests": {
+      "active": [
+        "SAIYAN_RADITZ"
+      ],
+      "completed": [
+        "BEGINNER_1",
+        "BEGINNER_2"
+      ],
+      "progress": {
+        "BEGINNER_1": 3,
+        "BEGINNER_2": 2000,
+        "SAIYAN_RADITZ": 4
+      }
+    },
+    "evolution": {
+      "name": "Super Saiyan God",
+      "level": 4,
+      "description": "𝗦𝘂̛́𝗰 𝗺𝗮̣𝗻𝗵 thần thánh của các vị thần",
+      "achievedAt": "2025-04-03T03:49:50.860Z",
+      "auraColor": "#FF0000"
+    },
+    "lastPvpFight": 1743651340618,
+    "lastMonsterFight": 1743649734520,
+    "regenSkillsUsed": {}
   }
 }

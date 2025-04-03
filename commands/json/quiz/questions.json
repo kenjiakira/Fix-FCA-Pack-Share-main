@@ -3878,5 +3878,616 @@
       "D": "Thu hút đầu tư nước ngoài, hỗ trợ phát triển công nghiệp."
     },
     "correct": "A"
+  },
+  {
+    "id": "m8zfqwru6daun",
+    "category": "van_hoa",
+    "question": "Làm thế nào sự phát triển của công nghệ thông tin dẫn đến sự thay đổi trong văn hóa đọc hiện đại?",
+    "options": {
+      "A": "Cho phép cá nhân hóa trải nghiệm đọc, phù hợp với nhiều sở thích khác nhau, nhưng cũng tạo ra sự phân mảnh, thiếu văn hóa đọc chung.",
+      "B": "Tạo ra nhiều hình thức tiếp cận nội dung, đa dạng hóa nguồn đọc, nhưng cũng gây ra tình trạng đọc lướt, giảm sự tập trung.",
+      "C": "Giúp việc tiếp cận sách dễ dàng hơn, mở rộng đối tượng độc giả, song cũng làm giảm giá trị của sách giấy truyền thống.",
+      "D": "Tăng cường sự tương tác giữa người đọc, tạo ra cộng đồng đọc online sôi nổi, nhưng cũng dẫn đến nguy cơ thông tin thiếu kiểm chứng."
+    },
+    "correct": "B",
+    "difficulty": 1
+  },
+  {
+    "id": "m8zgbfgt9yfen",
+    "category": "Toán học",
+    "difficulty": 1,
+    "question": "Tại sao 2 cộng 2 lại bằng 4?",
+    "options": {
+      "A": "Đó là định nghĩa của phép cộng.",
+      "B": "Vì hai nhóm có hai vật khi gộp lại thành một nhóm có bốn vật.",
+      "C": "Do quy tắc cộng trong hệ thập phân.",
+      "D": "Vì đó là một phép tính toán cơ bản."
+    },
+    "correct": "B"
+  },
+  {
+    "id": "m8zgde65g4fry",
+    "category": "Khoa học",
+    "difficulty": 1,
+    "question": "Tại sao bầu trời lại có màu xanh vào ban ngày?",
+    "options": {
+      "A": "Do không khí tán xạ ánh sáng xanh mạnh hơn các màu khác.",
+      "B": "Do phản chiếu ánh sáng từ mặt nước.",
+      "C": "Do Mặt Trời phát ra ánh sáng xanh.",
+      "D": "Do các đám mây có màu xanh."
+    },
+    "correct": "A"
+  },
+  {
+    "id": "m8zge72zubl11",
+    "category": "Công nghệ",
+    "difficulty": 1,
+    "question": "Làm thế nào việc bật chế độ máy bay trên điện thoại dẫn đến việc tắt kết nối mạng?",
+    "options": {
+      "A": "Tắt tất cả các tín hiệu không dây, bao gồm Wi-Fi và di động.",
+      "B": "Tăng tốc độ xử lý của điện thoại, tiết kiệm pin.",
+      "C": "Giúp điện thoại tự động cập nhật phần mềm mới.",
+      "D": "Tăng cường bảo mật thông tin cá nhân trên thiết bị."
+    },
+    "correct": "A"
+  },
+  {
+    "id": "m8zgeyllkcr8r",
+    "category": "Đời sống",
+    "difficulty": 1,
+    "question": "Tại sao ăn nhiều rau xanh lại tốt cho sức khỏe?",
+    "options": {
+      "A": "Cung cấp vitamin và chất xơ dồi dào.",
+      "B": "Giúp hệ tiêu hóa hoạt động tốt hơn.",
+      "C": "Làm giảm nguy cơ mắc bệnh tim mạch.",
+      "D": "Cả A, B và C đều đúng."
+    },
+    "correct": "D"
+  },
+  {
+    "id": "m8zgfipxxbolj",
+    "category": "Khoa học",
+    "difficulty": 1,
+    "question": "Tại sao trời mưa lại có cầu vồng?",
+    "options": {
+      "A": "Ánh sáng mặt trời bị khúc xạ và phản xạ qua các giọt nước.",
+      "B": "Do sự thay đổi nhiệt độ đột ngột trong khí quyển.",
+      "C": "Do phản ứng hóa học giữa hơi nước và ôxy.",
+      "D": "Do mây đen che khuất mặt trời."
+    },
+    "correct": "A"
+  },
+  {
+    "id": "m8zgg5m8s2qwl",
+    "category": "Đời sống",
+    "difficulty": 1,
+    "question": "Tại sao ta cần phải ăn uống đủ chất?",
+    "options": {
+      "A": "Để có đủ năng lượng hoạt động.",
+      "B": "Để cơ thể khỏe mạnh, phát triển.",
+      "C": "Để chống lại bệnh tật.",
+      "D": "Cả A, B và C đều đúng."
+    },
+    "correct": "D"
+  },
+  {
+    "id": "m8zggodkp8iar",
+    "category": "Vật lý",
+    "difficulty": 2,
+    "question": "Làm thế nào sự chênh lệch áp suất khí quyển giữa hai điểm tạo ra gió?",
+    "options": {
+      "A": "Khí quyển di chuyển từ vùng áp suất cao đến vùng áp suất thấp, tạo ra gió.",
+      "B": "Sự khác biệt nhiệt độ làm thay đổi mật độ khí, gây ra sự chênh lệch áp suất.",
+      "C": "Gió được tạo ra bởi sự quay của Trái Đất và lực Coriolis.",
+      "D": "Sự bay hơi nước làm giảm áp suất khí quyển, tạo ra gió."
+    },
+    "correct": "A"
+  },
+  {
+    "id": "m8zghh8o0ljcy",
+    "category": "Vật lý",
+    "difficulty": 2,
+    "question": "Làm thế nào sự chênh lệch áp suất khí quyển dẫn đến hiện tượng gió?",
+    "options": {
+      "A": "Khí quyển di chuyển từ vùng áp suất cao đến vùng áp suất thấp, tạo ra gió.",
+      "B": "Sự thay đổi nhiệt độ làm thay đổi áp suất, sinh ra gió.",
+      "C": "Ma sát giữa không khí và mặt đất tạo ra gió.",
+      "D": "Lực Coriolis làm lệch hướng gió."
+    },
+    "correct": "A"
+  },
+  {
+    "id": "m8zgia1279tc4",
+    "category": "Văn học",
+    "difficulty": 2,
+    "question": "Làm thế nào yếu tố hiện thực và lãng mạn cùng tồn tại trong tiểu thuyết \"Số đỏ\" của Vũ Trọng Phụng?",
+    "options": {
+      "A": "Hiện thực phản ánh xã hội thực, lãng mạn tô đậm tính cách nhân vật, tạo nên sự hài hòa.",
+      "B": "Hiện thực làm nền tảng, lãng mạn làm nổi bật sự châm biếm, phê phán.",
+      "C": "Lãng mạn che mờ hiện thực, tạo nên sự mộng mơ, thoát tục.",
+      "D": "Hiện thực và lãng mạn đối lập nhau, tạo nên xung đột nội tâm nhân vật."
+    },
+    "correct": "B"
+  },
+  {
+    "id": "m8zgvf72gxgl7",
+    "category": "Sinh học",
+    "difficulty": 1,
+    "question": "Tại sao cây xanh lại cần ánh sáng mặt trời?",
+    "options": {
+      "A": "Để tạo ra chất dinh dưỡng thông qua quá trình quang hợp.",
+      "B": "Để hấp thụ nước và muối khoáng từ đất.",
+      "C": "Để cây có thể lớn lên nhanh hơn.",
+      "D": "Để cây có thể ra hoa kết trái sớm hơn."
+    },
+    "correct": "A"
+  },
+  {
+    "id": "m8zgvr29kl6kd",
+    "category": "Khoa học",
+    "difficulty": 1,
+    "question": "Tại sao bầu trời thường có màu xanh vào ban ngày?",
+    "options": {
+      "A": "Do không khí tán xạ ánh sáng màu xanh nhiều hơn.",
+      "B": "Do Mặt Trời phát ra ánh sáng xanh.",
+      "C": "Do phản xạ ánh sáng từ biển.",
+      "D": "Do sự khúc xạ ánh sáng trong khí quyển."
+    },
+    "correct": "A"
+  },
+  {
+    "id": "m8zis78e1bvti",
+    "category": "Sinh học",
+    "difficulty": 1,
+    "question": "Tại sao cây xanh lại cần ánh sáng mặt trời?",
+    "options": {
+      "A": "Để thực hiện quá trình quang hợp tạo chất dinh dưỡng.",
+      "B": "Để cây hấp thụ nước và muối khoáng từ đất.",
+      "C": "Để cây hô hấp và thải khí carbon dioxide.",
+      "D": "Để cây sinh sản và tạo ra hạt."
+    },
+    "correct": "A"
+  },
+  {
+    "id": "m8zj2rxhxatcf",
+    "category": "nghe_thuat",
+    "question": "Làm thế nào việc sử dụng ánh sáng và bóng tối trong sân khấu tạo nên hiệu ứng kịch tính?",
+    "options": {
+      "A": "Phân chia không gian sân khấu, tạo chuyển cảnh mượt mà.",
+      "B": "Tạo ra không gian bí ẩn, nhấn mạnh tâm trạng nhân vật.",
+      "C": "Điều chỉnh tầm nhìn khán giả, tập trung vào điểm nhấn.",
+      "D": "Tăng cường cảm xúc, làm nổi bật diễn xuất của diễn viên."
+    },
+    "correct": "C",
+    "difficulty": 2
+  },
+  {
+    "id": "m8zjj6emr8n4a",
+    "category": "dia_ly",
+    "question": "Làm thế nào sự khác biệt về độ cao địa hình dẫn đến sự đa dạng về khí hậu ở Việt Nam?",
+    "options": {
+      "A": "Địa hình cao gây khó khăn cho việc vận chuyển không khí, dẫn đến sự phân hóa khí hậu theo độ cao.",
+      "B": "Sự phân bố địa hình ảnh hưởng đến hướng gió, lượng bức xạ mặt trời, tạo nên các kiểu khí hậu khác nhau.",
+      "C": "Độ cao tạo ra sự chênh lệch nhiệt độ, độ ẩm, lượng mưa, hình thành các vành đai khí hậu khác nhau.",
+      "D": "Địa hình chắn gió, tạo ra hiệu ứng phơn, làm khô hạn vùng đón gió, ẩm ướt vùng khuất gió."
+    },
+    "correct": "C",
+    "difficulty": 3
+  },
+  {
+    "id": "m8zjl0tst6m5n",
+    "category": "Vật lý",
+    "difficulty": 1,
+    "question": "Tại sao bóng bay bơm khí heli lại bay lên cao?",
+    "options": {
+      "A": "Khí heli nhẹ hơn không khí nên bóng bay nổi.",
+      "B": "Bóng bay có màu sắc sặc sỡ nên bay lên.",
+      "C": "Khí heli làm bóng bay to hơn nên bay lên.",
+      "D": "Sợi dây buộc bóng bay giúp nó bay lên."
+    },
+    "correct": "A"
+  },
+  {
+    "id": "m8znmnncwwzgn",
+    "category": "dia_ly",
+    "question": "Làm thế nào sự chênh lệch nhiệt độ giữa lục địa và đại dương dẫn đến gió mùa?",
+    "options": {
+      "A": "Sự khác biệt về độ ẩm giữa đất liền và biển tạo ra sự chênh lệch áp suất.",
+      "B": "Khối khí trên lục địa nóng lên nhanh, tạo áp thấp hút gió từ đại dương vào mùa hè.",
+      "C": "Không khí nóng trên đại dương di chuyển vào lục địa, gây mưa lớn.",
+      "D": "Đại dương làm mát không khí, tạo ra áp cao đẩy gió về phía lục địa mùa đông."
+    },
+    "correct": "B",
+    "difficulty": 3
+  },
+  {
+    "id": "m8znnw1wyzzq8",
+    "category": "Thể thao",
+    "difficulty": 1,
+    "question": "Làm thế nào một cú đánh bóng chày mạnh mẽ dẫn đến bóng bay xa?",
+    "options": {
+      "A": "Lực đánh mạnh tạo ra vận tốc lớn cho bóng.",
+      "B": "Trọng lượng bóng nhẹ giúp bóng bay xa hơn.",
+      "C": "Gió mạnh thổi theo hướng bóng bay.",
+      "D": "Chất liệu bóng giúp bóng bay xa hơn."
+    },
+    "correct": "A"
+  },
+  {
+    "id": "m8znq15015o4l",
+    "category": "Đời sống",
+    "difficulty": 1,
+    "question": "Tại sao ăn nhiều rau xanh lại tốt cho sức khỏe?",
+    "options": {
+      "A": "Cung cấp nhiều vitamin và chất xơ, giúp hệ tiêu hóa khỏe mạnh.",
+      "B": "Làm cho da dẻ đẹp hơn và tăng cường sức đề kháng.",
+      "C": "Giúp giảm cân hiệu quả và ngăn ngừa bệnh tật.",
+      "D": "Tăng cường năng lượng và cải thiện tâm trạng."
+    },
+    "correct": "A"
+  },
+  {
+    "id": "m8znqrf6g6ocp",
+    "category": "Nghệ thuật",
+    "difficulty": 1,
+    "question": "Tại sao tranh vẽ bằng màu nước lại thường có vẻ trong suốt?",
+    "options": {
+      "A": "Do màu nước pha loãng với nước, tạo lớp màu mỏng, ánh sáng xuyên qua.",
+      "B": "Do chất liệu giấy thấm nước, làm màu loang rộng, mờ nhạt.",
+      "C": "Do màu nước có độ bão hòa thấp, tạo hiệu ứng nhẹ nhàng.",
+      "D": "Do kỹ thuật vẽ chồng lớp màu tạo hiệu ứng trong suốt."
+    },
+    "correct": "A"
+  },
+  {
+    "id": "m8znrbnozmcux",
+    "category": "Đời sống",
+    "difficulty": 1,
+    "question": "Tại sao ăn nhiều rau xanh lại tốt cho sức khỏe?",
+    "options": {
+      "A": "Cung cấp vitamin và chất xơ, giúp hệ tiêu hóa khỏe mạnh.",
+      "B": "Làm cho da dẻ đẹp hơn, tóc chắc khỏe hơn.",
+      "C": "Giúp cơ thể hấp thụ chất dinh dưỡng tốt hơn.",
+      "D": "Giúp giảm cân hiệu quả và nhanh chóng."
+    },
+    "correct": "A"
+  },
+  {
+    "id": "m8znrxzhs5yk0",
+    "category": "Văn học",
+    "difficulty": 1,
+    "question": "Làm thế nào thể loại truyện cổ tích dân gian lại phổ biến đến vậy?",
+    "options": {
+      "A": "Truyện cổ tích dễ hiểu, gần gũi, phản ánh ước mơ của con người.",
+      "B": "Truyện cổ tích thường có kết cấu đơn giản, dễ nhớ và truyền miệng.",
+      "C": "Truyện cổ tích mang tính giáo dục, truyền đạt kinh nghiệm sống.",
+      "D": "Cả A, B và C đều đúng."
+    },
+    "correct": "D"
+  },
+  {
+    "id": "m8znsi2fz1tts",
+    "category": "Nghệ thuật",
+    "difficulty": 2,
+    "question": "Làm thế nào trường phái Ấn tượng tạo nên hiệu ứng thị giác sống động, khác biệt với trường phái Cổ điển?",
+    "options": {
+      "A": "Sử dụng gam màu tươi sáng, nét vẽ ngắn, rời rạc, tập trung vào ánh sáng và cảm xúc.",
+      "B": "Ưu tiên đường nét chính xác, màu sắc trung thực, miêu tả chi tiết, nhấn mạnh hình khối.",
+      "C": "Kết hợp nhiều chất liệu, tạo ra hiệu ứng hỗn độn, phản ánh tâm lý nhân vật.",
+      "D": "Tập trung vào bố cục cân đối, sử dụng màu sắc đối lập tạo điểm nhấn."
+    },
+    "correct": "A"
+  },
+  {
+    "id": "m8znv5r8e17uo",
+    "category": "Địa lý",
+    "difficulty": 1,
+    "question": "Tại sao vùng ven biển thường có khí hậu ôn hòa hơn vùng nội địa?",
+    "options": {
+      "A": "Do ảnh hưởng của biển, gió biển làm giảm nhiệt độ.",
+      "B": "Vì vùng ven biển có nhiều cây xanh hơn.",
+      "C": "Do lượng mưa ở vùng ven biển thấp hơn.",
+      "D": "Vì vùng ven biển có địa hình bằng phẳng."
+    },
+    "correct": "A"
+  },
+  {
+    "id": "m8znw1ss3974j",
+    "category": "Lịch sử",
+    "difficulty": 1,
+    "question": "Làm thế nào sự phát minh ra chữ viết dẫn đến sự phát triển của xã hội?",
+    "options": {
+      "A": "Giúp lưu giữ thông tin, kiến thức, truyền đạt kinh nghiệm qua các thế hệ.",
+      "B": "Tạo điều kiện cho việc quản lý, tổ chức xã hội tốt hơn.",
+      "C": "Dẫn đến sự ra đời của sách vở, thúc đẩy giáo dục phát triển.",
+      "D": "Tất cả các đáp án trên đều đúng."
+    },
+    "correct": "D"
+  },
+  {
+    "id": "m8znxb7alyzre",
+    "category": "Công nghệ",
+    "difficulty": 1,
+    "question": "Làm thế nào việc sử dụng nhiều tab trình duyệt cùng lúc dẫn đến máy tính chậm?",
+    "options": {
+      "A": "Nhiều tab tiêu tốn nhiều bộ nhớ RAM, làm chậm máy.",
+      "B": "Nhiều tab gây xung đột phần mềm, làm chậm máy.",
+      "C": "Nhiều tab tăng nhiệt độ CPU, làm chậm máy.",
+      "D": "Nhiều tab làm đầy bộ nhớ cache, làm chậm máy."
+    },
+    "correct": "A"
+  },
+  {
+    "id": "m8znxzxim0l0b",
+    "category": "Công nghệ",
+    "difficulty": 1,
+    "question": "Làm thế nào việc tắt nguồn máy tính dẫn đến tiết kiệm điện năng?",
+    "options": {
+      "A": "Máy tính ngưng hoạt động, không tiêu thụ điện.",
+      "B": "Hệ thống làm mát tự động tắt, giảm điện năng tiêu thụ.",
+      "C": "Các chương trình đang chạy dừng lại, giảm tải cho nguồn điện.",
+      "D": "Màn hình tối, giảm lượng điện năng tiêu thụ."
+    },
+    "correct": "A"
+  },
+  {
+    "id": "m8znzagt5nccf",
+    "category": "Lịch sử",
+    "difficulty": 1,
+    "question": "Làm thế nào sự phát minh ra chữ viết dẫn đến sự thay đổi trong xã hội?",
+    "options": {
+      "A": "Giúp lưu giữ thông tin, kiến thức, thúc đẩy giao tiếp và phát triển văn hóa.",
+      "B": "Làm cho việc buôn bán trở nên khó khăn hơn do cần ghi chép nhiều.",
+      "C": "Dẫn đến sự suy giảm khả năng ghi nhớ của con người.",
+      "D": "Không ảnh hưởng đến sự phát triển của xã hội."
+    },
+    "correct": "A"
+  },
+  {
+    "id": "m8znzw9fdc2mu",
+    "category": "Nghệ thuật",
+    "difficulty": 1,
+    "question": "Làm thế nào âm nhạc cổ điển khác biệt với nhạc pop?",
+    "options": {
+      "A": "Âm nhạc cổ điển thường phức tạp hơn, sử dụng nhạc cụ giao hưởng.",
+      "B": "Nhạc pop thường có tiết tấu nhanh, giai điệu dễ nhớ, lời bài hát đơn giản.",
+      "C": "Âm nhạc cổ điển thường có cấu trúc bài hát phức tạp hơn nhạc pop.",
+      "D": "Nhạc pop thường hướng đến thị hiếu đại chúng, dễ nghe hơn cổ điển."
+    },
+    "correct": "C"
+  },
+  {
+    "id": "m8zo1z2llf1rs",
+    "category": "Lịch sử",
+    "difficulty": 1,
+    "question": "Tại sao nhà nước Văn Lang lại được coi là quốc gia đầu tiên của Việt Nam?",
+    "options": {
+      "A": "Vì đây là nhà nước đầu tiên có tổ chức bộ máy cai quản lãnh thổ rộng lớn.",
+      "B": "Vì nhà nước Văn Lang có quân đội hùng mạnh nhất thời bấy giờ.",
+      "C": "Vì nhà nước Văn Lang có nền kinh tế phát triển nhất.",
+      "D": "Vì nhà nước Văn Lang có vị trí địa lý thuận lợi nhất."
+    },
+    "correct": "A"
+  },
+  {
+    "id": "m8zrolr5o2h1u",
+    "category": "van_hoa",
+    "question": "Làm thế nào sự giao thoa văn hóa Đông - Tây dẫn đến sự ra đời của những tác phẩm nghệ thuật mới lạ ở Việt Nam đầu thế kỷ 20?",
+    "options": {
+      "A": "Sự va chạm văn hóa tạo ra sự đối lập và xung đột, dẫn đến sự ra đời của những tác phẩm mang tính phản kháng.",
+      "B": "Sự ảnh hưởng của xu hướng nghệ thuật thế giới tạo nên sự đa dạng và phong phú trong các thể loại nghệ thuật.",
+      "C": "Sự tiếp nhận và biến đổi các yếu tố văn hóa phương Tây tạo ra sự đột phá trong nghệ thuật tạo hình và kiến trúc.",
+      "D": "Sự kết hợp các kỹ thuật, chất liệu và đề tài tạo nên phong cách độc đáo, pha trộn giữa truyền thống và hiện đại."
+    },
+    "correct": "D",
+    "difficulty": 2
+  },
+  {
+    "id": "m8zrv251rb5t1",
+    "category": "Hóa học",
+    "difficulty": 1,
+    "question": "Tại sao nước đá lại nổi trên mặt nước?",
+    "options": {
+      "A": "Nước đá nhẹ hơn nước ở thể lỏng.",
+      "B": "Nước đá có nhiệt độ thấp hơn nước lỏng.",
+      "C": "Nước đá có cấu trúc tinh thể đặc biệt.",
+      "D": "Nước đá tan chảy chậm hơn nước lỏng."
+    },
+    "correct": "A"
+  },
+  {
+    "id": "m8zrvcpvla5k8",
+    "category": "Lịch sử",
+    "difficulty": 1,
+    "question": "Làm thế nào sự phát minh ra chữ viết dẫn đến sự phát triển của xã hội?",
+    "options": {
+      "A": "Giữ gìn và truyền đạt kiến thức, kinh nghiệm qua các thế hệ.",
+      "B": "Tạo điều kiện cho việc buôn bán và trao đổi hàng hóa dễ dàng hơn.",
+      "C": "Giúp con người quản lý tài sản và tổ chức xã hội tốt hơn.",
+      "D": "Tất cả các phương án trên đều đúng."
+    },
+    "correct": "D"
+  },
+  {
+    "id": "m8zrvw0qbf7ud",
+    "category": "Vật lý",
+    "difficulty": 1,
+    "question": "Tại sao bóng đèn lại sáng khi bật công tắc?",
+    "options": {
+      "A": "Dòng điện chạy qua dây tóc làm nó nóng và phát sáng.",
+      "B": "Công tắc tạo ra ánh sáng chiếu vào bóng đèn.",
+      "C": "Bóng đèn tự phát sáng khi có không khí.",
+      "D": "Ánh sáng mặt trời phản chiếu vào bóng đèn."
+    },
+    "correct": "A"
+  },
+  {
+    "id": "m8zsjns6hzldg",
+    "category": "dia_ly",
+    "question": "Làm thế nào sự dịch chuyển mảng kiến tạo dẫn đến hình thành núi lửa?",
+    "options": {
+      "A": "Mảng đại dương chìm xuống, tạo áp suất, magma trào lên.",
+      "B": "Sự tách giãn mảng tạo khe nứt, magma trào lên bề mặt.",
+      "C": "Sự va chạm mảng tạo áp lực, magma phun trào.",
+      "D": "Ma sát giữa các mảng tạo nhiệt, làm nóng chảy đá thành magma."
+    },
+    "correct": "A",
+    "difficulty": 1
+  },
+  {
+    "id": "m8zzc12e0o4mt",
+    "category": "khoa_hoc",
+    "question": "Tại sao hiện tượng nhật thực toàn phần lại xảy ra?",
+    "options": {
+      "A": "Mặt Trời bỗng nhiên tắt khi Trái Đất xoay.",
+      "B": "Ánh sáng Mặt Trời bị khúc xạ qua khí quyển Trái Đất.",
+      "C": "Trái Đất nằm giữa Mặt Trời và Mặt Trăng, tạo bóng tối che khuất Mặt Trời.",
+      "D": "Mặt Trăng che khuất hoàn toàn Mặt Trời khi nằm giữa Trái Đất và Mặt Trời."
+    },
+    "correct": "D",
+    "difficulty": 3
+  },
+  {
+    "id": "m90rz1isdqros",
+    "category": "nghe_thuat",
+    "question": "Làm thế nào việc sử dụng kỹ thuật phối âm đa lớp dẫn đến âm nhạc phong phú hơn?",
+    "options": {
+      "A": "Giúp cân bằng âm thanh, tạo sự hài hòa và liền mạch giữa các phần khác nhau.",
+      "B": "Tạo độ dày, chiều sâu và sự phức tạp cho âm thanh, tránh sự đơn điệu.",
+      "C": "Cho phép kết hợp nhiều nhạc cụ, giọng hát, tạo nên sự đa dạng về sắc thái.",
+      "D": "Tăng cường hiệu ứng âm thanh, tạo điểm nhấn và làm nổi bật chủ đề chính."
+    },
+    "correct": "C",
+    "difficulty": 2
+  },
+  {
+    "id": "m90s1rcd16ukx",
+    "category": "lich_su",
+    "question": "Làm thế nào sự kiện đánh chiếm thành Hà Nội năm 1873 dẫn đến sự mất mát chủ quyền của Việt Nam?",
+    "options": {
+      "A": "Gây ra khủng hoảng chính trị, làm suy yếu triều đình nhà Nguyễn, mất dần quyền tự chủ.",
+      "B": "Mở đầu quá trình xâm lược, thiết lập chế độ bảo hộ, đánh dấu sự lệ thuộc vào Pháp.",
+      "C": "Tạo điều kiện cho Pháp mở rộng ảnh hưởng, can thiệp sâu vào chính trị và kinh tế Việt Nam.",
+      "D": "Thể hiện sự yếu kém của quân đội triều Nguyễn, không đủ sức chống lại sự xâm lược."
+    },
+    "correct": "A",
+    "difficulty": 1
+  },
+  {
+    "id": "m90s4iddx3lf0",
+    "category": "dia_ly",
+    "question": "Làm thế nào sự dịch chuyển các mảng kiến tạo dẫn đến hình thành núi lửa?",
+    "options": {
+      "A": "Mảng kiến tạo di chuyển tạo ra các đứt gãy, dẫn đến sự giải phóng năng lượng gây núi lửa.",
+      "B": "Sự va chạm hoặc tách rời mảng tạo ra khe nứt, magma phun trào lên bề mặt.",
+      "C": "Sự chuyển động mảng tạo áp lực, làm nóng chảy đá, tạo magma phun trào.",
+      "D": "Sự ma sát giữa các mảng tạo nhiệt, làm tan chảy lớp vỏ Trái Đất tạo núi lửa."
+    },
+    "correct": "C",
+    "difficulty": 3
+  },
+  {
+    "id": "m90s5g899uvji",
+    "category": "khoa_hoc",
+    "question": "Làm thế nào sự bùng nổ dân số dẫn đến thiếu hụt tài nguyên nước ngọt?",
+    "options": {
+      "A": "Thay đổi khí hậu gây ra hạn hán và bất thường về lượng mưa.",
+      "B": "Ô nhiễm nguồn nước làm giảm lượng nước sạch khả dụng.",
+      "C": "Cả A, B và C đều đúng.",
+      "D": "Gia tăng nhu cầu sử dụng nước vượt quá khả năng cung cấp và tái tạo."
+    },
+    "correct": "C",
+    "difficulty": 3
+  },
+  {
+    "id": "m90s8q2o3nwbu",
+    "category": "Khoa học",
+    "difficulty": 1,
+    "question": "Tại sao trời mưa lại có cầu vồng?",
+    "options": {
+      "A": "Ánh sáng mặt trời bị khúc xạ và phản xạ qua các giọt nước.",
+      "B": "Mây đen che khuất mặt trời tạo ra hiệu ứng quang học.",
+      "C": "Gió mạnh thổi các hạt nước tạo nên hiện tượng quang học.",
+      "D": "Sự thay đổi nhiệt độ đột ngột tạo ra hiện tượng quang học."
+    },
+    "correct": "A"
+  },
+  {
+    "id": "m90s9o9j3bya7",
+    "category": "Khoa học",
+    "difficulty": 1,
+    "question": "Tại sao quả bóng rơi xuống đất?",
+    "options": {
+      "A": "Vì Trái Đất hút quả bóng.",
+      "B": "Vì quả bóng muốn chạm đất.",
+      "C": "Vì gió thổi quả bóng xuống.",
+      "D": "Vì quả bóng quá nặng."
+    },
+    "correct": "A"
+  },
+  {
+    "id": "m90saw2z1qbzc",
+    "category": "Thể thao",
+    "difficulty": 1,
+    "question": "Tại sao cầu thủ bóng đá lại thường xuyên bị chuột rút?",
+    "options": {
+      "A": "Do mất nước và chất điện giải trong cơ thể.",
+      "B": "Do thời tiết quá nóng bức.",
+      "C": "Do ăn uống không điều độ.",
+      "D": "Do luyện tập quá sức."
+    },
+    "correct": "A"
+  },
+  {
+    "id": "m90scvp73wa89",
+    "category": "Khoa học",
+    "difficulty": 1,
+    "question": "Tại sao trời mưa lại có cầu vồng?",
+    "options": {
+      "A": "Ánh sáng mặt trời bị khúc xạ và phản xạ qua các giọt nước.",
+      "B": "Gió mạnh đẩy hơi nước tạo thành cầu vồng.",
+      "C": "Mây đen che khuất mặt trời tạo ra cầu vồng.",
+      "D": "Do sự phản ứng hóa học giữa hơi nước và không khí."
+    },
+    "correct": "A"
+  },
+  {
+    "id": "m90se78q363py",
+    "category": "Lịch sử",
+    "difficulty": 1,
+    "question": "Làm thế nào sự phát minh ra chữ viết ảnh hưởng đến xã hội loài người?",
+    "options": {
+      "A": "Giúp lưu giữ thông tin, kiến thức qua nhiều thế hệ.",
+      "B": "Phát triển thương mại, giao tiếp giữa các cộng đồng.",
+      "C": "Tạo điều kiện cho sự ra đời của các loại hình nghệ thuật.",
+      "D": "Tất cả các đáp án trên đều đúng."
+    },
+    "correct": "D"
+  },
+  {
+    "id": "m90sftc4tfkdl",
+    "category": "Vật lý",
+    "difficulty": 2,
+    "question": "Tại sao quả bóng bay bơm khí Heli lại bay lên cao?",
+    "options": {
+      "A": "Khí Heli nhẹ hơn không khí, lực đẩy Archimedes lớn hơn trọng lượng bóng.",
+      "B": "Áp suất khí quyển tác động lên bóng tạo lực đẩy hướng lên.",
+      "C": "Nhiệt độ khí Heli cao hơn nhiệt độ không khí, tạo ra lực đẩy.",
+      "D": "Quả bóng bay có cấu tạo đặc biệt, tạo ra lực nâng."
+    },
+    "correct": "A"
+  },
+  {
+    "id": "m90shka9h2pou",
+    "category": "Vật lý",
+    "difficulty": 2,
+    "question": "Làm thế nào sự khác biệt về mật độ giữa nước và dầu thô dẫn đến sự nổi của dầu trên mặt nước?",
+    "options": {
+      "A": "Dầu thô nhẹ hơn nước, nên lực đẩy Acsimet tác dụng lên dầu lớn hơn trọng lượng của dầu.",
+      "B": "Nước có lực bề mặt lớn hơn, đẩy dầu lên trên.",
+      "C": "Dầu thô không tan trong nước, tạo thành lớp riêng biệt trên bề mặt.",
+      "D": "Sự chênh lệch áp suất giữa hai chất lỏng tạo ra lực đẩy dầu lên trên."
+    },
+    "correct": "A"
   }
 ]
