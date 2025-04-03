@@ -1,0 +1,77 @@
+[
+  {
+    "id": "cell_perfect",
+    "name": "Perfect Cell",
+    "description": "Sinh vật hoàn hảo, sở hữu DNA của tất cả các chiến binh Z",
+    "hp": 100000000,
+    "power": 200000000,
+    "damage": 10000000,
+    "ki": 80000000,
+    "exp": 30000000,
+    "zeni": 50000000,
+    "requiredPower": 500000000,
+    "dropChance": 0.1,
+    "dropItem": "cell_core",
+    "skills": [
+      "KAME:KAMEJOKO",
+      "KAME:SOLAR_FLARE",
+      "PICCOLO:REGENERATION"
+    ],
+    "availableHours": {
+      "start": 8,
+      "end": 12
+    },
+    "lastDefeated": null,
+    "defeatedBy": null
+  },
+  {
+    "id": "majin_buu",
+    "name": "Majin Buu",
+    "description": "Ma nhân hồng xinh, có sức mạnh hủy diệt khủng khiếp",
+    "hp": 250000000,
+    "power": 400000000,
+    "damage": 20000000,
+    "ki": 150000000,
+    "exp": 50000000,
+    "zeni": 80000000,
+    "requiredPower": 2000000000,
+    "dropChance": 0.15,
+    "dropItem": "buu_candy",
+    "skills": [
+      "GOKU:WHISTLE",
+      "KAME:SOLAR_FLARE",
+      "PICCOLO:REGENERATION"
+    ],
+    "availableHours": {
+      "start": 14,
+      "end": 18
+    },
+    "lastDefeated": "2025-04-03T10:32:13.737Z",
+    "defeatedBy": "100068382888605"
+  },
+  {
+    "id": "broly_legendary",
+    "name": "Legendary Super Saiyan Broly",
+    "description": "Chiến binh huyền thoại Saiyan với sức mạnh không giới hạn",
+    "hp": 500000000,
+    "power": 1000000000,
+    "damage": 50000000,
+    "ki": 300000000,
+    "exp": 100000000,
+    "zeni": 150000000,
+    "requiredPower": 5000000000,
+    "dropChance": 1,
+    "dropItem": "broly_disciple",
+    "skills": [
+      "GOKU:KAIOKEN",
+      "GOKU:GREAT_APE",
+      "KAME:SPIRIT_BOMB"
+    ],
+    "availableHours": {
+      "start": 20,
+      "end": 23
+    },
+    "lastDefeated": null,
+    "defeatedBy": null
+  }
+]

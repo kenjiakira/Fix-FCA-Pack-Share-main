@@ -1,143 +1,28 @@
 {
   "active": {
     "type": "TENKAICHI",
-    "status": "ongoing",
-    "startTime": 1743657734544,
+    "status": "registration",
+    "startTime": 1743689776342,
     "endTime": null,
     "organizer": {
       "id": "100068382888605",
       "name": "Pham Minh Dang"
     },
-    "matches": [
-      {
-        "id": 1,
-        "round": 1,
-        "player1": {
-          "id": "100068382888605",
-          "name": "Pham Minh Dang",
-          "power": 208124,
-          "registrationTime": 1743583436706
-        },
-        "player2": {
-          "id": "100065381078044",
-          "name": "Le Tuan Tu",
-          "power": 1000182300,
-          "registrationTime": 1743657626736
-        },
-        "winner": {
-          "id": "100065381078044",
-          "name": "Le Tuan Tu"
-        },
-        "loser": {
-          "id": "100068382888605",
-          "name": "Pham Minh Dang"
-        },
-        "completed": true,
-        "scheduledTime": 1743658034545
-      },
-      {
-        "id": 2,
-        "round": 1,
-        "player1": {
-          "id": "100056955484415",
-          "name": "Kenji Akira",
-          "power": 248326,
-          "registrationTime": 1743605152139
-        },
-        "player2": {
-          "id": "100093208808025",
-          "name": "キ　hana hiori　ᶻz ꜝꜝ",
-          "power": 1801092644,
-          "registrationTime": 1743657703204
-        },
-        "winner": {
-          "id": "100093208808025",
-          "name": "キ　hana hiori　ᶻz ꜝꜝ"
-        },
-        "loser": {
-          "id": "100056955484415",
-          "name": "Kenji Akira"
-        },
-        "completed": true,
-        "scheduledTime": 1743658334545
-      }
-    ],
-    "rounds": {
-      "1": [
-        {
-          "id": 1,
-          "round": 1,
-          "player1": {
-            "id": "100068382888605",
-            "name": "Pham Minh Dang",
-            "power": 208124,
-            "registrationTime": 1743583436706
-          },
-          "player2": {
-            "id": "100065381078044",
-            "name": "Le Tuan Tu",
-            "power": 1000182300,
-            "registrationTime": 1743657626736
-          },
-          "winner": null,
-          "loser": null,
-          "completed": false,
-          "scheduledTime": 1743658034545
-        },
-        {
-          "id": 2,
-          "round": 1,
-          "player1": {
-            "id": "100056955484415",
-            "name": "Kenji Akira",
-            "power": 248326,
-            "registrationTime": 1743605152139
-          },
-          "player2": {
-            "id": "100093208808025",
-            "name": "キ　hana hiori　ᶻz ꜝꜝ",
-            "power": 1801092644,
-            "registrationTime": 1743657703204
-          },
-          "winner": null,
-          "loser": null,
-          "completed": false,
-          "scheduledTime": 1743658334545
-        }
-      ]
-    },
-    "currentRound": 1,
+    "matches": [],
+    "rounds": {},
+    "currentRound": 0,
     "winners": {
       "first": null,
       "second": null,
       "semifinalists": []
     }
   },
-  "history": [],
   "registrations": {
     "100068382888605": {
       "id": "100068382888605",
       "name": "Pham Minh Dang",
-      "power": 208124,
-      "registrationTime": 1743583436706
-    },
-    "100056955484415": {
-      "id": "100056955484415",
-      "name": "Kenji Akira",
-      "power": 248326,
-      "registrationTime": 1743605152139
-    },
-    "100065381078044": {
-      "id": "100065381078044",
-      "name": "Le Tuan Tu",
-      "power": 1000182300,
-      "registrationTime": 1743657626736
-    },
-    "100093208808025": {
-      "id": "100093208808025",
-      "name": "キ　hana hiori　ᶻz ꜝꜝ",
-      "power": 1801092644,
-      "registrationTime": 1743657703204
+      "power": 100000000000,
+      "registrationTime": 1743689776342
     }
   }
 }
