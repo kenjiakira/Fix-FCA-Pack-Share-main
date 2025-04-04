@@ -1,441 +1,744 @@
+const Canvas = require('canvas');
 const fs = require('fs');
 const path = require('path');
-const { createCanvas, loadImage, registerFont } = require('canvas');
+const axios = require('axios');
 
-// Đăng ký fonts
-const fontsPath = path.join(__dirname, '../../fonts');
-registerFont(path.join(fontsPath, 'BeVietnamPro-Bold.ttf'), { family: 'BeVietnamPro', weight: 'bold' });
-registerFont(path.join(fontsPath, 'BeVietnamPro-Medium.ttf'), { family: 'BeVietnamPro', weight: 'normal' });
-registerFont(path.join(fontsPath, 'Saiyan-Sans.ttf'), { family: 'Saiyan' });
-
-// Định nghĩa màu sắc cho mỗi hành tinh
-const PLANET_COLORS = {
-    "EARTH": {
-        primary: '#4CAF50',
-        secondary: '#81C784',
-        accent: '#2E7D32',
-        background: 'rgba(76, 175, 80, 0.2)'
-    },
-    "NAMEK": {
-        primary: '#7986CB',
-        secondary: '#9FA8DA',
-        accent: '#3949AB',
-        background: 'rgba(121, 134, 203, 0.2)'
-    },
-    "SAIYAN": {
-        primary: '#E53935',
-        secondary: '#EF5350',
-        accent: '#B71C1C',
-        background: 'rgba(229, 57, 53, 0.2)'
-    }
+// Constants for visual elements
+const CHARACTER_POSITIONS = {
+    LEFT: { x: 220, y: 580, scale: 0.7 },   // Di chuyển sát bên trái (từ 320 → 220)
+    RIGHT: { x: 1060, y: 580, scale: 0.7 }  // Di chuyển sát bên phải (từ 960 → 1060)
 };
 
-// Tạo hình ảnh cho phần đầu trận đấu (Phase 1)
-async function createBattlePhase1Image(battleData) {
-    const { player1, player2, logs, phase } = battleData;
-    const width = 1000;
-    const height = 1600;
-    
-    const canvas = createCanvas(width, height);
-    const ctx = canvas.getContext('2d');
-    
-    // Background
-    ctx.fillStyle = '#121212';
-    ctx.fillRect(0, 0, width, height);
-    
-    // Header
-    drawBattleHeader(ctx, player1, player2, width);
-    
-    // Phase indicator
-    drawPhaseIndicator(ctx, 1, "KHỞI ĐẦU TRẬN ĐẤU", width, 220);
-    
-    // Player stats
-    drawPlayerStats(ctx, player1, player2, width, 300);
-    
-    // Battle logs
-    drawBattleLogs(ctx, logs, width, 500, height - 100);
-    
-    // Footer
-    drawFooter(ctx, "Giai đoạn khởi đầu", width, height - 60);
-    
-    // Save image
-    const buffer = canvas.toBuffer('image/jpeg', { quality: 0.95 });
-    const outputPath = path.join(__dirname, '../../temp', `battle_phase1_${Date.now()}.jpg`);
-    fs.writeFileSync(outputPath, buffer);
-    
-    return outputPath;
-}
+const CHARACTER_IMAGES = {
+    "EARTH": "https://imgur.com/2YwDw1E.png", // Krillin/Tien/Yamcha
+    "NAMEK": "https://imgur.com/qLbyTkI.png", // Piccolo
+    "SAIYAN": "https://imgur.com/wtVhJV4.png", // Goku/Vegeta
+    "default": "https://imgur.com/CtVH2jk.png"
+};
 
-// Tạo hình ảnh cho giai đoạn giữa trận đấu (Phase 2)
-async function createBattlePhase2Image(battleData) {
-    const { player1, player2, logs, phase } = battleData;
-    const width = 1000;
-    const height = 1600;
-    
-    const canvas = createCanvas(width, height);
-    const ctx = canvas.getContext('2d');
-    
-    // Background
-    ctx.fillStyle = '#121212';
-    ctx.fillRect(0, 0, width, height);
-    
-    // Header
-    drawBattleHeader(ctx, player1, player2, width);
-    
-    // Phase indicator
-    drawPhaseIndicator(ctx, 2, "GIỮA TRẬN CAM GO", width, 220);
-    
-    // Player current stats
-    drawPlayerCurrentStats(ctx, player1, player2, width, 300);
-    
-    // Battle logs
-    drawBattleLogs(ctx, logs, width, 500, height - 100);
-    
-    // Footer
-    drawFooter(ctx, "Giai đoạn quyết liệt", width, height - 60);
-    
-    // Save image
-    const buffer = canvas.toBuffer('image/jpeg', { quality: 0.95 });
-    const outputPath = path.join(__dirname, '../../temp', `battle_phase2_${Date.now()}.jpg`);
-    fs.writeFileSync(outputPath, buffer);
-    
-    return outputPath;
-}
 
-// Tạo hình ảnh cho phần kết thúc trận đấu (Phase 3)
-async function createBattlePhase3Image(battleData) {
-    const { player1, player2, logs, winner, loser, stats } = battleData;
-    const width = 1000;
-    const height = 1800;
-    
-    const canvas = createCanvas(width, height);
-    const ctx = canvas.getContext('2d');
-    
-    // Background
-    ctx.fillStyle = '#121212';
-    ctx.fillRect(0, 0, width, height);
-    
-    // Header
-    drawBattleHeader(ctx, player1, player2, width);
-    
-    // Phase indicator
-    drawPhaseIndicator(ctx, 3, "HỒI KẾT TRẬN ĐẤU", width, 220);
-    
-    // Battle logs for finale
-    drawBattleLogs(ctx, logs, width, 270, 700);
-    
-    // Result section
-    drawBattleResult(ctx, player1, player2, winner, stats, width, 750);
-    
-    // Footer
-    drawFooter(ctx, "Kết thúc trận đấu", width, height - 60);
-    
-    // Save image
-    const buffer = canvas.toBuffer('image/jpeg', { quality: 0.95 });
-    const outputPath = path.join(__dirname, '../../temp', `battle_phase3_${Date.now()}.jpg`);
-    fs.writeFileSync(outputPath, buffer);
-    
-    return outputPath;
-}
+const AURA_COLORS = {
+    "Super Saiyan": "#FFD700",
+    "Super Saiyan 2": "#FFA500",
+    "Super Saiyan 3": "#FF8000", 
+    "Super Saiyan God": "#FF0000",
+    "Super Saiyan Blue": "#0080FF",
+    "Ultra Instinct": "#C0C0FF",
+    "Namek Warrior": "#80FF80",
+    "Super Namek": "#00FF00",
+    "Namek Fusion": "#00C000",
+    "Porunga Vessel": "#00FF80",
+    "Võ Sĩ Trần Trụi": "#FFFFFF",
+    "Võ Thần Nhân Loại": "#FFFFFF",
+    "Thánh Nhân Khí": "#80C0FF",
+    "default": "#FFFFFF"
+};
 
-// Function để vẽ header trận đấu
-function drawBattleHeader(ctx, player1, player2, width) {
-    ctx.fillStyle = '#FF9800';
-    ctx.font = '48px Saiyan';
-    ctx.textAlign = 'center';
-    ctx.fillText("DRAGON BALL Z - PVP BATTLE", width / 2, 60);
-    
-    // Vẽ VS Screen
-    ctx.font = 'bold 32px BeVietnamPro';
-    
-    // Player 1
-    ctx.fillStyle = PLANET_COLORS[player1.planet]?.primary || '#FFFFFF';
-    ctx.textAlign = 'right';
-    ctx.fillText(player1.name, width / 2 - 30, 120);
-    
-    // VS text
-    ctx.fillStyle = '#FFFFFF';
-    ctx.textAlign = 'center';
-    ctx.fillText("VS", width / 2, 120);
-    
-    // Player 2
-    ctx.fillStyle = PLANET_COLORS[player2.planet]?.primary || '#FFFFFF';
-    ctx.textAlign = 'left';
-    ctx.fillText(player2.name, width / 2 + 30, 120);
-    
-    // Player races
-    ctx.font = '24px Saiyan';
-    ctx.textAlign = 'right';
-    ctx.fillText(player1.race, width / 2 - 30, 155);
-    
-    ctx.textAlign = 'left';
-    ctx.fillText(player2.race, width / 2 + 30, 155);
-    
-    // Divider
-    ctx.strokeStyle = '#FF9800';
-    ctx.lineWidth = 3;
-    ctx.beginPath();
-    ctx.moveTo(100, 180);
-    ctx.lineTo(width - 100, 180);
-    ctx.stroke();
-}
+const PLANET_BACKGROUNDS = {
+    "EARTH": "https://imgur.com/nEWDS9J.jpg",
+    "NAMEK": "https://imgur.com/DcrRrim.jpg", 
+    "SAIYAN": "https://imgur.com/TPlZd9e.jpg",
+    "default": "https://imgur.com/MixsZCr.jpg"
+};
 
-// Function để vẽ indicator giai đoạn
-function drawPhaseIndicator(ctx, phase, phaseText, width, y) {
-    ctx.fillStyle = '#FFEB3B';
-    ctx.font = '36px Saiyan';
-    ctx.textAlign = 'center';
-    ctx.fillText(`GIAI ĐOẠN ${phase}: ${phaseText}`, width / 2, y);
-}
-
-// Function để vẽ thông tin người chơi
-function drawPlayerStats(ctx, player1, player2, width, startY) {
-    const leftX = 100;
-    const rightX = width - 100;
-    const centerX = width / 2;
-    
-    ctx.font = 'bold 24px BeVietnamPro';
-    
-    // Player 1 stats
-    ctx.fillStyle = PLANET_COLORS[player1.planet]?.primary || '#FFFFFF';
-    ctx.textAlign = 'left';
-    ctx.fillText(`${player1.name} - ${player1.race}`, leftX, startY);
-    
-    ctx.font = '22px BeVietnamPro';
-    ctx.fillStyle = '#FFFFFF';
-    ctx.fillText(`Sức mạnh: ${formatNumber(player1.stats.power)}`, leftX, startY + 40);
-    ctx.fillText(`Sức đánh: ${formatNumber(player1.stats.damage)}`, leftX, startY + 70);
-    ctx.fillText(`HP: ${formatNumber(player1.stats.health)}`, leftX, startY + 100);
-    ctx.fillText(`Ki: ${formatNumber(player1.stats.ki)}`, leftX, startY + 130);
-    
-    // Player 2 stats
-    ctx.fillStyle = PLANET_COLORS[player2.planet]?.primary || '#FFFFFF';
-    ctx.textAlign = 'right';
-    ctx.font = 'bold 24px BeVietnamPro';
-    ctx.fillText(`${player2.name} - ${player2.race}`, rightX, startY);
-    
-    ctx.font = '22px BeVietnamPro';
-    ctx.fillStyle = '#FFFFFF';
-    ctx.fillText(`Sức mạnh: ${formatNumber(player2.stats.power)}`, rightX, startY + 40);
-    ctx.fillText(`Sức đánh: ${formatNumber(player2.stats.damage)}`, rightX, startY + 70);
-    ctx.fillText(`HP: ${formatNumber(player2.stats.health)}`, rightX, startY + 100);
-    ctx.fillText(`Ki: ${formatNumber(player2.stats.ki)}`, rightX, startY + 130);
-    
-    // Center divider
-    ctx.strokeStyle = '#666666';
-    ctx.lineWidth = 1;
-    ctx.beginPath();
-    ctx.moveTo(centerX, startY - 20);
-    ctx.lineTo(centerX, startY + 150);
-    ctx.stroke();
-}
-
-// Function để vẽ thông tin hiện tại của người chơi (sử dụng trong phase 2)
-function drawPlayerCurrentStats(ctx, player1, player2, width, startY) {
-    const leftX = 100;
-    const rightX = width - 100;
-    const centerX = width / 2;
-    
-    ctx.font = 'bold 24px BeVietnamPro';
-    
-    // Player 1 stats
-    ctx.fillStyle = PLANET_COLORS[player1.planet]?.primary || '#FFFFFF';
-    ctx.textAlign = 'left';
-    ctx.fillText(`${player1.name}`, leftX, startY);
-    
-    // HP & Ki bars for player 1
-    const p1HpPercent = Math.min(100, Math.max(0, (player1.currentHP / player1.stats.health) * 100));
-    const p1KiPercent = Math.min(100, Math.max(0, (player1.currentKi / player1.stats.ki) * 100));
-    
-    // HP bar
-    drawProgressBar(ctx, leftX, startY + 20, 300, 25, p1HpPercent, '#E53935', '#5D4037', 
-                   `HP: ${formatNumber(player1.currentHP)}/${formatNumber(player1.stats.health)}`);
-    
-    // Ki bar
-    drawProgressBar(ctx, leftX, startY + 60, 300, 25, p1KiPercent, '#2196F3', '#303F9F',
-                   `Ki: ${formatNumber(player1.currentKi)}/${formatNumber(player1.stats.ki)}`);
-    
-    // Player 2 stats
-    ctx.fillStyle = PLANET_COLORS[player2.planet]?.primary || '#FFFFFF';
-    ctx.textAlign = 'right';
-    ctx.fillText(`${player2.name}`, rightX, startY);
-    
-    // HP & Ki bars for player 2
-    const p2HpPercent = Math.min(100, Math.max(0, (player2.currentHP / player2.stats.health) * 100));
-    const p2KiPercent = Math.min(100, Math.max(0, (player2.currentKi / player2.stats.ki) * 100));
-    
-    // HP bar
-    drawProgressBar(ctx, rightX - 300, startY + 20, 300, 25, p2HpPercent, '#E53935', '#5D4037', 
-                   `HP: ${formatNumber(player2.currentHP)}/${formatNumber(player2.stats.health)}`, 'right');
-    
-    // Ki bar
-    drawProgressBar(ctx, rightX - 300, startY + 60, 300, 25, p2KiPercent, '#2196F3', '#303F9F',
-                   `Ki: ${formatNumber(player2.currentKi)}/${formatNumber(player2.stats.ki)}`, 'right');
-    
-    // Center divider
-    ctx.strokeStyle = '#666666';
-    ctx.lineWidth = 1;
-    ctx.beginPath();
-    ctx.moveTo(centerX, startY - 20);
-    ctx.lineTo(centerX, startY + 100);
-    ctx.stroke();
-}
-
-// Function để vẽ progress bar
-function drawProgressBar(ctx, x, y, width, height, percent, fillColor, bgColor, text, textAlign = 'left') {
-    // Background
-    ctx.fillStyle = bgColor;
-    ctx.fillRect(x, y, width, height);
-    
-    // Fill
-    ctx.fillStyle = fillColor;
-    ctx.fillRect(x, y, width * (percent / 100), height);
-    
-    // Border
-    ctx.strokeStyle = "#FFFFFF";
-    ctx.lineWidth = 2;
-    ctx.strokeRect(x, y, width, height);
-    
-    // Text
-    ctx.fillStyle = "#FFFFFF";
-    ctx.font = "16px BeVietnamPro";
-    ctx.textAlign = textAlign;
-    
-    const textX = textAlign === 'right' ? x + width - 10 : x + 10;
-    ctx.fillText(text, textX, y + height - 6);
-}
-
-// Function để vẽ battle logs
-function drawBattleLogs(ctx, logs, width, startY, endY) {
-    const maxLogHeight = endY - startY;
-    const lineHeight = 28;
-    const maxLines = Math.floor(maxLogHeight / lineHeight);
-    const displayLogs = logs.slice(-maxLines);
-    
-    ctx.font = '20px BeVietnamPro';
-    ctx.textAlign = 'left';
-    
-    // Background
-    ctx.fillStyle = "rgba(0, 0, 0, 0.5)";
-    ctx.fillRect(50, startY - 30, width - 100, maxLogHeight + 40);
-    
-    // Border
-    ctx.strokeStyle = "#FFEB3B";
-    ctx.lineWidth = 2;
-    ctx.strokeRect(50, startY - 30, width - 100, maxLogHeight + 40);
-    
-    // Title
-    ctx.fillStyle = "#FFEB3B";
-    ctx.textAlign = 'center';
-    ctx.font = '24px Saiyan';
-    ctx.fillText("DIỄN BIẾN TRẬN ĐẤU", width / 2, startY);
-    
-    // Logs
-    ctx.textAlign = 'left';
-    ctx.font = '20px BeVietnamPro';
-    
-    let y = startY + 30;
-    for (const log of displayLogs) {
-        // Determine log color based on content
-        if (log.includes("sử dụng")) {
-            ctx.fillStyle = "#FFC107"; // Yellow for skill usage
-        } else if (log.includes("sát thương")) {
-            ctx.fillStyle = "#F44336"; // Red for damage
-        } else if (log.includes("hồi phục")) {
-            ctx.fillStyle = "#4CAF50"; // Green for healing
-        } else if (log.includes("LƯỢT")) {
-            ctx.fillStyle = "#2196F3"; // Blue for turn indicators
-            y += 10; // Add extra space before new turns
+module.exports = async function createPVPResultImage(battleResult, player1, player2) {
+    try {
+        // Register fonts
+        registerFonts();
+        
+        const canvas = Canvas.createCanvas(1280, 720);
+        const ctx = canvas.getContext('2d');
+        
+        // Set up background based on battle location (default to Earth)
+        const planet = player1.planet || "EARTH";
+        await drawBattleBackground(ctx, canvas.width, canvas.height, planet);
+        
+        // Draw the battle effects
+        drawBattleEffects(ctx, canvas.width, canvas.height, battleResult);
+        
+        // Draw UI Frame and title
+        drawBattleBorder(ctx, canvas.width, canvas.height);
+        drawBattleTitle(ctx, canvas.width/2, 80);
+        
+        // Draw winner banner if not a draw
+        if (!battleResult.isDraw) {
+            drawWinnerBanner(ctx, removeDiacritics(battleResult.winner.name), canvas.width/2, 130);
         } else {
-            ctx.fillStyle = "#FFFFFF"; // White for regular logs
+            drawDrawBanner(ctx, canvas.width/2, 130);
         }
         
-        ctx.fillText(log, 70, y);
-        y += lineHeight;
+        // Draw VS emblem in the middle
+        drawVSEmblem(ctx, canvas.width/2, 350);
+        
+        // Draw battle statistics
+        drawBattleStats(ctx, battleResult, canvas.width/2, canvas.height - 200);
+        
+        // THAY ĐỔI QUAN TRỌNG: Vẽ nhân vật TRƯỚC, sau đó vẽ thông tin người chơi ĐÈ LÊN
+        // Đảo ngược thứ tự để thông tin không bị che
+        
+        // 1. Vẽ nhân vật TRƯỚC
+        await drawCharacterImage(ctx, player1, CHARACTER_POSITIONS.LEFT, true);
+        await drawCharacterImage(ctx, player2, CHARACTER_POSITIONS.RIGHT, false);
+        
+        // 2. Vẽ thông tin người chơi SAU để đè lên
+        await drawPlayerInfo(ctx, player1, CHARACTER_POSITIONS.LEFT, battleResult.player1HP, true);
+        await drawPlayerInfo(ctx, player2, CHARACTER_POSITIONS.RIGHT, battleResult.player2HP, false);
+        
+        // Save the image
+        const cacheDir = path.join(__dirname, 'cache');
+        if (!fs.existsSync(cacheDir)) {
+            fs.mkdirSync(cacheDir, { recursive: true });
+        }
+        
+        const buffer = canvas.toBuffer('image/png');
+        const outputPath = path.join(__dirname, 'cache', 'pvp_result.png');
+        fs.writeFileSync(outputPath, buffer);
+        
+        return outputPath;
+    } catch (err) {
+        console.error('Error creating PVP result image:', err);
+        return null;
+    }
+};
+
+function removeDiacritics(str) {
+    if (!str) return '';
+    
+    return str.normalize('NFD')
+              .replace(/[\u0300-\u036f]/g, '')
+              .replace(/đ/g, 'd')
+              .replace(/Đ/g, 'D');
+}
+
+function registerFonts() {
+    try {
+        const fontPath = path.join(__dirname, '../../fonts/Saiyan-Sans.ttf');
+        Canvas.registerFont(fontPath, { family: 'Saiyan Sans' });
+        
+        const tekoPath = path.join(__dirname, '../../fonts/Teko-Bold.ttf');
+        if (fs.existsSync(tekoPath)) {
+            Canvas.registerFont(tekoPath, { family: 'Teko', weight: 'bold' });
+        }
+        
+        const chakraPath = path.join(__dirname, '../../fonts/ChakraPetch-Bold.ttf');
+        if (fs.existsSync(chakraPath)) {
+            Canvas.registerFont(chakraPath, { family: 'Chakra Petch', weight: 'bold' });
+        }
+    } catch (err) {
+        console.error('Error registering fonts:', err);
     }
 }
 
-// Function để vẽ kết quả trận đấu
-function drawBattleResult(ctx, player1, player2, winner, stats, width, startY) {
-    // Battle result box
-    ctx.fillStyle = "rgba(25, 118, 210, 0.3)";
-    ctx.fillRect(50, startY, width - 100, 400);
+async function drawBattleBackground(ctx, width, height, planet) {
+    try {
+        // Get background image based on planet
+        const bgUrl = PLANET_BACKGROUNDS[planet] || PLANET_BACKGROUNDS.default;
+        const response = await axios.get(bgUrl, { responseType: 'arraybuffer' });
+        const img = await Canvas.loadImage(Buffer.from(response.data));
+        
+        // Draw the background image with a slight blur effect
+        ctx.filter = 'blur(3px)';
+        ctx.drawImage(img, 0, 0, width, height);
+        ctx.filter = 'none';
+        
+        // Add a semi-transparent overlay to enhance readability
+        ctx.fillStyle = 'rgba(0, 0, 0, 0.5)';
+        ctx.fillRect(0, 0, width, height);
+        
+        // Add atmospheric effects based on planet
+        switch (planet) {
+            case "EARTH":
+                drawEarthEffects(ctx, width, height);
+                break;
+            case "NAMEK":
+                drawNamekEffects(ctx, width, height);
+                break;
+            case "SAIYAN":
+                drawSaiyanEffects(ctx, width, height);
+                break;
+            default:
+                drawEarthEffects(ctx, width, height);
+        }
+    } catch (err) {
+        console.error('Error loading background image:', err);
+        
+        // Fallback to gradient background
+        const gradient = ctx.createLinearGradient(0, 0, 0, height);
+        gradient.addColorStop(0, '#0f0c29');
+        gradient.addColorStop(0.5, '#302b63');
+        gradient.addColorStop(1, '#24243e');
+        
+        ctx.fillStyle = gradient;
+        ctx.fillRect(0, 0, width, height);
+    }
+}
+
+function drawEarthEffects(ctx, width, height) {
+    // Add blue-ish light rays
+    ctx.globalAlpha = 0.2;
+    for (let i = 0; i < 5; i++) {
+        const rayWidth = 150 + Math.random() * 300;
+        const rayX = Math.random() * width;
+        
+        ctx.fillStyle = 'rgba(100, 150, 255, 0.15)';
+        ctx.beginPath();
+        ctx.moveTo(rayX, 0);
+        ctx.lineTo(rayX + rayWidth, height);
+        ctx.lineTo(rayX - rayWidth, height);
+        ctx.closePath();
+        ctx.fill();
+    }
+    ctx.globalAlpha = 1;
     
-    // Border
-    ctx.strokeStyle = "#64B5F6";
+    // Add some clouds/mist
+    ctx.fillStyle = 'rgba(255, 255, 255, 0.05)';
+    for (let i = 0; i < 4; i++) {
+        const cloudX = Math.random() * width;
+        const cloudY = 100 + Math.random() * (height - 200);
+        const cloudSize = 100 + Math.random() * 100;
+        drawCloud(ctx, cloudX, cloudY, cloudSize);
+    }
+}
+
+function drawNamekEffects(ctx, width, height) {
+    // Add green-ish light rays
+    ctx.globalAlpha = 0.2;
+    for (let i = 0; i < 5; i++) {
+        const rayWidth = 150 + Math.random() * 300;
+        const rayX = Math.random() * width;
+        
+        ctx.fillStyle = 'rgba(100, 255, 150, 0.15)';
+        ctx.beginPath();
+        ctx.moveTo(rayX, 0);
+        ctx.lineTo(rayX + rayWidth, height);
+        ctx.lineTo(rayX - rayWidth, height);
+        ctx.closePath();
+        ctx.fill();
+    }
+    ctx.globalAlpha = 1;
+    
+    // Add namekian atmosphere particles
+    for (let i = 0; i < 100; i++) {
+        const x = Math.random() * width;
+        const y = Math.random() * height;
+        const size = Math.random() * 2 + 1;
+        
+        ctx.fillStyle = `rgba(60, 255, 130, ${Math.random() * 0.3})`;
+        ctx.beginPath();
+        ctx.arc(x, y, size, 0, Math.PI * 2);
+        ctx.fill();
+    }
+}
+
+function drawSaiyanEffects(ctx, width, height) {
+    // Add reddish-orange light effects for Saiyan planet
+    ctx.globalAlpha = 0.2;
+    for (let i = 0; i < 5; i++) {
+        const rayWidth = 150 + Math.random() * 300;
+        const rayX = Math.random() * width;
+        
+        ctx.fillStyle = 'rgba(255, 100, 50, 0.15)';
+        ctx.beginPath();
+        ctx.moveTo(rayX, 0);
+        ctx.lineTo(rayX + rayWidth, height);
+        ctx.lineTo(rayX - rayWidth, height);
+        ctx.closePath();
+        ctx.fill();
+    }
+    ctx.globalAlpha = 1;
+    
+    // Add fire/lava particles
+    for (let i = 0; i < 80; i++) {
+        const x = Math.random() * width;
+        const y = Math.random() * height;
+        const size = Math.random() * 3 + 1;
+        
+        ctx.fillStyle = `rgba(255, ${Math.floor(50 + Math.random() * 150)}, 0, ${Math.random() * 0.4})`;
+        ctx.beginPath();
+        ctx.arc(x, y, size, 0, Math.PI * 2);
+        ctx.fill();
+    }
+}
+
+function drawCloud(ctx, x, y, size) {
+    ctx.beginPath();
+    ctx.arc(x, y, size * 0.5, 0, Math.PI * 2);
+    ctx.arc(x + size * 0.35, y - size * 0.2, size * 0.45, 0, Math.PI * 2);
+    ctx.arc(x + size * 0.7, y, size * 0.5, 0, Math.PI * 2);
+    ctx.fill();
+}
+
+function drawBattleEffects(ctx, width, height, battleResult) {
+    // Add battle-specific effects
+    
+    // Draw impact craters
+    const craterCount = Math.min(5, Math.floor(battleResult.turns / 5));
+    for (let i = 0; i < craterCount; i++) {
+        const craterX = width * 0.2 + Math.random() * width * 0.6;
+        const craterY = height * 0.6 + Math.random() * height * 0.3;
+        const craterSize = 30 + Math.random() * 50;
+        
+        ctx.fillStyle = 'rgba(0, 0, 0, 0.7)';
+        ctx.beginPath();
+        ctx.arc(craterX, craterY, craterSize, 0, Math.PI * 2);
+        ctx.fill();
+        
+        ctx.strokeStyle = 'rgba(255, 100, 0, 0.6)';
+        ctx.lineWidth = 2;
+        ctx.beginPath();
+        ctx.arc(craterX, craterY, craterSize + 5, 0, Math.PI * 2);
+        ctx.stroke();
+    }
+    
+    // Draw energy blasts
+    const blastCount = Math.min(8, Math.floor(battleResult.turns / 3));
+    for (let i = 0; i < blastCount; i++) {
+        const blastX = Math.random() * width;
+        const blastY = Math.random() * (height * 0.7);
+        const blastSize = 10 + Math.random() * 30;
+        
+        // Radial gradient for blast
+        const gradient = ctx.createRadialGradient(blastX, blastY, 0, blastX, blastY, blastSize);
+        gradient.addColorStop(0, 'rgba(255, 255, 200, 0.9)');
+        gradient.addColorStop(0.5, 'rgba(255, 200, 50, 0.7)');
+        gradient.addColorStop(1, 'rgba(255, 100, 50, 0)');
+        
+        ctx.fillStyle = gradient;
+        ctx.beginPath();
+        ctx.arc(blastX, blastY, blastSize, 0, Math.PI * 2);
+        ctx.fill();
+    }
+    
+    // Draw ki aura effects
+    drawKiStreaks(ctx, width, height);
+}
+
+function drawKiStreaks(ctx, width, height) {
+    // Draw energy streaks across the battlefield
+    for (let i = 0; i < 15; i++) {
+        // Randomize stroke color between blue, gold, and white
+        const colors = ['rgba(100, 150, 255, 0.7)', 'rgba(255, 215, 0, 0.7)', 'rgba(255, 255, 255, 0.7)'];
+        ctx.strokeStyle = colors[Math.floor(Math.random() * colors.length)];
+        
+        const startX = Math.random() * width;
+        const startY = Math.random() * height;
+        const length = 50 + Math.random() * 100;
+        const angle = Math.random() * Math.PI * 2;
+        const thickness = 1 + Math.random() * 3;
+        
+        ctx.lineWidth = thickness;
+        ctx.beginPath();
+        ctx.moveTo(startX, startY);
+        ctx.lineTo(
+            startX + Math.cos(angle) * length,
+            startY + Math.sin(angle) * length
+        );
+        ctx.stroke();
+    }
+}
+
+function drawBattleBorder(ctx, width, height) {
+    // Draw corner frames
+    const cornerSize = 60;
+    ctx.strokeStyle = '#FFD700';
     ctx.lineWidth = 3;
-    ctx.strokeRect(50, startY, width - 100, 400);
     
-    // Header
-    ctx.fillStyle = "#64B5F6";
-    ctx.font = '36px Saiyan';
+    // Top left
+    ctx.beginPath();
+    ctx.moveTo(20, cornerSize + 20);
+    ctx.lineTo(20, 20);
+    ctx.lineTo(cornerSize + 20, 20);
+    ctx.stroke();
+    
+    // Top right
+    ctx.beginPath();
+    ctx.moveTo(width - 20, cornerSize + 20);
+    ctx.lineTo(width - 20, 20);
+    ctx.lineTo(width - cornerSize - 20, 20);
+    ctx.stroke();
+    
+    // Bottom left
+    ctx.beginPath();
+    ctx.moveTo(20, height - cornerSize - 20);
+    ctx.lineTo(20, height - 20);
+    ctx.lineTo(cornerSize + 20, height - 20);
+    ctx.stroke();
+    
+    // Bottom right
+    ctx.beginPath();
+    ctx.moveTo(width - 20, height - cornerSize - 20);
+    ctx.lineTo(width - 20, height - 20);
+    ctx.lineTo(width - cornerSize - 20, height - 20);
+    ctx.stroke();
+    
+    // Frame accent lines
+    ctx.strokeStyle = 'rgba(255, 215, 0, 0.5)';
+    ctx.lineWidth = 1;
+    
+    // Top frame accent
+    ctx.beginPath();
+    ctx.moveTo(cornerSize + 40, 30);
+    ctx.lineTo(width - cornerSize - 40, 30);
+    ctx.stroke();
+    
+    // Bottom frame accent
+    ctx.beginPath();
+    ctx.moveTo(cornerSize + 40, height - 30);
+    ctx.lineTo(width - cornerSize - 40, height - 30);
+    ctx.stroke();
+}
+
+function drawBattleTitle(ctx, x, y) {
+    ctx.save();
+    
+    // Text shadow for depth
+    ctx.shadowColor = '#FFD700';
+    ctx.shadowBlur = 25;
+    
+    // Main title
+    ctx.font = '70px "Saiyan Sans"';
+    ctx.fillStyle = '#FFFFFF';
     ctx.textAlign = 'center';
-    ctx.fillText("KẾT QUẢ TRẬN ĐẤU", width / 2, startY + 50);
+    ctx.fillText('PVP BATTLE RESULT', x, y);
     
-    // Winner info
-    ctx.fillStyle = "#FFC107";
-    ctx.font = 'bold 28px BeVietnamPro';
-    ctx.fillText(`NGƯỜI THẮNG: ${winner.name}`, width / 2, startY + 100);
+    // Text border
+    ctx.strokeStyle = '#FFD700';
+    ctx.lineWidth = 2;
+    ctx.strokeText('PVP BATTLE RESULT', x, y);
     
-    // Status bars
-    const isPlayer1Winner = winner.id === player1.id;
-    const winnerObject = isPlayer1Winner ? player1 : player2;
+    // Reset shadow
+    ctx.shadowBlur = 0;
     
-    // Winner's HP and Ki
-    const hpPercent = Math.min(100, Math.max(0, (stats.winnerHP / winnerObject.stats.health) * 100));
-    const kiPercent = Math.min(100, Math.max(0, (stats.winnerKi / winnerObject.stats.ki) * 100));
+    // Add decorative lines
+    ctx.beginPath();
+    ctx.moveTo(x - 350, y + 10);
+    ctx.lineTo(x - 180, y + 10);
+    ctx.strokeStyle = '#FFD700';
+    ctx.lineWidth = 3;
+    ctx.stroke();
     
-    ctx.font = '22px BeVietnamPro';
-    ctx.fillStyle = "#FFFFFF";
+    ctx.beginPath();
+    ctx.moveTo(x + 180, y + 10);
+    ctx.lineTo(x + 350, y + 10);
+    ctx.stroke();
+    
+    ctx.restore();
+}
+
+function drawWinnerBanner(ctx, winnerName, x, y) {
+    ctx.save();
+    
+    // Create gradient for victory text
+    const gradient = ctx.createLinearGradient(x - 250, y, x + 250, y);
+    gradient.addColorStop(0, '#FF4500');
+    gradient.addColorStop(0.5, '#FFD700');
+    gradient.addColorStop(1, '#FF4500');
+    
+    // Victory text shadow
+    ctx.shadowColor = '#FF8C00';
+    ctx.shadowBlur = 30;
+    
+    // Victory text
+    ctx.font = 'bold 60px "Saiyan Sans"';
+    ctx.fillStyle = gradient;
+    ctx.textAlign = 'center';
+    ctx.fillText('VICTORY', x, y);
+    
+    // Winner name
+    ctx.font = 'bold 40px "Chakra Petch"';
+    ctx.fillStyle = '#FFFFFF';
+    ctx.shadowColor = '#4080FF';
+    ctx.shadowBlur = 20;
+    ctx.fillText(winnerName, x, y + 50);
+    
+    ctx.restore();
+}
+
+function drawDrawBanner(ctx, x, y) {
+    ctx.save();
+    
+    // Create gradient for draw text
+    const gradient = ctx.createLinearGradient(x - 250, y, x + 250, y);
+    gradient.addColorStop(0, '#808080');
+    gradient.addColorStop(0.5, '#FFFFFF');
+    gradient.addColorStop(1, '#808080');
+    
+    // Draw text shadow
+    ctx.shadowColor = '#4080FF';
+    ctx.shadowBlur = 30;
+    
+    // Draw text
+    ctx.font = 'bold 60px "Saiyan Sans"';
+    ctx.fillStyle = gradient;
+    ctx.textAlign = 'center';
+    ctx.fillText('DRAW', x, y);
+    
+    // Subtitle
+    ctx.font = 'bold 30px "Chakra Petch"';
+    ctx.fillStyle = '#FFFFFF';
+    ctx.fillText('BOTH WARRIORS FOUGHT VALIANTLY', x, y + 50);
+    
+    ctx.restore();
+}
+async function drawPlayerInfo(ctx, player, position, hpRemaining, isLeft) {
+    ctx.save();
+    
+    // Determine maximum HP
+    const maxHP = player.stats?.health || 1000;
+    const hpPercent = Math.max(0, Math.min(100, (hpRemaining / maxHP) * 100));
+    
+    // Đẩy vị trí thông tin LÊN NHIỀU HƠN NỮA - ĐỦ CAO để không bị che
+    const nameY = position.y - 480;       // Từ -400 lên -480
+    const statStartY = position.y - 430;  // Từ -350 lên -430
+    
+    // Tạo hiệu ứng đổ bóng đậm hơn cho text để dễ đọc
+    ctx.shadowColor = 'rgba(0, 0, 0, 1.0)';
+    ctx.shadowBlur = 15;
+    ctx.shadowOffsetX = 3;
+    ctx.shadowOffsetY = 3;
+    
+    // Draw player name - loại bỏ dấu tiếng Việt
+    ctx.font = 'bold 40px "Saiyan Sans"';
+    ctx.fillStyle = '#FFFFFF';
+    ctx.textAlign = 'center';
+    ctx.fillText(removeDiacritics(player.name), position.x, nameY);
+    
+    // Draw evolution name - loại bỏ dấu tiếng Việt
+    ctx.font = 'bold 25px "Chakra Petch"';
+    ctx.fillStyle = '#FFD700';
+    ctx.fillText(removeDiacritics(player.evolution?.name || 'Chien binh thuong'), position.x, nameY + 35);
+    
+    // Draw HP bar - thêm background mờ để thanh HP nổi bật
+    const hpBarWidth = 220;
+    const hpBarHeight = 20;
+    const hpBarX = position.x - hpBarWidth/2;
+    const hpBarY = statStartY;
+    // HP bar fill
+    let hpColor;
+    if (hpPercent > 60) hpColor = '#00FF00';
+    else if (hpPercent > 30) hpColor = '#FFFF00';
+    else hpColor = '#FF0000';
+    
+    const hpFillWidth = (hpBarWidth - 4) * (hpPercent / 100);
+    ctx.fillStyle = hpColor;
+    ctx.beginPath();
+    ctx.roundRect(hpBarX + 2, hpBarY + 2, hpFillWidth, hpBarHeight - 4, 4);
+    ctx.fill();
+    // HP text
+    ctx.font = 'bold 18px "Chakra Petch"';
+    ctx.fillStyle = '#FFFFFF';
+    ctx.textAlign = 'center';
+    ctx.fillText(`HP: ${Math.round(hpRemaining).toLocaleString()}/${maxHP.toLocaleString()} (${Math.round(hpPercent)}%)`, 
+                position.x, hpBarY + 35);
+    
+    // Draw player power level
+    ctx.font = 'bold 20px "Chakra Petch"';
+    ctx.fillStyle = '#FFD700';
+    ctx.textAlign = 'center';
+    ctx.fillText(`Power Level: ${player.stats?.power?.toLocaleString() || 'Unknown'}`, position.x, hpBarY + 65);
+    
+    // Draw player planet
+    const planetName = player.planet ? `Planet: ${player.planet}` : 'Unknown Planet';
+    ctx.fillStyle = '#80C0FF';
+    ctx.fillText(planetName, position.x, hpBarY + 95);
+    
+    ctx.restore();
+}
+function drawEnergyEffects(ctx, x, y, color, isLeft) {
+    ctx.save();
+    
+    // Điều chỉnh vị trí hiệu ứng năng lượng
+    const handX = isLeft ? x + 50 : x - 50; // Giảm offset để năng lượng gần nhân vật hơn
+    const handY = y;
+    
+    // Particle effects
+    for (let i = 0; i < 15; i++) {
+        const angle = Math.random() * Math.PI * 2;
+        const distance = Math.random() * 20; // Giảm phạm vi phân tán
+        
+        ctx.fillStyle = color;
+        ctx.beginPath();
+        ctx.arc(
+            handX + Math.cos(angle) * distance,
+            handY + Math.sin(angle) * distance,
+            2 + Math.random() * 3, // Giảm kích thước particle
+            0,
+            Math.PI * 2
+        );
+        ctx.fill();
+    }
+    
+    ctx.restore();
+}
+async function drawCharacterImage(ctx, player, position, isLeft) {
+    try {
+        const planet = player.planet || "EARTH";
+        const characterUrl = CHARACTER_IMAGES[planet] || CHARACTER_IMAGES.default;
+        
+        // Lấy hình ảnh từ URL
+        const response = await axios.get(characterUrl, { responseType: 'arraybuffer' });
+        const img = await Canvas.loadImage(Buffer.from(response.data));
+        
+        // Giảm kích thước nhân vật xuống để không che chỉ số
+        const scale = position.scale * 0.9; // Giảm thêm kích thước 
+        const width = img.width * scale;
+        const height = img.height * scale;
+        
+        // Vẽ aura trước
+        const auraColor = AURA_COLORS[removeDiacritics(player.evolution?.name)] || AURA_COLORS.default;
+        
+        ctx.save();
+        
+        // Hiệu ứng aura
+        const auraRadius = 50; // Nhỏ hơn
+        const auraGradient = ctx.createRadialGradient(
+            position.x, 
+            position.y - 60,
+            0, 
+            position.x, 
+            position.y - 60, 
+            auraRadius * 1.5
+        );
+        auraGradient.addColorStop(0, `${auraColor}80`);
+        auraGradient.addColorStop(1, `${auraColor}00`);
+        
+        ctx.fillStyle = auraGradient;
+        ctx.beginPath();
+        ctx.ellipse(position.x, position.y - 60, auraRadius * 1.5, auraRadius * 2, 0, 0, Math.PI * 2);
+        ctx.fill();
+        
+        // Flip image if on right side
+        if (!isLeft) {
+            ctx.translate(position.x * 2, 0);
+            ctx.scale(-1, 1);
+        }
+        
+        // Đẩy nhân vật xuống thấp hơn một chút
+        ctx.drawImage(
+            img, 
+            position.x - width/2,  
+            position.y - height + 60, // Đẩy xuống thấp hơn (+50 → +60)
+            width, 
+            height
+        );
+        
+        ctx.restore();
+        
+        // Hiệu ứng năng lượng
+        drawEnergyEffects(ctx, position.x, position.y - 100, auraColor, isLeft);
+        
+    } catch (err) {
+        console.error('Error drawing character image:', err);
+    }
+}
+function drawVSEmblem(ctx, x, y) {
+    ctx.save();
+    
+    // Draw circular background
+    const emblemRadius = 60;
+    const gradient = ctx.createRadialGradient(x, y, 0, x, y, emblemRadius);
+    gradient.addColorStop(0, 'rgba(255, 0, 0, 0.7)');
+    gradient.addColorStop(0.7, 'rgba(128, 0, 0, 0.8)');
+    gradient.addColorStop(1, 'rgba(64, 0, 0, 0)');
+    
+    ctx.fillStyle = gradient;
+    ctx.beginPath();
+    ctx.arc(x, y, emblemRadius, 0, Math.PI * 2);
+    ctx.fill();
+    
+    // Draw VS text
+    ctx.font = 'bold 80px "Saiyan Sans"';
+    ctx.textAlign = 'center';
+    ctx.textBaseline = 'middle';
+    
+    // Text outline
+    ctx.strokeStyle = '#000000';
+    ctx.lineWidth = 8;
+    ctx.strokeText('VS', x, y);
+    
+    // Text fill with gradient
+    const textGradient = ctx.createLinearGradient(x - 40, y - 30, x + 40, y + 30);
+    textGradient.addColorStop(0, '#FFFFFF');
+    textGradient.addColorStop(0.5, '#FFD700');
+    textGradient.addColorStop(1, '#FFFFFF');
+    
+    ctx.fillStyle = textGradient;
+    ctx.fillText('VS', x, y);
+    
+    // Add light rays
+    ctx.globalCompositeOperation = 'lighter';
+    
+    for (let i = 0; i < 8; i++) {
+        const angle = (i / 8) * Math.PI * 2;
+        ctx.fillStyle = 'rgba(255, 255, 200, 0.2)';
+        ctx.beginPath();
+        ctx.moveTo(x, y);
+        ctx.lineTo(
+            x + Math.cos(angle - 0.2) * emblemRadius * 2,
+            y + Math.sin(angle - 0.2) * emblemRadius * 2
+        );
+        ctx.lineTo(
+            x + Math.cos(angle + 0.2) * emblemRadius * 2,
+            y + Math.sin(angle + 0.2) * emblemRadius * 2
+        );
+        ctx.closePath();
+        ctx.fill();
+    }
+    
+    ctx.globalCompositeOperation = 'source-over';
+    ctx.restore();
+}
+
+function drawBattleStats(ctx, battleResult, x, y) {
+    ctx.save();
+    
+    // Draw stats container
+    const containerWidth = 700;
+    const containerHeight = 160;
+    const containerX = x - containerWidth/2;
+    const containerY = y - 30;
+    
+    // Container background
+    ctx.fillStyle = 'rgba(0, 0, 0, 0.7)';
+    ctx.strokeStyle = '#FFD700';
+    ctx.lineWidth = 2;
+    ctx.beginPath();
+    ctx.roundRect(containerX, containerY, containerWidth, containerHeight, 10);
+    ctx.fill();
+    ctx.stroke();
+    
+    // Title
+    ctx.font = 'bold 28px "Saiyan Sans"';
+    ctx.fillStyle = '#FFD700';
+    ctx.textAlign = 'center';
+    ctx.fillText('BATTLE STATISTICS', x, containerY + 30);
+    
+    // Stats content - two columns
+    ctx.font = 'bold 20px "Chakra Petch"';
+    ctx.fillStyle = '#FFFFFF';
     ctx.textAlign = 'left';
-    ctx.fillText("HP còn lại:", width / 2 - 250, startY + 150);
-    drawProgressBar(ctx, width / 2 - 150, startY + 135, 400, 25, hpPercent, '#E53935', '#5D4037',
-                   `${formatNumber(stats.winnerHP)}/${formatNumber(winnerObject.stats.health)} (${Math.floor(hpPercent)}%)`);
     
-    ctx.fillText("Ki còn lại:", width / 2 - 250, startY + 190);
-    drawProgressBar(ctx, width / 2 - 150, startY + 175, 400, 25, kiPercent, '#2196F3', '#303F9F',
-                   `${formatNumber(stats.winnerKi)}/${formatNumber(winnerObject.stats.ki)} (${Math.floor(kiPercent)}%)`);
+    const leftColX = containerX + 40;
+    const rightColX = containerX + containerWidth/2 + 20;
+    const statsY = containerY + 70;
+    const lineHeight = 30;
     
-    // Battle stats
-    ctx.textAlign = 'center';
-    ctx.fillStyle = "#FFEB3B";
-    ctx.font = '24px Saiyan';
-    ctx.fillText("THÔNG SỐ TRẬN ĐẤU", width / 2, startY + 240);
+    // Left column stats
+    ctx.fillText(`⏱️ Battle Duration: ${Math.round((battleResult.battleStats?.duration || 0) / 1000)} seconds`, leftColX, statsY);
+    ctx.fillText(`🔄 Total Turns: ${battleResult.turns}`, leftColX, statsY + lineHeight);
+    ctx.fillText(`🔥 Max Combo: x${battleResult.battleStats?.maxCombo || 0}`, leftColX, statsY + lineHeight * 2);
     
-    ctx.font = '22px BeVietnamPro';
-    ctx.fillStyle = "#FFFFFF";
-    ctx.textAlign = 'left';
+    // Right column stats
+    ctx.fillText(`💥 Total Damage:`, rightColX, statsY);
     
-    // Left stats
-    ctx.fillText(`Tổng sát thương gây ra: ${formatNumber(stats.totalDamageDealt)}`, width / 2 - 350, startY + 280);
-    ctx.fillText(`Tổng số kỹ năng sử dụng: ${stats.skillsUsed}`, width / 2 - 350, startY + 310);
-    ctx.fillText(`Tổng số lượt: ${stats.totalTurns}`, width / 2 - 350, startY + 340);
+    // Parse player names
+    const p1Name = battleResult.winner?.name || 'Player 1';
+    const p2Name = battleResult.loser?.name || 'Player 2';
     
-    // Right stats
-    ctx.textAlign = 'right';
-    ctx.fillText(`Tổng sát thương nhận: ${formatNumber(stats.totalDamageTaken)}`, width / 2 + 350, startY + 280);
-    ctx.fillText(`EXP thưởng: +${stats.expReward}`, width / 2 + 350, startY + 310);
-    ctx.fillText(`Thời gian hồi PvP: 1 phút`, width / 2 + 350, startY + 340);
+    // Damage stats with player names
+    ctx.fillText(`- ${p1Name}: ${battleResult.totalDamage.attacker.toLocaleString()}`, rightColX, statsY + lineHeight);
+    ctx.fillText(`- ${p2Name}: ${battleResult.totalDamage.defender.toLocaleString()}`, rightColX, statsY + lineHeight * 2);
+    
+    ctx.restore();
 }
-
-// Function để vẽ footer
-function drawFooter(ctx, text, width, y) {
-    ctx.fillStyle = '#757575';
-    ctx.font = '18px Saiyan';
-    ctx.textAlign = 'center';
-    ctx.fillText(text, width / 2, y);
     
-    ctx.font = '14px BeVietnamPro';
-    ctx.fillText("Dragon Ball Z - PvP System", width / 2, y + 25);
-}
-
-// Hàm format số
-function formatNumber(num) {
-    return typeof num === 'number' ? num.toLocaleString() : '0';
-}
-
-module.exports = {
-    createBattlePhase1Image,
-    createBattlePhase2Image,
-    createBattlePhase3Image
-};

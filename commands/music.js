@@ -4,7 +4,7 @@ const path = require('path');
 const { Shazam } = require('node-shazam');
 const { promisify } = require('util');
 const Spotify = require('spotifydl-core').default;
-const scdl = require('soundcloud-downloader').default;
+const ytdl = require("@distube/ytdl-core");
 const streamPipeline = promisify(require('stream').pipeline);
 
 const cacheDir = path.join(__dirname, 'cache');
@@ -50,12 +50,118 @@ async function downloadWithRetry(spotify, trackUrl, filePath, maxRetries = 3) {
     return false;
 }
 
+async function handleYouTubeSearch(api, event, args) {
+    const { threadID, messageID } = event;
+    const query = args.join(' ');
+    
+    if (!query) return api.sendMessage("❌ Vui lòng nhập tên bài hát cần tìm", threadID, messageID);
+    
+    const loadingMsg = await api.sendMessage("🔎 Đang tìm kiếm trên YouTube...", threadID);
+
+    try {
+        const searchUrl = `https://www.youtube.com/results?search_query=${encodeURIComponent(query)}`;
+        const html = (await axios.get(searchUrl)).data;
+        const results = html.match(/\/watch\?v=([^"]+)/g)?.slice(0, 6) || [];
+        
+        if (!results.length) throw new Error("Không tìm thấy bài hát");
+
+        const tracks = await Promise.all(
+            results.map(async url => {
+                const fullUrl = `https://youtube.com${url}`;
+                const info = await ytdl.getBasicInfo(fullUrl);
+                return {
+                    url: fullUrl,
+                    title: info.videoDetails.title,
+                    author: info.videoDetails.author.name,
+                    duration: parseInt(info.videoDetails.lengthSeconds)
+                };
+            })
+        );
+
+        const body = "🎵 Kết quả tìm kiếm YouTube:\n\n" + 
+            tracks.map((track, index) => {
+                const duration = `${Math.floor(track.duration/60)}:${(track.duration%60).toString().padStart(2,'0')}`;
+                return `${index + 1}. ${track.title}\n└── 👤 ${track.author}\n└── ⏱️ ${duration}\n`;
+            }).join("\n") +
+            "\n💭 Reply số từ 1-6 để tải nhạc";
+
+        const msg = await api.sendMessage(body, threadID);
+        if (loadingMsg) api.unsendMessage(loadingMsg.messageID);
+
+        global.musicCache = global.musicCache || {};
+        global.musicCache[threadID] = {
+            tracks,
+            searchMessageID: msg.messageID,
+            type: 'youtube'
+        };
+
+        global.client.onReply.push({
+            name: "music",
+            messageID: msg.messageID,
+            author: event.senderID
+        });
+
+    } catch (error) {
+        if (loadingMsg) api.unsendMessage(loadingMsg.messageID);
+        throw new Error(`Lỗi tìm kiếm YouTube: ${error.message}`);
+    }
+}
+
+async function handleYouTubeDownload(api, event, track, loadingMsg) {
+    const { threadID, messageID } = event;
+    
+    try {
+        const filePath = path.join(cacheDir, `youtube_${Date.now()}.mp3`);
+        const stream = ytdl(track.url, { 
+            filter: 'audioonly',
+            quality: 'highestaudio',
+            format: 'mp3',
+            requestOptions: {
+                headers: {
+                    'Cookie': 'CONSENT=YES+1',
+                    'Accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.7',
+                    'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/110.0.0.0 Safari/537.36'
+                }
+            }
+        });
+
+        // Add error handling for the stream
+        stream.on('error', (error) => {
+            throw new Error(`Lỗi stream: ${error.message}`);
+        });
+
+        // Write to temporary file
+        await streamPipeline(stream, fs.createWriteStream(filePath));
+
+        // Verify file exists and has content
+        if (!fs.existsSync(filePath) || fs.statSync(filePath).size < 1024) {
+            throw new Error("File tải về không hợp lệ");
+        }
+
+        // Send the file
+        await api.sendMessage({
+            body: `🎵 Đã tải xong:\n\n`+
+                  `🎤 ${track.title}\n`+
+                  `👤 ${track.author}\n`+
+                  `⏱️ ${Math.floor(track.duration/60)}:${(track.duration%60).toString().padStart(2,'0')}`,
+            attachment: fs.createReadStream(filePath)
+        }, threadID, () => {
+            fs.unlinkSync(filePath);
+            if (loadingMsg) api.unsendMessage(loadingMsg.messageID);
+        }, messageID);
+
+    } catch (error) {
+        if (loadingMsg) api.unsendMessage(loadingMsg.messageID);
+        throw new Error(`Không thể tải nhạc: ${error.message}`);
+    }
+}
+
 module.exports = {
     name: "music",
     info: "Công cụ nhạc: tìm kiếm, nhận diện, phát preview",
     dev: "HNT",
     category: "Media",
-    usages: "[search <tên bài hát>] | [soundcloud search <tên bài hát>] | [soundcloud url <link>] | [detect <reply audio/video>]",
+    usages: "[search <tên bài hát>] | [youtube search <tên bài hát>] | [youtube url <link>] | [detect <reply audio/video>]",
     cooldowns: 5,
     onPrefix: true,
 
@@ -75,8 +181,8 @@ module.exports = {
         const loadingMsg = await api.sendMessage("⏳ Đang tải nhạc...", threadID);
 
         try {
-            if (type === 'soundcloud') {
-                await handleSoundCloud(api, event, [track.url], loadingMsg);
+            if (type === 'youtube') {
+                await handleYouTubeDownload(api, event, track, loadingMsg);
             } else {
                 const spotify = new Spotify({
                     clientId: '3d659375536044498834cc9012c58c44',
@@ -117,9 +223,9 @@ module.exports = {
         if (!target[0]) {
             return api.sendMessage(
                 "🎵 Music Tools\n"+
-                "➜ search <Bảo trì> : Tìm và tải nhạc từ Spotify\n"+
-                "➜ soundcloud search <tên bài>: Tìm và tải nhạc từ SoundCloud\n"+ 
-                "➜ soundcloud url <link>: Tải nhạc từ link SoundCloud\n"+
+                "➜ search <tên bài>: Tìm và tải nhạc từ Spotify\n"+
+                "➜ youtube search <tên bài>: Tìm và tải nhạc từ YouTube\n"+ 
+                "➜ youtube url <link>: Tải nhạc từ link YouTube\n"+
                 "➜ detect: Reply audio/video để nhận diện", 
                 threadID
             );
@@ -171,15 +277,21 @@ module.exports = {
                     await handleShazamDetect(api, event, event.messageReply);
                     break;
 
-                case 'soundcloud':
+                case 'youtube':
                     if (!args[0]) return api.sendMessage("❌ Vui lòng nhập 'search <tên bài>' hoặc 'url <link>'", threadID);
                     const subCommand = args[0].toLowerCase();
                     const subArgs = args.slice(1);
                     
                     if (subCommand === 'search') {
-                        await handleSoundCloudSearch(api, event, subArgs);
+                        await handleYouTubeSearch(api, event, subArgs);
                     } else if (subCommand === 'url') {
-                        await handleSoundCloud(api, event, subArgs);
+                        const track = {
+                            url: subArgs[0],
+                            title: 'YouTube Video',
+                            author: 'Unknown',
+                            duration: 0
+                        };
+                        await handleYouTubeDownload(api, event, track);
                     } else {
                         api.sendMessage("❌ Lệnh không hợp lệ. Sử dụng 'search <tên bài>' hoặc 'url <link>'", threadID);
                     }
@@ -338,95 +450,5 @@ async function handleShazamDetect(api, event, messageReply, loadingMsg) {
 
     } catch (error) {
         throw new Error(`Lỗi nhận diện: ${error.message}`);
-    }
-}
-
-async function handleSoundCloud(api, event, args) {
-    const { threadID, messageID } = event;
-    
-    if (!args[0]) {
-        return api.sendMessage("❌ Vui lòng nhập URL SoundCloud", threadID, messageID);
-    }
-
-    const url = args[0];
-    if (!url.includes('soundcloud.com')) {
-        return api.sendMessage("❌ URL không hợp lệ. Vui lòng nhập URL SoundCloud", threadID, messageID);
-    }
-
-    const loadingMsg = await api.sendMessage("⏳ Đang tải nhạc từ SoundCloud...", threadID);
-
-    try {
-        const filePath = path.join(cacheDir, `soundcloud_${Date.now()}.mp3`);
-        const info = await scdl.getInfo(url);
-        
-        const stream = await scdl.download(url);
-        await streamPipeline(stream, fs.createWriteStream(filePath));
-
-        await api.sendMessage({
-            body: `🎵 Đã tải xong:\n\n`+
-                  `🎤 ${info.title}\n`+
-                  `👤 ${info.user.username}\n`+
-                  `👁️ ${info.playback_count} lượt nghe\n`+
-                  `❤️ ${info.likes_count} lượt thích`,
-            attachment: fs.createReadStream(filePath)
-        }, threadID, () => {
-            fs.unlinkSync(filePath);
-            if (loadingMsg) api.unsendMessage(loadingMsg.messageID);
-        }, messageID);
-
-    } catch (error) {
-        if (loadingMsg) api.unsendMessage(loadingMsg.messageID);
-        throw new Error(`Lỗi tải nhạc SoundCloud: ${error.message}`);
-    }
-}
-
-// Thêm hàm xử lý tìm kiếm SoundCloud
-async function handleSoundCloudSearch(api, event, args) {
-    const { threadID, messageID } = event;
-    const query = args.join(' ');
-    
-    if (!query) return api.sendMessage("❌ Vui lòng nhập tên bài hát cần tìm", threadID, messageID);
-    
-    const loadingMsg = await api.sendMessage("🔎 Đang tìm kiếm trên SoundCloud...", threadID);
-
-    try {
-        // Tìm kiếm tracks
-        const searchResults = await scdl.search({
-            query: query,
-            resourceType: 'tracks',
-            limit: 6
-        });
-
-        if (!searchResults.collection?.length) {
-            throw new Error("Không tìm thấy bài hát");
-        }
-
-        const tracks = searchResults.collection;
-        const body = "🎵 Kết quả tìm kiếm SoundCloud:\n\n" + 
-            tracks.map((track, index) => {
-                const duration = Math.floor(track.duration/1000);
-                return `${index + 1}. ${track.title}\n└── 👤 ${track.user.username}\n└── ⏱️ ${Math.floor(duration/60)}:${(duration%60).toString().padStart(2,'0')}\n`;
-            }).join("\n") +
-            "\n💭 Reply số từ 1-6 để tải nhạc";
-
-        const msg = await api.sendMessage(body, threadID);
-        if (loadingMsg) api.unsendMessage(loadingMsg.messageID);
-
-        global.musicCache = global.musicCache || {};
-        global.musicCache[threadID] = {
-            tracks: tracks.map(t => ({url: t.permalink_url})),
-            searchMessageID: msg.messageID,
-            type: 'soundcloud'
-        };
-
-        global.client.onReply.push({
-            name: "music",
-            messageID: msg.messageID,
-            author: event.senderID
-        });
-
-    } catch (error) {
-        if (loadingMsg) api.unsendMessage(loadingMsg.messageID);
-        throw new Error(`Lỗi tìm kiếm SoundCloud: ${error.message}`);
     }
 }

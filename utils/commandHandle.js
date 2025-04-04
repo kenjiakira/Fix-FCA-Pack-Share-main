@@ -1,6 +1,7 @@
 const fs = require("fs");
 const { exec } = require('child_process');
 const gradient = require('gradient-string');
+const path = require('path');
 
 global.cc = {
     PREFIX: '',
@@ -18,6 +19,31 @@ const loadConfig = () => {
         global.cc.PREFIX = global.cc.config.prefix;
         console.log(gradient.cristal('Config.json đã được tìm thấy!'));
     }
+};
+
+// Add new canvas loader function
+const loadCanvases = () => {
+    global.canvas = {};
+    const canvasPath = path.join(__dirname, '../game/canvas');
+    
+    if (!fs.existsSync(canvasPath)) return;
+
+    fs.readdirSync(canvasPath).forEach(file => {
+        if (file.endsWith('.js')) {
+            try {
+                const canvasModule = require(path.join(canvasPath, file));
+                if (typeof canvasModule === 'object') {
+                    Object.assign(global.canvas, canvasModule);
+                } else if (typeof canvasModule === 'function') {
+                    const funcName = file.replace(/Canvas\.js$/, '').toLowerCase();
+                    global.canvas[funcName] = canvasModule;
+                }
+                console.log(gradient.cristal(`[ ${file} ] Canvas loaded successfully`));
+            } catch (error) {
+                console.error(gradient.passion(`[ ${file} ] Failed to load canvas: ${error}`));
+            }
+        }
+    });
 };
 
 const loadCommands = () => {
@@ -113,4 +139,4 @@ const reloadCommand = (commandName) => {
     }
 };
 
-module.exports = { loadCommands, loadEventCommands, loadConfig, reloadCommand };
+module.exports = { loadCommands, loadEventCommands, loadConfig, reloadCommand, loadCanvases };

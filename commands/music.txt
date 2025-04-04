@@ -1,79 +1,155 @@
-Download Soundcloud tracks with Node.js
+Installation
+npm install @distube/ytdl-core@latest
+Make sure you're installing the latest version of @distube/ytdl-core to keep up with the latest fixes.
 
-npm install soundcloud-downloader
-I couldn't find any packages that worked with a Discord bot I was working on so I created my own.
+Usage
+const ytdl = require("@distube/ytdl-core");
+// TypeScript: import ytdl from '@distube/ytdl-core'; with --esModuleInterop
+// TypeScript: import * as ytdl from '@distube/ytdl-core'; with --allowSyntheticDefaultImports
+// TypeScript: import ytdl = require('@distube/ytdl-core'); with neither of the above
 
-Features
-Extremely fast (interacts directly with the Soundcloud API)
-Download/manipulate audio from Soundcloud (it is returned as a stream)
-Get information about tracks and playlists
-Filter and download specific formats
-Search and find related tracks/playlists/albums/users
-Table of Contents
+// Download a video
+ytdl("http://www.youtube.com/watch?v=aqz-KE-bpKQ").pipe(require("fs").createWriteStream("video.mp4"));
+
+// Get video info
+ytdl.getBasicInfo("http://www.youtube.com/watch?v=aqz-KE-bpKQ").then(info => {
+  console.log(info.videoDetails.title);
+});
+
+// Get video info with download formats
+ytdl.getInfo("http://www.youtube.com/watch?v=aqz-KE-bpKQ").then(info => {
+  console.log(info.formats);
+});
+Cookies Support
+const ytdl = require("@distube/ytdl-core");
+
+// (Optional) Below are examples, NOT the recommended options
+const cookies = [
+  { name: "cookie1", value: "COOKIE1_HERE" },
+  { name: "cookie2", value: "COOKIE2_HERE" },
+];
+
+// (Optional) http-cookie-agent / undici agent options
+// Below are examples, NOT the recommended options
+const agentOptions = {
+  pipelining: 5,
+  maxRedirections: 0,
+  localAddress: "127.0.0.1",
+};
+
+// agent should be created once if you don't want to change your cookie
+const agent = ytdl.createAgent(cookies, agentOptions);
+
+ytdl.getBasicInfo("http://www.youtube.com/watch?v=aqz-KE-bpKQ", { agent });
+ytdl.getInfo("http://www.youtube.com/watch?v=aqz-KE-bpKQ", { agent });
+How to get cookies
+Install EditThisCookie extension for your browser.
+Go to YouTube.
+Log in to your account. (You should use a new account for this purpose)
+Click on the extension icon and click "Export" icon.
+Your cookies will be added to your clipboard and paste it into your code.
+[!WARNING] Don't logout it by clicking logout button on youtube/google account manager, it will expire your cookies. You can delete your browser's cookies to log it out on your browser. Or use incognito mode to get your cookies then close it.
+
+[!WARNING] Paste all the cookies array from clipboard into createAgent function. Don't remove/edit any cookies if you don't know what you're doing.
+
+[!WARNING] Make sure your account, which logged in when you getting your cookies, use 1 IP at the same time only. It will make your cookies alive longer.
+
+const ytdl = require("@distube/ytdl-core");
+const agent = ytdl.createAgent([
+  {
+    domain: ".youtube.com",
+    expirationDate: 1234567890,
+    hostOnly: false,
+    httpOnly: true,
+    name: "---xxx---",
+    path: "/",
+    sameSite: "no_restriction",
+    secure: true,
+    session: false,
+    value: "---xxx---",
+  },
+  {
+    "...": "...",
+  },
+]);
+Or you can paste your cookies array into a file and use fs.readFileSync to read it.
+const ytdl = require("@distube/ytdl-core");
+const fs = require("fs");
+const agent = ytdl.createAgent(JSON.parse(fs.readFileSync("cookies.json")));
+Proxy Support
+const ytdl = require("@distube/ytdl-core");
+
+const agent = ytdl.createProxyAgent({ uri: "my.proxy.server" });
+
+ytdl.getBasicInfo("http://www.youtube.com/watch?v=aqz-KE-bpKQ", { agent });
+ytdl.getInfo("http://www.youtube.com/watch?v=aqz-KE-bpKQ", { agent });
+Use both proxy and cookies:
+
+const ytdl = require("@distube/ytdl-core");
+
+const agent = ytdl.createProxyAgent({ uri: "my.proxy.server" }, [{ name: "cookie", value: "COOKIE_HERE" }]);
+
+ytdl.getBasicInfo("http://www.youtube.com/watch?v=aqz-KE-bpKQ", { agent });
+ytdl.getInfo("http://www.youtube.com/watch?v=aqz-KE-bpKQ", { agent });
+IP Rotation
+Built-in ip rotation (getRandomIPv6) won't be updated and will be removed in the future, create your own ip rotation instead.
+
+To implement IP rotation, you need to assign the desired IP address to the localAddress property within undici.Agent.Options. Therefore, you'll need to use a different ytdl.Agent for each IP address you want to use.
+
+const ytdl = require("@distube/ytdl-core");
+const { getRandomIPv6 } = require("@distube/ytdl-core/lib/utils");
+
+const agentForARandomIP = ytdl.createAgent(undefined, {
+  localAddress: getRandomIPv6("2001:2::/48"),
+});
+
+ytdl.getBasicInfo("http://www.youtube.com/watch?v=aqz-KE-bpKQ", { agent: agentForARandomIP });
+
+const agentForAnotherRandomIP = ytdl.createAgent(undefined, {
+  localAddress: getRandomIPv6("2001:2::/48"),
+});
+
+ytdl.getInfo("http://www.youtube.com/watch?v=aqz-KE-bpKQ", { agent: agentForAnotherRandomIP });
 API
-Examples
-Obtaining a Client ID
-To do
-API / Documentation
-Here are the two most commonly used functions:
+You can find the API documentation in the original repo. Except a few changes:
 
-scdl.download(url, clientID?)
-Gets the audio from the given URL, returns a ReadableStream.
-scdl.getInfo(url, clientID?)
-Returns a JSON object containing the track's information, as well as media links.
-Read the docs for more.
+ytdl.getInfoOptions
+requestOptions is now undici's RequestOptions.
+agent: ytdl.Agent
+playerClients: An array of player clients to use. Accepts WEB, WEB_EMBEDDED, TV, IOS, and ANDROID. Defaults to ["WEB_EMBEDDED", "IOS", "ANDROID","TV"].
+fetch: Custom fetch implementation. Defaults to undici's request.
+ytdl.createAgent([cookies]): ytdl.Agent
+cookies: an array of json cookies exported with EditThisCookie.
 
-Examples
-The easiest way to get Soundcloud audio is with the scdl.download(url: string) function, which returns a Promise containing a ReadableStream.
+ytdl.createProxyAgent(proxy[, cookies]): ytdl.Agent
+proxy: ProxyAgentOptions contains your proxy server information.
 
-const scdl = require('soundcloud-downloader').default
-const fs = require('fs')
+How to implement ytdl.Agent with your own Dispatcher
+You can find the example here
 
-const SOUNDCLOUD_URL = 'https://soundcloud.com/askdjfhaklshf'
-const CLIENT_ID = 'asdhkalshdkhsf'
+Limitations
+ytdl cannot download videos that fall into the following
 
-scdl.download(SOUNDCLOUD_URL).then(stream => stream.pipe(fs.createWriteStream('audio.mp3')))
-You can do anything you like with the stream that is returned, an example with Discord.js:
+Regionally restricted (requires a proxy)
+Private (if you have access, requires cookies)
+Rentals (if you have access, requires cookies)
+YouTube Premium content (if you have access, requires cookies)
+Only HLS Livestreams are currently supported. Other formats will get filtered out in ytdl.chooseFormats
+Generated download links are valid for 6 hours, and may only be downloadable from the same IP address.
 
-const client = new Discord.Client()
-const url = 'https://soundcloud.com/taliya-jenkins/double-cheese-burger-hold-the'
-const clientID = 'asdlkajasd'
-const channelID = '123456789'
-client.on('ready', () => {
-  const channel = client.channels.cache.get(channelID)
-  channel.join().then(connection => {
-    scdl.download(url, clientID).then(stream => {
-      connection.play(stream)
-    })
-  })
-})
-You can also create a custom instance of the SCDL class with settings configured to your liking:
+Rate Limiting
+When doing too many requests YouTube might block. This will result in your requests getting denied with HTTP-StatusCode 429. The following steps might help you:
 
-const scdlCreate = require('../').create
-const axios = require('axios').default
+Update @distube/ytdl-core to the latest version
+Use proxies (you can find an example here)
+Extend the Proxy Idea by rotating (IPv6-)Addresses
+read this for more information about this
+Use cookies (you can find an example here)
+for this to take effect you have to FIRST wait for the current rate limit to expire
+Wait it out (it usually goes away within a few days)
+Update Checks
+The issue of using an outdated version of ytdl-core became so prevalent, that ytdl-core now checks for updates at run time, and every 12 hours. If it finds an update, it will print a warning to the console advising you to update. Due to the nature of this library, it is important to always use the latest version as YouTube continues to update.
 
-const scdl = scdlCreate({
-  clientID: 'adasdasd',
-  saveClientID: true,
-  filePath: './client_id.json',
-  axiosInstance: axios.create()
-})
-You can view the code for these examples and find more in the example folder.
+If you'd like to disable this update check, you can do so by providing the YTDL_NO_UPDATE env variable.
 
-Client ID
-You can obtain a Client ID by visting the Soundcloud website and inspecting network traffic (perhaps with Chrome DevTools or some HTTP proxy software) and looking for any requests to the Soundcloud API. Ex:
-
-https://api-v2.soundcloud.com/me/play-history/tracks?client_id={CLIENT ID IS HERE}&limit=25&offset=0&linked_partitioning=1&app_version=1590494738&app_locale=en
-Here is a picture of where you should be able to find it: 
-
-To-do
-If I have the time and there is enough demand, I am interested in implementing the following functionalities:
-
-Audio format selection ✅
-Ability to use HTTP Live Streaming (HLS) ✅
-Some more integrations with Discord.js like selecting best format for voice channels
-If you have any feature requests, suggestions or questions do not hesistate to post them in the issues section
-
-Disclaimer
-I do not support piracy and this package is not designed for circumventing the technological measures employed by SoundCloud preventing unauthorized access to copyrighted works. This package is only for downloading audio you have access to.
-
+env YTDL_NO_UPDATE=1 node myapp.js

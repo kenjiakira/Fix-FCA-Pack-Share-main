@@ -139,19 +139,45 @@ module.exports = {
                     return { success: false, error: 'NOT_FOUND' };
                 }
 
-                delete require.cache[require.resolve(canvasPath)];
+                // Clear require cache for this file and any dependencies
+                const resolvedPath = require.resolve(canvasPath);
+                delete require.cache[resolvedPath];
+
+                // Reload the canvas module
                 const newCanvas = require(canvasPath);
- 
+
+                // Validate canvas module
                 if (typeof newCanvas !== 'object' && typeof newCanvas !== 'function') {
-                    return { success: false, error: 'INVALID_STRUCTURE', details: 'Canvas phải là một module hợp lệ' };
+                    return { 
+                        success: false, 
+                        error: 'INVALID_STRUCTURE', 
+                        details: 'Canvas phải là một module hợp lệ' 
+                    };
                 }
 
+                // Remove old functions if they exist
                 if (global.canvas) {
-                    for (const key in newCanvas) {
-                        if (typeof newCanvas[key] === 'function') {
-                            global.canvas[key] = newCanvas[key];
-                        }
+                    if (typeof newCanvas === 'object') {
+                        Object.keys(newCanvas).forEach(key => {
+                            delete global.canvas[key];
+                        });
+                    } else {
+                        const funcName = canvasName.replace(/Canvas$/, '').toLowerCase();
+                        delete global.canvas[funcName];
                     }
+                } else {
+                    global.canvas = {};
+                }
+
+                if (typeof newCanvas === 'object') {
+                    Object.assign(global.canvas, newCanvas);
+                } else if (typeof newCanvas === 'function') {
+                    const funcName = canvasName.replace(/Canvas$/, '').toLowerCase();
+                    global.canvas[funcName] = newCanvas;
+                }
+
+                if (global.canvas._cache) {
+                    delete global.canvas._cache;
                 }
 
                 console.log(chalk.green(`✅ Đã tải lại canvas "${canvasName}"`));

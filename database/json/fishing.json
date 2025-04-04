@@ -10360,17 +10360,20 @@
     "craftingMaterials": {}
   },
   "100090882493863": {
-    "rod": "Cần trúc",
-    "rodDurability": 8,
+    "rod": "Cần câu Lure Titan",
+    "rodDurability": 38,
     "inventory": [
-      "Cần trúc"
+      "Cần trúc",
+      "Cần câu Lure Titan"
     ],
     "collection": {
       "byRarity": {
         "trash": {},
         "common": {
           "Cá Mè Trắng": 1,
-          "Cá Lòng Tong": 1
+          "Cá Lòng Tong": 1,
+          "Cá Thác Lác": 1,
+          "Cá Đối": 1
         },
         "uncommon": {},
         "rare": {},
@@ -10379,26 +10382,26 @@
         "cosmic": {}
       },
       "stats": {
-        "totalCaught": 2,
-        "totalValue": 27570,
+        "totalCaught": 4,
+        "totalValue": 40289,
         "bestCatch": {
           "name": "Cá Mè Trắng",
           "value": 25650
         }
       }
     },
-    "exp": 48,
+    "exp": 128,
     "level": 1,
-    "fishingStreak": 2,
-    "energy": 40,
-    "lastEnergyUpdate": 1743424069564,
+    "fishingStreak": 4,
+    "energy": 32,
+    "lastEnergyUpdate": 1743735217902,
     "stats": {
-      "totalExp": 48,
-      "highestStreak": 2,
-      "totalFishes": 2
+      "totalExp": 128,
+      "highestStreak": 4,
+      "totalFishes": 4
     },
     "activeBuffs": {},
-    "lastFished": 1743424069562,
+    "lastFished": 1743735217902,
     "userID": "100090882493863",
     "baits": {},
     "craftingMaterials": {}
@@ -10566,8 +10569,8 @@
     "exp": 236,
     "level": 1,
     "fishingStreak": 5,
-    "energy": 19,
-    "lastEnergyUpdate": 1743592344890,
+    "energy": 50,
+    "lastEnergyUpdate": 1743743544890,
     "stats": {
       "totalExp": 236,
       "highestStreak": 5,
