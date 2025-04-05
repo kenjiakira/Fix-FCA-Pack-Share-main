@@ -3,16 +3,15 @@ const fs = require('fs');
 const path = require('path');
 const axios = require('axios');
 
-// Constants for visual elements
 const CHARACTER_POSITIONS = {
-    LEFT: { x: 220, y: 580, scale: 0.7 },   // Di chuyển sát bên trái (từ 320 → 220)
-    RIGHT: { x: 1060, y: 580, scale: 0.7 }  // Di chuyển sát bên phải (từ 960 → 1060)
+    LEFT: { x: 220, y: 580, scale: 0.7 },   
+    RIGHT: { x: 1060, y: 580, scale: 0.7 }  
 };
 
 const CHARACTER_IMAGES = {
-    "EARTH": "https://imgur.com/2YwDw1E.png", // Krillin/Tien/Yamcha
-    "NAMEK": "https://imgur.com/qLbyTkI.png", // Piccolo
-    "SAIYAN": "https://imgur.com/wtVhJV4.png", // Goku/Vegeta
+    "EARTH": "https://imgur.com/DeKUB0A.png", // Krillin/Tien/Yamcha
+    "NAMEK": "https://imgur.com/qciJyl8.png", // Piccolo
+    "SAIYAN": "https://imgur.com/oc9Lfjx.png", // Goku/Vegeta
     "default": "https://imgur.com/CtVH2jk.png"
 };
 

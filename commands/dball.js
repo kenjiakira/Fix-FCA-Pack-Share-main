@@ -665,6 +665,107 @@ const DRAGON_WISHES = {
         }
     }
 };
+const WORLD_MAP = {
+    EARTH: {
+        name: "Trái Đất",
+        locations: [
+            { id: "kame_house", name: "Kame House", description: "Nhà của Master Roshi", isStartPoint: true },
+            { id: "capsule_corp", name: "Capsule Corporation", description: "Trụ sở công ty Capsule của gia đình Bulma" },
+            { id: "tournament_arena", name: "Đấu Trường Thiên Hạ", description: "Nơi diễn ra Đại Hội Võ Thuật" },
+            { id: "korin_tower", name: "Tháp Korin", description: "Tháp cao chứa đậu thần", requiredPower: 50000 },
+            { id: "kami_lookout", name: "Khu Vực Canh Gác Của Thần", description: "Nơi ở của Thần Địa Cầu", requiredPower: 200000 },
+            { id: "cell_arena", name: "Đấu Trường Cell", description: "Nơi Cell tổ chức Cell Games", requiredPower: 500000 },
+            { id: "time_chamber", name: "Phòng Thời Gian", description: "1 ngày ngoài = 1 năm trong phòng", requiredPower: 1000000 }
+        ]
+    },
+    NAMEK: {
+        name: "Namek",
+        locations: [
+            { id: "namek_village", name: "Làng Namek", description: "Ngôi làng của người Namek", isStartPoint: true },
+            { id: "guru_house", name: "Nhà Của Đại Trưởng Lão", description: "Nơi ở của vị trưởng lão Namek" },
+            { id: "porunga_summoning", name: "Bãi Triệu Hồi Porunga", description: "Vùng đất thiêng để triệu hồi Rồng Thần" },
+            { id: "frieza_spaceship", name: "Tàu Vũ Trụ Frieza", description: "Căn cứ của Frieza trên Namek", requiredPower: 100000 },
+            { id: "namek_battlefield", name: "Chiến Trường Namek", description: "Nơi diễn ra trận chiến Goku vs Frieza", requiredPower: 300000 },
+            { id: "grand_elder", name: "Đại Trưởng Lão", description: "Nơi mở tiềm năng ẩn", requiredPower: 500000 }
+        ]
+    },
+    SAIYAN: {
+        name: "Saiyan",
+        locations: [
+            { id: "saiyan_training", name: "Khu Vực Huấn Luyện", description: "Nơi các chiến binh Saiyan tập luyện", isStartPoint: true },
+            { id: "vegeta_palace", name: "Cung Điện Vegeta", description: "Cung điện hoàng gia của tộc Saiyan" },
+            { id: "space_pod_station", name: "Trạm Vũ Trụ", description: "Nơi xuất phát các phi thuyền Saiyan" },
+            { id: "planet_core", name: "Lõi Hành Tinh", description: "Trung tâm hành tinh với năng lượng dồi dào", requiredPower: 200000 },
+            { id: "royal_garden", name: "Vườn Hoàng Gia", description: "Khu vườn của Hoàng tộc Saiyan", requiredPower: 400000 },
+            { id: "gravity_chamber", name: "Phòng Trọng Lực", description: "Phòng tập với trọng lực gấp 500 lần", requiredPower: 800000 }
+        ]
+    },
+    UNIVERSE: {
+        name: "Vũ Trụ",
+        locations: [
+            { id: "beerus_planet", name: "Hành Tinh Thần Hủy Diệt", description: "Nơi ở của Thần Hủy Diệt Beerus", requiredPower: 10000000 },
+            { id: "kaio_planet", name: "Hành Tinh Kaio", description: "Hành tinh nhỏ của Kaio-sama", requiredPower: 1000000 },
+            { id: "universe_arena", name: "Đấu Trường Vũ Trụ", description: "Nơi tổ chức giải đấu sức mạnh", requiredPower: 5000000 },
+            { id: "zen_palace", name: "Cung Điện Zenō", description: "Nơi ở của Đấng Tối Cao Zenō", requiredPower: 50000000 }
+        ],
+        requiredItems: ["universe_key"],
+        requiredPower: 5000000
+    }
+};
+
+const CAPSULE_ITEMS = {
+    BASIC_CAPSULE: {
+        id: "basic_capsule",
+        name: "Capsule",
+        price: 100000,
+        description: "Dịch chuyển đến các địa điểm cơ bản trong hành tinh",
+        type: "teleport",
+        range: "planet",
+        cooldown: 300000,
+        emoji: "💊"
+    },
+    ADVANCED_CAPSULE: {
+        id: "advanced_capsule",
+        name: "Capsule VIP",
+        price: 500000,
+        description: "Dịch chuyển đến các địa điểm nâng cao trong hành tinh",
+        type: "teleport",
+        range: "planet_advanced",
+        cooldown: 600000,
+        requiredPower: 200000,
+        emoji: "💊"
+    },
+    PLANET_CAPSULE: {
+        id: "planet_capsule",
+        name: "Capsule VIP2",
+        price: 2000000,
+        description: "Dịch chuyển giữa các hành tinh",
+        type: "teleport",
+        range: "interplanetary",
+        cooldown: 1800000,
+        requiredPower: 1000000,
+        emoji: "🚀"
+    },
+    UNIVERSE_CAPSULE: {
+        id: "universe_capsule",
+        name: "Capsule VIP3",
+        price: 10000000,
+        description: "Dịch chuyển đến bất kỳ đâu trong vũ trụ",
+        type: "teleport",
+        range: "universe",
+        cooldown: 3600000,
+        requiredPower: 5000000,
+        emoji: "✨"
+    },
+    UNIVERSE_KEY: {
+        id: "universe_key",
+        name: "Chìa Khóa Vũ Trụ",
+        price: 5000000,
+        description: "Chìa khóa để mở khóa các địa điểm vũ trụ",
+        type: "key",
+        emoji: "🔑"
+    }
+};
 
 function validatePlayerQuests(player) {
     if (!player.quests) {
@@ -695,6 +796,93 @@ function validatePlayerQuests(player) {
             }
         }
     }
+}
+function startTournament(api, threadID) {
+    const tournamentData = loadTournamentData();
+
+    if (!tournamentData.active || tournamentData.active.status !== "registration") {
+        return;
+    }
+
+    const tournamentType = TOURNAMENT_TYPES[tournamentData.active.type];
+    const participantCount = Object.keys(tournamentData.registrations).length;
+
+    if (participantCount < tournamentType.minPlayers) {
+        api.sendMessage(
+            `❌ Không đủ người tham gia để bắt đầu ${tournamentType.name}!\n` +
+            `👥 Hiện tại chỉ có: ${participantCount} người\n` +
+            `👥 Yêu cầu tối thiểu: ${tournamentType.minPlayers} người\n\n` +
+            "🏆 Giải đấu đã bị hủy, lệ phí sẽ được hoàn trả.",
+            threadID
+        );
+
+        const playerData = loadPlayerData();
+        Object.keys(tournamentData.registrations).forEach(playerId => {
+            if (playerData[playerId]) {
+                playerData[playerId].stats.zeni += tournamentType.entryFee;
+            }
+        });
+        savePlayerData(playerData);
+
+        tournamentData.active = null;
+        tournamentData.registrations = {};
+        saveTournamentData(tournamentData);
+        return;
+    }
+
+    tournamentData.active.status = "ongoing";
+    tournamentData.active.startTime = Date.now();
+
+    const players = Object.values(tournamentData.registrations);
+    for (let i = players.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [players[i], players[j]] = [players[j], players[i]];
+    }
+
+    let validPlayerCount = 2;
+    while (validPlayerCount * 2 <= players.length) {
+        validPlayerCount *= 2;
+    }
+
+    const tournamentPlayers = players.slice(0, validPlayerCount);
+
+    tournamentData.active.currentRound = 1;
+    tournamentData.active.rounds = {};
+    tournamentData.active.rounds[1] = [];
+    tournamentData.active.matches = [];
+
+    for (let i = 0; i < tournamentPlayers.length; i += 2) {
+        const matchId = i / 2 + 1;
+        const match = {
+            id: matchId,
+            round: 1,
+            player1: tournamentPlayers[i],
+            player2: tournamentPlayers[i + 1],
+            winner: null,
+            loser: null,
+            completed: false,
+            scheduledTime: Date.now() + matchId * 300000
+        };
+
+        tournamentData.active.rounds[1].push(match);
+        tournamentData.active.matches.push(match);
+    }
+
+    saveTournamentData(tournamentData);
+
+    api.sendMessage(
+        `🏆 GIẢI ĐẤU ĐÃ BẮT ĐẦU! 🏆\n` +
+        `───────────────\n` +
+        `🏟️ Giải đấu: ${tournamentType.name}\n` +
+        `👥 Số người tham gia: ${tournamentPlayers.length} người\n` +
+        `🥊 Số trận đấu vòng 1: ${tournamentData.active.rounds[1].length}\n\n` +
+        `📋 CÁC CẶP ĐẤU VÒNG 1:\n` +
+        tournamentData.active.rounds[1].map((match, index) =>
+            `${index + 1}. ${match.player1.name} VS ${match.player2.name}`
+        ).join("\n") + "\n\n" +
+        `💡 Dùng .dball fight tournament để bắt đầu trận đấu của bạn`,
+        threadID
+    );
 }
 function hasAllDragonBalls(player, planet) {
     if (!player.inventory || !player.inventory.dragonBalls) return false;
@@ -753,7 +941,7 @@ const SHOP_ITEMS = {
     }
 };
 const QUEST_TYPES = {
-    COMBAT: "COMBAT",  
+    COMBAT: "COMBAT",
     POWER: "POWER",
     TRAINING: "TRAINING",
     COLLECT: "COLLECT",
@@ -2684,12 +2872,52 @@ const BOSS_SYSTEM = {
     bossList: {
         EARTH: [
             {
+                id: "mercenary_tao",
+                name: "Đại Tá Tào Phai",
+                description: "Sát thủ máu lạnh của Quân Đoàn Rồng Đỏ",
+                power: 300000,
+                health: 800000,
+                damage: 150000,
+                ki: 200000,
+                skills: ["DODONPA", "CRANE_STYLE"],
+                drops: [
+                    { item: "crystal", chance: 0.8, quantity: 2 },
+                    { item: "senzu", chance: 1.0, quantity: 3 }
+                ],
+                minPowerRequired: 100000,
+                zeniReward: { min: 100000, max: 300000 },
+                expReward: 50000,
+                image: "https://imgur.com/oYYuIhY.jpg",
+                spawnChance: 0.4, // Tỉ lệ xuất hiện cao
+                duration: 2700000 // 45 phút
+            },
+            {
+                id: "cyborg_tao",
+                name: "Tào Phai Người Máy",
+                description: "Phiên bản nâng cấp của Đại Tá Tào Phai",
+                power: 600000,
+                health: 1500000,
+                damage: 300000,
+                ki: 400000,
+                skills: ["SUPER_DODONPA", "CRANE_KICK"],
+                drops: [
+                    { item: "crystal", chance: 0.8, quantity: 3 },
+                    { item: "senzu", chance: 1.0, quantity: 4 }
+                ],
+                minPowerRequired: 200000,
+                zeniReward: { min: 200000, max: 500000 },
+                expReward: 80000,
+                image: "https://imgur.com/o22ziEa.jpg",
+                spawnChance: 0.35, // Tỉ lệ xuất hiện khá cao
+                duration: 3600000 // 1 giờ
+            },
+            {
                 id: "king_piccolo",
                 name: "Đại Ma Vương Piccolo",
                 description: "Ma vương của Địa Cầu, từng suýt hủy diệt thế giới",
                 power: 1500000,
                 health: 5000000,
-                damage: 500000,     
+                damage: 500000,
                 ki: 500000,
                 skills: ["DEMON_PUNCH", "NAMEK_FUSION"],
                 drops: [
@@ -2727,6 +2955,46 @@ const BOSS_SYSTEM = {
             }
         ],
         NAMEK: [
+            {
+                id: "dodoria_squad",
+                name: "Đội Trưởng Dodoria",
+                description: "Thủ hạ đắc lực của Frieza, chỉ huy đội quân xâm lược Namek",
+                power: 400000,
+                health: 1000000,
+                damage: 200000,
+                ki: 300000,
+                skills: ["ENERGY_CANNON", "DEATH_BEAM"],
+                drops: [
+                    { item: "crystal", chance: 0.7, quantity: 2 },
+                    { item: "senzu", chance: 1.0, quantity: 3 }
+                ],
+                minPowerRequired: 150000,
+                zeniReward: { min: 150000, max: 400000 },
+                expReward: 60000,
+                image: "https://imgur.com/ZsJZMgF.jpg",
+                spawnChance: 0.45, // Tỉ lệ xuất hiện rất cao
+                duration: 2700000 // 45 phút
+            },
+            {
+                id: "zarbon_monster",
+                name: "Zarbon Dạng Quái Vật",
+                description: "Hình dạng biến đổi của Zarbon, tăng sức mạnh gấp nhiều lần",
+                power: 800000,
+                health: 2000000,
+                damage: 400000,
+                ki: 600000,
+                skills: ["ELEGANT_BLASTER", "MONSTER_CRUSH"],
+                drops: [
+                    { item: "crystal", chance: 0.8, quantity: 3 },
+                    { item: "senzu", chance: 1.0, quantity: 5 }
+                ],
+                minPowerRequired: 300000,
+                zeniReward: { min: 300000, max: 600000 },
+                expReward: 100000,
+                image: "https://imgur.com/jjvvAox.jpg",
+                spawnChance: 0.35, // Tỉ lệ xuất hiện khá cao
+                duration: 3600000 // 1 giờ
+            },
             {
                 id: "frieza",
                 name: "Frieza Dạng Cuối",
@@ -2771,6 +3039,46 @@ const BOSS_SYSTEM = {
             }
         ],
         SAIYAN: [
+            {
+                id: "nappa_elite",
+                name: "Nappa Tinh Nhuệ",
+                description: "Chiến binh Saiyan cấp cao, cựu chỉ huy đội quân hoàng gia",
+                power: 500000,
+                health: 1200000,
+                damage: 250000,
+                ki: 400000,
+                skills: ["GIANT_STORM", "BREAK_CANNON"],
+                drops: [
+                    { item: "crystal", chance: 0.7, quantity: 2 },
+                    { item: "senzu", chance: 1.0, quantity: 4 }
+                ],
+                minPowerRequired: 200000,
+                zeniReward: { min: 200000, max: 450000 },
+                expReward: 70000,
+                image: "https://imgur.com/ayzW24V.jpg",
+                spawnChance: 0.4, // Tỉ lệ xuất hiện cao
+                duration: 3600000 // 1 giờ
+            },
+            {
+                id: "saiyan_squad",
+                name: "Đội Đặc Nhiệm Saiyan",
+                description: "Nhóm chiến binh Saiyan tinh nhuệ còn sót lại",
+                power: 700000,
+                health: 1800000,
+                damage: 350000,
+                ki: 500000,
+                skills: ["DOUBLE_SUNDAY", "SATURDAY_CRUSH"],
+                drops: [
+                    { item: "crystal", chance: 0.8, quantity: 3 },
+                    { item: "senzu", chance: 1.0, quantity: 5 }
+                ],
+                minPowerRequired: 250000,
+                zeniReward: { min: 250000, max: 500000 },
+                expReward: 90000,
+                image: "https://imgur.com/qtsWBsI.jpg",
+                spawnChance: 0.35, // Tỉ lệ xuất hiện khá cao
+                duration: 3600000 // 1 giờ
+            },
             {
                 id: "broly",
                 name: "Broly Super Saiyan Huyền Thoại",
@@ -2832,35 +3140,40 @@ const BOSS_SYSTEM = {
             return;
         }
 
-        Object.keys(PLANETS).forEach(planet => {
-            const locationList = WORLD_LOCATIONS[planet];
-            const bossList = this.bossList[planet];
+        if (Math.random() > 0.1) return;
 
-            if (!locationList || !bossList) return;
+        const planetKeys = Object.keys(PLANETS);
+        const randomPlanet = planetKeys[Math.floor(Math.random() * planetKeys.length)];
 
-            if (Math.random() > 0.1) return;
+        const bossList = this.bossList[randomPlanet];
+        if (!bossList || bossList.length === 0) return;
 
-            const randomBoss = bossList[Math.floor(Math.random() * bossList.length)];
-            const randomLocation = locationList[Math.floor(Math.random() * locationList.length)];
+        const randomBoss = bossList[Math.floor(Math.random() * bossList.length)];
 
-            if (Math.random() > randomBoss.spawnChance) return;
+        const locationList = WORLD_MAP[randomPlanet]?.locations;
+        if (!locationList || locationList.length === 0) return;
 
-            const eventId = `${planet}_${randomBoss.id}_${now}`;
+        const eligibleLocations = locationList.filter(loc => !loc.isStartPoint);
+        if (eligibleLocations.length === 0) return;
 
-            this.activeEvents[eventId] = {
-                id: eventId,
-                planet: planet,
-                location: randomLocation,
-                boss: randomBoss,
-                participants: {},
-                damageDealt: {},
-                spawnTime: now,
-                expireTime: now + randomBoss.duration,
-                defeated: false
-            };
+        const randomLocation = eligibleLocations[Math.floor(Math.random() * eligibleLocations.length)];
 
-            console.log(`New boss spawned: ${randomBoss.name} at ${randomLocation.name} on ${planet}`);
-        });
+        if (Math.random() > randomBoss.spawnChance) return;
+
+        const eventId = `${randomPlanet}_${randomBoss.id}_${now}`;
+        this.activeEvents[eventId] = {
+            id: eventId,
+            planet: randomPlanet,
+            location: randomLocation,
+            boss: randomBoss,
+            participants: {},
+            damageDealt: {},
+            spawnTime: now,
+            expireTime: now + randomBoss.duration,
+            defeated: false
+        };
+
+        console.log(`New boss spawned: ${randomBoss.name} at ${randomLocation.name} on ${randomPlanet}`);
     },
 
     getActiveEvents() {
@@ -2890,13 +3203,11 @@ const BOSS_SYSTEM = {
             };
         }
 
-        // Add damage
         if (!event.damageDealt[playerId]) {
             event.damageDealt[playerId] = 0;
         }
         event.damageDealt[playerId] += damageAmount;
 
-        // Check if boss is defeated
         const totalDamage = Object.values(event.damageDealt).reduce((sum, damage) => sum + damage, 0);
         if (totalDamage >= event.boss.health && !event.defeated) {
             event.defeated = true;
@@ -2907,7 +3218,6 @@ const BOSS_SYSTEM = {
         return event.defeated;
     },
 
-    // Get rewards for a player based on their contribution
     getPlayerRewards(eventId, playerId) {
         if (!this.activeEvents[eventId] || !this.activeEvents[eventId].defeated) {
             return null;
@@ -2921,15 +3231,12 @@ const BOSS_SYSTEM = {
         const totalDamage = Object.values(event.damageDealt).reduce((sum, damage) => sum + damage, 0);
         const contributionRatio = event.damageDealt[playerId] / totalDamage;
 
-        // Calculate rewards based on contribution
         const zeniBase = event.boss.zeniReward.min + Math.random() * (event.boss.zeniReward.max - event.boss.zeniReward.min);
         const zeniReward = Math.floor(zeniBase * contributionRatio);
         const expReward = Math.floor(event.boss.expReward * contributionRatio);
 
-        // Calculate drops
         const drops = [];
         event.boss.drops.forEach(drop => {
-            // Adjust drop chance based on contribution (higher contribution = better chance)
             const adjustedChance = drop.chance * (0.5 + 0.5 * contributionRatio);
             if (Math.random() < adjustedChance) {
                 drops.push({
@@ -2982,6 +3289,13 @@ function updateCooldowns(skillCooldowns) {
         }
     }
 }
+function checkPlayer(api, event, player) {
+    if (!player) {
+        api.sendMessage("❌ Bạn chưa tạo nhân vật! Gõ .dball để tạo nhân vật mới.", event.threadID, event.messageID);
+        return false;
+    }
+    return true;
+}
 function initializeSkillCooldowns() {
     return {
         WHISTLE: { cooldown: 6, currentCooldown: 0, usesLeft: 1 },
@@ -3010,6 +3324,18 @@ function initializeSkillCooldowns() {
         CADICH_LIEN_HOAN_TRUONG: { cooldown: 6, currentCooldown: 0, usesLeft: 1, lateTurn: true },
 
     };
+}
+function selectRandomMonster(planet) {
+    const planetMonsters = Object.values(MONSTERS).filter(monster =>
+        monster.planet === planet
+    );
+
+    if (planetMonsters.length === 0) {
+        return null;
+    }
+
+    const randomIndex = Math.floor(Math.random() * planetMonsters.length);
+    return planetMonsters[randomIndex];
 }
 function applyEquipmentBoosts(player) {
 
@@ -3077,7 +3403,22 @@ function applyEquipmentBoosts(player) {
 
     return player;
 }
+function updatePlayerLocation(player) {
+    if (!player.location) {
+        const startLocation = WORLD_MAP[player.planet]?.locations.find(loc => loc.isStartPoint) ||
+            WORLD_MAP[player.planet]?.locations[0];
 
+        if (startLocation) {
+            player.location = {
+                planet: player.planet,
+                locationId: startLocation.id,
+                name: startLocation.name,
+                lastTeleport: 0
+            };
+        }
+    }
+    return player;
+}
 function simulateBattle(player1, player2, options = {}) {
     const isMonsterBattle = player2.hp !== undefined;
 
@@ -3204,14 +3545,14 @@ function simulateBattle(player1, player2, options = {}) {
                             switch (skillName) {
                                 case "ENERGY_SHIELD":
                                 case "KHIEN_NANG_LUONG":
-                                    battleState.player1Defense = 0.5; 
+                                    battleState.player1Defense = 0.5;
                                     battleState.player1ShieldDuration = 3;
                                     battleLog.push(`${player1.name} kích hoạt ${skillData.name}, giảm sát thương nhận vào! (Hồi chiêu: ${getSafeCooldown(battleState.player1SkillCooldowns, skillName)} lượt)`);
                                     break;
 
                                 case "BIND":
                                 case "TROI":
-                                    battleState.player2Stunned = 2; 
+                                    battleState.player2Stunned = 2;
                                     battleLog.push(`${player1.name} sử dụng ${skillData.name}, ${isMonsterBattle ? player2.name : player2.name} bị trói! (Hồi chiêu: ${getSafeCooldown(battleState.player1SkillCooldowns, skillName)} lượt)`);
                                     break;
 
@@ -3221,11 +3562,11 @@ function simulateBattle(player1, player2, options = {}) {
                                     break;
                                 case "EVIL_CONTAINMENT":
                                     battleState.player2Stunned = 3;
-                                    battleState.player2Defense = 1.0; 
+                                    battleState.player2Defense = 1.0;
                                     battleState.player2PowerBoost = 1.0;
                                     battleState.player2ShieldDuration = 0;
 
-                                    battleState.player1Ki = Math.floor(battleState.player1Ki * 0.2); 
+                                    battleState.player1Ki = Math.floor(battleState.player1Ki * 0.2);
 
                                     battleLog.push(`${player1.name} thi triển bí kỹ ${skillData.name}, nhốt ${isMonsterBattle ? player2.name : player2.name} vào bình phong ấn! ${player2.name} không thể hành động trong 3 lượt!`);
                                     battleLog.push(`⚠️ ${player1.name} đã tiêu hao 80% Ki sau khi sử dụng Ma Phong Ba!`);
@@ -3236,13 +3577,13 @@ function simulateBattle(player1, player2, options = {}) {
                                     break;
                                 case "WHISTLE":
                                 case "HUYT_SAO":
-                                    battleState.player2AttackReduced = 0.7; 
+                                    battleState.player2AttackReduced = 0.7;
                                     battleState.player2DebuffDuration = 3;
                                     battleLog.push(`${player1.name} sử dụng ${skillData.name}, làm giảm sức tấn công của đối thủ! (Hồi chiêu: ${getSafeCooldown(battleState.player1SkillCooldowns, skillName)} lượt)`);
                                     break;
 
                                 case "KAIOKEN":
-                                    battleState.player1PowerBoost = 3.0; 
+                                    battleState.player1PowerBoost = 3.0;
                                     battleState.player1BoostDuration = 4;
                                     battleLog.push(`${player1.name} kích hoạt ${skillData.name}, sức mạnh tăng gấp 3 lần! (Hồi chiêu: ${getSafeCooldown(battleState.player1SkillCooldowns, skillName)} lượt)`);
                                     break;
@@ -3277,7 +3618,7 @@ function simulateBattle(player1, player2, options = {}) {
             } else {
                 let baseAttackSkill;
                 let baseAttackName;
-                let baseDamageMultiplier = 1.2; 
+                let baseDamageMultiplier = 1.2;
                 if (player1.planet === "EARTH") {
                     baseAttackSkill = "DRAGON_PUNCH";
                     baseAttackName = "Đấm Dragon";
@@ -3291,38 +3632,38 @@ function simulateBattle(player1, player2, options = {}) {
                     baseAttackSkill = "DRAGON_PUNCH";
                     baseAttackName = "Đấm Cơ Bản";
                 }
-                
+
                 let damage = Math.floor(player1.stats.damage * baseDamageMultiplier * battleState.player1AttackReduced * battleState.player1PowerBoost);
-                
+
                 const isCritical = Math.random() < 0.1;
                 if (isCritical) {
                     damage = Math.floor(damage * 1.5);
                     battleStats.criticalHits++;
                     battleLog.push(`💥 CHÍ MẠNG! ${player1.name} gây thêm 50% sát thương!`);
                 }
-                
+
                 const isCombo = Math.random() < 0.15;
                 if (isCombo) {
-                    const comboHits = Math.floor(Math.random() * 3) + 2; 
+                    const comboHits = Math.floor(Math.random() * 3) + 2;
                     const comboDamage = Math.floor(damage * 0.3) * comboHits;
                     damage += comboDamage;
-                    
+
                     battleStats.currentCombo++;
                     if (battleStats.currentCombo > battleStats.maxCombo) {
                         battleStats.maxCombo = battleStats.currentCombo;
                     }
-                    
+
                     battleLog.push(`⚡ COMBO! ${player1.name} thực hiện Combo x${comboHits} gây thêm ${comboDamage.toLocaleString()} sát thương!`);
                 } else {
                     battleStats.currentCombo = 0;
                 }
-                
+
                 const finalDamage = Math.floor(damage * battleState.player2Defense);
                 battleState.player2HP -= finalDamage;
                 totalDamage.attacker += finalDamage;
-                
+
                 battleStats.momentum += 1;
-                
+
                 battleLog.push(`${player1.name} sử dụng ${baseAttackName}, gây ${finalDamage.toLocaleString()} sát thương!`);
             }
         } else {
@@ -3902,228 +4243,6 @@ function getTournamentRank(tournamentData, playerId) {
     return rank;
 }
 
-function selectBestSkill(player, playerHP, playerKi, opponentHP, playerStates, opponentStates, battleLog, currentTurn, skillCooldowns) {
-    if (!player || !player.skills || player.skills.length === 0) return null;
-
-    const maxHP = player.stats.health;
-    const maxKi = player.stats.ki;
-    const hpPercent = (playerHP / maxHP) * 100;
-    const kiPercent = (playerKi / maxKi) * 100;
-    
-    console.log(`DEBUG: hpPercent=${hpPercent}, kiPercent=${kiPercent}, currentTurn=${currentTurn}`);
-
-    const usableSkills = player.skills.filter(skillChoice => {
-        const [master, skillName] = skillChoice.split(":");
-        if (!MASTERS[master]?.skills[skillName]) return false;
-
-        const skillData = MASTERS[master].skills[skillName];
-        const kiCost = skillData.kiCost > 0 ?
-            Math.floor(maxKi * skillData.kiCost) :
-            Math.floor(maxKi * Math.abs(skillData.kiCost));
-
-        if (skillCooldowns[skillName] && skillCooldowns[skillName].currentCooldown > 0) {
-            console.log(`Skill ${skillName} on cooldown: ${skillCooldowns[skillName].currentCooldown}`);
-            return false;
-        }
-
-        if (skillCooldowns[skillName] && skillCooldowns[skillName].usesLeft === 0) {
-            console.log(`Skill ${skillName} has no uses left`);
-            return false;
-        }
-
-        if (skillCooldowns[skillName] && skillCooldowns[skillName].lateTurn && currentTurn < 10) {
-            console.log(`Skill ${skillName} is for late game only`);
-            return false;
-        }
-
-        if (skillData.kiCost > 0 && playerKi < kiCost) {
-            console.log(`Not enough Ki for ${skillName}: have ${playerKi}, need ${kiCost}`);
-            return false;
-        }
-
-        return true;
-    });
-
-    if (usableSkills.length === 0) {
-        console.log("No usable skills found");
-        return null;
-    }
-
-    console.log(`Usable skills: ${usableSkills.join(", ")}`);
-
-    const battlePhase = currentTurn <= 5 ? "early" : (currentTurn <= 15 ? "mid" : "late");
-    console.log(`Battle phase: ${battlePhase}`);
-
-    const skillScores = usableSkills.map(skillChoice => {
-        const [master, skillName] = skillChoice.split(":");
-        const skillData = MASTERS[master]?.skills[skillName];
-        let score = 50; 
-       
-        if (skillName === "WHISTLE" || skillName === "REGENERATE_ENERGY") {
-            if (hpPercent < 30) {
-                score += 300; 
-                console.log(`${skillName}: +300 score for low HP`);
-            } else if (kiPercent < 30) {
-                score += 250; 
-                console.log(`${skillName}: +250 score for low Ki`);
-            }
-
-            if (battlePhase === "early") {
-                score -= 100; 
-                console.log(`${skillName}: -100 score for early game`);
-            }
-        }
-
-        if (skillName === "ENERGY_SHIELD" || skillName === "KHIEN_NANG_LUONG") {
-            if (hpPercent < 40) {
-                score += 250; 
-                console.log(`${skillName}: +250 score for low HP`);
-            }
-
-            if (battlePhase === "early") {
-                score -= 150; 
-                console.log(`${skillName}: -150 score for early game`);
-            }
-        }
-
-        if (skillName === "MAKANKOSAPPO") {
-            score += 200;
-
-            if (opponentHP / opponentStates.maxHP < 0.4) {
-                score += 150;
-                console.log(`${skillName}: +150 score for weak opponent`);
-            }
-
-            if (kiPercent < 60) {
-                score -= 100; 
-                console.log(`${skillName}: -100 score for low Ki`);
-            }
-        }
-
-        if (skillName === "RAPID_PUNCH") {
-            score += 150; 
-
-            if (kiPercent > 70) {
-                score += 50; 
-                console.log(`${skillName}: +50 score for high Ki`);
-            }
-            
-            if (kiPercent > 90) {
-                score += 50;
-                console.log(`${skillName}: +50 score for very high Ki`);
-            }
-
-            if (kiPercent < 40) {
-                score -= 50; 
-                console.log(`${skillName}: -50 score for low Ki`);
-            }
-        }
-
-        if (skillName === "HEALING") {
-            if (hpPercent < 30) {
-                score += 400; 
-                console.log(`${skillName}: +400 score for low HP`);
-            } else if (hpPercent < 60) {
-                score += 200; 
-                console.log(`${skillName}: +200 score for medium HP`);
-            } else {
-                score += 50; 
-                console.log(`${skillName}: +50 score for high HP`);
-            }
-
-            if (battlePhase === "early" && hpPercent > 70) {
-                score -= 200; 
-                console.log(`${skillName}: -200 score for early game with high HP`);
-            }
-        }
-
-        if (skillName === "BIND" || skillName === "TROI" || 
-            skillName === "SOLAR_FLARE" || skillName === "EVIL_CONTAINMENT") {
-            
-            if (opponentStates.power > playerStates.power * 1.2) {
-                score += 250;
-                console.log(`${skillName}: +250 score for stronger opponent`);
-            }
-            
-            if (battlePhase === "mid") {
-                score += 150;
-                console.log(`${skillName}: +150 score for mid game`);
-            }
-        }
-
-        if (skillData.powerScale > 3.0) {
-            score += skillData.powerScale * 100; 
-            console.log(`${skillName}: +${skillData.powerScale * 100} score for powerful attack`);
-
-            if (opponentHP / opponentStates.maxHP < 0.3) {
-                score += 300;
-                console.log(`${skillName}: +300 score for finishing move against weak opponent`);
-            }
-
-            if (kiPercent < 70) {
-                score -= 200;
-                console.log(`${skillName}: -200 score for insufficient Ki`);
-            }
-
-            if (skillName === "SPIRIT_BOMB") {
-                if (battlePhase === "late") {
-                    score += 300;
-                    console.log(`${skillName}: +300 score for late game`);
-                } else if (battlePhase === "early") {
-                    score -= 400;
-                    console.log(`${skillName}: -400 score for early game`);
-                }
-            }
-        }
-
-        // ĐIỂM CHO CÁC KỸ NĂNG BIẾN HÌNH
-        if (skillName === "GREAT_APE" || skillName === "KAIOKEN") {
-            if (battlePhase === "early") {
-                score -= 300; // Không dùng ở đầu trận
-                console.log(`${skillName}: -300 score for early game`);
-            } else {
-                score += 200; // Ưu tiên ở mid-late game
-                console.log(`${skillName}: +200 score for mid/late game`);
-                
-                // Ưu tiên hơn khi HP thấp
-                if (hpPercent < 50) {
-                    score += 150;
-                    console.log(`${skillName}: +150 score for low HP`);
-                }
-            }
-        }
-
-        // Thêm yếu tố ngẫu nhiên để AI không quá dự đoán
-        const randomFactor = Math.floor(Math.random() * 100);
-        score += randomFactor;
-        console.log(`${skillName}: +${randomFactor} random score`);
-
-        console.log(`${skillName} final score: ${score}`);
-        return { skillChoice, skillName, score };
-    });
-
-    // Sắp xếp theo điểm và chọn kỹ năng tốt nhất
-    skillScores.sort((a, b) => b.score - a.score);
-    console.log(`Best skill: ${skillScores[0]?.skillName} with score ${skillScores[0]?.score}`);
-
-    if (skillScores.length > 0) {
-        const selectedSkill = skillScores[0];
-
-        // Áp dụng cooldown và giảm số lần sử dụng
-        if (skillCooldowns[selectedSkill.skillName]) {
-            skillCooldowns[selectedSkill.skillName].currentCooldown = skillCooldowns[selectedSkill.skillName].cooldown || 0;
-
-            if (skillCooldowns[selectedSkill.skillName].usesLeft !== undefined && 
-                skillCooldowns[selectedSkill.skillName].usesLeft > 0) {
-                skillCooldowns[selectedSkill.skillName].usesLeft--;
-            }
-        }
-
-        return selectedSkill.skillChoice;
-    }
-
-    return null;
-}
 function getVisualEffectForItem(itemId) {
     const effectMap = {
         "scouter": {
@@ -4796,8 +4915,8 @@ async function displayPVPBattle(api, threadID, messageID, battleResult, player1,
     await new Promise(resolve => setTimeout(resolve, 5000));
 
     const enhancedBattleLog = [];
-    const skillUsed = new Set(); 
-    
+    const skillUsed = new Set();
+
     battleLog.forEach(log => {
         if (log.includes("sử dụng") && (
             log.includes("Kamejoko") || log.includes("Đấm Dragon") ||
@@ -4810,12 +4929,12 @@ async function displayPVPBattle(api, threadID, messageID, battleResult, player1,
             log.includes("Huýt Sáo") || log.includes("Trói") ||
             log.includes("Ma Phong Ba") || log.includes("Cadich")
         )) {
-            const skillKey = log.substring(0, 50); 
+            const skillKey = log.substring(0, 50);
             if (!skillUsed.has(skillKey)) {
                 enhancedBattleLog.push(`🔥 KỸ NĂNG: ${log}`);
                 skillUsed.add(skillKey);
             } else {
-                enhancedBattleLog.push(log); 
+                enhancedBattleLog.push(log);
             }
         }
         else if (log.includes("CHÍ MẠNG")) {
@@ -4840,10 +4959,10 @@ async function displayPVPBattle(api, threadID, messageID, battleResult, player1,
 
     const chunkSize = 15;
     const battleLogChunks = [];
-    
+
     let currentChunk = [];
     let currentTurn = 0;
-    
+
     enhancedBattleLog.forEach(log => {
         if (log.includes("----- Lượt")) {
             currentTurn++;
@@ -4854,49 +4973,49 @@ async function displayPVPBattle(api, threadID, messageID, battleResult, player1,
         }
         currentChunk.push(log);
     });
-    
+
     if (currentChunk.length > 0) {
         battleLogChunks.push(currentChunk);
     }
 
     for (let i = 0; i < battleLogChunks.length; i++) {
         const chunk = battleLogChunks[i];
-        
-        const importantEvents = chunk.filter(log => 
-            log.startsWith("🔥 KỸ NĂNG:") || 
-            log.startsWith("💥") || 
+
+        const importantEvents = chunk.filter(log =>
+            log.startsWith("🔥 KỸ NĂNG:") ||
+            log.startsWith("💥") ||
             log.startsWith("⚡") ||
             log.startsWith("🛡️") && !log.includes("biến mất") ||
             log.startsWith("😵")
         );
-        
+
         const cleanedEvents = importantEvents.map(event => {
             if (event.startsWith("🔥 KỸ NĂNG: ")) {
                 return event.replace("🔥 KỸ NĂNG: ", "");
             }
             return event;
         });
-        
+
         let summary = "";
         if (cleanedEvents.length > 0) {
             summary = "\n\n📌 SỰ KIỆN QUAN TRỌNG:";
-            
+
             const skillEvents = cleanedEvents.filter(e => e.includes("sử dụng") && !e.startsWith("💥") && !e.startsWith("⚡"));
             const critEvents = cleanedEvents.filter(e => e.startsWith("💥"));
             const comboEvents = cleanedEvents.filter(e => e.startsWith("⚡"));
             const shieldEvents = cleanedEvents.filter(e => e.startsWith("🛡️"));
             const stunEvents = cleanedEvents.filter(e => e.startsWith("😵"));
-            
+
             if (skillEvents.length > 0) summary += "\n" + [...new Set(skillEvents)].join("\n");
             if (critEvents.length > 0) summary += "\n" + [...new Set(critEvents)].join("\n");
             if (comboEvents.length > 0) summary += "\n" + [...new Set(comboEvents)].join("\n");
             if (shieldEvents.length > 0) summary += "\n" + [...new Set(shieldEvents)].join("\n");
             if (stunEvents.length > 0) summary += "\n" + [...new Set(stunEvents)].join("\n");
         }
-        
+
         const chunkMessage = `📝 DIỄN BIẾN TRẬN ĐẤU (${i + 1}/${battleLogChunks.length})\n\n${chunk.join('\n')}${summary}`;
         await api.sendMessage(chunkMessage, threadID);
-        
+
         if (i < battleLogChunks.length - 1) {
             await new Promise(resolve => setTimeout(resolve, 8000));
         }
@@ -4932,7 +5051,7 @@ function createBattleSummaryText(battleResult, player1, player2) {
     } else {
         summary += `🏆 ${winner.name} CHIẾN THẮNG! 🏆\n\n`;
     }
-u
+    u
     summary += `⏱️ Số lượt: ${turns}\n`;
     summary += `⏳ Thời gian: ${Math.round((battleStats?.duration || 0) / 1000)} giây\n`;
     summary += `🔄 Combo cao nhất: x${battleStats?.maxCombo || 0}\n\n`;
@@ -5022,139 +5141,139 @@ function selectBestSkill(player, playerHP, playerKi, opponentHP, playerStates, o
     if (usableSkills.length === 0) return null;
 
     const shouldUseSpecialSkill = Math.random() < 0.5;
-    
+
     const attackSkills = usableSkills.filter(skillChoice => {
         const [master, skillName] = skillChoice.split(":");
         const powerScale = MASTERS[master]?.skills[skillName]?.powerScale || 0;
         return powerScale > 0;
     });
-    
+
     const supportSkills = usableSkills.filter(skillChoice => {
         const [master, skillName] = skillChoice.split(":");
         const powerScale = MASTERS[master]?.skills[skillName]?.powerScale || 0;
         return powerScale === 0;
     });
-    
+
     if (hpPercent < 40 && supportSkills.length > 0 && Math.random() < 0.7) {
         const healingSkills = supportSkills.filter(skill => {
             const [master, skillName] = skill.split(":");
             return skillName === "HEALING" || skillName === "WHISTLE";
         });
-        
+
         if (healingSkills.length > 0) {
             const selectedSkill = healingSkills[Math.floor(Math.random() * healingSkills.length)];
             const [master, skillName] = selectedSkill.split(":");
-            
+
             if (skillCooldowns[skillName]) {
                 skillCooldowns[skillName].currentCooldown = skillCooldowns[skillName].cooldown || 0;
                 if (skillCooldowns[skillName].usesLeft !== undefined) {
                     skillCooldowns[skillName].usesLeft--;
                 }
             }
-            
+
             return selectedSkill;
         }
     }
-    
+
     if (playerStates.power < opponentStates.power * 0.8 && supportSkills.length > 0 && Math.random() < 0.6) {
         const defenseSkills = supportSkills.filter(skill => {
             const [master, skillName] = skill.split(":");
             return skillName === "ENERGY_SHIELD" || skillName === "KHIEN_NANG_LUONG";
         });
-        
+
         if (defenseSkills.length > 0) {
             const selectedSkill = defenseSkills[Math.floor(Math.random() * defenseSkills.length)];
             const [master, skillName] = selectedSkill.split(":");
-            
+
             if (skillCooldowns[skillName]) {
                 skillCooldowns[skillName].currentCooldown = skillCooldowns[skillName].cooldown || 0;
                 if (skillCooldowns[skillName].usesLeft !== undefined) {
                     skillCooldowns[skillName].usesLeft--;
                 }
             }
-            
+
             return selectedSkill;
         }
     }
-    
+
     if (currentTurn > 5 && supportSkills.length > 0 && Math.random() < 0.4) {
         const controlSkills = supportSkills.filter(skill => {
             const [master, skillName] = skill.split(":");
-            return skillName === "BIND" || skillName === "TROI" || 
-                  skillName === "SOLAR_FLARE" || skillName === "EVIL_CONTAINMENT";
+            return skillName === "BIND" || skillName === "TROI" ||
+                skillName === "SOLAR_FLARE" || skillName === "EVIL_CONTAINMENT";
         });
-        
+
         if (controlSkills.length > 0) {
             const selectedSkill = controlSkills[Math.floor(Math.random() * controlSkills.length)];
             const [master, skillName] = selectedSkill.split(":");
-            
+
             if (skillCooldowns[skillName]) {
                 skillCooldowns[skillName].currentCooldown = skillCooldowns[skillName].cooldown || 0;
                 if (skillCooldowns[skillName].usesLeft !== undefined) {
                     skillCooldowns[skillName].usesLeft--;
                 }
             }
-            
+
             return selectedSkill;
         }
     }
-    
+
     if (currentTurn > 10 && attackSkills.length > 0) {
         const strongAttacks = attackSkills.filter(skill => {
             const [master, skillName] = skill.split(":");
             const powerScale = MASTERS[master]?.skills[skillName]?.powerScale || 0;
             return powerScale >= 2.0;
         });
-        
+
         if (strongAttacks.length > 0 && Math.random() < 0.7) {
             const selectedSkill = strongAttacks[Math.floor(Math.random() * strongAttacks.length)];
             const [master, skillName] = selectedSkill.split(":");
-            
+
             if (skillCooldowns[skillName]) {
                 skillCooldowns[skillName].currentCooldown = skillCooldowns[skillName].cooldown || 0;
                 if (skillCooldowns[skillName].usesLeft !== undefined) {
                     skillCooldowns[skillName].usesLeft--;
                 }
             }
-            
+
             return selectedSkill;
         }
     }
-    
+
     if (kiPercent > 70 && attackSkills.length > 0) {
         const normalAttacks = attackSkills.filter(skill => {
             const [master, skillName] = skill.split(":");
             const powerScale = MASTERS[master]?.skills[skillName]?.powerScale || 0;
             return powerScale > 0 && powerScale < 2.0;
         });
-        
+
         if (normalAttacks.length > 0 && Math.random() < 0.6) {
             const selectedSkill = normalAttacks[Math.floor(Math.random() * normalAttacks.length)];
             const [master, skillName] = selectedSkill.split(":");
-            
+
             if (skillCooldowns[skillName]) {
                 skillCooldowns[skillName].currentCooldown = skillCooldowns[skillName].cooldown || 0;
                 if (skillCooldowns[skillName].usesLeft !== undefined) {
                     skillCooldowns[skillName].usesLeft--;
                 }
             }
-            
+
             return selectedSkill;
         }
     }
-    
+
     if (usableSkills.length > 0) {
         const randomIndex = Math.floor(Math.random() * usableSkills.length);
         const selectedSkill = usableSkills[randomIndex];
         const [master, skillName] = selectedSkill.split(":");
-        
+
         if (skillCooldowns[skillName]) {
             skillCooldowns[skillName].currentCooldown = skillCooldowns[skillName].cooldown || 0;
             if (skillCooldowns[skillName].usesLeft !== undefined) {
                 skillCooldowns[skillName].usesLeft--;
             }
         }
-        
+
         return selectedSkill;
     }
 
@@ -5283,7 +5402,7 @@ function calculatePowerGain(currentPower, locationMultiplier = 1) {
     return Math.max(1000, Math.floor(basePowerGain * randomFactor));
 }
 function calculateExpGain(power, damage) {
-    // Điều chỉnh tỷ lệ giảm EXP theo mốc sức mạnh
+
     let expScale = 1.0;
 
     if (power >= 90000000000) { // >90B
@@ -5306,10 +5425,8 @@ function calculateExpGain(power, damage) {
         expScale = 0.5;
     }
 
-    // Công thức tính EXP cơ bản
     const baseExp = Math.floor((power * 0.02 + damage * 0.01) * expScale);
 
-    // Thêm yếu tố ngẫu nhiên (±20%)
     const randomFactor = 0.8 + Math.random() * 0.4;
 
     return Math.max(100, Math.floor(baseExp * randomFactor));
@@ -5332,6 +5449,61 @@ module.exports = {
                 BOSS_SYSTEM.saveBossData();
                 console.log("Checked for new boss events");
             }, 5 * 60 * 1000);
+        }
+
+        if (!this.tournamentCheckInterval) {
+            this.tournamentCheckInterval = setInterval(() => {
+                const now = new Date();
+                const hour = now.getHours();
+                const minute = now.getMinutes();
+                const dayOfWeek = now.getDay();
+
+                if (hour === 19 && minute === 0) {
+                    const tournamentData = loadTournamentData();
+
+                    if (!tournamentData.active || tournamentData.active.status === "completed") {
+
+                        let tournamentType;
+                        if (dayOfWeek === 0) {
+                            tournamentType = "UNIVERSE";
+                        } else if (dayOfWeek % 2 === 1) {
+                            tournamentType = "TENKAICHI";
+                        } else {
+                            tournamentType = "CELL";
+                        }
+                        tournamentData.active = {
+                            type: tournamentType,
+                            status: "registration",
+                            startTime: Date.now(),
+                            endTime: null,
+                            organizer: {
+                                id: "system",
+                                name: "Hệ Thống"
+                            },
+                            matches: [],
+                            rounds: {},
+                            currentRound: 0,
+                            winners: {
+                                first: null,
+                                second: null,
+                                semifinalists: []
+                            }
+                        };
+
+                        tournamentData.registrations = {};
+                        saveTournamentData(tournamentData);
+
+                        setTimeout(() => {
+                            const currentTournament = loadTournamentData();
+                            if (currentTournament.active && currentTournament.active.status === "registration") {
+                                startTournament(global.api, "");
+                            }
+                        }, 15 * 60 * 1000);
+
+                        console.log(`Tournament ${tournamentType} created at ${now.toLocaleString()}`);
+                    }
+                }
+            }, 60 * 1000);
         }
 
         return {
@@ -5500,7 +5672,12 @@ module.exports = {
                 } else if (planet === "NAMEK") {
                     playerData[senderID].skills.push("PICCOLO:DEMON_PUNCH");
                 }
-
+                playerData[senderID].location = {
+                    planet: planet,
+                    locationId: WORLD_MAP[planet].locations.find(loc => loc.isStartPoint)?.id || WORLD_MAP[planet].locations[0].id,
+                    name: WORLD_MAP[planet].locations.find(loc => loc.isStartPoint)?.name || WORLD_MAP[planet].locations[0].name,
+                    lastTeleport: 0
+                };
                 playerData[senderID].evolution = {
                     name: planet === "EARTH" ? "Con người thường" :
                         planet === "SAIYAN" ? "Saiyan thường" :
@@ -5595,9 +5772,7 @@ module.exports = {
             switch (command) {
                 case "info": {
                     const player = playerData[senderID];
-                    if (!player) {
-                        return api.sendMessage("❌ Bạn chưa tạo nhân vật!", threadID, messageID);
-                    }
+                    if (!checkPlayer(api, event, player)) return;
                     applyEquipmentBoosts(player);
                     const removedSkills = validatePlayerSkills(player);
                     if (removedSkills && removedSkills.length > 0) {
@@ -5742,9 +5917,7 @@ module.exports = {
 
                 case "use": {
                     const player = playerData[senderID];
-                    if (!player) {
-                        return api.sendMessage("❌ Bạn chưa tạo nhân vật!", threadID, messageID);
-                    }
+                    if (!checkPlayer(api, event, player)) return;
 
                     if (!target[1]) {
                         return api.sendMessage(
@@ -6012,20 +6185,385 @@ module.exports = {
                     );
                     break;
                 }
+                case "map": {
+                    const player = playerData[senderID];
+                    if (!checkPlayer(api, event, player)) return;
 
+                    updatePlayerLocation(player);
+
+                    const currentPlanet = player.location?.planet || player.planet;
+                    const currentLocationId = player.location?.locationId;
+
+                    const planetList = Object.keys(WORLD_MAP);
+
+                    if (!target[1]) {
+                        let mapMsg = "🗺️ BẢN ĐỒ VŨ TRỤ 🗺️\n───────────────\n";
+
+                        mapMsg += `👤 ${player.name}\n`;
+                        mapMsg += `🌍 Hành tinh hiện tại: ${WORLD_MAP[currentPlanet].name}\n`;
+                        mapMsg += `📍 Vị trí: ${player.location?.name || "Không xác định"}\n\n`;
+
+                        mapMsg += "📋 DANH SÁCH HÀNH TINH:\n";
+                        planetList.forEach((planetKey, index) => {
+                            const planetData = WORLD_MAP[planetKey];
+                            const unlocked = planetKey === player.planet ||
+                                (player.inventory?.items?.some(item =>
+                                    item.id === "planet_capsule" || item.id === "universe_capsule"));
+
+                            const canAccess = player.stats.power >= (planetData.requiredPower || 0);
+
+                            mapMsg += `${index + 1}. ${planetKey === currentPlanet ? "🟢" : unlocked && canAccess ? "🔓" : "🔒"} ${planetData.name}`;
+
+                            if (planetData.requiredPower && player.stats.power < planetData.requiredPower) {
+                                mapMsg += ` (Cần: ${planetData.requiredPower.toLocaleString()} sức mạnh)`;
+                            }
+
+                            if (planetData.requiredItems) {
+                                const hasItems = planetData.requiredItems.every(itemId =>
+                                    player.inventory?.items?.some(item => item.id === itemId));
+
+                                if (!hasItems) {
+                                    mapMsg += ` (Cần: ${planetData.requiredItems.map(id =>
+                                        CAPSULE_ITEMS[id.toUpperCase()]?.name || id).join(", ")})`;
+                                }
+                            }
+
+                            mapMsg += "\n";
+                        });
+
+                        mapMsg += "\n💡 Dùng .dball map <số thứ tự> để xem chi tiết\n";
+                        mapMsg += "💡 Dùng .dball capsule để di chuyển";
+
+                        return api.sendMessage(mapMsg, threadID, messageID);
+                    }
+
+                    const planetIndex = parseInt(target[1]) - 1;
+                    if (isNaN(planetIndex) || planetIndex < 0 || planetIndex >= planetList.length) {
+                        return api.sendMessage(
+                            "❌ Số thứ tự hành tinh không hợp lệ!\n" +
+                            `💡 Vui lòng chọn từ 1 đến ${planetList.length}`,
+                            threadID, messageID
+                        );
+                    }
+
+                    const targetPlanet = planetList[planetIndex];
+                    const planetData = WORLD_MAP[targetPlanet];
+                    const locations = planetData.locations || [];
+
+                    let mapMsg = `🗺️ BẢN ĐỒ ${planetData.name.toUpperCase()} 🗺️\n───────────────\n`;
+
+                    mapMsg += "📍 ĐỊA ĐIỂM:\n";
+                    locations.forEach((loc, index) => {
+                        const isCurrentLocation = targetPlanet === currentPlanet && loc.id === currentLocationId;
+                        const canAccess = player.stats.power >= (loc.requiredPower || 0);
+
+                        mapMsg += `${isCurrentLocation ? "🟢" : canAccess ? "🔓" : "🔒"} ${index + 1}. ${loc.name}\n`;
+                        mapMsg += `   ${loc.description}\n`;
+
+                        if (loc.requiredPower && player.stats.power < loc.requiredPower) {
+                            mapMsg += `   ⚡ Yêu cầu: ${loc.requiredPower.toLocaleString()} sức mạnh\n`;
+                        }
+
+                        mapMsg += "\n";
+                    });
+
+                    mapMsg += "💡 Dùng .dball capsule <số thứ tự> để di chuyển đến địa điểm";
+
+                    return api.sendMessage(mapMsg, threadID, messageID);
+                }
+
+                case "capsule": {
+                    const player = playerData[senderID];
+                    if (!checkPlayer(api, event, player)) return;
+
+                    updatePlayerLocation(player);
+
+                    const hasCapsules = player.inventory?.items?.some(item =>
+                        ["basic_capsule", "advanced_capsule", "planet_capsule", "universe_capsule"].includes(item.id));
+
+                    if (!hasCapsules) {
+                        return api.sendMessage(
+                            "❌ Bạn không có viên nang nào!\n" +
+                            "💡 Mua viên nang tại cửa hàng: .dball shop capsule",
+                            threadID, messageID
+                        );
+                    }
+
+                    if (!target[1]) {
+                        let capsuleMsg = "🚀 VIÊN NANG DỊCH CHUYỂN 🚀\n───────────────\n";
+
+                        capsuleMsg += "📦 VIÊN NANG ĐANG CÓ:\n";
+                        player.inventory.items.forEach(item => {
+                            const capsuleData = Object.values(CAPSULE_ITEMS).find(c => c.id === item.id);
+                            if (capsuleData && capsuleData.type === "teleport") {
+                                const cooldownLeft = (item.lastUsed || 0) + capsuleData.cooldown - Date.now();
+                                const cooldownStatus = cooldownLeft > 0 ?
+                                    `⏳ Hồi chiêu: ${Math.ceil(cooldownLeft / 60000)} phút` :
+                                    "✅ Sẵn sàng";
+
+                                capsuleMsg += `${capsuleData.emoji} ${capsuleData.name} (x${item.quantity}) - ${cooldownStatus}\n`;
+                                capsuleMsg += `   💫 ${capsuleData.description}\n\n`;
+                            }
+                        });
+
+                        capsuleMsg += "💡 Dùng .dball capsule use <loại_viên_nang> <địa_điểm>\n";
+                        capsuleMsg += "💡 Dùng .dball map để xem bản đồ và địa điểm";
+
+                        return api.sendMessage(capsuleMsg, threadID, messageID);
+                    }
+
+                    if (target[1].toLowerCase() === "use") {
+                        if (!target[2]) {
+                            return api.sendMessage(
+                                "❌ Vui lòng chọn loại viên nang!\n" +
+                                "Ví dụ: .dball capsule use basic_capsule kame_house",
+                                threadID, messageID
+                            );
+                        }
+
+                        const capsuleId = target[2].toLowerCase();
+                        const capsuleItem = player.inventory?.items?.find(item => item.id === capsuleId);
+
+                        if (!capsuleItem) {
+                            return api.sendMessage(
+                                "❌ Bạn không có viên nang này!\n" +
+                                "💡 Kiểm tra danh sách viên nang: .dball capsule",
+                                threadID, messageID
+                            );
+                        }
+
+                        const capsuleData = Object.values(CAPSULE_ITEMS).find(c => c.id === capsuleId);
+                        if (!capsuleData || capsuleData.type !== "teleport") {
+                            return api.sendMessage("❌ Vật phẩm này không phải là viên nang dịch chuyển!", threadID, messageID);
+                        }
+
+                        const now = Date.now();
+                        if (capsuleItem.lastUsed && now - capsuleItem.lastUsed < capsuleData.cooldown) {
+                            const cooldownLeft = Math.ceil((capsuleItem.lastUsed + capsuleData.cooldown - now) / 60000);
+                            return api.sendMessage(
+                                `⏳ Viên nang đang hồi chiêu!\n` +
+                                `⌛ Còn lại: ${cooldownLeft} phút`,
+                                threadID, messageID
+                            );
+                        }
+
+                        if (capsuleData.requiredPower && player.stats.power < capsuleData.requiredPower) {
+                            return api.sendMessage(
+                                `❌ Sức mạnh không đủ để sử dụng ${capsuleData.name}!\n` +
+                                `💪 Sức mạnh hiện tại: ${player.stats.power.toLocaleString()}\n` +
+                                `💪 Yêu cầu: ${capsuleData.requiredPower.toLocaleString()}`,
+                                threadID, messageID
+                            );
+                        }
+
+                        let targetPlanet = player.location.planet;
+                        let targetLocationId = target[3]?.toLowerCase();
+
+                        if (["planet_capsule", "universe_capsule"].includes(capsuleId) && target[3]?.toUpperCase() in WORLD_MAP) {
+                            targetPlanet = target[3].toUpperCase();
+                            targetLocationId = WORLD_MAP[targetPlanet].locations.find(loc => loc.isStartPoint)?.id ||
+                                WORLD_MAP[targetPlanet].locations[0].id;
+                        }
+
+                        const planetData = WORLD_MAP[targetPlanet];
+                        if (planetData.requiredPower && player.stats.power < planetData.requiredPower) {
+                            return api.sendMessage(
+                                `❌ Sức mạnh không đủ để đến hành tinh ${planetData.name}!\n` +
+                                `💪 Sức mạnh hiện tại: ${player.stats.power.toLocaleString()}\n` +
+                                `💪 Yêu cầu: ${planetData.requiredPower.toLocaleString()}`,
+                                threadID, messageID
+                            );
+                        }
+
+                        if (planetData.requiredItems) {
+                            const hasItems = planetData.requiredItems.every(itemId =>
+                                player.inventory?.items?.some(item => item.id === itemId));
+
+                            if (!hasItems) {
+                                return api.sendMessage(
+                                    `❌ Bạn cần có ${planetData.requiredItems.map(id =>
+                                        CAPSULE_ITEMS[id.toUpperCase()]?.name || id).join(", ")} để đến ${planetData.name}!`,
+                                    threadID, messageID
+                                );
+                            }
+                        }
+
+                        let targetLocation;
+
+                        if (targetLocationId) {
+
+                            targetLocation = planetData.locations.find(loc => loc.id === targetLocationId);
+
+                            if (!targetLocation && !isNaN(targetLocationId)) {
+                                const index = parseInt(targetLocationId) - 1;
+                                if (index >= 0 && index < planetData.locations.length) {
+                                    targetLocation = planetData.locations[index];
+                                }
+                            }
+                        }
+
+                        if (!targetLocation) {
+                            return api.sendMessage(
+                                `❌ Không tìm thấy địa điểm này trên hành tinh ${planetData.name}!\n` +
+                                "💡 Dùng .dball map để xem danh sách địa điểm",
+                                threadID, messageID
+                            );
+                        }
+
+                        if (targetLocation.requiredPower && player.stats.power < targetLocation.requiredPower) {
+                            return api.sendMessage(
+                                `❌ Sức mạnh không đủ để đến ${targetLocation.name}!\n` +
+                                `💪 Sức mạnh hiện tại: ${player.stats.power.toLocaleString()}\n` +
+                                `💪 Yêu cầu: ${targetLocation.requiredPower.toLocaleString()}`,
+                                threadID, messageID
+                            );
+                        }
+
+                        player.location.planet = targetPlanet;
+                        player.location.locationId = targetLocation.id;
+                        player.location.name = targetLocation.name;
+                        player.location.lastTeleport = now;
+
+                        capsuleItem.lastUsed = now;
+
+                        savePlayerData(playerData);
+
+                        return api.sendMessage(
+                            "✨ DI CHUYỂN THÀNH CÔNG! ✨\n" +
+                            "───────────────\n" +
+                            `📍 Địa điểm mới: ${targetLocation.name}\n` +
+                            `🌍 Hành tinh: ${planetData.name}\n` +
+                            `📝 ${targetLocation.description}\n\n` +
+                            "💡 Dùng .dball map để xem thông tin bản đồ",
+                            threadID, messageID
+                        );
+                    }
+
+                    if (target[1].toLowerCase() === "locations") {
+                        const currentPlanet = player.location.planet;
+                        const planetData = WORLD_MAP[currentPlanet];
+
+                        let locMsg = `📍 ĐỊA ĐIỂM TRÊN ${planetData.name.toUpperCase()} 📍\n───────────────\n`;
+
+                        planetData.locations.forEach((loc, index) => {
+                            const isCurrentLocation = loc.id === player.location.locationId;
+                            const canAccess = player.stats.power >= (loc.requiredPower || 0);
+
+                            locMsg += `${isCurrentLocation ? "🟢" : canAccess ? "🔓" : "🔒"} ${index + 1}. ${loc.name}\n`;
+                            locMsg += `   ${loc.description}\n`;
+
+                            if (loc.requiredPower && player.stats.power < loc.requiredPower) {
+                                locMsg += `   ⚡ Yêu cầu: ${loc.requiredPower.toLocaleString()} sức mạnh\n`;
+                            }
+
+                            locMsg += "\n";
+                        });
+
+                        locMsg += "💡 Dùng .dball capsule use <loại_viên_nang> <số_thứ_tự> để di chuyển";
+
+                        return api.sendMessage(locMsg, threadID, messageID);
+                    }
+
+                    return api.sendMessage(
+                        "❓ Bạn muốn làm gì với viên nang?\n" +
+                        "• .dball capsule - Xem viên nang đang có\n" +
+                        "• .dball capsule use <loại_viên_nang> <địa_điểm> - Sử dụng viên nang\n" +
+                        "• .dball capsule locations - Xem địa điểm có thể dịch chuyển\n" +
+                        "• .dball map - Xem bản đồ",
+                        threadID, messageID
+                    );
+                }
                 case "shop": {
                     const player = playerData[senderID];
-                    if (!player) {
-                        return api.sendMessage("❌ Bạn chưa tạo nhân vật!", threadID, messageID);
+                    if (!checkPlayer(api, event, player)) return;
+                    else if (target[1]?.toLowerCase() === "capsule") {
+                        const capsuleItems = Object.values(CAPSULE_ITEMS);
+
+                        if (!target[2]) {
+                            let msg = "🚀 SHOP CAPSULE DI CHUYỂN 🚀\n───────────────\n";
+                            msg += `👤 ${player.name}\n`;
+                            msg += `💰 Zeni: ${player.stats.zeni.toLocaleString()}\n\n`;
+
+                            capsuleItems.forEach((item, index) => {
+                                const canBuy = player.stats.power >= (item.requiredPower || 0);
+
+                                msg += `${index + 1}. ${item.emoji} ${item.name} - ${item.price.toLocaleString()} Zeni\n`;
+                                msg += `   💫 ${item.description}\n`;
+
+                                if (item.requiredPower) {
+                                    msg += `   💪 Yêu cầu: ${item.requiredPower.toLocaleString()} sức mạnh`;
+                                    msg += canBuy ? " ✅\n" : " ❌\n";
+                                }
+
+                                msg += "\n";
+                            });
+
+                            msg += "Cách mua:\n";
+                            msg += "• .dball shop capsule <số thứ tự>\n";
+                            msg += "• Ví dụ: .dball shop capsule 1";
+
+                            return api.sendMessage(msg, threadID, messageID);
+                        }
+
+                        const itemIndex = parseInt(target[2]) - 1;
+                        if (isNaN(itemIndex) || itemIndex < 0 || itemIndex >= capsuleItems.length) {
+                            return api.sendMessage("❌ Số thứ tự viên nang không hợp lệ!", threadID, messageID);
+                        }
+
+                        const selectedCapsule = capsuleItems[itemIndex];
+
+                        if (selectedCapsule.requiredPower && player.stats.power < selectedCapsule.requiredPower) {
+                            return api.sendMessage(
+                                `❌ Sức mạnh không đủ để mua ${selectedCapsule.name}!\n` +
+                                `💪 Sức mạnh hiện tại: ${player.stats.power.toLocaleString()}\n` +
+                                `💪 Yêu cầu: ${selectedCapsule.requiredPower.toLocaleString()}`,
+                                threadID, messageID
+                            );
+                        }
+
+                        if (player.stats.zeni < selectedCapsule.price) {
+                            return api.sendMessage(
+                                `❌ Không đủ Zeni để mua!\n` +
+                                `💰 Zeni hiện có: ${player.stats.zeni.toLocaleString()}\n` +
+                                `💰 Giá: ${selectedCapsule.price.toLocaleString()}`,
+                                threadID, messageID
+                            );
+                        }
+
+                        if (!player.inventory) player.inventory = { items: [] };
+                        if (!player.inventory.items) player.inventory.items = [];
+
+                        const existingItem = player.inventory.items.find(item => item.id === selectedCapsule.id);
+                        if (existingItem) {
+                            existingItem.quantity += 1;
+                        } else {
+                            player.inventory.items.push({
+                                id: selectedCapsule.id,
+                                type: selectedCapsule.type,
+                                quantity: 1
+                            });
+                        }
+
+                        player.stats.zeni -= selectedCapsule.price;
+                        savePlayerData(playerData);
+
+                        return api.sendMessage(
+                            "🛍️ MUA THÀNH CÔNG!\n" +
+                            "───────────────\n" +
+                            `${selectedCapsule.emoji} Đã mua: ${selectedCapsule.name}\n` +
+                            `💰 Giá: ${selectedCapsule.price.toLocaleString()} Zeni\n` +
+                            `💰 Số dư: ${player.stats.zeni.toLocaleString()} Zeni\n\n` +
+                            `💡 Dùng .dball capsule để sử dụng capsule`,
+                            threadID, messageID
+                        );
                     }
                     else if (target[1]?.toLowerCase() === "rada" || target[1]?.toLowerCase() === "radar") {
-                        // Lấy danh sách các radar phù hợp với sức mạnh người chơi
+
                         const radarItems = Object.values(EQUIPMENT_ITEMS)
                             .filter(item => item.type === "radar")
                             .filter(item => player.stats.power >= item.requiredPower);
 
                         if (!target[2]) {
-                            // Hiển thị cửa hàng radar
                             const radarShopData = {
                                 radarItems: radarItems,
                                 player: player
@@ -6411,6 +6949,7 @@ module.exports = {
                         msg += "• VD: .dball shop 1 1 (Mua vật phẩm số 1, số lượng 1)\n\n";
                         msg += "• .𝗱𝗯𝗮𝗹𝗹 𝘀𝗵𝗼𝗽 𝗯𝘂𝗮 - 𝗠𝗼̛̉ 𝘁𝗶𝗲̣̂𝗺 𝗯𝘂̀𝗮 𝗰𝘂̉𝗮 𝗕𝗮̀ 𝗛𝗮̣𝘁 𝗠𝗶́𝘁\n";
                         msg += "• .𝗱𝗯𝗮𝗹𝗹 𝘀𝗵𝗼𝗽 𝗿𝗮𝗱𝗮 - 𝗠𝗼̛̉ 𝘁𝗶𝗲̣̂𝗺 𝗿𝗮𝗱𝗮\n";
+                        msg += "• .𝗱𝗯𝗮𝗹𝗹 𝘀𝗵𝗼𝗽 𝗖𝗮𝗽𝘀𝘂𝗹𝗲 - 𝗠𝗼̛̉ 𝘁𝗶𝗲̣̂𝗺 𝗖𝗮𝗽𝘀𝘂𝗹𝗲\n";
                         msg += "• .𝗱𝗯𝗮𝗹𝗹 𝘀𝗵𝗼𝗽 𝗱𝗼 - 𝗠𝗼̛̉ 𝘁𝗶𝗲̣̂𝗺 𝘁𝗿𝗮𝗻𝗴 𝗯𝗶̣\n\n";
                         msg += `💰 𝗭𝗲𝗻𝗶 hiện có: ${player.stats.zeni.toLocaleString()}`;
 
@@ -6466,9 +7005,7 @@ module.exports = {
                 }
                 case "train": {
                     const player = playerData[senderID];
-                    if (!player) {
-                        return api.sendMessage("❌ Bạn chưa tạo nhân vật!", threadID, messageID);
-                    }
+                    if (!checkPlayer(api, event, player)) return;
 
                     const oldStats = { ...player.stats };
                     const now = Date.now();
@@ -6682,9 +7219,7 @@ module.exports = {
                 }
                 case "wish": {
                     const player = playerData[senderID];
-                    if (!player) {
-                        return api.sendMessage("❌ Bạn chưa tạo nhân vật!", threadID, messageID);
-                    }
+                    if (!checkPlayer(api, event, player)) return;
 
                     const planets = ["EARTH", "NAMEK", "SAIYAN"];
                     let wishPlanet = null;
@@ -6771,9 +7306,7 @@ module.exports = {
                 }
                 case "give": {
                     const player = playerData[senderID];
-                    if (!player) {
-                        return api.sendMessage("❌ Bạn chưa tạo nhân vật!", threadID, messageID);
-                    }
+                    if (!checkPlayer(api, event, player)) return;
 
                     const mention = Object.keys(event.mentions)[0];
                     if (!mention) {
@@ -6881,11 +7414,10 @@ module.exports = {
                         threadID, messageID
                     );
                 }
+                case "up":
                 case "upgrade": {
                     const player = playerData[senderID];
-                    if (!player) {
-                        return api.sendMessage("❌ Bạn chưa tạo nhân vật!", threadID, messageID);
-                    }
+                    if (!checkPlayer(api, event, player)) return;
 
                     if (!target[1]) {
                         const damageCost = UPGRADE_COSTS.damage(player.stats.damage);
@@ -7012,11 +7544,85 @@ module.exports = {
                 case "tournament":
                 case "tour": {
                     const player = playerData[senderID];
-                    if (!player) {
-                        return api.sendMessage("❌ Bạn chưa tạo nhân vật!", threadID, messageID);
-                    }
+                    if (!checkPlayer(api, event, player)) return;
 
                     const tournamentData = loadTournamentData();
+                    const now = new Date();
+                    const dayOfWeek = now.getDay();
+                    const currentHour = now.getHours();
+
+                    const isTournamentTime = currentHour >= 19 && currentHour < 22;
+
+                    if (!isTournamentTime) {
+                        return api.sendMessage(
+                            "🏆 ĐẠI HỘI VÕ THUẬT 🏆\n" +
+                            "───────────────\n" +
+                            "⏰ Giải đấu chỉ diễn ra từ 19h đến 22h hàng ngày\n\n" +
+                            "📅 Lịch tổ chức giải đấu:\n" +
+                            "• Thứ 2, 4, 6: Đại Hội Võ Thuật Thiên Hạ\n" +
+                            "• Thứ 3, 5, 7: Cell Games\n" +
+                            "• Chủ Nhật: Giải Đấu Sức Mạnh Vũ Trụ\n\n" +
+                            `🕒 Bây giờ là: ${currentHour}h${now.getMinutes() < 10 ? "0" : ""}${now.getMinutes()}\n` +
+                            "💡 Vui lòng quay lại trong khung giờ tổ chức!",
+                            threadID, messageID
+                        );
+                    }
+
+                    let tournamentType;
+                    if (dayOfWeek === 0) {
+                        tournamentType = "UNIVERSE";
+                    } else if (dayOfWeek % 2 === 1) {
+                        tournamentType = "TENKAICHI";
+                    } else { // Thứ 3, 5, 7
+                        tournamentType = "CELL";
+                    }
+
+                    if (!tournamentData.active || tournamentData.active.status === "completed") {
+
+                        tournamentData.active = {
+                            type: tournamentType,
+                            status: "registration",
+                            startTime: Date.now(),
+                            endTime: null,
+                            organizer: {
+                                id: "system",
+                                name: "Hệ Thống"
+                            },
+                            matches: [],
+                            rounds: {},
+                            currentRound: 0,
+                            winners: {
+                                first: null,
+                                second: null,
+                                semifinalists: []
+                            }
+                        };
+
+                        tournamentData.registrations = {};
+                        saveTournamentData(tournamentData);
+
+                        api.sendMessage(
+                            `🏆 GIẢI ĐẤU MỚI ĐÃ ĐƯỢC TẠO! 🏆\n` +
+                            `───────────────\n` +
+                            `🏟️ Giải đấu: ${TOURNAMENT_TYPES[tournamentType].name}\n` +
+                            `👑 Tổ chức bởi: Hệ Thống\n` +
+                            `⏰ Trạng thái: Đang mở đăng ký\n\n` +
+                            `🏅 Giải thưởng:\n` +
+                            `🥇 Hạng nhất: ${TOURNAMENT_TYPES[tournamentType].rewards.first.zeni.toLocaleString()} Zeni, ${TOURNAMENT_TYPES[tournamentType].rewards.first.exp.toLocaleString()} EXP\n` +
+                            `🥈 Hạng nhì: ${TOURNAMENT_TYPES[tournamentType].rewards.second.zeni.toLocaleString()} Zeni, ${TOURNAMENT_TYPES[tournamentType].rewards.second.exp.toLocaleString()} EXP\n` +
+                            `🥉 Bán kết: ${TOURNAMENT_TYPES[tournamentType].rewards.semifinal.zeni.toLocaleString()} Zeni, ${TOURNAMENT_TYPES[tournamentType].rewards.semifinal.exp.toLocaleString()} EXP\n\n` +
+                            `💡 Dùng .dball tour join để đăng ký tham gia\n` +
+                            `📝 Đăng ký sẽ đóng sau 15 phút nữa!`,
+                            threadID
+                        );
+
+                        setTimeout(() => {
+                            const currentTournament = loadTournamentData();
+                            if (currentTournament.active && currentTournament.active.status === "registration") {
+                                startTournament(api, threadID);
+                            }
+                        }, 15 * 60 * 1000);
+                    }
 
                     if (!target[1]) {
                         if (!tournamentData.active) {
@@ -7024,17 +7630,12 @@ module.exports = {
                                 "🏆 ĐẠI HỘI VÕ THUẬT 🏆\n" +
                                 "───────────────\n" +
                                 "❌ Không có giải đấu nào đang diễn ra!\n\n" +
-                                "💡 Các lệnh giải đấu:\n" +
-                                "• .dball tour create <loại> - Tạo giải đấu mới\n" +
-                                "• .dball tour join - Đăng ký tham gia giải đấu\n" +
-                                "• .dball tour info - Xem thông tin giải đấu\n" +
-                                "• .dball tour list - Xem danh sách người tham gia\n" +
-                                "• .dball tour bracket - Xem bảng đấu\n" +
-                                "• .dball tour start - Bắt đầu giải đấu\n\n" +
-                                "💡 Các loại giải đấu:\n" +
-                                "• tenkaichi - Đại Hội Võ Thuật Thiên Hạ\n" +
-                                "• cell - Cell Games\n" +
-                                "• universe - Giải Đấu Sức Mạnh",
+                                "📅 Lịch tổ chức giải đấu:\n" +
+                                "• Thứ 2, 4, 6: Đại Hội Võ Thuật Thiên Hạ\n" +
+                                "• Thứ 3, 5, 7: Cell Games\n" +
+                                "• Chủ Nhật: Giải Đấu Sức Mạnh Vũ Trụ\n\n" +
+                                "⏰ Giải đấu diễn ra từ 19h đến 22h hàng ngày\n" +
+                                "💡 Dùng .dball tour join để đăng ký tham gia khi giải đấu bắt đầu",
                                 threadID, messageID
                             );
                         }
@@ -7066,7 +7667,7 @@ module.exports = {
                             `🏆 ${tournamentType.name.toUpperCase()} 🏆\n` +
                             "───────────────\n" +
                             `📝 Mô tả: ${tournamentType.description}\n` +
-                            `👑 Người tổ chức: ${tournament.organizer?.name || "Không xác định"}\n` +
+                            `👑 Tổ chức bởi: ${tournament.organizer?.name || "Hệ Thống"}\n` +
                             `⏰ Trạng thái: ${status}\n` +
                             `👥 Số người tham gia: ${registeredPlayers}/${tournamentType.maxPlayers}\n` +
                             `💰 Lệ phí tham gia: ${tournamentType.entryFee.toLocaleString()} Zeni\n\n` +
@@ -7080,98 +7681,6 @@ module.exports = {
                     }
 
                     switch (target[1].toLowerCase()) {
-                        case "create": {
-                            if (tournamentData.active && tournamentData.active.status !== "completed") {
-                                return api.sendMessage(
-                                    "❌ Đã có giải đấu đang diễn ra!\n" +
-                                    "Vui lòng đợi giải đấu hiện tại kết thúc.",
-                                    threadID, messageID
-                                );
-                            }
-
-                            const tournamentType = target[2]?.toLowerCase();
-                            if (!tournamentType || !TOURNAMENT_TYPES[tournamentType.toUpperCase()]) {
-                                return api.sendMessage(
-                                    "❌ Vui lòng chọn loại giải đấu hợp lệ!\n\n" +
-                                    "Các loại giải đấu:\n" +
-                                    "• tenkaichi - Đại Hội Võ Thuật Thiên Hạ\n" +
-                                    "• cell - Cell Games\n" +
-                                    "• universe - Giải Đấu Sức Mạnh\n\n" +
-                                    "Cách dùng: .dball tour create <loại>",
-                                    threadID, messageID
-                                );
-                            }
-
-                            const tournamentInfo = TOURNAMENT_TYPES[tournamentType.toUpperCase()];
-
-                            if (player.stats.power < tournamentInfo.minPower) {
-                                return api.sendMessage(
-                                    `❌ Sức mạnh không đủ để tổ chức ${tournamentInfo.name}!\n` +
-                                    `💪 Sức mạnh của bạn: ${player.stats.power.toLocaleString()}\n` +
-                                    `💪 Yêu cầu: ${tournamentInfo.minPower.toLocaleString()}`,
-                                    threadID, messageID
-                                );
-                            }
-
-                            const organizationFee = tournamentInfo.entryFee * 2;
-                            if (player.stats.zeni < organizationFee) {
-                                return api.sendMessage(
-                                    `❌ Không đủ Zeni để tổ chức giải đấu!\n` +
-                                    `💰 Zeni hiện có: ${player.stats.zeni.toLocaleString()}\n` +
-                                    `💰 Phí tổ chức: ${organizationFee.toLocaleString()}`,
-                                    threadID, messageID
-                                );
-                            }
-
-                            player.stats.zeni -= organizationFee;
-
-                            tournamentData.active = {
-                                type: tournamentType.toUpperCase(),
-                                status: "registration",
-                                startTime: Date.now(),
-                                endTime: null,
-                                organizer: {
-                                    id: senderID,
-                                    name: player.name
-                                },
-                                matches: [],
-                                rounds: {},
-                                currentRound: 0,
-                                winners: {
-                                    first: null,
-                                    second: null,
-                                    semifinalists: []
-                                }
-                            };
-
-                            tournamentData.registrations = {};
-
-                            tournamentData.registrations[senderID] = {
-                                id: senderID,
-                                name: player.name,
-                                power: player.stats.power,
-                                registrationTime: Date.now()
-                            };
-
-                            saveTournamentData(tournamentData);
-                            savePlayerData(playerData);
-
-                            return api.sendMessage(
-                                `🏆 ĐÃ TẠO GIẢI ĐẤU THÀNH CÔNG! 🏆\n` +
-                                `───────────────\n` +
-                                `🏟️ Giải đấu: ${tournamentInfo.name}\n` +
-                                `👑 Người tổ chức: ${player.name}\n` +
-                                `💰 Phí tổ chức đã trừ: ${organizationFee.toLocaleString()} Zeni\n` +
-                                `⏰ Trạng thái: Đang mở đăng ký\n\n` +
-                                `🏅 Giải thưởng:\n` +
-                                `🥇 Hạng nhất: ${tournamentInfo.rewards.first.zeni.toLocaleString()} Zeni, ${tournamentInfo.rewards.first.exp.toLocaleString()} EXP\n` +
-                                `🥈 Hạng nhì: ${tournamentInfo.rewards.second.zeni.toLocaleString()} Zeni, ${tournamentInfo.rewards.second.exp.toLocaleString()} EXP\n` +
-                                `🥉 Bán kết: ${tournamentInfo.rewards.semifinal.zeni.toLocaleString()} Zeni, ${tournamentInfo.rewards.semifinal.exp.toLocaleString()} EXP\n\n` +
-                                `💡 Dùng .dball tour join để đăng ký tham gia`,
-                                threadID, messageID
-                            );
-                        }
-
                         case "join": {
                             if (!tournamentData.active) {
                                 return api.sendMessage(
@@ -7250,95 +7759,8 @@ module.exports = {
                                 `🏟️ Giải đấu: ${tournamentType.name}\n` +
                                 `👤 Đã đăng ký: ${Object.keys(tournamentData.registrations).length}/${tournamentType.maxPlayers} người\n` +
                                 `💰 Lệ phí đã trừ: ${tournamentType.entryFee.toLocaleString()} Zeni\n\n` +
-                                `💡 Chờ ban tổ chức bắt đầu giải đấu`,
-                                threadID, messageID
-                            );
-                        }
-
-                        case "start": {
-                            if (!tournamentData.active) {
-                                return api.sendMessage(
-                                    "❌ Không có giải đấu nào đang diễn ra!",
-                                    threadID, messageID
-                                );
-                            }
-
-                            if (tournamentData.active.organizer.id !== senderID) {
-                                return api.sendMessage(
-                                    "❌ Chỉ người tổ chức mới có thể bắt đầu giải đấu!",
-                                    threadID, messageID
-                                );
-                            }
-
-                            if (tournamentData.active.status !== "registration") {
-                                return api.sendMessage(
-                                    "❌ Giải đấu đã bắt đầu hoặc kết thúc rồi!",
-                                    threadID, messageID
-                                );
-                            }
-
-                            const tournamentType = TOURNAMENT_TYPES[tournamentData.active.type];
-                            const participantCount = Object.keys(tournamentData.registrations).length;
-
-                            if (participantCount < tournamentType.minPlayers) {
-                                return api.sendMessage(
-                                    `❌ Chưa đủ người tham gia để bắt đầu giải đấu!\n` +
-                                    `👥 Hiện tại: ${participantCount} người\n` +
-                                    `👥 Yêu cầu tối thiểu: ${tournamentType.minPlayers} người`,
-                                    threadID, messageID
-                                );
-                            }
-
-                            tournamentData.active.status = "ongoing";
-                            tournamentData.active.startTime = Date.now();
-
-                            const players = Object.values(tournamentData.registrations);
-                            for (let i = players.length - 1; i > 0; i--) {
-                                const j = Math.floor(Math.random() * (i + 1));
-                                [players[i], players[j]] = [players[j], players[i]];
-                            }
-
-                            let validPlayerCount = 2;
-                            while (validPlayerCount * 2 <= players.length) {
-                                validPlayerCount *= 2;
-                            }
-
-                            const tournamentPlayers = players.slice(0, validPlayerCount);
-
-                            tournamentData.active.currentRound = 1;
-                            tournamentData.active.rounds = {};
-                            tournamentData.active.rounds[1] = [];
-
-                            for (let i = 0; i < tournamentPlayers.length; i += 2) {
-                                const matchId = i / 2 + 1;
-                                const match = {
-                                    id: matchId,
-                                    round: 1,
-                                    player1: tournamentPlayers[i],
-                                    player2: tournamentPlayers[i + 1],
-                                    winner: null,
-                                    loser: null,
-                                    completed: false,
-                                    scheduledTime: Date.now() + matchId * 300000
-                                };
-
-                                tournamentData.active.rounds[1].push(match);
-                                tournamentData.active.matches.push(match);
-                            }
-
-                            saveTournamentData(tournamentData);
-
-                            return api.sendMessage(
-                                `🏆 GIẢI ĐẤU ĐÃ BẮT ĐẦU! 🏆\n` +
-                                `───────────────\n` +
-                                `🏟️ Giải đấu: ${tournamentType.name}\n` +
-                                `👥 Số người tham gia: ${tournamentPlayers.length} người\n` +
-                                `🥊 Số trận đấu vòng 1: ${tournamentData.active.rounds[1].length}\n\n` +
-                                `📋 CÁC CẶP ĐẤU VÒNG 1:\n` +
-                                tournamentData.active.rounds[1].map((match, index) =>
-                                    `${index + 1}. ${match.player1.name} VS ${match.player2.name}`
-                                ).join("\n") + "\n\n" +
-                                `💡 Dùng .dball fight tournament để bắt đầu trận đấu của bạn`,
+                                `⏰ Giải đấu sẽ bắt đầu sau 15 phút kể từ khi tạo\n` +
+                                `💡 Dùng .dball tour list để xem danh sách người tham gia`,
                                 threadID, messageID
                             );
                         }
@@ -7459,7 +7881,7 @@ module.exports = {
                                 `🏆 ${tournamentType.name.toUpperCase()} 🏆\n` +
                                 `───────────────\n` +
                                 `📝 Mô tả: ${tournamentType.description}\n` +
-                                `👑 Người tổ chức: ${tournament.organizer.name}\n` +
+                                `👑 Tổ chức bởi: ${tournament.organizer.name}\n` +
                                 `⏰ Trạng thái: ${status}\n` +
                                 `👥 Số người tham gia: ${participants.length}/${tournamentType.maxPlayers}\n` +
                                 `💰 Lệ phí tham gia: ${tournamentType.entryFee.toLocaleString()} Zeni\n\n` +
@@ -7476,28 +7898,24 @@ module.exports = {
                             return api.sendMessage(
                                 "❌ Lệnh giải đấu không hợp lệ!\n\n" +
                                 "💡 Các lệnh giải đấu:\n" +
-                                "• .dball tour create <loại> - Tạo giải đấu mới\n" +
                                 "• .dball tour join - Đăng ký tham gia giải đấu\n" +
                                 "• .dball tour info - Xem thông tin giải đấu\n" +
                                 "• .dball tour list - Xem danh sách người tham gia\n" +
-                                "• .dball tour bracket - Xem bảng đấu\n" +
-                                "• .dball tour start - Bắt đầu giải đấu\n\n" +
-                                "💡 Các loại giải đấu:\n" +
-                                "• tenkaichi - Đại Hội Võ Thuật Thiên Hạ\n" +
-                                "• cell - Cell Games\n" +
-                                "• universe - Giải Đấu Sức Mạnh",
+                                "• .dball tour bracket - Xem bảng đấu\n\n" +
+                                "📅 Lịch tổ chức giải đấu:\n" +
+                                "• Thứ 2, 4, 6: Đại Hội Võ Thuật Thiên Hạ\n" +
+                                "• Thứ 3, 5, 7: Cell Games\n" +
+                                "• Chủ Nhật: Giải Đấu Sức Mạnh Vũ Trụ\n\n" +
+                                "⏰ Giải đấu diễn ra từ 19h đến 22h hàng ngày",
                                 threadID, messageID
                             );
                             break;
                         }
                     }
                 }
-
                 case "quest": {
                     const player = playerData[senderID];
-                    if (!player) {
-                        return api.sendMessage("❌ Bạn chưa tạo nhân vật!", threadID, messageID);
-                    }
+                    if (!checkPlayer(api, event, player)) return;
                     addMissingQuests();
                     fixPlayerQuestProgression(player);
                     if (!player.quests) {
@@ -7630,9 +8048,7 @@ module.exports = {
 
                 case "learn": {
                     const player = playerData[senderID];
-                    if (!player) {
-                        return api.sendMessage("❌ Bạn chưa tạo nhân vật!", threadID, messageID);
-                    }
+                    if (!checkPlayer(api, event, player)) return;
 
                     if (!player.planet || !PLANETS[player.planet]) {
                         return api.sendMessage("❌ Hành tinh của bạn không hợp lệ hoặc không tồn tại!", threadID, messageID);
@@ -7802,9 +8218,7 @@ module.exports = {
                 case "inventory":
                 case "inv": {
                     const player = playerData[senderID];
-                    if (!player) {
-                        return api.sendMessage("❌ Bạn chưa tạo nhân vật!", threadID, messageID);
-                    }
+                    if (!checkPlayer(api, event, player)) return;
 
                     let inventoryMsg = "📦 KHO ĐỒ 📦\n───────────────\n";
 
@@ -7896,9 +8310,7 @@ module.exports = {
                 }
                 case "fight": {
                     const player = playerData[senderID];
-                    if (!player) {
-                        return api.sendMessage("❌ Bạn chưa tạo nhân vật!", threadID, messageID);
-                    }
+                    if (!checkPlayer(api, event, player)) return;
 
                     if (player.stats.currentHealth <= 50 && player.stats.currentKi < player.stats.ki * 0.1) {
                         return api.sendMessage(
@@ -7909,13 +8321,13 @@ module.exports = {
                     }
                     if (target[1]?.toLowerCase() === "Boss" || target[1]?.toLowerCase() === "boss") {
                         BOSS_SYSTEM.checkForBossEvents();
-                        const planetEvents = BOSS_SYSTEM.getPlanetEvents(player.planet);
+                        const allBossEvents = BOSS_SYSTEM.getActiveEvents();
 
-                        if (Object.keys(planetEvents).length === 0) {
+                        if (Object.keys(allBossEvents).length === 0) {
                             return api.sendMessage(
                                 "🔍 KHÔNG TÌM THẤY BOSS NÀO ĐANG XUẤT HIỆN! 🔍\n" +
                                 "───────────────\n" +
-                                `👁️ Không có boss nào đang xuất hiện tại ${PLANETS[player.planet].name}.\n` +
+                                "👁️ Hiện tại không có boss nào đang xuất hiện.\n" +
                                 "💡 Boss sẽ xuất hiện ngẫu nhiên, hãy kiểm tra thường xuyên!\n" +
                                 "💪 Luyện tập để có đủ sức mạnh đối đầu với các boss.",
                                 threadID, messageID
@@ -7925,12 +8337,14 @@ module.exports = {
                         if (!target[2]) {
                             let msg = "👹 BOSS ĐANG XUẤT HIỆN 👹\n───────────────\n";
 
-                            Object.values(planetEvents).forEach((event, index) => {
+                            Object.values(allBossEvents).forEach((event, index) => {
                                 const bossHealth = event.boss.health - Object.values(event.damageDealt).reduce((sum, damage) => sum + damage, 0);
                                 const healthPercent = Math.max(0, Math.floor((bossHealth / event.boss.health) * 100));
                                 const timeLeft = Math.floor((event.expireTime - Date.now()) / 60000); // minutes
+                                const planetName = PLANETS[event.planet]?.name || "Không xác định";
 
                                 msg += `${index + 1}. ${event.boss.name}\n`;
+                                msg += `🌍 Hành tinh: ${planetName}\n`;
                                 msg += `📍 Địa điểm: ${event.location.name}\n`;
                                 msg += `❤️ HP: ${bossHealth.toLocaleString()}/${event.boss.health.toLocaleString()} (${healthPercent}%)\n`;
                                 msg += `💪 Sức mạnh: ${event.boss.power.toLocaleString()}\n`;
@@ -7946,9 +8360,8 @@ module.exports = {
                             return api.sendMessage(msg, threadID, messageID);
                         }
 
-                        // Player wants to fight a specific boss
                         const bossIndex = parseInt(target[2]) - 1;
-                        const events = Object.values(planetEvents);
+                        const events = Object.values(allBossEvents);
 
                         if (isNaN(bossIndex) || bossIndex < 0 || bossIndex >= events.length) {
                             return api.sendMessage("❌ Số thứ tự boss không hợp lệ!", threadID, messageID);
@@ -7957,7 +8370,19 @@ module.exports = {
                         const selectedEvent = events[bossIndex];
                         const eventId = selectedEvent.id;
 
-                        // Check if player meets minimum power requirement
+                        if (player.location?.planet !== selectedEvent.planet ||
+                            player.location?.locationId !== selectedEvent.location.id) {
+
+                            return api.sendMessage(
+                                `❌ Bạn không ở cùng địa điểm với boss!\n` +
+                                `👹 Boss ${selectedEvent.boss.name} đang ở: ${selectedEvent.location.name} (${PLANETS[selectedEvent.planet]?.name})\n` +
+                                `👤 Bạn đang ở: ${player.location?.name || "Không xác định"} (${PLANETS[player.location?.planet]?.name})\n\n` +
+                                `💡 Dùng viên nang dịch chuyển đến địa điểm của boss để đánh!\n` +
+                                `💡 Gõ .dball capsule để xem cách dịch chuyển`,
+                                threadID, messageID
+                            );
+                        }
+
                         if (player.stats.power < selectedEvent.boss.minPowerRequired) {
                             return api.sendMessage(
                                 `❌ Sức mạnh của bạn không đủ để đối đầu với ${selectedEvent.boss.name}!\n` +
@@ -7968,7 +8393,6 @@ module.exports = {
                             );
                         }
 
-                        // Check if boss is already defeated
                         if (selectedEvent.defeated) {
                             return api.sendMessage(
                                 `❌ ${selectedEvent.boss.name} đã bị đánh bại!\n` +
@@ -7977,9 +8401,8 @@ module.exports = {
                             );
                         }
 
-                        // Check player cooldown
                         const now = Date.now();
-                        const bossCooldown = 120000; // 2 minutes
+                        const bossCooldown = 120000;
 
                         if (player.lastBossFight && now - player.lastBossFight < bossCooldown) {
                             const timeLeft = Math.ceil((bossCooldown - (now - player.lastBossFight)) / 1000);
@@ -7989,7 +8412,6 @@ module.exports = {
                             );
                         }
 
-                        // Create boss object
                         const boss = {
                             id: selectedEvent.boss.id,
                             name: selectedEvent.boss.name,
@@ -8002,18 +8424,17 @@ module.exports = {
                             skills: selectedEvent.boss.skills || []
                         };
 
-                        // Initial message
                         api.sendMessage(
                             `⚔️ CUỘC CHIẾN VỚI BOSS BẮT ĐẦU! ⚔️\n` +
                             `───────────────\n` +
                             `👤 ${player.name} đang tấn công ${boss.name}!\n` +
+                            `🌍 Hành tinh: ${PLANETS[selectedEvent.planet]?.name || "Không xác định"}\n` +
                             `📍 Địa điểm: ${selectedEvent.location.name}\n` +
                             `💪 Sức mạnh boss: ${boss.stats.power.toLocaleString()}\n\n` +
                             "💡 Đang chiến đấu...",
                             threadID
                         );
 
-                        // Use existing battle simulation
                         const battleResult = simulateBattle(player, boss, {
                             battleType: "BOSS",
                             maxTurns: 15,
@@ -8022,27 +8443,21 @@ module.exports = {
                             bossMode: true
                         });
 
-                        // Update player stats
                         player.stats.currentKi = battleResult.player1Ki;
                         player.stats.currentHealth = battleResult.player1HP;
                         player.lastBossFight = now;
 
-                        // Calculate damage dealt to boss
-                        const damageDealt = battleResult.totalDamageDealt.attacker;
+                        const damageDealt = battleResult.totalDamage.attacker;
 
-                        // Register damage to the boss event
                         const bossDefeated = BOSS_SYSTEM.registerDamage(eventId, senderID, player.name, damageDealt);
 
-                        // Update player's stats/inventory
                         if (bossDefeated) {
-                            // Get rewards based on contribution
                             const rewards = BOSS_SYSTEM.getPlayerRewards(eventId, senderID);
 
                             if (rewards) {
                                 player.stats.exp += rewards.exp;
                                 player.stats.zeni += rewards.zeni;
 
-                                // Add items to inventory
                                 rewards.drops.forEach(drop => {
                                     if (!player.inventory) player.inventory = { items: [] };
                                     if (!player.inventory.items) player.inventory.items = [];
@@ -8059,7 +8474,6 @@ module.exports = {
                                     }
                                 });
 
-                                // Boss defeat message with rewards
                                 api.sendMessage(
                                     `🎉 BOSS ĐÃ BỊ ĐÁNH BẠI! 🎉\n` +
                                     `───────────────\n` +
@@ -8085,7 +8499,6 @@ module.exports = {
                                 );
                             }
                         } else {
-                            // Boss not defeated, show battle result
                             api.sendMessage(
                                 `⚔️ KẾT QUẢ ĐÁNH BOSS ⚔️\n` +
                                 `───────────────\n` +
@@ -8684,16 +9097,14 @@ module.exports = {
                             rankType: actualRankType,
                             planet: "DEFAULT",
                             planetFilter: planetFilter,
-                            currentUserId: event.senderID, // Đánh dấu người dùng hiện tại
+                            currentUserId: event.senderID,
                             players: sortedPlayers
                         };
 
-                        // Thêm màu sắc dựa vào người chơi top 1
                         if (sortedPlayers.length > 0) {
                             rankData.planet = sortedPlayers[0].planet;
                         }
 
-                        // Tạo hình ảnh và gửi đi
                         createRankImage(rankData).then(imagePath => {
                             api.sendMessage(
                                 {

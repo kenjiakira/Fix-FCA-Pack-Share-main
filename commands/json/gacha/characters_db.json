@@ -123652,5 +123652,44 @@
       "def": 100,
       "hp": 499
     }
+  },
+  "CHAR_334252671": {
+    "type": "character",
+    "name": "Pela",
+    "obtainedAt": 1743821422947,
+    "value": 40144,
+    "level": 1,
+    "exp": 0,
+    "stats": {
+      "atk": 280,
+      "def": 287,
+      "hp": 1057
+    }
+  },
+  "CHAR_631889985": {
+    "type": "character",
+    "name": "Noelle",
+    "obtainedAt": 1743821559579,
+    "value": 126,
+    "level": 1,
+    "exp": 0,
+    "stats": {
+      "atk": 105,
+      "def": 94,
+      "hp": 530
+    }
+  },
+  "CHAR_258051744": {
+    "type": "character",
+    "name": "BlackSwan",
+    "obtainedAt": 1743821627735,
+    "value": 43675,
+    "level": 1,
+    "exp": 0,
+    "stats": {
+      "atk": 308,
+      "def": 273,
+      "hp": 945
+    }
   }
 }

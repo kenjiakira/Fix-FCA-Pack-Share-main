@@ -1,16 +1,16 @@
 {
   "users": {
-    "100079828954790": {
+    "100081438541092": {
       "personal": [],
       "facts": [],
       "preferences": [],
       "interactions": [
         {
-          "content": "Hu Hi nói: Á bot\nTôi trả lời: Chào buổi sáng bạn =)))  Hôm nay trời đẹp ghê á!",
-          "timestamp": 1743818293735,
+          "content": "Lê Huy nói: Bật i bot\nTôi trả lời: Chào buổi sáng nè =)))  Hôm nay trời đẹp ghê á!",
+          "timestamp": 1743820127160,
           "priority": 1,
           "accessCount": 0,
-          "lastAccess": 1743818293735,
+          "lastAccess": 1743820127160,
           "metadata": {
             "sentiment": {
               "score": 0,
@@ -42,10 +42,10 @@
       "undefined": [
         {
           "content": "Xưng hô: mình/bạn",
-          "timestamp": 1743818292794,
+          "timestamp": 1743820125672,
           "priority": 2,
           "accessCount": 0,
-          "lastAccess": 1743818292794,
+          "lastAccess": 1743820125672,
           "metadata": {
             "sentiment": {
               "score": 0,
