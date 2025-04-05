@@ -753,7 +753,7 @@ const SHOP_ITEMS = {
     }
 };
 const QUEST_TYPES = {
-    COMBAT: "COMBAT",   // Chuyển thành chữ HOA thống nhất
+    COMBAT: "COMBAT",  
     POWER: "POWER",
     TRAINING: "TRAINING",
     COLLECT: "COLLECT",
@@ -2689,7 +2689,7 @@ const BOSS_SYSTEM = {
                 description: "Ma vương của Địa Cầu, từng suýt hủy diệt thế giới",
                 power: 1500000,
                 health: 5000000,
-                damage: 500000,      // Tăng sát thương
+                damage: 500000,     
                 ki: 500000,
                 skills: ["DEMON_PUNCH", "NAMEK_FUSION"],
                 drops: [
@@ -2817,11 +2817,9 @@ const BOSS_SYSTEM = {
         ]
     },
 
-    // Check for boss events
     checkForBossEvents() {
         const now = Date.now();
 
-        // First cleanup expired events
         Object.keys(this.activeEvents).forEach(eventId => {
             const event = this.activeEvents[eventId];
             if (now > event.expireTime) {
@@ -2830,32 +2828,25 @@ const BOSS_SYSTEM = {
             }
         });
 
-        // Only spawn new bosses if we don't have too many active
         if (Object.keys(this.activeEvents).length >= 3) {
             return;
         }
 
-        // Check chance to spawn a new boss for each planet
         Object.keys(PLANETS).forEach(planet => {
             const locationList = WORLD_LOCATIONS[planet];
             const bossList = this.bossList[planet];
 
             if (!locationList || !bossList) return;
 
-            // Only spawn if random chance met (10% chance per check)
             if (Math.random() > 0.1) return;
 
-            // Pick a random boss and location
             const randomBoss = bossList[Math.floor(Math.random() * bossList.length)];
             const randomLocation = locationList[Math.floor(Math.random() * locationList.length)];
 
-            // Check if this boss should spawn based on its own spawn chance
             if (Math.random() > randomBoss.spawnChance) return;
 
-            // Create unique event ID
             const eventId = `${planet}_${randomBoss.id}_${now}`;
 
-            // Create the event
             this.activeEvents[eventId] = {
                 id: eventId,
                 planet: planet,
@@ -2872,12 +2863,10 @@ const BOSS_SYSTEM = {
         });
     },
 
-    // Get all active boss events
     getActiveEvents() {
         return this.activeEvents;
     },
 
-    // Get boss events for a specific planet
     getPlanetEvents(planet) {
         const events = {};
         Object.keys(this.activeEvents).forEach(eventId => {
@@ -2888,13 +2877,11 @@ const BOSS_SYSTEM = {
         return events;
     },
 
-    // Register damage dealt to a boss
     registerDamage(eventId, playerId, playerName, damageAmount) {
         if (!this.activeEvents[eventId]) return false;
 
         const event = this.activeEvents[eventId];
 
-        // Register participant if not already
         if (!event.participants[playerId]) {
             event.participants[playerId] = {
                 id: playerId,
@@ -3702,31 +3689,6 @@ function getPlayerNextMatch(tournamentData, playerId) {
     });
 }
 
-function updateStates(entityName, states, battleLog) {
-    if (states.powerBoosted > 0) {
-        states.powerBoosted--;
-        if (states.powerBoosted === 0) {
-            battleLog.push(`⚠️ Hiệu ứng Kaioken của ${entityName} đã hết!`);
-            states.powerBoostMultiplier = 1.0;
-        }
-    }
-
-    if (states.greatApe > 0) {
-        states.greatApe--;
-        if (states.greatApe === 0) {
-            battleLog.push(`⚠️ ${entityName} đã trở lại hình dạng bình thường!`);
-            states.powerBoostMultiplier = 1.0;
-            states.powerBoosted = 0;
-        }
-    }
-
-    if (states.shielded > 0) {
-        states.shielded--;
-        if (states.shielded === 0) {
-            battleLog.push(`⚠️ Khiên năng lượng của ${entityName} đã biến mất!`);
-        }
-    }
-}
 function validatePlayerSkills(player) {
     if (!player || !player.skills || player.skills.length === 0) return;
 
@@ -3939,23 +3901,7 @@ function getTournamentRank(tournamentData, playerId) {
 
     return rank;
 }
-function getPlayerTournamentRank(playerId, tournamentData) {
-    if (!tournamentData.active?.rounds) return null;
 
-    if (tournamentData.active.winners?.first?.id === playerId) return 1;
-
-    if (tournamentData.active.winners?.second?.id === playerId) return 2;
-
-    if (tournamentData.active.winners?.semifinalists?.some(p => p.id === playerId)) return 4;
-
-    const totalRounds = tournamentData.active.rounds.length;
-    const quarterFinalRound = totalRounds - 2;
-    if (tournamentData.active.rounds[quarterFinalRound]?.some(
-        match => match.player1?.id === playerId || match.player2?.id === playerId
-    )) return 8;
-
-    return null;
-}
 function selectBestSkill(player, playerHP, playerKi, opponentHP, playerStates, opponentStates, battleLog, currentTurn, skillCooldowns) {
     if (!player || !player.skills || player.skills.length === 0) return null;
 
@@ -3966,7 +3912,6 @@ function selectBestSkill(player, playerHP, playerKi, opponentHP, playerStates, o
     
     console.log(`DEBUG: hpPercent=${hpPercent}, kiPercent=${kiPercent}, currentTurn=${currentTurn}`);
 
-    // Kiểm tra cooldown kỹ năng và chọn các kỹ năng sẵn sàng
     const usableSkills = player.skills.filter(skillChoice => {
         const [master, skillName] = skillChoice.split(":");
         if (!MASTERS[master]?.skills[skillName]) return false;
@@ -3976,25 +3921,21 @@ function selectBestSkill(player, playerHP, playerKi, opponentHP, playerStates, o
             Math.floor(maxKi * skillData.kiCost) :
             Math.floor(maxKi * Math.abs(skillData.kiCost));
 
-        // Kiểm tra cooldown
         if (skillCooldowns[skillName] && skillCooldowns[skillName].currentCooldown > 0) {
             console.log(`Skill ${skillName} on cooldown: ${skillCooldowns[skillName].currentCooldown}`);
             return false;
         }
 
-        // Kiểm tra số lần sử dụng còn lại
         if (skillCooldowns[skillName] && skillCooldowns[skillName].usesLeft === 0) {
             console.log(`Skill ${skillName} has no uses left`);
             return false;
         }
 
-        // Kiểm tra kỹ năng dành cho cuối trận
         if (skillCooldowns[skillName] && skillCooldowns[skillName].lateTurn && currentTurn < 10) {
             console.log(`Skill ${skillName} is for late game only`);
             return false;
         }
 
-        // Kiểm tra đủ Ki
         if (skillData.kiCost > 0 && playerKi < kiCost) {
             console.log(`Not enough Ki for ${skillName}: have ${playerKi}, need ${kiCost}`);
             return false;
@@ -4010,134 +3951,120 @@ function selectBestSkill(player, playerHP, playerKi, opponentHP, playerStates, o
 
     console.log(`Usable skills: ${usableSkills.join(", ")}`);
 
-    // Phân tích tình huống trận đấu
     const battlePhase = currentTurn <= 5 ? "early" : (currentTurn <= 15 ? "mid" : "late");
     console.log(`Battle phase: ${battlePhase}`);
 
-    // Tính điểm cho mỗi kỹ năng
     const skillScores = usableSkills.map(skillChoice => {
         const [master, skillName] = skillChoice.split(":");
         const skillData = MASTERS[master]?.skills[skillName];
-        let score = 50; // Điểm cơ bản cho mọi kỹ năng
-
-        // ĐIỂM CHO KỸ NĂNG HỒI PHỤC
+        let score = 50; 
+       
         if (skillName === "WHISTLE" || skillName === "REGENERATE_ENERGY") {
             if (hpPercent < 30) {
-                score += 300; // Ưu tiên cao khi HP thấp
+                score += 300; 
                 console.log(`${skillName}: +300 score for low HP`);
             } else if (kiPercent < 30) {
-                score += 250; // Ưu tiên khi Ki thấp
+                score += 250; 
                 console.log(`${skillName}: +250 score for low Ki`);
             }
 
             if (battlePhase === "early") {
-                score -= 100; // Không ưu tiên ở đầu trận
+                score -= 100; 
                 console.log(`${skillName}: -100 score for early game`);
             }
         }
 
-        // ĐIỂM CHO KỸ NĂNG PHÒNG THỦ
         if (skillName === "ENERGY_SHIELD" || skillName === "KHIEN_NANG_LUONG") {
             if (hpPercent < 40) {
-                score += 250; // Ưu tiên khi HP thấp
+                score += 250; 
                 console.log(`${skillName}: +250 score for low HP`);
             }
 
             if (battlePhase === "early") {
-                score -= 150; // Giảm ưu tiên ở đầu trận
+                score -= 150; 
                 console.log(`${skillName}: -150 score for early game`);
             }
         }
 
-        // ĐIỂM CHO ĐÒN ĐẶC BIỆT
         if (skillName === "MAKANKOSAPPO") {
-            score += 200; // Điểm cao cho đòn đánh mạnh
+            score += 200;
 
             if (opponentHP / opponentStates.maxHP < 0.4) {
-                score += 150; // Thêm điểm khi đối thủ yếu
+                score += 150;
                 console.log(`${skillName}: +150 score for weak opponent`);
             }
 
             if (kiPercent < 60) {
-                score -= 100; // Giảm điểm khi ít Ki
+                score -= 100; 
                 console.log(`${skillName}: -100 score for low Ki`);
             }
         }
 
-        // ĐIỂM CHO KỸ NĂNG ĐÁNH LIÊN HOÀN
         if (skillName === "RAPID_PUNCH") {
-            score += 150; // Điểm cao cho đòn liên hoàn
+            score += 150; 
 
             if (kiPercent > 70) {
-                score += 50; // Thêm điểm khi nhiều Ki
+                score += 50; 
                 console.log(`${skillName}: +50 score for high Ki`);
             }
             
             if (kiPercent > 90) {
-                score += 50; // Thêm điểm khi Ki rất cao
+                score += 50;
                 console.log(`${skillName}: +50 score for very high Ki`);
             }
 
             if (kiPercent < 40) {
-                score -= 50; // Giảm điểm khi ít Ki
+                score -= 50; 
                 console.log(`${skillName}: -50 score for low Ki`);
             }
         }
 
-        // ĐIỂM CHO KỸ NĂNG HỒI PHỤC
         if (skillName === "HEALING") {
             if (hpPercent < 30) {
-                score += 400; // Ưu tiên cao khi HP thấp
+                score += 400; 
                 console.log(`${skillName}: +400 score for low HP`);
             } else if (hpPercent < 60) {
-                score += 200; // Ưu tiên khi HP trung bình
+                score += 200; 
                 console.log(`${skillName}: +200 score for medium HP`);
             } else {
-                score += 50; // Ít ưu tiên khi HP cao
+                score += 50; 
                 console.log(`${skillName}: +50 score for high HP`);
             }
 
             if (battlePhase === "early" && hpPercent > 70) {
-                score -= 200; // Không ưu tiên ở đầu trận khi HP cao
+                score -= 200; 
                 console.log(`${skillName}: -200 score for early game with high HP`);
             }
         }
 
-        // ĐIỂM CHO KỸ NĂNG KIỂM SOÁT
         if (skillName === "BIND" || skillName === "TROI" || 
             skillName === "SOLAR_FLARE" || skillName === "EVIL_CONTAINMENT") {
             
-            // Ưu tiên khi đối thủ mạnh hơn
             if (opponentStates.power > playerStates.power * 1.2) {
                 score += 250;
                 console.log(`${skillName}: +250 score for stronger opponent`);
             }
             
-            // Ưu tiên cao ở giai đoạn mid-game
             if (battlePhase === "mid") {
                 score += 150;
                 console.log(`${skillName}: +150 score for mid game`);
             }
         }
 
-        // ĐIỂM CHO CÁC KỸ NĂNG TẤN CÔNG MẠNH
         if (skillData.powerScale > 3.0) {
-            score += skillData.powerScale * 100; // Điểm cao cho đòn mạnh
+            score += skillData.powerScale * 100; 
             console.log(`${skillName}: +${skillData.powerScale * 100} score for powerful attack`);
 
-            // Ưu tiên đòn mạnh khi đối thủ HP thấp
             if (opponentHP / opponentStates.maxHP < 0.3) {
                 score += 300;
                 console.log(`${skillName}: +300 score for finishing move against weak opponent`);
             }
 
-            // Cần đủ Ki
             if (kiPercent < 70) {
                 score -= 200;
                 console.log(`${skillName}: -200 score for insufficient Ki`);
             }
 
-            // Quả Cầu Kinh Khí ưu tiên ở cuối trận
             if (skillName === "SPIRIT_BOMB") {
                 if (battlePhase === "late") {
                     score += 300;
@@ -4868,12 +4795,10 @@ async function displayPVPBattle(api, threadID, messageID, battleResult, player1,
 
     await new Promise(resolve => setTimeout(resolve, 5000));
 
-    // Xử lý log trận đấu để hiển thị rõ ràng, sinh động hơn
     const enhancedBattleLog = [];
-    const skillUsed = new Set(); // Theo dõi kỹ năng đã sử dụng để tránh lặp lại
+    const skillUsed = new Set(); 
     
     battleLog.forEach(log => {
-        // Chỉ thêm vào log kỹ năng nếu chưa được thêm vào sự kiện quan trọng
         if (log.includes("sử dụng") && (
             log.includes("Kamejoko") || log.includes("Đấm Dragon") ||
             log.includes("Quả Cầu Kinh Khí") || log.includes("Đấm Demon") ||
@@ -4885,12 +4810,12 @@ async function displayPVPBattle(api, threadID, messageID, battleResult, player1,
             log.includes("Huýt Sáo") || log.includes("Trói") ||
             log.includes("Ma Phong Ba") || log.includes("Cadich")
         )) {
-            const skillKey = log.substring(0, 50); // Lấy một phần đủ để xác định kỹ năng
+            const skillKey = log.substring(0, 50); 
             if (!skillUsed.has(skillKey)) {
                 enhancedBattleLog.push(`🔥 KỸ NĂNG: ${log}`);
                 skillUsed.add(skillKey);
             } else {
-                enhancedBattleLog.push(log); // Vẫn hiển thị nhưng không đánh dấu là sự kiện quan trọng
+                enhancedBattleLog.push(log); 
             }
         }
         else if (log.includes("CHÍ MẠNG")) {
@@ -4913,11 +4838,9 @@ async function displayPVPBattle(api, threadID, messageID, battleResult, player1,
         }
     });
 
-    // Hiển thị theo từng giai đoạn của trận đấu
     const chunkSize = 15;
     const battleLogChunks = [];
     
-    // Chia nhóm các lượt của trận đấu
     let currentChunk = [];
     let currentTurn = 0;
     
@@ -4936,11 +4859,9 @@ async function displayPVPBattle(api, threadID, messageID, battleResult, player1,
         battleLogChunks.push(currentChunk);
     }
 
-    // Hiển thị từng phase của trận đấu
     for (let i = 0; i < battleLogChunks.length; i++) {
         const chunk = battleLogChunks[i];
         
-        // Lọc các sự kiện quan trọng để hiển thị summary
         const importantEvents = chunk.filter(log => 
             log.startsWith("🔥 KỸ NĂNG:") || 
             log.startsWith("💥") || 
@@ -4949,7 +4870,6 @@ async function displayPVPBattle(api, threadID, messageID, battleResult, player1,
             log.startsWith("😵")
         );
         
-        // Loại bỏ các prefix để hiển thị trong summary
         const cleanedEvents = importantEvents.map(event => {
             if (event.startsWith("🔥 KỸ NĂNG: ")) {
                 return event.replace("🔥 KỸ NĂNG: ", "");
@@ -4957,19 +4877,16 @@ async function displayPVPBattle(api, threadID, messageID, battleResult, player1,
             return event;
         });
         
-        // Tạo summary chỉ khi có sự kiện quan trọng
         let summary = "";
         if (cleanedEvents.length > 0) {
             summary = "\n\n📌 SỰ KIỆN QUAN TRỌNG:";
             
-            // Phân loại sự kiện theo loại
             const skillEvents = cleanedEvents.filter(e => e.includes("sử dụng") && !e.startsWith("💥") && !e.startsWith("⚡"));
             const critEvents = cleanedEvents.filter(e => e.startsWith("💥"));
             const comboEvents = cleanedEvents.filter(e => e.startsWith("⚡"));
             const shieldEvents = cleanedEvents.filter(e => e.startsWith("🛡️"));
             const stunEvents = cleanedEvents.filter(e => e.startsWith("😵"));
             
-            // Thêm từng loại sự kiện vào summary
             if (skillEvents.length > 0) summary += "\n" + [...new Set(skillEvents)].join("\n");
             if (critEvents.length > 0) summary += "\n" + [...new Set(critEvents)].join("\n");
             if (comboEvents.length > 0) summary += "\n" + [...new Set(comboEvents)].join("\n");
@@ -5005,7 +4922,6 @@ async function displayPVPBattle(api, threadID, messageID, battleResult, player1,
     }
 }
 
-// Thêm hàm mới để tạo kết quả văn bản (fallback)
 function createBattleSummaryText(battleResult, player1, player2) {
     const { winner, loser, player1HP, player2HP, isDraw, turns, totalDamage, battleStats } = battleResult;
 
@@ -5016,29 +4932,24 @@ function createBattleSummaryText(battleResult, player1, player2) {
     } else {
         summary += `🏆 ${winner.name} CHIẾN THẮNG! 🏆\n\n`;
     }
-
-    // Thông tin trận đấu
+u
     summary += `⏱️ Số lượt: ${turns}\n`;
     summary += `⏳ Thời gian: ${Math.round((battleStats?.duration || 0) / 1000)} giây\n`;
     summary += `🔄 Combo cao nhất: x${battleStats?.maxCombo || 0}\n\n`;
 
-    // HP còn lại
     const hp1Percent = Math.round((player1HP / player1.stats.health) * 100);
     const hp2Percent = Math.round((player2HP / player2.stats.health) * 100);
     summary += `${player1.name}: ${Math.max(0, player1HP).toLocaleString()} HP còn lại (${hp1Percent}%)\n`;
     summary += `${player2.name}: ${Math.max(0, player2HP).toLocaleString()} HP còn lại (${hp2Percent}%)\n\n`;
 
-    // Tổng sát thương
     summary += `💥 Sát thương gây ra:\n`;
     summary += `- ${player1.name}: ${totalDamage.attacker.toLocaleString()}\n`;
     summary += `- ${player2.name}: ${totalDamage.defender.toLocaleString()}\n\n`;
 
-    // Đánh giá trận đấu
     if (!isDraw && winner && loser) {
         summary += `💡 Phân tích: ${winner.name} ${getWinReason(battleResult, winner, loser)}\n\n`;
     }
 
-    // Khuyến khích
     summary += `💪 Hãy tiếp tục luyện tập để trở nên mạnh hơn!`;
 
     return summary;
@@ -5080,7 +4991,6 @@ function selectBestSkill(player, playerHP, playerKi, opponentHP, playerStates, o
     const hpPercent = (playerHP / maxHP) * 100;
     const kiPercent = (playerKi / maxKi) * 100;
 
-    // Lọc kỹ năng có thể sử dụng
     const usableSkills = player.skills.filter(skillChoice => {
         const [master, skillName] = skillChoice.split(":");
         if (!MASTERS[master]?.skills[skillName]) return false;
@@ -5090,22 +5000,18 @@ function selectBestSkill(player, playerHP, playerKi, opponentHP, playerStates, o
             Math.floor(maxKi * skillData.kiCost) :
             Math.floor(maxKi * Math.abs(skillData.kiCost));
 
-        // Kiểm tra cooldown
         if (skillCooldowns[skillName] && skillCooldowns[skillName].currentCooldown > 0) {
             return false;
         }
 
-        // Kiểm tra số lần sử dụng còn lại
         if (skillCooldowns[skillName] && skillCooldowns[skillName].usesLeft === 0) {
             return false;
         }
 
-        // Kiểm tra kỹ năng dành cho cuối trận
         if (skillCooldowns[skillName] && skillCooldowns[skillName].lateTurn && currentTurn < 15) {
             return false;
         }
 
-        // Kiểm tra đủ Ki
         if (skillData.kiCost > 0 && playerKi < kiCost) {
             return false;
         }
@@ -5115,11 +5021,8 @@ function selectBestSkill(player, playerHP, playerKi, opponentHP, playerStates, o
 
     if (usableSkills.length === 0) return null;
 
-    // Thêm yếu tố ngẫu nhiên để tăng đa dạng kỹ năng
-    // 50% cơ hội dùng kỹ năng cao cấp khi có thể
     const shouldUseSpecialSkill = Math.random() < 0.5;
     
-    // Phân loại kỹ năng
     const attackSkills = usableSkills.filter(skillChoice => {
         const [master, skillName] = skillChoice.split(":");
         const powerScale = MASTERS[master]?.skills[skillName]?.powerScale || 0;
@@ -5132,7 +5035,6 @@ function selectBestSkill(player, playerHP, playerKi, opponentHP, playerStates, o
         return powerScale === 0;
     });
     
-    // Ưu tiên kỹ năng hỗ trợ khi HP thấp
     if (hpPercent < 40 && supportSkills.length > 0 && Math.random() < 0.7) {
         const healingSkills = supportSkills.filter(skill => {
             const [master, skillName] = skill.split(":");
@@ -5143,7 +5045,6 @@ function selectBestSkill(player, playerHP, playerKi, opponentHP, playerStates, o
             const selectedSkill = healingSkills[Math.floor(Math.random() * healingSkills.length)];
             const [master, skillName] = selectedSkill.split(":");
             
-            // Áp dụng cooldown và giảm số lần sử dụng
             if (skillCooldowns[skillName]) {
                 skillCooldowns[skillName].currentCooldown = skillCooldowns[skillName].cooldown || 0;
                 if (skillCooldowns[skillName].usesLeft !== undefined) {
@@ -5155,7 +5056,6 @@ function selectBestSkill(player, playerHP, playerKi, opponentHP, playerStates, o
         }
     }
     
-    // Ưu tiên kỹ năng phòng thủ khi bị áp đảo
     if (playerStates.power < opponentStates.power * 0.8 && supportSkills.length > 0 && Math.random() < 0.6) {
         const defenseSkills = supportSkills.filter(skill => {
             const [master, skillName] = skill.split(":");
@@ -5177,7 +5077,6 @@ function selectBestSkill(player, playerHP, playerKi, opponentHP, playerStates, o
         }
     }
     
-    // Ưu tiên kỹ năng khống chế
     if (currentTurn > 5 && supportSkills.length > 0 && Math.random() < 0.4) {
         const controlSkills = supportSkills.filter(skill => {
             const [master, skillName] = skill.split(":");
@@ -5200,7 +5099,6 @@ function selectBestSkill(player, playerHP, playerKi, opponentHP, playerStates, o
         }
     }
     
-    // Ưu tiên kỹ năng tấn công mạnh ở cuối trận
     if (currentTurn > 10 && attackSkills.length > 0) {
         const strongAttacks = attackSkills.filter(skill => {
             const [master, skillName] = skill.split(":");
@@ -5223,7 +5121,6 @@ function selectBestSkill(player, playerHP, playerKi, opponentHP, playerStates, o
         }
     }
     
-    // Nếu có nhiều ki, ưu tiên kỹ năng tấn công thường
     if (kiPercent > 70 && attackSkills.length > 0) {
         const normalAttacks = attackSkills.filter(skill => {
             const [master, skillName] = skill.split(":");
@@ -5246,7 +5143,6 @@ function selectBestSkill(player, playerHP, playerKi, opponentHP, playerStates, o
         }
     }
     
-    // Nếu đến đây vẫn chưa chọn được, chọn ngẫu nhiên một kỹ năng
     if (usableSkills.length > 0) {
         const randomIndex = Math.floor(Math.random() * usableSkills.length);
         const selectedSkill = usableSkills[randomIndex];
@@ -5349,94 +5245,7 @@ function generateDramaticDescription(action, player, target, damage, hp, maxHp, 
 
     return description;
 }
-function analyzeBattleSituation(playerHP, playerKi, opponentHP, playerStates, opponentStates, currentTurn) {
-    const playerHpPercent = (playerHP / playerStates.maxHP) * 100;
-    const opponentHpPercent = (opponentHP / opponentStates.maxHP) * 100;
-    const playerPowerDiff = playerStates.power - opponentStates.power;
-    const powerRatio = playerStates.power / opponentStates.power;
 
-    // Phân loại tình huống
-    let situation = {
-        isDesperateSituation: playerHpPercent < 20 && opponentHpPercent > 50,
-        isWinningPosition: playerHpPercent > 60 && opponentHpPercent < 30,
-        isCloseMatch: Math.abs(playerHpPercent - opponentHpPercent) < 15,
-        isOutpowered: powerRatio < 0.7,
-        isOverpowering: powerRatio > 1.5,
-        isFinalStand: playerHpPercent < 30 && currentTurn > 10,
-        isMidFight: currentTurn > 5 && currentTurn < 15,
-        isLateFight: currentTurn >= 15,
-        hasKiAdvantage: playerKi > playerStates.maxHP * 0.7,
-        needsDesperateMove: playerHpPercent < 15 && opponentHpPercent < 40
-    };
-
-    return situation;
-}
-
-// Thêm hàm gán điểm dựa trên tình huống
-function getBattleSituationScore(skillName, situation) {
-    let situationScore = 0;
-
-    // Tình huống tuyệt vọng - ưu tiên đòn sát thương cao hoặc hồi phục
-    if (situation.isDesperateSituation) {
-        // Ưu tiên tuyệt đối cho đòn đánh mạnh
-        if (["SPIRIT_BOMB", "MAKANKOSAPPO", "GREAT_APE", "CADICH_LIEN_HOAN_TRUONG"].includes(skillName)) {
-            situationScore += 500;
-        }
-
-        // Ưu tiên cao cho hồi phục
-        if (["HEALING", "WHISTLE"].includes(skillName)) {
-            situationScore += 400;
-        }
-
-        // Ưu tiên phòng thủ
-        if (["ENERGY_SHIELD", "BIND", "TROI"].includes(skillName)) {
-            situationScore += 350;
-        }
-    }
-
-    // Đang thắng thế - ưu tiên đòn kết liễu
-    if (situation.isWinningPosition) {
-        if (["MAKANKOSAPPO", "SPIRIT_BOMB", "RAPID_PUNCH"].includes(skillName)) {
-            situationScore += 350;
-        }
-    }
-
-    // Trận đấu cân tài cân sức - ưu tiên đòn khống chế
-    if (situation.isCloseMatch) {
-        if (["BIND", "TROI", "SOLAR_FLARE", "EVIL_CONTAINMENT"].includes(skillName)) {
-            situationScore += 250;
-        }
-    }
-
-    // Đối thủ mạnh hơn - ưu tiên né tránh và phòng thủ
-    if (situation.isOutpowered) {
-        if (["ENERGY_SHIELD", "BIND", "HEALING", "SOLAR_FLARE"].includes(skillName)) {
-            situationScore += 300;
-        }
-    }
-
-    // Final stand - ưu tiên kỹ năng mạnh nhất
-    if (situation.isFinalStand) {
-        if (["SPIRIT_BOMB", "GREAT_APE", "CADICH_LIEN_HOAN_TRUONG", "EVIL_CONTAINMENT"].includes(skillName)) {
-            situationScore += 450;
-        }
-    }
-
-    // Phong cách đánh khác nhau giữa đầu, giữa và cuối trận
-    if (situation.isMidFight) {
-        // Giữa trận - cân bằng tấn công và phòng thủ
-        if (["KAIOKEN", "RAPID_PUNCH", "MAKANKOSAPPO"].includes(skillName)) {
-            situationScore += 150;
-        }
-    } else if (situation.isLateFight) {
-        // Cuối trận - ưu tiên đòn mạnh
-        if (["SPIRIT_BOMB", "GREAT_APE", "EVIL_CONTAINMENT"].includes(skillName)) {
-            situationScore += 200;
-        }
-    }
-
-    return situationScore;
-}
 function calculatePowerGain(currentPower, locationMultiplier = 1) {
 
     let powerScale = 1.0;
@@ -8102,7 +7911,6 @@ module.exports = {
                         BOSS_SYSTEM.checkForBossEvents();
                         const planetEvents = BOSS_SYSTEM.getPlanetEvents(player.planet);
 
-                        // If no events or no specific event specified
                         if (Object.keys(planetEvents).length === 0) {
                             return api.sendMessage(
                                 "🔍 KHÔNG TÌM THẤY BOSS NÀO ĐANG XUẤT HIỆN! 🔍\n" +
@@ -8114,7 +7922,6 @@ module.exports = {
                             );
                         }
 
-                        // If no specific boss is specified, just show list of active bosses
                         if (!target[2]) {
                             let msg = "👹 BOSS ĐANG XUẤT HIỆN 👹\n───────────────\n";
 
