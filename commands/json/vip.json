@@ -141,6 +141,29 @@
         "months": 1,
         "voucherApplied": null
       }
+    },
+    "100056955484415": {
+      "packageId": 3,
+      "name": "VIP GOLD",
+      "expireTime": 1746965152230,
+      "benefits": {
+        "cooldownReduction": 30,
+        "dailyBonus": true,
+        "fishingCooldown": 120000,
+        "fishExpMultiplier": 4,
+        "rareBonus": 0.3,
+        "trashReduction": 0.6,
+        "stolenProtection": 1,
+        "stolenCooldown": 900000,
+        "fullPlatformAccess": true,
+        "packageId": 3,
+        "name": "VIP GOLD"
+      },
+      "purchaseInfo": {
+        "purchaseDate": 1743768352230,
+        "months": 1,
+        "voucherApplied": null
+      }
     }
   }
 }

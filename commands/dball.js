@@ -11,6 +11,10 @@ const createPVPResultImage = require("../game/canvas/dballPvPCanvas.js");
 function getFontPath(fontName) {
     return path.join(__dirname, "../fonts", fontName);
 }
+function getSafeCooldown(cooldowns, skillName) {
+    if (!cooldowns || !cooldowns[skillName]) return 0;
+    return cooldowns[skillName]?.cooldown || 0;
+}
 
 const DB_FOLDER = path.join(__dirname, "json", "dragonball");
 const DB_FILE = path.join(DB_FOLDER, "players.json");
@@ -661,237 +665,7 @@ const DRAGON_WISHES = {
         }
     }
 };
-function selectSkillToUse(player, opponent, battleState) {
-    if (!player.skills || player.skills.length === 0) return null;
 
-    // Lọc các kỹ năng có thể sử dụng dựa trên Ki hiện tại
-    const usableSkills = player.skills.filter(skillId => {
-        const [masterId, skillName] = skillId.split(":");
-        const skillData = MASTERS[masterId].skills[skillName];
-
-        // Nếu không tìm thấy dữ liệu kỹ năng, bỏ qua
-        if (!skillData) return false;
-
-        // Tính toán chi phí Ki
-        const kiCost = skillData.kiCost > 0 ?
-            Math.floor(player.stats.ki * skillData.kiCost) :
-            Math.floor(player.stats.ki * Math.abs(skillData.kiCost));
-
-        // Kiểm tra xem có đủ Ki để sử dụng kỹ năng không
-        if (skillData.kiCost > 0) {
-            return battleState.currentKi >= kiCost;
-        } else {
-            // Kỹ năng hồi Ki - luôn có thể sử dụng
-            return true;
-        }
-    });
-
-    if (usableSkills.length === 0) return null;
-
-    // Ưu tiên các kỹ năng dựa trên trạng thái trận đấu
-    // 1. Nếu Ki dưới 30%, ưu tiên kỹ năng hồi Ki
-    if (battleState.currentKi < player.stats.ki * 0.3) {
-        const kiRestoreSkills = usableSkills.filter(skillId => {
-            const [masterId, skillName] = skillId.split(":");
-            return MASTERS[masterId].skills[skillName].kiCost < 0;
-        });
-
-        if (kiRestoreSkills.length > 0) {
-            return kiRestoreSkills[Math.floor(Math.random() * kiRestoreSkills.length)];
-        }
-    }
-
-    // 2. Nếu HP dưới 40%, ưu tiên kỹ năng phòng thủ hoặc khiên
-    if (battleState.currentHP < player.stats.health * 0.4) {
-        const defensiveSkills = usableSkills.filter(skillId => {
-            const [masterId, skillName] = skillId.split(":");
-            const skill = MASTERS[masterId].skills[skillName];
-            return skill.description.toLowerCase().includes("phòng thủ") ||
-                skill.description.toLowerCase().includes("khiên") ||
-                skill.description.toLowerCase().includes("né tránh") ||
-                skill.name.toLowerCase().includes("khiên");
-        });
-
-        if (defensiveSkills.length > 0) {
-            return defensiveSkills[Math.floor(Math.random() * defensiveSkills.length)];
-        }
-    }
-
-    // 3. Nếu đối thủ mạnh hơn, ưu tiên kỹ năng kiểm soát
-    if (opponent.stats.power > player.stats.power * 1.2) {
-        const controlSkills = usableSkills.filter(skillId => {
-            const [masterId, skillName] = skillId.split(":");
-            const skill = MASTERS[masterId].skills[skillName];
-            return skill.description.toLowerCase().includes("trói") ||
-                skill.description.toLowerCase().includes("đóng băng") ||
-                skill.description.toLowerCase().includes("huýt sáo") ||
-                skill.description.toLowerCase().includes("làm chậm") ||
-                skill.name.toLowerCase().includes("trói") ||
-                skill.name.toLowerCase().includes("huýt");
-        });
-
-        if (controlSkills.length > 0) {
-            return controlSkills[Math.floor(Math.random() * controlSkills.length)];
-        }
-    }
-
-    // 4. Nếu có đủ Ki, ưu tiên kỹ năng tấn công mạnh nhất
-    if (battleState.currentKi > player.stats.ki * 0.7) {
-        const attackSkills = usableSkills.filter(skillId => {
-            const [masterId, skillName] = skillId.split(":");
-            return MASTERS[masterId].skills[skillName].powerScale > 1.0;
-        });
-
-        if (attackSkills.length > 0) {
-            // Sắp xếp theo sức mạnh giảm dần
-            attackSkills.sort((a, b) => {
-                const [masterId1, skillName1] = a.split(":");
-                const [masterId2, skillName2] = b.split(":");
-                return MASTERS[masterId2].skills[skillName2].powerScale -
-                    MASTERS[masterId1].skills[skillName1].powerScale;
-            });
-
-            // Chọn một trong top 3 kỹ năng mạnh nhất
-            const topSkillsCount = Math.min(3, attackSkills.length);
-            const randomIndex = Math.floor(Math.random() * topSkillsCount);
-            return attackSkills[randomIndex];
-        }
-    }
-
-    // 5. Mặc định chọn ngẫu nhiên
-    return usableSkills[Math.floor(Math.random() * usableSkills.length)];
-}
-
-/**
- * Sử dụng kỹ năng và áp dụng hiệu ứng
- * @param {Object} player - Người sử dụng kỹ năng
- * @param {Object} opponent - Đối thủ chịu tác động
- * @param {String} skillId - ID kỹ năng (master:skill)
- * @param {Object} battleState - Trạng thái trận đấu
- * @param {Array} battleLog - Lịch sử trận đấu
- * @returns {Boolean} - Thành công hay không
- */
-function useSkill(player, opponent, skillId, battleState, battleLog) {
-    const [masterId, skillName] = skillId.split(":");
-    const skillData = MASTERS[masterId]?.skills[skillName];
-
-    if (!skillData) return false;
-
-    // Tính chi phí Ki
-    const kiCost = skillData.kiCost > 0 ?
-        Math.floor(player.stats.ki * skillData.kiCost) :
-        Math.floor(player.stats.ki * Math.abs(skillData.kiCost));
-
-    // Kỹ năng tiêu hao Ki
-    if (skillData.kiCost > 0) {
-        // Kiểm tra Ki đủ hay không
-        if (battleState.currentKi < kiCost) return false;
-
-        // Trừ chi phí Ki
-        battleState.currentKi -= kiCost;
-
-        // Kỹ năng tấn công
-        if (skillData.powerScale > 0) {
-            // Tính sát thương
-            const damage = Math.floor(player.stats.damage * skillData.powerScale);
-
-            // Áp dụng sát thương
-            battleState.opponentHP -= damage;
-
-            // Thông tin cooldown (nếu có)
-            let cooldownInfo = "";
-            if (battleState.skillCooldowns && battleState.skillCooldowns[skillName]) {
-                cooldownInfo = ` (Hồi chiêu: ${battleState.skillCooldowns[skillName].cooldown} lượt)`;
-            }
-
-            // Ghi nhật ký
-            battleLog.push(`${player.name} sử dụng ${skillData.name} gây ${damage.toLocaleString()} sát thương!${cooldownInfo}`);
-            return true;
-        }
-        // Kỹ năng hỗ trợ/kiểm soát
-        else {
-            // Thông tin cooldown (nếu có)
-            let cooldownInfo = "";
-            if (battleState.skillCooldowns && battleState.skillCooldowns[skillName]) {
-                cooldownInfo = ` (Hồi chiêu: ${battleState.skillCooldowns[skillName].cooldown} lượt)`;
-            }
-
-            switch (skillName) {
-                // Các case không thay đổi về logic, chỉ thêm thông tin cooldown
-                case "ENERGY_SHIELD":
-                case "KHIEN_NANG_LUONG":
-                    battleState.playerDefense = 0.5;
-                    battleState.shieldDuration = 3;
-                    battleLog.push(`${player.name} kích hoạt ${skillData.name}, giảm sát thương nhận vào!${cooldownInfo}`);
-                    return true;
-
-                case "BIND":
-                case "TROI":
-                    battleState.opponentStunned = 2;
-                    battleLog.push(`${player.name} sử dụng ${skillData.name}, ${opponent.name} bị trói!${cooldownInfo}`);
-                    return true;
-
-                case "SOLAR_FLARE":
-                    battleState.opponentStunned = 1;
-                    battleLog.push(`${player.name} sử dụng ${skillData.name}, ${opponent.name} bị choáng!${cooldownInfo}`);
-                    return true;
-
-                case "WHISTLE":
-                case "HUYT_SAO":
-                    battleState.opponentAttackReduced = 0.7;
-                    battleState.opponentDebuffDuration = 3;
-                    battleLog.push(`${player.name} sử dụng ${skillData.name}, làm giảm sức tấn công của đối thủ!${cooldownInfo}`);
-                    return true;
-
-                case "KAIOKEN":
-                    battleState.playerPowerBoost = 3.0;
-                    battleState.playerBoostDuration = 4;
-                    battleLog.push(`${player.name} kích hoạt ${skillData.name}, sức mạnh tăng gấp 3 lần!${cooldownInfo}`);
-                    return true;
-
-                case "GREAT_APE":
-                    battleState.playerPowerBoost = 5.0;
-                    battleState.playerBoostDuration = 4;
-                    battleLog.push(`${player.name} biến thành ${skillData.name}, sức mạnh tăng gấp 5 lần!${cooldownInfo}`);
-                    return true;
-
-                case "MULTIFORM":
-                    const damage = Math.floor(player.stats.damage * 0.8) * 2;
-                    battleState.opponentHP -= damage;
-                    battleLog.push(`${player.name} sử dụng ${skillData.name}, tạo ra nhiều bản sao gây ${damage.toLocaleString()} sát thương!${cooldownInfo}`);
-                    return true;
-
-                default:
-                    battleLog.push(`${player.name} sử dụng ${skillData.name}!${cooldownInfo}`);
-                    return true;
-            }
-        }
-    }
-    // Kỹ năng hồi phục (Ki âm = hồi phục)
-    else {
-        // Thông tin cooldown (nếu có)
-        let cooldownInfo = "";
-        if (battleState.skillCooldowns && battleState.skillCooldowns[skillName]) {
-            cooldownInfo = ` (Hồi chiêu: ${battleState.skillCooldowns[skillName].cooldown} lượt)`;
-        }
-
-        if (skillName === "REGENERATION") {
-            // Hồi phục 30% HP
-            const healAmount = Math.floor(player.stats.health * 0.3);
-            battleState.currentHP = Math.min(player.stats.health, battleState.currentHP + healAmount);
-            battleLog.push(`${player.name} sử dụng ${skillData.name}, hồi phục ${healAmount.toLocaleString()} HP!${cooldownInfo}`);
-        } else {
-            // Hồi phục Ki
-            battleState.currentKi = Math.min(player.stats.ki, battleState.currentKi + kiCost);
-            battleLog.push(`${player.name} sử dụng ${skillData.name}, hồi phục ${kiCost.toLocaleString()} Ki!${cooldownInfo}`);
-        }
-        return true;
-    }
-}
-
-/**
- * Mô phỏng trận đấu giữa hai người chơi
- */
 function validatePlayerQuests(player) {
     if (!player.quests) {
         player.quests = {
@@ -979,12 +753,12 @@ const SHOP_ITEMS = {
     }
 };
 const QUEST_TYPES = {
-    COMBAT: "combat",
-    POWER: "power",
-    TRAINING: "training",
-    COLLECT: "collect",
-    MASTER: "master",
-    TOURNAMENT: "tournament"
+    COMBAT: "COMBAT",   // Chuyển thành chữ HOA thống nhất
+    POWER: "POWER",
+    TRAINING: "TRAINING",
+    COLLECT: "COLLECT",
+    MASTER: "MASTER",
+    TOURNAMENT: "TOURNAMENT"
 };
 
 const PLANET_THEME_COLORS = {
@@ -2712,55 +2486,54 @@ const MASTERS = {
         race: "Namek",
         description: "Chiến binh tộc Namek",
         skills: {
-            SPECIAL_BEAM_CANNON: {
-                name: "Makankosappo",
-                powerScale: 2.5,
-                kiCost: 0.4,
-                powerRequired: 1000000,
-                description: "Xoáy ma khoan xuyên thủng"
+            DEMON_PUNCH: {
+                name: "Đấm Demon",
+                powerScale: 1.2,
+                kiCost: 0.2,
+                powerRequired: 0,
+                description: "Đấm Demon cơ bản của người Namek"
             },
-            REGENERATION: {
-                name: "Tái Tạo",
+            MASENKO: {
+                name: "Masenko",
+                powerScale: 1.5,
+                kiCost: 0.3,
+                powerRequired: 50000,
+                description: "Chưởng năng lượng hủy diệt của người Namek",
+            },
+            HEALING: {
+                name: "Trị Thương",
                 powerScale: 0,
-                kiCost: -0.3,
-                powerRequired: 5000000,
-                description: "Hồi phục 30% HP",
-                cooldown: 5, currentCooldown: 0, usesLeft: 1
+                kiCost: 0.4,
+                powerRequired: 500000,
+                description: "Khả năng tái tạo tế bào độc đáo của tộc Namek, hồi 50% HP"
             },
-            LIGHT_GRENADE: {
-                name: "Light Grenade",
-                powerScale: 3.0,
+            RAPID_PUNCH: {
+                name: "Đấm Liên Hoàn",
+                powerScale: 1.6,
+                kiCost: 0.25,
+                powerRequired: 1000000,
+                description: "Đòn tấn công liên tiếp tốc độ cao, tốn Ki nhưng không cần hồi chiêu"
+            },
+            MAKANKOSAPPO: {
+                name: "Makankosappo",
+                powerScale: 2.2,
                 kiCost: 0.5,
-                powerRequired: 10000000,
-                description: "Quả cầu ánh sáng hủy diệt"
+                powerRequired: 5000000,
+                description: "Xoáy ma khoan xuyên thủng của Piccolo, gây sát thương lớn"
             },
-            HELLZONE_GRENADE: {
-                name: "Hellzone Grenade",
-                powerScale: 4.0,
-                kiCost: 0.6,
-                powerRequired: 100000000,
-                description: "Bẫy địa ngục không lối thoát"
-            },
-            DEMONICAL_FLAVOR: {
-                name: "Hương Vị Quỷ Dữ",
-                powerScale: 3.5,
-                kiCost: 0.55,
-                powerRequired: 750000000,
-                description: "Tấn công bằng năng lượng quỷ dữ"
-            },
-            MULTIFORM: {
-                name: "Phân Thân",
-                powerScale: 5.0,
+            ENERGY_SHIELD: {
+                name: "Khiên Năng Lượng",
+                powerScale: 0,
                 kiCost: 0.7,
-                powerRequired: 1000000000,
-                description: "Tạo nhiều bản sao chiến đấu"
+                powerRequired: 5000000000,
+                description: "Giảm 50% sát thương nhận vào trong 3 lượt"
             },
-            EXPLODING_STORM: {
-                name: "Bão Năng Lượng",
-                powerScale: 4.5,
-                kiCost: 0.65,
-                powerRequired: 2000000000,
-                description: "Tạo ra cơn bão năng lượng"
+            EVIL_CONTAINMENT: {
+                name: "Ma Phong Ba",
+                powerScale: 0,
+                kiCost: 0.8,
+                powerRequired: 10000000000,
+                description: "Bí kỹ cổ xưa nhốt đối thủ vào bình chứa, đối thủ không thể hành động trong 3 lượt"
             }
         }
     },
@@ -2918,7 +2691,7 @@ const BOSS_SYSTEM = {
                 health: 5000000,
                 damage: 500000,      // Tăng sát thương
                 ki: 500000,
-                skills: ["SPECIAL_BEAM_CANNON", "HELLZONE_GRENADE", "NAMEK_FUSION"],
+                skills: ["DEMON_PUNCH", "NAMEK_FUSION"],
                 drops: [
                     { item: "turtle_gi", chance: 0.5 },
                     { item: "crystal", chance: 0.7, quantity: 3 },
@@ -2939,7 +2712,7 @@ const BOSS_SYSTEM = {
                 health: 15000000,
                 damage: 1500000,     // Tăng sát thương
                 ki: 1000000,
-                skills: ["KAMEHAMEHA", "SOLAR_FLARE", "SPIRIT_BOMB", "REGENERATION"],
+                skills: ["KAMEHAMEHA", "SOLAR_FLARE", "SPIRIT_BOMB"],
                 drops: [
                     { item: "weighted_clothing", chance: 0.4 },
                     { item: "crystal", chance: 0.8, quantity: 5 },
@@ -3224,15 +2997,18 @@ function updateCooldowns(skillCooldowns) {
 }
 function initializeSkillCooldowns() {
     return {
-        // Kỹ năng hồi phục
-        REGENERATION: { cooldown: 5, currentCooldown: 0, usesLeft: 1 },
         WHISTLE: { cooldown: 6, currentCooldown: 0, usesLeft: 1 },
         REGENERATE_ENERGY: { cooldown: 5, currentCooldown: 0, usesLeft: 1 },
+        MASENKO: { cooldown: 3, currentCooldown: 0 },
+        HEALING: { cooldown: 5, currentCooldown: 0, usesLeft: 1 },
+        MAKANKOSAPPO: { cooldown: 10, currentCooldown: 0 },
+        RAPID_PUNCH: { cooldown: 0, currentCooldown: 0 },
+
+        EVIL_CONTAINMENT: { cooldown: 0, currentCooldown: 0, usesLeft: 1, battleOnly: true },
 
         // Kỹ năng phòng thủ
         ENERGY_SHIELD: { cooldown: 4, currentCooldown: 0, usesLeft: 2 },
         KHIEN_NANG_LUONG: { cooldown: 4, currentCooldown: 0, usesLeft: 2 },
-
         // Kỹ năng kiểm soát
         BIND: { cooldown: 4, currentCooldown: 0, usesLeft: 2 },
         TROI: { cooldown: 4, currentCooldown: 0, usesLeft: 2 },
@@ -3242,16 +3018,10 @@ function initializeSkillCooldowns() {
         // Kỹ năng biến hình
         KAIOKEN: { cooldown: 0, currentCooldown: 0, usesLeft: 1 },
         GREAT_APE: { cooldown: 0, currentCooldown: 0, usesLeft: 1 },
-
         // Kỹ năng tấn công đặc biệt
         SPIRIT_BOMB: { cooldown: 8, currentCooldown: 0, usesLeft: 1 },
         CADICH_LIEN_HOAN_TRUONG: { cooldown: 6, currentCooldown: 0, usesLeft: 1, lateTurn: true },
-        SPECIAL_BEAM_CANNON: { cooldown: 3, currentCooldown: 0 },
-        HELLZONE_GRENADE: { cooldown: 4, currentCooldown: 0 },
-        LIGHT_GRENADE: { cooldown: 3, currentCooldown: 0 },
-        DEMONICAL_FLAVOR: { cooldown: 3, currentCooldown: 0 },
-        MULTIFORM: { cooldown: 5, currentCooldown: 0, usesLeft: 1 },
-        EXPLODING_STORM: { cooldown: 4, currentCooldown: 0 }
+
     };
 }
 function applyEquipmentBoosts(player) {
@@ -3322,19 +3092,18 @@ function applyEquipmentBoosts(player) {
 }
 
 function simulateBattle(player1, player2, options = {}) {
-    // Kiểm tra xem player2 có phải là quái vật không (quái vật có thuộc tính hp thay vì stats.health)
     const isMonsterBattle = player2.hp !== undefined;
 
-    // Khởi tạo trạng thái trận đấu
+    const dramaticMoments = [];
+
     const battleState = {
-        // Thông tin HP/Ki
+
         player1Ki: player1.stats.currentKi || player1.stats.ki,
         player1HP: player1.stats.currentHealth || player1.stats.health,
-        // Nếu là quái vật, sử dụng hp/power trực tiếp, ngược lại sử dụng stats
+
         player2Ki: isMonsterBattle ? (player2.ki || player2.power * 0.5) : (player2.stats.currentKi || player2.stats.ki),
         player2HP: isMonsterBattle ? player2.hp : (player2.stats.currentHealth || player2.stats.health),
 
-        // Các hiệu ứng
         player1Defense: 1.0,
         player2Defense: 1.0,
         player1ShieldDuration: 0,
@@ -3350,19 +3119,15 @@ function simulateBattle(player1, player2, options = {}) {
         player1BoostDuration: 0,
         player2BoostDuration: 0,
 
-        // Cooldowns kỹ năng
         player1SkillCooldowns: initializeSkillCooldowns(),
         player2SkillCooldowns: initializeSkillCooldowns(),
 
-        // Lượt chiến đấu
         turn: 0
     };
 
-    // Nhật ký chiến đấu
     const battleLog = [];
     const maxTurns = options.maxTurns || 30;
 
-    // Thông tin đầu trận
     if (isMonsterBattle) {
         battleLog.push(`🔄 ${player1.name} đối đầu với ${player2.name}!`);
         battleLog.push(`💪 ${player1.name}: ${battleState.player1HP.toLocaleString()} HP, ${player1.stats.damage.toLocaleString()} Sức đánh`);
@@ -3373,7 +3138,6 @@ function simulateBattle(player1, player2, options = {}) {
         battleLog.push(`💪 ${player2.name}: ${battleState.player2HP.toLocaleString()} HP, ${player2.stats.damage.toLocaleString()} Sức đánh`);
     }
 
-    // Thống kê trận đấu
     const battleStats = {
         maxCombo: 0,
         currentCombo: 0,
@@ -3382,13 +3146,11 @@ function simulateBattle(player1, player2, options = {}) {
         startTime: Date.now()
     };
 
-    // Tổng sát thương
     const totalDamage = {
         attacker: 0,
         defender: 0
     };
 
-    // Lưu HP ban đầu để tính % HP còn lại
     const initialHP = {
         attacker: battleState.player1HP,
         defender: battleState.player2HP
@@ -3431,130 +3193,150 @@ function simulateBattle(player1, player2, options = {}) {
                 battleState.player1SkillCooldowns
             );
 
-            // Nếu có kỹ năng phù hợp
             if (skillToUse) {
                 const [master, skillName] = skillToUse.split(":");
                 const skillData = MASTERS[master]?.skills[skillName];
 
                 if (skillData) {
-                    // Tính chi phí Ki
                     const kiCost = skillData.kiCost > 0 ?
                         Math.floor(player1.stats.ki * skillData.kiCost) :
                         Math.floor(player1.stats.ki * Math.abs(skillData.kiCost));
 
-                    // Sử dụng kỹ năng
                     if (skillData.kiCost > 0) {
-                        // Kỹ năng tiêu hao Ki
+
                         battleState.player1Ki -= kiCost;
 
                         if (skillData.powerScale > 0) {
-                            // Kỹ năng tấn công
+
                             const damage = Math.floor(player1.stats.damage * skillData.powerScale * battleState.player1PowerBoost);
                             battleState.player2HP -= damage;
                             totalDamage.attacker += damage;
 
-                            battleLog.push(`${player1.name} sử dụng ${skillData.name} gây ${damage.toLocaleString()} sát thương! (Hồi chiêu: ${battleState.player1SkillCooldowns[skillName].cooldown} lượt)`);
+                            battleLog.push(`${player1.name} sử dụng ${skillData.name} gây ${damage.toLocaleString()} sát thương! (Hồi chiêu: ${battleState.player1SkillCooldowns[skillName]?.cooldown || 0} lượt)`);
                         } else {
-                            // Kỹ năng hỗ trợ
                             switch (skillName) {
                                 case "ENERGY_SHIELD":
                                 case "KHIEN_NANG_LUONG":
-                                    battleState.player1Defense = 0.5; // Giảm 50% sát thương
+                                    battleState.player1Defense = 0.5; 
                                     battleState.player1ShieldDuration = 3;
-                                    battleLog.push(`${player1.name} kích hoạt ${skillData.name}, giảm sát thương nhận vào! (Hồi chiêu: ${battleState.player1SkillCooldowns[skillName].cooldown} lượt)`);
+                                    battleLog.push(`${player1.name} kích hoạt ${skillData.name}, giảm sát thương nhận vào! (Hồi chiêu: ${getSafeCooldown(battleState.player1SkillCooldowns, skillName)} lượt)`);
                                     break;
 
                                 case "BIND":
                                 case "TROI":
-                                    battleState.player2Stunned = 2; // Đối thủ bị trói 2 lượt
-                                    battleLog.push(`${player1.name} sử dụng ${skillData.name}, ${isMonsterBattle ? player2.name : player2.name} bị trói! (Hồi chiêu: ${battleState.player1SkillCooldowns[skillName].cooldown} lượt)`);
+                                    battleState.player2Stunned = 2; 
+                                    battleLog.push(`${player1.name} sử dụng ${skillData.name}, ${isMonsterBattle ? player2.name : player2.name} bị trói! (Hồi chiêu: ${getSafeCooldown(battleState.player1SkillCooldowns, skillName)} lượt)`);
                                     break;
 
                                 case "SOLAR_FLARE":
-                                    battleState.player2Stunned = 1; // Đối thủ bị choáng 1 lượt
-                                    battleLog.push(`${player1.name} sử dụng ${skillData.name}, ${isMonsterBattle ? player2.name : player2.name} bị choáng! (Hồi chiêu: ${battleState.player1SkillCooldowns[skillName].cooldown} lượt)`);
+                                    battleState.player2Stunned = 1;
+                                    battleLog.push(`${player1.name} sử dụng ${skillData.name}, ${isMonsterBattle ? player2.name : player2.name} bị choáng! (Hồi chiêu: ${getSafeCooldown(battleState.player1SkillCooldowns, skillName)} lượt)`);
                                     break;
+                                case "EVIL_CONTAINMENT":
+                                    battleState.player2Stunned = 3;
+                                    battleState.player2Defense = 1.0; 
+                                    battleState.player2PowerBoost = 1.0;
+                                    battleState.player2ShieldDuration = 0;
 
+                                    battleState.player1Ki = Math.floor(battleState.player1Ki * 0.2); 
+
+                                    battleLog.push(`${player1.name} thi triển bí kỹ ${skillData.name}, nhốt ${isMonsterBattle ? player2.name : player2.name} vào bình phong ấn! ${player2.name} không thể hành động trong 3 lượt!`);
+                                    battleLog.push(`⚠️ ${player1.name} đã tiêu hao 80% Ki sau khi sử dụng Ma Phong Ba!`);
+
+                                    if (skillCooldowns[skillName]) {
+                                        skillCooldowns[skillName].usesLeft = 0;
+                                    }
+                                    break;
                                 case "WHISTLE":
                                 case "HUYT_SAO":
-                                    battleState.player2AttackReduced = 0.7; // Giảm 30% sát thương
+                                    battleState.player2AttackReduced = 0.7; 
                                     battleState.player2DebuffDuration = 3;
-                                    battleLog.push(`${player1.name} sử dụng ${skillData.name}, làm giảm sức tấn công của đối thủ! (Hồi chiêu: ${battleState.player1SkillCooldowns[skillName].cooldown} lượt)`);
+                                    battleLog.push(`${player1.name} sử dụng ${skillData.name}, làm giảm sức tấn công của đối thủ! (Hồi chiêu: ${getSafeCooldown(battleState.player1SkillCooldowns, skillName)} lượt)`);
                                     break;
 
                                 case "KAIOKEN":
-                                    battleState.player1PowerBoost = 3.0; // Tăng sức tấn công x3
+                                    battleState.player1PowerBoost = 3.0; 
                                     battleState.player1BoostDuration = 4;
-                                    battleLog.push(`${player1.name} kích hoạt ${skillData.name}, sức mạnh tăng gấp 3 lần! (Hồi chiêu: ${battleState.player1SkillCooldowns[skillName].cooldown} lượt)`);
+                                    battleLog.push(`${player1.name} kích hoạt ${skillData.name}, sức mạnh tăng gấp 3 lần! (Hồi chiêu: ${getSafeCooldown(battleState.player1SkillCooldowns, skillName)} lượt)`);
                                     break;
 
                                 case "GREAT_APE":
-                                    battleState.player1PowerBoost = 5.0; // Tăng sức tấn công x5
+                                    battleState.player1PowerBoost = 5.0;
                                     battleState.player1BoostDuration = 4;
-                                    battleLog.push(`${player1.name} biến thành ${skillData.name}, sức mạnh tăng gấp 5 lần! (Hồi chiêu: ${battleState.player1SkillCooldowns[skillName].cooldown} lượt)`);
+                                    battleLog.push(`${player1.name} biến thành ${skillData.name}, sức mạnh tăng gấp 5 lần! (Hồi chiêu: ${getSafeCooldown(battleState.player1SkillCooldowns, skillName)} lượt)`);
                                     break;
-
-                                case "MULTIFORM":
-                                    const multiformDamage = Math.floor(player1.stats.damage * 0.8) * 2;
-                                    battleState.player2HP -= multiformDamage;
-                                    totalDamage.attacker += multiformDamage;
-                                    battleLog.push(`${player1.name} sử dụng ${skillData.name}, tạo ra nhiều bản sao gây ${multiformDamage.toLocaleString()} sát thương! (Hồi chiêu: ${battleState.player1SkillCooldowns[skillName].cooldown} lượt)`);
-                                    break;
-
                                 default:
-                                    battleLog.push(`${player1.name} sử dụng ${skillData.name}! (Hồi chiêu: ${battleState.player1SkillCooldowns[skillName].cooldown} lượt)`);
+                                    battleLog.push(`${player1.name} sử dụng ${skillData.name}! (Hồi chiêu: ${getSafeCooldown(battleState.player1SkillCooldowns, skillName)} lượt)`);
                                     break;
                             }
                         }
                     } else {
-                        // Kỹ năng hồi phục
                         if (skillName === "REGENERATION") {
                             const healAmount = Math.floor(player1.stats.health * 0.3);
                             battleState.player1HP = Math.min(player1.stats.health, battleState.player1HP + healAmount);
-                            battleLog.push(`${player1.name} sử dụng ${skillData.name}, hồi phục ${healAmount.toLocaleString()} HP! (Hồi chiêu: ${battleState.player1SkillCooldowns[skillName].cooldown} lượt)`);
+                            battleLog.push(`${player1.name} sử dụng ${skillData.name}, hồi phục ${healAmount.toLocaleString()} HP! (Hồi chiêu: ${getSafeCooldown(battleState.player1SkillCooldowns, skillName)} lượt)`);
+                        } else if (skillName === "HEALING") {
+
+                            const healAmount = Math.floor(player1.stats.health * 0.5);
+                            battleState.player1HP = Math.min(player1.stats.health, battleState.player1HP + healAmount);
+                            battleLog.push(`${player1.name} sử dụng ${skillData.name}, tái tạo tế bào và hồi phục ${healAmount.toLocaleString()} HP! (Hồi chiêu: ${getSafeCooldown(battleState.player1SkillCooldowns, skillName)} lượt)`);
                         } else {
                             const kiRegain = Math.abs(kiCost);
                             battleState.player1Ki = Math.min(player1.stats.ki, battleState.player1Ki + kiRegain);
-                            battleLog.push(`${player1.name} sử dụng ${skillData.name}, hồi phục ${kiRegain.toLocaleString()} Ki! (Hồi chiêu: ${battleState.player1SkillCooldowns[skillName].cooldown} lượt)`);
+                            battleLog.push(`${player1.name} sử dụng ${skillData.name}, hồi phục ${kiRegain.toLocaleString()} Ki! (Hồi chiêu: ${getSafeCooldown(battleState.player1SkillCooldowns, skillName)} lượt)`);
                         }
                     }
                 }
             } else {
-                // Tấn công thường
-                let damage = Math.floor(player1.stats.damage * battleState.player1AttackReduced * battleState.player1PowerBoost);
-
-                // Hiệu ứng chí mạng và combo
+                let baseAttackSkill;
+                let baseAttackName;
+                let baseDamageMultiplier = 1.2; 
+                if (player1.planet === "EARTH") {
+                    baseAttackSkill = "DRAGON_PUNCH";
+                    baseAttackName = "Đấm Dragon";
+                } else if (player1.planet === "NAMEK") {
+                    baseAttackSkill = "DEMON_PUNCH";
+                    baseAttackName = "Đấm Demon";
+                } else if (player1.planet === "SAIYAN") {
+                    baseAttackSkill = "ATOMIC";
+                    baseAttackName = "Đấm Galick";
+                } else {
+                    baseAttackSkill = "DRAGON_PUNCH";
+                    baseAttackName = "Đấm Cơ Bản";
+                }
+                
+                let damage = Math.floor(player1.stats.damage * baseDamageMultiplier * battleState.player1AttackReduced * battleState.player1PowerBoost);
+                
                 const isCritical = Math.random() < 0.1;
                 if (isCritical) {
                     damage = Math.floor(damage * 1.5);
                     battleStats.criticalHits++;
                     battleLog.push(`💥 CHÍ MẠNG! ${player1.name} gây thêm 50% sát thương!`);
                 }
-
+                
                 const isCombo = Math.random() < 0.15;
                 if (isCombo) {
-                    const comboHits = Math.floor(Math.random() * 3) + 2; // 2-4 hits
+                    const comboHits = Math.floor(Math.random() * 3) + 2; 
                     const comboDamage = Math.floor(damage * 0.3) * comboHits;
                     damage += comboDamage;
-
+                    
                     battleStats.currentCombo++;
                     if (battleStats.currentCombo > battleStats.maxCombo) {
                         battleStats.maxCombo = battleStats.currentCombo;
                     }
-
+                    
                     battleLog.push(`⚡ COMBO! ${player1.name} thực hiện Combo x${comboHits} gây thêm ${comboDamage.toLocaleString()} sát thương!`);
                 } else {
                     battleStats.currentCombo = 0;
                 }
-
-                // Áp dụng sát thương theo hệ số phòng thủ của đối thủ
+                
                 const finalDamage = Math.floor(damage * battleState.player2Defense);
                 battleState.player2HP -= finalDamage;
                 totalDamage.attacker += finalDamage;
-
+                
                 battleStats.momentum += 1;
-
-                battleLog.push(`${player1.name} tấn công thường, gây ${finalDamage.toLocaleString()} sát thương!`);
+                
+                battleLog.push(`${player1.name} sử dụng ${baseAttackName}, gây ${finalDamage.toLocaleString()} sát thương!`);
             }
         } else {
             battleLog.push(`${player1.name} bị trói, không thể hành động!`);
@@ -3641,7 +3423,7 @@ function simulateBattle(player1, player2, options = {}) {
                                 battleState.player1HP -= finalDamage;
                                 totalDamage.defender += finalDamage;
 
-                                battleLog.push(`${player2.name} sử dụng ${skillData.name} gây ${finalDamage.toLocaleString()} sát thương! (Hồi chiêu: ${battleState.player2SkillCooldowns[skillName].cooldown} lượt)`);
+                                battleLog.push(`${player2.name} sử dụng ${skillData.name} gây ${finalDamage.toLocaleString()} sát thương! (Hồi chiêu:${getSafeCooldown(battleState.player2SkillCooldowns, skillName)} lượt)`);
                             } else {
                                 // Kỹ năng hỗ trợ - tương tự như player 1
                                 switch (skillName) {
@@ -3649,68 +3431,85 @@ function simulateBattle(player1, player2, options = {}) {
                                     case "KHIEN_NANG_LUONG":
                                         battleState.player2Defense = 0.5;
                                         battleState.player2ShieldDuration = 3;
-                                        battleLog.push(`${player2.name} kích hoạt ${skillData.name}, giảm sát thương nhận vào! (Hồi chiêu: ${battleState.player2SkillCooldowns[skillName].cooldown} lượt)`);
+                                        battleLog.push(`${player2.name} kích hoạt ${skillData.name}, giảm sát thương nhận vào! (Hồi chiêu: ${battleState.player2SkillCooldowns[skillName]?.cooldown || 0} lượt)`);
                                         break;
 
                                     case "BIND":
                                     case "TROI":
                                         battleState.player1Stunned = 2;
-                                        battleLog.push(`${player2.name} sử dụng ${skillData.name}, ${player1.name} bị trói! (Hồi chiêu: ${battleState.player2SkillCooldowns[skillName].cooldown} lượt)`);
+                                        battleLog.push(`${player2.name} sử dụng ${skillData.name}, ${player1.name} bị trói! (Hồi chiêu: ${battleState.player2SkillCooldowns[skillName]?.cooldown || 0} lượt)`);
                                         break;
 
                                     case "SOLAR_FLARE":
                                         battleState.player1Stunned = 1;
-                                        battleLog.push(`${player2.name} sử dụng ${skillData.name}, ${player1.name} bị choáng! (Hồi chiêu: ${battleState.player2SkillCooldowns[skillName].cooldown} lượt)`);
+                                        battleLog.push(`${player2.name} sử dụng ${skillData.name}, ${player1.name} bị choáng! (Hồi chiêu: ${battleState.player2SkillCooldowns[skillName]?.cooldown || 0} lượt)`);
                                         break;
 
                                     case "WHISTLE":
                                     case "HUYT_SAO":
                                         battleState.player1AttackReduced = 0.7;
                                         battleState.player1DebuffDuration = 3;
-                                        battleLog.push(`${player2.name} sử dụng ${skillData.name}, làm giảm sức tấn công của đối thủ! (Hồi chiêu: ${battleState.player2SkillCooldowns[skillName].cooldown} lượt)`);
+                                        battleLog.push(`${player2.name} sử dụng ${skillData.name}, làm giảm sức tấn công của đối thủ! (Hồi chiêu: ${battleState.player2SkillCooldowns[skillName]?.cooldown || 0} lượt)`);
                                         break;
 
                                     case "KAIOKEN":
                                         battleState.player2PowerBoost = 3.0;
                                         battleState.player2BoostDuration = 4;
-                                        battleLog.push(`${player2.name} kích hoạt ${skillData.name}, sức mạnh tăng gấp 3 lần! (Hồi chiêu: ${battleState.player2SkillCooldowns[skillName].cooldown} lượt)`);
+                                        battleLog.push(`${player2.name} kích hoạt ${skillData.name}, sức mạnh tăng gấp 3 lần! (Hồi chiêu: ${battleState.player2SkillCooldowns[skillName]?.cooldown || 0} lượt)`);
                                         break;
 
                                     case "GREAT_APE":
                                         battleState.player2PowerBoost = 5.0;
                                         battleState.player2BoostDuration = 4;
-                                        battleLog.push(`${player2.name} biến thành ${skillData.name}, sức mạnh tăng gấp 5 lần! (Hồi chiêu: ${battleState.player2SkillCooldowns[skillName].cooldown} lượt)`);
+                                        battleLog.push(`${player2.name} biến thành ${skillData.name}, sức mạnh tăng gấp 5 lần! (Hồi chiêu: ${battleState.player2SkillCooldowns[skillName]?.cooldown || 0} lượt)`);
                                         break;
 
-                                    case "MULTIFORM":
-                                        const multiformDamage = Math.floor(player2.stats.damage * 0.8) * 2;
-                                        const finalMultiformDamage = Math.floor(multiformDamage * battleState.player1Defense);
-                                        battleState.player1HP -= finalMultiformDamage;
-                                        totalDamage.defender += finalMultiformDamage;
-                                        battleLog.push(`${player2.name} sử dụng ${skillData.name}, tạo ra nhiều bản sao gây ${finalMultiformDamage.toLocaleString()} sát thương! (Hồi chiêu: ${battleState.player2SkillCooldowns[skillName].cooldown} lượt)`);
-                                        break;
+
 
                                     default:
-                                        battleLog.push(`${player2.name} sử dụng ${skillData.name}! (Hồi chiêu: ${battleState.player2SkillCooldowns[skillName].cooldown} lượt)`);
+                                        battleLog.push(`${player2.name} sử dụng ${skillData.name}! (Hồi chiêu: ${battleState.player2SkillCooldowns[skillName]?.cooldown || 0} lượt)`);
                                         break;
                                 }
                             }
                         } else {
-                            // Kỹ năng hồi phục
                             if (skillName === "REGENERATION") {
-                                const healAmount = Math.floor(player2.stats.health * 0.3);
-                                battleState.player2HP = Math.min(player2.stats.health, battleState.player2HP + healAmount);
-                                battleLog.push(`${player2.name} sử dụng ${skillData.name}, hồi phục ${healAmount.toLocaleString()} HP! (Hồi chiêu: ${battleState.player2SkillCooldowns[skillName].cooldown} lượt)`);
+                                const healAmount = Math.floor(player1.stats.health * 0.3);
+                                battleState.player1HP = Math.min(player1.stats.health, battleState.player1HP + healAmount);
+                                battleLog.push(`${player1.name} sử dụng ${skillData.name}, hồi phục ${healAmount.toLocaleString()} HP! (Hồi chiêu: ${battleState.player1SkillCooldowns[skillName]?.cooldown || 0} lượt)`);
+                            } else if (skillName === "HEALING") {
+                                const healAmount = Math.floor(player1.stats.health * 0.5);
+                                battleState.player1HP = Math.min(player1.stats.health, battleState.player1HP + healAmount);
+                                battleLog.push(`${player1.name} sử dụng ${skillData.name}, tái tạo tế bào và hồi phục ${healAmount.toLocaleString()} HP! (Hồi chiêu: ${battleState.player1SkillCooldowns[skillName]?.cooldown || 0} lượt)`);
                             } else {
                                 const kiRegain = Math.abs(kiCost);
-                                battleState.player2Ki = Math.min(player2.stats.ki, battleState.player2Ki + kiRegain);
-                                battleLog.push(`${player2.name} sử dụng ${skillData.name}, hồi phục ${kiRegain.toLocaleString()} Ki! (Hồi chiêu: ${battleState.player2SkillCooldowns[skillName].cooldown} lượt)`);
+                                battleState.player1Ki = Math.min(player1.stats.ki, battleState.player1Ki + kiRegain);
+                                battleLog.push(`${player1.name} sử dụng ${skillData.name}, hồi phục ${kiRegain.toLocaleString()} Ki! (Hồi chiêu: ${battleState.player1SkillCooldowns[skillName]?.cooldown || 0} lượt)`);
                             }
                         }
                     }
                 } else {
-                    // Tấn công thường
-                    let damage = Math.floor(player2.stats.damage * battleState.player2AttackReduced * battleState.player2PowerBoost);
+                    // Sử dụng chiêu đấm cơ bản thay vì đấm thường
+                    let baseAttackSkill;
+                    let baseAttackName;
+                    let baseDamageMultiplier = 1.2; // Hệ số mặc định cho chiêu đấm cơ bản
+
+                    // Xác định chiêu đấm cơ bản theo tộc
+                    if (player2.planet === "EARTH") {
+                        baseAttackSkill = "DRAGON_PUNCH";
+                        baseAttackName = "Đấm Dragon";
+                    } else if (player2.planet === "NAMEK") {
+                        baseAttackSkill = "DEMON_PUNCH";
+                        baseAttackName = "Đấm Demon";
+                    } else if (player2.planet === "SAIYAN") {
+                        baseAttackSkill = "ATOMIC";
+                        baseAttackName = "Đấm Galick";
+                    } else {
+                        baseAttackSkill = "DRAGON_PUNCH";
+                        baseAttackName = "Đấm Cơ Bản";
+                    }
+
+                    // Tính toán sát thương từ chiêu đấm cơ bản
+                    let damage = Math.floor(player2.stats.damage * baseDamageMultiplier * battleState.player2AttackReduced * battleState.player2PowerBoost);
 
                     const isCritical = Math.random() < 0.1;
                     if (isCritical) {
@@ -3741,7 +3540,7 @@ function simulateBattle(player1, player2, options = {}) {
 
                     battleStats.momentum -= 1;
 
-                    battleLog.push(`${player2.name} tấn công thường, gây ${finalDamage.toLocaleString()} sát thương!`);
+                    battleLog.push(`${player2.name} sử dụng ${baseAttackName}, gây ${finalDamage.toLocaleString()} sát thương!`);
                 }
             }
         } else {
@@ -3828,14 +3627,32 @@ function simulateBattle(player1, player2, options = {}) {
         }
     }
 
-    // Thêm thông tin người thắng vào log
     if (winner.id !== "draw") {
         battleLog.push(`🏆 ${winner.name} đã chiến thắng!`);
     } else {
         battleLog.push(`🤝 Trận đấu hòa!`);
     }
+    if (totalDamage.attacker > player1.stats.damage * 1.5) {
+        const dramaticDesc = generateDramaticDescription(
+            "attack",
+            player1,
+            player2,
+            totalDamage.attacker,
+            battleState.player2HP,
+            isMonsterBattle ? player2.hp : player2.stats.health,
+            null
+        );
 
-    // Kết quả trận đấu
+        if (dramaticDesc) {
+            dramaticMoments.push({
+                turn: battleState.turn,
+                description: dramaticDesc
+            });
+
+            battleLog.push(`📖 ${dramaticDesc}`);
+        }
+    }
+
     return {
         player1HP: Math.max(0, battleState.player1HP),
         player2HP: Math.max(0, battleState.player2HP),
@@ -3849,7 +3666,8 @@ function simulateBattle(player1, player2, options = {}) {
         totalDamage: totalDamage,
         battleStats: battleStats,
         initialHP: initialHP,
-        isMonsterBattle: isMonsterBattle
+        isMonsterBattle: isMonsterBattle,
+        dramaticMoments: dramaticMoments
     };
 }
 
@@ -3943,7 +3761,7 @@ function validatePlayerSkills(player) {
 }
 
 function updateEffects(battleState, player1, player2, battleLog) {
-    
+
     if (battleState.player1ShieldDuration > 0) {
         battleState.player1ShieldDuration--;
         if (battleState.player1ShieldDuration === 0) {
@@ -4138,37 +3956,247 @@ function getPlayerTournamentRank(playerId, tournamentData) {
 
     return null;
 }
+function selectBestSkill(player, playerHP, playerKi, opponentHP, playerStates, opponentStates, battleLog, currentTurn, skillCooldowns) {
+    if (!player || !player.skills || player.skills.length === 0) return null;
 
-function selectRandomMonster(planet, playerLevel) {
-    const planetMonsters = Object.entries(MONSTERS)
-        .filter(([_, monster]) => monster.planet === planet)
-        .map(([id, monster]) => ({ id, ...monster }));
+    const maxHP = player.stats.health;
+    const maxKi = player.stats.ki;
+    const hpPercent = (playerHP / maxHP) * 100;
+    const kiPercent = (playerKi / maxKi) * 100;
+    
+    console.log(`DEBUG: hpPercent=${hpPercent}, kiPercent=${kiPercent}, currentTurn=${currentTurn}`);
 
-    if (planetMonsters.length === 0) {
+    // Kiểm tra cooldown kỹ năng và chọn các kỹ năng sẵn sàng
+    const usableSkills = player.skills.filter(skillChoice => {
+        const [master, skillName] = skillChoice.split(":");
+        if (!MASTERS[master]?.skills[skillName]) return false;
+
+        const skillData = MASTERS[master].skills[skillName];
+        const kiCost = skillData.kiCost > 0 ?
+            Math.floor(maxKi * skillData.kiCost) :
+            Math.floor(maxKi * Math.abs(skillData.kiCost));
+
+        // Kiểm tra cooldown
+        if (skillCooldowns[skillName] && skillCooldowns[skillName].currentCooldown > 0) {
+            console.log(`Skill ${skillName} on cooldown: ${skillCooldowns[skillName].currentCooldown}`);
+            return false;
+        }
+
+        // Kiểm tra số lần sử dụng còn lại
+        if (skillCooldowns[skillName] && skillCooldowns[skillName].usesLeft === 0) {
+            console.log(`Skill ${skillName} has no uses left`);
+            return false;
+        }
+
+        // Kiểm tra kỹ năng dành cho cuối trận
+        if (skillCooldowns[skillName] && skillCooldowns[skillName].lateTurn && currentTurn < 10) {
+            console.log(`Skill ${skillName} is for late game only`);
+            return false;
+        }
+
+        // Kiểm tra đủ Ki
+        if (skillData.kiCost > 0 && playerKi < kiCost) {
+            console.log(`Not enough Ki for ${skillName}: have ${playerKi}, need ${kiCost}`);
+            return false;
+        }
+
+        return true;
+    });
+
+    if (usableSkills.length === 0) {
+        console.log("No usable skills found");
         return null;
     }
 
-    const easyMonsters = planetMonsters.filter(m => m.power < 1000);
-    const mediumMonsters = planetMonsters.filter(m => m.power >= 1000 && m.power < 5000);
-    const hardMonsters = planetMonsters.filter(m => m.power >= 5000);
+    console.log(`Usable skills: ${usableSkills.join(", ")}`);
 
-    let availableMonsters;
-    if (playerLevel < 5) {
-        availableMonsters = easyMonsters;
-    } else if (playerLevel < 10) {
-        availableMonsters = [...easyMonsters, ...mediumMonsters];
-    } else {
-        availableMonsters = [...mediumMonsters, ...hardMonsters];
+    // Phân tích tình huống trận đấu
+    const battlePhase = currentTurn <= 5 ? "early" : (currentTurn <= 15 ? "mid" : "late");
+    console.log(`Battle phase: ${battlePhase}`);
+
+    // Tính điểm cho mỗi kỹ năng
+    const skillScores = usableSkills.map(skillChoice => {
+        const [master, skillName] = skillChoice.split(":");
+        const skillData = MASTERS[master]?.skills[skillName];
+        let score = 50; // Điểm cơ bản cho mọi kỹ năng
+
+        // ĐIỂM CHO KỸ NĂNG HỒI PHỤC
+        if (skillName === "WHISTLE" || skillName === "REGENERATE_ENERGY") {
+            if (hpPercent < 30) {
+                score += 300; // Ưu tiên cao khi HP thấp
+                console.log(`${skillName}: +300 score for low HP`);
+            } else if (kiPercent < 30) {
+                score += 250; // Ưu tiên khi Ki thấp
+                console.log(`${skillName}: +250 score for low Ki`);
+            }
+
+            if (battlePhase === "early") {
+                score -= 100; // Không ưu tiên ở đầu trận
+                console.log(`${skillName}: -100 score for early game`);
+            }
+        }
+
+        // ĐIỂM CHO KỸ NĂNG PHÒNG THỦ
+        if (skillName === "ENERGY_SHIELD" || skillName === "KHIEN_NANG_LUONG") {
+            if (hpPercent < 40) {
+                score += 250; // Ưu tiên khi HP thấp
+                console.log(`${skillName}: +250 score for low HP`);
+            }
+
+            if (battlePhase === "early") {
+                score -= 150; // Giảm ưu tiên ở đầu trận
+                console.log(`${skillName}: -150 score for early game`);
+            }
+        }
+
+        // ĐIỂM CHO ĐÒN ĐẶC BIỆT
+        if (skillName === "MAKANKOSAPPO") {
+            score += 200; // Điểm cao cho đòn đánh mạnh
+
+            if (opponentHP / opponentStates.maxHP < 0.4) {
+                score += 150; // Thêm điểm khi đối thủ yếu
+                console.log(`${skillName}: +150 score for weak opponent`);
+            }
+
+            if (kiPercent < 60) {
+                score -= 100; // Giảm điểm khi ít Ki
+                console.log(`${skillName}: -100 score for low Ki`);
+            }
+        }
+
+        // ĐIỂM CHO KỸ NĂNG ĐÁNH LIÊN HOÀN
+        if (skillName === "RAPID_PUNCH") {
+            score += 150; // Điểm cao cho đòn liên hoàn
+
+            if (kiPercent > 70) {
+                score += 50; // Thêm điểm khi nhiều Ki
+                console.log(`${skillName}: +50 score for high Ki`);
+            }
+            
+            if (kiPercent > 90) {
+                score += 50; // Thêm điểm khi Ki rất cao
+                console.log(`${skillName}: +50 score for very high Ki`);
+            }
+
+            if (kiPercent < 40) {
+                score -= 50; // Giảm điểm khi ít Ki
+                console.log(`${skillName}: -50 score for low Ki`);
+            }
+        }
+
+        // ĐIỂM CHO KỸ NĂNG HỒI PHỤC
+        if (skillName === "HEALING") {
+            if (hpPercent < 30) {
+                score += 400; // Ưu tiên cao khi HP thấp
+                console.log(`${skillName}: +400 score for low HP`);
+            } else if (hpPercent < 60) {
+                score += 200; // Ưu tiên khi HP trung bình
+                console.log(`${skillName}: +200 score for medium HP`);
+            } else {
+                score += 50; // Ít ưu tiên khi HP cao
+                console.log(`${skillName}: +50 score for high HP`);
+            }
+
+            if (battlePhase === "early" && hpPercent > 70) {
+                score -= 200; // Không ưu tiên ở đầu trận khi HP cao
+                console.log(`${skillName}: -200 score for early game with high HP`);
+            }
+        }
+
+        // ĐIỂM CHO KỸ NĂNG KIỂM SOÁT
+        if (skillName === "BIND" || skillName === "TROI" || 
+            skillName === "SOLAR_FLARE" || skillName === "EVIL_CONTAINMENT") {
+            
+            // Ưu tiên khi đối thủ mạnh hơn
+            if (opponentStates.power > playerStates.power * 1.2) {
+                score += 250;
+                console.log(`${skillName}: +250 score for stronger opponent`);
+            }
+            
+            // Ưu tiên cao ở giai đoạn mid-game
+            if (battlePhase === "mid") {
+                score += 150;
+                console.log(`${skillName}: +150 score for mid game`);
+            }
+        }
+
+        // ĐIỂM CHO CÁC KỸ NĂNG TẤN CÔNG MẠNH
+        if (skillData.powerScale > 3.0) {
+            score += skillData.powerScale * 100; // Điểm cao cho đòn mạnh
+            console.log(`${skillName}: +${skillData.powerScale * 100} score for powerful attack`);
+
+            // Ưu tiên đòn mạnh khi đối thủ HP thấp
+            if (opponentHP / opponentStates.maxHP < 0.3) {
+                score += 300;
+                console.log(`${skillName}: +300 score for finishing move against weak opponent`);
+            }
+
+            // Cần đủ Ki
+            if (kiPercent < 70) {
+                score -= 200;
+                console.log(`${skillName}: -200 score for insufficient Ki`);
+            }
+
+            // Quả Cầu Kinh Khí ưu tiên ở cuối trận
+            if (skillName === "SPIRIT_BOMB") {
+                if (battlePhase === "late") {
+                    score += 300;
+                    console.log(`${skillName}: +300 score for late game`);
+                } else if (battlePhase === "early") {
+                    score -= 400;
+                    console.log(`${skillName}: -400 score for early game`);
+                }
+            }
+        }
+
+        // ĐIỂM CHO CÁC KỸ NĂNG BIẾN HÌNH
+        if (skillName === "GREAT_APE" || skillName === "KAIOKEN") {
+            if (battlePhase === "early") {
+                score -= 300; // Không dùng ở đầu trận
+                console.log(`${skillName}: -300 score for early game`);
+            } else {
+                score += 200; // Ưu tiên ở mid-late game
+                console.log(`${skillName}: +200 score for mid/late game`);
+                
+                // Ưu tiên hơn khi HP thấp
+                if (hpPercent < 50) {
+                    score += 150;
+                    console.log(`${skillName}: +150 score for low HP`);
+                }
+            }
+        }
+
+        // Thêm yếu tố ngẫu nhiên để AI không quá dự đoán
+        const randomFactor = Math.floor(Math.random() * 100);
+        score += randomFactor;
+        console.log(`${skillName}: +${randomFactor} random score`);
+
+        console.log(`${skillName} final score: ${score}`);
+        return { skillChoice, skillName, score };
+    });
+
+    // Sắp xếp theo điểm và chọn kỹ năng tốt nhất
+    skillScores.sort((a, b) => b.score - a.score);
+    console.log(`Best skill: ${skillScores[0]?.skillName} with score ${skillScores[0]?.score}`);
+
+    if (skillScores.length > 0) {
+        const selectedSkill = skillScores[0];
+
+        // Áp dụng cooldown và giảm số lần sử dụng
+        if (skillCooldowns[selectedSkill.skillName]) {
+            skillCooldowns[selectedSkill.skillName].currentCooldown = skillCooldowns[selectedSkill.skillName].cooldown || 0;
+
+            if (skillCooldowns[selectedSkill.skillName].usesLeft !== undefined && 
+                skillCooldowns[selectedSkill.skillName].usesLeft > 0) {
+                skillCooldowns[selectedSkill.skillName].usesLeft--;
+            }
+        }
+
+        return selectedSkill.skillChoice;
     }
 
-    if (availableMonsters.length === 0) {
-        availableMonsters = planetMonsters;
-    }
-
-    const randomIndex = Math.floor(Math.random() * availableMonsters.length);
-    return availableMonsters[randomIndex];
+    return null;
 }
-
 function getVisualEffectForItem(itemId) {
     const effectMap = {
         "scouter": {
@@ -4342,7 +4370,11 @@ function updateQuestProgress(player, questType, playerData = null, additionalDat
     if (!activeQuestId || !QUESTS[activeQuestId]) return;
 
     const quest = QUESTS[activeQuestId];
-    if (quest.type !== questType) return;
+
+    if (quest.type !== questType) {
+        console.log(`Không khớp loại nhiệm vụ: quest.type=${quest.type}, questType=${questType}`);
+        return;
+    }
 
     let updated = false;
 
@@ -4352,6 +4384,7 @@ function updateQuestProgress(player, questType, playerData = null, additionalDat
                 player.quests.progress[activeQuestId] = 0;
             }
             player.quests.progress[activeQuestId]++;
+            console.log(`Cập nhật tiến độ nhiệm vụ train: ${player.quests.progress[activeQuestId]}/${quest.target}`);
             updated = true;
             break;
 
@@ -4833,86 +4866,126 @@ async function displayPVPBattle(api, threadID, messageID, battleResult, player1,
 
     await api.sendMessage(introMessage, threadID);
 
-    await new Promise(resolve => setTimeout(resolve, 10000));
+    await new Promise(resolve => setTimeout(resolve, 5000));
 
-    const enhancedBattleLog = battleLog.map(log => {
-
+    // Xử lý log trận đấu để hiển thị rõ ràng, sinh động hơn
+    const enhancedBattleLog = [];
+    const skillUsed = new Set(); // Theo dõi kỹ năng đã sử dụng để tránh lặp lại
+    
+    battleLog.forEach(log => {
+        // Chỉ thêm vào log kỹ năng nếu chưa được thêm vào sự kiện quan trọng
         if (log.includes("sử dụng") && (
             log.includes("Kamejoko") || log.includes("Đấm Dragon") ||
-            log.includes("Quả Cầu Kinh Khí") || log.includes("Makankosappo") ||
-            log.includes("Light Grenade") || log.includes("Hellzone Grenade") ||
-            log.includes("Cadich Liên Hoàn Trưởng") || log.includes("Khiên Năng Lượng") ||
+            log.includes("Quả Cầu Kinh Khí") || log.includes("Đấm Demon") ||
+            log.includes("Masenko") || log.includes("Makankosappo") ||
+            log.includes("Hellzone Grenade") || log.includes("Khiên Năng Lượng") ||
             log.includes("Kaioken") || log.includes("Thái Dương Hạ San") ||
             log.includes("Thôi Miên") || log.includes("Phân Thân") ||
             log.includes("Biến Khỉ Khổng Lồ") || log.includes("Tái Tạo") ||
-            log.includes("Huýt Sáo") || log.includes("Trói")
+            log.includes("Huýt Sáo") || log.includes("Trói") ||
+            log.includes("Ma Phong Ba") || log.includes("Cadich")
         )) {
-            return `🔥 KỸ NĂNG: ${log}`;
+            const skillKey = log.substring(0, 50); // Lấy một phần đủ để xác định kỹ năng
+            if (!skillUsed.has(skillKey)) {
+                enhancedBattleLog.push(`🔥 KỸ NĂNG: ${log}`);
+                skillUsed.add(skillKey);
+            } else {
+                enhancedBattleLog.push(log); // Vẫn hiển thị nhưng không đánh dấu là sự kiện quan trọng
+            }
         }
-
-        if (log.includes("CHÍ MẠNG")) {
-            return `💥 ${log}`;
+        else if (log.includes("CHÍ MẠNG")) {
+            enhancedBattleLog.push(`💥 ${log}`);
         }
-
-        if (log.includes("Combo x")) {
-            return `⚡ COMBO: ${log}`;
+        else if (log.includes("COMBO")) {
+            enhancedBattleLog.push(`⚡ ${log}`);
         }
-
-        if (log.includes("choáng") || log.includes("bị trói")) {
-            return `😵 ${log}`;
+        else if (log.includes("choáng") || log.includes("bị trói")) {
+            enhancedBattleLog.push(`😵 ${log}`);
         }
-
-        if (log.includes("Khiên năng lượng")) {
-            return `🛡️ ${log}`;
+        else if (log.includes("Khiên năng lượng")) {
+            enhancedBattleLog.push(`🛡️ ${log}`);
         }
-
-        if (log.includes(" HP: ")) {
-            return `❤️ ${log}`;
+        else if (log.includes(" HP: ")) {
+            enhancedBattleLog.push(`❤️ ${log}`);
         }
-
-        return log;
+        else {
+            enhancedBattleLog.push(log);
+        }
     });
 
+    // Hiển thị theo từng giai đoạn của trận đấu
     const chunkSize = 15;
     const battleLogChunks = [];
-
-    for (let i = 0; i < enhancedBattleLog.length; i += chunkSize) {
-        battleLogChunks.push(enhancedBattleLog.slice(i, i + chunkSize));
+    
+    // Chia nhóm các lượt của trận đấu
+    let currentChunk = [];
+    let currentTurn = 0;
+    
+    enhancedBattleLog.forEach(log => {
+        if (log.includes("----- Lượt")) {
+            currentTurn++;
+            if (currentChunk.length > 0 && currentChunk.length >= chunkSize) {
+                battleLogChunks.push([...currentChunk]);
+                currentChunk = [];
+            }
+        }
+        currentChunk.push(log);
+    });
+    
+    if (currentChunk.length > 0) {
+        battleLogChunks.push(currentChunk);
     }
 
+    // Hiển thị từng phase của trận đấu
     for (let i = 0; i < battleLogChunks.length; i++) {
         const chunk = battleLogChunks[i];
-
-        const skillEvents = chunk.filter(log => log.startsWith("🔥 KỸ NĂNG:"));
-        const comboEvents = chunk.filter(log => log.startsWith("⚡ COMBO:"));
-        const criticalEvents = chunk.filter(log => log.startsWith("💥"));
-
-        // Tạo phần tóm tắt sự kiện quan trọng
-        let eventSummary = "";
-        if (skillEvents.length > 0 || comboEvents.length > 0 || criticalEvents.length > 0) {
-            eventSummary = "\n\n📌 SỰ KIỆN QUAN TRỌNG:";
-            if (skillEvents.length > 0) {
-                eventSummary += "\n" + skillEvents.map(log => log.replace("🔥 KỸ NĂNG: ", "")).join("\n");
+        
+        // Lọc các sự kiện quan trọng để hiển thị summary
+        const importantEvents = chunk.filter(log => 
+            log.startsWith("🔥 KỸ NĂNG:") || 
+            log.startsWith("💥") || 
+            log.startsWith("⚡") ||
+            log.startsWith("🛡️") && !log.includes("biến mất") ||
+            log.startsWith("😵")
+        );
+        
+        // Loại bỏ các prefix để hiển thị trong summary
+        const cleanedEvents = importantEvents.map(event => {
+            if (event.startsWith("🔥 KỸ NĂNG: ")) {
+                return event.replace("🔥 KỸ NĂNG: ", "");
             }
-            if (comboEvents.length > 0) {
-                eventSummary += "\n" + comboEvents.join("\n");
-            }
-            if (criticalEvents.length > 0) {
-                eventSummary += "\n" + criticalEvents.join("\n");
-            }
+            return event;
+        });
+        
+        // Tạo summary chỉ khi có sự kiện quan trọng
+        let summary = "";
+        if (cleanedEvents.length > 0) {
+            summary = "\n\n📌 SỰ KIỆN QUAN TRỌNG:";
+            
+            // Phân loại sự kiện theo loại
+            const skillEvents = cleanedEvents.filter(e => e.includes("sử dụng") && !e.startsWith("💥") && !e.startsWith("⚡"));
+            const critEvents = cleanedEvents.filter(e => e.startsWith("💥"));
+            const comboEvents = cleanedEvents.filter(e => e.startsWith("⚡"));
+            const shieldEvents = cleanedEvents.filter(e => e.startsWith("🛡️"));
+            const stunEvents = cleanedEvents.filter(e => e.startsWith("😵"));
+            
+            // Thêm từng loại sự kiện vào summary
+            if (skillEvents.length > 0) summary += "\n" + [...new Set(skillEvents)].join("\n");
+            if (critEvents.length > 0) summary += "\n" + [...new Set(critEvents)].join("\n");
+            if (comboEvents.length > 0) summary += "\n" + [...new Set(comboEvents)].join("\n");
+            if (shieldEvents.length > 0) summary += "\n" + [...new Set(shieldEvents)].join("\n");
+            if (stunEvents.length > 0) summary += "\n" + [...new Set(stunEvents)].join("\n");
         }
-
-        const chunkMessage = `📝 DIỄN BIẾN TRẬN ĐẤU (${i + 1}/${battleLogChunks.length})\n\n${chunk.join('\n')}${eventSummary}`;
+        
+        const chunkMessage = `📝 DIỄN BIẾN TRẬN ĐẤU (${i + 1}/${battleLogChunks.length})\n\n${chunk.join('\n')}${summary}`;
         await api.sendMessage(chunkMessage, threadID);
-
-        // Đợi 3 giây giữa các phần để người chơi có thời gian đọc
+        
         if (i < battleLogChunks.length - 1) {
-            await new Promise(resolve => setTimeout(resolve, 30000));
+            await new Promise(resolve => setTimeout(resolve, 8000));
         }
     }
 
-    // Đợi 2 giây trước khi hiển thị kết quả
-    await new Promise(resolve => setTimeout(resolve, 10000));
+    await new Promise(resolve => setTimeout(resolve, 5000));
 
     try {
         const pvpImagePath = await createPVPResultImage(battleResult, player1, player2);
@@ -4922,13 +4995,11 @@ async function displayPVPBattle(api, threadID, messageID, battleResult, player1,
                 attachment: fs.createReadStream(pvpImagePath)
             }, threadID, messageID);
         } else {
-            // Nếu không tạo được hình ảnh, hiển thị kết quả bằng văn bản
             const battleSummary = createBattleSummaryText(battleResult, player1, player2);
             await api.sendMessage(battleSummary, threadID, messageID);
         }
     } catch (error) {
         console.error("Error sending PVP result image:", error);
-        // Fallback to text summary if image fails
         const battleSummary = createBattleSummaryText(battleResult, player1, player2);
         await api.sendMessage(battleSummary, threadID, messageID);
     }
@@ -5034,7 +5105,7 @@ function selectBestSkill(player, playerHP, playerKi, opponentHP, playerStates, o
             return false;
         }
 
-        // Kiểm tra Ki
+        // Kiểm tra đủ Ki
         if (skillData.kiCost > 0 && playerKi < kiCost) {
             return false;
         }
@@ -5044,151 +5115,360 @@ function selectBestSkill(player, playerHP, playerKi, opponentHP, playerStates, o
 
     if (usableSkills.length === 0) return null;
 
-    // Tính điểm cho từng kỹ năng để chọn kỹ năng tối ưu nhất
-    const skillScores = usableSkills.map(skillChoice => {
+    // Thêm yếu tố ngẫu nhiên để tăng đa dạng kỹ năng
+    // 50% cơ hội dùng kỹ năng cao cấp khi có thể
+    const shouldUseSpecialSkill = Math.random() < 0.5;
+    
+    // Phân loại kỹ năng
+    const attackSkills = usableSkills.filter(skillChoice => {
         const [master, skillName] = skillChoice.split(":");
-        const skillData = MASTERS[master]?.skills[skillName];
-        let score = 0;
-
-        // Phân tích giai đoạn trận đấu
-        const battlePhase = currentTurn <= 5 ? "early" :
-            (currentTurn <= 15 ? "mid" : "late");
-
-        // Kỹ năng hồi phục (ưu tiên khi HP/Ki thấp)
-        if (skillName === "REGENERATION" || skillName === "WHISTLE" || skillName === "REGENERATE_ENERGY") {
-            if (hpPercent < 30) score += 300;
-            else if (hpPercent < 50) score += 200;
-
-            if (kiPercent < 30) score += 250;
-
-            // Giảm điểm nếu đang ở đầu trận
-            if (battlePhase === "early") score -= 200;
-        }
-
-        // Khiên năng lượng (ưu tiên khi HP thấp)
-        if (skillName === "ENERGY_SHIELD" || skillName === "KHIEN_NANG_LUONG") {
-            if (hpPercent < 40) score += 250;
-            else if (hpPercent < 60) score += 150;
-            else score += 50;
-
-            // Giảm điểm nếu vừa mới dùng gần đây
-            if (skillCooldowns[skillName].currentCooldown === 0 &&
-                skillCooldowns[skillName].usesLeft < 2) {
-                score += 100; // Tăng ưu tiên nếu đây là lần dùng cuối
-            }
-        }
-
-        // Kỹ năng kiểm soát (trói, huýt sáo)
-        if (skillName === "BIND" || skillName === "TROI" ||
-            skillName === "SOLAR_FLARE" || skillName === "WHISTLE") {
-            // Ưu tiên khi đối thủ mạnh
-            const powerDiff = opponentStates.power > player.stats.power ? 100 : 0;
-            score += 150 + powerDiff;
-        }
-
-        // Kỹ năng tấn công (ưu tiên kỹ năng mạnh khi có nhiều Ki)
-        if (skillData.powerScale > 0) {
-            // Điểm cơ bản dựa trên sức mạnh của kỹ năng
-            score += skillData.powerScale * 50;
-
-            // Thêm điểm nếu có nhiều Ki
-            if (kiPercent > 70) score += 100;
-            if (kiPercent > 90) score += 50;
-
-            // Thêm điểm cho Quả Cầu Kinh Khí ở cuối trận
-            if (skillName === "SPIRIT_BOMB" && battlePhase === "late") {
-                score += 300;
-            }
-
-            // Ưu tiên Cadich Liên Hoàn Trưởng ở cuối trận
-            if (skillName === "CADICH_LIEN_HOAN_TRUONG") {
-                if (battlePhase === "late") {
-                    score += 400; // Ưu tiên cao ở cuối trận
-                } else if (battlePhase === "mid" && hpPercent < 30) {
-                    score += 200; // Ưu tiên trung bình nếu HP thấp ở giữa trận
-                } else {
-                    score -= 200; // Giảm ưu tiên ở đầu trận
+        const powerScale = MASTERS[master]?.skills[skillName]?.powerScale || 0;
+        return powerScale > 0;
+    });
+    
+    const supportSkills = usableSkills.filter(skillChoice => {
+        const [master, skillName] = skillChoice.split(":");
+        const powerScale = MASTERS[master]?.skills[skillName]?.powerScale || 0;
+        return powerScale === 0;
+    });
+    
+    // Ưu tiên kỹ năng hỗ trợ khi HP thấp
+    if (hpPercent < 40 && supportSkills.length > 0 && Math.random() < 0.7) {
+        const healingSkills = supportSkills.filter(skill => {
+            const [master, skillName] = skill.split(":");
+            return skillName === "HEALING" || skillName === "WHISTLE";
+        });
+        
+        if (healingSkills.length > 0) {
+            const selectedSkill = healingSkills[Math.floor(Math.random() * healingSkills.length)];
+            const [master, skillName] = selectedSkill.split(":");
+            
+            // Áp dụng cooldown và giảm số lần sử dụng
+            if (skillCooldowns[skillName]) {
+                skillCooldowns[skillName].currentCooldown = skillCooldowns[skillName].cooldown || 0;
+                if (skillCooldowns[skillName].usesLeft !== undefined) {
+                    skillCooldowns[skillName].usesLeft--;
                 }
             }
+            
+            return selectedSkill;
         }
-
-        // Biến hình (ưu tiên ở giữa và cuối trận)
-        if (skillName === "GREAT_APE" || skillName === "KAIOKEN") {
-            if (battlePhase === "early") score -= 500;
-            else if (battlePhase === "mid") score += 100;
-            else score += 300;
+    }
+    
+    // Ưu tiên kỹ năng phòng thủ khi bị áp đảo
+    if (playerStates.power < opponentStates.power * 0.8 && supportSkills.length > 0 && Math.random() < 0.6) {
+        const defenseSkills = supportSkills.filter(skill => {
+            const [master, skillName] = skill.split(":");
+            return skillName === "ENERGY_SHIELD" || skillName === "KHIEN_NANG_LUONG";
+        });
+        
+        if (defenseSkills.length > 0) {
+            const selectedSkill = defenseSkills[Math.floor(Math.random() * defenseSkills.length)];
+            const [master, skillName] = selectedSkill.split(":");
+            
+            if (skillCooldowns[skillName]) {
+                skillCooldowns[skillName].currentCooldown = skillCooldowns[skillName].cooldown || 0;
+                if (skillCooldowns[skillName].usesLeft !== undefined) {
+                    skillCooldowns[skillName].usesLeft--;
+                }
+            }
+            
+            return selectedSkill;
         }
-
-        // Thêm yếu tố ngẫu nhiên để tránh lặp lại hành vi
-        score += Math.random() * 50;
-
-        return { skillChoice, skillName, score };
-    });
-
-    // Sắp xếp và chọn kỹ năng điểm cao nhất
-    skillScores.sort((a, b) => b.score - a.score);
-
-    if (skillScores.length > 0) {
-        const selectedSkill = skillScores[0];
-
-        // Áp dụng cooldown và giảm số lần sử dụng
-        if (skillCooldowns[selectedSkill.skillName]) {
-            skillCooldowns[selectedSkill.skillName].currentCooldown = skillCooldowns[selectedSkill.skillName].cooldown;
-
-            if (skillCooldowns[selectedSkill.skillName].usesLeft !== undefined) {
-                skillCooldowns[selectedSkill.skillName].usesLeft--;
+    }
+    
+    // Ưu tiên kỹ năng khống chế
+    if (currentTurn > 5 && supportSkills.length > 0 && Math.random() < 0.4) {
+        const controlSkills = supportSkills.filter(skill => {
+            const [master, skillName] = skill.split(":");
+            return skillName === "BIND" || skillName === "TROI" || 
+                  skillName === "SOLAR_FLARE" || skillName === "EVIL_CONTAINMENT";
+        });
+        
+        if (controlSkills.length > 0) {
+            const selectedSkill = controlSkills[Math.floor(Math.random() * controlSkills.length)];
+            const [master, skillName] = selectedSkill.split(":");
+            
+            if (skillCooldowns[skillName]) {
+                skillCooldowns[skillName].currentCooldown = skillCooldowns[skillName].cooldown || 0;
+                if (skillCooldowns[skillName].usesLeft !== undefined) {
+                    skillCooldowns[skillName].usesLeft--;
+                }
+            }
+            
+            return selectedSkill;
+        }
+    }
+    
+    // Ưu tiên kỹ năng tấn công mạnh ở cuối trận
+    if (currentTurn > 10 && attackSkills.length > 0) {
+        const strongAttacks = attackSkills.filter(skill => {
+            const [master, skillName] = skill.split(":");
+            const powerScale = MASTERS[master]?.skills[skillName]?.powerScale || 0;
+            return powerScale >= 2.0;
+        });
+        
+        if (strongAttacks.length > 0 && Math.random() < 0.7) {
+            const selectedSkill = strongAttacks[Math.floor(Math.random() * strongAttacks.length)];
+            const [master, skillName] = selectedSkill.split(":");
+            
+            if (skillCooldowns[skillName]) {
+                skillCooldowns[skillName].currentCooldown = skillCooldowns[skillName].cooldown || 0;
+                if (skillCooldowns[skillName].usesLeft !== undefined) {
+                    skillCooldowns[skillName].usesLeft--;
+                }
+            }
+            
+            return selectedSkill;
+        }
+    }
+    
+    // Nếu có nhiều ki, ưu tiên kỹ năng tấn công thường
+    if (kiPercent > 70 && attackSkills.length > 0) {
+        const normalAttacks = attackSkills.filter(skill => {
+            const [master, skillName] = skill.split(":");
+            const powerScale = MASTERS[master]?.skills[skillName]?.powerScale || 0;
+            return powerScale > 0 && powerScale < 2.0;
+        });
+        
+        if (normalAttacks.length > 0 && Math.random() < 0.6) {
+            const selectedSkill = normalAttacks[Math.floor(Math.random() * normalAttacks.length)];
+            const [master, skillName] = selectedSkill.split(":");
+            
+            if (skillCooldowns[skillName]) {
+                skillCooldowns[skillName].currentCooldown = skillCooldowns[skillName].cooldown || 0;
+                if (skillCooldowns[skillName].usesLeft !== undefined) {
+                    skillCooldowns[skillName].usesLeft--;
+                }
+            }
+            
+            return selectedSkill;
+        }
+    }
+    
+    // Nếu đến đây vẫn chưa chọn được, chọn ngẫu nhiên một kỹ năng
+    if (usableSkills.length > 0) {
+        const randomIndex = Math.floor(Math.random() * usableSkills.length);
+        const selectedSkill = usableSkills[randomIndex];
+        const [master, skillName] = selectedSkill.split(":");
+        
+        if (skillCooldowns[skillName]) {
+            skillCooldowns[skillName].currentCooldown = skillCooldowns[skillName].cooldown || 0;
+            if (skillCooldowns[skillName].usesLeft !== undefined) {
+                skillCooldowns[skillName].usesLeft--;
             }
         }
-
-        return selectedSkill.skillChoice;
+        
+        return selectedSkill;
     }
 
     return null;
 }
 
-/**
- * Sử dụng kỹ năng và áp dụng hiệu ứng
- * @param {Object} player - Người sử dụng kỹ năng
- * @param {Object} opponent - Đối thủ chịu tác động
- * @param {String} skillId - ID kỹ năng (master:skill)
- * @param {Object} battleState - Trạng thái trận đấu
- * @param {Array} battleLog - Lịch sử trận đấu
- * @returns {Boolean} - Thành công hay không
- */
+function generateDramaticDescription(action, player, target, damage, hp, maxHp, skillName) {
+    const hpPercent = (hp / maxHp) * 100;
+    const isCritical = damage > player.stats.damage * 2;
+    const isFinishing = hp <= 0;
+
+    const attackDescriptions = [
+        `${player.name} lao vào tấn công ${target.name} với tốc độ kinh hoàng!`,
+        `${player.name} phóng đến ${target.name} nhanh như chớp!`,
+        `Mặt đất rung chuyển khi ${player.name} tung đòn!`,
+        `${player.name} tích tụ năng lượng và lao vào ${target.name}!`
+    ];
+
+    const criticalDescriptions = [
+        `BOOOM! ${player.name} tung ra đòn đánh hủy diệt!`,
+        `Không thể tin được! ${target.name} không kịp phản ứng trước đòn đánh của ${player.name}!`,
+        `${player.name} tìm ra điểm yếu và tấn công chính xác!`,
+        `Một đòn đánh sấm sét từ ${player.name}!`
+    ];
+
+    const skillDescriptions = {
+        "KAMEJOKO": [
+            `${player.name} đặt hai tay về một bên, tích tụ năng lượng xanh rực rỡ... "KA-ME-JO-KO-HAAA!"`,
+            `Luồng năng lượng xanh khổng lồ phóng ra từ bàn tay ${player.name}!`
+        ],
+        "SPIRIT_BOMB": [
+            `${player.name} giơ tay lên trời, thu thập năng lượng từ vạn vật: "Mọi người, cho tôi mượn sức mạnh!"`,
+            `Quả cầu năng lượng khổng lồ hình thành trên bàn tay ${player.name}!`,
+            `"Hãy nhận lấy!" ${player.name} ném Quả Cầu Kinh Khí về phía ${target.name}!`
+        ],
+        "KAIOKEN": [
+            `"KAIOKEN!" ${player.name} hét lên, cơ thể bùng cháy trong hào quang đỏ rực!`,
+            `Sức mạnh của ${player.name} tăng vọt, aura đỏ rực bao quanh cơ thể!`
+        ],
+        "GREAT_APE": [
+            `Mắt ${player.name} đỏ ngầu, cơ thể bắt đầu biến đổi kinh hoàng!`,
+            `${player.name} biến thành Đại Khỉ Đột, kích thước khổng lồ cao hàng chục mét!`,
+            `Tiếng gầm của ${player.name} làm rung chuyển cả bầu trời!`
+        ],
+        "MAKANKOSAPPO": [
+            `${player.name} đặt hai ngón tay lên trán, tích tụ năng lượng tím rực rỡ!`,
+            `"MAKANKOSAPPO!" ${player.name} phóng ra tia xoáy năng lượng sắc bén!`,
+            `Tia xoáy năng lượng khoan thẳng về phía ${target.name}!`
+        ]
+    };
+
+    const lowHpDescriptions = [
+        `${target.name} thở hổn hển, cố gắng đứng vững sau đòn đánh!`,
+        `Máu chảy từ khóe miệng, ${target.name} lau đi và cười nhạt!`,
+        `"Chưa xong đâu..." ${target.name} nói, dù cơ thể đầy thương tích!`,
+        `${target.name} loạng choạng, cố gắng lấy lại thăng bằng!`
+    ];
+
+    const finishingDescriptions = [
+        `${target.name} ngã xuống, không còn sức để đứng dậy!`,
+        `Đòn đánh cuối cùng của ${player.name} quá mạnh, ${target.name} ngã xuống!`,
+        `${target.name} đã đạt đến giới hạn, không thể tiếp tục chiến đấu!`,
+        `Một đòn quyết định! ${target.name} đã bị đánh bại!`
+    ];
+
+    let description = "";
+
+    if (action === "attack") {
+        description = attackDescriptions[Math.floor(Math.random() * attackDescriptions.length)];
+
+        if (isCritical) {
+            description += " " + criticalDescriptions[Math.floor(Math.random() * criticalDescriptions.length)];
+        }
+
+        if (skillName && skillDescriptions[skillName]) {
+            const skillDesc = skillDescriptions[skillName][Math.floor(Math.random() * skillDescriptions[skillName].length)];
+            description += " " + skillDesc;
+        }
+
+        if (hpPercent < 30 && hpPercent > 0) {
+            description += " " + lowHpDescriptions[Math.floor(Math.random() * lowHpDescriptions.length)];
+        }
+
+        if (isFinishing) {
+            description += " " + finishingDescriptions[Math.floor(Math.random() * finishingDescriptions.length)];
+        }
+    }
+
+    return description;
+}
+function analyzeBattleSituation(playerHP, playerKi, opponentHP, playerStates, opponentStates, currentTurn) {
+    const playerHpPercent = (playerHP / playerStates.maxHP) * 100;
+    const opponentHpPercent = (opponentHP / opponentStates.maxHP) * 100;
+    const playerPowerDiff = playerStates.power - opponentStates.power;
+    const powerRatio = playerStates.power / opponentStates.power;
+
+    // Phân loại tình huống
+    let situation = {
+        isDesperateSituation: playerHpPercent < 20 && opponentHpPercent > 50,
+        isWinningPosition: playerHpPercent > 60 && opponentHpPercent < 30,
+        isCloseMatch: Math.abs(playerHpPercent - opponentHpPercent) < 15,
+        isOutpowered: powerRatio < 0.7,
+        isOverpowering: powerRatio > 1.5,
+        isFinalStand: playerHpPercent < 30 && currentTurn > 10,
+        isMidFight: currentTurn > 5 && currentTurn < 15,
+        isLateFight: currentTurn >= 15,
+        hasKiAdvantage: playerKi > playerStates.maxHP * 0.7,
+        needsDesperateMove: playerHpPercent < 15 && opponentHpPercent < 40
+    };
+
+    return situation;
+}
+
+// Thêm hàm gán điểm dựa trên tình huống
+function getBattleSituationScore(skillName, situation) {
+    let situationScore = 0;
+
+    // Tình huống tuyệt vọng - ưu tiên đòn sát thương cao hoặc hồi phục
+    if (situation.isDesperateSituation) {
+        // Ưu tiên tuyệt đối cho đòn đánh mạnh
+        if (["SPIRIT_BOMB", "MAKANKOSAPPO", "GREAT_APE", "CADICH_LIEN_HOAN_TRUONG"].includes(skillName)) {
+            situationScore += 500;
+        }
+
+        // Ưu tiên cao cho hồi phục
+        if (["HEALING", "WHISTLE"].includes(skillName)) {
+            situationScore += 400;
+        }
+
+        // Ưu tiên phòng thủ
+        if (["ENERGY_SHIELD", "BIND", "TROI"].includes(skillName)) {
+            situationScore += 350;
+        }
+    }
+
+    // Đang thắng thế - ưu tiên đòn kết liễu
+    if (situation.isWinningPosition) {
+        if (["MAKANKOSAPPO", "SPIRIT_BOMB", "RAPID_PUNCH"].includes(skillName)) {
+            situationScore += 350;
+        }
+    }
+
+    // Trận đấu cân tài cân sức - ưu tiên đòn khống chế
+    if (situation.isCloseMatch) {
+        if (["BIND", "TROI", "SOLAR_FLARE", "EVIL_CONTAINMENT"].includes(skillName)) {
+            situationScore += 250;
+        }
+    }
+
+    // Đối thủ mạnh hơn - ưu tiên né tránh và phòng thủ
+    if (situation.isOutpowered) {
+        if (["ENERGY_SHIELD", "BIND", "HEALING", "SOLAR_FLARE"].includes(skillName)) {
+            situationScore += 300;
+        }
+    }
+
+    // Final stand - ưu tiên kỹ năng mạnh nhất
+    if (situation.isFinalStand) {
+        if (["SPIRIT_BOMB", "GREAT_APE", "CADICH_LIEN_HOAN_TRUONG", "EVIL_CONTAINMENT"].includes(skillName)) {
+            situationScore += 450;
+        }
+    }
+
+    // Phong cách đánh khác nhau giữa đầu, giữa và cuối trận
+    if (situation.isMidFight) {
+        // Giữa trận - cân bằng tấn công và phòng thủ
+        if (["KAIOKEN", "RAPID_PUNCH", "MAKANKOSAPPO"].includes(skillName)) {
+            situationScore += 150;
+        }
+    } else if (situation.isLateFight) {
+        // Cuối trận - ưu tiên đòn mạnh
+        if (["SPIRIT_BOMB", "GREAT_APE", "EVIL_CONTAINMENT"].includes(skillName)) {
+            situationScore += 200;
+        }
+    }
+
+    return situationScore;
+}
 function calculatePowerGain(currentPower, locationMultiplier = 1) {
-    // Điều chỉnh tỷ lệ giảm theo mốc sức mạnh
+
     let powerScale = 1.0;
 
-    if (currentPower >= 90000000000) { // >90B
+    if (currentPower >= 90000000000) {
         powerScale = 0.0001;
-    } else if (currentPower >= 70000000000) { // >70B
+    } else if (currentPower >= 70000000000) {
         powerScale = 0.0005;
-    } else if (currentPower >= 50000000000) { // >50B
+    } else if (currentPower >= 50000000000) {
         powerScale = 0.001;
-    } else if (currentPower >= 30000000000) { // >30B 
+    } else if (currentPower >= 30000000000) {
         powerScale = 0.005;
-    } else if (currentPower >= 10000000000) { // >10B
+    } else if (currentPower >= 10000000000) {
         powerScale = 0.01;
-    } else if (currentPower >= 5000000000) { // >5B
+    } else if (currentPower >= 5000000000) {
         powerScale = 0.05;
-    } else if (currentPower >= 1000000000) { // >1B
+    } else if (currentPower >= 1000000000) {
         powerScale = 0.1;
-    } else if (currentPower >= 500000000) { // >500M
+    } else if (currentPower >= 500000000) {
         powerScale = 0.2;
-    } else if (currentPower >= 100000000) { // >100M
+    } else if (currentPower >= 100000000) {
         powerScale = 0.3;
-    } else if (currentPower >= 50000000) { // >50M
+    } else if (currentPower >= 50000000) {
         powerScale = 0.4;
-    } else if (currentPower >= 10000000) { // >10M
+    } else if (currentPower >= 10000000) {
         powerScale = 0.5;
-    } else if (currentPower >= 1000000) { // >1M
+    } else if (currentPower >= 1000000) {
         powerScale = 0.7;
     }
 
-    // Công thức tăng sức mạnh cơ bản
     const basePowerGain = Math.floor(currentPower * 0.01 * powerScale * locationMultiplier);
 
-    // Thêm yếu tố ngẫu nhiên (±10%)
     const randomFactor = 0.9 + Math.random() * 0.2;
 
     return Math.max(1000, Math.floor(basePowerGain * randomFactor));
@@ -5404,6 +5684,28 @@ module.exports = {
                     hasFused: false
                 };
 
+                if (planet === "EARTH") {
+                    playerData[senderID].skills.push("KAME:DRAGON_PUNCH");
+                } else if (planet === "SAIYAN") {
+                    playerData[senderID].skills.push("GOKU:ATOMIC");
+                } else if (planet === "NAMEK") {
+                    playerData[senderID].skills.push("PICCOLO:DEMON_PUNCH");
+                }
+
+                playerData[senderID].evolution = {
+                    name: planet === "EARTH" ? "Con người thường" :
+                        planet === "SAIYAN" ? "Saiyan thường" :
+                            "Namek thường",
+                    description: "Hình thái cơ bản",
+                    achievedAt: new Date().toISOString(),
+                    auraColor: getAuraColorForEvolution(
+                        planet === "EARTH" ? "Con người thường" :
+                            planet === "SAIYAN" ? "Saiyan thường" :
+                                "Namek thường",
+                        planet
+                    )
+                };
+
                 if (!playerData[senderID].inventory.items) {
                     playerData[senderID].inventory.items = [];
                 }
@@ -5425,7 +5727,7 @@ module.exports = {
                 }
                 else if (planet === "NAMEK") {
                     playerData[senderID].inventory.items.push({
-                        id: "boots",
+                        id: "namek_boots",
                         quantity: 1,
                         type: "boots",
                         boost: 1.1
@@ -5434,7 +5736,7 @@ module.exports = {
                 }
                 else if (planet === "SAIYAN") {
                     playerData[senderID].inventory.items.push({
-                        id: "gloves",
+                        id: "battle_gloves",
                         quantity: 1,
                         type: "gloves",
                         boost: 1.1
@@ -5458,16 +5760,19 @@ module.exports = {
                     `💎 ĐẶC TRƯNG CỦA TỘC ${planet}: ${PLANETS[planet].description}\n\n` +
                     "🎁 PHẦN QUÀ CHO NGƯỜI MỚI:\n" +
                     "• 3 Đậu Thần (Hồi phục HP và Ki)\n" +
-                    (planet === "EARTH" ? "• Giáp cơ bản (+10% HP)\n• 1000 Zeni bổ sung\n" :
-                        planet === "NAMEK" ? "• Giày cơ bản (+10% Ki)\n• 50 Ki bổ sung\n" :
-                            "• Găng tay cơ bản (+10% Sức đánh)\n• 10 Sức đánh bổ sung\n") +
-                    "\n🔍 Dùng .dball inventory để xem vật phẩm!";
+                    (planet === "EARTH" ?
+                        "• Giáp cơ bản (+10% HP)\n• 1000 Zeni bổ sung\n• Kỹ năng Đấm Dragon\n" :
+                        planet === "NAMEK" ?
+                            "• Giày cơ bản (+10% Ki)\n• 50 Ki bổ sung\n• Kỹ năng Đấm Demon\n" :
+                            "• Găng tay cơ bản (+10% Sức đánh)\n• 10 Sức đánh bổ sung\n• Kỹ năng Đấm Galick\n") +
+                    "\n🔍 Dùng .dball inventory để xem vật phẩm!"
 
                 return api.sendMessage(
                     "🎉 NHÂN VẬT ĐÃ ĐƯỢC TẠO!\n" +
                     "───────────────\n" +
                     `👤 Tên: ${userName}\n` +
                     `🌍 Tộc người: ${PLANETS[planet].name}\n` +
+                    `🧬 Hình thái: ${playerData[senderID].evolution.name}\n` +
                     `💪 𝗦𝘂̛́𝗰 𝗺𝗮̣𝗻𝗵 cơ bản: ${DEFAULT_STATS.power}\n` +
                     `✨ Ki: ${DEFAULT_STATS.ki}\n` +
                     `❤️ HP: ${DEFAULT_STATS.health}\n` +
@@ -6364,6 +6669,7 @@ module.exports = {
                         const remainingTime = Math.ceil((cooldown - (now - player.lastTrain)) / 1000);
                         return api.sendMessage(`⏳ Vui lòng đợi ${remainingTime}s để hồi sức!`, threadID, messageID);
                     }
+
                     if (player.quests?.active && player.quests.active.length > 0) {
                         const activeQuestId = player.quests.active[0];
                         if (activeQuestId && QUESTS[activeQuestId]) {

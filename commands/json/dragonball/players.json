@@ -589,11 +589,11 @@
     "name": "Ngọc Từ",
     "planet": "NAMEK",
     "stats": {
-      "power": 1,
-      "damage": 100,
-      "ki": 10000000,
-      "health": 10000000,
-      "exp": 1075026453,
+      "power": 10000,
+      "damage": 10000000,
+      "ki": 100000000,
+      "health": 100000000,
+      "exp": 1075026553,
       "zeni": 4832,
       "inventory": {
         "items": [],
@@ -604,17 +604,17 @@
         "completed": [],
         "progress": {}
       },
-      "currentKi": 10000000,
-      "currentHealth": 70000000
+      "currentKi": 5000000,
+      "currentHealth": 100000000
     },
     "skills": [
-      "PICCOLO:SPECIAL_BEAM_CANNON",
-      "PICCOLO:REGENERATION",
-      "PICCOLO:LIGHT_GRENADE",
-      "PICCOLO:HELLZONE_GRENADE",
-      "PICCOLO:DEMONICAL_FLAVOR",
-      "PICCOLO:MULTIFORM",
-      "PICCOLO:EXPLODING_STORM"
+      "PICCOLO:DEMON_PUNCH",
+      "PICCOLO:MASENKO",
+      "PICCOLO:HEALING",
+      "PICCOLO:RAPID_PUNCH",
+      "PICCOLO:MAKANKOSAPPO",
+      "PICCOLO:ENERGY_SHIELD",
+      "PICCOLO:EVIL_CONTAINMENT"
     ],
     "masters": [],
     "lastTrain": 1743695408654,
@@ -633,7 +633,7 @@
       "achievedAt": "2025-04-03T15:50:08.668Z",
       "auraColor": "#FFFFFF"
     },
-    "lastPvpFight": 1743747368723,
+    "lastPvpFight": 1743765566510,
     "quests": {
       "active": [
         "BEGINNER_1"
@@ -648,12 +648,12 @@
     "name": "Gia Huy ",
     "planet": "SAIYAN",
     "stats": {
-      "power": 53227,
-      "damage": 300,
-      "ki": 580,
-      "health": 2600,
-      "exp": 14161,
-      "zeni": 22022,
+      "power": 61227,
+      "damage": 340,
+      "ki": 660,
+      "health": 2800,
+      "exp": 2990,
+      "zeni": 24865,
       "inventory": {
         "items": [],
         "equipped": []
@@ -663,15 +663,16 @@
         "completed": [],
         "progress": {}
       },
-      "currentKi": 540,
+      "currentKi": 389,
       "level": 2,
-      "maxHealth": 1800
+      "maxHealth": 2700,
+      "currentHealth": 2488
     },
     "skills": [
       "GOKU:ATOMIC"
     ],
     "masters": [],
-    "lastTrain": 1743753074368,
+    "lastTrain": 1743784025879,
     "created": 1743526294836,
     "inventory": {
       "dragonBalls": []
@@ -699,18 +700,18 @@
         "SAIYAN_RADITZ": 0
       }
     },
-    "lastPvpFight": 1743706484868
+    "lastPvpFight": 1743782632727
   },
   "100055074463541": {
     "name": "Khang Bùi",
     "planet": "NAMEK",
     "stats": {
-      "power": 1345968251,
-      "damage": 10505,
+      "power": 1425915131,
+      "damage": 8505,
       "ki": 3866,
       "health": 13000,
-      "exp": 17129143,
-      "zeni": 12676199,
+      "exp": 20547409,
+      "zeni": 12677664,
       "inventory": {
         "items": [],
         "equipped": []
@@ -734,7 +735,7 @@
       "PICCOLO:MULTIFORM"
     ],
     "masters": [],
-    "lastTrain": 1743757020357,
+    "lastTrain": 1743772798810,
     "created": 1743561242983,
     "inventory": {
       "dragonBalls": [
@@ -760,7 +761,7 @@
           "id": "radar",
           "quantity": 4,
           "type": "equipment",
-          "usedTime": 1743741552739,
+          "usedTime": 1743772764361,
           "visualEffect": {
             "type": "accessory",
             "position": "hand",
@@ -901,12 +902,12 @@
     "name": "Le Tuan Tu",
     "planet": "SAIYAN",
     "stats": {
-      "power": 2293539012,
+      "power": 2435186212,
       "damage": 12955,
       "ki": 2948,
       "health": null,
-      "exp": 85530847,
-      "zeni": 2792162,
+      "exp": 131990865,
+      "zeni": 2794469,
       "inventory": {
         "items": [],
         "equipped": []
@@ -928,7 +929,7 @@
       "GOKU:BIND"
     ],
     "masters": [],
-    "lastTrain": 1743756657268,
+    "lastTrain": 1743771262467,
     "created": 1743562364905,
     "inventory": {
       "dragonBalls": [],
@@ -1139,14 +1140,14 @@
     "name": "Tran Thu Huyen",
     "planet": "SAIYAN",
     "stats": {
-      "power": 40015,
+      "power": 46015,
       "damage": 210,
       "ki": 180,
       "currentKi": 140,
       "health": 1600,
       "currentHealth": 1000,
-      "exp": 54172,
-      "zeni": 25281,
+      "exp": 59182,
+      "zeni": 29407,
       "inventory": {
         "items": [],
         "equipped": []
@@ -1162,7 +1163,7 @@
       "GOKU:ATOMIC"
     ],
     "masters": [],
-    "lastTrain": 1743742363364,
+    "lastTrain": 1743762191120,
     "created": 1743570305333,
     "inventory": {
       "dragonBalls": [
@@ -1237,7 +1238,7 @@
       "power": 15029,
       "damage": 260,
       "ki": 138,
-      "currentKi": 138,
+      "currentKi": 117,
       "health": 1000,
       "currentHealth": 1000,
       "exp": 8046,
@@ -1283,20 +1284,20 @@
         "SAIYAN_RADITZ": 0
       }
     },
-    "lastPvpFight": 1743749585915
+    "lastPvpFight": 1743782632727
   },
   "100035899503301": {
     "name": "Người trái đất",
     "planet": "EARTH",
     "stats": {
-      "power": 9368314413,
+      "power": 9758309467,
       "damage": 6119190,
       "ki": 3436100,
       "currentKi": 3436100,
       "health": 12937600,
       "currentHealth": 12936000,
-      "exp": 276379116,
-      "zeni": 61691,
+      "exp": 343537555,
+      "zeni": 57199,
       "inventory": {
         "items": [],
         "equipped": []
@@ -1313,10 +1314,12 @@
       "KAME:KAMEJOKO",
       "KAME:SOLAR_FLARE",
       "KAME:KAIOKEN",
-      "KAME:SPIRIT_BOMB"
+      "KAME:SPIRIT_BOMB",
+      "KAME:ENERGY_SHIELD",
+      "KAME:HYPNOSIS"
     ],
     "masters": [],
-    "lastTrain": 1743750053420,
+    "lastTrain": 1743786096747,
     "created": 1743613097948,
     "inventory": {
       "dragonBalls": [
@@ -1327,6 +1330,10 @@
         {
           "planet": "EARTH",
           "star": 5
+        },
+        {
+          "planet": "EARTH",
+          "star": 2
         }
       ]
     },
@@ -1415,14 +1422,14 @@
     "name": "Kenji Akira",
     "planet": "SAIYAN",
     "stats": {
-      "power": 3000,
-      "damage": 110,
-      "ki": 100,
-      "currentKi": 100,
-      "health": 1000,
-      "currentHealth": 1000,
-      "exp": 200,
-      "zeni": 1187,
+      "power": 11000,
+      "damage": 10000000,
+      "ki": 100000000,
+      "currentKi": 45000000,
+      "health": 100000000,
+      "currentHealth": 0,
+      "exp": 104192,
+      "zeni": 8051,
       "inventory": {
         "items": [],
         "equipped": []
@@ -1431,20 +1438,24 @@
         "active": [],
         "completed": [],
         "progress": {}
-      }
+      },
+      "level": 2
     },
-    "skills": [],
+    "skills": [
+      "GOKU:ATOMIC",
+      "GOKU:REGENERATE_ENERGY",
+      "GOKU:WHISTLE",
+      "GOKU:BIND",
+      "GOKU:ENERGY_SHIELD",
+      "GOKU:CADICH_LIEN_HOAN_TRUONG",
+      "GOKU:GREAT_APE"
+    ],
     "masters": [],
-    "lastTrain": 1743758262053,
+    "lastTrain": 1743765767582,
     "created": 1743758164896,
     "inventory": {
       "dragonBalls": [],
       "items": [
-        {
-          "id": "senzu",
-          "quantity": 3,
-          "type": "consumable"
-        },
         {
           "id": "gloves",
           "quantity": 1,
@@ -1456,11 +1467,18 @@
     "hasFused": false,
     "quests": {
       "active": [
-        "BEGINNER_1"
+        "SAIYAN_RADITZ"
       ],
-      "completed": [],
+      "completed": [
+        "BEGINNER_1",
+        "BEGINNER_2",
+        "BASIC_TRAINING"
+      ],
       "progress": {
-        "BEGINNER_1": 2
+        "BEGINNER_1": 3,
+        "BEGINNER_2": 2000,
+        "BASIC_TRAINING": 5,
+        "SAIYAN_RADITZ": 0
       }
     },
     "evolution": {
@@ -1468,6 +1486,13 @@
       "description": "Chiến binh Saiyan bình thường",
       "achievedAt": "2025-04-04T09:16:09.258Z",
       "auraColor": "#FFFFFF"
-    }
+    },
+    "originalKi": 100,
+    "baseStats": {
+      "damage": 110,
+      "health": 1000,
+      "ki": 100
+    },
+    "lastPvpFight": 1743765566510
   }
 }

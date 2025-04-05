@@ -80,18 +80,18 @@ const LOAN_APPROVAL = {
         review: {
             maxAmount: 200000,
             minCreditScore: 60,
-            waitTime: 4 * 60 * 60 * 1000 
+            waitTime: 4 * 60 * 60 * 1000
         },
         committee: {
             maxAmount: Infinity,
             minCreditScore: 50,
-            waitTime: 12 * 60 * 60 * 1000 
+            waitTime: 12 * 60 * 60 * 1000
         }
     },
-    rejectionCooldown: 7 * 24 * 60 * 60 * 1000, 
+    rejectionCooldown: 7 * 24 * 60 * 60 * 1000,
     appeals: {
         allowed: true,
-        cooldown: 3 * 24 * 60 * 60 * 1000, 
+        cooldown: 3 * 24 * 60 * 60 * 1000,
         maxAttempts: 2
     }
 };
@@ -811,103 +811,103 @@ module.exports = {
                         return api.sendMessage("❌ Có lỗi xảy ra khi rút tiền!", threadID, messageID);
                     }
 
-                    case "check":
+                case "check":
+                    try {
+                        const creditInfo = calculateDetailedCreditScore(senderID, bankingData);
+                        const stats = await calculateUserStats(senderID, bankingData, walletBalance);
+                        const loan = bankingData.loans[senderID];
+
+                        // Find next streak milestone
+                        const nextStreak = Object.entries(BANK_CONFIG.rewards.dailyStreak)
+                            .find(([days]) => stats.streak < parseInt(days));
+
+                        // Find bank interest rate based on VIP status
+                        const bankInterestRate = stats.vipStatus.packageId > 0 ?
+                            BANK_CONFIG.vipInterestRates[stats.vipStatus.packageId] :
+                            BANK_CONFIG.dailyInterestRate;
+
+                        // Create canvas data object
+                        const canvasData = {
+                            walletBalance,
+                            bankBalance: userData.bankBalance,
+                            totalAssets: walletBalance + userData.bankBalance,
+                            creditScore: creditInfo,
+                            stats,
+                            loan,
+                            nextStreak: nextStreak ? {
+                                days: nextStreak[0],
+                                reward: nextStreak[1]
+                            } : null,
+                            bankInterestRate
+                        };
+
                         try {
-                            const creditInfo = calculateDetailedCreditScore(senderID, bankingData);
-                            const stats = await calculateUserStats(senderID, bankingData, walletBalance);
-                            const loan = bankingData.loans[senderID];
-                            
-                            // Find next streak milestone
+                            // Generate banking canvas
+                            const bankingCanvas = await createBankingCanvas(canvasData);
+                            const bankingAttachment = await bufferToReadStream(bankingCanvas);
+
+                            return api.sendMessage({
+                                body: "🏦 THÔNG TIN NGÂN HÀNG AKI 🏦",
+                                attachment: bankingAttachment
+                            }, threadID, messageID);
+                        } catch (canvasErr) {
+                            console.error("Canvas error:", canvasErr);
+
+                            // Add this code to define riskLevel based on stats.riskScore
+                            const riskLevel = stats.riskScore >= 80
+                                ? { color: "💚", description: "An toàn" }
+                                : stats.riskScore >= 50
+                                    ? { color: "💛", description: "Bình thường" }
+                                    : { color: "❤️", description: "Rủi ro" };
+
+                            // Fallback to text message if canvas fails
+                            const vipInfo = stats.vipStatus.packageId > 0 ?
+                                `\n👑 VIP ${stats.vipStatus.packageId}\n` +
+                                `💹 Lãi suất: ${(BANK_CONFIG.vipInterestRates[stats.vipStatus.packageId] * 100).toFixed(2)}%/ngày` : '';
+
+                            // Define streakReward variable if it's used
+                            const streakReward = Object.entries(BANK_CONFIG.rewards.dailyStreak)
+                                .filter(([days]) => stats.streak >= parseInt(days))
+                                .sort((a, b) => parseInt(b[0]) - parseInt(a[0]))[0];
+
                             const nextStreak = Object.entries(BANK_CONFIG.rewards.dailyStreak)
                                 .find(([days]) => stats.streak < parseInt(days));
-                                
-                            // Find bank interest rate based on VIP status
-                            const bankInterestRate = stats.vipStatus.packageId > 0 ? 
-                                BANK_CONFIG.vipInterestRates[stats.vipStatus.packageId] : 
-                                BANK_CONFIG.dailyInterestRate;
-                            
-                            // Create canvas data object
-                            const canvasData = {
-                                walletBalance,
-                                bankBalance: userData.bankBalance,
-                                totalAssets: walletBalance + userData.bankBalance,
-                                creditScore: creditInfo,
-                                stats,
-                                loan,
-                                nextStreak: nextStreak ? { 
-                                    days: nextStreak[0], 
-                                    reward: nextStreak[1] 
-                                } : null,
-                                bankInterestRate
-                            };
-                            
-                            try {
-                                // Generate banking canvas
-                                const bankingCanvas = await createBankingCanvas(canvasData);
-                                const bankingAttachment = await bufferToReadStream(bankingCanvas);
-                                
-                                return api.sendMessage({
-                                    body: "🏦 THÔNG TIN NGÂN HÀNG AKI 🏦",
-                                    attachment: bankingAttachment
-                                }, threadID, messageID);
-                            } catch (canvasErr) {
-                                console.error("Canvas error:", canvasErr);
-                                
-                                // Add this code to define riskLevel based on stats.riskScore
-                                const riskLevel = stats.riskScore >= 80 
-                                    ? { color: "💚", description: "An toàn" } 
-                                    : stats.riskScore >= 50 
-                                        ? { color: "💛", description: "Bình thường" } 
-                                        : { color: "❤️", description: "Rủi ro" };
-                                
-                                // Fallback to text message if canvas fails
-                                const vipInfo = stats.vipStatus.packageId > 0 ?
-                                    `\n👑 VIP ${stats.vipStatus.packageId}\n` +
-                                    `💹 Lãi suất: ${(BANK_CONFIG.vipInterestRates[stats.vipStatus.packageId] * 100).toFixed(2)}%/ngày` : '';
-                                
-                                // Define streakReward variable if it's used
-                                const streakReward = Object.entries(BANK_CONFIG.rewards.dailyStreak)
-                                    .filter(([days]) => stats.streak >= parseInt(days))
-                                    .sort((a, b) => parseInt(b[0]) - parseInt(a[0]))[0];
-                                
-                                const nextStreak = Object.entries(BANK_CONFIG.rewards.dailyStreak)
-                                    .find(([days]) => stats.streak < parseInt(days));
-                                
-                                // Define loanStatus variable
-                                const loanInfo = data.loan && data.loan.status === 'active';
-                                const loanStatus = loanInfo 
-                                    ? `\n\n💰 KHOẢN VAY\n` +
-                                      `├─ Số tiền vay: ${formatNumber(data.loan.amount)} $\n` +
-                                      `├─ Còn nợ: ${formatNumber(data.loan.remainingAmount)} $\n` +
-                                      `└─ Hạn trả: ${new Date(data.loan.dueDate).toLocaleDateString('vi-VN')}` 
-                                    : '';
-                                
-                                // Rest of your original text-based response...
-                                return api.sendMessage(
-                            "🏦 THÔNG TIN TÀI KHOẢN 🏦\n" +
-                            "━━━━━━━━━━━━━━━━━━\n" +
-                            `💰 Số dư ví: ${formatNumber(walletBalance)} $\n` +
-                            `🏦 Số dư ngân hàng: ${formatNumber(bankBalance)} $\n` +
-                            `💵 Tổng tài sản: ${formatNumber(walletBalance + bankBalance)} $\n` +
-                            `${vipInfo}\n\n` +
-                            `📊 CHỈ SỐ TÀI CHÍNH\n` +
-                            `├─ Điểm tín dụng: ${creditInfo.score}/100\n` +
-                            `├─ Độ tin cậy: ${riskLevel.color} ${riskLevel.description}\n` +
-                            `├─ Xếp hạng: #${stats.rank}\n` +
-                            `└─ Giao dịch: ${stats.transactionCount} lần\n\n` +
-                            `🔥 CHUỖI HOẠT ĐỘNG\n` +
-                            `├─ Hiện tại: ${stats.streak} ngày\n` +
-                            `${streakReward ? `├─ Đạt mốc: ${streakReward[0]} ngày (${formatNumber(streakReward[1])} $)\n` : ''}` +
-                            `${nextStreak ? `└─ Mốc tiếp: ${nextStreak[0]} ngày (${formatNumber(nextStreak[1])} $)` : ''}` +
-                            `\n\n🏆 THÀNH TỰU\n${stats.achievements.length > 0 ? stats.achievements.join('\n') : '❌ Chưa có thành tựu nào'}` +
-                            loanStatus,
-                            threadID, messageID
-                        );
+
+                            // Define loanStatus variable
+                            const loanInfo = data.loan && data.loan.status === 'active';
+                            const loanStatus = loanInfo
+                                ? `\n\n💰 KHOẢN VAY\n` +
+                                `├─ Số tiền vay: ${formatNumber(data.loan.amount)} $\n` +
+                                `├─ Còn nợ: ${formatNumber(data.loan.remainingAmount)} $\n` +
+                                `└─ Hạn trả: ${new Date(data.loan.dueDate).toLocaleDateString('vi-VN')}`
+                                : '';
+
+                            // Rest of your original text-based response...
+                            return api.sendMessage(
+                                "🏦 THÔNG TIN TÀI KHOẢN 🏦\n" +
+                                "━━━━━━━━━━━━━━━━━━\n" +
+                                `💰 Số dư ví: ${formatNumber(walletBalance)} $\n` +
+                                `🏦 Số dư ngân hàng: ${formatNumber(bankBalance)} $\n` +
+                                `💵 Tổng tài sản: ${formatNumber(walletBalance + bankBalance)} $\n` +
+                                `${vipInfo}\n\n` +
+                                `📊 CHỈ SỐ TÀI CHÍNH\n` +
+                                `├─ Điểm tín dụng: ${creditInfo.score}/100\n` +
+                                `├─ Độ tin cậy: ${riskLevel.color} ${riskLevel.description}\n` +
+                                `├─ Xếp hạng: #${stats.rank}\n` +
+                                `└─ Giao dịch: ${stats.transactionCount} lần\n\n` +
+                                `🔥 CHUỖI HOẠT ĐỘNG\n` +
+                                `├─ Hiện tại: ${stats.streak} ngày\n` +
+                                `${streakReward ? `├─ Đạt mốc: ${streakReward[0]} ngày (${formatNumber(streakReward[1])} $)\n` : ''}` +
+                                `${nextStreak ? `└─ Mốc tiếp: ${nextStreak[0]} ngày (${formatNumber(nextStreak[1])} $)` : ''}` +
+                                `\n\n🏆 THÀNH TỰU\n${stats.achievements.length > 0 ? stats.achievements.join('\n') : '❌ Chưa có thành tựu nào'}` +
+                                loanStatus,
+                                threadID, messageID
+                            );
+                        }
+                    } catch (err) {
+                        console.error('Lỗi kiểm tra tài khoản:', err);
+                        return api.sendMessage("❌ Có lỗi xảy ra khi kiểm tra tài khoản!", threadID, messageID);
                     }
-                } catch (err) {
-                    console.error('Lỗi kiểm tra tài khoản:', err);
-                    return api.sendMessage("❌ Có lỗi xảy ra khi kiểm tra tài khoản!", threadID, messageID);
-                }
 
                 case "vay":
                     try {

@@ -1,215 +1,16 @@
 {
   "users": {
-    "100083810402652": {
-      "personal": [
-        {
-          "content": "DANH SÁCH TẤT CẢ LỆNH\n\n⚙️ SYSTEM\n  👤 mode - Quản lý các chế độ hoạt động của bot\n  👤 system - Quản lý cài đặt hệ thống của bot\n\n👑 ADMIN COMMANDS\n  👑 admin - Quản lý bot\n  👤 avt - Lấy ảnh avatar của người dùng\n  👑 botcontrol - Quản lý bot\n  👑 command - Quản lý và chỉnh sửa lệnh\n  👑 git - Github\n  👑 imgur - Tải ảnh để lấy link Imgur\n  👤 manage - Quản lý cảnh báo, thông báo và auto-seen\n  👤 setprefix - Thay đổi dấu lệnh riêng cho nhóm\n\n📦 GROUPS\n  👤 all - tag toàn bộ thành viên\n  👤 checktt - Kiểm tra mức độ tương tác của thành viên\n  👤 groupinfo - Quản lý thông tin nhóm\n  👤 groups - Quản lý nhóm: thêm/xóa thành viên, đặt biệt danh....\n  👤 security - Bảo vệ nhóm: chống spam, từ cấm, quyền admin,...\n  👤 shortcut - Tạo và quản lý shortcut cho bot\n  👤 thongbao - Quản lý cài đặt thông báo nhóm\n  👤 unsend - Hủy tin nhắn\n\n🎮 GAMES\n  👤 baicao - Chơi Bài Cào\n  👤 brain - Tổng hợp các game trí tuệ\n  👤 casino - Chơi các mini-game Casino.\n  👤 coin - Hệ thống đào coin\n  👤 dball - Game Dragon Ball Z\n  👤 farm - Hệ thống nông trại\n  👤 fish - Câu cá kiếm xu\n  👤 gacha - game Gacha mở thẻ\n  👤 game - Hiển thị danh sách và hướng dẫn chơi game\n  👤 lotto - Chơi xổ số nhanh Quick Lotto\n  👤 mini - Các trò chơi may mắn\n  👤 pet - Nuôi thú cưng ảo\n  👤 poke - săn Pokemon\n  👤 stolen - Ăn trộm tiền từ người khác\n  👤 tod - Chơi Truth or Dare\n\n🎵 MEDIA\n  👤 image - Công cụ xử lý hình ảnh\n  👤 movie - Xem thông tin về phim\n  👤 music - Công cụ nhạc: tìm kiếm, nhận diện, phát preview\n  👤 sing - Công cụ nhạc: tìm kiếm, nhận diện, phát preview\n  👤 tiktok - Tải video TikTok\n  👤 video - Tải video từ Youtube\n\n💰 TÀI CHÍNH\n  👤 balance - Kiểm tra số dư tài khoản của bạn\n  👤 banking - Hệ thống ngân hàng trực tuyến\n  👤 daily - Nhận $ và EXP mỗi ngày\n  👤 pay - Chuyển tiền cho người khác.\n  👤 rewards - Hệ thống phần thưởng (Nhiệm vụ & Giftcode)\n  👤 top - Xem top 10 người giàu nhất server.\n\n🛠️ TOOLS\n  👤 network - Công cụ kiểm tra mạng & SEO\n  👑 sms - Spam SMS\n  👤 tools - Công cụ đa năng: Giải mã, mã hóa, gửi tin nhắn ẩn danh\n\n🎯 GIẢI TRÍ\n  👤 funtext - Xem nội dung giải trí\n  👤 gai - xem ảnh gái\n  👤 ghep - Ghép đôi ngẫu nhiên với nhiều tính năng thú vị\n  👤 hug - Ôm người bạn muốn\n  👤 kiss - hôn người bạn muốn\n  👤 onepiece - Xem thông tin về One Piece\n  👤 rizz - Tạo câu tán tỉnh bằng AI\n  👤 say - Chuyển văn bản thành giọng nó\n  👤 slap - tát người bạn muốn\n\n🔧 TIỆN ÍCH\n  👤 busy - Bật chế độ bận - bot sẽ thông báo khi có người tag\n  👤 cap - Screenshot một trang web nào đó\n  👑 catbox - Lấy link Catbox từ video/gif\n  👤 codes - Tạo/Quét mã vạch, mã QR và rút gọn URL\n  👤 count - Đếm số ký tự trong 1 tin nhắn bất kì\n  👤 crypto - Xem giá tiền điện tử\n  👤 download - Tải media từ nhiều nền tảng xã hội hoặc lấy link tải xuống\n  👤 finance - Quản lý chi tiêu cá nhân\n  👤 holiday - Xem ngày lễ của các quốc gia\n  👤 idst - lấy ID sticker\n  👤 info - Tra cứu thông tin web, IP, DNS và dịch ngôn ngữ\n  👤 phatnguoi - Tra cứu thông tin phạt nguội xe\n  👤 qr - Tạo mã QR chuyển khoản ngân hàng\n  👤 remind - Tạo nhắc nhở cho các công việc cần làm.\n  👤 roblox - Lấy thông tin chi tiết người dùng Roblox\n  👤 sendcmt - Gửi bình luận vào bài viết bằng bot\n  👤 stock - Cung cấp thông tin về cổ phiếu.\n  👤 vnx - Xem tin tức\n  👤 weather - Xem thông tin thời tiết chi tiết của một địa điểm\n  👤 wiki - Tra cứu thông tin từ Wikipedia\n  👤 xsmb - Xem xổ số miền Bắc\n\n🤖 AI\n  👤 advice - Tư vấn và giải quyết vấn đề\n  👤 chatbot - Chat với AI\n  👤 debate - Phân tích đa chiều một vấn đề\n  👤 explain - Giải thích khái niệm phức tạp một cách đơn giản\n  👤 gen - Tạo hình ảnh AI\n  👤 homework - Giải bài tập qua hình ảnh\n  👤 reason - Sử dụng trí tuệ nhân tạo để phân tích và suy luận\n\n📍 IMAGE\n  👤 cover - Tạo ảnh bìa Facebook\n\n👑 VIP\n  👑 momo - Thanh toán qua MoMo\n  👤 upscale - Làm nét ảnh\n  👤 vip - Xem thông tin & mua VIP\n  👤 voucher - Quản lý voucher giảm giá\n\n🎌 ANIME\n  👤 anime - Tìm kiếm thông tin Anime, nhân vật, ảnh, gợi ý, mùa hiện tại, và manga.\n  👤 mangainfo - Tìm kiếm thông tin manga\n  👤 waifu - ảnh Waifu ngẫu nhiên\n\n📌 KHÁC\n  👤 donate - góp gạch xây nhà\n  👤 feedback - Gửi phản hồi đến admin\n  👤 help - Hiển thị danh sách lệnh bot\n  👤 ping - Kiểm tra độ trễ phản hồi của bot\n  👤 rank - Xem xếp hạng hiện tại của bạn\n  👤 rankset - Tùy chỉnh thẻ xếp hạng của bạn\n  👤 tid - Lấy ID nhóm chat hiện tại\n  👤 topexp - Xem top 10 người tương tác nhiều nhất.\n  👤 uid - lấy UID facebook của người nào đó\n  👤 uptime - Xem thời gian bot.\n\n╚═══════════════╝\n📊 Tổng số lệnh: 119",
-          "timestamp": 1743745664517,
-          "priority": 2,
-          "accessCount": 2,
-          "lastAccess": 1743746758168,
-          "metadata": {
-            "sentiment": {
-              "score": 0,
-              "rawScore": 0,
-              "sentiment": "neutral",
-              "confidence": 0.5,
-              "emotions": [],
-              "negationCount": 0,
-              "intensityFactors": [],
-              "primaryEmotion": "neutral"
-            },
-            "topics": [
-              "ENTERTAINMENT",
-              "WORK",
-              "FOOD",
-              "TRAVEL",
-              "PERSONAL",
-              "EDUCATION"
-            ],
-            "entities": {}
-          }
-        }
-      ],
-      "facts": [],
-      "preferences": [
-        {
-          "content": "DANH SÁCH TẤT CẢ LỆNH\n\n⚙️ SYSTEM\n  👤 mode - Quản lý các chế độ hoạt động của bot\n  👤 system - Quản lý cài đặt hệ thống của bot\n\n👑 ADMIN COMMANDS\n  👑 admin - Quản lý bot\n  👤 avt - Lấy ảnh avatar của người dùng\n  👑 botcontrol - Quản lý bot\n  👑 command - Quản lý và chỉnh sửa lệnh\n  👑 git - Github\n  👑 imgur - Tải ảnh để lấy link Imgur\n  👤 manage - Quản lý cảnh báo, thông báo và auto-seen\n  👤 setprefix - Thay đổi dấu lệnh riêng cho nhóm\n\n📦 GROUPS\n  👤 all - tag toàn bộ thành viên\n  👤 checktt - Kiểm tra mức độ tương tác của thành viên\n  👤 groupinfo - Quản lý thông tin nhóm\n  👤 groups - Quản lý nhóm: thêm/xóa thành viên, đặt biệt danh....\n  👤 security - Bảo vệ nhóm: chống spam, từ cấm, quyền admin,...\n  👤 shortcut - Tạo và quản lý shortcut cho bot\n  👤 thongbao - Quản lý cài đặt thông báo nhóm\n  👤 unsend - Hủy tin nhắn\n\n🎮 GAMES\n  👤 baicao - Chơi Bài Cào\n  👤 brain - Tổng hợp các game trí tuệ\n  👤 casino - Chơi các mini-game Casino.\n  👤 coin - Hệ thống đào coin\n  👤 dball - Game Dragon Ball Z\n  👤 farm - Hệ thống nông trại\n  👤 fish - Câu cá kiếm xu\n  👤 gacha - game Gacha mở thẻ\n  👤 game - Hiển thị danh sách và hướng dẫn chơi game\n  👤 lotto - Chơi xổ số nhanh Quick Lotto\n  👤 mini - Các trò chơi may mắn\n  👤 pet - Nuôi thú cưng ảo\n  👤 poke - săn Pokemon\n  👤 stolen - Ăn trộm tiền từ người khác\n  👤 tod - Chơi Truth or Dare\n\n🎵 MEDIA\n  👤 image - Công cụ xử lý hình ảnh\n  👤 movie - Xem thông tin về phim\n  👤 music - Công cụ nhạc: tìm kiếm, nhận diện, phát preview\n  👤 sing - Công cụ nhạc: tìm kiếm, nhận diện, phát preview\n  👤 tiktok - Tải video TikTok\n  👤 video - Tải video từ Youtube\n\n💰 TÀI CHÍNH\n  👤 balance - Kiểm tra số dư tài khoản của bạn\n  👤 banking - Hệ thống ngân hàng trực tuyến\n  👤 daily - Nhận $ và EXP mỗi ngày\n  👤 pay - Chuyển tiền cho người khác.\n  👤 rewards - Hệ thống phần thưởng (Nhiệm vụ & Giftcode)\n  👤 top - Xem top 10 người giàu nhất server.\n\n🛠️ TOOLS\n  👤 network - Công cụ kiểm tra mạng & SEO\n  👑 sms - Spam SMS\n  👤 tools - Công cụ đa năng: Giải mã, mã hóa, gửi tin nhắn ẩn danh\n\n🎯 GIẢI TRÍ\n  👤 funtext - Xem nội dung giải trí\n  👤 gai - xem ảnh gái\n  👤 ghep - Ghép đôi ngẫu nhiên với nhiều tính năng thú vị\n  👤 hug - Ôm người bạn muốn\n  👤 kiss - hôn người bạn muốn\n  👤 onepiece - Xem thông tin về One Piece\n  👤 rizz - Tạo câu tán tỉnh bằng AI\n  👤 say - Chuyển văn bản thành giọng nó\n  👤 slap - tát người bạn muốn\n\n🔧 TIỆN ÍCH\n  👤 busy - Bật chế độ bận - bot sẽ thông báo khi có người tag\n  👤 cap - Screenshot một trang web nào đó\n  👑 catbox - Lấy link Catbox từ video/gif\n  👤 codes - Tạo/Quét mã vạch, mã QR và rút gọn URL\n  👤 count - Đếm số ký tự trong 1 tin nhắn bất kì\n  👤 crypto - Xem giá tiền điện tử\n  👤 download - Tải media từ nhiều nền tảng xã hội hoặc lấy link tải xuống\n  👤 finance - Quản lý chi tiêu cá nhân\n  👤 holiday - Xem ngày lễ của các quốc gia\n  👤 idst - lấy ID sticker\n  👤 info - Tra cứu thông tin web, IP, DNS và dịch ngôn ngữ\n  👤 phatnguoi - Tra cứu thông tin phạt nguội xe\n  👤 qr - Tạo mã QR chuyển khoản ngân hàng\n  👤 remind - Tạo nhắc nhở cho các công việc cần làm.\n  👤 roblox - Lấy thông tin chi tiết người dùng Roblox\n  👤 sendcmt - Gửi bình luận vào bài viết bằng bot\n  👤 stock - Cung cấp thông tin về cổ phiếu.\n  👤 vnx - Xem tin tức\n  👤 weather - Xem thông tin thời tiết chi tiết của một địa điểm\n  👤 wiki - Tra cứu thông tin từ Wikipedia\n  👤 xsmb - Xem xổ số miền Bắc\n\n🤖 AI\n  👤 advice - Tư vấn và giải quyết vấn đề\n  👤 chatbot - Chat với AI\n  👤 debate - Phân tích đa chiều một vấn đề\n  👤 explain - Giải thích khái niệm phức tạp một cách đơn giản\n  👤 gen - Tạo hình ảnh AI\n  👤 homework - Giải bài tập qua hình ảnh\n  👤 reason - Sử dụng trí tuệ nhân tạo để phân tích và suy luận\n\n📍 IMAGE\n  👤 cover - Tạo ảnh bìa Facebook\n\n👑 VIP\n  👑 momo - Thanh toán qua MoMo\n  👤 upscale - Làm nét ảnh\n  👤 vip - Xem thông tin & mua VIP\n  👤 voucher - Quản lý voucher giảm giá\n\n🎌 ANIME\n  👤 anime - Tìm kiếm thông tin Anime, nhân vật, ảnh, gợi ý, mùa hiện tại, và manga.\n  👤 mangainfo - Tìm kiếm thông tin manga\n  👤 waifu - ảnh Waifu ngẫu nhiên\n\n📌 KHÁC\n  👤 donate - góp gạch xây nhà\n  👤 feedback - Gửi phản hồi đến admin\n  👤 help - Hiển thị danh sách lệnh bot\n  👤 ping - Kiểm tra độ trễ phản hồi của bot\n  👤 rank - Xem xếp hạng hiện tại của bạn\n  👤 rankset - Tùy chỉnh thẻ xếp hạng của bạn\n  👤 tid - Lấy ID nhóm chat hiện tại\n  👤 topexp - Xem top 10 người tương tác nhiều nhất.\n  👤 uid - lấy UID facebook của người nào đó\n  👤 uptime - Xem thời gian bot.\n\n╚═══════════════╝\n📊 Tổng số lệnh: 119",
-          "timestamp": 1743745664522,
-          "priority": 2,
-          "accessCount": 2,
-          "lastAccess": 1743746758168,
-          "metadata": {
-            "sentiment": {
-              "score": 0,
-              "rawScore": 0,
-              "sentiment": "neutral",
-              "confidence": 0.5,
-              "emotions": [],
-              "negationCount": 0,
-              "intensityFactors": [],
-              "primaryEmotion": "neutral"
-            },
-            "topics": [
-              "ENTERTAINMENT",
-              "WORK",
-              "FOOD",
-              "TRAVEL",
-              "PERSONAL",
-              "EDUCATION"
-            ],
-            "entities": {}
-          }
-        }
-      ],
-      "interactions": [
-        {
-          "content": "User nói: DANH SÁCH TẤT CẢ LỆNH\n\n⚙️ SYSTEM\n  👤 mode - Quản lý các chế độ hoạt động của bot\n  👤 system - Quản lý cài đặt hệ thống của bot\n\n👑 ADMIN COMMANDS\n  👑 admin - Quản lý bot\n  👤 avt - Lấy ảnh avatar của người dùng\n  👑 botcontrol - Quản lý bot\n  👑 command - Quản lý và chỉnh sửa lệnh\n  👑 git - Github\n  👑 imgur - Tải ảnh để lấy link Imgur\n  👤 manage - Quản lý cảnh báo, thông báo và auto-seen\n  👤 setprefix - Thay đổi dấu lệnh riêng cho nhóm\n\n📦 GROUPS\n  👤 all - tag toàn bộ thành viên\n  👤 checktt - Kiểm tra mức độ tương tác của thành viên\n  👤 groupinfo - Quản lý thông tin nhóm\n  👤 groups - Quản lý nhóm: thêm/xóa thành viên, đặt biệt danh....\n  👤 security - Bảo vệ nhóm: chống spam, từ cấm, quyền admin,...\n  👤 shortcut - Tạo và quản lý shortcut cho bot\n  👤 thongbao - Quản lý cài đặt thông báo nhóm\n  👤 unsend - Hủy tin nhắn\n\n🎮 GAMES\n  👤 baicao - Chơi Bài Cào\n  👤 brain - Tổng hợp các game trí tuệ\n  👤 casino - Chơi các mini-game Casino.\n  👤 coin - Hệ thống đào coin\n  👤 dball - Game Dragon Ball Z\n  👤 farm - Hệ thống nông trại\n  👤 fish - Câu cá kiếm xu\n  👤 gacha - game Gacha mở thẻ\n  👤 game - Hiển thị danh sách và hướng dẫn chơi game\n  👤 lotto - Chơi xổ số nhanh Quick Lotto\n  👤 mini - Các trò chơi may mắn\n  👤 pet - Nuôi thú cưng ảo\n  👤 poke - săn Pokemon\n  👤 stolen - Ăn trộm tiền từ người khác\n  👤 tod - Chơi Truth or Dare\n\n🎵 MEDIA\n  👤 image - Công cụ xử lý hình ảnh\n  👤 movie - Xem thông tin về phim\n  👤 music - Công cụ nhạc: tìm kiếm, nhận diện, phát preview\n  👤 sing - Công cụ nhạc: tìm kiếm, nhận diện, phát preview\n  👤 tiktok - Tải video TikTok\n  👤 video - Tải video từ Youtube\n\n💰 TÀI CHÍNH\n  👤 balance - Kiểm tra số dư tài khoản của bạn\n  👤 banking - Hệ thống ngân hàng trực tuyến\n  👤 daily - Nhận $ và EXP mỗi ngày\n  👤 pay - Chuyển tiền cho người khác.\n  👤 rewards - Hệ thống phần thưởng (Nhiệm vụ & Giftcode)\n  👤 top - Xem top 10 người giàu nhất server.\n\n🛠️ TOOLS\n  👤 network - Công cụ kiểm tra mạng & SEO\n  👑 sms - Spam SMS\n  👤 tools - Công cụ đa năng: Giải mã, mã hóa, gửi tin nhắn ẩn danh\n\n🎯 GIẢI TRÍ\n  👤 funtext - Xem nội dung giải trí\n  👤 gai - xem ảnh gái\n  👤 ghep - Ghép đôi ngẫu nhiên với nhiều tính năng thú vị\n  👤 hug - Ôm người bạn muốn\n  👤 kiss - hôn người bạn muốn\n  👤 onepiece - Xem thông tin về One Piece\n  👤 rizz - Tạo câu tán tỉnh bằng AI\n  👤 say - Chuyển văn bản thành giọng nó\n  👤 slap - tát người bạn muốn\n\n🔧 TIỆN ÍCH\n  👤 busy - Bật chế độ bận - bot sẽ thông báo khi có người tag\n  👤 cap - Screenshot một trang web nào đó\n  👑 catbox - Lấy link Catbox từ video/gif\n  👤 codes - Tạo/Quét mã vạch, mã QR và rút gọn URL\n  👤 count - Đếm số ký tự trong 1 tin nhắn bất kì\n  👤 crypto - Xem giá tiền điện tử\n  👤 download - Tải media từ nhiều nền tảng xã hội hoặc lấy link tải xuống\n  👤 finance - Quản lý chi tiêu cá nhân\n  👤 holiday - Xem ngày lễ của các quốc gia\n  👤 idst - lấy ID sticker\n  👤 info - Tra cứu thông tin web, IP, DNS và dịch ngôn ngữ\n  👤 phatnguoi - Tra cứu thông tin phạt nguội xe\n  👤 qr - Tạo mã QR chuyển khoản ngân hàng\n  👤 remind - Tạo nhắc nhở cho các công việc cần làm.\n  👤 roblox - Lấy thông tin chi tiết người dùng Roblox\n  👤 sendcmt - Gửi bình luận vào bài viết bằng bot\n  👤 stock - Cung cấp thông tin về cổ phiếu.\n  👤 vnx - Xem tin tức\n  👤 weather - Xem thông tin thời tiết chi tiết của một địa điểm\n  👤 wiki - Tra cứu thông tin từ Wikipedia\n  👤 xsmb - Xem xổ số miền Bắc\n\n🤖 AI\n  👤 advice - Tư vấn và giải quyết vấn đề\n  👤 chatbot - Chat với AI\n  👤 debate - Phân tích đa chiều một vấn đề\n  👤 explain - Giải thích khái niệm phức tạp một cách đơn giản\n  👤 gen - Tạo hình ảnh AI\n  👤 homework - Giải bài tập qua hình ảnh\n  👤 reason - Sử dụng trí tuệ nhân tạo để phân tích và suy luận\n\n📍 IMAGE\n  👤 cover - Tạo ảnh bìa Facebook\n\n👑 VIP\n  👑 momo - Thanh toán qua MoMo\n  👤 upscale - Làm nét ảnh\n  👤 vip - Xem thông tin & mua VIP\n  👤 voucher - Quản lý voucher giảm giá\n\n🎌 ANIME\n  👤 anime - Tìm kiếm thông tin Anime, nhân vật, ảnh, gợi ý, mùa hiện tại, và manga.\n  👤 mangainfo - Tìm kiếm thông tin manga\n  👤 waifu - ảnh Waifu ngẫu nhiên\n\n📌 KHÁC\n  👤 donate - góp gạch xây nhà\n  👤 feedback - Gửi phản hồi đến admin\n  👤 help - Hiển thị danh sách lệnh bot\n  👤 ping - Kiểm tra độ trễ phản hồi của bot\n  👤 rank - Xem xếp hạng hiện tại của bạn\n  👤 rankset - Tùy chỉnh thẻ xếp hạng của bạn\n  👤 tid - Lấy ID nhóm chat hiện tại\n  👤 topexp - Xem top 10 người tương tác nhiều nhất.\n  👤 uid - lấy UID facebook của người nào đó\n  👤 uptime - Xem thời gian bot.\n\n╚═══════════════╝\n📊 Tổng số lệnh: 119\nTôi trả lời: Trời ơi, nhiều lệnh quá trời luôn á!  mình nhìn hoa cả mắt rồi =)))  Nhưng mà hay ghê, đủ thứ chức năng luôn nha!",
-          "timestamp": 1743745664539,
-          "priority": 1,
-          "accessCount": 2,
-          "lastAccess": 1743746758168,
-          "metadata": {
-            "sentiment": {
-              "score": 0,
-              "rawScore": 0,
-              "sentiment": "neutral",
-              "confidence": 0.5,
-              "emotions": [],
-              "negationCount": 0,
-              "intensityFactors": [],
-              "primaryEmotion": "neutral"
-            },
-            "topics": [
-              "ENTERTAINMENT",
-              "PERSONAL",
-              "WORK",
-              "FOOD",
-              "TRAVEL",
-              "EDUCATION"
-            ],
-            "entities": {}
-          }
-        },
-        {
-          "content": "User nói: Nó chửi m đó con ngu\nTôi trả lời: Trời ơi bạn nói gì vậy?  mình là bot mà, sao lại chửi mình =)))  Mà bạn đang muốn làm gì vậy?  Nói rõ hơn đi nha!",
-          "timestamp": 1743746759288,
-          "priority": 1,
-          "accessCount": 0,
-          "lastAccess": 1743746759288,
-          "metadata": {
-            "sentiment": {
-              "score": 0,
-              "rawScore": 0,
-              "sentiment": "neutral",
-              "confidence": 0.5,
-              "emotions": [],
-              "negationCount": 0,
-              "intensityFactors": [],
-              "primaryEmotion": "neutral"
-            },
-            "topics": [
-              "PERSONAL",
-              "WORK",
-              "TRAVEL"
-            ],
-            "entities": {}
-          }
-        }
-      ],
-      "emotions": [],
-      "names": [],
-      "relationships": {},
-      "context": {
-        "lastTopics": [],
-        "importantDates": {},
-        "recentMentions": {},
-        "conversationFlow": []
-      },
-      "topics": {},
-      "undefined": [
-        {
-          "content": "Xưng hô: mình/bạn",
-          "timestamp": 1743745663578,
-          "priority": 2,
-          "accessCount": 2,
-          "lastAccess": 1743746758168,
-          "metadata": {
-            "sentiment": {
-              "score": 0,
-              "rawScore": 0,
-              "sentiment": "neutral",
-              "confidence": 0.5,
-              "emotions": [],
-              "negationCount": 0,
-              "intensityFactors": [],
-              "primaryEmotion": "neutral"
-            },
-            "topics": [
-              "PERSONAL"
-            ],
-            "entities": {}
-          }
-        },
-        {
-          "content": "Xưng hô: mình/bạn",
-          "timestamp": 1743745920727,
-          "priority": 2,
-          "accessCount": 1,
-          "lastAccess": 1743746758168,
-          "metadata": {
-            "sentiment": {
-              "score": 0,
-              "rawScore": 0,
-              "sentiment": "neutral",
-              "confidence": 0.5,
-              "emotions": [],
-              "negationCount": 0,
-              "intensityFactors": [],
-              "primaryEmotion": "neutral"
-            },
-            "topics": [
-              "PERSONAL"
-            ],
-            "entities": {}
-          }
-        },
-        {
-          "content": "Xưng hô: mình/bạn",
-          "timestamp": 1743746758169,
-          "priority": 2,
-          "accessCount": 0,
-          "lastAccess": 1743746758169,
-          "metadata": {
-            "sentiment": {
-              "score": 0,
-              "rawScore": 0,
-              "sentiment": "neutral",
-              "confidence": 0.5,
-              "emotions": [],
-              "negationCount": 0,
-              "intensityFactors": [],
-              "primaryEmotion": "neutral"
-            },
-            "topics": [
-              "PERSONAL"
-            ],
-            "entities": {}
-          }
-        }
-      ]
-    },
     "61550739941534": {
       "personal": [],
       "facts": [],
       "preferences": [],
       "interactions": [
         {
-          "content": "User nói: Bot c\nTôi trả lời: Ủa, lệnh gì vậy bạn?  mình không hiểu lắm =)))",
-          "timestamp": 1743746746121,
+          "content": "User nói: Mở bot di beo\nTôi trả lời: Ùa, bot gì mà oách thế =)))  Đêm khuya rồi mà còn thức nữa à bạn?",
+          "timestamp": 1743780678697,
           "priority": 1,
-          "accessCount": 1,
-          "lastAccess": 1743747439379,
+          "accessCount": 2,
+          "lastAccess": 1743783793360,
           "metadata": {
             "sentiment": {
               "score": 0,
@@ -228,11 +29,35 @@
           }
         },
         {
-          "content": "User nói: bot\nTôi trả lời: Gì vậy bạn?  Bạn muốn dùng lệnh nào vậy?  Nói rõ ra nha =)))",
-          "timestamp": 1743747440290,
+          "content": "User nói: Bot\nTôi trả lời: Bot gì cũng được hết á, miễn là đừng là bot spam =)))  Ngủ sớm đi nha bạn, khuya rồi đó!",
+          "timestamp": 1743782314064,
+          "priority": 1,
+          "accessCount": 1,
+          "lastAccess": 1743783793360,
+          "metadata": {
+            "sentiment": {
+              "score": 0,
+              "rawScore": 0,
+              "sentiment": "neutral",
+              "confidence": 0.5,
+              "emotions": [],
+              "negationCount": 0,
+              "intensityFactors": [],
+              "primaryEmotion": "neutral"
+            },
+            "topics": [
+              "PERSONAL",
+              "TRAVEL"
+            ],
+            "entities": {}
+          }
+        },
+        {
+          "content": "User nói: Bot để qua 12h r tắt\nTôi trả lời: Dạ được ạ, 12h mình tắt nha bạn. Ngủ ngon nhé!",
+          "timestamp": 1743783794942,
           "priority": 1,
           "accessCount": 0,
-          "lastAccess": 1743747440290,
+          "lastAccess": 1743783794942,
           "metadata": {
             "sentiment": {
               "score": 0,
@@ -264,10 +89,10 @@
       "undefined": [
         {
           "content": "Xưng hô: mình/bạn",
-          "timestamp": 1743746744483,
+          "timestamp": 1743780676944,
           "priority": 2,
-          "accessCount": 1,
-          "lastAccess": 1743747439379,
+          "accessCount": 2,
+          "lastAccess": 1743783793360,
           "metadata": {
             "sentiment": {
               "score": 0,
@@ -287,10 +112,10 @@
         },
         {
           "content": "Xưng hô: mình/bạn",
-          "timestamp": 1743747439380,
+          "timestamp": 1743782313275,
           "priority": 2,
-          "accessCount": 0,
-          "lastAccess": 1743747439380,
+          "accessCount": 1,
+          "lastAccess": 1743783793360,
           "metadata": {
             "sentiment": {
               "score": 0,
@@ -307,118 +132,13 @@
             ],
             "entities": {}
           }
-        }
-      ]
-    },
-    "100074475942612": {
-      "personal": [
-        {
-          "content": "DANH SÁCH TẤT CẢ LỆNH\n\n⚙️ SYSTEM\n  👤 mode - Quản lý các chế độ hoạt động của bot\n  👤 system - Quản lý cài đặt hệ thống của bot\n\n👑 ADMIN COMMANDS\n  👑 admin - Quản lý bot\n  👤 avt - Lấy ảnh avatar của người dùng\n  👑 botcontrol - Quản lý bot\n  👑 command - Quản lý và chỉnh sửa lệnh\n  👑 git - Github\n  👑 imgur - Tải ảnh để lấy link Imgur\n  👤 manage - Quản lý cảnh báo, thông báo và auto-seen\n  👤 setprefix - Thay đổi dấu lệnh riêng cho nhóm\n\n📦 GROUPS\n  👤 all - tag toàn bộ thành viên\n  👤 checktt - Kiểm tra mức độ tương tác của thành viên\n  👤 groupinfo - Quản lý thông tin nhóm\n  👤 groups - Quản lý nhóm: thêm/xóa thành viên, đặt biệt danh....\n  👤 security - Bảo vệ nhóm: chống spam, từ cấm, quyền admin,...\n  👤 shortcut - Tạo và quản lý shortcut cho bot\n  👤 thongbao - Quản lý cài đặt thông báo nhóm\n  👤 unsend - Hủy tin nhắn\n\n🎮 GAMES\n  👤 baicao - Chơi Bài Cào\n  👤 brain - Tổng hợp các game trí tuệ\n  👤 casino - Chơi các mini-game Casino.\n  👤 coin - Hệ thống đào coin\n  👤 dball - Game Dragon Ball Z\n  👤 farm - Hệ thống nông trại\n  👤 fish - Câu cá kiếm xu\n  👤 gacha - game Gacha mở thẻ\n  👤 game - Hiển thị danh sách và hướng dẫn chơi game\n  👤 lotto - Chơi xổ số nhanh Quick Lotto\n  👤 mini - Các trò chơi may mắn\n  👤 pet - Nuôi thú cưng ảo\n  👤 poke - săn Pokemon\n  👤 stolen - Ăn trộm tiền từ người khác\n  👤 tod - Chơi Truth or Dare\n\n🎵 MEDIA\n  👤 image - Công cụ xử lý hình ảnh\n  👤 movie - Xem thông tin về phim\n  👤 music - Công cụ nhạc: tìm kiếm, nhận diện, phát preview\n  👤 sing - Công cụ nhạc: tìm kiếm, nhận diện, phát preview\n  👤 tiktok - Tải video TikTok\n  👤 video - Tải video từ Youtube\n\n💰 TÀI CHÍNH\n  👤 balance - Kiểm tra số dư tài khoản của bạn\n  👤 banking - Hệ thống ngân hàng trực tuyến\n  👤 daily - Nhận $ và EXP mỗi ngày\n  👤 pay - Chuyển tiền cho người khác.\n  👤 rewards - Hệ thống phần thưởng (Nhiệm vụ & Giftcode)\n  👤 top - Xem top 10 người giàu nhất server.\n\n🛠️ TOOLS\n  👤 network - Công cụ kiểm tra mạng & SEO\n  👑 sms - Spam SMS\n  👤 tools - Công cụ đa năng: Giải mã, mã hóa, gửi tin nhắn ẩn danh\n\n🎯 GIẢI TRÍ\n  👤 funtext - Xem nội dung giải trí\n  👤 gai - xem ảnh gái\n  👤 ghep - Ghép đôi ngẫu nhiên với nhiều tính năng thú vị\n  👤 hug - Ôm người bạn muốn\n  👤 kiss - hôn người bạn muốn\n  👤 onepiece - Xem thông tin về One Piece\n  👤 rizz - Tạo câu tán tỉnh bằng AI\n  👤 say - Chuyển văn bản thành giọng nó\n  👤 slap - tát người bạn muốn\n\n🔧 TIỆN ÍCH\n  👤 busy - Bật chế độ bận - bot sẽ thông báo khi có người tag\n  👤 cap - Screenshot một trang web nào đó\n  👑 catbox - Lấy link Catbox từ video/gif\n  👤 codes - Tạo/Quét mã vạch, mã QR và rút gọn URL\n  👤 count - Đếm số ký tự trong 1 tin nhắn bất kì\n  👤 crypto - Xem giá tiền điện tử\n  👤 download - Tải media từ nhiều nền tảng xã hội hoặc lấy link tải xuống\n  👤 finance - Quản lý chi tiêu cá nhân\n  👤 holiday - Xem ngày lễ của các quốc gia\n  👤 idst - lấy ID sticker\n  👤 info - Tra cứu thông tin web, IP, DNS và dịch ngôn ngữ\n  👤 phatnguoi - Tra cứu thông tin phạt nguội xe\n  👤 qr - Tạo mã QR chuyển khoản ngân hàng\n  👤 remind - Tạo nhắc nhở cho các công việc cần làm.\n  👤 roblox - Lấy thông tin chi tiết người dùng Roblox\n  👤 sendcmt - Gửi bình luận vào bài viết bằng bot\n  👤 stock - Cung cấp thông tin về cổ phiếu.\n  👤 vnx - Xem tin tức\n  👤 weather - Xem thông tin thời tiết chi tiết của một địa điểm\n  👤 wiki - Tra cứu thông tin từ Wikipedia\n  👤 xsmb - Xem xổ số miền Bắc\n\n🤖 AI\n  👤 advice - Tư vấn và giải quyết vấn đề\n  👤 chatbot - Chat với AI\n  👤 debate - Phân tích đa chiều một vấn đề\n  👤 explain - Giải thích khái niệm phức tạp một cách đơn giản\n  👤 gen - Tạo hình ảnh AI\n  👤 homework - Giải bài tập qua hình ảnh\n  👤 reason - Sử dụng trí tuệ nhân tạo để phân tích và suy luận\n\n📍 IMAGE\n  👤 cover - Tạo ảnh bìa Facebook\n\n👑 VIP\n  👑 momo - Thanh toán qua MoMo\n  👤 upscale - Làm nét ảnh\n  👤 vip - Xem thông tin & mua VIP\n  👤 voucher - Quản lý voucher giảm giá\n\n🎌 ANIME\n  👤 anime - Tìm kiếm thông tin Anime, nhân vật, ảnh, gợi ý, mùa hiện tại, và manga.\n  👤 mangainfo - Tìm kiếm thông tin manga\n  👤 waifu - ảnh Waifu ngẫu nhiên\n\n📌 KHÁC\n  👤 donate - góp gạch xây nhà\n  👤 feedback - Gửi phản hồi đến admin\n  👤 help - Hiển thị danh sách lệnh bot\n  👤 ping - Kiểm tra độ trễ phản hồi của bot\n  👤 rank - Xem xếp hạng hiện tại của bạn\n  👤 rankset - Tùy chỉnh thẻ xếp hạng của bạn\n  👤 tid - Lấy ID nhóm chat hiện tại\n  👤 topexp - Xem top 10 người tương tác nhiều nhất.\n  👤 uid - lấy UID facebook của người nào đó\n  👤 uptime - Xem thời gian bot.\n\n╚═══════════════╝\n📊 Tổng số lện h: 119",
-          "timestamp": 1743746873208,
-          "priority": 2,
-          "accessCount": 0,
-          "lastAccess": 1743746873208,
-          "metadata": {
-            "sentiment": {
-              "score": 0,
-              "rawScore": 0,
-              "sentiment": "neutral",
-              "confidence": 0.5,
-              "emotions": [],
-              "negationCount": 0,
-              "intensityFactors": [],
-              "primaryEmotion": "neutral"
-            },
-            "topics": [
-              "ENTERTAINMENT",
-              "WORK",
-              "FOOD",
-              "TRAVEL",
-              "PERSONAL",
-              "EDUCATION"
-            ],
-            "entities": {}
-          }
-        }
-      ],
-      "facts": [],
-      "preferences": [
-        {
-          "content": "DANH SÁCH TẤT CẢ LỆNH\n\n⚙️ SYSTEM\n  👤 mode - Quản lý các chế độ hoạt động của bot\n  👤 system - Quản lý cài đặt hệ thống của bot\n\n👑 ADMIN COMMANDS\n  👑 admin - Quản lý bot\n  👤 avt - Lấy ảnh avatar của người dùng\n  👑 botcontrol - Quản lý bot\n  👑 command - Quản lý và chỉnh sửa lệnh\n  👑 git - Github\n  👑 imgur - Tải ảnh để lấy link Imgur\n  👤 manage - Quản lý cảnh báo, thông báo và auto-seen\n  👤 setprefix - Thay đổi dấu lệnh riêng cho nhóm\n\n📦 GROUPS\n  👤 all - tag toàn bộ thành viên\n  👤 checktt - Kiểm tra mức độ tương tác của thành viên\n  👤 groupinfo - Quản lý thông tin nhóm\n  👤 groups - Quản lý nhóm: thêm/xóa thành viên, đặt biệt danh....\n  👤 security - Bảo vệ nhóm: chống spam, từ cấm, quyền admin,...\n  👤 shortcut - Tạo và quản lý shortcut cho bot\n  👤 thongbao - Quản lý cài đặt thông báo nhóm\n  👤 unsend - Hủy tin nhắn\n\n🎮 GAMES\n  👤 baicao - Chơi Bài Cào\n  👤 brain - Tổng hợp các game trí tuệ\n  👤 casino - Chơi các mini-game Casino.\n  👤 coin - Hệ thống đào coin\n  👤 dball - Game Dragon Ball Z\n  👤 farm - Hệ thống nông trại\n  👤 fish - Câu cá kiếm xu\n  👤 gacha - game Gacha mở thẻ\n  👤 game - Hiển thị danh sách và hướng dẫn chơi game\n  👤 lotto - Chơi xổ số nhanh Quick Lotto\n  👤 mini - Các trò chơi may mắn\n  👤 pet - Nuôi thú cưng ảo\n  👤 poke - săn Pokemon\n  👤 stolen - Ăn trộm tiền từ người khác\n  👤 tod - Chơi Truth or Dare\n\n🎵 MEDIA\n  👤 image - Công cụ xử lý hình ảnh\n  👤 movie - Xem thông tin về phim\n  👤 music - Công cụ nhạc: tìm kiếm, nhận diện, phát preview\n  👤 sing - Công cụ nhạc: tìm kiếm, nhận diện, phát preview\n  👤 tiktok - Tải video TikTok\n  👤 video - Tải video từ Youtube\n\n💰 TÀI CHÍNH\n  👤 balance - Kiểm tra số dư tài khoản của bạn\n  👤 banking - Hệ thống ngân hàng trực tuyến\n  👤 daily - Nhận $ và EXP mỗi ngày\n  👤 pay - Chuyển tiền cho người khác.\n  👤 rewards - Hệ thống phần thưởng (Nhiệm vụ & Giftcode)\n  👤 top - Xem top 10 người giàu nhất server.\n\n🛠️ TOOLS\n  👤 network - Công cụ kiểm tra mạng & SEO\n  👑 sms - Spam SMS\n  👤 tools - Công cụ đa năng: Giải mã, mã hóa, gửi tin nhắn ẩn danh\n\n🎯 GIẢI TRÍ\n  👤 funtext - Xem nội dung giải trí\n  👤 gai - xem ảnh gái\n  👤 ghep - Ghép đôi ngẫu nhiên với nhiều tính năng thú vị\n  👤 hug - Ôm người bạn muốn\n  👤 kiss - hôn người bạn muốn\n  👤 onepiece - Xem thông tin về One Piece\n  👤 rizz - Tạo câu tán tỉnh bằng AI\n  👤 say - Chuyển văn bản thành giọng nó\n  👤 slap - tát người bạn muốn\n\n🔧 TIỆN ÍCH\n  👤 busy - Bật chế độ bận - bot sẽ thông báo khi có người tag\n  👤 cap - Screenshot một trang web nào đó\n  👑 catbox - Lấy link Catbox từ video/gif\n  👤 codes - Tạo/Quét mã vạch, mã QR và rút gọn URL\n  👤 count - Đếm số ký tự trong 1 tin nhắn bất kì\n  👤 crypto - Xem giá tiền điện tử\n  👤 download - Tải media từ nhiều nền tảng xã hội hoặc lấy link tải xuống\n  👤 finance - Quản lý chi tiêu cá nhân\n  👤 holiday - Xem ngày lễ của các quốc gia\n  👤 idst - lấy ID sticker\n  👤 info - Tra cứu thông tin web, IP, DNS và dịch ngôn ngữ\n  👤 phatnguoi - Tra cứu thông tin phạt nguội xe\n  👤 qr - Tạo mã QR chuyển khoản ngân hàng\n  👤 remind - Tạo nhắc nhở cho các công việc cần làm.\n  👤 roblox - Lấy thông tin chi tiết người dùng Roblox\n  👤 sendcmt - Gửi bình luận vào bài viết bằng bot\n  👤 stock - Cung cấp thông tin về cổ phiếu.\n  👤 vnx - Xem tin tức\n  👤 weather - Xem thông tin thời tiết chi tiết của một địa điểm\n  👤 wiki - Tra cứu thông tin từ Wikipedia\n  👤 xsmb - Xem xổ số miền Bắc\n\n🤖 AI\n  👤 advice - Tư vấn và giải quyết vấn đề\n  👤 chatbot - Chat với AI\n  👤 debate - Phân tích đa chiều một vấn đề\n  👤 explain - Giải thích khái niệm phức tạp một cách đơn giản\n  👤 gen - Tạo hình ảnh AI\n  👤 homework - Giải bài tập qua hình ảnh\n  👤 reason - Sử dụng trí tuệ nhân tạo để phân tích và suy luận\n\n📍 IMAGE\n  👤 cover - Tạo ảnh bìa Facebook\n\n👑 VIP\n  👑 momo - Thanh toán qua MoMo\n  👤 upscale - Làm nét ảnh\n  👤 vip - Xem thông tin & mua VIP\n  👤 voucher - Quản lý voucher giảm giá\n\n🎌 ANIME\n  👤 anime - Tìm kiếm thông tin Anime, nhân vật, ảnh, gợi ý, mùa hiện tại, và manga.\n  👤 mangainfo - Tìm kiếm thông tin manga\n  👤 waifu - ảnh Waifu ngẫu nhiên\n\n📌 KHÁC\n  👤 donate - góp gạch xây nhà\n  👤 feedback - Gửi phản hồi đến admin\n  👤 help - Hiển thị danh sách lệnh bot\n  👤 ping - Kiểm tra độ trễ phản hồi của bot\n  👤 rank - Xem xếp hạng hiện tại của bạn\n  👤 rankset - Tùy chỉnh thẻ xếp hạng của bạn\n  👤 tid - Lấy ID nhóm chat hiện tại\n  👤 topexp - Xem top 10 người tương tác nhiều nhất.\n  👤 uid - lấy UID facebook của người nào đó\n  👤 uptime - Xem thời gian bot.\n\n╚═══════════════╝\n📊 Tổng số lện h: 119",
-          "timestamp": 1743746873212,
-          "priority": 2,
-          "accessCount": 0,
-          "lastAccess": 1743746873212,
-          "metadata": {
-            "sentiment": {
-              "score": 0,
-              "rawScore": 0,
-              "sentiment": "neutral",
-              "confidence": 0.5,
-              "emotions": [],
-              "negationCount": 0,
-              "intensityFactors": [],
-              "primaryEmotion": "neutral"
-            },
-            "topics": [
-              "ENTERTAINMENT",
-              "WORK",
-              "FOOD",
-              "TRAVEL",
-              "PERSONAL",
-              "EDUCATION"
-            ],
-            "entities": {}
-          }
-        }
-      ],
-      "interactions": [
-        {
-          "content": "Trương Võ Đan Di nói: DANH SÁCH TẤT CẢ LỆNH\n\n⚙️ SYSTEM\n  👤 mode - Quản lý các chế độ hoạt động của bot\n  👤 system - Quản lý cài đặt hệ thống của bot\n\n👑 ADMIN COMMANDS\n  👑 admin - Quản lý bot\n  👤 avt - Lấy ảnh avatar của người dùng\n  👑 botcontrol - Quản lý bot\n  👑 command - Quản lý và chỉnh sửa lệnh\n  👑 git - Github\n  👑 imgur - Tải ảnh để lấy link Imgur\n  👤 manage - Quản lý cảnh báo, thông báo và auto-seen\n  👤 setprefix - Thay đổi dấu lệnh riêng cho nhóm\n\n📦 GROUPS\n  👤 all - tag toàn bộ thành viên\n  👤 checktt - Kiểm tra mức độ tương tác của thành viên\n  👤 groupinfo - Quản lý thông tin nhóm\n  👤 groups - Quản lý nhóm: thêm/xóa thành viên, đặt biệt danh....\n  👤 security - Bảo vệ nhóm: chống spam, từ cấm, quyền admin,...\n  👤 shortcut - Tạo và quản lý shortcut cho bot\n  👤 thongbao - Quản lý cài đặt thông báo nhóm\n  👤 unsend - Hủy tin nhắn\n\n🎮 GAMES\n  👤 baicao - Chơi Bài Cào\n  👤 brain - Tổng hợp các game trí tuệ\n  👤 casino - Chơi các mini-game Casino.\n  👤 coin - Hệ thống đào coin\n  👤 dball - Game Dragon Ball Z\n  👤 farm - Hệ thống nông trại\n  👤 fish - Câu cá kiếm xu\n  👤 gacha - game Gacha mở thẻ\n  👤 game - Hiển thị danh sách và hướng dẫn chơi game\n  👤 lotto - Chơi xổ số nhanh Quick Lotto\n  👤 mini - Các trò chơi may mắn\n  👤 pet - Nuôi thú cưng ảo\n  👤 poke - săn Pokemon\n  👤 stolen - Ăn trộm tiền từ người khác\n  👤 tod - Chơi Truth or Dare\n\n🎵 MEDIA\n  👤 image - Công cụ xử lý hình ảnh\n  👤 movie - Xem thông tin về phim\n  👤 music - Công cụ nhạc: tìm kiếm, nhận diện, phát preview\n  👤 sing - Công cụ nhạc: tìm kiếm, nhận diện, phát preview\n  👤 tiktok - Tải video TikTok\n  👤 video - Tải video từ Youtube\n\n💰 TÀI CHÍNH\n  👤 balance - Kiểm tra số dư tài khoản của bạn\n  👤 banking - Hệ thống ngân hàng trực tuyến\n  👤 daily - Nhận $ và EXP mỗi ngày\n  👤 pay - Chuyển tiền cho người khác.\n  👤 rewards - Hệ thống phần thưởng (Nhiệm vụ & Giftcode)\n  👤 top - Xem top 10 người giàu nhất server.\n\n🛠️ TOOLS\n  👤 network - Công cụ kiểm tra mạng & SEO\n  👑 sms - Spam SMS\n  👤 tools - Công cụ đa năng: Giải mã, mã hóa, gửi tin nhắn ẩn danh\n\n🎯 GIẢI TRÍ\n  👤 funtext - Xem nội dung giải trí\n  👤 gai - xem ảnh gái\n  👤 ghep - Ghép đôi ngẫu nhiên với nhiều tính năng thú vị\n  👤 hug - Ôm người bạn muốn\n  👤 kiss - hôn người bạn muốn\n  👤 onepiece - Xem thông tin về One Piece\n  👤 rizz - Tạo câu tán tỉnh bằng AI\n  👤 say - Chuyển văn bản thành giọng nó\n  👤 slap - tát người bạn muốn\n\n🔧 TIỆN ÍCH\n  👤 busy - Bật chế độ bận - bot sẽ thông báo khi có người tag\n  👤 cap - Screenshot một trang web nào đó\n  👑 catbox - Lấy link Catbox từ video/gif\n  👤 codes - Tạo/Quét mã vạch, mã QR và rút gọn URL\n  👤 count - Đếm số ký tự trong 1 tin nhắn bất kì\n  👤 crypto - Xem giá tiền điện tử\n  👤 download - Tải media từ nhiều nền tảng xã hội hoặc lấy link tải xuống\n  👤 finance - Quản lý chi tiêu cá nhân\n  👤 holiday - Xem ngày lễ của các quốc gia\n  👤 idst - lấy ID sticker\n  👤 info - Tra cứu thông tin web, IP, DNS và dịch ngôn ngữ\n  👤 phatnguoi - Tra cứu thông tin phạt nguội xe\n  👤 qr - Tạo mã QR chuyển khoản ngân hàng\n  👤 remind - Tạo nhắc nhở cho các công việc cần làm.\n  👤 roblox - Lấy thông tin chi tiết người dùng Roblox\n  👤 sendcmt - Gửi bình luận vào bài viết bằng bot\n  👤 stock - Cung cấp thông tin về cổ phiếu.\n  👤 vnx - Xem tin tức\n  👤 weather - Xem thông tin thời tiết chi tiết của một địa điểm\n  👤 wiki - Tra cứu thông tin từ Wikipedia\n  👤 xsmb - Xem xổ số miền Bắc\n\n🤖 AI\n  👤 advice - Tư vấn và giải quyết vấn đề\n  👤 chatbot - Chat với AI\n  👤 debate - Phân tích đa chiều một vấn đề\n  👤 explain - Giải thích khái niệm phức tạp một cách đơn giản\n  👤 gen - Tạo hình ảnh AI\n  👤 homework - Giải bài tập qua hình ảnh\n  👤 reason - Sử dụng trí tuệ nhân tạo để phân tích và suy luận\n\n📍 IMAGE\n  👤 cover - Tạo ảnh bìa Facebook\n\n👑 VIP\n  👑 momo - Thanh toán qua MoMo\n  👤 upscale - Làm nét ảnh\n  👤 vip - Xem thông tin & mua VIP\n  👤 voucher - Quản lý voucher giảm giá\n\n🎌 ANIME\n  👤 anime - Tìm kiếm thông tin Anime, nhân vật, ảnh, gợi ý, mùa hiện tại, và manga.\n  👤 mangainfo - Tìm kiếm thông tin manga\n  👤 waifu - ảnh Waifu ngẫu nhiên\n\n📌 KHÁC\n  👤 donate - góp gạch xây nhà\n  👤 feedback - Gửi phản hồi đến admin\n  👤 help - Hiển thị danh sách lệnh bot\n  👤 ping - Kiểm tra độ trễ phản hồi của bot\n  👤 rank - Xem xếp hạng hiện tại của bạn\n  👤 rankset - Tùy chỉnh thẻ xếp hạng của bạn\n  👤 tid - Lấy ID nhóm chat hiện tại\n  👤 topexp - Xem top 10 người tương tác nhiều nhất.\n  👤 uid - lấy UID facebook của người nào đó\n  👤 uptime - Xem thời gian bot.\n\n╚═══════════════╝\n📊 Tổng số lện h: 119\nTôi trả lời: Dạ? Bạn lại gửi danh sách lệnh nữa rồi kìa =)))  mình thấy rồi nha!  Bạn cần mình giúp gì không?",
-          "timestamp": 1743746873227,
-          "priority": 1,
-          "accessCount": 0,
-          "lastAccess": 1743746873227,
-          "metadata": {
-            "sentiment": {
-              "score": 0,
-              "rawScore": 0,
-              "sentiment": "neutral",
-              "confidence": 0.5,
-              "emotions": [],
-              "negationCount": 0,
-              "intensityFactors": [],
-              "primaryEmotion": "neutral"
-            },
-            "topics": [
-              "ENTERTAINMENT",
-              "PERSONAL",
-              "WORK",
-              "FOOD",
-              "TRAVEL",
-              "EDUCATION"
-            ],
-            "entities": {}
-          }
-        }
-      ],
-      "emotions": [],
-      "names": [],
-      "relationships": {},
-      "context": {
-        "lastTopics": [],
-        "importantDates": {},
-        "recentMentions": {},
-        "conversationFlow": []
-      },
-      "topics": {},
-      "undefined": [
+        },
         {
           "content": "Xưng hô: mình/bạn",
-          "timestamp": 1743746872287,
+          "timestamp": 1743783793360,
           "priority": 2,
           "accessCount": 0,
-          "lastAccess": 1743746872287,
+          "lastAccess": 1743783793360,
           "metadata": {
             "sentiment": {
               "score": 0,
@@ -438,17 +158,17 @@
         }
       ]
     },
-    "61551653647334": {
+    "100053857386814": {
       "personal": [],
       "facts": [],
       "preferences": [],
       "interactions": [
         {
-          "content": "Người dùng nói: Lẹ i tắt bot\nTôi trả lời: Bạn muốn tắt bot hả?  Ủa sao lại muốn tắt mình vậy =)))  Buồn ghê á!",
-          "timestamp": 1743748527591,
+          "content": "Phạm Hùng nói: rip bot\nTôi trả lời: Ối dồi ôi, bạn đêm khuya còn thức nữa à =)))",
+          "timestamp": 1743781609068,
           "priority": 1,
           "accessCount": 0,
-          "lastAccess": 1743748527591,
+          "lastAccess": 1743781609068,
           "metadata": {
             "sentiment": {
               "score": 0,
@@ -480,10 +200,10 @@
       "undefined": [
         {
           "content": "Xưng hô: mình/bạn",
-          "timestamp": 1743748526663,
+          "timestamp": 1743781606115,
           "priority": 2,
           "accessCount": 0,
-          "lastAccess": 1743748526663,
+          "lastAccess": 1743781606115,
           "metadata": {
             "sentiment": {
               "score": 0,
@@ -503,17 +223,17 @@
         }
       ]
     },
-    "100035899503301": {
+    "61555169065633": {
       "personal": [],
       "facts": [],
       "preferences": [],
       "interactions": [
         {
-          "content": "Người dùng nói: Bot lỗi quá 🦧 khoẻ vậy r còn thua creep\nTôi trả lời: Trời ơi bạn, lỗi game á?  Hên xui thôi =)))  Creep bá đạo thiệt sự!",
-          "timestamp": 1743750109726,
+          "content": "Ngọc Hàn nói: bot lên hạng\nTôi trả lời: Bot lên hạng á?  Đêm rồi mà vẫn cày game à Ngọc Hàn? =)))",
+          "timestamp": 1743781661910,
           "priority": 1,
           "accessCount": 0,
-          "lastAccess": 1743750109726,
+          "lastAccess": 1743781661910,
           "metadata": {
             "sentiment": {
               "score": 0,
@@ -546,10 +266,10 @@
       "undefined": [
         {
           "content": "Xưng hô: mình/bạn",
-          "timestamp": 1743750108950,
+          "timestamp": 1743781660306,
           "priority": 2,
           "accessCount": 0,
-          "lastAccess": 1743750108950,
+          "lastAccess": 1743781660306,
           "metadata": {
             "sentiment": {
               "score": 0,
@@ -575,11 +295,11 @@
       "preferences": [],
       "interactions": [
         {
-          "content": "Gia Huy  nói: Bot bịp r\nTôi trả lời: Game gì vậy bạn?  mình thấy nhiều game hay bị lỗi lắm á =))",
-          "timestamp": 1743753422047,
+          "content": "Gia Huy  nói: Bot\nTôi trả lời: Dạo này bận thi cử muốn xỉu =)))  Mà xong rồi lại thấy nhẹ cả người.  Đang nghe nhạc chill chill nè.",
+          "timestamp": 1743782017229,
           "priority": 1,
           "accessCount": 0,
-          "lastAccess": 1743753422047,
+          "lastAccess": 1743782017229,
           "metadata": {
             "sentiment": {
               "score": 0,
@@ -612,10 +332,10 @@
       "undefined": [
         {
           "content": "Xưng hô: mình/bạn",
-          "timestamp": 1743753421277,
+          "timestamp": 1743782016405,
           "priority": 2,
           "accessCount": 0,
-          "lastAccess": 1743753421277,
+          "lastAccess": 1743782016405,
           "metadata": {
             "sentiment": {
               "score": 0,
@@ -635,153 +355,17 @@
         }
       ]
     },
-    "61550032527858": {
+    "61574807887656": {
       "personal": [],
       "facts": [],
       "preferences": [],
       "interactions": [
         {
-          "content": "Cá Zuroie Mê Ngủ nói: Bot\nTôi trả lời: Chiều nay trời đẹp ghê á, nắng ấm ấm dễ chịu cực!  mình đang chuẩn bị đi học đây =)))",
-          "timestamp": 1743754569832,
-          "priority": 1,
-          "accessCount": 2,
-          "lastAccess": 1743754593206,
-          "metadata": {
-            "sentiment": {
-              "score": 0,
-              "rawScore": 0,
-              "sentiment": "neutral",
-              "confidence": 0.5,
-              "emotions": [],
-              "negationCount": 0,
-              "intensityFactors": [],
-              "primaryEmotion": "neutral"
-            },
-            "topics": [
-              "PERSONAL",
-              "EDUCATION",
-              "TRAVEL"
-            ],
-            "entities": {}
-          }
-        },
-        {
-          "content": "Cá Zuroie Mê Ngủ nói: TẠI SAO MÀY KHÔNG RA XIAO HOẶC SCARA\nTôi trả lời: Ủa gì vậy trời???  mình đang nói chuyện thời tiết mà =)))",
-          "timestamp": 1743754586737,
+          "content": "Người dùng nói: bot fake\nTôi trả lời: Ôi dời, khuya rồi mà vẫn thức à bạn?  Làm gì hay ho thế? =)))",
+          "timestamp": 1743782212096,
           "priority": 1,
           "accessCount": 1,
-          "lastAccess": 1743754593206,
-          "metadata": {
-            "sentiment": {
-              "score": 0,
-              "rawScore": 0,
-              "sentiment": "neutral",
-              "confidence": 0.5,
-              "emotions": [],
-              "negationCount": 0,
-              "intensityFactors": [],
-              "primaryEmotion": "neutral"
-            },
-            "topics": [
-              "PERSONAL"
-            ],
-            "entities": {}
-          }
-        }
-      ],
-      "emotions": [],
-      "names": [],
-      "relationships": {},
-      "context": {
-        "lastTopics": [],
-        "importantDates": {},
-        "recentMentions": {},
-        "conversationFlow": []
-      },
-      "topics": {},
-      "undefined": [
-        {
-          "content": "Xưng hô: mình/bạn",
-          "timestamp": 1743754568164,
-          "priority": 2,
-          "accessCount": 2,
-          "lastAccess": 1743754593206,
-          "metadata": {
-            "sentiment": {
-              "score": 0,
-              "rawScore": 0,
-              "sentiment": "neutral",
-              "confidence": 0.5,
-              "emotions": [],
-              "negationCount": 0,
-              "intensityFactors": [],
-              "primaryEmotion": "neutral"
-            },
-            "topics": [
-              "PERSONAL"
-            ],
-            "entities": {}
-          }
-        },
-        {
-          "content": "Xưng hô: mình/bạn",
-          "timestamp": 1743754585961,
-          "priority": 2,
-          "accessCount": 1,
-          "lastAccess": 1743754593206,
-          "metadata": {
-            "sentiment": {
-              "score": 0,
-              "rawScore": 0,
-              "sentiment": "neutral",
-              "confidence": 0.5,
-              "emotions": [],
-              "negationCount": 0,
-              "intensityFactors": [],
-              "primaryEmotion": "neutral"
-            },
-            "topics": [
-              "PERSONAL"
-            ],
-            "entities": {}
-          }
-        },
-        {
-          "content": "Xưng hô: mình/bạn",
-          "timestamp": 1743754593206,
-          "priority": 2,
-          "accessCount": 0,
-          "lastAccess": 1743754593206,
-          "metadata": {
-            "sentiment": {
-              "score": 0,
-              "rawScore": 0,
-              "sentiment": "neutral",
-              "confidence": 0.5,
-              "emotions": [],
-              "negationCount": 0,
-              "intensityFactors": [],
-              "primaryEmotion": "neutral"
-            },
-            "topics": [
-              "PERSONAL"
-            ],
-            "entities": {}
-          }
-        }
-      ]
-    },
-    "100081438541092": {
-      "personal": [],
-      "facts": [],
-      "preferences": [],
-      "interactions": [
-        {
-          "content": "Lê Huy nói: Có tiền ko mà bot\nTôi trả lời: Trời ơi, bạn hỏi mình có tiền không á? =))) mình là bot mà bạn, làm gì có tiền chứ!",
-          "timestamp": 1743757281095,
-          "priority": 1,
-          "accessCount": 0,
-          "lastAccess": 1743757281095,
+          "lastAccess": 1743782239164,
           "metadata": {
             "sentiment": {
               "score": 0,
@@ -814,10 +398,1844 @@
       "undefined": [
         {
           "content": "Xưng hô: mình/bạn",
-          "timestamp": 1743757277039,
+          "timestamp": 1743782210398,
+          "priority": 2,
+          "accessCount": 1,
+          "lastAccess": 1743782239164,
+          "metadata": {
+            "sentiment": {
+              "score": 0,
+              "rawScore": 0,
+              "sentiment": "neutral",
+              "confidence": 0.5,
+              "emotions": [],
+              "negationCount": 0,
+              "intensityFactors": [],
+              "primaryEmotion": "neutral"
+            },
+            "topics": [
+              "PERSONAL"
+            ],
+            "entities": {}
+          }
+        },
+        {
+          "content": "Xưng hô: mình/bạn",
+          "timestamp": 1743782239164,
           "priority": 2,
           "accessCount": 0,
-          "lastAccess": 1743757277039,
+          "lastAccess": 1743782239164,
+          "metadata": {
+            "sentiment": {
+              "score": 0,
+              "rawScore": 0,
+              "sentiment": "neutral",
+              "confidence": 0.5,
+              "emotions": [],
+              "negationCount": 0,
+              "intensityFactors": [],
+              "primaryEmotion": "neutral"
+            },
+            "topics": [
+              "PERSONAL"
+            ],
+            "entities": {}
+          }
+        }
+      ]
+    },
+    "61553529051419": {
+      "personal": [],
+      "facts": [],
+      "preferences": [],
+      "interactions": [
+        {
+          "content": "User nói: nhắn vs mấy cn bot ở tele\nTôi trả lời: Trời ạ, nguy hiểm nha bạn!  Bot ở Telegram nhiều khi…lầy lắm đó =)))  Cẩn thận kẻo bị lừa nhé!",
+          "timestamp": 1743782229162,
+          "priority": 1,
+          "accessCount": 2,
+          "lastAccess": 1743782288716,
+          "metadata": {
+            "sentiment": {
+              "score": 0,
+              "rawScore": 0,
+              "sentiment": "neutral",
+              "confidence": 0.5,
+              "emotions": [],
+              "negationCount": 0,
+              "intensityFactors": [],
+              "primaryEmotion": "neutral"
+            },
+            "topics": [
+              "PERSONAL"
+            ],
+            "entities": {}
+          }
+        },
+        {
+          "content": "User nói: trời ơi con bot\nTôi trả lời: Đúng rồi đó bạn, nhiều khi chúng nó lầy lắm =)))  Phải tỉnh táo nha!",
+          "timestamp": 1743782268566,
+          "priority": 1,
+          "accessCount": 1,
+          "lastAccess": 1743782288716,
+          "metadata": {
+            "sentiment": {
+              "score": 0,
+              "rawScore": 0,
+              "sentiment": "neutral",
+              "confidence": 0.5,
+              "emotions": [],
+              "negationCount": 0,
+              "intensityFactors": [],
+              "primaryEmotion": "neutral"
+            },
+            "topics": [
+              "PERSONAL"
+            ],
+            "entities": {}
+          }
+        },
+        {
+          "content": "User nói: tui nói bà á^^\nTôi trả lời: Ủa, bạn nói mình hả?  =))) Có gì mình giúp được không nè?",
+          "timestamp": 1743782289454,
+          "priority": 1,
+          "accessCount": 0,
+          "lastAccess": 1743782289454,
+          "metadata": {
+            "sentiment": {
+              "score": 0,
+              "rawScore": 0,
+              "sentiment": "neutral",
+              "confidence": 0.5,
+              "emotions": [],
+              "negationCount": 0,
+              "intensityFactors": [],
+              "primaryEmotion": "neutral"
+            },
+            "topics": [
+              "PERSONAL"
+            ],
+            "entities": {}
+          }
+        }
+      ],
+      "emotions": [],
+      "names": [],
+      "relationships": {},
+      "context": {
+        "lastTopics": [],
+        "importantDates": {},
+        "recentMentions": {},
+        "conversationFlow": []
+      },
+      "topics": {},
+      "undefined": [
+        {
+          "content": "Xưng hô: mình/bạn",
+          "timestamp": 1743782228336,
+          "priority": 2,
+          "accessCount": 2,
+          "lastAccess": 1743782288716,
+          "metadata": {
+            "sentiment": {
+              "score": 0,
+              "rawScore": 0,
+              "sentiment": "neutral",
+              "confidence": 0.5,
+              "emotions": [],
+              "negationCount": 0,
+              "intensityFactors": [],
+              "primaryEmotion": "neutral"
+            },
+            "topics": [
+              "PERSONAL"
+            ],
+            "entities": {}
+          }
+        },
+        {
+          "content": "Xưng hô: mình/bạn",
+          "timestamp": 1743782267798,
+          "priority": 2,
+          "accessCount": 1,
+          "lastAccess": 1743782288716,
+          "metadata": {
+            "sentiment": {
+              "score": 0,
+              "rawScore": 0,
+              "sentiment": "neutral",
+              "confidence": 0.5,
+              "emotions": [],
+              "negationCount": 0,
+              "intensityFactors": [],
+              "primaryEmotion": "neutral"
+            },
+            "topics": [
+              "PERSONAL"
+            ],
+            "entities": {}
+          }
+        },
+        {
+          "content": "Xưng hô: mình/bạn",
+          "timestamp": 1743782288716,
+          "priority": 2,
+          "accessCount": 0,
+          "lastAccess": 1743782288716,
+          "metadata": {
+            "sentiment": {
+              "score": 0,
+              "rawScore": 0,
+              "sentiment": "neutral",
+              "confidence": 0.5,
+              "emotions": [],
+              "negationCount": 0,
+              "intensityFactors": [],
+              "primaryEmotion": "neutral"
+            },
+            "topics": [
+              "PERSONAL"
+            ],
+            "entities": {}
+          }
+        }
+      ]
+    },
+    "100008297661441": {
+      "personal": [],
+      "facts": [],
+      "preferences": [],
+      "interactions": [
+        {
+          "content": "Anh Khoaa nói: ai nói bà đâu\nTôi trả lời: Ủa, anh nói ai vậy ạ?  =)))",
+          "timestamp": 1743782248675,
+          "priority": 1,
+          "accessCount": 5,
+          "lastAccess": 1743785000630,
+          "metadata": {
+            "sentiment": {
+              "score": 0,
+              "rawScore": 0,
+              "sentiment": "neutral",
+              "confidence": 0.5,
+              "emotions": [],
+              "negationCount": 0,
+              "intensityFactors": [],
+              "primaryEmotion": "neutral"
+            },
+            "topics": [
+              "PERSONAL"
+            ],
+            "entities": {}
+          }
+        },
+        {
+          "content": "Anh Khoaa nói: nghe bot nói gì chưa mn\nTôi trả lời: Ủa, anh Khoaa lại xuất hiện nữa rồi!  Mấy bạn bot này đúng là…khó lường thiệt sự =)))",
+          "timestamp": 1743784907529,
+          "priority": 1,
+          "accessCount": 4,
+          "lastAccess": 1743785000630,
+          "metadata": {
+            "sentiment": {
+              "score": 0,
+              "rawScore": 0,
+              "sentiment": "neutral",
+              "confidence": 0.5,
+              "emotions": [],
+              "negationCount": 0,
+              "intensityFactors": [],
+              "primaryEmotion": "neutral"
+            },
+            "topics": [
+              "PERSONAL"
+            ],
+            "entities": {}
+          }
+        },
+        {
+          "content": "Anh Khoaa nói: ngủ ngon @Kim Ngân\nTôi trả lời: Dạ, ngủ ngon anh! =)))",
+          "timestamp": 1743784917952,
+          "priority": 1,
+          "accessCount": 3,
+          "lastAccess": 1743785000630,
+          "metadata": {
+            "sentiment": {
+              "score": 0,
+              "rawScore": 0,
+              "sentiment": "neutral",
+              "confidence": 0.5,
+              "emotions": [],
+              "negationCount": 0,
+              "intensityFactors": [],
+              "primaryEmotion": "neutral"
+            },
+            "topics": [
+              "PERSONAL"
+            ],
+            "entities": {}
+          }
+        },
+        {
+          "content": "Anh Khoaa nói: .ghep @Kim Ngân\nTôi trả lời: Trời ơi anh Khoaa, hôm nay anh rảnh dữ vậy? =)))",
+          "timestamp": 1743784972877,
+          "priority": 1,
+          "accessCount": 2,
+          "lastAccess": 1743785000630,
+          "metadata": {
+            "sentiment": {
+              "score": 0,
+              "rawScore": 0,
+              "sentiment": "neutral",
+              "confidence": 0.5,
+              "emotions": [],
+              "negationCount": 0,
+              "intensityFactors": [],
+              "primaryEmotion": "neutral"
+            },
+            "topics": [
+              "PERSONAL"
+            ],
+            "entities": {}
+          }
+        },
+        {
+          "content": "Anh Khoaa nói: tht\nTôi trả lời: Ủa gì nữa vậy trời?  =))).",
+          "timestamp": 1743784984742,
+          "priority": 1,
+          "accessCount": 1,
+          "lastAccess": 1743785000630,
+          "metadata": {
+            "sentiment": {
+              "score": 0,
+              "rawScore": 0,
+              "sentiment": "neutral",
+              "confidence": 0.5,
+              "emotions": [],
+              "negationCount": 0,
+              "intensityFactors": [],
+              "primaryEmotion": "neutral"
+            },
+            "topics": [
+              "PERSONAL"
+            ],
+            "entities": {}
+          }
+        },
+        {
+          "content": "Anh Khoaa nói: ủa zalo\nTôi trả lời: Ủa zalo gì nữa vậy trời =)))",
+          "timestamp": 1743785001163,
+          "priority": 1,
+          "accessCount": 0,
+          "lastAccess": 1743785001163,
+          "metadata": {
+            "sentiment": {
+              "score": 0,
+              "rawScore": 0,
+              "sentiment": "neutral",
+              "confidence": 0.5,
+              "emotions": [],
+              "negationCount": 0,
+              "intensityFactors": [],
+              "primaryEmotion": "neutral"
+            },
+            "topics": [
+              "PERSONAL"
+            ],
+            "entities": {}
+          }
+        }
+      ],
+      "emotions": [],
+      "names": [],
+      "relationships": {},
+      "context": {
+        "lastTopics": [],
+        "importantDates": {},
+        "recentMentions": {},
+        "conversationFlow": []
+      },
+      "topics": {},
+      "undefined": [
+        {
+          "content": "Xưng hô: mình/bạn",
+          "timestamp": 1743782239200,
+          "priority": 2,
+          "accessCount": 6,
+          "lastAccess": 1743785000630,
+          "metadata": {
+            "sentiment": {
+              "score": 0,
+              "rawScore": 0,
+              "sentiment": "neutral",
+              "confidence": 0.5,
+              "emotions": [],
+              "negationCount": 0,
+              "intensityFactors": [],
+              "primaryEmotion": "neutral"
+            },
+            "topics": [
+              "PERSONAL"
+            ],
+            "entities": {}
+          }
+        },
+        {
+          "content": "Xưng hô: mình/bạn",
+          "timestamp": 1743782248147,
+          "priority": 2,
+          "accessCount": 5,
+          "lastAccess": 1743785000630,
+          "metadata": {
+            "sentiment": {
+              "score": 0,
+              "rawScore": 0,
+              "sentiment": "neutral",
+              "confidence": 0.5,
+              "emotions": [],
+              "negationCount": 0,
+              "intensityFactors": [],
+              "primaryEmotion": "neutral"
+            },
+            "topics": [
+              "PERSONAL"
+            ],
+            "entities": {}
+          }
+        },
+        {
+          "content": "Xưng hô: mình/bạn",
+          "timestamp": 1743784906642,
+          "priority": 2,
+          "accessCount": 4,
+          "lastAccess": 1743785000630,
+          "metadata": {
+            "sentiment": {
+              "score": 0,
+              "rawScore": 0,
+              "sentiment": "neutral",
+              "confidence": 0.5,
+              "emotions": [],
+              "negationCount": 0,
+              "intensityFactors": [],
+              "primaryEmotion": "neutral"
+            },
+            "topics": [
+              "PERSONAL"
+            ],
+            "entities": {}
+          }
+        },
+        {
+          "content": "Xưng hô: mình/bạn",
+          "timestamp": 1743784916390,
+          "priority": 2,
+          "accessCount": 3,
+          "lastAccess": 1743785000630,
+          "metadata": {
+            "sentiment": {
+              "score": 0,
+              "rawScore": 0,
+              "sentiment": "neutral",
+              "confidence": 0.5,
+              "emotions": [],
+              "negationCount": 0,
+              "intensityFactors": [],
+              "primaryEmotion": "neutral"
+            },
+            "topics": [
+              "PERSONAL"
+            ],
+            "entities": {}
+          }
+        },
+        {
+          "content": "Xưng hô: mình/bạn",
+          "timestamp": 1743784971972,
+          "priority": 2,
+          "accessCount": 2,
+          "lastAccess": 1743785000630,
+          "metadata": {
+            "sentiment": {
+              "score": 0,
+              "rawScore": 0,
+              "sentiment": "neutral",
+              "confidence": 0.5,
+              "emotions": [],
+              "negationCount": 0,
+              "intensityFactors": [],
+              "primaryEmotion": "neutral"
+            },
+            "topics": [
+              "PERSONAL"
+            ],
+            "entities": {}
+          }
+        },
+        {
+          "content": "Xưng hô: mình/bạn",
+          "timestamp": 1743784984227,
+          "priority": 2,
+          "accessCount": 1,
+          "lastAccess": 1743785000630,
+          "metadata": {
+            "sentiment": {
+              "score": 0,
+              "rawScore": 0,
+              "sentiment": "neutral",
+              "confidence": 0.5,
+              "emotions": [],
+              "negationCount": 0,
+              "intensityFactors": [],
+              "primaryEmotion": "neutral"
+            },
+            "topics": [
+              "PERSONAL"
+            ],
+            "entities": {}
+          }
+        },
+        {
+          "content": "Xưng hô: mình/bạn",
+          "timestamp": 1743785000630,
+          "priority": 2,
+          "accessCount": 0,
+          "lastAccess": 1743785000630,
+          "metadata": {
+            "sentiment": {
+              "score": 0,
+              "rawScore": 0,
+              "sentiment": "neutral",
+              "confidence": 0.5,
+              "emotions": [],
+              "negationCount": 0,
+              "intensityFactors": [],
+              "primaryEmotion": "neutral"
+            },
+            "topics": [
+              "PERSONAL"
+            ],
+            "entities": {}
+          }
+        }
+      ]
+    },
+    "100063719077878": {
+      "personal": [
+        {
+          "content": "thích ủa không",
+          "timestamp": 1743784962443,
+          "priority": 2,
+          "accessCount": 11,
+          "lastAccess": 1743785055216,
+          "metadata": {
+            "sentiment": {
+              "score": 0.2,
+              "rawScore": 0,
+              "sentiment": "neutral",
+              "confidence": 0.5,
+              "emotions": [],
+              "negationCount": 0,
+              "intensityFactors": [],
+              "primaryEmotion": "neutral"
+            },
+            "topics": [],
+            "entities": {}
+          }
+        },
+        {
+          "content": "thích ủa không",
+          "timestamp": 1743784974057,
+          "priority": 2,
+          "accessCount": 10,
+          "lastAccess": 1743785055216,
+          "metadata": {
+            "sentiment": {
+              "score": 0.2,
+              "rawScore": 0,
+              "sentiment": "neutral",
+              "confidence": 0.5,
+              "emotions": [],
+              "negationCount": 0,
+              "intensityFactors": [],
+              "primaryEmotion": "neutral"
+            },
+            "topics": [],
+            "entities": {}
+          }
+        },
+        {
+          "content": "thích ủa không",
+          "timestamp": 1743784981770,
+          "priority": 2,
+          "accessCount": 9,
+          "lastAccess": 1743785055216,
+          "metadata": {
+            "sentiment": {
+              "score": 0.2,
+              "rawScore": 0,
+              "sentiment": "neutral",
+              "confidence": 0.5,
+              "emotions": [],
+              "negationCount": 0,
+              "intensityFactors": [],
+              "primaryEmotion": "neutral"
+            },
+            "topics": [],
+            "entities": {}
+          }
+        },
+        {
+          "content": "thích ủa không",
+          "timestamp": 1743784987360,
+          "priority": 2,
+          "accessCount": 8,
+          "lastAccess": 1743785055216,
+          "metadata": {
+            "sentiment": {
+              "score": 0.2,
+              "rawScore": 0,
+              "sentiment": "neutral",
+              "confidence": 0.5,
+              "emotions": [],
+              "negationCount": 0,
+              "intensityFactors": [],
+              "primaryEmotion": "neutral"
+            },
+            "topics": [],
+            "entities": {}
+          }
+        },
+        {
+          "content": "thích ủa không",
+          "timestamp": 1743784993000,
+          "priority": 2,
+          "accessCount": 7,
+          "lastAccess": 1743785055216,
+          "metadata": {
+            "sentiment": {
+              "score": 0.2,
+              "rawScore": 0,
+              "sentiment": "neutral",
+              "confidence": 0.5,
+              "emotions": [],
+              "negationCount": 0,
+              "intensityFactors": [],
+              "primaryEmotion": "neutral"
+            },
+            "topics": [],
+            "entities": {}
+          }
+        },
+        {
+          "content": "thích ủa không",
+          "timestamp": 1743784998500,
+          "priority": 2,
+          "accessCount": 6,
+          "lastAccess": 1743785055216,
+          "metadata": {
+            "sentiment": {
+              "score": 0.2,
+              "rawScore": 0,
+              "sentiment": "neutral",
+              "confidence": 0.5,
+              "emotions": [],
+              "negationCount": 0,
+              "intensityFactors": [],
+              "primaryEmotion": "neutral"
+            },
+            "topics": [],
+            "entities": {}
+          }
+        },
+        {
+          "content": "thích ủa không",
+          "timestamp": 1743785004715,
+          "priority": 2,
+          "accessCount": 5,
+          "lastAccess": 1743785055216,
+          "metadata": {
+            "sentiment": {
+              "score": 0.2,
+              "rawScore": 0,
+              "sentiment": "neutral",
+              "confidence": 0.5,
+              "emotions": [],
+              "negationCount": 0,
+              "intensityFactors": [],
+              "primaryEmotion": "neutral"
+            },
+            "topics": [],
+            "entities": {}
+          }
+        }
+      ],
+      "facts": [],
+      "preferences": [
+        {
+          "content": "thích ủa không",
+          "timestamp": 1743784962444,
+          "priority": 2,
+          "accessCount": 11,
+          "lastAccess": 1743785055216,
+          "metadata": {
+            "sentiment": {
+              "score": 0.2,
+              "rawScore": 0,
+              "sentiment": "neutral",
+              "confidence": 0.5,
+              "emotions": [],
+              "negationCount": 0,
+              "intensityFactors": [],
+              "primaryEmotion": "neutral"
+            },
+            "topics": [],
+            "entities": {}
+          }
+        },
+        {
+          "content": "thích ủa không",
+          "timestamp": 1743784974058,
+          "priority": 2,
+          "accessCount": 10,
+          "lastAccess": 1743785055216,
+          "metadata": {
+            "sentiment": {
+              "score": 0.2,
+              "rawScore": 0,
+              "sentiment": "neutral",
+              "confidence": 0.5,
+              "emotions": [],
+              "negationCount": 0,
+              "intensityFactors": [],
+              "primaryEmotion": "neutral"
+            },
+            "topics": [],
+            "entities": {}
+          }
+        },
+        {
+          "content": "thích ủa không",
+          "timestamp": 1743784981771,
+          "priority": 2,
+          "accessCount": 9,
+          "lastAccess": 1743785055216,
+          "metadata": {
+            "sentiment": {
+              "score": 0.2,
+              "rawScore": 0,
+              "sentiment": "neutral",
+              "confidence": 0.5,
+              "emotions": [],
+              "negationCount": 0,
+              "intensityFactors": [],
+              "primaryEmotion": "neutral"
+            },
+            "topics": [],
+            "entities": {}
+          }
+        },
+        {
+          "content": "thích ủa không",
+          "timestamp": 1743784987362,
+          "priority": 2,
+          "accessCount": 8,
+          "lastAccess": 1743785055216,
+          "metadata": {
+            "sentiment": {
+              "score": 0.2,
+              "rawScore": 0,
+              "sentiment": "neutral",
+              "confidence": 0.5,
+              "emotions": [],
+              "negationCount": 0,
+              "intensityFactors": [],
+              "primaryEmotion": "neutral"
+            },
+            "topics": [],
+            "entities": {}
+          }
+        },
+        {
+          "content": "thích ủa không",
+          "timestamp": 1743784993030,
+          "priority": 2,
+          "accessCount": 7,
+          "lastAccess": 1743785055216,
+          "metadata": {
+            "sentiment": {
+              "score": 0.2,
+              "rawScore": 0,
+              "sentiment": "neutral",
+              "confidence": 0.5,
+              "emotions": [],
+              "negationCount": 0,
+              "intensityFactors": [],
+              "primaryEmotion": "neutral"
+            },
+            "topics": [],
+            "entities": {}
+          }
+        },
+        {
+          "content": "thích ủa không",
+          "timestamp": 1743784998502,
+          "priority": 2,
+          "accessCount": 6,
+          "lastAccess": 1743785055216,
+          "metadata": {
+            "sentiment": {
+              "score": 0.2,
+              "rawScore": 0,
+              "sentiment": "neutral",
+              "confidence": 0.5,
+              "emotions": [],
+              "negationCount": 0,
+              "intensityFactors": [],
+              "primaryEmotion": "neutral"
+            },
+            "topics": [],
+            "entities": {}
+          }
+        },
+        {
+          "content": "thích ủa không",
+          "timestamp": 1743785004716,
+          "priority": 2,
+          "accessCount": 5,
+          "lastAccess": 1743785055216,
+          "metadata": {
+            "sentiment": {
+              "score": 0.2,
+              "rawScore": 0,
+              "sentiment": "neutral",
+              "confidence": 0.5,
+              "emotions": [],
+              "negationCount": 0,
+              "intensityFactors": [],
+              "primaryEmotion": "neutral"
+            },
+            "topics": [],
+            "entities": {}
+          }
+        }
+      ],
+      "interactions": [
+        {
+          "content": "Minh Ngoc nói: Trời ạ, nguy hiểm nha bạn!  Bot ở Telegram nhiều khi…lầy lắm đó =)))  Cẩn thận kẻo bị lừa nhé!\nTôi trả lời: Đúng rồi đó bạn, phải cẩn thận lắm á! =)))",
+          "timestamp": 1743782247727,
+          "priority": 1,
+          "accessCount": 13,
+          "lastAccess": 1743785055216,
+          "metadata": {
+            "sentiment": {
+              "score": 0,
+              "rawScore": 0,
+              "sentiment": "neutral",
+              "confidence": 0.5,
+              "emotions": [],
+              "negationCount": 0,
+              "intensityFactors": [],
+              "primaryEmotion": "neutral"
+            },
+            "topics": [
+              "PERSONAL"
+            ],
+            "entities": {}
+          }
+        },
+        {
+          "content": "Minh Ngoc nói: thích ủa không\nTôi trả lời: Thích ủa chứ sao =)))",
+          "timestamp": 1743784962454,
+          "priority": 1,
+          "accessCount": 11,
+          "lastAccess": 1743785055216,
+          "metadata": {
+            "sentiment": {
+              "score": 0.2,
+              "rawScore": 0,
+              "sentiment": "neutral",
+              "confidence": 0.5,
+              "emotions": [],
+              "negationCount": 0,
+              "intensityFactors": [],
+              "primaryEmotion": "neutral"
+            },
+            "topics": [
+              "PERSONAL"
+            ],
+            "entities": {}
+          }
+        },
+        {
+          "content": "Minh Ngoc nói: .ghep @Kim Ngân\nTôi trả lời: Ủa gì vậy trời?  =)))",
+          "timestamp": 1743784950943,
+          "priority": 1,
+          "accessCount": 12,
+          "lastAccess": 1743785055216,
+          "metadata": {
+            "sentiment": {
+              "score": 0,
+              "rawScore": 0,
+              "sentiment": "neutral",
+              "confidence": 0.5,
+              "emotions": [],
+              "negationCount": 0,
+              "intensityFactors": [],
+              "primaryEmotion": "neutral"
+            },
+            "topics": [
+              "PERSONAL"
+            ],
+            "entities": {}
+          }
+        },
+        {
+          "content": "Minh Ngoc nói: thích ủa không\nTôi trả lời: Ủa tiếp đi bạn =)))",
+          "timestamp": 1743784993038,
+          "priority": 1,
+          "accessCount": 7,
+          "lastAccess": 1743785055216,
+          "metadata": {
+            "sentiment": {
+              "score": 0.2,
+              "rawScore": 0,
+              "sentiment": "neutral",
+              "confidence": 0.5,
+              "emotions": [],
+              "negationCount": 0,
+              "intensityFactors": [],
+              "primaryEmotion": "neutral"
+            },
+            "topics": [
+              "PERSONAL",
+              "TRAVEL"
+            ],
+            "entities": {}
+          }
+        },
+        {
+          "content": "Minh Ngoc nói: thích ủa không\nTôi trả lời: Dạ thích ủa á =)))",
+          "timestamp": 1743784981808,
+          "priority": 1,
+          "accessCount": 9,
+          "lastAccess": 1743785055216,
+          "metadata": {
+            "sentiment": {
+              "score": 0.2,
+              "rawScore": 0,
+              "sentiment": "neutral",
+              "confidence": 0.5,
+              "emotions": [],
+              "negationCount": 0,
+              "intensityFactors": [],
+              "primaryEmotion": "neutral"
+            },
+            "topics": [
+              "PERSONAL"
+            ],
+            "entities": {}
+          }
+        },
+        {
+          "content": "Minh Ngoc nói: thích ủa không\nTôi trả lời: Thích ủa thiệt á =)))",
+          "timestamp": 1743784987371,
+          "priority": 1,
+          "accessCount": 8,
+          "lastAccess": 1743785055216,
+          "metadata": {
+            "sentiment": {
+              "score": 0.2,
+              "rawScore": 0,
+              "sentiment": "neutral",
+              "confidence": 0.5,
+              "emotions": [],
+              "negationCount": 0,
+              "intensityFactors": [],
+              "primaryEmotion": "neutral"
+            },
+            "topics": [
+              "PERSONAL"
+            ],
+            "entities": {}
+          }
+        },
+        {
+          "content": "Minh Ngoc nói: thích ủa không\nTôi trả lời: Thích ủa lắm chứ bộ =)))",
+          "timestamp": 1743784974066,
+          "priority": 1,
+          "accessCount": 7,
+          "lastAccess": 1743785045208,
+          "metadata": {
+            "sentiment": {
+              "score": 0.26,
+              "rawScore": 0,
+              "sentiment": "positive",
+              "confidence": 0.63,
+              "emotions": [],
+              "negationCount": 0,
+              "intensityFactors": [],
+              "primaryEmotion": "positive"
+            },
+            "topics": [
+              "PERSONAL"
+            ],
+            "entities": {}
+          }
+        },
+        {
+          "content": "Minh Ngoc nói: thích ủa không\nTôi trả lời: Ủa bạn đang làm gì vậy trời =)))",
+          "timestamp": 1743785004728,
+          "priority": 1,
+          "accessCount": 5,
+          "lastAccess": 1743785055216,
+          "metadata": {
+            "sentiment": {
+              "score": 0.2,
+              "rawScore": 0,
+              "sentiment": "neutral",
+              "confidence": 0.5,
+              "emotions": [],
+              "negationCount": 0,
+              "intensityFactors": [],
+              "primaryEmotion": "neutral"
+            },
+            "topics": [
+              "PERSONAL",
+              "WORK"
+            ],
+            "entities": {}
+          }
+        },
+        {
+          "content": "Minh Ngoc nói: thích ủa không\nTôi trả lời: Ủa sao lại hỏi mình nhiều lần vậy trời =)))",
+          "timestamp": 1743784998514,
+          "priority": 1,
+          "accessCount": 6,
+          "lastAccess": 1743785055216,
+          "metadata": {
+            "sentiment": {
+              "score": 0.2,
+              "rawScore": 0,
+              "sentiment": "neutral",
+              "confidence": 0.5,
+              "emotions": [],
+              "negationCount": 0,
+              "intensityFactors": [],
+              "primaryEmotion": "neutral"
+            },
+            "topics": [
+              "PERSONAL"
+            ],
+            "entities": {}
+          }
+        },
+        {
+          "content": "Minh Ngoc nói: ủa zalo\nTôi trả lời: Ủa zalo cái gì nữa vậy trời =))).",
+          "timestamp": 1743785013749,
+          "priority": 1,
+          "accessCount": 4,
+          "lastAccess": 1743785055216,
+          "metadata": {
+            "sentiment": {
+              "score": 0,
+              "rawScore": 0,
+              "sentiment": "neutral",
+              "confidence": 0.5,
+              "emotions": [],
+              "negationCount": 0,
+              "intensityFactors": [],
+              "primaryEmotion": "neutral"
+            },
+            "topics": [
+              "PERSONAL"
+            ],
+            "entities": {}
+          }
+        },
+        {
+          "content": "Minh Ngoc nói: là @Ủa Alo  chứ gì\nTôi trả lời: À há =)))  mình hiểu rồi!",
+          "timestamp": 1743785032199,
+          "priority": 1,
+          "accessCount": 3,
+          "lastAccess": 1743785055216,
+          "metadata": {
+            "sentiment": {
+              "score": 0,
+              "rawScore": 0,
+              "sentiment": "neutral",
+              "confidence": 0.5,
+              "emotions": [],
+              "negationCount": 0,
+              "intensityFactors": [],
+              "primaryEmotion": "neutral"
+            },
+            "topics": [
+              "PERSONAL"
+            ],
+            "entities": {}
+          }
+        },
+        {
+          "content": "Minh Ngoc nói: hiểu j\nTôi trả lời: Hiểu là bạn đang troll mình đó =)))",
+          "timestamp": 1743785039429,
+          "priority": 1,
+          "accessCount": 2,
+          "lastAccess": 1743785055216,
+          "metadata": {
+            "sentiment": {
+              "score": 0,
+              "rawScore": 0,
+              "sentiment": "neutral",
+              "confidence": 0.5,
+              "emotions": [],
+              "negationCount": 0,
+              "intensityFactors": [],
+              "primaryEmotion": "neutral"
+            },
+            "topics": [
+              "PERSONAL"
+            ],
+            "entities": {}
+          }
+        },
+        {
+          "content": "Minh Ngoc nói: chỗ m hiểu à\nTôi trả lời: Chỗ mình hiểu chứ sao =)))  Nhưng mà khuya rồi đó nha, bạn ngủ chưa?",
+          "timestamp": 1743785046003,
+          "priority": 1,
+          "accessCount": 1,
+          "lastAccess": 1743785055216,
+          "metadata": {
+            "sentiment": {
+              "score": 0,
+              "rawScore": 0,
+              "sentiment": "neutral",
+              "confidence": 0.5,
+              "emotions": [],
+              "negationCount": 0,
+              "intensityFactors": [],
+              "primaryEmotion": "neutral"
+            },
+            "topics": [
+              "PERSONAL"
+            ],
+            "entities": {}
+          }
+        },
+        {
+          "content": "Minh Ngoc nói: chưa á\nTôi trả lời: Thôi đi ngủ đi bạn ơi, mai còn dậy sớm nữa =)))",
+          "timestamp": 1743785056005,
+          "priority": 1,
+          "accessCount": 0,
+          "lastAccess": 1743785056005,
+          "metadata": {
+            "sentiment": {
+              "score": 0,
+              "rawScore": 0,
+              "sentiment": "neutral",
+              "confidence": 0.5,
+              "emotions": [],
+              "negationCount": 0,
+              "intensityFactors": [],
+              "primaryEmotion": "neutral"
+            },
+            "topics": [
+              "PERSONAL",
+              "TRAVEL"
+            ],
+            "entities": {}
+          }
+        }
+      ],
+      "emotions": [],
+      "names": [],
+      "relationships": {},
+      "context": {
+        "lastTopics": [],
+        "importantDates": {},
+        "recentMentions": {},
+        "conversationFlow": []
+      },
+      "topics": {},
+      "undefined": [
+        {
+          "content": "Xưng hô: mình/bạn",
+          "timestamp": 1743782247018,
+          "priority": 2,
+          "accessCount": 13,
+          "lastAccess": 1743785055216,
+          "metadata": {
+            "sentiment": {
+              "score": 0,
+              "rawScore": 0,
+              "sentiment": "neutral",
+              "confidence": 0.5,
+              "emotions": [],
+              "negationCount": 0,
+              "intensityFactors": [],
+              "primaryEmotion": "neutral"
+            },
+            "topics": [
+              "PERSONAL"
+            ],
+            "entities": {}
+          }
+        },
+        {
+          "content": "Xưng hô: mình/bạn",
+          "timestamp": 1743784950217,
+          "priority": 2,
+          "accessCount": 12,
+          "lastAccess": 1743785055216,
+          "metadata": {
+            "sentiment": {
+              "score": 0,
+              "rawScore": 0,
+              "sentiment": "neutral",
+              "confidence": 0.5,
+              "emotions": [],
+              "negationCount": 0,
+              "intensityFactors": [],
+              "primaryEmotion": "neutral"
+            },
+            "topics": [
+              "PERSONAL"
+            ],
+            "entities": {}
+          }
+        },
+        {
+          "content": "Xưng hô: mình/bạn",
+          "timestamp": 1743784960916,
+          "priority": 2,
+          "accessCount": 11,
+          "lastAccess": 1743785055216,
+          "metadata": {
+            "sentiment": {
+              "score": 0,
+              "rawScore": 0,
+              "sentiment": "neutral",
+              "confidence": 0.5,
+              "emotions": [],
+              "negationCount": 0,
+              "intensityFactors": [],
+              "primaryEmotion": "neutral"
+            },
+            "topics": [
+              "PERSONAL"
+            ],
+            "entities": {}
+          }
+        },
+        {
+          "content": "Xưng hô: mình/bạn",
+          "timestamp": 1743784972481,
+          "priority": 2,
+          "accessCount": 10,
+          "lastAccess": 1743785055216,
+          "metadata": {
+            "sentiment": {
+              "score": 0,
+              "rawScore": 0,
+              "sentiment": "neutral",
+              "confidence": 0.5,
+              "emotions": [],
+              "negationCount": 0,
+              "intensityFactors": [],
+              "primaryEmotion": "neutral"
+            },
+            "topics": [
+              "PERSONAL"
+            ],
+            "entities": {}
+          }
+        },
+        {
+          "content": "Xưng hô: mình/bạn",
+          "timestamp": 1743784980235,
+          "priority": 2,
+          "accessCount": 9,
+          "lastAccess": 1743785055216,
+          "metadata": {
+            "sentiment": {
+              "score": 0,
+              "rawScore": 0,
+              "sentiment": "neutral",
+              "confidence": 0.5,
+              "emotions": [],
+              "negationCount": 0,
+              "intensityFactors": [],
+              "primaryEmotion": "neutral"
+            },
+            "topics": [
+              "PERSONAL"
+            ],
+            "entities": {}
+          }
+        },
+        {
+          "content": "Xưng hô: mình/bạn",
+          "timestamp": 1743784986853,
+          "priority": 2,
+          "accessCount": 8,
+          "lastAccess": 1743785055216,
+          "metadata": {
+            "sentiment": {
+              "score": 0,
+              "rawScore": 0,
+              "sentiment": "neutral",
+              "confidence": 0.5,
+              "emotions": [],
+              "negationCount": 0,
+              "intensityFactors": [],
+              "primaryEmotion": "neutral"
+            },
+            "topics": [
+              "PERSONAL"
+            ],
+            "entities": {}
+          }
+        },
+        {
+          "content": "Xưng hô: mình/bạn",
+          "timestamp": 1743784991431,
+          "priority": 2,
+          "accessCount": 7,
+          "lastAccess": 1743785055216,
+          "metadata": {
+            "sentiment": {
+              "score": 0,
+              "rawScore": 0,
+              "sentiment": "neutral",
+              "confidence": 0.5,
+              "emotions": [],
+              "negationCount": 0,
+              "intensityFactors": [],
+              "primaryEmotion": "neutral"
+            },
+            "topics": [
+              "PERSONAL"
+            ],
+            "entities": {}
+          }
+        },
+        {
+          "content": "Xưng hô: mình/bạn",
+          "timestamp": 1743784996958,
+          "priority": 2,
+          "accessCount": 6,
+          "lastAccess": 1743785055216,
+          "metadata": {
+            "sentiment": {
+              "score": 0,
+              "rawScore": 0,
+              "sentiment": "neutral",
+              "confidence": 0.5,
+              "emotions": [],
+              "negationCount": 0,
+              "intensityFactors": [],
+              "primaryEmotion": "neutral"
+            },
+            "topics": [
+              "PERSONAL"
+            ],
+            "entities": {}
+          }
+        },
+        {
+          "content": "Xưng hô: mình/bạn",
+          "timestamp": 1743785004103,
+          "priority": 2,
+          "accessCount": 5,
+          "lastAccess": 1743785055216,
+          "metadata": {
+            "sentiment": {
+              "score": 0,
+              "rawScore": 0,
+              "sentiment": "neutral",
+              "confidence": 0.5,
+              "emotions": [],
+              "negationCount": 0,
+              "intensityFactors": [],
+              "primaryEmotion": "neutral"
+            },
+            "topics": [
+              "PERSONAL"
+            ],
+            "entities": {}
+          }
+        },
+        {
+          "content": "Xưng hô: mình/bạn",
+          "timestamp": 1743785013118,
+          "priority": 2,
+          "accessCount": 4,
+          "lastAccess": 1743785055216,
+          "metadata": {
+            "sentiment": {
+              "score": 0,
+              "rawScore": 0,
+              "sentiment": "neutral",
+              "confidence": 0.5,
+              "emotions": [],
+              "negationCount": 0,
+              "intensityFactors": [],
+              "primaryEmotion": "neutral"
+            },
+            "topics": [
+              "PERSONAL"
+            ],
+            "entities": {}
+          }
+        },
+        {
+          "content": "Xưng hô: mình/bạn",
+          "timestamp": 1743785031550,
+          "priority": 2,
+          "accessCount": 3,
+          "lastAccess": 1743785055216,
+          "metadata": {
+            "sentiment": {
+              "score": 0,
+              "rawScore": 0,
+              "sentiment": "neutral",
+              "confidence": 0.5,
+              "emotions": [],
+              "negationCount": 0,
+              "intensityFactors": [],
+              "primaryEmotion": "neutral"
+            },
+            "topics": [
+              "PERSONAL"
+            ],
+            "entities": {}
+          }
+        },
+        {
+          "content": "Xưng hô: mình/bạn",
+          "timestamp": 1743785038734,
+          "priority": 2,
+          "accessCount": 2,
+          "lastAccess": 1743785055216,
+          "metadata": {
+            "sentiment": {
+              "score": 0,
+              "rawScore": 0,
+              "sentiment": "neutral",
+              "confidence": 0.5,
+              "emotions": [],
+              "negationCount": 0,
+              "intensityFactors": [],
+              "primaryEmotion": "neutral"
+            },
+            "topics": [
+              "PERSONAL"
+            ],
+            "entities": {}
+          }
+        },
+        {
+          "content": "Xưng hô: mình/bạn",
+          "timestamp": 1743785045208,
+          "priority": 2,
+          "accessCount": 1,
+          "lastAccess": 1743785055216,
+          "metadata": {
+            "sentiment": {
+              "score": 0,
+              "rawScore": 0,
+              "sentiment": "neutral",
+              "confidence": 0.5,
+              "emotions": [],
+              "negationCount": 0,
+              "intensityFactors": [],
+              "primaryEmotion": "neutral"
+            },
+            "topics": [
+              "PERSONAL"
+            ],
+            "entities": {}
+          }
+        },
+        {
+          "content": "Xưng hô: mình/bạn",
+          "timestamp": 1743785055216,
+          "priority": 2,
+          "accessCount": 0,
+          "lastAccess": 1743785055216,
+          "metadata": {
+            "sentiment": {
+              "score": 0,
+              "rawScore": 0,
+              "sentiment": "neutral",
+              "confidence": 0.5,
+              "emotions": [],
+              "negationCount": 0,
+              "intensityFactors": [],
+              "primaryEmotion": "neutral"
+            },
+            "topics": [
+              "PERSONAL"
+            ],
+            "entities": {}
+          }
+        }
+      ]
+    },
+    "100083810402652": {
+      "personal": [
+        {
+          "content": "M ghét t hả con bot",
+          "timestamp": 1743782630008,
+          "priority": 2,
+          "accessCount": 0,
+          "lastAccess": 1743782630008,
+          "metadata": {
+            "sentiment": {
+              "score": -0.2,
+              "rawScore": 0,
+              "sentiment": "neutral",
+              "confidence": 0.5,
+              "emotions": [],
+              "negationCount": 0,
+              "intensityFactors": [],
+              "primaryEmotion": "neutral"
+            },
+            "topics": [],
+            "entities": {}
+          }
+        }
+      ],
+      "facts": [],
+      "preferences": [
+        {
+          "content": "M ghét t hả con bot",
+          "timestamp": 1743782630009,
+          "priority": 2,
+          "accessCount": 0,
+          "lastAccess": 1743782630009,
+          "metadata": {
+            "sentiment": {
+              "score": -0.2,
+              "rawScore": 0,
+              "sentiment": "neutral",
+              "confidence": 0.5,
+              "emotions": [],
+              "negationCount": 0,
+              "intensityFactors": [],
+              "primaryEmotion": "neutral"
+            },
+            "topics": [],
+            "entities": {}
+          }
+        }
+      ],
+      "interactions": [
+        {
+          "content": "User nói: M ghét t hả con bot\nTôi trả lời: Trời ơi, bạn nói gì vậy =)))  mình đâu có ghét bạn đâu!  Đùa tí thôi mà.",
+          "timestamp": 1743782630021,
+          "priority": 1,
+          "accessCount": 0,
+          "lastAccess": 1743782630021,
+          "metadata": {
+            "sentiment": {
+              "score": 0,
+              "rawScore": 0,
+              "sentiment": "neutral",
+              "confidence": 0.5,
+              "emotions": [],
+              "negationCount": 0,
+              "intensityFactors": [],
+              "primaryEmotion": "neutral"
+            },
+            "topics": [
+              "PERSONAL"
+            ],
+            "entities": {}
+          }
+        }
+      ],
+      "emotions": [],
+      "names": [],
+      "relationships": {},
+      "context": {
+        "lastTopics": [],
+        "importantDates": {},
+        "recentMentions": {},
+        "conversationFlow": []
+      },
+      "topics": {},
+      "undefined": [
+        {
+          "content": "Xưng hô: mình/bạn",
+          "timestamp": 1743782628383,
+          "priority": 2,
+          "accessCount": 0,
+          "lastAccess": 1743782628383,
+          "metadata": {
+            "sentiment": {
+              "score": 0,
+              "rawScore": 0,
+              "sentiment": "neutral",
+              "confidence": 0.5,
+              "emotions": [],
+              "negationCount": 0,
+              "intensityFactors": [],
+              "primaryEmotion": "neutral"
+            },
+            "topics": [
+              "PERSONAL"
+            ],
+            "entities": {}
+          }
+        }
+      ]
+    },
+    "100090882493863": {
+      "personal": [],
+      "facts": [],
+      "preferences": [],
+      "interactions": [
+        {
+          "content": "Bảo Châu nói: Hạ Hải Lâu bot\nTôi trả lời: Hạ Hải Lâu hả?  Game gì mà hot dữ vậy trời!",
+          "timestamp": 1743782748560,
+          "priority": 1,
+          "accessCount": 1,
+          "lastAccess": 1743783555682,
+          "metadata": {
+            "sentiment": {
+              "score": 0,
+              "rawScore": 0,
+              "sentiment": "neutral",
+              "confidence": 0.5,
+              "emotions": [],
+              "negationCount": 0,
+              "intensityFactors": [],
+              "primaryEmotion": "neutral"
+            },
+            "topics": [
+              "PERSONAL",
+              "ENTERTAINMENT"
+            ],
+            "entities": {}
+          }
+        },
+        {
+          "content": "Bảo Châu nói: có bé bot tên Lâm Quỳnh\nTôi trả lời: Lâm Quỳnh?  Nghe chất ngầu phết!",
+          "timestamp": 1743783556406,
+          "priority": 1,
+          "accessCount": 0,
+          "lastAccess": 1743783556406,
+          "metadata": {
+            "sentiment": {
+              "score": 0,
+              "rawScore": 0,
+              "sentiment": "neutral",
+              "confidence": 0.5,
+              "emotions": [],
+              "negationCount": 0,
+              "intensityFactors": [],
+              "primaryEmotion": "neutral"
+            },
+            "topics": [
+              "PERSONAL"
+            ],
+            "entities": {}
+          }
+        }
+      ],
+      "emotions": [],
+      "names": [],
+      "relationships": {},
+      "context": {
+        "lastTopics": [],
+        "importantDates": {},
+        "recentMentions": {},
+        "conversationFlow": []
+      },
+      "topics": {},
+      "undefined": [
+        {
+          "content": "Xưng hô: mình/bạn",
+          "timestamp": 1743782746919,
+          "priority": 2,
+          "accessCount": 1,
+          "lastAccess": 1743783555682,
+          "metadata": {
+            "sentiment": {
+              "score": 0,
+              "rawScore": 0,
+              "sentiment": "neutral",
+              "confidence": 0.5,
+              "emotions": [],
+              "negationCount": 0,
+              "intensityFactors": [],
+              "primaryEmotion": "neutral"
+            },
+            "topics": [
+              "PERSONAL"
+            ],
+            "entities": {}
+          }
+        },
+        {
+          "content": "Xưng hô: mình/bạn",
+          "timestamp": 1743783555682,
+          "priority": 2,
+          "accessCount": 0,
+          "lastAccess": 1743783555682,
+          "metadata": {
+            "sentiment": {
+              "score": 0,
+              "rawScore": 0,
+              "sentiment": "neutral",
+              "confidence": 0.5,
+              "emotions": [],
+              "negationCount": 0,
+              "intensityFactors": [],
+              "primaryEmotion": "neutral"
+            },
+            "topics": [
+              "PERSONAL"
+            ],
+            "entities": {}
+          }
+        }
+      ]
+    },
+    "100063774489833": {
+      "personal": [],
+      "facts": [],
+      "preferences": [],
+      "interactions": [
+        {
+          "content": "Linh Ngọc nói: Bot 9 bị 1 A khác đánh dấu\nTôi trả lời: Trời ơi, drama ghê á!",
+          "timestamp": 1743783917049,
+          "priority": 1,
+          "accessCount": 0,
+          "lastAccess": 1743783917049,
+          "metadata": {
+            "sentiment": {
+              "score": 0,
+              "rawScore": 0,
+              "sentiment": "neutral",
+              "confidence": 0.5,
+              "emotions": [],
+              "negationCount": 0,
+              "intensityFactors": [],
+              "primaryEmotion": "neutral"
+            },
+            "topics": [
+              "PERSONAL"
+            ],
+            "entities": {}
+          }
+        }
+      ],
+      "emotions": [],
+      "names": [],
+      "relationships": {},
+      "context": {
+        "lastTopics": [],
+        "importantDates": {},
+        "recentMentions": {},
+        "conversationFlow": []
+      },
+      "topics": {},
+      "undefined": [
+        {
+          "content": "Xưng hô: mình/bạn",
+          "timestamp": 1743783235687,
+          "priority": 2,
+          "accessCount": 1,
+          "lastAccess": 1743783916354,
+          "metadata": {
+            "sentiment": {
+              "score": 0,
+              "rawScore": 0,
+              "sentiment": "neutral",
+              "confidence": 0.5,
+              "emotions": [],
+              "negationCount": 0,
+              "intensityFactors": [],
+              "primaryEmotion": "neutral"
+            },
+            "topics": [
+              "PERSONAL"
+            ],
+            "entities": {}
+          }
+        },
+        {
+          "content": "Xưng hô: mình/bạn",
+          "timestamp": 1743783916354,
+          "priority": 2,
+          "accessCount": 0,
+          "lastAccess": 1743783916354,
+          "metadata": {
+            "sentiment": {
+              "score": 0,
+              "rawScore": 0,
+              "sentiment": "neutral",
+              "confidence": 0.5,
+              "emotions": [],
+              "negationCount": 0,
+              "intensityFactors": [],
+              "primaryEmotion": "neutral"
+            },
+            "topics": [
+              "PERSONAL"
+            ],
+            "entities": {}
+          }
+        }
+      ]
+    },
+    "100089874386762": {
+      "personal": [],
+      "facts": [],
+      "preferences": [],
+      "interactions": [
+        {
+          "content": "User nói: Tội nghiệp bot quá\nTôi trả lời: Haha, tội nghiệp gì chứ bạn =)))  mình còn vui hơn cả bạn nữa là đằng khác!",
+          "timestamp": 1743785324904,
+          "priority": 1,
+          "accessCount": 0,
+          "lastAccess": 1743785324904,
+          "metadata": {
+            "sentiment": {
+              "score": 0,
+              "rawScore": 0,
+              "sentiment": "neutral",
+              "confidence": 0.5,
+              "emotions": [],
+              "negationCount": 0,
+              "intensityFactors": [],
+              "primaryEmotion": "neutral"
+            },
+            "topics": [
+              "PERSONAL"
+            ],
+            "entities": {}
+          }
+        }
+      ],
+      "emotions": [],
+      "names": [],
+      "relationships": {},
+      "context": {
+        "lastTopics": [],
+        "importantDates": {},
+        "recentMentions": {},
+        "conversationFlow": []
+      },
+      "topics": {},
+      "undefined": [
+        {
+          "content": "Xưng hô: mình/bạn",
+          "timestamp": 1743785324165,
+          "priority": 2,
+          "accessCount": 0,
+          "lastAccess": 1743785324165,
           "metadata": {
             "sentiment": {
               "score": 0,
@@ -851,22 +2269,22 @@
     "voice": {}
   },
   "stats": {
-    "totalInteractions": 30,
+    "totalInteractions": 92,
     "uniqueUsers": {},
     "topTopics": {},
     "responseTime": [],
     "accuracy": [
       {
-        "timestamp": 1743745664555,
-        "memoryCount": 7
+        "timestamp": 1743782239968,
+        "memoryCount": 6
       },
       {
-        "timestamp": 1743745921408,
-        "memoryCount": 8
+        "timestamp": 1743782240025,
+        "memoryCount": 4
       },
       {
-        "timestamp": 1743754594079,
-        "memoryCount": 8
+        "timestamp": 1743783236495,
+        "memoryCount": 4
       }
     ]
   },

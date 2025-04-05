@@ -856,13 +856,13 @@
   "100083810402652": {
     "type": "DOG",
     "name": "Đăng",
-    "hunger": 57,
-    "happy": 51,
-    "energy": 79,
+    "hunger": 65,
+    "happy": 20,
+    "energy": 60,
     "level": 2,
-    "exp": 135,
+    "exp": 155,
     "power": 80,
-    "lastFed": 1743658102071,
+    "lastFed": 1743782887160,
     "lastPlay": 1743608171124,
     "skills": {
       "FETCH": {
@@ -887,7 +887,7 @@
     "birthday": 1743607147243,
     "quests": {
       "daily": {
-        "feedCount": 11,
+        "feedCount": 13,
         "playCount": 2
       }
     },
