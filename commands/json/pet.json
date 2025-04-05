@@ -935,5 +935,47 @@
       }
     },
     "lastTrain": 1743607960484
+  },
+  "100053763274764": {
+    "type": "DOG",
+    "name": "Đạt",
+    "hunger": 100,
+    "happy": 100,
+    "energy": 80,
+    "level": 1,
+    "exp": 30,
+    "power": 10,
+    "lastFed": 1743824191423,
+    "lastPlay": 1743824249823,
+    "skills": {
+      "FETCH": {
+        "level": 1,
+        "exp": 0,
+        "lastUsed": 0
+      },
+      "GUARD": {
+        "level": 1,
+        "exp": 0,
+        "lastUsed": 0
+      }
+    },
+    "inventory": [],
+    "stats": {
+      "gamesPlayed": 0,
+      "foodEaten": 0,
+      "trainingSessions": 0,
+      "questsCompleted": 0
+    },
+    "achievements": {},
+    "birthday": 1743824132386,
+    "quests": {
+      "daily": {
+        "feedCount": 1,
+        "playCount": 1
+      }
+    },
+    "lastSkill": {
+      "FETCH": 1743824687647
+    }
   }
 }

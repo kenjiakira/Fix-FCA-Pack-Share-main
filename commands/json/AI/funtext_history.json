@@ -1,11 +1,55 @@
 {
   "stories": [],
-  "poems": [],
+  "poems": [
+    {
+      "content": "Trên sao Hỏa gió lạnh tê người\nĐất đỏ thắm, một màu cô liêu\nCon tàu nhỏ, giữa trời xa xôi\nMang giấc mộng về nơi xứ lạ.\n\nNgàn vì sao, lấp lánh lung linh\nHành trình dài, bước chân phiêu du\nTìm một miền, không gian mới mẻ\nTương lai chờ, giữa vũ trụ mênh mông.\n",
+      "topic": "viễn tưởng",
+      "timestamp": 1743831136664
+    },
+    {
+      "content": "Mưa chiều rơi nhẹ trên vai áo\nLàn gió khẽ đưa hương cỏ hoa\nTình mình như sợi tơ bền bão\nDệt nên giấc mộng giữa đêm thưa.\n\nNgàn sao lấp lánh trời cao rộng\nHồn ta hòa nhịp với tim em\nNguyện cùng nhau đi suốt cuộc đời\nTình yêu mình mãi sáng ngời thêm.\n",
+      "topic": "tình yêu",
+      "timestamp": 1743831177414
+    },
+    {
+      "content": "Sương khói mờ che đỉnh núi cao,\nMây trắng trôi theo gió nhẹ nhàng.\nSuối reo khúc nhạc giữa rừng sâu,\nTiếng chim gọi bầy trong nắng vàng.\nHoa thơm ngát giữa chiều tà xuống,\nTím biếc trời chiều nhuộm sắc hương.\nLòng bâng khuâng giữa cảnh thần tiên,\nMột thoáng bình yên giữa cuộc trường.\n",
+      "topic": "thơ mộng",
+      "timestamp": 1743831312355
+    },
+    {
+      "content": "Sương khói mờ che đỉnh núi cao,\nMây trắng trôi theo gió nhẹ nhàng.\nSuối reo khe khẽ giữa rừng sâu,\nTiếng chim ca vút tận trời xanh.\nHoa thơm thoảng nhẹ trong nắng chiều,\nMặt hồ soi bóng những hàng tre.\nLàn gió đưa hương đưa gió chiều,\nThơ mộng êm đềm khắp chốn này.\n",
+      "topic": "thơ mộng",
+      "timestamp": 1743831362690
+    },
+    {
+      "content": "Biển xanh thăm thẳm một màu sâu,\nNắng vàng rải nhẹ trên làn khơi.\nCon sóng vỗ nhẹ vào bờ câu,\nThì thầm khúc hát giữa trời rơi.\nMặn mòi hương vị biển quê nhà,\nBao la sóng vỗ mãi không xa.\nHồn nhiên gió hát cùng biển cả,\nNhư ru giấc ngủ mộng giữa ta.\n",
+      "topic": "biển",
+      "timestamp": 1743831396755
+    },
+    {
+      "content": "Câu thơ là cánh chim trời bay,\nMang theo tâm sự đến muôn nơi.\nVần điệu ngân nga tiếng gọi say,\nKhơi nguồn cảm xúc, nhớ thương đầy.\nRưng rưng giọt mực, tình thấm sâu,\nTâm tư gửi gắm giữa dòng đời.\nMỗi câu thơ là một bức tranh,\nVẽ nên cuộc sống, đẹp tuyệt vời.\n",
+      "topic": "câu thơ",
+      "timestamp": 1743831487770
+    },
+    {
+      "content": "Thơ Đường nét mực say sưa,\nTựa tranh thủy mặc, nhòa nhòa khói sương.\nCung đàn ngân mãi vấn vương,\nTrăm năm gió bụi, vẫn thường ngân nga.\nTơ lòng kín đáo thầm tra,\nCâu thơ hàm ẩn, áng hoa tinh khôi.\nTử thiền, thiền tử, ngộ đời,\nĐêm khuya tĩnh lặng, một lời tâm tư.\nTrăng tàn gió sớm âm thầm,\nMảnh hồn thi sĩ, ngắm trăng đêm thâu.\n",
+      "topic": "thơ Trung Quốc",
+      "timestamp": 1743831567214
+    }
+  ],
   "quotes": [],
   "facts": [
     {
       "content": "Ruồi nhà chỉ sống trung bình từ 2 đến 4 tuần.\n",
       "timestamp": 1743223961290
+    },
+    {
+      "content": "Cá voi xanh có tim lớn đến mức một người trưởng thành có thể bơi qua động mạch chủ của nó.\n",
+      "timestamp": 1743831526779
+    },
+    {
+      "content": "Cá voi xanh có tim lớn đến nỗi một người trưởng thành có thể bơi qua động mạch chủ của nó.\n",
+      "timestamp": 1743831558182
     }
   ],
   "jokes": []

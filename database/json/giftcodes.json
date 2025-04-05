@@ -34,6 +34,56 @@
       "type": "NORMAL",
       "rarity": "Thường",
       "maxUses": null
+    },
+    "N51ITASIE6RA": {
+      "reward": 466118,
+      "description": "Giftcode thường hàng ngày",
+      "createdAt": "2025-04-05T05:00:00.100Z",
+      "expiry": "2025-04-06T05:00:00.100Z",
+      "usedBy": [
+        "100076346764439",
+        "100089362226968",
+        "100094519976306",
+        "100083237157086",
+        "61551500976868",
+        "100008297661441",
+        "100090882493863",
+        "100068601847791",
+        "61560539745976",
+        "100081770013413"
+      ],
+      "type": "NORMAL",
+      "rarity": "Thường",
+      "maxUses": null
+    },
+    "NWY1OTNFPC44": {
+      "rewards": {
+        "coins": 100000,
+        "vip_points": 1
+      },
+      "description": "Test",
+      "createdAt": "2025-04-05T05:12:31.173Z",
+      "expiry": "2025-04-06T05:12:31.173Z",
+      "usedBy": [
+        "100094519976306",
+        "100090882493863",
+        "100076346764439",
+        "100068601847791",
+        "100061680206019",
+        "100089362226968",
+        "100081770013413",
+        "100008297661441"
+      ],
+      "type": "NORMAL",
+      "rarity": "Thường",
+      "color": "#CCCCCC",
+      "maxUses": null,
+      "maxUsesPerUser": 5
     }
+  },
+  "settings": {
+    "autoGiftcode": true,
+    "dailyLimits": {},
+    "lastResetDate": "2025-04-05"
   }
 }

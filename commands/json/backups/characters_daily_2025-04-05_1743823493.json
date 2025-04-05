@@ -123691,31 +123691,5 @@
       "def": 273,
       "hp": 945
     }
-  },
-  "CHAR_258666794": {
-    "type": "character",
-    "name": "Amber",
-    "obtainedAt": 1743829247058,
-    "value": 274,
-    "level": 1,
-    "exp": 0,
-    "stats": {
-      "atk": 105,
-      "def": 102,
-      "hp": 514
-    }
-  },
-  "CHAR_472781772": {
-    "type": "character",
-    "name": "dehya",
-    "obtainedAt": 1743830692610,
-    "value": 618,
-    "level": 1,
-    "exp": 0,
-    "stats": {
-      "atk": 100,
-      "def": 95,
-      "hp": 506
-    }
   }
 }
