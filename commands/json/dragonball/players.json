@@ -648,12 +648,12 @@
     "name": "Gia Huy ",
     "planet": "SAIYAN",
     "stats": {
-      "power": 66227,
-      "damage": 350,
+      "power": 79227,
+      "damage": 380,
       "ki": 660,
-      "health": 3400,
-      "exp": 201,
-      "zeni": 15388,
+      "health": 3800,
+      "exp": 7991,
+      "zeni": 20503,
       "inventory": {
         "items": [],
         "equipped": []
@@ -665,14 +665,14 @@
       },
       "currentKi": 389,
       "level": 2,
-      "maxHealth": 3300,
+      "maxHealth": 3700,
       "currentHealth": 2488
     },
     "skills": [
       "GOKU:ATOMIC"
     ],
     "masters": [],
-    "lastTrain": 1743915104112,
+    "lastTrain": 1743935086474,
     "created": 1743526294836,
     "inventory": {
       "dragonBalls": [],
@@ -1143,14 +1143,14 @@
     "name": "Tran Thu Huyen",
     "planet": "SAIYAN",
     "stats": {
-      "power": 48015,
+      "power": 51015,
       "damage": 210,
       "ki": 180,
       "currentKi": 140,
       "health": 1600,
       "currentHealth": 1000,
-      "exp": 61133,
-      "zeni": 31107,
+      "exp": 64247,
+      "zeni": 33121,
       "inventory": {
         "items": [],
         "equipped": []
@@ -1166,7 +1166,7 @@
       "GOKU:ATOMIC"
     ],
     "masters": [],
-    "lastTrain": 1743841013565,
+    "lastTrain": 1743924027697,
     "created": 1743570305333,
     "inventory": {
       "dragonBalls": [

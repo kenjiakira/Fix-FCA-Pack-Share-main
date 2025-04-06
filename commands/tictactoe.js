@@ -3,25 +3,24 @@ const path = require('path');
 const { createCanvas } = require('canvas');
 
 module.exports = {
-    name: "tictactoe",
+    name: " ",
     aliases: ["caro", "gomoku"],
     dev: "HNT",
     category: "Games",
     onPrefix: true,
-    info: "Chơi cờ caro 15x15)",
+    info: "Chơi cờ caro",
     usedby: 0,
     usages: "@tag người chơi để bắt đầu ván cờ",
     cooldowns: 0,
     
     activeGames: new Map(),
     
-    boardSize: 15, // Bảng 15x15
-    cellSize: 30,  // Kích thước mỗi ô
-    winCondition: 5, // 5 quân liên tiếp để thắng
+    boardSize: 15, 
+    cellSize: 30, 
+    winCondition: 5, 
     
     createBoardCanvas: async function(boardState, playerData) {
         try {
-            // Tính toán kích thước canvas
             const padding = 20;
             const headerHeight = 60;
             const footerHeight = 40;

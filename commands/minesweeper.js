@@ -67,7 +67,6 @@ module.exports = {
             ctx.fillText(`Mìn: ${mineCount}`, 30, 90);
             ctx.fillText(`Ô còn lại: ${remainingCells}`, 30, 120);
             
-            // Vẽ tên người chơi
             if (playerData && playerData.playerName) {
                 const playerGradient = ctx.createLinearGradient(canvas.width - 250, 90, canvas.width - 20, 90);
                 playerGradient.addColorStop(0, '#6a82fb');
@@ -76,21 +75,18 @@ module.exports = {
                 ctx.textAlign = 'right';
                 ctx.fillText(`${playerData.playerName}`, canvas.width - 30, 90);
             }
-            
-            // Vẽ bảng chơi với hiệu ứng nổi
+
             for (let y = 0; y < height; y++) {
                 for (let x = 0; x < width; x++) {
                     const cell = board[y][x];
                     const cellX = 50 + x * cellSize;
                     const cellY = 150 + y * cellSize;
                     
-                    // Thêm bóng đổ cho ô
                     ctx.shadowColor = 'rgba(0, 0, 0, 0.3)';
                     ctx.shadowBlur = 5;
                     ctx.shadowOffsetX = 2;
                     ctx.shadowOffsetY = 2;
                     
-                    // Vẽ ô với gradient
                     let cellGradient;
                     if (cell.isRevealed) {
                         cellGradient = ctx.createLinearGradient(cellX, cellY, cellX + cellSize, cellY + cellSize);
@@ -102,7 +98,6 @@ module.exports = {
                         cellGradient.addColorStop(1, '#2c3e50');
                     }
                     
-                    // Đánh dấu cờ
                     if (cell.isFlagged && !showMines) {
                         cellGradient = ctx.createLinearGradient(cellX, cellY, cellX + cellSize, cellY + cellSize);
                         cellGradient.addColorStop(0, '#e67e22');

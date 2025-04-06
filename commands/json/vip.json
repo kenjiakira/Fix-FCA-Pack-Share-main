@@ -1,21 +1,5 @@
 {
   "users": {
-    "61550331471452": {
-      "packageId": 3,
-      "name": "VIP GOLD",
-      "expireTime": 1743923887860,
-      "benefits": {
-        "workBonus": 40,
-        "cooldownReduction": 30,
-        "dailyBonus": true,
-        "fishingCooldown": 120000,
-        "fishExpMultiplier": 4,
-        "packageId": 3,
-        "name": "VIP GOLD ⭐⭐⭐",
-        "rareBonus": 0.3,
-        "trashReduction": 0.6
-      }
-    },
     "61573427362389": {
       "packageId": 3,
       "name": "VIP GOLD",

@@ -856,14 +856,14 @@
   "100083810402652": {
     "type": "DOG",
     "name": "Đăng",
-    "hunger": 65,
-    "happy": 20,
-    "energy": 60,
-    "level": 2,
-    "exp": 155,
-    "power": 80,
-    "lastFed": 1743782887160,
-    "lastPlay": 1743608171124,
+    "hunger": 100,
+    "happy": 100,
+    "energy": 100,
+    "level": 4,
+    "exp": 25,
+    "power": 105,
+    "lastFed": 1743927672357,
+    "lastPlay": 1743927046291,
     "skills": {
       "FETCH": {
         "level": 1,
@@ -887,13 +887,14 @@
     "birthday": 1743607147243,
     "quests": {
       "daily": {
-        "feedCount": 13,
-        "playCount": 2
+        "feedCount": 29,
+        "playCount": 14
       }
     },
-    "lastTrain": 1743608485472,
+    "lastTrain": 1743927384972,
     "lastSkill": {
-      "FETCH": 1743608960364
+      "FETCH": 1743608960364,
+      "GUARD": 1743927505099
     }
   },
   "61570242251744": {
@@ -977,5 +978,85 @@
     "lastSkill": {
       "FETCH": 1743824687647
     }
+  },
+  "61550739941534": {
+    "type": "PIG",
+    "name": "Beo",
+    "hunger": 120,
+    "happy": 90,
+    "energy": 80,
+    "level": 3,
+    "exp": 225,
+    "power": 28,
+    "lastFed": 1743939741196,
+    "lastPlay": 1743927945241,
+    "skills": {
+      "FORAGE": {
+        "level": 1,
+        "exp": 0,
+        "lastUsed": 0
+      },
+      "MUDROLL": {
+        "level": 1,
+        "exp": 0,
+        "lastUsed": 0
+      }
+    },
+    "inventory": [],
+    "stats": {
+      "gamesPlayed": 0,
+      "foodEaten": 0,
+      "trainingSessions": 0,
+      "questsCompleted": 0
+    },
+    "achievements": {},
+    "birthday": 1743924387634,
+    "quests": {
+      "daily": {
+        "feedCount": 28,
+        "playCount": 15
+      }
+    },
+    "lastTrain": 1743927212549
+  },
+  "100095474975886": {
+    "type": "HAMSTER",
+    "name": "Cặc",
+    "hunger": 100,
+    "happy": 100,
+    "energy": 40,
+    "level": 2,
+    "exp": 60,
+    "power": 30,
+    "lastFed": 1743927700275,
+    "lastPlay": 1743927677111,
+    "skills": {
+      "COLLECT": {
+        "level": 1,
+        "exp": 0,
+        "lastUsed": 0
+      },
+      "WHEEL": {
+        "level": 1,
+        "exp": 0,
+        "lastUsed": 0
+      }
+    },
+    "inventory": [],
+    "stats": {
+      "gamesPlayed": 0,
+      "foodEaten": 0,
+      "trainingSessions": 0,
+      "questsCompleted": 0
+    },
+    "achievements": {},
+    "birthday": 1743925743848,
+    "quests": {
+      "daily": {
+        "feedCount": 7,
+        "playCount": 5
+      }
+    },
+    "lastTrain": 1743927195518
   }
 }

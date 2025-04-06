@@ -1,0 +1,161 @@
+{
+  "stocks": {
+    "APPL": {
+      "name": "Apple Inc.",
+      "price": 185.98897209310974,
+      "volatility": "medium",
+      "sector": "Technology",
+      "trend": "up",
+      "history": [
+        {
+          "price": 185.98897209310974,
+          "timestamp": 1743923907197
+        }
+      ]
+    },
+    "GOOG": {
+      "name": "Alphabet Inc.",
+      "price": 143.50658523801195,
+      "volatility": "medium",
+      "sector": "Technology",
+      "trend": "stable",
+      "history": [
+        {
+          "price": 143.50658523801195,
+          "timestamp": 1743923907197
+        }
+      ]
+    },
+    "MSFT": {
+      "name": "Microsoft Corp.",
+      "price": 376.40484009868715,
+      "volatility": "low",
+      "sector": "Technology",
+      "trend": "up",
+      "history": [
+        {
+          "price": 376.40484009868715,
+          "timestamp": 1743923907197
+        }
+      ]
+    },
+    "TSLA": {
+      "name": "Tesla Inc.",
+      "price": 216.59268838629185,
+      "volatility": "high",
+      "sector": "Automotive",
+      "trend": "down",
+      "history": [
+        {
+          "price": 216.59268838629185,
+          "timestamp": 1743923907197
+        }
+      ]
+    },
+    "AMZN": {
+      "name": "Amazon.com Inc.",
+      "price": 182.42060672295264,
+      "volatility": "medium",
+      "sector": "Retail",
+      "trend": "up",
+      "history": [
+        {
+          "price": 182.42060672295264,
+          "timestamp": 1743923907197
+        }
+      ]
+    },
+    "META": {
+      "name": "Meta Platforms Inc.",
+      "price": 465.70309542876697,
+      "volatility": "medium",
+      "sector": "Technology",
+      "trend": "up",
+      "history": [
+        {
+          "price": 465.70309542876697,
+          "timestamp": 1743923907197
+        }
+      ]
+    },
+    "NFLX": {
+      "name": "Netflix Inc.",
+      "price": 627.7489859298009,
+      "volatility": "medium",
+      "sector": "Entertainment",
+      "trend": "stable",
+      "history": [
+        {
+          "price": 627.7489859298009,
+          "timestamp": 1743923907197
+        }
+      ]
+    },
+    "COIN": {
+      "name": "Coinbase Global Inc.",
+      "price": 202.36531140003945,
+      "volatility": "high",
+      "sector": "Finance",
+      "trend": "down",
+      "history": [
+        {
+          "price": 202.36531140003945,
+          "timestamp": 1743923907197
+        }
+      ]
+    },
+    "PEP": {
+      "name": "PepsiCo Inc.",
+      "price": 174.3235077529602,
+      "volatility": "low",
+      "sector": "Consumer Goods",
+      "trend": "stable",
+      "history": [
+        {
+          "price": 174.3235077529602,
+          "timestamp": 1743923907197
+        }
+      ]
+    },
+    "DIS": {
+      "name": "Walt Disney Co.",
+      "price": 118.17142325728871,
+      "volatility": "medium",
+      "sector": "Entertainment",
+      "trend": "down",
+      "history": [
+        {
+          "price": 118.17142325728871,
+          "timestamp": 1743923907197
+        }
+      ]
+    },
+    "AKI": {
+      "name": "AKI Corporation",
+      "price": 23.280172412843033,
+      "volatility": "high",
+      "sector": "Technology",
+      "trend": "up",
+      "history": [
+        {
+          "price": 23.280172412843033,
+          "timestamp": 1743923907197
+        }
+      ]
+    },
+    "HNT": {
+      "name": "HNT Industries",
+      "price": 44.33044726477407,
+      "volatility": "high",
+      "sector": "Innovation",
+      "trend": "up",
+      "history": [
+        {
+          "price": 44.33044726477407,
+          "timestamp": 1743923907197
+        }
+      ]
+    }
+  },
+  "lastUpdate": 1743923907197
+}

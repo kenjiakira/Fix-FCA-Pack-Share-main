@@ -65,11 +65,12 @@
   },
   "100076957299243": {
     "progress": {
-      "chat_active": 18,
-      "daily_checkin": 2
+      "chat_active": 28,
+      "daily_checkin": 1,
+      "play_games": 1
     },
     "completed": {},
-    "lastReset": "Sat Apr 05 2025",
+    "lastReset": "Sun Apr 06 2025",
     "lastRewardClaim": null
   },
   "100080964828004": {
@@ -83,7 +84,8 @@
   },
   "61558946907944": {
     "progress": {
-      "chat_active": 89
+      "chat_active": 122,
+      "daily_checkin": 1
     },
     "completed": {},
     "lastReset": "Sun Apr 06 2025",
@@ -107,16 +109,18 @@
   },
   "100058320200877": {
     "progress": {
-      "chat_active": 14,
+      "chat_active": 6,
       "daily_checkin": 1
     },
     "completed": {},
-    "lastReset": "Sat Apr 05 2025",
+    "lastReset": "Sun Apr 06 2025",
     "lastRewardClaim": null
   },
   "61566378911878": {
     "progress": {
-      "daily_checkin": 1
+      "daily_checkin": 2,
+      "chat_active": 2,
+      "play_games": 1
     },
     "completed": {},
     "lastReset": "Sun Apr 06 2025",
@@ -124,7 +128,7 @@
   },
   "100008297661441": {
     "progress": {
-      "chat_active": 11,
+      "chat_active": 40,
       "daily_checkin": 1
     },
     "completed": {},
@@ -162,7 +166,7 @@
   },
   "61573427362389": {
     "progress": {
-      "chat_active": 2
+      "chat_active": 19
     },
     "completed": {},
     "lastReset": "Sun Apr 06 2025",
@@ -186,10 +190,10 @@
   },
   "100044825933221": {
     "progress": {
-      "chat_active": 4
+      "chat_active": 7
     },
     "completed": {},
-    "lastReset": "Sat Apr 05 2025",
+    "lastReset": "Sun Apr 06 2025",
     "lastRewardClaim": null
   },
   "61552144357464": {
@@ -226,10 +230,10 @@
   },
   "61555903228492": {
     "progress": {
-      "chat_active": 10
+      "chat_active": 5
     },
     "completed": {},
-    "lastReset": "Sat Apr 05 2025",
+    "lastReset": "Sun Apr 06 2025",
     "lastRewardClaim": null
   },
   "61559823599446": {
@@ -250,10 +254,10 @@
   },
   "100000349406075": {
     "progress": {
-      "chat_active": 9
+      "chat_active": 1
     },
     "completed": {},
-    "lastReset": "Sat Apr 05 2025",
+    "lastReset": "Sun Apr 06 2025",
     "lastRewardClaim": null
   },
   "61565876274721": {
@@ -266,10 +270,10 @@
   },
   "100055074463541": {
     "progress": {
-      "chat_active": 4
+      "chat_active": 3
     },
     "completed": {},
-    "lastReset": "Sat Apr 05 2025",
+    "lastReset": "Sun Apr 06 2025",
     "lastRewardClaim": null
   },
   "100054015759917": {
@@ -290,7 +294,7 @@
   },
   "100073671519864": {
     "progress": {
-      "chat_active": 5
+      "chat_active": 7
     },
     "completed": {},
     "lastReset": "Sun Apr 06 2025",
@@ -372,10 +376,11 @@
   },
   "100063397755304": {
     "progress": {
-      "chat_active": 43
+      "chat_active": 31,
+      "successful_steals": 1
     },
     "completed": {},
-    "lastReset": "Sat Apr 05 2025",
+    "lastReset": "Sun Apr 06 2025",
     "lastRewardClaim": null
   },
   "100053857386814": {
@@ -388,8 +393,10 @@
   },
   "100083237157086": {
     "progress": {
-      "daily_checkin": 1,
-      "chat_active": 7
+      "daily_checkin": 2,
+      "chat_active": 60,
+      "win_games": 1,
+      "play_games": 1
     },
     "completed": {},
     "lastReset": "Sun Apr 06 2025",
@@ -408,7 +415,7 @@
       "chat_active": 1
     },
     "completed": {},
-    "lastReset": "Fri Apr 04 2025",
+    "lastReset": "Sun Apr 06 2025",
     "lastRewardClaim": null
   },
   "61569008916749": {
@@ -421,10 +428,10 @@
   },
   "61552517971174": {
     "progress": {
-      "chat_active": 93
+      "chat_active": 8
     },
     "completed": {},
-    "lastReset": "Tue Mar 25 2025",
+    "lastReset": "Sun Apr 06 2025",
     "lastRewardClaim": null
   },
   "100067139628043": {
@@ -574,10 +581,10 @@
   },
   "100080942144028": {
     "progress": {
-      "chat_active": 14
+      "chat_active": 3
     },
     "completed": {},
-    "lastReset": "Sat Apr 05 2025",
+    "lastReset": "Sun Apr 06 2025",
     "lastRewardClaim": null
   },
   "61573656233995": {
@@ -914,7 +921,10 @@
     "lastRewardClaim": null
   },
   "100093208808025": {
-    "progress": {},
+    "progress": {
+      "chat_active": 11,
+      "daily_checkin": 1
+    },
     "completed": {},
     "lastReset": "Sun Apr 06 2025",
     "lastRewardClaim": null
@@ -1029,7 +1039,7 @@
   },
   "100088887667779": {
     "progress": {
-      "chat_active": 2
+      "chat_active": 3
     },
     "completed": {},
     "lastReset": "Sun Apr 06 2025",
@@ -1037,7 +1047,7 @@
   },
   "61563982612558": {
     "progress": {
-      "chat_active": 2
+      "chat_active": 4
     },
     "completed": {},
     "lastReset": "Sun Apr 06 2025",
@@ -1076,7 +1086,9 @@
     "lastRewardClaim": null
   },
   "100094417491175": {
-    "progress": {},
+    "progress": {
+      "chat_active": 4
+    },
     "completed": {},
     "lastReset": "Sun Apr 06 2025",
     "lastRewardClaim": null
@@ -1091,10 +1103,10 @@
   },
   "100006842495827": {
     "progress": {
-      "chat_active": 1
+      "chat_active": 2
     },
     "completed": {},
-    "lastReset": "Fri Apr 04 2025",
+    "lastReset": "Sun Apr 06 2025",
     "lastRewardClaim": null
   },
   "100051679054473": {
@@ -1163,7 +1175,7 @@
   },
   "100063719077878": {
     "progress": {
-      "chat_active": 4
+      "chat_active": 99
     },
     "completed": {},
     "lastReset": "Sun Apr 06 2025",
@@ -1171,7 +1183,7 @@
   },
   "61550616981053": {
     "progress": {
-      "chat_active": 4
+      "chat_active": 7
     },
     "completed": {},
     "lastReset": "Sun Apr 06 2025",
@@ -1259,10 +1271,10 @@
   },
   "100074888445500": {
     "progress": {
-      "chat_active": 21
+      "chat_active": 7
     },
     "completed": {},
-    "lastReset": "Tue Apr 01 2025",
+    "lastReset": "Sun Apr 06 2025",
     "lastRewardClaim": null
   },
   "61557904601192": {
@@ -1493,7 +1505,7 @@
   },
   "100071639513410": {
     "progress": {
-      "chat_active": 3
+      "chat_active": 9
     },
     "completed": {},
     "lastReset": "Sun Apr 06 2025",
@@ -1699,7 +1711,7 @@
   "100074475942612": {
     "progress": {
       "daily_checkin": 1,
-      "chat_active": 16
+      "chat_active": 84
     },
     "completed": {},
     "lastReset": "Sun Apr 06 2025",
@@ -1707,7 +1719,7 @@
   },
   "100092453935765": {
     "progress": {
-      "chat_active": 11
+      "chat_active": 75
     },
     "completed": {},
     "lastReset": "Sun Apr 06 2025",
@@ -1759,7 +1771,7 @@
       "chat_active": 2
     },
     "completed": {},
-    "lastReset": "Fri Apr 04 2025",
+    "lastReset": "Sun Apr 06 2025",
     "lastRewardClaim": null
   },
   "61555200513852": {
@@ -1804,7 +1816,7 @@
   },
   "61550807250827": {
     "progress": {
-      "chat_active": 21
+      "chat_active": 44
     },
     "completed": {},
     "lastReset": "Sun Apr 06 2025",
@@ -1836,10 +1848,10 @@
   },
   "61553529051419": {
     "progress": {
-      "chat_active": 4
+      "chat_active": 1
     },
     "completed": {},
-    "lastReset": "Sat Apr 05 2025",
+    "lastReset": "Sun Apr 06 2025",
     "lastRewardClaim": null
   },
   "100091729174381": {
@@ -1852,7 +1864,7 @@
   },
   "61550032527858": {
     "progress": {
-      "chat_active": 26,
+      "chat_active": 56,
       "daily_checkin": 1
     },
     "completed": {},
@@ -1869,8 +1881,8 @@
   },
   "100079828954790": {
     "progress": {
-      "chat_active": 46,
-      "daily_checkin": 1
+      "chat_active": 207,
+      "daily_checkin": 2
     },
     "completed": {},
     "lastReset": "Sun Apr 06 2025",
@@ -1913,7 +1925,7 @@
       "chat_active": 2
     },
     "completed": {},
-    "lastReset": "Sat Apr 05 2025",
+    "lastReset": "Sun Apr 06 2025",
     "lastRewardClaim": null
   },
   "100085485743621": {
@@ -1944,7 +1956,7 @@
   },
   "100094553199730": {
     "progress": {
-      "chat_active": 11
+      "chat_active": 80
     },
     "completed": {},
     "lastReset": "Sun Apr 06 2025",
@@ -1968,8 +1980,8 @@
   },
   "61550739941534": {
     "progress": {
-      "chat_active": 28,
-      "daily_checkin": 1
+      "chat_active": 509,
+      "daily_checkin": 2
     },
     "completed": {},
     "lastReset": "Sun Apr 06 2025",
@@ -2159,8 +2171,10 @@
   },
   "100083810402652": {
     "progress": {
-      "chat_active": 154,
-      "daily_checkin": 1
+      "chat_active": 1200,
+      "daily_checkin": 1,
+      "play_games": 4,
+      "win_games": 1
     },
     "completed": {},
     "lastReset": "Sun Apr 06 2025",
@@ -2224,16 +2238,16 @@
   },
   "61564135792122": {
     "progress": {
-      "chat_active": 7
+      "chat_active": 12
     },
     "completed": {},
-    "lastReset": "Sat Apr 05 2025",
+    "lastReset": "Sun Apr 06 2025",
     "lastRewardClaim": null
   },
   "61570242251744": {
     "progress": {
-      "daily_checkin": 1,
-      "chat_active": 4
+      "daily_checkin": 2,
+      "chat_active": 9
     },
     "completed": {},
     "lastReset": "Sun Apr 06 2025",
@@ -2289,7 +2303,7 @@
   },
   "100077916691823": {
     "progress": {
-      "chat_active": 47,
+      "chat_active": 48,
       "daily_checkin": 1
     },
     "completed": {},
@@ -2351,11 +2365,10 @@
   },
   "61551500976868": {
     "progress": {
-      "chat_active": 1,
-      "daily_checkin": 1
+      "chat_active": 4
     },
     "completed": {},
-    "lastReset": "Sat Apr 05 2025",
+    "lastReset": "Sun Apr 06 2025",
     "lastRewardClaim": null
   },
   "100045708347768": {
@@ -2392,10 +2405,10 @@
   },
   "61571418352875": {
     "progress": {
-      "chat_active": 45
+      "chat_active": 17
     },
     "completed": {},
-    "lastReset": "Sat Apr 05 2025",
+    "lastReset": "Sun Apr 06 2025",
     "lastRewardClaim": null
   },
   "61565466350552": {
@@ -2596,19 +2609,18 @@
   },
   "61556565254088": {
     "progress": {
-      "chat_active": 1
+      "chat_active": 2
     },
     "completed": {},
-    "lastReset": "Sat Apr 05 2025",
+    "lastReset": "Sun Apr 06 2025",
     "lastRewardClaim": null
   },
   "100087149330001": {
     "progress": {
-      "chat_active": 12,
-      "daily_checkin": 1
+      "chat_active": 1
     },
     "completed": {},
-    "lastReset": "Sat Apr 05 2025",
+    "lastReset": "Sun Apr 06 2025",
     "lastRewardClaim": null
   },
   "100094271653488": {
@@ -2677,10 +2689,10 @@
   },
   "100082736091996": {
     "progress": {
-      "chat_active": 3
+      "chat_active": 30
     },
     "completed": {},
-    "lastReset": "Thu Mar 27 2025",
+    "lastReset": "Sun Apr 06 2025",
     "lastRewardClaim": null
   },
   "100089593144304": {
@@ -2709,7 +2721,7 @@
   },
   "100056955484415": {
     "progress": {
-      "chat_active": 48
+      "chat_active": 63
     },
     "completed": {},
     "lastReset": "Sun Apr 06 2025",
@@ -3085,7 +3097,7 @@
   },
   "61566298466607": {
     "progress": {
-      "chat_active": 2
+      "chat_active": 5
     },
     "completed": {},
     "lastReset": "Sun Apr 06 2025",
@@ -3104,7 +3116,7 @@
       "chat_active": 1
     },
     "completed": {},
-    "lastReset": "Thu Apr 03 2025",
+    "lastReset": "Sun Apr 06 2025",
     "lastRewardClaim": null
   },
   "100090108924659": {
@@ -3141,11 +3153,10 @@
   },
   "100089115852681": {
     "progress": {
-      "chat_active": 14,
-      "daily_checkin": 1
+      "chat_active": 2
     },
     "completed": {},
-    "lastReset": "Sat Apr 05 2025",
+    "lastReset": "Sun Apr 06 2025",
     "lastRewardClaim": null
   },
   "61568667638538": {
@@ -3345,7 +3356,7 @@
   },
   "100090882493863": {
     "progress": {
-      "chat_active": 4,
+      "chat_active": 13,
       "daily_checkin": 1
     },
     "completed": {},
@@ -3354,7 +3365,8 @@
   },
   "100066109724736": {
     "progress": {
-      "chat_active": 9
+      "chat_active": 126,
+      "daily_checkin": 1
     },
     "completed": {},
     "lastReset": "Sun Apr 06 2025",
@@ -3362,7 +3374,7 @@
   },
   "61555169065633": {
     "progress": {
-      "chat_active": 4,
+      "chat_active": 22,
       "daily_checkin": 1
     },
     "completed": {},
@@ -3371,7 +3383,7 @@
   },
   "100082275475195": {
     "progress": {
-      "chat_active": 3
+      "chat_active": 6
     },
     "completed": {},
     "lastReset": "Sun Apr 06 2025",
@@ -3395,7 +3407,7 @@
   },
   "100087511500419": {
     "progress": {
-      "chat_active": 4
+      "chat_active": 49
     },
     "completed": {},
     "lastReset": "Sun Apr 06 2025",
@@ -3404,7 +3416,7 @@
   "100076346764439": {
     "progress": {
       "daily_checkin": 1,
-      "chat_active": 2
+      "chat_active": 61
     },
     "completed": {},
     "lastReset": "Sun Apr 06 2025",
@@ -3444,7 +3456,7 @@
   },
   "100038740121428": {
     "progress": {
-      "chat_active": 3
+      "chat_active": 4
     },
     "completed": {},
     "lastReset": "Sun Apr 06 2025",
@@ -3452,7 +3464,7 @@
   },
   "100089362226968": {
     "progress": {
-      "chat_active": 15,
+      "chat_active": 23,
       "daily_checkin": 1
     },
     "completed": {},
@@ -3477,7 +3489,7 @@
   },
   "61563440986705": {
     "progress": {
-      "chat_active": 3
+      "chat_active": 12
     },
     "completed": {},
     "lastReset": "Sun Apr 06 2025",
@@ -3485,7 +3497,7 @@
   },
   "100063774489833": {
     "progress": {
-      "chat_active": 2
+      "chat_active": 12
     },
     "completed": {},
     "lastReset": "Sun Apr 06 2025",
@@ -3493,10 +3505,10 @@
   },
   "61565334015550": {
     "progress": {
-      "chat_active": 6
+      "chat_active": 5
     },
     "completed": {},
-    "lastReset": "Sat Apr 05 2025",
+    "lastReset": "Sun Apr 06 2025",
     "lastRewardClaim": null
   },
   "61555632365104": {
@@ -3518,10 +3530,10 @@
   },
   "100076929171235": {
     "progress": {
-      "chat_active": 7
+      "chat_active": 3
     },
     "completed": {},
-    "lastReset": "Fri Apr 04 2025",
+    "lastReset": "Sun Apr 06 2025",
     "lastRewardClaim": null
   },
   "61555625227297": {
@@ -3534,7 +3546,7 @@
   },
   "100094519976306": {
     "progress": {
-      "chat_active": 60,
+      "chat_active": 76,
       "daily_checkin": 1,
       "play_games": 6,
       "win_games": 3
@@ -3553,15 +3565,15 @@
   },
   "100080414735079": {
     "progress": {
-      "chat_active": 1
+      "chat_active": 2
     },
     "completed": {},
-    "lastReset": "Fri Apr 04 2025",
+    "lastReset": "Sun Apr 06 2025",
     "lastRewardClaim": null
   },
   "100061680206019": {
     "progress": {
-      "chat_active": 48,
+      "chat_active": 50,
       "daily_checkin": 1,
       "play_games": 8,
       "win_games": 2
@@ -3596,10 +3608,10 @@
   },
   "100077962112225": {
     "progress": {
-      "chat_active": 2
+      "chat_active": 1
     },
     "completed": {},
-    "lastReset": "Sat Apr 05 2025",
+    "lastReset": "Sun Apr 06 2025",
     "lastRewardClaim": null
   },
   "100088152124885": {
@@ -3834,9 +3846,10 @@
   },
   "100035899503301": {
     "progress": {
-      "chat_active": 17,
+      "chat_active": 18,
       "play_games": 8,
-      "win_games": 1
+      "win_games": 1,
+      "daily_checkin": 1
     },
     "completed": {},
     "lastReset": "Sun Apr 06 2025",
@@ -3852,7 +3865,7 @@
   },
   "100034967211387": {
     "progress": {
-      "chat_active": 5
+      "chat_active": 73
     },
     "completed": {},
     "lastReset": "Sun Apr 06 2025",
@@ -4103,10 +4116,10 @@
   },
   "61571006303724": {
     "progress": {
-      "chat_active": 112
+      "chat_active": 3
     },
     "completed": {},
-    "lastReset": "Fri Apr 04 2025",
+    "lastReset": "Sun Apr 06 2025",
     "lastRewardClaim": null
   },
   "100054304911212": {
@@ -4240,7 +4253,7 @@
   },
   "61564416117890": {
     "progress": {
-      "chat_active": 1
+      "chat_active": 2
     },
     "completed": {},
     "lastReset": "Sun Apr 06 2025",
@@ -4280,8 +4293,8 @@
   },
   "61553443297125": {
     "progress": {
-      "daily_checkin": 1,
-      "chat_active": 9
+      "daily_checkin": 2,
+      "chat_active": 23
     },
     "completed": {},
     "lastReset": "Sun Apr 06 2025",
@@ -4299,8 +4312,8 @@
   },
   "100052978762587": {
     "progress": {
-      "chat_active": 3,
-      "daily_checkin": 1
+      "chat_active": 12,
+      "daily_checkin": 2
     },
     "completed": {},
     "lastReset": "Sun Apr 06 2025",
@@ -4348,7 +4361,7 @@
   },
   "61574677321989": {
     "progress": {
-      "chat_active": 1
+      "chat_active": 15
     },
     "completed": {},
     "lastReset": "Sun Apr 06 2025",
@@ -4380,7 +4393,7 @@
   },
   "100066909397916": {
     "progress": {
-      "chat_active": 25
+      "chat_active": 40
     },
     "completed": {},
     "lastReset": "Sun Apr 06 2025",
@@ -4388,11 +4401,11 @@
   },
   "61575138081052": {
     "progress": {
-      "chat_active": 6,
+      "chat_active": 9,
       "daily_checkin": 1
     },
     "completed": {},
-    "lastReset": "Sat Apr 05 2025",
+    "lastReset": "Sun Apr 06 2025",
     "lastRewardClaim": null
   },
   "61556123671885": {
@@ -4421,7 +4434,7 @@
   },
   "61574807887656": {
     "progress": {
-      "chat_active": 37
+      "chat_active": 172
     },
     "completed": {},
     "lastReset": "Sun Apr 06 2025",
@@ -4429,8 +4442,10 @@
   },
   "61572961842190": {
     "progress": {
-      "chat_active": 44,
-      "daily_checkin": 1
+      "chat_active": 252,
+      "daily_checkin": 1,
+      "win_games": 1,
+      "play_games": 1
     },
     "completed": {},
     "lastReset": "Sun Apr 06 2025",
@@ -4444,11 +4459,11 @@
   },
   "61559146986423": {
     "progress": {
-      "daily_checkin": 2,
-      "chat_active": 10
+      "daily_checkin": 1,
+      "chat_active": 8
     },
     "completed": {},
-    "lastReset": "Sat Apr 05 2025",
+    "lastReset": "Sun Apr 06 2025",
     "lastRewardClaim": null
   },
   "61551005722779": {
@@ -4507,10 +4522,10 @@
   },
   "100083189822768": {
     "progress": {
-      "chat_active": 1
+      "chat_active": 2
     },
     "completed": {},
-    "lastReset": "Fri Apr 04 2025",
+    "lastReset": "Sun Apr 06 2025",
     "lastRewardClaim": null
   },
   "100094908920853": {
@@ -4587,7 +4602,7 @@
   },
   "100053763274764": {
     "progress": {
-      "chat_active": 4,
+      "chat_active": 24,
       "daily_checkin": 1
     },
     "completed": {},
@@ -4596,7 +4611,7 @@
   },
   "61560556147277": {
     "progress": {
-      "chat_active": 2
+      "chat_active": 3
     },
     "completed": {},
     "lastReset": "Sun Apr 06 2025",
@@ -4604,10 +4619,10 @@
   },
   "100069440214672": {
     "progress": {
-      "chat_active": 13
+      "chat_active": 4
     },
     "completed": {},
-    "lastReset": "Sat Apr 05 2025",
+    "lastReset": "Sun Apr 06 2025",
     "lastRewardClaim": null
   },
   "61561003541701": {
@@ -4628,20 +4643,18 @@
   },
   "100035671728134": {
     "progress": {
-      "chat_active": 20,
-      "daily_checkin": 1,
-      "play_games": 1
+      "chat_active": 3
     },
     "completed": {},
-    "lastReset": "Sat Apr 05 2025",
+    "lastReset": "Sun Apr 06 2025",
     "lastRewardClaim": null
   },
   "100028945674234": {
     "progress": {
-      "chat_active": 1
+      "chat_active": 2
     },
     "completed": {},
-    "lastReset": "Sat Apr 05 2025",
+    "lastReset": "Sun Apr 06 2025",
     "lastRewardClaim": null
   },
   "61550857948080": {
@@ -4662,10 +4675,10 @@
   },
   "61554119789674": {
     "progress": {
-      "chat_active": 27
+      "chat_active": 8
     },
     "completed": {},
-    "lastReset": "Sat Apr 05 2025",
+    "lastReset": "Sun Apr 06 2025",
     "lastRewardClaim": null
   },
   "61557215138010": {
@@ -4673,12 +4686,12 @@
       "chat_active": 1
     },
     "completed": {},
-    "lastReset": "Sat Apr 05 2025",
+    "lastReset": "Sun Apr 06 2025",
     "lastRewardClaim": null
   },
   "100025371817017": {
     "progress": {
-      "chat_active": 1
+      "chat_active": 8
     },
     "completed": {},
     "lastReset": "Sun Apr 06 2025",
@@ -4708,7 +4721,7 @@
   },
   "100079188893808": {
     "progress": {
-      "chat_active": 9
+      "chat_active": 23
     },
     "completed": {},
     "lastReset": "Sun Apr 06 2025",
@@ -4759,7 +4772,7 @@
       "chat_active": 1
     },
     "completed": {},
-    "lastReset": "Sat Apr 05 2025",
+    "lastReset": "Sun Apr 06 2025",
     "lastRewardClaim": null
   },
   "100066144773627": {
@@ -4772,13 +4785,10 @@
   },
   "100092670739939": {
     "progress": {
-      "chat_active": 34,
-      "daily_checkin": 1,
-      "win_games": 1,
-      "play_games": 5
+      "chat_active": 1
     },
     "completed": {},
-    "lastReset": "Sat Apr 05 2025",
+    "lastReset": "Sun Apr 06 2025",
     "lastRewardClaim": null
   },
   "61562806540259": {
@@ -4810,13 +4820,15 @@
       "chat_active": 3
     },
     "completed": {},
-    "lastReset": "Sat Apr 05 2025",
+    "lastReset": "Sun Apr 06 2025",
     "lastRewardClaim": null
   },
   "100095474975886": {
     "progress": {
-      "chat_active": 8,
-      "daily_checkin": 1
+      "chat_active": 259,
+      "daily_checkin": 1,
+      "win_games": 2,
+      "play_games": 9
     },
     "completed": {},
     "lastReset": "Sun Apr 06 2025",
@@ -4856,8 +4868,154 @@
   },
   "100037392832423": {
     "progress": {
-      "chat_active": 10
+      "chat_active": 12
     },
+    "completed": {},
+    "lastReset": "Sun Apr 06 2025",
+    "lastRewardClaim": null
+  },
+  "100069108704439": {
+    "progress": {
+      "chat_active": 4
+    },
+    "completed": {},
+    "lastReset": "Sun Apr 06 2025",
+    "lastRewardClaim": null
+  },
+  "100087967370242": {
+    "progress": {
+      "chat_active": 1
+    },
+    "completed": {},
+    "lastReset": "Sun Apr 06 2025",
+    "lastRewardClaim": null
+  },
+  "100093746282451": {
+    "progress": {
+      "chat_active": 27
+    },
+    "completed": {},
+    "lastReset": "Sun Apr 06 2025",
+    "lastRewardClaim": null
+  },
+  "100086941467308": {
+    "progress": {
+      "chat_active": 1
+    },
+    "completed": {},
+    "lastReset": "Sun Apr 06 2025",
+    "lastRewardClaim": null
+  },
+  "61572741620248": {
+    "progress": {},
+    "completed": {},
+    "lastReset": "Sun Apr 06 2025",
+    "lastRewardClaim": null
+  },
+  "100081542767167": {
+    "progress": {
+      "chat_active": 62
+    },
+    "completed": {},
+    "lastReset": "Sun Apr 06 2025",
+    "lastRewardClaim": null
+  },
+  "61575216410816": {
+    "progress": {
+      "chat_active": 5
+    },
+    "completed": {},
+    "lastReset": "Sun Apr 06 2025",
+    "lastRewardClaim": null
+  },
+  "100074867522024": {
+    "progress": {
+      "chat_active": 2
+    },
+    "completed": {},
+    "lastReset": "Sun Apr 06 2025",
+    "lastRewardClaim": null
+  },
+  "100087150543533": {
+    "progress": {
+      "chat_active": 15
+    },
+    "completed": {},
+    "lastReset": "Sun Apr 06 2025",
+    "lastRewardClaim": null
+  },
+  "61570923545817": {
+    "progress": {
+      "chat_active": 1
+    },
+    "completed": {},
+    "lastReset": "Sun Apr 06 2025",
+    "lastRewardClaim": null
+  },
+  "100083611190435": {
+    "progress": {
+      "chat_active": 14
+    },
+    "completed": {},
+    "lastReset": "Sun Apr 06 2025",
+    "lastRewardClaim": null
+  },
+  "100006704624531": {
+    "progress": {
+      "chat_active": 2
+    },
+    "completed": {},
+    "lastReset": "Sun Apr 06 2025",
+    "lastRewardClaim": null
+  },
+  "100087902381580": {
+    "progress": {
+      "chat_active": 1
+    },
+    "completed": {},
+    "lastReset": "Sun Apr 06 2025",
+    "lastRewardClaim": null
+  },
+  "61551208764446": {
+    "progress": {
+      "chat_active": 11
+    },
+    "completed": {},
+    "lastReset": "Sun Apr 06 2025",
+    "lastRewardClaim": null
+  },
+  "100093009807799": {
+    "progress": {
+      "chat_active": 5
+    },
+    "completed": {},
+    "lastReset": "Sun Apr 06 2025",
+    "lastRewardClaim": null
+  },
+  "61554959551201": {
+    "progress": {
+      "chat_active": 7
+    },
+    "completed": {},
+    "lastReset": "Sun Apr 06 2025",
+    "lastRewardClaim": null
+  },
+  "100084207470262": {
+    "progress": {},
+    "completed": {},
+    "lastReset": "Sun Apr 06 2025",
+    "lastRewardClaim": null
+  },
+  "100070518378836": {
+    "progress": {
+      "chat_active": 1
+    },
+    "completed": {},
+    "lastReset": "Sun Apr 06 2025",
+    "lastRewardClaim": null
+  },
+  "100076957035044": {
+    "progress": {},
     "completed": {},
     "lastReset": "Sun Apr 06 2025",
     "lastRewardClaim": null

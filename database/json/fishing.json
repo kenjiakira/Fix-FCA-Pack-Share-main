@@ -780,7 +780,7 @@
   },
   "100076957299243": {
     "rod": "Cần câu Daiwa Gekkabijin MX",
-    "rodDurability": 184,
+    "rodDurability": 183,
     "inventory": [
       "Cần trúc",
       "Cần Câu tay",
@@ -826,7 +826,7 @@
           "Cá Rô Biển": 4,
           "Rương kim cương": 3,
           "Cá Trê Đen": 1,
-          "Cá Duồng": 2,
+          "Cá Duồng": 3,
           "Kho báu thần thoại": 4
         },
         "uncommon": {
@@ -855,29 +855,29 @@
         "mythical": {}
       },
       "stats": {
-        "totalCaught": 188,
-        "totalValue": 14906905,
+        "totalCaught": 189,
+        "totalValue": 14947518,
         "bestCatch": {
           "name": "Rương kim cương",
           "value": 3562500
         }
       }
     },
-    "exp": 6695,
+    "exp": 6830,
     "level": 13,
-    "fishingStreak": 69,
+    "fishingStreak": 70,
     "stats": {
-      "totalExp": 46270,
+      "totalExp": 46405,
       "highestStreak": 83,
-      "totalFishes": 188
+      "totalFishes": 189
     },
     "activeBuffs": {},
-    "lastFished": 1743821608712,
+    "lastFished": 1743924000952,
     "userID": "100076957299243",
     "energy": 100,
-    "lastEnergyUpdate": 1743821608712,
+    "lastEnergyUpdate": 1743924000953,
     "baits": {
-      "Mồi Thần Thoại": 364
+      "Mồi Thần Thoại": 363
     },
     "craftingMaterials": {}
   },

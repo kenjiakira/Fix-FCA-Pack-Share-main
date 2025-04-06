@@ -5,6 +5,70 @@ const { ElevenLabsClient } = require("elevenlabs");
 const advancedNLP = require('./models/NLP');
 const fetch = (...args) => import('node-fetch').then(({default: fetch}) => fetch(...args));
 
+const ResponseCooldown = {
+  lastResponses: new Map(),
+  isTyping: new Map(),
+  
+  getTypingDelay: (message) => {
+    // Calculate natural typing delay based on message length and complexity
+    const baseDelay = 1500; // Base thinking time in ms
+    const typingSpeed = 50; // ms per character (average human typing speed)
+    const complexity = message.includes('?') ? 1.2 : 1; // Questions take longer to process
+    
+    // Longer messages need more "thinking time"
+    const thinkingTime = Math.min(baseDelay + (message.length / 5) * 300, 5000);
+    
+    // Reading + thinking + typing time
+    return thinkingTime + (message.length * typingSpeed * complexity);
+  },
+  
+  getResponseDelay: (senderID, threadID, message) => {
+    const now = Date.now();
+    const lastResponse = ResponseCooldown.lastResponses.get(`${threadID}_${senderID}`);
+    
+    // If already typing, don't calculate again
+    if (ResponseCooldown.isTyping.get(`${threadID}_${senderID}`)) {
+      return 0;
+    }
+    
+    // Short messages get shorter delays
+    const isShortMessage = message.length < 15;
+    
+    // If responded recently, add more delay (humans don't instantly respond to follow-ups)
+    let additionalDelay = 0;
+    if (lastResponse && (now - lastResponse < 10000)) {
+      additionalDelay = Math.min(2000, 10000 - (now - lastResponse));
+    }
+    
+    // Randomize delay slightly to seem more natural
+    const randomFactor = 0.8 + (Math.random() * 0.4); // 0.8-1.2 range
+    
+    // Calculate total delay
+    let delay = (isShortMessage ? 1000 : ResponseCooldown.getTypingDelay(message)) * randomFactor;
+    
+    // Add mood-based delay variation
+    if (botEmotionalState.energy < 0.6) {
+      delay *= 1.3; // Tired bot responds slower
+    }
+    
+    // Add time of day factor
+    const hour = new Date().getHours();
+    if (hour >= 0 && hour < 6) {
+      delay *= 1.5; // Late night, slower responses
+    }
+    
+    return Math.floor(delay + additionalDelay);
+  },
+  
+  setTypingState: (senderID, threadID, isTyping) => {
+    ResponseCooldown.isTyping.set(`${threadID}_${senderID}`, isTyping);
+  },
+  
+  updateLastResponse: (senderID, threadID) => {
+    ResponseCooldown.lastResponses.set(`${threadID}_${senderID}`, Date.now());
+    ResponseCooldown.isTyping.set(`${threadID}_${senderID}`, false);
+  }
+};
 const processAudioMessage = async (audioAttachment) => {
   try {
     const cacheDir = path.join(__dirname, "cache");
@@ -1393,12 +1457,24 @@ const generateResponse = async (prompt, senderID, api, threadID, messageID) => {
     prompt.toLowerCase().includes("giọng") ||
     prompt.toLowerCase().includes("nói") ||
     prompt.toLowerCase().includes("đọc");
-    const isApologizing = prompt.toLowerCase().match(/xin lỗi|sorry|cảm ơn|thank/i);
-    if (isApologizing) {
-      botEmotionalState.mood = Math.min(0.9, botEmotionalState.mood + 0.2);
-    }
+  const isApologizing = prompt.toLowerCase().match(/xin lỗi|sorry|cảm ơn|thank/i);
+  if (isApologizing) {
+    botEmotionalState.mood = Math.min(0.9, botEmotionalState.mood + 0.2);
+  }
 
   try {
+    // Calculate appropriate delay before responding
+    const responseDelay = ResponseCooldown.getResponseDelay(senderID, threadID, prompt);
+    
+    if (responseDelay > 0) {
+      // Set typing indicator
+      ResponseCooldown.setTypingState(senderID, threadID, true);
+      api.sendTypingIndicator(threadID);
+      
+      // Wait for calculated delay
+      await new Promise(resolve => setTimeout(resolve, responseDelay));
+    }
+    
     const newNickname = detectNicknameChangeRequest(prompt);
     if (newNickname) {
       const result = await changeUserNickname(api, threadID, senderID, newNickname);
@@ -1608,9 +1684,11 @@ Lịch sử: ${context.history}`;
         return "❌ Không thể tạo voice message. Vui lòng thử lại sau.";
       }
     }
-
+    ResponseCooldown.updateLastResponse(senderID, threadID);
     return response;
   } catch (error) {
+    // Make sure to reset typing state even on error
+    ResponseCooldown.setTypingState(senderID, threadID, false);
     console.error("Generation error:", error);
     throw error;
   }
@@ -1665,6 +1743,7 @@ module.exports = {
     const { threadID, messageID, body, senderID, attachments } = event;
 
     try {
+      api.sendTypingIndicator(threadID);
       if (attachments && attachments[0]?.type === "audio") {
         const audioData = await processAudioMessage(attachments[0]);
         const response = await generateResponseFromAudio(
@@ -1777,6 +1856,7 @@ module.exports = {
     const { threadID, messageID, body, senderID, attachments } = event;
 
     try {
+      api.sendTypingIndicator(threadID);
       const threadHistory = conversationHistory.threads[threadID] || [];
       const lastExchange = threadHistory[threadHistory.length - 1];
 
