@@ -16,15 +16,12 @@ module.exports = {
 
     createBoardCanvas: async function(boardData, playerData, showMines = false) {
         try {
-            // Kích thước ô và bảng
             const cellSize = 40;
             const { board, width, height, mineCount, remainingCells } = boardData;
             
-            // Tạo canvas
             const canvas = createCanvas(width * cellSize + 100, height * cellSize + 150);
             const ctx = canvas.getContext('2d');
-            
-            // Vẽ nền với gradient đẹp mắt
+
             const gradient = ctx.createLinearGradient(0, 0, canvas.width, canvas.height);
             gradient.addColorStop(0, '#0f0c29');
             gradient.addColorStop(0.5, '#302b63');
@@ -32,10 +29,8 @@ module.exports = {
             ctx.fillStyle = gradient;
             ctx.fillRect(0, 0, canvas.width, canvas.height);
             
-            // Thêm các particle cho nền
             this.drawParticles(ctx, canvas.width, canvas.height);
             
-            // Vẽ header với gradient
             const headerGradient = ctx.createLinearGradient(0, 0, canvas.width, 60);
             headerGradient.addColorStop(0, '#e94560');
             headerGradient.addColorStop(0.5, '#fc5c7d');

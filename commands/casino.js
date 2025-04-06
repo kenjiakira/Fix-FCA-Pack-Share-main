@@ -200,32 +200,6 @@ module.exports = {
         });
     },
 
-    // Coinflip Logic
-    generateCoinflipResult: function(senderID, playerChoice, betType, balance) {
-        const winChance = gameLogic.calculateWinChance(senderID, {
-            isAllIn: betType === 'allin',
-            balance: balance,
-            gameType: "coinflip",
-        });
-
-        const shouldWin = Math.random() < winChance;
-        const result = shouldWin
-          ? playerChoice
-          : playerChoice === "up"
-          ? "ngửa"
-          : "up";
-
-        const specialRoll = Math.random();
-        let multiplier = 1.8;
-        if (specialRoll < 0.05) {
-          multiplier = 3.0;
-        } else if (specialRoll < 0.15) {
-          multiplier = 2.2;
-        }
-
-        return { result, multiplier };
-    },
-
     async createDiceImage(dice1, dice2, dice3) {
         try {
             const diceImagesDir = path.join(__dirname, 'dice');
@@ -401,7 +375,6 @@ module.exports = {
                     "⚜️ Hướng dẫn sử dụng:\n" +
                     "➤ Tài Xỉu: .casino tài/xỉu [số tiền/allin]\n" +
                     "➤ Chẵn Lẻ: .casino chẵn/lẻ [số tiền/allin]\n" +
-                    "➤ Coinflip: .casino up/ngửa [số tiền/allin]\n" +
                     "➤ Bầu cua: .casino bầu/cua/tôm/cá/gà/nai [số tiền]\n\n" +
                     "📌 Tất cả các game đều có thể chơi allin\n" +
                     "📌 Mức cược tối thiểu: 10$\n" +
@@ -674,112 +647,6 @@ module.exports = {
                 
                 return;
             }
-            else if (gameType === "up" || gameType === "ngửa") {
-                const canvasData = {
-                    playerName: getName(senderID),
-                    betAmount: betAmount,
-                    choice: gameType
-                };
-                
-                try {
-                    const waitingCanvas = await createCoinflipCanvas(canvasData, false);
-                    const waitingStream = await bufferToReadStream(waitingCanvas, 'coinflip_wait');
-                    await api.sendMessage({
-                        body: "『 COINFLIP 』\n🪙 Đang tung đồng xu...",
-                        attachment: waitingStream
-                    }, threadID, messageID);
-                } catch (error) {
-                    await api.sendMessage("🎲 Đang tung đồng xu... Đợi 4 giây...", threadID, messageID);
-                }
-                
-                setTimeout(async () => {
-                    try {
-                        const { result, multiplier } = this.generateCoinflipResult(
-                            senderID,
-                            gameType,
-                            betType,
-                            balance
-                        );
-                        
-                        let finalBalance = getBalance(senderID);
-                        let winAmount = 0;
-                        
-                        if (gameType === result) {
-                            const rewardInfo = gameLogic.calculateReward(betAmount, multiplier);
-                            updateBalance(senderID, rewardInfo.finalReward);
-                            winAmount = rewardInfo.finalReward;
-                            finalBalance = getBalance(senderID);
-                            
-                            gameLogic.updatePlayerStats(senderID, {
-                                won: true,
-                                betAmount,
-                                winAmount: rewardInfo.finalReward,
-                                gameType: "coinflip",
-                            });
-                            
-                            updateQuestProgress(senderID, "win_games");
-                            updateQuestProgress(senderID, "win_coinflip");
-                        } else {
-                            gameLogic.updatePlayerStats(senderID, {
-                                won: false,
-                                betAmount,
-                                gameType: "coinflip",
-                            });
-                        }
-                        
-                        updateQuestProgress(senderID, "play_games");
-                        updateQuestProgress(senderID, "play_coinflip");
-                        
-                        // Create result canvas
-                        const resultData = {
-                            playerName: getName(senderID),
-                            betAmount: betAmount,
-                            choice: gameType,
-                            result: result,
-                            multiplier: multiplier,
-                            balance: finalBalance
-                        };
-                        
-                        try {
-                            const resultCanvas = await createCoinflipCanvas(resultData, true);
-                            const sentMessage = await api.sendMessage({
-                                body: "『 COINFLIP 』\nKết quả đã sẵn sàng!",
-                                attachment: fs.createReadStream(resultCanvas)
-                            }, threadID, messageID);
-                            
-                            // Tự động xóa sau 10 giây
-                            autoUnsend(sentMessage.messageID);
-                        } catch (error) {
-                            console.error('Coinflip canvas error:', error);
-                            
-                            // Fallback to text message
-                            const COIN_FACES = { up: "👆", ngửa: "⭕" };
-                            let message = `『 COINFLIP 』\n\nKết quả: ${COIN_FACES[result]} (${result.toUpperCase()})\n`;
-                            
-                            if (gameType === result) {
-                                message += `🎉 Thắng: ${formatNumber(winAmount)} $\n`;
-                                message += `💹 Hệ số: x${multiplier}\n`;
-                            } else {
-                                message += `💔 Thua: ${formatNumber(betAmount)} $\n`;
-                            }
-                            
-                            message += `\n💰 Số dư: ${formatNumber(finalBalance)} $`;
-                            
-                            await api.sendMessage(message, threadID, messageID);
-                        }
-                        
-                    } catch (error) {
-                        console.error('Coinflip processing error:', error);
-                        if (!refundProcessed) {
-                            refundProcessed = true;
-                            updateBalance(senderID, betAmount);
-                            await api.sendMessage("❌ Có lỗi xảy ra, đã hoàn tiền cược.", threadID, messageID);
-                        }
-                    }
-                }, 4000);
-                
-                return;
-            }
             
             else if (["bầu", "cua", "tôm", "cá", "gà", "nai"].includes(gameType)) {
                 const choiceEmojis = {
@@ -907,7 +774,6 @@ module.exports = {
                     "Vui lòng chọn một trong các game:\n" +
                     "• Tài Xỉu: .casino tài/xỉu [số tiền]\n" +
                     "• Chẵn Lẻ: .casino chẵn/lẻ [số tiền]\n" +
-                    "• Coinflip: .casino up/ngửa [số tiền]\n" +
                     "• Bầu cua: .casino bầu/cua/tôm/cá/gà/nai [số tiền]",
                     threadID, messageID
                 );
