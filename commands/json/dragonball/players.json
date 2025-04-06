@@ -648,12 +648,12 @@
     "name": "Gia Huy ",
     "planet": "SAIYAN",
     "stats": {
-      "power": 61227,
-      "damage": 340,
+      "power": 66227,
+      "damage": 350,
       "ki": 660,
-      "health": 2800,
-      "exp": 2990,
-      "zeni": 24865,
+      "health": 3400,
+      "exp": 201,
+      "zeni": 15388,
       "inventory": {
         "items": [],
         "equipped": []
@@ -665,17 +665,31 @@
       },
       "currentKi": 389,
       "level": 2,
-      "maxHealth": 2700,
+      "maxHealth": 3300,
       "currentHealth": 2488
     },
     "skills": [
       "GOKU:ATOMIC"
     ],
     "masters": [],
-    "lastTrain": 1743784025879,
+    "lastTrain": 1743915104112,
     "created": 1743526294836,
     "inventory": {
-      "dragonBalls": []
+      "dragonBalls": [],
+      "items": [
+        {
+          "id": "scouter",
+          "quantity": 1,
+          "type": "equipment",
+          "usedTime": 1743913590182,
+          "visualEffect": {
+            "type": "overlay",
+            "position": "face",
+            "color": "#FF0000"
+          },
+          "equipped": true
+        }
+      ]
     },
     "evolution": {
       "name": "Saiyan thường",
@@ -700,7 +714,12 @@
         "SAIYAN_RADITZ": 0
       }
     },
-    "lastPvpFight": 1743782632727
+    "lastPvpFight": 1743782632727,
+    "baseStats": {
+      "damage": 340,
+      "health": 2800,
+      "ki": 660
+    }
   },
   "100055074463541": {
     "name": "Khang Bùi",
@@ -1487,14 +1506,14 @@
     "name": "Người chơi",
     "planet": "SAIYAN",
     "stats": {
-      "power": 34000,
-      "damage": 210,
+      "power": 42000,
+      "damage": 180,
       "ki": 180,
       "currentKi": 180,
       "health": 1200,
       "currentHealth": 1200,
-      "exp": 3478,
-      "zeni": 11643,
+      "exp": 2915,
+      "zeni": 7162,
       "inventory": {
         "items": [],
         "equipped": []
@@ -1511,7 +1530,7 @@
       "GOKU:ATOMIC"
     ],
     "masters": [],
-    "lastTrain": 1743867516103,
+    "lastTrain": 1743913377041,
     "created": 1743862953482,
     "inventory": {
       "dragonBalls": [],
@@ -1526,6 +1545,18 @@
           "quantity": 1,
           "type": "gloves",
           "boost": 1.1
+        },
+        {
+          "id": "scouter",
+          "quantity": 1,
+          "type": "equipment",
+          "usedTime": 1743913466449,
+          "visualEffect": {
+            "type": "overlay",
+            "position": "face",
+            "color": "#FF0000"
+          },
+          "equipped": true
         }
       ]
     },
