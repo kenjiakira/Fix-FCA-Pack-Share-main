@@ -3347,50 +3347,32 @@ function applyEquipmentBoosts(player) {
 
     if (!player.baseStats) {
         player.baseStats = {
-            damage: player.stats.damage,
-            health: player.stats.health,
-            ki: player.stats.ki
+            damage: player.stats.damage || 100,
+            health: player.stats.health || 1000,
+            ki: player.stats.ki || 100
         };
     } else {
+        // Ensure base stats have valid values
+        player.baseStats.damage = player.baseStats.damage || 100;
+        player.baseStats.health = player.baseStats.health || 1000;
+        player.baseStats.ki = player.baseStats.ki || 100;
+        
         player.stats.damage = player.baseStats.damage;
         player.stats.health = player.baseStats.health;
         player.stats.ki = player.baseStats.ki;
     }
+    
     if (player.inventory?.items) {
         player.inventory.items.forEach(item => {
             if (item.equipped) {
-                switch (item.type) {
-                    case "armor":
-                        boostMultipliers.health *= item.boost;
-                        break;
-
-                    case "gloves":
-                        boostMultipliers.damage *= item.boost;
-                        break;
-
-                    case "boots":
-                        boostMultipliers.ki *= item.boost;
-                        break;
-
-                    case "radar":
-
-                        break;
-                }
+               
             }
         });
     }
 
-    if (!player.baseStats) {
-        player.baseStats = {
-            damage: player.stats.damage,
-            health: player.stats.health,
-            ki: player.stats.ki
-        };
-    }
-
-    player.stats.damage = Math.floor(player.baseStats.damage * boostMultipliers.damage);
-    player.stats.health = Math.floor(player.baseStats.health * boostMultipliers.health);
-    player.stats.ki = Math.floor(player.baseStats.ki * boostMultipliers.ki);
+    player.stats.damage = Math.floor((player.baseStats.damage || 100) * boostMultipliers.damage);
+    player.stats.health = Math.floor((player.baseStats.health || 1000) * boostMultipliers.health);
+    player.stats.ki = Math.floor((player.baseStats.ki || 100) * boostMultipliers.ki);
 
     player.stats.currentHealth = Math.min(
         player.stats.currentHealth || player.stats.health,
@@ -3401,8 +3383,40 @@ function applyEquipmentBoosts(player) {
         player.stats.ki
     );
 
+    if (isNaN(player.stats.currentHealth) || player.stats.currentHealth === undefined) {
+        player.stats.currentHealth = player.stats.health;
+    }
+    
+    if (isNaN(player.stats.currentKi) || player.stats.currentKi === undefined) {
+        player.stats.currentKi = player.stats.ki;
+    }
+
     return player;
 }
+function validatePlayerStats(player) {
+    if (!player.stats) {
+        player.stats = { ...DEFAULT_STATS };
+        return player;
+    }
+    
+    player.stats.power = player.stats.power || 1000;
+    player.stats.damage = player.stats.damage || 100;
+    player.stats.ki = player.stats.ki || 100;
+    player.stats.health = player.stats.health || 1000;
+    player.stats.exp = player.stats.exp || 0;
+    player.stats.zeni = player.stats.zeni || 0;
+    
+    if (isNaN(player.stats.currentHealth) || player.stats.currentHealth === undefined) {
+        player.stats.currentHealth = player.stats.health;
+    }
+    
+    if (isNaN(player.stats.currentKi) || player.stats.currentKi === undefined) {
+        player.stats.currentKi = player.stats.ki;
+    }
+    
+    return player;
+}
+
 function updatePlayerLocation(player) {
     if (!player.location) {
         const startLocation = WORLD_MAP[player.planet]?.locations.find(loc => loc.isStartPoint) ||
@@ -5536,6 +5550,7 @@ module.exports = {
             const playerData = loadPlayerData();
             for (const [id, player] of Object.entries(playerData)) {
                 validatePlayerSkills(player);
+                validatePlayerStats(player);
             }
             savePlayerData(playerData);
             console.log("Đã kiểm tra và cập nhật kỹ năng của tất cả người chơi");

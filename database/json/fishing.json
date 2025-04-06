@@ -10964,5 +10964,52 @@
     "userID": "61574807887656",
     "baits": {},
     "craftingMaterials": {}
+  },
+  "100053763274764": {
+    "rod": "Cần trúc",
+    "rodDurability": 8,
+    "inventory": [
+      "Cần trúc"
+    ],
+    "collection": {
+      "byRarity": {
+        "trash": {
+          "Giày cũ": 1
+        },
+        "common": {},
+        "uncommon": {
+          "Cá Trê Vàng": 1
+        },
+        "rare": {},
+        "legendary": {},
+        "mythical": {},
+        "cosmic": {}
+      },
+      "stats": {
+        "totalCaught": 2,
+        "totalValue": 10617,
+        "bestCatch": {
+          "name": "Cá Trê Vàng",
+          "value": 7125
+        }
+      }
+    },
+    "exp": 100,
+    "level": 1,
+    "fishingStreak": 2,
+    "energy": 33,
+    "lastEnergyUpdate": 1743865056216,
+    "stats": {
+      "totalExp": 100,
+      "highestStreak": 2,
+      "totalFishes": 2
+    },
+    "activeBuffs": {},
+    "lastFished": 1743865056216,
+    "userID": "100053763274764",
+    "baits": {
+      "Mồi Cao Cấp": 23
+    },
+    "craftingMaterials": {}
   }
 }
