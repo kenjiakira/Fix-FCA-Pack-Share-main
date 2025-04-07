@@ -546,16 +546,13 @@ if (i < 3 && rewards[i]) {
             }
 
             try {
-                // Generate image
                 const imagePath = await this.createTopImage(sortedUsers, senderID, userAvatars);
                 
-                // Send the image
                 return api.sendMessage({
                     attachment: fs.createReadStream(imagePath)
                 }, threadID, (err) => {
                     if (err) api.sendMessage(textFallback, threadID, messageID);
                     
-                    // Clean up temp file
                     if (fs.existsSync(imagePath)) {
                         fs.unlinkSync(imagePath);
                     }

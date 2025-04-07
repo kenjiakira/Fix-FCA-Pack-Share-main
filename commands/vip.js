@@ -244,6 +244,7 @@ module.exports = {
                 `│ 🔐 ${pkg.perks.security.protect}\n` +
                 `│ 🔒 Bảo vệ tài sản: ${pkg.perks.money.protection}\n` +
                 (pkg.perks.money.platform ? `│ 📱 ${pkg.perks.money.platform}\n` : '') +
+                `│ 🔔 SỬ DỤNG TOOL SPAM SMS MIỄN PHÍ\n` +
                 `│ 💘 Ghép đôi nâng cao: Xem thông tin đầy đủ\n` +
                 `│ 💕 Ghép đôi toàn cục: Mở khóa 'ghep box'\n` +
                 `│ 💞 Phân tích tình duyên: Tỉ lệ hợp nhau chi tiết\n` +
@@ -253,8 +254,7 @@ module.exports = {
                 `┌─────────────────\n` +
                 `│ 🌾 Nông trại: ${pkg.perks.money.farm}\n` +
                 `│ 🎁 Quà hàng ngày: ${pkg.perks.money.daily}\n` +
-                `│ 📝 Phần thưởng nhiệm vụ: ${pkg.perks.money.quest}\n` +
-                `│ 🎊 Phần thưởng sự kiện: ${pkg.perks.money.event}\n` +
+                `│ 📝 Phần thưởng nhiệm vụ: ${pkg.perks.money.quest}\n` +   
                 `│ 💸 Khả năng vay: ${pkg.perks.bank.loan}\n` +
                 `│ 📉 Lãi suất vay: ${pkg.perks.bank.interest}\n` +
                 `│ 📈 Lãi tiết kiệm: ${pkg.perks.bank.bonus}\n` +

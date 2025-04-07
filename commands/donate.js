@@ -23,10 +23,7 @@ module.exports = {
 
 🏦 Ngân Hàng:
 • VietinBank
-• STK: 0354683398
-
-📱 Ví Điện Tử:
-• MoMo: 0354683398
+• STK: 109876048569
 • Người nhận: HOANG NGOC TU
 
 ━━━━━━━━━━━━━━━━━━

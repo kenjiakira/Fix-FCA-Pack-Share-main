@@ -1,6 +1,7 @@
 const { exec } = require('child_process');
 const path = require('path');
 const axios = require('axios');
+const vipService = require('../game/vip/vipService');
 
 module.exports = {
     name: "sms",
@@ -8,11 +9,22 @@ module.exports = {
     dev: "HNT",
     category: "Tools",
     onPrefix: true,
-    usedby: 2,
+    usedby: 0,
     usages: "sms [phone] [count]",
     cooldowns: 0,
 
     onLaunch: async ({ api, event, target }) => {
+        const { senderID, threadID, messageID } = event;
+        
+        const vipStatus = vipService.checkVIP(senderID);
+        if (!vipStatus.success) {
+            return api.sendMessage(
+                "⭐ Công cụ này chỉ dành cho người dùng VIP\n" +
+                "👑 Gõ .vip để xem thông tin cách đăng ký VIP",
+                threadID, messageID
+            );
+        }
+
         if (target.length < 2) {
             return api.sendMessage(
                 "📱 SMS Spam\n" +

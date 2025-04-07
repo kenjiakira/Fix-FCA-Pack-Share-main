@@ -1,42 +1,74 @@
 {
   "global": [
     {
-      "timestamp": 1744009522629,
-      "prompt": ".ghep @Kim Ngân",
-      "response": "Hi Kenji!  Chuyện gì thế?",
-      "senderID": "100056955484415",
-      "senderName": "Kenji Akira"
+      "timestamp": 1744014136054,
+      "prompt": "bot ngu",
+      "response": "Chịu ông này luôn, bot gì mà \"ngu\" dữ vậy trời =)))",
+      "senderID": "100071639513410",
+      "senderName": "Ông Sói"
     },
     {
-      "timestamp": 1744009989547,
-      "prompt": "mạch hồng kim ngân",
-      "response": "Chào bạn!  Mạch hồng gì vậy trời =)))  Có chuyện gì vui kể mình nghe đi nào!",
-      "senderID": "61568641631000",
-      "senderName": "Ủa Alo"
+      "timestamp": 1744015847912,
+      "prompt": "📝 Dưới đây là toàn bộ shortcut nhóm có:\n\n1. yes • Luật -> 💕\n2. yes • Luật bot -> 💞\n3. no • Kí tự -> ᴸᴺᴰㅤ²⁰⁰⁰¹²³⁴⁵⁶⁷⁸⁹⁰\n\n'yes' là có tệp gửi kèm\n'no' là không có tệp gửi kèm\n\nReply (phản hồi) theo stt để xóa shortcut",
+      "response": "Dễ hiểu vl =)))  Okie, nhớ nha!",
+      "senderID": "100038740121428",
+      "senderName": "Duy メ "
+    },
+    {
+      "timestamp": 1744015849076,
+      "prompt": "✅ Đã xóa thành công\n\n2. Luật bot",
+      "response": "Duy xóa thành công rồi nha =)))  Cuộc sống vẫn đẹp, đúng không?",
+      "senderID": "100038740121428",
+      "senderName": "Duy メ "
+    },
+    {
+      "timestamp": 1744016854249,
+      "prompt": "Bot",
+      "response": "Chào bạn nhaaa =)))  Chiều nay trời đẹp ghê, đang chuẩn bị đi ăn gì đây!",
+      "senderID": "100079828954790",
+      "senderName": "Hu Hi"
     }
   ],
   "threads": {
-    "28784067331237237": [
-      {
-        "timestamp": 1744009522629,
-        "prompt": ".ghep @Kim Ngân",
-        "response": "Hi Kenji!  Chuyện gì thế?",
-        "senderID": "100056955484415",
-        "senderName": "Kenji Akira"
-      }
-    ],
     "6589198804475799": [
       {
-        "timestamp": 1744009989547,
-        "prompt": "mạch hồng kim ngân",
-        "response": "Chào bạn!  Mạch hồng gì vậy trời =)))  Có chuyện gì vui kể mình nghe đi nào!",
-        "senderID": "61568641631000",
-        "senderName": "Ủa Alo"
+        "timestamp": 1744014136054,
+        "prompt": "bot ngu",
+        "response": "Chịu ông này luôn, bot gì mà \"ngu\" dữ vậy trời =)))",
+        "senderID": "100071639513410",
+        "senderName": "Ông Sói"
+      }
+    ],
+    "8933351226718852": [
+      {
+        "timestamp": 1744015847912,
+        "prompt": "📝 Dưới đây là toàn bộ shortcut nhóm có:\n\n1. yes • Luật -> 💕\n2. yes • Luật bot -> 💞\n3. no • Kí tự -> ᴸᴺᴰㅤ²⁰⁰⁰¹²³⁴⁵⁶⁷⁸⁹⁰\n\n'yes' là có tệp gửi kèm\n'no' là không có tệp gửi kèm\n\nReply (phản hồi) theo stt để xóa shortcut",
+        "response": "Dễ hiểu vl =)))  Okie, nhớ nha!",
+        "senderID": "100038740121428",
+        "senderName": "Duy メ "
+      },
+      {
+        "timestamp": 1744015849076,
+        "prompt": "✅ Đã xóa thành công\n\n2. Luật bot",
+        "response": "Duy xóa thành công rồi nha =)))  Cuộc sống vẫn đẹp, đúng không?",
+        "senderID": "100038740121428",
+        "senderName": "Duy メ "
+      }
+    ],
+    "7595590710538785": [
+      {
+        "timestamp": 1744016854249,
+        "prompt": "Bot",
+        "response": "Chào bạn nhaaa =)))  Chiều nay trời đẹp ghê, đang chuẩn bị đi ăn gì đây!",
+        "senderID": "100079828954790",
+        "senderName": "Hu Hi"
       }
     ]
   },
   "lastResponses": {
-    ".ghep @kim ngân": "Hi Kenji!  Chuyện gì thế?",
-    "mạch hồng kim ngân": "Chào bạn!  Mạch hồng gì vậy trời =)))  Có chuyện gì vui kể mình nghe đi nào!"
+    "bot ngu": "Chịu ông này luôn, bot gì mà \"ngu\" dữ vậy trời =)))",
+    "📝 dưới đây là toàn bộ shortcut nhóm có:\n\n1. yes • luật -> 💕\n2. yes • luật bot -> 💞\n3. no • kí tự -> ᴸᴺᴰㅤ²⁰⁰⁰¹²³⁴⁵⁶⁷⁸⁹⁰\n\n'yes' là có tệp gửi kèm\n'no' là không có tệp gửi kèm\n\nreply (phản hồi) theo stt để xóa shortcut": "Dễ hiểu vl =)))  Okie, nhớ nha!",
+    "✅ đã xóa thành công\n\n2. luật bot": "Duy xóa thành công rồi nha =)))  Cuộc sống vẫn đẹp, đúng không?",
+    "bot": "Chào bạn nhaaa =)))  Chiều nay trời đẹp ghê, đang chuẩn bị đi ăn gì đây!"
   }
 }

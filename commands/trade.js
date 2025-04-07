@@ -9,7 +9,7 @@ const {
 } = require('../utils/currencies');
 const getName = require('../utils/getName');
 
-// Configure file paths
+
 const DATA_DIR = path.join(__dirname, 'json', 'trade');
 const TRADE_DATA_FILE = path.join(DATA_DIR, 'trade_data.json');
 const MARKET_DATA_FILE = path.join(DATA_DIR, 'market_data.json');
@@ -17,31 +17,31 @@ const NEWS_DATA_FILE = path.join(DATA_DIR, 'news_data.json');
 const LEADERBOARD_FILE = path.join(DATA_DIR, 'leaderboard.json');
 const HISTORY_FILE = path.join(DATA_DIR, 'trading_history.json');
 
-// Initialize directories
+
 if (!fs.existsSync(DATA_DIR)) {
     fs.mkdirSync(DATA_DIR, { recursive: true });
 }
 
-// Market configuration
+
 const STOCK_CONFIG = {
-    baseFee: 0.01, // 1% trading fee
+    baseFee: 0.01,
     vipDiscounts: {
-        1: 0.008, // 0.8% fee for VIP 1
-        2: 0.005, // 0.5% fee for VIP 2
-        3: 0.002  // 0.2% fee for VIP 3
+        1: 0.008,
+        2: 0.005,
+        3: 0.002
     },
-    updateInterval: 15 * 60 * 1000, // 15 minutes
+    updateInterval: 15 * 60 * 1000,
     volatility: {
-        low: { min: -0.02, max: 0.02 },      // ±2% for low volatility
-        medium: { min: -0.05, max: 0.05 },   // ±5% for medium volatility
-        high: { min: -0.1, max: 0.1 }        // ±10% for high volatility
+        low: { min: -0.02, max: 0.02 },
+        medium: { min: -0.05, max: 0.05 },
+        high: { min: -0.1, max: 0.1 }
     },
     newsImpact: {
-        veryBad: { min: -0.15, max: -0.05 },    // -5% to -15%
-        bad: { min: -0.08, max: -0.02 },        // -2% to -8%
-        neutral: { min: -0.02, max: 0.02 },     // -2% to +2%
-        good: { min: 0.02, max: 0.08 },         // +2% to +8%
-        veryGood: { min: 0.05, max: 0.15 }      // +5% to +15%
+        veryBad: { min: -0.15, max: -0.05 },
+        bad: { min: -0.08, max: -0.02 },
+        neutral: { min: -0.02, max: 0.02 },
+        good: { min: 0.02, max: 0.08 },
+        veryGood: { min: 0.05, max: 0.15 }
     },
     initialStocks: {
         "APPL": {
@@ -56,7 +56,7 @@ const STOCK_CONFIG = {
             name: "Alphabet Inc.",
             price: 142.8,
             volatility: "medium",
-            sector: "Technology",
+            sector: "Technology",   
             trend: "stable",
             history: []
         },
@@ -219,7 +219,7 @@ function saveTradeData(data) {
 function loadMarketData() {
     try {
         if (!fs.existsSync(MARKET_DATA_FILE)) {
-       
+
             const marketData = {
                 stocks: STOCK_CONFIG.initialStocks,
                 lastUpdate: Date.now()
@@ -302,7 +302,7 @@ function saveHistory(data) {
     }
 }
 
-// User data management
+
 function initializeUser(userId) {
     const tradeData = loadTradeData();
 
@@ -349,7 +349,7 @@ function updateUserStats(userId) {
     userData.invested = portfolioValue;
     userData.lastUpdated = Date.now();
 
-    // Update leaderboard
+
     updateLeaderboard(userId, userData.cash + portfolioValue, userData.totalProfit);
 
     saveTradeData(tradeData);
@@ -379,10 +379,10 @@ function updateLeaderboard(userId, totalValue, totalProfit) {
         });
     }
 
-    // Sort leaderboard by total value
+
     leaderboard.traders.sort((a, b) => b.totalValue - a.totalValue);
 
-    // Keep only top 100
+
     if (leaderboard.traders.length > 100) {
         leaderboard.traders = leaderboard.traders.slice(0, 100);
     }
@@ -398,7 +398,7 @@ function recordTransaction(userId, type, symbol, shares, price, total) {
     }
 
     history.transactions[userId].unshift({
-        type, // "buy" or "sell"
+        type,
         symbol,
         shares,
         price,
@@ -406,7 +406,7 @@ function recordTransaction(userId, type, symbol, shares, price, total) {
         timestamp: Date.now()
     });
 
-    // Keep only the last 50 transactions per user
+
     if (history.transactions[userId].length > 50) {
         history.transactions[userId] = history.transactions[userId].slice(0, 50);
     }
@@ -414,24 +414,24 @@ function recordTransaction(userId, type, symbol, shares, price, total) {
     saveHistory(history);
 }
 
-// Market management
+
 function generateMarketNews() {
     const marketData = loadMarketData();
     const newsData = loadNewsData();
 
-    // Choose a random stock and impact type
+
     const symbols = Object.keys(marketData.stocks);
     const symbol = getRandomElement(symbols);
     const stock = marketData.stocks[symbol];
 
     const impactTypes = ["veryGood", "good", "neutral", "bad", "veryBad"];
-    const weights = [1, 3, 5, 3, 1]; // Higher probability for neutral news
+    const weights = [1, 3, 5, 3, 1];
 
-    // Weighted random selection
+
     let totalWeight = weights.reduce((a, b) => a + b, 0);
     let random = Math.random() * totalWeight;
     let currentWeight = 0;
-    let selectedImpact = impactTypes[impactTypes.length - 1]; // Default to last
+    let selectedImpact = impactTypes[impactTypes.length - 1];
 
     for (let i = 0; i < weights.length; i++) {
         currentWeight += weights[i];
@@ -441,11 +441,11 @@ function generateMarketNews() {
         }
     }
 
-    // Get a random news template
+
     const templates = STOCK_CONFIG.newsTemplates[selectedImpact];
     const template = getRandomElement(templates);
 
-    // Create the news
+
     const news = {
         symbol,
         headline: template.replace("{company}", stock.name),
@@ -453,11 +453,11 @@ function generateMarketNews() {
         timestamp: Date.now()
     };
 
-    // Add to news data
-    newsData.news = [news, ...newsData.news].slice(0, 20); // Keep last 20 news items
+
+    newsData.news = [news, ...newsData.news].slice(0, 20);
     saveNewsData(newsData);
 
-    // Apply impact to stock price
+
     applyNewsImpact(symbol, selectedImpact);
 
     return news;
@@ -471,22 +471,22 @@ function applyNewsImpact(symbol, impactType) {
     const impact = STOCK_CONFIG.newsImpact[impactType];
     const impactPercent = getRandomNumber(impact.min, impact.max);
 
-    // Apply impact to stock price
+
     const oldPrice = stock.price;
     stock.price = Math.max(0.01, oldPrice * (1 + impactPercent));
 
-    // Update trend based on impact
+
     if (impactPercent > 0.03) stock.trend = "up";
     else if (impactPercent < -0.03) stock.trend = "down";
     else stock.trend = "stable";
 
-    // Add to price history
+
     stock.history.push({
         price: stock.price,
         timestamp: Date.now()
     });
 
-    // Keep only last 50 price points
+
     if (stock.history.length > 50) {
         stock.history = stock.history.slice(stock.history.length - 50);
     }
@@ -499,23 +499,23 @@ function updateMarket() {
     const marketData = loadMarketData();
     const now = Date.now();
 
-    // Skip if last update was less than the update interval
+
     if (now - marketData.lastUpdate < STOCK_CONFIG.updateInterval) return;
 
     for (const [symbol, stock] of Object.entries(marketData.stocks)) {
         const volatility = STOCK_CONFIG.volatility[stock.volatility || "medium"];
         const change = getRandomNumber(volatility.min, volatility.max);
 
-        // Apply trend bias
+
         let trendBias = 0;
         if (stock.trend === "up") trendBias = 0.01;
         else if (stock.trend === "down") trendBias = -0.01;
 
-        // Calculate new price with trend bias
+
         const oldPrice = stock.price;
         stock.price = Math.max(0.01, oldPrice * (1 + change + trendBias));
 
-        // Update trend based on recent performance
+
         if (stock.history.length >= 5) {
             const recentPrices = stock.history.slice(-5);
             const increases = recentPrices.filter((p, i) =>
@@ -527,13 +527,13 @@ function updateMarket() {
             else stock.trend = "stable";
         }
 
-        // Add to price history
+
         stock.history.push({
             price: stock.price,
             timestamp: now
         });
 
-        // Keep only last 50 price points
+
         if (stock.history.length > 50) {
             stock.history = stock.history.slice(stock.history.length - 50);
         }
@@ -542,15 +542,15 @@ function updateMarket() {
     marketData.lastUpdate = now;
     saveMarketData(marketData);
 
-    // Occasionally generate news
-    if (Math.random() < 0.3) { // 30% chance of news with each update
+
+    if (Math.random() < 0.3) {
         generateMarketNews();
     }
 }
 
-// Trading functions
+
 function buyStock(userId, symbol, shares, vipLevel = 0) {
-    // Validate inputs
+
     shares = parseInt(shares);
     if (isNaN(shares) || shares <= 0) {
         return { success: false, message: "❌ Số lượng cổ phiếu không hợp lệ!" };
@@ -569,7 +569,7 @@ function buyStock(userId, symbol, shares, vipLevel = 0) {
     const feeAmount = subtotal * fee;
     const total = subtotal + feeAmount;
 
-    // Check if user has enough balance
+
     const balance = getBalance(userId);
     if (balance < total) {
         return {
@@ -578,7 +578,7 @@ function buyStock(userId, symbol, shares, vipLevel = 0) {
         };
     }
 
-    // Update user portfolio
+
     const tradeData = loadTradeData();
     const userData = tradeData.users[userId] || initializeUser(userId);
 
@@ -590,7 +590,7 @@ function buyStock(userId, symbol, shares, vipLevel = 0) {
         };
     }
 
-    // Calculate new average buy price
+
     const oldShares = userData.portfolio[symbol].shares;
     const oldAvgPrice = userData.portfolio[symbol].avgBuyPrice;
     const oldTotalInvested = userData.portfolio[symbol].totalInvested;
@@ -609,10 +609,10 @@ function buyStock(userId, symbol, shares, vipLevel = 0) {
     saveTradeData(tradeData);
     updateBalance(userId, -total);
 
-    // Record transaction
+
     recordTransaction(userId, "buy", symbol, shares, price, total);
 
-    // Update user stats
+
     updateUserStats(userId);
 
     return {
@@ -622,7 +622,7 @@ function buyStock(userId, symbol, shares, vipLevel = 0) {
 }
 
 function sellStock(userId, symbol, shares, vipLevel = 0) {
-    // Validate inputs
+
     shares = parseInt(shares);
     if (isNaN(shares) || shares <= 0) {
         return { success: false, message: "❌ Số lượng cổ phiếu không hợp lệ!" };
@@ -631,7 +631,7 @@ function sellStock(userId, symbol, shares, vipLevel = 0) {
     const tradeData = loadTradeData();
     const userData = tradeData.users[userId] || initializeUser(userId);
 
-    // Check if user owns the stock
+
     if (!userData.portfolio[symbol] || userData.portfolio[symbol].shares < shares) {
         return {
             success: false,
@@ -652,22 +652,22 @@ function sellStock(userId, symbol, shares, vipLevel = 0) {
     const feeAmount = subtotal * fee;
     const total = subtotal - feeAmount;
 
-    // Calculate profit/loss
+
     const avgBuyPrice = userData.portfolio[symbol].avgBuyPrice;
     const profitPerShare = price - avgBuyPrice;
     const profit = profitPerShare * shares;
 
-    // Update portfolio
+
     userData.portfolio[symbol].shares -= shares;
     if (userData.portfolio[symbol].shares === 0) {
-        // Remove stock from portfolio if no shares left
+
         delete userData.portfolio[symbol];
     } else {
-        // Recalculate total invested
+
         userData.portfolio[symbol].totalInvested = userData.portfolio[symbol].avgBuyPrice * userData.portfolio[symbol].shares;
     }
 
-    // Update user stats
+
     userData.cash = (userData.cash || 0) + total;
     userData.totalProfit = (userData.totalProfit || 0) + profit;
     userData.tradeCount++;
@@ -676,10 +676,10 @@ function sellStock(userId, symbol, shares, vipLevel = 0) {
     saveTradeData(tradeData);
     updateBalance(userId, total);
 
-    // Record transaction
+
     recordTransaction(userId, "sell", symbol, shares, price, total);
 
-    // Update user stats
+
     updateUserStats(userId);
 
     const profitMsg = profit >= 0
@@ -701,12 +701,12 @@ async function createStockChartCanvas(symbol, daysToShow = 7) {
             throw new Error(`Stock ${symbol} not found`);
         }
 
-        // Filter history to show only the requested days
+
         const now = Date.now();
         const msPerDay = 24 * 60 * 60 * 1000;
         const history = stock.history.filter(p => p.timestamp > now - (daysToShow * msPerDay));
 
-        // If no history or only one point, generate some fake history for visualization
+
         if (history.length <= 1) {
             const fakeHistory = [];
             const currentPrice = stock.price;
@@ -720,7 +720,7 @@ async function createStockChartCanvas(symbol, daysToShow = 7) {
                 });
             }
 
-            // Add current price
+
             fakeHistory.push({
                 price: currentPrice,
                 timestamp: now
@@ -729,10 +729,10 @@ async function createStockChartCanvas(symbol, daysToShow = 7) {
             history.splice(0, history.length, ...fakeHistory);
         }
 
-        // Sort history by timestamp
+
         history.sort((a, b) => a.timestamp - b.timestamp);
 
-        // Create canvas
+
         const width = 800;
         const height = 500;
         const padding = 50;
@@ -740,18 +740,18 @@ async function createStockChartCanvas(symbol, daysToShow = 7) {
         const canvas = createCanvas(width, height);
         const ctx = canvas.getContext('2d');
 
-        // Draw background
+
         const gradient = ctx.createLinearGradient(0, 0, 0, height);
         gradient.addColorStop(0, '#1a1a2e');
         gradient.addColorStop(1, '#16213e');
         ctx.fillStyle = gradient;
         ctx.fillRect(0, 0, width, height);
 
-        // Draw grid lines
+
         ctx.strokeStyle = 'rgba(255, 255, 255, 0.1)';
         ctx.lineWidth = 1;
 
-        // Horizontal grid lines
+
         for (let i = 1; i < 5; i++) {
             const y = padding + (height - 2 * padding) * (i / 5);
             ctx.beginPath();
@@ -760,7 +760,7 @@ async function createStockChartCanvas(symbol, daysToShow = 7) {
             ctx.stroke();
         }
 
-        // Vertical grid lines
+
         const numPoints = history.length;
         for (let i = 0; i < numPoints; i += Math.max(1, Math.floor(numPoints / 7))) {
             const x = padding + (width - 2 * padding) * (i / (numPoints - 1));
@@ -770,12 +770,12 @@ async function createStockChartCanvas(symbol, daysToShow = 7) {
             ctx.stroke();
         }
 
-        // Find min and max price
+
         const prices = history.map(p => p.price);
-        const minPrice = Math.min(...prices) * 0.95; // Add 5% padding
+        const minPrice = Math.min(...prices) * 0.95;
         const maxPrice = Math.max(...prices) * 1.05;
 
-        // Draw price axis (left)
+
         ctx.fillStyle = 'white';
         ctx.font = '14px Arial';
         ctx.textAlign = 'right';
@@ -787,7 +787,7 @@ async function createStockChartCanvas(symbol, daysToShow = 7) {
             ctx.fillText(price.toFixed(2), padding - 10, y);
         }
 
-        // Draw date axis (bottom)
+
         ctx.textAlign = 'center';
         ctx.textBaseline = 'top';
 
@@ -797,18 +797,18 @@ async function createStockChartCanvas(symbol, daysToShow = 7) {
             ctx.fillText(date.toLocaleDateString(), x, height - padding + 10);
         }
 
-        // Draw chart title
+
         ctx.font = 'bold 18px Arial';
         ctx.textAlign = 'center';
         ctx.fillText(`${stock.name} (${symbol}) - ${formatCurrency(stock.price)}$`, width / 2, 20);
 
-        // Draw chart subtitle
+
         ctx.font = '14px Arial';
         const trendText = stock.trend === "up" ? "📈 Uptrend" : stock.trend === "down" ? "📉 Downtrend" : "Stable";
         const volatilityText = `Volatility: ${stock.volatility.charAt(0).toUpperCase() + stock.volatility.slice(1)}`;
         ctx.fillText(`${trendText} | ${volatilityText} | Sector: ${stock.sector}`, width / 2, 45);
 
-        // Draw price chart
+
         ctx.strokeStyle = '#4cc9f0';
         ctx.lineWidth = 3;
         ctx.beginPath();
@@ -826,7 +826,7 @@ async function createStockChartCanvas(symbol, daysToShow = 7) {
 
         ctx.stroke();
 
-        // Draw area under the curve
+
         ctx.lineTo(width - padding, height - padding);
         ctx.lineTo(padding, height - padding);
         ctx.closePath();
@@ -837,7 +837,7 @@ async function createStockChartCanvas(symbol, daysToShow = 7) {
         ctx.fillStyle = areaGradient;
         ctx.fill();
 
-        // Draw data points
+
         ctx.fillStyle = '#f72585';
         history.forEach((point, i) => {
             const x = padding + (width - 2 * padding) * (i / (numPoints - 1));
@@ -848,7 +848,7 @@ async function createStockChartCanvas(symbol, daysToShow = 7) {
             ctx.fill();
         });
 
-        // Save canvas to temporary file
+
         const tempDir = path.join(__dirname, 'temp');
         if (!fs.existsSync(tempDir)) {
             fs.mkdirSync(tempDir, { recursive: true });
@@ -869,7 +869,7 @@ async function createStockChartCanvas(symbol, daysToShow = 7) {
     }
 }
 
-// Format portfolio for display
+
 function formatPortfolio(userId) {
     const tradeData = loadTradeData();
     const userData = tradeData.users[userId] || initializeUser(userId);
@@ -910,7 +910,7 @@ function formatPortfolio(userId) {
     };
 }
 
-// Format transaction history for display
+
 function formatHistory(userId, limit = 5) {
     const history = loadHistory();
     const transactions = history.transactions[userId] || [];
@@ -933,12 +933,12 @@ function formatHistory(userId, limit = 5) {
     };
 }
 
-// Format market overview for display
+
 function formatMarketOverview() {
     const marketData = loadMarketData();
     const stocks = Object.entries(marketData.stocks);
 
-    // Sort by trend (up, stable, down)
+
     stocks.sort((a, b) => {
         const trendOrder = { up: 0, stable: 1, down: 2 };
         return trendOrder[a[1].trend] - trendOrder[b[1].trend];
@@ -955,7 +955,7 @@ function formatMarketOverview() {
     };
 }
 
-// Get recent news
+
 function getRecentNews(limit = 5) {
     const newsData = loadNewsData();
 
@@ -985,7 +985,7 @@ function getRecentNews(limit = 5) {
     };
 }
 
-// Get leaderboard
+
 function getTopTraders(limit = 10) {
     const leaderboard = loadLeaderboard();
 
@@ -1015,9 +1015,9 @@ function getTopTraders(limit = 10) {
     };
 }
 
-// Start game loop
+
 function startGameLoop() {
-    // Update market every 15 minutes
+
     setInterval(() => {
         try {
             updateMarket();
@@ -1026,7 +1026,7 @@ function startGameLoop() {
         }
     }, STOCK_CONFIG.updateInterval);
 
-    // Generate news every hour
+
     setInterval(() => {
         try {
             generateMarketNews();
@@ -1048,7 +1048,7 @@ module.exports = {
     cooldowns: 5,
 
     onLoad: function () {
-        // Initialize data if not exists
+
         try {
             updateMarket();
             startGameLoop();
@@ -1062,7 +1062,7 @@ module.exports = {
             const { threadID, messageID, senderID } = event;
             const action = target[0]?.toLowerCase();
 
-            // Update market data
+
             updateMarket();
 
             if (!action || action === "help") {
@@ -1083,7 +1083,7 @@ module.exports = {
                 );
             }
 
-            // Initialize user if not exists
+
             const userData = initializeUser(senderID);
 
             switch (action) {
@@ -1299,7 +1299,7 @@ module.exports = {
                             threadID,
                             (err) => {
                                 if (err) console.error(err);
-                                // Delete temp file after sending
+
                                 fs.unlinkSync(chartPath);
                             }
                         );

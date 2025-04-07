@@ -1,13 +1,25 @@
 {
-  ".ghep @kim ngân": {
+  "bot ngu": {
     "responses": [
-      "Hi Kenji!  Chuyện gì thế?"
+      "Chịu ông này luôn, bot gì mà \"ngu\" dữ vậy trời =)))"
     ],
     "frequency": 1
   },
-  "mạch hồng kim ngân": {
+  "📝 dưới đây là toàn bộ shortcut nhóm có:\n\n1. yes • luật -> 💕\n2. yes • luật bot -> 💞\n3. no • kí tự -> ᴸᴺᴰㅤ²⁰⁰⁰¹²³⁴⁵⁶⁷⁸⁹⁰\n\n'yes' là có tệp gửi kèm\n'no' là không có tệp gửi kèm\n\nreply (phản hồi) theo stt để xóa shortcut": {
     "responses": [
-      "Chào bạn!  Mạch hồng gì vậy trời =)))  Có chuyện gì vui kể mình nghe đi nào!"
+      "Dễ hiểu vl =)))  Okie, nhớ nha!"
+    ],
+    "frequency": 1
+  },
+  "✅ đã xóa thành công\n\n2. luật bot": {
+    "responses": [
+      "Duy xóa thành công rồi nha =)))  Cuộc sống vẫn đẹp, đúng không?"
+    ],
+    "frequency": 1
+  },
+  "bot": {
+    "responses": [
+      "Chào bạn nhaaa =)))  Chiều nay trời đẹp ghê, đang chuẩn bị đi ăn gì đây!"
     ],
     "frequency": 1
   }

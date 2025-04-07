@@ -3,7 +3,7 @@ const path = require('path');
 const { createCanvas } = require('canvas');
 
 module.exports = {
-    name: "tictactoe",
+    name: "caro",
     aliases: ["caro", "gomoku"],
     dev: "HNT",
     category: "Games",
@@ -59,14 +59,6 @@ module.exports = {
             ctx.shadowOffsetX = 2;
             ctx.shadowOffsetY = 2;
             ctx.fillText('GOMOKU - CỜ CARO', totalWidth / 2, 30);
-            
-            // Vẽ thông tin người chơi
-            ctx.font = 'bold 16px "BeVietnam Medium", Arial';
-            ctx.textAlign = 'left';
-            ctx.fillText(`X: ${playerData.playerX}`, padding, 45);
-            ctx.textAlign = 'right';
-            ctx.fillText(`O: ${playerData.playerO}`, totalWidth - padding, 45);
-
             // Reset shadow
             ctx.shadowColor = 'transparent';
             ctx.shadowBlur = 0;
@@ -99,19 +91,6 @@ module.exports = {
                 ctx.stroke();
             }
             
-            // Vẽ các điểm đánh dấu trên bàn cờ
-            const markPoints = [3, 7, 11];
-            ctx.fillStyle = '#7b5f40';
-            for (const i of markPoints) {
-                for (const j of markPoints) {
-                    ctx.beginPath();
-                    const x = padding + i * this.cellSize;
-                    const y = headerHeight + j * this.cellSize;
-                    ctx.arc(x, y, 4, 0, Math.PI * 2);
-                    ctx.fill();
-                }
-            }
-            
             // Vẽ tọa độ
             ctx.font = '14px "BeVietnam Medium", Arial';
             ctx.fillStyle = '#cccccc';
@@ -125,7 +104,6 @@ module.exports = {
                 ctx.fillText(String.fromCharCode(65 + i), x, y);
             }
             
-            // Vẽ tọa độ theo hàng (1, 2, 3, ...)
             ctx.textAlign = 'right';
             for (let i = 0; i < this.boardSize; i++) {
                 const x = padding - 10;
@@ -138,6 +116,7 @@ module.exports = {
                 for (let x = 0; x < this.boardSize; x++) {
                     if (boardState[y][x] !== null) {
                         const playerPiece = boardState[y][x] === 'X' ? 'X' : 'O';
+                        // Fix: Vẽ quân cờ ở vị trí trung tâm của ô, không phải ở điểm giao của lưới
                         const centerX = padding + x * this.cellSize + this.cellSize / 2;
                         const centerY = headerHeight + y * this.cellSize + this.cellSize / 2;
                         
@@ -155,6 +134,7 @@ module.exports = {
             // Vẽ nước đi cuối cùng với đánh dấu màu khác (nếu có)
             if (playerData.lastMove) {
                 const { x, y } = playerData.lastMove;
+                // Fix: Đảm bảo vị trí đánh dấu phù hợp với quân cờ
                 const centerX = padding + x * this.cellSize + this.cellSize / 2;
                 const centerY = headerHeight + y * this.cellSize + this.cellSize / 2;
                 
@@ -163,6 +143,7 @@ module.exports = {
                 ctx.arc(centerX, centerY, this.cellSize * 0.45, 0, Math.PI * 2);
                 ctx.fill();
             }
+            
             
             // Vẽ footer với thông tin lượt đi
             const footerGradient = ctx.createLinearGradient(0, totalHeight - footerHeight, totalWidth, totalHeight);
@@ -179,7 +160,7 @@ module.exports = {
             ctx.fillText(
                 `Lượt tiếp theo: ${playerData.currentTurn === 'X' ? playerData.playerX : playerData.playerO} (${playerData.currentTurn})`, 
                 totalWidth / 2, 
-                totalHeight - 25
+                totalHeight - 30
             );
             
             // Lưu canvas vào file
