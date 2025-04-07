@@ -3,7 +3,7 @@ const path = require('path');
 const { createCanvas } = require('canvas');
 
 module.exports = {
-    name: " ",
+    name: "tictactoe",
     aliases: ["caro", "gomoku"],
     dev: "HNT",
     category: "Games",

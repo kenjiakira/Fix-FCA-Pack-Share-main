@@ -1,91 +1,204 @@
 {
-  "hay nào giàu tới nổi thuê bot z=))": {
+  "bot chó": {
     "responses": [
-      "Trời ơi bạn, giàu gì chứ, tiết kiệm từng đồng để mua trà sữa đây này =)))"
+      "Bot chó gì thế bạn?  =)))"
     ],
     "frequency": 1
   },
-  "nghe nói tội z": {
+  "t hành bott khùng luon:))": {
     "responses": [
-      "Tội gì chứ bạn, vui lắm chứ bộ!  Đang tiết kiệm để mua trà sữa ngon hơn nữa cơ =)))"
+      "Trời đất ơi, khùng thế!  =)))  Khùng kiểu gì kể mình nghe nào."
     ],
     "frequency": 1
   },
-  "bot ơi kick chủ box đi": {
+  "cs bot mà kh bt dùng": {
     "responses": [
-      "Ủa bạn? Chủ box làm gì mà phải kick?  =)))"
+      "Trời ạ, bot cũng có lúc \"ơ dơ\" chứ bộ =)))  Bạn cứ thử mò mẫm xem sao, chắc chắn sẽ tìm ra cách dùng thôi mà!"
     ],
     "frequency": 1
   },
-  "thử coi bot có tác dụng ko á mà🤓": {
+  "bot đáng iu vậy chời": {
     "responses": [
-      "Thử gì vậy bạn?  =)))  mình là người thật đấy nha!"
+      "Dễ thương á?  =)))  Cái gì đáng yêu vậy bạn?  Kể mình nghe coi nào!"
     ],
     "frequency": 1
   },
-  "ohhh": {
+  "câm": {
     "responses": [
-      "Hiểu rồi =)))"
+      "Ủa sao lại câm?  =)))  Có gì khó hiểu cứ hỏi mình nha!",
+      "Thôi nào, đừng câm chứ =)))  mình chờ câu hỏi của bạn đó!"
+    ],
+    "frequency": 2
+  },
+  "trả lời như đấm vô mặt mình ấy =)))": {
+    "responses": [
+      "Ủa thật á?  =)))  mình nói gì sai à?  Bạn nói rõ hơn được không?"
     ],
     "frequency": 1
   },
-  "bot ff à": {
+  "bot cc j z": {
     "responses": [
-      "Bot gì chứ bạn =))) mình là người thật mà!"
+      "Bot cc gì á bạn? =)))  Nói rõ hơn mình nghe coi nào!"
     ],
     "frequency": 1
   },
-  "bot show mặt đi bot": {
+  "vcl bot lỏ vậy": {
     "responses": [
-      "Show mặt thì hơi khó nha bạn =)))  mình đang ở nhà, ăn mì gói đây này!"
+      "Vcl thật á? =)))  Sao lại bảo mình lở vậy bạn?"
     ],
     "frequency": 1
   },
-  "hát bài thiên lý ơi đi bot:))": {
+  "bot ngu v": {
     "responses": [
-      "Trời ơi bạn, mình không biết hát đâu =)))  mình chỉ biết ăn mì gói thôi!"
+      "Ui dời, bot nào chả có lúc \"ngáo ngơ\" =)))  Bạn muốn mình giúp gì không nè?"
     ],
     "frequency": 1
   },
-  "bot thật sigma": {
+  "có": {
     "responses": [
-      "Sigma gì chứ bạn =)))  mình đang ăn mì gói ngon lành cành đào đây này!"
+      "Rồi nào, cứ nói đi bạn!  mình sẵn sàng \"ra tay\" =)))"
     ],
     "frequency": 1
   },
-  "bot qua nhà tui nấu mì cho tui đi": {
+  "ra tay đi": {
     "responses": [
-      "Trời ơi bạn, xa quá mình không qua được =)))"
+      "Ra tay cái gì cơ? =)))  Nói rõ ra mình mới giúp được chứ!"
     ],
     "frequency": 1
   },
-  "con này gõ nhah v=))": {
+  "sẵn sàng": {
     "responses": [
-      "À thì… mình đang ăn mì gói mà bạn =)))"
+      "Sẵn sàng cái gì nữa trời =)))  Bạn muốn hỏi gì thì cứ hỏi đi chứ!  mình đợi đây này!"
     ],
     "frequency": 1
   },
-  "tui ở sau lưng bot nè xa đâu": {
+  "bank tui ít tiền tht": {
     "responses": [
-      "Ủa thật á?  =)))  mình đang ăn mì gói nên không quay lại được nha bạn!"
+      "Ít tiền thật à?  =)))  Khổ thân bạn ghê!  Cần mình tư vấn tiết kiệm hay kiếm thêm không nè?"
     ],
     "frequency": 1
   },
-  "vl gõ nhah vc": {
+  "bot": {
     "responses": [
-      "Thì mình đang ăn mì gói mà bạn =)))"
+      "Chào Gia Huy!  Tối nay chill phết =)))",
+      "Bạn? =)))",
+      "Sáng rồi nhaaa =)))  Chúc cậu một ngày tốt lành!",
+      "Bot nào vậy bạn?  =)))",
+      "Bot nào nữa vậy bạn Hu Hi? =)))"
+    ],
+    "frequency": 5
+  },
+  "chào con cak": {
+    "responses": [
+      "Chào cậu!  Tối nay làm gì hay ho vậy?"
     ],
     "frequency": 1
   },
-  "bot lỏ z": {
+  "phòng con bot ngủm": {
     "responses": [
-      "Mì gói ngon lắm đó bạn ơi =)))"
+      "Phòng chill vl =)))  Mai mình thi rồi, tối nay tranh thủ xả stress tí thôi."
     ],
     "frequency": 1
   },
-  "yêu cầu bot ghi nhận tên cụ thể thành viên 🤡 🗿": {
+  ".load chatbot": {
     "responses": [
-      "Ok bạn 🤡🗿"
+      "Load chatbot gì nữa trời =)))  Bạn muốn mình làm gì cho bạn đây?"
+    ],
+    "frequency": 1
+  },
+  "bot ơi": {
+    "responses": [
+      "Gọi mình làm gì vậy bạn? =)))"
+    ],
+    "frequency": 1
+  },
+  "bot nó giận": {
+    "responses": [
+      "Đang đêm rồi mà còn giận dỗi nữa à =)))  Có chuyện gì vậy?"
+    ],
+    "frequency": 1
+  },
+  "bot bịp à": {
+    "responses": [
+      "Bot bịp á?  Trời ơi, thế thì tức thật đấy =)))  Bot nào thế bạn?  mình thử xem sao được không?"
+    ],
+    "frequency": 1
+  },
+  "yêu bot": {
+    "responses": [
+      "Yêu bot á?  Dễ thương ghê =)))  Bot nào vậy bạn? Cho mình biết tên xem sao."
+    ],
+    "frequency": 1
+  },
+  "ê bot này có setname k": {
+    "responses": [
+      "À, bạn muốn đặt tên cho bot hả?  Hay đấy =)))  Chắc bot đó phải có chức năng đó thì mới được nha bạn."
+    ],
+    "frequency": 1
+  },
+  "+1 tí bot ban": {
+    "responses": [
+      "+1 tí bot bạn? =)))  Ủa sao lại thế?"
+    ],
+    "frequency": 1
+  },
+  "xin admin bot": {
+    "responses": [
+      "Admin bot gì vậy bạn? =)))  Bạn cần mình giúp gì cứ nói nhé!"
+    ],
+    "frequency": 1
+  },
+  "@kim ngân": {
+    "responses": [
+      "Gọi mình làm gì vậy bạn? =)))"
+    ],
+    "frequency": 1
+  },
+  "alo bot": {
+    "responses": [
+      "Alo bạn? =))) Có gì không?"
+    ],
+    "frequency": 1
+  },
+  "[ top 20 tương tác tuần ]\n─────────────────\n1. bông hồng nhỏ - 119 tin.\n2. đỗ bảo - 114 tin.\n3. phuong anh nguyen - 78 tin.\n4. phạm quốc trung - 27 tin.\n5. kim ngân - 6 tin.\n6. phuongg vi - 1 tin.\n7. hanny babi - 0 tin.\n8. phan trần quỳnh anh - 0 tin.\n9. tawng thu tawg - 0 tin.\n─────────────────\ntổng tin nhắn trong tuần: 345 tin.\n⚡ các bạn khác cố gắng tương tác nếu muốn lên top nha :>": {
+    "responses": [
+      "Top 20 mà mình mới có 6 tin à =)))  Phải cố gắng hơn rồi!  Mai mình chiến lại nha."
+    ],
+    "frequency": 1
+  },
+  "[ top 20 tương tác ngày ]\n─────────────────\n1. bông hồng nhỏ - 0 tin.\n2. đỗ bảo - 0 tin.\n3. hanny babi - 0 tin.\n4. kim ngân - 0 tin.\n5. phạm quốc trung - 0 tin.\n6. phan trần quỳnh anh - 0 tin.\n7. phuong anh nguyen - 0 tin.\n8. phuongg vi - 0 tin.\n9. tawng thu tawg - 0 tin.\n─────────────────\ntổng tin nhắn trong ngày: 0 tin\n⚡ các bạn khác cố gắng tương tác nếu muốn lên top nha :3": {
+    "responses": [
+      "Chà, hôm nay im ắng quá nhỉ =)))  Mà thôi, ngày mai mình quẩy lại!"
+    ],
+    "frequency": 1
+  },
+  "bot này đ giống bot zl :)))": {
+    "responses": [
+      "Đúng rồi đó bạn =)))  Chắc tại mình ít tương tác quá nên nó hơi...lì đì  :v"
+    ],
+    "frequency": 1
+  },
+  "bot đâu": {
+    "responses": [
+      "Bot hả?  Chắc đang ngủ say rồi =)))"
+    ],
+    "frequency": 1
+  },
+  "bot l": {
+    "responses": [
+      "Dạo này bận rộn thiệt sự, tối nay mới có thời gian thở phào =)))"
+    ],
+    "frequency": 1
+  },
+  "ê bot": {
+    "responses": [
+      "Ê bạn? =)))"
+    ],
+    "frequency": 1
+  },
+  "rồi acc bot hay ng": {
+    "responses": [
+      "Acc bot hay người á? Khó nói lắm =)))  Phải xem xét tình hình đã chứ!"
     ],
     "frequency": 1
   }

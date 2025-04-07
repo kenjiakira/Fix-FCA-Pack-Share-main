@@ -780,7 +780,7 @@
   },
   "100076957299243": {
     "rod": "Cần câu Daiwa Gekkabijin MX",
-    "rodDurability": 183,
+    "rodDurability": 182,
     "inventory": [
       "Cần trúc",
       "Cần Câu tay",
@@ -809,7 +809,7 @@
           "Cá Đối": 4,
           "Cá Trôi": 1,
           "Cá Bống Tượng": 7,
-          "Cá Mè Trắng": 5,
+          "Cá Mè Trắng": 6,
           "Cá Lòng Tong": 3,
           "Cá Mương": 5,
           "Cá Linh": 4,
@@ -855,29 +855,29 @@
         "mythical": {}
       },
       "stats": {
-        "totalCaught": 189,
-        "totalValue": 14947518,
+        "totalCaught": 190,
+        "totalValue": 15386133,
         "bestCatch": {
           "name": "Rương kim cương",
           "value": 3562500
         }
       }
     },
-    "exp": 6830,
+    "exp": 6965,
     "level": 13,
-    "fishingStreak": 70,
+    "fishingStreak": 71,
     "stats": {
-      "totalExp": 46405,
+      "totalExp": 46540,
       "highestStreak": 83,
-      "totalFishes": 189
+      "totalFishes": 190
     },
     "activeBuffs": {},
-    "lastFished": 1743924000952,
+    "lastFished": 1743952269983,
     "userID": "100076957299243",
     "energy": 100,
-    "lastEnergyUpdate": 1743924000953,
+    "lastEnergyUpdate": 1743952269983,
     "baits": {
-      "Mồi Thần Thoại": 363
+      "Mồi Thần Thoại": 362
     },
     "craftingMaterials": {}
   },
@@ -4490,7 +4490,7 @@
   },
   "100053857386814": {
     "rod": "Cần lure Bulava Titanium",
-    "rodDurability": 80,
+    "rodDurability": 79,
     "inventory": [
       "Cần trúc",
       "Cần Câu tay",
@@ -4547,7 +4547,7 @@
           "Cá Sặc Rằn": 4,
           "Cá Bông Lau": 4,
           "Cá Trắm Cỏ": 8,
-          "Cá Tai Tượng": 5,
+          "Cá Tai Tượng": 6,
           "Cá Lăng": 4,
           "Cá Chim Trắng": 3,
           "Cá Điêu Hồng": 3,
@@ -4592,27 +4592,27 @@
         "cosmic": {}
       },
       "stats": {
-        "totalCaught": 302,
-        "totalValue": 30882537,
+        "totalCaught": 303,
+        "totalValue": 30964617,
         "bestCatch": {
           "name": "Rùa Thần Poseidon",
           "value": 4987500
         }
       }
     },
-    "exp": 12069,
+    "exp": 12181,
     "level": 17,
-    "fishingStreak": 2,
+    "fishingStreak": 3,
     "stats": {
-      "totalExp": 99505,
+      "totalExp": 99617,
       "highestStreak": 276,
-      "totalFishes": 302
+      "totalFishes": 303
     },
     "activeBuffs": {},
-    "lastFished": 1742538129074,
+    "lastFished": 1743955464328,
     "userID": "100053857386814",
     "energy": 120,
-    "lastEnergyUpdate": 1742538129075,
+    "lastEnergyUpdate": 1743955464328,
     "baits": {},
     "craftingMaterials": {}
   },

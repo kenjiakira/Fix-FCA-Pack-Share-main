@@ -648,12 +648,12 @@
     "name": "Gia Huy ",
     "planet": "SAIYAN",
     "stats": {
-      "power": 79227,
-      "damage": 380,
-      "ki": 660,
-      "health": 3800,
-      "exp": 7991,
-      "zeni": 20503,
+      "power": 179233,
+      "damage": 560,
+      "ki": 860,
+      "health": 4800,
+      "exp": 2404,
+      "zeni": 40739,
       "inventory": {
         "items": [],
         "equipped": []
@@ -663,16 +663,16 @@
         "completed": [],
         "progress": {}
       },
-      "currentKi": 389,
+      "currentKi": 850,
       "level": 2,
-      "maxHealth": 3700,
-      "currentHealth": 2488
+      "maxHealth": 4700,
+      "currentHealth": 2116
     },
     "skills": [
       "GOKU:ATOMIC"
     ],
     "masters": [],
-    "lastTrain": 1743935086474,
+    "lastTrain": 1743965637343,
     "created": 1743526294836,
     "inventory": {
       "dragonBalls": [],
@@ -714,7 +714,7 @@
         "SAIYAN_RADITZ": 0
       }
     },
-    "lastPvpFight": 1743782632727,
+    "lastPvpFight": 1743945844283,
     "baseStats": {
       "damage": 340,
       "health": 2800,
@@ -921,12 +921,12 @@
     "name": "Le Tuan Tu",
     "planet": "SAIYAN",
     "stats": {
-      "power": 2498604455,
-      "damage": 13255,
+      "power": 2556459052,
+      "damage": 13355,
       "ki": 2948,
       "health": null,
-      "exp": 146550483,
-      "zeni": 2796141,
+      "exp": 155433547,
+      "zeni": 2797077,
       "inventory": {
         "items": [],
         "equipped": []
@@ -948,7 +948,7 @@
       "GOKU:BIND"
     ],
     "masters": [],
-    "lastTrain": 1743841055101,
+    "lastTrain": 1743969909363,
     "created": 1743562364905,
     "inventory": {
       "dragonBalls": [],
@@ -1143,14 +1143,14 @@
     "name": "Tran Thu Huyen",
     "planet": "SAIYAN",
     "stats": {
-      "power": 51015,
+      "power": 54015,
       "damage": 210,
       "ki": 180,
       "currentKi": 140,
       "health": 1600,
       "currentHealth": 1000,
-      "exp": 64247,
-      "zeni": 33121,
+      "exp": 67306,
+      "zeni": 36242,
       "inventory": {
         "items": [],
         "equipped": []
@@ -1166,7 +1166,7 @@
       "GOKU:ATOMIC"
     ],
     "masters": [],
-    "lastTrain": 1743924027697,
+    "lastTrain": 1743953457464,
     "created": 1743570305333,
     "inventory": {
       "dragonBalls": [
@@ -1238,14 +1238,14 @@
     "name": "Mạnh Đức",
     "planet": "SAIYAN",
     "stats": {
-      "power": 15029,
-      "damage": 260,
+      "power": 16029,
+      "damage": 310,
       "ki": 138,
-      "currentKi": 117,
+      "currentKi": 102,
       "health": 1000,
       "currentHealth": 1000,
-      "exp": 8046,
-      "zeni": 16615,
+      "exp": 1430,
+      "zeni": 16750,
       "inventory": {
         "items": [],
         "equipped": []
@@ -1261,7 +1261,7 @@
       "GOKU:REGENERATE_ENERGY"
     ],
     "masters": [],
-    "lastTrain": 1743748163341,
+    "lastTrain": 1743945558155,
     "created": 1743613049346,
     "inventory": {
       "dragonBalls": []
@@ -1287,20 +1287,20 @@
         "SAIYAN_RADITZ": 0
       }
     },
-    "lastPvpFight": 1743832296010
+    "lastPvpFight": 1743945844283
   },
   "100035899503301": {
     "name": "Người trái đất",
     "planet": "EARTH",
     "stats": {
-      "power": 10327143996,
+      "power": 10364611587,
       "damage": 7867540,
       "ki": 4295122,
       "currentKi": 644270,
       "health": 15525120,
       "currentHealth": 15525120,
-      "exp": 236654732,
-      "zeni": 111421,
+      "exp": 242791665,
+      "zeni": 111804,
       "inventory": {
         "items": [],
         "equipped": []
@@ -1323,7 +1323,7 @@
       "KAME:HYPNOSIS"
     ],
     "masters": [],
-    "lastTrain": 1743874549619,
+    "lastTrain": 1743944958516,
     "created": 1743613097948,
     "inventory": {
       "dragonBalls": [
@@ -1506,14 +1506,14 @@
     "name": "Người chơi",
     "planet": "SAIYAN",
     "stats": {
-      "power": 42000,
+      "power": 43000,
       "damage": 180,
       "ki": 180,
       "currentKi": 180,
       "health": 1200,
       "currentHealth": 1200,
-      "exp": 2915,
-      "zeni": 7162,
+      "exp": 3702,
+      "zeni": 7319,
       "inventory": {
         "items": [],
         "equipped": []
@@ -1530,7 +1530,7 @@
       "GOKU:ATOMIC"
     ],
     "masters": [],
-    "lastTrain": 1743913377041,
+    "lastTrain": 1743946781532,
     "created": 1743862953482,
     "inventory": {
       "dragonBalls": [],
@@ -1664,6 +1664,82 @@
       "completed": [],
       "progress": {
         "BEGINNER_1": 0
+      }
+    }
+  },
+  "61558946907944": {
+    "name": "Yu Ki",
+    "planet": "SAIYAN",
+    "stats": {
+      "power": 13000,
+      "damage": 110,
+      "ki": 140,
+      "currentKi": 130,
+      "health": 1200,
+      "currentHealth": 1000,
+      "exp": 2312,
+      "zeni": 7258,
+      "inventory": {
+        "items": [],
+        "equipped": []
+      },
+      "quests": {
+        "active": [],
+        "completed": [],
+        "progress": {}
+      },
+      "level": 2,
+      "maxHealth": 1100
+    },
+    "skills": [
+      "GOKU:ATOMIC"
+    ],
+    "masters": [],
+    "lastTrain": 1743966989617,
+    "created": 1743965623811,
+    "inventory": {
+      "dragonBalls": [],
+      "items": [
+        {
+          "id": "senzu",
+          "quantity": 3,
+          "type": "consumable"
+        },
+        {
+          "id": "battle_gloves",
+          "quantity": 1,
+          "type": "gloves",
+          "boost": 1.1
+        }
+      ]
+    },
+    "hasFused": false,
+    "location": {
+      "planet": "SAIYAN",
+      "locationId": "saiyan_training",
+      "name": "Khu Vực Huấn Luyện",
+      "lastTeleport": 0
+    },
+    "evolution": {
+      "name": "Saiyan thường",
+      "description": "Hình thái cơ bản",
+      "achievedAt": "2025-04-06T18:53:43.811Z",
+      "auraColor": "#FFFFFF"
+    },
+    "quests": {
+      "active": [
+        "SAIYAN_RADITZ"
+      ],
+      "completed": [
+        "BEGINNER_1",
+        "BEGINNER_2",
+        "BASIC_TRAINING"
+      ],
+      "progress": {
+        "BEGINNER_1": 4,
+        "BEGINNER_2": 2000,
+        "BASIC_TRAINING": 6,
+        "SAIYAN_RADITZ": 0
       }
     }
   }

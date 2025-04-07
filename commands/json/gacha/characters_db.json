@@ -123920,5 +123920,110 @@
       "def": 96,
       "hp": 478
     }
+  },
+  "STONE_CRYO_486929904": {
+    "type": "stone",
+    "stoneType": "CRYO",
+    "name": "ShivadaJade",
+    "element": "Cryo",
+    "emoji": "❄️",
+    "description": "Ascension stone for Cryo characters",
+    "image": "https://imgur.com/k7PooZ5.png",
+    "obtainedAt": 1743944750319,
+    "value": 25000
+  },
+  "CHAR_495480552": {
+    "type": "character",
+    "name": "Fischl",
+    "obtainedAt": 1743946439918,
+    "value": 29591,
+    "level": 1,
+    "exp": 0,
+    "stats": {
+      "atk": 304,
+      "def": 311,
+      "hp": 993
+    }
+  },
+  "CHAR_536372887": {
+    "type": "character",
+    "name": "Diluc",
+    "obtainedAt": 1743952254194,
+    "value": 2781478,
+    "level": 1,
+    "exp": 0,
+    "stats": {
+      "atk": 523,
+      "def": 529,
+      "hp": 1965
+    }
+  },
+  "CHAR_687554257": {
+    "type": "character",
+    "name": "Beidou",
+    "obtainedAt": 1743952935610,
+    "starLevel": 6,
+    "level": 1,
+    "exp": 0,
+    "isMaxEvolved": false,
+    "isEvolved": true,
+    "value": 300000,
+    "stats": {
+      "atk": 566,
+      "def": 584,
+      "hp": 2168
+    }
+  },
+  "CHAR_610708068": {
+    "type": "character",
+    "name": "Mika",
+    "obtainedAt": 1743953359450,
+    "value": 556,
+    "level": 1,
+    "exp": 0,
+    "stats": {
+      "atk": 109,
+      "def": 102,
+      "hp": 544
+    }
+  },
+  "CHAR_250201962": {
+    "type": "character",
+    "name": "collei",
+    "obtainedAt": 1743953463259,
+    "value": 348,
+    "level": 1,
+    "exp": 0,
+    "stats": {
+      "atk": 109,
+      "def": 93,
+      "hp": 528
+    }
+  },
+  "CHAR_284815469": {
+    "type": "character",
+    "name": "Sushang",
+    "obtainedAt": 1743966970672,
+    "value": 415,
+    "level": 1,
+    "exp": 0,
+    "stats": {
+      "atk": 92,
+      "def": 100,
+      "hp": 471
+    }
+  },
+  "CHAR_322484476": {
+    "type": "character",
+    "name": "Kaeya",
+    "obtainedAt": 1743989712467,
+    "value": 111,
+    "level": 1,
+    "exp": 0,
+    "stats": {
+      "atk": 107,
+      "def": 97,
+      "hp": 537
+    }
   }
 }

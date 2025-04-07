@@ -717,15 +717,15 @@
   },
   "61558946907944": {
     "type": "CAT",
-    "name": "Mèo",
-    "hunger": 65,
-    "happy": 38,
-    "energy": 35,
-    "level": 1,
-    "exp": 35,
-    "power": 10,
-    "lastFed": 1742826075999,
-    "lastPlay": 1742826092621,
+    "name": "Abcxyz",
+    "hunger": 100,
+    "happy": 100,
+    "energy": 45,
+    "level": 2,
+    "exp": 20,
+    "power": 25,
+    "lastFed": 1743966685239,
+    "lastPlay": 1743966655893,
     "skills": {
       "HUNT": {
         "level": 1,
@@ -749,10 +749,14 @@
     "birthday": 1742633833878,
     "quests": {
       "daily": {
-        "feedCount": 2,
-        "playCount": 1
+        "feedCount": 5,
+        "playCount": 3
       }
-    }
+    },
+    "lastSkill": {
+      "HUNT": 1743966735841
+    },
+    "lastTrain": 1743966849672
   },
   "61555632365104": {
     "type": "CAT",
@@ -1024,12 +1028,12 @@
     "name": "Cặc",
     "hunger": 100,
     "happy": 100,
-    "energy": 40,
+    "energy": 95,
     "level": 2,
-    "exp": 60,
+    "exp": 145,
     "power": 30,
-    "lastFed": 1743927700275,
-    "lastPlay": 1743927677111,
+    "lastFed": 1743953638607,
+    "lastPlay": 1743953617131,
     "skills": {
       "COLLECT": {
         "level": 1,
@@ -1053,8 +1057,8 @@
     "birthday": 1743925743848,
     "quests": {
       "daily": {
-        "feedCount": 7,
-        "playCount": 5
+        "feedCount": 14,
+        "playCount": 6
       }
     },
     "lastTrain": 1743927195518
