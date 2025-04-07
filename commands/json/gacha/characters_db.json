@@ -56519,14 +56519,14 @@
     "name": "Qiqi",
     "obtainedAt": 1741833397141,
     "starLevel": 7,
-    "level": 13,
-    "value": 63455503,
+    "level": 14,
+    "value": 66628278,
     "stats": {
-      "atk": 1458,
-      "def": 1343,
-      "hp": 6294
+      "atk": 1535,
+      "def": 1409,
+      "hp": 6649
     },
-    "exp": 200500
+    "exp": 82980
   },
   "CHAR_633384243": {
     "type": "character",
@@ -124238,6 +124238,179 @@
       "atk": 104,
       "def": 108,
       "hp": 490
+    }
+  },
+  "CHAR_234387200": {
+    "type": "character",
+    "name": "Diona",
+    "obtainedAt": 1744005714407,
+    "value": 154,
+    "level": 1,
+    "exp": 0,
+    "stats": {
+      "atk": 92,
+      "def": 93,
+      "hp": 485
+    }
+  },
+  "CHAR_834895668": {
+    "type": "character",
+    "name": "Sampo",
+    "obtainedAt": 1744005722874,
+    "value": 427,
+    "level": 1,
+    "exp": 0,
+    "stats": {
+      "atk": 92,
+      "def": 90,
+      "hp": 523
+    }
+  },
+  "STONE_HYDRO_505152695": {
+    "type": "stone",
+    "stoneType": "HYDRO",
+    "name": "VarunadaLazurite",
+    "element": "Hydro",
+    "emoji": "💧",
+    "description": "Ascension stone for Hydro characters",
+    "image": "https://imgur.com/Wr8Udzy.png",
+    "obtainedAt": 1744005788142,
+    "value": 25000
+  },
+  "CHAR_916345632": {
+    "type": "character",
+    "name": "Lisa",
+    "obtainedAt": 1744005963726,
+    "value": 325,
+    "level": 1,
+    "exp": 0,
+    "stats": {
+      "atk": 98,
+      "def": 94,
+      "hp": 514
+    }
+  },
+  "FRAGMENT_DENDRO_210415894": {
+    "type": "fragment",
+    "stoneType": "DENDRO",
+    "name": "EmeraldFragment",
+    "element": "Dendro",
+    "emoji": "🌿",
+    "description": "Dendro evolution fragment",
+    "image": "https://imgur.com/uVp1eNU.png",
+    "obtainedAt": 1744007106831,
+    "value": 2500,
+    "isFragment": true
+  },
+  "CHAR_345194230": {
+    "type": "character",
+    "name": "charlotte",
+    "obtainedAt": 1744007254286,
+    "value": 15946,
+    "level": 1,
+    "exp": 0,
+    "stats": {
+      "atk": 327,
+      "def": 292,
+      "hp": 979
+    }
+  },
+  "EXP_MYTHICAL_SCROLL_628956910": {
+    "type": "EXP",
+    "name": "Mythical Scroll",
+    "expValue": 100000,
+    "description": "Mythical teachings from the gods Grants enormous amounts of EXP",
+    "image": "https://imgur.com/JWVLXxj.png",
+    "rarity": "5",
+    "value": 50000,
+    "obtainedAt": 1744007551908
+  },
+  "CHAR_477382898": {
+    "type": "character",
+    "name": "albedo",
+    "obtainedAt": 1744008126471,
+    "value": 2685467,
+    "level": 1,
+    "exp": 0,
+    "stats": {
+      "atk": 462,
+      "def": 468,
+      "hp": 2098
+    }
+  },
+  "EXP_ADVENTURERS_EXPERIENCE_153749705": {
+    "type": "EXP",
+    "name": "Adventurers Experience",
+    "expValue": 2000,
+    "description": "A record of adventures and discoveries Grants a moderate amount of EXP",
+    "image": "https://imgur.com/LFkAr11.png",
+    "rarity": "3",
+    "value": 1500,
+    "obtainedAt": 1744008253005
+  },
+  "CHAR_265035099": {
+    "type": "character",
+    "name": "Lisa",
+    "obtainedAt": 1744009888610,
+    "value": 417,
+    "level": 1,
+    "exp": 0,
+    "stats": {
+      "atk": 107,
+      "def": 91,
+      "hp": 523
+    }
+  },
+  "CHAR_532310444": {
+    "type": "character",
+    "name": "Faruzan",
+    "obtainedAt": 1744010035258,
+    "value": 756,
+    "level": 1,
+    "exp": 0,
+    "stats": {
+      "atk": 102,
+      "def": 93,
+      "hp": 473
+    }
+  },
+  "CHAR_201893259": {
+    "type": "character",
+    "name": "Chiori",
+    "obtainedAt": 1744010093147,
+    "value": 744,
+    "level": 1,
+    "exp": 0,
+    "stats": {
+      "atk": 94,
+      "def": 109,
+      "hp": 471
+    }
+  },
+  "CHAR_146936891": {
+    "type": "character",
+    "name": "dehya",
+    "obtainedAt": 1744010203900,
+    "value": 502,
+    "level": 1,
+    "exp": 0,
+    "stats": {
+      "atk": 97,
+      "def": 101,
+      "hp": 511
+    }
+  },
+  "CHAR_906725587": {
+    "type": "character",
+    "name": "Serval",
+    "obtainedAt": 1744010307077,
+    "value": 295,
+    "level": 1,
+    "exp": 0,
+    "stats": {
+      "atk": 108,
+      "def": 94,
+      "hp": 491
     }
   }
 }

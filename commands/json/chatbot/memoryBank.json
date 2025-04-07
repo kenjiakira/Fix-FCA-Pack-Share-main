@@ -1,16 +1,16 @@
 {
   "users": {
-    "61558946907944": {
+    "100056955484415": {
       "personal": [],
       "facts": [],
       "preferences": [],
       "interactions": [
         {
-          "content": "Yu Ki nói: bot l\nTôi trả lời: Trưa nay nắng đẹp ghê =)))  Đang đói meo đây, chuẩn bị đi ăn thôi!",
-          "timestamp": 1744003604186,
+          "content": "Kenji Akira nói: .ghep @Kim Ngân\nTôi trả lời: Hi Kenji!  Chuyện gì thế?",
+          "timestamp": 1744009522632,
           "priority": 1,
           "accessCount": 0,
-          "lastAccess": 1744003604186,
+          "lastAccess": 1744009522632,
           "metadata": {
             "sentiment": {
               "score": 0,
@@ -23,9 +23,7 @@
               "primaryEmotion": "neutral"
             },
             "topics": [
-              "PERSONAL",
-              "FOOD",
-              "TRAVEL"
+              "PERSONAL"
             ],
             "entities": {}
           }
@@ -44,10 +42,10 @@
       "undefined": [
         {
           "content": "Xưng hô: mình/bạn",
-          "timestamp": 1744003603486,
+          "timestamp": 1744009521109,
           "priority": 2,
           "accessCount": 0,
-          "lastAccess": 1744003603486,
+          "lastAccess": 1744009521109,
           "metadata": {
             "sentiment": {
               "score": 0,
@@ -67,17 +65,17 @@
         }
       ]
     },
-    "100069226140527": {
+    "61568641631000": {
       "personal": [],
       "facts": [],
       "preferences": [],
       "interactions": [
         {
-          "content": "Người dùng nói: bot bận r\nTôi trả lời: Trưa nay nắng gắt quá trời =)))  mình đi ăn cơm đây, bạn ăn chưa?",
-          "timestamp": 1744003998109,
+          "content": "Ủa Alo nói: mạch hồng kim ngân\nTôi trả lời: Chào bạn!  Mạch hồng gì vậy trời =)))  Có chuyện gì vui kể mình nghe đi nào!",
+          "timestamp": 1744009989549,
           "priority": 1,
           "accessCount": 0,
-          "lastAccess": 1744003998109,
+          "lastAccess": 1744009989549,
           "metadata": {
             "sentiment": {
               "score": 0,
@@ -91,7 +89,6 @@
             },
             "topics": [
               "PERSONAL",
-              "FOOD",
               "TRAVEL"
             ],
             "entities": {}
@@ -111,142 +108,10 @@
       "undefined": [
         {
           "content": "Xưng hô: mình/bạn",
-          "timestamp": 1744003997368,
+          "timestamp": 1744009987977,
           "priority": 2,
           "accessCount": 0,
-          "lastAccess": 1744003997368,
-          "metadata": {
-            "sentiment": {
-              "score": 0,
-              "rawScore": 0,
-              "sentiment": "neutral",
-              "confidence": 0.5,
-              "emotions": [],
-              "negationCount": 0,
-              "intensityFactors": [],
-              "primaryEmotion": "neutral"
-            },
-            "topics": [
-              "PERSONAL"
-            ],
-            "entities": {}
-          }
-        }
-      ]
-    },
-    "100091576565522": {
-      "personal": [],
-      "facts": [],
-      "preferences": [],
-      "interactions": [
-        {
-          "content": "Người dùng nói: Bot êy\nTôi trả lời: Bot gì nữa trời =))",
-          "timestamp": 1744004381272,
-          "priority": 1,
-          "accessCount": 0,
-          "lastAccess": 1744004381272,
-          "metadata": {
-            "sentiment": {
-              "score": 0,
-              "rawScore": 0,
-              "sentiment": "neutral",
-              "confidence": 0.5,
-              "emotions": [],
-              "negationCount": 0,
-              "intensityFactors": [],
-              "primaryEmotion": "neutral"
-            },
-            "topics": [
-              "PERSONAL"
-            ],
-            "entities": {}
-          }
-        }
-      ],
-      "emotions": [],
-      "names": [],
-      "relationships": {},
-      "context": {
-        "lastTopics": [],
-        "importantDates": {},
-        "recentMentions": {},
-        "conversationFlow": []
-      },
-      "topics": {},
-      "undefined": [
-        {
-          "content": "Xưng hô: mình/bạn",
-          "timestamp": 1744004380546,
-          "priority": 2,
-          "accessCount": 0,
-          "lastAccess": 1744004380546,
-          "metadata": {
-            "sentiment": {
-              "score": 0,
-              "rawScore": 0,
-              "sentiment": "neutral",
-              "confidence": 0.5,
-              "emotions": [],
-              "negationCount": 0,
-              "intensityFactors": [],
-              "primaryEmotion": "neutral"
-            },
-            "topics": [
-              "PERSONAL"
-            ],
-            "entities": {}
-          }
-        }
-      ]
-    },
-    "61571418352875": {
-      "personal": [],
-      "facts": [],
-      "preferences": [],
-      "interactions": [
-        {
-          "content": "Ngoc Anh nói: Ban nó ik bot\nTôi trả lời: Trưa nay nắng gắt quá xá =)))  Bạn đi ăn gì rồi?",
-          "timestamp": 1744004455174,
-          "priority": 1,
-          "accessCount": 0,
-          "lastAccess": 1744004455174,
-          "metadata": {
-            "sentiment": {
-              "score": 0,
-              "rawScore": 0,
-              "sentiment": "neutral",
-              "confidence": 0.5,
-              "emotions": [],
-              "negationCount": 0,
-              "intensityFactors": [],
-              "primaryEmotion": "neutral"
-            },
-            "topics": [
-              "PERSONAL",
-              "FOOD",
-              "TRAVEL"
-            ],
-            "entities": {}
-          }
-        }
-      ],
-      "emotions": [],
-      "names": [],
-      "relationships": {},
-      "context": {
-        "lastTopics": [],
-        "importantDates": {},
-        "recentMentions": {},
-        "conversationFlow": []
-      },
-      "topics": {},
-      "undefined": [
-        {
-          "content": "Xưng hô: mình/bạn",
-          "timestamp": 1744004454507,
-          "priority": 2,
-          "accessCount": 0,
-          "lastAccess": 1744004454507,
+          "lastAccess": 1744009987977,
           "metadata": {
             "sentiment": {
               "score": 0,
@@ -280,7 +145,7 @@
     "voice": {}
   },
   "stats": {
-    "totalInteractions": 8,
+    "totalInteractions": 4,
     "uniqueUsers": {},
     "topTopics": {},
     "responseTime": [],

@@ -20,22 +20,29 @@ const VIP_PACKAGES = {
             money: {
                 farm: "Tăng lợi nhuận/giảm thời gian", daily: "+60%",
                 quest: "+100%", event: "+100%", protection: "100% chống cướp",
-                platform: "Tải Video toàn bộ nền tảng"
+                platform: "Tải Video toàn bộ nền tảng",
+                transferLimit: "5 tỉ xu/ngày"
             },
             bank: {
                 loan: "Vay tối đa 150% tài sản", interest: "-30% lãi vay",
                 bonus: "+15% lãi tiết kiệm", fee: "-60% phí giao dịch"
             },
-            security: { protect: "Miễn nhiễm cướp" },
+            security: { protect: "Miễn nhiễm cướp cho Stolen" },
             gacha: {
                 limitedBonus: "+15% tỉ lệ Limited",
                 description: "Tăng 15% tỉ lệ ra thẻ Limited"
+            },
+            ghep: {
+                fullProfile: "Xem thông tin đầy đủ",
+                boxMatch: "Ghép đôi trong nhóm",
+                analysis: "Phân tích tính cách và dự đoán"
             }
         },
         benefits: {
             cooldownReduction: 30, dailyBonus: true, fishingCooldown: 120000, 
             fishExpMultiplier: 4, rareBonus: 0.3, trashReduction: 0.6,
             stolenProtection: 1.0, stolenCooldown: 900000, fullPlatformAccess: true,
+            dailyTransferLimit: 5000000000, 
             gachaBonus: {
                 limitedRateBonus: 0.15
             }
@@ -54,7 +61,8 @@ const defaultBenefits = {
     workBonus: 0, cooldownReduction: 0, dailyBonus: false,
     fishingCooldown: 360000, fishExpMultiplier: 1, packageId: 0,
     name: "No VIP", rareBonus: 0, trashReduction: 0,
-    stolenProtection: 0, stolenCooldown: 900000 
+    stolenProtection: 0, stolenCooldown: 900000,
+    dailyTransferLimit: 50000000 
 };
 
 module.exports = {

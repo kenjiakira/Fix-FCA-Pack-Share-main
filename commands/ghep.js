@@ -3,6 +3,7 @@ const fs = require('fs');
 const path = require('path');
 const { createCanvas, loadImage } = require('canvas');
 const getThreadParticipantIDs = require('../utils/getParticipantIDs');
+const vipService = require('../game/vip/vipService'); // Add VIP service import
 let userImg, partnerImg;
 
 module.exports = {
@@ -10,37 +11,197 @@ module.exports = {
   category: "Giải Trí",
   info: "Ghép đôi ngẫu nhiên với nhiều tính năng thú vị",
   onPrefix: true,
-  usages: "ghep",
-  cooldowns: 30,
+  usages: "ghep [all/global] - Ghép ngẫu nhiên (VIP: all/global để ghép với người ngoài nhóm)",
+  cooldowns: 10,
 
-  onLaunch: async ({ api, event }) => {
+  onLaunch: async ({ api, event, target = [] }) => {
     try {
-      const { threadID, senderID } = event;
+      const { threadID, messageID, senderID } = event;
       let partnerId;
+      let isLocalMatch = false;
+      let showFullInfo = false; 
 
-      if (event.type === 'message_reply') {
+      const isVIP = vipService.checkVIP(senderID).success;
+
+      if (!isVIP) {
+        const fullInfoLimitPath = path.join(__dirname, './cache/ghepFullInfo.json');
+        let fullInfoData = {};
+        
+        if (!fs.existsSync(path.join(__dirname, './cache'))) {
+          fs.mkdirSync(path.join(__dirname, './cache'), { recursive: true });
+        }
+        
+        if (fs.existsSync(fullInfoLimitPath)) {
+          try {
+            fullInfoData = JSON.parse(fs.readFileSync(fullInfoLimitPath, 'utf8'));
+          } catch (err) {
+            console.error("Error reading ghep full info data:", err);
+            fullInfoData = {};
+          }
+        }
+        
+        const today = new Date().toDateString();
+        
+        if (!fullInfoData[senderID] || fullInfoData[senderID].date !== today) {
+          fullInfoData[senderID] = {
+            date: today,
+            count: 0
+          };
+        }
+        
+        if (fullInfoData[senderID].count < 5) {
+          showFullInfo = true;
+          fullInfoData[senderID].count++;
+        } else {
+          showFullInfo = false;
+        }
+        
+        fs.writeFileSync(fullInfoLimitPath, JSON.stringify(fullInfoData, null, 2));
+      } else {
+        showFullInfo = true;
+      }
+
+      if (target[0] && target[0].toLowerCase() === 'box') {
+        if (isVIP) {
+          isLocalMatch = true;
+        } else {
+          return api.sendMessage("❌ Tính năng ghép trong nhóm (ghep box) chỉ dành cho thành viên VIP!", threadID, messageID);
+        }
+      }        if (event.type === 'message_reply') {
         partnerId = event.messageReply.senderID;
       }
       else if (Object.keys(event.mentions).length > 0) {
-        partnerId = Object.keys(event.mentions)[0];
+     
+        return api.sendMessage("❌ Tính năng ghép đôi bằng cách tag người khác đã bị vô hiệu hóa!", threadID, messageID);
       }
       else {
-        const participants = await getThreadParticipantIDs(api, threadID);
+        if (!isLocalMatch) {
+          try {
+            const userDataPath = path.join(__dirname, '../events/cache/userData.json');
+            let userData = {};
 
-        const availablePartners = participants.filter(id => id !== senderID);
+            if (fs.existsSync(userDataPath)) {
+              userData = JSON.parse(fs.readFileSync(userDataPath, 'utf8'));
+            }
 
-        if (availablePartners.length === 0) {
-          return api.sendMessage("❌ Không tìm thấy đối tượng phù hợp trong nhóm!", threadID);
+            const allUserIds = Object.keys(userData).filter(id =>
+              id !== senderID &&
+              id !== api.getCurrentUserID() &&
+              !id.startsWith('0000') &&
+              !id.startsWith('100000000000000') &&
+           
+              (userData[id]?.name !== "User" && 
+               !userData[id]?.name?.startsWith("User ") && 
+               !userData[id]?.name?.includes(" User"))
+            );
+
+            if (allUserIds.length === 0) {
+              const participants = await getThreadParticipantIDs(api, threadID);
+            
+              const availablePartners = participants.filter(async id => {
+                if (id === senderID) return false;
+                
+                try {
+                  let name = "";
+                  try {
+                    const userInfo = await api.getUserInfo(id);
+                    name = userInfo[id]?.name || "";
+                  } catch (e) {
+                    if (userData[id]) {
+                      name = userData[id].name || "";
+                    }
+                  }
+                  
+                  return name !== "User" && 
+                         !name.startsWith("User ") && 
+                         !name.includes(" User");
+                } catch (err) {
+                  return true;
+                }
+              });
+
+              if (availablePartners.length === 0) {
+                return api.sendMessage("❌ Không tìm thấy đối tượng phù hợp để ghép đôi!", threadID, messageID);
+              }
+
+              partnerId = availablePartners[Math.floor(Math.random() * availablePartners.length)];
+            } else {
+              partnerId = allUserIds[Math.floor(Math.random() * allUserIds.length)];
+            }
+          } catch (err) {
+            console.error("Error during global matching:", err);
+            return api.sendMessage("❌ Đã xảy ra lỗi khi ghép đôi toàn cục!", threadID, messageID);
+          }
+        } else {
+          const participants = await getThreadParticipantIDs(api, threadID);
+          
+          const userDataPath = path.join(__dirname, '../events/cache/rankData.json');
+          let userData = {};
+          try {
+            if (fs.existsSync(userDataPath)) {
+              userData = JSON.parse(fs.readFileSync(userDataPath, 'utf8'));
+            }
+          } catch (e) {
+            console.error("Error reading userData for name filter:", e);
+          }
+          
+          let availablePartners = participants.filter(id => id !== senderID);
+          
+          if (Object.keys(userData).length > 0) {
+            availablePartners = availablePartners.filter(id => {
+              if (userData[id]) {
+                const name = userData[id].name || "";
+                return name !== "User" && 
+                      !name.startsWith("User ") && 
+                      !name.includes(" User");
+              }
+              return true; // Giữ lại nếu không có thông tin
+            });
+          }
+
+          if (availablePartners.length === 0) {
+            return api.sendMessage("❌ Không tìm thấy đối tượng phù hợp trong nhóm!", threadID, messageID);
+          }
+
+          partnerId = availablePartners[Math.floor(Math.random() * availablePartners.length)];
         }
-
-        partnerId = availablePartners[Math.floor(Math.random() * availablePartners.length)];
       }
 
       if (partnerId === senderID) {
-        return api.sendMessage("❌ Không thể tự ghép đôi với chính mình!", threadID);
+        return api.sendMessage("❌ Không thể tự ghép đôi với chính mình!", threadID, messageID);
+      }
+      
+      // Kiểm tra xem người được chọn có tên là "User" hay không
+      try {
+        const userDataPath = path.join(__dirname, '../events/cache/rankData.json');
+        let userData = {};
+        if (fs.existsSync(userDataPath)) {
+          userData = JSON.parse(fs.readFileSync(userDataPath, 'utf8'));
+        }
+        
+        let partnerName = "";
+        try {
+          const userInfo = await api.getUserInfo([partnerId]);
+          partnerName = userInfo[partnerId]?.name || "";
+        } catch (e) {
+          if (userData[partnerId]) {
+            partnerName = userData[partnerId].name || "";
+          }
+        }
+        
+        // Nếu người được chọn có tên là "User", chọn lại người khác
+        if (partnerName === "User" || 
+            partnerName.startsWith("User ") || 
+            partnerName.includes(" User")) {
+          return api.sendMessage("❌ Hệ thống phát hiện đối tượng không phù hợp. Vui lòng thử lại!", threadID, messageID);
+        }
+      } catch (err) {
+        console.error("Error checking partner name:", err);
       }
 
-      const compatibility = Math.floor(Math.random() * 100) + 1; const compatMessage = getCompatibilityMessage(compatibility); const zodiacSigns = ['Bạch Dương', 'Kim Ngưu', 'Song Tử', 'Cự Giải', 'Sư Tử', 'Xử Nữ', 'Thiên Bình', 'Bọ Cạp', 'Nhân Mã', 'Ma Kết', 'Bảo Bình', 'Song Ngư'];
+      const compatibility = Math.floor(Math.random() * 100) + 1;
+      const compatMessage = getCompatibilityMessage(compatibility);
+      const zodiacSigns = ['Bạch Dương', 'Kim Ngưu', 'Song Tử', 'Cự Giải', 'Sư Tử', 'Xử Nữ', 'Thiên Bình', 'Bọ Cạp', 'Nhân Mã', 'Ma Kết', 'Bảo Bình', 'Song Ngư'];
       const userZodiac = zodiacSigns[Math.floor(Math.random() * zodiacSigns.length)];
       const partnerZodiac = zodiacSigns[Math.floor(Math.random() * zodiacSigns.length)];
       const personalityMatch = Math.floor(Math.random() * 100) + 1;
@@ -79,7 +240,23 @@ module.exports = {
         "Tương lai: Cùng nhau già đi trong hạnh phúc 👴👵",
         "Tương lai: Trở thành cặp đôi hoàn hảo trong mắt mọi người 💑"
       ];
+      let userLink, partnerLink;
 
+ 
+      try {
+        userLink = `https://www.facebook.com/profile.php?id=${senderID}`;
+        partnerLink = `https://www.facebook.com/profile.php?id=${partnerId}`;
+
+        // Chỉ ẩn đi nếu không phải VIP và đã hết lượt xem
+        if (!showFullInfo) {
+          const linkLength = partnerLink.length;
+          partnerLink = partnerLink.substring(0, 28) + '•'.repeat(Math.min(15, linkLength - 35)) + partnerLink.substring(linkLength - 7);
+        }
+      } catch (err) {
+        console.error("Error generating profile links:", err);
+        userLink = "Không có thông tin";
+        partnerLink = showFullInfo ? "Không có thông tin" : "••••••••••••";
+      }
       const getAvatar = async (uid) => {
         if (uid === 'default') {
           return createDefaultAvatar();
@@ -89,7 +266,7 @@ module.exports = {
         try {
           const response = await axios.get(avatarUrl, {
             responseType: 'arraybuffer',
-            timeout: 15000, // Tăng timeout lên 15 giây
+            timeout: 15000,
             validateStatus: function (status) {
               return status >= 200 && status < 300;
             },
@@ -107,45 +284,8 @@ module.exports = {
         } catch (err) {
           console.error(`Failed to get avatar for ${uid}: ${err.message}`);
           return createDefaultAvatar();
-          // Create a default avatar
-          const canvas = createCanvas(512, 512);
-          const ctx = canvas.getContext('2d');
-
-          // Fill background
-          const gradient = ctx.createLinearGradient(0, 0, 512, 512);
-          gradient.addColorStop(0, '#4a148c');
-          gradient.addColorStop(1, '#311b92');
-          ctx.fillStyle = gradient;
-          ctx.fillRect(0, 0, 512, 512);
-
-          // Add text
-          ctx.font = 'bold 200px Arial';
-          ctx.fillStyle = '#ffffff';
-          ctx.textAlign = 'center';
-          ctx.textBaseline = 'middle';
-          ctx.fillText('?', 256, 256);
-
-          return canvas.toBuffer('image/jpeg');
         }
       };
-
-      try {
-        [userImg, partnerImg] = await Promise.all([
-          getAvatar(senderID).catch(err => {
-            console.error(`Failed to get user avatar: ${err.message}`);
-            return createDefaultAvatar();
-          }),
-          getAvatar(partnerId).catch(err => {
-            console.error(`Failed to get partner avatar: ${err.message}`);
-            return createDefaultAvatar();
-          })
-        ]);
-      } catch (error) {
-        console.error("Error getting avatars:", error);
-
-        userImg = createDefaultAvatar();
-        partnerImg = createDefaultAvatar();
-      }
 
       function createDefaultAvatar() {
         const canvas = createCanvas(512, 512);
@@ -164,6 +304,23 @@ module.exports = {
         ctx.fillText('?', 256, 256);
 
         return canvas.toBuffer('image/jpeg');
+      }
+
+      try {
+        [userImg, partnerImg] = await Promise.all([
+          getAvatar(senderID).catch(err => {
+            console.error(`Failed to get user avatar: ${err.message}`);
+            return createDefaultAvatar();
+          }),
+          getAvatar(partnerId).catch(err => {
+            console.error(`Failed to get partner avatar: ${err.message}`);
+            return createDefaultAvatar();
+          })
+        ]);
+      } catch (error) {
+        console.error("Error getting avatars:", error);
+        userImg = createDefaultAvatar();
+        partnerImg = createDefaultAvatar();
       }
 
       const avatarCacheDir = path.join(__dirname, './cache/avatar');
@@ -197,25 +354,106 @@ module.exports = {
         }
       }
 
+      if (!showFullInfo) {
+        const nameParts = partnerName.split(' ');
+        partnerName = nameParts.map(part => {
+          if (part.length <= 2) return part[0] + '•';
+          return part[0] + '•'.repeat(part.length - 2) + part[part.length - 1];
+        }).join(' ');
+
+        // Tạo ảnh mờ cho đối phương thay vì ẩn hoàn toàn
+        const mysteryCanvas = createCanvas(512, 512);
+        const ctx = mysteryCanvas.getContext('2d');
+        
+        // Vẽ nền gradient
+        const gradient = ctx.createLinearGradient(0, 0, 512, 512);
+        gradient.addColorStop(0, 'rgba(255, 154, 158, 0.4)');
+        gradient.addColorStop(1, 'rgba(250, 208, 196, 0.4)');
+        ctx.fillStyle = gradient;
+        ctx.fillRect(0, 0, 512, 512);
+        
+        // Lấy ảnh gốc và làm mờ
+        try {
+          // Vẽ ảnh đối tác với độ mờ cao
+          ctx.globalAlpha = 0.35; // Độ mờ cao
+          ctx.drawImage(await loadImage(pathPartner), 0, 0, 512, 512);
+          ctx.globalAlpha = 1.0;
+          
+          // Thêm hiệu ứng mờ
+          ctx.fillStyle = 'rgba(255, 255, 255, 0.3)';
+          ctx.fillRect(0, 0, 512, 512);
+        } catch (err) {
+          console.error("Error blurring partner image:", err);
+        }
+        
+        // Thêm overlay cho text nổi bật
+        const overlayGradient = ctx.createRadialGradient(256, 256, 50, 256, 256, 300);
+        overlayGradient.addColorStop(0, 'rgba(0, 0, 0, 0.1)');
+        overlayGradient.addColorStop(0.7, 'rgba(0, 0, 0, 0.5)');
+        overlayGradient.addColorStop(1, 'rgba(0, 0, 0, 0.7)');
+        ctx.fillStyle = overlayGradient;
+        ctx.fillRect(0, 0, 512, 512);
+        
+        // Viền nổi bật
+        ctx.strokeStyle = '#FFD700';
+        ctx.lineWidth = 8;
+        ctx.strokeRect(15, 15, 512-30, 512-30);
+        
+        // Hiệu ứng ánh sáng cho chữ VIP
+        ctx.shadowColor = 'rgba(255, 215, 0, 0.8)';
+        ctx.shadowBlur = 20;
+        ctx.shadowOffsetX = 0;
+        ctx.shadowOffsetY = 0;
+        
+        // Vẽ chữ VIP nổi bật
+        ctx.font = 'bold 90px Arial';
+        ctx.fillStyle = '#FFD700';
+        ctx.textAlign = 'center';
+        ctx.textBaseline = 'middle';
+        ctx.fillText('VIP', 256, 200);
+        
+        // Bỏ hiệu ứng shadow để vẽ text khác
+        ctx.shadowBlur = 0;
+        
+        // Vẽ dấu chấm hỏi mờ
+        ctx.font = 'bold 120px Arial';
+        ctx.fillStyle = 'rgba(255, 255, 255, 0.2)';
+        ctx.fillText('?', 256, 120);
+        
+        ctx.font = 'bold 30px Arial';
+        ctx.fillStyle = 'white';
+        ctx.fillText('Nâng cấp VIP để', 256, 290);
+        
+        ctx.font = '24px Arial';
+        ctx.fillText('xem thông tin đầy đủ', 256, 330);
+        ctx.fillText('ghép đôi không giới hạn', 256, 365);
+        ctx.fillText('mở khóa nhiều tính năng khác', 256, 400);
+        
+        ctx.font = 'bold 26px Arial';
+        ctx.fillStyle = '#FFD700';
+        ctx.fillText('Gõ .vip để biết thêm', 256, 450);
+
+        partnerImg = mysteryCanvas.toBuffer('image/jpeg');
+        fs.writeFileSync(pathPartner, partnerImg);
+      }
       fs.writeFileSync(pathUser, userImg);
       fs.writeFileSync(pathPartner, partnerImg);
 
       const img1 = await loadImage(pathUser);
       const img2 = await loadImage(pathPartner);
 
-      // Kích thước lớn hơn cho chi tiết rõ nét
       const canvas = createCanvas(1200, 800);
       const ctx = canvas.getContext('2d');
 
+
       // ===== BACKGROUND SANG TRỌNG =====
-      // Gradient nền chính
+ 
       const bgGradient = ctx.createLinearGradient(0, 0, 1200, 800);
       bgGradient.addColorStop(0, '#141e30');
       bgGradient.addColorStop(1, '#243b55');
       ctx.fillStyle = bgGradient;
       ctx.fillRect(0, 0, 1200, 800);
 
-      // Hiệu ứng sao lấp lánh
       for (let i = 0; i < 100; i++) {
         const x = Math.random() * 1200;
         const y = Math.random() * 800;
@@ -228,7 +466,6 @@ module.exports = {
         ctx.fill();
       }
 
-      // Hiệu ứng ánh sáng hào quang
       const radialGradient = ctx.createRadialGradient(600, 400, 100, 600, 400, 800);
       radialGradient.addColorStop(0, 'rgba(255, 192, 203, 0.4)');
       radialGradient.addColorStop(0.5, 'rgba(255, 182, 193, 0.1)');
@@ -241,14 +478,12 @@ module.exports = {
       ctx.textAlign = 'center';
       ctx.textBaseline = 'middle';
 
-      // Hiệu ứng viền sáng cho text
       ctx.strokeStyle = '#FF9AA2';
       ctx.lineWidth = 8;
       ctx.shadowColor = '#FF9AA2';
       ctx.shadowBlur = 15;
       ctx.strokeText('💖 GHÉP ĐÔI 💖', 600, 80);
 
-      // Text chính
       const titleGradient = ctx.createLinearGradient(400, 60, 800, 100);
       titleGradient.addColorStop(0, '#FF9AA2');
       titleGradient.addColorStop(0.5, '#FFDFD3');
@@ -258,7 +493,7 @@ module.exports = {
       ctx.shadowBlur = 0;
 
       // ===== KHUNG AVATAR SANG TRỌNG =====
-      function drawLuxuryFrame(x, y, image, name, zodiac) {
+      function drawLuxuryFrame(x, y, image, name, zodiac, isVipDisplay = true) {
         // Vòng trang trí bên ngoài
         ctx.beginPath();
         ctx.arc(x, y, 230, 0, Math.PI * 2);
@@ -329,7 +564,8 @@ module.exports = {
 
       // Vẽ hai avatar
       drawLuxuryFrame(300, 350, img1, userName, userZodiac);
-      drawLuxuryFrame(900, 350, img2, partnerName, partnerZodiac);
+      drawLuxuryFrame(900, 350, img2, partnerName, partnerZodiac, isVIP);
+
       // ===== HIỆU ỨNG TRÁI TIM GIỮA =====
       // Vẽ trái tim chuẩn hơn với tỷ lệ hợp lý
       const heartX = 600;
@@ -602,17 +838,70 @@ module.exports = {
         throw new Error("Failed to create merged image");
       }
 
-      await api.sendMessage({
-        body: `🎐 Ghép đôi thành công!\n` +
+      let messageBody = '';
+      
+      if (isVIP) {
+        // Người dùng VIP - hiển thị đầy đủ
+        messageBody = `👑 VIP MATCH 👑\n` +
+          `🎐 Ghép đôi thành công!\n` +
           `💝 ${userName} (${userZodiac}) 💓 ${partnerName} (${partnerZodiac})\n` +
           `🔒 Tỉ lệ hợp đôi: ${compatibility}%\n` +
           `${getCompatibilityMessage(compatibility)}\n\n` +
           `💫 Phân tích chi tiết:\n` +
-          `- Hợp nhau về tính cách: ${Math.floor(Math.random() * 100)}%\n` +
-          `- Hợp nhau về sở thích: ${Math.floor(Math.random() * 100)}%\n` +
-          `- Có cơ hội tiến xa: ${Math.floor(Math.random() * 100)}%\n\n` +
+          `- Hợp nhau về tính cách: ${personalityMatch}%\n` +
+          `- Hợp nhau về sở thích: ${interestMatch}%\n` +
+          `- Có cơ hội tiến xa: ${futureChance}%\n\n` +
+          `👤 Profile: ${userLink}\n` +
+          `👤 Profile đối phương: ${partnerLink}\n\n` +
           `💌 Lời thì thầm: ${loveQuotes[Math.floor(Math.random() * loveQuotes.length)]}\n` +
-          `🔮 ${futures[Math.floor(Math.random() * futures.length)]}`,
+          `🔮 ${futures[Math.floor(Math.random() * futures.length)]}`;
+      } else if (showFullInfo) {
+        // Người dùng free còn lượt xem - hiển thị như VIP
+        const fullInfoLimitPath = path.join(__dirname, './cache/ghepFullInfo.json');
+        let fullInfoData = JSON.parse(fs.readFileSync(fullInfoLimitPath, 'utf8'));
+        const remainingViews = 5 - fullInfoData[senderID].count;
+        
+        messageBody = `⭐ FULL INFO (${remainingViews}/5) ⭐\n` +
+          `🎐 Ghép đôi thành công!\n` +
+          `💝 ${userName} (${userZodiac}) 💓 ${partnerName} (${partnerZodiac})\n` +
+          `🔒 Tỉ lệ hợp đôi: ${compatibility}%\n` +
+          `${getCompatibilityMessage(compatibility)}\n\n` +
+          `💫 Phân tích chi tiết:\n` +
+          `- Hợp nhau về tính cách: ${personalityMatch}%\n` +
+          `- Hợp nhau về sở thích: ${interestMatch}%\n` +
+          `- Có cơ hội tiến xa: ${futureChance}%\n\n` +
+          `👤 Profile: ${userLink}\n` +
+          `👤 Profile đối phương: ${partnerLink}\n\n` +
+          `💌 Lời thì thầm: ${loveQuotes[Math.floor(Math.random() * loveQuotes.length)]}\n` +
+          `🔮 ${futures[Math.floor(Math.random() * futures.length)]}\n\n` +
+          `⏳ Bạn còn ${remainingViews} lần xem thông tin đầy đủ hôm nay\n` +
+          `💡 Nâng cấp VIP để không bị giới hạn!`;
+      } else {
+        // Người dùng free hết lượt xem - ẩn thông tin
+        messageBody = `⭐ FREE MATCH ⭐\n` +
+          `🎐 Ghép đôi thành công!\n` +
+          `💝 ${userName} (${userZodiac}) 💓 ${partnerName} (${partnerZodiac})\n` +
+          `🔒 Tỉ lệ hợp đôi: ${compatibility}%\n` +
+          `${getCompatibilityMessage(compatibility)}\n\n` +
+          `👤 Profile: ${userLink}\n` +
+          `👤 Profile đối phương: ${partnerLink}\n\n` +
+          `⏳ Bạn đã sử dụng hết 5 lần xem thông tin đầy đủ hôm nay\n` +
+          `💡 Nâng cấp lên VIP để xem:\n` +
+          `• Thông tin đầy đủ không giới hạn\n` +
+          `• Ghép đôi trong nhóm (ghep box)\n` +
+          `• Phân tích tính cách và sở thích\n` +
+          `• Dự đoán tương lai của cặp đôi\n` +
+          `👉 Gõ .vip để biết thêm chi tiết`;
+      }
+
+      if (!isLocalMatch) {
+        messageBody = messageBody.replace('Ghép đôi thành công!', 'Ghép đôi toàn cục thành công!');
+      } else {
+        messageBody = messageBody.replace('Ghép đôi thành công!', 'Ghép đôi trong nhóm thành công!');
+      }
+
+      await api.sendMessage({
+        body: messageBody,
         attachment: fs.createReadStream(mergedPath)
       }, event.threadID, event.messageID);
 

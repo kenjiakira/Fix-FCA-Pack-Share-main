@@ -3,6 +3,7 @@ const fs = require('fs');
 const path = require('path');
 const { updateTransaction } = require('./banking'); 
 const { createTransactionBill } = require('../game/canvas/transactionBill');
+const vipService = require('../game/vip/vipService'); // Add this import
 
 const transactionsPath = path.join(__dirname, '../commands/json/transactions.json');
 const userDataPath = path.join(__dirname, '../events/cache/userData.json');
@@ -29,7 +30,8 @@ try {
 const TRANSFER_LIMITS = {
     MIN_AMOUNT: 10000,
     MAX_AMOUNT_PER_TRANSFER: 500000000, 
-    MAX_DAILY_AMOUNT: 1000000000,
+    FREE_MAX_DAILY_AMOUNT: 50000000, // 50 million for free users
+    VIP_MAX_DAILY_AMOUNT: 5000000000, // 5 billion for VIP users
 };
 
 const TRANSFER_FEES = [
@@ -55,6 +57,15 @@ function calculateFee(amount) {
         }
     }
     return Math.ceil(amount * TRANSFER_FEES[TRANSFER_FEES.length - 1].fee);
+}
+
+function getUserDailyLimit(userId) {
+    const vipStatus = vipService.checkVIP(userId);
+    if (vipStatus.success) {
+        return TRANSFER_LIMITS.VIP_MAX_DAILY_AMOUNT;
+    } else {
+        return TRANSFER_LIMITS.FREE_MAX_DAILY_AMOUNT;
+    }
 }
 
 module.exports = {
@@ -93,9 +104,19 @@ module.exports = {
             return api.sendMessage(`Số tiền chuyển tối đa mỗi lần là ${TRANSFER_LIMITS.MAX_AMOUNT_PER_TRANSFER.toLocaleString()} $.`, threadID, messageID);
         }
 
+        // Get user's daily transfer limit based on VIP status
+        const userDailyLimit = getUserDailyLimit(senderID);
+        
         dailyTransfers[senderID] = dailyTransfers[senderID] || 0;
-        if (dailyTransfers[senderID] + transferAmount > TRANSFER_LIMITS.MAX_DAILY_AMOUNT) {
-            return api.sendMessage(`Bạn đã vượt quá giới hạn chuyển tiền hàng ngày (${TRANSFER_LIMITS.MAX_DAILY_AMOUNT.toLocaleString()} $).`, threadID, messageID);
+        if (dailyTransfers[senderID] + transferAmount > userDailyLimit) {
+            const isVip = userDailyLimit === TRANSFER_LIMITS.VIP_MAX_DAILY_AMOUNT;
+            let message = `Bạn đã vượt quá giới hạn chuyển tiền hàng ngày (${userDailyLimit.toLocaleString()} $).`;
+            
+            if (!isVip) {
+                message += `\n💡 Nâng cấp lên VIP để được chuyển tối đa ${TRANSFER_LIMITS.VIP_MAX_DAILY_AMOUNT.toLocaleString()} $ mỗi ngày.`;
+            }
+            
+            return api.sendMessage(message, threadID, messageID);
         }
 
         const fee = calculateFee(transferAmount);
@@ -169,8 +190,16 @@ module.exports = {
             console.error("Lỗi cập nhật lịch sử giao dịch:", err);
         }
 
+        // Display remaining daily limit 
+        const remainingDailyLimit = userDailyLimit - dailyTransfers[senderID];
+        const isVip = userDailyLimit === TRANSFER_LIMITS.VIP_MAX_DAILY_AMOUNT;
+        const vipStatusText = isVip ? "👑 VIP" : "⭐ Free";
+        
         api.sendMessage(
-            { attachment: fs.createReadStream(billPath) },
+            { 
+                body: `✅ Chuyển tiền thành công!\n💰 Hạn mức còn lại hôm nay: ${remainingDailyLimit.toLocaleString()} $\n🏆 Trạng thái: ${vipStatusText}`,
+                attachment: fs.createReadStream(billPath) 
+            },
             threadID,
             () => fs.unlinkSync(billPath),
             messageID

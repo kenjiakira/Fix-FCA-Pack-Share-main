@@ -460,7 +460,7 @@ if (i < 3 && rewards[i]) {
         }
 
         try {
-            const userDataPath = path.join(__dirname, '../events/cache/userData.json');
+            const userDataPath = path.join(__dirname, '../events/cache/rankData.json');
             const userData = JSON.parse(fs.readFileSync(userDataPath, 'utf8'));
 
             const sortedUsers = Object.entries(userData)

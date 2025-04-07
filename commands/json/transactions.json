@@ -97,12 +97,6 @@
   ],
   "61558946907944": [
     {
-      "type": "in",
-      "amount": 6000000,
-      "timestamp": 1743255549040,
-      "description": "Nhận 6000000 $ từ Con Người"
-    },
-    {
       "type": "out",
       "amount": 10300,
       "timestamp": 1743352234421,
@@ -119,6 +113,18 @@
       "amount": 1010000,
       "timestamp": 1743943085374,
       "description": "Chuyển 1000000 $ cho User"
+    },
+    {
+      "type": "in",
+      "amount": 50000,
+      "timestamp": 1744005358340,
+      "description": "Nhận 50000 $ từ Kenji Akira"
+    },
+    {
+      "type": "out",
+      "amount": 10300,
+      "timestamp": 1744005660849,
+      "description": "Chuyển 10000 $ cho Khang Bùi"
     }
   ],
   "61566789515977": [
@@ -561,6 +567,12 @@
       "amount": 10300,
       "timestamp": 1743432722106,
       "description": "Chuyển 10000 $ cho User"
+    },
+    {
+      "type": "out",
+      "amount": 50500,
+      "timestamp": 1744005358340,
+      "description": "Chuyển 50000 $ cho Yu Ki"
     }
   ],
   "100039427460355": [
@@ -1267,6 +1279,14 @@
       "amount": 1000000,
       "timestamp": 1743943085374,
       "description": "Nhận 1000000 $ từ Yu Ki"
+    }
+  ],
+  "100055074463541": [
+    {
+      "type": "in",
+      "amount": 10000,
+      "timestamp": 1744005660849,
+      "description": "Nhận 10000 $ từ Yu Ki"
     }
   ]
 }

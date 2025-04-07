@@ -440,6 +440,12 @@
         "description": "Nhận 7,000,000 $ từ Pham Minh Dang",
         "amount": 7000000,
         "timestamp": 1742654451657
+      },
+      {
+        "type": "in",
+        "description": "Nhận 10,000 $ từ Yu Ki",
+        "amount": 10000,
+        "timestamp": 1744005661214
       }
     ],
     "100076957299243": [
@@ -697,12 +703,6 @@
     "61558946907944": [
       {
         "type": "in",
-        "description": "Nhận 500,000 $ từ Khắc Thành",
-        "amount": 500000,
-        "timestamp": 1742734914314
-      },
-      {
-        "type": "in",
         "description": "Nhận 200,000 $ từ Khắc Thành",
         "amount": 200000,
         "timestamp": 1742734933979
@@ -748,6 +748,18 @@
         "description": "Chuyển 1,000,000 $ cho User",
         "amount": 1000000,
         "timestamp": 1743943085784
+      },
+      {
+        "type": "in",
+        "description": "Nhận 50,000 $ từ Kenji Akira",
+        "amount": 50000,
+        "timestamp": 1744005358666
+      },
+      {
+        "type": "out",
+        "description": "Chuyển 10,000 $ cho Khang Bùi",
+        "amount": 10000,
+        "timestamp": 1744005661198
       }
     ],
     "100071639513410": [
@@ -1592,6 +1604,12 @@
         "description": "Chuyển 10,000 $ cho User",
         "amount": 10000,
         "timestamp": 1743432722619
+      },
+      {
+        "type": "out",
+        "description": "Chuyển 50,000 $ cho Yu Ki",
+        "amount": 50000,
+        "timestamp": 1744005358649
       }
     ],
     "100039427460355": [

@@ -1,74 +1,42 @@
 {
   "global": [
     {
-      "timestamp": 1744003604183,
-      "prompt": "bot l",
-      "response": "Trưa nay nắng đẹp ghê =)))  Đang đói meo đây, chuẩn bị đi ăn thôi!",
-      "senderID": "61558946907944",
-      "senderName": "Yu Ki"
+      "timestamp": 1744009522629,
+      "prompt": ".ghep @Kim Ngân",
+      "response": "Hi Kenji!  Chuyện gì thế?",
+      "senderID": "100056955484415",
+      "senderName": "Kenji Akira"
     },
     {
-      "timestamp": 1744003998106,
-      "prompt": "bot bận r",
-      "response": "Trưa nay nắng gắt quá trời =)))  mình đi ăn cơm đây, bạn ăn chưa?",
-      "senderID": "100069226140527",
-      "senderName": "Người dùng 100069226140527"
-    },
-    {
-      "timestamp": 1744004381271,
-      "prompt": "Bot êy",
-      "response": "Bot gì nữa trời =))",
-      "senderID": "100091576565522",
-      "senderName": "Người dùng 100091576565522"
-    },
-    {
-      "timestamp": 1744004455173,
-      "prompt": "Ban nó ik bot",
-      "response": "Trưa nay nắng gắt quá xá =)))  Bạn đi ăn gì rồi?",
-      "senderID": "61571418352875",
-      "senderName": "Ngoc Anh"
+      "timestamp": 1744009989547,
+      "prompt": "mạch hồng kim ngân",
+      "response": "Chào bạn!  Mạch hồng gì vậy trời =)))  Có chuyện gì vui kể mình nghe đi nào!",
+      "senderID": "61568641631000",
+      "senderName": "Ủa Alo"
     }
   ],
   "threads": {
+    "28784067331237237": [
+      {
+        "timestamp": 1744009522629,
+        "prompt": ".ghep @Kim Ngân",
+        "response": "Hi Kenji!  Chuyện gì thế?",
+        "senderID": "100056955484415",
+        "senderName": "Kenji Akira"
+      }
+    ],
     "6589198804475799": [
       {
-        "timestamp": 1744003604183,
-        "prompt": "bot l",
-        "response": "Trưa nay nắng đẹp ghê =)))  Đang đói meo đây, chuẩn bị đi ăn thôi!",
-        "senderID": "61558946907944",
-        "senderName": "Yu Ki"
-      }
-    ],
-    "28912119451766231": [
-      {
-        "timestamp": 1744003998106,
-        "prompt": "bot bận r",
-        "response": "Trưa nay nắng gắt quá trời =)))  mình đi ăn cơm đây, bạn ăn chưa?",
-        "senderID": "100069226140527",
-        "senderName": "Người dùng 100069226140527"
-      },
-      {
-        "timestamp": 1744004381271,
-        "prompt": "Bot êy",
-        "response": "Bot gì nữa trời =))",
-        "senderID": "100091576565522",
-        "senderName": "Người dùng 100091576565522"
-      }
-    ],
-    "9520765137982811": [
-      {
-        "timestamp": 1744004455173,
-        "prompt": "Ban nó ik bot",
-        "response": "Trưa nay nắng gắt quá xá =)))  Bạn đi ăn gì rồi?",
-        "senderID": "61571418352875",
-        "senderName": "Ngoc Anh"
+        "timestamp": 1744009989547,
+        "prompt": "mạch hồng kim ngân",
+        "response": "Chào bạn!  Mạch hồng gì vậy trời =)))  Có chuyện gì vui kể mình nghe đi nào!",
+        "senderID": "61568641631000",
+        "senderName": "Ủa Alo"
       }
     ]
   },
   "lastResponses": {
-    "bot l": "Trưa nay nắng đẹp ghê =)))  Đang đói meo đây, chuẩn bị đi ăn thôi!",
-    "bot bận r": "Trưa nay nắng gắt quá trời =)))  mình đi ăn cơm đây, bạn ăn chưa?",
-    "bot êy": "Bot gì nữa trời =))",
-    "ban nó ik bot": "Trưa nay nắng gắt quá xá =)))  Bạn đi ăn gì rồi?"
+    ".ghep @kim ngân": "Hi Kenji!  Chuyện gì thế?",
+    "mạch hồng kim ngân": "Chào bạn!  Mạch hồng gì vậy trời =)))  Có chuyện gì vui kể mình nghe đi nào!"
   }
 }
