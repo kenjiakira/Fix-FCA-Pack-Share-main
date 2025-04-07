@@ -84,7 +84,7 @@ class DailyRewardManager {
   }
 
   calculateReward(streak) {
-    const baseAmount = randomInt(1500, 6100) * 100;
+    const baseAmount = randomInt(150, 610) * 100;
     let multiplier = Math.min(1 + streak * 0.1, 2.5);
 
     const today = new Date().getDay();
@@ -915,7 +915,7 @@ module.exports = {
         streak: 0,
       };
       const timeSinceLastClaim = now - userClaim.lastClaim;
-      const CLAIM_INTERVAL = 4 * 60 * 60 * 1000; // 4 giờ
+      const CLAIM_INTERVAL = 24 * 60 * 60 * 1000;
 
       if (timeSinceLastClaim < CLAIM_INTERVAL) {
         const hoursLeft = Math.floor((CLAIM_INTERVAL - timeSinceLastClaim) / (60 * 60 * 1000));

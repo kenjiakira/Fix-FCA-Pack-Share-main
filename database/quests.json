@@ -34,13 +34,6 @@
       "target": 3,
       "reward": 100000,
       "type": "counter"
-    },
-    "daily_checkin": {
-      "name": "Điểm Danh Siêng Năng",
-      "description": "Điểm danh 6 lần trong ngày (mỗi 4 tiếng)", 
-      "target": 6,
-      "reward": 50000,
-      "type": "counter"
     }
   },
   "streakRewards": {

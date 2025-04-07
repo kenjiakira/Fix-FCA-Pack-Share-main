@@ -4,6 +4,7 @@ const { createCanvas, loadImage, registerFont } = require("canvas");
 const { allBalances } = require("../utils/currencies");
 const axios = require("axios");
 const npcManager = require('../utils/npcManager');
+const vipService = require('../game/vip/vipService');
 
 function formatNumber(number) {
   if (number === undefined || number === null) return "0";
@@ -28,6 +29,12 @@ module.exports = {
       const height = 1250;
       const canvas = createCanvas(width, height);
       const ctx = canvas.getContext("2d");
+
+      try {
+        registerFont(path.join(__dirname, '../fonts/BeVietnamPro-Bold.ttf'), { family: 'BeVietnamPro' });
+      } catch (fontError) {
+        console.error("Error loading custom font:", fontError);
+      }
 
       const gradient = ctx.createLinearGradient(0, 0, width, height);
       gradient.addColorStop(0, "#0f0c29");
@@ -115,23 +122,43 @@ module.exports = {
       // Medallion icons
       const medals = ["🥇", "🥈", "🥉"];
       const rankColors = [
-        "#FFD700", 
-        "#C0C0C0",
-        "#CD7F32", 
-        "rgba(255, 255, 255, 0.2)", 
+        "#FFD700",  // Gold with # prefix
+        "#C0C0C0",  // Silver with # prefix
+        "#CD7F32",  // Bronze with # prefix
+        "rgba(255, 255, 255, 0.2)"  // Correctly formatted rgba
       ];
 
       let startY = 180;
       const rowHeight = 90;
+
+      const userVipStatus = {};
+      for (const [userID] of sortedBalances.slice(0, 10)) {
+        const vipCheck = vipService.checkVIP(userID);
+        userVipStatus[userID] = vipCheck.success ? vipCheck : null;
+      }
+
+      const roundedRect = (x, y, width, height, radius) => {
+        ctx.beginPath();
+        ctx.moveTo(x + radius, y);
+        ctx.lineTo(x + width - radius, y);
+        ctx.quadraticCurveTo(x + width, y, x + width, y + radius);
+        ctx.lineTo(x + width, y + height - radius);
+        ctx.quadraticCurveTo(x + width, y + height, x + width - radius, y + height);
+        ctx.lineTo(x + radius, y + height);
+        ctx.quadraticCurveTo(x, y + height, x, y + height - radius);
+        ctx.lineTo(x, y + radius);
+        ctx.quadraticCurveTo(x, y, x + radius, y);
+        ctx.closePath();
+      };
 
       for (let i = 0; i < sortedBalances.length && i < 10; i++) {
         const [userID, balance] = sortedBalances[i];
         const userName = this.anonymousUsers.has(userID)
           ? "Người dùng ẩn danh #" + userID.substring(0, 4)
           : userData[userID]
-          ? userData[userID].name
-          : "Người dùng ẩn danh";
-          const formattedBalance = formatNumber(balance)
+            ? userData[userID].name
+            : "Người dùng ẩn danh";
+        const formattedBalance = formatNumber(balance)
           .toString()
           .replace(/\B(?=(\d{3})+(?!\d))/g, ",");
 
@@ -145,20 +172,18 @@ module.exports = {
         if (i < 3) {
           cardGradient.addColorStop(
             0,
-            `rgba(${
-              i === 0
-                ? "255, 215, 0"
-                : i === 1
+            `rgba(${i === 0
+              ? "255, 215, 0"
+              : i === 1
                 ? "192, 192, 192"
                 : "205, 127, 50"
             }, 0.2)`
           );
           cardGradient.addColorStop(
             1,
-            `rgba(${
-              i === 0
-                ? "255, 215, 0"
-                : i === 1
+            `rgba(${i === 0
+              ? "255, 215, 0"
+              : i === 1
                 ? "192, 192, 192"
                 : "205, 127, 50"
             }, 0.05)`
@@ -168,22 +193,100 @@ module.exports = {
           cardGradient.addColorStop(1, "rgba(255, 255, 255, 0.02)");
         }
 
-        ctx.fillStyle = cardGradient;
-        ctx.fillRect(50, startY - 20, width - 100, rowHeight);
+        // Check if user is VIP first
+        const isVIP = userVipStatus[userID] !== null;
 
-        // Highlight current user
-        if (userID === senderID) {
+        // Apply special dynamic background for VIP users
+        if (isVIP) {
+          // Enhanced VIP background with animated-like gradient
+          const vipCardGradient = ctx.createLinearGradient(50, startY - 20, width - 50, startY + rowHeight - 20);
+          vipCardGradient.addColorStop(0, 'rgba(128, 91, 13, 0.25)');
+          vipCardGradient.addColorStop(0.5, 'rgba(212, 175, 55, 0.2)');
+          vipCardGradient.addColorStop(1, 'rgba(128, 91, 13, 0.25)');
+
+          ctx.fillStyle = vipCardGradient;
+          ctx.fillRect(50, startY - 20, width - 100, rowHeight);
+
+          // Add subtle star pattern for VIP users
+          ctx.fillStyle = 'rgba(255, 215, 0, 0.1)';
+          for (let s = 0; s < 8; s++) {
+            const starX = 50 + Math.random() * (width - 150);
+            const starY = startY - 20 + Math.random() * rowHeight;
+            const starSize = 1 + Math.random() * 3;
+
+            ctx.beginPath();
+            ctx.arc(starX, starY, starSize, 0, Math.PI * 2);
+            ctx.fill();
+          }
+        } else {
+          ctx.fillStyle = cardGradient;
+          ctx.fillRect(50, startY - 20, width - 100, rowHeight);
+        }
+
+        // Special VIP frame/border
+        if (isVIP) {
+          // Create a special VIP border
           ctx.save();
-          ctx.shadowColor = "#FFD700";
+
+          // Golden gradient border
+          const vipBorderGradient = ctx.createLinearGradient(50, startY - 20, width - 50, startY - 20);
+          vipBorderGradient.addColorStop(0, '#FFD700');
+          vipBorderGradient.addColorStop(0.5, '#FFF8DC');
+          vipBorderGradient.addColorStop(1, '#DAA520');
+
+          ctx.strokeStyle = vipBorderGradient;
+          ctx.lineWidth = 3;
+          ctx.shadowColor = 'rgba(255, 215, 0, 0.8)';
           ctx.shadowBlur = 10;
-          ctx.strokeStyle = "#FFD700";
-          ctx.lineWidth = 2;
           ctx.strokeRect(50, startY - 20, width - 100, rowHeight);
+
+          // Corner accents for VIP users
+          ctx.lineWidth = 2;
+
+          // Top left corner
+          ctx.beginPath();
+          ctx.moveTo(50, startY - 10);
+          ctx.lineTo(50, startY - 20);
+          ctx.lineTo(70, startY - 20);
+          ctx.stroke();
+
+          // Top right corner
+          ctx.beginPath();
+          ctx.moveTo(width - 50, startY - 10);
+          ctx.lineTo(width - 50, startY - 20);
+          ctx.lineTo(width - 70, startY - 20);
+          ctx.stroke();
+
+          // Bottom left corner
+          ctx.beginPath();
+          ctx.moveTo(50, startY + rowHeight - 30);
+          ctx.lineTo(50, startY + rowHeight - 20);
+          ctx.lineTo(70, startY + rowHeight - 20);
+          ctx.stroke();
+
+          // Bottom right corner
+          ctx.beginPath();
+          ctx.moveTo(width - 50, startY + rowHeight - 30);
+          ctx.lineTo(width - 50, startY + rowHeight - 20);
+          ctx.lineTo(width - 70, startY + rowHeight - 20);
+          ctx.stroke();
+
           ctx.restore();
         } else {
-          ctx.strokeStyle = "rgba(255, 255, 255, 0.3)";
-          ctx.lineWidth = 1;
-          ctx.strokeRect(50, startY - 20, width - 100, rowHeight);
+          // Highlight current user with normal highlight
+          if (userID === senderID) {
+            ctx.save();
+            ctx.shadowColor = "#FFD700";
+            ctx.shadowBlur = 10;
+            ctx.strokeStyle = "#FFD700";
+            ctx.lineWidth = 2;
+            ctx.strokeRect(50, startY - 20, width - 100, rowHeight);
+            ctx.restore();
+          } else {
+            ctx.strokeStyle = "rgba(255, 255, 255, 0.3)";
+            ctx.lineWidth = 1;
+            ctx.strokeRect(50, startY - 20, width - 100, rowHeight);
+          }
         }
 
         const rankOffsetY = 20;
@@ -200,40 +303,26 @@ module.exports = {
         const circleGradient = ctx.createRadialGradient(
           90,
           startY + rankOffsetY - 10,
-          5, // Dịch $ống
+          5,
           100,
           startY + rankOffsetY,
-          30 // Dịch $ống
+          30
         );
-
+        
         if (i < 3) {
-          const baseColor =
-            i === 0
-              ? [255, 215, 0]
-              : i === 1
-              ? [192, 192, 192]
-              : [205, 127, 50];
-          circleGradient.addColorStop(
-            0,
-            `rgba(${baseColor[0]}, ${baseColor[1]}, ${baseColor[2]}, 1)`
-          );
-          circleGradient.addColorStop(
-            0.7,
-            `rgba(${baseColor[0] * 0.8}, ${baseColor[1] * 0.8}, ${
-              baseColor[2] * 0.8
-            }, 1)`
-          );
-          circleGradient.addColorStop(
-            1,
-            `rgba(${baseColor[0] * 0.6}, ${baseColor[1] * 0.6}, ${
-              baseColor[2] * 0.6
-            }, 1)`
-          );
+          const baseColor = i === 0 
+            ? [255, 215, 0]  // Gold
+            : i === 1 
+              ? [192, 192, 192]  // Silver
+              : [205, 127, 50];  // Bronze
+          
+          circleGradient.addColorStop(0, `rgba(${baseColor[0]}, ${baseColor[1]}, ${baseColor[2]}, 1)`);
+          circleGradient.addColorStop(1, `rgba(${baseColor[0]}, ${baseColor[1]}, ${baseColor[2]}, 0.7)`);
         } else {
-          circleGradient.addColorStop(0, "rgba(255, 255, 255, 0.25)");
-          circleGradient.addColorStop(1, "rgba(255, 255, 255, 0.1)");
+          circleGradient.addColorStop(0, "rgba(60, 60, 60, 1)");
+          circleGradient.addColorStop(1, "rgba(30, 30, 30, 0.7)");
         }
-
+        
         ctx.fillStyle = circleGradient;
         ctx.fill();
 
@@ -249,100 +338,104 @@ module.exports = {
           ctx.fillText((i + 1).toString(), 100, startY + rankOffsetY + 8); // Dịch $ống
         }
         try {
-            if (userAvatars[userID]) {
-              const avatar = await loadImage(userAvatars[userID]);
-          
-              const avatarOffsetY = 25;
-          
-              ctx.save();
-              ctx.shadowColor = "rgba(0, 0, 0, 0.5)";
-              ctx.shadowBlur = 10;
-              ctx.shadowOffsetX = 2;
-              ctx.shadowOffsetY = 2;
-          
-              ctx.beginPath();
-              ctx.arc(170, startY + avatarOffsetY, 30, 0, Math.PI * 2);
-              ctx.closePath();
-              ctx.clip();
-          
-              ctx.drawImage(avatar, 140, startY - 30 + avatarOffsetY, 60, 60);
-              ctx.restore();
-          
-              ctx.strokeStyle = i < 3 ? rankColors[i] : "#ffffff";
-              ctx.lineWidth = 2;
-              ctx.beginPath();
-              ctx.arc(170, startY + avatarOffsetY, 30, 0, Math.PI * 2);
-              ctx.stroke();
-            } else {
-              // Nếu không có avatar, vẽ một placeholder với initials
-              const avatarOffsetY = 25;
-              const initial = (userName.charAt(0) || '?').toUpperCase();
-              
-              ctx.save();
-              // Vẽ background tròn
-              ctx.beginPath();
-              ctx.arc(170, startY + avatarOffsetY, 30, 0, Math.PI * 2);
-              
-              // Gradient background cho avatar placeholder
-              const placeholderGradient = ctx.createLinearGradient(
-                140, startY + avatarOffsetY - 30, 
-                200, startY + avatarOffsetY + 30
-              );
-              placeholderGradient.addColorStop(0, "#4a148c");
-              placeholderGradient.addColorStop(1, "#311b92");
-              
-              ctx.fillStyle = placeholderGradient;
-              ctx.fill();
-              
-              // Vẽ chữ cái đầu tiên của tên
-              ctx.font = 'bold 30px Arial';
-              ctx.textAlign = 'center';
-              ctx.textBaseline = 'middle';
-              ctx.fillStyle = '#ffffff';
-              ctx.fillText(initial, 170, startY + avatarOffsetY);
-              
-              // Vẽ viền
-              ctx.strokeStyle = i < 3 ? rankColors[i] : "#ffffff";
-              ctx.lineWidth = 2;
-              ctx.stroke();
-              ctx.restore();
-            }
-          } catch (error) {
-            console.error(`Error loading avatar for ${userID}:`, error);
-            // Vẽ placeholder nếu có lỗi 
+          if (userAvatars[userID]) {
+            const avatar = await loadImage(userAvatars[userID]);
+
             const avatarOffsetY = 25;
-            const initial = (userName.charAt(0) || '?').toUpperCase();
-            
+
             ctx.save();
+            ctx.shadowColor = "rgba(0, 0, 0, 0.5)";
+            ctx.shadowBlur = 10;
+            ctx.shadowOffsetX = 2;
+            ctx.shadowOffsetY = 2;
+
             ctx.beginPath();
             ctx.arc(170, startY + avatarOffsetY, 30, 0, Math.PI * 2);
-            ctx.fillStyle = "#616161";
+            ctx.closePath();
+            ctx.clip();
+
+            ctx.drawImage(avatar, 140, startY - 30 + avatarOffsetY, 60, 60);
+            ctx.restore();
+
+            ctx.strokeStyle = i < 3 ? rankColors[i] : "#ffffff";
+            ctx.lineWidth = 2;
+            ctx.beginPath();
+            ctx.arc(170, startY + avatarOffsetY, 30, 0, Math.PI * 2);
+            ctx.stroke();
+          } else {
+            // Nếu không có avatar, vẽ một placeholder với initials
+            const avatarOffsetY = 25;
+            const initial = (userName.charAt(0) || '?').toUpperCase();
+
+            ctx.save();
+            // Vẽ background tròn
+            ctx.beginPath();
+            ctx.arc(170, startY + avatarOffsetY, 30, 0, Math.PI * 2);
+
+            // Gradient background cho avatar placeholder
+            const placeholderGradient = ctx.createLinearGradient(
+              140, startY + avatarOffsetY - 30,
+              200, startY + avatarOffsetY + 30
+            );
+            placeholderGradient.addColorStop(0, "#4a148c");
+            placeholderGradient.addColorStop(1, "#311b92");
+
+            ctx.fillStyle = placeholderGradient;
             ctx.fill();
-            
+
+            // Vẽ chữ cái đầu tiên của tên
             ctx.font = 'bold 30px Arial';
             ctx.textAlign = 'center';
             ctx.textBaseline = 'middle';
             ctx.fillStyle = '#ffffff';
             ctx.fillText(initial, 170, startY + avatarOffsetY);
-            
+
+            // Vẽ viền
             ctx.strokeStyle = i < 3 ? rankColors[i] : "#ffffff";
             ctx.lineWidth = 2;
             ctx.stroke();
             ctx.restore();
           }
+        } catch (error) {
+          console.error(`Error loading avatar for ${userID}:`, error);
+          // Vẽ placeholder nếu có lỗi 
+          const avatarOffsetY = 25;
+          const initial = (userName.charAt(0) || '?').toUpperCase();
+
+          ctx.save();
+          ctx.beginPath();
+          ctx.arc(170, startY + avatarOffsetY, 30, 0, Math.PI * 2);
+          ctx.fillStyle = "#616161";
+          ctx.fill();
+
+          ctx.font = 'bold 30px Arial';
+          ctx.textAlign = 'center';
+          ctx.textBaseline = 'middle';
+          ctx.fillStyle = '#ffffff';
+          ctx.fillText(initial, 170, startY + avatarOffsetY);
+
+          ctx.strokeStyle = i < 3 ? rankColors[i] : "#ffffff";
+          ctx.lineWidth = 2;
+          ctx.stroke();
+          ctx.restore();
+        }
 
         // User name with shadow
         ctx.save();
         ctx.shadowColor = "rgba(0, 0, 0, 0.7)";
         ctx.shadowBlur = 5;
-        ctx.font = "bold 30px Arial";
-        ctx.fillStyle = "#ffffff";
+        ctx.font = isVIP ? "bold 30px BeVietnamPro" : "bold 30px Arial";
+        ctx.fillStyle = isVIP ? "#FFD700" : "#ffffff";
         ctx.textAlign = "left";
 
         let displayName = userName;
-        if (ctx.measureText(displayName).width > width - 300) {
+
+        // Make room for VIP badge if needed
+        const maxWidth = isVIP ? width - 370 : width - 300;
+
+        if (ctx.measureText(displayName).width > maxWidth) {
           while (
-            ctx.measureText(displayName + "...").width > width - 300 &&
+            ctx.measureText(displayName + "...").width > maxWidth &&
             displayName.length > 0
           ) {
             displayName = displayName.slice(0, -1);
@@ -353,28 +446,143 @@ module.exports = {
         ctx.fillText(displayName, 220, startY + 15);
         ctx.restore();
 
-        // Balance with gold gradient
+        if (isVIP) {
+          const packageInfo = userVipStatus[userID].packageInfo;
+        
+          // Position VIP badge at the far right of the user row with better vertical centering
+          const vipBadgeX = width - 130; // Same horizontal position (far right)
+          const vipBadgeY = startY + -8; // Better vertical centering
+          const vipBadgeWidth = 60; // Larger badge
+          const vipBadgeHeight = 60; // Keep square dimensions
+        
+          // Background for VIP label
+          ctx.save();
+        
+          // VIP badge background
+          const vipBadgeGradient = ctx.createLinearGradient(
+            vipBadgeX,
+            vipBadgeY,
+            vipBadgeX + vipBadgeWidth,
+            vipBadgeY + vipBadgeHeight
+          );
+          vipBadgeGradient.addColorStop(0, '#FFD700');
+          vipBadgeGradient.addColorStop(1, '#DAA520');
+        
+          ctx.fillStyle = vipBadgeGradient;
+          ctx.beginPath();
+          roundedRect(
+            ctx,
+            vipBadgeX,
+            vipBadgeY,
+            vipBadgeWidth,
+            vipBadgeHeight,
+            15 // Larger corner radius for the bigger badge
+          );
+          ctx.fill();
+        
+          // Add a stronger glow effect to the badge
+          ctx.shadowColor = 'rgba(255, 215, 0, 0.8)';
+          ctx.shadowBlur = 20;
+          ctx.strokeStyle = '#FFF8DC';
+          ctx.lineWidth = 2;
+          ctx.stroke();
+          ctx.shadowBlur = 0;
+        
+          // VIP text or image
+          try {
+            // Check if we have an image URL or load default text
+            const vipImage = packageInfo.badgeUrl || 'https://imgur.com/hvce4my.png'; // Default VIP badge if none provided
+            const badge = await loadImage(vipImage);
+        
+            // Draw the VIP badge image - precise positioning
+            ctx.drawImage(
+              badge,
+              vipBadgeX + 5,
+              vipBadgeY + 5,
+              vipBadgeWidth - 10, 
+              vipBadgeHeight - 10
+            );
+          } catch (error) {
+            console.error("Error loading VIP badge:", error);
+            // Fallback to text if image fails
+            ctx.shadowBlur = 0;
+            ctx.font = 'bold 22px BeVietnamPro'; // Larger font for bigger badge
+            ctx.fillStyle = '#000000';
+            ctx.textAlign = 'center';
+            ctx.textBaseline = 'middle';
+            ctx.fillText('VIP', vipBadgeX + vipBadgeWidth / 2, vipBadgeY + vipBadgeHeight / 2);
+          }
+        
+          ctx.restore();
+        }
+
+        // Special VIP Avatar Frame
+        if (isVIP) {
+          const avatarOffsetY = 25;
+
+          // Draw glowing avatar frame for VIP users
+          ctx.save();
+          ctx.strokeStyle = '#FFD700';
+          ctx.lineWidth = 3;
+          ctx.shadowColor = 'rgba(255, 215, 0, 0.9)';
+          ctx.shadowBlur = 15;
+          ctx.beginPath();
+          ctx.arc(170, startY + avatarOffsetY, 32, 0, Math.PI * 2);
+          ctx.stroke();
+
+          // Decorative accents around avatar for VIP
+          for (let i = 0; i < 8; i++) {
+            const angle = (i / 8) * Math.PI * 2;
+            const rayLength = 10;
+            const startRadius = 35;
+
+            const startX = 170 + Math.cos(angle) * startRadius;
+            const startY2 = startY + avatarOffsetY + Math.sin(angle) * startRadius;
+
+            const endX = 170 + Math.cos(angle) * (startRadius + rayLength);
+            const endY = startY + avatarOffsetY + Math.sin(angle) * (startRadius + rayLength);
+
+            ctx.beginPath();
+            ctx.moveTo(startX, startY2);
+            ctx.lineTo(endX, endY);
+            ctx.strokeStyle = '#FFD700';
+            ctx.lineWidth = 2;
+            ctx.stroke();
+          }
+          ctx.restore();
+        }
+
+        // Balance with gold gradient and enhanced font for VIP users
         const moneyGradient = ctx.createLinearGradient(
           220,
           startY + 35,
           450,
           startY + 35
         );
-        moneyGradient.addColorStop(0, "#ffce54");
-        moneyGradient.addColorStop(1, "#f9a825");
+
+        if (isVIP) {
+          moneyGradient.addColorStop(0, "#FFD700");
+          moneyGradient.addColorStop(0.5, "#FFDF00");
+          moneyGradient.addColorStop(1, "#F4C430");
+        } else {
+          moneyGradient.addColorStop(0, "#ffce54");
+          moneyGradient.addColorStop(1, "#f9a825");
+        }
 
         ctx.save();
-        ctx.shadowColor = "rgba(255, 206, 84, 0.5)";
-        ctx.shadowBlur = 10;
-        ctx.font = "22px Arial";
+        ctx.shadowColor = isVIP ? "rgba(255, 215, 0, 0.8)" : "rgba(255, 206, 84, 0.5)";
+        ctx.shadowBlur = isVIP ? 15 : 10;
+        ctx.font = isVIP ? "bold 24px BeVietnamPro" : "22px Arial";
         ctx.fillStyle = moneyGradient;
-        ctx.fillText(`💰 ${formattedBalance} $`, 300, startY + 50);
+        
+        // Position money further to the right to avoid avatar overlap
+        // Money now starts at x=300 instead of x=220 to avoid overlapping avatar
+        ctx.fillText(`${formattedBalance} $`, 300, startY + 50);
         ctx.restore();
 
         startY += rowHeight + 10;
       }
 
-      // Footer with gradient
       const footerHeight = 80;
       const footerGradient = ctx.createLinearGradient(
         0,
@@ -444,12 +652,12 @@ module.exports = {
               responseType: "arraybuffer",
               timeout: 5000
             });
-            
+
             const avatarDir = path.join(__dirname, "./cache/npc");
             if (!fs.existsSync(avatarDir)) {
               fs.mkdirSync(avatarDir, { recursive: true });
             }
-            
+
             const npcAvatarPath = path.join(avatarDir, `${userId}.jpg`);
             fs.writeFileSync(npcAvatarPath, response.data);
             return npcAvatarPath;
@@ -460,33 +668,33 @@ module.exports = {
       }
 
       const defaultAvatarPath = path.join(__dirname, "./cache/avatar.jpg");
-      
+
       const avatarsDir = path.join(__dirname, "./cache");
       if (!fs.existsSync(avatarsDir)) {
         fs.mkdirSync(avatarsDir, { recursive: true });
       }
-      
+
       // Tạo avatar mặc định nếu chưa có
       if (!fs.existsSync(defaultAvatarPath)) {
         try {
           console.log("⚠️ Default avatar not found, creating one...");
           const defaultCanvas = createCanvas(200, 200);
           const ctx = defaultCanvas.getContext('2d');
-          
+
           // Vẽ nền gradient
           const gradient = ctx.createLinearGradient(0, 0, 200, 200);
           gradient.addColorStop(0, '#4a148c');
           gradient.addColorStop(1, '#311b92');
           ctx.fillStyle = gradient;
           ctx.fillRect(0, 0, 200, 200);
-          
+
           // Vẽ chữ cái đại diện
           ctx.font = 'bold 120px Arial';
           ctx.textAlign = 'center';
           ctx.textBaseline = 'middle';
           ctx.fillStyle = '#ffffff';
           ctx.fillText('?', 100, 100);
-          
+
           const buffer = defaultCanvas.toBuffer('image/jpeg');
           fs.writeFileSync(defaultAvatarPath, buffer);
           console.log("✅ Default avatar created successfully");
@@ -494,19 +702,19 @@ module.exports = {
           console.error("Error creating default avatar:", createErr);
         }
       }
-      
+
       const cacheDir = path.join(__dirname, "./cache/avatars");
       if (!fs.existsSync(cacheDir)) {
         fs.mkdirSync(cacheDir, { recursive: true });
       }
-  
+
       const avatarPath = path.join(cacheDir, `${userId}.jpg`);
       const metadataPath = path.join(cacheDir, `${userId}.meta`);
-  
+
       if (fs.existsSync(avatarPath) && fs.existsSync(metadataPath)) {
         const metadata = JSON.parse(fs.readFileSync(metadataPath, "utf-8"));
         const cacheAge = Date.now() - metadata.timestamp;
-  
+
         if (cacheAge < 24 * 60 * 60 * 1000) {
           console.log(
             `Using cached avatar for user ${userId} (${Math.floor(
@@ -516,7 +724,7 @@ module.exports = {
           return avatarPath;
         }
       }
-  
+
       try {
         const avatarUrl = `https://graph.facebook.com/${userId}/picture?width=512&height=512&access_token=6628568379%7Cc1e620fa708a1d5696fb991c1bde5662`;
         const response = await axios.get(avatarUrl, {
@@ -526,10 +734,10 @@ module.exports = {
             return status >= 200 && status < 300; // Chỉ chấp nhận status code 2xx
           }
         });
-  
+
         fs.writeFileSync(avatarPath, response.data);
         fs.writeFileSync(metadataPath, JSON.stringify({ timestamp: Date.now() }));
-  
+
         console.log(`Fetched new avatar for user ${userId}`);
         return avatarPath;
       } catch (fetchError) {
@@ -593,7 +801,7 @@ module.exports = {
           avatar: npc.avatar
         };
       });
-      
+
     } catch (error) {
       console.error("Lỗi khi lấy dữ liệu số dư:", error);
       return api.sendMessage(
@@ -659,13 +867,12 @@ module.exports = {
       const userName = this.anonymousUsers.has(userID)
         ? "Người dùng ẩn danh #" + userID.substring(0, 4)
         : userData[userID]
-        ? userData[userID].name
-        : "Người dùng ẩn danh";
-        const formattedBalance = formatNumber(balance);
+          ? userData[userID].name
+          : "Người dùng ẩn danh";
+      const formattedBalance = formatNumber(balance);
 
-      textFallback += `${rankEmoji[index]} ${
-        index + 1
-      }. ${userName}\n💰 ${formattedBalance} $\n\n`;
+      textFallback += `${rankEmoji[index]} ${index + 1
+        }. ${userName}\n💰 ${formattedBalance} $\n\n`;
 
       if (userID === senderID) {
         userPosition = index + 1;

@@ -3,7 +3,7 @@ const npcs = [
   {
     id: "npc_trader_01",
     name: "Mĩ Anh",
-    balance: 500470000,
+    balance: 1,
     winRate: 0.55,
     minBet: 1000,
     maxBet: 100000,
@@ -13,7 +13,7 @@ const npcs = [
   {
     id: "npc_trader_02", 
     name: "Tấn Phú",
-    balance: 174185729,
+    balance: 1,
     winRate: 0.52,
     minBet: 5000,
     maxBet: 500000,
@@ -23,7 +23,7 @@ const npcs = [
   {
     id: "npc_trader_03",
     name: "Trần Thị Thanh Thanh",
-    balance: 300620000,
+    balance: 1,
     winRate: 0.58,
     minBet: 500,
     maxBet: 50000,

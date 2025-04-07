@@ -6,11 +6,7 @@ module.exports = {
     category: "Admin Commands",
     info: "Quản lý người dùng VIP",
     onPrefix: true,
-    usages: [
-        "setvip set [@tag/reply/ID] [1/2/3] - Set VIP cho người dùng",
-        "setvip check [@tag/reply/ID] - Kiểm tra VIP của người dùng",
-        "setvip remove [@tag/reply/ID] - Xóa VIP của người dùng"
-    ].join('\n'),
+    usages: [],
     cooldowns: 0,
     usedby: 2,
     hide: true,
@@ -39,10 +35,8 @@ module.exports = {
 
         switch (action) {
             case "set": {
-                const packageId = parseInt(target[target.length - 1]);
-                if (![1, 2, 3].includes(packageId)) {
-                    return api.sendMessage("❌ Gói VIP không hợp lệ! (1: Bronze, 2: Silver, 3: Gold)", threadID, messageID);
-                }
+                // Only Gold VIP (packageId 3) is available
+                const packageId = 3;
 
                 const result = vipService.setVIP(userID, packageId, 1);
                 
@@ -50,7 +44,7 @@ module.exports = {
                     return api.sendMessage(`❌ ${result.message}`, threadID, messageID);
                 }
 
-                const durationText = packageId === 3 ? "37 ngày (30+7 bonus)" : "30 ngày";
+                const durationText = "37 ngày (30+7 bonus)";
                 return api.sendMessage(
                     `✅ Đã set ${result.packageName} cho ID: ${userID}\n` +
                     `⏳ Thời hạn: ${durationText}\n` +

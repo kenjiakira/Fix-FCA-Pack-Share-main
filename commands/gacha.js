@@ -11,8 +11,8 @@ const {
   createPvPBattleImage,
   createStellaResultImage,
 } = require("../game/canvas/gachaCanvas");
-const { info } = require("console");
 const MAX_BACKUPS = 14;
+const { getVIPBenefits } = require("../game/vip/vipCheck");
 
 const GACHA_DATA_FILE = path.join(__dirname, "./json/gacha/gacha.json");
 const PULL_COST = 1000;
@@ -4011,27 +4011,23 @@ function calculateDynamicRates(userData) {
   const pullsWithoutFourStar = userData.pullsSinceLastFourStar || 0;
 
   const fiveStarBoost = Math.min(5, Math.pow(pullsWithoutFiveStar * 0.1, 1.5));
-  const evolvedFourStarBoost = Math.min(
-    5,
-    Math.pow(pullsWithoutFiveStar * 0.08, 1.4)
-  ); // Hơi thấp hơn 5 sao
+  const evolvedFourStarBoost = Math.min(5, Math.pow(pullsWithoutFiveStar * 0.08, 1.4));
   const fourStarBoost = Math.min(15, Math.pow(pullsWithoutFourStar * 0.2, 1.3));
-
   const totalPullsBoost = Math.min(1, (userData.totalPulls || 0) * 0.005);
 
+  const vipBenefits = getVIPBenefits(userData.id);
+  const limitedBonus = vipBenefits?.gachaBonus?.limitedRateBonus || 0;
+
   return {
-    FIVE_STAR: RATES.FIVE_STAR + fiveStarBoost + totalPullsBoost,
-    EVOLVED_FOUR_STAR:
-      RATES.EVOLVED_FOUR_STAR + evolvedFourStarBoost + totalPullsBoost * 0.8,
-    FOUR_STAR: RATES.FOUR_STAR + fourStarBoost,
-    THREE_STAR:
-      100 -
-      (RATES.FIVE_STAR + fiveStarBoost + totalPullsBoost) -
-      (RATES.EVOLVED_FOUR_STAR + evolvedFourStarBoost + totalPullsBoost * 0.8) -
-      (RATES.FOUR_STAR + fourStarBoost),
+      FIVE_STAR: RATES.FIVE_STAR + fiveStarBoost + totalPullsBoost + limitedBonus,
+      EVOLVED_FOUR_STAR: RATES.EVOLVED_FOUR_STAR + evolvedFourStarBoost + totalPullsBoost * 0.8,
+      FOUR_STAR: RATES.FOUR_STAR + fourStarBoost,
+      THREE_STAR: 100 - 
+          (RATES.FIVE_STAR + fiveStarBoost + totalPullsBoost + limitedBonus) -
+          (RATES.EVOLVED_FOUR_STAR + evolvedFourStarBoost + totalPullsBoost * 0.8) -
+          (RATES.FOUR_STAR + fourStarBoost)
   };
 }
-
 function saveCharacterDatabase() {
   try {
     fs.writeFileSync(

@@ -648,12 +648,12 @@
     "name": "Gia Huy ",
     "planet": "SAIYAN",
     "stats": {
-      "power": 179233,
-      "damage": 560,
-      "ki": 860,
+      "power": 195689,
+      "damage": 570,
+      "ki": 880,
       "health": 4800,
-      "exp": 2404,
-      "zeni": 40739,
+      "exp": 6114,
+      "zeni": 42684,
       "inventory": {
         "items": [],
         "equipped": []
@@ -663,16 +663,16 @@
         "completed": [],
         "progress": {}
       },
-      "currentKi": 850,
+      "currentKi": 870,
       "level": 2,
       "maxHealth": 4700,
-      "currentHealth": 2116
+      "currentHealth": 1744
     },
     "skills": [
       "GOKU:ATOMIC"
     ],
     "masters": [],
-    "lastTrain": 1743965637343,
+    "lastTrain": 1744000422969,
     "created": 1743526294836,
     "inventory": {
       "dragonBalls": [],
@@ -714,7 +714,7 @@
         "SAIYAN_RADITZ": 0
       }
     },
-    "lastPvpFight": 1743945844283,
+    "lastPvpFight": 1743998274663,
     "baseStats": {
       "damage": 340,
       "health": 2800,
@@ -725,12 +725,12 @@
     "name": "Khang Bùi",
     "planet": "NAMEK",
     "stats": {
-      "power": 1442085100,
+      "power": 1458057352,
       "damage": 8505,
       "ki": 3866,
       "health": 13000,
-      "exp": 23906082,
-      "zeni": 12677793,
+      "exp": 27071616,
+      "zeni": 12677886,
       "inventory": {
         "items": [],
         "equipped": []
@@ -754,7 +754,7 @@
       "PICCOLO:MULTIFORM"
     ],
     "masters": [],
-    "lastTrain": 1743836047908,
+    "lastTrain": 1744000360592,
     "created": 1743561242983,
     "inventory": {
       "dragonBalls": [
@@ -1143,14 +1143,14 @@
     "name": "Tran Thu Huyen",
     "planet": "SAIYAN",
     "stats": {
-      "power": 54015,
+      "power": 58015,
       "damage": 210,
       "ki": 180,
       "currentKi": 140,
       "health": 1600,
       "currentHealth": 1000,
-      "exp": 67306,
-      "zeni": 36242,
+      "exp": 71593,
+      "zeni": 37612,
       "inventory": {
         "items": [],
         "equipped": []
@@ -1166,7 +1166,7 @@
       "GOKU:ATOMIC"
     ],
     "masters": [],
-    "lastTrain": 1743953457464,
+    "lastTrain": 1744000510664,
     "created": 1743570305333,
     "inventory": {
       "dragonBalls": [
@@ -1241,7 +1241,7 @@
       "power": 16029,
       "damage": 310,
       "ki": 138,
-      "currentKi": 102,
+      "currentKi": 81,
       "health": 1000,
       "currentHealth": 1000,
       "exp": 1430,
@@ -1287,7 +1287,7 @@
         "SAIYAN_RADITZ": 0
       }
     },
-    "lastPvpFight": 1743945844283
+    "lastPvpFight": 1743998274663
   },
   "100035899503301": {
     "name": "Người trái đất",
@@ -1506,14 +1506,14 @@
     "name": "Người chơi",
     "planet": "SAIYAN",
     "stats": {
-      "power": 43000,
-      "damage": 180,
-      "ki": 180,
-      "currentKi": 180,
-      "health": 1200,
+      "power": 46000,
+      "damage": 190,
+      "ki": 240,
+      "currentKi": 210,
+      "health": 1400,
       "currentHealth": 1200,
-      "exp": 3702,
-      "zeni": 7319,
+      "exp": 1121,
+      "zeni": 8220,
       "inventory": {
         "items": [],
         "equipped": []
@@ -1524,13 +1524,13 @@
         "progress": {}
       },
       "level": 2,
-      "maxHealth": 1100
+      "maxHealth": 1300
     },
     "skills": [
       "GOKU:ATOMIC"
     ],
     "masters": [],
-    "lastTrain": 1743946781532,
+    "lastTrain": 1743996722082,
     "created": 1743862953482,
     "inventory": {
       "dragonBalls": [],
@@ -1671,14 +1671,14 @@
     "name": "Yu Ki",
     "planet": "SAIYAN",
     "stats": {
-      "power": 13000,
-      "damage": 110,
-      "ki": 140,
-      "currentKi": 130,
+      "power": 16000,
+      "damage": 120,
+      "ki": 160,
+      "currentKi": 150,
       "health": 1200,
       "currentHealth": 1000,
-      "exp": 2312,
-      "zeni": 7258,
+      "exp": 1882,
+      "zeni": 8420,
       "inventory": {
         "items": [],
         "equipped": []
@@ -1695,7 +1695,7 @@
       "GOKU:ATOMIC"
     ],
     "masters": [],
-    "lastTrain": 1743966989617,
+    "lastTrain": 1744003783760,
     "created": 1743965623811,
     "inventory": {
       "dragonBalls": [],

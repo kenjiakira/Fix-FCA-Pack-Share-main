@@ -116,7 +116,7 @@ module.exports = {
 
       return api.sendMessage(
         `🎉 Chúc mừng! Bạn đã nhận được ${formatNumber(totalReward)} $!\n` +
-        `${bonusAmount > 0 ? `👑 Thưởng VIP +${(bonusAmount/totalReward*100).toFixed(0)}%: ${formatNumber(bonusAmount)} $\n` : ''}` +
+        `${bonusAmount > 0 ? `👑 Thưởng VIP +${Math.round(bonusAmount/(totalReward-bonusAmount)*100)}%: ${formatNumber(bonusAmount)} $\n` : ''}` +
         `📝 Đã hoàn thành ${completedQuests.length} nhiệm vụ.\n` +
         `⭐ Tiếp tục cố gắng nhé!`,
         threadID, messageID
@@ -125,7 +125,7 @@ module.exports = {
 
     let message = "📋 NHIỆM VỤ HÀNG NGÀY\n━━━━━━━━━━━━━━━━━━\n\n";
     
-    if (vipBenefits) {
+    if (vipBenefits && vipBenefits.packageId > 0) {
       message += `👑 Đặc quyền VIP ${vipBenefits.packageId}:\n`;
       message += `• ⬆️ Thưởng nhiệm vụ +${vipBenefits.packageId === 3 ? '100' : 
                   vipBenefits.packageId === 2 ? '50' : '20'}%\n`;
@@ -144,7 +144,9 @@ module.exports = {
 
     for (const [questId, quest] of Object.entries(quests.dailyQuests)) {
       const progress = userQuests.progress[questId] || 0;
-      const vipProgress = vipBenefits ? Math.floor(progress * (1 + vipBenefits.packageId * 0.2)) : progress;
+      const vipProgress = (vipBenefits && vipBenefits.packageId > 0) ? 
+                          Math.floor(progress * (1 + vipBenefits.packageId * 0.2)) : 
+                          progress;
       
       if (userQuests.completed[questId]) totalCompleted++;
       
@@ -152,9 +154,15 @@ module.exports = {
       message += `${status} ${quest.name}\n`;
       message += `👉 ${quest.description}\n`;
       message += `🎯 Tiến độ: ${vipProgress}/${quest.target}\n`;
-      message += `💰 Phần thưởng: ${formatNumber(quest.reward)} $ ${vipBenefits ? 
-          `(+${formatNumber(Math.floor(quest.reward * (vipBenefits.packageId === 3 ? 1 : 
-                                                      vipBenefits.packageId === 2 ? 0.5 : 0.2)))} $ VIP)` : ''}\n\n`;
+      message += `💰 Phần thưởng: ${formatNumber(quest.reward)} $`;
+      
+      if (vipBenefits && vipBenefits.packageId > 0) {
+        const vipBonus = vipBenefits.packageId === 3 ? 1 : 
+                         vipBenefits.packageId === 2 ? 0.5 : 0.2;
+        message += ` (+${formatNumber(Math.floor(quest.reward * vipBonus))} $ VIP)`;
+      }
+      
+      message += `\n\n`;
     }
 
     if (totalCompleted === totalQuests) {

@@ -124025,5 +124025,219 @@
       "def": 97,
       "hp": 537
     }
+  },
+  "CHAR_615812409": {
+    "type": "character",
+    "name": "Mika",
+    "obtainedAt": 1743992186873,
+    "value": 614,
+    "level": 1,
+    "exp": 0,
+    "stats": {
+      "atk": 100,
+      "def": 101,
+      "hp": 536
+    }
+  },
+  "CHAR_143861480": {
+    "type": "character",
+    "name": "Amber",
+    "obtainedAt": 1743992867775,
+    "value": 533,
+    "level": 1,
+    "exp": 0,
+    "stats": {
+      "atk": 90,
+      "def": 101,
+      "hp": 547
+    }
+  },
+  "CHAR_951610931": {
+    "type": "character",
+    "name": "Barbara",
+    "obtainedAt": 1743993405777,
+    "value": 503,
+    "level": 1,
+    "exp": 0,
+    "stats": {
+      "atk": 107,
+      "def": 90,
+      "hp": 473
+    }
+  },
+  "CHAR_274327904": {
+    "type": "character",
+    "name": "Lynette",
+    "obtainedAt": 1743993484064,
+    "value": 19166,
+    "level": 1,
+    "exp": 0,
+    "stats": {
+      "atk": 284,
+      "def": 283,
+      "hp": 1038
+    }
+  },
+  "STONE_DENDRO_449299921": {
+    "type": "stone",
+    "stoneType": "DENDRO",
+    "name": "NagadusEmerald",
+    "element": "Dendro",
+    "emoji": "🌿",
+    "description": "Ascension stone for Dendro characters",
+    "image": "https://imgur.com/YqWMMHO.png",
+    "obtainedAt": 1743999669324,
+    "value": 25000
+  },
+  "CHAR_252849899": {
+    "type": "character",
+    "name": "Xianyun",
+    "obtainedAt": 1743999883767,
+    "value": 24152,
+    "level": 1,
+    "exp": 0,
+    "stats": {
+      "atk": 326,
+      "def": 315,
+      "hp": 1029
+    }
+  },
+  "CHAR_481493361": {
+    "type": "character",
+    "name": "Gorou",
+    "obtainedAt": 1743999984441,
+    "value": 674,
+    "level": 1,
+    "exp": 0,
+    "stats": {
+      "atk": 107,
+      "def": 93,
+      "hp": 454
+    }
+  },
+  "CHAR_497384852": {
+    "type": "character",
+    "name": "Kaeya",
+    "obtainedAt": 1744000167473,
+    "value": 424,
+    "level": 1,
+    "exp": 0,
+    "stats": {
+      "atk": 96,
+      "def": 101,
+      "hp": 474
+    }
+  },
+  "EXP_ADVENTURERS_EXPERIENCE_152091882": {
+    "type": "EXP",
+    "name": "Adventurers Experience",
+    "expValue": 2000,
+    "description": "A record of adventures and discoveries Grants a moderate amount of EXP",
+    "image": "https://imgur.com/LFkAr11.png",
+    "rarity": "3",
+    "value": 1500,
+    "obtainedAt": 1744000239235
+  },
+  "CHAR_632397893": {
+    "type": "character",
+    "name": "Sampo",
+    "obtainedAt": 1744000301435,
+    "value": 697,
+    "level": 1,
+    "exp": 0,
+    "stats": {
+      "atk": 109,
+      "def": 103,
+      "hp": 464
+    }
+  },
+  "FRAGMENT_GEO_192264951": {
+    "type": "fragment",
+    "stoneType": "GEO",
+    "name": "TopazFragment",
+    "element": "Geo",
+    "emoji": "🪨",
+    "description": "Geo evolution fragment",
+    "image": "https://imgur.com/vAfAFli.png",
+    "obtainedAt": 1744000476041,
+    "value": 2500,
+    "isFragment": true
+  },
+  "CHAR_722109401": {
+    "type": "character",
+    "name": "Noelle",
+    "obtainedAt": 1744000620600,
+    "value": 721,
+    "level": 1,
+    "exp": 0,
+    "stats": {
+      "atk": 100,
+      "def": 109,
+      "hp": 548
+    }
+  },
+  "FRAGMENT_HYDRO_178280458": {
+    "type": "fragment",
+    "stoneType": "HYDRO",
+    "name": "LazuriteFragment",
+    "element": "Hydro",
+    "emoji": "💧",
+    "description": "Hydro evolution fragment",
+    "image": "https://imgur.com/xUQZRMt.png",
+    "obtainedAt": 1744000770035,
+    "value": 2500,
+    "isFragment": true
+  },
+  "CHAR_899021203": {
+    "type": "character",
+    "name": "Fischl",
+    "obtainedAt": 1744000817167,
+    "value": 37485,
+    "level": 1,
+    "exp": 0,
+    "stats": {
+      "atk": 312,
+      "def": 273,
+      "hp": 1019
+    }
+  },
+  "CHAR_645483022": {
+    "type": "character",
+    "name": "candace",
+    "obtainedAt": 1744001060710,
+    "value": 35689,
+    "level": 1,
+    "exp": 0,
+    "stats": {
+      "atk": 301,
+      "def": 319,
+      "hp": 1080
+    }
+  },
+  "CHAR_310104498": {
+    "type": "character",
+    "name": "Serval",
+    "obtainedAt": 1744001174657,
+    "value": 501,
+    "level": 1,
+    "exp": 0,
+    "stats": {
+      "atk": 107,
+      "def": 104,
+      "hp": 479
+    }
+  },
+  "CHAR_922144033": {
+    "type": "character",
+    "name": "Sigewinne",
+    "obtainedAt": 1744002450741,
+    "value": 792,
+    "level": 1,
+    "exp": 0,
+    "stats": {
+      "atk": 104,
+      "def": 108,
+      "hp": 490
+    }
   }
 }

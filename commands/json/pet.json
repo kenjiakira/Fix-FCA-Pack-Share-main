@@ -720,12 +720,12 @@
     "name": "Abcxyz",
     "hunger": 100,
     "happy": 100,
-    "energy": 45,
+    "energy": 100,
     "level": 2,
-    "exp": 20,
-    "power": 25,
-    "lastFed": 1743966685239,
-    "lastPlay": 1743966655893,
+    "exp": 105,
+    "power": 45,
+    "lastFed": 1744001341235,
+    "lastPlay": 1743991967618,
     "skills": {
       "HUNT": {
         "level": 1,
@@ -749,14 +749,14 @@
     "birthday": 1742633833878,
     "quests": {
       "daily": {
-        "feedCount": 5,
-        "playCount": 3
+        "feedCount": 9,
+        "playCount": 4
       }
     },
     "lastSkill": {
-      "HUNT": 1743966735841
+      "HUNT": 1743991956656
     },
-    "lastTrain": 1743966849672
+    "lastTrain": 1743991986823
   },
   "61555632365104": {
     "type": "CAT",
@@ -988,12 +988,12 @@
     "name": "Beo",
     "hunger": 120,
     "happy": 90,
-    "energy": 80,
+    "energy": 60,
     "level": 3,
-    "exp": 225,
+    "exp": 250,
     "power": 28,
-    "lastFed": 1743939741196,
-    "lastPlay": 1743927945241,
+    "lastFed": 1743994757104,
+    "lastPlay": 1743994785031,
     "skills": {
       "FORAGE": {
         "level": 1,
@@ -1017,8 +1017,8 @@
     "birthday": 1743924387634,
     "quests": {
       "daily": {
-        "feedCount": 28,
-        "playCount": 15
+        "feedCount": 29,
+        "playCount": 16
       }
     },
     "lastTrain": 1743927212549
@@ -1029,11 +1029,11 @@
     "hunger": 100,
     "happy": 100,
     "energy": 95,
-    "level": 2,
-    "exp": 145,
+    "level": 3,
+    "exp": 45,
     "power": 30,
-    "lastFed": 1743953638607,
-    "lastPlay": 1743953617131,
+    "lastFed": 1744004771643,
+    "lastPlay": 1744004766555,
     "skills": {
       "COLLECT": {
         "level": 1,
@@ -1057,8 +1057,8 @@
     "birthday": 1743925743848,
     "quests": {
       "daily": {
-        "feedCount": 14,
-        "playCount": 6
+        "feedCount": 20,
+        "playCount": 9
       }
     },
     "lastTrain": 1743927195518

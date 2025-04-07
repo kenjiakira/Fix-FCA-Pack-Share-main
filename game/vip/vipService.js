@@ -1,6 +1,6 @@
 const fs = require('fs');
 const path = require('path');
-const { VIP_PACKAGES, defaultBenefits, getBenefitsForPackage } = require('./vipConfig');
+const { VIP_PACKAGES, defaultBenefits, getBenefitsForPackage, GROUP_PACKAGES } = require('./vipConfig');
 
 class VipService {
     constructor() {
@@ -98,13 +98,13 @@ class VipService {
 
     /**
      * Calculate the price for a VIP package based on package type, duration, and voucher
-     * @param {string} packageType - bronze, silver, or gold
+     * @param {string} packageType - gold only
      * @param {number} months - 1, 3, 6, or 12 months
      * @param {object} voucher - Optional voucher object with discount percentage
      * @returns {object} - Price details
      */
     calculateVipPrice(packageType, months = 1, voucher = null) {
-        const packageKey = packageType.toUpperCase();
+        const packageKey = "GOLD";
         const pkg = VIP_PACKAGES[packageKey];
         
         if (!pkg) {
@@ -142,7 +142,52 @@ class VipService {
             finalPrice: Math.floor(finalPrice), // Ensure it's a whole number
             totalDiscount: discount,
             months: months,
-            daysToAdd: months * 30 + (packageKey === 'GOLD' ? months * 7 : 0), // Gold gets bonus days
+            daysToAdd: months * 30 + months * 7, // Gold gets bonus days
+            packageInfo: pkg
+        };
+    }
+
+    /**
+     * Calculate the price for a group VIP package
+     * @param {string} packageType - bronze, silver, or gold
+     * @param {number} members - Number of members in the group
+     * @param {number} months - 1, 3, 6, or 12 months
+     * @returns {object} - Price details
+     */
+    calculateGroupVipPrice(packageType, members, months = 1) {
+        if (members < 3) {
+            return { success: false, message: "Cần ít nhất 3 thành viên để mua gói nhóm" };
+        }
+
+        const packageKey = packageType.toUpperCase();
+        const pkg = VIP_PACKAGES[packageKey];
+        const groupPkg = GROUP_PACKAGES[packageKey];
+        
+        if (!pkg || !groupPkg) {
+            return { success: false, message: "Gói VIP không hợp lệ" };
+        }
+        
+        // Base individual price calculation
+        const individualPrice = this.calculateVipPrice(packageType, months);
+        if (!individualPrice.success) {
+            return individualPrice;
+        }
+        
+        // Apply group discount
+        const discountRate = groupPkg.discount / 100;
+        const discountedIndividualPrice = Math.floor(individualPrice.finalPrice * (1 - discountRate));
+        const totalGroupPrice = discountedIndividualPrice * members;
+        
+        return {
+            success: true,
+            packageType: packageType,
+            members: members,
+            months: months,
+            individualRegularPrice: individualPrice.finalPrice,
+            individualDiscountedPrice: discountedIndividualPrice,
+            totalGroupPrice: totalGroupPrice,
+            discount: groupPkg.discount,
+            savedPerPerson: individualPrice.finalPrice - discountedIndividualPrice,
             packageInfo: pkg
         };
     }
@@ -202,7 +247,7 @@ class VipService {
     /**
      * Process a VIP purchase from QR payment
      * @param {string} userId - User ID
-     * @param {string} packageType - Package type (bronze, silver, gold)
+     * @param {string} packageType - Package type (gold only)
      * @param {number} months - Number of months (1, 3, 6, 12)
      * @param {string} voucherCode - Optional voucher code
      * @param {number} paidAmount - Amount paid by user
@@ -221,16 +266,11 @@ class VipService {
                 voucher = voucher.data;
             }
             
-            // Map package type to package ID
-            const packageMap = { 'bronze': 1, 'silver': 2, 'gold': 3 };
-            const packageId = packageMap[packageType.toLowerCase()];
-            
-            if (!packageId) {
-                return { success: false, message: "Invalid package type" };
-            }
+            // Only Gold package is available
+            const packageId = 3; // Gold
             
             // Calculate expected price
-            const priceInfo = this.calculateVipPrice(packageType, months, voucher);
+            const priceInfo = this.calculateVipPrice("gold", months, voucher);
             
             // Verify payment amount with some tolerance (e.g., 1000 VND)
             const tolerance = 1000;
@@ -311,6 +351,115 @@ class VipService {
         } catch (error) {
             console.error('Error marking voucher as used:', error);
             return false;
+        }
+    }
+
+    /**
+     * Process a Family Pack purchase (now only Gold)
+     * @param {string} userId - User ID who gets Gold
+     * @param {number} months - Number of months
+     * @param {string} voucherCode - Optional voucher code
+     * @param {number} paidAmount - Amount paid
+     * @returns {object} - Result of the operation
+     */
+    processFamilyPackPurchase(userId, months = 1, voucherCode = null, paidAmount) {
+        try {
+            let voucher = null;
+            
+            // Validate voucher if provided
+            if (voucherCode) {
+                voucher = this.validateVoucher(userId, voucherCode);
+                if (!voucher.success) {
+                    return { success: false, message: voucher.message };
+                }
+                voucher = voucher.data;
+            }
+            
+            // Calculate Gold package price
+            const goldPriceInfo = this.calculateVipPrice('gold', months, voucher);
+            
+            // Verify payment amount
+            const tolerance = 1000;
+            if (Math.abs(goldPriceInfo.finalPrice - paidAmount) > tolerance) {
+                return { 
+                    success: false, 
+                    message: "Số tiền thanh toán không khớp với giá dự kiến",
+                    expected: goldPriceInfo.finalPrice,
+                    received: paidAmount
+                };
+            }
+            
+            // Set VIP Gold for main user
+            const result = this.setVIP(userId, 3, months, voucher);
+            
+            // If voucher was used, mark it
+            if (voucher && result.success) {
+                this.markVoucherAsUsed(userId, voucherCode);
+            }
+            
+            return {
+                success: result.success,
+                message: result.success ? "Gói VIP Gold đã được kích hoạt thành công" : result.message,
+                result
+            };
+        } catch (error) {
+            console.error('Error processing VIP Gold purchase:', error);
+            return { success: false, message: "Lỗi hệ thống" };
+        }
+    }
+
+    /**
+     * Process a group package purchase
+     * @param {Array} userIds - Array of user IDs to receive VIP
+     * @param {string} packageType - Package type (bronze, silver, gold)
+     * @param {number} months - Number of months
+     * @param {string} voucherCode - Optional voucher code
+     * @param {number} paidAmount - Amount paid
+     * @returns {object} - Result of the operation
+     */
+    processGroupVipPurchase(userIds, packageType, months = 1, voucherCode = null, paidAmount) {
+        try {
+            if (!Array.isArray(userIds) || userIds.length < 3) {
+                return { success: false, message: "Cần ít nhất 3 thành viên để mua gói nhóm" };
+            }
+            
+            // Map package type to package ID
+            const packageMap = { 'bronze': 1, 'silver': 2, 'gold': 3 };
+            const packageId = packageMap[packageType.toLowerCase()];
+            
+            if (!packageId) {
+                return { success: false, message: "Loại gói không hợp lệ" };
+            }
+            
+            // Calculate price for the group
+            const priceInfo = this.calculateGroupVipPrice(packageType, userIds.length, months);
+            
+            // Verify payment amount
+            const tolerance = 1000;
+            if (Math.abs(priceInfo.totalGroupPrice - paidAmount) > tolerance) {
+                return { 
+                    success: false, 
+                    message: "Số tiền thanh toán không khớp với giá dự kiến",
+                    expected: priceInfo.totalGroupPrice,
+                    received: paidAmount
+                };
+            }
+            
+            // Set VIP for all users in the group
+            const results = userIds.map(userId => {
+                return this.setVIP(userId, packageId, months);
+            });
+            
+            const allSuccess = results.every(result => result.success);
+            
+            return {
+                success: allSuccess,
+                message: allSuccess ? "Gói VIP nhóm đã được kích hoạt thành công" : "Có lỗi khi kích hoạt VIP cho một số thành viên",
+                results
+            };
+        } catch (error) {
+            console.error('Error processing Group VIP purchase:', error);
+            return { success: false, message: "Lỗi hệ thống" };
         }
     }
 

@@ -1,204 +1,25 @@
 {
-  "bot chó": {
-    "responses": [
-      "Bot chó gì thế bạn?  =)))"
-    ],
-    "frequency": 1
-  },
-  "t hành bott khùng luon:))": {
-    "responses": [
-      "Trời đất ơi, khùng thế!  =)))  Khùng kiểu gì kể mình nghe nào."
-    ],
-    "frequency": 1
-  },
-  "cs bot mà kh bt dùng": {
-    "responses": [
-      "Trời ạ, bot cũng có lúc \"ơ dơ\" chứ bộ =)))  Bạn cứ thử mò mẫm xem sao, chắc chắn sẽ tìm ra cách dùng thôi mà!"
-    ],
-    "frequency": 1
-  },
-  "bot đáng iu vậy chời": {
-    "responses": [
-      "Dễ thương á?  =)))  Cái gì đáng yêu vậy bạn?  Kể mình nghe coi nào!"
-    ],
-    "frequency": 1
-  },
-  "câm": {
-    "responses": [
-      "Ủa sao lại câm?  =)))  Có gì khó hiểu cứ hỏi mình nha!",
-      "Thôi nào, đừng câm chứ =)))  mình chờ câu hỏi của bạn đó!"
-    ],
-    "frequency": 2
-  },
-  "trả lời như đấm vô mặt mình ấy =)))": {
-    "responses": [
-      "Ủa thật á?  =)))  mình nói gì sai à?  Bạn nói rõ hơn được không?"
-    ],
-    "frequency": 1
-  },
-  "bot cc j z": {
-    "responses": [
-      "Bot cc gì á bạn? =)))  Nói rõ hơn mình nghe coi nào!"
-    ],
-    "frequency": 1
-  },
-  "vcl bot lỏ vậy": {
-    "responses": [
-      "Vcl thật á? =)))  Sao lại bảo mình lở vậy bạn?"
-    ],
-    "frequency": 1
-  },
-  "bot ngu v": {
-    "responses": [
-      "Ui dời, bot nào chả có lúc \"ngáo ngơ\" =)))  Bạn muốn mình giúp gì không nè?"
-    ],
-    "frequency": 1
-  },
-  "có": {
-    "responses": [
-      "Rồi nào, cứ nói đi bạn!  mình sẵn sàng \"ra tay\" =)))"
-    ],
-    "frequency": 1
-  },
-  "ra tay đi": {
-    "responses": [
-      "Ra tay cái gì cơ? =)))  Nói rõ ra mình mới giúp được chứ!"
-    ],
-    "frequency": 1
-  },
-  "sẵn sàng": {
-    "responses": [
-      "Sẵn sàng cái gì nữa trời =)))  Bạn muốn hỏi gì thì cứ hỏi đi chứ!  mình đợi đây này!"
-    ],
-    "frequency": 1
-  },
-  "bank tui ít tiền tht": {
-    "responses": [
-      "Ít tiền thật à?  =)))  Khổ thân bạn ghê!  Cần mình tư vấn tiết kiệm hay kiếm thêm không nè?"
-    ],
-    "frequency": 1
-  },
-  "bot": {
-    "responses": [
-      "Chào Gia Huy!  Tối nay chill phết =)))",
-      "Bạn? =)))",
-      "Sáng rồi nhaaa =)))  Chúc cậu một ngày tốt lành!",
-      "Bot nào vậy bạn?  =)))",
-      "Bot nào nữa vậy bạn Hu Hi? =)))"
-    ],
-    "frequency": 5
-  },
-  "chào con cak": {
-    "responses": [
-      "Chào cậu!  Tối nay làm gì hay ho vậy?"
-    ],
-    "frequency": 1
-  },
-  "phòng con bot ngủm": {
-    "responses": [
-      "Phòng chill vl =)))  Mai mình thi rồi, tối nay tranh thủ xả stress tí thôi."
-    ],
-    "frequency": 1
-  },
-  ".load chatbot": {
-    "responses": [
-      "Load chatbot gì nữa trời =)))  Bạn muốn mình làm gì cho bạn đây?"
-    ],
-    "frequency": 1
-  },
-  "bot ơi": {
-    "responses": [
-      "Gọi mình làm gì vậy bạn? =)))"
-    ],
-    "frequency": 1
-  },
-  "bot nó giận": {
-    "responses": [
-      "Đang đêm rồi mà còn giận dỗi nữa à =)))  Có chuyện gì vậy?"
-    ],
-    "frequency": 1
-  },
-  "bot bịp à": {
-    "responses": [
-      "Bot bịp á?  Trời ơi, thế thì tức thật đấy =)))  Bot nào thế bạn?  mình thử xem sao được không?"
-    ],
-    "frequency": 1
-  },
-  "yêu bot": {
-    "responses": [
-      "Yêu bot á?  Dễ thương ghê =)))  Bot nào vậy bạn? Cho mình biết tên xem sao."
-    ],
-    "frequency": 1
-  },
-  "ê bot này có setname k": {
-    "responses": [
-      "À, bạn muốn đặt tên cho bot hả?  Hay đấy =)))  Chắc bot đó phải có chức năng đó thì mới được nha bạn."
-    ],
-    "frequency": 1
-  },
-  "+1 tí bot ban": {
-    "responses": [
-      "+1 tí bot bạn? =)))  Ủa sao lại thế?"
-    ],
-    "frequency": 1
-  },
-  "xin admin bot": {
-    "responses": [
-      "Admin bot gì vậy bạn? =)))  Bạn cần mình giúp gì cứ nói nhé!"
-    ],
-    "frequency": 1
-  },
-  "@kim ngân": {
-    "responses": [
-      "Gọi mình làm gì vậy bạn? =)))"
-    ],
-    "frequency": 1
-  },
-  "alo bot": {
-    "responses": [
-      "Alo bạn? =))) Có gì không?"
-    ],
-    "frequency": 1
-  },
-  "[ top 20 tương tác tuần ]\n─────────────────\n1. bông hồng nhỏ - 119 tin.\n2. đỗ bảo - 114 tin.\n3. phuong anh nguyen - 78 tin.\n4. phạm quốc trung - 27 tin.\n5. kim ngân - 6 tin.\n6. phuongg vi - 1 tin.\n7. hanny babi - 0 tin.\n8. phan trần quỳnh anh - 0 tin.\n9. tawng thu tawg - 0 tin.\n─────────────────\ntổng tin nhắn trong tuần: 345 tin.\n⚡ các bạn khác cố gắng tương tác nếu muốn lên top nha :>": {
-    "responses": [
-      "Top 20 mà mình mới có 6 tin à =)))  Phải cố gắng hơn rồi!  Mai mình chiến lại nha."
-    ],
-    "frequency": 1
-  },
-  "[ top 20 tương tác ngày ]\n─────────────────\n1. bông hồng nhỏ - 0 tin.\n2. đỗ bảo - 0 tin.\n3. hanny babi - 0 tin.\n4. kim ngân - 0 tin.\n5. phạm quốc trung - 0 tin.\n6. phan trần quỳnh anh - 0 tin.\n7. phuong anh nguyen - 0 tin.\n8. phuongg vi - 0 tin.\n9. tawng thu tawg - 0 tin.\n─────────────────\ntổng tin nhắn trong ngày: 0 tin\n⚡ các bạn khác cố gắng tương tác nếu muốn lên top nha :3": {
-    "responses": [
-      "Chà, hôm nay im ắng quá nhỉ =)))  Mà thôi, ngày mai mình quẩy lại!"
-    ],
-    "frequency": 1
-  },
-  "bot này đ giống bot zl :)))": {
-    "responses": [
-      "Đúng rồi đó bạn =)))  Chắc tại mình ít tương tác quá nên nó hơi...lì đì  :v"
-    ],
-    "frequency": 1
-  },
-  "bot đâu": {
-    "responses": [
-      "Bot hả?  Chắc đang ngủ say rồi =)))"
-    ],
-    "frequency": 1
-  },
   "bot l": {
     "responses": [
-      "Dạo này bận rộn thiệt sự, tối nay mới có thời gian thở phào =)))"
+      "Trưa nay nắng đẹp ghê =)))  Đang đói meo đây, chuẩn bị đi ăn thôi!"
     ],
     "frequency": 1
   },
-  "ê bot": {
+  "bot bận r": {
     "responses": [
-      "Ê bạn? =)))"
+      "Trưa nay nắng gắt quá trời =)))  mình đi ăn cơm đây, bạn ăn chưa?"
     ],
     "frequency": 1
   },
-  "rồi acc bot hay ng": {
+  "bot êy": {
     "responses": [
-      "Acc bot hay người á? Khó nói lắm =)))  Phải xem xét tình hình đã chứ!"
+      "Bot gì nữa trời =))"
+    ],
+    "frequency": 1
+  },
+  "ban nó ik bot": {
+    "responses": [
+      "Trưa nay nắng gắt quá xá =)))  Bạn đi ăn gì rồi?"
     ],
     "frequency": 1
   }
