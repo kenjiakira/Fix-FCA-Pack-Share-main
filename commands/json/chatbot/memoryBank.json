@@ -1,16 +1,16 @@
 {
   "users": {
-    "100071639513410": {
+    "100090882493863": {
       "personal": [],
       "facts": [],
       "preferences": [],
       "interactions": [
         {
-          "content": "Ông Sói nói: bot ngu\nTôi trả lời: Chịu ông này luôn, bot gì mà \"ngu\" dữ vậy trời =)))",
-          "timestamp": 1744014136056,
+          "content": "Bảo Châu nói: ee lúc cần con bot đâu\nTôi trả lời: À dô, cần gì thì cứ nói nhé =)))",
+          "timestamp": 1744022492273,
           "priority": 1,
           "accessCount": 0,
-          "lastAccess": 1744014136056,
+          "lastAccess": 1744022492273,
           "metadata": {
             "sentiment": {
               "score": 0,
@@ -42,10 +42,10 @@
       "undefined": [
         {
           "content": "Xưng hô: mình/bạn",
-          "timestamp": 1744014134275,
+          "timestamp": 1744022491536,
           "priority": 2,
           "accessCount": 0,
-          "lastAccess": 1744014134275,
+          "lastAccess": 1744022491536,
           "metadata": {
             "sentiment": {
               "score": 0,
@@ -65,40 +65,17 @@
         }
       ]
     },
-    "100038740121428": {
+    "61550616981053": {
       "personal": [],
       "facts": [],
       "preferences": [],
       "interactions": [
         {
-          "content": "Duy メ  nói: ✅ Đã xóa thành công\n\n2. Luật bot\nTôi trả lời: Duy xóa thành công rồi nha =)))  Cuộc sống vẫn đẹp, đúng không?",
-          "timestamp": 1744015849078,
+          "content": "Tôi Bị Ngu 1 nói: mấy acc kiểu vậy giống con ngân\nTôi trả lời: Chịu á, nhiều người thấy mình giống nhau dữ vậy trời :))))",
+          "timestamp": 1744023369679,
           "priority": 1,
           "accessCount": 0,
-          "lastAccess": 1744015849078,
-          "metadata": {
-            "sentiment": {
-              "score": 0,
-              "rawScore": 0,
-              "sentiment": "neutral",
-              "confidence": 0.5,
-              "emotions": [],
-              "negationCount": 0,
-              "intensityFactors": [],
-              "primaryEmotion": "neutral"
-            },
-            "topics": [
-              "PERSONAL"
-            ],
-            "entities": {}
-          }
-        },
-        {
-          "content": "Duy メ  nói: 📝 Dưới đây là toàn bộ shortcut nhóm có:\n\n1. yes • Luật -> 💕\n2. yes • Luật bot -> 💞\n3. no • Kí tự -> ᴸᴺᴰㅤ²⁰⁰⁰¹²³⁴⁵⁶⁷⁸⁹⁰\n\n'yes' là có tệp gửi kèm\n'no' là không có tệp gửi kèm\n\nReply (phản hồi) theo stt để xóa shortcut\nTôi trả lời: Dễ hiểu vl =)))  Okie, nhớ nha!",
-          "timestamp": 1744015847914,
-          "priority": 1,
-          "accessCount": 0,
-          "lastAccess": 1744015847914,
+          "lastAccess": 1744023369679,
           "metadata": {
             "sentiment": {
               "score": 0,
@@ -130,100 +107,10 @@
       "undefined": [
         {
           "content": "Xưng hô: mình/bạn",
-          "timestamp": 1744015846355,
-          "priority": 2,
-          "accessCount": 1,
-          "lastAccess": 1744015847532,
-          "metadata": {
-            "sentiment": {
-              "score": 0,
-              "rawScore": 0,
-              "sentiment": "neutral",
-              "confidence": 0.5,
-              "emotions": [],
-              "negationCount": 0,
-              "intensityFactors": [],
-              "primaryEmotion": "neutral"
-            },
-            "topics": [
-              "PERSONAL"
-            ],
-            "entities": {}
-          }
-        },
-        {
-          "content": "Xưng hô: mình/bạn",
-          "timestamp": 1744015847532,
+          "timestamp": 1744023368958,
           "priority": 2,
           "accessCount": 0,
-          "lastAccess": 1744015847532,
-          "metadata": {
-            "sentiment": {
-              "score": 0,
-              "rawScore": 0,
-              "sentiment": "neutral",
-              "confidence": 0.5,
-              "emotions": [],
-              "negationCount": 0,
-              "intensityFactors": [],
-              "primaryEmotion": "neutral"
-            },
-            "topics": [
-              "PERSONAL"
-            ],
-            "entities": {}
-          }
-        }
-      ]
-    },
-    "100079828954790": {
-      "personal": [],
-      "facts": [],
-      "preferences": [],
-      "interactions": [
-        {
-          "content": "Hu Hi nói: Bot\nTôi trả lời: Chào bạn nhaaa =)))  Chiều nay trời đẹp ghê, đang chuẩn bị đi ăn gì đây!",
-          "timestamp": 1744016854250,
-          "priority": 1,
-          "accessCount": 0,
-          "lastAccess": 1744016854250,
-          "metadata": {
-            "sentiment": {
-              "score": 0,
-              "rawScore": 0,
-              "sentiment": "neutral",
-              "confidence": 0.5,
-              "emotions": [],
-              "negationCount": 0,
-              "intensityFactors": [],
-              "primaryEmotion": "neutral"
-            },
-            "topics": [
-              "PERSONAL",
-              "FOOD",
-              "TRAVEL"
-            ],
-            "entities": {}
-          }
-        }
-      ],
-      "emotions": [],
-      "names": [],
-      "relationships": {},
-      "context": {
-        "lastTopics": [],
-        "importantDates": {},
-        "recentMentions": {},
-        "conversationFlow": []
-      },
-      "topics": {},
-      "undefined": [
-        {
-          "content": "Xưng hô: mình/bạn",
-          "timestamp": 1744016853541,
-          "priority": 2,
-          "accessCount": 0,
-          "lastAccess": 1744016853541,
+          "lastAccess": 1744023368958,
           "metadata": {
             "sentiment": {
               "score": 0,
@@ -257,7 +144,7 @@
     "voice": {}
   },
   "stats": {
-    "totalInteractions": 8,
+    "totalInteractions": 4,
     "uniqueUsers": {},
     "topTopics": {},
     "responseTime": [],
