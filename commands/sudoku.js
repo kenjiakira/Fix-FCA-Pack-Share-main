@@ -37,11 +37,9 @@ module.exports = {
             const canvas = createCanvas(canvasWidth, canvasHeight);
             const ctx = canvas.getContext('2d');
     
-            // Vẽ nền
             ctx.fillStyle = '#f5f5f5';
             ctx.fillRect(0, 0, canvasWidth, canvasHeight);
     
-            // Vẽ header
             ctx.fillStyle = '#4361ee';
             ctx.fillRect(0, 0, canvasWidth, headerHeight);
     
@@ -50,16 +48,13 @@ module.exports = {
             ctx.textAlign = 'center';
             ctx.fillText('SUDOKU', canvasWidth / 2, headerHeight / 2 + 8);
     
-            // Vẽ footer
             ctx.fillStyle = '#4cc9f0';
             ctx.fillRect(0, canvasHeight - footerHeight, canvasWidth, footerHeight);
     
-            // Hiển thị thông tin game trong footer
             ctx.font = '16px Arial';
             ctx.fillStyle = '#ffffff';
             ctx.textAlign = 'left';
     
-            // Format thời gian
             const minutes = Math.floor(timeElapsed / 60);
             const seconds = timeElapsed % 60;
             const timeFormat = `${minutes}:${seconds.toString().padStart(2, '0')}`;
@@ -68,7 +63,6 @@ module.exports = {
             ctx.textAlign = 'right';
             ctx.fillText(`Thời gian: ${timeFormat}`, canvasWidth - margin, canvasHeight - footerHeight / 2 + 7);
     
-            // Vị trí bắt đầu vẽ bảng (đã điều chỉnh để có chỗ cho nhãn)
             const boardX = margin + labelSize;
             const boardY = headerHeight + labelSize;
     
@@ -390,7 +384,7 @@ module.exports = {
 
     // Lấy thông tin người dùng
     getUserName: function (userID) {
-        const userDataPath = path.join(__dirname, '../events/cache/userData.json');
+        const userDataPath = path.join(__dirname, '../events/cache/rankData.json');
         try {
             const userData = JSON.parse(fs.readFileSync(userDataPath, 'utf8'));
             return userData[userID]?.name || "Người dùng";

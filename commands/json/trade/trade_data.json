@@ -11,14 +11,30 @@
       "createdAt": 1743916826734
     },
     "100055074463541": {
-      "portfolio": {},
-      "cash": 0,
-      "invested": 0,
-      "totalProfit": 0,
-      "tradeCount": 0,
-      "successTrades": 0,
-      "lastUpdated": 1744020646547,
+      "portfolio": {
+        "DIS": {
+          "shares": 10100,
+          "avgBuyPrice": 110.19975544372504,
+          "totalInvested": 1113017.529981623
+        }
+      },
+      "cash": 29573565.52761436,
+      "invested": 1124887.6863047034,
+      "totalProfit": 224260.64537140747,
+      "tradeCount": 4,
+      "successTrades": 1,
+      "lastUpdated": 1744102705112,
       "createdAt": 1744020646547
+    },
+    "100076957299243": {
+      "portfolio": {},
+      "cash": 244604563.92427313,
+      "invested": 0,
+      "totalProfit": -729537.9979007539,
+      "tradeCount": 3,
+      "successTrades": 0,
+      "lastUpdated": 1744091628919,
+      "createdAt": 1744090403012
     }
   }
 }

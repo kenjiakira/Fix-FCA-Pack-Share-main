@@ -1,0 +1,42 @@
+{
+  "pets": [
+    {
+      "id": "m980hjyz57r",
+      "name": "hdang",
+      "type": "bird",
+      "breed": "phoenix",
+      "breedName": "Phượng Hoàng",
+      "rarity": "epic",
+      "emoji": "🦜",
+      "level": 1,
+      "exp": 0,
+      "expToNext": 100,
+      "stats": {
+        "hunger": 93,
+        "mood": 93,
+        "energy": 95.1,
+        "health": 100
+      },
+      "skills": [],
+      "equipped": {
+        "accessory": null
+      },
+      "lastFed": 1744087199579,
+      "lastPlayed": 1744087199579,
+      "createdAt": 1744087199579,
+      "activities": {
+        "WALK": {
+          "lastUsed": 0
+        },
+        "TRAIN": {
+          "lastUsed": 0
+        },
+        "COMPETE": {
+          "lastUsed": 0
+        }
+      }
+    }
+  ],
+  "lastUpdate": 1744093275938,
+  "inventory": {}
+}

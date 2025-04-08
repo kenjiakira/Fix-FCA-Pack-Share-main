@@ -32,7 +32,6 @@ module.exports = {
           
           return api.sendMessage(`Đã ping spam ${spamCount} lần thành công!`, event.threadID, event.messageID);
         } else {
-          // Original behavior for normal tag
           var body = (target.length != 0) ? target.join(" ") : "Everyone!"; 
           var mentions = [], index = 0;
     

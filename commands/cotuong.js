@@ -805,7 +805,7 @@ module.exports = {
     },
 
     getUserName: function (userID) {
-        const userDataPath = path.join(__dirname, '../events/cache/userData.json');
+        const userDataPath = path.join(__dirname, '../events/cache/rankData.json');
         try {
             const userData = JSON.parse(fs.readFileSync(userDataPath, 'utf8'));
             return userData[userID]?.name || "Người dùng";

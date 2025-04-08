@@ -648,12 +648,12 @@
     "name": "Gia Huy ",
     "planet": "SAIYAN",
     "stats": {
-      "power": 271846,
-      "damage": 570,
-      "ki": 880,
-      "health": 4800,
-      "exp": 58079,
-      "zeni": 52319,
+      "power": 323900,
+      "damage": 610,
+      "ki": 960,
+      "health": 5600,
+      "exp": 43825,
+      "zeni": 54669,
       "inventory": {
         "items": [],
         "equipped": []
@@ -663,16 +663,16 @@
         "completed": [],
         "progress": {}
       },
-      "currentKi": 870,
+      "currentKi": 950,
       "level": 2,
-      "maxHealth": 4700,
+      "maxHealth": 5500,
       "currentHealth": 1744
     },
     "skills": [
       "GOKU:ATOMIC"
     ],
     "masters": [],
-    "lastTrain": 1744016054232,
+    "lastTrain": 1744102940963,
     "created": 1743526294836,
     "inventory": {
       "dragonBalls": [],
@@ -725,12 +725,12 @@
     "name": "Khang Bùi",
     "planet": "NAMEK",
     "stats": {
-      "power": 1458057352,
+      "power": 1475827465,
       "damage": 8505,
       "ki": 3866,
       "health": 13000,
-      "exp": 27071616,
-      "zeni": 12677886,
+      "exp": 29591871,
+      "zeni": 12678013,
       "inventory": {
         "items": [],
         "equipped": []
@@ -754,7 +754,7 @@
       "PICCOLO:MULTIFORM"
     ],
     "masters": [],
-    "lastTrain": 1744000360592,
+    "lastTrain": 1744027274573,
     "created": 1743561242983,
     "inventory": {
       "dragonBalls": [
@@ -921,12 +921,12 @@
     "name": "Le Tuan Tu",
     "planet": "SAIYAN",
     "stats": {
-      "power": 2556459052,
-      "damage": 13355,
+      "power": 2589928734,
+      "damage": 13455,
       "ki": 2948,
       "health": null,
-      "exp": 155433547,
-      "zeni": 2797077,
+      "exp": 159415738,
+      "zeni": 2798351,
       "inventory": {
         "items": [],
         "equipped": []
@@ -948,7 +948,7 @@
       "GOKU:BIND"
     ],
     "masters": [],
-    "lastTrain": 1743969909363,
+    "lastTrain": 1744080777662,
     "created": 1743562364905,
     "inventory": {
       "dragonBalls": [],
@@ -1143,14 +1143,14 @@
     "name": "Tran Thu Huyen",
     "planet": "SAIYAN",
     "stats": {
-      "power": 60015,
+      "power": 63015,
       "damage": 210,
       "ki": 180,
       "currentKi": 140,
       "health": 1600,
       "currentHealth": 1000,
-      "exp": 74159,
-      "zeni": 37934,
+      "exp": 77417,
+      "zeni": 39862,
       "inventory": {
         "items": [],
         "equipped": []
@@ -1166,7 +1166,7 @@
       "GOKU:ATOMIC"
     ],
     "masters": [],
-    "lastTrain": 1744014175359,
+    "lastTrain": 1744090934463,
     "created": 1743570305333,
     "inventory": {
       "dragonBalls": [
@@ -1293,14 +1293,14 @@
     "name": "Người trái đất",
     "planet": "EARTH",
     "stats": {
-      "power": 10389557967,
+      "power": 10414448227,
       "damage": 7867540,
       "ki": 4295122,
       "currentKi": 644270,
       "health": 15525120,
       "currentHealth": 15525120,
-      "exp": 247405573,
-      "zeni": 112144,
+      "exp": 251629720,
+      "zeni": 112415,
       "inventory": {
         "items": [],
         "equipped": []
@@ -1323,7 +1323,7 @@
       "KAME:HYPNOSIS"
     ],
     "masters": [],
-    "lastTrain": 1744021381137,
+    "lastTrain": 1744102920732,
     "created": 1743613097948,
     "inventory": {
       "dragonBalls": [
@@ -1740,6 +1740,145 @@
         "BEGINNER_2": 2000,
         "BASIC_TRAINING": 6,
         "SAIYAN_RADITZ": 0
+      }
+    }
+  },
+  "61568641631000": {
+    "name": "Ủa Alo",
+    "planet": "SAIYAN",
+    "stats": {
+      "power": 1000,
+      "damage": 110,
+      "ki": 100,
+      "currentKi": 100,
+      "health": 1000,
+      "currentHealth": 1000,
+      "exp": 0,
+      "zeni": 1000,
+      "inventory": {
+        "items": [],
+        "equipped": []
+      },
+      "quests": {
+        "active": [],
+        "completed": [],
+        "progress": {}
+      }
+    },
+    "skills": [
+      "GOKU:ATOMIC"
+    ],
+    "masters": [],
+    "lastTrain": 0,
+    "created": 1744030246169,
+    "inventory": {
+      "dragonBalls": [],
+      "items": [
+        {
+          "id": "senzu",
+          "quantity": 3,
+          "type": "consumable"
+        },
+        {
+          "id": "battle_gloves",
+          "quantity": 1,
+          "type": "gloves",
+          "boost": 1.1
+        }
+      ]
+    },
+    "hasFused": false,
+    "location": {
+      "planet": "SAIYAN",
+      "locationId": "saiyan_training",
+      "name": "Khu Vực Huấn Luyện",
+      "lastTeleport": 0
+    },
+    "evolution": {
+      "name": "Saiyan thường",
+      "description": "Hình thái cơ bản",
+      "achievedAt": "2025-04-07T12:50:46.169Z",
+      "auraColor": "#FFFFFF"
+    },
+    "quests": {
+      "active": [
+        "BEGINNER_1"
+      ],
+      "completed": [],
+      "progress": {
+        "BEGINNER_1": 0
+      }
+    }
+  },
+  "100084170845301": {
+    "name": "Người chơi",
+    "planet": "SAIYAN",
+    "stats": {
+      "power": 4000,
+      "damage": 120,
+      "ki": 120,
+      "currentKi": 110,
+      "health": 1000,
+      "currentHealth": 1000,
+      "exp": 700,
+      "zeni": 6359,
+      "inventory": {
+        "items": [],
+        "equipped": []
+      },
+      "quests": {
+        "active": [],
+        "completed": [],
+        "progress": {}
+      }
+    },
+    "skills": [
+      "GOKU:ATOMIC"
+    ],
+    "masters": [],
+    "lastTrain": 1744101590643,
+    "created": 1744101230117,
+    "inventory": {
+      "dragonBalls": [],
+      "items": [
+        {
+          "id": "senzu",
+          "quantity": 3,
+          "type": "consumable"
+        },
+        {
+          "id": "battle_gloves",
+          "quantity": 1,
+          "type": "gloves",
+          "boost": 1.1
+        }
+      ]
+    },
+    "hasFused": false,
+    "location": {
+      "planet": "SAIYAN",
+      "locationId": "saiyan_training",
+      "name": "Khu Vực Huấn Luyện",
+      "lastTeleport": 0
+    },
+    "evolution": {
+      "name": "Saiyan thường",
+      "description": "Hình thái cơ bản",
+      "achievedAt": "2025-04-08T08:33:50.117Z",
+      "auraColor": "#FFFFFF"
+    },
+    "quests": {
+      "active": [
+        "BASIC_TRAINING"
+      ],
+      "completed": [
+        "BEGINNER_1",
+        "BEGINNER_2"
+      ],
+      "progress": {
+        "BEGINNER_1": 4,
+        "BEGINNER_2": 2000,
+        "BASIC_TRAINING": 2
       }
     }
   }

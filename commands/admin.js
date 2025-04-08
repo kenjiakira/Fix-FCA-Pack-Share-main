@@ -2,6 +2,7 @@ const fs = require('fs');
 const axios = require('axios');
 const path = require('path');
 const { createReadStream, unlinkSync } = require('fs');
+const { verifyThreadAdmins } = require('../utils/logsub');
 
 module.exports = {
   name: "admin",
@@ -151,6 +152,137 @@ module.exports = {
       }
     };
 
+    const handleCheckAdmin = async () => {
+      const targetThreadID = target[0] || threadID;
+      
+      try {
+        const result = await verifyThreadAdmins(api, targetThreadID);
+        let message;
+        
+        if (result.success) {
+          message = `✅ Kết quả kiểm tra admin nhóm ${targetThreadID}:\n` +
+            `━━━━━━━━━━━━━━━━━━\n` +
+            `- Trạng thái: Thành công\n` +
+            `- Số lượng admin: ${result.adminCount}\n` +
+            `- Thời gian kiểm tra: ${new Date().toLocaleString('vi-VN')}`;
+        } else {
+          message = `⚠️ Kết quả kiểm tra admin nhóm ${targetThreadID}:\n` +
+            `━━━━━━━━━━━━━━━━━━\n` +
+            `- Trạng thái: Thất bại\n` +
+            `- Lý do: ${result.message}\n` +
+            `- Thời gian kiểm tra: ${new Date().toLocaleString('vi-VN')}`;
+        }
+        
+        api.sendMessage(message, threadID, messageID);
+      } catch (error) {
+        console.error("Check admin error:", error);
+        api.sendMessage("❌ Đã xảy ra lỗi khi kiểm tra admin nhóm.", threadID, messageID);
+      }
+    };
+
+    const handleSetAdmin = async () => {
+      if (target.length < 3) {
+        return api.sendMessage(
+          "❌ Sai cú pháp. Sử dụng: admin setadmin [threadID] add/remove [UID1] [UID2]...", 
+          threadID, 
+          messageID
+        );
+      }
+      
+      const targetThreadID = target[0];
+      const action = target[1].toLowerCase();
+      const userIDs = target.slice(2);
+      
+      if (!targetThreadID || isNaN(targetThreadID)) {
+        return api.sendMessage("❌ ThreadID không hợp lệ!", threadID, messageID);
+      }
+      
+      if (action !== "add" && action !== "remove") {
+        return api.sendMessage("❌ Hành động không hợp lệ. Chỉ chấp nhận 'add' hoặc 'remove'.", threadID, messageID);
+      }
+      
+      if (userIDs.length === 0 || userIDs.some(id => isNaN(id))) {
+        return api.sendMessage("❌ Danh sách UID không hợp lệ. Vui lòng cung cấp các UID hợp lệ.", threadID, messageID);
+      }
+      
+      try {
+        const threadsDBPath = path.join(__dirname, '../database/threads.json');
+        const threadsDB = JSON.parse(fs.readFileSync(threadsDBPath, 'utf8') || '{}');
+        
+        if (!threadsDB[targetThreadID]) {
+          threadsDB[targetThreadID] = {
+            members: [],
+            messageCount: {},
+            lastActivity: Date.now(),
+            adminIDs: [],
+            adminLastUpdate: Date.now(),
+            adminVerified: true  // Mark as manually verified
+          };
+        }
+        
+        // Initialize adminIDs if it doesn't exist
+        if (!threadsDB[targetThreadID].adminIDs) {
+          threadsDB[targetThreadID].adminIDs = [];
+        }
+        
+        // Get current adminIDs, ensuring they're in the correct format
+        let currentAdmins = threadsDB[targetThreadID].adminIDs.map(admin => 
+          typeof admin === 'object' ? admin : { id: admin }
+        );
+        
+        let updatedCount = 0;
+        
+        if (action === "add") {
+          for (const uid of userIDs) {
+            const exists = currentAdmins.some(admin => 
+              (admin.id === uid || admin === uid)
+            );
+            
+            if (!exists) {
+              currentAdmins.push({ id: uid });
+              updatedCount++;
+            }
+          }
+          
+          if (updatedCount === 0) {
+            return api.sendMessage("⚠️ Tất cả người dùng đã là admin trong nhóm này rồi.", threadID, messageID);
+          }
+        } else { // remove
+          const initialLength = currentAdmins.length;
+          currentAdmins = currentAdmins.filter(admin => 
+            !userIDs.includes(admin.id) && !userIDs.includes(admin)
+          );
+          
+          updatedCount = initialLength - currentAdmins.length;
+          
+          if (updatedCount === 0) {
+            return api.sendMessage("⚠️ Không tìm thấy admin nào cần gỡ trong danh sách.", threadID, messageID);
+          }
+        }
+        
+        // Update adminIDs in the database
+        threadsDB[targetThreadID].adminIDs = currentAdmins;
+        threadsDB[targetThreadID].adminLastUpdate = Date.now();
+        
+        fs.writeFileSync(threadsDBPath, JSON.stringify(threadsDB, null, 2));
+        
+        return api.sendMessage(
+          `✅ Đã ${action === "add" ? "thêm" : "gỡ"} ${updatedCount} quản trị viên ${action === "add" ? "vào" : "khỏi"} nhóm ${targetThreadID} thành công.\n` +
+          `Tổng số quản trị viên hiện tại: ${currentAdmins.length}`,
+          threadID,
+          messageID
+        );
+        
+      } catch (error) {
+        console.error("SetAdmin error:", error);
+        return api.sendMessage(
+          `❌ Đã xảy ra lỗi khi ${action === "add" ? "thêm" : "gỡ"} quản trị viên: ${error.message}`, 
+          threadID, 
+          messageID
+        );
+      }
+    };
+
     const showHelp = () => {
       api.sendMessage(
         "📝 HƯỚNG DẪN SỬ DỤNG LỆNH ADMIN 📝\n" +
@@ -164,7 +296,10 @@ module.exports = {
         "   ➤ admin setavt [link ảnh] [caption]\n\n" +
         "🔸 admin file: Quản lý tệp tin hệ thống\n\n" +
         "🔸 admin listthreads: Liệt kê các nhóm bot đang tham gia\n\n" +
-        "🔸 admin send [threadID] [message]: Gửi tin nhắn tới nhóm cụ thể\n",
+        "🔸 admin send [threadID] [message]: Gửi tin nhắn tới nhóm cụ thể\n\n" +
+        "🔸 admin checkadmin [threadID]: Kiểm tra và cập nhật admin nhóm\n\n" +
+        "🔸 admin setadmin [threadID] add [UID1] [UID2]...: Thêm quản trị viên thủ công\n" +
+        "🔸 admin setadmin [threadID] remove [UID1] [UID2]...: Gỡ bỏ quản trị viên thủ công",
         threadID, messageID
       );
     };
@@ -184,6 +319,8 @@ module.exports = {
         await handleListThreads(); 
         break;
       case "send": await handleSend(); break;
+      case "checkadmin": await handleCheckAdmin(); break;
+      case "setadmin": await handleSetAdmin(); break;
       default: showHelp();
     }
   },

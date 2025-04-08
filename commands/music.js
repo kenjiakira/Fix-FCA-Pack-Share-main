@@ -10,6 +10,28 @@ const streamPipeline = promisify(require('stream').pipeline);
 const cacheDir = path.join(__dirname, 'cache');
 if (!fs.existsSync(cacheDir)) fs.mkdirsSync(cacheDir);
 
+function createYtdlAgent(cookies = null, proxy = null) {
+    if (proxy && cookies) {
+        return ytdl.createProxyAgent({ uri: proxy }, cookies);
+    } else if (proxy) {
+        return ytdl.createProxyAgent({ uri: proxy });
+    } else if (cookies) {
+        return ytdl.createAgent(cookies);
+    }
+    return null;
+}
+
+function loadCookiesFromFile() {
+    const cookiePath = path.join(__dirname, 'youtube_cookies.json');
+    if (fs.existsSync(cookiePath)) {
+        try {
+            return JSON.parse(fs.readFileSync(cookiePath, 'utf8'));
+        } catch (err) {
+            console.error('Error loading cookies:', err);
+        }
+    }
+    return null;
+}
 async function getSpotifyToken() {
     const clientID = '3d659375536044498834cc9012c58c44';
     const clientSecret = '73bc86542acb4593b2b217616189d4dc';
@@ -106,13 +128,17 @@ async function handleYouTubeSearch(api, event, args) {
         throw new Error(`Lỗi tìm kiếm YouTube: ${error.message}`);
     }
 }
-
 async function handleYouTubeDownload(api, event, track, loadingMsg) {
     const { threadID, messageID } = event;
     
     try {
         const filePath = path.join(cacheDir, `youtube_${Date.now()}.mp3`);
-        const stream = ytdl(track.url, { 
+        
+        // Use cookies if available
+        const cookies = loadCookiesFromFile();
+        const agent = createYtdlAgent(cookies);
+        
+        const ytdlOptions = { 
             filter: 'audioonly',
             quality: 'highestaudio',
             format: 'mp3',
@@ -123,7 +149,14 @@ async function handleYouTubeDownload(api, event, track, loadingMsg) {
                     'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/110.0.0.0 Safari/537.36'
                 }
             }
-        });
+        };
+        
+        // Add agent if available
+        if (agent) {
+            ytdlOptions.agent = agent;
+        }
+        
+        const stream = ytdl(track.url, ytdlOptions);
 
         // Add error handling for the stream
         stream.on('error', (error) => {
@@ -155,7 +188,48 @@ async function handleYouTubeDownload(api, event, track, loadingMsg) {
         throw new Error(`Không thể tải nhạc: ${error.message}`);
     }
 }
-
+async function handleCookiesUpdate(api, event, args) {
+    const { threadID, messageID } = event;
+    
+    try {
+        const cookiePath = path.join(__dirname, 'youtube_cookies.json');
+        
+        if (event.messageReply && event.messageReply.attachments && 
+            event.messageReply.attachments[0].type === "file") {
+            
+            const attachment = event.messageReply.attachments[0];
+            const tempPath = path.join(cacheDir, `cookies_${Date.now()}.json`);
+            
+            await streamPipeline(
+                (await axios({url: attachment.url, responseType: 'stream'})).data,
+                fs.createWriteStream(tempPath)
+            );
+            
+            // Validate JSON
+            try {
+                const cookiesData = JSON.parse(fs.readFileSync(tempPath, 'utf8'));
+                
+                // Check if it's in expected format (array of objects with name and value)
+                if (!Array.isArray(cookiesData)) {
+                    throw new Error("Cookie data must be an array");
+                }
+                
+                // Save cookies
+                fs.copyFileSync(tempPath, cookiePath);
+                fs.unlinkSync(tempPath);
+                
+                return api.sendMessage("✅ Đã cập nhật cookies YouTube thành công", threadID, messageID);
+            } catch (err) {
+                if (fs.existsSync(tempPath)) fs.unlinkSync(tempPath);
+                throw new Error("File cookies không hợp lệ: " + err.message);
+            }
+        } else {
+            return api.sendMessage("❌ Vui lòng reply một file JSON chứa cookies YouTube", threadID, messageID);
+        }
+    } catch (error) {
+        return api.sendMessage(`❌ Lỗi: ${error.message}`, threadID, messageID);
+    }
+}
 module.exports = {
     name: "music",
     info: "Công cụ nhạc: tìm kiếm, nhận diện, phát preview",

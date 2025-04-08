@@ -1246,22 +1246,37 @@ module.exports = {
                         return api.sendMessage("❌ Có lỗi xảy ra khi xem thống kê!", threadID, messageID);
                     }
 
+
                 case "top":
                     try {
                         const topUsers = await getTopUsers(bankingData);
-                        let message = "🏆 BẢNG XẾP HẠNG 🏆\n━━━━━━━━━━━━━━━━━━\n\n";
+                        const rankDataPath = path.join(__dirname, '../events/cache/rankData.json');
+                        let rankData = {};
+
+                        try {
+                            if (fs.existsSync(rankDataPath)) {
+                                rankData = JSON.parse(fs.readFileSync(rankDataPath, 'utf8'));
+                            }
+                        } catch (err) {
+                            console.error('Lỗi đọc dữ liệu người dùng:', err);
+                        }
+
+                        let message = "🏆 BẢNG XẾP HẠNG NGÂN HÀNG 🏆\n" +
+                            "━━━━━━━━━━━━━━━━━━━━━━━━\n\n";
+
                         topUsers.forEach((user, index) => {
-                            const medal = index === 0 ? "🥇" : index === 1 ? "🥈" : index === 2 ? "🥉" : "🏅";
-                            message += `${medal} Top ${index + 1}: ${user.name}\n`;
-                            message += `💰 Tổng tài sản: ${formatNumber(user.totalAssets)} $\n`;
-                            message += `📊 Điểm tín dụng: ${user.creditScore}\n\n`;
+                            const medal = index === 0 ? "🥇" : index === 1 ? "🥈" : index === 2 ? "🥉" : `${index + 1}.`;
+                            const userName = rankData[user.id]?.name || `Người dùng ${user.id.substring(0, 4)}`;
+                            message += `${medal} ${userName}\n`;
+                            message += `💰 Tài sản: ${formatNumber(user.totalAssets)}$\n`;
+                            message += `📊 Điểm tín dụng: ${user.creditScore}/100\n\n`;
                         });
+
                         return api.sendMessage(message, threadID, messageID);
                     } catch (err) {
                         console.error('Lỗi xem bảng xếp hạng:', err);
-                        return api.sendMessage("❌ Có lỗi xảy ra khi xem bảng xếp hạng!", threadID, messageID);
+                        return api.sendMessage("❌ Đã xảy ra lỗi khi lấy bảng xếp hạng!", threadID, messageID);
                     }
-
                 default:
                     return api.sendMessage(
                         "❌ Lệnh không hợp lệ!\n\n" +

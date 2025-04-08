@@ -1031,12 +1031,14 @@
       "STONE_HYDRO_505152695",
       "FRAGMENT_DENDRO_210415894",
       "CHAR_345194230",
-      "CHAR_268591347"
+      "CHAR_268591347",
+      "FRAGMENT_CRYO_339420503",
+      "STONE_CRYO_744718834"
     ],
-    "pullsSinceLastFiveStar": 15,
-    "pullsSinceLastFourStar": 0,
-    "totalPulls": 1649,
-    "lastPull": 1744024761673,
+    "pullsSinceLastFiveStar": 22,
+    "pullsSinceLastFourStar": 7,
+    "totalPulls": 1660,
+    "lastPull": 1744091642622,
     "pvpTeam": [
       "CHAR_144510188",
       "CHAR_927098477",
@@ -1071,8 +1073,8 @@
       "fugue": 1,
       "Diluc": 1
     },
-    "pullsSinceLastStone": 3,
-    "pullsSinceLastUniversalStone": 88
+    "pullsSinceLastStone": 1,
+    "pullsSinceLastUniversalStone": 90
   },
   "100055074463541": {
     "inventory": [
@@ -2055,17 +2057,27 @@
       "CHAR_274327904",
       "CHAR_477382898",
       "EXP_ADVENTURERS_EXPERIENCE_153749705",
-      "CHAR_419775750"
+      "CHAR_419775750",
+      "CHAR_978716635",
+      "FRAGMENT_DENDRO_482119445",
+      "CHAR_493601674",
+      "CHAR_418414569",
+      "CHAR_181406455",
+      "FRAGMENT_ANEMO_866405275",
+      "EXP_LEGENDARY_GRIMOIRE_591359413",
+      "EXP_ADVENTURERS_EXPERIENCE_225550830",
+      "STONE_HYDRO_991346259"
     ],
-    "pullsSinceLastFiveStar": 6,
-    "pullsSinceLastFourStar": 0,
-    "totalPulls": 70,
-    "lastPull": 1744022623302,
-    "pullsSinceLastStone": 18,
-    "pullsSinceLastUniversalStone": 7,
+    "pullsSinceLastFiveStar": 15,
+    "pullsSinceLastFourStar": 10,
+    "totalPulls": 93,
+    "lastPull": 1744103166107,
+    "pullsSinceLastStone": 4,
+    "pullsSinceLastUniversalStone": 10,
     "stellaPity": {
       "Baizhu": 1,
-      "albedo": 1
+      "albedo": 1,
+      "Furina": 1
     }
   },
   "61570532692675": {
@@ -2140,14 +2152,16 @@
       "CHAR_321135910",
       "EXP_ADVENTURERS_EXPERIENCE_852987215",
       "FRAGMENT_HYDRO_930889281",
-      "FRAGMENT_ANEMO_703223846"
+      "FRAGMENT_ANEMO_703223846",
+      "CHAR_456005555",
+      "FRAGMENT_HYDRO_454796910"
     ],
-    "pullsSinceLastFiveStar": 13,
+    "pullsSinceLastFiveStar": 19,
     "pullsSinceLastFourStar": 3,
-    "totalPulls": 17,
-    "lastPull": 1743764274061,
+    "totalPulls": 24,
+    "lastPull": 1744034038134,
     "pullsSinceLastStone": 0,
-    "pullsSinceLastUniversalStone": 2
+    "pullsSinceLastUniversalStone": 3
   },
   "61552475785283": {
     "inventory": [],

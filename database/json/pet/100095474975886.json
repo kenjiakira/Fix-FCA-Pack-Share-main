@@ -1,0 +1,42 @@
+{
+  "pets": [
+    {
+      "id": "m9827m5elvt",
+      "name": "phượng hoàng lồn",
+      "type": "bird",
+      "breed": "parrot",
+      "breedName": "Vẹt",
+      "rarity": "uncommon",
+      "emoji": "🦜",
+      "level": 1,
+      "exp": 0,
+      "expToNext": 100,
+      "stats": {
+        "hunger": 98,
+        "mood": 98,
+        "energy": 98.6,
+        "health": 100
+      },
+      "skills": [],
+      "equipped": {
+        "accessory": null
+      },
+      "lastFed": 1744090095074,
+      "lastPlayed": 1744090095075,
+      "createdAt": 1744090095075,
+      "activities": {
+        "WALK": {
+          "lastUsed": 0
+        },
+        "TRAIN": {
+          "lastUsed": 0
+        },
+        "COMPETE": {
+          "lastUsed": 0
+        }
+      }
+    }
+  ],
+  "lastUpdate": 1744091628158,
+  "inventory": {}
+}

@@ -4749,5 +4749,148 @@
       "D": "Hiện thực thể hiện bi kịch, lãng mạn làm giảm nhẹ, tạo nên sự cân bằng."
     },
     "correct": "B"
+  },
+  {
+    "id": "m982lkw96c1b6",
+    "category": "Nghệ thuật",
+    "difficulty": 1,
+    "question": "Tại sao tranh sơn mài lại có độ bóng và bền màu?",
+    "options": {
+      "A": "Do lớp sơn mài được phủ nhiều lớp, tạo độ bóng và bền.",
+      "B": "Vì chất liệu sơn mài dễ pha màu, tạo nhiều sắc độ.",
+      "C": "Bởi vì tranh sơn mài thường được vẽ trên vải.",
+      "D": "Do tranh sơn mài được vẽ bằng bút lông."
+    },
+    "correct": "A"
+  },
+  {
+    "id": "m985me15jvpd5",
+    "category": "Thể thao",
+    "difficulty": 1,
+    "question": "Tại sao cầu thủ bóng đá lại bị phạt thẻ vàng?",
+    "options": {
+      "A": "Vì phạm lỗi nhẹ.",
+      "B": "Vì ghi bàn thắng.",
+      "C": "Vì chơi hay.",
+      "D": "Vì bị trọng tài thích."
+    },
+    "correct": "A"
+  },
+  {
+    "id": "m985mpw60blnq",
+    "category": "Khoa học",
+    "difficulty": 1,
+    "question": "Tại sao trời mưa lại có cầu vồng?",
+    "options": {
+      "A": "Ánh sáng mặt trời bị khúc xạ và phản xạ trong các giọt nước.",
+      "B": "Do sự biến đổi khí hậu đột ngột gây ra.",
+      "C": "Gió mạnh thổi qua tạo ra hiện tượng quang học.",
+      "D": "Mây đen che khuất mặt trời tạo ra hiệu ứng đặc biệt."
+    },
+    "correct": "A"
+  },
+  {
+    "id": "m985n7itwd0g5",
+    "category": "Văn học",
+    "difficulty": 1,
+    "question": "Làm thế nào sự miêu tả cảnh vật trong thơ ca tạo nên vẻ đẹp?",
+    "options": {
+      "A": "Tạo nên hình ảnh sống động, gợi cảm xúc.",
+      "B": "Thể hiện tài năng của nhà thơ.",
+      "C": "Làm cho bài thơ thêm dài.",
+      "D": "Giúp người đọc dễ nhớ tác phẩm."
+    },
+    "correct": "A"
+  },
+  {
+    "id": "m985nrgbo316r",
+    "category": "Toán học",
+    "difficulty": 1,
+    "question": "Tại sao 2 cộng 2 lại bằng 4?",
+    "options": {
+      "A": "Đó là định nghĩa của phép cộng hai số tự nhiên.",
+      "B": "Vì 2 + 2 = 4 là một phép tính cơ bản.",
+      "C": "Kết quả được tính toán từ quy tắc cộng.",
+      "D": "Hai nhóm hai vật gộp lại thành bốn vật."
+    },
+    "correct": "A"
+  },
+  {
+    "id": "m985p9yd4m428",
+    "category": "Sinh học",
+    "difficulty": 1,
+    "question": "Tại sao cây xanh lại cần ánh sáng mặt trời?",
+    "options": {
+      "A": "Để thực hiện quá trình quang hợp tạo chất dinh dưỡng.",
+      "B": "Để tăng cường quá trình hô hấp và sinh trưởng.",
+      "C": "Để hấp thụ nước và muối khoáng từ đất.",
+      "D": "Để tạo ra hoa quả thơm ngon."
+    },
+    "correct": "A"
+  },
+  {
+    "id": "m985pk2tmspn5",
+    "category": "Công nghệ",
+    "difficulty": 1,
+    "question": "Tại sao máy tính lại cần phần mềm?",
+    "options": {
+      "A": "Phần mềm điều khiển phần cứng, cho phép máy tính hoạt động.",
+      "B": "Phần mềm giúp máy tính tự sửa lỗi.",
+      "C": "Phần mềm làm cho máy tính hoạt động nhanh hơn.",
+      "D": "Phần mềm giúp máy tính kết nối internet."
+    },
+    "correct": "A"
+  },
+  {
+    "id": "m985q3adjo74i",
+    "category": "Thể thao",
+    "difficulty": 1,
+    "question": "Tại sao cầu thủ bóng đá lại cần phải khởi động trước trận đấu?",
+    "options": {
+      "A": "Để làm nóng cơ thể, tránh bị chuột rút.",
+      "B": "Để tăng cường sức mạnh, thể hiện kỹ thuật.",
+      "C": "Để thể hiện sự chuyên nghiệp, tôn trọng khán giả.",
+      "D": "Để làm quen với sân cỏ, bóng đá."
+    },
+    "correct": "A"
+  },
+  {
+    "id": "m985qkqimzx97",
+    "category": "Nghệ thuật",
+    "difficulty": 1,
+    "question": "Tại sao tranh vẽ bằng màu nước lại thường trong suốt và có độ loãng?",
+    "options": {
+      "A": "Vì màu nước pha với nhiều nước, tạo lớp mỏng, ánh sáng xuyên qua.",
+      "B": "Vì chất liệu giấy thấm nước, màu loang nhanh, tạo hiệu ứng mờ.",
+      "C": "Vì màu nước khô nhanh, không tạo lớp dày như màu dầu.",
+      "D": "Vì màu nước có độ bám thấp, khó tạo lớp phủ dày."
+    },
+    "correct": "A"
+  },
+  {
+    "id": "m985t8mrbwaue",
+    "category": "Vật lý",
+    "difficulty": 1,
+    "question": "Tại sao quả bóng rơi xuống đất?",
+    "options": {
+      "A": "Do lực hút của Trái Đất.",
+      "B": "Do quả bóng quá nặng.",
+      "C": "Do gió thổi quả bóng xuống.",
+      "D": "Do quả bóng muốn xuống đất."
+    },
+    "correct": "A"
+  },
+  {
+    "id": "m985thoocfvui",
+    "category": "Nghệ thuật",
+    "difficulty": 1,
+    "question": "Tại sao tranh sơn mài lại có độ bóng cao?",
+    "options": {
+      "A": "Do lớp sơn mài được đánh bóng kỹ lưỡng.",
+      "B": "Do sử dụng chất liệu sơn bóng cao cấp.",
+      "C": "Do tranh được vẽ trên chất liệu gỗ bóng.",
+      "D": "Do có lớp phủ bảo vệ bóng bên ngoài."
+    },
+    "correct": "A"
   }
 ]
