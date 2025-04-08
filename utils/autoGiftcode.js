@@ -5,6 +5,7 @@ const schedule = require('node-schedule');
 const GIFTCODES_PATH = path.join(__dirname, '..', 'database', 'json', 'giftcodes.json');
 const EVENTS_PATH = path.join(__dirname, '..', 'database', 'json', 'events.json');
 const VIP_LOGS_PATH = path.join(__dirname, '..', 'database', 'json', 'vip_logs.json');
+const VIP_GIFT_PATH = path.join(__dirname, '..', 'database', 'json', 'vip_gifts.json');
 
 // Danh sách các sự kiện đặc biệt
 const SPECIAL_EVENTS = [
@@ -120,6 +121,22 @@ const GIFTCODE_TYPES = {
         bonusRewards: {
             vip_points: { min: 7, max: 20 },
             exp: { min: 150, max: 300 }
+        }
+    },
+    VIP_GOLD: {
+        prefix: 'VG',
+        minReward: 2000000,
+        maxReward: 5000000,
+        rarity: 'VIP Gold',
+        maxUses: 100,
+        expHours: 72,
+        color: '#FFD700',
+        maxUsesPerUser: 1,
+        dailyLimit: 1,
+        vipPoints: 3,
+        bonusRewards: {
+            vip_points: { min: 3, max: 10 },
+            exp: { min: 100, max: 200 }
         }
     }
 };
@@ -587,8 +604,220 @@ async function sendGiftcodeAnnouncement(api, code, rewards, type, eventName = nu
     }
 }
 
+function createVIPGiftcode(vipLevel = 'GOLD', description = null) {
+    const type = `VIP_${vipLevel}`;
+    const config = GIFTCODE_TYPES[type];
+    
+    if (!config) {
+        throw new Error(`Invalid VIP level: ${vipLevel}`);
+    }
+    
+    const rewards = {
+        coins: Math.floor(Math.random() * (config.maxReward - config.minReward + 1)) + config.minReward,
+        vip_points: config.vipPoints || 3,
+        exp: Math.floor(Math.random() * 200) + 100
+    };
+    
+    const giftDesc = description || `Quà tặng đặc quyền cho người dùng VIP ${vipLevel}`;
+    
+    const code = createGiftcode(
+        rewards, 
+        giftDesc, 
+        config.expHours, 
+        type, 
+        REWARD_TYPES.MIXED
+    );
+    
+    saveVIPGift(code, vipLevel);
+    
+    return {
+        code,
+        rewards,
+        type,
+        description: giftDesc
+    };
+}
+
+function saveVIPGift(code, vipLevel) {
+    ensureDirectoryExists(VIP_GIFT_PATH);
+    
+    let vipGiftData = { gifts: [] };
+    
+    if (fs.existsSync(VIP_GIFT_PATH)) {
+        try {
+            vipGiftData = JSON.parse(fs.readFileSync(VIP_GIFT_PATH, 'utf8'));
+        } catch (error) {
+            console.error('Error loading VIP gifts:', error);
+        }
+    }
+    
+    if (!vipGiftData.gifts) {
+        vipGiftData.gifts = [];
+    }
+    
+    vipGiftData.gifts.push({
+        code,
+        vipLevel,
+        createdAt: new Date().toISOString(),
+        sentTo: []
+    });
+    
+    fs.writeFileSync(VIP_GIFT_PATH, JSON.stringify(vipGiftData, null, 2));
+}
+
+function getAvailableVIPGifts(userId, vipLevel = 'GOLD') {
+    if (!fs.existsSync(VIP_GIFT_PATH)) {
+        return [];
+    }
+    
+    try {
+        const vipGiftData = JSON.parse(fs.readFileSync(VIP_GIFT_PATH, 'utf8'));
+        if (!vipGiftData.gifts) return [];
+        
+        return vipGiftData.gifts.filter(gift => 
+            gift.vipLevel === vipLevel && 
+            !gift.sentTo.includes(userId)
+        );
+    } catch (error) {
+        console.error('Error loading VIP gifts:', error);
+        return [];
+    }
+}
+
+function markVIPGiftSent(code, userId) {
+    if (!fs.existsSync(VIP_GIFT_PATH)) {
+        return false;
+    }
+    
+    try {
+        const vipGiftData = JSON.parse(fs.readFileSync(VIP_GIFT_PATH, 'utf8'));
+        if (!vipGiftData.gifts) return false;
+        
+        const giftIndex = vipGiftData.gifts.findIndex(gift => gift.code === code);
+        if (giftIndex === -1) return false;
+        
+        if (!vipGiftData.gifts[giftIndex].sentTo) {
+            vipGiftData.gifts[giftIndex].sentTo = [];
+        }
+        
+        if (!vipGiftData.gifts[giftIndex].sentTo.includes(userId)) {
+            vipGiftData.gifts[giftIndex].sentTo.push(userId);
+            fs.writeFileSync(VIP_GIFT_PATH, JSON.stringify(vipGiftData, null, 2));
+            return true;
+        }
+        
+        return false;
+    } catch (error) {
+        console.error('Error marking VIP gift as sent:', error);
+        return false;
+    }
+}
+
+async function sendVIPGiftAnnouncement(api, code, rewards, vipLevel = 'GOLD') {
+    try {
+        const threads = await api.getThreadList(100, null, ['INBOX']);
+        const threadIDs = threads
+            .filter(thread => thread.isGroup)
+            .map(thread => thread.threadID);
+
+        console.log(`[VIP GIFT] Found ${threadIDs.length} groups to send VIP gift announcement`);
+        
+        let rewardText = "💝 Phần thưởng:";
+        if (rewards.coins) rewardText += `\n  • ${rewards.coins.toLocaleString('vi-VN')} $`;
+        if (rewards.vip_points) rewardText += `\n  • ${rewards.vip_points} Điểm tích VIP Gold`;
+        if (rewards.exp) rewardText += `\n  • ${rewards.exp} EXP`;
+        
+        const message = 
+            `👑 QUÀ TẶNG ĐẶC QUYỀN VIP ${vipLevel} 👑\n` +
+            `━━━━━━━━━━━━━━━━━━\n\n` +
+            `🎁 Một món quà đặc biệt dành riêng cho thành viên VIP ${vipLevel}!\n\n` +
+            `📝 Gift code: ${code}\n` +
+            `${rewardText}\n` +
+            `⏰ Thời hạn: 72 giờ\n\n` +
+            `💎 Đặc quyền chỉ dành cho thành viên VIP ${vipLevel}.\n` +
+            `💡 Nhận quà bằng lệnh: .rewards vip gift\n` +
+            `💰 Hoặc sử dụng trực tiếp: .rewards redeem ${code}`;
+
+        let successCount = 0;
+        const chunkSize = 10;
+        const threadChunks = [];
+        
+        for (let i = 0; i < threadIDs.length; i += chunkSize) {
+            threadChunks.push(threadIDs.slice(i, i + chunkSize));
+        }
+
+        for (const chunk of threadChunks) {
+            for (const threadID of chunk) {
+                try {
+                    await new Promise((resolve, reject) => {
+                        const timeout = setTimeout(() => {
+                            reject(new Error('Send message timeout'));
+                        }, 30000);
+
+                        api.sendMessage(message, threadID, (err) => {
+                            clearTimeout(timeout);
+                            if (err) reject(err);
+                            else resolve();
+                        });
+                    });
+
+                    successCount++;
+                    await new Promise(resolve => setTimeout(resolve, 5000));
+
+                } catch (err) {
+                    continue;
+                }
+            }
+            await new Promise(resolve => setTimeout(resolve, 15000));
+        }
+
+        console.log(
+            `📊 Báo cáo gửi gift VIP ${vipLevel}:\n` +
+            `✅ Thành công: ${successCount}/${threadIDs.length} nhóm\n` +
+            `🎁 Giftcode: ${code}`
+        );
+
+        return { success: true, sentCount: successCount };
+    } catch (error) {
+        console.error('[ERROR] Failed to send VIP gift announcement:', error);
+        return { success: false, error: error.message };
+    }
+}
+function scheduleVIPGifts(api) {
+    schedule.scheduleJob('0 8 * * 1', async () => {
+        try {
+            console.log('[AUTO VIP GIFT] Creating weekly VIP Gold gift...');
+            const giftInfo = createVIPGiftcode('GOLD', 'Quà tặng VIP Gold hàng tuần');
+            console.log(`[AUTO VIP GIFT] Created VIP Gold gift: ${giftInfo.code}`);
+            
+            await sendVIPGiftAnnouncement(api, giftInfo.code, giftInfo.rewards, 'GOLD');
+            
+            const adminThreads = global.cc?.adminChannels || [];
+            if (adminThreads && adminThreads.length > 0) {
+                const message = 
+                    `👑 TẠO VIP GIFT THÀNH CÔNG 👑\n\n` +
+                    `📝 Code: ${giftInfo.code}\n` +
+                    `💰 Xu: ${giftInfo.rewards.coins.toLocaleString('vi-VN')}\n` +
+                    `👑 Điểm VIP: ${giftInfo.rewards.vip_points}\n` +
+                    `⭐ EXP: ${giftInfo.rewards.exp}\n` +
+                    `⏰ Hiệu lực: 72 giờ\n\n` +
+                    `💡 Đã gửi thông báo tới ${giftInfo.sentCount || 'tất cả'} người dùng VIP Gold\n` +
+                    `📱 Người dùng VIP Gold có thể nhận quà bằng lệnh:\n` +
+                    `.rewards vip gift`;
+                
+                for (const threadID of adminThreads) {
+                    api.sendMessage(message, threadID);
+                }
+            }
+        } catch (error) {
+            console.error('[AUTO VIP GIFT] Error creating VIP gift:', error);
+        }
+    });
+    
+    console.log('[AUTO VIP GIFT] Scheduled weekly VIP Gold gift on Mondays at 8:00 AM');
+}
+
 function scheduleAutoGiftcode(api) {
-    // Kiểm tra sự kiện đặc biệt hàng ngày vào lúc 0h
     schedule.scheduleJob('0 0 * * *', async () => {
         const specialEvents = checkForSpecialEvents();
         
@@ -598,28 +827,24 @@ function scheduleAutoGiftcode(api) {
         }
     });
 
-    // Giftcode hàng ngày (12h trưa)
     schedule.scheduleJob('0 12 * * *', async () => {
         const type = 'NORMAL';
         const giftInfo = createAutoGiftcode(type);
         await sendGiftcodeAnnouncement(api, giftInfo.code, giftInfo.rewards, type);
     });
 
-    // Giftcode RARE (Chủ nhật)
     schedule.scheduleJob('0 12 * * 0', async () => {
         const type = 'RARE';
         const giftInfo = createAutoGiftcode(type);
         await sendGiftcodeAnnouncement(api, giftInfo.code, giftInfo.rewards, type);
     });
     
-    // Giftcode Epic (Ngày 15 hàng tháng)
     schedule.scheduleJob('0 12 15 * *', async () => {
         const type = 'EPIC';
         const giftInfo = createAutoGiftcode(type);
         await sendGiftcodeAnnouncement(api, giftInfo.code, giftInfo.rewards, type);
     });
 
-    // Giftcode Huyền Thoại (Ngày 1 hàng tháng)
     schedule.scheduleJob('0 12 1 * *', async () => {
         const type = 'LEGENDARY';
         const giftInfo = createAutoGiftcode(type);
@@ -628,6 +853,9 @@ function scheduleAutoGiftcode(api) {
 
     // Dọn dẹp giftcode hết hạn mỗi giờ
     schedule.scheduleJob('0 * * * *', cleanExpiredCodes);
+    
+    // Schedule VIP gifts
+    scheduleVIPGifts(api);
 }
 
 module.exports = {
@@ -640,6 +868,10 @@ module.exports = {
     sendGiftcodeAnnouncement,
     checkDailyLimit,
     updateDailyLimit,
+    createVIPGiftcode,
+    getAvailableVIPGifts,
+    markVIPGiftSent,
+    sendVIPGiftAnnouncement,
     GIFTCODE_TYPES,
     REWARD_TYPES,
     addVIPPoints,

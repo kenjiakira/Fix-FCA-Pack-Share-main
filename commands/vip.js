@@ -229,32 +229,29 @@ module.exports = {
                 `📋 QUYỀN LỢI:\n` +
                 `━━━━━━━━━━━━━━\n\n` +
 
-                `🎮 GAME:\n` +
+                `🎮 CÁC LOẠI GAME:\n` +
                 `┌─────────────────\n` +
-                `│ ⏱️ Thời gian chờ câu cá: ${pkg.perks.fishing.cooldown}\n` +
-                `│ 📈 Tăng exp câu cá: ${pkg.perks.fishing.exp}\n` +
-                `│ 🔮 Tỉ lệ cá hiếm: ${pkg.perks.fishing.rare}\n` +
-                `│ 🛡️ Bảo vệ: ${pkg.perks.fishing.protect}\n` +
+                `│ 🌾 Game Nông Trại:\n${pkg.perks.money.farm}\n` +
+                `│ 🎣 Game Câu Cá: Tăng 40% cá hiếm, x4 EXP, giảm chờ còn 2 phút, bảo vệ cá 100%\n` +
                 (pkg.perks.fishing.special ? `│ ✨ Đặc biệt: ${pkg.perks.fishing.special}\n` : '') +
-                (pkg.perks.gacha?.limitedBonus ? `│ 🎴 Gacha: ${pkg.perks.gacha.limitedBonus}\n` : '') +
+                (pkg.perks.gacha?.limitedBonus ? `│ 🎴 Game Gacha: ${pkg.perks.gacha.limitedBonus}\n` : '') +
+                `│ 🐷 Mở khóa nhiều tính năng cho Game Pet\n` +
                 `└─────────────────\n\n` +
 
                 `💼 TIỆN ÍCH:\n` +
                 `┌─────────────────\n` +
                 `│ 🔐 ${pkg.perks.security.protect}\n` +
-                `│ 🔒 Bảo vệ tài sản: ${pkg.perks.money.protection}\n` +
                 (pkg.perks.money.platform ? `│ 📱 ${pkg.perks.money.platform}\n` : '') +
                 `│ 🔔 SỬ DỤNG TOOL SPAM SMS MIỄN PHÍ\n` +
                 `│ 💘 Ghép đôi nâng cao: Xem thông tin đầy đủ\n` +
                 `│ 💕 Ghép đôi toàn cục: Mở khóa 'ghep box'\n` +
-                `│ 💞 Phân tích tình duyên: Tỉ lệ hợp nhau chi tiết\n` +
+                `│ 🎁 Gift VIP: Nhận giftcode VIP độc quyền\n` +
                 `└─────────────────\n\n` +
 
                 `💰 TIỀN TỆ:\n` +
                 `┌─────────────────\n` +
-                `│ 🌾 Nông trại: ${pkg.perks.money.farm}\n` +
                 `│ 🎁 Quà hàng ngày: ${pkg.perks.money.daily}\n` +
-                `│ 📝 Phần thưởng nhiệm vụ: ${pkg.perks.money.quest}\n` +   
+                `│ 📝 Phần thưởng nhiệm vụ: ${pkg.perks.money.quest}\n` +
                 `│ 💸 Khả năng vay: ${pkg.perks.bank.loan}\n` +
                 `│ 📉 Lãi suất vay: ${pkg.perks.bank.interest}\n` +
                 `│ 📈 Lãi tiết kiệm: ${pkg.perks.bank.bonus}\n` +

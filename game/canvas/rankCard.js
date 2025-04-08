@@ -595,33 +595,33 @@ function drawVIPLabel(ctx, x, y, text, colors) {
     const textWidth = ctx.measureText(text).width;
     const padding = 15;
     
-    // Tạo nền cho label
-    ctx.fillStyle = colors.middle;
+    // Tạo hiệu ứng glow nổi bật hơn
     ctx.shadowColor = colors.glow;
-    ctx.shadowBlur = 10;
+    ctx.shadowBlur = 15;  // Tăng từ 10 lên 15 để có hiệu ứng glow mạnh hơn
+    
+    // Tạo nền cho label với màu sắc nổi bật hơn
+    const labelGradient = ctx.createLinearGradient(
+        x - textWidth/2 - padding, y - 15, 
+        x + textWidth/2 + padding, y + 15
+    );
+    labelGradient.addColorStop(0, colors.inner);
+    labelGradient.addColorStop(0.5, colors.middle);
+    labelGradient.addColorStop(1, colors.inner);
+    
+    ctx.fillStyle = labelGradient;
     ctx.beginPath();
     ctx.roundRect(x - textWidth/2 - padding, y - 15, textWidth + padding * 2, 30, 15);
     ctx.fill();
     
-    // Viền ngoài
+    // Viền ngoài đậm hơn
     ctx.strokeStyle = colors.outer;
-    ctx.lineWidth = 2;
+    ctx.lineWidth = 3;  // Tăng từ 2 lên 3
     ctx.stroke();
     
-    // Viền trong
-    ctx.strokeStyle = 'rgba(255, 255, 255, 0.8)';
-    ctx.lineWidth = 1;
+    // Viền trong với hiệu ứng ánh sáng
+    ctx.strokeStyle = 'rgba(255, 255, 255, 0.9)';  // Tăng độ đậm từ 0.8 lên 0.9
+    ctx.lineWidth = 1.5;  // Tăng từ 1 lên 1.5
     ctx.beginPath();
-    ctx.roundRect(x - textWidth/2 - padding + 2, y - 15 + 2, textWidth + padding * 2 - 4, 30 - 4, 13);
-    ctx.stroke();
-    
-    // Hiệu ứng ánh sáng trên nền
-    const highlight = ctx.createLinearGradient(
-        x - textWidth/2 - padding, y - 15, 
-        x - textWidth/2 - padding, y
-    );
-    highlight.addColorStop(0, 'rgba(255, 255, 255, 0.5)');
-    highlight.addColorStop(1, 'rgba(255, 255, 255, 0)');
     ctx.fillStyle = highlight;
     ctx.beginPath();
     ctx.roundRect(x - textWidth/2 - padding + 2, y - 15 + 2, textWidth + padding * 2 - 4, 12, [13, 13, 0, 0]);

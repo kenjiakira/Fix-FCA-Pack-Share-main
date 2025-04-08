@@ -11,7 +11,11 @@ const {
   GIFTCODE_TYPES,
   REWARD_TYPES,
   addVIPPoints,
-  getVIPProgress
+  getVIPProgress,
+  createVIPGiftcode,
+  getAvailableVIPGifts,
+  markVIPGiftSent,
+  sendVIPGiftAnnouncement 
 } = require('../utils/autoGiftcode');
 const { updateStreak, getStreak } = require('../utils/streakSystem');
 const { getVIPBenefits } = require('../game/vip/vipCheck');
@@ -46,8 +50,10 @@ module.exports = {
         "💡 Xem thống kê gift code của bạn\n\n" +
         "4️⃣ Tiến trình VIP Gold:\n→ .rewards vip\n" +
         "💡 Xem tiến trình tích điểm VIP Gold\n" +
+        "5️⃣ Quà tặng VIP:\n→ .rewards vip gift\n" +
+        "💡 Nhận quà đặc quyền cho VIP Gold\n" +
         (isAdmin ? 
-        "\n👑 Lệnh Admin:\n→ .rewards create <loại> <số xu> <mô tả>\n→ .rewards list\n" : "") +
+        "\n👑 Lệnh Admin:\n→ .rewards create <loại> <số xu> <mô tả>\n→ .rewards list\n→ .rewards vip create\n" : "") +
         "\n📌 Thông tin quan trọng:\n" +
         "• ⏰ Nhiệm vụ reset lúc 0h\n" +
         "• 🎁 Giftcode phát hàng ngày lúc 12h\n" +
@@ -77,7 +83,14 @@ module.exports = {
         await this.handleStats({ api, event });
         break;
       case 'vip':
-        await this.handleVIP({ api, event });
+        const subCmd = target[1]?.toLowerCase();
+        if (subCmd === 'gift') {
+          await this.handleVIPGift({ api, event });
+        } else if (subCmd === 'create' && isAdmin) {
+          await this.handleCreateVIPGift({ api, event });
+        } else {
+          await this.handleVIP({ api, event });
+        }
         break;
     }
   },
@@ -602,6 +615,101 @@ module.exports = {
     }
     
     return api.sendMessage(message, threadID, messageID);
+  },
+
+  handleVIPGift: async function({ api, event }) {
+    const { threadID, messageID, senderID } = event;
+    
+    // Kiểm tra xem người dùng có phải VIP Gold không
+    const vipBenefits = getVIPBenefits(senderID);
+    
+    if (!vipBenefits || vipBenefits.packageId < 3) {
+      return api.sendMessage(
+        "❌ Bạn không phải là thành viên VIP Gold!\n" +
+        "👑 Đặc quyền này chỉ dành cho người dùng VIP Gold.\n" +
+        "💎 Gõ '.vip gold' để xem cách mua VIP Gold.",
+        threadID, messageID
+      );
+    }
+    
+    // Lấy danh sách quà VIP Gold có sẵn
+    const availableGifts = getAvailableVIPGifts(senderID, 'GOLD');
+    
+    if (availableGifts.length === 0) {
+      return api.sendMessage(
+        "😔 Hiện không có quà VIP Gold nào dành cho bạn!\n" +
+        "👑 Quà VIP Gold sẽ được phát hàng tuần vào thứ 2.\n" +
+        "⏰ Vui lòng quay lại sau nhé!",
+        threadID, messageID
+      );
+    }
+    
+    // Lấy quà mới nhất
+    const latestGift = availableGifts[availableGifts.length - 1];
+    
+    // Đánh dấu đã gửi
+    markVIPGiftSent(latestGift.code, senderID);
+    
+    // Gửi thông báo
+    api.sendMessage(
+      "👑 QUÀ TẶNG ĐẶC QUYỀN VIP GOLD 👑\n" +
+      "━━━━━━━━━━━━━━━━━━\n\n" +
+      `🎁 Chúc mừng! Bạn đã nhận được quà VIP Gold.\n` +
+      `📝 Gift code: ${latestGift.code}\n\n` +
+      `💡 Hãy sử dụng lệnh sau đây để mở quà:\n` +
+      `.rewards redeem ${latestGift.code}\n\n` +
+      `✨ Đặc quyền này chỉ dành cho người dùng VIP Gold.\n` +
+      `📆 Quà VIP Gold sẽ được phát hàng tuần!`,
+      threadID, messageID
+    );
+  },
+  
+  handleCreateVIPGift: async function({ api, event }) {
+    const { threadID, messageID } = event;
+    
+    try {
+        const giftInfo = createVIPGiftcode('GOLD', 'Quà tặng VIP Gold đặc biệt');
+        
+        // Send an announcement if the sendVIPGiftAnnouncement function exists
+        try {
+            await sendVIPGiftAnnouncement(api, giftInfo.code, giftInfo.rewards, 'GOLD');
+            
+            api.sendMessage(
+                "✅ Tạo quà VIP Gold thành công!\n\n" +
+                `📝 Code: ${giftInfo.code}\n` +
+                `💰 Xu: ${giftInfo.rewards.coins.toLocaleString('vi-VN')}\n` +
+                `👑 Điểm VIP: ${giftInfo.rewards.vip_points}\n` +
+                `⭐ EXP: ${giftInfo.rewards.exp}\n` +
+                `⏰ Hiệu lực: 72 giờ\n\n` +
+                `📢 Đã gửi thông báo tới người dùng VIP Gold\n` +
+                `💡 Người dùng VIP Gold có thể nhận quà này bằng lệnh:\n` +
+                `.rewards vip gift`,
+                threadID, messageID
+            );
+        } catch (announceError) {
+            console.error('Error sending VIP gift announcement:', announceError);
+            
+            api.sendMessage(
+                "✅ Tạo quà VIP Gold thành công!\n\n" +
+                `📝 Code: ${giftInfo.code}\n` +
+                `💰 Xu: ${giftInfo.rewards.coins.toLocaleString('vi-VN')}\n` +
+                `👑 Điểm VIP: ${giftInfo.rewards.vip_points}\n` +
+                `⭐ EXP: ${giftInfo.rewards.exp}\n` +
+                `⏰ Hiệu lực: 72 giờ\n\n` +
+                `⚠️ Không thể gửi thông báo tự động\n` +
+                `💡 Người dùng VIP Gold có thể nhận quà này bằng lệnh:\n` +
+                `.rewards vip gift`,
+                threadID, messageID
+            );
+        }
+    } catch (error) {
+        console.error('Error creating VIP gift:', error);
+        api.sendMessage(
+            "❌ Đã xảy ra lỗi khi tạo quà VIP Gold!\n" +
+            "Vui lòng thử lại sau.",
+            threadID, messageID
+        );
+    }
   }
 };
 

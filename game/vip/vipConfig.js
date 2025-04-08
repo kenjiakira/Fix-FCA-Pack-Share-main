@@ -15,7 +15,7 @@ const VIP_PACKAGES = {
             fishing: {
                 cooldown: "2p", exp: "x4 EXP", rare: "+40% Cá hiếm",
                 protect: "100% chống mất cá",
-                special: "Mở Khu vực VIP"
+                special: "Mở Khu vực VIP cho Fish"
             },
             money: {
                 farm: "Tăng lợi nhuận/giảm thời gian", daily: "+60%",
