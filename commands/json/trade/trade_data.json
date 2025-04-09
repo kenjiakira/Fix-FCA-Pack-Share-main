@@ -51,6 +51,42 @@
       "successTrades": 0,
       "lastUpdated": 1744163189699,
       "createdAt": 1744163189699
+    },
+    "100076346764439": {
+      "portfolio": {},
+      "cash": 0,
+      "invested": 0,
+      "totalProfit": 0,
+      "tradeCount": 0,
+      "successTrades": 0,
+      "lastUpdated": 1744168294074,
+      "createdAt": 1744168294074
+    },
+    "100079828954790": {
+      "portfolio": {
+        "AMZN": {
+          "shares": 10,
+          "avgBuyPrice": 180.32728545129825,
+          "totalInvested": 1803.2728545129826
+        }
+      },
+      "cash": 3618.6944169418875,
+      "invested": 1803.2728545129826,
+      "totalProfit": 0,
+      "tradeCount": 1,
+      "successTrades": 0,
+      "lastUpdated": 1744168418571,
+      "createdAt": 1744168298142
+    },
+    "100083810402652": {
+      "portfolio": {},
+      "cash": 0,
+      "invested": 0,
+      "totalProfit": 0,
+      "tradeCount": 0,
+      "successTrades": 0,
+      "lastUpdated": 1744168301474,
+      "createdAt": 1744168301474
     }
   }
 }
