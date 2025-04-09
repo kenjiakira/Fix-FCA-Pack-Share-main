@@ -9,7 +9,7 @@ module.exports = {
     dev: "HNT",
     category: "Games",
     onPrefix: true,
-    info: "Trò chơi bắt Pokemon với dữ liệu chính xác từ PokeAPI",
+    info: "Trò chơi bắt Pokemon",
     usedby: 0,
     usages: "Sử dụng: start để bắt đầu trò chơi, catch để bắt pokemon",
     cooldowns: 10,

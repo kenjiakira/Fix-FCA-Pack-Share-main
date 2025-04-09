@@ -1,0 +1,29 @@
+{
+  "lastModified": 1744166529721,
+  "updates": [
+    {
+      "id": "1744166529721",
+      "type": "feature",
+      "title": "mới",
+      "description": "Thêm tính năng mới cho Chứng khoán (trade)",
+      "date": 1744166529721,
+      "adminOnly": false
+    },
+    {
+      "id": "1744166324402",
+      "type": "feature",
+      "title": "vòng quay",
+      "description": "thêm vòng quay ra VIP GOLD . gõ spin mỗi ngày để nhận thưởng",
+      "date": 1744166324402,
+      "adminOnly": false
+    },
+    {
+      "id": "1744111063108",
+      "type": "feature",
+      "title": "Game",
+      "description": "thêm tổng cộng 27 Game mới",
+      "date": 1744111063108,
+      "adminOnly": false
+    }
+  ]
+}

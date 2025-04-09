@@ -4892,5 +4892,31 @@
       "D": "Do có lớp phủ bảo vệ bóng bên ngoài."
     },
     "correct": "A"
+  },
+  {
+    "id": "m98guhc5f8udw",
+    "category": "Sinh học",
+    "difficulty": 1,
+    "question": "Tại sao cây xanh lại cần ánh sáng mặt trời?",
+    "options": {
+      "A": "Để thực hiện quang hợp, tạo chất dinh dưỡng.",
+      "B": "Để cây hấp thụ nước tốt hơn.",
+      "C": "Để cây phát triển chiều cao.",
+      "D": "Để cây ra hoa kết trái nhiều hơn."
+    },
+    "correct": "A"
+  },
+  {
+    "id": "m98guqm838gt1",
+    "category": "Hóa học",
+    "difficulty": 1,
+    "question": "Tại sao nước đá lại nổi trên mặt nước?",
+    "options": {
+      "A": "Nước đá nhẹ hơn nước ở thể lỏng.",
+      "B": "Nước đá có nhiệt độ thấp hơn nước lỏng.",
+      "C": "Nước đá có cấu trúc tinh thể rỗng.",
+      "D": "Nước đá tan chảy thành nước."
+    },
+    "correct": "C"
   }
 ]

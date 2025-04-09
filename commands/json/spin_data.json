@@ -1,102 +1,16 @@
 {
   "users": {
-    "100056955484415": {
-      "spinsUsed": 3,
-      "lastSpin": 1744106654025,
-      "history": [
-        {
-          "timestamp": 1744105925467,
-          "prizeId": 1,
-          "prizeName": "500 xu"
-        },
-        {
-          "timestamp": 1744106349809,
-          "prizeId": 2,
-          "prizeName": "1,000 xu"
-        },
-        {
-          "timestamp": 1744106654025,
-          "prizeId": 1,
-          "prizeName": "500 xu"
-        }
-      ]
-    },
-    "100080149704587": {
+    "100079828954790": {
       "spinsUsed": 1,
-      "lastSpin": 1744105941537,
+      "lastSpin": 1744166410911,
       "history": [
         {
-          "timestamp": 1744105941537,
-          "prizeId": 1,
-          "prizeName": "500 xu"
-        }
-      ]
-    },
-    "61568641631000": {
-      "spinsUsed": 1,
-      "lastSpin": 1744106373600,
-      "history": [
-        {
-          "timestamp": 1744106373600,
-          "prizeId": 9,
-          "prizeName": "100 EXP"
-        }
-      ]
-    },
-    "100055074463541": {
-      "spinsUsed": 3,
-      "lastSpin": 1744108123989,
-      "history": [
-        {
-          "timestamp": 1744106615175,
-          "prizeId": 8,
-          "prizeName": "50 EXP"
-        },
-        {
-          "timestamp": 1744108117580,
-          "prizeId": 2,
-          "prizeName": "1,000 xu"
-        },
-        {
-          "timestamp": 1744108123989,
-          "prizeId": 4,
-          "prizeName": "10,000 xu"
-        }
-      ]
-    },
-    "61573427362389": {
-      "spinsUsed": 1,
-      "lastSpin": 1744108050285,
-      "history": [
-        {
-          "timestamp": 1744108050285,
-          "prizeId": 2,
-          "prizeName": "1,000 xu"
-        }
-      ]
-    },
-    "61558946907944": {
-      "spinsUsed": 1,
-      "lastSpin": 1744108738271,
-      "history": [
-        {
-          "timestamp": 1744108738271,
-          "prizeId": 7,
-          "prizeName": "10 EXP"
-        }
-      ]
-    },
-    "100058320200877": {
-      "spinsUsed": 1,
-      "lastSpin": 1744109435788,
-      "history": [
-        {
-          "timestamp": 1744109435788,
-          "prizeId": 8,
-          "prizeName": "50 EXP"
+          "timestamp": 1744166410911,
+          "prizeId": 3,
+          "prizeName": "5,000 xu"
         }
       ]
     }
   },
-  "lastReset": 1744105925334
+  "lastReset": 1744166410659
 }

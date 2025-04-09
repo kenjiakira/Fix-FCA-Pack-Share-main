@@ -1,13 +1,19 @@
 {
   "users": {
     "100056955484415": {
-      "portfolio": {},
-      "cash": 0,
-      "invested": 0,
+      "portfolio": {
+        "META": {
+          "shares": 100,
+          "avgBuyPrice": 463.46033897293216,
+          "totalInvested": 46346.033897293215
+        }
+      },
+      "cash": 54947833.50576373,
+      "invested": 46346.033897293215,
       "totalProfit": 0,
-      "tradeCount": 0,
+      "tradeCount": 1,
       "successTrades": 0,
-      "lastUpdated": 1743916826734,
+      "lastUpdated": 1744164868222,
       "createdAt": 1743916826734
     },
     "100055074463541": {
@@ -35,6 +41,16 @@
       "successTrades": 0,
       "lastUpdated": 1744091628919,
       "createdAt": 1744090403012
+    },
+    "61573427362389": {
+      "portfolio": {},
+      "cash": 0,
+      "invested": 0,
+      "totalProfit": 0,
+      "tradeCount": 0,
+      "successTrades": 0,
+      "lastUpdated": 1744163189699,
+      "createdAt": 1744163189699
     }
   }
 }

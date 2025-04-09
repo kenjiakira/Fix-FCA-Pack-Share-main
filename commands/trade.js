@@ -1,14 +1,16 @@
 const fs = require('fs');
 const path = require('path');
 const axios = require('axios');
-const { createCanvas, loadImage } = require('canvas');
+const { createCanvas } = require('canvas');
 const {
     getBalance,
     updateBalance,
     saveData
 } = require('../utils/currencies');
 const getName = require('../utils/getName');
-
+const { createMarketOverviewCanvas } = require('../game/canvas/tradeMarketCanvas');
+const { createNewsCanvas } = require('../game/canvas/tradeNewsCanvas');
+const { createPortfolioCheckCanvas } = require('../game/canvas/tradeCheckCanvas');
 
 const DATA_DIR = path.join(__dirname, 'json', 'trade');
 const TRADE_DATA_FILE = path.join(DATA_DIR, 'trade_data.json');
@@ -16,12 +18,11 @@ const MARKET_DATA_FILE = path.join(DATA_DIR, 'market_data.json');
 const NEWS_DATA_FILE = path.join(DATA_DIR, 'news_data.json');
 const LEADERBOARD_FILE = path.join(DATA_DIR, 'leaderboard.json');
 const HISTORY_FILE = path.join(DATA_DIR, 'trading_history.json');
-
+const MARKET_HISTORY_FILE = path.join(DATA_DIR, 'market_history.json');
 
 if (!fs.existsSync(DATA_DIR)) {
     fs.mkdirSync(DATA_DIR, { recursive: true });
 }
-
 
 const STOCK_CONFIG = {
     baseFee: 0.01,
@@ -56,7 +57,7 @@ const STOCK_CONFIG = {
             name: "Alphabet Inc.",
             price: 142.8,
             volatility: "medium",
-            sector: "Technology",   
+            sector: "Technology",
             trend: "stable",
             history: []
         },
@@ -205,6 +206,25 @@ function loadTradeData() {
     } catch (error) {
         console.error('Error loading trade data:', error);
         return { users: {} };
+    }
+}
+function loadMarketHistory() {
+    try {
+        if (!fs.existsSync(MARKET_HISTORY_FILE)) {
+            return { snapshots: [] };
+        }
+        return JSON.parse(fs.readFileSync(MARKET_HISTORY_FILE, 'utf8'));
+    } catch (error) {
+        console.error('Error loading market history:', error);
+        return { snapshots: [] };
+    }
+}
+
+function saveMarketHistory(data) {
+    try {
+        fs.writeFileSync(MARKET_HISTORY_FILE, JSON.stringify(data, null, 2));
+    } catch (error) {
+        console.error('Error saving market history:', error);
     }
 }
 
@@ -502,19 +522,17 @@ function updateMarket() {
 
     if (now - marketData.lastUpdate < STOCK_CONFIG.updateInterval) return;
 
+
     for (const [symbol, stock] of Object.entries(marketData.stocks)) {
         const volatility = STOCK_CONFIG.volatility[stock.volatility || "medium"];
         const change = getRandomNumber(volatility.min, volatility.max);
-
 
         let trendBias = 0;
         if (stock.trend === "up") trendBias = 0.01;
         else if (stock.trend === "down") trendBias = -0.01;
 
-
         const oldPrice = stock.price;
         stock.price = Math.max(0.01, oldPrice * (1 + change + trendBias));
-
 
         if (stock.history.length >= 5) {
             const recentPrices = stock.history.slice(-5);
@@ -527,12 +545,10 @@ function updateMarket() {
             else stock.trend = "stable";
         }
 
-
         stock.history.push({
             price: stock.price,
             timestamp: now
         });
-
 
         if (stock.history.length > 50) {
             stock.history = stock.history.slice(stock.history.length - 50);
@@ -543,12 +559,80 @@ function updateMarket() {
     saveMarketData(marketData);
 
 
+    const marketHistory = loadMarketHistory();
+
+
+    const snapshot = {
+        timestamp: now,
+        stocks: {}
+    };
+
+
+    for (const [symbol, stock] of Object.entries(marketData.stocks)) {
+        snapshot.stocks[symbol] = {
+            price: stock.price,
+            trend: stock.trend
+        };
+    }
+
+    marketHistory.snapshots.push(snapshot);
+
+
+    const sixHoursAgo = now - (6 * 60 * 60 * 1000);
+    marketHistory.snapshots = marketHistory.snapshots.filter(snap =>
+        snap.timestamp >= sixHoursAgo
+    );
+
+    saveMarketHistory(marketHistory);
+
+
     if (Math.random() < 0.3) {
         generateMarketNews();
     }
 }
+function get6HourPerformance() {
+    const history = loadMarketHistory();
+
+    if (history.snapshots.length < 2) {
+        return { isEmpty: true, performanceData: {} };
+    }
 
 
+    const oldestSnapshot = history.snapshots[0];
+    const newestSnapshot = history.snapshots[history.snapshots.length - 1];
+    const timeDiffHours = (newestSnapshot.timestamp - oldestSnapshot.timestamp) / (60 * 60 * 1000);
+
+    const performanceData = {
+        timespan: timeDiffHours.toFixed(1),
+        stocks: {}
+    };
+
+
+    for (const [symbol, latestData] of Object.entries(newestSnapshot.stocks)) {
+
+        if (oldestSnapshot.stocks[symbol]) {
+            const startPrice = oldestSnapshot.stocks[symbol].price;
+            const endPrice = latestData.price;
+            const changePercent = ((endPrice - startPrice) / startPrice) * 100;
+
+            performanceData.stocks[symbol] = {
+                startPrice,
+                endPrice,
+                changePercent,
+            };
+        }
+    }
+
+
+    const sortedSymbols = Object.entries(performanceData.stocks)
+        .sort((a, b) => b[1].changePercent - a[1].changePercent)
+        .map(entry => entry[0]);
+
+    performanceData.topGainers = sortedSymbols.slice(0, 3);
+    performanceData.topLosers = sortedSymbols.reverse().slice(0, 3);
+
+    return { isEmpty: false, performanceData };
+}
 function buyStock(userId, symbol, shares, vipLevel = 0) {
 
     shares = parseInt(shares);
@@ -1075,9 +1159,6 @@ module.exports = {
                     "🔸 .trade market - Xem thông tin thị trường\n" +
                     "🔸 .trade news - Xem tin tức thị trường\n" +
                     "🔸 .trade top - Xem bảng xếp hạng nhà đầu tư\n" +
-                    "🔸 .trade deposit [số tiền] - Nạp tiền vào tài khoản giao dịch\n" +
-                    "🔸 .trade withdraw [số tiền] - Rút tiền về ví\n" +
-                    "🔸 .trade chart [mã] - Xem biểu đồ cổ phiếu\n" +
                     "🔸 .trade history - Xem lịch sử giao dịch",
                     threadID, messageID
                 );
@@ -1088,27 +1169,72 @@ module.exports = {
 
             switch (action) {
                 case "check": {
-                    const { portfolioLines, totalValue, totalProfit, cash, isEmpty } = formatPortfolio(senderID);
-                    const { transactionLines, isEmpty: historyEmpty } = formatHistory(senderID, 3);
-
-                    let message = "📊 DANH MỤC ĐẦU TƯ CỦA BẠN 📊\n━━━━━━━━━━━━━━━━━━\n\n";
-
-                    if (isEmpty) {
-                        message += "❌ Bạn chưa có cổ phiếu nào trong danh mục!\n\n";
-                    } else {
-                        message += portfolioLines.join("\n\n") + "\n\n";
+                    try {
+                     
+                        const marketData = loadMarketData();
+                        const tradeData = loadTradeData();
+                        const userData = tradeData.users[senderID] || initializeUser(senderID);
+                        
+                        const userName = await getName(senderID);
+                        
+                        const canvasPath = await createPortfolioCheckCanvas(userData, marketData, userName);
+                        
+                        const { portfolioLines, totalValue, totalProfit, cash, isEmpty } = formatPortfolio(senderID);
+                        const { transactionLines, isEmpty: historyEmpty } = formatHistory(senderID, 3);
+                        
+                        let message = "📊 DANH MỤC ĐẦU TƯ CỦA BẠN 📊\n━━━━━━━━━━━━━━━━━━\n\n";
+                        
+                        if (isEmpty) {
+                            message += "❌ Bạn chưa có cổ phiếu nào trong danh mục!\n\n";
+                        } else {
+                            message += portfolioLines.join("\n\n") + "\n\n";
+                        }
+                        
+                        message += `💵 Tiền mặt: ${formatCurrency(cash)}$\n`;
+                        message += `💰 Tổng giá trị: ${formatCurrency(cash + totalValue)}$\n`;
+                        message += `${totalProfit >= 0 ? "📈" : "📉"} Lợi nhuận: ${totalProfit >= 0 ? "+" : ""}${formatCurrency(totalProfit)}$\n\n`;
+                        
+                        if (!historyEmpty) {
+                            message += "📝 GIAO DỊCH GẦN ĐÂY\n";
+                            message += transactionLines.join("\n");
+                        }
+                        
+                        return api.sendMessage(
+                            {
+                                body: message,
+                                attachment: fs.createReadStream(canvasPath)
+                            },
+                            threadID,
+                            (err) => {
+                                if (err) console.error(err);
+                                fs.unlinkSync(canvasPath);
+                            }
+                        );
+                    } catch (error) {
+                        console.error('Error creating portfolio canvas:', error);
+                        
+                        const { portfolioLines, totalValue, totalProfit, cash, isEmpty } = formatPortfolio(senderID);
+                        const { transactionLines, isEmpty: historyEmpty } = formatHistory(senderID, 3);
+                        
+                        let message = "📊 DANH MỤC ĐẦU TƯ CỦA BẠN 📊\n━━━━━━━━━━━━━━━━━━\n\n";
+                        
+                        if (isEmpty) {
+                            message += "❌ Bạn chưa có cổ phiếu nào trong danh mục!\n\n";
+                        } else {
+                            message += portfolioLines.join("\n\n") + "\n\n";
+                        }
+                        
+                        message += `💵 Tiền mặt: ${formatCurrency(cash)}$\n`;
+                        message += `💰 Tổng giá trị: ${formatCurrency(cash + totalValue)}$\n`;
+                        message += `${totalProfit >= 0 ? "📈" : "📉"} Lợi nhuận: ${totalProfit >= 0 ? "+" : ""}${formatCurrency(totalProfit)}$\n\n`;
+                        
+                        if (!historyEmpty) {
+                            message += "📝 GIAO DỊCH GẦN ĐÂY\n";
+                            message += transactionLines.join("\n");
+                        }
+                        
+                        return api.sendMessage(message, threadID, messageID);
                     }
-
-                    message += `💵 Tiền mặt: ${formatCurrency(cash)}$\n`;
-                    message += `💰 Tổng giá trị: ${formatCurrency(cash + totalValue)}$\n`;
-                    message += `${totalProfit >= 0 ? "📈" : "📉"} Lợi nhuận: ${totalProfit >= 0 ? "+" : ""}${formatCurrency(totalProfit)}$\n\n`;
-
-                    if (!historyEmpty) {
-                        message += "📝 GIAO DỊCH GẦN ĐÂY\n";
-                        message += transactionLines.join("\n");
-                    }
-
-                    return api.sendMessage(message, threadID, messageID);
                 }
 
                 case "buy": {
@@ -1144,29 +1270,103 @@ module.exports = {
                 }
 
                 case "market": {
-                    const { stockLines, lastUpdate } = formatMarketOverview();
 
-                    let message = "📈 THÔNG TIN THỊ TRƯỜNG 📈\n━━━━━━━━━━━━━━━━━━\n\n";
-                    message += stockLines.join("\n");
-                    message += `\n\n⏱️ Cập nhật: ${lastUpdate}`;
+                    try {
+                        const marketData = loadMarketData();
+                        const canvasPath = await createMarketOverviewCanvas(marketData);
 
-                    return api.sendMessage(message, threadID, messageID);
+                        const stockCount = Object.keys(marketData.stocks).length;
+                        const upTrending = Object.values(marketData.stocks).filter(s => s.trend === "up").length;
+                        const downTrending = Object.values(marketData.stocks).filter(s => s.trend === "down").length;
+
+                        const { isEmpty: noPerformance, performanceData } = get6HourPerformance();
+
+                        let message = `📊 THÔNG TIN THỊ TRƯỜNG 📊\n` +
+                            `━━━━━━━━━━━━━━━━━━\n\n` +
+                            `📈 Cổ phiếu tăng: ${upTrending}\n` +
+                            `📉 Cổ phiếu giảm: ${downTrending}\n` +
+                            `📊 Cổ phiếu ổn định: ${stockCount - upTrending - downTrending}\n` +
+                            `⏱️ Cập nhật: ${new Date(marketData.lastUpdate).toLocaleString()}`;
+
+                        if (!noPerformance) {
+                            message += `\n\n📊 XU HƯỚNG ${performanceData.timespan} GIỜ QUA:\n`;
+
+                            message += "\n📈 TOP TĂNG GIÁ:\n";
+                            for (const symbol of performanceData.topGainers) {
+                                const data = performanceData.stocks[symbol];
+                                message += `${symbol}: ${formatCurrency(data.endPrice)}$ (${data.changePercent.toFixed(2)}%)\n`;
+                            }
+
+                            message += "\n📉 TOP GIẢM GIÁ:\n";
+                            for (const symbol of performanceData.topLosers) {
+                                const data = performanceData.stocks[symbol];
+                                message += `${symbol}: ${formatCurrency(data.endPrice)}$ (${data.changePercent.toFixed(2)}%)\n`;
+                            }
+                        }
+
+                        return api.sendMessage(
+                            {
+                                body: message,
+                                attachment: fs.createReadStream(canvasPath)
+                            },
+                            threadID,
+                            (err) => {
+                                if (err) console.error(err);
+                                fs.unlinkSync(canvasPath);
+                            }
+                        );
+                    } catch (error) {
+                        console.error('Error creating market overview:', error);
+                        return api.sendMessage(
+                            "❌ Có lỗi xảy ra khi tạo biểu đồ thị trường!",
+                            threadID, messageID
+                        );
+                    }
                 }
 
                 case "news": {
-                    const { newsLines, isEmpty } = getRecentNews();
+                  
+                    try {
+                        const newsData = loadNewsData();
+                        const marketData = loadMarketData();
 
-                    let message = "📰 TIN TỨC THỊ TRƯỜNG 📰\n━━━━━━━━━━━━━━━━━━\n\n";
+                        if (!newsData.news || newsData.news.length === 0) {
+                            return api.sendMessage("❌ Chưa có tin tức nào!", threadID, messageID);
+                        }
 
-                    if (isEmpty) {
-                        message += "❌ Chưa có tin tức nào!";
-                    } else {
+                        const canvasPath = await createNewsCanvas(newsData.news, marketData);
+
+                        const { newsLines } = getRecentNews();
+                        let message = "📰 TIN TỨC THỊ TRƯỜNG 📰\n━━━━━━━━━━━━━━━━━━\n\n";
                         message += newsLines.join("\n\n");
+                        message += "\n\nSử dụng .trade market để xem thông tin thị trường";
+
+                        return api.sendMessage(
+                            {
+                                body: message,
+                                attachment: fs.createReadStream(canvasPath)
+                            },
+                            threadID,
+                            (err) => {
+                                if (err) console.error(err);
+                                fs.unlinkSync(canvasPath);
+                            }
+                        );
+                    } catch (error) {
+                        console.error('Error creating news canvas:', error);
+
+                        const { newsLines, isEmpty } = getRecentNews();
+                        let message = "📰 TIN TỨC THỊ TRƯỜNG 📰\n━━━━━━━━━━━━━━━━━━\n\n";
+
+                        if (isEmpty) {
+                            message += "❌ Chưa có tin tức nào!";
+                        } else {
+                            message += newsLines.join("\n\n");
+                        }
+
+                        return api.sendMessage(message, threadID, messageID);
                     }
-
-                    return api.sendMessage(message, threadID, messageID);
                 }
-
                 case "top": {
                     const { traderLines, isEmpty } = getTopTraders();
 
@@ -1179,74 +1379,6 @@ module.exports = {
                     }
 
                     return api.sendMessage(message, threadID, messageID);
-                }
-
-                case "deposit": {
-                    const amount = parseInt(target[1]);
-
-                    if (!amount || isNaN(amount) || amount <= 0) {
-                        return api.sendMessage(
-                            "❌ Vui lòng nhập số tiền hợp lệ!\n.trade deposit [số tiền]",
-                            threadID, messageID
-                        );
-                    }
-
-                    const balance = getBalance(senderID);
-
-                    if (balance < amount) {
-                        return api.sendMessage(
-                            `❌ Số dư không đủ!\n💰 Hiện có: ${formatCurrency(balance)}$`,
-                            threadID, messageID
-                        );
-                    }
-
-                    const tradeData = loadTradeData();
-                    const userData = tradeData.users[senderID] || initializeUser(senderID);
-
-                    userData.cash = (userData.cash || 0) + amount;
-                    saveTradeData(tradeData);
-
-                    updateBalance(senderID, -amount);
-
-                    return api.sendMessage(
-                        `✅ Đã nạp ${formatCurrency(amount)}$ vào tài khoản giao dịch!\n` +
-                        `💰 Số dư tài khoản giao dịch: ${formatCurrency(userData.cash)}$`,
-                        threadID, messageID
-                    );
-                }
-
-                case "withdraw": {
-                    const amount = target[1]?.toLowerCase() === "all"
-                        ? userData.cash || 0
-                        : parseInt(target[1]);
-
-                    if (!amount || isNaN(amount) || amount <= 0) {
-                        return api.sendMessage(
-                            "❌ Vui lòng nhập số tiền hợp lệ!\n.trade withdraw [số tiền/all]",
-                            threadID, messageID
-                        );
-                    }
-
-                    const tradeData = loadTradeData();
-                    const userData = tradeData.users[senderID] || initializeUser(senderID);
-
-                    if (userData.cash < amount) {
-                        return api.sendMessage(
-                            `❌ Số dư không đủ!\n💰 Hiện có trong tài khoản giao dịch: ${formatCurrency(userData.cash)}$`,
-                            threadID, messageID
-                        );
-                    }
-
-                    userData.cash -= amount;
-                    saveTradeData(tradeData);
-
-                    updateBalance(senderID, amount);
-
-                    return api.sendMessage(
-                        `✅ Đã rút ${formatCurrency(amount)}$ về ví!\n` +
-                        `💰 Số dư tài khoản giao dịch: ${formatCurrency(userData.cash)}$`,
-                        threadID, messageID
-                    );
                 }
 
                 case "history": {
@@ -1262,56 +1394,6 @@ module.exports = {
 
                     return api.sendMessage(message, threadID, messageID);
                 }
-
-                case "chart": {
-                    const symbol = target[1]?.toUpperCase();
-
-                    if (!symbol) {
-                        return api.sendMessage(
-                            "❌ Vui lòng nhập mã cổ phiếu!\n.trade chart [mã cổ phiếu]",
-                            threadID, messageID
-                        );
-                    }
-
-                    const marketData = loadMarketData();
-                    const stock = marketData.stocks[symbol];
-
-                    if (!stock) {
-                        return api.sendMessage(
-                            `❌ Không tìm thấy mã cổ phiếu ${symbol}!`,
-                            threadID, messageID
-                        );
-                    }
-
-                    api.sendMessage("⏳ Đang tạo biểu đồ...", threadID, messageID);
-
-                    try {
-                        const chartPath = await createStockChartCanvas(symbol);
-
-                        return api.sendMessage(
-                            {
-                                body: `📊 BIỂU ĐỒ ${stock.name} (${symbol}) 📊\n` +
-                                    `💵 Giá hiện tại: ${formatCurrency(stock.price)}$\n` +
-                                    `📈 Xu hướng: ${stock.trend === "up" ? "Tăng" : stock.trend === "down" ? "Giảm" : "Ổn định"}\n` +
-                                    `🔄 Biến động: ${stock.volatility === "high" ? "Cao" : stock.volatility === "medium" ? "Trung bình" : "Thấp"}`,
-                                attachment: fs.createReadStream(chartPath)
-                            },
-                            threadID,
-                            (err) => {
-                                if (err) console.error(err);
-
-                                fs.unlinkSync(chartPath);
-                            }
-                        );
-                    } catch (error) {
-                        console.error('Error creating chart:', error);
-                        return api.sendMessage(
-                            "❌ Có lỗi xảy ra khi tạo biểu đồ!",
-                            threadID, messageID
-                        );
-                    }
-                }
-
                 default:
                     return api.sendMessage(
                         "❌ Lệnh không hợp lệ! Sử dụng .trade help để xem hướng dẫn.",
