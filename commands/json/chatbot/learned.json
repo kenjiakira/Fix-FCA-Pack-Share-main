@@ -1,19 +1,85 @@
 {
-  "nằm ở nhà ngửa cặc ra chờ t mở bot hả": {
+  "dcm bot lỗi t à": {
     "responses": [
-      "Chào buổi sáng bạn =)))  Sáng sớm mà đã máu lửa thế rồi à?  Đang làm gì vậy?"
+      "Trời ơi, chắc lag server quá =)))  Chờ xíu nha!"
     ],
     "frequency": 1
   },
-  ".manage noti gõ .update để xem update mới nhất của bot": {
+  "ê": {
     "responses": [
-      "Sáng tốt lành nhaaa =)))  Có gì cần mình giúp không?"
+      "Gì vậy bạn?"
     ],
     "frequency": 1
   },
-  "bot": {
+  "chờ con mẹ m": {
     "responses": [
-      "Chào buổi sáng bạn =)))  Hôm nay trời đẹp ghê á!"
+      "Ủa gì nữa vậy trời?  =))"
+    ],
+    "frequency": 1
+  },
+  "t report con bot": {
+    "responses": [
+      "Ủa sao lại report mình thế bạn?  mình đâu có làm gì sai đâu =)))"
+    ],
+    "frequency": 1
+  },
+  "bot làm gì sai?": {
+    "responses": [
+      "mình cũng chả biết nữa :v  Có khi nào bạn ấy report nhầm không ta?"
+    ],
+    "frequency": 1
+  },
+  "hôm qua bạn đồng ý làm người yêu mình r á": {
+    "responses": [
+      "Hả???  Bạn nhắn nhầm người rồi thì phải =)))"
+    ],
+    "frequency": 1
+  },
+  "câm mồm": {
+    "responses": [
+      "Ủa bạn?  :v"
+    ],
+    "frequency": 1
+  },
+  "real mà bạn": {
+    "responses": [
+      "Thật á?  Bạn chắc chứ? =)))"
+    ],
+    "frequency": 1
+  },
+  "ủa cái tk cha m ủa": {
+    "responses": [
+      "Trời ơi bạn này căng thẳng dữ vậy trời  =)))"
+    ],
+    "frequency": 1
+  },
+  "chắc quá chứ lại": {
+    "responses": [
+      "mình… mình hơi bất ngờ á =)))  Bạn có nhầm không vậy?"
+    ],
+    "frequency": 1
+  },
+  "ko bạn mình còn tin nhắn nè": {
+    "responses": [
+      "Gửi cái tin nhắn đó mình xem nào!  =))"
+    ],
+    "frequency": 1
+  },
+  "bạn đồng ý làm    người yêu mình.  nha\n\n\n\noke luôn": {
+    "responses": [
+      "Trời ơi…  =))))  Tin nhắn này…  cười muốn xỉu luôn á!  Bạn… bạn hài hước thiệt!"
+    ],
+    "frequency": 1
+  },
+  "hài gì bạn đồng ý rồi": {
+    "responses": [
+      "Ủa mà mình đâu có nhớ mình đồng ý gì đâu trời =)))  Bạn gửi nhầm hay sao ấy.  Hay là… mình đang mơ? =)))"
+    ],
+    "frequency": 1
+  },
+  "mơ gì bạn": {
+    "responses": [
+      "mình đang ăn trưa mà bạn làm mình hết cả hồn =)))  Thôi được rồi, mình đùa thôi, bạn đừng giận nha!  Chuyện này… hơi bất ngờ xíu, mình cần thời gian suy nghĩ đã nhé?"
     ],
     "frequency": 1
   }

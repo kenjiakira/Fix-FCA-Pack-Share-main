@@ -590,7 +590,6 @@ async function drawAvatar(ctx, senderID, level) {
         }
     }
 }
-
 function drawVIPLabel(ctx, x, y, text, colors) {
     const textWidth = ctx.measureText(text).width;
     const padding = 15;
@@ -617,6 +616,14 @@ function drawVIPLabel(ctx, x, y, text, colors) {
     ctx.strokeStyle = colors.outer;
     ctx.lineWidth = 3;  // Tăng từ 2 lên 3
     ctx.stroke();
+    
+    // Tạo highlight gradient cho hiệu ứng ánh sáng
+    const highlight = ctx.createLinearGradient(
+        x - textWidth/2 - padding + 2, y - 15 + 2,
+        x - textWidth/2 - padding + 2, y - 15 + 14
+    );
+    highlight.addColorStop(0, 'rgba(255, 255, 255, 0.7)');
+    highlight.addColorStop(1, 'rgba(255, 255, 255, 0.1)');
     
     // Viền trong với hiệu ứng ánh sáng
     ctx.strokeStyle = 'rgba(255, 255, 255, 0.9)';  // Tăng độ đậm từ 0.8 lên 0.9
@@ -655,7 +662,6 @@ function createConicalGradient(x, y, startAngle) {
             const stops = gradient._stops.sort((a, b) => a.offset - b.offset);
             const segmentCount = 360;
             
-            // Kiểm tra nếu không có color stops nào
             if (stops.length === 0) {
                 console.warn("Không có color stops nào cho conical gradient");
                 return;
@@ -665,7 +671,6 @@ function createConicalGradient(x, y, startAngle) {
                 const angle = (i / segmentCount) * Math.PI * 2;
                 const angleOffset = (i / segmentCount);
                 
-                // Tìm màu tương ứng
                 let color = stops[0].color;
                 for (let j = 0; j < stops.length - 1; j++) {
                     if (angleOffset >= stops[j].offset && angleOffset <= stops[j+1].offset) {
@@ -708,7 +713,6 @@ async function createRankCard(senderID, name, currentExp, level, rank, outputPat
             const bgImage = await loadImage(Buffer.from(response.data));
             ctx.drawImage(bgImage, 0, 0, width, height);
             
-            // Thêm lớp overlay để làm nổi bật thông tin người dùng
             const overlay = ctx.createLinearGradient(0, 0, width, 0);
             overlay.addColorStop(0, 'rgba(0, 0, 0, 0.7)');
             overlay.addColorStop(1, 'rgba(0, 0, 0, 0.3)');

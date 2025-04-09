@@ -127004,5 +127004,185 @@
       "def": 92,
       "hp": 542
     }
+  },
+  "CHAR_969231990": {
+    "type": "character",
+    "name": "Gorou",
+    "obtainedAt": 1744173674769,
+    "value": 280,
+    "level": 1,
+    "exp": 0,
+    "stats": {
+      "atk": 101,
+      "def": 93,
+      "hp": 535
+    }
+  },
+  "FRAGMENT_ELECTRO_505599108": {
+    "type": "fragment",
+    "stoneType": "ELECTRO",
+    "name": "AmethystFragment",
+    "element": "Electro",
+    "emoji": "⚡",
+    "description": "Electro evolution fragment",
+    "image": "https://imgur.com/JxRxK1i.png",
+    "obtainedAt": 1744173938197,
+    "value": 2500,
+    "isFragment": true
+  },
+  "CHAR_424441407": {
+    "type": "character",
+    "name": "Amber",
+    "obtainedAt": 1744174100478,
+    "value": 349,
+    "level": 1,
+    "exp": 0,
+    "stats": {
+      "atk": 92,
+      "def": 93,
+      "hp": 460
+    }
+  },
+  "EXP_WANDERERS_ADVICE_456647711": {
+    "type": "EXP",
+    "name": "Wanderers Advice",
+    "expValue": 500,
+    "description": "Simple advice from a traveler Grants a small amount of EXP",
+    "image": "https://imgur.com/GSSFx9L.png",
+    "rarity": "2",
+    "value": 500,
+    "obtainedAt": 1744174152505
+  },
+  "FRAGMENT_HYDRO_730140788": {
+    "type": "fragment",
+    "stoneType": "HYDRO",
+    "name": "LazuriteFragment",
+    "element": "Hydro",
+    "emoji": "💧",
+    "description": "Hydro evolution fragment",
+    "image": "https://imgur.com/xUQZRMt.png",
+    "obtainedAt": 1744174220536,
+    "value": 2500,
+    "isFragment": true
+  },
+  "CHAR_780616676": {
+    "type": "character",
+    "name": "Lisa",
+    "obtainedAt": 1744174292350,
+    "value": 125,
+    "level": 1,
+    "exp": 0,
+    "stats": {
+      "atk": 95,
+      "def": 102,
+      "hp": 484
+    }
+  },
+  "CHAR_156611894": {
+    "type": "character",
+    "name": "Kaeya",
+    "obtainedAt": 1744174377445,
+    "value": 565,
+    "level": 1,
+    "exp": 0,
+    "stats": {
+      "atk": 99,
+      "def": 108,
+      "hp": 450
+    }
+  },
+  "CHAR_588984177": {
+    "type": "character",
+    "name": "Serval",
+    "obtainedAt": 1744174483474,
+    "value": 503,
+    "level": 1,
+    "exp": 0,
+    "stats": {
+      "atk": 93,
+      "def": 93,
+      "hp": 488
+    }
+  },
+  "CHAR_576290407": {
+    "type": "character",
+    "name": "candace",
+    "obtainedAt": 1744174532039,
+    "value": 49081,
+    "level": 1,
+    "exp": 0,
+    "stats": {
+      "atk": 326,
+      "def": 294,
+      "hp": 1009
+    }
+  },
+  "CHAR_591270306": {
+    "type": "character",
+    "name": "Kaeya",
+    "obtainedAt": 1744174582544,
+    "value": 747,
+    "level": 1,
+    "exp": 0,
+    "stats": {
+      "atk": 91,
+      "def": 99,
+      "hp": 477
+    }
+  },
+  "CHAR_981931759": {
+    "type": "character",
+    "name": "Serval",
+    "obtainedAt": 1744174660228,
+    "value": 515,
+    "level": 1,
+    "exp": 0,
+    "stats": {
+      "atk": 109,
+      "def": 90,
+      "hp": 547
+    }
+  },
+  "CHAR_721181984": {
+    "type": "character",
+    "name": "Luka",
+    "obtainedAt": 1744174752090,
+    "value": 494,
+    "level": 1,
+    "exp": 0,
+    "stats": {
+      "atk": 109,
+      "def": 101,
+      "hp": 542
+    }
+  },
+  "CHAR_394677700": {
+    "type": "character",
+    "name": "Diona",
+    "obtainedAt": 1744175085957,
+    "value": 581,
+    "level": 1,
+    "exp": 0,
+    "stats": {
+      "atk": 103,
+      "def": 96,
+      "hp": 474
+    }
+  },
+  "CHAR_549561093": {
+    "type": "character",
+    "name": "Xingqiu",
+    "obtainedAt": 1744175227093,
+    "starLevel": 6,
+    "level": 1,
+    "exp": 0,
+    "isMaxEvolved": false,
+    "isEvolved": true,
+    "value": 300000,
+    "stats": {
+      "atk": 634,
+      "def": 626,
+      "hp": 2148
+    }
   }
 }

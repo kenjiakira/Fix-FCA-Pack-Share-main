@@ -1,16 +1,656 @@
 {
   "users": {
-    "100083810402652": {
+    "100094519976306": {
       "personal": [],
       "facts": [],
       "preferences": [],
       "interactions": [
         {
-          "content": "User nói: nằm ở nhà ngửa cặc ra chờ t mở bot hả\nTôi trả lời: Chào buổi sáng bạn =)))  Sáng sớm mà đã máu lửa thế rồi à?  Đang làm gì vậy?",
-          "timestamp": 1744166300405,
+          "content": "Gia Huy  nói: Chờ con mẹ m\nTôi trả lời: Ủa gì nữa vậy trời?  =))",
+          "timestamp": 1744175302601,
           "priority": 1,
           "accessCount": 0,
-          "lastAccess": 1744166300405,
+          "lastAccess": 1744175302601,
+          "metadata": {
+            "sentiment": {
+              "score": 0,
+              "rawScore": 0,
+              "sentiment": "neutral",
+              "confidence": 0.5,
+              "emotions": [],
+              "negationCount": 0,
+              "intensityFactors": [],
+              "primaryEmotion": "neutral"
+            },
+            "topics": [
+              "PERSONAL"
+            ],
+            "entities": {}
+          }
+        }
+      ],
+      "emotions": [],
+      "names": [],
+      "relationships": {},
+      "context": {
+        "lastTopics": [],
+        "importantDates": {},
+        "recentMentions": {},
+        "conversationFlow": []
+      },
+      "topics": {},
+      "undefined": [
+        {
+          "content": "Xưng hô: mình/bạn",
+          "timestamp": 1744175290175,
+          "priority": 2,
+          "accessCount": 1,
+          "lastAccess": 1744175302031,
+          "metadata": {
+            "sentiment": {
+              "score": 0,
+              "rawScore": 0,
+              "sentiment": "neutral",
+              "confidence": 0.5,
+              "emotions": [],
+              "negationCount": 0,
+              "intensityFactors": [],
+              "primaryEmotion": "neutral"
+            },
+            "topics": [
+              "PERSONAL"
+            ],
+            "entities": {}
+          }
+        },
+        {
+          "content": "Xưng hô: mình/bạn",
+          "timestamp": 1744175302032,
+          "priority": 2,
+          "accessCount": 0,
+          "lastAccess": 1744175302032,
+          "metadata": {
+            "sentiment": {
+              "score": 0,
+              "rawScore": 0,
+              "sentiment": "neutral",
+              "confidence": 0.5,
+              "emotions": [],
+              "negationCount": 0,
+              "intensityFactors": [],
+              "primaryEmotion": "neutral"
+            },
+            "topics": [
+              "PERSONAL"
+            ],
+            "entities": {}
+          }
+        }
+      ]
+    },
+    "61572741620248": {
+      "personal": [],
+      "facts": [],
+      "preferences": [],
+      "interactions": [
+        {
+          "content": "Người dùng nói: hôm qua bạn đồng ý làm người yêu mình r á\nTôi trả lời: Hả???  Bạn nhắn nhầm người rồi thì phải =)))",
+          "timestamp": 1744175324055,
+          "priority": 1,
+          "accessCount": 6,
+          "lastAccess": 1744175491457,
+          "metadata": {
+            "sentiment": {
+              "score": 0,
+              "rawScore": 0,
+              "sentiment": "neutral",
+              "confidence": 0.5,
+              "emotions": [],
+              "negationCount": 0,
+              "intensityFactors": [],
+              "primaryEmotion": "neutral"
+            },
+            "topics": [
+              "PERSONAL",
+              "WORK",
+              "RELATIONSHIP"
+            ],
+            "entities": {}
+          }
+        },
+        {
+          "content": "Người dùng nói: ê\nTôi trả lời: Gì vậy bạn?",
+          "timestamp": 1744175298664,
+          "priority": 1,
+          "accessCount": 7,
+          "lastAccess": 1744175491457,
+          "metadata": {
+            "sentiment": {
+              "score": 0,
+              "rawScore": 0,
+              "sentiment": "neutral",
+              "confidence": 0.5,
+              "emotions": [],
+              "negationCount": 0,
+              "intensityFactors": [],
+              "primaryEmotion": "neutral"
+            },
+            "topics": [
+              "PERSONAL"
+            ],
+            "entities": {}
+          }
+        },
+        {
+          "content": "Người dùng nói: real mà bạn\nTôi trả lời: Thật á?  Bạn chắc chứ? =)))",
+          "timestamp": 1744175335612,
+          "priority": 1,
+          "accessCount": 5,
+          "lastAccess": 1744175491457,
+          "metadata": {
+            "sentiment": {
+              "score": 0,
+              "rawScore": 0,
+              "sentiment": "neutral",
+              "confidence": 0.5,
+              "emotions": [],
+              "negationCount": 0,
+              "intensityFactors": [],
+              "primaryEmotion": "neutral"
+            },
+            "topics": [
+              "PERSONAL"
+            ],
+            "entities": {}
+          }
+        },
+        {
+          "content": "Người dùng nói: bạn đồng ý làm    người yêu mình.  nha\n\n\n\noke luôn\nTôi trả lời: Trời ơi…  =))))  Tin nhắn này…  cười muốn xỉu luôn á!  Bạn… bạn hài hước thiệt!",
+          "timestamp": 1744175460882,
+          "priority": 1,
+          "accessCount": 2,
+          "lastAccess": 1744175491457,
+          "metadata": {
+            "sentiment": {
+              "score": 0,
+              "rawScore": 0,
+              "sentiment": "neutral",
+              "confidence": 0.5,
+              "emotions": [],
+              "negationCount": 0,
+              "intensityFactors": [],
+              "primaryEmotion": "neutral"
+            },
+            "topics": [
+              "PERSONAL",
+              "WORK",
+              "RELATIONSHIP"
+            ],
+            "entities": {}
+          }
+        },
+        {
+          "content": "Người dùng nói: chắc quá chứ lại\nTôi trả lời: mình… mình hơi bất ngờ á =)))  Bạn có nhầm không vậy?",
+          "timestamp": 1744175350081,
+          "priority": 1,
+          "accessCount": 4,
+          "lastAccess": 1744175491457,
+          "metadata": {
+            "sentiment": {
+              "score": 0,
+              "rawScore": 0,
+              "sentiment": "neutral",
+              "confidence": 0.5,
+              "emotions": [],
+              "negationCount": 0,
+              "intensityFactors": [],
+              "primaryEmotion": "neutral"
+            },
+            "topics": [
+              "PERSONAL"
+            ],
+            "entities": {}
+          }
+        },
+        {
+          "content": "Người dùng nói: ko bạn mình còn tin nhắn nè\nTôi trả lời: Gửi cái tin nhắn đó mình xem nào!  =))",
+          "timestamp": 1744175370730,
+          "priority": 1,
+          "accessCount": 3,
+          "lastAccess": 1744175491457,
+          "metadata": {
+            "sentiment": {
+              "score": 0,
+              "rawScore": 0,
+              "sentiment": "neutral",
+              "confidence": 0.5,
+              "emotions": [],
+              "negationCount": 0,
+              "intensityFactors": [],
+              "primaryEmotion": "neutral"
+            },
+            "topics": [
+              "PERSONAL"
+            ],
+            "entities": {}
+          }
+        },
+        {
+          "content": "Người dùng nói: hài gì bạn đồng ý rồi\nTôi trả lời: Ủa mà mình đâu có nhớ mình đồng ý gì đâu trời =)))  Bạn gửi nhầm hay sao ấy.  Hay là… mình đang mơ? =)))",
+          "timestamp": 1744175479356,
+          "priority": 1,
+          "accessCount": 1,
+          "lastAccess": 1744175491457,
+          "metadata": {
+            "sentiment": {
+              "score": 0.2,
+              "rawScore": 0,
+              "sentiment": "neutral",
+              "confidence": 0.5,
+              "emotions": [],
+              "negationCount": 0,
+              "intensityFactors": [],
+              "primaryEmotion": "neutral"
+            },
+            "topics": [
+              "PERSONAL"
+            ],
+            "entities": {}
+          }
+        },
+        {
+          "content": "Người dùng nói: mơ gì bạn\nTôi trả lời: mình đang ăn trưa mà bạn làm mình hết cả hồn =)))  Thôi được rồi, mình đùa thôi, bạn đừng giận nha!  Chuyện này… hơi bất ngờ xíu, mình cần thời gian suy nghĩ đã nhé?",
+          "timestamp": 1744175492414,
+          "priority": 1,
+          "accessCount": 0,
+          "lastAccess": 1744175492414,
+          "metadata": {
+            "sentiment": {
+              "score": 0,
+              "rawScore": 0,
+              "sentiment": "neutral",
+              "confidence": 0.5,
+              "emotions": [],
+              "negationCount": 0,
+              "intensityFactors": [],
+              "primaryEmotion": "neutral"
+            },
+            "topics": [
+              "PERSONAL",
+              "WORK",
+              "FOOD"
+            ],
+            "entities": {}
+          }
+        }
+      ],
+      "emotions": [],
+      "names": [],
+      "relationships": {},
+      "context": {
+        "lastTopics": [],
+        "importantDates": {},
+        "recentMentions": {},
+        "conversationFlow": []
+      },
+      "topics": {},
+      "undefined": [
+        {
+          "content": "Xưng hô: mình/bạn",
+          "timestamp": 1744175298038,
+          "priority": 2,
+          "accessCount": 7,
+          "lastAccess": 1744175491457,
+          "metadata": {
+            "sentiment": {
+              "score": 0,
+              "rawScore": 0,
+              "sentiment": "neutral",
+              "confidence": 0.5,
+              "emotions": [],
+              "negationCount": 0,
+              "intensityFactors": [],
+              "primaryEmotion": "neutral"
+            },
+            "topics": [
+              "PERSONAL"
+            ],
+            "entities": {}
+          }
+        },
+        {
+          "content": "Xưng hô: mình/bạn",
+          "timestamp": 1744175323421,
+          "priority": 2,
+          "accessCount": 6,
+          "lastAccess": 1744175491457,
+          "metadata": {
+            "sentiment": {
+              "score": 0,
+              "rawScore": 0,
+              "sentiment": "neutral",
+              "confidence": 0.5,
+              "emotions": [],
+              "negationCount": 0,
+              "intensityFactors": [],
+              "primaryEmotion": "neutral"
+            },
+            "topics": [
+              "PERSONAL"
+            ],
+            "entities": {}
+          }
+        },
+        {
+          "content": "Xưng hô: mình/bạn",
+          "timestamp": 1744175335017,
+          "priority": 2,
+          "accessCount": 5,
+          "lastAccess": 1744175491457,
+          "metadata": {
+            "sentiment": {
+              "score": 0,
+              "rawScore": 0,
+              "sentiment": "neutral",
+              "confidence": 0.5,
+              "emotions": [],
+              "negationCount": 0,
+              "intensityFactors": [],
+              "primaryEmotion": "neutral"
+            },
+            "topics": [
+              "PERSONAL"
+            ],
+            "entities": {}
+          }
+        },
+        {
+          "content": "Xưng hô: mình/bạn",
+          "timestamp": 1744175349490,
+          "priority": 2,
+          "accessCount": 4,
+          "lastAccess": 1744175491457,
+          "metadata": {
+            "sentiment": {
+              "score": 0,
+              "rawScore": 0,
+              "sentiment": "neutral",
+              "confidence": 0.5,
+              "emotions": [],
+              "negationCount": 0,
+              "intensityFactors": [],
+              "primaryEmotion": "neutral"
+            },
+            "topics": [
+              "PERSONAL"
+            ],
+            "entities": {}
+          }
+        },
+        {
+          "content": "Xưng hô: mình/bạn",
+          "timestamp": 1744175370073,
+          "priority": 2,
+          "accessCount": 3,
+          "lastAccess": 1744175491457,
+          "metadata": {
+            "sentiment": {
+              "score": 0,
+              "rawScore": 0,
+              "sentiment": "neutral",
+              "confidence": 0.5,
+              "emotions": [],
+              "negationCount": 0,
+              "intensityFactors": [],
+              "primaryEmotion": "neutral"
+            },
+            "topics": [
+              "PERSONAL"
+            ],
+            "entities": {}
+          }
+        },
+        {
+          "content": "Xưng hô: mình/bạn",
+          "timestamp": 1744175459966,
+          "priority": 2,
+          "accessCount": 2,
+          "lastAccess": 1744175491457,
+          "metadata": {
+            "sentiment": {
+              "score": 0,
+              "rawScore": 0,
+              "sentiment": "neutral",
+              "confidence": 0.5,
+              "emotions": [],
+              "negationCount": 0,
+              "intensityFactors": [],
+              "primaryEmotion": "neutral"
+            },
+            "topics": [
+              "PERSONAL"
+            ],
+            "entities": {}
+          }
+        },
+        {
+          "content": "Xưng hô: mình/bạn",
+          "timestamp": 1744175478501,
+          "priority": 2,
+          "accessCount": 1,
+          "lastAccess": 1744175491457,
+          "metadata": {
+            "sentiment": {
+              "score": 0,
+              "rawScore": 0,
+              "sentiment": "neutral",
+              "confidence": 0.5,
+              "emotions": [],
+              "negationCount": 0,
+              "intensityFactors": [],
+              "primaryEmotion": "neutral"
+            },
+            "topics": [
+              "PERSONAL"
+            ],
+            "entities": {}
+          }
+        },
+        {
+          "content": "Xưng hô: mình/bạn",
+          "timestamp": 1744175491457,
+          "priority": 2,
+          "accessCount": 0,
+          "lastAccess": 1744175491457,
+          "metadata": {
+            "sentiment": {
+              "score": 0,
+              "rawScore": 0,
+              "sentiment": "neutral",
+              "confidence": 0.5,
+              "emotions": [],
+              "negationCount": 0,
+              "intensityFactors": [],
+              "primaryEmotion": "neutral"
+            },
+            "topics": [
+              "PERSONAL"
+            ],
+            "entities": {}
+          }
+        }
+      ]
+    },
+    "61558946907944": {
+      "personal": [],
+      "facts": [],
+      "preferences": [],
+      "interactions": [
+        {
+          "content": "Yu Ki nói: t report con bot\nTôi trả lời: Ủa sao lại report mình thế bạn?  mình đâu có làm gì sai đâu =)))",
+          "timestamp": 1744175308117,
+          "priority": 1,
+          "accessCount": 2,
+          "lastAccess": 1744175346936,
+          "metadata": {
+            "sentiment": {
+              "score": 0,
+              "rawScore": 0,
+              "sentiment": "neutral",
+              "confidence": 0.5,
+              "emotions": [],
+              "negationCount": 0,
+              "intensityFactors": [],
+              "primaryEmotion": "neutral"
+            },
+            "topics": [
+              "PERSONAL",
+              "WORK"
+            ],
+            "entities": {}
+          }
+        },
+        {
+          "content": "Yu Ki nói: câm mồm\nTôi trả lời: Ủa bạn?  :v",
+          "timestamp": 1744175333519,
+          "priority": 1,
+          "accessCount": 1,
+          "lastAccess": 1744175346936,
+          "metadata": {
+            "sentiment": {
+              "score": 0,
+              "rawScore": 0,
+              "sentiment": "neutral",
+              "confidence": 0.5,
+              "emotions": [],
+              "negationCount": 0,
+              "intensityFactors": [],
+              "primaryEmotion": "neutral"
+            },
+            "topics": [
+              "PERSONAL"
+            ],
+            "entities": {}
+          }
+        },
+        {
+          "content": "Yu Ki nói: ủa cái tk cha m ủa\nTôi trả lời: Trời ơi bạn này căng thẳng dữ vậy trời  =)))",
+          "timestamp": 1744175347686,
+          "priority": 1,
+          "accessCount": 0,
+          "lastAccess": 1744175347686,
+          "metadata": {
+            "sentiment": {
+              "score": 0,
+              "rawScore": 0,
+              "sentiment": "neutral",
+              "confidence": 0.5,
+              "emotions": [],
+              "negationCount": 0,
+              "intensityFactors": [],
+              "primaryEmotion": "neutral"
+            },
+            "topics": [
+              "PERSONAL",
+              "FOOD"
+            ],
+            "entities": {}
+          }
+        }
+      ],
+      "emotions": [],
+      "names": [],
+      "relationships": {},
+      "context": {
+        "lastTopics": [],
+        "importantDates": {},
+        "recentMentions": {},
+        "conversationFlow": []
+      },
+      "topics": {},
+      "undefined": [
+        {
+          "content": "Xưng hô: mình/bạn",
+          "timestamp": 1744175307385,
+          "priority": 2,
+          "accessCount": 2,
+          "lastAccess": 1744175346936,
+          "metadata": {
+            "sentiment": {
+              "score": 0,
+              "rawScore": 0,
+              "sentiment": "neutral",
+              "confidence": 0.5,
+              "emotions": [],
+              "negationCount": 0,
+              "intensityFactors": [],
+              "primaryEmotion": "neutral"
+            },
+            "topics": [
+              "PERSONAL"
+            ],
+            "entities": {}
+          }
+        },
+        {
+          "content": "Xưng hô: mình/bạn",
+          "timestamp": 1744175332866,
+          "priority": 2,
+          "accessCount": 1,
+          "lastAccess": 1744175346936,
+          "metadata": {
+            "sentiment": {
+              "score": 0,
+              "rawScore": 0,
+              "sentiment": "neutral",
+              "confidence": 0.5,
+              "emotions": [],
+              "negationCount": 0,
+              "intensityFactors": [],
+              "primaryEmotion": "neutral"
+            },
+            "topics": [
+              "PERSONAL"
+            ],
+            "entities": {}
+          }
+        },
+        {
+          "content": "Xưng hô: mình/bạn",
+          "timestamp": 1744175346936,
+          "priority": 2,
+          "accessCount": 0,
+          "lastAccess": 1744175346936,
+          "metadata": {
+            "sentiment": {
+              "score": 0,
+              "rawScore": 0,
+              "sentiment": "neutral",
+              "confidence": 0.5,
+              "emotions": [],
+              "negationCount": 0,
+              "intensityFactors": [],
+              "primaryEmotion": "neutral"
+            },
+            "topics": [
+              "PERSONAL"
+            ],
+            "entities": {}
+          }
+        }
+      ]
+    },
+    "100056955484415": {
+      "personal": [],
+      "facts": [],
+      "preferences": [],
+      "interactions": [
+        {
+          "content": "Kenji Akira nói: bot làm gì sai?\nTôi trả lời: mình cũng chả biết nữa :v  Có khi nào bạn ấy report nhầm không ta?",
+          "timestamp": 1744175323249,
+          "priority": 1,
+          "accessCount": 0,
+          "lastAccess": 1744175323249,
           "metadata": {
             "sentiment": {
               "score": 0,
@@ -43,140 +683,10 @@
       "undefined": [
         {
           "content": "Xưng hô: mình/bạn",
-          "timestamp": 1744166293231,
+          "timestamp": 1744175321584,
           "priority": 2,
           "accessCount": 0,
-          "lastAccess": 1744166293237,
-          "metadata": {
-            "sentiment": {
-              "score": 0,
-              "rawScore": 0,
-              "sentiment": "neutral",
-              "confidence": 0.5,
-              "emotions": [],
-              "negationCount": 0,
-              "intensityFactors": [],
-              "primaryEmotion": "neutral"
-            },
-            "topics": [
-              "PERSONAL"
-            ],
-            "entities": {}
-          }
-        }
-      ]
-    },
-    "100056955484415": {
-      "personal": [],
-      "facts": [],
-      "preferences": [],
-      "interactions": [
-        {
-          "content": "Kenji Akira nói: .manage noti gõ .Update để xem Update mới nhất của bot\nTôi trả lời: Sáng tốt lành nhaaa =)))  Có gì cần mình giúp không?",
-          "timestamp": 1744166371726,
-          "priority": 1,
-          "accessCount": 0,
-          "lastAccess": 1744166371726,
-          "metadata": {
-            "sentiment": {
-              "score": 0,
-              "rawScore": 0,
-              "sentiment": "neutral",
-              "confidence": 0.5,
-              "emotions": [],
-              "negationCount": 0,
-              "intensityFactors": [],
-              "primaryEmotion": "neutral"
-            },
-            "topics": [
-              "PERSONAL"
-            ],
-            "entities": {}
-          }
-        }
-      ],
-      "emotions": [],
-      "names": [],
-      "relationships": {},
-      "context": {
-        "lastTopics": [],
-        "importantDates": {},
-        "recentMentions": {},
-        "conversationFlow": []
-      },
-      "topics": {},
-      "undefined": [
-        {
-          "content": "Xưng hô: mình/bạn",
-          "timestamp": 1744166370078,
-          "priority": 2,
-          "accessCount": 0,
-          "lastAccess": 1744166370078,
-          "metadata": {
-            "sentiment": {
-              "score": 0,
-              "rawScore": 0,
-              "sentiment": "neutral",
-              "confidence": 0.5,
-              "emotions": [],
-              "negationCount": 0,
-              "intensityFactors": [],
-              "primaryEmotion": "neutral"
-            },
-            "topics": [
-              "PERSONAL"
-            ],
-            "entities": {}
-          }
-        }
-      ]
-    },
-    "100079828954790": {
-      "personal": [],
-      "facts": [],
-      "preferences": [],
-      "interactions": [
-        {
-          "content": "Hu Hi nói: Bot\nTôi trả lời: Chào buổi sáng bạn =)))  Hôm nay trời đẹp ghê á!",
-          "timestamp": 1744166880611,
-          "priority": 1,
-          "accessCount": 0,
-          "lastAccess": 1744166880611,
-          "metadata": {
-            "sentiment": {
-              "score": 0,
-              "rawScore": 0,
-              "sentiment": "neutral",
-              "confidence": 0.5,
-              "emotions": [],
-              "negationCount": 0,
-              "intensityFactors": [],
-              "primaryEmotion": "neutral"
-            },
-            "topics": [
-              "PERSONAL"
-            ],
-            "entities": {}
-          }
-        }
-      ],
-      "emotions": [],
-      "names": [],
-      "relationships": {},
-      "context": {
-        "lastTopics": [],
-        "importantDates": {},
-        "recentMentions": {},
-        "conversationFlow": []
-      },
-      "topics": {},
-      "undefined": [
-        {
-          "content": "Xưng hô: mình/bạn",
-          "timestamp": 1744166879793,
-          "priority": 2,
-          "accessCount": 0,
-          "lastAccess": 1744166879793,
+          "lastAccess": 1744175321584,
           "metadata": {
             "sentiment": {
               "score": 0,
@@ -210,11 +720,20 @@
     "voice": {}
   },
   "stats": {
-    "totalInteractions": 6,
+    "totalInteractions": 28,
     "uniqueUsers": {},
     "topTopics": {},
     "responseTime": [],
-    "accuracy": []
+    "accuracy": [
+      {
+        "timestamp": 1744175290979,
+        "memoryCount": 4
+      },
+      {
+        "timestamp": 1744175324060,
+        "memoryCount": 7
+      }
+    ]
   },
   "compression": {
     "enabled": true,

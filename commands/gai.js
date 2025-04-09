@@ -10,7 +10,7 @@ module.exports = {
     onPrefix: true,
     dev: "HNT",
     cooldowns: 10,
-
+    nsfw: true,
     config: {
         apiUrl: "https://api-gai-xinh.vercel.app/getRandomImage",
         timeout: 15000,  
