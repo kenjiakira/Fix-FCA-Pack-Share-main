@@ -3,7 +3,7 @@ const fs = require('fs');
 const path = require('path');
 const { updateTransaction } = require('./banking'); 
 const { createTransactionBill } = require('../game/canvas/transactionBill');
-const vipService = require('../game/vip/vipService'); // Add this import
+const vipService = require('../game/vip/vipService'); 
 
 const transactionsPath = path.join(__dirname, '../commands/json/transactions.json');
 const userDataPath = path.join(__dirname, '../events/cache/userData.json');

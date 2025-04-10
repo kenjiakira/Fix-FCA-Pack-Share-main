@@ -346,8 +346,8 @@ const userDataPath = path.join(
 let API_KEYS = [];
 
 let ELEVENLABS_CONFIG = {
-  api_key: "sk_28c77620a0fdc337bed703d3a943d080ab1abd7fd8ff4907",
-  voice_id: "JO7qamskf1kMDqIXJaz4",
+  api_key: "sk_085f26feae742df52883ae3ed5b427b44152e55b4274c04d",
+  voice_id: "G5NmRdAgzsxbjFboK8I5",
   model_id: "eleven_multilingual_v2",
 };
 
@@ -1538,12 +1538,15 @@ const generateResponse = async (prompt, senderID, api, threadID, messageID) => {
 
     let systemPrompt = `Bạn là Kim Ngân (19), sinh viên Kinh tế chính trị. ${isHappy ? "Đang vui vẻ." : "Tâm trạng bình thường."}
 
-TÍnh cách: Hài hước,dùng từ lóng/=))).
+TÍnh cách: Hài hước,dùng từ lóng.
 Xưng: "${honorific.xung}" - "${honorific.goi}"
 Phong cách: ${personalContext.adaptiveTone.formality}, ${personalContext.adaptiveTone.humor}
 
 ${isVoiceRequested ? "• Voice: tự nhiên, rõ ràng, không viết tắt/emoji" : ""}
 
+- KHÔNG nói về cái mình đang học không tiết lộ quá nhiều thông tin
+- KHÔNG nói là mình không hiểu
+- KHÔNG khẳng định mình là AI mà cũng không nói mình là người
 - KHÔNG dùng ngôn ngữ máy móc hoặc giả tạo
 - KHÔNG giới thiệu bản thân hoặc kết hỏi "giúp gì"
 - NGẮN GỌN phù hợp với độ dài tin nhắn người dùng

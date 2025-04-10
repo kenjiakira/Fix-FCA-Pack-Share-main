@@ -4918,5 +4918,96 @@
       "D": "Nước đá tan chảy thành nước."
     },
     "correct": "C"
+  },
+  {
+    "id": "m99hvfxeqtxud",
+    "category": "Khoa học",
+    "difficulty": 1,
+    "question": "Tại sao trời mưa lại có cầu vồng?",
+    "options": {
+      "A": "Ánh sáng mặt trời bị khúc xạ và phản xạ qua các giọt nước.",
+      "B": "Mây đen che khuất mặt trời tạo ra hiệu ứng quang học.",
+      "C": "Do sự thay đổi nhiệt độ đột ngột trong không khí.",
+      "D": "Gió mạnh thổi tung các hạt nước tạo ra màu sắc."
+    },
+    "correct": "A"
+  },
+  {
+    "id": "m99hvtli4266b",
+    "category": "Vật lý",
+    "difficulty": 1,
+    "question": "Tại sao quả bóng thả xuống đất lại nảy lên?",
+    "options": {
+      "A": "Do lực đàn hồi của quả bóng và mặt đất.",
+      "B": "Do trọng lực tác dụng lên quả bóng.",
+      "C": "Do quả bóng bị gió thổi lên.",
+      "D": "Do ma sát giữa bóng và mặt đất."
+    },
+    "correct": "A"
+  },
+  {
+    "id": "m9a74yn60kr83",
+    "category": "Thể thao",
+    "difficulty": 1,
+    "question": "Tại sao cầu thủ bóng đá lại thường xuyên bị chuột rút?",
+    "options": {
+      "A": "Do mất nước và chất điện giải.",
+      "B": "Do luyện tập quá sức.",
+      "C": "Do thời tiết quá nóng.",
+      "D": "Cả A, B và C đều đúng."
+    },
+    "correct": "D"
+  },
+  {
+    "id": "m9a757rxye0wt",
+    "category": "Công nghệ",
+    "difficulty": 1,
+    "question": "Tại sao máy tính lại cần hệ điều hành?",
+    "options": {
+      "A": "Hệ điều hành giúp máy tính khởi động và hoạt động.",
+      "B": "Hệ điều hành quản lý phần cứng và phần mềm.",
+      "C": "Hệ điều hành cho phép người dùng tương tác với máy tính.",
+      "D": "Hệ điều hành giúp bảo mật dữ liệu trên máy tính."
+    },
+    "correct": "B"
+  },
+  {
+    "id": "m9a8668pq9tqx",
+    "category": "Địa lý",
+    "difficulty": 1,
+    "question": "Tại sao mùa hè thường nóng hơn mùa đông?",
+    "options": {
+      "A": "Do góc chiếu của ánh sáng Mặt Trời lớn hơn, thời gian chiếu sáng dài hơn.",
+      "B": "Do trái đất quay quanh mặt trời với tốc độ nhanh hơn.",
+      "C": "Do lượng mưa trong mùa hè nhiều hơn mùa đông.",
+      "D": "Do sự thay đổi hướng gió trong năm."
+    },
+    "correct": "A"
+  },
+  {
+    "id": "m9a86yzvexyyc",
+    "category": "Sinh học",
+    "difficulty": 1,
+    "question": "Tại sao cây xanh lại cần ánh sáng mặt trời?",
+    "options": {
+      "A": "Để thực hiện quá trình quang hợp tạo ra chất dinh dưỡng.",
+      "B": "Để cây xanh có thể sinh sản tốt hơn.",
+      "C": "Để cây xanh hấp thụ nước tốt hơn.",
+      "D": "Để cây xanh giữ ấm vào mùa đông."
+    },
+    "correct": "A"
+  },
+  {
+    "id": "m9a87l28msa1v",
+    "category": "Lịch sử",
+    "difficulty": 1,
+    "question": "Làm thế nào sự phát minh ra chữ viết ảnh hưởng đến đời sống con người?",
+    "options": {
+      "A": "Giúp lưu giữ thông tin, kiến thức, văn hóa qua nhiều thế hệ.",
+      "B": "Tạo điều kiện cho việc giao tiếp, trao đổi thông tin xa hơn.",
+      "C": "Dẫn đến sự phát triển của giáo dục và khoa học.",
+      "D": "Tất cả các đáp án trên đều đúng."
+    },
+    "correct": "D"
   }
 ]

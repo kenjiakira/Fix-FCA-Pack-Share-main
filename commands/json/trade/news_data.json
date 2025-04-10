@@ -1,6 +1,18 @@
 {
   "news": [
     {
+      "symbol": "GOOG",
+      "headline": "Alphabet Inc. được chính phủ phê duyệt sản phẩm mới cách mạng!",
+      "impact": "veryGood",
+      "timestamp": 1744216667926
+    },
+    {
+      "symbol": "PEP",
+      "headline": "PepsiCo Inc. tăng trưởng chậm lại ở thị trường trọng điểm.",
+      "impact": "bad",
+      "timestamp": 1744212312164
+    },
+    {
       "symbol": "HNT",
       "headline": "HNT Industries tăng cổ tức thêm 10%.",
       "impact": "good",

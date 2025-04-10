@@ -25,6 +25,21 @@ async function updateInviteQuest(inviterId) {
   }
 }
 
+function getRankDataName(userID) {
+  try {
+    const rankDataPath = path.join(__dirname, './cache/rankData.json');
+    if (fs.existsSync(rankDataPath)) {
+      const rankData = JSON.parse(fs.readFileSync(rankDataPath, 'utf8'));
+      if (rankData[userID] && rankData[userID].name) {
+        return rankData[userID].name;
+      }
+    }
+  } catch (err) {
+    console.error("Error reading rankData:", err);
+  }
+  return null;
+}
+
 module.exports = {
   name: "thread",
   info: "Thông báo khi nhóm thay đổi chủ đề, emoji, tên, admin hoặc ảnh",
@@ -64,9 +79,18 @@ module.exports = {
         };
       }
 
+      let memberNames = {};
+      for (const participantID of participants) {
+        const name = getRankDataName(participantID);
+        if (name) {
+          memberNames[participantID] = name;
+        }
+      }
+
       threadsDB[threadID] = {
         ...threadsDB[threadID],
         members: participants,
+        memberNames: memberNames,
         name: threadInfo?.threadName || threadInfo?.name || `Nhóm ${threadID}`,
         threadType: threadInfo?.isGroup ? 'GROUP' : 'OTHER',
         lastActivity: Date.now(),
@@ -173,6 +197,21 @@ module.exports = {
         else resolve();
       });
     });
+  },
+
+  getUserName: async function(api, userID) {
+    const rankDataName = getRankDataName(userID);
+    if (rankDataName) return rankDataName;
+
+    try {
+      const info = await api.getUserInfo(userID);
+      if (info && info[userID]?.name) {
+        return info[userID].name;
+      }
+    } catch (err) {
+      console.error("Error getting user info:", err);
+    }
+    return `Người dùng Facebook (${userID})`;
   },
 
   onEvents: async function ({ api, event, Threads }) {
@@ -539,76 +578,67 @@ module.exports = {
     }
 
     if (logMessageType === "log:thread-admins") {
+      const threadID = event.threadID;
+      const isRemoving = event.logMessageData.ADMIN_EVENT === "remove_admin";
+      const targetID = event.logMessageData.TARGET_ID;
+      const authorID = event.author; // ID của người thực hiện hành động
+      const authorName = await this.getUserName(api, authorID);
+      const targetName = await this.getUserName(api, targetID);
+      
       try {
-        const isRemoving = logMessageData.ADMIN_EVENT === "remove_admin";
-        const targetID = logMessageData.TARGET_ID;
-
-        const antirolePath = path.join(__dirname, '../commands/json/antirole.json');
-        if (fs.existsSync(antirolePath)) {
-          const antiroleData = JSON.parse(fs.readFileSync(antirolePath));
-
-          if (antiroleData.threads?.[threadID]) {
-            const adminConfig = JSON.parse(fs.readFileSync('./admin.json', 'utf8'));
-            const isAdminBot = adminConfig.adminUIDs.includes(author);
-            const isBotAction = author === api.getCurrentUserID();
-
-            if (isBotAction) return;
-
-            if (!isAdminBot) {
-              setTimeout(async () => {
-                try {
-                  antiroleData.lastBotAction = {
-                    threadID,
-                    targetID,
-                    timestamp: Date.now()
-                  };
-                  fs.writeFileSync(antirolePath, JSON.stringify(antiroleData, null, 4));
-
-                  await api.changeAdminStatus(threadID, targetID, !isRemoving);
-
-                  const authorInfo = await this.getUserInfo(api, author, threadID);
-                  const authorName = authorInfo[author]?.name || "Người dùng Facebook";
-                  const targetInfo = await this.getUserInfo(api, targetID, threadID);
-                  const targetName = targetInfo[targetID]?.name || "Người dùng Facebook";
-
-                  api.sendMessage(
-                    `⚠️ ${authorName} đã cố gắng ${isRemoving ? "gỡ" : "thêm"} quản trị viên!\n` +
-                    `🔄 Đã hoàn tác quyền quản trị của ${targetName}\n` +
-                    `💡 Chỉ admin bot mới có thể thay đổi quyền quản trị.`,
-                    threadID
-                  );
-                } catch (error) {
-                  console.error("Role restore error:", error);
-                  api.sendMessage(
-                    "❌ Không thể hoàn tác thay đổi quyền quản trị. Bot cần là quản trị viên!",
-                    threadID
-                  );
-                }
-              }, 1000);
-
-              return;
-            }
+          const threadsDB = JSON.parse(fs.readFileSync("./database/threads.json", "utf8") || "{}");
+          
+          if (!threadsDB[threadID]) {
+              threadsDB[threadID] = {
+                  members: [],
+                  messageCount: {},
+                  lastActivity: Date.now(),
+                  adminIDs: [],
+                  adminLastUpdate: Date.now(),
+                  adminVerified: false
+              };
           }
-        }
 
-        const authorName = await getAuthorName();
-        const targetInfo = await this.getUserInfo(api, targetID, threadID);
-        const targetName = targetInfo[targetID]?.name || "Người dùng Facebook";
+          if (isRemoving) {
+              if (threadsDB[threadID].adminIDs) {
+                  threadsDB[threadID].adminIDs = threadsDB[threadID].adminIDs.filter(admin => 
+                      (typeof admin === 'object' ? admin.id !== targetID : admin !== targetID)
+                  );
+              }
+          } 
+          else {
+              if (!threadsDB[threadID].adminIDs) {
+                  threadsDB[threadID].adminIDs = [];
+              }
 
-        const threadsDB = JSON.parse(fs.readFileSync("./database/threads.json", "utf8") || "{}");
-        console.log(`✅ Thông tin admin đã lưu: ${JSON.stringify(threadsDB[threadID]?.adminIDs || [])}`);
+              const targetExists = threadsDB[threadID].adminIDs.some(admin => 
+                  (typeof admin === 'object' ? admin.id === targetID : admin === targetID)
+              );
+              if (!targetExists) {
+                  threadsDB[threadID].adminIDs.push({ id: targetID });
+              }
 
-        let msg = `👥 THAY ĐỔI QUẢN TRỊ VIÊN\n` +
-          `━━━━━━━━━━━━━━━━━━\n\n` +
-          `👤 Người thực hiện: ${authorName}\n` +
-          `🎯 Đối tượng: ${targetName}\n` +
-          `📝 Hành động: ${isRemoving ? "Gỡ Admin" : "Thêm Admin"}\n` +
-          `⏰ Thời gian: ${new Date().toLocaleString('vi-VN')}`;
+              const authorExists = threadsDB[threadID].adminIDs.some(admin => 
+                  (typeof admin === 'object' ? admin.id === authorID : admin === authorID)
+              );
+              if (!authorExists) {
+                  threadsDB[threadID].adminIDs.push({ id: authorID });
+              }
+          }
 
-        await sendThreadNotification(api, threadID, msg, 'admin');
+          threadsDB[threadID].adminLastUpdate = Date.now();
+          fs.writeFileSync("./database/threads.json", JSON.stringify(threadsDB, null, 2));
+
+          let msg = `👥 THAY ĐỔI QUẢN TRỊ VIÊN\n` +
+              `━━━━━━━━━━━━━━━━━━\n\n` +
+              `👤 Người thực hiện: ${authorName}\n` +
+              `🎯 Đối tượng: ${targetName}\n` +
+              `📝 Hành động: ${isRemoving ? "Gỡ Admin" : "Thêm Admin"}\n` +
+              `⏰ Thời gian: ${new Date().toLocaleString('vi-VN')}`;
+
+          await sendThreadNotification(api, threadID, msg, 'admin');
       } catch (error) {
-        console.error('Admin Update Error:', error);
-        api.sendMessage("❌ Không thể lấy thông tin người dùng", threadID);
+          console.error('Admin Update Error:', error);
       }
     }
   }

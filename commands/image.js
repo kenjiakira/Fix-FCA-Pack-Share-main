@@ -12,6 +12,8 @@ if (!fs.existsSync(cacheDir)) fs.mkdirSync(cacheDir);
 
 faceapi.env.monkeyPatch({ Canvas, Image, ImageData });
 
+const imgurClientId = '34dc774b8c0ddae'; // Sử dụng client ID giống như trong imgur.js
+
 module.exports = {
   name: "image",
   category: "Media",
@@ -497,6 +499,180 @@ module.exports = {
       api.sendMessage(`━━『 LỖI XỬ LÝ 』━━\n[❗] → Đã xảy ra lỗi: ${error.message}\n[💠] → Vui lòng thử lại sau hoặc liên hệ admin.`, threadID, messageID);
       if (fs.existsSync(inputPath)) fs.unlinkSync(inputPath);
       if (fs.existsSync(outputPath)) fs.unlinkSync(outputPath);
+    }
+  },
+
+  onLaunch: async function ({ api, event, actions }) {
+    const { threadID, messageID, messageReply } = event;
+    
+    // Đường dẫn đến file JSON lưu trữ các link ảnh
+    const jsonPath = path.join(__dirname, '../database/json/communityImages.json');
+    
+    // Đảm bảo file JSON tồn tại
+    if (!fs.existsSync(jsonPath)) {
+        fs.writeFileSync(jsonPath, JSON.stringify({
+            images: [],
+            contributors: {}
+        }, null, 2));
+    }
+
+    // Đọc dữ liệu từ file JSON
+    let imageData;
+    try {
+        imageData = JSON.parse(fs.readFileSync(jsonPath, 'utf8'));
+    } catch (error) {
+        console.error('Lỗi khi đọc file communityImages.json:', error);
+        imageData = { images: [], contributors: {} };
+    }
+
+    // Nếu người dùng reply một ảnh, thêm vào kho ảnh
+    if (messageReply && messageReply.attachments && messageReply.attachments.length > 0) {
+        const attachments = messageReply.attachments.filter(att => att.type === 'photo');
+        
+        if (attachments.length === 0) {
+            return actions.reply("Vui lòng reply một hình ảnh để thêm vào kho ảnh cộng đồng.", threadID, messageID);
+        }
+
+        let uploadPromises = attachments.map(async (attachment) => {
+            const fileUrl = attachment.url;
+            const tempFilePath = path.join(__dirname, 'cache', `temp_image_${Date.now()}.jpg`);
+
+            try {
+                const response = await axios({
+                    url: fileUrl,
+                    responseType: 'stream',
+                    timeout: 15000
+                });
+
+                const writer = fs.createWriteStream(tempFilePath);
+                response.data.pipe(writer);
+
+                await new Promise((resolve, reject) => {
+                    writer.on('finish', resolve);
+                    writer.on('error', reject);
+                });
+
+                const form = new FormData();
+                form.append('image', fs.createReadStream(tempFilePath));
+
+                const imgurResponse = await axios.post('https://api.imgur.com/3/image', form, {
+                    headers: {
+                        ...form.getHeaders(),
+                        Authorization: `Client-ID ${imgurClientId}`
+                    },
+                    timeout: 30000
+                });
+
+                const imgurUrl = imgurResponse.data.data.link;
+
+                // Xóa file tạm
+                if (fs.existsSync(tempFilePath)) {
+                    fs.unlinkSync(tempFilePath);
+                }
+
+                return imgurUrl;
+            } catch (error) {
+                console.error(`Lỗi khi xử lý tệp ${fileUrl}:`, error);
+                if (fs.existsSync(tempFilePath)) {
+                    fs.unlinkSync(tempFilePath);
+                }
+                throw error;
+            }
+        });
+
+        try {
+            const results = await Promise.all(uploadPromises);
+            let successCount = 0;
+            
+            for (const imgurUrl of results) {
+                if (imgurUrl && imgurUrl.startsWith('http')) {
+                    // Thêm ảnh vào kho dữ liệu
+                    const contributorId = event.senderID;
+                    imageData.images.push({
+                        url: imgurUrl,
+                        contributorId: contributorId,
+                        timestamp: Date.now()
+                    });
+                    
+                    // Cập nhật thông tin người đóng góp
+                    if (!imageData.contributors[contributorId]) {
+                        imageData.contributors[contributorId] = {
+                            count: 0,
+                            lastContribution: null
+                        };
+                    }
+                    imageData.contributors[contributorId].count++;
+                    imageData.contributors[contributorId].lastContribution = Date.now();
+                    
+                    successCount++;
+                }
+            }
+
+            // Lưu dữ liệu cập nhật
+            fs.writeFileSync(jsonPath, JSON.stringify(imageData, null, 2));
+            
+            await actions.reply(`Đã thêm ${successCount} ảnh vào kho ảnh cộng đồng. Cảm ơn bạn đã đóng góp!`, threadID, messageID);
+            
+        } catch (error) {
+            console.error('Lỗi khi tải ảnh lên Imgur:', error);
+            await actions.reply("Có lỗi xảy ra khi tải ảnh lên. Vui lòng thử lại sau.", threadID, messageID);
+        }
+    } 
+    // Nếu người dùng chỉ gõ lệnh, hiển thị một ảnh ngẫu nhiên
+    else {
+        if (imageData.images.length === 0) {
+            return actions.reply("Hiện chưa có ảnh nào trong kho ảnh cộng đồng. Hãy là người đầu tiên đóng góp ảnh!", threadID, messageID);
+        }
+
+        try {
+            // Chọn ngẫu nhiên một ảnh từ kho
+            const randomIndex = Math.floor(Math.random() * imageData.images.length);
+            const randomImage = imageData.images[randomIndex];
+            
+            // Lấy thông tin người đóng góp
+            let contributorInfo = "Một thành viên cộng đồng";
+            try {
+                const userInfo = await api.getUserInfo(randomImage.contributorId);
+                if (userInfo && userInfo[randomImage.contributorId]) {
+                    contributorInfo = userInfo[randomImage.contributorId].name || "Một thành viên cộng đồng";
+                }
+            } catch (error) {
+                console.error('Không thể lấy thông tin người đóng góp:', error);
+            }
+            
+            // Tải ảnh từ Imgur
+            const tempPath = path.join(__dirname, 'cache', `community_image_${Date.now()}.jpg`);
+            
+            const imageResponse = await axios({
+                method: 'get',
+                url: randomImage.url,
+                responseType: 'stream',
+                timeout: 15000
+            });
+
+            const writer = fs.createWriteStream(tempPath);
+            imageResponse.data.pipe(writer);
+            
+            await new Promise((resolve, reject) => {
+                writer.on('finish', resolve);
+                writer.on('error', reject);
+            });
+            
+            // Gửi ảnh cho người dùng với thêm hướng dẫn sử dụng
+            await api.sendMessage({
+                body: `『 🌸 』→ Ảnh từ kho ảnh cộng đồng\n『 💓 』→ Đóng góp bởi: ${contributorInfo}\n『 📊 』→ Tổng số ảnh: ${imageData.images.length}\n\n『 📝 』→ Các lệnh khác:\n• image search <từ khóa> -<số lượng>: Tìm ảnh\n• image pin <link>: Tải ảnh từ Pinterest\n• image wall: Lấy hình nền ngẫu nhiên\n• image face: Phân tích khuôn mặt\n• image album: Tạo album ảnh\n• image removebg: Xóa nền ảnh`,
+                attachment: fs.createReadStream(tempPath)
+            }, threadID, () => {
+                // Xóa file tạm sau khi gửi
+                if (fs.existsSync(tempPath)) {
+                    fs.unlinkSync(tempPath);
+                }
+            });
+
+        } catch (error) {
+            console.error('Lỗi khi gửi ảnh:', error);
+            await actions.reply("Có lỗi xảy ra khi lấy ảnh. Vui lòng thử lại sau.", threadID, messageID);
+        }
     }
   }
 };

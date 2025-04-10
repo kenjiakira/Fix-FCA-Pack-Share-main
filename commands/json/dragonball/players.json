@@ -648,12 +648,12 @@
     "name": "Gia Huy ",
     "planet": "SAIYAN",
     "stats": {
-      "power": 334248,
-      "damage": 670,
-      "ki": 1020,
-      "health": 6000,
-      "exp": 284,
-      "zeni": 54732,
+      "power": 377104,
+      "damage": 360,
+      "ki": 680,
+      "health": 3000,
+      "exp": 20979,
+      "zeni": 36776,
       "inventory": {
         "items": [],
         "equipped": []
@@ -663,16 +663,16 @@
         "completed": [],
         "progress": {}
       },
-      "currentKi": 1010,
+      "currentKi": 670,
       "level": 2,
-      "maxHealth": 5900,
-      "currentHealth": 1744
+      "maxHealth": 2900,
+      "currentHealth": 2272
     },
     "skills": [
       "GOKU:ATOMIC"
     ],
     "masters": [],
-    "lastTrain": 1744116567525,
+    "lastTrain": 1744213125384,
     "created": 1743526294836,
     "inventory": {
       "dragonBalls": [],
@@ -686,6 +686,18 @@
             "type": "overlay",
             "position": "face",
             "color": "#FF0000"
+          },
+          "equipped": true
+        },
+        {
+          "id": "armor",
+          "quantity": 1,
+          "type": "equipment",
+          "usedTime": 1744187845472,
+          "visualEffect": {
+            "type": "overlay",
+            "position": "body",
+            "color": "#FFFFFF"
           },
           "equipped": true
         }
@@ -711,7 +723,7 @@
         "BEGINNER_1": 3,
         "BEGINNER_2": 2000,
         "BASIC_TRAINING": 5,
-        "SAIYAN_RADITZ": 0
+        "SAIYAN_RADITZ": 2
       }
     },
     "lastPvpFight": 1743998274663,
@@ -719,7 +731,8 @@
       "damage": 340,
       "health": 2800,
       "ki": 660
-    }
+    },
+    "lastMonsterFight": 1744188054061
   },
   "100055074463541": {
     "name": "Khang Bùi",
@@ -1143,14 +1156,14 @@
     "name": "Tran Thu Huyen",
     "planet": "SAIYAN",
     "stats": {
-      "power": 66015,
+      "power": 67015,
       "damage": 210,
       "ki": 180,
       "currentKi": 140,
       "health": 1600,
       "currentHealth": 1000,
-      "exp": 81098,
-      "zeni": 42372,
+      "exp": 82613,
+      "zeni": 42452,
       "inventory": {
         "items": [],
         "equipped": []
@@ -1166,7 +1179,7 @@
       "GOKU:ATOMIC"
     ],
     "masters": [],
-    "lastTrain": 1744127975046,
+    "lastTrain": 1744197747506,
     "created": 1743570305333,
     "inventory": {
       "dragonBalls": [
@@ -1293,14 +1306,14 @@
     "name": "Người trái đất",
     "planet": "EARTH",
     "stats": {
-      "power": 10414448227,
-      "damage": 7867540,
+      "power": 10578332531,
+      "damage": 7867550,
       "ki": 4295122,
       "currentKi": 644270,
       "health": 15525120,
       "currentHealth": 15525120,
-      "exp": 251629720,
-      "zeni": 112415,
+      "exp": 82271155,
+      "zeni": 198397,
       "inventory": {
         "items": [],
         "equipped": []
@@ -1311,7 +1324,7 @@
         "progress": {}
       },
       "maxHealth": 12936800,
-      "level": 2
+      "level": 3
     },
     "skills": [
       "KAME:DRAGON_PUNCH",
@@ -1323,7 +1336,7 @@
       "KAME:HYPNOSIS"
     ],
     "masters": [],
-    "lastTrain": 1744102920732,
+    "lastTrain": 1744207979042,
     "created": 1743613097948,
     "inventory": {
       "dragonBalls": [
@@ -1338,6 +1351,24 @@
         {
           "planet": "EARTH",
           "star": 2
+        },
+        {
+          "planet": "EARTH",
+          "star": 3
+        }
+      ],
+      "items": [
+        {
+          "id": "scouter",
+          "quantity": 1,
+          "type": "equipment",
+          "usedTime": 1744187675469,
+          "visualEffect": {
+            "type": "overlay",
+            "position": "face",
+            "color": "#FF0000"
+          },
+          "equipped": true
         }
       ]
     },
@@ -1350,20 +1381,33 @@
     "lastPvpFight": 1743863014384,
     "quests": {
       "active": [
-        "EARTH_WOLF"
+        "EARTH_RED_RIBBON"
       ],
       "completed": [
         "BEGINNER_1",
         "BEGINNER_2",
-        "EARTH_WOLF"
+        "EARTH_WOLF",
+        "EARTH_WOLF",
+        "EARTH_SAIBAMEN",
+        "DRAGON_BALL_1",
+        "POWER_LV1"
       ],
       "progress": {
         "BEGINNER_1": 4,
         "BEGINNER_2": 2000,
-        "EARTH_WOLF": 2
+        "EARTH_WOLF": 6,
+        "EARTH_SAIBAMEN": 8,
+        "DRAGON_BALL_1": 3,
+        "POWER_LV1": 10000,
+        "EARTH_RED_RIBBON": 0
       }
     },
-    "lastMonsterFight": 1743863108451
+    "lastMonsterFight": 1744188082087,
+    "baseStats": {
+      "damage": 7867540,
+      "health": 15525120,
+      "ki": 4295122
+    }
   },
   "100051073987266": {
     "name": "Lê Văn Nhật",
@@ -1671,14 +1715,14 @@
     "name": "Yu Ki",
     "planet": "SAIYAN",
     "stats": {
-      "power": 16000,
+      "power": 18000,
       "damage": 120,
-      "ki": 160,
-      "currentKi": 150,
+      "ki": 180,
+      "currentKi": 170,
       "health": 1200,
       "currentHealth": 1000,
-      "exp": 1882,
-      "zeni": 8420,
+      "exp": 1778,
+      "zeni": 9937,
       "inventory": {
         "items": [],
         "equipped": []
@@ -1695,7 +1739,7 @@
       "GOKU:ATOMIC"
     ],
     "masters": [],
-    "lastTrain": 1744003783760,
+    "lastTrain": 1744222645738,
     "created": 1743965623811,
     "inventory": {
       "dragonBalls": [],

@@ -1,12 +1,10 @@
 const fs = require('fs');
 const path = require('path');
 
-// Path to the updates data file
 const updatesPath = path.join(__dirname, '../database/json/updates.json');
-// Path to admin.json file
+
 const adminPath = path.join(__dirname, '../admin.json');
 
-// Function to load admin data
 function loadAdminData() {
     try {
         if (fs.existsSync(adminPath)) {
@@ -21,7 +19,6 @@ function loadAdminData() {
     }
 }
 
-// Function to load update data
 function loadUpdates() {
     try {
         if (fs.existsSync(updatesPath)) {
@@ -44,7 +41,6 @@ function loadUpdates() {
     }
 }
 
-// Function to save update data
 function saveUpdates(data) {
     try {
         fs.mkdirSync(path.dirname(updatesPath), { recursive: true });
@@ -56,13 +52,12 @@ function saveUpdates(data) {
     }
 }
 
-// Function to add a new update
 function addUpdate(type, title, description, adminOnly = false) {
     const data = loadUpdates();
     
     data.updates.unshift({
         id: Date.now().toString(),
-        type: type, // 'feature', 'bugfix', 'improvement', etc.
+        type: type, 
         title: title,
         description: description,
         date: Date.now(),
@@ -72,18 +67,6 @@ function addUpdate(type, title, description, adminOnly = false) {
     data.lastModified = Date.now();
     saveUpdates(data);
 }
-
-// Sample updates (uncomment to add default updates)
-/*
-// Add some sample updates (only if no updates exist)
-const data = loadUpdates();
-if (data.updates.length === 0) {
-    addUpdate('feature', 'Thêm lệnh Upgrade', 'Hiển thị các cập nhật mới trong 7 ngày gần đây', false);
-    addUpdate('bugfix', 'Sửa lỗi lệnh thongbao', 'Khắc phục lỗi không hiển thị đúng trạng thái thông báo', false);
-    addUpdate('improvement', 'Cải thiện tốc độ xử lý', 'Tối ưu hóa hiệu suất hệ thống', false);
-    addUpdate('security', 'Tăng cường bảo mật', 'Cập nhật biện pháp bảo mật cao cấp', true);
-}
-*/
 
 module.exports = {
     name: "update",
@@ -106,28 +89,26 @@ module.exports = {
 
         const command = target[0].toLowerCase();
 
-        // Admin commands
         if (isAdmin) {
             switch (command) {
                 case "add": {
                     const type = target[1];
-                    const adminOnly = target[2]?.toLowerCase() === "admin";
-                    const title = target[3] || "Cập nhật mới";
-                    const description = target.slice(adminOnly ? 4 : 3).join(" ");
+                    const title = target[2] || "Cập nhật mới";
+                    const description = target.slice(3).join(" ");
+                    const adminOnly = false;
                     
-                    if (!type || !description) {
+                    if (!type || !title) {
                         return api.sendMessage(
                             "⚠️ Thiếu thông tin! Sử dụng:\n" +
-                            "update add [loại] [admin?] [tiêu đề] [mô tả]\n\n" +
+                            "update add loại tiêu_đề\n\n" +
                             "Loại: feature, bugfix, improvement, security\n" +
                             "Ví dụ:\n" +
-                            "update add feature Thêm tính năng mới\n" +
-                            "update add bugfix admin Sửa lỗi quan trọng",
+                            "update add feature \"Thêm tính năng mới\"",
                             threadID, messageID
                         );
                     }
                     
-                    addUpdate(type, title, description, adminOnly);
+                    addUpdate(type, title, description || title, adminOnly);
                     return api.sendMessage("✅ Đã thêm cập nhật mới!", threadID, messageID);
                 }
                 
@@ -259,7 +240,7 @@ function showUpdates(api, threadID, userID, messageID, isAdmin) {
     
     if (isAdmin) {
         msg += "\n\n👑 ADMIN COMMANDS:\n";
-        msg += "• update add [loại] [admin?] [tiêu đề] [mô tả]\n";
+        msg += "• update add loại tiêu_đề mô_tả\n";
         msg += "• update del [id]\n";
         msg += "• update list\n";
         msg += "• update view [userID]\n";

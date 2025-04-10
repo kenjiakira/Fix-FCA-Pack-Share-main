@@ -34,7 +34,7 @@ module.exports = {
     usedby: 5,
     cooldowns: 5,
 
-    onLaunch: async function({ api, event, target }) {
+    onLaunch: async function ({ api, event, target }) {
         const { threadID, messageID, type, messageReply, mentions } = event;
         const botID = api.getCurrentUserID();
 
@@ -46,7 +46,7 @@ module.exports = {
         const args = target.slice(1);
 
         try {
-            switch(cmd) {
+            switch (cmd) {
                 case "add": {
                     let participantIDs = [];
                     try {
@@ -170,10 +170,10 @@ module.exports = {
                         } catch (err) {
                             console.error("Error loading setname status:", err);
                         }
-                        
+
                         setnameStatus[threadID] = args[0] === "on";
                         fs.writeFileSync(setnameStatusPath, JSON.stringify(setnameStatus, null, 2));
-                        
+
                         return api.sendMessage(
                             `Đã ${args[0] === "on" ? "bật" : "tắt"} chức năng đổi biệt danh trong nhóm này`,
                             threadID,
@@ -208,18 +208,18 @@ module.exports = {
 
                     if (args[0] === "auto") {
                         const nickConfig = JSON.parse(fs.readFileSync(nicknameConfigPath));
-                        
+
                         if (args[1] === "off") {
                             delete nickConfig[threadID];
                             fs.writeFileSync(nicknameConfigPath, JSON.stringify(nickConfig, null, 2));
                             return api.sendMessage("✅ Đã tắt auto setname", threadID, messageID);
                         }
-                        
+
                         const pattern = args.slice(1).join(" ");
                         if (!pattern) {
                             return api.sendMessage("⚠️ Vui lòng nhập mẫu biệt danh!\nVí dụ: groups name auto Member {name}", threadID, messageID);
                         }
-                        
+
                         nickConfig[threadID] = pattern;
                         fs.writeFileSync(nicknameConfigPath, JSON.stringify(nickConfig, null, 2));
                         return api.sendMessage(`✅ Đã set mẫu biệt danh: ${pattern}`, threadID, messageID);

@@ -377,6 +377,16 @@ async function getUserName(api, senderID) {
                 const commandName = (isPrefixed ? message.slice(threadPrefix.length).split(' ')[0] : message.split(' ')[0]).toLowerCase();
                 const commandArgs = isPrefixed ? message.slice(threadPrefix.length).split(' ').slice(1) : message.split(' ').slice(1);
 
+                const threadsDB = JSON.parse(fs.readFileSync('./database/threads.json', 'utf8'));
+
+                if (!threadsDB[threadID]?.adminIDs || threadsDB[threadID].adminIDs.length === 0) {
+                    if (message.startsWith(threadPrefix)) {
+                        api.sendMessage("⚠️ Bot chưa được kích hoạt trong nhóm này!\n📌 Vui lòng thiết lập ít nhất một Quản trị viên nhóm trước khi sử dụng bằng cách đưa key cho người dùng bất kì rồi bạn có thể gỡ lại.", threadID);
+                        return;
+                    }
+                    return;
+                }
+
                 const adminConfig = JSON.parse(fs.readFileSync('./admin.json', 'utf8'));
                 if (adminConfig.mtnMode) {
                     const isAdmin = adminConfig.adminUIDs?.includes(senderID);

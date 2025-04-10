@@ -1,9 +1,8 @@
 const fs = require('fs');
 const path = require('path');
 const { createCanvas, loadImage, registerFont } = require('canvas');
-const QRCode = require('qrcode');
 
-// Try to register custom fonts if available
+
 try {
   const fontsDir = path.join(__dirname, '../../fonts');
   if (fs.existsSync(path.join(fontsDir, 'Montserrat-Bold.ttf'))) {
@@ -17,6 +16,12 @@ try {
   }
   if (fs.existsSync(path.join(fontsDir, 'Montserrat-Light.ttf'))) {
     registerFont(path.join(fontsDir, 'Montserrat-Light.ttf'), { family: 'Montserrat', weight: 'light' });
+  }
+  if (fs.existsSync(path.join(fontsDir, 'SF-Pro-Display-Bold.otf'))) {
+    registerFont(path.join(fontsDir, 'SF-Pro-Display-Bold.otf'), { family: 'SF Pro Display', weight: 'bold' });
+  }
+  if (fs.existsSync(path.join(fontsDir, 'SF-Pro-Display-Regular.otf'))) {
+    registerFont(path.join(fontsDir, 'SF-Pro-Display-Regular.otf'), { family: 'SF Pro Display', weight: 'normal' });
   }
 } catch (e) {
   console.log("Could not load custom fonts, using system defaults");
@@ -74,9 +79,8 @@ function formatNumber(number) {
  * @returns {string} - Font family
  */
 function getFontFamily() {
-  return 'Montserrat, Arial, sans-serif';
+  return 'SF Pro Display, Montserrat, BeVietnamPro, sans-serif';
 }
-
 
 /**
  * Generate a random transaction ID
@@ -85,7 +89,7 @@ function generateTransactionId() {
   const chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
   let id = '';
   
-  // Format: XXX-YYYYY-ZZ (where X, Y, Z are alphanumeric)
+  
   for (let i = 0; i < 3; i++) {
     id += chars.charAt(Math.floor(Math.random() * chars.length));
   }
@@ -102,10 +106,11 @@ function generateTransactionId() {
 }
 
 /**
- * Creates a beautiful transaction bill image
+ * Creates a beautiful transaction bill image styled as a mobile banking receipt
  * @param {Object} options - Transaction options
  * @returns {Promise<string>} - Path to the generated bill image
- */async function createTransactionBill(options) {
+ */
+async function createTransactionBill(options) {
   try {
     const {
       senderName = "Người gửi",
@@ -115,573 +120,424 @@ function generateTransactionId() {
       total = 0,
       remainingBalance = 0,
       outputDir = path.resolve(__dirname, '../../commands/cache'),
-      theme = 'blue' // 'blue', 'purple', 'green', 'dark', 'gold'
+      theme = 'blue' 
     } = options;
 
     if (!fs.existsSync(outputDir)) {
       fs.mkdirSync(outputDir, { recursive: true });
     }
 
-    // Enhanced themes with more sophisticated color schemes
+    
     const themes = {
       blue: {
-        primary: '#1976d2',
-        secondary: '#0d47a1',
-        accent: '#42a5f5',
-        highlight: '#bbdefb',
-        background: '#f5f9ff',
-        gradientStart: '#1a237e',
-        gradientEnd: '#283593',
-        buttonGradientStart: '#1976d2',
-        buttonGradientEnd: '#0d47a1'
+        primary: '#1A73E8',
+        secondary: '#4285F4',
+        accent: '#8AB4F8',
+        success: '#0F9D58',
+        warning: '#F4B400',
+        error: '#DB4437',
+        textPrimary: '#202124',
+        textSecondary: '#5F6368',
+        background: '#FFFFFF',
+        cardBackground: '#F8F9FA',
+        gradientStart: '#1A73E8',
+        gradientEnd: '#4285F4',
+        divider: '#DADCE0'
       },
       purple: {
-        primary: '#7b1fa2',
-        secondary: '#4a148c',
-        accent: '#ba68c8',
-        highlight: '#e1bee7',
-        background: '#f8f5ff',
-        gradientStart: '#4a148c',
-        gradientEnd: '#6a1b9a',
-        buttonGradientStart: '#7b1fa2',
-        buttonGradientEnd: '#4a148c'
+        primary: '#673AB7',
+        secondary: '#9C27B0',
+        accent: '#BA68C8',
+        success: '#4CAF50',
+        warning: '#FF9800',
+        error: '#F44336',
+        textPrimary: '#212121',
+        textSecondary: '#757575',
+        background: '#FFFFFF',
+        cardBackground: '#F5F5F5',
+        gradientStart: '#673AB7',
+        gradientEnd: '#9C27B0',
+        divider: '#E0E0E0'
       },
       green: {
-        primary: '#388e3c',
-        secondary: '#1b5e20',
-        accent: '#66bb6a',
-        highlight: '#c8e6c9',
-        background: '#f5fff7',
-        gradientStart: '#1b5e20',
-        gradientEnd: '#2e7d32',
-        buttonGradientStart: '#388e3c',
-        buttonGradientEnd: '#1b5e20'
+        primary: '#0F9D58',
+        secondary: '#00C853',
+        accent: '#69F0AE',
+        success: '#00C853',
+        warning: '#FFD600',
+        error: '#DD2C00',
+        textPrimary: '#212121',
+        textSecondary: '#616161',
+        background: '#FFFFFF',
+        cardBackground: '#F5F5F5',
+        gradientStart: '#0F9D58',
+        gradientEnd: '#00C853',
+        divider: '#E0E0E0'
       },
       dark: {
-        primary: '#455a64',
-        secondary: '#263238',
-        accent: '#78909c',
-        highlight: '#cfd8dc',
-        background: '#f5f5f5',
-        gradientStart: '#212121',
-        gradientEnd: '#424242',
-        buttonGradientStart: '#455a64',
-        buttonGradientEnd: '#263238'
+        primary: '#BB86FC',
+        secondary: '#03DAC6',
+        accent: '#CF6679',
+        success: '#03DAC6',
+        warning: '#FFB74D',
+        error: '#CF6679',
+        textPrimary: '#F5F5F5',
+        textSecondary: '#B0BEC5',
+        background: '#121212',
+        cardBackground: '#1E1E1E',
+        gradientStart: '#121212',
+        gradientEnd: '#2D2D2D',
+        divider: '#2D2D2D'
       },
-      gold: {
-        primary: '#ffa000',
-        secondary: '#ff6f00',
-        accent: '#ffca28',
-        highlight: '#ffecb3',
-        background: '#fffdf5',
-        gradientStart: '#bf360c',
-        gradientEnd: '#e65100',
-        buttonGradientStart: '#ffa000',
-        buttonGradientEnd: '#ff6f00'
+      teal: {
+        primary: '#009688',
+        secondary: '#00BFA5',
+        accent: '#64FFDA',
+        success: '#00E676',
+        warning: '#FFEA00',
+        error: '#FF3D00',
+        textPrimary: '#212121',
+        textSecondary: '#757575',
+        background: '#FFFFFF',
+        cardBackground: '#F5F5F5',
+        gradientStart: '#009688',
+        gradientEnd: '#00BFA5',
+        divider: '#E0E0E0'
+      },
+      orange: {
+        primary: '#FF5722',
+        secondary: '#FF9800',
+        accent: '#FFAB40',
+        success: '#4CAF50',
+        warning: '#FFC107',
+        error: '#F44336',
+        textPrimary: '#212121',
+        textSecondary: '#757575',
+        background: '#FFFFFF',
+        cardBackground: '#FAFAFA',
+        gradientStart: '#FF5722',
+        gradientEnd: '#FF9800',
+        divider: '#EEEEEE'
       }
     };
 
     const colors = themes[theme] || themes.blue;
-
-    // Canvas dimensions (increased height for more content)
-    const width = 1000;
-    const height = 850;
+    
+    
+    const width = 600;
+    const height = 1100;
     const canvas = createCanvas(width, height);
     const ctx = canvas.getContext('2d');
 
-    // Background with enhanced gradient and texture
-    const bgGradient = ctx.createLinearGradient(0, 0, width, height);
-    bgGradient.addColorStop(0, colors.gradientStart);
-    bgGradient.addColorStop(1, colors.gradientEnd);
-    ctx.fillStyle = bgGradient;
-    ctx.fillRect(0, 0, width, height);
-
-    // Add subtle background pattern (dots grid)
-    ctx.fillStyle = 'rgba(255, 255, 255, 0.03)';
-    for (let x = 0; x < width; x += 20) {
-      for (let y = 0; y < height; y += 20) {
-        ctx.beginPath();
-        ctx.arc(x, y, 1, 0, Math.PI * 2);
-        ctx.fill();
+    
+    if (theme === 'dark') {
+      ctx.fillStyle = colors.background;
+      ctx.fillRect(0, 0, width, height);
+      
+      
+      ctx.fillStyle = 'rgba(255, 255, 255, 0.03)';
+      for (let i = 0; i < width; i += 20) {
+        for (let j = 0; j < height; j += 20) {
+          ctx.beginPath();
+          ctx.arc(i, j, 1, 0, Math.PI * 2);
+          ctx.fill();
+        }
       }
+    } else {
+      const bgGradient = ctx.createLinearGradient(0, 0, 0, height);
+      bgGradient.addColorStop(0, colors.background);
+      bgGradient.addColorStop(1, '#F5F5F5');
+      ctx.fillStyle = bgGradient;
+      ctx.fillRect(0, 0, width, height);
     }
 
-    // Add diagonal lines for texture
-    ctx.strokeStyle = 'rgba(255, 255, 255, 0.05)';
-    ctx.lineWidth = 1;
-    for (let i = -height; i < width + height; i += 40) {
-      ctx.beginPath();
-      ctx.moveTo(i, 0);
-      ctx.lineTo(i + height, height);
-      ctx.stroke();
-    }
-
-    // Add particle effects for modern look
-    ctx.fillStyle = 'rgba(255, 255, 255, 0.12)';
-    for (let i = 0; i < 120; i++) {
-      const particleSize = Math.random() * 4 + 1;
-      ctx.beginPath();
-      ctx.arc(
-        Math.random() * width, 
-        Math.random() * height, 
-        particleSize, 
-        0, 
-        Math.PI * 2
-      );
-      ctx.fill();
-    }
-
-    // Main content card with enhanced shadow
-    ctx.save();
-    ctx.shadowColor = 'rgba(0, 0, 0, 0.6)';
-    ctx.shadowBlur = 40;
-    ctx.shadowOffsetX = 0;
-    ctx.shadowOffsetY = 20;
-    ctx.fillStyle = colors.background;
-    roundRect(ctx, 50, 50, width - 100, height - 100, 25);
-    ctx.restore();
-
-    // Decorative corner accents
-    function drawCornerAccent(x, y, size, rotate) {
-      ctx.save();
-      ctx.translate(x, y);
-      ctx.rotate(rotate * Math.PI / 2);
-      
-      ctx.strokeStyle = colors.primary;
-      ctx.lineWidth = 3;
-      ctx.beginPath();
-      ctx.moveTo(0, 0);
-      ctx.lineTo(size, 0);
-      ctx.stroke();
-      
-      ctx.beginPath();
-      ctx.moveTo(0, 0);
-      ctx.lineTo(0, size);
-      ctx.stroke();
-      
-      ctx.restore();
-    }
-
-    // Draw corner accents
-    drawCornerAccent(65, 65, 25, 0);
-    drawCornerAccent(width - 65, 65, 25, 1);
-    drawCornerAccent(width - 65, height - 65, 25, 2);
-    drawCornerAccent(65, height - 65, 25, 3);
-
-    // Modern asymmetric header
-    const headerHeight = 150;
-    const headerGradient = ctx.createLinearGradient(0, 50, width, 50 + headerHeight);
-    headerGradient.addColorStop(0, colors.gradientStart);
-    headerGradient.addColorStop(1, colors.gradientEnd);
-
-    // Angled header for modern design
-    ctx.fillStyle = headerGradient;
-    ctx.beginPath();
-    ctx.moveTo(50, 50);
-    ctx.lineTo(width - 50, 50);
-    ctx.lineTo(width - 50, 50 + headerHeight);
-    ctx.lineTo(80, 50 + headerHeight);
-    ctx.closePath();
-    ctx.fill();
-
-    // Add decorative wave pattern in header
-    ctx.strokeStyle = 'rgba(255, 255, 255, 0.1)';
-    ctx.lineWidth = 2;
-    for (let y = 65; y < headerHeight + 35; y += 15) {
-      ctx.beginPath();
-      for (let x = 80; x < width - 60; x += 10) {
-        ctx.lineTo(x, y + Math.sin(x/40) * 5);
-      }
-      ctx.stroke();
-    }
-
-    // Enhanced logo with glowing effect
-    const circleX = 140;
-    const circleY = 110;
-    const circleRadius = 45;
-
-    // Create glow effect
-    const glowRadius = circleRadius * 2;
-    const glow = ctx.createRadialGradient(
-      circleX, circleY, circleRadius * 0.8,
-      circleX, circleY, glowRadius
-    );
-    glow.addColorStop(0, 'rgba(255, 255, 255, 0.7)');
-    glow.addColorStop(0.5, 'rgba(255, 255, 255, 0.3)');
-    glow.addColorStop(1, 'rgba(255, 255, 255, 0)');
     
-    ctx.fillStyle = glow;
-    ctx.beginPath();
-    ctx.arc(circleX, circleY, glowRadius, 0, Math.PI * 2);
-    ctx.fill();
-
-    // Main circle
-    const circleGradient = ctx.createRadialGradient(
-      circleX - circleRadius/3, circleY - circleRadius/3, 0,
-      circleX, circleY, circleRadius
-    );
-    circleGradient.addColorStop(0, '#ffffff');
-    circleGradient.addColorStop(1, '#f0f0f0');
+    ctx.fillStyle = theme === 'dark' ? '#000000' : '#FFFFFF';
+    roundRect(ctx, 15, 15, width - 30, height - 30, 40);
     
-    ctx.fillStyle = circleGradient;
-    ctx.beginPath();
-    ctx.arc(circleX, circleY, circleRadius, 0, Math.PI * 2);
-    ctx.fill();
-
-    // Add shadow to logo
-    ctx.shadowColor = 'rgba(0, 0, 0, 0.3)';
-    ctx.shadowBlur = 10;
-    ctx.shadowOffsetX = 3;
-    ctx.shadowOffsetY = 3;
-    ctx.font = `bold ${circleRadius * 1.3}px ${getFontFamily()}`;
-    ctx.fillStyle = colors.primary;
-    ctx.textAlign = 'center';
-    ctx.textBaseline = 'middle';
-    ctx.fillText('$', circleX, circleY);
-    ctx.shadowColor = 'transparent';
-
-    // Stylish title with reflection effect
-    ctx.font = `bold 50px ${getFontFamily()}`;
-    ctx.fillStyle = '#ffffff';
-    ctx.textAlign = 'center';
-    ctx.textBaseline = 'middle';
-    ctx.fillText('BIÊN LAI CHUYỂN KHOẢN', width / 2, 110);
     
-    // Reflection effect for title
-    const gradient = ctx.createLinearGradient(0, 110 + 25, 0, 110 + 45);
-    gradient.addColorStop(0, 'rgba(255, 255, 255, 0.3)');
-    gradient.addColorStop(1, 'rgba(255, 255, 255, 0)');
-    ctx.font = `bold 50px ${getFontFamily()}`;
-    ctx.fillStyle = gradient;
-    ctx.scale(1, -0.3); // Flatten for reflection
-    ctx.fillText('BIÊN LAI CHUYỂN KHOẢN', width / 2, -110 / 0.3);
-    ctx.resetTransform();
-
-    // Main content area with subtle texture
-    const contentY = 50 + headerHeight;
-    const contentHeight = height - 50 - headerHeight - 70;
-    
-    ctx.fillStyle = '#ffffff';
-    roundRect(ctx, 80, contentY + 20, width - 160, contentHeight, 15);
-    
-    // Add subtle grain texture to content area
-    ctx.globalCompositeOperation = 'overlay';
-    for (let i = 0; i < 5000; i++) {
-        const x = 80 + Math.random() * (width - 160);
-        const y = contentY + 20 + Math.random() * contentHeight;
-        const opacity = Math.random() * 0.03;
-        ctx.fillStyle = `rgba(0, 0, 0, ${opacity})`;
-        ctx.fillRect(x, y, 1, 1);
-    }
-    ctx.globalCompositeOperation = 'source-over';
-
-    // Enhanced date and time display with better styling
-    const now = new Date();
-    const dateTimeFormat = new Intl.DateTimeFormat('vi-VN', {
-      dateStyle: 'full',
-      timeStyle: 'medium'
-    });
-    
-    const dateY = contentY + 60;
-    
-    // Date background pill
-    ctx.fillStyle = colors.highlight;
-    roundRect(ctx, width/2 - 200, dateY - 15, 400, 30, 15);
-    
-    ctx.font = `bold 18px ${getFontFamily()}`;
-    ctx.fillStyle = colors.secondary;
-    ctx.textAlign = 'center';
-    ctx.textBaseline = 'middle';
-    ctx.fillText(dateTimeFormat.format(now), width / 2, dateY);
-
-    // Transaction ID with enhanced styling
-    const transactionId = generateTransactionId();
-    const idBox = {
-      x: (width - 400) / 2,
-      y: contentY + 80,
-      width: 400,
-      height: 40
-    };
-
-    // Stylish ID box with gradient border
-    ctx.strokeStyle = colors.accent;
-    ctx.lineWidth = 2;
-    roundRect(ctx, idBox.x, idBox.y, idBox.width, idBox.height, 20, false, true);
-    
-    // Glass effect background
-    const idGradient = ctx.createLinearGradient(
-      idBox.x, idBox.y, 
-      idBox.x, idBox.y + idBox.height
-    );
-    idGradient.addColorStop(0, 'rgba(255, 255, 255, 0.1)');
-    idGradient.addColorStop(1, 'rgba(255, 255, 255, 0.05)');
-    ctx.fillStyle = idGradient;
-    roundRect(ctx, idBox.x, idBox.y, idBox.width, idBox.height, 20);
-
-    ctx.font = `medium 17px ${getFontFamily()}`;
-    ctx.fillStyle = colors.secondary;
-    ctx.textAlign = 'center';
-    ctx.textBaseline = 'middle';
-    ctx.fillText(`Mã giao dịch: ${transactionId}`, width / 2, idBox.y + idBox.height / 2);
-
-    // Main content layout with improved spacing
-    const startY = contentY + 150;
-    const lineHeight = 70;
-    /**
-     * Helper function to draw person field with icon - MOVED INSIDE TRY BLOCK
-     */
-    function drawPersonField(label, value, y, colors) {
-      // Icon with circle background
-      ctx.fillStyle = colors.highlight;
-      ctx.beginPath();
-      ctx.arc(120, y - 5, 20, 0, Math.PI * 2);
-      ctx.fill();
-      
-      // Label
-      ctx.font = `bold 22px ${getFontFamily()}`;
-      ctx.fillStyle = '#424242';
-      ctx.textAlign = 'left';
-      ctx.fillText(label, 150, y);
-      
-      // Value with enhanced background
-      ctx.fillStyle = 'rgba(0, 0, 0, 0.03)';
-      const textWidth = ctx.measureText(value).width;
-      const bgPadding = 20;
-      roundRect(ctx, 350 - bgPadding, y - 22, textWidth + bgPadding * 2, 44, 12);
-      
-      // Add subtle gradient to value background
-      const valueGradient = ctx.createLinearGradient(
-        350 - bgPadding, y - 22,
-        350 - bgPadding, y + 22
-      );
-      valueGradient.addColorStop(0, 'rgba(255, 255, 255, 0.5)');
-      valueGradient.addColorStop(1, 'rgba(255, 255, 255, 0)');
-      ctx.fillStyle = valueGradient;
-      roundRect(ctx, 350 - bgPadding, y - 22, textWidth + bgPadding * 2, 44, 12);
-      
-      // Value text with slight shadow
-      ctx.shadowColor = 'rgba(0, 0, 0, 0.1)';
-      ctx.shadowBlur = 3;
-      ctx.shadowOffsetX = 1;
-      ctx.shadowOffsetY = 1;
-      ctx.font = `medium 24px ${getFontFamily()}`;
-      ctx.fillStyle = colors.primary;
-      ctx.fillText(value, 350, y);
-      ctx.shadowColor = 'transparent';
-    }
-
-    function drawAmountField(label, value, y, color) {
-      // Icon with circle background
-      ctx.fillStyle = colors.highlight;
-      ctx.beginPath();
-      ctx.arc(120, y - 5, 20, 0, Math.PI * 2);
-      ctx.fill();
-      
-      // Label with enhanced styling
-      ctx.font = `bold 22px ${getFontFamily()}`;
-      ctx.fillStyle = '#424242';
-      ctx.textAlign = 'left';
-      ctx.fillText(label, 150, y);
-      
-      // Stylish right-aligned value with subtle shadow
-      ctx.shadowColor = 'rgba(0, 0, 0, 0.15)';
-      ctx.shadowBlur = 4;
-      ctx.shadowOffsetX = 1;
-      ctx.shadowOffsetY = 1;
-      ctx.font = `bold 28px ${getFontFamily()}`;
-      ctx.fillStyle = color;
-      ctx.textAlign = 'right';
-      ctx.fillText(value, width - 150, y);
-      ctx.shadowColor = 'transparent';
-    }
-
-    // Draw sender and recipient info
-    drawPersonField('👤 Người gửi:', senderName, startY, colors);
-    drawPersonField('👥 Người nhận:', recipientName, startY + lineHeight, colors);
-
-    // Separator line with enhanced styling
-    const lineY = startY + lineHeight * 1.8;
-    const lineGradient = ctx.createLinearGradient(100, lineY, width - 100, lineY);
-    lineGradient.addColorStop(0, 'rgba(200, 200, 200, 0.1)');
-    lineGradient.addColorStop(0.5, 'rgba(200, 200, 200, 0.5)');
-    lineGradient.addColorStop(1, 'rgba(200, 200, 200, 0.1)');
-    
-    // Draw dotted line for visual interest
-    ctx.strokeStyle = lineGradient;
-    ctx.lineWidth = 2;
-    ctx.setLineDash([5, 5]);
-    ctx.beginPath();
-    ctx.moveTo(100, lineY);
-    ctx.lineTo(width - 100, lineY);
-    ctx.stroke();
-    ctx.setLineDash([]);
-
-    // Draw decorative corner elements at separator line
-    ctx.fillStyle = colors.accent;
-    ctx.beginPath();
-    ctx.arc(100, lineY, 5, 0, Math.PI * 2);
-    ctx.fill();
-    ctx.beginPath();
-    ctx.arc(width - 100, lineY, 5, 0, Math.PI * 2);
-    ctx.fill();
-
-    // Draw amount information with enhanced styling
-    drawAmountField('💸 Số tiền gửi:', formatNumber(amount) + ' $', startY + lineHeight * 2.3, '#2e7d32');
-    drawAmountField('🧾 Phí giao dịch:', formatNumber(fee) + ' $', startY + lineHeight * 3.1, '#ff9800');
-    
-    // Enhanced total amount box
-    const totalY = startY + lineHeight * 4;
-    
-    // Total box with glass effect and gradient border
-    ctx.save();
     ctx.shadowColor = 'rgba(0, 0, 0, 0.2)';
     ctx.shadowBlur = 15;
     ctx.shadowOffsetX = 0;
-    ctx.shadowOffsetY = 5;
-    ctx.fillStyle = 'rgba(0, 0, 0, 0.03)';
-    roundRect(ctx, 100, totalY - 35, width - 200, 80, 15);
-    ctx.restore();
-    
-    // Add gradient border
-    const borderGradient = ctx.createLinearGradient(100, totalY, width - 100, totalY);
-    borderGradient.addColorStop(0, colors.accent);
-    borderGradient.addColorStop(1, colors.primary);
-    ctx.strokeStyle = borderGradient;
-    ctx.lineWidth = 2;
-    roundRect(ctx, 100, totalY - 35, width - 200, 80, 15, false, true);
-
-    // Total amount label
-    ctx.font = `bold 28px ${getFontFamily()}`;
-    ctx.fillStyle = '#424242';
-    ctx.textAlign = 'left';
-    ctx.fillText('💰 Tổng tiền:', 150, totalY + 5);
-    
-    // Total amount value with enhanced gradient effect
-    const totalGradient = ctx.createLinearGradient(350, totalY - 15, 750, totalY + 25);
-    totalGradient.addColorStop(0, '#d32f2f');
-    totalGradient.addColorStop(1, '#f44336');
-    
-    ctx.fillStyle = totalGradient;
-    ctx.shadowColor = 'rgba(0, 0, 0, 0.3)';
-    ctx.shadowBlur = 10;
-    ctx.shadowOffsetX = 2;
-    ctx.shadowOffsetY = 2;
-    ctx.font = `bold 38px ${getFontFamily()}`;
-    ctx.textAlign = 'right';
-    ctx.fillText(`${formatNumber(total)} $`, width - 150, totalY + 5);
+    ctx.shadowOffsetY = 3;
+    roundRect(ctx, 15, 15, width - 30, height - 30, 40, false, true);
     ctx.shadowColor = 'transparent';
-
-    // Enhanced remaining balance section
-    const balanceY = startY + lineHeight * 5.1;
     
-    // Balance box with subtle background
-    ctx.fillStyle = 'rgba(0, 0, 0, 0.02)';
-    roundRect(ctx, 100, balanceY - 25, width - 200, 70, 15);
     
-    // Add subtle pattern
-    ctx.fillStyle = 'rgba(0, 0, 0, 0.01)';
-    for (let x = 110; x < width - 110; x += 10) {
-      for (let y = balanceY - 15; y < balanceY + 35; y += 10) {
-        ctx.beginPath();
-        ctx.arc(x, y, 1, 0, Math.PI * 2);
-        ctx.fill();
-      }
-    }
+    const statusBarHeight = 50;
+    ctx.fillStyle = theme === 'dark' ? '#000000' : '#FFFFFF';
+    roundRect(ctx, 15, 15, width - 30, statusBarHeight, { tl: 40, tr: 40, br: 0, bl: 0 });
     
-    // Balance label
-    ctx.font = `bold 24px ${getFontFamily()}`;
-    ctx.fillStyle = '#424242';
-    ctx.textAlign = 'left';
-    ctx.fillText('💳 Số dư còn lại:', 150, balanceY + 10);
     
-    // Balance value
-    ctx.font = `bold 28px ${getFontFamily()}`;
-    ctx.fillStyle = colors.primary;
-    ctx.textAlign = 'right';
-    ctx.fillText(`${formatNumber(remainingBalance)} $`, width - 150, balanceY + 10);
-
-    // Generate a verification QR code (simulate)
-    try {
-      const qrCodeSize = 100;
-      const qrCodeData = `VERIFY:${transactionId}:${total}:${Date.now()}`;
-      const qrCodeUrl = await QRCode.toDataURL(qrCodeData, {
-        errorCorrectionLevel: 'H',
-        margin: 1,
-        width: qrCodeSize
-      });
-      
-      const qrImage = await loadImage(qrCodeUrl);
-      ctx.drawImage(qrImage, width - 150, height - 170, qrCodeSize, qrCodeSize);
-      
-      // Add QR code label
-      ctx.font = `bold 12px ${getFontFamily()}`;
-      ctx.fillStyle = '#757575';
-      ctx.textAlign = 'center';
-      ctx.fillText('QR XÁC THỰC', width - 100, height - 60);
-    } catch (qrError) {
-      console.log("QR code generation failed:", qrError);
-    }
-
-    // Add security watermark
-    ctx.font = `light 100px ${getFontFamily()}`;
-    ctx.fillStyle = 'rgba(0, 0, 0, 0.02)';
-    ctx.textAlign = 'center';
-    ctx.textBaseline = 'middle';
-    ctx.translate(width/2, height/2);
-    ctx.rotate(-Math.PI/10);
-    ctx.fillText('VERIFIED', 0, 0);
-    ctx.resetTransform();
-
-    // Add footer with security text
-    ctx.font = `light 14px ${getFontFamily()}`;
-    ctx.fillStyle = '#757575';
-    ctx.textAlign = 'center';
-    ctx.fillText('Giao dịch được bảo mật và xác thực bởi hệ thống', width / 2, height - 80);
-    ctx.fillText(`© ${new Date().getFullYear()} • Mọi giao dịch được lưu trữ và bảo vệ`, width / 2, height - 60);
-
-    // Add decorative stamp (official seal)
-    const stampX = 140;
-    const stampY = height - 120;
-    const stampRadius = 40;
+    ctx.fillStyle = theme === 'dark' ? '#FFFFFF' : '#000000';
     
-    // Stamp background
-    ctx.globalAlpha = 0.8;
-    ctx.fillStyle = colors.accent;
+    
+    ctx.fillRect(width - 60, 30, 25, 15);
+    ctx.fillStyle = theme === 'dark' ? '#000000' : '#FFFFFF';
+    ctx.fillRect(width - 58, 32, 21, 11);
+    ctx.fillStyle = theme === 'dark' ? '#FFFFFF' : '#000000';
+    ctx.fillRect(width - 56, 34, 17, 7);
+    
+    
+    ctx.lineWidth = 2;
     ctx.beginPath();
-    ctx.arc(stampX, stampY, stampRadius, 0, Math.PI * 2);
+    ctx.arc(width - 85, 37, 8, Math.PI, 0);
+    ctx.stroke();
+    ctx.beginPath();
+    ctx.arc(width - 85, 37, 5, Math.PI, 0);
+    ctx.stroke();
+    ctx.beginPath();
+    ctx.arc(width - 85, 37, 2, Math.PI, 0);
+    ctx.stroke();
+    
+    
+    ctx.beginPath();
+    ctx.arc(width - 110, 37, 8, Math.PI, 0);
+    ctx.stroke();
+    ctx.beginPath();
+    ctx.arc(width - 110, 37, 4, Math.PI, 0);
+    ctx.stroke();
+    
+    
+    ctx.font = `bold 16px ${getFontFamily()}`;
+    ctx.textAlign = 'center';
+    const time = new Date().toLocaleTimeString('vi-VN', { hour: '2-digit', minute: '2-digit' });
+    ctx.fillText(time, width / 2, 37);
+
+    
+    const headerHeight = 100;
+    const headerGradient = ctx.createLinearGradient(0, 65, 0, 65 + headerHeight);
+    headerGradient.addColorStop(0, colors.gradientStart);
+    headerGradient.addColorStop(1, colors.gradientEnd);
+    
+    ctx.fillStyle = headerGradient;
+    ctx.fillRect(15, 65, width - 30, headerHeight);
+    
+    
+    ctx.fillStyle = '#FFFFFF';
+    ctx.beginPath();
+    ctx.arc(55, 115, 30, 0, Math.PI * 2);
     ctx.fill();
     
-    // Stamp border
-    ctx.strokeStyle = colors.primary;
-    ctx.lineWidth = 2;
-    ctx.setLineDash([3, 3]);
-    ctx.beginPath();
-    ctx.arc(stampX, stampY, stampRadius - 5, 0, Math.PI * 2);
-    ctx.stroke();
-    ctx.setLineDash([]);
-    
-    // Stamp text
-    ctx.font = `bold 12px ${getFontFamily()}`;
-    ctx.fillStyle = '#ffffff';
+    ctx.fillStyle = colors.primary;
+    ctx.font = `bold 32px ${getFontFamily()}`;
     ctx.textAlign = 'center';
     ctx.textBaseline = 'middle';
+    ctx.fillText('MB', 55, 115);
     
-    // Create circular text
-    for (let i = 0; i < 360; i += 30) {
-      ctx.save();
-      ctx.translate(stampX, stampY);
-      ctx.rotate(i * Math.PI / 180);
-      ctx.fillText('•', 0, -stampRadius + 12);
-      ctx.restore();
+    
+    ctx.fillStyle = '#FFFFFF';
+    ctx.font = `bold 24px ${getFontFamily()}`;
+    ctx.textAlign = 'left';
+    ctx.textBaseline = 'middle';
+    ctx.fillText('Mobile Banking', 100, 105);
+    
+    
+    ctx.font = `normal 14px ${getFontFamily()}`;
+    ctx.fillText('Giao dịch an toàn, nhanh chóng', 100, 130);
+    
+    
+    ctx.beginPath();
+    ctx.moveTo(width - 45, 105);
+    ctx.lineTo(width - 55, 115);
+    ctx.lineTo(width - 45, 125);
+    ctx.strokeStyle = '#FFFFFF';
+    ctx.lineWidth = 2;
+    ctx.stroke();
+    
+    
+    const cardY = 180;
+    const cardHeight = height - cardY - 70;
+    
+    ctx.shadowColor = 'rgba(0, 0, 0, 0.1)';
+    ctx.shadowBlur = 10;
+    ctx.shadowOffsetX = 0;
+    ctx.shadowOffsetY = 5;
+    ctx.fillStyle = colors.cardBackground;
+    roundRect(ctx, 30, cardY, width - 60, cardHeight, 20);
+    ctx.shadowColor = 'transparent';
+    
+    
+    const successY = cardY + 60;
+    
+    
+    const successGradient = ctx.createRadialGradient(width/2, successY, 10, width/2, successY, 45);
+    successGradient.addColorStop(0, colors.success);
+    successGradient.addColorStop(1, colors.success + '80'); 
+    
+    ctx.fillStyle = successGradient;
+    ctx.beginPath();
+    ctx.arc(width / 2, successY, 40, 0, Math.PI * 2);
+    ctx.fill();
+    
+    
+    ctx.strokeStyle = '#FFFFFF';
+    ctx.lineWidth = 6;
+    ctx.lineCap = 'round';
+    ctx.lineJoin = 'round';
+    ctx.beginPath();
+    ctx.moveTo(width / 2 - 15, successY);
+    ctx.lineTo(width / 2 - 5, successY + 10);
+    ctx.lineTo(width / 2 + 15, successY - 10);
+    ctx.stroke();
+    
+    
+    ctx.fillStyle = colors.textPrimary;
+    ctx.font = `bold 24px ${getFontFamily()}`;
+    ctx.textAlign = 'center';
+    ctx.fillText('Giao dịch thành công', width / 2, successY + 70);
+    
+    
+    ctx.shadowColor = 'rgba(0, 0, 0, 0.1)';
+    ctx.shadowBlur = 5;
+    ctx.fillStyle = colors.success;
+    ctx.font = `bold 40px ${getFontFamily()}`;
+    ctx.fillText(`${formatNumber(amount)} $`, width / 2, successY + 120);
+    ctx.shadowColor = 'transparent';
+    
+    
+    const now = new Date();
+    const dateTimeFormat = new Intl.DateTimeFormat('vi-VN', {
+      day: '2-digit', 
+      month: '2-digit', 
+      year: 'numeric',
+      hour: '2-digit', 
+      minute: '2-digit'
+    });
+    
+    const transactionId = generateTransactionId();
+    
+    
+    ctx.fillStyle = theme === 'dark' ? 'rgba(255, 255, 255, 0.1)' : 'rgba(0, 0, 0, 0.05)';
+    roundRect(ctx, width/2 - 100, successY + 155, 200, 30, 15);
+    
+    ctx.fillStyle = colors.textSecondary;
+    ctx.font = `normal 14px ${getFontFamily()}`;
+    ctx.fillText(dateTimeFormat.format(now), width / 2, successY + 150);
+    ctx.fillStyle = theme === 'dark' ? '#FFFFFF' : colors.textPrimary;
+    ctx.font = `medium 14px ${getFontFamily()}`;
+    ctx.fillText(`Mã GD: ${transactionId}`, width / 2, successY + 175);
+    
+    
+    const dividerY = successY + 210;
+    ctx.fillStyle = colors.divider;
+    ctx.fillRect(60, dividerY, width - 120, 1);
+    
+    
+    ctx.fillStyle = colors.textPrimary;
+    ctx.font = `medium 18px ${getFontFamily()}`;
+    ctx.textAlign = 'left';
+    ctx.fillText('Chi tiết giao dịch', 60, dividerY + 25);
+    
+    
+    const detailsStartY = dividerY + 60;
+    const detailSpacing = 60;
+    
+    function drawDetailRow(label, value, y, iconType = null) {
+      
+      if (iconType) {
+        ctx.fillStyle = colors.primary + '30';
+        roundRect(ctx, 60, y - 15, 30, 30, 8);
+        
+        ctx.fillStyle = colors.primary;
+        ctx.font = `bold 14px ${getFontFamily()}`;
+        ctx.textAlign = 'center';
+        ctx.textBaseline = 'middle';
+        
+        let icon = '→';
+        if (iconType === 'sender') icon = '↑';
+        else if (iconType === 'receiver') icon = '↓';
+        else if (iconType === 'money') icon = '$';
+        else if (iconType === 'fee') icon = '₫';
+        else if (iconType === 'total') icon = '∑';
+        
+        ctx.fillText(icon, 75, y);
+        ctx.textBaseline = 'alphabetic';
+      }
+      
+      ctx.fillStyle = colors.textSecondary;
+      ctx.font = `normal 16px ${getFontFamily()}`;
+      ctx.textAlign = 'left';
+      ctx.fillText(label, iconType ? 100 : 60, y);
+      
+      ctx.fillStyle = colors.textPrimary;
+      ctx.font = `medium 16px ${getFontFamily()}`;
+      ctx.textAlign = 'right';
+      ctx.fillText(value, width - 60, y);
     }
     
-    ctx.font = `bold 14px ${getFontFamily()}`;
-    ctx.fillText('OFFICIAL', stampX, stampY - 10);
-    ctx.fillText('TRANSACTION', stampX, stampY + 10);
+    drawDetailRow('Người gửi', senderName, detailsStartY, 'sender');
+    drawDetailRow('Người nhận', recipientName, detailsStartY + detailSpacing, 'receiver');
+    drawDetailRow('Số tiền', `${formatNumber(amount)} $`, detailsStartY + detailSpacing * 2, 'money');
+    drawDetailRow('Phí giao dịch', `${formatNumber(fee)} $`, detailsStartY + detailSpacing * 3, 'fee');
+    drawDetailRow('Tổng cộng', `${formatNumber(total)} $`, detailsStartY + detailSpacing * 4, 'total');
     
-    ctx.globalAlpha = 1.0;
-
-    // Generate output file
+    
+    const finalDividerY = detailsStartY + detailSpacing * 5;
+    ctx.shadowColor = 'rgba(0, 0, 0, 0.05)';
+    ctx.shadowBlur = 3;
+    ctx.shadowOffsetY = 1;
+    ctx.fillStyle = colors.divider;
+    ctx.fillRect(60, finalDividerY, width - 120, 2);
+    ctx.shadowColor = 'transparent';
+    
+    
+    const balanceY = finalDividerY + 40;
+    
+    
+    ctx.fillStyle = theme === 'dark' ? 'rgba(255, 255, 255, 0.05)' : 'rgba(0, 0, 0, 0.02)';
+    roundRect(ctx, 60, balanceY - 15, width - 120, 60, 10);
+    
+    ctx.fillStyle = colors.textSecondary;
+    ctx.font = `normal 16px ${getFontFamily()}`;
+    ctx.textAlign = 'center';
+    ctx.fillText('Số dư khả dụng', width / 2, balanceY);
+    
+    ctx.fillStyle = colors.primary;
+    ctx.font = `bold 26px ${getFontFamily()}`;
+    ctx.fillText(`${formatNumber(remainingBalance)} $`, width / 2, balanceY + 30);
+    
+    
+    const navBarY = height - 65;
+    ctx.fillStyle = theme === 'dark' ? '#000000' : '#FFFFFF';
+    ctx.shadowColor = 'rgba(0, 0, 0, 0.2)';
+    ctx.shadowBlur = 10;
+    ctx.shadowOffsetY = -3;
+    roundRect(ctx, 15, navBarY, width - 30, 50, { tl: 0, tr: 0, br: 40, bl: 40 });
+    ctx.shadowColor = 'transparent';
+    
+    
+    const iconSpacing = (width - 60) / 5;
+    const navIcons = ['≡', '♡', '⌂', '↺', '☰'];
+    
+    for (let i = 0; i < 5; i++) {
+      const iconX = 30 + (iconSpacing * i) + (iconSpacing / 2);
+      const iconY = navBarY + 25;
+      
+      if (i === 2) {
+        ctx.fillStyle = colors.primary + '30';
+        ctx.beginPath();
+        ctx.arc(iconX, iconY - 15, 25, 0, Math.PI * 2);
+        ctx.fill();
+        
+        ctx.fillStyle = colors.primary;
+        ctx.font = `bold 24px ${getFontFamily()}`;
+      } else {
+        ctx.fillStyle = theme === 'dark' ? '#555555' : '#888888';
+        ctx.font = `normal 20px ${getFontFamily()}`;
+      }
+      
+      ctx.textAlign = 'center';
+      ctx.textBaseline = 'middle';
+      ctx.fillText(navIcons[i], iconX, iconY);
+      ctx.textBaseline = 'alphabetic';
+    }
+    
+    
+    ctx.fillStyle = theme === 'dark' ? '#555555' : '#DDDDDD';
+    roundRect(ctx, (width / 2) - 70, navBarY + 40, 140, 5, 2.5);
+    
+    
     const outputPath = path.join(outputDir, `transaction_${Date.now()}.png`);
     const buffer = canvas.toBuffer('image/png');
     fs.writeFileSync(outputPath, buffer);
