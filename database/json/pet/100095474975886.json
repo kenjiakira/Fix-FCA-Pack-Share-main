@@ -15,7 +15,7 @@
         "hunger": 0,
         "mood": 0,
         "energy": 0,
-        "health": 42
+        "health": 0
       },
       "skills": [],
       "equipped": {
@@ -37,6 +37,6 @@
       }
     }
   ],
-  "lastUpdate": 1744213091506,
+  "lastUpdate": 1744299210141,
   "inventory": {}
 }

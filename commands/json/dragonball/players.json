@@ -648,12 +648,12 @@
     "name": "Gia Huy ",
     "planet": "SAIYAN",
     "stats": {
-      "power": 377104,
-      "damage": 360,
-      "ki": 680,
-      "health": 3000,
-      "exp": 20979,
-      "zeni": 36776,
+      "power": 387397,
+      "damage": 370,
+      "ki": 700,
+      "health": 3200,
+      "exp": 20375,
+      "zeni": 36884,
       "inventory": {
         "items": [],
         "equipped": []
@@ -663,16 +663,16 @@
         "completed": [],
         "progress": {}
       },
-      "currentKi": 670,
+      "currentKi": 409,
       "level": 2,
-      "maxHealth": 2900,
-      "currentHealth": 2272
+      "maxHealth": 3100,
+      "currentHealth": 1900
     },
     "skills": [
       "GOKU:ATOMIC"
     ],
     "masters": [],
-    "lastTrain": 1744213125384,
+    "lastTrain": 1744288608560,
     "created": 1743526294836,
     "inventory": {
       "dragonBalls": [],
@@ -726,7 +726,7 @@
         "SAIYAN_RADITZ": 2
       }
     },
-    "lastPvpFight": 1743998274663,
+    "lastPvpFight": 1744288689140,
     "baseStats": {
       "damage": 340,
       "health": 2800,
@@ -934,12 +934,12 @@
     "name": "Le Tuan Tu",
     "planet": "SAIYAN",
     "stats": {
-      "power": 2589928734,
-      "damage": 13455,
+      "power": 2623746755,
+      "damage": 14455,
       "ki": 2948,
       "health": null,
-      "exp": 159415738,
-      "zeni": 2798351,
+      "exp": 147226276,
+      "zeni": 2798437,
       "inventory": {
         "items": [],
         "equipped": []
@@ -961,7 +961,7 @@
       "GOKU:BIND"
     ],
     "masters": [],
-    "lastTrain": 1744080777662,
+    "lastTrain": 1744271530704,
     "created": 1743562364905,
     "inventory": {
       "dragonBalls": [],
@@ -1156,14 +1156,14 @@
     "name": "Tran Thu Huyen",
     "planet": "SAIYAN",
     "stats": {
-      "power": 67015,
+      "power": 70015,
       "damage": 210,
       "ki": 180,
       "currentKi": 140,
       "health": 1600,
       "currentHealth": 1000,
-      "exp": 82613,
-      "zeni": 42452,
+      "exp": 87060,
+      "zeni": 45036,
       "inventory": {
         "items": [],
         "equipped": []
@@ -1179,7 +1179,7 @@
       "GOKU:ATOMIC"
     ],
     "masters": [],
-    "lastTrain": 1744197747506,
+    "lastTrain": 1744385848892,
     "created": 1743570305333,
     "inventory": {
       "dragonBalls": [
@@ -1254,7 +1254,7 @@
       "power": 16029,
       "damage": 310,
       "ki": 138,
-      "currentKi": 81,
+      "currentKi": 66,
       "health": 1000,
       "currentHealth": 1000,
       "exp": 1430,
@@ -1300,20 +1300,20 @@
         "SAIYAN_RADITZ": 0
       }
     },
-    "lastPvpFight": 1743998274663
+    "lastPvpFight": 1744288689140
   },
   "100035899503301": {
     "name": "Người trái đất",
     "planet": "EARTH",
     "stats": {
-      "power": 10578332531,
+      "power": 10727484176,
       "damage": 7867550,
       "ki": 4295122,
       "currentKi": 644270,
       "health": 15525120,
       "currentHealth": 15525120,
-      "exp": 82271155,
-      "zeni": 198397,
+      "exp": 107681681,
+      "zeni": 205063,
       "inventory": {
         "items": [],
         "equipped": []
@@ -1336,7 +1336,7 @@
       "KAME:HYPNOSIS"
     ],
     "masters": [],
-    "lastTrain": 1744207979042,
+    "lastTrain": 1744383259879,
     "created": 1743613097948,
     "inventory": {
       "dragonBalls": [

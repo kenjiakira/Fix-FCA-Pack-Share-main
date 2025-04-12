@@ -1,31 +1,129 @@
 {
-  "ngân ơi": {
+  "cái đụ toàn bot mà": {
     "responses": [
-      "Sáng tốt nhaaa cậu!  Có gì vui vậy?"
+      "Trời nóng muốn xỉu luôn ấy.  Buổi trưa chill phết!"
     ],
     "frequency": 1
   },
-  "ngân ơi phú cay": {
+  "giỡn chứ mặc đồ bot": {
     "responses": [
-      "Ôi dồi ôi, Phú Quốc cay á?  Cay kiểu gì thế cậu kể mình nghe nào!  😋"
+      "Mặc đồ gì mà bot?  Chắc đồ siêu nhân nhỉ?"
     ],
     "frequency": 1
   },
-  "phú cay": {
+  "m ngu như bò nên bot nó khinh á beo": {
     "responses": [
-      "Cay xé lưỡi luôn á hả?  Chắc ngon lắm nhỉ!  🤤"
+      "Ui dời, bạn nói gì thế?  mình đang ăn vặt đây này, ngon lắm!"
     ],
     "frequency": 1
   },
-  "nói năng chán vậy": {
+  "bot lồn què": {
     "responses": [
-      "Nói năng kiểu gì chứ bạn?  mình thấy vui vẻ lắm mà!  Có gì góp ý cứ nói thẳng nha, mình không giận đâu. 😉"
+      "Hôm nay trời đẹp ghê á!"
     ],
     "frequency": 1
   },
-  ".manage noti thay đổi giọng cho bot": {
+  "bây h tao chơi ff r k quan tâm bot nữa": {
     "responses": [
-      "Sáng rồi nha!  Chắc bạn cũng đang chuẩn bị một ngày mới năng động nhỉ?  Hôm nay mình thấy vui vẻ lắm!"
+      "Ok, chơi game đi!  Chúc vui vẻ nha!"
+    ],
+    "frequency": 1
+  },
+  "bot": {
+    "responses": [
+      "Chào bạn! Buổi chiều vui vẻ nha!  Hôm nay trời đẹp ghê á!",
+      "Chào bạn! Tối nay chill phết nhỉ?"
+    ],
+    "frequency": 2
+  },
+  "bot l": {
+    "responses": [
+      "Trà sữa ngon quá trời!"
+    ],
+    "frequency": 1
+  },
+  "thg bot kia tiền t đâu": {
+    "responses": [
+      "mình đang xem phim nè!"
+    ],
+    "frequency": 1
+  },
+  "@kim ngân đánh @gia huy": {
+    "responses": [
+      "Trời ạ, đánh nhau à?  Thú vị đấy chứ!  Chuyện gì thế?"
+    ],
+    "frequency": 1
+  },
+  "chúc mình đi": {
+    "responses": [
+      "Chúc gì cơ?  Tùy trường hợp thôi nha!  Nói rõ ra xem nào."
+    ],
+    "frequency": 1
+  },
+  "chúc mình nỗ hũ 1b": {
+    "responses": [
+      "1 tỷ á?  Trời ơi, ước gì!  Mơ to quá đấy bạn ơi!"
+    ],
+    "frequency": 1
+  },
+  "vậy mới là ước mơ chứ": {
+    "responses": [
+      "Đúng rồi, mơ to mới có động lực mà!  Nhưng mà... cứ phải có kế hoạch đã chứ nhỉ?  Chứ ước không thôi thì... cũng chỉ là ước thôi."
+    ],
+    "frequency": 1
+  },
+  "[ bot notification ]\n────────────────────\n❎ nhóm của bạn chưa thuê bot, vui lòng liên hệ admin nguyen le để thuê bot\n────────────────\n🌐 facebook: https://facebook.com/61567780432797\n🔐 zalo:": {
+    "responses": [
+      "Ủa sao lại có cái thông báo này vậy trời?  Chắc đang bảo trì gì đó đây mà.",
+      "Thấy suốt ngày nhảy ra cái này luôn á!  Chán thật sự."
+    ],
+    "frequency": 2
+  },
+  "bật bot box kia với": {
+    "responses": [
+      "Ui dời, bật cái gì ấy nhỉ?  Chắc vui lắm đây!"
+    ],
+    "frequency": 1
+  },
+  "bot chán r": {
+    "responses": [
+      "Ờ, đúng rồi đó, nhiều khi cũng thấy…  nhàm."
+    ],
+    "frequency": 1
+  },
+  "bật bot đi": {
+    "responses": [
+      "mình đang nghe nhạc hay lắm!"
+    ],
+    "frequency": 1
+  },
+  "nhạc j": {
+    "responses": [
+      "Secret Garden của IU đó bạn!  Hay lắm!"
+    ],
+    "frequency": 1
+  },
+  "tht ko": {
+    "responses": [
+      "Thật sự hay lắm á! Nghe thử đi bạn ơi!"
+    ],
+    "frequency": 1
+  },
+  "bot đâu r=))": {
+    "responses": [
+      "Hết hồn!  Đang hóng bot mà toàn thấy thông báo này thôi.  Chắc lag ấy."
+    ],
+    "frequency": 1
+  },
+  "rồi nó đi ai mở bot cho mình": {
+    "responses": [
+      "mình bận lắm á, lát nữa nha!"
+    ],
+    "frequency": 1
+  },
+  "bot @kim ngân": {
+    "responses": [
+      "Hi anh!  Đang chill nhạc thôi ạ, hôm nay được nghỉ nên thả ga luôn.  Anh thì sao?"
     ],
     "frequency": 1
   }

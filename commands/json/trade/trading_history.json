@@ -82,6 +82,22 @@
     ],
     "100061680206019": [
       {
+        "type": "sell",
+        "symbol": "NFLX",
+        "shares": 100,
+        "price": 925.2831956698507,
+        "total": 91603.03637131522,
+        "timestamp": 1744387630501
+      },
+      {
+        "type": "sell",
+        "symbol": "NFLX",
+        "shares": 5400,
+        "price": 946.4081681269586,
+        "total": 5059498.06680672,
+        "timestamp": 1744266312817
+      },
+      {
         "type": "buy",
         "symbol": "NFLX",
         "shares": 400,

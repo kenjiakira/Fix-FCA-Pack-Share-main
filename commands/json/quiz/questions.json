@@ -5009,5 +5009,395 @@
       "D": "Tất cả các đáp án trên đều đúng."
     },
     "correct": "D"
+  },
+  {
+    "id": "m9asr5e7gp326",
+    "category": "Thể thao",
+    "difficulty": 1,
+    "question": "Làm thế nào việc tập luyện thường xuyên dẫn đến sức khỏe tốt hơn?",
+    "options": {
+      "A": "Tăng cường hệ tim mạch, giảm nguy cơ bệnh tật.",
+      "B": "Cải thiện thể lực, tăng cường sức mạnh cơ bắp.",
+      "C": "Giúp ngủ ngon hơn, giảm stress hiệu quả.",
+      "D": "Cả A, B và C đều đúng."
+    },
+    "correct": "D"
+  },
+  {
+    "id": "m9asrm5ln18yw",
+    "category": "Vật lý",
+    "difficulty": 1,
+    "question": "Tại sao bóng bay bơm khí heli lại bay lên cao?",
+    "options": {
+      "A": "Khí heli nhẹ hơn không khí nên bóng bay nổi lên.",
+      "B": "Khí heli nặng hơn không khí nên bóng bay chìm xuống.",
+      "C": "Bóng bay bay lên do sức đẩy của gió.",
+      "D": "Bóng bay bay lên nhờ dây buộc."
+    },
+    "correct": "A"
+  },
+  {
+    "id": "m9ass7gtyvy8p",
+    "category": "Vật lý",
+    "difficulty": 1,
+    "question": "Tại sao quả bóng rơi xuống đất?",
+    "options": {
+      "A": "Do lực hút của Trái Đất.",
+      "B": "Do quả bóng quá nặng.",
+      "C": "Do gió thổi quả bóng xuống.",
+      "D": "Do quả bóng muốn xuống đất."
+    },
+    "correct": "A"
+  },
+  {
+    "id": "m9assrve1ekf6",
+    "category": "Sinh học",
+    "difficulty": 1,
+    "question": "Tại sao cây xanh lại cần ánh sáng mặt trời?",
+    "options": {
+      "A": "Để quang hợp tạo chất dinh dưỡng.",
+      "B": "Để hấp thụ nước và muối khoáng.",
+      "C": "Để hô hấp và thải khí carbon dioxide.",
+      "D": "Để phát triển chiều cao và tán lá."
+    },
+    "correct": "A"
+  },
+  {
+    "id": "m9astj61a313v",
+    "category": "Thể thao",
+    "difficulty": 1,
+    "question": "Làm thế nào vận động viên bơi lội tạo ra lực đẩy trong nước?",
+    "options": {
+      "A": "Bằng cách đạp chân và quạt tay tạo lực đẩy ngược lại.",
+      "B": "Bằng cách sử dụng phao để nổi trên mặt nước.",
+      "C": "Bằng cách dùng sức mạnh của gió đẩy người về phía trước.",
+      "D": "Bằng cách nhảy lên cao rồi rơi xuống nước."
+    },
+    "correct": "A"
+  },
+  {
+    "id": "m9asuholygntm",
+    "category": "Đời sống",
+    "difficulty": 2,
+    "question": "Làm thế nào sự gia tăng dân số đô thị dẫn đến tình trạng tắc nghẽn giao thông?",
+    "options": {
+      "A": "Tăng cầu về đường sá, phương tiện vận tải công cộng không đáp ứng đủ.",
+      "B": "Sự phát triển đô thị không đồng bộ với hệ thống giao thông hiện có.",
+      "C": "Thiếu quy hoạch giao thông tổng thể, quản lý giao thông kém hiệu quả.",
+      "D": "Cả A, B và C đều đúng."
+    },
+    "correct": "D"
+  },
+  {
+    "id": "m9asv1vbq2he2",
+    "category": "Lịch sử",
+    "difficulty": 2,
+    "question": "Làm thế nào sự suy yếu của nhà Trần cuối thế kỷ XIV dẫn đến sự thắng thế của nhà Hồ?",
+    "options": {
+      "A": "Sự suy yếu về kinh tế, quân sự và nội bộ nhà Trần tạo điều kiện cho Hồ Quý Ly nắm quyền, lập ra nhà Hồ.",
+      "B": "Hồ Quý Ly cải cách mạnh mẽ, thu hút được lòng dân, nhanh chóng đánh bại các thế lực đối lập.",
+      "C": "Nhà Minh xâm lược khiến nhà Trần suy yếu, tạo cơ hội cho Hồ Quý Ly lật đổ nhà Trần.",
+      "D": "Sự bất mãn của nhân dân với nhà Trần tạo điều kiện cho Hồ Quý Ly nổi dậy và thành công."
+    },
+    "correct": "A"
+  },
+  {
+    "id": "m9asw20bkrllh",
+    "category": "Khoa học",
+    "difficulty": 2,
+    "question": "Làm thế nào sự biến đổi khí hậu dẫn đến hiện tượng băng tan ở hai cực?",
+    "options": {
+      "A": "Tăng nhiệt độ toàn cầu làm tan chảy băng nhanh hơn tốc độ hình thành.",
+      "B": "Sự gia tăng lượng mưa làm tăng trọng lượng băng, gây vỡ và tan chảy.",
+      "C": "Sự thay đổi dòng hải lưu làm giảm nhiệt độ ở hai cực, gây tan băng chậm hơn.",
+      "D": "Sự phun trào núi lửa làm tăng lượng bụi, che khuất ánh sáng mặt trời, làm tan băng."
+    },
+    "correct": "A"
+  },
+  {
+    "id": "m9aszfohex2zy",
+    "category": "Văn học",
+    "difficulty": 1,
+    "question": "Làm thế nào việc sử dụng nhiều từ láy trong thơ ca tạo nên hiệu quả nghệ thuật?",
+    "options": {
+      "A": "Tăng tính nhạc điệu, gợi hình ảnh sinh động.",
+      "B": "Làm cho câu thơ trở nên khó hiểu, trừu tượng.",
+      "C": "Giúp bài thơ ngắn gọn, dễ nhớ hơn.",
+      "D": "Không có tác dụng gì đến bài thơ."
+    },
+    "correct": "A"
+  },
+  {
+    "id": "m9at00jlq6kno",
+    "category": "Khoa học",
+    "difficulty": 1,
+    "question": "Tại sao bầu trời thường có màu xanh vào ban ngày?",
+    "options": {
+      "A": "Ánh sáng mặt trời bị phân tán bởi các phân tử không khí.",
+      "B": "Bầu trời phản chiếu màu xanh của đại dương.",
+      "C": "Mặt trời phát ra ánh sáng màu xanh.",
+      "D": "Do sự phản chiếu ánh sáng từ các đám mây."
+    },
+    "correct": "A"
+  },
+  {
+    "id": "m9at16xxdqtdm",
+    "category": "Công nghệ",
+    "difficulty": 1,
+    "question": "Tại sao máy tính lại cần phần mềm?",
+    "options": {
+      "A": "Phần mềm giúp máy tính hoạt động.",
+      "B": "Phần mềm chứa dữ liệu của máy tính.",
+      "C": "Phần mềm làm cho máy tính đẹp hơn.",
+      "D": "Phần mềm giúp máy tính kết nối internet."
+    },
+    "correct": "A"
+  },
+  {
+    "id": "m9at1lplx0ft5",
+    "category": "Khoa học",
+    "difficulty": 1,
+    "question": "Tại sao bầu trời lại có màu xanh dương?",
+    "options": {
+      "A": "Ánh sáng mặt trời bị phân tán bởi các phân tử không khí.",
+      "B": "Do phản xạ ánh sáng từ mặt nước.",
+      "C": "Vì có nhiều mây trên trời.",
+      "D": "Do sự phản chiếu từ mặt trăng."
+    },
+    "correct": "A"
+  },
+  {
+    "id": "m9at28nx0sq4o",
+    "category": "Sinh học",
+    "difficulty": 1,
+    "question": "Tại sao cây xanh lại cần ánh sáng mặt trời?",
+    "options": {
+      "A": "Để thực hiện quá trình quang hợp tạo chất dinh dưỡng.",
+      "B": "Để tăng cường quá trình hô hấp.",
+      "C": "Để hấp thụ nước và muối khoáng.",
+      "D": "Để giữ độ ẩm cho lá."
+    },
+    "correct": "A"
+  },
+  {
+    "id": "m9at2vkmt5wey",
+    "category": "Đời sống",
+    "difficulty": 1,
+    "question": "Tại sao rau quả tươi lâu hơn rau quả đã được chế biến?",
+    "options": {
+      "A": "Rau quả tươi chưa bị mất nước và chất dinh dưỡng.",
+      "B": "Vi khuẩn khó xâm nhập vào rau quả tươi.",
+      "C": "Rau quả tươi giữ được độ ẩm tốt hơn.",
+      "D": "Quá trình chế biến làm giảm chất bảo quản tự nhiên."
+    },
+    "correct": "A"
+  },
+  {
+    "id": "m9atxrzohtr6f",
+    "category": "Vật lý",
+    "difficulty": 1,
+    "question": "Tại sao bóng bay bơm khí heli lại bay lên?",
+    "options": {
+      "A": "Khí heli nhẹ hơn không khí nên bóng bay nổi lên.",
+      "B": "Khí heli nóng hơn không khí nên bóng bay nổi lên.",
+      "C": "Bóng bay có hình cầu nên dễ nổi.",
+      "D": "Sức căng bề mặt của bóng bay giúp nó bay lên."
+    },
+    "correct": "A"
+  },
+  {
+    "id": "m9aty7cf28a3z",
+    "category": "Thể thao",
+    "difficulty": 1,
+    "question": "Làm thế nào việc tập luyện thường xuyên dẫn đến sức khỏe tốt hơn?",
+    "options": {
+      "A": "Cơ thể trở nên dẻo dai hơn, giảm nguy cơ bệnh tật.",
+      "B": "Tăng cường trao đổi chất, giúp đốt cháy calo hiệu quả.",
+      "C": "Cải thiện sức mạnh và khả năng chịu đựng của cơ thể.",
+      "D": "Giúp tinh thần thoải mái, giảm stress và lo âu."
+    },
+    "correct": "A"
+  },
+  {
+    "id": "m9atzk3qnux6w",
+    "category": "Khoa học",
+    "difficulty": 1,
+    "question": "Tại sao quả bóng rơi xuống đất?",
+    "options": {
+      "A": "Do lực hút của Trái Đất.",
+      "B": "Do quả bóng muốn xuống đất.",
+      "C": "Do gió thổi quả bóng xuống.",
+      "D": "Do quả bóng quá nặng."
+    },
+    "correct": "A"
+  },
+  {
+    "id": "m9atzviilfzgb",
+    "category": "Địa lý",
+    "difficulty": 1,
+    "question": "Tại sao mùa hè thường nóng hơn mùa đông?",
+    "options": {
+      "A": "Do góc chiếu của ánh sáng Mặt Trời lớn hơn, thời gian chiếu sáng dài hơn.",
+      "B": "Do Trái Đất quay quanh Mặt Trời.",
+      "C": "Do sự thay đổi hướng gió.",
+      "D": "Do lượng mưa thay đổi."
+    },
+    "correct": "A"
+  },
+  {
+    "id": "m9au0dupc86p7",
+    "category": "Lịch sử",
+    "difficulty": 1,
+    "question": "Tại sao người Việt Nam lại ăn Tết Nguyên đán?",
+    "options": {
+      "A": "Để mừng năm mới, cầu may mắn, sức khỏe.",
+      "B": "Để tưởng nhớ các vị vua Hùng.",
+      "C": "Để kỷ niệm ngày đất nước thống nhất.",
+      "D": "Để chào đón mùa xuân về."
+    },
+    "correct": "A"
+  },
+  {
+    "id": "m9b0dmlhus57t",
+    "category": "Vật lý",
+    "difficulty": 1,
+    "question": "Tại sao bóng bay bơm khí Heli lại bay lên?",
+    "options": {
+      "A": "Khí Heli nhẹ hơn không khí nên bóng bay nổi.",
+      "B": "Khí Heli nặng hơn không khí nên bóng bay chìm.",
+      "C": "Bóng bay bay lên nhờ sức gió.",
+      "D": "Bóng bay bay lên do lực đẩy của tay người thả."
+    },
+    "correct": "A"
+  },
+  {
+    "id": "m9b0e3t5jb0dq",
+    "category": "Địa lý",
+    "difficulty": 1,
+    "question": "Tại sao mùa hè thường nóng hơn mùa đông?",
+    "options": {
+      "A": "Do góc chiếu của ánh sáng mặt trời lớn hơn, thời gian chiếu sáng dài hơn.",
+      "B": "Do trái đất chuyển động quanh mặt trời với tốc độ nhanh hơn.",
+      "C": "Do lượng mưa trong mùa hè nhiều hơn mùa đông.",
+      "D": "Do sự thay đổi hướng gió trong năm."
+    },
+    "correct": "A"
+  },
+  {
+    "id": "m9b0etrx4yx1d",
+    "category": "Địa lý",
+    "difficulty": 1,
+    "question": "Tại sao mùa hè thường nóng hơn mùa đông?",
+    "options": {
+      "A": "Do góc chiếu của mặt trời lớn hơn, thời gian chiếu sáng dài hơn.",
+      "B": "Do trái đất chuyển động quanh mặt trời.",
+      "C": "Do lượng mưa thay đổi theo mùa.",
+      "D": "Do sự thay đổi độ ẩm không khí."
+    },
+    "correct": "A"
+  },
+  {
+    "id": "m9b0fe088zk2d",
+    "category": "Toán học",
+    "difficulty": 1,
+    "question": "Tại sao 2 cộng 2 lại bằng 4?",
+    "options": {
+      "A": "Đó là định nghĩa của phép cộng.",
+      "B": "Vì hai nhóm hai vật gộp lại thành bốn vật.",
+      "C": "Đó là một quy tắc toán học cơ bản.",
+      "D": "Kết quả của phép cộng hai số tự nhiên."
+    },
+    "correct": "A"
+  },
+  {
+    "id": "m9cnw80lgbuag",
+    "category": "Văn học",
+    "difficulty": 1,
+    "question": "Tại sao truyện cổ tích thường có yếu tố kì ảo?",
+    "options": {
+      "A": "Để tạo sự hấp dẫn, thu hút người đọc.",
+      "B": "Vì các tác giả thích viết về yếu tố kì ảo.",
+      "C": "Để phản ánh đúng hiện thực xã hội.",
+      "D": "Để dễ dàng viết truyện hơn."
+    },
+    "correct": "A"
+  },
+  {
+    "id": "m9cnwz20s6pwd",
+    "category": "Thể thao",
+    "difficulty": 1,
+    "question": "Tại sao cầu thủ bóng đá lại thường xuyên bị thẻ vàng?",
+    "options": {
+      "A": "Vì phạm lỗi trong trận đấu.",
+      "B": "Vì chơi quá hay, làm đối thủ khó chịu.",
+      "C": "Vì không tuân thủ luật chơi.",
+      "D": "Vì ăn mừng bàn thắng quá phấn khích."
+    },
+    "correct": "A"
+  },
+  {
+    "id": "m9cnxmh4rt6sb",
+    "category": "Toán học",
+    "difficulty": 1,
+    "question": "Tại sao 2 cộng 2 lại bằng 4?",
+    "options": {
+      "A": "Đó là định nghĩa của phép cộng.",
+      "B": "Vì 2 + 2 = 4 là một phép tính đúng.",
+      "C": "Vì hai nhóm có hai vật thể khi gộp lại thành một nhóm có bốn vật thể.",
+      "D": "Đó là một quy tắc cơ bản trong toán học."
+    },
+    "correct": "C"
+  },
+  {
+    "id": "m9cnya5z4hrpi",
+    "category": "Hóa học",
+    "difficulty": 1,
+    "question": "Tại sao nước đá lại nổi trên mặt nước?",
+    "options": {
+      "A": "Nước đá có khối lượng riêng nhỏ hơn nước ở thể lỏng.",
+      "B": "Nước đá tan chảy nhanh hơn nước ở thể lỏng.",
+      "C": "Nước đá có nhiệt độ thấp hơn nước ở thể lỏng.",
+      "D": "Nước đá có cấu trúc tinh thể đặc biệt."
+    },
+    "correct": "A"
+  },
+  {
+    "id": "m9cnzidet46nq",
+    "category": "Sinh học",
+    "difficulty": 1,
+    "question": "Tại sao cây xanh lại cần ánh sáng mặt trời?",
+    "options": {
+      "A": "Để thực hiện quá trình quang hợp tạo ra chất dinh dưỡng.",
+      "B": "Để cây sinh trưởng và phát triển nhanh hơn.",
+      "C": "Để cây có thể hấp thụ nước tốt hơn.",
+      "D": "Để cây giữ được độ ẩm."
+    },
+    "correct": "A"
+  },
+  {
+    "id": "m9cnzvkgow0ac",
+    "category": "Vật lý",
+    "difficulty": 1,
+    "question": "Tại sao quả bóng rơi xuống đất?",
+    "options": {
+      "A": "Do lực hút của Trái Đất.",
+      "B": "Do quả bóng quá nặng.",
+      "C": "Do gió thổi quả bóng xuống.",
+      "D": "Do quả bóng muốn nằm yên."
+    },
+    "correct": "A"
+  },
+  {
+    "id": "m9co0bvkbv08y",
+    "category": "Đời sống",
+    "difficulty": 1,
+    "question": "Tại sao rau xanh lại tốt cho sức khỏe?",
+    "options": {
+      "A": "Cung cấp nhiều vitamin và khoáng chất cần thiết.",
+      "B": "Giúp cơ thể hấp thụ chất dinh dưỡng tốt hơn.",
+      "C": "Làm đẹp da và tăng cường sức đề kháng.",
+      "D": "Giúp giảm cân hiệu quả và ngăn ngừa bệnh tật."
+    },
+    "correct": "A"
   }
 ]
