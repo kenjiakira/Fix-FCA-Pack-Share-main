@@ -5399,5 +5399,109 @@
       "D": "Giúp giảm cân hiệu quả và ngăn ngừa bệnh tật."
     },
     "correct": "A"
+  },
+  {
+    "id": "m9jndxvwu1pzv",
+    "category": "Đời sống",
+    "difficulty": 1,
+    "question": "Tại sao ăn nhiều rau xanh lại tốt cho sức khỏe?",
+    "options": {
+      "A": "Cung cấp nhiều vitamin và chất xơ, giúp hệ tiêu hóa khỏe mạnh.",
+      "B": "Làm cho da dẻ đẹp hơn, tóc chắc khỏe hơn.",
+      "C": "Giúp giảm cân hiệu quả, duy trì vóc dáng thon gọn.",
+      "D": "Tăng cường sức đề kháng, giúp cơ thể chống lại bệnh tật."
+    },
+    "correct": "A"
+  },
+  {
+    "id": "m9jneql8k5a1s",
+    "category": "Hóa học",
+    "difficulty": 1,
+    "question": "Tại sao nước đá lại nổi trên mặt nước?",
+    "options": {
+      "A": "Nước đá nhẹ hơn nước ở thể lỏng.",
+      "B": "Nước đá có nhiệt độ thấp hơn nước.",
+      "C": "Nước đá có cấu trúc tinh thể đặc biệt.",
+      "D": "Nước đá tan chảy chậm hơn nước."
+    },
+    "correct": "A"
+  },
+  {
+    "id": "m9jnf830m1qn0",
+    "category": "Vật lý",
+    "difficulty": 1,
+    "question": "Tại sao quả bóng thả xuống đất lại nảy lên?",
+    "options": {
+      "A": "Do lực đàn hồi của quả bóng và mặt đất.",
+      "B": "Do trọng lực tác động lên quả bóng.",
+      "C": "Do quả bóng bị biến dạng khi chạm đất.",
+      "D": "Do ma sát giữa quả bóng và mặt đất."
+    },
+    "correct": "A"
+  },
+  {
+    "id": "m9jnfwd42q6yz",
+    "category": "Thể thao",
+    "difficulty": 1,
+    "question": "Tại sao cầu thủ bóng đá lại bị phạt thẻ vàng?",
+    "options": {
+      "A": "Vì phạm lỗi nhẹ.",
+      "B": "Vì ghi bàn thắng.",
+      "C": "Vì chơi quá hay.",
+      "D": "Vì ăn mừng quá mức."
+    },
+    "correct": "A"
+  },
+  {
+    "id": "m9jnglt4bi2uw",
+    "category": "Văn học",
+    "difficulty": 1,
+    "question": "Làm thế nào sự kiện \"Thánh Gióng\" đánh giặc Ân dẫn đến thắng lợi của dân tộc?",
+    "options": {
+      "A": "Gióng đánh tan giặc, bảo vệ đất nước, thể hiện tinh thần yêu nước.",
+      "B": "Gióng trở thành biểu tượng sức mạnh, khích lệ tinh thần đấu tranh.",
+      "C": "Gióng giúp nhân dân tin tưởng vào sức mạnh thần kỳ, chiến thắng.",
+      "D": "Gióng tạo nên truyền thuyết hào hùng, khẳng định bản sắc dân tộc."
+    },
+    "correct": "A"
+  },
+  {
+    "id": "m9jnhlvzkjn9m",
+    "category": "Thể thao",
+    "difficulty": 2,
+    "question": "Làm thế nào việc sử dụng vợt có trọng lượng khác nhau ảnh hưởng đến cú đánh trong quần vợt?",
+    "options": {
+      "A": "Vợt nặng hơn cho cú đánh mạnh hơn, nhưng chậm hơn và ít kiểm soát hơn.",
+      "B": "Vợt nhẹ hơn cho cú đánh nhanh hơn, dễ kiểm soát hơn, nhưng ít uy lực hơn.",
+      "C": "Trọng lượng vợt không ảnh hưởng đến cú đánh, chỉ phụ thuộc vào kỹ thuật người chơi.",
+      "D": "Vợt nặng hơn giúp tăng tốc độ bóng, vợt nhẹ hơn giúp tăng độ xoáy bóng."
+    },
+    "correct": "B"
+  },
+  {
+    "id": "m9jniibi8uwfy",
+    "category": "Hóa học",
+    "difficulty": 2,
+    "question": "Làm thế nào sự khác biệt về cấu trúc electron lớp ngoài cùng dẫn đến tính chất hóa học khác nhau của kim loại kiềm và halogen?",
+    "options": {
+      "A": "Kim loại kiềm dễ mất electron, halogen dễ nhận electron để đạt cấu hình bền vững.",
+      "B": "Cấu hình electron lớp ngoài cùng tương tự nhau nên tính chất hóa học giống nhau.",
+      "C": "Số proton trong hạt nhân quyết định tính chất hóa học, không phải cấu hình electron.",
+      "D": "Cả kim loại kiềm và halogen đều có tính khử mạnh."
+    },
+    "correct": "A"
+  },
+  {
+    "id": "m9jnjy2zr9h2c",
+    "category": "Công nghệ",
+    "difficulty": 2,
+    "question": "Làm thế nào việc sử dụng thuật toán mã hóa AES 256-bit dẫn đến việc tăng cường bảo mật dữ liệu?",
+    "options": {
+      "A": "Tăng độ phức tạp tính toán, cần thời gian rất dài để phá vỡ mã.",
+      "B": "Giảm dung lượng dữ liệu cần lưu trữ, tiết kiệm không gian.",
+      "C": "Tăng tốc độ truyền tải dữ liệu, hiệu quả hơn.",
+      "D": "Tự động phát hiện và sửa lỗi trong quá trình truyền tải."
+    },
+    "correct": "A"
   }
 ]

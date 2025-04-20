@@ -1,0 +1,42 @@
+{
+  "pets": [
+    {
+      "id": "m9dr7c0xues",
+      "name": "beo",
+      "type": "dog",
+      "breed": "corgi",
+      "breedName": "Corgi",
+      "rarity": "rare",
+      "emoji": "🐕",
+      "level": 1,
+      "exp": 20,
+      "expToNext": 100,
+      "stats": {
+        "hunger": 100,
+        "mood": 100,
+        "energy": 90,
+        "health": 100
+      },
+      "skills": [],
+      "equipped": {
+        "accessory": null
+      },
+      "lastFed": 1744434403233,
+      "lastPlayed": 1744434403233,
+      "createdAt": 1744434403233,
+      "activities": {
+        "WALK": {
+          "lastUsed": 0
+        },
+        "TRAIN": {
+          "lastUsed": 0
+        },
+        "COMPETE": {
+          "lastUsed": 0
+        }
+      }
+    }
+  ],
+  "lastUpdate": 1744434632996,
+  "inventory": {}
+}

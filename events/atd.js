@@ -127,20 +127,7 @@ async function handleFacebook(url, api, event) {
 
 async function handleTikTok(url, api, event) {
     try {
-        const res = await axios.post('https://www.tikwm.com/api/', { url });
-        if (res.data.code !== 0) {
-            return api.sendMessage('⚠️ Không thể tải nội dung từ URL này.', event.threadID);
-        }
-
-        const tiktok = res.data.data;
-        const videoPath = await downloadFile(tiktok.play, 'mp4');
-
-        api.sendMessage({
-            body: `🎬 - Tiêu đề: ${tiktok.title}`,
-            attachment: fs.createReadStream(videoPath),
-        }, event.threadID, () => {
-            fs.unlinkSync(videoPath);
-        });
+        api.sendMessage("⚠️ Vui lòng sử dụng công cụ tải TikTok tại: https://100tools.io.vn/tools/tiktok-downloader", event.threadID);
     } catch (error) {
         console.error('Error with TikTok:', error);
     }

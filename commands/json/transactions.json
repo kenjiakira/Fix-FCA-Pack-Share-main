@@ -210,18 +210,6 @@
   "100083810402652": [
     {
       "type": "out",
-      "amount": 1010000,
-      "timestamp": 1744294422197,
-      "description": "Chuyển 1000000 $ cho User"
-    },
-    {
-      "type": "out",
-      "amount": 10100000,
-      "timestamp": 1744367449196,
-      "description": "Chuyển 10000000 $ cho Yến Oanhh"
-    },
-    {
-      "type": "out",
       "amount": 10100000,
       "timestamp": 1744367481046,
       "description": "Chuyển 10000000 $ cho Người nhận"
@@ -237,6 +225,18 @@
       "amount": 5050000,
       "timestamp": 1744374849547,
       "description": "Chuyển 5000000 $ cho User"
+    },
+    {
+      "type": "out",
+      "amount": 4040000,
+      "timestamp": 1744433657855,
+      "description": "Chuyển 4000000 $ cho Người nhận"
+    },
+    {
+      "type": "out",
+      "amount": 18180000,
+      "timestamp": 1744435954179,
+      "description": "Chuyển 18000000 $ cho Người nhận"
     }
   ],
   "100081438541092": [
@@ -306,12 +306,6 @@
   "61550739941534": [
     {
       "type": "in",
-      "amount": 75000,
-      "timestamp": 1744212227503,
-      "description": "Nhận 75000 $ từ ﹺ٭ ィ vcuong︒ᝰ.ᐟ"
-    },
-    {
-      "type": "in",
       "amount": 30000,
       "timestamp": 1744213051768,
       "description": "Nhận 30000 $ từ Yến Oanhh"
@@ -333,6 +327,12 @@
       "amount": 3100000,
       "timestamp": 1744261750041,
       "description": "Nhận 3100000 $ từ Người gửi"
+    },
+    {
+      "type": "in",
+      "amount": 2000000,
+      "timestamp": 1744436183227,
+      "description": "Nhận 2000000 $ từ Người gửi"
     }
   ],
   "61566298466607": [
@@ -465,33 +465,33 @@
   ],
   "100079008785907": [
     {
+      "type": "out",
+      "amount": 1010000,
+      "timestamp": 1744434857051,
+      "description": "Chuyển 1000000 $ cho Người nhận"
+    },
+    {
+      "type": "out",
+      "amount": 202000,
+      "timestamp": 1744434865464,
+      "description": "Chuyển 200000 $ cho Người nhận"
+    },
+    {
       "type": "in",
       "amount": 1000000,
-      "timestamp": 1744297373725,
+      "timestamp": 1744435012557,
       "description": "Nhận 1000000 $ từ Người gửi"
     },
     {
       "type": "out",
-      "amount": 2020000,
-      "timestamp": 1744297866148,
-      "description": "Chuyển 2000000 $ cho Võ Thế Nam"
-    },
-    {
-      "type": "out",
-      "amount": 3030000,
-      "timestamp": 1744297952950,
-      "description": "Chuyển 3000000 $ cho Võ Thế Nam"
-    },
-    {
-      "type": "in",
-      "amount": 1000000,
-      "timestamp": 1744370227963,
-      "description": "Nhận 1000000 $ từ User"
+      "amount": 1010000,
+      "timestamp": 1744435154875,
+      "description": "Chuyển 1000000 $ cho Người nhận"
     },
     {
       "type": "in",
       "amount": 2000000,
-      "timestamp": 1744371829196,
+      "timestamp": 1744435520515,
       "description": "Nhận 2000000 $ từ Người gửi"
     }
   ],
@@ -796,24 +796,6 @@
   "100079828954790": [
     {
       "type": "in",
-      "amount": 830574,
-      "timestamp": 1744276140368,
-      "description": "Nhận 830574 $ từ User"
-    },
-    {
-      "type": "out",
-      "amount": 10300,
-      "timestamp": 1744276398481,
-      "description": "Chuyển 10000 $ cho Người nhận"
-    },
-    {
-      "type": "in",
-      "amount": 10000,
-      "timestamp": 1744276456604,
-      "description": "Nhận 10000 $ từ Người gửi"
-    },
-    {
-      "type": "in",
       "amount": 100000,
       "timestamp": 1744276480565,
       "description": "Nhận 100000 $ từ Người gửi"
@@ -823,6 +805,24 @@
       "amount": 1000000,
       "timestamp": 1744276519458,
       "description": "Nhận 1000000 $ từ Người gửi"
+    },
+    {
+      "type": "in",
+      "amount": 2000000,
+      "timestamp": 1744436143666,
+      "description": "Nhận 2000000 $ từ Người gửi"
+    },
+    {
+      "type": "in",
+      "amount": 299000,
+      "timestamp": 1744437300992,
+      "description": "Nhận 299000 $ từ Người gửi"
+    },
+    {
+      "type": "in",
+      "amount": 220000,
+      "timestamp": 1744437373128,
+      "description": "Nhận 220000 $ từ Người gửi"
     }
   ],
   "61557429193939": [
@@ -1182,12 +1182,6 @@
   "61553443297125": [
     {
       "type": "out",
-      "amount": 28280,
-      "timestamp": 1744097374775,
-      "description": "Chuyển 28000 $ cho Người nhận"
-    },
-    {
-      "type": "out",
       "amount": 254520,
       "timestamp": 1744097394633,
       "description": "Chuyển 252000 $ cho Người nhận"
@@ -1209,15 +1203,15 @@
       "amount": 416120,
       "timestamp": 1744264094708,
       "description": "Chuyển 412000 $ cho Hu Hi"
+    },
+    {
+      "type": "out",
+      "amount": 301990,
+      "timestamp": 1744437300992,
+      "description": "Chuyển 299000 $ cho Hu Hi"
     }
   ],
   "100052978762587": [
-    {
-      "type": "out",
-      "amount": 555500,
-      "timestamp": 1744097576255,
-      "description": "Chuyển 550000 $ cho Hu Hi"
-    },
     {
       "type": "out",
       "amount": 111100,
@@ -1241,6 +1235,12 @@
       "amount": 543380,
       "timestamp": 1744264018041,
       "description": "Chuyển 538000 $ cho Hu Hi"
+    },
+    {
+      "type": "out",
+      "amount": 222200,
+      "timestamp": 1744437373128,
+      "description": "Chuyển 220000 $ cho Hu Hi"
     }
   ],
   "61575138081052": [
@@ -1381,34 +1381,34 @@
   ],
   "100095474975886": [
     {
-      "type": "out",
-      "amount": 303000,
-      "timestamp": 1744299073921,
-      "description": "Chuyển 300000 $ cho Võ Thế Nam"
-    },
-    {
       "type": "in",
-      "amount": 200000,
-      "timestamp": 1744299148672,
-      "description": "Nhận 200000 $ từ Võ Thế Nam"
+      "amount": 4000000,
+      "timestamp": 1744433657855,
+      "description": "Nhận 4000000 $ từ User"
     },
     {
       "type": "in",
       "amount": 1000000,
-      "timestamp": 1744299259424,
-      "description": "Nhận 1000000 $ từ User"
+      "timestamp": 1744434452977,
+      "description": "Nhận 1000000 $ từ Ngoc Anh"
+    },
+    {
+      "type": "in",
+      "amount": 1000000,
+      "timestamp": 1744434711091,
+      "description": "Nhận 1000000 $ từ Ngoc Anh"
     },
     {
       "type": "out",
       "amount": 1010000,
-      "timestamp": 1744299480390,
-      "description": "Chuyển 1000000 $ cho User"
+      "timestamp": 1744435012557,
+      "description": "Chuyển 1000000 $ cho Ngoc Anh"
     },
     {
       "type": "in",
-      "amount": 1000000,
-      "timestamp": 1744299663359,
-      "description": "Nhận 1000000 $ từ User"
+      "amount": 18000000,
+      "timestamp": 1744435954179,
+      "description": "Nhận 18000000 $ từ User"
     }
   ],
   "100063397755304": [
@@ -1652,33 +1652,33 @@
   "100036216336307": [
     {
       "type": "in",
-      "amount": 500000,
-      "timestamp": 1744299798160,
-      "description": "Nhận 500000 $ từ User"
+      "amount": 1000000,
+      "timestamp": 1744434857051,
+      "description": "Nhận 1000000 $ từ Ngoc Anh"
     },
     {
       "type": "in",
-      "amount": 10000000,
-      "timestamp": 1744367530003,
-      "description": "Nhận 10000000 $ từ User"
+      "amount": 1000000,
+      "timestamp": 1744435154875,
+      "description": "Nhận 1000000 $ từ Ngoc Anh"
     },
     {
       "type": "out",
       "amount": 2020000,
-      "timestamp": 1744369655592,
-      "description": "Chuyển 2000000 $ cho User"
-    },
-    {
-      "type": "out",
-      "amount": 2020000,
-      "timestamp": 1744371811527,
-      "description": "Chuyển 2000000 $ cho Người nhận"
-    },
-    {
-      "type": "out",
-      "amount": 2020000,
-      "timestamp": 1744371829196,
+      "timestamp": 1744435520515,
       "description": "Chuyển 2000000 $ cho Ngoc Anh"
+    },
+    {
+      "type": "out",
+      "amount": 2020000,
+      "timestamp": 1744436143666,
+      "description": "Chuyển 2000000 $ cho Hu Hi"
+    },
+    {
+      "type": "out",
+      "amount": 2020000,
+      "timestamp": 1744436183227,
+      "description": "Chuyển 2000000 $ cho User"
     }
   ],
   "61565435294395": [
@@ -1827,6 +1827,14 @@
       "amount": 1000000,
       "timestamp": 1744392998436,
       "description": "Nhận 1000000 $ từ Anh Khoaa"
+    }
+  ],
+  "61564519670370": [
+    {
+      "type": "in",
+      "amount": 200000,
+      "timestamp": 1744434865464,
+      "description": "Nhận 200000 $ từ Ngoc Anh"
     }
   ]
 }
