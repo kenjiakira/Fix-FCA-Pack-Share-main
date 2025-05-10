@@ -2538,7 +2538,7 @@
   },
   "100008297661441": {
     "rod": "Cần jig Daiwa Saltiga SJ",
-    "rodDurability": 468,
+    "rodDurability": 467,
     "inventory": [
       "Cần trúc",
       "Cần Câu Daiwa",
@@ -2596,7 +2596,7 @@
           "Cá Tra Sông": 11,
           "Cá Lăng": 6,
           "Cá Hú": 5,
-          "Cá Tai Tượng": 9,
+          "Cá Tai Tượng": 10,
           "Cá Trê Trắng": 5,
           "Cá Sặc Rằn": 1,
           "Cá Trắm Cỏ": 11,
@@ -2635,29 +2635,29 @@
         }
       },
       "stats": {
-        "totalCaught": 315,
-        "totalValue": 35740087,
+        "totalCaught": 316,
+        "totalValue": 35961703,
         "bestCatch": {
           "name": "Thủy Quái Vũ Trụ",
           "value": 10687500
         }
       }
     },
-    "exp": 5902,
+    "exp": 6040,
     "level": 17,
-    "fishingStreak": 12,
+    "fishingStreak": 13,
     "stats": {
-      "totalExp": 93338,
+      "totalExp": 93476,
       "highestStreak": 229,
-      "totalFishes": 315
+      "totalFishes": 316
     },
     "activeBuffs": {},
-    "lastFished": 1744785778982,
+    "lastFished": 1745889929459,
     "userID": "100008297661441",
     "energy": 120,
-    "lastEnergyUpdate": 1744785778982,
+    "lastEnergyUpdate": 1745889929459,
     "baits": {
-      "Mồi Thần Thoại": 168
+      "Mồi Thần Thoại": 167
     },
     "craftingMaterials": {}
   },
@@ -2778,7 +2778,7 @@
   },
   "100063719077878": {
     "rod": "Cần jig Daiwa Saltiga SJ",
-    "rodDurability": 342,
+    "rodDurability": 341,
     "inventory": [
       "Cần trúc",
       "Cần Câu Shimano",
@@ -2897,17 +2897,17 @@
     },
     "exp": 87105,
     "level": 30,
-    "fishingStreak": 120,
+    "fishingStreak": 1,
     "stats": {
       "totalExp": 1071161,
       "highestStreak": 280,
       "totalFishes": 405
     },
     "activeBuffs": {},
-    "lastFished": 1742313314471,
+    "lastFished": 1745889949340,
     "userID": "100063719077878",
-    "energy": 195,
-    "lastEnergyUpdate": 1743585734471,
+    "energy": 185,
+    "lastEnergyUpdate": 1745889949340,
     "baits": {},
     "craftingMaterials": {}
   },

@@ -1,102 +1,25 @@
 {
   "global": [
     {
-      "timestamp": 1745150421815,
-      "prompt": "omg bot sống hả",
-      "response": "Chào Lan Anh!  Bot sống gì chứ, tưởng tượng ghê á!  Buổi tối vui vẻ nha!",
-      "senderID": "100089362226968",
-      "senderName": "Lan Anh"
-    },
-    {
-      "timestamp": 1745150449357,
-      "prompt": "Nhờ a nên bot sống lại",
-      "response": "Trời ạ, bạn tưởng tượng bay quá trời luôn!  mình thấy vui vẻ lắm nè, tối nay chill phết.",
-      "senderID": "100093629232816",
-      "senderName": "Người dùng 100093629232816"
-    },
-    {
-      "timestamp": 1745150592880,
-      "prompt": "ngủ cho lắm roi nghèo nha bot",
-      "response": "Ngủ nhiều cũng tốt mà Ngọc Hàn,  mai còn đi học nữa mà!",
-      "senderID": "61555169065633",
-      "senderName": "Ngọc Hàn"
-    },
-    {
-      "timestamp": 1745151528781,
-      "prompt": "ngân sống r à",
-      "response": "Sống khỏe re!  Dạo này bận vccl nên ít onl lắm.  Bạn sao?",
-      "senderID": "100089115852681",
-      "senderName": "Nguyễn Nhật Duy"
-    },
-    {
-      "timestamp": 1745151550375,
-      "prompt": "A nhớ e lắm",
-      "response": "Ui dời, nhớ gì mà nhớ dữ vậy anh?  :)))",
-      "senderID": "100061680206019",
-      "senderName": "Mạnh Đức"
-    },
-    {
-      "timestamp": 1745151580454,
-      "prompt": "Ngân đã trở lại",
-      "response": "Trở lại rồi đây!  :)))",
-      "senderID": "100061680206019",
-      "senderName": "Mạnh Đức"
+      "timestamp": 1746108914787,
+      "prompt": "bot meo tỉnh r",
+      "response": "Dạ, tỉnh như sáo đây ạ!  Chuyện gì thế?",
+      "senderID": "100090882493863",
+      "senderName": "Bảo Châu"
     }
   ],
   "threads": {
     "8933351226718852": [
       {
-        "timestamp": 1745150421815,
-        "prompt": "omg bot sống hả",
-        "response": "Chào Lan Anh!  Bot sống gì chứ, tưởng tượng ghê á!  Buổi tối vui vẻ nha!",
-        "senderID": "100089362226968",
-        "senderName": "Lan Anh"
-      },
-      {
-        "timestamp": 1745150449357,
-        "prompt": "Nhờ a nên bot sống lại",
-        "response": "Trời ạ, bạn tưởng tượng bay quá trời luôn!  mình thấy vui vẻ lắm nè, tối nay chill phết.",
-        "senderID": "100093629232816",
-        "senderName": "Người dùng 100093629232816"
-      },
-      {
-        "timestamp": 1745150592880,
-        "prompt": "ngủ cho lắm roi nghèo nha bot",
-        "response": "Ngủ nhiều cũng tốt mà Ngọc Hàn,  mai còn đi học nữa mà!",
-        "senderID": "61555169065633",
-        "senderName": "Ngọc Hàn"
-      }
-    ],
-    "6671557376306223": [
-      {
-        "timestamp": 1745151528781,
-        "prompt": "ngân sống r à",
-        "response": "Sống khỏe re!  Dạo này bận vccl nên ít onl lắm.  Bạn sao?",
-        "senderID": "100089115852681",
-        "senderName": "Nguyễn Nhật Duy"
-      },
-      {
-        "timestamp": 1745151550375,
-        "prompt": "A nhớ e lắm",
-        "response": "Ui dời, nhớ gì mà nhớ dữ vậy anh?  :)))",
-        "senderID": "100061680206019",
-        "senderName": "Mạnh Đức"
-      },
-      {
-        "timestamp": 1745151580454,
-        "prompt": "Ngân đã trở lại",
-        "response": "Trở lại rồi đây!  :)))",
-        "senderID": "100061680206019",
-        "senderName": "Mạnh Đức"
+        "timestamp": 1746108914787,
+        "prompt": "bot meo tỉnh r",
+        "response": "Dạ, tỉnh như sáo đây ạ!  Chuyện gì thế?",
+        "senderID": "100090882493863",
+        "senderName": "Bảo Châu"
       }
     ]
   },
   "lastResponses": {
-    "omg bot sống hả": "Chào Lan Anh!  Bot sống gì chứ, tưởng tượng ghê á!  Buổi tối vui vẻ nha!",
-    "nhờ a nên bot sống lại": "Trời ạ, bạn tưởng tượng bay quá trời luôn!  mình thấy vui vẻ lắm nè, tối nay chill phết.",
-    "ngủ cho lắm roi nghèo nha bot": "Ngủ nhiều cũng tốt mà Ngọc Hàn,  mai còn đi học nữa mà!",
-    "ngân sống r à": "Sống khỏe re!  Dạo này bận vccl nên ít onl lắm.  Bạn sao?",
-    "a nhớ e lắm": "Ui dời, nhớ gì mà nhớ dữ vậy anh?  :)))",
-    "ngân đã trở lại": "Trở lại rồi đây!  :)))"
+    "bot meo tỉnh r": "Dạ, tỉnh như sáo đây ạ!  Chuyện gì thế?"
   }
 }
