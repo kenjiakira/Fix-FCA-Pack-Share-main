@@ -1564,10 +1564,10 @@ Lịch sử: ${context.history}`;
     const apiKey = API_KEYS[0];
     const genAI = new GoogleGenerativeAI(apiKey);
     const model = genAI.getGenerativeModel({
-      model: "gemini-1.5-flash",
+      model: "gemini-2.0-flash",
       generationConfig: {
         temperature: 1.2,
-        maxOutputTokens: 1000,
+        maxOutputTokens: 4000,
       },
     });
 

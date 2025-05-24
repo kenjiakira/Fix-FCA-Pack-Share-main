@@ -6,11 +6,11 @@
       "preferences": [],
       "interactions": [
         {
-          "content": "User nói: bot\nTôi trả lời: Sáng rồi nhaaa!  Hôm nay trời đẹp ghê á, đi học vui vẻ nha bạn!",
-          "timestamp": 1748052805176,
+          "content": "User nói: bot ơi\nTôi trả lời: Ủa alo, ai gọi mình ban đêm dữ thần vại nè?",
+          "timestamp": 1748099524994,
           "priority": 1,
           "accessCount": 1,
-          "lastAccess": 1748052815536,
+          "lastAccess": 1748099537691,
           "metadata": {
             "sentiment": {
               "score": 0,
@@ -23,19 +23,17 @@
               "primaryEmotion": "neutral"
             },
             "topics": [
-              "PERSONAL",
-              "EDUCATION",
-              "TRAVEL"
+              "PERSONAL"
             ],
             "entities": {}
           }
         },
         {
-          "content": "User nói: oke\nTôi trả lời: Dậy sớm dữ hen!  Chúc bạn một ngày nhiều năng lượng nha!",
-          "timestamp": 1748052816515,
+          "content": "User nói: bot ơi\nTôi trả lời: Ơi bạn iu, có gì hot nè? 😉",
+          "timestamp": 1748099524438,
           "priority": 1,
-          "accessCount": 0,
-          "lastAccess": 1748052816515,
+          "accessCount": 1,
+          "lastAccess": 1748099537691,
           "metadata": {
             "sentiment": {
               "score": 0,
@@ -48,8 +46,30 @@
               "primaryEmotion": "neutral"
             },
             "topics": [
-              "PERSONAL",
-              "FOOD"
+              "PERSONAL"
+            ],
+            "entities": {}
+          }
+        },
+        {
+          "content": "User nói: ủa alo\nTôi trả lời: Ủa tưởng có kèo gì hay ho chớ! Hóng hớt xíu hoy mà 😂",
+          "timestamp": 1748099538931,
+          "priority": 1,
+          "accessCount": 0,
+          "lastAccess": 1748099538931,
+          "metadata": {
+            "sentiment": {
+              "score": 0,
+              "rawScore": 0,
+              "sentiment": "neutral",
+              "confidence": 0.5,
+              "emotions": [],
+              "negationCount": 0,
+              "intensityFactors": [],
+              "primaryEmotion": "neutral"
+            },
+            "topics": [
+              "PERSONAL"
             ],
             "entities": {}
           }
@@ -68,10 +88,10 @@
       "undefined": [
         {
           "content": "Xưng hô: mình/bạn",
-          "timestamp": 1748052804006,
+          "timestamp": 1748099522298,
           "priority": 2,
-          "accessCount": 1,
-          "lastAccess": 1748052815536,
+          "accessCount": 2,
+          "lastAccess": 1748099537691,
           "metadata": {
             "sentiment": {
               "score": 0,
@@ -91,10 +111,33 @@
         },
         {
           "content": "Xưng hô: mình/bạn",
-          "timestamp": 1748052815537,
+          "timestamp": 1748099523388,
+          "priority": 2,
+          "accessCount": 1,
+          "lastAccess": 1748099537691,
+          "metadata": {
+            "sentiment": {
+              "score": 0,
+              "rawScore": 0,
+              "sentiment": "neutral",
+              "confidence": 0.5,
+              "emotions": [],
+              "negationCount": 0,
+              "intensityFactors": [],
+              "primaryEmotion": "neutral"
+            },
+            "topics": [
+              "PERSONAL"
+            ],
+            "entities": {}
+          }
+        },
+        {
+          "content": "Xưng hô: mình/bạn",
+          "timestamp": 1748099537695,
           "priority": 2,
           "accessCount": 0,
-          "lastAccess": 1748052815537,
+          "lastAccess": 1748099537695,
           "metadata": {
             "sentiment": {
               "score": 0,
@@ -128,7 +171,7 @@
     "voice": {}
   },
   "stats": {
-    "totalInteractions": 4,
+    "totalInteractions": 6,
     "uniqueUsers": {},
     "topTopics": {},
     "responseTime": [],

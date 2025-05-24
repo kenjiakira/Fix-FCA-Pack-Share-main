@@ -1,13 +1,14 @@
 {
-  "bot": {
+  "bot ơi": {
     "responses": [
-      "Sáng rồi nhaaa!  Hôm nay trời đẹp ghê á, đi học vui vẻ nha bạn!"
+      "Ơi bạn iu, có gì hot nè? 😉",
+      "Ủa alo, ai gọi mình ban đêm dữ thần vại nè?"
     ],
-    "frequency": 1
+    "frequency": 2
   },
-  "oke": {
+  "ủa alo": {
     "responses": [
-      "Dậy sớm dữ hen!  Chúc bạn một ngày nhiều năng lượng nha!"
+      "Ủa tưởng có kèo gì hay ho chớ! Hóng hớt xíu hoy mà 😂"
     ],
     "frequency": 1
   }

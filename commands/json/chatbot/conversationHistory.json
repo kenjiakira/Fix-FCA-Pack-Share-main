@@ -1,16 +1,23 @@
 {
   "global": [
     {
-      "timestamp": 1748052805142,
-      "prompt": "bot",
-      "response": "Sáng rồi nhaaa!  Hôm nay trời đẹp ghê á, đi học vui vẻ nha bạn!",
+      "timestamp": 1748099524433,
+      "prompt": "bot ơi",
+      "response": "Ơi bạn iu, có gì hot nè? 😉",
       "senderID": "61573427362389",
       "senderName": "User"
     },
     {
-      "timestamp": 1748052816485,
-      "prompt": "oke",
-      "response": "Dậy sớm dữ hen!  Chúc bạn một ngày nhiều năng lượng nha!",
+      "timestamp": 1748099524990,
+      "prompt": "bot ơi",
+      "response": "Ủa alo, ai gọi mình ban đêm dữ thần vại nè?",
+      "senderID": "61573427362389",
+      "senderName": "User"
+    },
+    {
+      "timestamp": 1748099538924,
+      "prompt": "ủa alo",
+      "response": "Ủa tưởng có kèo gì hay ho chớ! Hóng hớt xíu hoy mà 😂",
       "senderID": "61573427362389",
       "senderName": "User"
     }
@@ -18,23 +25,30 @@
   "threads": {
     "6589198804475799": [
       {
-        "timestamp": 1748052805142,
-        "prompt": "bot",
-        "response": "Sáng rồi nhaaa!  Hôm nay trời đẹp ghê á, đi học vui vẻ nha bạn!",
+        "timestamp": 1748099524433,
+        "prompt": "bot ơi",
+        "response": "Ơi bạn iu, có gì hot nè? 😉",
         "senderID": "61573427362389",
         "senderName": "User"
       },
       {
-        "timestamp": 1748052816485,
-        "prompt": "oke",
-        "response": "Dậy sớm dữ hen!  Chúc bạn một ngày nhiều năng lượng nha!",
+        "timestamp": 1748099524990,
+        "prompt": "bot ơi",
+        "response": "Ủa alo, ai gọi mình ban đêm dữ thần vại nè?",
+        "senderID": "61573427362389",
+        "senderName": "User"
+      },
+      {
+        "timestamp": 1748099538924,
+        "prompt": "ủa alo",
+        "response": "Ủa tưởng có kèo gì hay ho chớ! Hóng hớt xíu hoy mà 😂",
         "senderID": "61573427362389",
         "senderName": "User"
       }
     ]
   },
   "lastResponses": {
-    "bot": "Sáng rồi nhaaa!  Hôm nay trời đẹp ghê á, đi học vui vẻ nha bạn!",
-    "oke": "Dậy sớm dữ hen!  Chúc bạn một ngày nhiều năng lượng nha!"
+    "bot ơi": "Ủa alo, ai gọi mình ban đêm dữ thần vại nè?",
+    "ủa alo": "Ủa tưởng có kèo gì hay ho chớ! Hóng hớt xíu hoy mà 😂"
   }
 }
