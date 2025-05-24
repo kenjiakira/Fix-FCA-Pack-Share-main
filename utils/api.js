@@ -1,13 +1,12 @@
 module.exports = {
     ZM_API: {
         BASE_URL: 'https://api.zm.io.vn/v1',
-        KEY: 'QBJ8FZPYS5Q1qJzB'
+        KEY: 'duTFkNVEsUl96q8moUQ'
     },//OUOsEPZ
     CAPCUT_API: {
         BASE_URL: 'https://jonellccapisprojectv2-a62001f39859.herokuapp.com/api/capcut'
-    },
-    TIKTOK_API: {
-        BASE_URL: 'https://www.tikwm.com/api'
+    },    TIKTOK_API: {
+        BASE_URL: 'https://www.tikwm.com/api/'
     },
     YOUTUBE: {
         API_KEY: 'AIzaSyCMWAbuVEw0H26r94BhyFU4mTaP5oUGWRw'

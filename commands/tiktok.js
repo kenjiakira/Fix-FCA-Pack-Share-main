@@ -9,12 +9,50 @@ if (!fs.existsSync(cacheDir)) {
 }
 
 function isValidTikTokUrl(url) {
-  // Match common TikTok URL formats:
+  // Match common TikTok URL formats including shortened ones:
   // - https://www.tiktok.com/@username/video/1234567890
   // - https://www.tiktok.com/@username/photo/1234567890
   // - https://vm.tiktok.com/XXXXXXXX/
+  // - https://vt.tiktok.com/XXXXXXXX/
   // - https://m.tiktok.com/v/1234567890.html
-  return /^(https?:\/\/)?(www\.|vm\.|m\.)?tiktok\.com\/([@\w]+\/(video|photo)\/\d+|v\/\d+|[A-Za-z0-9]+\/?$)/.test(url);
+  return /^(https?:\/\/)?(www\.|vm\.|vt\.|m\.)?tiktok\.com\/([@\w]+\/(video|photo)\/\d+|v\/\d+|[A-Za-z0-9]+\/?$)/.test(url);
+}
+
+/**
+ * Giải quyết link TikTok rút gọn thành link đầy đủ
+ * @param {string} url - Link TikTok rút gọn
+ * @returns {Promise<string>} - Link đầy đủ
+ */
+async function resolveTikTokShortUrl(url) {
+  try {
+    // Kiểm tra nếu là link rút gọn (vt.tiktok.com hoặc vm.tiktok.com)
+    if (url.includes('vt.tiktok.com') || url.includes('vm.tiktok.com')) {
+      // Sử dụng Axios để theo dõi chuyển hướng
+      const response = await axios.get(url, {
+        maxRedirects: 5,
+        validateStatus: null,
+        headers: {
+          'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36'
+        }
+      });
+      
+      // Nếu chúng ta có URL cuối cùng sau khi theo dõi tất cả chuyển hướng
+      if (response.request.res.responseUrl) {
+        return response.request.res.responseUrl;
+      }
+      
+      // Hoặc lấy từ header Location nếu có
+      if (response.headers.location) {
+        return response.headers.location;
+      }
+    }
+    
+    // Nếu không phải link rút gọn hoặc không thể giải quyết, trả về link ban đầu
+    return url;
+  } catch (error) {
+    console.error("Lỗi khi giải quyết link TikTok:", error);
+    return url; // Trả về link ban đầu nếu có lỗi
+  }
 }
 
 module.exports = {
@@ -36,7 +74,7 @@ module.exports = {
       return api.sendMessage("⚠️ Vui lòng nhập URL video TikTok!", threadID, messageID);
     }
     
-    const url = args[0];
+    let url = args[0];
     
     if (!isValidTikTokUrl(url)) {
       return api.sendMessage("⚠️ URL không hợp lệ! Vui lòng nhập đúng URL video TikTok.", threadID, messageID);
@@ -45,19 +83,23 @@ module.exports = {
     api.sendMessage("⏳ Đang xử lý video, vui lòng đợi...", threadID, messageID);
     
     try {
-      // Make a request to TikTok API
+      // Giải quyết link rút gọn trước khi xử lý
+      const resolvedUrl = await resolveTikTokShortUrl(url);
+      console.log(`Link ban đầu: ${url}`);
+      console.log(`Link đã giải quyết: ${resolvedUrl}`);
+      
+      // Make a request to TikTok API with the resolved URL
       const response = await axios.post(TIKTOK_API.BASE_URL, 
-        new URLSearchParams({
-          url: url
-        }).toString(),
+        { url: resolvedUrl },
         {
           headers: {
-            'Content-Type': 'application/x-www-form-urlencoded'
+            'Content-Type': 'application/json',
+            'Accept': 'application/json'
           }
         }
       );
       
-      if (response.data && response.data.data) {
+      if (response.data && response.data.code === 0 && response.data.data) {
         const data = response.data.data;
         const videoUrl = data.play || data.wmplay;
         
@@ -110,7 +152,8 @@ module.exports = {
         });
         
       } else {
-        api.sendMessage("❌ Không thể xử lý video TikTok, vui lòng thử URL khác!", threadID, messageID);
+        const errorMsg = response.data && response.data.msg ? response.data.msg : "Không thể xử lý video TikTok";
+        api.sendMessage(`❌ ${errorMsg}, vui lòng thử URL khác!`, threadID, messageID);
       }
       
     } catch (error) {
