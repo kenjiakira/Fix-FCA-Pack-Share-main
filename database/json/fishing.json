@@ -2538,7 +2538,7 @@
   },
   "100008297661441": {
     "rod": "Cần jig Daiwa Saltiga SJ",
-    "rodDurability": 467,
+    "rodDurability": 466,
     "inventory": [
       "Cần trúc",
       "Cần Câu Daiwa",
@@ -2645,19 +2645,19 @@
     },
     "exp": 6040,
     "level": 17,
-    "fishingStreak": 13,
+    "fishingStreak": 1,
     "stats": {
       "totalExp": 93476,
       "highestStreak": 229,
       "totalFishes": 316
     },
     "activeBuffs": {},
-    "lastFished": 1745889929459,
+    "lastFished": 1746883058610,
     "userID": "100008297661441",
     "energy": 120,
-    "lastEnergyUpdate": 1745889929459,
+    "lastEnergyUpdate": 1746883058610,
     "baits": {
-      "Mồi Thần Thoại": 167
+      "Mồi Thần Thoại": 166
     },
     "craftingMaterials": {}
   },
@@ -5550,7 +5550,7 @@
   },
   "100035610181048": {
     "rod": "Cần jig Daiwa Saltiga SJ",
-    "rodDurability": 394,
+    "rodDurability": 393,
     "inventory": [
       "Cần trúc",
       "Cần Câu Shimano",
@@ -5607,7 +5607,7 @@
           "Cá Chim Trắng": 7,
           "Cá Bông Lau": 6,
           "Cá Basa": 9,
-          "Cá Chép Giòn": 9,
+          "Cá Chép Giòn": 10,
           "Cá Trê Trắng": 9,
           "Cá Tai Tượng": 8,
           "Cá Tra Sông": 14,
@@ -5657,27 +5657,27 @@
         "cosmic": {}
       },
       "stats": {
-        "totalCaught": 418,
-        "totalValue": 374318121,
+        "totalCaught": 419,
+        "totalValue": 374483421,
         "bestCatch": {
           "name": "Megalodon",
           "value": 71250000
         }
       }
     },
-    "exp": 47710,
+    "exp": 47815,
     "level": 23,
-    "fishingStreak": 5,
+    "fishingStreak": 6,
     "stats": {
-      "totalExp": 318732,
+      "totalExp": 318837,
       "highestStreak": 382,
-      "totalFishes": 417
+      "totalFishes": 418
     },
     "activeBuffs": {},
-    "lastFished": 1742820121949,
+    "lastFished": 1748064994321,
     "userID": "100035610181048",
     "energy": 150,
-    "lastEnergyUpdate": 1742820121950,
+    "lastEnergyUpdate": 1748064994321,
     "baits": {},
     "craftingMaterials": {}
   },
@@ -8196,13 +8196,14 @@
     "userID": "61560183967497"
   },
   "61558946907944": {
-    "rod": "Cần câu Bulava Durga Ultra",
-    "rodDurability": 25,
+    "rod": "Cần jig Daiwa Saltiga SJ",
+    "rodDurability": 500,
     "inventory": [
       "Cần trúc",
       "Cần Câu tay",
       "Cần câu Lure Titan",
-      "Cần câu Bulava Durga Ultra"
+      "Cần câu Bulava Durga Ultra",
+      "Cần jig Daiwa Saltiga SJ"
     ],
     "collection": {
       "byRarity": {
@@ -8273,18 +8274,20 @@
     },
     "exp": 1035,
     "level": 8,
-    "fishingStreak": 2,
+    "fishingStreak": 1,
     "stats": {
       "totalExp": 13948,
       "highestStreak": 31,
       "totalFishes": 108
     },
     "activeBuffs": {},
-    "lastFished": 1744275846856,
+    "lastFished": 1746888027102,
     "userID": "61558946907944",
     "energy": 75,
-    "lastEnergyUpdate": 1744275846856,
-    "baits": {},
+    "lastEnergyUpdate": 1746888027106,
+    "baits": {
+      "Mồi Thần Thoại": 40
+    },
     "craftingMaterials": {}
   },
   "100084470093544": {

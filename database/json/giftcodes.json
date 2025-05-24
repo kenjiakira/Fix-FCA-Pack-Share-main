@@ -1,8 +1,24 @@
 {
-  "codes": {},
+  "codes": {
+    "NZWCJ8EFCKG4": {
+      "rewards": {
+        "coins": 278814,
+        "vip_points": 1
+      },
+      "description": "Giftcode Thường hàng ngày",
+      "createdAt": "2025-05-24T05:00:12.364Z",
+      "expiry": "2025-05-25T05:00:12.364Z",
+      "usedBy": [],
+      "type": "NORMAL",
+      "rarity": "Thường",
+      "color": "#CCCCCC",
+      "maxUses": null,
+      "maxUsesPerUser": 5
+    }
+  },
   "settings": {
     "autoGiftcode": true,
     "dailyLimits": {},
-    "lastResetDate": "2025-04-29"
+    "lastResetDate": "2025-05-24"
   }
 }

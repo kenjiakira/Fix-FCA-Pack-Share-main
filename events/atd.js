@@ -4,7 +4,7 @@ const path = require('path');
 const ytdl = require('@distube/ytdl-core');
 const simpleYT = require('simple-youtube-api');
 const getFBInfo = require('@xaviabot/fb-downloader');
-const { ZM_API, YOUTUBE } = require('../utils/api');
+const { ZM_API, YOUTUBE, TIKTOK_API } = require('../utils/api');
 const Downloader = require('../utils/downloader');
 const vipService = require('../game/vip/vipService');
 
@@ -127,9 +127,79 @@ async function handleFacebook(url, api, event) {
 
 async function handleTikTok(url, api, event) {
     try {
-        api.sendMessage("⚠️ Vui lòng sử dụng công cụ tải TikTok tại: https://100tools.io.vn/tools/tiktok-downloader", event.threadID);
+        const { threadID } = event;
+        api.sendMessage("⏳ Đang xử lý video TikTok, vui lòng đợi...", threadID);
+        
+        // Make a request to TikTok API
+        const response = await axios.post(TIKTOK_API.BASE_URL, 
+            new URLSearchParams({
+                url: url
+            }).toString(),
+            {
+                headers: {
+                    'Content-Type': 'application/x-www-form-urlencoded'
+                }
+            }
+        );
+        
+        if (response.data && response.data.data) {
+            const data = response.data.data;
+            const videoUrl = data.play || data.wmplay;
+            
+            if (!videoUrl) {
+                return api.sendMessage("❌ Không thể tải video, vui lòng thử lại sau!", threadID);
+            }
+            
+            // Get video information
+            const title = data.title || "TikTok Video";
+            const author = data.author && data.author.nickname ? data.author.nickname : "Unknown";
+            
+            // Download the video
+            const videoResponse = await axios({
+                method: 'GET',
+                url: videoUrl,
+                responseType: 'stream'
+            });
+            
+            // Create a unique filename
+            const timestamp = Date.now();
+            const videoPath = path.join(cacheDir, `tiktok_${timestamp}.mp4`);
+            
+            // Save the video to cache directory
+            const writer = fs.createWriteStream(videoPath);
+            videoResponse.data.pipe(writer);
+            
+            // When video is downloaded completely
+            writer.on('finish', () => {
+                // Send the video with caption
+                api.sendMessage({
+                    body: `=== 𝗧𝗶𝗸𝗧𝗼𝗸 ===\n\n👤 Tác giả: ${author}\n📝 Tiêu đề: ${title}`,
+                    attachment: fs.createReadStream(videoPath)
+                }, threadID, (err) => {
+                    if (err) {
+                        api.sendMessage("❌ Có lỗi khi gửi video, vui lòng thử lại sau!", threadID);
+                        console.error(err);
+                    }
+                    
+                    // Delete the video file after sending
+                    fs.unlink(videoPath, (err) => {
+                        if (err) console.error("Error deleting file:", err);
+                    });
+                });
+            });
+            
+            // Handle errors in writing file
+            writer.on('error', (err) => {
+                console.error("Error writing file:", err);
+                api.sendMessage("❌ Có lỗi khi lưu video, vui lòng thử lại sau!", threadID);
+            });
+            
+        } else {
+            api.sendMessage("❌ Không thể xử lý video TikTok, vui lòng thử URL khác!", threadID);
+        }
     } catch (error) {
         console.error('Error with TikTok:', error);
+        api.sendMessage(`❌ Đã xảy ra lỗi khi tải TikTok: ${error.message || "Không xác định"}`, event.threadID);
     }
 }
 

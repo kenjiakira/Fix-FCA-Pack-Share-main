@@ -1,25 +1,40 @@
 {
   "global": [
     {
-      "timestamp": 1746108914787,
-      "prompt": "bot meo tỉnh r",
-      "response": "Dạ, tỉnh như sáo đây ạ!  Chuyện gì thế?",
-      "senderID": "100090882493863",
-      "senderName": "Bảo Châu"
+      "timestamp": 1748052805142,
+      "prompt": "bot",
+      "response": "Sáng rồi nhaaa!  Hôm nay trời đẹp ghê á, đi học vui vẻ nha bạn!",
+      "senderID": "61573427362389",
+      "senderName": "User"
+    },
+    {
+      "timestamp": 1748052816485,
+      "prompt": "oke",
+      "response": "Dậy sớm dữ hen!  Chúc bạn một ngày nhiều năng lượng nha!",
+      "senderID": "61573427362389",
+      "senderName": "User"
     }
   ],
   "threads": {
-    "8933351226718852": [
+    "6589198804475799": [
       {
-        "timestamp": 1746108914787,
-        "prompt": "bot meo tỉnh r",
-        "response": "Dạ, tỉnh như sáo đây ạ!  Chuyện gì thế?",
-        "senderID": "100090882493863",
-        "senderName": "Bảo Châu"
+        "timestamp": 1748052805142,
+        "prompt": "bot",
+        "response": "Sáng rồi nhaaa!  Hôm nay trời đẹp ghê á, đi học vui vẻ nha bạn!",
+        "senderID": "61573427362389",
+        "senderName": "User"
+      },
+      {
+        "timestamp": 1748052816485,
+        "prompt": "oke",
+        "response": "Dậy sớm dữ hen!  Chúc bạn một ngày nhiều năng lượng nha!",
+        "senderID": "61573427362389",
+        "senderName": "User"
       }
     ]
   },
   "lastResponses": {
-    "bot meo tỉnh r": "Dạ, tỉnh như sáo đây ạ!  Chuyện gì thế?"
+    "bot": "Sáng rồi nhaaa!  Hôm nay trời đẹp ghê á, đi học vui vẻ nha bạn!",
+    "oke": "Dậy sớm dữ hen!  Chúc bạn một ngày nhiều năng lượng nha!"
   }
 }

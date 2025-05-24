@@ -1,34 +1,74 @@
 const fs = require('fs-extra');
 const path = require('path');
-const ytdl = require('@distube/ytdl-core');
 const yts = require('yt-search');
+const axios = require('axios');
 const { promisify } = require('util');
 const streamPipeline = promisify(require('stream').pipeline);
 
 const cacheDir = path.join(__dirname, 'cache');
 if (!fs.existsSync(cacheDir)) fs.mkdirsSync(cacheDir);
 
-function createYtdlAgent(cookies = null, proxy = null) {
-    if (proxy && cookies) {
-        return ytdl.createProxyAgent({ uri: proxy }, cookies);
-    } else if (proxy) {
-        return ytdl.createProxyAgent({ uri: proxy });
-    } else if (cookies) {
-        return ytdl.createAgent(cookies);
-    }
-    return null;
+// Configuration for the YouTube Music Downloader API
+const YTMUSIC_API_URL = 'https://api.apify.com/v2/acts/scrapearchitect~youtube-music-downloader/run-sync-get-dataset-items';
+const YTMUSIC_API_TOKEN = 'apify_api_GZnFf6RQ4uO7VkLWcYdasbeM4Ce1hi10PXe6';
+
+// Helper function to download file from URL
+async function downloadFile(url, outputPath) {
+    const response = await axios({
+        method: 'GET',
+        url: url,
+        responseType: 'stream'
+    });
+    
+    return streamPipeline(response.data, fs.createWriteStream(outputPath));
 }
 
-function loadCookiesFromFile() {
-    const cookiePath = path.join(__dirname, '..', 'youtube_cookies.json');
-    if (fs.existsSync(cookiePath)) {
-        try {
-            return JSON.parse(fs.readFileSync(cookiePath, 'utf8'));
-        } catch (err) {
-            console.error('Error loading cookies:', err);
+// Helper function to download YouTube music
+async function downloadYoutubeMusic(videoUrl) {
+    try {
+        // Đảm bảo URL là youtube music
+        const musicUrl = videoUrl.includes('music.youtube.com') 
+            ? videoUrl 
+            : videoUrl.replace('youtube.com', 'music.youtube.com');
+        
+        console.log('Downloading music from URL:', musicUrl);
+        
+        const payload = {
+            "music_urls": [
+                {
+                    "url": musicUrl,
+                    "method": "GET"
+                }
+            ],
+            "show_additional_metadata": true
+        };
+        
+        const response = await axios({
+            method: 'POST',
+            url: YTMUSIC_API_URL,
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${YTMUSIC_API_TOKEN}`
+            },
+            data: payload
+        });
+        
+        console.log('API response status:', response.status);
+        
+        if (!response.data || !Array.isArray(response.data) || response.data.length === 0) {
+            console.error('Invalid API response format:', response.data);
+            throw new Error('Định dạng phản hồi API không hợp lệ');
         }
+        
+        return response.data[0];
+    } catch (error) {
+        console.error('YouTube Music API Error:', error.message);
+        if (error.response) {
+            console.error('Status:', error.response.status);
+            console.error('Data:', JSON.stringify(error.response.data));
+        }
+        throw error;
     }
-    return null;
 }
 
 module.exports = {
@@ -48,8 +88,8 @@ module.exports = {
         const { songs, searchMessageID } = global.singCache[threadID];
         const choice = parseInt(input);
 
-        if (isNaN(choice) || choice < 1 || choice > 6) {
-            return api.sendMessage("Vui lòng chọn số từ 1 đến 6", threadID, messageID);
+        if (isNaN(choice) || choice < 1 || choice > songs.length) {
+            return api.sendMessage(`Vui lòng chọn số từ 1 đến ${songs.length}`, threadID, messageID);
         }
 
         const song = songs[choice - 1];
@@ -57,53 +97,51 @@ module.exports = {
         const outputPath = path.resolve(cacheDir, `sing_${Date.now()}.mp3`);
 
         try {
-            const cookies = loadCookiesFromFile();
-            const agent = createYtdlAgent(cookies);
-
-            const ytdlOptions = { 
-                filter: 'audioonly',
-                quality: 'highestaudio',
-                format: 'mp3',
-                requestOptions: {
-                    headers: {
-                        'Cookie': 'CONSENT=YES+1',
-                        'Accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.7',
-                        'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/110.0.0.0 Safari/537.36'
-                    }
+            // Cố gắng tải nhạc trực tiếp trước
+            let downloadSuccessful = false;
+            let musicData = null;
+            let downloadLink = null;
+            let audioFilePath = outputPath;
+            
+            try {
+                // Thử dùng API mới
+                musicData = await downloadYoutubeMusic(song.url);
+                
+                if (musicData && musicData.downloadable_audio_link) {
+                    downloadLink = musicData.downloadable_audio_link;
+                    await downloadFile(downloadLink, outputPath);
+                    downloadSuccessful = fs.existsSync(outputPath) && fs.statSync(outputPath).size > 1024;
+                    console.log('API mới tải thành công:', downloadSuccessful);
+                } else {
+                    console.log('API không trả về link tải nhạc, chuyển sang phương thức dự phòng');
                 }
-            };
+            } catch (apiError) {
+                console.error('Lỗi khi sử dụng API mới:', apiError.message);
+                // Lỗi khi dùng API mới, không làm gì và chuyển sang phương thức dự phòng
+            }
             
-            if (agent) {
-                ytdlOptions.agent = agent;
+            if (!downloadSuccessful) {
+                throw new Error("Không thể tải nhạc qua API, vui lòng thử lại sau");
             }
 
-            const songInfo = await ytdl.getInfo(song.url, ytdlOptions);
-            const likes = songInfo.videoDetails.likes || 'Ẩn';
-            const views = songInfo.videoDetails.viewCount || '0';
+            // Lấy thông tin metadata từ response API hoặc từ thông tin tìm kiếm
+            const title = musicData?.title || song.title;
+            const artist = musicData?.channel || song.author.name;
+            const duration = musicData?.duration || song.duration.timestamp;
+            const likes = musicData?.additional_metadata?.like_count || 'Ẩn';
             
-            const stream = ytdl(song.url, ytdlOptions);
-            
-            stream.on('error', (error) => {
-                throw new Error(`Lỗi stream: ${error.message}`);
-            });
-
-            await streamPipeline(stream, fs.createWriteStream(outputPath));
-
-            if (!fs.existsSync(outputPath) || fs.statSync(outputPath).size < 1024) {
-                throw new Error("File tải về không hợp lệ");
-            }
-
             await api.sendMessage({
-                body: `🎵 Bài hát: ${song.title}\n👤 Ca sĩ: ${song.author.name}\n⏱️ Thời lượng: ${song.duration.timestamp}\n👍 Lượt thích: ${likes.toLocaleString()}\n👁️ Lượt xem: ${parseInt(views).toLocaleString()}`,
-                attachment: fs.createReadStream(outputPath)
+                body: `🎵 Bài hát: ${title}\n👤 Ca sĩ: ${artist}\n⏱️ Thời lượng: ${duration}\n👍 Lượt thích: ${likes}`,
+                attachment: fs.createReadStream(audioFilePath)
             }, threadID, () => {
                 api.unsendMessage(loadingMsg.messageID);
-                api.unsendMessage(searchMessageID); 
-                fs.unlinkSync(outputPath);
+                api.unsendMessage(searchMessageID);
+                fs.unlinkSync(audioFilePath);
             });
             
             delete global.singCache[threadID];
         } catch (error) {
+            console.error('Error in sing command:', error);
             if (fs.existsSync(outputPath)) fs.unlinkSync(outputPath);
             await api.editMessage(`❌ | Lỗi khi tải bài hát: ${error.message}`, loadingMsg.messageID, threadID);
         }

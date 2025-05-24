@@ -1,7 +1,13 @@
 {
-  "bot meo tỉnh r": {
+  "bot": {
     "responses": [
-      "Dạ, tỉnh như sáo đây ạ!  Chuyện gì thế?"
+      "Sáng rồi nhaaa!  Hôm nay trời đẹp ghê á, đi học vui vẻ nha bạn!"
+    ],
+    "frequency": 1
+  },
+  "oke": {
+    "responses": [
+      "Dậy sớm dữ hen!  Chúc bạn một ngày nhiều năng lượng nha!"
     ],
     "frequency": 1
   }

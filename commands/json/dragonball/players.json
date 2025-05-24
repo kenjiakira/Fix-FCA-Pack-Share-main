@@ -1306,14 +1306,14 @@
     "name": "Người trái đất",
     "planet": "EARTH",
     "stats": {
-      "power": 10753280212,
+      "power": 10766319381,
       "damage": 7867550,
       "ki": 4295122,
       "currentKi": 644270,
       "health": 15525120,
       "currentHealth": 15525120,
-      "exp": 111770040,
-      "zeni": 205385,
+      "exp": 114181745,
+      "zeni": 205519,
       "inventory": {
         "items": [],
         "equipped": []
@@ -1336,7 +1336,7 @@
       "KAME:HYPNOSIS"
     ],
     "masters": [],
-    "lastTrain": 1744790726636,
+    "lastTrain": 1746881131660,
     "created": 1743613097948,
     "inventory": {
       "dragonBalls": [
@@ -1923,6 +1923,73 @@
         "BEGINNER_1": 4,
         "BEGINNER_2": 2000,
         "BASIC_TRAINING": 2
+      }
+    }
+  },
+  "100035610181048": {
+    "name": "Đức Toàn",
+    "planet": "SAIYAN",
+    "stats": {
+      "power": 2000,
+      "damage": 110,
+      "ki": 100,
+      "currentKi": 100,
+      "health": 1000,
+      "currentHealth": 1000,
+      "exp": 100,
+      "zeni": 1194,
+      "inventory": {
+        "items": [],
+        "equipped": []
+      },
+      "quests": {
+        "active": [],
+        "completed": [],
+        "progress": {}
+      }
+    },
+    "skills": [
+      "GOKU:ATOMIC"
+    ],
+    "masters": [],
+    "lastTrain": 1748064899960,
+    "created": 1748064880983,
+    "inventory": {
+      "dragonBalls": [],
+      "items": [
+        {
+          "id": "senzu",
+          "quantity": 3,
+          "type": "consumable"
+        },
+        {
+          "id": "battle_gloves",
+          "quantity": 1,
+          "type": "gloves",
+          "boost": 1.1
+        }
+      ]
+    },
+    "hasFused": false,
+    "location": {
+      "planet": "SAIYAN",
+      "locationId": "saiyan_training",
+      "name": "Khu Vực Huấn Luyện",
+      "lastTeleport": 0
+    },
+    "evolution": {
+      "name": "Saiyan thường",
+      "description": "Hình thái cơ bản",
+      "achievedAt": "2025-05-24T05:34:40.983Z",
+      "auraColor": "#FFFFFF"
+    },
+    "quests": {
+      "active": [
+        "BEGINNER_1"
+      ],
+      "completed": [],
+      "progress": {
+        "BEGINNER_1": 2
       }
     }
   }
