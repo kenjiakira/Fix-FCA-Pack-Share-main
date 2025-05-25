@@ -1,13 +1,28 @@
 {
   "codes": {
-    "NZWCJ8EFCKG4": {
+    "RNCXPF3WVLAI": {
       "rewards": {
-        "coins": 278814,
+        "coins": 1206132,
+        "vip_points": 2
+      },
+      "description": "Giftcode Hiếm hàng ngày",
+      "createdAt": "2025-05-25T05:00:00.073Z",
+      "expiry": "2025-05-25T17:00:00.073Z",
+      "usedBy": [],
+      "type": "RARE",
+      "rarity": "Hiếm",
+      "color": "#3366FF",
+      "maxUses": 50,
+      "maxUsesPerUser": 3
+    },
+    "N30QYP1OIH66": {
+      "rewards": {
+        "coins": 214054,
         "vip_points": 1
       },
       "description": "Giftcode Thường hàng ngày",
-      "createdAt": "2025-05-24T05:00:12.364Z",
-      "expiry": "2025-05-25T05:00:12.364Z",
+      "createdAt": "2025-05-25T05:00:00.091Z",
+      "expiry": "2025-05-26T05:00:00.091Z",
       "usedBy": [],
       "type": "NORMAL",
       "rarity": "Thường",
@@ -19,6 +34,6 @@
   "settings": {
     "autoGiftcode": true,
     "dailyLimits": {},
-    "lastResetDate": "2025-05-24"
+    "lastResetDate": "2025-05-25"
   }
 }
