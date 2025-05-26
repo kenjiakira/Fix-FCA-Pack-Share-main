@@ -77,7 +77,7 @@ module.exports = {
       else {
         if (!isLocalMatch) {
           try {
-            const userDataPath = path.join(__dirname, '../events/cache/userData.json');
+            const userDataPath = path.join(__dirname, '../events/cache/rankData.json');
             let userData = {};
 
             if (fs.existsSync(userDataPath)) {
@@ -334,7 +334,7 @@ module.exports = {
       fs.writeFileSync(pathUser, userImg);
       fs.writeFileSync(pathPartner, partnerImg);
 
-      const userDataPath = path.join(__dirname, '../events/cache/userData.json');
+      const userDataPath = path.join(__dirname, '../events/cache/rankData.json');
       let userName, partnerName;
 
       try {

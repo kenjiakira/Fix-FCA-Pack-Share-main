@@ -1,11 +1,6 @@
 const fs = require("fs");
 const path = require("path");
-const { GoogleGenerativeAI } = require("@google/generative-ai");
 const adminConfig = JSON.parse(fs.readFileSync("admin.json", "utf8"));
-
-// Load API key cho Gemini
-const API_KEYS = JSON.parse(fs.readFileSync(path.join(__dirname, "./json/chatbot/key.json"))).api_keys;
-const genAI = new GoogleGenerativeAI(API_KEYS[0]);
 
 module.exports = {
     name: "help",
@@ -89,19 +84,6 @@ module.exports = {
                     msg += `➣ ${this.getCategoryDescription(category.name)}\n\n`;
                 });
 
-                // Thêm phần gợi ý AI
-                const commands = commandFiles.map(file => {
-                    try {
-                        return require(path.join(cmdsPath, file));
-                    } catch (err) {
-                        return null;
-                    }
-                }).filter(cmd => cmd !== null);
-
-                const aiSuggestions = await this.getAISuggestions(commands);
-                msg += "🤖 GỢI Ý CHO BẠN:\n";
-                msg += aiSuggestions + "\n\n";
-
                 msg += "📌 CÁCH SỬ DỤNG:\n\n";
                 msg += "1️⃣ Xem chi tiết danh mục:\n";
                 msg += "• Reply số thứ tự để xem\n";
@@ -141,19 +123,6 @@ module.exports = {
                         threadID, messageID
                     );
                 }
-
-                api.sendMessage("🤖 Đang tìm gợi ý phù hợp...", threadID, messageID);
-
-                const commands = commandFiles.map(file => {
-                    try {
-                        return require(path.join(cmdsPath, file));
-                    } catch (err) {
-                        return null;
-                    }
-                }).filter(cmd => cmd !== null);
-
-                const aiSuggestion = await getAIHelp(query, commands);
-                return api.sendMessage(aiSuggestion, threadID, messageID);
             }
 
             const commandName = target[0].toLowerCase();
@@ -409,49 +378,4 @@ module.exports = {
         };
         return tips[cmdName] || "• Đọc kỹ hướng dẫn trước khi sử dụng";
     },
-
-    // Thêm hàm mới để lấy gợi ý AI
-    async getAISuggestions(commands) {
-        const model = genAI.getGenerativeModel({ model: "gemini-1.5-pro" });
-        const prompt = `Là trợ lý bot, hãy đề xuất 3 lệnh phổ biến và hữu ích nhất từ danh sách lệnh sau:
-
-Danh sách lệnh:
-${commands.map(cmd => `- ${cmd.name}: ${cmd.info}`).join('\n')}
-
-Trả về ngắn gọn theo định dạng:
-1. [tên lệnh] - [công dụng ngắn gọn]
-2. [tên lệnh] - [công dụng ngắn gọn] 
-3. [tên lệnh] - [công dụng ngắn gọn]`;
-
-        try {
-            const result = await model.generateContent(prompt);
-            return result.response.text();
-        } catch (error) {
-            console.error("AI Suggestions error:", error);
-            return "• Không thể tạo gợi ý do lỗi AI";
-        }
-    }
-};
-
-// Thêm hàm AI helper mới
-async function getAIHelp(query, commands) {
-    const model = genAI.getGenerativeModel({ model: "gemini-1.5-pro" });
-    const prompt = `Là trợ lý bot Discord, hãy gợi ý các lệnh phù hợp cho yêu cầu: "${query}"
-
-Danh sách lệnh có sẵn:
-${commands.map(cmd => `- ${cmd.name}: ${cmd.info}`).join('\n')}
-
-Trả về định dạng:
-1. Lệnh phù hợp nhất: [tên lệnh]
-2. Lý do: [giải thích ngắn gọn]
-3. Cách dùng: [hướng dẫn cụ thể]
-4. Lệnh liên quan: [2-3 lệnh]`;
-
-    try {
-        const result = await model.generateContent(prompt);
-        return result.response.text();
-    } catch (error) {
-        console.error("AI Help error:", error);
-        return "❌ Không thể tạo gợi ý do lỗi AI";
-    }
 }

@@ -3,67 +3,68 @@ const path = require("path");
 const fs = require("fs-extra");
 const { ElevenLabsClient } = require("elevenlabs");
 const advancedNLP = require('./models/NLP');
-const fetch = (...args) => import('node-fetch').then(({default: fetch}) => fetch(...args));
+const OpenAI = require("openai");
+const fetch = (...args) => import('node-fetch').then(({ default: fetch }) => fetch(...args));
 
 const ResponseCooldown = {
   lastResponses: new Map(),
   isTyping: new Map(),
-  
+
   getTypingDelay: (message) => {
-    // Calculate natural typing delay based on message length and complexity
-    const baseDelay = 1500; // Base thinking time in ms
-    const typingSpeed = 50; // ms per character (average human typing speed)
-    const complexity = message.includes('?') ? 1.2 : 1; // Questions take longer to process
-    
-    // Longer messages need more "thinking time"
+
+    const baseDelay = 1500;
+    const typingSpeed = 50;
+    const complexity = message.includes('?') ? 1.2 : 1;
+
+
     const thinkingTime = Math.min(baseDelay + (message.length / 5) * 300, 5000);
-    
-    // Reading + thinking + typing time
+
+
     return thinkingTime + (message.length * typingSpeed * complexity);
   },
-  
+
   getResponseDelay: (senderID, threadID, message) => {
     const now = Date.now();
     const lastResponse = ResponseCooldown.lastResponses.get(`${threadID}_${senderID}`);
-    
-    // If already typing, don't calculate again
+
+
     if (ResponseCooldown.isTyping.get(`${threadID}_${senderID}`)) {
       return 0;
     }
-    
-    // Short messages get shorter delays
+
+
     const isShortMessage = message.length < 15;
-    
-    // If responded recently, add more delay (humans don't instantly respond to follow-ups)
+
+
     let additionalDelay = 0;
     if (lastResponse && (now - lastResponse < 10000)) {
       additionalDelay = Math.min(2000, 10000 - (now - lastResponse));
     }
-    
-    // Randomize delay slightly to seem more natural
-    const randomFactor = 0.8 + (Math.random() * 0.4); // 0.8-1.2 range
-    
-    // Calculate total delay
+
+
+    const randomFactor = 0.8 + (Math.random() * 0.4);
+
+
     let delay = (isShortMessage ? 1000 : ResponseCooldown.getTypingDelay(message)) * randomFactor;
-    
-    // Add mood-based delay variation
+
+
     if (botEmotionalState.energy < 0.6) {
-      delay *= 1.3; // Tired bot responds slower
+      delay *= 1.3;
     }
-    
-    // Add time of day factor
+
+
     const hour = new Date().getHours();
     if (hour >= 0 && hour < 6) {
-      delay *= 1.5; // Late night, slower responses
+      delay *= 1.5;
     }
-    
+
     return Math.floor(delay + additionalDelay);
   },
-  
+
   setTypingState: (senderID, threadID, isTyping) => {
     ResponseCooldown.isTyping.set(`${threadID}_${senderID}`, isTyping);
   },
-  
+
   updateLastResponse: (senderID, threadID) => {
     ResponseCooldown.lastResponses.set(`${threadID}_${senderID}`, Date.now());
     ResponseCooldown.isTyping.set(`${threadID}_${senderID}`, false);
@@ -107,7 +108,7 @@ const generateResponseFromAudio = async (audioData, senderID, api, threadID, mes
     });
 
     const audioContent = [
-      "Lắng nghe và trả lời tin nhắn voice này. Trả lời bằng tiếng Việt.", 
+      "Lắng nghe và trả lời tin nhắn voice này. Trả lời bằng tiếng Việt.",
       {
         inlineData: {
           mimeType: 'audio/mp3',
@@ -343,7 +344,7 @@ const userDataPath = path.join(
   "cache",
   "userData.json"
 );
-let API_KEYS = [];
+let API_KEYS = ["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"];
 
 let ELEVENLABS_CONFIG = {
   api_key: "sk_085f26feae742df52883ae3ed5b427b44152e55b4274c04d",
@@ -1036,12 +1037,12 @@ const generateVoice = async (text) => {
 const loadAPIKeys = async () => {
   try {
     const data = await fs.readJson(apiKeysPath);
-    API_KEYS = data.api_keys;
-    API_KEYS = API_KEYS.filter((key) => key && key.length > 0);
+    if (data.api_keys && data.api_keys.length > 0) {
+      API_KEYS = data.api_keys;
+    }
     console.log("Successfully loaded API keys");
   } catch (error) {
-    console.error("Error loading API keys:", error.message);
-    API_KEYS = [];
+    console.error("Using default API key:", error.message);
   }
 };
 
@@ -1079,7 +1080,7 @@ const loadLearnedResponses = async () => {
   }
 };
 const MemorySystem = {
-  generatePersonalizedContext: function(senderID, query) {
+  generatePersonalizedContext: function (senderID, query) {
     return {
       knownUser: false,
       insights: "",
@@ -1271,7 +1272,7 @@ const checkRepetition = (threadID, newResponse) => {
 
     const segments = text.split(/[,.!?;:]/)
       .map(s => s.trim())
-      .filter(s => s.length > 10); 
+      .filter(s => s.length > 10);
 
     return segments;
   };
@@ -1279,7 +1280,7 @@ const checkRepetition = (threadID, newResponse) => {
   const newSegments = createMeaningfulSegments(newResponse);
 
   for (const segment of newSegments) {
-    if (segment.length < 15) continue; 
+    if (segment.length < 15) continue;
 
     let repetitionCount = 0;
     for (const oldResponse of recentResponses) {
@@ -1296,7 +1297,7 @@ const checkRepetition = (threadID, newResponse) => {
   }
 
   for (const oldResponse of recentResponses) {
- 
+
     if (newResponse === oldResponse) {
       console.log("Phát hiện câu trả lời giống hệt trước đó");
       return true;
@@ -1463,18 +1464,18 @@ const generateResponse = async (prompt, senderID, api, threadID, messageID) => {
   }
 
   try {
-    // Calculate appropriate delay before responding
+
     const responseDelay = ResponseCooldown.getResponseDelay(senderID, threadID, prompt);
-    
+
     if (responseDelay > 0) {
-      // Set typing indicator
+
       ResponseCooldown.setTypingState(senderID, threadID, true);
       api.sendTypingIndicator(threadID);
-      
-      // Wait for calculated delay
+
+
       await new Promise(resolve => setTimeout(resolve, responseDelay));
     }
-    
+
     const newNickname = detectNicknameChangeRequest(prompt);
     if (newNickname) {
       const result = await changeUserNickname(api, threadID, senderID, newNickname);
@@ -1559,20 +1560,31 @@ ${personalContext.relevantMemories && personalContext.relevantMemories !== "Khô
 
 Lịch sử: ${context.history}`;
 
-    const fullPrompt = `${systemPrompt}\n${userName}: ${prompt}\nNgan:`;
-
-    const apiKey = API_KEYS[0];
-    const genAI = new GoogleGenerativeAI(apiKey);
-    const model = genAI.getGenerativeModel({
-      model: "gemini-2.0-flash",
-      generationConfig: {
-        temperature: 1.2,
-        maxOutputTokens: 4000,
-      },
+    const openai = new OpenAI({
+      apiKey: API_KEYS[0]
     });
 
-    const result = await model.generateContent(fullPrompt);
-    let response = result.response.text();
+    const result = await openai.chat.completions.create({
+      model: "gpt-4o",
+      messages: [
+        {
+          role: "system", 
+          content: systemPrompt
+        },
+        {
+          role: "user",
+          content: `${userName}: ${prompt}`
+        },
+        {
+          role: "assistant",
+          content: "Ngan:" // Add this message to properly chain the conversation
+        }
+      ],
+      temperature: 1.2,
+      max_tokens: 4000
+    });
+
+    let response = result.choices[0].message.content;
     response = response.replace(/^(User:|Ngan:|Assistant:)/gim, "").trim();
 
     if (checkRepetition(threadID, response)) {
@@ -1690,7 +1702,7 @@ Lịch sử: ${context.history}`;
     ResponseCooldown.updateLastResponse(senderID, threadID);
     return response;
   } catch (error) {
-    // Make sure to reset typing state even on error
+
     ResponseCooldown.setTypingState(senderID, threadID, false);
     console.error("Generation error:", error);
     throw error;
@@ -1700,25 +1712,25 @@ Lịch sử: ${context.history}`;
 
 const updateMoodBasedOnPrompt = (prompt) => {
   prompt = prompt.toLowerCase();
-  
+
   const goodWords = [
     "xin lỗi", "sorry", "cảm ơn", "thank", "tốt", "hay", "thương", "yêu"
   ];
-  
+
   let moodChange = 0;
-  
+
   for (const word of goodWords) {
     if (prompt.includes(word)) {
       moodChange += 0.2;
     }
   }
-  
+
   botEmotionalState.mood = Math.max(0.5, Math.min(1, botEmotionalState.mood + moodChange));
   botEmotionalState.lastUpdate = Date.now();
-  
+
   const hour = new Date().getHours();
   if (hour >= 0 && hour < 6) {
-   
+
     botEmotionalState.energy = Math.max(0.5, botEmotionalState.energy - 0.05);
   } else if (hour >= 6 && hour < 12) {
 
@@ -1751,7 +1763,7 @@ module.exports = {
         const audioData = await processAudioMessage(attachments[0]);
         const response = await generateResponseFromAudio(
           audioData,
-          senderID, 
+          senderID,
           api,
           threadID,
           messageID
@@ -1804,10 +1816,10 @@ module.exports = {
           if (!fs.existsSync(cacheDir)) {
             fs.mkdirSync(cacheDir, { recursive: true });
           }
-        
+
           const voicePath = path.join(cacheDir, `voice_${senderID}.mp3`);
           await fs.writeFile(voicePath, audioBuffer);
-        
+
           const sent = await api.sendMessage(
             {
               attachment: fs.createReadStream(voicePath),
@@ -1815,25 +1827,25 @@ module.exports = {
             threadID,
             messageID
           );
-        
+
           if (sent) {
             global.client.onReply.push({
               name: this.name,
               messageID: sent.messageID,
               author: event.senderID,
               isVoiceContext: true,
-              lastResponse: response 
+              lastResponse: response
             });
           }
 
-          // Clean up voice file
+
           setTimeout(() => {
             fs.unlink(voicePath, (err) => {
               if (err) console.error("Error deleting voice file:", err);
             });
           }, 5000);
         } else {
-          // Send text-only response
+
           const sent = await api.sendMessage(response, threadID, messageID);
           if (sent) {
             global.client.onReply.push({
@@ -1942,35 +1954,35 @@ module.exports = {
             body?.toLowerCase().includes("nghe") ||
             body?.toLowerCase().includes("giọng");
 
-            if (shouldUseVoice) {
-              const expandedResponse = expandAbbreviations(response);
-              const cleanedResponse = cleanTextForVoice(expandedResponse);
-              const audioBuffer = await generateVoice(response);
-              const cacheDir = path.join(__dirname, "cache");
-              if (!fs.existsSync(cacheDir)) {
-                fs.mkdirSync(cacheDir, { recursive: true });
-              }
-            
-              const voicePath = path.join(cacheDir, `voice_${senderID}.mp3`);
-              await fs.writeFile(voicePath, audioBuffer);
-            
-              const sent = await api.sendMessage(
-                {
-                  attachment: fs.createReadStream(voicePath),
-                },
-                threadID,
-                messageID
-              );
-            
-              if (sent) {
-                global.client.onReply.push({
-                  name: this.name,
-                  messageID: sent.messageID,
-                  author: event.senderID,
-                  isVoiceContext: true,
-                  lastResponse: response  
-                });
-              }
+          if (shouldUseVoice) {
+            const expandedResponse = expandAbbreviations(response);
+            const cleanedResponse = cleanTextForVoice(expandedResponse);
+            const audioBuffer = await generateVoice(response);
+            const cacheDir = path.join(__dirname, "cache");
+            if (!fs.existsSync(cacheDir)) {
+              fs.mkdirSync(cacheDir, { recursive: true });
+            }
+
+            const voicePath = path.join(cacheDir, `voice_${senderID}.mp3`);
+            await fs.writeFile(voicePath, audioBuffer);
+
+            const sent = await api.sendMessage(
+              {
+                attachment: fs.createReadStream(voicePath),
+              },
+              threadID,
+              messageID
+            );
+
+            if (sent) {
+              global.client.onReply.push({
+                name: this.name,
+                messageID: sent.messageID,
+                author: event.senderID,
+                isVoiceContext: true,
+                lastResponse: response
+              });
+            }
 
             setTimeout(() => {
               fs.unlink(voicePath, (err) => {

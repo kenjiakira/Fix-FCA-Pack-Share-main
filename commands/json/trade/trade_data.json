@@ -133,6 +133,22 @@
       "successTrades": 0,
       "lastUpdated": 1748065301087,
       "createdAt": 1748065301087
+    },
+    "61550331471452": {
+      "portfolio": {
+        "PEP": {
+          "shares": 1991828189,
+          "avgBuyPrice": 178.9231423646043,
+          "totalInvested": 356384158626.279
+        }
+      },
+      "cash": 124936594583.45819,
+      "invested": 356384158626.279,
+      "totalProfit": 0,
+      "tradeCount": 1,
+      "successTrades": 0,
+      "lastUpdated": 1748233970568,
+      "createdAt": 1748232422470
     }
   }
 }

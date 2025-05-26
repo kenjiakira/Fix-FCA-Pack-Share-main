@@ -1,28 +1,47 @@
 {
   "codes": {
-    "RNCXPF3WVLAI": {
+    "VG0891VM9PV9A": {
       "rewards": {
-        "coins": 1206132,
-        "vip_points": 2
+        "coins": 2026642,
+        "vip_points": 3,
+        "exp": 298
       },
-      "description": "Giftcode Hiếm hàng ngày",
-      "createdAt": "2025-05-25T05:00:00.073Z",
-      "expiry": "2025-05-25T17:00:00.073Z",
+      "description": "Quà tặng VIP Gold hàng tuần",
+      "createdAt": "2025-05-26T01:00:18.312Z",
+      "expiry": "2025-05-29T01:00:18.312Z",
       "usedBy": [],
-      "type": "RARE",
-      "rarity": "Hiếm",
-      "color": "#3366FF",
-      "maxUses": 50,
-      "maxUsesPerUser": 3
+      "type": "VIP_GOLD",
+      "rarity": "VIP Gold",
+      "color": "#FFD700",
+      "maxUses": 100,
+      "maxUsesPerUser": 1
     },
-    "N30QYP1OIH66": {
+    "NALTS3S9SZ55": {
       "rewards": {
-        "coins": 214054,
+        "coins": 408809,
         "vip_points": 1
       },
       "description": "Giftcode Thường hàng ngày",
-      "createdAt": "2025-05-25T05:00:00.091Z",
-      "expiry": "2025-05-26T05:00:00.091Z",
+      "createdAt": "2025-05-26T05:00:00.069Z",
+      "expiry": "2025-05-27T05:00:00.069Z",
+      "usedBy": [
+        "100079828954790",
+        "61553443297125"
+      ],
+      "type": "NORMAL",
+      "rarity": "Thường",
+      "color": "#CCCCCC",
+      "maxUses": null,
+      "maxUsesPerUser": 5
+    },
+    "NE8C0L9ZJUH6": {
+      "rewards": {
+        "coins": 299670,
+        "vip_points": 1
+      },
+      "description": "Giftcode Thường hàng ngày",
+      "createdAt": "2025-05-26T05:01:45.670Z",
+      "expiry": "2025-05-27T05:01:45.670Z",
       "usedBy": [],
       "type": "NORMAL",
       "rarity": "Thường",
@@ -34,6 +53,6 @@
   "settings": {
     "autoGiftcode": true,
     "dailyLimits": {},
-    "lastResetDate": "2025-05-25"
+    "lastResetDate": "2025-05-26"
   }
 }

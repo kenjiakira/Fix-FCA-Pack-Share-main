@@ -1,21 +1,16 @@
 {
   "users": {
-    "61550739941534": {
-      "spinsUsed": 2,
-      "lastSpin": 1746881445300,
+    "61550807250827": {
+      "spinsUsed": 1,
+      "lastSpin": 1748232006308,
       "history": [
         {
-          "timestamp": 1746880793562,
-          "prizeId": 11,
-          "prizeName": "VIP GOLD"
-        },
-        {
-          "timestamp": 1746881445300,
-          "prizeId": 1,
-          "prizeName": "500 xu"
+          "timestamp": 1748232006308,
+          "prizeId": 8,
+          "prizeName": "50 EXP"
         }
       ]
     }
   },
-  "lastReset": 1746880793317
+  "lastReset": 1748232005904
 }

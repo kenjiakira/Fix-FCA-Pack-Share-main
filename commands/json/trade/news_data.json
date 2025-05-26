@@ -1,6 +1,24 @@
 {
   "news": [
     {
+      "symbol": "MSFT",
+      "headline": "Microsoft Corp. tổ chức đại hội cổ đông hàng năm không có thông báo lớn.",
+      "impact": "neutral",
+      "timestamp": 1748235600191
+    },
+    {
+      "symbol": "AMZN",
+      "headline": "Amazon.com Inc. duy trì triển vọng thị trường hiện tại.",
+      "impact": "neutral",
+      "timestamp": 1748233918230
+    },
+    {
+      "symbol": "META",
+      "headline": "Meta Platforms Inc. đối mặt với kiểm tra nhỏ từ cơ quan quản lý.",
+      "impact": "bad",
+      "timestamp": 1748232402695
+    },
+    {
       "symbol": "GOOG",
       "headline": "Alphabet Inc. được chính phủ phê duyệt sản phẩm mới cách mạng!",
       "impact": "veryGood",

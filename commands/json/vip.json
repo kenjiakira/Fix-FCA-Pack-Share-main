@@ -101,6 +101,142 @@
         "months": 1,
         "voucherApplied": null
       }
+    },
+    "100076957299243": {
+      "packageId": 3,
+      "name": "VIP GOLD",
+      "expireTime": 1751381843454,
+      "benefits": {
+        "cooldownReduction": 30,
+        "dailyBonus": true,
+        "fishingCooldown": 120000,
+        "fishExpMultiplier": 4,
+        "rareBonus": 0.3,
+        "trashReduction": 0.6,
+        "stolenProtection": 1,
+        "stolenCooldown": 900000,
+        "fullPlatformAccess": true,
+        "dailyTransferLimit": 5000000000,
+        "gachaBonus": {
+          "limitedRateBonus": 0.15
+        },
+        "petBenefits": {
+          "statDecayReduction": 0.3,
+          "itemDiscounts": 0.15,
+          "expBonus": 0.3,
+          "exclusivePets": true,
+          "maxPets": 5
+        },
+        "packageId": 3,
+        "name": "VIP GOLD"
+      },
+      "purchaseInfo": {
+        "purchaseDate": 1748185043454,
+        "months": 1,
+        "voucherApplied": null
+      }
+    },
+    "61561277064921": {
+      "packageId": 3,
+      "name": "VIP GOLD",
+      "expireTime": 1751381867458,
+      "benefits": {
+        "cooldownReduction": 30,
+        "dailyBonus": true,
+        "fishingCooldown": 120000,
+        "fishExpMultiplier": 4,
+        "rareBonus": 0.3,
+        "trashReduction": 0.6,
+        "stolenProtection": 1,
+        "stolenCooldown": 900000,
+        "fullPlatformAccess": true,
+        "dailyTransferLimit": 5000000000,
+        "gachaBonus": {
+          "limitedRateBonus": 0.15
+        },
+        "petBenefits": {
+          "statDecayReduction": 0.3,
+          "itemDiscounts": 0.15,
+          "expBonus": 0.3,
+          "exclusivePets": true,
+          "maxPets": 5
+        },
+        "packageId": 3,
+        "name": "VIP GOLD"
+      },
+      "purchaseInfo": {
+        "purchaseDate": 1748185067458,
+        "months": 1,
+        "voucherApplied": null
+      }
+    },
+    "61550331471452": {
+      "packageId": 3,
+      "name": "VIP GOLD",
+      "expireTime": 1751426015857,
+      "benefits": {
+        "cooldownReduction": 30,
+        "dailyBonus": true,
+        "fishingCooldown": 120000,
+        "fishExpMultiplier": 4,
+        "rareBonus": 0.3,
+        "trashReduction": 0.6,
+        "stolenProtection": 1,
+        "stolenCooldown": 900000,
+        "fullPlatformAccess": true,
+        "dailyTransferLimit": 5000000000,
+        "gachaBonus": {
+          "limitedRateBonus": 0.15
+        },
+        "petBenefits": {
+          "statDecayReduction": 0.3,
+          "itemDiscounts": 0.15,
+          "expBonus": 0.3,
+          "exclusivePets": true,
+          "maxPets": 5
+        },
+        "packageId": 3,
+        "name": "VIP GOLD"
+      },
+      "purchaseInfo": {
+        "purchaseDate": 1748229215857,
+        "months": 1,
+        "voucherApplied": null
+      }
+    },
+    "100058320200877": {
+      "packageId": 3,
+      "name": "VIP GOLD",
+      "expireTime": 1751426031797,
+      "benefits": {
+        "cooldownReduction": 30,
+        "dailyBonus": true,
+        "fishingCooldown": 120000,
+        "fishExpMultiplier": 4,
+        "rareBonus": 0.3,
+        "trashReduction": 0.6,
+        "stolenProtection": 1,
+        "stolenCooldown": 900000,
+        "fullPlatformAccess": true,
+        "dailyTransferLimit": 5000000000,
+        "gachaBonus": {
+          "limitedRateBonus": 0.15
+        },
+        "petBenefits": {
+          "statDecayReduction": 0.3,
+          "itemDiscounts": 0.15,
+          "expBonus": 0.3,
+          "exclusivePets": true,
+          "maxPets": 5
+        },
+        "packageId": 3,
+        "name": "VIP GOLD"
+      },
+      "purchaseInfo": {
+        "purchaseDate": 1748229231797,
+        "months": 1,
+        "voucherApplied": null
+      }
     }
   }
 }

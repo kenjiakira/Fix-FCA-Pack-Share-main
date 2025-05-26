@@ -1,114 +1,55 @@
 {
   "global": [
     {
-      "timestamp": 1748099524433,
-      "prompt": "bot ơi",
-      "response": "Ơi bạn iu, có gì hot nè? 😉",
+      "timestamp": 1748232061879,
+      "prompt": "bot tên j",
+      "response": "Cứ gọi mình là Ngân nhé. Cần tán gẫu gì không nè?",
       "senderID": "61573427362389",
       "senderName": "User"
     },
     {
-      "timestamp": 1748099524990,
-      "prompt": "bot ơi",
-      "response": "Ủa alo, ai gọi mình ban đêm dữ thần vại nè?",
+      "timestamp": 1748232073922,
+      "prompt": "ok",
+      "response": "Có gì cần mình chia sẻ không?",
       "senderID": "61573427362389",
       "senderName": "User"
     },
     {
-      "timestamp": 1748099538924,
-      "prompt": "ủa alo",
-      "response": "Ủa tưởng có kèo gì hay ho chớ! Hóng hớt xíu hoy mà 😂",
-      "senderID": "61573427362389",
-      "senderName": "User"
-    },
-    {
-      "timestamp": 1748100792507,
-      "prompt": "bot hết vui r",
-      "response": "Ủa zậy á hả? Chắc bot nó off kèo đi ngủ rùi đó 😂",
-      "senderID": "100058320200877",
-      "senderName": "Khuong Duy"
-    },
-    {
-      "timestamp": 1748101202426,
-      "prompt": "có bot làm hộ excel thì tootd",
-      "response": "Ủa có bot làm Excel á hả? Nghe cũng muốn đu trend thử coi sao á chớ! 😁",
-      "senderID": "61573427362389",
-      "senderName": "User"
-    },
-    {
-      "timestamp": 1748101579954,
-      "prompt": "m làm được không",
-      "response": "Ủa, mình chỉ dân đen thôi bạn ơi, Excel xin kiếu nha! 😂",
-      "senderID": "61573427362389",
-      "senderName": "User"
-    },
-    {
-      "timestamp": 1748101625320,
-      "prompt": "thảo dân à",
-      "response": "Thì chớ sao, có gì hot hả bạn? 😂",
-      "senderID": "61573427362389",
-      "senderName": "User"
+      "timestamp": 1748236004595,
+      "prompt": "Ui bot",
+      "response": "Làm gì mà \"ui\" ghê vậy nè?",
+      "senderID": "100079828954790",
+      "senderName": "Hu Hi"
     }
   ],
   "threads": {
     "6589198804475799": [
       {
-        "timestamp": 1748099524433,
-        "prompt": "bot ơi",
-        "response": "Ơi bạn iu, có gì hot nè? 😉",
+        "timestamp": 1748232061879,
+        "prompt": "bot tên j",
+        "response": "Cứ gọi mình là Ngân nhé. Cần tán gẫu gì không nè?",
         "senderID": "61573427362389",
         "senderName": "User"
       },
       {
-        "timestamp": 1748099524990,
-        "prompt": "bot ơi",
-        "response": "Ủa alo, ai gọi mình ban đêm dữ thần vại nè?",
+        "timestamp": 1748232073922,
+        "prompt": "ok",
+        "response": "Có gì cần mình chia sẻ không?",
         "senderID": "61573427362389",
         "senderName": "User"
       },
       {
-        "timestamp": 1748099538924,
-        "prompt": "ủa alo",
-        "response": "Ủa tưởng có kèo gì hay ho chớ! Hóng hớt xíu hoy mà 😂",
-        "senderID": "61573427362389",
-        "senderName": "User"
-      },
-      {
-        "timestamp": 1748100792507,
-        "prompt": "bot hết vui r",
-        "response": "Ủa zậy á hả? Chắc bot nó off kèo đi ngủ rùi đó 😂",
-        "senderID": "100058320200877",
-        "senderName": "Khuong Duy"
-      },
-      {
-        "timestamp": 1748101202426,
-        "prompt": "có bot làm hộ excel thì tootd",
-        "response": "Ủa có bot làm Excel á hả? Nghe cũng muốn đu trend thử coi sao á chớ! 😁",
-        "senderID": "61573427362389",
-        "senderName": "User"
-      },
-      {
-        "timestamp": 1748101579954,
-        "prompt": "m làm được không",
-        "response": "Ủa, mình chỉ dân đen thôi bạn ơi, Excel xin kiếu nha! 😂",
-        "senderID": "61573427362389",
-        "senderName": "User"
-      },
-      {
-        "timestamp": 1748101625320,
-        "prompt": "thảo dân à",
-        "response": "Thì chớ sao, có gì hot hả bạn? 😂",
-        "senderID": "61573427362389",
-        "senderName": "User"
+        "timestamp": 1748236004595,
+        "prompt": "Ui bot",
+        "response": "Làm gì mà \"ui\" ghê vậy nè?",
+        "senderID": "100079828954790",
+        "senderName": "Hu Hi"
       }
     ]
   },
   "lastResponses": {
-    "bot ơi": "Ủa alo, ai gọi mình ban đêm dữ thần vại nè?",
-    "ủa alo": "Ủa tưởng có kèo gì hay ho chớ! Hóng hớt xíu hoy mà 😂",
-    "bot hết vui r": "Ủa zậy á hả? Chắc bot nó off kèo đi ngủ rùi đó 😂",
-    "có bot làm hộ excel thì tootd": "Ủa có bot làm Excel á hả? Nghe cũng muốn đu trend thử coi sao á chớ! 😁",
-    "m làm được không": "Ủa, mình chỉ dân đen thôi bạn ơi, Excel xin kiếu nha! 😂",
-    "thảo dân à": "Thì chớ sao, có gì hot hả bạn? 😂"
+    "bot tên j": "Cứ gọi mình là Ngân nhé. Cần tán gẫu gì không nè?",
+    "ok": "Có gì cần mình chia sẻ không?",
+    "ui bot": "Làm gì mà \"ui\" ghê vậy nè?"
   }
 }

@@ -9,8 +9,8 @@
       "creditScore": 13
     },
     "61561277064921": {
-      "bankBalance": 138142811,
-      "lastInterest": 1748065354911,
+      "bankBalance": 138280953,
+      "lastInterest": 1748184686960,
       "createdAt": 1742583630797,
       "balanceHistory": [],
       "penalties": [],
@@ -81,8 +81,8 @@
       "creditScore": 34
     },
     "100076957299243": {
-      "bankBalance": 887000000,
-      "lastInterest": 1744385870114,
+      "bankBalance": 0,
+      "lastInterest": 1748184701109,
       "createdAt": 1742634046974,
       "balanceHistory": [],
       "penalties": [],
@@ -356,6 +356,14 @@
       "bankBalance": 0,
       "lastInterest": 1748065457933,
       "createdAt": 1748065457933,
+      "balanceHistory": [],
+      "penalties": [],
+      "creditScore": 13
+    },
+    "61550331471452": {
+      "bankBalance": 0,
+      "lastInterest": 1748191939895,
+      "createdAt": 1748191939895,
       "balanceHistory": [],
       "penalties": [],
       "creditScore": 13

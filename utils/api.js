@@ -22,6 +22,6 @@ module.exports = {
         BASE_URL: 'https://api.clashofclans.com/v1'
     },
     GEMINI: {
-        API_KEY: 'AIzaSyB3H4kicqGhYpQa5GsDjMdaIEANYwCtpiM' 
+        API_KEY: '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' 
     }
 }

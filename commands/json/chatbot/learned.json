@@ -1,38 +1,19 @@
 {
-  "bot ơi": {
+  "bot tên j": {
     "responses": [
-      "Ơi bạn iu, có gì hot nè? 😉",
-      "Ủa alo, ai gọi mình ban đêm dữ thần vại nè?"
-    ],
-    "frequency": 2
-  },
-  "ủa alo": {
-    "responses": [
-      "Ủa tưởng có kèo gì hay ho chớ! Hóng hớt xíu hoy mà 😂"
+      "Cứ gọi mình là Ngân nhé. Cần tán gẫu gì không nè?"
     ],
     "frequency": 1
   },
-  "bot hết vui r": {
+  "ok": {
     "responses": [
-      "Ủa zậy á hả? Chắc bot nó off kèo đi ngủ rùi đó 😂"
+      "Có gì cần mình chia sẻ không?"
     ],
     "frequency": 1
   },
-  "có bot làm hộ excel thì tootd": {
+  "ui bot": {
     "responses": [
-      "Ủa có bot làm Excel á hả? Nghe cũng muốn đu trend thử coi sao á chớ! 😁"
-    ],
-    "frequency": 1
-  },
-  "m làm được không": {
-    "responses": [
-      "Ủa, mình chỉ dân đen thôi bạn ơi, Excel xin kiếu nha! 😂"
-    ],
-    "frequency": 1
-  },
-  "thảo dân à": {
-    "responses": [
-      "Thì chớ sao, có gì hot hả bạn? 😂"
+      "Làm gì mà \"ui\" ghê vậy nè?"
     ],
     "frequency": 1
   }

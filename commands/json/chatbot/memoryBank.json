@@ -6,104 +6,11 @@
       "preferences": [],
       "interactions": [
         {
-          "content": "User nói: bot ơi\nTôi trả lời: Ủa alo, ai gọi mình ban đêm dữ thần vại nè?",
-          "timestamp": 1748099524994,
-          "priority": 1,
-          "accessCount": 4,
-          "lastAccess": 1748101623772,
-          "metadata": {
-            "sentiment": {
-              "score": 0,
-              "rawScore": 0,
-              "sentiment": "neutral",
-              "confidence": 0.5,
-              "emotions": [],
-              "negationCount": 0,
-              "intensityFactors": [],
-              "primaryEmotion": "neutral"
-            },
-            "topics": [
-              "PERSONAL"
-            ],
-            "entities": {}
-          }
-        },
-        {
-          "content": "User nói: bot ơi\nTôi trả lời: Ơi bạn iu, có gì hot nè? 😉",
-          "timestamp": 1748099524438,
-          "priority": 1,
-          "accessCount": 4,
-          "lastAccess": 1748101623772,
-          "metadata": {
-            "sentiment": {
-              "score": 0,
-              "rawScore": 0,
-              "sentiment": "neutral",
-              "confidence": 0.5,
-              "emotions": [],
-              "negationCount": 0,
-              "intensityFactors": [],
-              "primaryEmotion": "neutral"
-            },
-            "topics": [
-              "PERSONAL"
-            ],
-            "entities": {}
-          }
-        },
-        {
-          "content": "User nói: có bot làm hộ excel thì tootd\nTôi trả lời: Ủa có bot làm Excel á hả? Nghe cũng muốn đu trend thử coi sao á chớ! 😁",
-          "timestamp": 1748101202431,
-          "priority": 1,
-          "accessCount": 2,
-          "lastAccess": 1748101623772,
-          "metadata": {
-            "sentiment": {
-              "score": 0,
-              "rawScore": 0,
-              "sentiment": "neutral",
-              "confidence": 0.5,
-              "emotions": [],
-              "negationCount": 0,
-              "intensityFactors": [],
-              "primaryEmotion": "neutral"
-            },
-            "topics": [
-              "PERSONAL",
-              "WORK"
-            ],
-            "entities": {}
-          }
-        },
-        {
-          "content": "User nói: ủa alo\nTôi trả lời: Ủa tưởng có kèo gì hay ho chớ! Hóng hớt xíu hoy mà 😂",
-          "timestamp": 1748099538931,
-          "priority": 1,
-          "accessCount": 3,
-          "lastAccess": 1748101623772,
-          "metadata": {
-            "sentiment": {
-              "score": 0,
-              "rawScore": 0,
-              "sentiment": "neutral",
-              "confidence": 0.5,
-              "emotions": [],
-              "negationCount": 0,
-              "intensityFactors": [],
-              "primaryEmotion": "neutral"
-            },
-            "topics": [
-              "PERSONAL"
-            ],
-            "entities": {}
-          }
-        },
-        {
-          "content": "User nói: m làm được không\nTôi trả lời: Ủa, mình chỉ dân đen thôi bạn ơi, Excel xin kiếu nha! 😂",
-          "timestamp": 1748101579956,
+          "content": "User nói: bot tên j\nTôi trả lời: Cứ gọi mình là Ngân nhé. Cần tán gẫu gì không nè?",
+          "timestamp": 1748232061880,
           "priority": 1,
           "accessCount": 1,
-          "lastAccess": 1748101623772,
+          "lastAccess": 1748232073082,
           "metadata": {
             "sentiment": {
               "score": 0,
@@ -116,18 +23,17 @@
               "primaryEmotion": "neutral"
             },
             "topics": [
-              "PERSONAL",
-              "WORK"
+              "PERSONAL"
             ],
             "entities": {}
           }
         },
         {
-          "content": "User nói: thảo dân à\nTôi trả lời: Thì chớ sao, có gì hot hả bạn? 😂",
-          "timestamp": 1748101625322,
+          "content": "User nói: ok\nTôi trả lời: Có gì cần mình chia sẻ không?",
+          "timestamp": 1748232073923,
           "priority": 1,
           "accessCount": 0,
-          "lastAccess": 1748101625322,
+          "lastAccess": 1748232073923,
           "metadata": {
             "sentiment": {
               "score": 0,
@@ -159,102 +65,10 @@
       "undefined": [
         {
           "content": "Xưng hô: mình/bạn",
-          "timestamp": 1748099522298,
-          "priority": 2,
-          "accessCount": 5,
-          "lastAccess": 1748101623772,
-          "metadata": {
-            "sentiment": {
-              "score": 0,
-              "rawScore": 0,
-              "sentiment": "neutral",
-              "confidence": 0.5,
-              "emotions": [],
-              "negationCount": 0,
-              "intensityFactors": [],
-              "primaryEmotion": "neutral"
-            },
-            "topics": [
-              "PERSONAL"
-            ],
-            "entities": {}
-          }
-        },
-        {
-          "content": "Xưng hô: mình/bạn",
-          "timestamp": 1748099523388,
-          "priority": 2,
-          "accessCount": 4,
-          "lastAccess": 1748101623772,
-          "metadata": {
-            "sentiment": {
-              "score": 0,
-              "rawScore": 0,
-              "sentiment": "neutral",
-              "confidence": 0.5,
-              "emotions": [],
-              "negationCount": 0,
-              "intensityFactors": [],
-              "primaryEmotion": "neutral"
-            },
-            "topics": [
-              "PERSONAL"
-            ],
-            "entities": {}
-          }
-        },
-        {
-          "content": "Xưng hô: mình/bạn",
-          "timestamp": 1748099537695,
-          "priority": 2,
-          "accessCount": 3,
-          "lastAccess": 1748101623772,
-          "metadata": {
-            "sentiment": {
-              "score": 0,
-              "rawScore": 0,
-              "sentiment": "neutral",
-              "confidence": 0.5,
-              "emotions": [],
-              "negationCount": 0,
-              "intensityFactors": [],
-              "primaryEmotion": "neutral"
-            },
-            "topics": [
-              "PERSONAL"
-            ],
-            "entities": {}
-          }
-        },
-        {
-          "content": "Xưng hô: mình/bạn",
-          "timestamp": 1748101201153,
-          "priority": 2,
-          "accessCount": 2,
-          "lastAccess": 1748101623772,
-          "metadata": {
-            "sentiment": {
-              "score": 0,
-              "rawScore": 0,
-              "sentiment": "neutral",
-              "confidence": 0.5,
-              "emotions": [],
-              "negationCount": 0,
-              "intensityFactors": [],
-              "primaryEmotion": "neutral"
-            },
-            "topics": [
-              "PERSONAL"
-            ],
-            "entities": {}
-          }
-        },
-        {
-          "content": "Xưng hô: mình/bạn",
-          "timestamp": 1748101577867,
+          "timestamp": 1748232060616,
           "priority": 2,
           "accessCount": 1,
-          "lastAccess": 1748101623772,
+          "lastAccess": 1748232073082,
           "metadata": {
             "sentiment": {
               "score": 0,
@@ -274,10 +88,10 @@
         },
         {
           "content": "Xưng hô: mình/bạn",
-          "timestamp": 1748101623774,
+          "timestamp": 1748232073083,
           "priority": 2,
           "accessCount": 0,
-          "lastAccess": 1748101623774,
+          "lastAccess": 1748232073083,
           "metadata": {
             "sentiment": {
               "score": 0,
@@ -297,17 +111,17 @@
         }
       ]
     },
-    "100058320200877": {
+    "100079828954790": {
       "personal": [],
       "facts": [],
       "preferences": [],
       "interactions": [
         {
-          "content": "Khuong Duy nói: bot hết vui r\nTôi trả lời: Ủa zậy á hả? Chắc bot nó off kèo đi ngủ rùi đó 😂",
-          "timestamp": 1748100792510,
+          "content": "Hu Hi nói: Ui bot\nTôi trả lời: Làm gì mà \"ui\" ghê vậy nè?",
+          "timestamp": 1748236004598,
           "priority": 1,
           "accessCount": 0,
-          "lastAccess": 1748100792510,
+          "lastAccess": 1748236004598,
           "metadata": {
             "sentiment": {
               "score": 0,
@@ -321,7 +135,7 @@
             },
             "topics": [
               "PERSONAL",
-              "TRAVEL"
+              "WORK"
             ],
             "entities": {}
           }
@@ -340,10 +154,10 @@
       "undefined": [
         {
           "content": "Xưng hô: mình/bạn",
-          "timestamp": 1748100791173,
+          "timestamp": 1748236003102,
           "priority": 2,
           "accessCount": 0,
-          "lastAccess": 1748100791173,
+          "lastAccess": 1748236003102,
           "metadata": {
             "sentiment": {
               "score": 0,
@@ -377,11 +191,16 @@
     "voice": {}
   },
   "stats": {
-    "totalInteractions": 14,
+    "totalInteractions": 6,
     "uniqueUsers": {},
     "topTopics": {},
     "responseTime": [],
-    "accuracy": []
+    "accuracy": [
+      {
+        "timestamp": 1748236004601,
+        "memoryCount": 5
+      }
+    ]
   },
   "compression": {
     "enabled": true,
