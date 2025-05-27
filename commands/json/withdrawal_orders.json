@@ -1,0 +1,20 @@
+{
+  "WD1748316716788G159WS": {
+    "orderId": "WD1748316716788G159WS",
+    "userId": "61573427362389",
+    "userName": "Ngọc Từ",
+    "amount": 100000,
+    "actualAmount": 90000,
+    "fee": 10000,
+    "bankInfo": {
+      "bankName": "VIETINBANK",
+      "accountNumber": "124567",
+      "accountName": "HNT"
+    },
+    "status": "approved",
+    "createdAt": 1748316716788,
+    "note": "Rút 100,000 coins (phí 10,000)",
+    "approvedAt": 1748316904261,
+    "approvedBy": "61573427362389"
+  }
+}

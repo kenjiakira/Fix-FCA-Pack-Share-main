@@ -9,8 +9,8 @@
       "creditScore": 13
     },
     "61561277064921": {
-      "bankBalance": 138280953,
-      "lastInterest": 1748184686960,
+      "bankBalance": 139420233,
+      "lastInterest": 1748322150614,
       "createdAt": 1742583630797,
       "balanceHistory": [],
       "penalties": [],
@@ -73,8 +73,8 @@
       "creditScore": 13
     },
     "100028202556430": {
-      "bankBalance": 30000000,
-      "lastInterest": 1742629838567,
+      "bankBalance": 31950000,
+      "lastInterest": 1748277873430,
       "createdAt": 1742629838567,
       "balanceHistory": [],
       "penalties": [],
@@ -3656,6 +3656,22 @@
         "description": "Nhận 200,000 $ từ Ngoc Anh",
         "amount": 200000,
         "timestamp": 1744434865674
+      }
+    ],
+    "100063719077878": [
+      {
+        "type": "out",
+        "description": "Chuyển 3,000,000 $ cho Người nhận",
+        "amount": 3000000,
+        "timestamp": 1748324131661
+      }
+    ],
+    "61560460131851": [
+      {
+        "type": "in",
+        "description": "Nhận 3,000,000 $ từ Minh Ngoc",
+        "amount": 3000000,
+        "timestamp": 1748324131676
       }
     ]
   },

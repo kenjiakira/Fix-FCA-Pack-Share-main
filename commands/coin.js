@@ -1,3090 +1,1818 @@
 const fs = require('fs');
 const path = require('path');
-const Database = require('better-sqlite3');
-const { getBalance, updateBalance } = require('../utils/currencies');
-const BACKUP_DIR = path.join(__dirname, './json/coin/backups');
-const DB_PATH = path.join(__dirname, '../database/coindb.sqlite');
-const { createMarketCanvas, bufferToStream } = require('../game/canvas/coinCanvas');
+const getName = require('../utils/getName');
+const vipService = require('../game/vip/vipService');
+const { getMiningBalance, updateMiningBalance } = require('../game/mining/miningCurrency');
 
-const DB_DIR = path.dirname(DB_PATH);
-const crypto = require('crypto');
-const MAX_BUY_PERCENT = 0.1;
-const MAX_HOLD_PERCENT = 0.2;
-
-const MINE_RATE = 5;
-const BASE_MINING_AMOUNT = 10;
-const MAX_MINING_AMOUNT = 200000;
-const TEAM_BONUS = 0.1;
-const BASE_PRICE = 100;
-const LISTING_THRESHOLD = 10000;
-const INITIAL_PRICE = 20;
-const MINING_COOLDOWN = 15 * 1000;
-
-const WALLET_CODE_LENGTH = 8;
-let walletCodeIndex = {};
-const MAX_BACKUPS = 10;
-
-const NPC_COUNT = 10;
-const NPC_PREFIX = 'NPC';
-const NPC_MINING_INTERVAL = 60 * 60 * 1000;
-const NPC_MIN_POWER = 0.1;
-const NPC_MAX_POWER = 0.5;
-
-const MARKET_CONSTANTS = {
-    VOLATILITY: {
-        NORMAL: 0.005,
-        HIGH: 0.02,
-        MAX: 0.05
+// Mining configuration - ĐIỀU CHỈNH ĐỂ TĂNG HẤP DẪN
+const MINING_CONFIG = {
+    BASE_RATE: 2.0, // Tăng từ 0.8 lên 2.0 - tăng 2.5x
+    COOLDOWN: 25 * 1000, // Giảm từ 30s xuống 25s - nhanh hơn 5s
+    MAX_OFFLINE_HOURS: 8, // Tăng từ 6h lên 8h - thu offline lâu hơn
+    LEVEL_MULTIPLIER: 0.05, // Giữ nguyên
+    TEAM_BONUS: 0.015, // Giữ nguyên
+    VIP_MULTIPLIERS: {
+        GOLD: 1.8  // Giữ nguyên 1.8
     },
-    IMPACT: {
-        BUY: -0.01,
-        SELL: 0.015
+    // Hệ thống phí thương mại - GIẢM NHẸ
+    FEES: {
+        WITHDRAWAL_FEE: 0.10, // Giảm từ 12% xuống 10%
+        AUTO_MINING_FEE: 0.12, // Giảm từ 15% xuống 12%
+        TEAM_CREATE_FEE: 3000, // Giữ nguyên
+        EQUIPMENT_TAX: 0.08,
+        DAILY_MINING_LIMIT_FEE: 100, // Giảm từ 120 xuống 100 coins
     },
-    RECOVERY: {
-        RATE: 0.001,
-        TIME: 30 * 1000
+    // Giới hạn rút tiền - GIẢM THRESHOLD
+    WITHDRAWAL: {
+        MIN_AMOUNT: 8000, // Giảm từ 15k xuống 8k - dễ rút hơn
+        DAILY_LIMIT: 50000, // Tăng từ 40k lên 50k
+        VIP_BONUS_LIMIT: {
+            GOLD: 2.0
+        }
     },
-    RANDOM: {
-        MIN: -0.005,   // -0.5% ngẫu nhiên tối thiểu
-        MAX: 0.005     // +0.5% ngẫu nhiên tối đa
+    // Giới hạn đào hàng ngày - TĂNG
+    DAILY_MINING: {
+        FREE_LIMIT: 15, // Tăng từ 10 lên 15 lượt
+        VIP_LIMIT: 60, // Tăng từ 50 lên 60 lượt
+        EXTRA_COST: 100 // Giảm từ 120 xuống 100 coins
+    },
+    // Hệ thống thưởng cho người mới - TĂNG
+    NEWBIE_BONUS: {
+        FIRST_WEEK_MULTIPLIER: 2.2, // Tăng từ 1.8 lên 2.2
+        FIRST_MONTH_MULTIPLIER: 1.3, // Giữ nguyên
+        WELCOME_BONUS: 3000, // Tăng từ 2k lên 3k
+        DAILY_LOGIN_BONUS: 150, // Tăng từ 100 lên 150
+        LEVEL_UP_BONUS: 200, // Giữ nguyên
+        MAX_NEWBIE_DAYS: 10 // Tăng từ 7 lên 10 ngày
+    },
+    // Hệ thống nhiệm vụ hàng ngày - TĂNG
+    DAILY_QUESTS: {
+        MINE_10_TIMES: { reward: 800, description: "Đào 10 lần" }, // Tăng từ 500 lên 800
+        MINE_20_TIMES: { reward: 1800, description: "Đào 20 lần" }, // Tăng từ 1200 lên 1800
+        JOIN_TEAM: { reward: 1200, description: "Tham gia team" }, // Tăng từ 800 lên 1200
+        USE_AUTO_MINING: { reward: 900, description: "Sử dụng auto mining" } // Tăng từ 600 lên 900
+    },
+    // THÊM: Hệ thống coin sinks
+    COIN_SINKS: {
+        EQUIPMENT_DURABILITY: true, // Thiết bị bị hỏng theo thời gian
+        MONTHLY_MAINTENANCE: 1000, // Phí duy trì hàng tháng
+        INSURANCE_FEE: 0.05, // 5% phí bảo hiểm cho số dư lớn
+        STORAGE_FEE: 100 // Phí lưu trữ coins/ngày nếu > 50k coins
+    },
+    // Hệ thống kiểm soát kinh tế - TĂNG CƯỜNG
+    ECONOMY_CONTROL: {
+        DAILY_COIN_DESTRUCTION: 0.03, // Tăng từ 2% lên 3%
+        INFLATION_CONTROL_RATE: 0.99, // Giảm 1% mining rate mỗi tuần
+        MAX_COINS_IN_SYSTEM: 5000000, // Giảm từ 10M xuống 5M
+        EMERGENCY_BRAKE: true,
+        WEALTH_TAX_THRESHOLD: 100000, // Đánh thuế user có > 100k coins
+        WEALTH_TAX_RATE: 0.01 // 1% thuế giàu/ngày
     }
 };
-const MINERS = {
-    basic: { name: "Máy Đào Cơ Bản", power: 1, price: 0 },
-    standard: { name: "Máy Đào Tiêu Chuẩn", power: 2, price: 10000 },
-    advanced: { name: "Máy Đào Cao Cấp", power: 5, price: 50000 },
-    professional: { name: "Máy Đào Chuyên Nghiệp", power: 10, price: 150000 },
-    industrial: { name: "Máy Đào Công Nghiệp", power: 25, price: 500000 },
-    quantum: { name: "Máy Đào Lượng Tử", power: 50, price: 2000000 }
-};
 
-const ACHIEVEMENTS = {
-    first_million: { name: "Triệu Phú Đầu Tiên", requirement: 1000000, reward: 100 },
-    team_leader: { name: "Người Dẫn Đầu", requirement: "createTeam", reward: 50 },
-    power_user: { name: "Máy Đào Hiệu Suất", requirement: { type: "miningPower", value: 10 }, reward: 20 },
-    devoted_miner: { name: "Thợ Mỏ Tận Tụy", requirement: { type: "miningCount", value: 100 }, reward: 30 },
-    coin_master: { name: "Bậc Thầy Coin", requirement: { type: "level", value: 10 }, reward: 50 }
-};
+// Data storage paths
+const MINING_DATA_FILE = path.join(__dirname, './json/mining_data.json');
+const MINING_TEAMS_FILE = path.join(__dirname, './json/mining_teams.json');
 
-
-const MAINNET_ITEMS = {
-    boost_1: { name: "Tăng Tốc 24h", description: "Tăng 50% tốc độ đào trong 24h", price: 5, effect: "miningBoost", value: 1.5, duration: 24 * 60 * 60 * 1000 },
-    boost_2: { name: "Tăng Tốc 3 Ngày", description: "Tăng 30% tốc độ đào trong 3 ngày", price: 12, effect: "miningBoost", value: 1.3, duration: 3 * 24 * 60 * 60 * 1000 },
-    exp_booster: { name: "Tăng XP", description: "Tăng 100% kinh nghiệm nhận được trong 12h", price: 8, effect: "expBoost", value: 2, duration: 12 * 60 * 60 * 1000 },
-    team_upgrade: { name: "Nâng Cấp Team", description: "Tăng 10% hiệu quả team trong 7 ngày", price: 20, effect: "teamBoost", value: 1.1, duration: 7 * 24 * 60 * 60 * 1000 },
-    premium_pick: { name: "Cúp Premium", description: "Tăng vĩnh viễn 15% tốc độ đào", price: 50, effect: "permanentBoost", value: 1.15, duration: 0 }
-};
-
-
-const SELLABLE_ITEMS = {
-    gold_nugget: { name: "Vàng Thô", description: "Mảnh vàng quý tìm thấy khi đào", basePrice: 0.5, rarity: 0.1 },
-    diamond: { name: "Kim Cương", description: "Kim cương hiếm có giá trị cao", basePrice: 2, rarity: 0.03 },
-    ancient_relic: { name: "Cổ Vật", description: "Di tích cổ xưa có giá trị lớn", basePrice: 5, rarity: 0.01 }
-};
-
-
-class Block {
-    constructor(timestamp, transactions, previousHash = '') {
-        this.timestamp = timestamp;
-        this.transactions = transactions;
-        this.previousHash = previousHash;
-        this.hash = this.calculateHash();
-        this.nonce = 0;
-    }
-
-    calculateHash() {
-        return crypto.createHash('sha256')
-            .update(this.previousHash +
-                this.timestamp +
-                JSON.stringify(this.transactions) +
-                this.nonce)
-            .digest('hex');
-    }
-
-    mineBlock(difficulty) {
-        while (this.hash.substring(0, difficulty) !== Array(difficulty + 1).join("0")) {
-            this.nonce++;
-            this.hash = this.calculateHash();
-        }
-    }
-}
-
-class Blockchain {
-    constructor() {
-        this.chain = [this.createGenesisBlock()];
-        this.difficulty = 2;
-        this.pendingTransactions = [];
-        this.miningReward = 1;
-    }
-
-    createGenesisBlock() {
-        return new Block(Date.now(), [], "0");
-    }
-
-    getLatestBlock() {
-        return this.chain[this.chain.length - 1];
-    }
-
-    minePendingTransactions(miningRewardAddress) {
-        let block = new Block(Date.now(), this.pendingTransactions, this.getLatestBlock().hash);
-        block.mineBlock(this.difficulty);
-
-        this.chain.push(block);
-        this.pendingTransactions = [
-            {
-                fromAddress: null,
-                toAddress: miningRewardAddress,
-                amount: this.miningReward
+// Initialize data files
+function initializeDataFiles() {
+    [MINING_DATA_FILE, MINING_TEAMS_FILE].forEach(file => {
+        if (!fs.existsSync(file)) {
+            const dir = path.dirname(file);
+            if (!fs.existsSync(dir)) {
+                fs.mkdirSync(dir, { recursive: true });
             }
-        ];
-    }
-
-    addTransaction(fromAddress, toAddress, amount) {
-        this.pendingTransactions.push({
-            fromAddress,
-            toAddress,
-            amount,
-            timestamp: Date.now()
-        });
-    }
-
-    getBalanceOfAddress(address) {
-        let balance = 0;
-        for (const block of this.chain) {
-            for (const trans of block.transactions) {
-                if (trans.fromAddress === address) {
-                    balance -= trans.amount;
-                }
-                if (trans.toAddress === address) {
-                    balance += trans.amount;
-                }
-            }
-        }
-        return balance;
-    }
-
-    isChainValid() {
-        for (let i = 1; i < this.chain.length; i++) {
-            const currentBlock = this.chain[i];
-            const previousBlock = this.chain[i - 1];
-
-            if (currentBlock.hash !== currentBlock.calculateHash()) {
-                return false;
-            }
-
-            if (currentBlock.previousHash !== previousBlock.hash) {
-                return false;
-            }
-        }
-        return true;
-    }
-}
-const mainnetChain = new Blockchain();
-
-function calculateRequiredXP(level) {
-
-    return Math.floor(1000 * Math.pow(1.5, level - 1));
-}
-
-function createTablesIfNeeded(database) {
-    try {
-        console.log('[DB] Creating tables...');
-
-        database.pragma('foreign_keys = ON');
-
-        database.exec(`
-            CREATE TABLE IF NOT EXISTS mining_data (
-                user_id TEXT PRIMARY KEY,
-                last_mined INTEGER,
-                mining_power REAL,
-                wallet_mainnet REAL,
-                wallet_code TEXT UNIQUE,
-                level INTEGER,
-                experience INTEGER,
-                stats_total_mined REAL,
-                stats_mining_count INTEGER,
-                stats_team_contribution REAL,
-                created_at INTEGER
-            );
-            
-            CREATE TABLE IF NOT EXISTS user_miners (
-                id INTEGER PRIMARY KEY AUTOINCREMENT,
-                user_id TEXT,
-                miner_id TEXT,
-                FOREIGN KEY (user_id) REFERENCES mining_data(user_id)
-            );
-            
-            CREATE TABLE IF NOT EXISTS user_achievements (
-                id INTEGER PRIMARY KEY AUTOINCREMENT,
-                user_id TEXT,
-                achievement_id TEXT,
-                FOREIGN KEY (user_id) REFERENCES mining_data(user_id)
-            );
-            
-            CREATE TABLE IF NOT EXISTS user_notifications (
-                id INTEGER PRIMARY KEY AUTOINCREMENT,
-                user_id TEXT,
-                type TEXT,
-                message TEXT,
-                reward REAL,
-                time INTEGER,
-                FOREIGN KEY (user_id) REFERENCES mining_data(user_id)
-            );
-            
-            CREATE TABLE IF NOT EXISTS user_items (
-                id INTEGER PRIMARY KEY AUTOINCREMENT,
-                user_id TEXT,
-                item_id TEXT,
-                quantity INTEGER,
-                FOREIGN KEY (user_id) REFERENCES mining_data(user_id)
-            );
-            
-            CREATE TABLE IF NOT EXISTS user_inventory (
-                id INTEGER PRIMARY KEY AUTOINCREMENT,
-                user_id TEXT,
-                item_id TEXT,
-                name TEXT,
-                effect TEXT,
-                value REAL,
-                expires INTEGER,
-                purchased_at INTEGER,
-                FOREIGN KEY (user_id) REFERENCES mining_data(user_id)
-            );
-            
-            CREATE TABLE IF NOT EXISTS teams (
-                team_id TEXT PRIMARY KEY,
-                name TEXT,
-                leader_id TEXT,
-                created_at INTEGER,
-                stats_total_power REAL,
-                stats_total_mined REAL
-            );
-            
-            CREATE TABLE IF NOT EXISTS team_members (
-                id INTEGER PRIMARY KEY AUTOINCREMENT,
-                team_id TEXT,
-                user_id TEXT,
-                FOREIGN KEY (team_id) REFERENCES teams(team_id),
-                FOREIGN KEY (user_id) REFERENCES mining_data(user_id)
-            );
-            
-            CREATE TABLE IF NOT EXISTS market_data (
-                id INTEGER PRIMARY KEY CHECK (id = 1),
-                price REAL,
-                supply_demand_ratio REAL,
-                last_update INTEGER,
-                trend TEXT,
-                total_supply REAL,
-                total_transactions INTEGER,
-                sentiment REAL,
-                is_listed INTEGER,
-                progress_to_listing REAL
-            );
-            
-            CREATE TABLE IF NOT EXISTS price_history (
-                id INTEGER PRIMARY KEY AUTOINCREMENT,
-                price REAL,
-                time INTEGER,
-                supply REAL,
-                ratio REAL,
-                event TEXT
-            );
-            
-            CREATE INDEX IF NOT EXISTS idx_team_members_user_id ON team_members(user_id);
-            CREATE INDEX IF NOT EXISTS idx_team_members_team_id ON team_members(team_id);
-            CREATE INDEX IF NOT EXISTS idx_user_miners_user_id ON user_miners(user_id);
-        `);
-        try {
-            database.exec(`
-                ALTER TABLE teams ADD COLUMN level INTEGER DEFAULT 1;
-                ALTER TABLE teams ADD COLUMN exp INTEGER DEFAULT 0;
-                ALTER TABLE teams ADD COLUMN max_members INTEGER DEFAULT 5;
-                ALTER TABLE teams ADD COLUMN security_circle TEXT DEFAULT '[]';
-                ALTER TABLE team_members ADD COLUMN role TEXT DEFAULT 'member';
-                ALTER TABLE team_members ADD COLUMN joined_at INTEGER;
-            `);
-            database.exec(`
-                CREATE TABLE IF NOT EXISTS transaction_history (
-                    id INTEGER PRIMARY KEY AUTOINCREMENT,
-                    user_id TEXT,
-                    type TEXT,
-                    amount REAL,
-                    price REAL,
-                    time INTEGER
-                );
-            `);
-
-        } catch (alterErr) {
-            // Ignore errors if columns already exist
-            console.log('[DB] Some columns might already exist:', alterErr.message);
-        }
-
-        console.log('[DB] Tables created successfully');
-        return true;
-    } catch (err) {
-        console.error('[DB] Error creating tables:', err);
-        return false;
-    }
-}
-
-function initializeNPCs() {
-    try {
-        console.log('[NPC] Starting NPCs initialization...');
-
-        // Kiểm tra số lượng NPC hiện có
-        const existingCount = verifyNPCsCreated();
-
-        if (existingCount > 0) {
-            console.log(`[NPC] Found ${existingCount} existing NPCs, no need to create new ones`);
-        } else {
-            console.log(`[NPC] Creating ${NPC_COUNT} new NPCs...`);
-
-            // Tạo từng NPC trong vòng lặp riêng biệt để dễ debug
-            for (let i = 1; i <= NPC_COUNT; i++) {
-                try {
-                    const npcId = `${NPC_PREFIX}_${i}`;
-                    const miningPower = NPC_MIN_POWER + (Math.random() * (NPC_MAX_POWER - NPC_MIN_POWER));
-                    const walletCode = generateWalletCode();
-
-                    // Kiểm tra trước khi thêm
-                    const exists = db.prepare('SELECT user_id FROM mining_data WHERE user_id = ?').get(npcId);
-                    if (exists) {
-                        console.log(`[NPC] NPC ${npcId} already exists, skipping`);
-                        continue;
-                    }
-
-                    // Thêm NPC với INSERT OR IGNORE để tránh lỗi
-                    db.prepare(`
-                        INSERT OR IGNORE INTO mining_data (
-                            user_id, mining_power, wallet_mainnet, wallet_code,
-                            level, experience, last_mined,
-                            stats_total_mined, stats_mining_count, 
-                            stats_team_contribution, created_at
-                        ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
-                    `).run(
-                        npcId,
-                        miningPower,
-                        0,
-                        walletCode,
-                        1,
-                        0,
-                        Date.now(),
-                        0,
-                        0,
-                        0,
-                        Date.now()
-                    );
-
-                    // Thêm vào bảng wallet_code_index
-                    walletCodeIndex[walletCode] = npcId;
-
-                    if (i % 10 === 0 || i === NPC_COUNT) {
-                        console.log(`[NPC] Created ${i}/${NPC_COUNT} NPCs`);
-                    }
-                } catch (err) {
-                    console.error(`[NPC] Error creating NPC ${i}:`, err);
-                }
-            }
-
-            // Kiểm tra lại sau khi tạo
-            const finalCount = verifyNPCsCreated();
-            console.log(`[NPC] After initialization: ${finalCount} NPCs exist in database`);
-        }
-
-        // Thiết lập chu kỳ đào cho NPC
-        if (global.npcMiningInterval) {
-            clearInterval(global.npcMiningInterval);
-            console.log('[NPC] Cleared existing mining interval');
-        }
-
-        // Bắt đầu chu kỳ đào mới
-        global.npcMiningInterval = setInterval(() => {
-            try {
-                const startTime = Date.now();
-                const miningResult = npcMiningCycle();
-                console.log(`[NPC] Mining cycle completed in ${Date.now() - startTime}ms, processed ${miningResult.count} NPCs`);
-            } catch (err) {
-                console.error('[NPC] Mining cycle error:', err);
-            }
-        }, NPC_MINING_INTERVAL);
-
-        console.log('[NPC] Initialized mining interval successfully');
-        return true;
-    } catch (err) {
-        console.error('[NPC] Critical initialization error:', err);
-        return false;
-    }
-}
-function upgradeDatabaseForAutomining() {
-    try {
-        // Add new columns for auto-mining
-        db.exec(`
-            ALTER TABLE mining_data ADD COLUMN mining_active INTEGER DEFAULT 0;
-            ALTER TABLE mining_data ADD COLUMN mining_start_time INTEGER DEFAULT 0;
-            ALTER TABLE mining_data ADD COLUMN mining_end_time INTEGER DEFAULT 0;
-            ALTER TABLE mining_data ADD COLUMN mining_rate REAL DEFAULT 1.0;
-            ALTER TABLE mining_data ADD COLUMN last_claimed INTEGER DEFAULT 0;
-        `);
-        console.log('[AUTOMINING] Database schema updated');
-        return true;
-    } catch (err) {
-        console.log('[AUTOMINING] Database already updated or error:', err);
-        return false;
-    }
-}
-function npcMiningCycle() {
-    try {
-        const now = Date.now();
-
-        // Lấy các NPC đủ điều kiện đào
-        const npcs = db.prepare(`
-            SELECT * FROM mining_data 
-            WHERE user_id LIKE '${NPC_PREFIX}_%'
-            AND (? - last_mined) >= ?
-        `).all(now, NPC_MINING_INTERVAL - 1000); // Giảm 1 giây để đảm bảo không bỏ sót
-
-        if (npcs.length === 0) {
-            return { count: 0, success: true };
-        }
-
-        console.log(`[NPC] Mining cycle processing ${npcs.length} NPCs`);
-
-        let processedCount = 0;
-
-        // Xử lý từng NPC riêng biệt thay vì dùng transaction
-        npcs.forEach(npc => {
-            try {
-                const miningPower = Math.max(1, npc.mining_power);
-                const randomFactor = Math.random() * 0.5 + 0.75;
-                const miningAmount = MINE_RATE * randomFactor * miningPower;
-                const minedCoins = Math.min(100, Math.max(1, miningAmount));
-
-                // Cập nhật ví và thống kê
-                db.prepare(`
-                    UPDATE mining_data 
-                    SET wallet_mainnet = wallet_mainnet + ?,
-                        last_mined = ?,
-                        stats_mining_count = stats_mining_count + 1,
-                        stats_total_mined = stats_total_mined + ?,
-                        experience = experience + ?,
-                        level = CASE 
-                            WHEN experience + ? >= level * 1000 
-                            THEN level + 1 
-                            ELSE level 
-                        END
-                    WHERE user_id = ?
-                `).run(
-                    minedCoins,
-                    now,
-                    minedCoins,
-                    minedCoins,
-                    minedCoins,
-                    npc.user_id
-                );
-
-                // Xử lý bán tự động
-                if (Math.random() < 0.3 && npc.wallet_mainnet >= 100) {
-                    const sellAmount = npc.wallet_mainnet * (Math.random() * 0.3 + 0.2);
-                    try {
-                        const marketData = db.prepare('SELECT * FROM market_data WHERE id = 1').get();
-                        if (marketData && marketData.is_listed) {
-                            // Trừ coin của NPC
-                            db.prepare(
-                                'UPDATE mining_data SET wallet_mainnet = wallet_mainnet - ? WHERE user_id = ?'
-                            ).run(sellAmount, npc.user_id);
-
-                            // Cập nhật giao dịch
-                            db.prepare(
-                                'UPDATE market_data SET total_transactions = total_transactions + 1 WHERE id = 1'
-                            ).run();
-                        }
-                    } catch (sellErr) {
-                        console.error(`[NPC] Error selling for NPC ${npc.user_id}:`, sellErr);
-                    }
-                }
-
-                processedCount++;
-            } catch (npcErr) {
-                console.error(`[NPC] Error processing NPC ${npc.user_id}:`, npcErr);
-            }
-        });
-
-        return { count: processedCount, success: true };
-    } catch (err) {
-        console.error('[NPC] Mining cycle error:', err);
-        return { count: 0, success: false, error: err };
-    }
-}
-
-function verifyNPCsCreated() {
-    const count = db.prepare(`
-        SELECT COUNT(*) as count 
-        FROM mining_data 
-        WHERE user_id LIKE '${NPC_PREFIX}_%'
-    `).get().count;
-
-    console.log(`[NPC] Verification: Found ${count} NPCs in database`);
-    return count;
-}
-
-function generateTeamId() {
-    return 'T' + Date.now().toString(36).toUpperCase() +
-        Math.random().toString(36).substring(2, 5).toUpperCase();
-}
-function hasTeamPermission(userId, teamId, requiredRole) {
-    const member = db.prepare(`
-        SELECT role FROM team_members 
-        WHERE user_id = ? AND team_id = ?
-    `).get(userId, teamId);
-
-    if (!member) return false;
-
-    const roles = {
-        'member': 0,
-        'mod': 1,
-        'coleader': 2,
-        'leader': 3
-    };
-
-    return roles[member.role] >= roles[requiredRole];
-}
-
-function setupDatabase() {
-    try {
-        if (!fs.existsSync(DB_DIR)) {
-            fs.mkdirSync(DB_DIR, { recursive: true });
-            console.log('[DB] Created database directory');
-        }
-
-        const database = new Database(DB_PATH);
-        console.log('[DB] Successfully connected to SQLite database');
-
-        createTablesIfNeeded(database);
-
-        return database;
-    } catch (err) {
-        console.error('[DB] Critical error initializing database:', err);
-
-        return {
-            prepare: () => ({
-                run: () => { },
-                get: () => null,
-                all: () => []
-            }),
-            transaction: (fn) => fn,
-            pragma: () => { },
-            exec: () => { },
-            close: () => { }
-        };
-    }
-}
-
-let db = setupDatabase();
-
-if (!fs.existsSync(DB_DIR)) {
-    fs.mkdirSync(DB_DIR, { recursive: true });
-}
-function formatNumber(number, decimals = 0) {
-    return Math.round(number * Math.pow(10, decimals)) / Math.pow(10, decimals);
-}
-function initializeDatabase() {
-    try {
-        db = new Database(DB_PATH);
-        console.log('[DB] Connected to SQLite database');
-
-        // Bật foreign keys
-        db.pragma('foreign_keys = ON');
-
-        // Tạo các bảng cần thiết
-        createTables();
-
-        return db;
-    } catch (err) {
-        console.error('[DB] Error initializing database:', err);
-        return null;
-    }
-}
-
-// Tạo các bảng
-function createTables() {
-    // Bảng mining_data lưu trữ thông tin người dùng
-    db.exec(`
-        CREATE TABLE IF NOT EXISTS mining_data (
-            user_id TEXT PRIMARY KEY,
-            last_mined INTEGER,
-            mining_power REAL,
-            wallet_mainnet REAL,
-            wallet_code TEXT UNIQUE,
-            level INTEGER,
-            experience INTEGER,
-            stats_total_mined REAL,
-            stats_mining_count INTEGER,
-            stats_team_contribution REAL,
-            created_at INTEGER
-        );
-        
-        CREATE TABLE IF NOT EXISTS user_miners (
-            id INTEGER PRIMARY KEY AUTOINCREMENT,
-            user_id TEXT,
-            miner_id TEXT,
-            FOREIGN KEY (user_id) REFERENCES mining_data(user_id)
-        );
-        
-        CREATE TABLE IF NOT EXISTS user_achievements (
-            id INTEGER PRIMARY KEY AUTOINCREMENT,
-            user_id TEXT,
-            achievement_id TEXT,
-            FOREIGN KEY (user_id) REFERENCES mining_data(user_id)
-        );
-        
-        CREATE TABLE IF NOT EXISTS user_notifications (
-            id INTEGER PRIMARY KEY AUTOINCREMENT,
-            user_id TEXT,
-            type TEXT,
-            message TEXT,
-            reward REAL,
-            time INTEGER,
-            FOREIGN KEY (user_id) REFERENCES mining_data(user_id)
-        );
-        
-        CREATE TABLE IF NOT EXISTS user_items (
-            id INTEGER PRIMARY KEY AUTOINCREMENT,
-            user_id TEXT,
-            item_id TEXT,
-            quantity INTEGER,
-            FOREIGN KEY (user_id) REFERENCES mining_data(user_id)
-        );
-        
-        CREATE TABLE IF NOT EXISTS user_inventory (
-            id INTEGER PRIMARY KEY AUTOINCREMENT,
-            user_id TEXT,
-            item_id TEXT,
-            name TEXT,
-            effect TEXT,
-            value REAL,
-            expires INTEGER,
-            purchased_at INTEGER,
-            FOREIGN KEY (user_id) REFERENCES mining_data(user_id)
-        );
-        
-        CREATE TABLE IF NOT EXISTS teams (
-            team_id TEXT PRIMARY KEY,
-            name TEXT,
-            leader_id TEXT,
-            created_at INTEGER,
-            stats_total_power REAL,
-            stats_total_mined REAL
-        );
-        
-        CREATE TABLE IF NOT EXISTS team_members (
-            id INTEGER PRIMARY KEY AUTOINCREMENT,
-            team_id TEXT,
-            user_id TEXT,
-            FOREIGN KEY (team_id) REFERENCES teams(team_id),
-            FOREIGN KEY (user_id) REFERENCES mining_data(user_id)
-        );
-        
-        CREATE TABLE IF NOT EXISTS market_data (
-            id INTEGER PRIMARY KEY CHECK (id = 1),
-            price REAL,
-            supply_demand_ratio REAL,
-            last_update INTEGER,
-            trend TEXT,
-            total_supply REAL,
-            total_transactions INTEGER,
-            sentiment REAL,
-            is_listed INTEGER,
-            progress_to_listing REAL
-        );
-        
-        CREATE TABLE IF NOT EXISTS price_history (
-            id INTEGER PRIMARY KEY AUTOINCREMENT,
-            price REAL,
-            time INTEGER,
-            supply REAL,
-            ratio REAL,
-            event TEXT
-        );
-        
-        CREATE INDEX IF NOT EXISTS idx_team_members_user_id ON team_members(user_id);
-        CREATE INDEX IF NOT EXISTS idx_team_members_team_id ON team_members(team_id);
-        CREATE INDEX IF NOT EXISTS idx_user_miners_user_id ON user_miners(user_id);
-    `);
-
-    console.log('[DB] Tables created successfully');
-}
-
-function initializeMarketData() {
-    const marketData = db.prepare('SELECT * FROM market_data WHERE id = 1').get();
-
-    if (!marketData) {
-        db.prepare(`
-            INSERT INTO market_data (
-                id, price, supply_demand_ratio, last_update, trend, 
-                total_supply, total_transactions, sentiment, is_listed, progress_to_listing
-            ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
-        `).run(
-            1, BASE_PRICE, 1.0, Date.now(), "stable",
-            0, 0, 0, 0, 0
-        );
-
-        console.log('[DB] Market data initialized');
-    }
-}
-
-
-function createBackup() {
-    try {
-        if (!fs.existsSync(BACKUP_DIR)) {
-            fs.mkdirSync(BACKUP_DIR, { recursive: true });
-        }
-
-        const timestamp = new Date().toISOString().replace(/[:.]/g, '-');
-        const backupMiningFile = path.join(BACKUP_DIR, `mining_data_${timestamp}.json`);
-        const backupTeamFile = path.join(BACKUP_DIR, `mining_teams_${timestamp}.json`);
-        const backupMarketFile = path.join(BACKUP_DIR, `market_data_${timestamp}.json`);
-
-        fs.copyFileSync(MINE_DATA, backupMiningFile);
-        fs.copyFileSync(MINE_TEAM, backupTeamFile);
-        fs.copyFileSync(MARKET_DATA_FILE, backupMarketFile);
-
-        console.log(`[BACKUP] Created backup at ${timestamp}`);
-
-        lastBackupTime = Date.now();
-
-        cleanOldBackups();
-
-        return true;
-    } catch (err) {
-        console.error('[BACKUP] Error creating backup:', err);
-        return false;
-    }
-}
-function cleanOldBackups() {
-    try {
-        const files = fs.readdirSync(BACKUP_DIR);
-
-        const miningBackups = files.filter(f => f.startsWith('mining_data_'));
-        const teamBackups = files.filter(f => f.startsWith('mining_teams_'));
-        const marketBackups = files.filter(f => f.startsWith('market_data_'));
-
-        const sortByDate = (a, b) => {
-            return fs.statSync(path.join(BACKUP_DIR, b)).mtime.getTime() -
-                fs.statSync(path.join(BACKUP_DIR, a)).mtime.getTime();
-        };
-
-        miningBackups.sort(sortByDate);
-        teamBackups.sort(sortByDate);
-        marketBackups.sort(sortByDate);
-
-        if (miningBackups.length > MAX_BACKUPS) {
-            miningBackups.slice(MAX_BACKUPS).forEach(file => {
-                fs.unlinkSync(path.join(BACKUP_DIR, file));
-            });
-        }
-
-        if (teamBackups.length > MAX_BACKUPS) {
-            teamBackups.slice(MAX_BACKUPS).forEach(file => {
-                fs.unlinkSync(path.join(BACKUP_DIR, file));
-            });
-        }
-
-        if (marketBackups.length > MAX_BACKUPS) {
-            marketBackups.slice(MAX_BACKUPS).forEach(file => {
-                fs.unlinkSync(path.join(BACKUP_DIR, file));
-            });
-        }
-    } catch (err) {
-        console.error('[BACKUP] Error cleaning old backups:', err);
-    }
-}
-
-function generateWalletCode() {
-    const characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
-    let code;
-
-    do {
-        code = '';
-        for (let i = 0; i < WALLET_CODE_LENGTH; i++) {
-            code += characters.charAt(Math.floor(Math.random() * characters.length));
-        }
-    } while (walletCodeIndex[code]);
-
-    return code;
-}
-function loadWalletCodeIndex() {
-    walletCodeIndex = {};
-    Object.entries(miningData).forEach(([userId, data]) => {
-        if (data.wallet && data.wallet.code) {
-            walletCodeIndex[data.wallet.code] = userId;
+            fs.writeFileSync(file, JSON.stringify({}));
         }
     });
 }
-function getUserMiners(userId) {
-    return db.prepare('SELECT miner_id FROM user_miners WHERE user_id = ?').all(userId).map(row => row.miner_id);
-}
 
-function getUserAchievements(userId) {
-    return db.prepare('SELECT achievement_id FROM user_achievements WHERE user_id = ?').all(userId).map(row => row.achievement_id);
-}
-
-function loadWalletCodeIndex() {
-    walletCodeIndex = {};
-    const users = db.prepare('SELECT user_id, wallet_code FROM mining_data').all();
-    users.forEach(user => {
-        if (user.wallet_code) {
-            walletCodeIndex[user.wallet_code] = user.user_id;
-        }
-    });
-    console.log(`[DB] Loaded ${Object.keys(walletCodeIndex).length} wallet codes`);
-}
-function getUserByWalletCode(code) {
-    const userId = walletCodeIndex[code];
-    if (!userId) return null;
-
-    return db.prepare('SELECT * FROM mining_data WHERE user_id = ?').get(userId);
-}
-
-function transferCoins(fromUserId, toWalletCode, amount) {
+// Load and save mining data
+function loadMiningData() {
     try {
-
-        const fromUser = db.prepare(`
-            SELECT * FROM mining_data 
-            WHERE user_id = ?
-        `).get(fromUserId);
-
-        if (!fromUser) {
-            return { success: false, message: "❌ Không tìm thấy thông tin người gửi!" };
-        }
-
-        const toUserId = db.prepare(`
-            SELECT user_id FROM mining_data 
-            WHERE wallet_code = ?
-        `).get(toWalletCode)?.user_id;
-
-        if (!toUserId) {
-            return { success: false, message: "❌ Mã ví không tồn tại!" };
-        }
-
-        // Kiểm tra không tự gửi cho chính mình
-        if (fromUserId === toUserId) {
-            return { success: false, message: "❌ Không thể chuyển coin cho chính mình!" };
-        }
-
-        // Kiểm tra số dư
-        if (fromUser.wallet_mainnet < amount) {
-            return {
-                success: false,
-                message: `❌ Không đủ coin! Bạn chỉ có ${formatNumber(fromUser.wallet_mainnet, 2)} MC`
-            };
-        }
-
-        // Tính phí giao dịch
-        const fee = amount * 0.005; // 0.5%
-        const amountAfterFee = amount - fee;
-        const now = Date.now();
-
-        const transaction = db.transaction(() => {
-            // Trừ coin từ người gửi
-            db.prepare(`
-                UPDATE mining_data 
-                SET wallet_mainnet = wallet_mainnet - ? 
-                WHERE user_id = ?
-            `).run(amount, fromUserId);
-
-            // Cộng coin cho người nhận (đã trừ phí)
-            db.prepare(`
-                UPDATE mining_data 
-                SET wallet_mainnet = wallet_mainnet + ? 
-                WHERE user_id = ?
-            `).run(amountAfterFee, toUserId);
-
-            // Ghi nhận giao dịch
-            db.prepare(`
-                UPDATE market_data 
-                SET total_transactions = total_transactions + 1
-                WHERE id = 1
-            `).run();
-
-            // Ghi log giao dịch nếu có bảng transaction_history
-            try {
-                db.prepare(`
-                    INSERT INTO transaction_history 
-                    (user_id, type, amount, price, time) 
-                    VALUES (?, ?, ?, ?, ?)
-                `).run(
-                    fromUserId,
-                    "transfer_out",
-                    amount,
-                    0,
-                    now
-                );
-
-                db.prepare(`
-                    INSERT INTO transaction_history 
-                    (user_id, type, amount, price, time) 
-                    VALUES (?, ?, ?, ?, ?)
-                `).run(
-                    toUserId,
-                    "transfer_in",
-                    amountAfterFee,
-                    0,
-                    now
-                );
-            } catch (logErr) {
-                console.error('[TRANSFER] Log error:', logErr);
-        
-            }
-        });
-        mainnetChain.addTransaction(fromUserId, toWalletCode, amount);
-
-        if (mainnetChain.pendingTransactions.length >= 5) {
-            mainnetChain.minePendingTransactions(null);
-            console.log('[BLOCKCHAIN] Mined new block with 5 transactions');
-        }
-
-        transaction();
-        return {
-            success: true,
-            message: `✅ Chuyển coin thành công!\n` +
-                `💸 Số lượng: ${formatNumber(amount)} MC\n` +
-                `🏦 Đến ví: ${toWalletCode}\n` +
-                `🔗 Block: ${mainnetChain.chain.length}\n` +
-                `📝 Hash: ${mainnetChain.getLatestBlock().hash.substr(0, 8)}...`
-        };
-    } catch (err) {
-        console.error('[TRANSFER] Error:', err);
-        return { success: false, message: "❌ Lỗi giao dịch!" };
+        return JSON.parse(fs.readFileSync(MINING_DATA_FILE, 'utf8'));
+    } catch {
+        return {};
     }
 }
 
+function saveMiningData(data) {
+    fs.writeFileSync(MINING_DATA_FILE, JSON.stringify(data, null, 2));
+}
+
+function loadTeamData() {
+    try {
+        return JSON.parse(fs.readFileSync(MINING_TEAMS_FILE, 'utf8'));
+    } catch {
+        return {};
+    }
+}
+
+function saveTeamData(data) {
+    fs.writeFileSync(MINING_TEAMS_FILE, JSON.stringify(data, null, 2));
+}
+
+// Initialize user mining data
 function initUser(userId) {
-    let user = db.prepare('SELECT * FROM mining_data WHERE user_id = ?').get(userId);
-
-    if (!user) {
-        const walletCode = generateWalletCode();
-        const now = Date.now();
-
-        db.prepare(`
-            INSERT INTO mining_data (
-                user_id, last_mined, mining_power, wallet_mainnet, wallet_code,
-                level, experience, stats_total_mined, stats_mining_count, 
-                stats_team_contribution, created_at
-            ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
-        `).run(
-            userId, 0, 1, 0, walletCode,
-            1, 0, 0, 0,
-            0, now
-        );
-
-        db.prepare('INSERT INTO user_miners (user_id, miner_id) VALUES (?, ?)').run(userId, 'basic');
-
-        walletCodeIndex[walletCode] = userId;
-
-        user = db.prepare('SELECT * FROM mining_data WHERE user_id = ?').get(userId);
-
-        console.log(`[DB] Created new user: ${userId}`);
+    const data = loadMiningData();
+    if (!data[userId]) {
+        data[userId] = {
+            level: 1,
+            experience: 0,
+            totalMined: 0,
+            miningCount: 0,
+            lastMined: 0,
+            miningPower: 1,
+            team: null,
+            autoMining: {
+                active: false,
+                startTime: 0,
+                rate: 0
+            },
+            achievements: [],
+            equipment: [],
+            boosts: [],
+            // THÊM: Dữ liệu người mới
+            createdAt: Date.now(),
+            lastLogin: Date.now(),
+            dailyQuests: {},
+            streakDays: 0,
+            hasReceivedWelcomeBonus: false
+        };
+        
+        // Tặng welcome bonus cho người mới
+        if (!data[userId].hasReceivedWelcomeBonus) {
+            updateMiningBalance(userId, MINING_CONFIG.NEWBIE_BONUS.WELCOME_BONUS);
+            data[userId].hasReceivedWelcomeBonus = true;
+        }
+        
+        saveMiningData(data);
     }
-
-    return user;
+    return data[userId];
 }
-function updateMarketPrice() {
+
+// Get user VIP status (integrate with existing VIP system)
+function getUserVIP(userId) {
     try {
-        const now = Date.now();
-        const marketData = db.prepare('SELECT * FROM market_data WHERE id = 1').get();
-
-        if (!marketData) return null;
-
-        // Nếu chưa listed thì kiểm tra điều kiện listing
-        if (!marketData.is_listed) {
-            const totalSupply = db.prepare('SELECT SUM(wallet_mainnet) as total FROM mining_data').get().total || 0;
-            if (totalSupply >= LISTING_THRESHOLD) {
-                db.prepare(`
-                    UPDATE market_data 
-                    SET is_listed = 1,
-                        price = ?,
-                        last_update = ?
-                    WHERE id = 1
-                `).run(INITIAL_PRICE, now);
-                return INITIAL_PRICE;
-            }
-            return null;
-        }
-
-        // Tính toán biến động giá
-        let priceChange = 0;
-
-        // 1. Yếu tố ngẫu nhiên (luôn có)
-        const randomFactor = MARKET_CONSTANTS.RANDOM.MIN +
-            (Math.random() * (MARKET_CONSTANTS.RANDOM.MAX - MARKET_CONSTANTS.RANDOM.MIN));
-        priceChange += randomFactor;
-
-        // 2. Xu hướng hiện tại
-        if (marketData.trend === 'up') {
-            priceChange += MARKET_CONSTANTS.VOLATILITY.NORMAL;
-        } else if (marketData.trend === 'down') {
-            priceChange -= MARKET_CONSTANTS.VOLATILITY.NORMAL;
-        }
-
-        // 3. Áp lực thị trường
-        const marketPressure = Math.random();
-        if (marketPressure > 0.7) { // 30% cơ hội có áp lực thị trường
-            priceChange += (Math.random() > 0.5 ? 1 : -1) * MARKET_CONSTANTS.VOLATILITY.HIGH;
-        }
-
-        // Giới hạn biến động
-        priceChange = Math.max(
-            -MARKET_CONSTANTS.VOLATILITY.MAX,
-            Math.min(MARKET_CONSTANTS.VOLATILITY.MAX, priceChange)
-        );
-
-        // Tính giá mới
-        const newPrice = Math.max(1, marketData.price * (1 + priceChange));
-        const newTrend = priceChange > 0 ? 'up' : priceChange < 0 ? 'down' : 'stable';
-
-        // Cập nhật vào database
-        db.prepare(`
-            UPDATE market_data 
-            SET price = ?,
-                last_update = ?,
-                trend = ?,
-                sentiment = ?
-            WHERE id = 1
-        `).run(
-            newPrice,
-            now,
-            newTrend,
-            Math.max(-1, Math.min(1, marketData.sentiment + (priceChange * 2)))
-        );
-
-        // Lưu lịch sử nếu biến động đáng kể
-        if (Math.abs(priceChange) > 0.01) {
-            db.prepare(`
-                INSERT INTO price_history (price, time, supply, ratio, event)
-                VALUES (?, ?, ?, ?, ?)
-            `).run(
-                newPrice,
-                now,
-                marketData.total_supply,
-                marketData.supply_demand_ratio,
-                `Change: ${(priceChange * 100).toFixed(2)}% (${randomFactor > 0 ? '📈' : '📉'})`
-            );
-        }
-
-        return newPrice;
-    } catch (err) {
-        console.error('[MARKET] Price update error:', err);
-        return null;
-    }
-}
-
-function buyWithMainnet(userId, itemId) {
-    const user = miningData[userId];
-    const item = MAINNET_ITEMS[itemId];
-    if (!item) return { success: false, message: "Vật phẩm không tồn tại!" };
-    if (user.wallet.mainnet < item.price) {
-        return { success: false, message: `Không đủ mainnet coin! Bạn cần ${item.price} coin, hiện có ${user.wallet.mainnet.toFixed(2)}` };
-    }
-    user.wallet.mainnet -= item.price;
-    if (!user.inventory) user.inventory = [];
-    const expiryTime = item.duration > 0 ? Date.now() + item.duration : 0;
-    user.inventory.push({ id: itemId, name: item.name, effect: item.effect, value: item.value, expires: expiryTime, purchasedAt: Date.now() });
-    if (item.effect === "permanentBoost") {
-        if (!user.permanentBoosts) user.permanentBoosts = {};
-        user.permanentBoosts.miningRate = (user.permanentBoosts.miningRate || 1) * item.value;
-    }
-    saveData();
-    return { success: true, message: `Mua thành công ${item.name}!\n💰 -${item.price} mainnet coin\n${item.description}` };
-}
-
-function sellItem(userId, itemId, quantity = 1) {
-    const user = miningData[userId];
-    if (!user.items || !user.items[itemId] || user.items[itemId] < quantity) {
-        return { success: false, message: `Bạn không có đủ ${SELLABLE_ITEMS[itemId]?.name || itemId} để bán!` };
-    }
-    const item = SELLABLE_ITEMS[itemId];
-    const totalPrice = item.basePrice * quantity;
-    user.items[itemId] -= quantity;
-    user.wallet.mainnet += totalPrice;
-    saveData();
-    return { success: true, message: `Đã bán ${quantity} ${item.name} với giá ${totalPrice.toFixed(2)} mainnet coin!` };
-}
-
-function calculateMining(userId) {
-    try {
-        const user = db.prepare('SELECT * FROM mining_data WHERE user_id = ?').get(userId);
-        if (!user) return { success: false, message: "Người dùng không tồn tại!" };
-
-        const now = Date.now();
-        const timeSinceLastMine = now - user.last_mined;
-
-        if (timeSinceLastMine < MINING_COOLDOWN) {
-            const remainingSeconds = Math.ceil((MINING_COOLDOWN - timeSinceLastMine) / 1000);
+        const vipStatus = vipService.checkVIP(userId);
+        // console.log('[DEBUG] VIP Status:', vipStatus);
+        
+        if (vipStatus && vipStatus.success && vipStatus.packageId === 3) {
+            const benefits = vipService.getVIPBenefits(userId);
+            // console.log('[DEBUG] VIP Benefits:', benefits);
+            
             return {
-                success: false,
-                message: `⏳ Bạn cần đợi thêm ${remainingSeconds} giây để đào tiếp!`,
-                cooldown: remainingSeconds
+                active: true,
+                tier: 'GOLD',
+                packageId: vipStatus.packageId,
+                benefits: benefits,
+                expireTime: vipStatus.expireTime,
+                daysLeft: vipStatus.daysLeft,
+                miningBonus: MINING_CONFIG.VIP_MULTIPLIERS.GOLD
             };
         }
-
-        const MAX_MINING_TIME = 4 * 60;
-        const timeDiff = Math.min(
-            MAX_MINING_TIME,
-            (now - user.last_mined) / (1000 * 60)
-        );
-        const adjustedTimeDiff = user.stats_mining_count === 0 ? Math.max(3, timeDiff) : timeDiff;
-
-        const teamBonus = getTeamBonus(userId);
-        let boostMultiplier = 1;
-
-        const baseAmount = BASE_MINING_AMOUNT * (1 + (user.level - 1) * 0.05);
-
-        const powerBoost = Math.max(1, user.mining_power);
-
-        const activeItems = db.prepare(`
-        SELECT * FROM user_inventory 
-        WHERE user_id = ? AND (expires = 0 OR expires > ?)
-      `).all(userId, now);
-
-        activeItems.forEach(item => {
-            if (item.effect === "miningBoost") {
-                boostMultiplier *= item.value;
-            }
-        });
-
-        const permanentBoost = db.prepare(`
-        SELECT * FROM user_inventory 
-        WHERE user_id = ? AND effect = 'permanentBoost' AND expires = 0
-      `).get(userId);
-
-        if (permanentBoost) {
-            boostMultiplier *= permanentBoost.value;
-        }
-
-        boostMultiplier = Math.min(3, boostMultiplier);
-
-        const miners = getUserMiners(userId);
-        let miningPower = 0;
-        miners.forEach(minerId => {
-            miningPower += MINERS[minerId].power;
-        });
-
-        const cappedMiningPower = Math.min(100, miningPower);
-        const miningAmount = (baseAmount + (MINE_RATE * timeDiff)) *
-            powerBoost * (1 + teamBonus) * boostMultiplier;
-
-        const randomFactor = 0.85 + (Math.random() * 0.3);
-
-        const finalAmount = Math.min(
-            MAX_MINING_AMOUNT,
-            Math.max(BASE_MINING_AMOUNT, miningAmount * randomFactor)
-        );
-
-        db.prepare(`
-        UPDATE mining_data 
-        SET stats_mining_count = stats_mining_count + 1,
-            stats_total_mined = stats_total_mined + ?
-        WHERE user_id = ?
-      `).run(finalAmount, userId);
-
-        checkAchievements(userId);
-
-        return {
-            success: true,
-            amount: Math.floor(finalAmount)
-        };
+        return null;
     } catch (error) {
-        console.error('[MINING] Error:', error);
-        return { success: false, message: "❌ Lỗi khi đào coin!" };
-    }
-}
-function isValidTeamName(teamName) {
-    return /^[a-zA-Z0-9]+$/.test(teamName) &&
-        teamName.length >= 3 &&
-        teamName.length <= 16;
-}
-function getTeamBonus(userId) {
-    const teamMember = db.prepare(`
-        SELECT team_id FROM team_members WHERE user_id = ?
-    `).get(userId);
-
-    if (!teamMember) return 0;
-
-    // Đếm số thành viên của team (trừ người dùng hiện tại)
-    const memberCount = db.prepare(`
-        SELECT COUNT(*) as count FROM team_members WHERE team_id = ? AND user_id != ?
-    `).get(teamMember.team_id, userId).count;
-
-    return memberCount * TEAM_BONUS;
-}
-function createTeam(userId, teamName) {
-    try {
-        // Kiểm tra tên team hợp lệ
-        if (!isValidTeamName(teamName)) {
-            return {
-                success: false,
-                message: "❌ Tên team không hợp lệ!\n- Chỉ được dùng chữ và số\n- Độ dài 3-16 ký tự\n- Không dùng khoảng trắng và ký tự đặc biệt"
-            };
-        }
-
-        const user = db.prepare('SELECT level FROM mining_data WHERE user_id = ?').get(userId);
-
-        // Yêu cầu level tối thiểu để tạo team
-        if (user.level < 1) {
-            return {
-                success: false,
-                message: "❌ Bạn cần đạt level 1 để tạo team!"
-            };
-        }
-
-        // Kiểm tra đã trong team chưa
-        const existingTeam = db.prepare(`
-            SELECT team_id FROM team_members WHERE user_id = ?
-        `).get(userId);
-
-        if (existingTeam) {
-            return { success: false, message: "❌ Bạn đã tham gia một team rồi!" };
-        }
-
-        // Kiểm tra tên team đã tồn tại
-        const nameExists = db.prepare(`
-            SELECT team_id FROM teams WHERE LOWER(name) = LOWER(?)
-        `).get(teamName);
-
-        if (nameExists) {
-            return { success: false, message: "❌ Tên team đã tồn tại!" };
-        }
-
-        const teamId = generateTeamId();
-        const now = Date.now();
-
-        const transaction = db.transaction(() => {
-            // Tạo team mới
-            db.prepare(`
-                INSERT INTO teams (
-                    team_id, name, leader_id, created_at,
-                    level, exp, max_members, 
-                    stats_total_power, stats_total_mined
-                ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)
-            `).run(
-                teamId, teamName, userId, now,
-                1, 0, 5, // Level 1, exp 0, max 5 thành viên
-                0, 0 // Stats ban đầu
-            );
-
-            // Thêm leader vào team
-            db.prepare(`
-                INSERT INTO team_members (team_id, user_id, role, joined_at)
-                VALUES (?, ?, ?, ?)
-            `).run(teamId, userId, 'leader', now);
-
-            unlockAchievement(userId, "team_leader");
-        });
-
-        transaction();
-
-        return {
-            success: true,
-            message: `✅ Đã tạo team ${teamName} thành công!\n🆔 Team ID: ${teamId}`
-        };
-    } catch (err) {
-        console.error('[TEAM] Create error:', err);
-        return { success: false, message: "❌ Lỗi khi tạo team!" };
-    }
-}
-function backupDatabase() {
-    try {
-        const timestamp = new Date().toISOString().replace(/[:.]/g, '-');
-        const backupDir = path.join(DB_DIR, 'backups');
-
-        if (!fs.existsSync(backupDir)) {
-            fs.mkdirSync(backupDir, { recursive: true });
-        }
-
-        const backupPath = path.join(backupDir, `coindb_${timestamp}.sqlite`);
-
-        fs.copyFileSync(DB_PATH, backupPath);
-
-        console.log(`[DB] Created backup at ${backupPath}`);
-
-        cleanOldBackups(backupDir);
-
-        return true;
-    } catch (err) {
-        console.error('[DB] Backup error:', err);
-        return false;
-    }
-}
-
-function cleanOldBackups(backupDir) {
-    try {
-        const MAX_BACKUPS = 10;
-        const files = fs.readdirSync(backupDir)
-            .filter(f => f.startsWith('coindb_'))
-            .map(f => ({
-                name: f,
-                path: path.join(backupDir, f),
-                time: fs.statSync(path.join(backupDir, f)).mtime.getTime()
-            }))
-            .sort((a, b) => b.time - a.time);
-
-        if (files.length > MAX_BACKUPS) {
-            files.slice(MAX_BACKUPS).forEach(file => {
-                fs.unlinkSync(file.path);
-                console.log(`[DB] Deleted old backup: ${file.name}`);
-            });
-        }
-    } catch (err) {
-        console.error('[DB] Error cleaning old backups:', err);
-    }
-}
-function calculateTeamExp(miningAmount, memberCount) {
-    return Math.floor(miningAmount * (1 + (memberCount * 0.1)));
-}
-function addTeamExp(teamId, exp) {
-    const team = db.prepare('SELECT * FROM teams WHERE team_id = ?').get(teamId);
-    if (!team) return;
-
-    const nextLevelExp = team.level * 1000;
-    const newExp = team.exp + exp;
-
-    if (newExp >= nextLevelExp) {
-        // Level up
-        db.prepare(`
-            UPDATE teams 
-            SET level = level + 1,
-                exp = ?,
-                max_members = max_members + 1
-            WHERE team_id = ?
-        `).run(newExp - nextLevelExp, teamId);
-
-        // Thông báo level up
-        const teamMembers = db.prepare(
-            'SELECT user_id FROM team_members WHERE team_id = ?'
-        ).all(teamId);
-
-        teamMembers.forEach(member => {
-            db.prepare(`
-                INSERT INTO user_notifications (
-                    user_id, type, message, time
-                ) VALUES (?, ?, ?, ?)
-            `).run(
-                member.user_id,
-                "team_levelup",
-                `🎉 Team đã đạt level ${team.level + 1}!\n👥 Slot thành viên +1`,
-                Date.now()
-            );
-        });
-    } else {
-        // Cập nhật exp
-        db.prepare(`
-            UPDATE teams 
-            SET exp = exp + ? 
-            WHERE team_id = ?
-        `).run(exp, teamId);
-    }
-}
-function restoreFromLatestBackup() {
-    try {
-        if (db) {
-            db.close();
-        }
-
-        const backupDir = path.join(DB_DIR, 'backups');
-
-        if (!fs.existsSync(backupDir)) {
-            console.error('[DB] Backup directory does not exist');
-            return false;
-        }
-
-        const files = fs.readdirSync(backupDir)
-            .filter(f => f.startsWith('coindb_'))
-            .map(f => ({
-                name: f,
-                path: path.join(backupDir, f),
-                time: fs.statSync(path.join(backupDir, f)).mtime.getTime()
-            }))
-            .sort((a, b) => b.time - a.time);
-
-        if (files.length === 0) {
-            console.error('[DB] No backup files found');
-            return false;
-        }
-
-        const latestBackup = files[0];
-
-        fs.copyFileSync(latestBackup.path, DB_PATH);
-
-        console.log(`[DB] Restored database from ${latestBackup.name}`);
-
-        db = new Database(DB_PATH);
-
-        loadWalletCodeIndex();
-
-        return true;
-    } catch (err) {
-        console.error('[DB] Restore error:', err);
-        return false;
-    }
-}
-function joinTeam(userId, teamId) {
-    try {
-        const team = db.prepare('SELECT * FROM teams WHERE team_id = ?').get(teamId);
-        if (!team) {
-            return { success: false, message: "Team không tồn tại!" };
-        }
-
-        const existingTeam = db.prepare(
-            'SELECT * FROM team_members WHERE user_id = ?'
-        ).get(userId);
-
-        if (existingTeam) {
-            return { success: false, message: "Bạn đã tham gia một team rồi!" };
-        }
-
-        db.prepare(
-            'INSERT INTO team_members (team_id, user_id) VALUES (?, ?)'
-        ).run(teamId, userId);
-
-        return { success: true, message: `Bạn đã tham gia team ${team.name} thành công!` };
-    } catch (err) {
-        console.error('[TEAM] Join error:', err);
-        return { success: false, message: "Lỗi khi tham gia team!" };
-    }
-}
-function leaveTeam(userId) {
-    try {
-        const member = db.prepare(`
-            SELECT t.*, tm.user_id 
-            FROM teams t
-            JOIN team_members tm ON t.team_id = tm.team_id
-            WHERE tm.user_id = ?
-        `).get(userId);
-
-        if (!member) {
-            return { success: false, message: "Bạn chưa tham gia team nào!" };
-        }
-
-        if (member.leader_id === userId) {
-            return { success: false, message: "Leader không thể rời team!" };
-        }
-
-        db.prepare(
-            'DELETE FROM team_members WHERE user_id = ?'
-        ).run(userId);
-
-        return { success: true, message: `Bạn đã rời team ${member.name} thành công!` };
-    } catch (err) {
-        console.error('[TEAM] Leave error:', err);
-        return { success: false, message: "Lỗi khi rời team!" };
-    }
-}
-function disbandTeam(userId, teamId) {
-    try {
-        const team = db.prepare(
-            'SELECT * FROM teams WHERE team_id = ? AND leader_id = ?'
-        ).get(teamId, userId);
-
-        if (!team) {
-            return { success: false, message: "Team không tồn tại hoặc bạn không phải leader!" };
-        }
-
-        const transaction = db.transaction(() => {
-
-            db.prepare('DELETE FROM team_members WHERE team_id = ?').run(teamId);
-
-            db.prepare('DELETE FROM teams WHERE team_id = ?').run(teamId);
-        });
-
-        transaction();
-
-        return { success: true, message: "Team đã được giải tán thành công!" };
-    } catch (err) {
-        console.error('[TEAM] Disband error:', err);
-        return { success: false, message: "Lỗi khi giải tán team!" };
-    }
-}
-
-function checkAchievements(userId) {
-    try {
-        const user = db.prepare('SELECT * FROM mining_data WHERE user_id = ?').get(userId);
-        if (!user) return false;
-
-        const userAchievements = getUserAchievements(userId);
-
-        if (user.wallet_mainnet >= ACHIEVEMENTS.first_million.requirement && !userAchievements.includes("first_million")) {
-            unlockAchievement(userId, "first_million");
-        }
-
-        if (user.mining_power >= ACHIEVEMENTS.power_user.requirement.value && !userAchievements.includes("power_user")) {
-            unlockAchievement(userId, "power_user");
-        }
-
-        if (user.stats_mining_count >= ACHIEVEMENTS.devoted_miner.requirement.value && !userAchievements.includes("devoted_miner")) {
-            unlockAchievement(userId, "devoted_miner");
-        }
-
-        // Kiểm tra thành tựu cấp độ
-        if (user.level >= ACHIEVEMENTS.coin_master.requirement.value && !userAchievements.includes("coin_master")) {
-            unlockAchievement(userId, "coin_master");
-        }
-
-        return true;
-    } catch (err) {
-        console.error('[ACHIEVEMENT] Error checking achievements:', err);
-        return false;
-    }
-}
-function unlockAchievement(userId, achievementId) {
-    try {
-        // Kiểm tra xem người dùng đã có thành tựu này chưa
-        const hasAchievement = db.prepare(
-            'SELECT * FROM user_achievements WHERE user_id = ? AND achievement_id = ?'
-        ).get(userId, achievementId);
-
-        // Nếu đã có, không làm gì cả
-        if (hasAchievement) return false;
-
-        // Thêm thành tựu mới
-        db.prepare(
-            'INSERT INTO user_achievements (user_id, achievement_id) VALUES (?, ?)'
-        ).run(userId, achievementId);
-
-        // Lấy phần thưởng
-        const reward = ACHIEVEMENTS[achievementId].reward;
-
-        // Cộng coin cho người dùng
-        db.prepare(
-            'UPDATE mining_data SET wallet_mainnet = wallet_mainnet + ? WHERE user_id = ?'
-        ).run(reward, userId);
-
-        // Thêm thông báo
-        db.prepare(`
-            INSERT INTO user_notifications (user_id, type, message, reward, time)
-            VALUES (?, ?, ?, ?, ?)
-        `).run(
-            userId,
-            "achievement",
-            `Bạn đã đạt được thành tựu: ${ACHIEVEMENTS[achievementId].name}`,
-            reward,
-            Date.now()
-        );
-
-        return true;
-    } catch (err) {
-        console.error('[ACHIEVEMENT] Error unlocking achievement:', err);
-        return false;
-    }
-}
-
-function buyMiner(userId, minerId) {
-    try {
-        const miner = MINERS[minerId];
-        if (!miner) {
-            return { success: false, message: "❌ Thiết bị đào không tồn tại!" };
-        }
-
-        const existingMiner = db.prepare(`
-            SELECT * FROM user_miners 
-            WHERE user_id = ? AND miner_id = ?
-        `).get(userId, minerId);
-
-        if (existingMiner) {
-            return { success: false, message: "❌ Bạn đã sở hữu thiết bị đào này rồi!" };
-        }
-
-        const userWallet = db.prepare(`
-            SELECT wallet_mainnet 
-            FROM mining_data 
-            WHERE user_id = ?
-        `).get(userId);
-
-        if (!userWallet || userWallet.wallet_mainnet < miner.price) {
-            return {
-                success: false,
-                message: `❌ Không đủ coin! Cần ${miner.price.toLocaleString()} MC, bạn có ${(userWallet?.wallet_mainnet || 0).toFixed(2)} MC`
-            };
-        }
-
-        const transaction = db.transaction(() => {
-
-            db.prepare(`
-                UPDATE mining_data 
-                SET wallet_mainnet = wallet_mainnet - ? 
-                WHERE user_id = ?
-            `).run(miner.price, userId);
-
-            db.prepare(`
-                INSERT INTO user_miners (user_id, miner_id) 
-                VALUES (?, ?)
-            `).run(userId, minerId);
-
-            db.prepare(`
-                UPDATE mining_data 
-                SET mining_power = mining_power + ? 
-                WHERE user_id = ?
-            `).run(miner.power, userId);
-        });
-
-        transaction();
-
-        return {
-            success: true,
-            message: `✅ Mua thành công ${miner.name}!\n💰 -${miner.price.toLocaleString()} MC\n⚡ +${miner.power}x Mining Power`
-        };
-    } catch (err) {
-        console.error('[SHOP] Buy miner error:', err);
-        return { success: false, message: "❌ Lỗi giao dịch!" };
-    }
-}
-
-function updateMiningPower(userId) {
-    const user = miningData[userId];
-    let power = 0;
-
-    user.miners.forEach(minerId => {
-        power += MINERS[minerId].power;
-    });
-
-    user.miningPower = power;
-
-    const team = Object.values(teamData).find(t => t.members.includes(userId));
-    if (team) {
-        team.stats.totalPower = team.members.reduce((sum, memberId) =>
-            sum + (miningData[memberId]?.miningPower || 1), 0
-        );
-    }
-
-    saveData();
-}
-function getUserInfo(userId) {
-    try {
-        // Lấy thông tin cơ bản từ database
-        const user = db.prepare(`
-            SELECT md.*, GROUP_CONCAT(um.miner_id) as miners
-            FROM mining_data md
-            LEFT JOIN user_miners um ON md.user_id = um.user_id
-            WHERE md.user_id = ?
-            GROUP BY md.user_id
-        `).get(userId);
-
-        if (!user) return null;
-
-        // Lấy thông tin team
-        const team = db.prepare(`
-            SELECT t.*, tm.user_id
-            FROM teams t
-            JOIN team_members tm ON t.team_id = tm.team_id
-            WHERE tm.user_id = ?
-        `).get(userId);
-
-        // Lấy danh sách thành tựu
-        const achievements = db.prepare(`
-            SELECT achievement_id 
-            FROM user_achievements 
-            WHERE user_id = ?
-        `).all(userId);
-
-        const activeTime = Math.floor((Date.now() - user.created_at) / (24 * 60 * 60 * 1000));
-
-        return {
-            mainnet: user.wallet_mainnet || 0,
-            walletCode: user.wallet_code,
-            miningPower: user.mining_power || 1,
-            level: user.level || 1,
-            experience: user.experience || 0,
-            nextLevel: (user.level || 1) * 1000,
-            miners: (user.miners ? user.miners.split(',') : ['basic']).map(id => MINERS[id]),
-            team: team ? {
-                id: team.team_id,
-                name: team.name,
-                isLeader: team.leader_id === userId,
-                memberCount: db.prepare('SELECT COUNT(*) as count FROM team_members WHERE team_id = ?')
-                    .get(team.team_id).count,
-                bonus: getTeamBonus(userId) * 100
-            } : null,
-            achievements: achievements.map(a => ACHIEVEMENTS[a.achievement_id]),
-            stats: {
-                totalMined: user.stats_total_mined || 0,
-                miningCount: user.stats_mining_count || 0,
-                teamContribution: user.stats_team_contribution || 0,
-                daysActive: activeTime
-            }
-        };
-    } catch (err) {
-        console.error('[INFO] Error getting user info:', err);
+        console.error('[ERROR] Error getting VIP status:', error);
         return null;
     }
 }
-function buyMainnet(userId, amount) {
-    try {
-        const marketData = db.prepare('SELECT * FROM market_data WHERE id = 1').get();
-        if (!marketData) {
-            return { success: false, message: "❌ Lỗi: Không thể lấy dữ liệu thị trường!" };
-        }
 
-        // Kiểm tra listing
-        if (!marketData.is_listed) {
-            const totalSupply = db.prepare('SELECT SUM(wallet_mainnet) as total FROM mining_data').get().total || 0;
-            return {
-                success: false,
-                message: `❌ Chưa thể giao dịch! Cần đạt ${LISTING_THRESHOLD.toLocaleString()} MC.\n` +
-                    `📊 Tiến độ: ${((totalSupply / LISTING_THRESHOLD) * 100).toFixed(2)}%`
-            };
-        }
-
-        const circulatingSupply = db.prepare(`
-            SELECT SUM(wallet_mainnet) as total 
-            FROM mining_data 
-            WHERE user_id NOT LIKE '${NPC_PREFIX}_%'
-        `).get().total || 0;
-
-        const availableForSale = db.prepare(`
-            SELECT SUM(wallet_mainnet) as total 
-            FROM mining_data 
-            WHERE user_id LIKE '${NPC_PREFIX}_%'
-        `).get().total || 0;
-
-        if (amount > availableForSale) {
-            return {
-                success: false,
-                message: `❌ Không đủ coin trong thị trường!\n` +
-                    `Bạn muốn mua: ${amount} MC\n` +
-                    `Có sẵn: ${formatNumber(availableForSale)} MC\n` +
-                    `Vui lòng chờ thêm coin được đào hoặc giảm số lượng.`
-            };
-        }
-
-        const maxBuyAmount = circulatingSupply * MAX_BUY_PERCENT;
-        if (amount > maxBuyAmount) {
-            return {
-                success: false,
-                message: `❌ Vượt quá giới hạn mua!\n` +
-                    `Tối đa có thể mua: ${maxBuyAmount.toFixed(2)} MC\n` +
-                    `(${(MAX_BUY_PERCENT * 100)}% tổng coin lưu hành)`
-            };
-        }
-
-        const userWallet = db.prepare('SELECT wallet_mainnet FROM mining_data WHERE user_id = ?').get(userId);
-        const currentHolding = userWallet?.wallet_mainnet || 0;
-        const maxHoldAmount = circulatingSupply * MAX_HOLD_PERCENT;
-
-        if (currentHolding + amount > maxHoldAmount) {
-            return {
-                success: false,
-                message: `❌ Vượt quá giới hạn nắm giữ!\n` +
-                    `Bạn đang có: ${currentHolding.toFixed(2)} MC\n` +
-                    `Tối đa có thể nắm giữ: ${maxHoldAmount.toFixed(2)} MC\n` +
-                    `(${(MAX_HOLD_PERCENT * 100)}% tổng coin lưu hành)`
-            };
-        }
-
-        const costInDollars = amount * (marketData.price || 0);
-        const balance = getBalance(userId);
-
-        if (balance < costInDollars) {
-            return {
-                success: false,
-                message: `❌ Không đủ tiền! Cần ${costInDollars.toLocaleString()}$, bạn chỉ có ${balance.toLocaleString()}$`
-            };
-        }
-
-        const transaction = db.transaction(() => {
-            updateBalance(userId, -costInDollars);
-
-            db.prepare(`
-                UPDATE mining_data 
-                SET wallet_mainnet = wallet_mainnet + ? 
-                WHERE user_id = ?
-            `).run(amount, userId);
-
-            db.prepare(`
-                UPDATE market_data 
-                SET total_transactions = total_transactions + 1,
-                    supply_demand_ratio = supply_demand_ratio + 0.01
-                WHERE id = 1
-            `).run();
-        });
-
-        transaction();
-
-        return {
-            success: true,
-            message: `Mua thành công ${amount} mainnet coins!\n` +
-                `💵 Đã trả: ${formatNumber(costInDollars)}$\n` +
-                `📊 Tỷ giá: 1 MC = ${formatNumber(marketData.price || 0)}$\n` +
-                `💼 Số dư MC: ${formatNumber(currentHolding + amount)}\n` +
-                `📈 Tỷ lệ nắm giữ: ${((currentHolding + amount) / circulatingSupply * 100).toFixed(2)}%`
-        };
-
-    } catch (err) {
-        console.error('[BUY] Error:', err);
-        return { success: false, message: "❌ Lỗi giao dịch!" };
+// THÊM: Kiểm tra bonus người mới với giới hạn thời gian
+function getNewbieMultiplier(userId) {
+    const user = initUser(userId);
+    const accountAge = Date.now() - user.createdAt;
+    const daysOld = accountAge / (24 * 60 * 60 * 1000);
+    
+    // Chỉ áp dụng trong 10 ngày đầu
+    if (daysOld <= MINING_CONFIG.NEWBIE_BONUS.MAX_NEWBIE_DAYS) {
+        return MINING_CONFIG.NEWBIE_BONUS.FIRST_WEEK_MULTIPLIER;
     }
+    return 1.0;
 }
-function addItemToUser(userId, itemId, quantity = 1) {
-    try {
-        const existingItem = db.prepare(
-            'SELECT * FROM user_items WHERE user_id = ? AND item_id = ?'
-        ).get(userId, itemId);
 
-        if (existingItem) {
-            db.prepare(
-                'UPDATE user_items SET quantity = quantity + ? WHERE user_id = ? AND item_id = ?'
-            ).run(quantity, userId, itemId);
+// THÊM: Kiểm tra daily login bonus với giới hạn
+function checkDailyLoginBonus(userId) {
+    const user = initUser(userId);
+    const today = new Date().toDateString();
+    const lastLoginDay = new Date(user.lastLogin).toDateString();
+    
+    if (today !== lastLoginDay) {
+        const accountAge = Date.now() - user.createdAt;
+        const daysOld = accountAge / (24 * 60 * 60 * 1000);
+        
+        // Chỉ tặng daily login trong 30 ngày đầu
+        if (daysOld <= 30) {
+            updateMiningBalance(userId, MINING_CONFIG.NEWBIE_BONUS.DAILY_LOGIN_BONUS);
+            
+            const yesterday = new Date();
+            yesterday.setDate(yesterday.getDate() - 1);
+            const yesterdayString = yesterday.toDateString();
+            
+            if (lastLoginDay === yesterdayString) {
+                user.streakDays++;
+            } else {
+                user.streakDays = 1;
+            }
+            
+            user.lastLogin = Date.now();
+            
+            const data = loadMiningData();
+            data[userId] = user;
+            saveMiningData(data);
+            
+            return {
+                bonus: MINING_CONFIG.NEWBIE_BONUS.DAILY_LOGIN_BONUS,
+                streak: user.streakDays,
+                isNewDay: true
+            };
+        }
+    }
+    
+    return { isNewDay: false };
+}
+
+// THÊM: Áp dụng wealth tax và storage fees
+function applyDailyCosts(userId) {
+    const userBalance = getMiningBalance(userId);
+    let totalCosts = 0;
+    let messages = [];
+    
+    // Wealth tax cho user giàu
+    if (userBalance > MINING_CONFIG.ECONOMY_CONTROL.WEALTH_TAX_THRESHOLD) {
+        const wealthTax = Math.floor(userBalance * MINING_CONFIG.ECONOMY_CONTROL.WEALTH_TAX_RATE);
+        updateMiningBalance(userId, -wealthTax);
+        totalCosts += wealthTax;
+        messages.push(`💸 Thuế giàu: -${wealthTax} coins`);
+    }
+    
+    // Storage fee cho số dư lớn
+    if (userBalance > 50000) {
+        const storageFee = MINING_CONFIG.COIN_SINKS.STORAGE_FEE;
+        updateMiningBalance(userId, -storageFee);
+        totalCosts += storageFee;
+        messages.push(`📦 Phí lưu trữ: -${storageFee} coins`);
+    }
+    
+    return { totalCosts, messages };
+}
+
+// THÊM: Cập nhật daily quests với rewards thấp hơn
+function updateDailyQuests(userId, action, amount = 1) {
+    const user = initUser(userId);
+    const today = new Date().toDateString();
+    
+    if (!user.dailyQuests[today]) {
+        user.dailyQuests[today] = {
+            mineCount: 0,
+            joinedTeam: false,
+            usedAutoMining: false,
+            completed: []
+        };
+    }
+    
+    const todayQuests = user.dailyQuests[today];
+    let rewards = [];
+    
+    switch (action) {
+        case 'mine':
+            todayQuests.mineCount += amount;
+            
+            if (todayQuests.mineCount >= 10 && !todayQuests.completed.includes('MINE_10_TIMES')) {
+                todayQuests.completed.push('MINE_10_TIMES');
+                updateMiningBalance(userId, MINING_CONFIG.DAILY_QUESTS.MINE_10_TIMES.reward);
+                rewards.push({
+                    name: MINING_CONFIG.DAILY_QUESTS.MINE_10_TIMES.description,
+                    reward: MINING_CONFIG.DAILY_QUESTS.MINE_10_TIMES.reward
+                });
+            }
+            
+            if (todayQuests.mineCount >= 20 && !todayQuests.completed.includes('MINE_20_TIMES')) {
+                todayQuests.completed.push('MINE_20_TIMES');
+                updateMiningBalance(userId, MINING_CONFIG.DAILY_QUESTS.MINE_20_TIMES.reward);
+                rewards.push({
+                    name: MINING_CONFIG.DAILY_QUESTS.MINE_20_TIMES.description,
+                    reward: MINING_CONFIG.DAILY_QUESTS.MINE_20_TIMES.reward
+                });
+            }
+            break;
+            
+        case 'join_team':
+            if (!todayQuests.joinedTeam && !todayQuests.completed.includes('JOIN_TEAM')) {
+                todayQuests.joinedTeam = true;
+                todayQuests.completed.push('JOIN_TEAM');
+                updateMiningBalance(userId, MINING_CONFIG.DAILY_QUESTS.JOIN_TEAM.reward);
+                rewards.push({
+                    name: MINING_CONFIG.DAILY_QUESTS.JOIN_TEAM.description,
+                    reward: MINING_CONFIG.DAILY_QUESTS.JOIN_TEAM.reward
+                });
+            }
+            break;
+            
+        case 'auto_mining':
+            if (!todayQuests.usedAutoMining && !todayQuests.completed.includes('USE_AUTO_MINING')) {
+                todayQuests.usedAutoMining = true;
+                todayQuests.completed.push('USE_AUTO_MINING');
+                updateMiningBalance(userId, MINING_CONFIG.DAILY_QUESTS.USE_AUTO_MINING.reward);
+                rewards.push({
+                    name: MINING_CONFIG.DAILY_QUESTS.USE_AUTO_MINING.description,
+                    reward: MINING_CONFIG.DAILY_QUESTS.USE_AUTO_MINING.reward
+                });
+            }
+            break;
+    }
+    
+    const data = loadMiningData();
+    data[userId] = user;
+    saveMiningData(data);
+    
+    return rewards;
+}
+
+// THÊM: Hệ thống tính toán mining với inflation control
+function calculateMining(userId, timeDiff = null) {
+    const user = initUser(userId);
+    const now = Date.now();
+    
+    if (!timeDiff) {
+        timeDiff = Math.min((now - user.lastMined) / 1000, MINING_CONFIG.MAX_OFFLINE_HOURS * 3600);
+    }
+    
+    let baseEarnings = MINING_CONFIG.BASE_RATE * (timeDiff / 60);
+    
+    // Áp dụng inflation control
+    const inflationMultiplier = getInflationMultiplier();
+    baseEarnings *= inflationMultiplier;
+    
+    // Level bonus (giảm)
+    const levelBonus = 1 + (user.level - 1) * MINING_CONFIG.LEVEL_MULTIPLIER;
+    
+    // Mining power bonus
+    const powerBonus = user.miningPower;
+    
+    // Team bonus (giảm)
+    let teamBonus = 1;
+    if (user.team) {
+        const teamData = loadTeamData();
+        const team = teamData[user.team];
+        if (team) {
+            teamBonus = 1 + (team.members.length * MINING_CONFIG.TEAM_BONUS);
+        }
+    }
+    
+    // VIP bonus
+    let vipBonus = 1;
+    const vipData = getUserVIP(userId);
+    if (vipData && vipData.active && vipData.benefits) {
+        if (vipData.benefits.miningBonus) {
+            vipBonus = 1 + vipData.benefits.miningBonus;
         } else {
-            db.prepare(
-                'INSERT INTO user_items (user_id, item_id, quantity) VALUES (?, ?, ?)'
-            ).run(userId, itemId, quantity);
+            vipBonus = MINING_CONFIG.VIP_MULTIPLIERS[vipData.tier] || 1;
         }
-
-        return true;
-    } catch (err) {
-        console.error('[ITEMS] Add item error:', err);
-        return false;
     }
+    
+    // Newbie bonus (giới hạn thời gian)
+    const newbieMultiplier = getNewbieMultiplier(userId);
+    
+    // Equipment bonus
+    let equipmentBonus = 1;
+    user.equipment.forEach(eq => {
+        equipmentBonus += eq.bonus || 0;
+    });
+    
+    // Active boosts
+    let boostMultiplier = 1;
+    const activeBoosts = user.boosts.filter(boost => boost.expires > now);
+    activeBoosts.forEach(boost => {
+        boostMultiplier += boost.multiplier || 0;
+    });
+    
+    const finalEarnings = baseEarnings * levelBonus * powerBonus * teamBonus * vipBonus * newbieMultiplier * equipmentBonus * boostMultiplier;
+    
+    return {
+        amount: Math.floor(finalEarnings),
+        levelBonus,
+        powerBonus,
+        teamBonus,
+        vipBonus,
+        newbieMultiplier,
+        equipmentBonus,
+        boostMultiplier,
+        inflationMultiplier,
+        vipData
+    };
 }
-function cleanupDatabase() {
-    try {
-        db.prepare(`
-            DELETE FROM teams 
-            WHERE team_id NOT IN (SELECT DISTINCT team_id FROM team_members)
-        `).run();
 
-        const now = Date.now();
-        db.prepare(`
-            DELETE FROM user_inventory 
-            WHERE expires > 0 AND expires < ?
-        `).run(now);
-
-        console.log('[DB] Cleanup completed');
-        return true;
-    } catch (err) {
-        console.error('[DB] Cleanup error:', err);
-        return false;
-    }
-}
-function withdrawMainnet(userId, amount) {
-    try {
-        const marketData = db.prepare('SELECT * FROM market_data WHERE id = 1').get();
-        const userWallet = db.prepare(
-            'SELECT wallet_mainnet FROM mining_data WHERE user_id = ?'
-        ).get(userId);
-
-        if (!userWallet || userWallet.wallet_mainnet < amount) {
-            return { success: false, message: "Bạn không đủ mainnet coins!" };
-        }
-
-        if (!marketData.is_listed) {
-            const totalSupply = db.prepare(
-                'SELECT SUM(wallet_mainnet) as total FROM mining_data'
-            ).get().total || 0;
-
-            return {
-                success: true,
-                message: `Rút thành công ${amount} mainnet coins!\n` +
-                    `💵 Đã thêm ${formatNumber(dollarsReceived)}$ vào tài khoản\n` +
-                    `📊 Tỷ giá: 1 MC = ${formatNumber(marketData.price)}$`
-            };
-        }
-
-        const dollarsReceived = amount * marketData.price;
-
-        const transaction = db.transaction(() => {
-
-            db.prepare(
-                'UPDATE mining_data SET wallet_mainnet = wallet_mainnet - ? WHERE user_id = ?'
-            ).run(amount, userId);
-
-            db.prepare(
-                'UPDATE market_data SET total_transactions = total_transactions + 1 WHERE id = 1'
-            ).run();
-
-            updateBalance(userId, dollarsReceived);
-        });
-
-        transaction();
-
+// THÊM: Hệ thống rút tiền với phí cao hơn và giới hạn chặt
+function processWithdrawal(userId, amount) {
+    const user = initUser(userId);
+    const userBalance = getMiningBalance(userId); // Thay đổi ở đây
+    
+    // Kiểm tra số dư tối thiểu
+    if (userBalance < MINING_CONFIG.WITHDRAWAL.MIN_AMOUNT) {
         return {
-            success: true,
-            message: `Rút thành công ${amount} mainnet coins!\n` +
-                `💵 Đã thêm ${formatNumber(dollarsReceived)}$ vào tài khoản\n` +
-                `📊 Tỷ giá: 1 MC = ${formatNumber(marketData.price)}$`
+            success: false,
+            message: `❌ Cần ít nhất ${MINING_CONFIG.WITHDRAWAL.MIN_AMOUNT.toLocaleString()} coins để rút tiền!`
         };
-    } catch (err) {
-        console.error('[WITHDRAW] Error:', err);
-        return { success: false, message: "❌ Lỗi giao dịch!" };
     }
+    
+    // Kiểm tra số tiền rút
+    if (amount < MINING_CONFIG.WITHDRAWAL.MIN_AMOUNT) {
+        return {
+            success: false,
+            message: `❌ Số tiền rút tối thiểu là ${MINING_CONFIG.WITHDRAWAL.MIN_AMOUNT.toLocaleString()} coins!`
+        };
+    }
+    
+    if (amount > userBalance) {
+        return {
+            success: false,
+            message: "❌ Số dư không đủ!"
+        };
+    }
+    
+    // Kiểm tra giới hạn hàng ngày
+    const today = new Date().toDateString();
+    if (!user.withdrawalHistory) user.withdrawalHistory = {};
+    if (!user.withdrawalHistory[today]) user.withdrawalHistory[today] = 0;
+    
+    let dailyLimit = MINING_CONFIG.WITHDRAWAL.DAILY_LIMIT;
+    const vipData = getUserVIP(userId);
+    if (vipData && vipData.active && vipData.tier === 'GOLD') {
+        dailyLimit *= MINING_CONFIG.WITHDRAWAL.VIP_BONUS_LIMIT.GOLD;
+    }
+    
+    if (user.withdrawalHistory[today] + amount > dailyLimit) {
+        return {
+            success: false,
+            message: `❌ Vượt quá giới hạn rút tiền hàng ngày! Còn lại: ${(dailyLimit - user.withdrawalHistory[today]).toLocaleString()} coins`
+        };
+    }
+    
+    // Tính phí rút tiền (tăng lên 12%)
+    const fee = Math.floor(amount * MINING_CONFIG.FEES.WITHDRAWAL_FEE);
+    const actualAmount = amount - fee;
+    
+    // Xử lý rút tiền
+    updateMiningBalance(userId, -amount); // Thay đổi ở đây
+    user.withdrawalHistory[today] += amount;
+    
+    // Lưu dữ liệu
+    const data = loadMiningData();
+    data[userId] = user;
+    saveMiningData(data);
+    
+    return {
+        success: true,
+        amount: actualAmount,
+        fee: fee,
+        remaining: userBalance - amount
+    };
 }
+
+// THÊM: Kiểm soát lạm phát
+function getInflationMultiplier() {
+    const data = loadMiningData();
+    const totalCoinsInSystem = Object.values(data).reduce((sum, user) => {
+        return sum + (user.totalMined || 0);
+    }, 0);
+    
+    // Nếu quá nhiều coins trong hệ thống, giảm mining rate
+    if (totalCoinsInSystem > MINING_CONFIG.ECONOMY_CONTROL.MAX_COINS_IN_SYSTEM) {
+        const excess = totalCoinsInSystem - MINING_CONFIG.ECONOMY_CONTROL.MAX_COINS_IN_SYSTEM;
+        const reductionFactor = Math.max(0.3, 1 - (excess / MINING_CONFIG.ECONOMY_CONTROL.MAX_COINS_IN_SYSTEM));
+        return reductionFactor;
+    }
+    
+    return 1.0;
+}
+
+// Calculate required XP for next level
+function getRequiredXP(level) {
+    return Math.floor(100 * Math.pow(1.5, level - 1));
+}
+
+// Handle level up
+function checkLevelUp(userId) {
+    const data = loadMiningData();
+    const user = data[userId];
+    
+    if (!user) return false;
+    
+    const requiredXP = getRequiredXP(user.level);
+    
+    if (user.experience >= requiredXP) {
+        user.level++;
+        user.experience -= requiredXP;
+        user.miningPower += 0.1;
+        
+        // THÊM: Level up bonus
+        updateMiningBalance(userId, MINING_CONFIG.NEWBIE_BONUS.LEVEL_UP_BONUS);
+        
+        saveMiningData(data);
+        return true;
+    }
+    
+    return false;
+}
+
+// Auto-mining system
+function startAutoMining(userId, hours) {
+    const data = loadMiningData();
+    const user = data[userId];
+    
+    if (!user) return false;
+    
+    const now = Date.now();
+    user.autoMining = {
+        active: true,
+        startTime: now,
+        endTime: now + (hours * 60 * 60 * 1000),
+        rate: calculateMining(userId, 3600).amount // hourly rate
+    };
+    
+    saveMiningData(data);
+    return true;
+}
+
+function claimAutoMining(userId) {
+    const data = loadMiningData();
+    const user = data[userId];
+    
+    if (!user || !user.autoMining.active) return null;
+    
+    const now = Date.now();
+    const miningTime = Math.min(now - user.autoMining.startTime, user.autoMining.endTime - user.autoMining.startTime);
+    const hoursActive = miningTime / (60 * 60 * 1000);
+    
+    const earnings = Math.floor(user.autoMining.rate * hoursActive);
+    
+    // Reset auto mining if expired
+    if (now >= user.autoMining.endTime) {
+        user.autoMining.active = false;
+    } else {
+        user.autoMining.startTime = now;
+    }
+    
+    user.totalMined += earnings;
+    updateMiningBalance(userId, earnings);
+    
+    saveMiningData(data);
+    
+    return {
+        amount: earnings,
+        hoursActive: hoursActive.toFixed(1),
+        stillActive: user.autoMining.active
+    };
+}
+
+// THÊM: Kiểm tra giới hạn đào hàng ngày
+function checkDailyMiningLimit(userId) {
+    const user = initUser(userId);
+    const today = new Date().toDateString();
+    
+    if (!user.dailyMining) user.dailyMining = {};
+    if (!user.dailyMining[today]) user.dailyMining[today] = 0;
+    
+    const vipData = getUserVIP(userId);
+    // console.log('[DEBUG] VIP Data for mining limit:', vipData);
+    
+    // Kiểm tra VIP chặt chẽ hơn
+    const isVip = vipData && vipData.active && vipData.packageId === 3;
+    const dailyLimit = isVip ? MINING_CONFIG.DAILY_MINING.VIP_LIMIT : MINING_CONFIG.DAILY_MINING.FREE_LIMIT;
+
+    // console.log('[DEBUG] Mining limit check:', {
+    //     userId,
+    //     isVip,
+    //     dailyLimit,
+    //     currentCount: user.dailyMining[today]
+    // });
+    
+    return {
+        count: user.dailyMining[today],
+        limit: dailyLimit,
+        canMine: user.dailyMining[today] < dailyLimit,
+        needsPay: user.dailyMining[today] >= dailyLimit,
+        isVip
+    };
+}
+
+function incrementDailyMining(userId) {
+    const user = initUser(userId);
+    const today = new Date().toDateString();
+    
+    if (!user.dailyMining) user.dailyMining = {};
+    if (!user.dailyMining[today]) user.dailyMining[today] = 0;
+    
+    user.dailyMining[today]++;
+    
+    const data = loadMiningData();
+    data[userId] = user;
+    saveMiningData(data);
+}
+
+// Initialize data files
+initializeDataFiles();
+
 module.exports = {
     name: "coin",
-    info: "Hệ thống đào coin",
+    dev: "HNT", 
     category: "Games",
-    dev: "HNT",
-    usages: `.coin mine`,
+    info: "MMO Mining Game",
     onPrefix: true,
-    cooldowns: 1,
-    usedby: 0,
+    usages: "coin [mine/auto/team/shop/stats]",
+    cooldowns: 2,
 
-    onLoad: function () {
-        try {
-            console.log('[COIN] Initializing database...');
-
-            if (!db) {
-                console.log('[COIN] Database not initialized, setting up...');
-                db = setupDatabase();
-            }
-            if (global.marketInterval) {
-                clearInterval(global.marketInterval);
-            }
-
-            global.marketInterval = setInterval(() => {
-                try {
-                    const oldPrice = db.prepare('SELECT price FROM market_data WHERE id = 1').get()?.price;
-                    const newPrice = updateMarketPrice();
-                    if (newPrice && oldPrice !== newPrice) {
-                        console.log(`[MARKET] Price updated: ${oldPrice} -> ${newPrice}`);
-                    }
-                } catch (err) {
-                    console.error('[MARKET] Update error:', err);
-                }
-            }, MARKET_CONSTANTS.RECOVERY.TIME);
-
-            console.log('[MARKET] Price update interval set to 5 seconds');
-
-            try {
-                createTablesIfNeeded(db);
-                console.log('[COIN] Tables created/verified');
-            } catch (tableError) {
-                console.error('[COIN] Error creating tables:', tableError);
-            }
-
-            try {
-                initializeMarketData();
-                console.log('[COIN] Market data initialized');
-            } catch (marketError) {
-                console.error('[COIN] Error initializing market data:', marketError);
-            }
-
-            try {
-                loadWalletCodeIndex();
-            } catch (walletError) {
-                console.error('[COIN] Error loading wallet codes:', walletError);
-            }
-
-            try {
-                backupDatabase();
-            } catch (backupError) {
-                console.error('[COIN] Error creating backup:', backupError);
-            }
-
-            try {
-                initializeNPCs();
-            } catch (npcError) {
-                console.error('[COIN] Error initializing NPCs:', npcError);
-            }
-
-            setInterval(() => {
-                try {
-                    backupDatabase();
-                } catch (err) {
-                    console.error('[COIN] Backup error:', err);
-                }
-            }, 60 * 60 * 1000);
-            console.log('[COIN] Scheduling NPC initialization in 3 seconds...');
-            setTimeout(() => {
-                try {
-                    initializeNPCs();
-                } catch (npcError) {
-                    console.error('[COIN] Critical NPC initialization error:', npcError);
-                }
-            }, 3000);
-            setInterval(() => {
-                try {
-                    updateMarketPrice();
-                } catch (err) {
-                    console.error('[COIN] Market update error:', err);
-                }
-            }, 30 * 1000);
-
-            console.log('[COIN] System initialized successfully');
-        } catch (err) {
-            console.error('[COIN] Initialization error:', err);
-        }
+    onLoad: function() {
+        console.log('[MINING] MMO Mining system loaded');
     },
-    onLaunch: async function ({ api, event, target = [] }) {
+
+    onLaunch: async function({ api, event, target = [] }) {
         const { threadID, messageID, senderID } = event;
         const action = target[0]?.toLowerCase();
-        const user = initUser(senderID);
 
         try {
+            const user = initUser(senderID);
+            const userName = await getName(senderID);
+
             switch (action) {
+                case "help":
+                case "hướng_dẫn": {
+                    return api.sendMessage(
+                        "📚 HƯỚNG DẪN CHI TIẾT MINING 📚\n" +
+                        "━━━━━━━━━━━━━━━━━━\n\n" +
+                        "1️⃣ BẮT ĐẦU:\n" +
+                        "• .coin mine - Đào coin cơ bản\n" +
+                        "• Free user: 15 lượt/ngày\n" +
+                        "• VIP Gold: 60 lượt/ngày\n" +
+                        "• Cooldown: 25 giây/lần đào\n\n" +
+                        
+                        "2️⃣ NÂNG CAO HIỆU QUẢ:\n" +
+                        "• Tham gia team (+1.5%/thành viên)\n" +
+                        "• Mua VIP Gold (+80% coins)\n" +
+                        "• Sử dụng auto mining (AFK)\n" +
+                        "• Thu hoạch offline (tối đa 8h)\n\n" +
+                        
+                        "3️⃣ HỆ THỐNG TEAM:\n" +
+                        "• .coin team create [tên] - Tạo team\n" +
+                        "• .coin team join [ID] - Vào team\n" +
+                        "• .coin team info - Xem thông tin\n" +
+                        "• .coin team leave - Rời team\n" +
+                        "• Phí tạo team: 3,000 coins\n" +
+                        "• Tối đa 10 thành viên/team\n\n" +
+                        
+                        "4️⃣ AUTO MINING:\n" +
+                        "• .coin auto start [giờ] - Bật auto\n" +
+                        "• .coin auto claim - Thu hoạch\n" +
+                        "• Chi phí: 80 coins/giờ\n" +
+                        "• Phí dịch vụ: 12%\n" +
+                        "• Thời gian: 1-24 giờ\n\n" +
+                        
+                        "5️⃣ NHIỆM VỤ HÀNG NGÀY:\n" +
+                        "• Đào 10 lần: +800 coins\n" +
+                        "• Đào 20 lần: +1,800 coins\n" +
+                        "• Tham gia team: +1,200 coins\n" +
+                        "• Auto mining: +900 coins\n" +
+                        "• Reset vào 00:00 mỗi ngày\n\n" +
+                        
+                        "6️⃣ RÚT TIỀN & PHÍ:\n" +
+                        "• .coin withdraw [số tiền]\n" +
+                        "• Rút tối thiểu: 8,000 coins\n" +
+                        "• Phí rút: 10% số tiền rút\n" +
+                        "• Giới hạn/ngày: 50,000 coins\n" +
+                        "• VIP: +100% giới hạn rút\n\n" +
+                        
+                        "7️⃣ TIỆN ÍCH KHÁC:\n" +
+                        "• .coin stats - Xem thông số\n" +
+                        "• .coin shop - Mua vật phẩm\n" +
+                        "• .coin leaderboard - BXH\n" +
+                        "• .coin quests - Nhiệm vụ\n\n" +
+                        
+                        "💎 LƯU Ý QUAN TRỌNG:\n" +
+                        "• Newbie được x2.2 coins trong 10 ngày đầu\n" +
+                        "• Daily login bonus trong 30 ngày đầu\n" +
+                        "• Thuế giàu khi có >100k coins\n" +
+                        "• Phí lưu trữ khi có >50k coins\n" +
+                        "• Có thể AFK để auto mining và thu offline\n\n" +
+                        
+                        "👑 ƯU ĐÃI VIP GOLD (49K/THÁNG):\n" +
+                        "• 60 lượt đào/ngày (thay vì 15)\n" + 
+                        "• +80% coins khi đào\n" +
+                        "• x2 giới hạn rút tiền/ngày\n" +
+                        "• Giảm phí auto mining\n" +
+                        "• Ưu tiên hỗ trợ 24/7\n\n" +
+                        
+                        "💰 THU NHẬP DỰ KIẾN:\n" +
+                        "🆓 Free User: 80-100 coins/ngày → Rút được sau 80-100 ngày\n" +
+                        "👑 VIP Gold: 750-800 coins/ngày → Rút được sau 10-12 ngày\n\n" +
+                        
+                        "💡 MẸO CHƠI HIỆU QUẢ:\n" +
+                        "1. Tham gia team càng sớm càng tốt\n" +
+                        "2. Dùng auto mining khi offline\n" +
+                        "3. Làm nhiệm vụ hàng ngày\n" +
+                        "4. Đầu tư VIP để tăng thu nhập x8\n" +
+                        "5. Thu hoạch đều đặn tránh mất coins\n\n" +
+                        
+                        "⚠️ CẢNH BÁO GIAN LẬN:\n" +
+                        "• Nghiêm cấm sử dụng tool auto/hack\n" +
+                        "• Nghiêm cấm lạm dụng lỗi hệ thống\n" +
+                        "• Vi phạm sẽ bị khóa tài khoản vĩnh viễn\n\n" +
+                        
+                        "📞 HỖ TRỢ & BÁO LỖI:\n" +
+                        "• Báo cáo lỗi: Admin HNT\n" +
+                        "• Group hỗ trợ: fb.com/groups/...\n" +
+                        "• Fanpage: fb.com/...",
+                        threadID, messageID
+                    );
+                    break;
+                }
+                
                 case "mine":
-                case "đào":
-                    updateMarketPrice();
-                    const miningResult = calculateMining(senderID);
-
-                    if (!miningResult.success) {
-                        return api.sendMessage(miningResult.message, threadID, messageID);
+                case "đào": {
+                    // Áp dụng daily costs trước khi mining
+                    const dailyCosts = applyDailyCosts(senderID);
+                    let costMessage = "";
+                    if (dailyCosts.totalCosts > 0) {
+                        costMessage = `\n${dailyCosts.messages.join('\n')}`;
                     }
 
-                    const mined = miningResult.amount;
+                    // Kiểm tra daily login bonus
+                    const loginBonus = checkDailyLoginBonus(senderID);
+                    let loginMessage = "";
+                    if (loginBonus.isNewDay) {
+                        loginMessage = `\n🎁 Daily Login: +${loginBonus.bonus} coins (Streak: ${loginBonus.streak} ngày)`;
+                    }
 
-                    // Cập nhật dữ liệu trong database
-                    db.prepare(`
-                        UPDATE mining_data 
-                        SET last_mined = ?,
-                            experience = experience + ?,
-                            wallet_mainnet = wallet_mainnet + ?
-                        WHERE user_id = ?
-                      `).run(Date.now(), mined, mined, senderID);
+                    const now = Date.now();
+                    const timeSinceLastMine = now - user.lastMined;
 
-                    // Lấy thông tin người dùng sau khi cập nhật
-                    const updatedUser = db.prepare(`
-                        SELECT * FROM mining_data WHERE user_id = ?
-                      `).get(senderID);
-
-                    // Kiểm tra level up với công thức mới
-                    let leveledUp = false;
-                    let newLevel = updatedUser.level;
-
-                    // Tính XP cần cho cấp tiếp theo
-                    const requiredXP = calculateRequiredXP(updatedUser.level);
-
-                    if (updatedUser.experience >= requiredXP) {
-                        // Tăng level và mining power
-                        leveledUp = true;
-                        newLevel = updatedUser.level + 1;
-
-                        db.prepare(`
-                          UPDATE mining_data 
-                          SET level = ?,
-                              experience = experience - ?,
-                              mining_power = mining_power + 0.1
-                          WHERE user_id = ?
-                        `).run(newLevel, requiredXP, senderID);
-
-                        // Gửi thông báo lên cấp
-                        api.sendMessage(
-                            `🎉 LEVEL UP! 🎉\n` +
-                            `Bạn đã đạt level ${newLevel}!\n` +
-                            `Mining Power +0.1`,
-                            threadID
+                    if (timeSinceLastMine < MINING_CONFIG.COOLDOWN) {
+                        const remainingTime = Math.ceil((MINING_CONFIG.COOLDOWN - timeSinceLastMine) / 1000);
+                        return api.sendMessage(
+                            `⏳ Bạn cần đợi ${remainingTime} giây nữa để đào tiếp!${loginMessage}${costMessage}`,
+                            threadID, messageID
                         );
                     }
 
-                    // Lấy lại thông tin sau khi lên cấp (nếu có)
-                    const finalUser = leveledUp ?
-                        db.prepare(`SELECT * FROM mining_data WHERE user_id = ?`).get(senderID) :
-                        updatedUser;
+                    // Kiểm tra giới hạn đào hàng ngày
+                    const dailyLimit = checkDailyMiningLimit(senderID);
+                    
+                    if (dailyLimit.needsPay) {
+                        const extraCost = MINING_CONFIG.DAILY_MINING.EXTRA_COST;
+                        
+                        if (getMiningBalance(senderID) < extraCost) {
+                            return api.sendMessage(
+                                `❌ Đã hết lượt đào miễn phí!\n\n` +
+                                `📊 Hôm nay: ${dailyLimit.count}/${dailyLimit.limit} lượt\n` +
+                                `💰 Đào thêm: ${extraCost} coins/lần\n` +
+                                `💎 Số dư: ${getMiningBalance(senderID)} coins\n\n` +
+                                `👑 VIP Gold: ${dailyLimit.isVip ? "✅" : "❌"}\n` +
+                                `💡 Mua VIP Gold 49k/tháng để có ${MINING_CONFIG.DAILY_MINING.VIP_LIMIT} lượt/ngày!${loginMessage}${costMessage}`,
+                                threadID, messageID
+                            );
+                        }
+                        
+                        updateMiningBalance(senderID, -extraCost);
+                    }
 
-                    const marketData = db.prepare('SELECT * FROM market_data WHERE id = 1').get();
-                    const totalSupply = db.prepare('SELECT SUM(wallet_mainnet) as total FROM mining_data').get().total || 0;
+                    incrementDailyMining(senderID);
 
-                    const priceDisplay = marketData.is_listed
-                        ? `🌐 Giá hiện tại: 1 MC = ${formatNumber(marketData.price || 0)}$`
-                        : `📢 Coin chưa được list! Cần đạt ${formatNumber(LISTING_THRESHOLD).toLocaleString()} MC để listing\n` +
-                        `📊 Tiến độ: ${formatNumber(totalSupply / LISTING_THRESHOLD * 100, 2)}% (${formatNumber(totalSupply)}/
-                              ${formatNumber(LISTING_THRESHOLD).toLocaleString()} MC)`;
+                    // Calculate offline earnings if applicable
+                    let offlineMessage = "";
+                    if (user.lastMined > 0 && timeSinceLastMine > MINING_CONFIG.COOLDOWN) {
+                        const offlineHours = Math.min(timeSinceLastMine / (60 * 60 * 1000), MINING_CONFIG.MAX_OFFLINE_HOURS);
+                        if (offlineHours >= 0.1) {
+                            const offlineEarnings = calculateMining(senderID, offlineHours * 3600);
+                            updateMiningBalance(senderID, offlineEarnings.amount);
+                            user.totalMined += offlineEarnings.amount;
+                            offlineMessage = `\n💤 Thu nhập offline: ${offlineEarnings.amount} coins (${offlineHours.toFixed(1)}h)`;
+                        }
+                    }
 
-                    const nextLevelXP = calculateRequiredXP(finalUser.level);
+                    // Regular mining
+                    const mining = calculateMining(senderID, 60);
+                    const minedAmount = mining.amount;
+
+                    // Update user data
+                    const data = loadMiningData();
+                    data[senderID].lastMined = now;
+                    data[senderID].miningCount++;
+                    data[senderID].totalMined += minedAmount;
+                    data[senderID].experience += minedAmount;
+                    updateMiningBalance(senderID, minedAmount);
+                    saveMiningData(data);
+
+                    // Cập nhật daily quests
+                    const questRewards = updateDailyQuests(senderID, 'mine', 1);
+                    let questMessage = "";
+                    if (questRewards.length > 0) {
+                        questMessage = `\n🎯 Hoàn thành nhiệm vụ:`;
+                        questRewards.forEach(quest => {
+                            questMessage += `\n✅ ${quest.name}: +${quest.reward} coins`;
+                        });
+                    }
+
+                    // Check for level up
+                    const leveledUp = checkLevelUp(senderID);
+                    let levelUpMessage = "";
+                    if (leveledUp) {
+                        levelUpMessage = `\n🎉 LEVEL UP! Bạn đã đạt level ${user.level + 1}!\n💰 Thưởng level up: +${MINING_CONFIG.NEWBIE_BONUS.LEVEL_UP_BONUS} coins`;
+                    }
+
+                    // Prepare bonus info
+                    let bonusMessage = "";
+                    if (mining.vipData && mining.vipData.active) {
+                        bonusMessage += `\n👑 VIP ${mining.vipData.tier}: +${((mining.vipBonus - 1) * 100).toFixed(0)}%`;
+                    }
+                    if (mining.newbieMultiplier > 1) {
+                        bonusMessage += `\n🆕 Newbie Bonus: x${mining.newbieMultiplier}`;
+                    }
+                    if (mining.inflationMultiplier < 1) {
+                        bonusMessage += `\n⚠️ Economic adjustment: x${mining.inflationMultiplier.toFixed(2)}`;
+                    }
+
+                    // Thông tin giới hạn đào
+                    const newDailyLimit = checkDailyMiningLimit(senderID);
+                    let limitMessage = `\n📊 Lượt đào: ${newDailyLimit.count}/${newDailyLimit.limit}`;
+                    if (dailyLimit.needsPay) {
+                        limitMessage += ` (đã trả ${MINING_CONFIG.DAILY_MINING.EXTRA_COST} coins)`;
+                    }
 
                     return api.sendMessage(
-                        "⛏️ BÁO CÁO ĐÀO COIN ⛏️\n" +
-                        "━━━━━━━━━━━━━━━━━━\n" +
-                        `💰 Đã đào được: ${formatNumber(mined)} coins\n` +
-                        `⚡ Sức Mạnh Đào: ${formatNumber(finalUser.mining_power || 0, 1)}x\n` +
-                        `📊 Cấp Độ: ${finalUser.level} (${finalUser.experience}/${nextLevelXP} XP)\n` +
-                        `💎 Mainnet Coins: ${formatNumber(finalUser.wallet_mainnet || 0)}\n\n` +
-                        `💎 Tổng cung hiện tại: ${formatNumber(totalSupply)} MC\n` +
-                        priceDisplay,
+                        `⛏️ MINING THÀNH CÔNG! ⛏️\n` +
+                        `━━━━━━━━━━━━━━━━━━\n` +
+                        `💰 Đã đào: ${minedAmount} coins\n` +
+                        `⚡ Mining Power: ${user.miningPower.toFixed(1)}x\n` +
+                        `📊 Level: ${user.level} (${user.experience}/${getRequiredXP(user.level)} XP)\n` +
+                        `💎 Tổng đào: ${user.totalMined} coins\n` +
+                        `🔢 Lần đào: ${user.miningCount}\n` +
+                        `💵 Số dư: ${getMiningBalance(senderID)} coins${limitMessage}${loginMessage}${costMessage}${offlineMessage}${bonusMessage}${questMessage}${levelUpMessage}`,
                         threadID, messageID
                     );
                     break;
-                case "chain":
-                case "blockchain": {
-                    const page = parseInt(target[1]) || 1;
-                    const blocksPerPage = 5;
-                    const start = (page - 1) * blocksPerPage;
-                    const end = start + blocksPerPage;
-
-                    const blocks = mainnetChain.chain.slice(start, end);
-
-                    let msg = "🔗 BLOCKCHAIN EXPLORER 🔗\n";
-                    msg += "━━━━━━━━━━━━━━━━━━\n\n";
-
-                    blocks.forEach((block, index) => {
-                        const blockIndex = start + index;
-                        msg += `Block #${blockIndex}\n`;
-                        msg += `⏰ Time: ${new Date(block.timestamp).toLocaleString()}\n`;
-                        msg += `📝 Transactions: ${block.transactions.length}\n`;
-                        msg += `🔒 Hash: ${block.hash.substr(0, 8)}...\n\n`;
-                    });
-
-                    msg += `Trang ${page}/${Math.ceil(mainnetChain.chain.length / blocksPerPage)}\n`;
-                    msg += "• Xem trang khác: .coin chain [số trang]";
-
-                    return api.sendMessage(msg, threadID, messageID);
                 }
-                case "check":
-                    case "thịtrường": {
-                        const marketData = db.prepare('SELECT * FROM market_data WHERE id = 1').get();
-                        if (!marketData) {
-                            return api.sendMessage("❌ Lỗi: Không thể lấy dữ liệu thị trường!", threadID, messageID);
+
+                case "auto": {
+                    const subAction = target[1]?.toLowerCase();
+                    
+                    if (subAction === "start") {
+                        const hours = parseInt(target[2]) || 1;
+                        if (hours < 1 || hours > 24) {
+                            return api.sendMessage("❌ Thời gian auto mining phải từ 1-24 giờ!", threadID, messageID);
                         }
-                    
-                        // Lấy dữ liệu cần thiết
-                        const supplyResult = db.prepare('SELECT SUM(wallet_mainnet) as total FROM mining_data').get();
-                        const totalSupply = supplyResult?.total || 0;
                         
-                        const userWallet = db.prepare('SELECT wallet_mainnet FROM mining_data WHERE user_id = ?').get(senderID);
-                        const userCoins = userWallet?.wallet_mainnet || 0;
+                        const baseCost = hours * 80; // Giảm từ 100 xuống 80 coins/giờ
+                        const serviceFee = Math.floor(baseCost * MINING_CONFIG.FEES.AUTO_MINING_FEE);
+                        const totalCost = baseCost + serviceFee;
                         
-                        const holdingPercent = totalSupply > 0 ? (userCoins / totalSupply) * 100 : 0;
-                        
-                        // Lấy lịch sử giá
-                        const priceHistory = db.prepare(`
-                            SELECT price, time 
-                            FROM price_history 
-                            ORDER BY time DESC 
-                            LIMIT 7
-                        `).all();
-                    
-                        // Tính phần trăm thay đổi
-                        let changePercent = 0;
-                        if (priceHistory.length >= 2) {
-                            const currentPrice = marketData.price || 0;
-                            const previousPrice = priceHistory[1]?.price || currentPrice;
-                            changePercent = ((currentPrice - previousPrice) / previousPrice) * 100;
+                        if (getMiningBalance(senderID) < totalCost) {
+                            return api.sendMessage(
+                                `❌ Không đủ coins!\n` +
+                                `💰 Chi phí: ${baseCost.toLocaleString()} coins\n` +
+                                `💸 Phí dịch vụ: ${serviceFee.toLocaleString()} coins (${(MINING_CONFIG.FEES.AUTO_MINING_FEE * 100)}%)\n` +
+                                `💎 Tổng cộng: ${totalCost.toLocaleString()} coins`,
+                                threadID, messageID
+                            );
                         }
+                        
+                        updateMiningBalance(senderID, -totalCost);
+                        startAutoMining(senderID, hours);
+                        
+                        // THÊM: Cập nhật quest auto mining
+                        const questRewards = updateDailyQuests(senderID, 'auto_mining');
+                        let questMessage = "";
+                        if (questRewards.length > 0) {
+                            questMessage = `\n🎯 Hoàn thành nhiệm vụ: ${questRewards[0].name} (+${questRewards[0].reward} coins)`;
+                        }
+                        
+                        return api.sendMessage(
+                            `✅ Đã kích hoạt auto mining ${hours} giờ!\n` +
+                            `💰 Chi phí cơ bản: ${baseCost.toLocaleString()} coins\n` +
+                            `💸 Phí dịch vụ: ${serviceFee.toLocaleString()} coins (${(MINING_CONFIG.FEES.AUTO_MINING_FEE * 100)}%)\n` +
+                            `💎 Tổng thanh toán: ${totalCost.toLocaleString()} coins\n` +
+                            `⏰ Kết thúc: ${new Date(Date.now() + hours * 60 * 60 * 1000).toLocaleString()}${questMessage}`,
+                            threadID, messageID
+                        );
+                    } else if (subAction === "claim") {
+                        const claimed = claimAutoMining(senderID);
+                        if (!claimed) {
+                            return api.sendMessage("❌ Bạn không có auto mining nào đang hoạt động!", threadID, messageID);
+                        }
+                        
+                        return api.sendMessage(
+                            `💰 Thu hoạch auto mining!\n` +
+                            `💎 Nhận được: ${claimed.amount} coins\n` +
+                            `⏰ Thời gian: ${claimed.hoursActive} giờ\n` +
+                            `${claimed.stillActive ? "🟢 Auto mining vẫn đang hoạt động" : "🔴 Auto mining đã kết thúc"}`,
+                            threadID, messageID
+                        );
+                    } else {
+                        return api.sendMessage(
+                            "🤖 AUTO MINING 🤖\n" +
+                            "━━━━━━━━━━━━━━━━━━\n\n" +
+                            "📝 LỆNH:\n" +
+                            "• .mining auto start [giờ] - Bật auto mining\n" +
+                            "• .mining auto claim - Thu hoạch\n\n" +
+                            "💰 CHI PHÍ:\n" +
+                            "• Phí cơ bản: 80 coins/giờ\n" +
+                            `• Phí dịch vụ: ${(MINING_CONFIG.FEES.AUTO_MINING_FEE * 100)}% (duy trì hệ thống)\n` +
+                            "• Ví dụ: 10 giờ = 800 + 96 = 896 coins\n\n" +
+                            "⏰ Tối đa: 24 giờ\n" +
+                            "💡 Auto mining sẽ đào coin cho bạn khi offline!",
+                            threadID, messageID
+                        );
+                    }
+                    break;
+                }
+
+                case "team": {
+                    const subAction = target[1]?.toLowerCase();
+                    const teamData = loadTeamData();
                     
-                        // Xác định sentiment message
-                        let sentimentMsg = "";
-                        const sentiment = marketData.sentiment || 0;
-                        if (sentiment > 0.5) sentimentMsg = "Rất lạc quan 🌟";
-                        else if (sentiment > 0.2) sentimentMsg = "Lạc quan 🔆";
-                        else if (sentiment > -0.2) sentimentMsg = "Trung lập ⚖️";
-                        else if (sentiment > -0.5) sentimentMsg = "Bi quan 🌧️";
-                        else sentimentMsg = "Rất bi quan ⛈️";
-                    
-                        // Tạo dữ liệu cho canvas
-                        const canvasData = {
-                            price: marketData.price || 0,
-                            changePercent,
-                            trend: marketData.trend || "stable",
-                            supply_demand_ratio: marketData.supply_demand_ratio || 1,
-                            sentiment: marketData.sentiment || 0,
-                            sentimentMsg,
-                            totalSupply,
-                            userCoins,
-                            holdingPercent,
-                            priceHistory,
-                            is_listed: marketData.is_listed
+                    if (subAction === "create") {
+                        const teamName = target.slice(2).join(" ");
+                        if (!teamName || teamName.length < 3) {
+                            return api.sendMessage("❌ Tên team phải có ít nhất 3 ký tự!", threadID, messageID);
+                        }
+                        
+                        if (user.team) {
+                            return api.sendMessage("❌ Bạn đã có team rồi!", threadID, messageID);
+                        }
+                        
+                        // Kiểm tra phí tạo team
+                        if (getMiningBalance(senderID) < MINING_CONFIG.FEES.TEAM_CREATE_FEE) {
+                            return api.sendMessage(
+                                `❌ Không đủ coins để tạo team!\n` +
+                                `💰 Phí tạo team: ${MINING_CONFIG.FEES.TEAM_CREATE_FEE.toLocaleString()} coins\n` +
+                                `💎 Số dư của bạn: ${getMiningBalance(senderID).toLocaleString()} coins`,
+                                threadID, messageID
+                            );
+                        }
+                        
+                        // Check if team name exists
+                        const teamExists = Object.values(teamData).some(team => team.name.toLowerCase() === teamName.toLowerCase());
+                        if (teamExists) {
+                            return api.sendMessage("❌ Tên team đã tồn tại!", threadID, messageID);
+                        }
+                        
+                        // Trừ phí tạo team
+                        updateMiningBalance(senderID, -MINING_CONFIG.FEES.TEAM_CREATE_FEE);
+                        
+                        const teamId = `team_${Date.now()}`;
+                        teamData[teamId] = {
+                            name: teamName,
+                            leader: senderID,
+                            members: [senderID],
+                            totalMined: 0,
+                            level: 1,
+                            created: Date.now()
                         };
-                    
-                        try {
-                            // Tạo canvas market
-                            const marketCanvas = await createMarketCanvas(canvasData);
-                            const marketAttachment = await bufferToStream(marketCanvas);
-                    
-                            return api.sendMessage(
-                                {
-                                    body: "🎴 THỊ TRƯỜNG MAINNET COIN 🎴",
-                                    attachment: marketAttachment
-                                },
-                                threadID,
-                                messageID
-                            );
-                        } catch (canvasErr) {
-                            console.error("Canvas error:", canvasErr);
-                            
-                            // Xác định trend icon dựa vào changePercent
-                            const trendIcon = changePercent > 0 ? "📈" : changePercent < 0 ? "📉" : "📊";
-                            
-                            // Fallback về text message nếu canvas lỗi
-                            let marketMsg = `${trendIcon} THỊ TRƯỜNG MAINNET COIN ${trendIcon}\n`;
-                            marketMsg += "━━━━━━━━━━━━━━━━━━\n\n";
-                            marketMsg += `💰 Giá hiện tại: 1 MC = ${formatNumber(marketData.price || 0)}$\n`;
-                            marketMsg += `${changePercent >= 0 ? "🟢" : "🔴"} Biến động: ${formatNumber(changePercent, 2)}%\n`;
-                            marketMsg += `⚖️ Cung/Cầu: ${formatNumber(marketData.supply_demand_ratio || 1, 2)}\n`;
-                            marketMsg += `🧠 Tâm lý thị trường: ${sentimentMsg}\n`;
-                            marketMsg += `💎 Tổng cung: ${formatNumber(totalSupply)} MC\n\n`;
-                            
-                            // Thông tin người dùng
-                            marketMsg += `💼 MC của bạn: ${formatNumber(userCoins, 2)}\n`;
-                            marketMsg += `💵 Giá trị: ${formatNumber(userCoins * (marketData.price || 0))} $\n`;
-                            
-                            // Xác định biểu tượng cho tỷ lệ nắm giữ
-                            const holdingIcon = holdingPercent > 5 ? "🏆" : holdingPercent > 1 ? "🔶" : "📊";
-                            marketMsg += `${holdingIcon} Tỷ lệ nắm giữ: ${formatNumber(holdingPercent, 2)}% tổng cung\n`;
-                            
-                            if (holdingPercent > 3) {
-                                marketMsg += `⚠️ Lưu ý: Bạn đang là whale, giao dịch của bạn có thể ảnh hưởng đến giá!\n`;
-                            }
-                            
-                            marketMsg += "\n💡 GIAO DỊCH:\n";
-                            marketMsg += ".coin buy [số lượng] - Mua MC\n";
-                            marketMsg += ".coin sell [số lượng] - Bán MC\n";
                         
-                            return api.sendMessage(marketMsg, threadID, messageID);
-                        }
-                        break;
-                    }
-                case "force": {
-
-
-                    try {
-                        console.log('[NPC] Force creating NPCs...');
-
-                        db.prepare(`DELETE FROM mining_data WHERE user_id LIKE '${NPC_PREFIX}_%'`).run();
-
-                        let createdCount = 0;
-
-                        for (let i = 1; i <= NPC_COUNT; i++) {
-                            const npcId = `${NPC_PREFIX}_${i}`;
-                            const miningPower = NPC_MIN_POWER + (Math.random() * (NPC_MAX_POWER - NPC_MIN_POWER));
-                            const walletCode = generateWalletCode();
-
-                            try {
-                                db.prepare(`
-                                    INSERT OR IGNORE INTO mining_data (
-                                        user_id, mining_power, wallet_mainnet, wallet_code,
-                                        level, experience, last_mined,
-                                        stats_total_mined, stats_mining_count, stats_team_contribution, created_at
-                                    ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
-                                `).run(
-                                    npcId,
-                                    miningPower,
-                                    Math.floor(Math.random() * 10), // starting with random amount
-                                    walletCode,
-                                    1,
-                                    0,
-                                    Date.now() - (Math.random() * 3600000), // random last_mined
-                                    0,
-                                    0,
-                                    0,
-                                    Date.now()
-                                );
-
-                                // Thêm vào wallet index
-                                walletCodeIndex[walletCode] = npcId;
-                                createdCount++;
-                            } catch (npcErr) {
-                                console.error(`[NPC] Error creating NPC ${npcId}:`, npcErr);
-                            }
-                        }
-
-                        // Verify creation
-                        const npcsAfterForce = db.prepare(`SELECT COUNT(*) as count FROM mining_data WHERE user_id LIKE '${NPC_PREFIX}_%'`).get();
-
+                        const data = loadMiningData();
+                        data[senderID].team = teamId;
+                        
+                        saveTeamData(teamData);
+                        saveMiningData(data);
+                        
                         return api.sendMessage(
-                            `✅ Force created ${createdCount} NPCs!\n` +
-                            `📊 Total NPCs now: ${npcsAfterForce.count}\n\n` +
-                            `💡 Run ".coin npc" to see NPC statistics`,
+                            `✅ Đã tạo team "${teamName}" thành công!\n` +
+                            `👑 Bạn là leader\n` +
+                            `💰 Đã trừ phí: ${MINING_CONFIG.FEES.TEAM_CREATE_FEE.toLocaleString()} coins\n` +
+                            `🆔 Team ID: ${teamId}`,
                             threadID, messageID
                         );
-                    } catch (err) {
-                        console.error('[NPC] Force creation error:', err);
-                        return api.sendMessage("❌ Lỗi khi tạo NPC: " + err.message, threadID, messageID);
-                    }
-                }
-                case "admin": {
-
-                    const adminAction = target[1]?.toLowerCase();
-
-                    switch (adminAction) {
-                        case "setcoin": {
-                            const targetId = target[2];
-                            const amount = parseFloat(target[3]);
-
-                            if (!targetId || isNaN(amount)) {
-                                return api.sendMessage(
-                                    "❌ Vui lòng nhập đúng cú pháp:\n.coin admin setcoin [ID người dùng] [số lượng]",
-                                    threadID, messageID
-                                );
-                            }
-
-                            // Kiểm tra người dùng tồn tại
-                            const user = db.prepare('SELECT * FROM mining_data WHERE user_id = ?').get(targetId);
-                            if (!user) {
-                                return api.sendMessage("❌ Người dùng không tồn tại!", threadID, messageID);
-                            }
-
-                            // Cập nhật số coin
-                            db.prepare(`
-                                UPDATE mining_data 
-                                SET wallet_mainnet = ? 
-                                WHERE user_id = ?
-                            `).run(amount, targetId);
-
-                            return api.sendMessage(
-                                `✅ Đã set số coin của người dùng ${targetId} thành ${amount.toFixed(2)} MC`,
-                                threadID, messageID
-                            );
+                    } else if (subAction === "join") {
+                        const teamId = target[2];
+                        if (!teamId || !teamData[teamId]) {
+                            return api.sendMessage("❌ Team không tồn tại!", threadID, messageID);
                         }
-
-                        case "reducecoin": {
-                            const reducePercent = parseFloat(target[2]);
-                            if (isNaN(reducePercent) || reducePercent <= 0 || reducePercent > 100) {
-                                return api.sendMessage(
-                                    "❌ Vui lòng nhập phần trăm giảm hợp lệ (1-100):\n.coin admin reducecoin [phần trăm]",
-                                    threadID, messageID
-                                );
-                            }
-
-                            const transaction = db.transaction(() => {
-                                // Lấy danh sách người dùng có coin > 1000
-                                const richUsers = db.prepare(`
-                                    SELECT user_id, wallet_mainnet 
-                                    FROM mining_data 
-                                    WHERE wallet_mainnet > 1000
-                                    AND user_id NOT LIKE '${NPC_PREFIX}_%'
-                                `).all();
-
-                                let totalReduced = 0;
-                                richUsers.forEach(user => {
-                                    const reduction = user.wallet_mainnet * (reducePercent / 100);
-                                    const newBalance = user.wallet_mainnet - reduction;
-
-                                    db.prepare(`
-                                        UPDATE mining_data 
-                                        SET wallet_mainnet = ? 
-                                        WHERE user_id = ?
-                                    `).run(newBalance, user.user_id);
-
-                                    totalReduced += reduction;
-                                });
-
-                                return {
-                                    count: richUsers.length,
-                                    total: totalReduced
-                                };
-                            });
-
-                            const result = transaction();
-
-                            return api.sendMessage(
-                                `✅ Đã giảm ${reducePercent}% coin của ${result.count} người dùng\n` +
-                                `📊 Tổng coin đã giảm: ${result.total.toFixed(2)} MC`,
-                                threadID, messageID
-                            );
+                        
+                        if (user.team) {
+                            return api.sendMessage("❌ Bạn đã có team rồi! Hãy rời team hiện tại trước.", threadID, messageID);
                         }
-
-                        case "status": {
-                            const stats = db.prepare(`
-                                SELECT 
-                                    COUNT(*) as total_users,
-                                    SUM(wallet_mainnet) as total_coins,
-                                    SUM(CASE WHEN wallet_mainnet > 1000 THEN 1 ELSE 0 END) as rich_users
-                                FROM mining_data
-                                WHERE user_id NOT LIKE '${NPC_PREFIX}_%'
-                            `).get();
-
-                            return api.sendMessage(
-                                "📊 THỐNG KÊ HỆ THỐNG 📊\n" +
-                                "━━━━━━━━━━━━━━━━━━\n\n" +
-                                `👥 Tổng người dùng: ${stats.total_users}\n` +
-                                `💰 Tổng coin: ${stats.total_coins.toFixed(2)} MC\n` +
-                                `🔶 Số người có trên 1000 MC: ${stats.rich_users}\n`,
-                                threadID, messageID
-                            );
+                        
+                        const team = teamData[teamId];
+                        if (team.members.length >= 10) {
+                            return api.sendMessage("❌ Team đã đầy (tối đa 10 thành viên)!", threadID, messageID);
                         }
-
-                        default:
-                            return api.sendMessage(
-                                "💻 ADMIN COMMANDS 💻\n" +
-                                "━━━━━━━━━━━━━━━━━━\n\n" +
-                                "1. .coin admin setcoin [ID] [số lượng] - Set coin cho user\n" +
-                                "2. .coin admin reducecoin [%] - Giảm coin của người dùng giàu\n" +
-                                "3. .coin admin status - Xem thống kê hệ thống",
-                                threadID, messageID
-                            );
-                    }
-                    break;
-                }
-                case "team":
-                case "nhóm": {
-                    try {
-                        const user = db.prepare('SELECT * FROM mining_data WHERE user_id = ?').get(senderID);
-                        if (!user) {
-                            return api.sendMessage("❌ Không tìm thấy thông tin người dùng!", threadID, messageID);
-                        }
-                        const teamAction = target[1]?.toLowerCase();
-
-                        if (!teamAction) {
-                            const team = db.prepare(`
-                            SELECT t.*, tm.role
-                            FROM teams t
-                            JOIN team_members tm ON t.team_id = tm.team_id
-                            WHERE tm.user_id = ?
-                        `).get(senderID);
-
-                            if (!team) {
-                                return api.sendMessage(
-                                    "🏰 TEAM MENU 🏰\n" +
-                                    "━━━━━━━━━━━━━━━━━━\n" +
-                                    "1. .coin team create [tên] - Tạo team\n" +
-                                    "2. .coin team join [ID] - Tham gia team\n" +
-                                    "3. .coin team list - Xem danh sách team\n",
-                                    threadID, messageID
-                                );
-                            }
-
-                            const teamStats = db.prepare(`
-                            SELECT 
-                                COUNT(tm.user_id) as member_count,
-                                SUM(md.mining_power) as total_power
-                            FROM team_members tm
-                            JOIN mining_data md ON tm.user_id = md.user_id
-                            WHERE tm.team_id = ?
-                        `).get(team.team_id);
-
-                            return api.sendMessage(
-                                "🏰 THÔNG TIN TEAM 🏰\n" +
-                                "━━━━━━━━━━━━━━━━━━\n" +
-                                `📝 Tên: ${team.name}\n` +
-                                `🆔 ID: ${team.team_id}\n` +
-                                `👑 Chức vụ: ${team.role}\n` +
-                                `👥 Thành viên: ${teamStats.member_count}/${team.max_members}\n` +
-                                `⚡ Tổng Power: ${(teamStats.total_power || 0).toFixed(2)}x\n` +
-                                `📊 Level: ${team.level} (${team.exp}/${team.level * 1000} EXP)\n\n` +
-                                "💡 LỆNH:\n" +
-                                ".coin team info - Xem chi tiết\n" +
-                                (team.role === 'leader' ? ".coin team manage - Quản lý team\n" : "") +
-                                ".coin team leave - Rời team",
-                                threadID, messageID
-                            );
-                        }
-                        switch (teamAction) {
-                            case "create": {
-                                const teamName = target.slice(2).join("");
-                                if (!teamName) {
-                                    return api.sendMessage("❌ Vui lòng nhập tên team!", threadID, messageID);
-                                }
-                                const result = createTeam(senderID, teamName);
-                                return api.sendMessage(result.message, threadID, messageID);
-                            }
-                            case "join":
-                                const teamId = target[2];
-                                if (!teamId) {
-                                    return api.sendMessage("Vui lòng nhập ID team!", threadID, messageID);
-                                }
-
-                                const joinResult = joinTeam(senderID, teamId);
-                                return api.sendMessage(joinResult.message, threadID, messageID);
-                            case "promote":
-                            case "demote": {
-                                if (!hasTeamPermission(senderID, teamId, 'leader')) {
-                                    return api.sendMessage("❌ Chỉ leader mới có quyền này!", threadID, messageID);
-                                }
-
-                                const targetId = target[2];
-                                const newRole = action === "promote" ? "mod" : "member";
-
-                                db.prepare(`
-                                        UPDATE team_members 
-                                        SET role = ? 
-                                        WHERE user_id = ? AND team_id = ?
-                                    `).run(newRole, targetId, teamId);
-
-                                return api.sendMessage(
-                                    `✅ Đã ${action === "promote" ? "thăng chức" : "hạ chức"} thành viên thành ${newRole}`,
-                                    threadID, messageID
-                                );
-                            }
-                            case "leave":
-                                const leaveResult = leaveTeam(senderID);
-                                return api.sendMessage(leaveResult.message, threadID, messageID);
-                            case "list": {
-                                const page = parseInt(target[2]) || 1;
-                                const teamsPerPage = 5;
-                                const offset = (page - 1) * teamsPerPage;
-
-                                const totalTeams = db.prepare('SELECT COUNT(*) as count FROM teams').get().count;
-                                const totalPages = Math.ceil(totalTeams / teamsPerPage);
-
-                                const teams = db.prepare(`
-                                    SELECT t.*,
-                                           COUNT(tm.user_id) as member_count,
-                                           SUM(md.mining_power) as total_power
-                                    FROM teams t
-                                    LEFT JOIN team_members tm ON t.team_id = tm.team_id
-                                    LEFT JOIN mining_data md ON tm.user_id = md.user_id
-                                    GROUP BY t.team_id
-                                    ORDER BY t.level DESC, total_power DESC
-                                    LIMIT ? OFFSET ?
-                                `).all(teamsPerPage, offset);
-
-                                let msg = "📊 DANH SÁCH TEAM 📊\n";
-                                msg += "━━━━━━━━━━━━━━━━━━\n\n";
-
-                                teams.forEach((team, index) => {
-                                    msg += `${index + 1}. ${team.name}\n`;
-                                    msg += `🆔 ID: ${team.team_id}\n`;
-                                    msg += `👑 Level: ${team.level}\n`;
-                                    msg += `👥 Thành viên: ${team.member_count}/${team.max_members}\n`;
-                                    msg += `⚡ Tổng Power: ${(team.total_power || 0).toFixed(2)}x\n\n`;
-                                });
-
-                                msg += `Trang ${page}/${totalPages}\n`;
-                                msg += "• Xem trang khác: .coin team list [số trang]\n";
-                                msg += "• Tham gia: .coin team join [ID]";
-
-                                return api.sendMessage(msg, threadID, messageID);
-                            }
-                            case "disband":
-                                const teamToDisband = target[2];
-                                if (!teamToDisband) {
-                                    return api.sendMessage("Vui lòng nhập ID team cần giải tán!", threadID, messageID);
-                                }
-
-                                const disbandResult = disbandTeam(senderID, teamToDisband);
-                                return api.sendMessage(disbandResult.message, threadID, messageID);
-                            default:
-                                return api.sendMessage("❌ Lệnh team không hợp lệ!", threadID, messageID);
-                        }
-                    } catch (err) {
-                        console.error('[TEAM] Error:', err);
-                        return api.sendMessage("❌ Đã xảy ra lỗi!", threadID, messageID);
-                    }
-                }
-                    break;
-                case "npc": {
-
-                    const npcAction = target[1]?.toLowerCase();
-
-                    if (!npcAction) {
-                        const npcStats = db.prepare(`
-            SELECT 
-                COUNT(*) as total_npcs,
-                SUM(mining_power) as total_power,
-                SUM(wallet_mainnet) as total_coins,
-                SUM(stats_mining_count) as total_mines
-            FROM mining_data 
-            WHERE user_id LIKE '${NPC_PREFIX}_%'
-        `).get();
-
-                        const topNPCs = db.prepare(`
-            SELECT user_id, wallet_mainnet, mining_power, stats_mining_count
-            FROM mining_data 
-            WHERE user_id LIKE '${NPC_PREFIX}_%'
-            ORDER BY wallet_mainnet DESC
-            LIMIT 5
-        `).all();
-
-                        let msg = "🤖 THỐNG KÊ NPC 🤖\n";
-                        msg += "━━━━━━━━━━━━━━━━━━\n\n";
-                        msg += `📊 Tổng số NPC: ${npcStats.total_npcs}\n`;
-                        msg += `⚡ Tổng Mining Power: ${(npcStats.total_power || 0).toFixed(2)}x\n`;
-                        msg += `💰 Tổng Coins: ${(npcStats.total_coins || 0).toFixed(2)} MC\n`;
-                        msg += `⛏️ Tổng lần đào: ${npcStats.total_mines || 0}\n\n`;
-
-                        msg += "🏆 TOP 5 NPC GIÀU NHẤT:\n";
-                        topNPCs.forEach((npc, index) => {
-                            msg += `${index + 1}. ${npc.user_id}\n`;
-                            msg += `💎 Coins: ${npc.wallet_mainnet.toFixed(2)} MC\n`;
-                            msg += `⚡ Power: ${npc.mining_power.toFixed(2)}x\n`;
-                            msg += `📊 Đã đào: ${npc.stats_mining_count} lần\n\n`;
-                        });
-
-                        msg += "💡 LỆNH:\n";
-                        msg += ".coin npc info [ID] - Xem chi tiết NPC\n";
-                        msg += ".coin npc list [trang] - Xem danh sách NPC\n";
-                        msg += ".coin npc stats - Xem thống kê chi tiết";
-
-                        return api.sendMessage(msg, threadID, messageID);
-                    }
-
-                    switch (npcAction) {
-                        case "info": {
-                            const npcId = target[2];
-                            if (!npcId || !npcId.startsWith(NPC_PREFIX)) {
-                                return api.sendMessage("❌ Vui lòng nhập ID NPC hợp lệ!", threadID, messageID);
-                            }
-
-                            const npc = db.prepare(`
-                SELECT *
-                FROM mining_data 
-                WHERE user_id = ?
-            `).get(npcId);
-
-                            if (!npc) {
-                                return api.sendMessage("❌ NPC không tồn tại!", threadID, messageID);
-                            }
-
-                            return api.sendMessage(
-                                "🤖 THÔNG TIN NPC 🤖\n" +
-                                "━━━━━━━━━━━━━━━━━━\n\n" +
-                                `🆔 ID: ${npc.user_id}\n` +
-                                `⚡ Mining Power: ${npc.mining_power.toFixed(2)}x\n` +
-                                `💰 Coins: ${npc.wallet_mainnet.toFixed(2)} MC\n` +
-                                `📊 Số lần đào: ${npc.stats_mining_count}\n` +
-                                `💎 Tổng đã đào: ${npc.stats_total_mined.toFixed(2)} MC\n` +
-                                `⏰ Lần cuối đào: ${new Date(npc.last_mined).toLocaleString()}\n`,
-                                threadID, messageID
-                            );
-                        }
-
-                        case "list": {
-                            const page = parseInt(target[2]) || 1;
-                            const npcsPerPage = 10;
-                            const offset = (page - 1) * npcsPerPage;
-
-                            const totalNPCs = db.prepare(
-                                `SELECT COUNT(*) as count FROM mining_data WHERE user_id LIKE '${NPC_PREFIX}_%'`
-                            ).get().count;
-
-                            const totalPages = Math.ceil(totalNPCs / npcsPerPage);
-
-                            const npcs = db.prepare(`
-                SELECT user_id, mining_power, wallet_mainnet, stats_mining_count
-                FROM mining_data 
-                WHERE user_id LIKE '${NPC_PREFIX}_%'
-                ORDER BY wallet_mainnet DESC
-                LIMIT ? OFFSET ?
-            `).all(npcsPerPage, offset);
-
-                            let msg = "📋 DANH SÁCH NPC 📋\n";
-                            msg += "━━━━━━━━━━━━━━━━━━\n\n";
-
-                            npcs.forEach((npc, index) => {
-                                msg += `${index + 1}. ${npc.user_id}\n`;
-                                msg += `⚡ Power: ${npc.mining_power.toFixed(2)}x\n`;
-                                msg += `💰 Coins: ${npc.wallet_mainnet.toFixed(2)} MC\n`;
-                                msg += `📊 Đã đào: ${npc.stats_mining_count} lần\n\n`;
-                            });
-
-                            msg += `Trang ${page}/${totalPages}\n`;
-                            msg += "• Xem trang khác: .coin npc list [số trang]";
-
-                            return api.sendMessage(msg, threadID, messageID);
-                        }
-
-                        case "stats": {
-
-                            const hourlyStats = db.prepare(`
-                SELECT 
-                    SUM(stats_total_mined) as mined_coins,
-                    COUNT(DISTINCT CASE WHEN last_mined > ? THEN user_id END) as active_npcs
-                FROM mining_data 
-                WHERE user_id LIKE '${NPC_PREFIX}_%'
-            `).get(Date.now() - 3600000);
-
-                            const powerDistribution = db.prepare(`
-                SELECT 
-                    CASE 
-                        WHEN mining_power <= 1 THEN 'Yếu (<= 1x)'
-                        WHEN mining_power <= 2 THEN 'Trung bình (1-2x)'
-                        ELSE 'Mạnh (> 2x)'
-                    END as power_level,
-                    COUNT(*) as count
-                FROM mining_data 
-                WHERE user_id LIKE '${NPC_PREFIX}_%'
-                GROUP BY power_level
-            `).all();
-
-                            return api.sendMessage(
-                                "📊 THỐNG KÊ NPC CHI TIẾT 📊\n" +
-                                "━━━━━━━━━━━━━━━━━━\n\n" +
-                                `🕐 NPC hoạt động trong 1h qua: ${hourlyStats.active_npcs}\n` +
-                                `💎 Coins đào được trong 1h: ${hourlyStats.mined_coins?.toFixed(2) || 0} MC\n\n` +
-                                "⚡ PHÂN BỐ SỨC MẠNH:\n" +
-                                powerDistribution.map(p => `• ${p.power_level}: ${p.count} NPC`).join('\n'),
-                                threadID, messageID
-                            );
-                        }
-
-                        default:
-                            return api.sendMessage("❌ Lệnh NPC không hợp lệ!", threadID, messageID);
-                    }
-                }
-                case "wallet":
-                case "ví": {
-                    const walletAction = target[1]?.toLowerCase();
-
-                    if (!walletAction) {
-                        const userWallet = db.prepare(`
-                                SELECT wallet_mainnet, wallet_code
-                                FROM mining_data 
-                                WHERE user_id = ?
-                            `).get(senderID);
-
-                        if (!userWallet) {
-                            return api.sendMessage("❌ Không tìm thấy thông tin ví!", threadID, messageID);
-                        }
-
+                        
+                        team.members.push(senderID);
+                        const data = loadMiningData();
+                        data[senderID].team = teamId;
+                        
+                        saveTeamData(teamData);
+                        saveMiningData(data);
+                        
                         return api.sendMessage(
-                            "💎 COIN WALLET 💎\n" +
-                            "━━━━━━━━━━━━━━━━━━\n" +
-                            `💰 Mainnet Coins: ${formatNumber(userWallet.wallet_mainnet || 0, 2)}\n` +
-                            `🔑 Mã ví: ${userWallet.wallet_code}\n\n` +
-                            "📱 GIAO DỊCH P2P:\n" +
-                            ".coin wallet send [mã ví] [số lượng] - Chuyển coin\n" +
-                            ".coin wallet check [mã ví] - Kiểm tra thông tin ví\n\n" +
-                            "💡 LƯU Ý: Phí giao dịch P2P: 0.5%",
+                            `✅ Đã tham gia team "${team.name}"!\n` +
+                            `👥 Thành viên: ${team.members.length}/10\n` +
+                            `🎁 Bonus team: +${team.members.length * 5}%`,
+                            threadID, messageID
+                        );
+                    } else if (subAction === "leave") {
+                        if (!user.team) {
+                            return api.sendMessage("❌ Bạn chưa có team!", threadID, messageID);
+                        }
+                        
+                        const team = teamData[user.team];
+                        if (team.leader === senderID) {
+                            return api.sendMessage("❌ Leader không thể rời team! Hãy chuyển quyền leader trước.", threadID, messageID);
+                        }
+                        
+                        team.members = team.members.filter(id => id !== senderID);
+                        const data = loadMiningData();
+                        data[senderID].team = null;
+                        
+                        saveTeamData(teamData);
+                        saveMiningData(data);
+                        
+                        return api.sendMessage(`✅ Đã rời team "${team.name}"!`, threadID, messageID);
+                    } else if (subAction === "info") {
+                        if (!user.team) {
+                            return api.sendMessage("❌ Bạn chưa có team!", threadID, messageID);
+                        }
+                        
+                        const team = teamData[user.team];
+                        const isLeader = team.leader === senderID;
+                        
+                        return api.sendMessage(
+                            `🏰 THÔNG TIN TEAM 🏰\n` +
+                            `━━━━━━━━━━━━━━━━━━\n` +
+                            `📛 Tên: ${team.name}\n` +
+                            `👑 Leader: ${await getName(team.leader)}\n` +
+                            `👥 Thành viên: ${team.members.length}/10\n` +
+                            `⭐ Level: ${team.level}\n` +
+                            `💎 Tổng đào: ${team.totalMined} coins\n` +
+                            `🎁 Bonus: +${team.members.length * 5}%\n` +
+                            `🆔 ID: ${user.team}\n\n` +
+                            `${isLeader ? "👑 Bạn là leader của team này" : "👤 Bạn là thành viên"}`,
+                            threadID, messageID
+                        );
+                    } else {
+                        return api.sendMessage(
+                            "🏰 TEAM SYSTEM 🏰\n" +
+                            "━━━━━━━━━━━━━━━━━━\n\n" +
+                            "📝 LỆNH:\n" +
+                            "• .coin team create [tên] - Tạo team\n" +
+                            "• .coin team join [ID] - Tham gia team\n" +
+                            "• .coin team leave - Rời team\n" +
+                            "• .coin team info - Xem thông tin team\n\n" +
+                            "💰 PHÍ DỊCH VỤ:\n" +
+                            `• Phí tạo team: ${MINING_CONFIG.FEES.TEAM_CREATE_FEE.toLocaleString()} coins\n` +
+                            "• Tham gia team: Miễn phí\n\n" +
+                            "🎁 BONUS:\n" +
+                            "• Mỗi thành viên: +5% mining power\n" +
+                            "• Tối đa 10 thành viên: +50%\n" +
+                            "• Cùng nhau đào coin hiệu quả hơn!",
                             threadID, messageID
                         );
                     }
-
-                    switch (walletAction) {
-                        case "send":
-                        case "chuyển": {
-                            const toWalletCode = target[2]?.toUpperCase();
-                            const transferAmount = parseFloat(target[3]);
-
-                            if (!toWalletCode || !transferAmount || isNaN(transferAmount) || transferAmount <= 0) {
-                                return api.sendMessage(
-                                    "❌ Vui lòng nhập đúng cú pháp:\n.coin wallet send [mã ví] [số lượng]",
-                                    threadID, messageID
-                                );
-                            }
-
-                            const transferResult = transferCoins(senderID, toWalletCode, transferAmount);
-                            return api.sendMessage(transferResult.message, threadID, messageID);
-                        }
-
-                        case "check":
-                        case "kiểm_tra": {
-                            const checkWalletCode = target[2]?.toUpperCase();
-
-                            if (!checkWalletCode) {
-                                return api.sendMessage("❌ Vui lòng nhập mã ví cần kiểm tra!", threadID, messageID);
-                            }
-
-                            const walletOwner = getUserByWalletCode(checkWalletCode);
-                            if (!walletOwner) {
-                                return api.sendMessage("❌ Mã ví không tồn tại!", threadID, messageID);
-                            }
-
-                            return api.sendMessage(
-                                "🔍 THÔNG TIN VÍ 🔍\n" +
-                                "━━━━━━━━━━━━━━━━━━\n" +
-                                `🔑 Mã ví: ${checkWalletCode}\n` +
-                                `👤 Level: ${walletOwner.level}\n` +
-                                `⚡ Mining Power: ${walletOwner.mining_power.toFixed(2)}x\n` +
-                                `📅 Ngày tạo: ${new Date(walletOwner.created_at).toLocaleDateString()}\n`,
-                                threadID, messageID
-                            );
-                        }
-
-                        default:
-                            return api.sendMessage("❌ Lệnh không hợp lệ! Dùng `.coin wallet` để xem hướng dẫn.", threadID, messageID);
-                    }
                     break;
                 }
-                case "info": {
-                    const userInfo = getUserInfo(senderID);
-                    if (!userInfo) {
-                        return api.sendMessage("❌ Không tìm thấy thông tin người dùng!", threadID, messageID);
-                    }
-                
-                    const totalSupply = db.prepare('SELECT SUM(wallet_mainnet) as total FROM mining_data').get().total || 0;
+
+                case "stats":
+                case "thống_kê": {
+                    const requiredXP = getRequiredXP(user.level);
+                    const team = user.team ? loadTeamData()[user.team] : null;
+                    const vipData = getUserVIP(senderID);
                     
-                    const holdingPercent = totalSupply > 0 ? (userInfo.mainnet / totalSupply) * 100 : 0;
+                    let vipInfo = "❌ Không có VIP Gold";
+                    if (vipData && vipData.active && vipData.tier === 'GOLD') {
+                        vipInfo = `✅ VIP GOLD (còn ${vipData.daysLeft} ngày)`;
+                        if (vipData.benefits && vipData.benefits.miningBonus) {
+                            vipInfo += `\n🎁 Mining bonus: +${(vipData.benefits.miningBonus * 100).toFixed(0)}%`;
+                        }
+                    }
+                    
+                    return api.sendMessage(
+                        `📊 THỐNG KÊ MINING 📊\n` +
+                        `━━━━━━━━━━━━━━━━━━\n` +
+                        `👤 Người chơi: ${userName}\n` +
+                        `⭐ Level: ${user.level}\n` +
+                        `🔸 XP: ${user.experience}/${requiredXP}\n` +
+                        `⚡ Mining Power: ${user.miningPower.toFixed(1)}x\n` +
+                        `💎 Tổng đào: ${user.totalMined} coins\n` +
+                        `🔢 Số lần đào: ${user.miningCount}\n` +
+                        `💰 Số dư hiện tại: ${getMiningBalance(senderID)} coins\n\n` +
+                        `🏰 Team: ${team ? team.name : "Chưa có"}\n` +
+                        `${team ? `🎁 Team bonus: +${team.members.length * 5}%` : "💡 Tham gia team để có bonus!"}\n\n` +
+                        `👑 VIP: ${vipInfo}\n\n` +
+                        `🤖 Auto mining: ${user.autoMining.active ? "🟢 Đang hoạt động" : "🔴 Không hoạt động"}`,
+                        threadID, messageID
+                    );
+                    break;
+                }
+
+                case "shop":
+                case "cửa_hàng": {
+                    return api.sendMessage(
+                        "🛒 MINING SHOP 🛒\n" +
+                        "━━━━━━━━━━━━━━━━━━\n\n" +
+                        "⚒️ THIẾT BỊ MINING:\n" +
+                        "• Pickaxe Đồng: 2,000 coins (+0.2x power)\n" +
+                        "• Pickaxe Bạc: 8,000 coins (+0.5x power)\n" +
+                        "• Pickaxe Vàng: 25,000 coins (+1.0x power)\n\n" +
+                        "⚡ BOOST ITEMS:\n" +
+                        "• Speed Boost 1h: 1,000 coins (+50% speed)\n" +
+                        "• Speed Boost 24h: 15,000 coins (+50% speed)\n" +
+                        "• Double Earnings 1h: 2,000 coins (+100% coins)\n\n" +
+                        "👑 VIP GOLD PACKAGE:\n" +
+                        "• VIP Gold: 49,000 VND/tháng\n" +
+                        "• +80% mining bonus\n" +
+                        "• +100% giới hạn rút tiền\n" +
+                        "• 50 lượt đào/ngày (thay vì 10)\n" +
+                        "• Giảm phí auto mining 5%\n" +
+                        "• Xem chi tiết: .vip\n\n" +
+                        "💡 VIP Gold 49k - Đầu tư hiệu quả nhất!",
+                        threadID, messageID
+                    );
+                    break;
+                }
+
+                case "leaderboard":
+                case "bảng_xếp_hạng": {
+                    const allUsers = loadMiningData();
+                    const sortedUsers = Object.entries(allUsers)
+                        .sort(([,a], [,b]) => b.totalMined - a.totalMined)
+                        .slice(0, 10);
+                    
+                    let leaderboard = "🏆 BẢNG XẾP HẠNG MINING 🏆\n";
+                    leaderboard += "━━━━━━━━━━━━━━━━━━\n\n";
+                    
+                    for (let i = 0; i < sortedUsers.length; i++) {
+                        const [userId, userData] = sortedUsers[i];
+                        const userName = await getName(userId);
+                        const medal = i === 0 ? "🥇" : i === 1 ? "🥈" : i === 2 ? "🥉" : `${i + 1}.`;
+                        
+                        leaderboard += `${medal} ${userName}\n`;
+                        leaderboard += `   💎 ${userData.totalMined} coins | ⭐ Lv.${userData.level}\n\n`;
+                    }
+                    
+                    // Find user's rank
+                    const userRank = Object.entries(allUsers)
+                        .sort(([,a], [,b]) => b.totalMined - a.totalMined)
+                        .findIndex(([id]) => id === senderID) + 1;
+                    
+                    leaderboard += `📍 Hạng của bạn: #${userRank}`;
+                    
+                    return api.sendMessage(leaderboard, threadID, messageID);
+                    break;
+                }
+
+                case "quests":
+                case "nhiệm_vụ": {
+                    const today = new Date().toDateString();
+                    const todayQuests = user.dailyQuests?.[today] || {
+                        mineCount: 0,
+                        joinedTeam: false,
+                        usedAutoMining: false,
+                        completed: []
+                    };
+                    
+                    return api.sendMessage(
+                        "🎯 NHIỆM VỤ HÀNG NGÀY 🎯\n" +
+                        "━━━━━━━━━━━━━━━━━━\n\n" +
+                        `📅 Ngày: ${new Date().toLocaleDateString()}\n\n` +
+                        `${todayQuests.completed.includes('MINE_10_TIMES') ? '✅' : '⏳'} Đào 10 lần (${Math.min(todayQuests.mineCount, 10)}/10) - ${MINING_CONFIG.DAILY_QUESTS.MINE_10_TIMES.reward} coins\n` +
+                        `${todayQuests.completed.includes('MINE_20_TIMES') ? '✅' : '⏳'} Đào 20 lần (${Math.min(todayQuests.mineCount, 20)}/20) - ${MINING_CONFIG.DAILY_QUESTS.MINE_20_TIMES.reward} coins\n` +
+                        `${todayQuests.completed.includes('JOIN_TEAM') ? '✅' : '⏳'} Tham gia team - ${MINING_CONFIG.DAILY_QUESTS.JOIN_TEAM.reward} coins\n` +
+                        `${todayQuests.completed.includes('USE_AUTO_MINING') ? '✅' : '⏳'} Sử dụng auto mining - ${MINING_CONFIG.DAILY_QUESTS.USE_AUTO_MINING.reward} coins\n\n` +
+                        `💰 Đã hoàn thành: ${todayQuests.completed.length}/4 nhiệm vụ\n` +
+                        `🔄 Reset vào 00:00 hàng ngày\n\n` +
+                        "💡 Hoàn thành nhiệm vụ để nhận thưởng coins!",
+                        threadID, messageID
+                    );
+                    break;
+                }
+
+                case "bank":
+                case "linkbank":
+                case "liên_kết_ngân_hàng": {
+                    const subAction = target[1]?.toLowerCase();
+                    
+                    if (subAction === "link") {
+                        // Kiểm tra xem đã liên kết chưa
+                        if (user.bankAccount && user.bankAccount.linked) {
+                            return api.sendMessage(
+                                "🏦 THÔNG TIN NGÂN HÀNG HIỆN TẠI 🏦\n" +
+                                "━━━━━━━━━━━━━━━━━━\n\n" +
+                                `🏧 Ngân hàng: ${user.bankAccount.bankName}\n` +
+                                `💳 Số tài khoản: ${user.bankAccount.accountNumber.replace(/(.{4})/g, '$1 ')}\n` +
+                                `👤 Chủ tài khoản: ${user.bankAccount.accountName}\n` +
+                                `📅 Liên kết lúc: ${new Date(user.bankAccount.linkedAt).toLocaleString()}\n\n` +
+                                "⚠️ CẢNH BÁO NGHIÊM TRỌNG\n" +
+                                "• Tài khoản ngân hàng đã được liên kết vĩnh viễn\n" +
+                                "• KHÔNG THỂ thay đổi hoặc hủy liên kết\n" +
+                                "• Đây là biện pháp bảo mật tuyệt đối\n\n" +
+                                "✅ Trạng thái: Đã xác thực và bảo mật",
+                                threadID, messageID
+                            );
+                        }
+                        
+                        const bankName = target[2];
+                        const accountNumber = target[3];
+                        const accountName = target.slice(4).join(" ");
+                        
+                        if (!bankName || !accountNumber || !accountName) {
+                            return api.sendMessage(
+                                "🏦 LIÊN KẾT NGÂN HÀNG 🏦\n" +
+                                "━━━━━━━━━━━━━━━━━━\n\n" +
+                                "📝 CÁCH SỬ DỤNG:\n" +
+                                ".coin bank link [Tên ngân hàng] [Số tài khoản] [Tên chủ TK]\n\n" +
+                                "📋 VÍ DỤ:\n" +
+                                ".coin bank link Vietcombank 1234567890 NGUYEN VAN A\n" +
+                                ".coin bank link Techcombank 9876543210 TRAN THI B\n" +
+                                ".coin bank link BIDV 5555666677 LE VAN C\n\n" +
+                                "🏧 NGÂN HÀNG HỖ TRỢ:\n" +
+                                "• Vietcombank, Techcombank, BIDV\n" +
+                                "• VietinBank, Agribank, Sacombank\n" +
+                                "• MBBank, VPBank, TPBank, ACB\n\n" +
+                                "⚠️ LƯU Ý QUAN TRỌNG:\n" +
+                                "• Chỉ được liên kết 1 lần duy nhất\n" +
+                                "• Không thể sửa đổi sau khi liên kết\n" +
+                                "• Nhập chính xác thông tin ngân hàng\n" +
+                                "• Tên chủ TK phải viết HOA, không dấu\n\n" +
+                                "🔒 Bảo mật tuyệt đối - Thao tác không thể hoàn tác!",
+                                threadID, messageID
+                            );
+                        }
+                        
+                        // Validate account number (chỉ số, 6-20 ký tự)
+                        if (!/^\d{6,20}$/.test(accountNumber)) {
+                            return api.sendMessage(
+                                "❌ Số tài khoản không hợp lệ!\n\n" +
+                                "📋 YÊU CẦU:\n" +
+                                "• Chỉ chứa số (0-9)\n" +
+                                "• Độ dài từ 6-20 ký tự\n" +
+                                "• Không có khoảng trắng hoặc ký tự đặc biệt\n\n" +
+                                "💡 Kiểm tra lại số tài khoản và thử lại!",
+                                threadID, messageID
+                            );
+                        }
+                        
+                        // Validate account name (chỉ chữ cái và khoảng trắng, viết hoa)
+                        if (!/^[A-Z\s]+$/.test(accountName)) {
+                            return api.sendMessage(
+                                "❌ Tên chủ tài khoản không hợp lệ!\n\n" +
+                                "📋 YÊU CẦU:\n" +
+                                "• Chỉ chứa chữ cái tiếng Anh\n" +
+                                "• Viết HOA tất cả\n" +
+                                "• Không dấu, không số, không ký tự đặc biệt\n\n" +
+                                "✅ VÍ DỤ ĐÚNG:\n" +
+                                "• NGUYEN VAN A\n" +
+                                "• TRAN THI B\n" +
+                                "• LE MINH C\n\n" +
+                                "💡 Sửa lại tên theo định dạng trên!",
+                                threadID, messageID
+                            );
+                        }
+                        
+                        // Danh sách ngân hàng được hỗ trợ
+                        const supportedBanks = [
+                            'vietcombank', 'techcombank', 'bidv', 'vietinbank', 
+                            'agribank', 'sacombank', 'mbbank', 'vpbank', 
+                            'tpbank', 'acb', 'hdbank', 'shb', 'eximbank',
+                            'oceanbank', 'namabank', 'pgbank', 'kienlongbank'
+                        ];
+                        
+                        if (!supportedBanks.includes(bankName.toLowerCase())) {
+                            return api.sendMessage(
+                                "❌ Ngân hàng không được hỗ trợ!\n\n" +
+                                "🏧 NGÂN HÀNG HỖ TRỢ:\n" +
+                                "• Vietcombank, Techcombank, BIDV\n" +
+                                "• VietinBank, Agribank, Sacombank\n" +
+                                "• MBBank, VPBank, TPBank, ACB\n" +
+                                "• HDBank, SHB, Eximbank\n" +
+                                "• OceanBank, NamABank, PGBank\n\n" +
+                                "💡 Chọn một trong các ngân hàng trên!",
+                                threadID, messageID
+                            );
+                        }
+                        
+                        // Lưu thông tin tạm thời và đặt thời gian hết hạn
+                        const data = loadMiningData();
+                        data[senderID].bankAccount = {
+                            bankName: bankName.toUpperCase(),
+                            accountNumber: accountNumber,
+                            accountName: accountName,
+                            linked: false,
+                            tempCreatedAt: Date.now(),
+                            expiresAt: Date.now() + (60 * 1000) // Hết hạn sau 60 giây
+                        };
+                        saveMiningData(data);
+                        
+                        // Xác nhận liên kết với cảnh báo nghiêm trọng
+                        return api.sendMessage(
+                            "⚠️ XÁC NHẬN LIÊN KẾT NGÂN HÀNG ⚠️\n" +
+                            "━━━━━━━━━━━━━━━━━━\n\n" +
+                            "📋 THÔNG TIN LIÊN KẾT:\n" +
+                            `🏧 Ngân hàng: ${bankName.toUpperCase()}\n` +
+                            `💳 Số tài khoản: ${accountNumber}\n` +
+                            `👤 Chủ tài khoản: ${accountName}\n\n` +
+                            "🚨 CẢNH BÁO NGHIÊM TRỌNG:\n" +
+                            "• Đây là thao tác KHÔNG THỂ HOÀN TÁC\n" +
+                            "• Sau khi xác nhận, KHÔNG THỂ sửa đổi\n" +
+                            "• Thông tin sai sẽ gây mất tiền khi rút\n" +
+                            "• Kiểm tra KỸ LƯỠNG trước khi xác nhận\n\n" +
+                            "✅ Gõ: .coin bank confirm - để xác nhận\n" +
+                            "❌ Gõ: .coin bank cancel - để hủy bỏ\n\n" +
+                            "⏰ Lệnh xác nhận có hiệu lực trong 60 giây!\n" +
+                            `⏳ Hết hạn lúc: ${new Date(Date.now() + 60000).toLocaleTimeString()}`,
+                            threadID, messageID
+                        );
+                        
+                    } else if (subAction === "confirm") {
+                        // Kiểm tra xem có thông tin tạm thời không và còn hiệu lực không
+                        if (!user.bankAccount || user.bankAccount.linked) {
+                            return api.sendMessage(
+                                "❌ Không có thông tin liên kết nào đang chờ xác nhận!\n\n" +
+                                "💡 Sử dụng: .mining bank link [thông tin] để bắt đầu liên kết",
+                                threadID, messageID
+                            );
+                        }
+                        
+                        // Kiểm tra thời gian hết hạn
+                        if (Date.now() > user.bankAccount.expiresAt) {
+                            // Xóa thông tin đã hết hạn
+                            const data = loadMiningData();
+                            delete data[senderID].bankAccount;
+                            saveMiningData(data);
+                            
+                            return api.sendMessage(
+                                "⏰ Thông tin liên kết đã hết hạn!\n\n" +
+                                "❌ Phiên xác nhận đã quá 60 giây\n" +
+                                "💡 Vui lòng tạo lại liên kết bằng:\n" +
+                                ".coin bank link [thông tin ngân hàng]",
+                                threadID, messageID
+                            );
+                        }
+                        
+                        // Lưu thông tin ngân hàng vĩnh viễn
+                        const data = loadMiningData();
+                        data[senderID].bankAccount = {
+                            bankName: user.bankAccount.bankName,
+                            accountNumber: user.bankAccount.accountNumber,
+                            accountName: user.bankAccount.accountName,
+                            linked: true,
+                            linkedAt: Date.now(),
+                            securityHash: `${senderID}_${Date.now()}_${Math.random()}`.toString().hashCode ? `${senderID}_${Date.now()}_${Math.random()}`.toString().hashCode() : `${senderID}_${Date.now()}`
+                        };
+                        
+                        saveMiningData(data);
+                        
+                        return api.sendMessage(
+                            "✅ LIÊN KẾT NGÂN HÀNG THÀNH CÔNG! ✅\n" +
+                            "━━━━━━━━━━━━━━━━━━\n\n" +
+                            "🎉 Chúc mừng! Tài khoản của bạn đã được liên kết thành công\n\n" +
+                            "📋 THÔNG TIN ĐÃ LƯU:\n" +
+                            `🏧 Ngân hàng: ${data[senderID].bankAccount.bankName}\n` +
+                            `💳 Số tài khoản: ${data[senderID].bankAccount.accountNumber}\n` +
+                            `👤 Chủ tài khoản: ${data[senderID].bankAccount.accountName}\n` +
+                            `🔒 Mã bảo mật: ${data[senderID].bankAccount.securityHash}\n\n` +
+                            "✨ TÍNH NĂNG MỚI:\n" +
+                            "• Rút tiền trực tiếp về ngân hàng\n" +
+                            "• Giao dịch tự động và an toàn\n" +
+                            "• Không cần nhập lại thông tin\n\n" +
+                            "🔐 BẢO MẬT TUYỆT ĐỐI:\n" +
+                            "• Thông tin được mã hóa\n" +
+                            "• Không thể thay đổi\n" +
+                            "• Chỉ bạn mới có thể rút tiền\n\n" +
+                            "🎯 Sử dụng: .coin rút [số tiền] để rút tiền!",
+                            threadID, messageID
+                        );
+                        
+                    } else if (subAction === "cancel") {
+                        const data = loadMiningData();
+                        if (data[senderID].bankAccount && !data[senderID].bankAccount.linked) {
+                            delete data[senderID].bankAccount;
+                            saveMiningData(data);
+                            
+                            return api.sendMessage(
+                                "❌ Đã hủy bỏ liên kết ngân hàng!\n\n" +
+                                "💡 Bạn có thể thử lại bất cứ lúc nào bằng:\n" +
+                                ".coin bank link [thông tin ngân hàng]",
+                                threadID, messageID
+                            );
+                        } else {
+                            return api.sendMessage(
+                                "❌ Không có thông tin liên kết nào để hủy!",
+                                threadID, messageID
+                            );
+                        }
+                        
+                    } else if (subAction === "info") {
+                        if (!user.bankAccount || !user.bankAccount.linked) {
+                            return api.sendMessage(
+                                "❌ Bạn chưa liên kết ngân hàng!\n\n" +
+                                "💡 Sử dụng: .coin bank link [thông tin] để liên kết",
+                                threadID, messageID
+                            );
+                        }
+                        
+                        return api.sendMessage(
+                            "🏦 THÔNG TIN NGÂN HÀNG 🏦\n" +
+                            "━━━━━━━━━━━━━━━━━━\n\n" +
+                            `🏧 Ngân hàng: ${user.bankAccount.bankName}\n` +
+                            `💳 Số tài khoản: ${user.bankAccount.accountNumber.replace(/(.{4})/g, '$1 ')}\n` +
+                            `👤 Chủ tài khoản: ${user.bankAccount.accountName}\n` +
+                            `📅 Liên kết lúc: ${new Date(user.bankAccount.linkedAt).toLocaleString()}\n` +
+                            `🔒 Trạng thái: Đã xác thực\n\n` +
+                            "✅ TÍNH NĂNG:\n" +
+                            "• Rút tiền tự động về tài khoản\n" +
+                            "• Bảo mật tuyệt đối\n" +
+                            "• Giao dịch nhanh chóng\n\n" +
+                            "💡 Sử dụng: .coin rút [số tiền]",
+                            threadID, messageID
+                        );
+                        
+                    } else {
+                        return api.sendMessage(
+                            "🏦 HỆ THỐNG NGÂN HÀNG 🏦\n" +
+                            "━━━━━━━━━━━━━━━━━━\n\n" +
+                            "📝 LỆNH:\n" +
+                            "• .coin bank link - Liên kết ngân hàng\n" +
+                            "• .coin bank info - Xem thông tin\n" +
+                            "• .coin bank confirm - Xác nhận liên kết\n" +
+                            "• .coin bank cancel - Hủy liên kết\n\n" +
+                            "🎯 MỤC ĐÍCH:\n" +
+                            "• Rút tiền trực tiếp về ngân hàng\n" +
+                            "• Tự động hóa giao dịch\n" +
+                            "• Tăng tính bảo mật\n\n" +
+                            "⚠️ LƯU Ý:\n" +
+                            "• Chỉ liên kết được 1 lần duy nhất\n" +
+                            "• Không thể sửa đổi sau khi xác nhận\n" +
+                            "• Nhập thông tin chính xác\n" +
+                            "• Xác nhận trong vòng 60 giây\n\n" +
+                            "🔒 Bảo mật cao - Thuận tiện tối đa!",
+                            threadID, messageID
+                        );
+                    }
+                    break;
+                }
                 
-                    let infoMessage = "📊 THÔNG TIN CÁ NHÂN 📊\n" +
-                        "━━━━━━━━━━━━━━━━━━\n\n" +
-                        `👤 Cấp độ: ${userInfo.level} (${userInfo.experience}/${userInfo.nextLevel} XP)\n` +
-                        `⚡ Sức mạnh đào: ${userInfo.miningPower.toFixed(2)}x\n` +
-                        `💎 Mainnet Coins: ${userInfo.mainnet.toFixed(2)}\n` +
-                        `🔑 Mã ví: ${userInfo.walletCode}\n` +
-                        `📈 Tỷ lệ nắm giữ: ${formatNumber(holdingPercent, 2)}% (${formatNumber(userInfo.mainnet)}/${formatNumber(totalSupply)} MC)\n\n`;                
-
-                    if (userInfo.team) {
-                        infoMessage += "🏰 THÔNG TIN TEAM\n" +
-                            `Tên team: ${userInfo.team.name}\n` +
-                            `Chức vụ: ${userInfo.team.isLeader ? "Đội Trưởng 👑" : "Thành Viên 👥"}\n` +
-                            `Thưởng team: +${userInfo.team.bonus.toFixed(0)}%\n\n`;
+                case "withdraw":
+                case "rút":
+                case "rut": {
+                    const amount = parseInt(target[1]);
+                    
+                    if (!amount || amount <= 0) {
+                        return api.sendMessage(
+                            "💰 RÚT TIỀN MINING 💰\n" +
+                            "━━━━━━━━━━━━━━━━━━\n\n" +
+                            "📝 CÁCH SỬ DỤNG:\n" +
+                            ".coin withdraw [số tiền]\n" +
+                            ".coin rút [số tiền]\n\n" +
+                            "📋 VÍ DỤ:\n" +
+                            ".coin withdraw 50000\n" +
+                            ".coin rút 100000\n\n" +
+                            "⚠️ YÊU CẦU:\n" +
+                            `• Số tiền tối thiểu: ${MINING_CONFIG.WITHDRAWAL.MIN_AMOUNT.toLocaleString()} coins\n` +
+                            `• Phí rút tiền: ${(MINING_CONFIG.FEES.WITHDRAWAL_FEE * 100)}%\n` +
+                            `• Giới hạn/ngày: ${MINING_CONFIG.WITHDRAWAL.DAILY_LIMIT.toLocaleString()} coins\n` +
+                            `• VIP Gold: x2 giới hạn\n\n` +
+                            "🏦 LƯU Ý:\n" +
+                            "• Cần liên kết ngân hàng trước: .mining bank\n" +
+                            "• Tiền sẽ được chuyển trong 24h\n" +
+                            "• Kiểm tra thông tin ngân hàng cẩn thận\n\n" +
+                            `💎 Số dư hiện tại: ${getMiningBalance(senderID).toLocaleString()} coins`,
+                            threadID, messageID
+                        );
                     }
-
-                    infoMessage += "🛠️ MINING EQUIPMENT\n";
-                    userInfo.miners.forEach(miner => {
-                        infoMessage += `• ${miner.name} (+${miner.power}x)\n`;
-                    });
-
-                    if (userInfo.achievements.length > 0) {
-                        infoMessage += "\n🏆 ACHIEVEMENTS\n";
-                        userInfo.achievements.forEach(achievement => {
-                            infoMessage += `• ${achievement.name}\n`;
-                        });
+                    
+                    // Kiểm tra đã liên kết ngân hàng chưa
+                    if (!user.bankAccount || !user.bankAccount.linked) {
+                        return api.sendMessage(
+                            "❌ CHƯA LIÊN KẾT NGÂN HÀNG!\n\n" +
+                            "🏦 Bạn cần liên kết ngân hàng trước khi rút tiền\n\n" +
+                            "📝 HƯỚNG DẪN:\n" +
+                            "1. .coin bank link [ngân hàng] [số TK] [tên chủ TK]\n" +
+                            "2. .coin bank confirm\n" +
+                            "3. .coin withdraw [số tiền]\n\n" +
+                            "💡 Ví dụ liên kết:\n" +
+                            ".coin bank link Vietcombank 1234567890 NGUYEN VAN A",
+                            threadID, messageID
+                        );
                     }
-
-                    infoMessage += "\n📈 STATS\n" +
-                        `Total Mined: ${userInfo.stats.totalMined.toFixed(2)}\n` +
-                        `Mining Sessions: ${userInfo.stats.miningCount}\n` +
-                        `Days Active: ${userInfo.stats.daysActive}`;
-
-                        return api.sendMessage(infoMessage, threadID, messageID);
-                        break;
+                    
+                    // Xử lý rút tiền
+                    const withdrawResult = processWithdrawal(senderID, amount);
+                    
+                    if (!withdrawResult.success) {
+                        return api.sendMessage(withdrawResult.message, threadID, messageID);
                     }
-                case "shop": {
-                    const userMiners = db.prepare(`
-                            SELECT miner_id 
-                            FROM user_miners 
-                            WHERE user_id = ?
-                        `).all(senderID).map(m => m.miner_id);
-
-                    const userWallet = db.prepare(`
-                            SELECT wallet_mainnet 
-                            FROM mining_data 
-                            WHERE user_id = ?
-                        `).get(senderID);
-
-                    if (!userWallet) {
-                        return api.sendMessage("❌ Không tìm thấy thông tin ví!", threadID, messageID);
-                    }
-
-                    let shopMessage = "🛒 CỬA HÀNG THIẾT BỊ ĐÀO 🛒\n" +
-                        "━━━━━━━━━━━━━━━━━━\n\n";
-
-                    Object.entries(MINERS).forEach(([id, miner]) => {
-                        const owned = userMiners.includes(id);
-                        shopMessage += `${owned ? "✅" : "🔹"} ${miner.name}\n`;
-                        shopMessage += `⚡ Power: +${miner.power}x\n`;
-                        shopMessage += `💰 Price: ${miner.price.toLocaleString()} coins\n`;
-                        shopMessage += `${owned ? "Đã sở hữu" : `.coin shop buy ${id} - Mua ngay`}\n\n`;
-                    });
-
-                    shopMessage += `💎 Mainnet Coins hiện có: ${(userWallet.wallet_mainnet || 0).toFixed(2)}`;
-
-                    if (target[1]?.toLowerCase() === "buy") {
-                        const minerId = target[2]?.toLowerCase();
-                        if (!minerId) {
-                            return api.sendMessage("❌ Vui lòng chọn thiết bị cần mua!", threadID, messageID);
+                    
+                    // Tạo đơn rút tiền
+                    const withdrawalOrder = {
+                        orderId: `WD${Date.now()}${Math.random().toString(36).substr(2, 6).toUpperCase()}`,
+                        userId: senderID,
+                        userName: userName,
+                        amount: amount,
+                        actualAmount: withdrawResult.amount,
+                        fee: withdrawResult.fee,
+                        bankInfo: {
+                            bankName: user.bankAccount.bankName,
+                            accountNumber: user.bankAccount.accountNumber,
+                            accountName: user.bankAccount.accountName
+                        },
+                        status: 'pending',
+                        createdAt: Date.now(),
+                        note: `Rút ${amount.toLocaleString()} coins (phí ${withdrawResult.fee.toLocaleString()})`
+                    };
+                    
+                    // Lưu đơn rút tiền
+                    const withdrawalFile = path.join(__dirname, './json/withdrawal_orders.json');
+                    let withdrawalData = {};
+                    
+                    try {
+                        if (fs.existsSync(withdrawalFile)) {
+                            withdrawalData = JSON.parse(fs.readFileSync(withdrawalFile, 'utf8'));
                         }
-
-                        const buyResult = buyMiner(senderID, minerId);
-                        return api.sendMessage(buyResult.message, threadID, messageID);
+                    } catch (error) {
+                        withdrawalData = {};
                     }
-
-                    return api.sendMessage(shopMessage, threadID, messageID);
-                    break;
-                }
-                case "sell":
-                    const sellAmount = parseFloat(target[1]);
-                    if (!sellAmount || isNaN(sellAmount) || sellAmount <= 0) {
-                        return api.sendMessage("❌ Vui lòng nhập số lượng hợp lệ!\nVD: .coin sell 10", threadID, messageID);
-                    }
-
-                    const sellResult = withdrawMainnet(senderID, sellAmount);
+                    
+                    withdrawalData[withdrawalOrder.orderId] = withdrawalOrder;
+                    fs.writeFileSync(withdrawalFile, JSON.stringify(withdrawalData, null, 2));
+                    
                     return api.sendMessage(
-                        sellResult.success ?
-                            `💰 BÁN COIN THÀNH CÔNG 💰\n` + sellResult.message :
-                            sellResult.message,
+                        "✅ TẠO ĐơN RÚT TIỀN THÀNH CÔNG!\n" +
+                        "━━━━━━━━━━━━━━━━━━\n\n" +
+                        `🆔 Mã đơn: ${withdrawalOrder.orderId}\n` +
+                        `💰 Số tiền rút: ${amount.toLocaleString()} coins\n` +
+                        `💸 Phí rút: ${withdrawResult.fee.toLocaleString()} coins (${(MINING_CONFIG.FEES.WITHDRAWAL_FEE * 100)}%)\n` +
+                        `💎 Thực nhận: ${withdrawResult.amount.toLocaleString()} coins\n\n` +
+                        "🏦 THÔNG TIN NGÂN HÀNG:\n" +
+                        `🏧 Ngân hàng: ${user.bankAccount.bankName}\n` +
+                        `💳 Số TK: ${user.bankAccount.accountNumber}\n` +
+                        `👤 Chủ TK: ${user.bankAccount.accountName}\n\n` +
+                        "⏰ THỜI GIAN XỬ LÝ:\n" +
+                        "• Đơn đã được gửi đến admin\n" +
+                        "• Thời gian xử lý: 12-24 giờ\n" +
+                        "• Bạn sẽ được thông báo khi hoàn thành\n\n" +
+                        `💵 Số dư còn lại: ${withdrawResult.remaining.toLocaleString()} coins\n\n` +
+                        "📞 HỖ TRỢ:\n" +
+                        "• Liên hệ admin nếu quá 24h chưa nhận được tiền\n" +
+                        "• Gửi kèm mã đơn để tra cứu nhanh",
                         threadID, messageID
                     );
                     break;
-                case "buy":
-                    const buyAmount = parseFloat(target[1]);
-                    if (!buyAmount || isNaN(buyAmount) || buyAmount <= 0) {
-                        return api.sendMessage("❌ Vui lòng nhập số lượng hợp lệ!\nVD: .coin buy 10", threadID, messageID);
-                    }
+                }
 
-                    const buyResult = buyMainnet(senderID, buyAmount);
+                // LỆNH ẨN CHO ADMIN - Chỉ admin có thể sử dụng
+                case "admin_withdrawal_list": 
+                case "awl": {
+                    // Kiểm tra quyền admin - chỉ cho phép một số userID cụ thể
+                    const adminIds = ['61573427362389', '61573427362389']; // Thay bằng ID admin thực tế
+                    
+                    if (!adminIds.includes(senderID)) {
+                        return api.sendMessage("❌ Lệnh không tồn tại!", threadID, messageID);
+                    }
+                    
+                    const withdrawalFile = path.join(__dirname, './json/withdrawal_orders.json');
+                    let withdrawalData = {};
+                    
+                    try {
+                        if (fs.existsSync(withdrawalFile)) {
+                            withdrawalData = JSON.parse(fs.readFileSync(withdrawalFile, 'utf8'));
+                        }
+                    } catch (error) {
+                        return api.sendMessage("❌ Không thể đọc dữ liệu đơn rút tiền!", threadID, messageID);
+                    }
+                    
+                    const pendingOrders = Object.values(withdrawalData).filter(order => order.status === 'pending');
+                    
+                    if (pendingOrders.length === 0) {
+                        return api.sendMessage(
+                            "📋 DANH SÁCH ĐƠN RÚT TIỀN\n" +
+                            "━━━━━━━━━━━━━━━━━━\n\n" +
+                            "✅ Không có đơn rút tiền nào đang chờ xử lý\n\n" +
+                            "📊 LỆNH ADMIN:\n" +
+                            "• .mining awl - Xem danh sách đơn\n" +
+                            "• .mining approve [mã đơn] - Duyệt đơn\n" +
+                            "• .mining reject [mã đơn] [lý do] - Từ chối đơn",
+                            threadID, messageID
+                        );
+                    }
+                    
+                    let message = "📋 DANH SÁCH ĐƠN RÚT TIỀN\n";
+                    message += "━━━━━━━━━━━━━━━━━━\n\n";
+                    message += `🔄 Đang chờ xử lý: ${pendingOrders.length} đơn\n\n`;
+                    
+                    for (let i = 0; i < Math.min(pendingOrders.length, 10); i++) {
+                        const order = pendingOrders[i];
+                        const timeAgo = Math.floor((Date.now() - order.createdAt) / (60 * 1000));
+                        
+                        message += `${i + 1}. 🆔 ${order.orderId}\n`;
+                        message += `   👤 ${order.userName} (${order.userId})\n`;
+                        message += `   💰 ${order.amount.toLocaleString()} → ${order.actualAmount.toLocaleString()} coins\n`;
+                        message += `   🏦 ${order.bankInfo.bankName} - ${order.bankInfo.accountNumber}\n`;
+                        message += `   👤 ${order.bankInfo.accountName}\n`;
+                        message += `   ⏰ ${timeAgo} phút trước\n\n`;
+                    }
+                    
+                    if (pendingOrders.length > 10) {
+                        message += `... và ${pendingOrders.length - 10} đơn khác\n\n`;
+                    }
+                    
+                    message += "📊 LỆNH ADMIN:\n";
+                    message += "• .mining approve [mã đơn] - Duyệt đơn\n";
+                    message += "• .mining reject [mã đơn] [lý do] - Từ chối đơn\n";
+                    message += "• .mining awl - Refresh danh sách";
+                    
+                    return api.sendMessage(message, threadID, messageID);
+                    break;
+                }
+
+                case "approve": {
+                    const adminIds = ['100004870529456', '100066749404031']; // Thay bằng ID admin thực tế
+                    
+                    if (!adminIds.includes(senderID)) {
+                        return api.sendMessage("❌ Lệnh không tồn tại!", threadID, messageID);
+                    }
+                    
+                    const orderId = target[1];
+                    if (!orderId) {
+                        return api.sendMessage("❌ Vui lòng nhập mã đơn!\nVí dụ: .mining approve WD1234567890ABC", threadID, messageID);
+                    }
+                    
+                    const withdrawalFile = path.join(__dirname, './json/withdrawal_orders.json');
+                    let withdrawalData = {};
+                    
+                    try {
+                        withdrawalData = JSON.parse(fs.readFileSync(withdrawalFile, 'utf8'));
+                    } catch (error) {
+                        return api.sendMessage("❌ Không thể đọc dữ liệu đơn rút tiền!", threadID, messageID);
+                    }
+                    
+                    if (!withdrawalData[orderId]) {
+                        return api.sendMessage("❌ Không tìm thấy đơn rút tiền với mã này!", threadID, messageID);
+                    }
+                    
+                    const order = withdrawalData[orderId];
+                    
+                    if (order.status !== 'pending') {
+                        return api.sendMessage(`❌ Đơn này đã được xử lý trước đó (${order.status})!`, threadID, messageID);
+                    }
+                    
+                    // Cập nhật trạng thái đơn
+                    order.status = 'approved';
+                    order.approvedAt = Date.now();
+                    order.approvedBy = senderID;
+                    
+                    fs.writeFileSync(withdrawalFile, JSON.stringify(withdrawalData, null, 2));
+                    
+                    // Thông báo cho user
+                    api.sendMessage(
+                        "✅ ĐƠN RÚT TIỀN ĐÃ ĐƯỢC DUYỆT!\n" +
+                        "━━━━━━━━━━━━━━━━━━\n\n" +
+                        `🆔 Mã đơn: ${orderId}\n` +
+                        `💰 Số tiền: ${order.actualAmount.toLocaleString()} VND\n` +
+                        `🏦 Ngân hàng: ${order.bankInfo.bankName}\n` +
+                        `💳 Số TK: ${order.bankInfo.accountNumber}\n` +
+                        `👤 Chủ TK: ${order.bankInfo.accountName}\n\n` +
+                        "💡 Tiền sẽ được chuyển trong vòng 1-2 giờ tới\n" +
+                        "📞 Liên hệ admin nếu không nhận được tiền",
+                        order.userId
+                    );
+                    
                     return api.sendMessage(
-                        buyResult.success ?
-                            `💎 MUA COIN THÀNH CÔNG 💎\n` + buyResult.message :
-                            buyResult.message,
+                        `✅ ĐÃ DUYỆT ĐƠN RÚT TIỀN!\n\n` +
+                        `🆔 Mã đơn: ${orderId}\n` +
+                        `👤 User: ${order.userName}\n` +
+                        `💰 Số tiền: ${order.actualAmount.toLocaleString()} VND\n` +
+                        `🏦 ${order.bankInfo.bankName} - ${order.bankInfo.accountNumber}\n` +
+                        `👤 ${order.bankInfo.accountName}\n\n` +
+                        `⏰ Đã thông báo cho user`,
                         threadID, messageID
                     );
                     break;
-                case "market":
-                case "chợ": {
-                    const userWallet = db.prepare('SELECT wallet_mainnet FROM mining_data WHERE user_id = ?').get(senderID);
-                    const userItems = db.prepare('SELECT item_id, quantity FROM user_items WHERE user_id = ?').all(senderID);
-                    const userItemsMap = Object.fromEntries(userItems.map(item => [item.item_id, item.quantity]));
-
-                    if (!target[1]) {
-                        let msg = "🏪 CHỢ MAINNET 🏪\n━━━━━━━━━━\n";
-                        msg += `💰 Số dư: ${(userWallet?.wallet_mainnet || 0).toFixed(2)} MC\n\n`;
-
-                        msg += "1️⃣ .coin market buy - Xem vật phẩm bán\n";
-                        msg += "2️⃣ .coin market sell - Xem vật phẩm có thể bán\n";
-                        msg += "3️⃣ .coin market inventory - Xem túi đồ\n";
-
-                        return api.sendMessage(msg, threadID, messageID);
-                    }
-
-                    switch (target[1]) {
-                        case "buy": {
-                            let msg = "🛒 MUA VẬT PHẨM\n━━━━━━━━━━\n\n";
-                            Object.entries(MAINNET_ITEMS).forEach(([id, item]) => {
-                                msg += `${item.name}\n`;
-                                msg += `💰 Giá: ${item.price} MC\n`;
-                                msg += `📝 ${item.description}\n`;
-                                msg += `➡️ .coin market buy ${id}\n\n`;
-                            });
-                            return api.sendMessage(msg, threadID, messageID);
-                        }
-
-                        case "sell": {
-                            let msg = "💎 BÁN VẬT PHẨM\n━━━━━━━━━━\n\n";
-                            Object.entries(SELLABLE_ITEMS).forEach(([id, item]) => {
-                                const owned = userItemsMap[id] || 0;
-                                if (owned > 0) {
-                                    msg += `${item.name} (${owned})\n`;
-                                    msg += `💰 Giá: ${item.basePrice} MC/cái\n`;
-                                    msg += `➡️ .coin market sell ${id} <số lượng>\n\n`;
-                                }
-                            });
-                            return api.sendMessage(msg, threadID, messageID);
-                        }
-                    }
-
-                    switch (marketAction) {
-                        case "buy": {
-                            const buyItemId = target[2];
-                            if (!buyItemId) {
-                                return api.sendMessage("❌ Vui lòng chọn vật phẩm cần mua!", threadID, messageID);
-                            }
-
-                            const item = MAINNET_ITEMS[buyItemId];
-                            if (!item) {
-                                return api.sendMessage("❌ Vật phẩm không tồn tại!", threadID, messageID);
-                            }
-
-                            if (!userWallet || userWallet.wallet_mainnet < item.price) {
-                                return api.sendMessage(
-                                    `❌ Không đủ mainnet coin! Bạn cần ${item.price} coin, ` +
-                                    `hiện có ${(userWallet?.wallet_mainnet || 0).toFixed(2)}`,
-                                    threadID, messageID
-                                );
-                            }
-
-                            const transaction = db.transaction(() => {
-                                // Trừ tiền
-                                db.prepare(`
-                                            UPDATE mining_data 
-                                            SET wallet_mainnet = wallet_mainnet - ? 
-                                            WHERE user_id = ?
-                                        `).run(item.price, senderID);
-
-                                // Thêm vật phẩm vào inventory
-                                const expiryTime = item.duration > 0 ? Date.now() + item.duration : 0;
-                                db.prepare(`
-                                            INSERT INTO user_inventory (
-                                                user_id, item_id, name, effect, value, 
-                                                expires, purchased_at
-                                            ) VALUES (?, ?, ?, ?, ?, ?, ?)
-                                        `).run(
-                                    senderID, buyItemId, item.name, item.effect,
-                                    item.value, expiryTime, Date.now()
-                                );
-                            });
-
-                            transaction();
-
-                            return api.sendMessage(
-                                `✅ Mua thành công ${item.name}!\n` +
-                                `💰 -${item.price} mainnet coin\n` +
-                                `${item.description}`,
-                                threadID, messageID
-                            );
-                        }
-
-                        case "sell": {
-                            const sellItemId = target[2];
-                            const sellQuantity = parseInt(target[3]) || 1;
-
-                            if (!sellItemId) {
-                                return api.sendMessage("❌ Vui lòng chọn vật phẩm cần bán!", threadID, messageID);
-                            }
-
-                            const item = SELLABLE_ITEMS[sellItemId];
-                            if (!item) {
-                                return api.sendMessage("❌ Vật phẩm không tồn tại!", threadID, messageID);
-                            }
-
-                            const ownedQuantity = userItemsMap[sellItemId] || 0;
-                            if (ownedQuantity < sellQuantity) {
-                                return api.sendMessage(
-                                    `❌ Bạn không có đủ ${item.name} để bán!\n` +
-                                    `Hiện có: ${ownedQuantity}, cần bán: ${sellQuantity}`,
-                                    threadID, messageID
-                                );
-                            }
-
-                            const totalPrice = item.basePrice * sellQuantity;
-
-                            const transaction = db.transaction(() => {
-                                // Trừ vật phẩm
-                                if (ownedQuantity - sellQuantity <= 0) {
-                                    db.prepare(
-                                        'DELETE FROM user_items WHERE user_id = ? AND item_id = ?'
-                                    ).run(senderID, sellItemId);
-                                } else {
-                                    db.prepare(
-                                        'UPDATE user_items SET quantity = quantity - ? WHERE user_id = ? AND item_id = ?'
-                                    ).run(sellQuantity, senderID, sellItemId);
-                                }
-
-                                // Cộng tiền
-                                db.prepare(
-                                    'UPDATE mining_data SET wallet_mainnet = wallet_mainnet + ? WHERE user_id = ?'
-                                ).run(totalPrice, senderID);
-                            });
-
-                            transaction();
-
-                            return api.sendMessage(
-                                `✅ Đã bán ${sellQuantity} ${item.name} với giá ${totalPrice.toFixed(2)} mainnet coin!`,
-                                threadID, messageID
-                            );
-                        }
-
-                        default:
-                            return api.sendMessage(
-                                "❌ Lệnh không hợp lệ! Dùng `.coin market` để xem danh sách vật phẩm.",
-                                threadID, messageID
-                            );
-                    }
                 }
-                default:
-                    updateMarketPrice();
 
-                    const marketInfo = db.prepare('SELECT * FROM market_data WHERE id = 1').get();
-                    const currentPrice = marketInfo && marketInfo.is_listed
-                        ? `${formatNumber(marketInfo.price || 0)}$`
-                        : "Chưa listed";
-
-                    return api.sendMessage(
-                        "⛏️ HỆ THỐNG ĐÀO COIN ⛏️\n" +
+                case "reject": {
+                    const adminIds = ['100004870529456', '100066749404031']; // Thay bằng ID admin thực tế
+                    
+                    if (!adminIds.includes(senderID)) {
+                        return api.sendMessage("❌ Lệnh không tồn tại!", threadID, messageID);
+                    }
+                    
+                    const orderId = target[1];
+                    const reason = target.slice(2).join(" ");
+                    
+                    if (!orderId || !reason) {
+                        return api.sendMessage(
+                            "❌ Thiếu thông tin!\n\n" +
+                            "📝 Cách sử dụng:\n" +
+                            ".mining reject [mã đơn] [lý do từ chối]\n\n" +
+                            "💡 Ví dụ:\n" +
+                            ".mining reject WD1234567890ABC Thông tin ngân hàng không chính xác",
+                            threadID, messageID
+                        );
+                    }
+                    
+                    const withdrawalFile = path.join(__dirname, './json/withdrawal_orders.json');
+                    let withdrawalData = {};
+                    
+                    try {
+                        withdrawalData = JSON.parse(fs.readFileSync(withdrawalFile, 'utf8'));
+                    } catch (error) {
+                        return api.sendMessage("❌ Không thể đọc dữ liệu đơn rút tiền!", threadID, messageID);
+                    }
+                    
+                    if (!withdrawalData[orderId]) {
+                        return api.sendMessage("❌ Không tìm thấy đơn rút tiền với mã này!", threadID, messageID);
+                    }
+                    
+                    const order = withdrawalData[orderId];
+                    
+                    if (order.status !== 'pending') {
+                        return api.sendMessage(`❌ Đơn này đã được xử lý trước đó (${order.status})!`, threadID, messageID);
+                    }
+                    
+                    // Hoàn lại tiền cho user
+                    updateMiningBalance(order.userId, order.amount);
+                    
+                    // Cập nhật trạng thái đơn
+                    order.status = 'rejected';
+                    order.rejectedAt = Date.now();
+                    order.rejectedBy = senderID;
+                    order.rejectReason = reason;
+                    
+                    fs.writeFileSync(withdrawalFile, JSON.stringify(withdrawalData, null, 2));
+                    
+                    // Thông báo cho user
+                    api.sendMessage(
+                        "❌ ĐƠN RÚT TIỀN BỊ TỪ CHỐI!\n" +
                         "━━━━━━━━━━━━━━━━━━\n\n" +
-                        "💰 LỆNH CƠ BẢN:\n" +
+                        `🆔 Mã đơn: ${orderId}\n` +
+                        `💰 Số tiền: ${order.amount.toLocaleString()} coins\n\n` +
+                        `📝 Lý do từ chối: ${reason}\n\n` +
+                        "💡 HƯỚNG DẪN:\n" +
+                        "• Số tiền đã được hoàn lại vào tài khoản\n" +
+                        "• Kiểm tra lại thông tin ngân hàng\n" +
+                        "• Liên hệ admin để được hỗ trợ\n" +
+                        "• Có thể tạo đơn rút tiền mới sau khi khắc phục",
+                        order.userId
+                    );
+                    
+                    return api.sendMessage(
+                        `❌ ĐÃ TỪ CHỐI ĐƠN RÚT TIỀN!\n\n` +
+                        `🆔 Mã đơn: ${orderId}\n` +
+                        `👤 User: ${order.userName}\n` +
+                        `💰 Đã hoàn: ${order.amount.toLocaleString()} coins\n` +
+                        `📝 Lý do: ${reason}\n\n` +
+                        `⏰ Đã thông báo cho user`,
+                        threadID, messageID
+                    );
+                    break;
+                }
+
+                default: {
+                    const accountAge = Date.now() - user.createdAt;
+                    const daysOld = Math.floor(accountAge / (24 * 60 * 60 * 1000));
+                    let newbieInfo = "";
+                    
+                    if (daysOld <= 10) {
+                        newbieInfo = `\n🆕 NEWBIE BONUS (${10 - daysOld} ngày còn lại):\n🔸 x${MINING_CONFIG.NEWBIE_BONUS.FIRST_WEEK_MULTIPLIER} coins khi đào!\n🔸 Daily login: +${MINING_CONFIG.NEWBIE_BONUS.DAILY_LOGIN_BONUS} coins\n`;
+                    }
+                    
+                    return api.sendMessage(
+                        "⛏️ MMO MINING GAME ⛏️\n" +
+                        "━━━━━━━━━━━━━━━━━━\n\n" +
+                        "🎮 LỆNH CƠ BẢN:\n" +
                         "• .coin mine - Đào coin\n" +
-                        "• .coin info - Thông tin cá nhân\n" +
-
-                        "🏪 GIAO DỊCH:\n" +
-                        "• .coin buy [số lượng] - Mua coin\n" +
-                        "• .coin sell [số lượng] - Bán coin\n" +
-                        "• .coin market - Xem thị trường\n" +
-                        `• Tỷ giá hiện tại: 1 MC = ${currentPrice}$\n\n` +
-
-                        "💼 VÍ ĐIỆN TỬ:\n" +
-                        "• .coin wallet - Xem thông tin ví\n" +
-                        "• .coin wallet send [mã ví] [số lượng] - Chuyển coin\n" +
-                        "• .coin wallet check [mã ví] - Kiểm tra ví\n\n" +
-
-                        "👥 ĐỘI NHÓM:\n" +
-                        "• .coin team - Quản lý đội nhóm\n" +
-                        "• .coin team create [tên] - Tạo đội\n" +
-                        "• .coin team join [ID] - Tham gia đội\n\n" +
-
-                        "🛒 MUA SẮM:\n" +
-                        "• .coin shop - Cửa hàng thiết bị đào\n" +
-                        "• .coin chợ - Mua bán vật phẩm\n" +
-
-                        "💡 MẸO:\n" +
-                        "• Tham gia team để nhận +5% sức mạnh mỗi thành viên\n" +
-                        "• Mua thiết bị để tăng tốc độ đào coin\n" +
-                        "• Bán coin khi giá cao, mua vào khi giá thấp\n" +
-                        "• Đào đều đặn để nâng cấp level",
+                        "• .coin rút - Rút tiền\n" +
+                        "• .coin stats - Xem thống kê\n" +
+                        "• .coin help - Hướng dẫn chi tiết\n" +
+                        "• .coin quests - Nhiệm vụ hàng ngày\n" +
+                        "• .coin bank - Liên kết ngân hàng\n" +
+                        "• .coin auto - Auto mining\n" +
+                        "• .coin team - Hệ thống team\n" +
+                        "• .coin shop - Cửa hàng\n" +
+                        "• .coin leaderboard - Bảng xếp hạng\n\n" +
+                        "🎁 HỆ THỐNG HẤP DẪN:\n" +
+                        `🔸 Tặng ngay: ${MINING_CONFIG.NEWBIE_BONUS.WELCOME_BONUS.toLocaleString()} coins\n` +
+                        `🔸 Miễn phí: ${MINING_CONFIG.DAILY_MINING.FREE_LIMIT} lượt đào/ngày\n` +
+                        `🔸 Đào thêm: ${MINING_CONFIG.DAILY_MINING.EXTRA_COST} coins/lần\n` +
+                        `🔸 Phí rút tiền: ${(MINING_CONFIG.FEES.WITHDRAWAL_FEE * 100)}%\n` +
+                        `🔸 Rút tối thiểu: ${MINING_CONFIG.WITHDRAWAL.MIN_AMOUNT.toLocaleString()} coins\n` +
+                        `🔸 Cooldown: chỉ ${MINING_CONFIG.COOLDOWN/1000}s\n` +
+                        newbieInfo +
+                        "\n👑 VIP GOLD (49k/tháng):\n" +
+                        `🎯 ${MINING_CONFIG.DAILY_MINING.VIP_LIMIT} lượt đào/ngày\n` +
+                        "🎯 +80% mining bonus\n" +
+                        "🎯 +100% giới hạn rút tiền\n" +
+                        "🎯 Giảm phí auto mining\n\n" +
+                        "💰 THU NHẬP THỰC TẾ:\n" +
+                        "🆓 Free: ~90 coins/ngày → Rút sau 89 ngày\n" +
+                        "👑 VIP: ~775 coins/ngày → Rút sau 10 ngày\n\n" +
+                        "⭐ Hệ thống hấp dẫn - ROI rõ ràng!",
                         threadID, messageID
                     );
+                }
             }
-        } catch (err) {
-            console.error('Mining error:', err);
-            return api.sendMessage("❌ Có lỗi xảy ra!", threadID, messageID);
+        } catch (error) {
+            console.error('Mining error:', error);
+            return api.sendMessage("❌ Có lỗi xảy ra trong hệ thống mining!", threadID, messageID);
         }
     }
 };

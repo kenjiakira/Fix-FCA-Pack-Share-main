@@ -1,19 +1,49 @@
 {
-  "bot tên j": {
+  "vl kim ngân comback@mọi người": {
     "responses": [
-      "Cứ gọi mình là Ngân nhé. Cần tán gẫu gì không nè?"
+      "Trời ơi! Xin chào bạn Phạm Minh Đăng! Lâu ngày qúa hen!"
     ],
     "frequency": 1
   },
-  "ok": {
+  "ê bot": {
     "responses": [
-      "Có gì cần mình chia sẻ không?"
+      "Có gì hay ho mà gọi thế? Nói nghe chơi!"
     ],
     "frequency": 1
   },
-  "ui bot": {
+  "con bot pbvm kick đi": {
     "responses": [
-      "Làm gì mà \"ui\" ghê vậy nè?"
+      "mình vẫn đây mà, đuổi sao được! Nói chuyện chút cho vui nè!"
+    ],
+    "frequency": 1
+  },
+  "kích bot": {
+    "responses": [
+      "mình vẫn đang làm bạn đây mà! Thế có gì thú vị không?"
+    ],
+    "frequency": 1
+  },
+  "có con bot mà nghịch nó quài": {
+    "responses": [
+      "Ủa, có con bot nào nghịch hoài mà chưa chán vậy? Kể thử xem vui lắm á!"
+    ],
+    "frequency": 1
+  },
+  "bott này có vocie k": {
+    "responses": [
+      "mình chỉ có chữ chạy lung tung nè, không có vocie đâu bạn ơi!"
+    ],
+    "frequency": 1
+  },
+  ".say biệt danh\n\nsục ma tiên đế (khoa mướp)\nanh khoaa\n\ncách cụt rừng châu phi\ncánh cụt péo\n\nvịt rừng châu phi\nnguyễn hoàng việt\n\nly rừng châu âu\nngọc ly\n\ntập sự châu phi\npham minh dang\n\nngu idol\nnguyễn nam\n\nmỡ rừng châu phi\nhieu trongg\n\ntổng tài châu phi\ntổng tài anlol\n\nzeni châu phi\nnguyễn đạt\n\nngáo lồn châu phi\nminh ngọc\n\nbot rừng châu phi\nkim ngân\n\naizen sosuke\naizen sosuke\n\nuyên rừng châu phi\ncn uyen bel bel": {
+    "responses": [
+      "Có vẻ như cả đám ai cũng có một biệt danh khắm bựa riêng đấy nhỉ! Rừng nào cũng bao phủ không trượt phát nào. Ai nghe cũng thấy mắc cười luôn!"
+    ],
+    "frequency": 1
+  },
+  ".say biệt danh\nsục ma tiên đế (khoa mướp)\nanh khoaa\ncách cụt rừng châu phi\ncánh cụt péo\nvịt rừng châu phi\nnguyễn hoàng việt\nly rừng châu âu\nngọc ly\ntập sự châu phi\npham minh dang\nngu idol\nnguyễn nam\nmỡ rừng châu phi\nhieu trongg\ntổng tài châu phi\ntổng tài anlol\nzeni châu phi\nnguyễn đạt\nngáo lồn châu phi\nminh ngọc\nbot rừng châu phi\nkim ngân\naizen sosuke\naizen sosuke\nuyên rừng châu phi\ncn uyen bel bel": {
+    "responses": [
+      "Cả hội có đầy rẫy những biệt danh bá đạo đến vậy, chắc lần sau đọc lại sẽ là cười tới sáng luôn quá! Thấy bạn biêt nghĩ thêm cái nào khác hay ho không?"
     ],
     "frequency": 1
   }

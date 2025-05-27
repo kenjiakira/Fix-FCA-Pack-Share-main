@@ -1,68 +1,25 @@
 const VIP_PACKAGES = {
     GOLD: {
         id: 3,
-        icon: "👑",
-        stars: "⭐⭐⭐",
-        name: "VIP GOLD",
-        price: { original: "95,000", sale: "50,000" },
-        duration: "30 ngày +7",
-        longTermOptions: {
-            "3": { months: 3, discount: 10, duration: "90 ngày +21" },
-            "6": { months: 6, discount: 20, duration: "180 ngày +42" },
-            "12": { months: 12, discount: 30, duration: "360 ngày +84" }
-        },
-        perks: {
-            fishing: {
-                cooldown: "2p", exp: "x4 EXP", rare: "+40% Cá hiếm",
-                protect: "100% chống mất cá",
-                special: "Mở Khu vực VIP cho Fish"
-            },
-            money: {
-                farm: "Tăng lợi nhuận/giảm thời gian", daily: "+60%",
-                quest: "+100%", event: "+100%", protection: "100% chống cướp",
-                platform: "Tải Video toàn bộ nền tảng",
-                transferLimit: "5 tỉ xu/ngày"
-            },
-            bank: {
-                loan: "Vay tối đa 150% tài sản", interest: "-30% lãi vay",
-                bonus: "+15% lãi tiết kiệm", fee: "-60% phí giao dịch"
-            },
-            pet: {
-                maxPets: "Nuôi tối đa 5 thú cưng",
-                statDecay: "-30% giảm suy giảm chỉ số",
-                expBonus: "+30% EXP",
-                cooldown: "-30% thời gian chờ hoạt động",
-                exclusive: "Mở khóa thú cưng đặc biệt"
-            },
-            security: { protect: "Miễn nhiễm cướp cho Stolen" },
-            gacha: {
-                limitedBonus: "+15% tỉ lệ Limited",
-                description: "Tăng 15% tỉ lệ ra thẻ Limited"
-            },
-            sms: {
-                description: "Spam SMS miễn phí",
-            },
-            ghep: {
-                fullProfile: "Xem thông tin đầy đủ",
-                boxMatch: "Ghép đôi trong nhóm",
-                analysis: "Phân tích tính cách và dự đoán"
-            }
+        name: "VIP Gold",
+        price: {
+            original: "59,000",
+            sale: "49,000" // Tăng từ 30k lên 49k
         },
         benefits: {
-            cooldownReduction: 30, dailyBonus: true, fishingCooldown: 120000, 
-            fishExpMultiplier: 4, rareBonus: 0.3, trashReduction: 0.6,
-            stolenProtection: 1.0, stolenCooldown: 900000, fullPlatformAccess: true,
-            dailyTransferLimit: 5000000000, 
-            gachaBonus: {
-                limitedRateBonus: 0.15
-            },
-            petBenefits: {
-                statDecayReduction: 0.3,
-                itemDiscounts: 0.15,
-                expBonus: 0.3,
-                exclusivePets: true,
-                maxPets: 5
-            }
+            miningBonus: 0.8, // +80% mining bonus
+            stolenProtection: 1.0,
+            withdrawalBonusLimit: 2.0, // +100% withdrawal limit
+            dailyMiningLimit: 50, // 50 lượt đào/ngày
+            autoMiningDiscount: 0.05, // Giảm 5% phí auto mining
+            teamBonusMultiplier: 1.2 // +20% team bonus
+        },
+        color: "#FFD700",
+        description: "Gói VIP Gold cao cấp với nhiều ưu đãi độc quyền cho Mining Game",
+        longTermOptions: {
+            3: { discount: 10, label: "3 tháng (-10%)" },
+            6: { discount: 15, label: "6 tháng (-15%)" },
+            12: { discount: 20, label: "1 năm (-20%)" }
         }
     },
     SILVER: {

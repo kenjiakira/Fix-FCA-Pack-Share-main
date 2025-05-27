@@ -383,7 +383,7 @@ const handleListenEvents = (api, commands, eventCommands, threadsDB, usersDB) =>
 
             if (!threadsDB[threadID]?.adminIDs || threadsDB[threadID].adminIDs.length === 0) {
                 if (message.startsWith(threadPrefix)) {
-                    api.sendMessage("⚠️ Bot chưa được kích hoạt trong nhóm này!\n📌 Vui lòng thiết lập ít nhất một Quản trị viên nhóm trước khi sử dụng bằng cách đưa key cho người dùng bất kì rồi bạn có thể gỡ lại.", threadID);
+                    api.sendMessage("⚠️ Bot chưa được kích hoạt trong nhóm này!\n📌 Vui lòng thiết lập ít nhất một Quản trị viên nhóm trước khi sử dụng bằng cách: Kêu Admin của nhóm bạn đưa quản trị viên cho 1 ai đó bất kì rồi QTV của nhóm bán có thể gỡ lại và dùng lại bình thường.", threadID);
                     return;
                 }
                 return;

@@ -4,7 +4,7 @@ const { DESTINATIONS, COOLDOWN } = require('../config/family/travelConfig');
 
 class TravelSystem {
     constructor() {
-        this.path = path.join(__dirname, '../database/json/family/travel.json');
+        this.path = path.join(__dirname, '../../database/json/family/travel.json');
         this.data = this.loadData();
     }
 

@@ -8,11 +8,9 @@ const streamPipeline = promisify(require('stream').pipeline);
 const cacheDir = path.join(__dirname, 'cache');
 if (!fs.existsSync(cacheDir)) fs.mkdirsSync(cacheDir);
 
-// Configuration for the YouTube Music Downloader API
 const YTMUSIC_API_URL = 'https://api.apify.com/v2/acts/scrapearchitect~youtube-music-downloader/run-sync-get-dataset-items';
 const YTMUSIC_API_TOKEN = 'apify_api_GZnFf6RQ4uO7VkLWcYdasbeM4Ce1hi10PXe6';
 
-// Helper function to download file from URL
 async function downloadFile(url, outputPath) {
     const response = await axios({
         method: 'GET',
@@ -23,10 +21,8 @@ async function downloadFile(url, outputPath) {
     return streamPipeline(response.data, fs.createWriteStream(outputPath));
 }
 
-// Helper function to download YouTube music
 async function downloadYoutubeMusic(videoUrl) {
     try {
-        // Đảm bảo URL là youtube music
         const musicUrl = videoUrl.includes('music.youtube.com') 
             ? videoUrl 
             : videoUrl.replace('youtube.com', 'music.youtube.com');
@@ -97,14 +93,14 @@ module.exports = {
         const outputPath = path.resolve(cacheDir, `sing_${Date.now()}.mp3`);
 
         try {
-            // Cố gắng tải nhạc trực tiếp trước
+            
             let downloadSuccessful = false;
             let musicData = null;
             let downloadLink = null;
             let audioFilePath = outputPath;
             
             try {
-                // Thử dùng API mới
+                
                 musicData = await downloadYoutubeMusic(song.url);
                 
                 if (musicData && musicData.downloadable_audio_link) {
@@ -117,14 +113,14 @@ module.exports = {
                 }
             } catch (apiError) {
                 console.error('Lỗi khi sử dụng API mới:', apiError.message);
-                // Lỗi khi dùng API mới, không làm gì và chuyển sang phương thức dự phòng
+                
             }
             
             if (!downloadSuccessful) {
                 throw new Error("Không thể tải nhạc qua API, vui lòng thử lại sau");
             }
 
-            // Lấy thông tin metadata từ response API hoặc từ thông tin tìm kiếm
+            
             const title = musicData?.title || song.title;
             const artist = musicData?.channel || song.author.name;
             const duration = musicData?.duration || song.duration.timestamp;

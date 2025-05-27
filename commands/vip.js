@@ -88,7 +88,7 @@ module.exports = {
                 return api.sendMessage("❌ Thời hạn không hợp lệ. Chọn 1, 3, 6 hoặc 12 tháng.", threadID);
             }
 
-            const basePrice = 30000;
+            const basePrice = 49000;
             const discount = 15;
             const discounted = Math.floor(basePrice * (100 - discount) / 100);
             const { duration } = getDurationAndDiscount(months);
@@ -184,7 +184,7 @@ module.exports = {
 
                 `🏆 BẢNG GIÁ VIP GOLD:\n` +
                 `┌────────────\n` +
-                `│ 👑 VIP GOLD: 30,000đ / 37 ngày (30+7)\n` +
+                `│ 👑 VIP GOLD: 49,000đ / 37 ngày (30+7)\n` +
                 `└─────────────\n\n` +
 
                 `👪 GÓI COMBO NHÓM:\n` +

@@ -291,6 +291,22 @@ class VipService {
                 this.markVoucherAsUsed(userId, voucherCode);
             }
             
+            // THÊM: Process affiliate commission for VIP purchase
+            if (result.success) {
+                try {
+                    // Import mining module to access affiliate functions
+                    const { processVipCommission } = require('../../commands/mining');
+                    const affiliateResult = processVipCommission(userId, priceInfo.finalPrice);
+                    
+                    if (affiliateResult) {
+                        console.log(`[VIP] Affiliate commission processed: ${affiliateResult.commission} VND to ${affiliateResult.referrerId}`);
+                    }
+                } catch (error) {
+                    console.error('[VIP] Error processing affiliate commission:', error);
+                    // Don't fail VIP purchase if affiliate processing fails
+                }
+            }
+            
             return result;
         } catch (error) {
             console.error('Error processing VIP purchase:', error);

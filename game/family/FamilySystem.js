@@ -18,7 +18,7 @@ class FamilySystem {
         this.childJobSystem.familySystem = this; 
         this.healthDecayInterval = 24 * 60 * 60 * 1000; 
         this.healthDecayAmount = 5;
-        this.path = path.join(__dirname, '../database/json/family/family.json');
+        this.path = path.join(__dirname, '../../database/json/family/family.json');
         this.data = this.loadData();
         this.startHealthMonitoring();
         this.startInsuranceMonitoring();
@@ -64,42 +64,33 @@ class FamilySystem {
     }
 
     getFamily(userID) {
+        if (!userID) return this.createDefaultFamily();
+
         if (!this.data[userID]) {
-            this.data[userID] = {
-                name: null,
-                spouse: null,
-                children: [],
-                happiness: 50,
-                health: 100,
-                lastChecked: Date.now(),
-                lastBaby: 0,
-                lastIntimate: 0,
-                insurance: {
-                    active: false,
-                    expiresAt: 0,
-                    discount: 0
-                }
-            };
+            this.data[userID] = this.createDefaultFamily();
             this.saveData();
         }
+        
+        return this.data[userID];
+    }
 
-        const family = this.data[userID];
-        if (family.spouse && this.data[family.spouse]) {
-            const spouseFamily = this.data[family.spouse];
-            if (spouseFamily.children.length > family.children.length) {
-                family.children = [...spouseFamily.children];
-            } else if (family.children.length > spouseFamily.children.length) {
-                spouseFamily.children = [...family.children];
+    createDefaultFamily() {
+        return {
+            name: null,
+            spouse: null,
+            children: [],
+            home: null,
+            happiness: 50,
+            health: 90,
+            lastChecked: Date.now(),
+            lastBaby: 0,
+            lastIntimate: 0,
+            insurance: {
+                active: false,
+                expiresAt: 0,
+                discount: 0
             }
-            if (spouseFamily.lastBaby > family.lastBaby) {
-                family.lastBaby = spouseFamily.lastBaby;
-            } else if (family.lastBaby > spouseFamily.lastBaby) {
-                spouseFamily.lastBaby = family.lastBaby;
-            }
-            this.saveData();
-        }
-
-        return family;
+        };
     }
 
     marry(userID1, userID2) {

@@ -3,7 +3,7 @@ const path = require('path');
 
 class ChildJobSystem {
     constructor() {
-        this.path = path.join(__dirname, '../database/json/family/childJobs.json');
+        this.path = path.join(__dirname, '../../database/json/family/childJobs.json');
         this.data = this.loadData();
         this.familySystem = null;
         

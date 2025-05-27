@@ -1836,5 +1836,21 @@
       "timestamp": 1744434865464,
       "description": "Nhận 200000 $ từ Ngoc Anh"
     }
+  ],
+  "100063719077878": [
+    {
+      "type": "out",
+      "amount": 3030000,
+      "timestamp": 1748324131312,
+      "description": "Chuyển 3000000 $ cho Người nhận"
+    }
+  ],
+  "61560460131851": [
+    {
+      "type": "in",
+      "amount": 3000000,
+      "timestamp": 1748324131312,
+      "description": "Nhận 3000000 $ từ Minh Ngoc"
+    }
   ]
 }

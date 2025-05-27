@@ -16,17 +16,21 @@
       "maxUses": 100,
       "maxUsesPerUser": 1
     },
-    "NALTS3S9SZ55": {
+    "N7CNCQJ7P5FR": {
       "rewards": {
-        "coins": 408809,
+        "coins": 230803,
         "vip_points": 1
       },
       "description": "Giftcode Thường hàng ngày",
-      "createdAt": "2025-05-26T05:00:00.069Z",
-      "expiry": "2025-05-27T05:00:00.069Z",
+      "createdAt": "2025-05-27T05:00:00.867Z",
+      "expiry": "2025-05-28T05:00:00.867Z",
       "usedBy": [
-        "100079828954790",
-        "61553443297125"
+        "61561277064921",
+        "100032029604940",
+        "61576347913972",
+        "100008297661441",
+        "100087903284283",
+        "100053763274764"
       ],
       "type": "NORMAL",
       "rarity": "Thường",
@@ -34,14 +38,29 @@
       "maxUses": null,
       "maxUsesPerUser": 5
     },
-    "NE8C0L9ZJUH6": {
+    "NXIACK1N2ADG": {
       "rewards": {
-        "coins": 299670,
+        "coins": 266975,
         "vip_points": 1
       },
       "description": "Giftcode Thường hàng ngày",
-      "createdAt": "2025-05-26T05:01:45.670Z",
-      "expiry": "2025-05-27T05:01:45.670Z",
+      "createdAt": "2025-05-27T05:01:13.857Z",
+      "expiry": "2025-05-28T05:01:13.857Z",
+      "usedBy": [],
+      "type": "NORMAL",
+      "rarity": "Thường",
+      "color": "#CCCCCC",
+      "maxUses": null,
+      "maxUsesPerUser": 5
+    },
+    "NX23LCPZ0KBM": {
+      "rewards": {
+        "coins": 115870,
+        "vip_points": 1
+      },
+      "description": "Giftcode Thường hàng ngày",
+      "createdAt": "2025-05-27T05:02:00.117Z",
+      "expiry": "2025-05-28T05:02:00.117Z",
       "usedBy": [],
       "type": "NORMAL",
       "rarity": "Thường",
@@ -53,6 +72,6 @@
   "settings": {
     "autoGiftcode": true,
     "dailyLimits": {},
-    "lastResetDate": "2025-05-26"
+    "lastResetDate": "2025-05-27"
   }
 }

@@ -555,12 +555,12 @@
     "name": "Anh Khoaa",
     "planet": "SAIYAN",
     "stats": {
-      "power": 1972,
+      "power": 2972,
       "damage": 110,
       "ki": 100,
       "health": 1000,
-      "exp": 1936,
-      "zeni": 7463,
+      "exp": 2036,
+      "zeni": 7545,
       "inventory": {
         "items": [],
         "equipped": []
@@ -573,7 +573,7 @@
     },
     "skills": [],
     "masters": [],
-    "lastTrain": 1743585418184,
+    "lastTrain": 1748276615076,
     "created": 1743524710186,
     "inventory": {
       "dragonBalls": []
@@ -583,6 +583,15 @@
       "level": 0,
       "description": "Chiến binh Saiyan bình thường",
       "achievedAt": "2025-04-01T16:25:21.368Z"
+    },
+    "quests": {
+      "active": [
+        "BEGINNER_1"
+      ],
+      "completed": [],
+      "progress": {
+        "BEGINNER_1": 1
+      }
     }
   },
   "61573427362389": {
