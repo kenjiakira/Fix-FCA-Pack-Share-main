@@ -1,1 +1,23 @@
-{}
+{
+  "61573427362389": {
+    "referralCode": "REF7MU5IN389",
+    "referredBy": null,
+    "referrals": {
+      "level1": [],
+      "level2": [],
+      "level3": []
+    },
+    "isActive": true,
+    "activatedAt": 1748331737712,
+    "totalCommissions": 0,
+    "monthlyCommissions": 0,
+    "vipCommissions": 0,
+    "lastResetMonth": 4,
+    "milestoneProgress": {
+      "referralCount": 0,
+      "vipSales": 0,
+      "achievedMilestones": []
+    },
+    "commissionHistory": []
+  }
+}

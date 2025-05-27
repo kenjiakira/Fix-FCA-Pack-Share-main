@@ -2778,7 +2778,7 @@
   },
   "100063719077878": {
     "rod": "Cần jig Daiwa Saltiga SJ",
-    "rodDurability": 340,
+    "rodDurability": 339,
     "inventory": [
       "Cần trúc",
       "Cần Câu Shimano",
@@ -2845,7 +2845,7 @@
           "Cá Lăng": 4,
           "Cá Chình Bông": 3,
           "Cá Ngạnh": 4,
-          "Cá Chim Trắng": 6
+          "Cá Chim Trắng": 7
         },
         "rare": {
           "Cá Lóc": 1,
@@ -2887,27 +2887,27 @@
         }
       },
       "stats": {
-        "totalCaught": 406,
-        "totalValue": 68521728,
+        "totalCaught": 407,
+        "totalValue": 68704128,
         "bestCatch": {
           "name": "Leviathan",
           "value": 7125000
         }
       }
     },
-    "exp": 87217,
+    "exp": 87329,
     "level": 30,
-    "fishingStreak": 2,
+    "fishingStreak": 3,
     "stats": {
-      "totalExp": 1071273,
+      "totalExp": 1071385,
       "highestStreak": 280,
-      "totalFishes": 406
+      "totalFishes": 407
     },
     "activeBuffs": {},
-    "lastFished": 1748324319220,
+    "lastFished": 1748341967494,
     "userID": "100063719077878",
     "energy": 185,
-    "lastEnergyUpdate": 1748324319222,
+    "lastEnergyUpdate": 1748341967494,
     "baits": {},
     "craftingMaterials": {}
   },

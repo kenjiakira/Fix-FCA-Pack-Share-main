@@ -1,16 +1,16 @@
 {
   "users": {
-    "100068382888605": {
+    "100079828954790": {
       "personal": [],
       "facts": [],
       "preferences": [],
       "interactions": [
         {
-          "content": "Pham Minh Dang nói: vl kim ngân comback@mọi người\nTôi trả lời: Trời ơi! Xin chào bạn Phạm Minh Đăng! Lâu ngày qúa hen!",
-          "timestamp": 1748317908154,
+          "content": "Hu Hi nói: Bot có lại r đó\nTôi trả lời: Làm gì mất tích đâu mà \"bot có lại\"? À mà, lỡ đâu bạn cần thì mình lại đúng thời điểm nè!",
+          "timestamp": 1748338772666,
           "priority": 1,
           "accessCount": 0,
-          "lastAccess": 1748317908154,
+          "lastAccess": 1748338772666,
           "metadata": {
             "sentiment": {
               "score": 0,
@@ -24,188 +24,11 @@
             },
             "topics": [
               "PERSONAL",
-              "FOOD"
-            ],
-            "entities": {}
-          }
-        }
-      ],
-      "emotions": [],
-      "names": [],
-      "relationships": {},
-      "context": {
-        "lastTopics": [],
-        "importantDates": {},
-        "recentMentions": {},
-        "conversationFlow": []
-      },
-      "topics": {},
-      "undefined": [
-        {
-          "content": "Xưng hô: mình/bạn",
-          "timestamp": 1748317903317,
-          "priority": 2,
-          "accessCount": 0,
-          "lastAccess": 1748317903317,
-          "metadata": {
-            "sentiment": {
-              "score": 0,
-              "rawScore": 0,
-              "sentiment": "neutral",
-              "confidence": 0.5,
-              "emotions": [],
-              "negationCount": 0,
-              "intensityFactors": [],
-              "primaryEmotion": "neutral"
-            },
-            "topics": [
-              "PERSONAL"
-            ],
-            "entities": {}
-          }
-        }
-      ]
-    },
-    "61576347913972": {
-      "personal": [],
-      "facts": [],
-      "preferences": [],
-      "interactions": [
-        {
-          "content": "Người dùng nói: ê bot\nTôi trả lời: Có gì hay ho mà gọi thế? Nói nghe chơi!",
-          "timestamp": 1748318302860,
-          "priority": 1,
-          "accessCount": 0,
-          "lastAccess": 1748318302860,
-          "metadata": {
-            "sentiment": {
-              "score": 0,
-              "rawScore": 0,
-              "sentiment": "neutral",
-              "confidence": 0.5,
-              "emotions": [],
-              "negationCount": 0,
-              "intensityFactors": [],
-              "primaryEmotion": "neutral"
-            },
-            "topics": [
-              "PERSONAL",
-              "ENTERTAINMENT"
-            ],
-            "entities": {}
-          }
-        }
-      ],
-      "emotions": [],
-      "names": [],
-      "relationships": {},
-      "context": {
-        "lastTopics": [],
-        "importantDates": {},
-        "recentMentions": {},
-        "conversationFlow": []
-      },
-      "topics": {},
-      "undefined": [
-        {
-          "content": "Xưng hô: mình/bạn",
-          "timestamp": 1748318300678,
-          "priority": 2,
-          "accessCount": 0,
-          "lastAccess": 1748318300678,
-          "metadata": {
-            "sentiment": {
-              "score": 0,
-              "rawScore": 0,
-              "sentiment": "neutral",
-              "confidence": 0.5,
-              "emotions": [],
-              "negationCount": 0,
-              "intensityFactors": [],
-              "primaryEmotion": "neutral"
-            },
-            "topics": [
-              "PERSONAL"
-            ],
-            "entities": {}
-          }
-        }
-      ]
-    },
-    "100063719077878": {
-      "personal": [],
-      "facts": [],
-      "preferences": [],
-      "interactions": [
-        {
-          "content": "Minh Ngoc nói: con bot pbvm kick đi\nTôi trả lời: mình vẫn đây mà, đuổi sao được! Nói chuyện chút cho vui nè!",
-          "timestamp": 1748324095753,
-          "priority": 1,
-          "accessCount": 2,
-          "lastAccess": 1748324797178,
-          "metadata": {
-            "sentiment": {
-              "score": 0,
-              "rawScore": 0,
-              "sentiment": "neutral",
-              "confidence": 0.5,
-              "emotions": [],
-              "negationCount": 0,
-              "intensityFactors": [],
-              "primaryEmotion": "neutral"
-            },
-            "topics": [
-              "PERSONAL",
+              "WORK",
               "TRAVEL"
             ],
             "entities": {}
           }
-        },
-        {
-          "content": "Minh Ngoc nói: .say Biệt danh\n\nSục Ma Tiên Đế (khoa mướp)\nAnh Khoaa\n\ncách cụt rừng châu phi\nCánh Cụt Péo\n\nvịt rừng châu phi\nNguyễn Hoàng Việt\n\nly rừng châu âu\nNgọc Ly\n\nTập Sự châu phi\nPham Minh Dang\n\nngu idol\nNguyễn Nam\n\nmỡ rừng châu phi\nHieu Trongg\n\ntổng tài châu phi\nTổng Tài Anlol\n\nzeni châu phi\nNguyễn Đạt\n\nngáo lồn châu phi\nMinh Ngọc\n\nbot rừng châu phi\nKim Ngân\n\nAizen Sosuke\nAizen Sosuke\n\nuyên rừng châu phi\ncn uyen bel bel\nTôi trả lời: Có vẻ như cả đám ai cũng có một biệt danh khắm bựa riêng đấy nhỉ! Rừng nào cũng bao phủ không trượt phát nào. Ai nghe cũng thấy mắc cười luôn!",
-          "timestamp": 1748324753949,
-          "priority": 1,
-          "accessCount": 1,
-          "lastAccess": 1748324797178,
-          "metadata": {
-            "sentiment": {
-              "score": 0,
-              "rawScore": 0,
-              "sentiment": "neutral",
-              "confidence": 0.5,
-              "emotions": [],
-              "negationCount": 0,
-              "intensityFactors": [],
-              "primaryEmotion": "neutral"
-            },
-            "topics": [
-              "PERSONAL"
-            ],
-            "entities": {}
-          }
-        },
-        {
-          "content": "Minh Ngoc nói: .say Biệt danh\nSục Ma Tiên Đế (khoa mướp)\nAnh Khoaa\ncách cụt rừng châu phi\nCánh Cụt Péo\nvịt rừng châu phi\nNguyễn Hoàng Việt\nly rừng châu âu\nNgọc Ly\nTập Sự châu phi\nPham Minh Dang\nngu idol\nNguyễn Nam\nmỡ rừng châu phi\nHieu Trongg\ntổng tài châu phi\nTổng Tài Anlol\nzeni châu phi\nNguyễn Đạt\nngáo lồn châu phi\nMinh Ngọc\nbot rừng châu phi\nKim Ngân\nAizen Sosuke\nAizen Sosuke\nuyên rừng châu phi\ncn uyen bel bel\nTôi trả lời: Cả hội có đầy rẫy những biệt danh bá đạo đến vậy, chắc lần sau đọc lại sẽ là cười tới sáng luôn quá! Thấy bạn biêt nghĩ thêm cái nào khác hay ho không?",
-          "timestamp": 1748324799134,
-          "priority": 1,
-          "accessCount": 0,
-          "lastAccess": 1748324799134,
-          "metadata": {
-            "sentiment": {
-              "score": 0,
-              "rawScore": 0,
-              "sentiment": "neutral",
-              "confidence": 0.5,
-              "emotions": [],
-              "negationCount": 0,
-              "intensityFactors": [],
-              "primaryEmotion": "neutral"
-            },
-            "topics": [
-              "PERSONAL"
-            ],
-            "entities": {}
-          }
         }
       ],
       "emotions": [],
@@ -221,214 +44,10 @@
       "undefined": [
         {
           "content": "Xưng hô: mình/bạn",
-          "timestamp": 1748324094138,
-          "priority": 2,
-          "accessCount": 2,
-          "lastAccess": 1748324797178,
-          "metadata": {
-            "sentiment": {
-              "score": 0,
-              "rawScore": 0,
-              "sentiment": "neutral",
-              "confidence": 0.5,
-              "emotions": [],
-              "negationCount": 0,
-              "intensityFactors": [],
-              "primaryEmotion": "neutral"
-            },
-            "topics": [
-              "PERSONAL"
-            ],
-            "entities": {}
-          }
-        },
-        {
-          "content": "Xưng hô: mình/bạn",
-          "timestamp": 1748324751489,
-          "priority": 2,
-          "accessCount": 1,
-          "lastAccess": 1748324797178,
-          "metadata": {
-            "sentiment": {
-              "score": 0,
-              "rawScore": 0,
-              "sentiment": "neutral",
-              "confidence": 0.5,
-              "emotions": [],
-              "negationCount": 0,
-              "intensityFactors": [],
-              "primaryEmotion": "neutral"
-            },
-            "topics": [
-              "PERSONAL"
-            ],
-            "entities": {}
-          }
-        },
-        {
-          "content": "Xưng hô: mình/bạn",
-          "timestamp": 1748324797182,
+          "timestamp": 1748338767901,
           "priority": 2,
           "accessCount": 0,
-          "lastAccess": 1748324797182,
-          "metadata": {
-            "sentiment": {
-              "score": 0,
-              "rawScore": 0,
-              "sentiment": "neutral",
-              "confidence": 0.5,
-              "emotions": [],
-              "negationCount": 0,
-              "intensityFactors": [],
-              "primaryEmotion": "neutral"
-            },
-            "topics": [
-              "PERSONAL"
-            ],
-            "entities": {}
-          }
-        }
-      ]
-    },
-    "61560460131851": {
-      "personal": [],
-      "facts": [],
-      "preferences": [],
-      "interactions": [
-        {
-          "content": "Người dùng nói: kích bot\nTôi trả lời: mình vẫn đang làm bạn đây mà! Thế có gì thú vị không?",
-          "timestamp": 1748324135762,
-          "priority": 1,
-          "accessCount": 2,
-          "lastAccess": 1748324549744,
-          "metadata": {
-            "sentiment": {
-              "score": 0,
-              "rawScore": 0,
-              "sentiment": "neutral",
-              "confidence": 0.5,
-              "emotions": [],
-              "negationCount": 0,
-              "intensityFactors": [],
-              "primaryEmotion": "neutral"
-            },
-            "topics": [
-              "PERSONAL",
-              "WORK"
-            ],
-            "entities": {}
-          }
-        },
-        {
-          "content": "Người dùng nói: có con bot mà nghịch nó quài\nTôi trả lời: Ủa, có con bot nào nghịch hoài mà chưa chán vậy? Kể thử xem vui lắm á!",
-          "timestamp": 1748324332949,
-          "priority": 1,
-          "accessCount": 1,
-          "lastAccess": 1748324549744,
-          "metadata": {
-            "sentiment": {
-              "score": 0,
-              "rawScore": 0,
-              "sentiment": "neutral",
-              "confidence": 0.5,
-              "emotions": [],
-              "negationCount": 0,
-              "intensityFactors": [],
-              "primaryEmotion": "neutral"
-            },
-            "topics": [
-              "PERSONAL"
-            ],
-            "entities": {}
-          }
-        },
-        {
-          "content": "Người dùng nói: bott này có vocie k\nTôi trả lời: mình chỉ có chữ chạy lung tung nè, không có vocie đâu bạn ơi!",
-          "timestamp": 1748324551107,
-          "priority": 1,
-          "accessCount": 0,
-          "lastAccess": 1748324551107,
-          "metadata": {
-            "sentiment": {
-              "score": 0,
-              "rawScore": 0,
-              "sentiment": "neutral",
-              "confidence": 0.5,
-              "emotions": [],
-              "negationCount": 0,
-              "intensityFactors": [],
-              "primaryEmotion": "neutral"
-            },
-            "topics": [
-              "PERSONAL"
-            ],
-            "entities": {}
-          }
-        }
-      ],
-      "emotions": [],
-      "names": [],
-      "relationships": {},
-      "context": {
-        "lastTopics": [],
-        "importantDates": {},
-        "recentMentions": {},
-        "conversationFlow": []
-      },
-      "topics": {},
-      "undefined": [
-        {
-          "content": "Xưng hô: mình/bạn",
-          "timestamp": 1748324134317,
-          "priority": 2,
-          "accessCount": 2,
-          "lastAccess": 1748324549744,
-          "metadata": {
-            "sentiment": {
-              "score": 0,
-              "rawScore": 0,
-              "sentiment": "neutral",
-              "confidence": 0.5,
-              "emotions": [],
-              "negationCount": 0,
-              "intensityFactors": [],
-              "primaryEmotion": "neutral"
-            },
-            "topics": [
-              "PERSONAL"
-            ],
-            "entities": {}
-          }
-        },
-        {
-          "content": "Xưng hô: mình/bạn",
-          "timestamp": 1748324331476,
-          "priority": 2,
-          "accessCount": 1,
-          "lastAccess": 1748324549744,
-          "metadata": {
-            "sentiment": {
-              "score": 0,
-              "rawScore": 0,
-              "sentiment": "neutral",
-              "confidence": 0.5,
-              "emotions": [],
-              "negationCount": 0,
-              "intensityFactors": [],
-              "primaryEmotion": "neutral"
-            },
-            "topics": [
-              "PERSONAL"
-            ],
-            "entities": {}
-          }
-        },
-        {
-          "content": "Xưng hô: mình/bạn",
-          "timestamp": 1748324549746,
-          "priority": 2,
-          "accessCount": 0,
-          "lastAccess": 1748324549746,
+          "lastAccess": 1748338767901,
           "metadata": {
             "sentiment": {
               "score": 0,
@@ -462,16 +81,11 @@
     "voice": {}
   },
   "stats": {
-    "totalInteractions": 16,
+    "totalInteractions": 2,
     "uniqueUsers": {},
     "topTopics": {},
     "responseTime": [],
-    "accuracy": [
-      {
-        "timestamp": 1748324095755,
-        "memoryCount": 5
-      }
-    ]
+    "accuracy": []
   },
   "compression": {
     "enabled": true,

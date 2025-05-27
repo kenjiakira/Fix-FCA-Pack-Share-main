@@ -139,10 +139,10 @@
   },
   "100008297661441": {
     "level": 1,
-    "experience": 25,
-    "totalMined": 25,
-    "miningCount": 22,
-    "lastMined": 1748318579993,
+    "experience": 29,
+    "totalMined": 29,
+    "miningCount": 23,
+    "lastMined": 1748342074798,
     "miningPower": 1,
     "team": null,
     "autoMining": {
@@ -168,7 +168,7 @@
         ]
       },
       "Tue May 27 2025": {
-        "mineCount": 1,
+        "mineCount": 2,
         "joinedTeam": false,
         "usedAutoMining": false,
         "completed": []
@@ -178,7 +178,7 @@
     "hasReceivedWelcomeBonus": true,
     "dailyMining": {
       "Mon May 26 2025": 21,
-      "Tue May 27 2025": 1
+      "Tue May 27 2025": 2
     }
   },
   "61550676773989": {
@@ -262,10 +262,10 @@
   },
   "100093208808025": {
     "level": 1,
-    "experience": 18,
-    "totalMined": 18,
-    "miningCount": 12,
-    "lastMined": 1748328656702,
+    "experience": 70,
+    "totalMined": 70,
+    "miningCount": 25,
+    "lastMined": 1748338355883,
     "miningPower": 1,
     "team": null,
     "autoMining": {
@@ -288,17 +288,19 @@
         ]
       },
       "Tue May 27 2025": {
-        "mineCount": 2,
+        "mineCount": 15,
         "joinedTeam": false,
         "usedAutoMining": false,
-        "completed": []
+        "completed": [
+          "MINE_10_TIMES"
+        ]
       }
     },
     "streakDays": 1,
     "hasReceivedWelcomeBonus": true,
     "dailyMining": {
       "Mon May 26 2025": 10,
-      "Tue May 27 2025": 2
+      "Tue May 27 2025": 15
     },
     "bankAccount": {
       "bankName": "MBBANK",
@@ -449,10 +451,10 @@
   },
   "100079828954790": {
     "level": 1,
-    "experience": 4,
-    "totalMined": 4,
-    "miningCount": 1,
-    "lastMined": 1748313488782,
+    "experience": 8,
+    "totalMined": 8,
+    "miningCount": 2,
+    "lastMined": 1748332042540,
     "miningPower": 1,
     "team": null,
     "autoMining": {
@@ -465,6 +467,102 @@
     "boosts": [],
     "createdAt": 1748313488771,
     "lastLogin": 1748313488771,
+    "dailyQuests": {
+      "Tue May 27 2025": {
+        "mineCount": 2,
+        "joinedTeam": false,
+        "usedAutoMining": false,
+        "completed": []
+      }
+    },
+    "streakDays": 0,
+    "hasReceivedWelcomeBonus": true,
+    "dailyMining": {
+      "Tue May 27 2025": 2
+    }
+  },
+  "61559151106106": {
+    "level": 1,
+    "experience": 8,
+    "totalMined": 8,
+    "miningCount": 2,
+    "lastMined": 1748332016611,
+    "miningPower": 1,
+    "team": null,
+    "autoMining": {
+      "active": false,
+      "startTime": 0,
+      "rate": 0
+    },
+    "achievements": [],
+    "equipment": [],
+    "boosts": [],
+    "createdAt": 1748331985895,
+    "lastLogin": 1748331985895,
+    "dailyQuests": {
+      "Tue May 27 2025": {
+        "mineCount": 2,
+        "joinedTeam": false,
+        "usedAutoMining": false,
+        "completed": []
+      }
+    },
+    "streakDays": 0,
+    "hasReceivedWelcomeBonus": true,
+    "dailyMining": {
+      "Tue May 27 2025": 2
+    }
+  },
+  "100063719077878": {
+    "level": 1,
+    "experience": 4,
+    "totalMined": 4,
+    "miningCount": 1,
+    "lastMined": 1748341982064,
+    "miningPower": 1,
+    "team": null,
+    "autoMining": {
+      "active": false,
+      "startTime": 0,
+      "rate": 0
+    },
+    "achievements": [],
+    "equipment": [],
+    "boosts": [],
+    "createdAt": 1748341982027,
+    "lastLogin": 1748341982027,
+    "dailyQuests": {
+      "Tue May 27 2025": {
+        "mineCount": 1,
+        "joinedTeam": false,
+        "usedAutoMining": false,
+        "completed": []
+      }
+    },
+    "streakDays": 0,
+    "hasReceivedWelcomeBonus": true,
+    "dailyMining": {
+      "Tue May 27 2025": 1
+    }
+  },
+  "100083237157086": {
+    "level": 1,
+    "experience": 4,
+    "totalMined": 4,
+    "miningCount": 1,
+    "lastMined": 1748342244414,
+    "miningPower": 1,
+    "team": null,
+    "autoMining": {
+      "active": false,
+      "startTime": 0,
+      "rate": 0
+    },
+    "achievements": [],
+    "equipment": [],
+    "boosts": [],
+    "createdAt": 1748342234116,
+    "lastLogin": 1748342234116,
     "dailyQuests": {
       "Tue May 27 2025": {
         "mineCount": 1,
