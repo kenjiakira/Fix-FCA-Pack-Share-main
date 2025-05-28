@@ -33,13 +33,19 @@
       "createdAt": 1744020646547
     },
     "100076957299243": {
-      "portfolio": {},
-      "cash": 244604563.92427313,
-      "invested": 0,
+      "portfolio": {
+        "AKI": {
+          "shares": 20000000,
+          "avgBuyPrice": 11.14927265635422,
+          "totalInvested": 222985453.1270844
+        }
+      },
+      "cash": 709366062.1708224,
+      "invested": 222985453.1270844,
       "totalProfit": -729537.9979007539,
-      "tradeCount": 3,
+      "tradeCount": 5,
       "successTrades": 0,
-      "lastUpdated": 1744091628919,
+      "lastUpdated": 1748404392516,
       "createdAt": 1744090403012
     },
     "61573427362389": {

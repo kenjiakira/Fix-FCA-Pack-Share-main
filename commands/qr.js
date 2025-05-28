@@ -32,10 +32,7 @@ module.exports = {
     category: "VIP & Billing",
     info: "Tạo mã QR thanh toán VIP",
     usages: [
-        ".qr vip [bronze/silver/gold] - Tạo QR thanh toán VIP 1 tháng",
-        ".qr vip [bronze/silver/gold] [3/6/12] - Tạo QR thanh toán VIP nhiều tháng",
-        ".qr vip group [bronze/silver/gold] [số_người] [3/6/12] - Tạo QR thanh toán VIP nhóm",
-        ".qr vip family [3/6/12] [UID_người_nhận_Bronze] - Tạo QR thanh toán gói gia đình"
+        ".qr vip gold - Tạo QR thanh toán VIP 1 tháng",
     ].join('\n'),
     cooldowns: 15,
     onPrefix: true,

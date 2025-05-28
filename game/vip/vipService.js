@@ -290,16 +290,17 @@ class VipService {
             if (result.success && voucher) {
                 this.markVoucherAsUsed(userId, voucherCode);
             }
-            
-            // THÊM: Process affiliate commission for VIP purchase
+              // THÊM: Process affiliate commission for VIP purchase
             if (result.success) {
                 try {
-                    // Import mining module to access affiliate functions
-                    const { processVipCommission } = require('../../commands/mining');
-                    const affiliateResult = processVipCommission(userId, priceInfo.finalPrice);
-                    
-                    if (affiliateResult) {
-                        console.log(`[VIP] Affiliate commission processed: ${affiliateResult.commission} VND to ${affiliateResult.referrerId}`);
+                    // Import mining module functions for affiliate processing
+                    const miningModule = require('../../commands/mining');
+                    if (miningModule.processVipCommission) {
+                        const affiliateResult = miningModule.processVipCommission(userId, priceInfo.finalPrice);
+                        
+                        if (affiliateResult) {
+                            console.log(`[VIP] Affiliate commission processed: ${affiliateResult.commission} VND to ${affiliateResult.referrerId}`);
+                        }
                     }
                 } catch (error) {
                     console.error('[VIP] Error processing affiliate commission:', error);

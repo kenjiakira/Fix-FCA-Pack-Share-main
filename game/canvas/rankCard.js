@@ -583,11 +583,11 @@ async function drawAvatar(ctx, senderID, level) {
         }
 
     } catch (error) {
-        console.error('Lỗi khi tải avatar:', error);
-        if (customAvatar) {
-            console.log('Falling back to default avatar...');
-            await drawAvatar(ctx, senderID, level);
-        }
+        // console.error('Lỗi khi tải avatar:', error);
+        // if (customAvatar) {
+        //     console.log('Falling back to default avatar...');
+        //     await drawAvatar(ctx, senderID, level);
+        // }
     }
 }
 function drawVIPLabel(ctx, x, y, text, colors) {

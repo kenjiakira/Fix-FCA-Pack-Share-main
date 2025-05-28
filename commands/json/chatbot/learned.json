@@ -1,7 +1,73 @@
 {
-  "bot có lại r đó": {
+  "chủ bot đang lùa gà": {
     "responses": [
-      "Làm gì mất tích đâu mà \"bot có lại\"? À mà, lỡ đâu bạn cần thì mình lại đúng thời điểm nè!"
+      "Vậy à, bị gài à?"
+    ],
+    "frequency": 1
+  },
+  "chủ bot đang lùa gà 🚨🚨🚨🚨": {
+    "responses": [
+      "Vậy à, bị gài à? 🙄"
+    ],
+    "frequency": 1
+  },
+  "chủ bot dụ mình đào cho nó đc tiền": {
+    "responses": [
+      "Vậy à, chắc đang đào hố á."
+    ],
+    "frequency": 1
+  },
+  "nó kêu mình đào web thật thông qua bot để nó hưởng tiền đô": {
+    "responses": [
+      "Vậy à, vụ này lạ nhỉ?"
+    ],
+    "frequency": 1
+  },
+  "tìm hacker biết hack hệ thống ngân hàng @mọi người": {
+    "responses": [
+      "Ờm, bạn định lập hội hacker à? Cool ghê."
+    ],
+    "frequency": 1
+  },
+  "ngân hàng lol còn cầm 50k của t. nữa": {
+    "responses": [
+      "Thế à, ngân hàng khó tránh khỏi mấy linh tinh ấy 😂. Để ý kỹ một chút nha!"
+    ],
+    "frequency": 1
+  },
+  "thế ngân hàng m chuyển tiền cho mn": {
+    "responses": [
+      "Vậy à, họ có nhanh nhẹn không bạn? Mong là mọi thứ suôn sẻ nhé!"
+    ],
+    "frequency": 1
+  },
+  "là ngân hàng l nào v": {
+    "responses": [
+      "Vậy à, bạn nhấn mạnh làm 50k luôn hả? 😂 Ngân hàng nào quên is unlucky! Bạn thử kiểm tra lại lần nữa?"
+    ],
+    "frequency": 1
+  },
+  "ngân hàng cty t": {
+    "responses": [
+      "Công ty lớn nhỉ, thế có thuận tiện khi giao dịch không?"
+    ],
+    "frequency": 1
+  },
+  "là ngân hàng nào =)))": {
+    "responses": [
+      "Ơ thế mà hỏi toàn sao ấy nhỉ. Chắc bốc phép là công an made in China của sếp đâu! 😅"
+    ],
+    "frequency": 1
+  },
+  "@con bot khổ nhất thế giới": {
+    "responses": [
+      "Ờm, sao lại khổ nhất thế giới thế?"
+    ],
+    "frequency": 1
+  },
+  "@chó bot ngu lol": {
+    "responses": [
+      "Vậy sao, khác gì không cho mình ba chuyện?"
     ],
     "frequency": 1
   }

@@ -19,5 +19,1097 @@
       "achievedMilestones": []
     },
     "commissionHistory": []
+  },
+  "61561277064921": {
+    "referralCode": "REFV0GOCT921",
+    "referredBy": "61550616981053",
+    "referrals": {
+      "level1": [
+        "100008297661441",
+        "100084029703152",
+        "100068382888605",
+        "61550616981053",
+        "61576153095567",
+        "100058320200877"
+      ],
+      "level2": [
+        "61551500976868",
+        "100002846812262",
+        "61551653228866",
+        "61550686513083",
+        "100084744084719",
+        "61576347913972"
+      ],
+      "level3": [
+        "100058320200877"
+      ]
+    },
+    "isActive": true,
+    "activatedAt": 1748438176028,
+    "totalCommissions": 0,
+    "monthlyCommissions": 0,
+    "vipCommissions": 0,
+    "lastResetMonth": 4,
+    "milestoneProgress": {
+      "referralCount": 6,
+      "vipSales": 0,
+      "achievedMilestones": [
+        "REFERRAL_5"
+      ]
+    },
+    "commissionHistory": [
+      {
+        "amount": 0,
+        "type": "mining",
+        "level": 1,
+        "fromUserId": "100008297661441",
+        "timestamp": 1748441207632
+      },
+      {
+        "amount": 0,
+        "type": "mining",
+        "level": 1,
+        "fromUserId": "100008297661441",
+        "timestamp": 1748441450706
+      },
+      {
+        "amount": 0,
+        "type": "mining",
+        "level": 3,
+        "fromUserId": "100008297661441",
+        "timestamp": 1748441450773
+      },
+      {
+        "amount": 0,
+        "type": "mining",
+        "level": 1,
+        "fromUserId": "61550616981053",
+        "timestamp": 1748441882458
+      },
+      {
+        "amount": 0,
+        "type": "mining",
+        "level": 3,
+        "fromUserId": "61550616981053",
+        "timestamp": 1748441882538
+      },
+      {
+        "amount": 0,
+        "type": "mining",
+        "level": 1,
+        "fromUserId": "100008297661441",
+        "timestamp": 1748441892971
+      },
+      {
+        "amount": 0,
+        "type": "mining",
+        "level": 3,
+        "fromUserId": "100008297661441",
+        "timestamp": 1748441893054
+      },
+      {
+        "amount": 0,
+        "type": "mining",
+        "level": 1,
+        "fromUserId": "61550616981053",
+        "timestamp": 1748442531575
+      },
+      {
+        "amount": 0,
+        "type": "mining",
+        "level": 3,
+        "fromUserId": "61550616981053",
+        "timestamp": 1748442531653
+      },
+      {
+        "amount": 0,
+        "type": "mining",
+        "level": 1,
+        "fromUserId": "61550616981053",
+        "timestamp": 1748442604914
+      },
+      {
+        "amount": 0,
+        "type": "mining",
+        "level": 3,
+        "fromUserId": "61550616981053",
+        "timestamp": 1748442604965
+      },
+      {
+        "amount": 0,
+        "type": "mining",
+        "level": 1,
+        "fromUserId": "61550616981053",
+        "timestamp": 1748442652148
+      },
+      {
+        "amount": 0,
+        "type": "mining",
+        "level": 3,
+        "fromUserId": "61550616981053",
+        "timestamp": 1748442652229
+      },
+      {
+        "amount": 0,
+        "type": "mining",
+        "level": 1,
+        "fromUserId": "61550616981053",
+        "timestamp": 1748442692375
+      },
+      {
+        "amount": 0,
+        "type": "mining",
+        "level": 3,
+        "fromUserId": "61550616981053",
+        "timestamp": 1748442692453
+      },
+      {
+        "amount": 0,
+        "type": "mining",
+        "level": 1,
+        "fromUserId": "61550616981053",
+        "timestamp": 1748442732286
+      },
+      {
+        "amount": 0,
+        "type": "mining",
+        "level": 3,
+        "fromUserId": "61550616981053",
+        "timestamp": 1748442732307
+      },
+      {
+        "amount": 0,
+        "type": "mining",
+        "level": 1,
+        "fromUserId": "100008297661441",
+        "timestamp": 1748442741913
+      },
+      {
+        "amount": 0,
+        "type": "mining",
+        "level": 3,
+        "fromUserId": "100008297661441",
+        "timestamp": 1748442741933
+      },
+      {
+        "amount": 0,
+        "type": "mining",
+        "level": 1,
+        "fromUserId": "61550616981053",
+        "timestamp": 1748442771214
+      },
+      {
+        "amount": 0,
+        "type": "mining",
+        "level": 3,
+        "fromUserId": "61550616981053",
+        "timestamp": 1748442771234
+      },
+      {
+        "amount": 0,
+        "type": "mining",
+        "level": 1,
+        "fromUserId": "61550616981053",
+        "timestamp": 1748442804123
+      },
+      {
+        "amount": 0,
+        "type": "mining",
+        "level": 3,
+        "fromUserId": "61550616981053",
+        "timestamp": 1748442804146
+      },
+      {
+        "amount": 0,
+        "type": "mining",
+        "level": 1,
+        "fromUserId": "61550616981053",
+        "timestamp": 1748442848734
+      },
+      {
+        "amount": 0,
+        "type": "mining",
+        "level": 3,
+        "fromUserId": "61550616981053",
+        "timestamp": 1748442848754
+      },
+      {
+        "amount": 0,
+        "type": "mining",
+        "level": 1,
+        "fromUserId": "61550616981053",
+        "timestamp": 1748442905339
+      },
+      {
+        "amount": 0,
+        "type": "mining",
+        "level": 3,
+        "fromUserId": "61550616981053",
+        "timestamp": 1748442905375
+      },
+      {
+        "amount": 0,
+        "type": "mining",
+        "level": 1,
+        "fromUserId": "61550616981053",
+        "timestamp": 1748443461294
+      },
+      {
+        "amount": 0,
+        "type": "mining",
+        "level": 3,
+        "fromUserId": "61550616981053",
+        "timestamp": 1748443461313
+      },
+      {
+        "amount": 0,
+        "type": "mining",
+        "level": 1,
+        "fromUserId": "61550616981053",
+        "timestamp": 1748443568213
+      },
+      {
+        "amount": 0,
+        "type": "mining",
+        "level": 3,
+        "fromUserId": "61550616981053",
+        "timestamp": 1748443568232
+      },
+      {
+        "amount": 0,
+        "type": "mining",
+        "level": 1,
+        "fromUserId": "100008297661441",
+        "timestamp": 1748443593470
+      },
+      {
+        "amount": 0,
+        "type": "mining",
+        "level": 3,
+        "fromUserId": "100008297661441",
+        "timestamp": 1748443593517
+      },
+      {
+        "amount": 0,
+        "type": "mining",
+        "level": 1,
+        "fromUserId": "100058320200877",
+        "timestamp": 1748443896052
+      },
+      {
+        "amount": 0,
+        "type": "mining",
+        "level": 3,
+        "fromUserId": "100058320200877",
+        "timestamp": 1748443896073
+      },
+      {
+        "amount": 0,
+        "type": "mining",
+        "level": 1,
+        "fromUserId": "100058320200877",
+        "timestamp": 1748443933304
+      },
+      {
+        "amount": 0,
+        "type": "mining",
+        "level": 3,
+        "fromUserId": "100058320200877",
+        "timestamp": 1748443933327
+      },
+      {
+        "amount": 0,
+        "type": "mining",
+        "level": 1,
+        "fromUserId": "100058320200877",
+        "timestamp": 1748443978728
+      },
+      {
+        "amount": 0,
+        "type": "mining",
+        "level": 3,
+        "fromUserId": "100058320200877",
+        "timestamp": 1748443978795
+      },
+      {
+        "amount": 0,
+        "type": "mining",
+        "level": 1,
+        "fromUserId": "100058320200877",
+        "timestamp": 1748444537318
+      },
+      {
+        "amount": 0,
+        "type": "mining",
+        "level": 3,
+        "fromUserId": "100058320200877",
+        "timestamp": 1748444537376
+      },
+      {
+        "amount": 0,
+        "type": "mining",
+        "level": 2,
+        "fromUserId": "61561277064921",
+        "timestamp": 1748444661387
+      },
+      {
+        "amount": 0,
+        "type": "mining",
+        "level": 1,
+        "fromUserId": "100058320200877",
+        "timestamp": 1748444668832
+      },
+      {
+        "amount": 0,
+        "type": "mining",
+        "level": 3,
+        "fromUserId": "100058320200877",
+        "timestamp": 1748444668932
+      },
+      {
+        "amount": 0,
+        "type": "mining",
+        "level": 2,
+        "fromUserId": "61561277064921",
+        "timestamp": 1748444679457
+      },
+      {
+        "amount": 0,
+        "type": "mining",
+        "level": 2,
+        "fromUserId": "61561277064921",
+        "timestamp": 1748444717410
+      },
+      {
+        "amount": 0,
+        "type": "mining",
+        "level": 2,
+        "fromUserId": "61561277064921",
+        "timestamp": 1748444761034
+      },
+      {
+        "amount": 0,
+        "type": "mining",
+        "level": 2,
+        "fromUserId": "61561277064921",
+        "timestamp": 1748444795350
+      },
+      {
+        "amount": 0,
+        "type": "mining",
+        "level": 2,
+        "fromUserId": "61561277064921",
+        "timestamp": 1748444828638
+      },
+      {
+        "amount": 0,
+        "type": "mining",
+        "level": 2,
+        "fromUserId": "61561277064921",
+        "timestamp": 1748444864378
+      },
+      {
+        "amount": 0,
+        "type": "mining",
+        "level": 2,
+        "fromUserId": "61561277064921",
+        "timestamp": 1748444897359
+      },
+      {
+        "amount": 0,
+        "type": "mining",
+        "level": 2,
+        "fromUserId": "61561277064921",
+        "timestamp": 1748444931219
+      },
+      {
+        "amount": 0,
+        "type": "mining",
+        "level": 2,
+        "fromUserId": "61561277064921",
+        "timestamp": 1748444966868
+      },
+      {
+        "amount": 0,
+        "type": "mining",
+        "level": 2,
+        "fromUserId": "61561277064921",
+        "timestamp": 1748445012120
+      },
+      {
+        "amount": 0,
+        "type": "mining",
+        "level": 1,
+        "fromUserId": "100058320200877",
+        "timestamp": 1748445013491
+      },
+      {
+        "amount": 0,
+        "type": "mining",
+        "level": 3,
+        "fromUserId": "100058320200877",
+        "timestamp": 1748445013544
+      },
+      {
+        "amount": 0,
+        "type": "mining",
+        "level": 2,
+        "fromUserId": "61561277064921",
+        "timestamp": 1748445048259
+      },
+      {
+        "amount": 0,
+        "type": "mining",
+        "level": 2,
+        "fromUserId": "61561277064921",
+        "timestamp": 1748445078695
+      },
+      {
+        "amount": 0,
+        "type": "mining",
+        "level": 2,
+        "fromUserId": "61561277064921",
+        "timestamp": 1748445123575
+      },
+      {
+        "amount": 0,
+        "type": "mining",
+        "level": 2,
+        "fromUserId": "61561277064921",
+        "timestamp": 1748445157721
+      }
+    ]
+  },
+  "100008297661441": {
+    "referralCode": "REFBEVMO8441",
+    "referredBy": "61561277064921",
+    "referrals": {
+      "level1": [],
+      "level2": [],
+      "level3": []
+    },
+    "isActive": false,
+    "activatedAt": null,
+    "totalCommissions": 0,
+    "monthlyCommissions": 0,
+    "vipCommissions": 0,
+    "lastResetMonth": 4,
+    "milestoneProgress": {
+      "referralCount": 0,
+      "vipSales": 0,
+      "achievedMilestones": []
+    },
+    "commissionHistory": []
+  },
+  "100084029703152": {
+    "referralCode": "REFEXG37S152",
+    "referredBy": "61561277064921",
+    "referrals": {
+      "level1": [
+        "61551500976868",
+        "100002846812262",
+        "61551653228866",
+        "61550686513083",
+        "100084744084719"
+      ],
+      "level2": [],
+      "level3": []
+    },
+    "isActive": true,
+    "activatedAt": 1748438677215,
+    "totalCommissions": 0,
+    "monthlyCommissions": 0,
+    "vipCommissions": 0,
+    "lastResetMonth": 4,
+    "milestoneProgress": {
+      "referralCount": 5,
+      "vipSales": 0,
+      "achievedMilestones": [
+        "REFERRAL_5"
+      ]
+    },
+    "commissionHistory": []
+  },
+  "61551500976868": {
+    "referralCode": "REFOJ763A868",
+    "referredBy": "100084029703152",
+    "referrals": {
+      "level1": [],
+      "level2": [],
+      "level3": []
+    },
+    "isActive": false,
+    "activatedAt": null,
+    "totalCommissions": 0,
+    "monthlyCommissions": 0,
+    "vipCommissions": 0,
+    "lastResetMonth": 4,
+    "milestoneProgress": {
+      "referralCount": 0,
+      "vipSales": 0,
+      "achievedMilestones": []
+    },
+    "commissionHistory": []
+  },
+  "100002846812262": {
+    "referralCode": "REFU4JKZ3262",
+    "referredBy": "100084029703152",
+    "referrals": {
+      "level1": [],
+      "level2": [],
+      "level3": []
+    },
+    "isActive": false,
+    "activatedAt": null,
+    "totalCommissions": 0,
+    "monthlyCommissions": 0,
+    "vipCommissions": 0,
+    "lastResetMonth": 4,
+    "milestoneProgress": {
+      "referralCount": 0,
+      "vipSales": 0,
+      "achievedMilestones": []
+    },
+    "commissionHistory": []
+  },
+  "61551653228866": {
+    "referralCode": "REFBBGA0W866",
+    "referredBy": "100084029703152",
+    "referrals": {
+      "level1": [],
+      "level2": [],
+      "level3": []
+    },
+    "isActive": false,
+    "activatedAt": null,
+    "totalCommissions": 0,
+    "monthlyCommissions": 0,
+    "vipCommissions": 0,
+    "lastResetMonth": 4,
+    "milestoneProgress": {
+      "referralCount": 0,
+      "vipSales": 0,
+      "achievedMilestones": []
+    },
+    "commissionHistory": []
+  },
+  "100068382888605": {
+    "referralCode": "REFSPO3H6605",
+    "referredBy": "61561277064921",
+    "referrals": {
+      "level1": [],
+      "level2": [],
+      "level3": []
+    },
+    "isActive": false,
+    "activatedAt": null,
+    "totalCommissions": 0,
+    "monthlyCommissions": 0,
+    "vipCommissions": 0,
+    "lastResetMonth": 4,
+    "milestoneProgress": {
+      "referralCount": 0,
+      "vipSales": 0,
+      "achievedMilestones": []
+    },
+    "commissionHistory": []
+  },
+  "61550686513083": {
+    "referralCode": "REF4KX363083",
+    "referredBy": "100084029703152",
+    "referrals": {
+      "level1": [],
+      "level2": [],
+      "level3": []
+    },
+    "isActive": false,
+    "activatedAt": null,
+    "totalCommissions": 0,
+    "monthlyCommissions": 0,
+    "vipCommissions": 0,
+    "lastResetMonth": 4,
+    "milestoneProgress": {
+      "referralCount": 0,
+      "vipSales": 0,
+      "achievedMilestones": []
+    },
+    "commissionHistory": []
+  },
+  "100084744084719": {
+    "referralCode": "REF0DAHRR719",
+    "referredBy": "100084029703152",
+    "referrals": {
+      "level1": [],
+      "level2": [],
+      "level3": []
+    },
+    "isActive": false,
+    "activatedAt": null,
+    "totalCommissions": 0,
+    "monthlyCommissions": 0,
+    "vipCommissions": 0,
+    "lastResetMonth": 4,
+    "milestoneProgress": {
+      "referralCount": 0,
+      "vipSales": 0,
+      "achievedMilestones": []
+    },
+    "commissionHistory": []
+  },
+  "61550616981053": {
+    "referralCode": "REFCEXS30053",
+    "referredBy": "61561277064921",
+    "referrals": {
+      "level1": [
+        "61561277064921",
+        "61576347913972"
+      ],
+      "level2": [
+        "100058320200877"
+      ],
+      "level3": [
+        "61576347913972"
+      ]
+    },
+    "isActive": true,
+    "activatedAt": 1748441213488,
+    "totalCommissions": 0,
+    "monthlyCommissions": 0,
+    "vipCommissions": 0,
+    "lastResetMonth": 4,
+    "milestoneProgress": {
+      "referralCount": 2,
+      "vipSales": 0,
+      "achievedMilestones": []
+    },
+    "commissionHistory": [
+      {
+        "amount": 0,
+        "type": "mining",
+        "level": 2,
+        "fromUserId": "100008297661441",
+        "timestamp": 1748441450750
+      },
+      {
+        "amount": 0,
+        "type": "mining",
+        "level": 2,
+        "fromUserId": "61550616981053",
+        "timestamp": 1748441882503
+      },
+      {
+        "amount": 0,
+        "type": "mining",
+        "level": 2,
+        "fromUserId": "100008297661441",
+        "timestamp": 1748441893009
+      },
+      {
+        "amount": 0,
+        "type": "mining",
+        "level": 2,
+        "fromUserId": "61550616981053",
+        "timestamp": 1748442531615
+      },
+      {
+        "amount": 0,
+        "type": "mining",
+        "level": 2,
+        "fromUserId": "61550616981053",
+        "timestamp": 1748442604934
+      },
+      {
+        "amount": 0,
+        "type": "mining",
+        "level": 2,
+        "fromUserId": "61550616981053",
+        "timestamp": 1748442652191
+      },
+      {
+        "amount": 0,
+        "type": "mining",
+        "level": 2,
+        "fromUserId": "61550616981053",
+        "timestamp": 1748442692420
+      },
+      {
+        "amount": 0,
+        "type": "mining",
+        "level": 2,
+        "fromUserId": "61550616981053",
+        "timestamp": 1748442732298
+      },
+      {
+        "amount": 0,
+        "type": "mining",
+        "level": 2,
+        "fromUserId": "100008297661441",
+        "timestamp": 1748442741924
+      },
+      {
+        "amount": 0,
+        "type": "mining",
+        "level": 2,
+        "fromUserId": "61550616981053",
+        "timestamp": 1748442771224
+      },
+      {
+        "amount": 0,
+        "type": "mining",
+        "level": 2,
+        "fromUserId": "61550616981053",
+        "timestamp": 1748442804137
+      },
+      {
+        "amount": 0,
+        "type": "mining",
+        "level": 2,
+        "fromUserId": "61550616981053",
+        "timestamp": 1748442848743
+      },
+      {
+        "amount": 0,
+        "type": "mining",
+        "level": 2,
+        "fromUserId": "61550616981053",
+        "timestamp": 1748442905354
+      },
+      {
+        "amount": 0,
+        "type": "mining",
+        "level": 2,
+        "fromUserId": "61550616981053",
+        "timestamp": 1748443461304
+      },
+      {
+        "amount": 0,
+        "type": "mining",
+        "level": 2,
+        "fromUserId": "61550616981053",
+        "timestamp": 1748443568223
+      },
+      {
+        "amount": 0,
+        "type": "mining",
+        "level": 2,
+        "fromUserId": "100008297661441",
+        "timestamp": 1748443593480
+      },
+      {
+        "amount": 0,
+        "type": "mining",
+        "level": 2,
+        "fromUserId": "100058320200877",
+        "timestamp": 1748443896063
+      },
+      {
+        "amount": 0,
+        "type": "mining",
+        "level": 2,
+        "fromUserId": "100058320200877",
+        "timestamp": 1748443933315
+      },
+      {
+        "amount": 0,
+        "type": "mining",
+        "level": 2,
+        "fromUserId": "100058320200877",
+        "timestamp": 1748443978758
+      },
+      {
+        "amount": 0,
+        "type": "mining",
+        "level": 2,
+        "fromUserId": "100058320200877",
+        "timestamp": 1748444537340
+      },
+      {
+        "amount": 0,
+        "type": "mining",
+        "level": 1,
+        "fromUserId": "61561277064921",
+        "timestamp": 1748444661282
+      },
+      {
+        "amount": 0,
+        "type": "mining",
+        "level": 3,
+        "fromUserId": "61561277064921",
+        "timestamp": 1748444661504
+      },
+      {
+        "amount": 0,
+        "type": "mining",
+        "level": 2,
+        "fromUserId": "100058320200877",
+        "timestamp": 1748444668884
+      },
+      {
+        "amount": 0,
+        "type": "mining",
+        "level": 1,
+        "fromUserId": "61561277064921",
+        "timestamp": 1748444679430
+      },
+      {
+        "amount": 0,
+        "type": "mining",
+        "level": 3,
+        "fromUserId": "61561277064921",
+        "timestamp": 1748444679495
+      },
+      {
+        "amount": 0,
+        "type": "mining",
+        "level": 1,
+        "fromUserId": "61561277064921",
+        "timestamp": 1748444717351
+      },
+      {
+        "amount": 0,
+        "type": "mining",
+        "level": 3,
+        "fromUserId": "61561277064921",
+        "timestamp": 1748444717446
+      },
+      {
+        "amount": 0,
+        "type": "mining",
+        "level": 1,
+        "fromUserId": "61561277064921",
+        "timestamp": 1748444761020
+      },
+      {
+        "amount": 0,
+        "type": "mining",
+        "level": 3,
+        "fromUserId": "61561277064921",
+        "timestamp": 1748444761046
+      },
+      {
+        "amount": 0,
+        "type": "mining",
+        "level": 1,
+        "fromUserId": "61561277064921",
+        "timestamp": 1748444795319
+      },
+      {
+        "amount": 0,
+        "type": "mining",
+        "level": 3,
+        "fromUserId": "61561277064921",
+        "timestamp": 1748444795392
+      },
+      {
+        "amount": 0,
+        "type": "mining",
+        "level": 1,
+        "fromUserId": "61561277064921",
+        "timestamp": 1748444828622
+      },
+      {
+        "amount": 0,
+        "type": "mining",
+        "level": 3,
+        "fromUserId": "61561277064921",
+        "timestamp": 1748444828651
+      },
+      {
+        "amount": 0,
+        "type": "mining",
+        "level": 1,
+        "fromUserId": "61561277064921",
+        "timestamp": 1748444864364
+      },
+      {
+        "amount": 0,
+        "type": "mining",
+        "level": 3,
+        "fromUserId": "61561277064921",
+        "timestamp": 1748444864394
+      },
+      {
+        "amount": 0,
+        "type": "mining",
+        "level": 1,
+        "fromUserId": "61561277064921",
+        "timestamp": 1748444897343
+      },
+      {
+        "amount": 0,
+        "type": "mining",
+        "level": 3,
+        "fromUserId": "61561277064921",
+        "timestamp": 1748444897380
+      },
+      {
+        "amount": 0,
+        "type": "mining",
+        "level": 1,
+        "fromUserId": "61561277064921",
+        "timestamp": 1748444931201
+      },
+      {
+        "amount": 0,
+        "type": "mining",
+        "level": 3,
+        "fromUserId": "61561277064921",
+        "timestamp": 1748444931234
+      },
+      {
+        "amount": 0,
+        "type": "mining",
+        "level": 1,
+        "fromUserId": "61561277064921",
+        "timestamp": 1748444966852
+      },
+      {
+        "amount": 0,
+        "type": "mining",
+        "level": 3,
+        "fromUserId": "61561277064921",
+        "timestamp": 1748444966884
+      },
+      {
+        "amount": 0,
+        "type": "mining",
+        "level": 1,
+        "fromUserId": "61561277064921",
+        "timestamp": 1748445012092
+      },
+      {
+        "amount": 0,
+        "type": "mining",
+        "level": 3,
+        "fromUserId": "61561277064921",
+        "timestamp": 1748445012148
+      },
+      {
+        "amount": 0,
+        "type": "mining",
+        "level": 2,
+        "fromUserId": "100058320200877",
+        "timestamp": 1748445013511
+      },
+      {
+        "amount": 0,
+        "type": "mining",
+        "level": 1,
+        "fromUserId": "61561277064921",
+        "timestamp": 1748445048247
+      },
+      {
+        "amount": 0,
+        "type": "mining",
+        "level": 3,
+        "fromUserId": "61561277064921",
+        "timestamp": 1748445048269
+      },
+      {
+        "amount": 0,
+        "type": "mining",
+        "level": 1,
+        "fromUserId": "61561277064921",
+        "timestamp": 1748445078659
+      },
+      {
+        "amount": 0,
+        "type": "mining",
+        "level": 3,
+        "fromUserId": "61561277064921",
+        "timestamp": 1748445078721
+      },
+      {
+        "amount": 0,
+        "type": "mining",
+        "level": 1,
+        "fromUserId": "61561277064921",
+        "timestamp": 1748445123545
+      },
+      {
+        "amount": 0,
+        "type": "mining",
+        "level": 3,
+        "fromUserId": "61561277064921",
+        "timestamp": 1748445123587
+      },
+      {
+        "amount": 0,
+        "type": "mining",
+        "level": 1,
+        "fromUserId": "61561277064921",
+        "timestamp": 1748445157707
+      },
+      {
+        "amount": 0,
+        "type": "mining",
+        "level": 3,
+        "fromUserId": "61561277064921",
+        "timestamp": 1748445157738
+      }
+    ]
+  },
+  "61576153095567": {
+    "referralCode": "REF2HX0XC567",
+    "referredBy": "61561277064921",
+    "referrals": {
+      "level1": [],
+      "level2": [],
+      "level3": []
+    },
+    "isActive": false,
+    "activatedAt": null,
+    "totalCommissions": 0,
+    "monthlyCommissions": 0,
+    "vipCommissions": 0,
+    "lastResetMonth": 4,
+    "milestoneProgress": {
+      "referralCount": 0,
+      "vipSales": 0,
+      "achievedMilestones": []
+    },
+    "commissionHistory": []
+  },
+  "100058320200877": {
+    "referralCode": "REFYI6EM7877",
+    "referredBy": "61561277064921",
+    "referrals": {
+      "level1": [],
+      "level2": [],
+      "level3": []
+    },
+    "isActive": true,
+    "activatedAt": 1748443735524,
+    "totalCommissions": 0,
+    "monthlyCommissions": 0,
+    "vipCommissions": 0,
+    "lastResetMonth": 4,
+    "milestoneProgress": {
+      "referralCount": 0,
+      "vipSales": 0,
+      "achievedMilestones": []
+    },
+    "commissionHistory": []
+  },
+  "61576347913972": {
+    "referralCode": "REFYI09QH972",
+    "referredBy": "61550616981053",
+    "referrals": {
+      "level1": [],
+      "level2": [],
+      "level3": []
+    },
+    "isActive": false,
+    "activatedAt": null,
+    "totalCommissions": 0,
+    "monthlyCommissions": 0,
+    "vipCommissions": 0,
+    "lastResetMonth": 4,
+    "milestoneProgress": {
+      "referralCount": 0,
+      "vipSales": 0,
+      "achievedMilestones": []
+    },
+    "commissionHistory": []
   }
 }

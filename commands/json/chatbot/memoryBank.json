@@ -1,16 +1,16 @@
 {
   "users": {
-    "100079828954790": {
+    "61576347913972": {
       "personal": [],
       "facts": [],
       "preferences": [],
       "interactions": [
         {
-          "content": "Hu Hi nói: Bot có lại r đó\nTôi trả lời: Làm gì mất tích đâu mà \"bot có lại\"? À mà, lỡ đâu bạn cần thì mình lại đúng thời điểm nè!",
-          "timestamp": 1748338772666,
+          "content": "Người dùng nói: chủ bot đang lùa gà\nTôi trả lời: Vậy à, bị gài à?",
+          "timestamp": 1748443006383,
           "priority": 1,
-          "accessCount": 0,
-          "lastAccess": 1748338772666,
+          "accessCount": 1,
+          "lastAccess": 1748444235726,
           "metadata": {
             "sentiment": {
               "score": 0,
@@ -23,9 +23,30 @@
               "primaryEmotion": "neutral"
             },
             "topics": [
-              "PERSONAL",
-              "WORK",
-              "TRAVEL"
+              "PERSONAL"
+            ],
+            "entities": {}
+          }
+        },
+        {
+          "content": "Người dùng nói: @chó bot ngu lol\nTôi trả lời: Vậy sao, khác gì không cho mình ba chuyện?",
+          "timestamp": 1748444236976,
+          "priority": 1,
+          "accessCount": 0,
+          "lastAccess": 1748444236976,
+          "metadata": {
+            "sentiment": {
+              "score": 0,
+              "rawScore": 0,
+              "sentiment": "neutral",
+              "confidence": 0.5,
+              "emotions": [],
+              "negationCount": 0,
+              "intensityFactors": [],
+              "primaryEmotion": "neutral"
+            },
+            "topics": [
+              "PERSONAL"
             ],
             "entities": {}
           }
@@ -44,10 +65,591 @@
       "undefined": [
         {
           "content": "Xưng hô: mình/bạn",
-          "timestamp": 1748338767901,
+          "timestamp": 1748443005441,
+          "priority": 2,
+          "accessCount": 1,
+          "lastAccess": 1748444235726,
+          "metadata": {
+            "sentiment": {
+              "score": 0,
+              "rawScore": 0,
+              "sentiment": "neutral",
+              "confidence": 0.5,
+              "emotions": [],
+              "negationCount": 0,
+              "intensityFactors": [],
+              "primaryEmotion": "neutral"
+            },
+            "topics": [
+              "PERSONAL"
+            ],
+            "entities": {}
+          }
+        },
+        {
+          "content": "Xưng hô: mình/bạn",
+          "timestamp": 1748444235728,
           "priority": 2,
           "accessCount": 0,
-          "lastAccess": 1748338767901,
+          "lastAccess": 1748444235728,
+          "metadata": {
+            "sentiment": {
+              "score": 0,
+              "rawScore": 0,
+              "sentiment": "neutral",
+              "confidence": 0.5,
+              "emotions": [],
+              "negationCount": 0,
+              "intensityFactors": [],
+              "primaryEmotion": "neutral"
+            },
+            "topics": [
+              "PERSONAL"
+            ],
+            "entities": {}
+          }
+        }
+      ]
+    },
+    "61576125312586": {
+      "personal": [],
+      "facts": [],
+      "preferences": [],
+      "interactions": [
+        {
+          "content": "Người dùng nói: chủ bot đang lùa gà 🚨🚨🚨🚨\nTôi trả lời: Vậy à, bị gài à? 🙄",
+          "timestamp": 1748443019823,
+          "priority": 1,
+          "accessCount": 1,
+          "lastAccess": 1748443034622,
+          "metadata": {
+            "sentiment": {
+              "score": 0,
+              "rawScore": 0,
+              "sentiment": "neutral",
+              "confidence": 0.5,
+              "emotions": [],
+              "negationCount": 0,
+              "intensityFactors": [],
+              "primaryEmotion": "neutral"
+            },
+            "topics": [
+              "PERSONAL"
+            ],
+            "entities": {}
+          }
+        },
+        {
+          "content": "Người dùng nói: chủ bot dụ mình đào cho nó đc tiền\nTôi trả lời: Vậy à, chắc đang đào hố á.",
+          "timestamp": 1748443036052,
+          "priority": 1,
+          "accessCount": 0,
+          "lastAccess": 1748443036052,
+          "metadata": {
+            "sentiment": {
+              "score": 0,
+              "rawScore": 0,
+              "sentiment": "neutral",
+              "confidence": 0.5,
+              "emotions": [],
+              "negationCount": 0,
+              "intensityFactors": [],
+              "primaryEmotion": "neutral"
+            },
+            "topics": [
+              "PERSONAL"
+            ],
+            "entities": {}
+          }
+        }
+      ],
+      "emotions": [],
+      "names": [],
+      "relationships": {},
+      "context": {
+        "lastTopics": [],
+        "importantDates": {},
+        "recentMentions": {},
+        "conversationFlow": []
+      },
+      "topics": {},
+      "undefined": [
+        {
+          "content": "Xưng hô: mình/bạn",
+          "timestamp": 1748443018721,
+          "priority": 2,
+          "accessCount": 1,
+          "lastAccess": 1748443034622,
+          "metadata": {
+            "sentiment": {
+              "score": 0,
+              "rawScore": 0,
+              "sentiment": "neutral",
+              "confidence": 0.5,
+              "emotions": [],
+              "negationCount": 0,
+              "intensityFactors": [],
+              "primaryEmotion": "neutral"
+            },
+            "topics": [
+              "PERSONAL"
+            ],
+            "entities": {}
+          }
+        },
+        {
+          "content": "Xưng hô: mình/bạn",
+          "timestamp": 1748443034623,
+          "priority": 2,
+          "accessCount": 0,
+          "lastAccess": 1748443034623,
+          "metadata": {
+            "sentiment": {
+              "score": 0,
+              "rawScore": 0,
+              "sentiment": "neutral",
+              "confidence": 0.5,
+              "emotions": [],
+              "negationCount": 0,
+              "intensityFactors": [],
+              "primaryEmotion": "neutral"
+            },
+            "topics": [
+              "PERSONAL"
+            ],
+            "entities": {}
+          }
+        }
+      ]
+    },
+    "61550616981053": {
+      "personal": [],
+      "facts": [],
+      "preferences": [],
+      "interactions": [
+        {
+          "content": "Tôi Bị Ngu 1 nói: nó kêu mình đào web thật thông qua bot để nó hưởng tiền đô\nTôi trả lời: Vậy à, vụ này lạ nhỉ?",
+          "timestamp": 1748443077359,
+          "priority": 1,
+          "accessCount": 1,
+          "lastAccess": 1748444100140,
+          "metadata": {
+            "sentiment": {
+              "score": 0,
+              "rawScore": 0,
+              "sentiment": "neutral",
+              "confidence": 0.5,
+              "emotions": [],
+              "negationCount": 0,
+              "intensityFactors": [],
+              "primaryEmotion": "neutral"
+            },
+            "topics": [
+              "PERSONAL"
+            ],
+            "entities": {}
+          }
+        },
+        {
+          "content": "Tôi Bị Ngu 1 nói: @con bot khổ nhất thế giới\nTôi trả lời: Ờm, sao lại khổ nhất thế giới thế?",
+          "timestamp": 1748444101718,
+          "priority": 1,
+          "accessCount": 0,
+          "lastAccess": 1748444101718,
+          "metadata": {
+            "sentiment": {
+              "score": 0,
+              "rawScore": 0,
+              "sentiment": "neutral",
+              "confidence": 0.5,
+              "emotions": [],
+              "negationCount": 0,
+              "intensityFactors": [],
+              "primaryEmotion": "neutral"
+            },
+            "topics": [
+              "PERSONAL"
+            ],
+            "entities": {}
+          }
+        }
+      ],
+      "emotions": [],
+      "names": [],
+      "relationships": {},
+      "context": {
+        "lastTopics": [],
+        "importantDates": {},
+        "recentMentions": {},
+        "conversationFlow": []
+      },
+      "topics": {},
+      "undefined": [
+        {
+          "content": "Xưng hô: mình/bạn",
+          "timestamp": 1748443076178,
+          "priority": 2,
+          "accessCount": 1,
+          "lastAccess": 1748444100140,
+          "metadata": {
+            "sentiment": {
+              "score": 0,
+              "rawScore": 0,
+              "sentiment": "neutral",
+              "confidence": 0.5,
+              "emotions": [],
+              "negationCount": 0,
+              "intensityFactors": [],
+              "primaryEmotion": "neutral"
+            },
+            "topics": [
+              "PERSONAL"
+            ],
+            "entities": {}
+          }
+        },
+        {
+          "content": "Xưng hô: mình/bạn",
+          "timestamp": 1748444100142,
+          "priority": 2,
+          "accessCount": 0,
+          "lastAccess": 1748444100142,
+          "metadata": {
+            "sentiment": {
+              "score": 0,
+              "rawScore": 0,
+              "sentiment": "neutral",
+              "confidence": 0.5,
+              "emotions": [],
+              "negationCount": 0,
+              "intensityFactors": [],
+              "primaryEmotion": "neutral"
+            },
+            "topics": [
+              "PERSONAL"
+            ],
+            "entities": {}
+          }
+        }
+      ]
+    },
+    "100008297661441": {
+      "personal": [],
+      "facts": [],
+      "preferences": [],
+      "interactions": [
+        {
+          "content": "Anh Khoaa nói: tìm hacker biết hack hệ thống ngân hàng @mọi người\nTôi trả lời: Ờm, bạn định lập hội hacker à? Cool ghê.",
+          "timestamp": 1748443135985,
+          "priority": 1,
+          "accessCount": 0,
+          "lastAccess": 1748443135985,
+          "metadata": {
+            "sentiment": {
+              "score": 0,
+              "rawScore": 0,
+              "sentiment": "neutral",
+              "confidence": 0.5,
+              "emotions": [],
+              "negationCount": 0,
+              "intensityFactors": [],
+              "primaryEmotion": "neutral"
+            },
+            "topics": [
+              "PERSONAL"
+            ],
+            "entities": {}
+          }
+        }
+      ],
+      "emotions": [],
+      "names": [],
+      "relationships": {},
+      "context": {
+        "lastTopics": [],
+        "importantDates": {},
+        "recentMentions": {},
+        "conversationFlow": []
+      },
+      "topics": {},
+      "undefined": [
+        {
+          "content": "Xưng hô: mình/bạn",
+          "timestamp": 1748443135065,
+          "priority": 2,
+          "accessCount": 0,
+          "lastAccess": 1748443135065,
+          "metadata": {
+            "sentiment": {
+              "score": 0,
+              "rawScore": 0,
+              "sentiment": "neutral",
+              "confidence": 0.5,
+              "emotions": [],
+              "negationCount": 0,
+              "intensityFactors": [],
+              "primaryEmotion": "neutral"
+            },
+            "topics": [
+              "PERSONAL"
+            ],
+            "entities": {}
+          }
+        }
+      ]
+    },
+    "61573427362389": {
+      "personal": [],
+      "facts": [],
+      "preferences": [],
+      "interactions": [
+        {
+          "content": "User nói: ngân hàng lol còn cầm 50k của t. nữa\nTôi trả lời: Thế à, ngân hàng khó tránh khỏi mấy linh tinh ấy 😂. Để ý kỹ một chút nha!",
+          "timestamp": 1748443280487,
+          "priority": 1,
+          "accessCount": 1,
+          "lastAccess": 1748443321796,
+          "metadata": {
+            "sentiment": {
+              "score": 0,
+              "rawScore": 0,
+              "sentiment": "neutral",
+              "confidence": 0.5,
+              "emotions": [],
+              "negationCount": 0,
+              "intensityFactors": [],
+              "primaryEmotion": "neutral"
+            },
+            "topics": [
+              "PERSONAL"
+            ],
+            "entities": {}
+          }
+        },
+        {
+          "content": "User nói: ngân hàng cty t\nTôi trả lời: Công ty lớn nhỉ, thế có thuận tiện khi giao dịch không?",
+          "timestamp": 1748443323353,
+          "priority": 1,
+          "accessCount": 0,
+          "lastAccess": 1748443323353,
+          "metadata": {
+            "sentiment": {
+              "score": 0,
+              "rawScore": 0,
+              "sentiment": "neutral",
+              "confidence": 0.5,
+              "emotions": [],
+              "negationCount": 0,
+              "intensityFactors": [],
+              "primaryEmotion": "neutral"
+            },
+            "topics": [
+              "PERSONAL",
+              "WORK"
+            ],
+            "entities": {}
+          }
+        }
+      ],
+      "emotions": [],
+      "names": [],
+      "relationships": {},
+      "context": {
+        "lastTopics": [],
+        "importantDates": {},
+        "recentMentions": {},
+        "conversationFlow": []
+      },
+      "topics": {},
+      "undefined": [
+        {
+          "content": "Xưng hô: mình/bạn",
+          "timestamp": 1748443279270,
+          "priority": 2,
+          "accessCount": 1,
+          "lastAccess": 1748443321796,
+          "metadata": {
+            "sentiment": {
+              "score": 0,
+              "rawScore": 0,
+              "sentiment": "neutral",
+              "confidence": 0.5,
+              "emotions": [],
+              "negationCount": 0,
+              "intensityFactors": [],
+              "primaryEmotion": "neutral"
+            },
+            "topics": [
+              "PERSONAL"
+            ],
+            "entities": {}
+          }
+        },
+        {
+          "content": "Xưng hô: mình/bạn",
+          "timestamp": 1748443321797,
+          "priority": 2,
+          "accessCount": 0,
+          "lastAccess": 1748443321797,
+          "metadata": {
+            "sentiment": {
+              "score": 0,
+              "rawScore": 0,
+              "sentiment": "neutral",
+              "confidence": 0.5,
+              "emotions": [],
+              "negationCount": 0,
+              "intensityFactors": [],
+              "primaryEmotion": "neutral"
+            },
+            "topics": [
+              "PERSONAL"
+            ],
+            "entities": {}
+          }
+        }
+      ]
+    },
+    "61561277064921": {
+      "personal": [],
+      "facts": [],
+      "preferences": [],
+      "interactions": [
+        {
+          "content": "Deaven Nguyenn nói: Là ngân hàng l nào v\nTôi trả lời: Vậy à, bạn nhấn mạnh làm 50k luôn hả? 😂 Ngân hàng nào quên is unlucky! Bạn thử kiểm tra lại lần nữa?",
+          "timestamp": 1748443302158,
+          "priority": 1,
+          "accessCount": 1,
+          "lastAccess": 1748443333052,
+          "metadata": {
+            "sentiment": {
+              "score": 0,
+              "rawScore": 0,
+              "sentiment": "neutral",
+              "confidence": 0.5,
+              "emotions": [],
+              "negationCount": 0,
+              "intensityFactors": [],
+              "primaryEmotion": "neutral"
+            },
+            "topics": [
+              "PERSONAL",
+              "WORK"
+            ],
+            "entities": {}
+          }
+        },
+        {
+          "content": "Deaven Nguyenn nói: Thế ngân hàng m chuyển tiền cho mn\nTôi trả lời: Vậy à, họ có nhanh nhẹn không bạn? Mong là mọi thứ suôn sẻ nhé!",
+          "timestamp": 1748443300959,
+          "priority": 1,
+          "accessCount": 1,
+          "lastAccess": 1748443333052,
+          "metadata": {
+            "sentiment": {
+              "score": 0,
+              "rawScore": 0,
+              "sentiment": "neutral",
+              "confidence": 0.5,
+              "emotions": [],
+              "negationCount": 0,
+              "intensityFactors": [],
+              "primaryEmotion": "neutral"
+            },
+            "topics": [
+              "PERSONAL"
+            ],
+            "entities": {}
+          }
+        },
+        {
+          "content": "Deaven Nguyenn nói: Là ngân hàng nào =)))\nTôi trả lời: Ơ thế mà hỏi toàn sao ấy nhỉ. Chắc bốc phép là công an made in China của sếp đâu! 😅",
+          "timestamp": 1748443334912,
+          "priority": 1,
+          "accessCount": 0,
+          "lastAccess": 1748443334912,
+          "metadata": {
+            "sentiment": {
+              "score": 0,
+              "rawScore": 0,
+              "sentiment": "neutral",
+              "confidence": 0.5,
+              "emotions": [],
+              "negationCount": 0,
+              "intensityFactors": [],
+              "primaryEmotion": "neutral"
+            },
+            "topics": [
+              "PERSONAL",
+              "WORK"
+            ],
+            "entities": {}
+          }
+        }
+      ],
+      "emotions": [],
+      "names": [],
+      "relationships": {},
+      "context": {
+        "lastTopics": [],
+        "importantDates": {},
+        "recentMentions": {},
+        "conversationFlow": []
+      },
+      "topics": {},
+      "undefined": [
+        {
+          "content": "Xưng hô: mình/bạn",
+          "timestamp": 1748443299578,
+          "priority": 2,
+          "accessCount": 2,
+          "lastAccess": 1748443333052,
+          "metadata": {
+            "sentiment": {
+              "score": 0,
+              "rawScore": 0,
+              "sentiment": "neutral",
+              "confidence": 0.5,
+              "emotions": [],
+              "negationCount": 0,
+              "intensityFactors": [],
+              "primaryEmotion": "neutral"
+            },
+            "topics": [
+              "PERSONAL"
+            ],
+            "entities": {}
+          }
+        },
+        {
+          "content": "Xưng hô: mình/bạn",
+          "timestamp": 1748443299784,
+          "priority": 2,
+          "accessCount": 1,
+          "lastAccess": 1748443333052,
+          "metadata": {
+            "sentiment": {
+              "score": 0,
+              "rawScore": 0,
+              "sentiment": "neutral",
+              "confidence": 0.5,
+              "emotions": [],
+              "negationCount": 0,
+              "intensityFactors": [],
+              "primaryEmotion": "neutral"
+            },
+            "topics": [
+              "PERSONAL"
+            ],
+            "entities": {}
+          }
+        },
+        {
+          "content": "Xưng hô: mình/bạn",
+          "timestamp": 1748443333052,
+          "priority": 2,
+          "accessCount": 0,
+          "lastAccess": 1748443333052,
           "metadata": {
             "sentiment": {
               "score": 0,
@@ -81,7 +683,7 @@
     "voice": {}
   },
   "stats": {
-    "totalInteractions": 2,
+    "totalInteractions": 24,
     "uniqueUsers": {},
     "topTopics": {},
     "responseTime": [],

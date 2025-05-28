@@ -360,9 +360,9 @@
       ]
     },
     "100008297661441": {
-      "points": 8,
-      "streak": 1,
-      "lastUpdated": "2025-05-27T05:04:39.595Z",
+      "points": 9,
+      "streak": 2,
+      "lastUpdated": "2025-05-28T05:05:37.027Z",
       "vipGoldAwarded": false,
       "history": [
         {
@@ -413,6 +413,13 @@
           "points": 1,
           "total": 8,
           "streak": 1
+        },
+        {
+          "action": "Added points",
+          "date": "2025-05-28T05:05:37.027Z",
+          "points": 1,
+          "total": 9,
+          "streak": 2
         }
       ]
     },
@@ -2236,6 +2243,21 @@
         {
           "action": "Added points",
           "date": "2025-05-27T08:15:29.899Z",
+          "points": 1,
+          "total": 1,
+          "streak": 1
+        }
+      ]
+    },
+    "61576153095567": {
+      "points": 1,
+      "streak": 1,
+      "lastUpdated": "2025-05-28T05:01:13.072Z",
+      "vipGoldAwarded": false,
+      "history": [
+        {
+          "action": "Added points",
+          "date": "2025-05-28T05:01:13.072Z",
           "points": 1,
           "total": 1,
           "streak": 1

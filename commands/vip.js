@@ -113,7 +113,7 @@ module.exports = {
             const months = [1, 3, 6, 12].includes(parseInt(target[1])) ? parseInt(target[1]) : 1;
             const { bestVoucher } = checkVouchers(senderID);
             const originalPrice = 95000;
-            const salePrice = 30000;
+            const salePrice = 49000;
             const totalBase = salePrice * months;
 
             const { duration, discount: baseDiscountPercent } = getDurationAndDiscount(months);

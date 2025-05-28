@@ -4,69 +4,72 @@ const getName = require('../utils/getName');
 const vipService = require('../game/vip/vipService');
 const { getMiningBalance, updateMiningBalance } = require('../game/mining/miningCurrency');
 
-// Mining configuration - ĐIỀU CHỈNH ĐỂ TĂNG HẤP DẪN
+// Mining configuration - CẤU HÌNH KINH TẾ BỀN VỮNG
 const MINING_CONFIG = {
-    BASE_RATE: 2.0, // Tăng từ 0.8 lên 2.0 - tăng 2.5x
-    COOLDOWN: 25 * 1000, // Giảm từ 30s xuống 25s - nhanh hơn 5s
-    MAX_OFFLINE_HOURS: 8, // Tăng từ 6h lên 8h - thu offline lâu hơn
-    LEVEL_MULTIPLIER: 0.05, // Giữ nguyên
-    TEAM_BONUS: 0.015, // Giữ nguyên
+    BASE_RATE: 1.0, // GIẢM 50% từ 2.0 xuống 1.0 để giảm chi phí
+    COOLDOWN: 30 * 1000, // Tăng lên 30s để giảm tần suất mining
+    MAX_OFFLINE_HOURS: 6, // Giảm xuống 6h để hạn chế thu offline
+    LEVEL_MULTIPLIER: 0.03, // Giảm từ 0.05 xuống 0.03
+    TEAM_BONUS: 0.01, // Giảm từ 0.015 xuống 0.01
     VIP_MULTIPLIERS: {
-        GOLD: 1.8  // Giữ nguyên 1.8
+        GOLD: 1.5  // Giảm từ 1.8 xuống 1.5
     },
-    // Hệ thống phí thương mại - GIẢM NHẸ
+    // Hệ thống phí thương mại - TĂNG ĐỂ TĂNG REVENUE
     FEES: {
-        WITHDRAWAL_FEE: 0.10, // Giảm từ 12% xuống 10%
-        AUTO_MINING_FEE: 0.12, // Giảm từ 15% xuống 12%
-        TEAM_CREATE_FEE: 3000, // Giữ nguyên
-        EQUIPMENT_TAX: 0.08,
-        DAILY_MINING_LIMIT_FEE: 100, // Giảm từ 120 xuống 100 coins
-    },
-    // Giới hạn rút tiền - GIẢM THRESHOLD
+        WITHDRAWAL_FEE: 0.15, // TĂNG từ 10% lên 15%
+        AUTO_MINING_FEE: 0.18, // TĂNG từ 12% lên 18%
+        TEAM_CREATE_FEE: 5000, // TĂNG từ 3000 lên 5000
+        EQUIPMENT_TAX: 0.12, // TĂNG từ 8% lên 12%
+        DAILY_MINING_LIMIT_FEE: 150, // TĂNG từ 100 lên 150 coins
+        TRANSACTION_FEE: 0.05, // THÊM: 5% phí giao dịch
+    },    // Giới hạn rút tiền - TĂNG THRESHOLD ĐỂ GIẢM RÚT
     WITHDRAWAL: {
-        MIN_AMOUNT: 8000, // Giảm từ 15k xuống 8k - dễ rút hơn
-        DAILY_LIMIT: 50000, // Tăng từ 40k lên 50k
+        MIN_AMOUNT: 12000, // TĂNG từ 8k lên 12k - khó rút hơn
+        DAILY_LIMIT: 35000, // GIẢM từ 50k xuống 35k
         VIP_BONUS_LIMIT: {
-            GOLD: 2.0
-        }
+            GOLD: 1.5 // GIẢM từ 2.0 xuống 1.5
+        },
+        PROCESSING_FEE: 500, // THÊM: Phí xử lý rút tiền
     },
-    // Giới hạn đào hàng ngày - TĂNG
+    // Giới hạn đào hàng ngày - GIẢM ĐỂ TĂNG REVENUE
     DAILY_MINING: {
-        FREE_LIMIT: 15, // Tăng từ 10 lên 15 lượt
-        VIP_LIMIT: 60, // Tăng từ 50 lên 60 lượt
-        EXTRA_COST: 100 // Giảm từ 120 xuống 100 coins
+        FREE_LIMIT: 8, // GIẢM từ 15 xuống 8 lượt
+        VIP_LIMIT: 40, // GIẢM từ 60 xuống 40 lượt  
+        EXTRA_COST: 200 // TĂNG từ 100 lên 200 coins
     },
-    // Hệ thống thưởng cho người mới - TĂNG
+    // Hệ thống thưởng cho người mới - GIẢM CHI PHÍ
     NEWBIE_BONUS: {
-        FIRST_WEEK_MULTIPLIER: 2.2, // Tăng từ 1.8 lên 2.2
-        FIRST_MONTH_MULTIPLIER: 1.3, // Giữ nguyên
-        WELCOME_BONUS: 3000, // Tăng từ 2k lên 3k
-        DAILY_LOGIN_BONUS: 150, // Tăng từ 100 lên 150
-        LEVEL_UP_BONUS: 200, // Giữ nguyên
-        MAX_NEWBIE_DAYS: 10 // Tăng từ 7 lên 10 ngày
+        FIRST_WEEK_MULTIPLIER: 1.5, // GIẢM từ 2.2 xuống 1.5
+        FIRST_MONTH_MULTIPLIER: 1.1, // GIẢM từ 1.3 xuống 1.1
+        WELCOME_BONUS: 1500, // GIẢM từ 3k xuống 1.5k
+        DAILY_LOGIN_BONUS: 80, // GIẢM từ 150 xuống 80
+        LEVEL_UP_BONUS: 100, // GIẢM từ 200 xuống 100
+        MAX_NEWBIE_DAYS: 5 // GIẢM từ 10 xuống 5 ngày
     },
-    // Hệ thống nhiệm vụ hàng ngày - TĂNG
+    // Hệ thống nhiệm vụ hàng ngày - GIẢM REWARD
     DAILY_QUESTS: {
-        MINE_10_TIMES: { reward: 800, description: "Đào 10 lần" }, // Tăng từ 500 lên 800
-        MINE_20_TIMES: { reward: 1800, description: "Đào 20 lần" }, // Tăng từ 1200 lên 1800
-        JOIN_TEAM: { reward: 1200, description: "Tham gia team" }, // Tăng từ 800 lên 1200
-        USE_AUTO_MINING: { reward: 900, description: "Sử dụng auto mining" } // Tăng từ 600 lên 900
-    },
-    // THÊM: Hệ thống coin sinks
+        MINE_10_TIMES: { reward: 400, description: "Đào 10 lần" }, // GIẢM từ 800 xuống 400
+        MINE_20_TIMES: { reward: 900, description: "Đào 20 lần" }, // GIẢM từ 1800 xuống 900
+        JOIN_TEAM: { reward: 600, description: "Tham gia team" }, // GIẢM từ 1200 xuống 600
+        USE_AUTO_MINING: { reward: 450, description: "Sử dụng auto mining" } // GIẢM từ 900 xuống 450
+    },    // COIN SINKS - TĂNG CƯỜNG ĐỂ HÚT COINS
     COIN_SINKS: {
         EQUIPMENT_DURABILITY: true, // Thiết bị bị hỏng theo thời gian
-        MONTHLY_MAINTENANCE: 1000, // Phí duy trì hàng tháng
-        INSURANCE_FEE: 0.05, // 5% phí bảo hiểm cho số dư lớn
-        STORAGE_FEE: 100 // Phí lưu trữ coins/ngày nếu > 50k coins
+        MONTHLY_MAINTENANCE: 2000, // TĂNG phí duy trì từ 1000 lên 2000
+        INSURANCE_FEE: 0.08, // TĂNG từ 5% lên 8% phí bảo hiểm
+        STORAGE_FEE: 200, // TĂNG phí lưu trữ từ 100 lên 200 coins/ngày
+        INACTIVITY_TAX: 500, // THÊM: Thuế không hoạt động 500 coins/ngày
+        PREMIUM_FEATURES_FEE: 300, // THÊM: Phí tính năng premium
     },
-    // Hệ thống kiểm soát kinh tế - TĂNG CƯỜNG
+    // Hệ thống kiểm soát kinh tế - TĂNG CƯỜNG MẠNH
     ECONOMY_CONTROL: {
-        DAILY_COIN_DESTRUCTION: 0.03, // Tăng từ 2% lên 3%
-        INFLATION_CONTROL_RATE: 0.99, // Giảm 1% mining rate mỗi tuần
-        MAX_COINS_IN_SYSTEM: 5000000, // Giảm từ 10M xuống 5M
+        DAILY_COIN_DESTRUCTION: 0.05, // TĂNG từ 3% lên 5%
+        INFLATION_CONTROL_RATE: 0.97, // GIẢM 3% mining rate mỗi tuần thay vì 1%
+        MAX_COINS_IN_SYSTEM: 3000000, // GIẢM từ 5M xuống 3M
         EMERGENCY_BRAKE: true,
-        WEALTH_TAX_THRESHOLD: 100000, // Đánh thuế user có > 100k coins
-        WEALTH_TAX_RATE: 0.01 // 1% thuế giàu/ngày
+        WEALTH_TAX_THRESHOLD: 50000, // GIẢM từ 100k xuống 50k
+        WEALTH_TAX_RATE: 0.02, // TĂNG từ 1% lên 2% thuế giàu/ngày
+        SYSTEM_FEE_RATE: 0.03, // THÊM: 3% phí hệ thống trên mọi giao dịch
     },
     // THÊM: HỆ THỐNG AFFILIATE/REFERRAL
     AFFILIATE: {
@@ -327,14 +330,13 @@ function updateDailyQuests(userId, action, amount = 1) {
     const user = initUser(userId);
     const today = new Date().toDateString();
 
-    if (!user.dailyQuests[today]) {
-        user.dailyQuests[today] = {
-            mineCount: 0,
-            joinedTeam: false,
-            usedAutoMining: false,
-            completed: []
-        };
-    }
+    if (!user.dailyQuests) user.dailyQuests = {};
+    if (!user.dailyQuests[today]) user.dailyQuests[today] = {
+        mineCount: 0,
+        joinedTeam: false,
+        usedAutoMining: false,
+        completed: []
+    };
 
     const todayQuests = user.dailyQuests[today];
     let rewards = [];
@@ -363,14 +365,19 @@ function updateDailyQuests(userId, action, amount = 1) {
             break;
 
         case 'join_team':
-            if (!todayQuests.joinedTeam && !todayQuests.completed.includes('JOIN_TEAM')) {
-                todayQuests.joinedTeam = true;
-                todayQuests.completed.push('JOIN_TEAM');
-                updateMiningBalance(userId, MINING_CONFIG.DAILY_QUESTS.JOIN_TEAM.reward);
-                rewards.push({
-                    name: MINING_CONFIG.DAILY_QUESTS.JOIN_TEAM.description,
-                    reward: MINING_CONFIG.DAILY_QUESTS.JOIN_TEAM.reward
-                });
+            // CẬP NHẬT: Kiểm tra chặt chẽ hơn cho quest join team
+            if (!todayQuests.completed.includes('JOIN_TEAM')) {
+                // Kiểm tra xem user có thực sự trong team không
+                const currentUser = initUser(userId);
+                if (currentUser.team) {
+                    todayQuests.joinedTeam = true;
+                    todayQuests.completed.push('JOIN_TEAM');
+                    updateMiningBalance(userId, MINING_CONFIG.DAILY_QUESTS.JOIN_TEAM.reward);
+                    rewards.push({
+                        name: MINING_CONFIG.DAILY_QUESTS.JOIN_TEAM.description,
+                        reward: MINING_CONFIG.DAILY_QUESTS.JOIN_TEAM.reward
+                    });
+                }
             }
             break;
 
@@ -516,10 +523,18 @@ function processWithdrawal(userId, amount) {
             success: false,
             message: `❌ Vượt quá giới hạn rút tiền hàng ngày! Còn lại: ${(dailyLimit - user.withdrawalHistory[today]).toLocaleString()} coins`
         };
+    }    // THÊM: Tính phí rút tiền với discount cho affiliate referee
+    let withdrawalFeeRate = MINING_CONFIG.FEES.WITHDRAWAL_FEE;
+    
+    // Kiểm tra affiliate referee discount
+    const affiliateData = loadAffiliateData();
+    const userAffiliate = affiliateData[userId];
+    if (userAffiliate && userAffiliate.referredBy) {
+        // Giảm 10% phí rút tiền cho người được giới thiệu
+        withdrawalFeeRate *= (1 - MINING_CONFIG.AFFILIATE.REFEREE_BONUS.WITHDRAWAL_FEE_DISCOUNT);
     }
-
-    // Tính phí rút tiền (tăng lên 12%)
-    const fee = Math.floor(amount * MINING_CONFIG.FEES.WITHDRAWAL_FEE);
+    
+    const fee = Math.floor(amount * withdrawalFeeRate);
     const actualAmount = amount - fee;
 
     // Xử lý rút tiền
@@ -863,22 +878,37 @@ function canReceiveCommission(referrerId, amount) {
     const affiliateData = loadAffiliateData();
     const referrer = affiliateData[referrerId];
 
-    if (!referrer || !referrer.isActive) return false;
+    console.log(`[COMMISSION DEBUG] Checking commission for ${referrerId}, amount: ${amount}`);
+    console.log(`[COMMISSION DEBUG] Referrer exists:`, !!referrer);
+    console.log(`[COMMISSION DEBUG] Referrer is active:`, referrer?.isActive);
+
+    if (!referrer || !referrer.isActive) {
+        console.log(`[COMMISSION DEBUG] Referrer not active or doesn't exist`);
+        return false;
+    }
 
     const currentMonth = new Date().getMonth();
+    console.log(`[COMMISSION DEBUG] Current month: ${currentMonth}, Last reset: ${referrer.lastResetMonth}`);
 
     // Reset monthly commissions if new month
     if (referrer.lastResetMonth !== currentMonth) {
+        console.log(`[COMMISSION DEBUG] Resetting monthly commissions for new month`);
         referrer.monthlyCommissions = 0;
         referrer.lastResetMonth = currentMonth;
         saveAffiliateData(affiliateData);
     }
 
+    console.log(`[COMMISSION DEBUG] Current monthly commissions: ${referrer.monthlyCommissions}`);
+    console.log(`[COMMISSION DEBUG] Monthly limit: ${MINING_CONFIG.AFFILIATE.LIMITS.MAX_COMMISSION_PER_MONTH}`);
+    console.log(`[COMMISSION DEBUG] After adding amount: ${referrer.monthlyCommissions + amount}`);
+
     // Check monthly limit
     if (referrer.monthlyCommissions + amount > MINING_CONFIG.AFFILIATE.LIMITS.MAX_COMMISSION_PER_MONTH) {
+        console.log(`[COMMISSION DEBUG] Monthly limit exceeded`);
         return false;
     }
 
+    console.log(`[COMMISSION DEBUG] Commission approved`);
     return true;
 }
 
@@ -945,20 +975,34 @@ function distributeAffiliateCommissions(userId, miningAmount) {
     const affiliateData = loadAffiliateData();
     const userAffiliate = affiliateData[userId];
 
+    console.log(`[AFFILIATE DEBUG] User ${userId}, Mining Amount: ${miningAmount}`);
+    console.log(`[AFFILIATE DEBUG] User has affiliate data:`, !!userAffiliate);
+    console.log(`[AFFILIATE DEBUG] Referred by:`, userAffiliate?.referredBy);
+
     if (!userAffiliate || !userAffiliate.referredBy) {
+        console.log(`[AFFILIATE DEBUG] No referrer found for user ${userId}`);
         return []; // Không có người giới thiệu
     }
 
     const commissions = [];
 
-    // Level 1 commission
+    // Level 1 commission - FIXED: Check if user mining has active affiliate
     const level1ReferrerId = userAffiliate.referredBy;
+    console.log(`[AFFILIATE DEBUG] Level 1 referrer: ${level1ReferrerId}`);
+    console.log(`[AFFILIATE DEBUG] Level 1 referrer exists:`, !!affiliateData[level1ReferrerId]);
+    console.log(`[AFFILIATE DEBUG] Level 1 referrer is active:`, affiliateData[level1ReferrerId]?.isActive);
+    
     if (affiliateData[level1ReferrerId] && affiliateData[level1ReferrerId].isActive) {
         const commission1 = Math.floor(miningAmount * MINING_CONFIG.AFFILIATE.MINING_COMMISSION.LEVEL_1);
-        if (canReceiveCommission(level1ReferrerId, commission1)) {
+        console.log(`[AFFILIATE DEBUG] Level 1 commission calculation: ${miningAmount} * ${MINING_CONFIG.AFFILIATE.MINING_COMMISSION.LEVEL_1} = ${commission1}`);
+        
+        if (commission1 > 0 && canReceiveCommission(level1ReferrerId, commission1)) {
+            console.log(`[AFFILIATE DEBUG] Awarding Level 1 commission: ${commission1} to ${level1ReferrerId}`);
             updateMiningBalance(level1ReferrerId, commission1);
             recordCommission(level1ReferrerId, commission1, 'mining', 1, userId);
             commissions.push({ level: 1, userId: level1ReferrerId, amount: commission1 });
+        } else {
+            console.log(`[AFFILIATE DEBUG] Level 1 commission not awarded: commission=${commission1}, canReceive=${canReceiveCommission(level1ReferrerId, commission1)}`);
         }
 
         // Level 2 commission
@@ -966,7 +1010,10 @@ function distributeAffiliateCommissions(userId, miningAmount) {
         if (level1Referrer.referredBy && affiliateData[level1Referrer.referredBy] && affiliateData[level1Referrer.referredBy].isActive) {
             const level2ReferrerId = level1Referrer.referredBy;
             const commission2 = Math.floor(miningAmount * MINING_CONFIG.AFFILIATE.MINING_COMMISSION.LEVEL_2);
-            if (canReceiveCommission(level2ReferrerId, commission2)) {
+            console.log(`[AFFILIATE DEBUG] Level 2 commission calculation: ${miningAmount} * ${MINING_CONFIG.AFFILIATE.MINING_COMMISSION.LEVEL_2} = ${commission2}`);
+            
+            if (commission2 > 0 && canReceiveCommission(level2ReferrerId, commission2)) {
+                console.log(`[AFFILIATE DEBUG] Awarding Level 2 commission: ${commission2} to ${level2ReferrerId}`);
                 updateMiningBalance(level2ReferrerId, commission2);
                 recordCommission(level2ReferrerId, commission2, 'mining', 2, userId);
                 commissions.push({ level: 2, userId: level2ReferrerId, amount: commission2 });
@@ -977,7 +1024,10 @@ function distributeAffiliateCommissions(userId, miningAmount) {
             if (level2Referrer.referredBy && affiliateData[level2Referrer.referredBy] && affiliateData[level2Referrer.referredBy].isActive) {
                 const level3ReferrerId = level2Referrer.referredBy;
                 const commission3 = Math.floor(miningAmount * MINING_CONFIG.AFFILIATE.MINING_COMMISSION.LEVEL_3);
-                if (canReceiveCommission(level3ReferrerId, commission3)) {
+                console.log(`[AFFILIATE DEBUG] Level 3 commission calculation: ${miningAmount} * ${MINING_CONFIG.AFFILIATE.MINING_COMMISSION.LEVEL_3} = ${commission3}`);
+                
+                if (commission3 > 0 && canReceiveCommission(level3ReferrerId, commission3)) {
+                    console.log(`[AFFILIATE DEBUG] Awarding Level 3 commission: ${commission3} to ${level3ReferrerId}`);
                     updateMiningBalance(level3ReferrerId, commission3);
                     recordCommission(level3ReferrerId, commission3, 'mining', 3, userId);
                     commissions.push({ level: 3, userId: level3ReferrerId, amount: commission3 });
@@ -986,6 +1036,13 @@ function distributeAffiliateCommissions(userId, miningAmount) {
         }
     }
 
+    // LƯU LẠI AFFILIATE DATA SAU KHI PHÂN PHỐI COMMISSION
+    if (commissions.length > 0) {
+        saveAffiliateData(affiliateData);
+        console.log(`[AFFILIATE DEBUG] Saved affiliate data after distributing ${commissions.length} commissions`);
+    }
+
+    console.log(`[AFFILIATE DEBUG] Total commissions distributed:`, commissions);
     return commissions;
 }
 
@@ -1025,16 +1082,50 @@ function processVipCommission(buyerUserId, packagePrice) {
     recordCommission(referrerId, commission, 'vip', 1, buyerUserId);
     checkAndRewardMilestones(referrerId);
 
-    return {
+    // LƯU LẠI AFFILIATE DATA
+    affiliateData[referrerId] = referrer;
+    saveAffiliateData(affiliateData);    return {
         referrerId: referrerId,
         commission: commission
     };
+}
+
+// THÊM: Auto-activate affiliate for users who have referrals
+function autoActivateAffiliateForActiveUsers() {
+    const affiliateData = loadAffiliateData();
+    let activated = 0;
+    
+    for (const [userId, userAffiliate] of Object.entries(affiliateData)) {
+        // Nếu user chưa kích hoạt nhưng đã có downline thì auto kích hoạt
+        if (!userAffiliate.isActive && 
+            (userAffiliate.referrals.level1.length > 0 || 
+             userAffiliate.referrals.level2.length > 0 || 
+             userAffiliate.referrals.level3.length > 0)) {
+            
+            userAffiliate.isActive = true;
+            userAffiliate.activatedAt = Date.now();
+            activated++;
+            console.log(`[AFFILIATE] Auto-activated affiliate for user ${userId} (has ${userAffiliate.referrals.level1.length} referrals)`);
+        }
+    }
+    
+    if (activated > 0) {
+        saveAffiliateData(affiliateData);
+        console.log(`[AFFILIATE] Auto-activated ${activated} affiliate accounts`);
+    }
+    
+    return activated;
 }
 
 // Initialize data files
 initializeDataFiles();
 // THÊM: Initialize affiliate file
 initializeAffiliateFile();
+
+// THÊM: Auto-activate affiliate for existing users
+setTimeout(() => {
+    autoActivateAffiliateForActiveUsers();
+}, 1000);
 
 module.exports = {
     name: "mining",
@@ -1398,11 +1489,18 @@ module.exports = {
                         saveTeamData(teamData);
                         saveMiningData(data);
 
+                        // CẬP NHẬT: Hoàn thành nhiệm vụ JOIN_TEAM khi tạo team
+                        const questRewards = updateDailyQuests(senderID, 'join_team');
+                        let questMessage = "";
+                        if (questRewards.length > 0) {
+                            questMessage = `\n🎯 Hoàn thành nhiệm vụ: ${questRewards[0].name} (+${questRewards[0].reward} coins)`;
+                        }
+
                         return api.sendMessage(
                             `✅ Đã tạo team "${teamName}" thành công!\n` +
                             `👑 Bạn là leader\n` +
                             `💰 Đã trừ phí: ${MINING_CONFIG.FEES.TEAM_CREATE_FEE.toLocaleString()} coins\n` +
-                            `🆔 Team ID: ${teamId}`,
+                            `🆔 Team ID: ${teamId}${questMessage}`,
                             threadID, messageID
                         );
                     } else if (subAction === "join") {
@@ -1427,10 +1525,17 @@ module.exports = {
                         saveTeamData(teamData);
                         saveMiningData(data);
 
+                        // CẬP NHẬT: Hoàn thành nhiệm vụ JOIN_TEAM khi tham gia team
+                        const questRewards = updateDailyQuests(senderID, 'join_team');
+                        let questMessage = "";
+                        if (questRewards.length > 0) {
+                            questMessage = `\n🎯 Hoàn thành nhiệm vụ: ${questRewards[0].name} (+${questRewards[0].reward} coins)`;
+                        }
+
                         return api.sendMessage(
                             `✅ Đã tham gia team "${team.name}"!\n` +
                             `👥 Thành viên: ${team.members.length}/10\n` +
-                            `🎁 Bonus team: +${team.members.length * 5}%`,
+                            `🎁 Bonus team: +${team.members.length * 5}%${questMessage}`,
                             threadID, messageID
                         );
                     } else if (subAction === "leave") {
@@ -1487,7 +1592,10 @@ module.exports = {
                             "🎁 BONUS:\n" +
                             "• Mỗi thành viên: +5% mining power\n" +
                             "• Tối đa 10 thành viên: +50%\n" +
-                            "• Cùng nhau đào coin hiệu quả hơn!",
+                            "• Cùng nhau đào coin hiệu quả hơn!\n\n" +
+                            "🎯 QUEST BONUS:\n" +
+                            `• Tạo hoặc tham gia team: +${MINING_CONFIG.DAILY_QUESTS.JOIN_TEAM.reward} coins\n` +
+                            "• Chỉ hoàn thành 1 lần/ngày",
                             threadID, messageID
                         );
                     }
@@ -1984,13 +2092,44 @@ module.exports = {
                     withdrawalData[withdrawalOrder.orderId] = withdrawalOrder;
                     fs.writeFileSync(withdrawalFile, JSON.stringify(withdrawalData, null, 2));
 
+                    // THÊM: Gửi thông báo tự động cho admin group
+                    const adminGroupId = '6589198804475799';
+                    try {
+                        const adminMessage = 
+                            "🚨 ĐƠN RÚT TIỀN MỚI 🚨\n" +
+                            "━━━━━━━━━━━━━━━━━━\n\n" +
+                            `🆔 Mã đơn: ${withdrawalOrder.orderId}\n` +
+                            `👤 User: ${userName} (${senderID})\n` +
+                            `💰 Số tiền: ${amount.toLocaleString()} coins\n` +
+                            `💸 Phí: ${withdrawResult.fee.toLocaleString()} coins (${(MINING_CONFIG.FEES.WITHDRAWAL_FEE * 100)}%)\n` +
+                            `💎 Thực nhận: ${withdrawResult.amount.toLocaleString()} VND\n\n` +
+                            "🏦 THÔNG TIN NGÂN HÀNG:\n" +
+                            `🏧 Ngân hàng: ${user.bankAccount.bankName}\n` +
+                            `💳 Số TK: ${user.bankAccount.accountNumber}\n` +
+                            `👤 Chủ TK: ${user.bankAccount.accountName}\n\n` +
+                            `⏰ Thời gian: ${new Date().toLocaleString('vi-VN')}\n` +
+                            `📱 Từ thread: ${threadID}\n\n` +
+                            "📊 LỆNH ADMIN XỬ LÝ:\n" +
+                            "• .mining awl - Xem tất cả đơn\n" +
+                            "• .mining approve [STT] - Duyệt đơn\n" +
+                            "• .mining reject [STT] [lý do] - Từ chối\n\n" +
+                            "⚡ Cần xử lý trong 24h!\n" +
+                            "🔥 Ưu tiên xử lý để đảm bảo uy tín!";
+
+                        api.sendMessage(adminMessage, adminGroupId);
+                        console.log(`[MINING] Sent withdrawal notification to admin group: ${adminGroupId}`);
+                    } catch (adminError) {
+                        console.error('[MINING] Error sending admin notification:', adminError);
+                    }
+
+                    // Phản hồi cho user
                     return api.sendMessage(
-                        "✅ TẠO ĐơN RÚT TIỀN THÀNH CÔNG!\n" +
+                        "✅ TẠO ĐƠN RÚT TIỀN THÀNH CÔNG!\n" +
                         "━━━━━━━━━━━━━━━━━━\n\n" +
                         `🆔 Mã đơn: ${withdrawalOrder.orderId}\n` +
                         `💰 Số tiền rút: ${amount.toLocaleString()} coins\n` +
                         `💸 Phí rút: ${withdrawResult.fee.toLocaleString()} coins (${(MINING_CONFIG.FEES.WITHDRAWAL_FEE * 100)}%)\n` +
-                        `💎 Thực nhận: ${withdrawResult.amount.toLocaleString()} coins\n\n` +
+                        `💎 Thực nhận: ${withdrawResult.amount.toLocaleString()} VND\n\n` +
                         "🏦 THÔNG TIN NGÂN HÀNG:\n" +
                         `🏧 Ngân hàng: ${user.bankAccount.bankName}\n` +
                         `💳 Số TK: ${user.bankAccount.accountNumber}\n` +
@@ -2002,13 +2141,13 @@ module.exports = {
                         `💵 Số dư còn lại: ${withdrawResult.remaining.toLocaleString()} coins\n\n` +
                         "📞 HỖ TRỢ:\n" +
                         "• Liên hệ admin nếu quá 24h chưa nhận được tiền\n" +
-                        "• Gửi kèm mã đơn để tra cứu nhanh",
+                        "• Gửi kèm mã đơn để tra cứu nhanh\n\n" +
+                        "✅ Admin đã được thông báo tự động!",
                         threadID, messageID
                     );
                     break;
                 }
 
-                // LỆNH ẨN CHO ADMIN - Chỉ admin có thể sử dụng
                 case "admin_withdrawal_list":
                 case "awl": {
                     // Kiểm tra quyền admin - chỉ cho phép một số userID cụ thể
@@ -2038,11 +2177,14 @@ module.exports = {
                             "✅ Không có đơn rút tiền nào đang chờ xử lý\n\n" +
                             "📊 LỆNH ADMIN:\n" +
                             "• .mining awl - Xem danh sách đơn\n" +
-                            "• .mining approve [mã đơn] - Duyệt đơn\n" +
-                            "• .mining reject [mã đơn] [lý do] - Từ chối đơn",
+                            "• .mining approve [STT] - Duyệt đơn theo STT\n" +
+                            "• .mining reject [STT] [lý do] - Từ chối đơn theo STT",
                             threadID, messageID
                         );
                     }
+
+                    // Sắp xếp theo thời gian tạo (cũ nhất trước)
+                    pendingOrders.sort((a, b) => a.createdAt - b.createdAt);
 
                     let message = "📋 DANH SÁCH ĐƠN RÚT TIỀN\n";
                     message += "━━━━━━━━━━━━━━━━━━\n\n";
@@ -2052,12 +2194,13 @@ module.exports = {
                         const order = pendingOrders[i];
                         const timeAgo = Math.floor((Date.now() - order.createdAt) / (60 * 1000));
 
-                        message += `${i + 1}. 🆔 ${order.orderId}\n`;
+                        message += `🔸 STT ${i + 1}:\n`;
                         message += `   👤 ${order.userName} (${order.userId})\n`;
                         message += `   💰 ${order.amount.toLocaleString()} → ${order.actualAmount.toLocaleString()} coins\n`;
                         message += `   🏦 ${order.bankInfo.bankName} - ${order.bankInfo.accountNumber}\n`;
                         message += `   👤 ${order.bankInfo.accountName}\n`;
-                        message += `   ⏰ ${timeAgo} phút trước\n\n`;
+                        message += `   ⏰ ${timeAgo} phút trước\n`;
+                        message += `   🆔 ${order.orderId}\n\n`;
                     }
 
                     if (pendingOrders.length > 10) {
@@ -2065,9 +2208,10 @@ module.exports = {
                     }
 
                     message += "📊 LỆNH ADMIN:\n";
-                    message += "• .mining approve [mã đơn] - Duyệt đơn\n";
-                    message += "• .mining reject [mã đơn] [lý do] - Từ chối đơn\n";
-                    message += "• .mining awl - Refresh danh sách";
+                    message += "• .mining approve [STT] - Duyệt đơn (VD: .mining approve 1)\n";
+                    message += "• .mining reject [STT] [lý do] - Từ chối đơn\n";
+                    message += "• .mining awl - Refresh danh sách\n\n";
+                    message += "💡 Duyệt theo STT thay vì ID dài!";
 
                     return api.sendMessage(message, threadID, messageID);
                     break;
@@ -2080,9 +2224,18 @@ module.exports = {
                         return api.sendMessage("❌ Lệnh không tồn tại!", threadID, messageID);
                     }
 
-                    const orderId = target[1];
-                    if (!orderId) {
-                        return api.sendMessage("❌ Vui lòng nhập mã đơn!\nVí dụ: .mining approve WD1234567890ABC", threadID, messageID);
+                    const orderIndex = parseInt(target[1]);
+                    if (!orderIndex || orderIndex < 1) {
+                        return api.sendMessage(
+                            "❌ Vui lòng nhập số thứ tự hợp lệ!\n\n" +
+                            "📝 Cách sử dụng:\n" +
+                            ".mining approve [STT]\n\n" +
+                            "💡 Ví dụ:\n" +
+                            ".mining approve 1 (duyệt đơn STT 1)\n" +
+                            ".mining approve 3 (duyệt đơn STT 3)\n\n" +
+                            "📋 Xem danh sách: .mining awl",
+                            threadID, messageID
+                        );
                     }
 
                     const withdrawalFile = path.join(__dirname, './json/withdrawal_orders.json');
@@ -2094,20 +2247,30 @@ module.exports = {
                         return api.sendMessage("❌ Không thể đọc dữ liệu đơn rút tiền!", threadID, messageID);
                     }
 
-                    if (!withdrawalData[orderId]) {
-                        return api.sendMessage("❌ Không tìm thấy đơn rút tiền với mã này!", threadID, messageID);
+                    const pendingOrders = Object.values(withdrawalData)
+                        .filter(order => order.status === 'pending')
+                        .sort((a, b) => a.createdAt - b.createdAt); // Sắp xếp theo thời gian
+
+                    if (orderIndex > pendingOrders.length) {
+                        return api.sendMessage(
+                            `❌ Không tìm thấy đơn STT ${orderIndex}!\n\n` +
+                            `📊 Hiện có ${pendingOrders.length} đơn chờ xử lý\n` +
+                            "📋 Xem danh sách: .mining awl",
+                            threadID, messageID
+                        );
                     }
 
-                    const order = withdrawalData[orderId];
+                    const order = pendingOrders[orderIndex - 1]; // Array bắt đầu từ 0
+                    const orderId = order.orderId;
 
                     if (order.status !== 'pending') {
-                        return api.sendMessage(`❌ Đơn này đã được xử lý trước đó (${order.status})!`, threadID, messageID);
+                        return api.sendMessage(`❌ Đơn STT ${orderIndex} đã được xử lý trước đó (${order.status})!`, threadID, messageID);
                     }
 
                     // Cập nhật trạng thái đơn
-                    order.status = 'approved';
-                    order.approvedAt = Date.now();
-                    order.approvedBy = senderID;
+                    withdrawalData[orderId].status = 'approved';
+                    withdrawalData[orderId].approvedAt = Date.now();
+                    withdrawalData[orderId].approvedBy = senderID;
 
                     fs.writeFileSync(withdrawalFile, JSON.stringify(withdrawalData, null, 2));
 
@@ -2126,13 +2289,14 @@ module.exports = {
                     );
 
                     return api.sendMessage(
-                        `✅ ĐÃ DUYỆT ĐƠN RÚT TIỀN!\n\n` +
+                        `✅ ĐÃ DUYỆT ĐƠN STT ${orderIndex}!\n\n` +
                         `🆔 Mã đơn: ${orderId}\n` +
                         `👤 User: ${order.userName}\n` +
                         `💰 Số tiền: ${order.actualAmount.toLocaleString()} VND\n` +
                         `🏦 ${order.bankInfo.bankName} - ${order.bankInfo.accountNumber}\n` +
                         `👤 ${order.bankInfo.accountName}\n\n` +
-                        `⏰ Đã thông báo cho user`,
+                        `⏰ Đã thông báo cho user\n` +
+                        `📋 Xem danh sách mới: .mining awl`,
                         threadID, messageID
                     );
                     break;
@@ -2145,16 +2309,18 @@ module.exports = {
                         return api.sendMessage("❌ Lệnh không tồn tại!", threadID, messageID);
                     }
 
-                    const orderId = target[1];
+                    const orderIndex = parseInt(target[1]);
                     const reason = target.slice(2).join(" ");
 
-                    if (!orderId || !reason) {
+                    if (!orderIndex || orderIndex < 1 || !reason) {
                         return api.sendMessage(
                             "❌ Thiếu thông tin!\n\n" +
                             "📝 Cách sử dụng:\n" +
-                            ".mining reject [mã đơn] [lý do từ chối]\n\n" +
+                            ".mining reject [STT] [lý do từ chối]\n\n" +
                             "💡 Ví dụ:\n" +
-                            ".mining reject WD1234567890ABC Thông tin ngân hàng không chính xác",
+                            ".mining reject 1 Thông tin ngân hàng không chính xác\n" +
+                            ".mining reject 2 Số tài khoản sai\n\n" +
+                            "📋 Xem danh sách: .mining awl",
                             threadID, messageID
                         );
                     }
@@ -2168,24 +2334,34 @@ module.exports = {
                         return api.sendMessage("❌ Không thể đọc dữ liệu đơn rút tiền!", threadID, messageID);
                     }
 
-                    if (!withdrawalData[orderId]) {
-                        return api.sendMessage("❌ Không tìm thấy đơn rút tiền với mã này!", threadID, messageID);
+                    const pendingOrders = Object.values(withdrawalData)
+                        .filter(order => order.status === 'pending')
+                        .sort((a, b) => a.createdAt - b.createdAt); // Sắp xếp theo thời gian
+
+                    if (orderIndex > pendingOrders.length) {
+                        return api.sendMessage(
+                            `❌ Không tìm thấy đơn STT ${orderIndex}!\n\n` +
+                            `📊 Hiện có ${pendingOrders.length} đơn chờ xử lý\n` +
+                            "📋 Xem danh sách: .mining awl",
+                            threadID, messageID
+                        );
                     }
 
-                    const order = withdrawalData[orderId];
+                    const order = pendingOrders[orderIndex - 1]; // Array bắt đầu từ 0
+                    const orderId = order.orderId;
 
                     if (order.status !== 'pending') {
-                        return api.sendMessage(`❌ Đơn này đã được xử lý trước đó (${order.status})!`, threadID, messageID);
+                        return api.sendMessage(`❌ Đơn STT ${orderIndex} đã được xử lý trước đó (${order.status})!`, threadID, messageID);
                     }
 
                     // Hoàn lại tiền cho user
                     updateMiningBalance(order.userId, order.amount);
 
                     // Cập nhật trạng thái đơn
-                    order.status = 'rejected';
-                    order.rejectedAt = Date.now();
-                    order.rejectedBy = senderID;
-                    order.rejectReason = reason;
+                    withdrawalData[orderId].status = 'rejected';
+                    withdrawalData[orderId].rejectedAt = Date.now();
+                    withdrawalData[orderId].rejectedBy = senderID;
+                    withdrawalData[orderId].rejectReason = reason;
 
                     fs.writeFileSync(withdrawalFile, JSON.stringify(withdrawalData, null, 2));
 
@@ -2205,17 +2381,122 @@ module.exports = {
                     );
 
                     return api.sendMessage(
-                        `❌ ĐÃ TỪ CHỐI ĐƠN RÚT TIỀN!\n\n` +
+                        `❌ ĐÃ TỪ CHỐI ĐƠN STT ${orderIndex}!\n\n` +
                         `🆔 Mã đơn: ${orderId}\n` +
                         `👤 User: ${order.userName}\n` +
                         `💰 Đã hoàn: ${order.amount.toLocaleString()} coins\n` +
                         `📝 Lý do: ${reason}\n\n` +
-                        `⏰ Đã thông báo cho user`,
+                        `⏰ Đã thông báo cho user\n` +
+                        `📋 Xem danh sách mới: .mining awl`,
                         threadID, messageID
                     );
                     break;
                 }
+                // case "fix_team_quest": {
+                //     // LỆNH ĐẶC BIỆT CHO ADMIN - Fix quest cho những người đã có team
+                //     const adminIds = ['61573427362389', '61573427362389'];
 
+                //     if (!adminIds.includes(senderID)) {
+                //         return api.sendMessage("❌ Lệnh không tồn tại!", threadID, messageID);
+                //     }
+
+                //     const allUsers = loadMiningData();
+                //     const teamData = loadTeamData();
+                //     const today = new Date().toDateString();
+                //     let fixedCount = 0;
+                //     let totalReward = 0;
+
+                //     for (const [userId, userData] of Object.entries(allUsers)) {
+                //         // Kiểm tra user có team không
+                //         if (userData.team) {
+                //             const team = teamData[userData.team];
+                //             if (team) {
+                //                 // Kiểm tra quest hôm nay
+                //                 if (!userData.dailyQuests) userData.dailyQuests = {};
+                //                 if (!userData.dailyQuests[today]) {
+                //                     userData.dailyQuests[today] = {
+                //                         mineCount: 0,
+                //                         joinedTeam: false,
+                //                         usedAutoMining: false,
+                //                         completed: []
+                //                     };
+                //                 }
+
+                //                 const todayQuests = userData.dailyQuests[today];
+
+                //                 // Nếu chưa hoàn thành quest JOIN_TEAM hôm nay
+                //                 if (!todayQuests.completed.includes('JOIN_TEAM')) {
+                //                     // Tặng quest
+                //                     todayQuests.joinedTeam = true;
+                //                     todayQuests.completed.push('JOIN_TEAM');
+                //                     updateMiningBalance(userId, MINING_CONFIG.DAILY_QUESTS.JOIN_TEAM.reward);
+
+                //                     fixedCount++;
+                //                     totalReward += MINING_CONFIG.DAILY_QUESTS.JOIN_TEAM.reward;
+
+                //                     // Thông báo cho user
+                //                     api.sendMessage(
+                //                         "🔧 BÙ QUEST TEAM - FIX LỖI HỆ THỐNG 🔧\n" +
+                //                         "━━━━━━━━━━━━━━━━━━\n\n" +
+                //                         "✅ Chúng tôi phát hiện bạn đã có team nhưng chưa nhận được thưởng quest hôm nay\n\n" +
+                //                         `🎯 Đã bù quest: ${MINING_CONFIG.DAILY_QUESTS.JOIN_TEAM.description}\n` +
+                //                         `💰 Thưởng: +${MINING_CONFIG.DAILY_QUESTS.JOIN_TEAM.reward} coins\n\n` +
+                //                         "🙏 Xin lỗi vì sự bất tiện!\n" +
+                //                         "💡 Từ giờ quest team sẽ hoạt động bình thường",
+                //                         userId
+                //                     );
+                //                 }
+                //             }
+                //         }
+                //     }
+
+                //     // Lưu dữ liệu
+                //     saveMiningData(allUsers);
+
+                //     return api.sendMessage(
+                //         `🔧 FIX TEAM QUEST HOÀN THÀNH!\n\n` +
+                //         `✅ Đã fix cho ${fixedCount} users\n` +
+                //         `💰 Tổng coins đã bù: ${totalReward.toLocaleString()}\n` +
+                //         `📊 Tất cả user có team đã được bù quest hôm nay`,
+                //         threadID, messageID
+                //     );
+                //     break;
+                // }
+
+                // case "manual_team_quest": {
+                //     // Cho phép user tự claim quest team nếu đã có team
+                //     if (!user.team) {
+                //         return api.sendMessage("❌ Bạn chưa có team!", threadID, messageID);
+                //     }
+
+                //     const today = new Date().toDateString();
+                //     const todayQuests = user.dailyQuests?.[today] || {
+                //         mineCount: 0,
+                //         joinedTeam: false,
+                //         usedAutoMining: false,
+                //         completed: []
+                //     };
+
+                //     if (todayQuests.completed.includes('JOIN_TEAM')) {
+                //         return api.sendMessage("❌ Bạn đã hoàn thành quest team hôm nay rồi!", threadID, messageID);
+                //     }
+
+                //     // Cho phép claim
+                //     const questRewards = updateDailyQuests(senderID, 'join_team');
+
+                //     if (questRewards.length > 0) {
+                //         return api.sendMessage(
+                //             "✅ ĐÃ CLAIM QUEST TEAM!\n\n" +
+                //             `🎯 Quest: ${questRewards[0].name}\n` +
+                //             `💰 Thưởng: +${questRewards[0].reward} coins\n\n` +
+                //             "💡 Quest này dành cho những ai đã có team trước khi hệ thống được fix",
+                //             threadID, messageID
+                //         );
+                //     } else {
+                //         return api.sendMessage("❌ Không thể claim quest team!", threadID, messageID);
+                //     }
+                //     break;
+                // }
                 case "affiliate":
                 case "ref": {
                     const subAction = target[1]?.toLowerCase();
@@ -2445,9 +2726,7 @@ module.exports = {
 
                         message += "💡 Hoàn thành milestone để nhận thưởng lớn!";
 
-                        return api.sendMessage(message, threadID, messageID);
-
-                    } else if (subAction === "leaderboard") {
+                        return api.sendMessage(message, threadID, messageID);                    } else if (subAction === "leaderboard") {
                         const affiliateData = loadAffiliateData();
                         const sortedAffiliates = Object.entries(affiliateData)
                             .filter(([userId, data]) => data.isActive)
@@ -2474,6 +2753,65 @@ module.exports = {
                         }
 
                         return api.sendMessage(leaderboard, threadID, messageID);
+
+                    } else if (subAction === "debug") {
+                        // THÊM: Debug affiliate system
+                        if (senderID !== "61573427362389") { // Only admin can debug
+                            return api.sendMessage("❌ Không có quyền sử dụng lệnh debug!", threadID, messageID);
+                        }
+
+                        const affiliateData = loadAffiliateData();
+                        const testUserId = target[2] || senderID;
+                        const testUser = affiliateData[testUserId];
+
+                        if (!testUser) {
+                            return api.sendMessage(`❌ User ${testUserId} không có trong affiliate system!`, threadID, messageID);
+                        }
+
+                        // Auto-activate for testing
+                        const activated = autoActivateAffiliateForActiveUsers();                        let debugInfo = "🔧 AFFILIATE DEBUG INFO 🔧\n";
+                        debugInfo += "━━━━━━━━━━━━━━━━━━\n\n";
+                        debugInfo += `👤 User: ${testUserId}\n`;
+                        debugInfo += `📝 Referral Code: ${testUser.referralCode}\n`;
+                        debugInfo += `✅ Active: ${testUser.isActive}\n`;
+                        debugInfo += `👨‍👩‍👧‍👦 Referred by: ${testUser.referredBy || 'None'}\n`;
+                        debugInfo += `📊 Level 1: ${testUser.referrals.level1.length}\n`;
+                        debugInfo += `📊 Level 2: ${testUser.referrals.level2.length}\n`;
+                        debugInfo += `📊 Level 3: ${testUser.referrals.level3.length}\n`;
+                        debugInfo += `💰 Total Commissions: ${testUser.totalCommissions}\n`;
+                        debugInfo += `📅 Monthly: ${testUser.monthlyCommissions}\n`;
+                        debugInfo += `💎 VIP: ${testUser.vipCommissions}\n\n`;
+                        debugInfo += `🔄 Auto-activated: ${activated} accounts\n\n`;
+                        
+                        // Check if user has referrer and if referrer is active
+                        if (testUser.referredBy) {
+                            const referrer = affiliateData[testUser.referredBy];
+                            debugInfo += `👨‍💼 Referrer Info:\n`;
+                            debugInfo += `  • Exists: ${!!referrer}\n`;
+                            debugInfo += `  • Active: ${referrer?.isActive || false}\n`;
+                            debugInfo += `  • Code: ${referrer?.referralCode || 'N/A'}\n\n`;
+                        }
+                        
+                        // Test mining calculation
+                        const miningResult = calculateMining(testUserId, 60);
+                        debugInfo += `⛏️ Mining Test (60s):\n`;
+                        debugInfo += `  • Amount: ${miningResult.amount}\n`;
+                        debugInfo += `  • Level 1 (5%): ${Math.floor(miningResult.amount * 0.05)}\n`;
+                        debugInfo += `  • Level 2 (2%): ${Math.floor(miningResult.amount * 0.02)}\n`;
+                        debugInfo += `  • Level 3 (1%): ${Math.floor(miningResult.amount * 0.01)}\n\n`;
+                        
+                        // Show recent commission history
+                        if (testUser.commissionHistory.length > 0) {
+                            debugInfo += "📈 Recent Commissions (Last 5):\n";
+                            const recent = testUser.commissionHistory.slice(-5);
+                            recent.forEach(comm => {
+                                debugInfo += `• ${comm.amount} coins (Level ${comm.level}, ${comm.type})\n`;
+                            });
+                        } else {
+                            debugInfo += "📈 No commission history\n";
+                        }
+
+                        return api.sendMessage(debugInfo, threadID, messageID);
 
                     } else {
                         const affiliateData = loadAffiliateData();
@@ -2562,12 +2900,12 @@ module.exports = {
             console.error('Mining error:', error);
             return api.sendMessage("❌ Có lỗi xảy ra trong hệ thống mining!", threadID, messageID);
         }
-    },
-
-    // THÊM: Export affiliate functions for VIP service
+    },    // THÊM: Export affiliate functions for VIP service
     processVipCommission,
     generateReferralCode,
     initAffiliateUser,
     processReferral,
-    distributeAffiliateCommissions
+    distributeAffiliateCommissions,
+    getAffiliateRefereeBonus,
+    updateMiningBalance
 };

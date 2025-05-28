@@ -1,267 +1,267 @@
 {
   "snapshots": [
     {
-      "timestamp": 1748321050323,
+      "timestamp": 1748422910284,
       "stocks": {
         "APPL": {
-          "price": 206.26512650238575,
-          "trend": "stable"
-        },
-        "GOOG": {
-          "price": 180.42107208438074,
+          "price": 207.7070665332277,
           "trend": "up"
         },
+        "GOOG": {
+          "price": 173.23653698765938,
+          "trend": "down"
+        },
         "MSFT": {
-          "price": 315.4322723423557,
+          "price": 280.3935613320694,
           "trend": "down"
         },
         "TSLA": {
-          "price": 414.28992504274044,
-          "trend": "up"
-        },
-        "AMZN": {
-          "price": 169.92485307074162,
+          "price": 309.0724537800345,
           "trend": "down"
         },
+        "AMZN": {
+          "price": 159.10796764439556,
+          "trend": "up"
+        },
         "META": {
-          "price": 400.49821303435914,
+          "price": 367.399861976275,
           "trend": "up"
         },
         "NFLX": {
-          "price": 805.5624640108847,
-          "trend": "down"
-        },
-        "COIN": {
-          "price": 182.02042723020764,
-          "trend": "down"
-        },
-        "PEP": {
-          "price": 190.61103974465712,
+          "price": 804.3404505057031,
           "trend": "up"
         },
+        "COIN": {
+          "price": 227.42785470441783,
+          "trend": "stable"
+        },
+        "PEP": {
+          "price": 220.3193308929324,
+          "trend": "stable"
+        },
         "DIS": {
-          "price": 97.86265703301382,
+          "price": 119.15363459881861,
           "trend": "stable"
         },
         "AKI": {
-          "price": 15.102261413772435,
-          "trend": "down"
+          "price": 12.870739363550666,
+          "trend": "up"
         },
         "HNT": {
-          "price": 42.79212386076949,
+          "price": 31.699506209760187,
+          "trend": "down"
+        }
+      }
+    },
+    {
+      "timestamp": 1748428094287,
+      "stocks": {
+        "APPL": {
+          "price": 215.419401843316,
+          "trend": "up"
+        },
+        "GOOG": {
+          "price": 169.6501487632441,
+          "trend": "down"
+        },
+        "MSFT": {
+          "price": 272.8226104120655,
+          "trend": "down"
+        },
+        "TSLA": {
+          "price": 325.6988768253074,
+          "trend": "stable"
+        },
+        "AMZN": {
+          "price": 166.97996549509904,
+          "trend": "up"
+        },
+        "META": {
+          "price": 389.08974577953325,
+          "trend": "up"
+        },
+        "NFLX": {
+          "price": 815.7884248133771,
+          "trend": "up"
+        },
+        "COIN": {
+          "price": 208.84033357689117,
+          "trend": "down"
+        },
+        "PEP": {
+          "price": 223.86569234862293,
+          "trend": "down"
+        },
+        "DIS": {
+          "price": 113.88419135986699,
+          "trend": "stable"
+        },
+        "AKI": {
+          "price": 13.96080583937886,
+          "trend": "up"
+        },
+        "HNT": {
+          "price": 28.611945846649103,
+          "trend": "down"
+        }
+      }
+    },
+    {
+      "timestamp": 1748430891151,
+      "stocks": {
+        "APPL": {
+          "price": 215.61111851526016,
+          "trend": "up"
+        },
+        "GOOG": {
+          "price": 166.04220565998648,
+          "trend": "down"
+        },
+        "MSFT": {
+          "price": 272.2688398047098,
+          "trend": "down"
+        },
+        "TSLA": {
+          "price": 324.82306873238497,
+          "trend": "up"
+        },
+        "AMZN": {
+          "price": 170.7772526875149,
+          "trend": "up"
+        },
+        "META": {
+          "price": 385.6276146287042,
+          "trend": "up"
+        },
+        "NFLX": {
+          "price": 839.9110335281248,
+          "trend": "up"
+        },
+        "COIN": {
+          "price": 192.60829440816963,
+          "trend": "down"
+        },
+        "PEP": {
+          "price": 219.7811129589945,
+          "trend": "down"
+        },
+        "DIS": {
+          "price": 114.08929009812447,
+          "trend": "stable"
+        },
+        "AKI": {
+          "price": 13.06233510450997,
+          "trend": "up"
+        },
+        "HNT": {
+          "price": 28.975325209786718,
+          "trend": "down"
+        }
+      }
+    },
+    {
+      "timestamp": 1748435685444,
+      "stocks": {
+        "APPL": {
+          "price": 225.09248561195173,
+          "trend": "up"
+        },
+        "GOOG": {
+          "price": 168.50434480810517,
+          "trend": "down"
+        },
+        "MSFT": {
+          "price": 270.66680629862793,
+          "trend": "down"
+        },
+        "TSLA": {
+          "price": 356.42042615738404,
+          "trend": "stable"
+        },
+        "AMZN": {
+          "price": 176.9961265184659,
+          "trend": "up"
+        },
+        "META": {
+          "price": 387.4858214787649,
+          "trend": "up"
+        },
+        "NFLX": {
+          "price": 887.4318648109295,
+          "trend": "up"
+        },
+        "COIN": {
+          "price": 198.36344300135542,
+          "trend": "down"
+        },
+        "PEP": {
+          "price": 214.64031845271742,
+          "trend": "down"
+        },
+        "DIS": {
+          "price": 112.21978234766017,
+          "trend": "stable"
+        },
+        "AKI": {
+          "price": 13.118542182430971,
+          "trend": "up"
+        },
+        "HNT": {
+          "price": 30.507238267357142,
           "trend": "stable"
         }
       }
     },
     {
-      "timestamp": 1748324791530,
+      "timestamp": 1748439477499,
       "stocks": {
         "APPL": {
-          "price": 208.50283195508908,
-          "trend": "down"
+          "price": 224.1717613512006,
+          "trend": "up"
         },
         "GOOG": {
-          "price": 184.4702813364317,
-          "trend": "stable"
+          "price": 160.02088425691304,
+          "trend": "down"
         },
         "MSFT": {
-          "price": 311.3115294831989,
+          "price": 271.89908426833495,
           "trend": "down"
         },
         "TSLA": {
-          "price": 396.7994771367069,
-          "trend": "stable"
+          "price": 359.28915884808976,
+          "trend": "up"
         },
         "AMZN": {
-          "price": 166.81626275823777,
-          "trend": "down"
+          "price": 181.49573641999675,
+          "trend": "up"
         },
         "META": {
-          "price": 402.82485370926565,
+          "price": 398.9235683829355,
           "trend": "up"
         },
         "NFLX": {
-          "price": 834.2101965366267,
-          "trend": "down"
+          "price": 881.27081798116,
+          "trend": "up"
         },
         "COIN": {
-          "price": 195.3461907096505,
+          "price": 198.76680959068827,
           "trend": "down"
         },
         "PEP": {
-          "price": 195.47605070321643,
-          "trend": "up"
+          "price": 215.64538031196787,
+          "trend": "stable"
         },
         "DIS": {
-          "price": 99.53092131452361,
+          "price": 109.62650753158599,
           "trend": "down"
         },
         "AKI": {
-          "price": 13.571922658857252,
-          "trend": "stable"
+          "price": 13.192925779976655,
+          "trend": "up"
         },
         "HNT": {
-          "price": 38.92373881064014,
-          "trend": "stable"
-        }
-      }
-    },
-    {
-      "timestamp": 1748334671323,
-      "stocks": {
-        "APPL": {
-          "price": 197.36226648605307,
-          "trend": "stable"
-        },
-        "GOOG": {
-          "price": 190.66000922194058,
-          "trend": "stable"
-        },
-        "MSFT": {
-          "price": 308.4679385556317,
-          "trend": "down"
-        },
-        "TSLA": {
-          "price": 362.2877778749339,
-          "trend": "down"
-        },
-        "AMZN": {
-          "price": 168.00813394058054,
-          "trend": "down"
-        },
-        "META": {
-          "price": 396.3867323658669,
+          "price": 32.896858990057076,
           "trend": "up"
-        },
-        "NFLX": {
-          "price": 859.0073921884224,
-          "trend": "down"
-        },
-        "COIN": {
-          "price": 186.3025930423538,
-          "trend": "stable"
-        },
-        "PEP": {
-          "price": 198.24884872167564,
-          "trend": "up"
-        },
-        "DIS": {
-          "price": 98.49731149668442,
-          "trend": "stable"
-        },
-        "AKI": {
-          "price": 12.51755388290157,
-          "trend": "stable"
-        },
-        "HNT": {
-          "price": 41.37670477440728,
-          "trend": "stable"
-        }
-      }
-    },
-    {
-      "timestamp": 1748338095347,
-      "stocks": {
-        "APPL": {
-          "price": 193.40405188043363,
-          "trend": "down"
-        },
-        "GOOG": {
-          "price": 182.59166101701652,
-          "trend": "up"
-        },
-        "MSFT": {
-          "price": 302.32134345519677,
-          "trend": "down"
-        },
-        "TSLA": {
-          "price": 326.8215282987476,
-          "trend": "down"
-        },
-        "AMZN": {
-          "price": 167.33565131548323,
-          "trend": "down"
-        },
-        "META": {
-          "price": 391.29997059235825,
-          "trend": "stable"
-        },
-        "NFLX": {
-          "price": 828.2239800150909,
-          "trend": "stable"
-        },
-        "COIN": {
-          "price": 187.70318559866848,
-          "trend": "stable"
-        },
-        "PEP": {
-          "price": 204.09858305678523,
-          "trend": "up"
-        },
-        "DIS": {
-          "price": 101.81865847588298,
-          "trend": "stable"
-        },
-        "AKI": {
-          "price": 11.71940338542929,
-          "trend": "stable"
-        },
-        "HNT": {
-          "price": 39.031417229963324,
-          "trend": "stable"
-        }
-      }
-    },
-    {
-      "timestamp": 1748342218124,
-      "stocks": {
-        "APPL": {
-          "price": 190.00109639600706,
-          "trend": "down"
-        },
-        "GOOG": {
-          "price": 189.55003508771273,
-          "trend": "stable"
-        },
-        "MSFT": {
-          "price": 304.9560485833192,
-          "trend": "down"
-        },
-        "TSLA": {
-          "price": 311.2671206686401,
-          "trend": "down"
-        },
-        "AMZN": {
-          "price": 160.48366475026245,
-          "trend": "down"
-        },
-        "META": {
-          "price": 380.8411716373307,
-          "trend": "down"
-        },
-        "NFLX": {
-          "price": 814.4959024132569,
-          "trend": "stable"
-        },
-        "COIN": {
-          "price": 205.9893132508275,
-          "trend": "up"
-        },
-        "PEP": {
-          "price": 202.2914786915438,
-          "trend": "up"
-        },
-        "DIS": {
-          "price": 104.86372873008135,
-          "trend": "stable"
-        },
-        "AKI": {
-          "price": 11.622196036921173,
-          "trend": "down"
-        },
-        "HNT": {
-          "price": 42.26155897801719,
-          "trend": "stable"
         }
       }
     }

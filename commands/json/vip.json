@@ -237,6 +237,26 @@
         "months": 1,
         "voucherApplied": null
       }
+    },
+    "100065381078044": {
+      "packageId": 3,
+      "name": "VIP Gold",
+      "expireTime": 1751550882825,
+      "benefits": {
+        "miningBonus": 0.8,
+        "stolenProtection": 1,
+        "withdrawalBonusLimit": 2,
+        "dailyMiningLimit": 50,
+        "autoMiningDiscount": 0.05,
+        "teamBonusMultiplier": 1.2,
+        "packageId": 3,
+        "name": "VIP Gold"
+      },
+      "purchaseInfo": {
+        "purchaseDate": 1748354082825,
+        "months": 1,
+        "voucherApplied": null
+      }
     }
   }
 }
