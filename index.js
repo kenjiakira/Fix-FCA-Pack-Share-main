@@ -16,7 +16,7 @@ function checkDiscordLock() {
             process.kill(parseInt(pid), 0);
             console.log(boldText(gradient.cristal(`Discord bot already running with PID: ${pid}`)));
             return true;
-        } catch(e) {
+        } catch(e) {    
             fs.unlinkSync(DISCORD_LOCK_FILE);
         }
     }

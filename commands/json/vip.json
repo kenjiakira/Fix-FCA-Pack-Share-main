@@ -34,40 +34,6 @@
         "voucherApplied": null
       }
     },
-    "61573427362389": {
-      "packageId": 3,
-      "name": "VIP GOLD",
-      "expireTime": 1751273806084,
-      "benefits": {
-        "cooldownReduction": 30,
-        "dailyBonus": true,
-        "fishingCooldown": 120000,
-        "fishExpMultiplier": 4,
-        "rareBonus": 0.3,
-        "trashReduction": 0.6,
-        "stolenProtection": 1,
-        "stolenCooldown": 900000,
-        "fullPlatformAccess": true,
-        "dailyTransferLimit": 5000000000,
-        "gachaBonus": {
-          "limitedRateBonus": 0.15
-        },
-        "petBenefits": {
-          "statDecayReduction": 0.3,
-          "itemDiscounts": 0.15,
-          "expBonus": 0.3,
-          "exclusivePets": true,
-          "maxPets": 5
-        },
-        "packageId": 3,
-        "name": "VIP GOLD"
-      },
-      "purchaseInfo": {
-        "purchaseDate": 1748077006084,
-        "months": 1,
-        "voucherApplied": null
-      }
-    },
     "61558946907944": {
       "packageId": 3,
       "name": "VIP GOLD",
@@ -254,6 +220,46 @@
       },
       "purchaseInfo": {
         "purchaseDate": 1748354082825,
+        "months": 1,
+        "voucherApplied": null
+      }
+    },
+    "100028202556430": {
+      "packageId": 3,
+      "name": "VIP Gold",
+      "expireTime": 1751695893169,
+      "benefits": {
+        "miningBonus": 0.8,
+        "stolenProtection": 1,
+        "withdrawalBonusLimit": 2,
+        "dailyMiningLimit": 50,
+        "autoMiningDiscount": 0.05,
+        "teamBonusMultiplier": 1.2,
+        "packageId": 3,
+        "name": "VIP Gold"
+      },
+      "purchaseInfo": {
+        "purchaseDate": 1748499093169,
+        "months": 1,
+        "voucherApplied": null
+      }
+    },
+    "61573427362389": {
+      "packageId": 3,
+      "name": "VIP Gold",
+      "expireTime": 1751904573914,
+      "benefits": {
+        "miningBonus": 0.8,
+        "stolenProtection": 1,
+        "withdrawalBonusLimit": 2,
+        "dailyMiningLimit": 50,
+        "autoMiningDiscount": 0.05,
+        "teamBonusMultiplier": 1.2,
+        "packageId": 3,
+        "name": "VIP Gold"
+      },
+      "purchaseInfo": {
+        "purchaseDate": 1748707773914,
         "months": 1,
         "voucherApplied": null
       }

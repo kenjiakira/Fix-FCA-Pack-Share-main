@@ -35,7 +35,6 @@ module.exports = {
 
         switch (action) {
             case "set": {
-                // Only Gold VIP (packageId 3) is available
                 const packageId = 3;
 
                 const result = vipService.setVIP(userID, packageId, 1);

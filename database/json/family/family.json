@@ -162,7 +162,7 @@
       {
         "name": "Như Ngọc",
         "birthDate": 1740646417072,
-        "happiness": 15.19768753472222,
+        "happiness": 0,
         "gender": "👦",
         "nickname": "Cưng Như Ngọc"
       },
@@ -171,7 +171,7 @@
         "name": "Kenji",
         "gender": "👦",
         "birthDate": 1741011214693,
-        "happiness": 43.405795,
+        "happiness": 0,
         "nickname": "Pin Kenji",
         "isMarried": false,
         "movedOut": false
@@ -179,7 +179,7 @@
     ],
     "home": null,
     "happiness": 0,
-    "lastChecked": 1742556188109,
+    "lastChecked": 1748706086620,
     "lastBaby": 1740646417072,
     "lastIntimate": 1741178703407,
     "isProposer": true,
@@ -223,7 +223,7 @@
         "id": "1740751646336",
         "name": "Hoàng Gia Long",
         "birthDate": 1740751646336,
-        "happiness": 34.53317305555554,
+        "happiness": 0,
         "gender": "👦",
         "nickname": "Yêu Hoàng Gia Long"
       },
@@ -232,15 +232,15 @@
         "name": "Hoàng Lan Anh",
         "gender": "👧",
         "birthDate": 1740848223110,
-        "happiness": 34.809055659722205,
+        "happiness": 0,
         "nickname": "Tí Hoàng Lan Anh",
         "isMarried": false,
         "movedOut": false
       }
     ],
     "home": null,
-    "happiness": 68.43697239583334,
-    "lastChecked": 1742564488582,
+    "happiness": 0,
+    "lastChecked": 1748706062095,
     "lastBaby": 1740751646337,
     "lastIntimate": 1740848160307,
     "isProposer": true,
@@ -256,9 +256,9 @@
       }
     },
     "insurance": {
-      "active": true,
+      "active": false,
       "expiresAt": 1743331664364,
-      "discount": 30
+      "discount": 0
     }
   },
   "61563982612558": {
@@ -1841,14 +1841,14 @@
       {
         "name": "minh khôi",
         "birthDate": 1740725177467,
-        "happiness": 63.433823784722236,
+        "happiness": 0,
         "gender": "👧",
         "nickname": "Cưng minh khôi"
       }
     ],
     "home": null,
-    "happiness": 39.05637297453704,
-    "lastChecked": 1741773859024,
+    "happiness": 0,
+    "lastChecked": 1748706075395,
     "lastBaby": 1740725177467,
     "lastIntimate": 1740725066622,
     "isProposer": false,
@@ -2396,9 +2396,9 @@
     "lastBaby": 0,
     "lastIntimate": 1742118277597,
     "insurance": {
-      "active": true,
+      "active": false,
       "expiresAt": 1744646240152,
-      "discount": 30
+      "discount": 0
     },
     "insurances": {
       "health": {

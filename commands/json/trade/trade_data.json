@@ -33,19 +33,13 @@
       "createdAt": 1744020646547
     },
     "100076957299243": {
-      "portfolio": {
-        "AKI": {
-          "shares": 20000000,
-          "avgBuyPrice": 11.14927265635422,
-          "totalInvested": 222985453.1270844
-        }
-      },
-      "cash": 709366062.1708224,
-      "invested": 222985453.1270844,
-      "totalProfit": -729537.9979007539,
-      "tradeCount": 5,
-      "successTrades": 0,
-      "lastUpdated": 1748404392516,
+      "portfolio": {},
+      "cash": 1000475523.755506,
+      "invested": 0,
+      "totalProfit": 70334970.07166494,
+      "tradeCount": 6,
+      "successTrades": 1,
+      "lastUpdated": 1748696063484,
       "createdAt": 1744090403012
     },
     "61573427362389": {
@@ -141,19 +135,13 @@
       "createdAt": 1748065301087
     },
     "61550331471452": {
-      "portfolio": {
-        "PEP": {
-          "shares": 1991828189,
-          "avgBuyPrice": 178.9231423646043,
-          "totalInvested": 356384158626.279
-        }
-      },
-      "cash": 124936594583.45819,
-      "invested": 356384158626.279,
-      "totalProfit": 0,
-      "tradeCount": 1,
-      "successTrades": 0,
-      "lastUpdated": 1748233970568,
+      "portfolio": {},
+      "cash": 1e+270,
+      "invested": 0,
+      "totalProfit": -26975651836738190000,
+      "tradeCount": 8,
+      "successTrades": 2,
+      "lastUpdated": 1748786222385,
       "createdAt": 1748232422470
     },
     "61561277064921": {

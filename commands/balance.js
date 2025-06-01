@@ -3,7 +3,7 @@ const path = require('path');
 const { createCanvas, loadImage } = require('canvas');
 const axios = require('axios');
 
-const userDataFile = path.join(__dirname,'../events/cache/userData.json');
+const userDataFile = path.join(__dirname,'../events/cache/rankData.json');
 const bankingDataPath = path.join(__dirname, './json/banking.json');
 let userData = {};
 

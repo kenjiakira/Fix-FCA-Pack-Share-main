@@ -1,76 +1,185 @@
 {
   "61561277064921": {
-    "level": 1,
-    "experience": 48,
-    "totalMined": 48,
-    "miningCount": 16,
-    "lastMined": 1748445318770,
-    "miningPower": 1,
-    "team": null,
+    "level": 4,
+    "experience": 97,
+    "totalMined": 17857,
+    "miningCount": 158,
+    "lastMined": 1748784948607,
+    "miningPower": 1.3000000000000003,
+    "team": "team_1748446197080",
     "autoMining": {
-      "active": false,
-      "startTime": 0,
-      "rate": 0
+      "active": true,
+      "startTime": 1748752748689,
+      "endTime": 1748839148689,
+      "rate": 272
     },
     "achievements": [],
     "equipment": [],
     "boosts": [],
     "createdAt": 1748444112388,
-    "lastLogin": 1748444112388,
+    "lastLogin": 1748772079681,
     "dailyQuests": {
       "Wed May 28 2025": {
-        "mineCount": 16,
+        "mineCount": 39,
+        "joinedTeam": true,
+        "usedAutoMining": true,
+        "completed": [
+          "MINE_10_TIMES",
+          "MINE_20_TIMES",
+          "JOIN_TEAM",
+          "USE_AUTO_MINING"
+        ]
+      },
+      "Thu May 29 2025": {
+        "mineCount": 40,
+        "joinedTeam": false,
+        "usedAutoMining": true,
+        "completed": [
+          "MINE_10_TIMES",
+          "MINE_20_TIMES",
+          "USE_AUTO_MINING"
+        ]
+      },
+      "Fri May 30 2025": {
+        "mineCount": 40,
+        "joinedTeam": false,
+        "usedAutoMining": true,
+        "completed": [
+          "MINE_10_TIMES",
+          "MINE_20_TIMES",
+          "USE_AUTO_MINING"
+        ]
+      },
+      "Sat May 31 2025": {
+        "mineCount": 14,
         "joinedTeam": false,
         "usedAutoMining": false,
         "completed": [
           "MINE_10_TIMES"
         ]
+      },
+      "Sun Jun 01 2025": {
+        "mineCount": 25,
+        "joinedTeam": false,
+        "usedAutoMining": true,
+        "completed": [
+          "USE_AUTO_MINING",
+          "MINE_10_TIMES",
+          "MINE_20_TIMES"
+        ]
       }
     },
-    "streakDays": 0,
+    "streakDays": 4,
     "hasReceivedWelcomeBonus": true,
     "dailyMining": {
-      "Wed May 28 2025": 16
+      "Wed May 28 2025": 39,
+      "Thu May 29 2025": 40,
+      "Fri May 30 2025": 40,
+      "Sat May 31 2025": 14,
+      "Sun Jun 01 2025": 25
+    },
+    "bankAccount": {
+      "bankName": "HDBANK",
+      "accountNumber": "9928668899",
+      "accountName": "NGUYEN QUOC GIA BAO",
+      "linked": true,
+      "linkedAt": 1748447523006,
+      "securityHash": "61561277064921_1748447523006"
+    },
+    "withdrawalHistory": {
+      "Wed May 28 2025": 13000,
+      "Fri May 30 2025": 52500
     }
   },
   "100058320200877": {
-    "level": 1,
-    "experience": 6,
-    "totalMined": 6,
-    "miningCount": 2,
-    "lastMined": 1748445013415,
-    "miningPower": 1,
+    "level": 2,
+    "experience": 80,
+    "totalMined": 11000,
+    "miningCount": 60,
+    "lastMined": 1748786652293,
+    "miningPower": 1.1,
     "team": null,
     "autoMining": {
-      "active": false,
-      "startTime": 0,
-      "rate": 0
+      "active": true,
+      "startTime": 1748786452775,
+      "endTime": 1748858311192,
+      "rate": 220
     },
     "achievements": [],
     "equipment": [],
     "boosts": [],
     "createdAt": 1748444537256,
-    "lastLogin": 1748444537256,
+    "lastLogin": 1748771877788,
     "dailyQuests": {
       "Wed May 28 2025": {
         "mineCount": 2,
         "joinedTeam": false,
         "usedAutoMining": false,
         "completed": []
+      },
+      "Thu May 29 2025": {
+        "mineCount": 23,
+        "joinedTeam": false,
+        "usedAutoMining": true,
+        "completed": [
+          "MINE_10_TIMES",
+          "USE_AUTO_MINING",
+          "MINE_20_TIMES"
+        ]
+      },
+      "Fri May 30 2025": {
+        "mineCount": 17,
+        "joinedTeam": false,
+        "usedAutoMining": true,
+        "completed": [
+          "MINE_10_TIMES",
+          "USE_AUTO_MINING"
+        ]
+      },
+      "Sat May 31 2025": {
+        "mineCount": 11,
+        "joinedTeam": false,
+        "usedAutoMining": false,
+        "completed": [
+          "MINE_10_TIMES"
+        ]
+      },
+      "Sun Jun 01 2025": {
+        "mineCount": 7,
+        "joinedTeam": false,
+        "usedAutoMining": true,
+        "completed": [
+          "USE_AUTO_MINING"
+        ]
       }
     },
-    "streakDays": 0,
+    "streakDays": 4,
     "hasReceivedWelcomeBonus": true,
     "dailyMining": {
-      "Wed May 28 2025": 2
+      "Wed May 28 2025": 2,
+      "Thu May 29 2025": 23,
+      "Fri May 30 2025": 17,
+      "Sat May 31 2025": 11,
+      "Sun Jun 01 2025": 7
+    },
+    "bankAccount": {
+      "bankName": "MBBANK",
+      "accountNumber": "6626481827",
+      "accountName": "PHAM VU KHUONG DUY",
+      "linked": true,
+      "linkedAt": 1748578316396,
+      "securityHash": "100058320200877_1748578316396"
+    },
+    "withdrawalHistory": {
+      "Fri May 30 2025": 13000
     }
   },
   "61576347913972": {
     "level": 1,
-    "experience": 1,
-    "totalMined": 1,
-    "miningCount": 1,
-    "lastMined": 1748445288727,
+    "experience": 8,
+    "totalMined": 8,
+    "miningCount": 8,
+    "lastMined": 1748449633982,
     "miningPower": 1,
     "team": null,
     "autoMining": {
@@ -85,6 +194,391 @@
     "lastLogin": 1748445288683,
     "dailyQuests": {
       "Wed May 28 2025": {
+        "mineCount": 8,
+        "joinedTeam": false,
+        "usedAutoMining": false,
+        "completed": []
+      }
+    },
+    "streakDays": 0,
+    "hasReceivedWelcomeBonus": true,
+    "dailyMining": {
+      "Wed May 28 2025": 8
+    }
+  },
+  "100008297661441": {
+    "level": 1,
+    "experience": 23,
+    "totalMined": 1172,
+    "miningCount": 23,
+    "lastMined": 1748628218458,
+    "miningPower": 1,
+    "team": "team_1748446197080",
+    "autoMining": {
+      "active": true,
+      "startTime": 1748628237289,
+      "endTime": 1748631837289,
+      "rate": 118
+    },
+    "achievements": [],
+    "equipment": [],
+    "boosts": [],
+    "createdAt": 1748445725996,
+    "lastLogin": 1748628218457,
+    "dailyQuests": {
+      "Wed May 28 2025": {
+        "mineCount": 1,
+        "joinedTeam": false,
+        "usedAutoMining": false,
+        "completed": []
+      },
+      "Thu May 29 2025": {
+        "mineCount": 11,
+        "joinedTeam": true,
+        "usedAutoMining": true,
+        "completed": [
+          "USE_AUTO_MINING",
+          "MINE_10_TIMES",
+          "JOIN_TEAM"
+        ]
+      },
+      "Fri May 30 2025": {
+        "mineCount": 10,
+        "joinedTeam": false,
+        "usedAutoMining": true,
+        "completed": [
+          "USE_AUTO_MINING",
+          "MINE_10_TIMES"
+        ]
+      },
+      "Sat May 31 2025": {
+        "mineCount": 1,
+        "joinedTeam": false,
+        "usedAutoMining": true,
+        "completed": [
+          "USE_AUTO_MINING"
+        ]
+      }
+    },
+    "streakDays": 3,
+    "hasReceivedWelcomeBonus": true,
+    "dailyMining": {
+      "Wed May 28 2025": 1,
+      "Thu May 29 2025": 11,
+      "Fri May 30 2025": 10,
+      "Sat May 31 2025": 1
+    }
+  },
+  "100074406095653": {
+    "level": 1,
+    "experience": 6,
+    "totalMined": 6,
+    "miningCount": 6,
+    "lastMined": 1748701700702,
+    "miningPower": 1,
+    "team": null,
+    "autoMining": {
+      "active": false,
+      "startTime": 0,
+      "rate": 0
+    },
+    "achievements": [],
+    "equipment": [],
+    "boosts": [],
+    "createdAt": 1748447367109,
+    "lastLogin": 1748701700695,
+    "dailyQuests": {
+      "Wed May 28 2025": {
+        "mineCount": 1,
+        "joinedTeam": false,
+        "usedAutoMining": false,
+        "completed": []
+      },
+      "Thu May 29 2025": {
+        "mineCount": 3,
+        "joinedTeam": false,
+        "usedAutoMining": false,
+        "completed": []
+      },
+      "Fri May 30 2025": {
+        "mineCount": 1,
+        "joinedTeam": false,
+        "usedAutoMining": false,
+        "completed": []
+      },
+      "Sat May 31 2025": {
+        "mineCount": 1,
+        "joinedTeam": false,
+        "usedAutoMining": false,
+        "completed": []
+      }
+    },
+    "streakDays": 3,
+    "hasReceivedWelcomeBonus": true,
+    "dailyMining": {
+      "Wed May 28 2025": 1,
+      "Thu May 29 2025": 3,
+      "Fri May 30 2025": 1,
+      "Sat May 31 2025": 1
+    }
+  },
+  "61573427362389": {
+    "level": 1,
+    "experience": 4,
+    "totalMined": 4,
+    "miningCount": 2,
+    "lastMined": 1748770628968,
+    "miningPower": 1,
+    "team": null,
+    "autoMining": {
+      "active": false,
+      "startTime": 0,
+      "rate": 0
+    },
+    "achievements": [],
+    "equipment": [],
+    "boosts": [],
+    "createdAt": 1748447639305,
+    "lastLogin": 1748770628968,
+    "dailyQuests": {
+      "Sun Jun 01 2025": {
+        "mineCount": 2,
+        "joinedTeam": false,
+        "usedAutoMining": false,
+        "completed": []
+      }
+    },
+    "streakDays": 1,
+    "hasReceivedWelcomeBonus": true,
+    "bankAccount": {
+      "bankName": "VIETINBANK",
+      "accountNumber": "0354683398",
+      "accountName": "HOANG NGOC TU",
+      "linked": true,
+      "linkedAt": 1748517272787,
+      "securityHash": "61573427362389_1748517272787"
+    },
+    "withdrawalHistory": {
+      "Thu May 29 2025": 50000
+    },
+    "dailyMining": {
+      "Sun Jun 01 2025": 2
+    }
+  },
+  "61550616981053": {
+    "level": 1,
+    "experience": 8,
+    "totalMined": 8,
+    "miningCount": 8,
+    "lastMined": 1748514264685,
+    "miningPower": 1,
+    "team": null,
+    "autoMining": {
+      "active": true,
+      "startTime": 1748514163107,
+      "endTime": 1748517763107,
+      "rate": 108
+    },
+    "achievements": [],
+    "equipment": [],
+    "boosts": [],
+    "createdAt": 1748447668583,
+    "lastLogin": 1748513521776,
+    "dailyQuests": {
+      "Thu May 29 2025": {
+        "mineCount": 8,
+        "joinedTeam": false,
+        "usedAutoMining": true,
+        "completed": [
+          "USE_AUTO_MINING"
+        ]
+      }
+    },
+    "streakDays": 1,
+    "hasReceivedWelcomeBonus": true,
+    "dailyMining": {
+      "Thu May 29 2025": 8
+    }
+  },
+  "61560460131851": {
+    "level": 1,
+    "experience": 0,
+    "totalMined": 0,
+    "miningCount": 0,
+    "lastMined": 0,
+    "miningPower": 1,
+    "team": null,
+    "autoMining": {
+      "active": false,
+      "startTime": 0,
+      "rate": 0
+    },
+    "achievements": [],
+    "equipment": [],
+    "boosts": [],
+    "createdAt": 1748449588352,
+    "lastLogin": 1748449588352,
+    "dailyQuests": {},
+    "streakDays": 0,
+    "hasReceivedWelcomeBonus": true
+  },
+  "61553559136029": {
+    "level": 1,
+    "experience": 0,
+    "totalMined": 0,
+    "miningCount": 0,
+    "lastMined": 0,
+    "miningPower": 1,
+    "team": null,
+    "autoMining": {
+      "active": false,
+      "startTime": 0,
+      "rate": 0
+    },
+    "achievements": [],
+    "equipment": [],
+    "boosts": [],
+    "createdAt": 1748449809945,
+    "lastLogin": 1748449809945,
+    "dailyQuests": {},
+    "streakDays": 0,
+    "hasReceivedWelcomeBonus": true
+  },
+  "100073671519864": {
+    "level": 1,
+    "experience": 0,
+    "totalMined": 0,
+    "miningCount": 0,
+    "lastMined": 0,
+    "miningPower": 1,
+    "team": null,
+    "autoMining": {
+      "active": false,
+      "startTime": 0,
+      "rate": 0
+    },
+    "achievements": [],
+    "equipment": [],
+    "boosts": [],
+    "createdAt": 1748449899705,
+    "lastLogin": 1748449899705,
+    "dailyQuests": {},
+    "streakDays": 0,
+    "hasReceivedWelcomeBonus": true
+  },
+  "61550331471452": {
+    "level": 1,
+    "experience": 48,
+    "totalMined": 48,
+    "miningCount": 16,
+    "lastMined": 1748785226891,
+    "miningPower": 1,
+    "team": null,
+    "autoMining": {
+      "active": false,
+      "startTime": 0,
+      "rate": 0
+    },
+    "achievements": [],
+    "equipment": [],
+    "boosts": [],
+    "createdAt": 1748450432130,
+    "lastLogin": 1748785226890,
+    "dailyQuests": {
+      "Thu May 29 2025": {
+        "mineCount": 6,
+        "joinedTeam": false,
+        "usedAutoMining": false,
+        "completed": []
+      },
+      "Fri May 30 2025": {
+        "mineCount": 3,
+        "joinedTeam": false,
+        "usedAutoMining": false,
+        "completed": []
+      },
+      "Sat May 31 2025": {
+        "mineCount": 6,
+        "joinedTeam": false,
+        "usedAutoMining": false,
+        "completed": []
+      },
+      "Sun Jun 01 2025": {
+        "mineCount": 1,
+        "joinedTeam": false,
+        "usedAutoMining": false,
+        "completed": []
+      }
+    },
+    "streakDays": 4,
+    "hasReceivedWelcomeBonus": true,
+    "dailyMining": {
+      "Thu May 29 2025": 6,
+      "Fri May 30 2025": 3,
+      "Sat May 31 2025": 6,
+      "Sun Jun 01 2025": 1
+    },
+    "bankAccount": {
+      "bankName": "MBBANK",
+      "accountNumber": "0344219738",
+      "accountName": "NONG VAN QUYEN",
+      "linked": true,
+      "linkedAt": 1748668663384,
+      "securityHash": "61550331471452_1748668663384"
+    }
+  },
+  "100028202556430": {
+    "level": 1,
+    "experience": 4,
+    "totalMined": 4,
+    "miningCount": 4,
+    "lastMined": 1748486395821,
+    "miningPower": 1,
+    "team": null,
+    "autoMining": {
+      "active": false,
+      "startTime": 0,
+      "rate": 0
+    },
+    "achievements": [],
+    "equipment": [],
+    "boosts": [],
+    "createdAt": 1748485712050,
+    "lastLogin": 1748485712050,
+    "dailyQuests": {
+      "Thu May 29 2025": {
+        "mineCount": 4,
+        "joinedTeam": false,
+        "usedAutoMining": false,
+        "completed": []
+      }
+    },
+    "streakDays": 0,
+    "hasReceivedWelcomeBonus": true,
+    "dailyMining": {
+      "Thu May 29 2025": 4
+    }
+  },
+  "61576125312586": {
+    "level": 1,
+    "experience": 1,
+    "totalMined": 1,
+    "miningCount": 1,
+    "lastMined": 1748489020547,
+    "miningPower": 1,
+    "team": null,
+    "autoMining": {
+      "active": false,
+      "startTime": 0,
+      "rate": 0
+    },
+    "achievements": [],
+    "equipment": [],
+    "boosts": [],
+    "createdAt": 1748489020520,
+    "lastLogin": 1748489020520,
+    "dailyQuests": {
+      "Thu May 29 2025": {
         "mineCount": 1,
         "joinedTeam": false,
         "usedAutoMining": false,
@@ -94,7 +588,1318 @@
     "streakDays": 0,
     "hasReceivedWelcomeBonus": true,
     "dailyMining": {
-      "Wed May 28 2025": 1
+      "Thu May 29 2025": 1
     }
+  },
+  "61558946907944": {
+    "level": 1,
+    "experience": 10,
+    "totalMined": 10,
+    "miningCount": 4,
+    "lastMined": 1748502597932,
+    "miningPower": 1,
+    "team": null,
+    "autoMining": {
+      "active": false,
+      "startTime": 0,
+      "rate": 0
+    },
+    "achievements": [],
+    "equipment": [],
+    "boosts": [],
+    "createdAt": 1748491410390,
+    "lastLogin": 1748491410390,
+    "dailyQuests": {
+      "Thu May 29 2025": {
+        "mineCount": 4,
+        "joinedTeam": false,
+        "usedAutoMining": false,
+        "completed": []
+      }
+    },
+    "streakDays": 0,
+    "hasReceivedWelcomeBonus": true,
+    "dailyMining": {
+      "Thu May 29 2025": 4
+    }
+  },
+  "100084029703152": {
+    "level": 1,
+    "experience": 8,
+    "totalMined": 548,
+    "miningCount": 8,
+    "lastMined": 1748495349863,
+    "miningPower": 1,
+    "team": null,
+    "autoMining": {
+      "active": true,
+      "startTime": 1748540591853,
+      "endTime": 1748544191853,
+      "rate": 108
+    },
+    "achievements": [],
+    "equipment": [],
+    "boosts": [],
+    "createdAt": 1748494961309,
+    "lastLogin": 1748494961309,
+    "dailyQuests": {
+      "Thu May 29 2025": {
+        "mineCount": 8,
+        "joinedTeam": false,
+        "usedAutoMining": true,
+        "completed": [
+          "USE_AUTO_MINING"
+        ]
+      },
+      "Fri May 30 2025": {
+        "mineCount": 0,
+        "joinedTeam": false,
+        "usedAutoMining": true,
+        "completed": [
+          "USE_AUTO_MINING"
+        ]
+      }
+    },
+    "streakDays": 0,
+    "hasReceivedWelcomeBonus": true,
+    "dailyMining": {
+      "Thu May 29 2025": 8
+    },
+    "bankAccount": {
+      "bankName": "VIETCOMBANK",
+      "accountNumber": "1052105425",
+      "accountName": "NGUYEN NGOC ANH LY",
+      "linked": true,
+      "linkedAt": 1748533145257,
+      "securityHash": "100084029703152_1748533145258"
+    },
+    "withdrawalHistory": {
+      "Thu May 29 2025": 20000
+    }
+  },
+  "100065381078044": {
+    "level": 3,
+    "experience": 106,
+    "totalMined": 16820,
+    "miningCount": 103,
+    "lastMined": 1748799093551,
+    "miningPower": 1.2000000000000002,
+    "team": "team_1748446197080",
+    "autoMining": {
+      "active": true,
+      "startTime": 1748799118967,
+      "endTime": 1748885518967,
+      "rate": 272
+    },
+    "achievements": [],
+    "equipment": [],
+    "boosts": [],
+    "createdAt": 1748496232517,
+    "lastLogin": 1748799093550,
+    "dailyQuests": {
+      "Thu May 29 2025": {
+        "mineCount": 50,
+        "joinedTeam": true,
+        "usedAutoMining": true,
+        "completed": [
+          "JOIN_TEAM",
+          "MINE_10_TIMES",
+          "MINE_20_TIMES",
+          "USE_AUTO_MINING"
+        ]
+      },
+      "Fri May 30 2025": {
+        "mineCount": 31,
+        "joinedTeam": false,
+        "usedAutoMining": true,
+        "completed": [
+          "USE_AUTO_MINING",
+          "MINE_10_TIMES",
+          "MINE_20_TIMES"
+        ]
+      },
+      "Sat May 31 2025": {
+        "mineCount": 16,
+        "joinedTeam": false,
+        "usedAutoMining": true,
+        "completed": [
+          "USE_AUTO_MINING",
+          "MINE_10_TIMES"
+        ]
+      },
+      "Sun Jun 01 2025": {
+        "mineCount": 5,
+        "joinedTeam": false,
+        "usedAutoMining": false,
+        "completed": []
+      },
+      "Mon Jun 02 2025": {
+        "mineCount": 1,
+        "joinedTeam": false,
+        "usedAutoMining": true,
+        "completed": [
+          "USE_AUTO_MINING"
+        ]
+      }
+    },
+    "streakDays": 4,
+    "hasReceivedWelcomeBonus": true,
+    "dailyMining": {
+      "Thu May 29 2025": 50,
+      "Fri May 30 2025": 31,
+      "Sat May 31 2025": 16,
+      "Sun Jun 01 2025": 5,
+      "Mon Jun 02 2025": 1
+    },
+    "bankAccount": {
+      "bankName": "MBBANK",
+      "accountNumber": "711989",
+      "accountName": "LE TUAN TU",
+      "linked": true,
+      "linkedAt": 1748624098305,
+      "securityHash": "100065381078044_1748624098305"
+    },
+    "withdrawalHistory": {
+      "Fri May 30 2025": 23000
+    }
+  },
+  "61552281914806": {
+    "level": 1,
+    "experience": 0,
+    "totalMined": 0,
+    "miningCount": 0,
+    "lastMined": 0,
+    "miningPower": 1,
+    "team": null,
+    "autoMining": {
+      "active": false,
+      "startTime": 0,
+      "rate": 0
+    },
+    "achievements": [],
+    "equipment": [],
+    "boosts": [],
+    "createdAt": 1748498404011,
+    "lastLogin": 1748498404011,
+    "dailyQuests": {},
+    "streakDays": 0,
+    "hasReceivedWelcomeBonus": true
+  },
+  "100059721558426": {
+    "level": 1,
+    "experience": 0,
+    "totalMined": 0,
+    "miningCount": 0,
+    "lastMined": 0,
+    "miningPower": 1,
+    "team": null,
+    "autoMining": {
+      "active": false,
+      "startTime": 0,
+      "rate": 0
+    },
+    "achievements": [],
+    "equipment": [],
+    "boosts": [],
+    "createdAt": 1748498839313,
+    "lastLogin": 1748498839313,
+    "dailyQuests": {},
+    "streakDays": 0,
+    "hasReceivedWelcomeBonus": true
+  },
+  "100076957299243": {
+    "level": 1,
+    "experience": 12,
+    "totalMined": 12,
+    "miningCount": 4,
+    "lastMined": 1748704686699,
+    "miningPower": 1,
+    "team": null,
+    "autoMining": {
+      "active": false,
+      "startTime": 0,
+      "rate": 0
+    },
+    "achievements": [],
+    "equipment": [],
+    "boosts": [],
+    "createdAt": 1748499519962,
+    "lastLogin": 1748696028903,
+    "dailyQuests": {
+      "Thu May 29 2025": {
+        "mineCount": 2,
+        "joinedTeam": false,
+        "usedAutoMining": false,
+        "completed": []
+      },
+      "Sat May 31 2025": {
+        "mineCount": 2,
+        "joinedTeam": false,
+        "usedAutoMining": false,
+        "completed": []
+      }
+    },
+    "streakDays": 1,
+    "hasReceivedWelcomeBonus": true,
+    "dailyMining": {
+      "Thu May 29 2025": 2,
+      "Sat May 31 2025": 2
+    }
+  },
+  "100093208808025": {
+    "level": 1,
+    "experience": 9,
+    "totalMined": 9,
+    "miningCount": 9,
+    "lastMined": 1748623399906,
+    "miningPower": 1,
+    "team": null,
+    "autoMining": {
+      "active": false,
+      "startTime": 0,
+      "rate": 0
+    },
+    "achievements": [],
+    "equipment": [],
+    "boosts": [],
+    "createdAt": 1748499610941,
+    "lastLogin": 1748578647385,
+    "dailyQuests": {
+      "Thu May 29 2025": {
+        "mineCount": 2,
+        "joinedTeam": false,
+        "usedAutoMining": false,
+        "completed": []
+      },
+      "Fri May 30 2025": {
+        "mineCount": 7,
+        "joinedTeam": false,
+        "usedAutoMining": false,
+        "completed": []
+      }
+    },
+    "streakDays": 1,
+    "hasReceivedWelcomeBonus": true,
+    "dailyMining": {
+      "Thu May 29 2025": 2,
+      "Fri May 30 2025": 7
+    },
+    "bankAccount": {
+      "bankName": "MBBANK",
+      "accountNumber": "0374467649",
+      "accountName": "TRUONG HAI NGUYEN",
+      "linked": true,
+      "linkedAt": 1748579468445,
+      "securityHash": "100093208808025_1748579468445"
+    },
+    "withdrawalHistory": {
+      "Fri May 30 2025": 12000
+    }
+  },
+  "100079828954790": {
+    "level": 1,
+    "experience": 2,
+    "totalMined": 2,
+    "miningCount": 2,
+    "lastMined": 1748510251070,
+    "miningPower": 1,
+    "team": null,
+    "autoMining": {
+      "active": false,
+      "startTime": 0,
+      "rate": 0
+    },
+    "achievements": [],
+    "equipment": [],
+    "boosts": [],
+    "createdAt": 1748510002073,
+    "lastLogin": 1748510002073,
+    "dailyQuests": {
+      "Thu May 29 2025": {
+        "mineCount": 2,
+        "joinedTeam": false,
+        "usedAutoMining": false,
+        "completed": []
+      }
+    },
+    "streakDays": 0,
+    "hasReceivedWelcomeBonus": true,
+    "dailyMining": {
+      "Thu May 29 2025": 2
+    }
+  },
+  "61565429063061": {
+    "level": 1,
+    "experience": 0,
+    "totalMined": 0,
+    "miningCount": 0,
+    "lastMined": 0,
+    "miningPower": 1,
+    "team": null,
+    "autoMining": {
+      "active": false,
+      "startTime": 0,
+      "rate": 0
+    },
+    "achievements": [],
+    "equipment": [],
+    "boosts": [],
+    "createdAt": 1748516571689,
+    "lastLogin": 1748516571689,
+    "dailyQuests": {},
+    "streakDays": 0,
+    "hasReceivedWelcomeBonus": true
+  },
+  "100071158820977": {
+    "level": 1,
+    "experience": 0,
+    "totalMined": 0,
+    "miningCount": 0,
+    "lastMined": 0,
+    "miningPower": 1,
+    "team": null,
+    "autoMining": {
+      "active": false,
+      "startTime": 0,
+      "rate": 0
+    },
+    "achievements": [],
+    "equipment": [],
+    "boosts": [],
+    "createdAt": 1748516630689,
+    "lastLogin": 1748516630689,
+    "dailyQuests": {},
+    "streakDays": 0,
+    "hasReceivedWelcomeBonus": true
+  },
+  "61575647590626": {
+    "level": 1,
+    "experience": 2,
+    "totalMined": 2,
+    "miningCount": 2,
+    "lastMined": 1748517337428,
+    "miningPower": 1,
+    "team": "team_1748446197080",
+    "autoMining": {
+      "active": false,
+      "startTime": 0,
+      "rate": 0
+    },
+    "achievements": [],
+    "equipment": [],
+    "boosts": [],
+    "createdAt": 1748516723301,
+    "lastLogin": 1748516723301,
+    "dailyQuests": {
+      "Thu May 29 2025": {
+        "mineCount": 2,
+        "joinedTeam": true,
+        "usedAutoMining": false,
+        "completed": [
+          "JOIN_TEAM"
+        ]
+      }
+    },
+    "streakDays": 0,
+    "hasReceivedWelcomeBonus": true,
+    "dailyMining": {
+      "Thu May 29 2025": 2
+    }
+  },
+  "61575202629439": {
+    "level": 1,
+    "experience": 0,
+    "totalMined": 0,
+    "miningCount": 0,
+    "lastMined": 0,
+    "miningPower": 1,
+    "team": null,
+    "autoMining": {
+      "active": false,
+      "startTime": 0,
+      "rate": 0
+    },
+    "achievements": [],
+    "equipment": [],
+    "boosts": [],
+    "createdAt": 1748516731460,
+    "lastLogin": 1748516731460,
+    "dailyQuests": {},
+    "streakDays": 0,
+    "hasReceivedWelcomeBonus": true
+  },
+  "100079511985506": {
+    "level": 1,
+    "experience": 0,
+    "totalMined": 0,
+    "miningCount": 0,
+    "lastMined": 0,
+    "miningPower": 1,
+    "team": null,
+    "autoMining": {
+      "active": false,
+      "startTime": 0,
+      "rate": 0
+    },
+    "achievements": [],
+    "equipment": [],
+    "boosts": [],
+    "createdAt": 1748516943920,
+    "lastLogin": 1748516943920,
+    "dailyQuests": {},
+    "streakDays": 0,
+    "hasReceivedWelcomeBonus": true
+  },
+  "100088600797175": {
+    "level": 1,
+    "experience": 0,
+    "totalMined": 0,
+    "miningCount": 0,
+    "lastMined": 0,
+    "miningPower": 1,
+    "team": null,
+    "autoMining": {
+      "active": false,
+      "startTime": 0,
+      "rate": 0
+    },
+    "achievements": [],
+    "equipment": [],
+    "boosts": [],
+    "createdAt": 1748519051658,
+    "lastLogin": 1748519051658,
+    "dailyQuests": {},
+    "streakDays": 0,
+    "hasReceivedWelcomeBonus": true
+  },
+  "61566789515977": {
+    "level": 1,
+    "experience": 15,
+    "totalMined": 2606,
+    "miningCount": 15,
+    "lastMined": 1748695851433,
+    "miningPower": 1,
+    "team": null,
+    "autoMining": {
+      "active": false,
+      "startTime": 1748662880457,
+      "endTime": 1748664072978,
+      "rate": 108
+    },
+    "achievements": [],
+    "equipment": [],
+    "boosts": [],
+    "createdAt": 1748519060644,
+    "lastLogin": 1748662890260,
+    "dailyQuests": {
+      "Thu May 29 2025": {
+        "mineCount": 2,
+        "joinedTeam": false,
+        "usedAutoMining": false,
+        "completed": []
+      },
+      "Fri May 30 2025": {
+        "mineCount": 11,
+        "joinedTeam": false,
+        "usedAutoMining": true,
+        "completed": [
+          "USE_AUTO_MINING",
+          "MINE_10_TIMES"
+        ]
+      },
+      "Sat May 31 2025": {
+        "mineCount": 2,
+        "joinedTeam": false,
+        "usedAutoMining": false,
+        "completed": []
+      }
+    },
+    "streakDays": 2,
+    "hasReceivedWelcomeBonus": true,
+    "dailyMining": {
+      "Thu May 29 2025": 2,
+      "Fri May 30 2025": 11,
+      "Sat May 31 2025": 2
+    }
+  },
+  "61576297296297": {
+    "level": 1,
+    "experience": 3,
+    "totalMined": 3,
+    "miningCount": 3,
+    "lastMined": 1748519689466,
+    "miningPower": 1,
+    "team": null,
+    "autoMining": {
+      "active": false,
+      "startTime": 0,
+      "rate": 0
+    },
+    "achievements": [],
+    "equipment": [],
+    "boosts": [],
+    "createdAt": 1748519154082,
+    "lastLogin": 1748519154082,
+    "dailyQuests": {
+      "Thu May 29 2025": {
+        "mineCount": 3,
+        "joinedTeam": false,
+        "usedAutoMining": false,
+        "completed": []
+      }
+    },
+    "streakDays": 0,
+    "hasReceivedWelcomeBonus": true,
+    "dailyMining": {
+      "Thu May 29 2025": 3
+    }
+  },
+  "100087903284283": {
+    "level": 1,
+    "experience": 0,
+    "totalMined": 0,
+    "miningCount": 0,
+    "lastMined": 0,
+    "miningPower": 1,
+    "team": null,
+    "autoMining": {
+      "active": false,
+      "startTime": 0,
+      "rate": 0
+    },
+    "achievements": [],
+    "equipment": [],
+    "boosts": [],
+    "createdAt": 1748519890692,
+    "lastLogin": 1748519890692,
+    "dailyQuests": {},
+    "streakDays": 0,
+    "hasReceivedWelcomeBonus": true
+  },
+  "61560183967497": {
+    "level": 1,
+    "experience": 6,
+    "totalMined": 6,
+    "miningCount": 6,
+    "lastMined": 1748580853244,
+    "miningPower": 1,
+    "team": null,
+    "autoMining": {
+      "active": false,
+      "startTime": 0,
+      "rate": 0
+    },
+    "achievements": [],
+    "equipment": [],
+    "boosts": [],
+    "createdAt": 1748521373869,
+    "lastLogin": 1748579095463,
+    "dailyQuests": {
+      "Thu May 29 2025": {
+        "mineCount": 3,
+        "joinedTeam": false,
+        "usedAutoMining": false,
+        "completed": []
+      },
+      "Fri May 30 2025": {
+        "mineCount": 3,
+        "joinedTeam": false,
+        "usedAutoMining": false,
+        "completed": []
+      }
+    },
+    "streakDays": 1,
+    "hasReceivedWelcomeBonus": true,
+    "dailyMining": {
+      "Thu May 29 2025": 3,
+      "Fri May 30 2025": 3
+    },
+    "bankAccount": {
+      "bankName": "MBBANK",
+      "accountNumber": "0374467649",
+      "accountName": "TRUONG HAI NGUYEN",
+      "linked": true,
+      "linkedAt": 1748579649703,
+      "securityHash": "61560183967497_1748579649703"
+    },
+    "withdrawalHistory": {
+      "Fri May 30 2025": 12000
+    }
+  },
+  "100042029332535": {
+    "level": 1,
+    "experience": 0,
+    "totalMined": 0,
+    "miningCount": 0,
+    "lastMined": 0,
+    "miningPower": 1,
+    "team": null,
+    "autoMining": {
+      "active": false,
+      "startTime": 0,
+      "rate": 0
+    },
+    "achievements": [],
+    "equipment": [],
+    "boosts": [],
+    "createdAt": 1748523235996,
+    "lastLogin": 1748523235996,
+    "dailyQuests": {},
+    "streakDays": 0,
+    "hasReceivedWelcomeBonus": true
+  },
+  "100074772644741": {
+    "level": 1,
+    "experience": 0,
+    "totalMined": 0,
+    "miningCount": 0,
+    "lastMined": 0,
+    "miningPower": 1,
+    "team": null,
+    "autoMining": {
+      "active": false,
+      "startTime": 0,
+      "rate": 0
+    },
+    "achievements": [],
+    "equipment": [],
+    "boosts": [],
+    "createdAt": 1748523287962,
+    "lastLogin": 1748523287962,
+    "dailyQuests": {},
+    "streakDays": 0,
+    "hasReceivedWelcomeBonus": true
+  },
+  "100001767664654": {
+    "level": 1,
+    "experience": 0,
+    "totalMined": 0,
+    "miningCount": 0,
+    "lastMined": 0,
+    "miningPower": 1,
+    "team": null,
+    "autoMining": {
+      "active": false,
+      "startTime": 0,
+      "rate": 0
+    },
+    "achievements": [],
+    "equipment": [],
+    "boosts": [],
+    "createdAt": 1748523349329,
+    "lastLogin": 1748523349329,
+    "dailyQuests": {},
+    "streakDays": 0,
+    "hasReceivedWelcomeBonus": true
+  },
+  "61573977395871": {
+    "level": 1,
+    "experience": 0,
+    "totalMined": 0,
+    "miningCount": 0,
+    "lastMined": 0,
+    "miningPower": 1,
+    "team": null,
+    "autoMining": {
+      "active": false,
+      "startTime": 0,
+      "rate": 0
+    },
+    "achievements": [],
+    "equipment": [],
+    "boosts": [],
+    "createdAt": 1748523393871,
+    "lastLogin": 1748523393871,
+    "dailyQuests": {},
+    "streakDays": 0,
+    "hasReceivedWelcomeBonus": true
+  },
+  "100008420673237": {
+    "level": 1,
+    "experience": 0,
+    "totalMined": 0,
+    "miningCount": 0,
+    "lastMined": 0,
+    "miningPower": 1,
+    "team": null,
+    "autoMining": {
+      "active": false,
+      "startTime": 0,
+      "rate": 0
+    },
+    "achievements": [],
+    "equipment": [],
+    "boosts": [],
+    "createdAt": 1748523443723,
+    "lastLogin": 1748523443723,
+    "dailyQuests": {},
+    "streakDays": 0,
+    "hasReceivedWelcomeBonus": true
+  },
+  "61563831944250": {
+    "level": 1,
+    "experience": 0,
+    "totalMined": 0,
+    "miningCount": 0,
+    "lastMined": 0,
+    "miningPower": 1,
+    "team": null,
+    "autoMining": {
+      "active": false,
+      "startTime": 0,
+      "rate": 0
+    },
+    "achievements": [],
+    "equipment": [],
+    "boosts": [],
+    "createdAt": 1748523477022,
+    "lastLogin": 1748523477022,
+    "dailyQuests": {},
+    "streakDays": 0,
+    "hasReceivedWelcomeBonus": true
+  },
+  "100001628740514": {
+    "level": 1,
+    "experience": 0,
+    "totalMined": 0,
+    "miningCount": 0,
+    "lastMined": 0,
+    "miningPower": 1,
+    "team": null,
+    "autoMining": {
+      "active": false,
+      "startTime": 0,
+      "rate": 0
+    },
+    "achievements": [],
+    "equipment": [],
+    "boosts": [],
+    "createdAt": 1748523512786,
+    "lastLogin": 1748523512786,
+    "dailyQuests": {},
+    "streakDays": 0,
+    "hasReceivedWelcomeBonus": true
+  },
+  "100087746004051": {
+    "level": 1,
+    "experience": 0,
+    "totalMined": 0,
+    "miningCount": 0,
+    "lastMined": 0,
+    "miningPower": 1,
+    "team": null,
+    "autoMining": {
+      "active": false,
+      "startTime": 0,
+      "rate": 0
+    },
+    "achievements": [],
+    "equipment": [],
+    "boosts": [],
+    "createdAt": 1748523547164,
+    "lastLogin": 1748523547164,
+    "dailyQuests": {},
+    "streakDays": 0,
+    "hasReceivedWelcomeBonus": true
+  },
+  "100090957366839": {
+    "level": 1,
+    "experience": 0,
+    "totalMined": 0,
+    "miningCount": 0,
+    "lastMined": 0,
+    "miningPower": 1,
+    "team": null,
+    "autoMining": {
+      "active": false,
+      "startTime": 0,
+      "rate": 0
+    },
+    "achievements": [],
+    "equipment": [],
+    "boosts": [],
+    "createdAt": 1748523632745,
+    "lastLogin": 1748523632745,
+    "dailyQuests": {},
+    "streakDays": 0,
+    "hasReceivedWelcomeBonus": true
+  },
+  "100063719077878": {
+    "level": 1,
+    "experience": 12,
+    "totalMined": 1170,
+    "miningCount": 12,
+    "lastMined": 1748580127850,
+    "miningPower": 1,
+    "team": null,
+    "autoMining": {
+      "active": true,
+      "startTime": 1748572491927,
+      "endTime": 1748620261047,
+      "rate": 108
+    },
+    "achievements": [],
+    "equipment": [],
+    "boosts": [],
+    "createdAt": 1748532689341,
+    "lastLogin": 1748572509927,
+    "dailyQuests": {
+      "Thu May 29 2025": {
+        "mineCount": 1,
+        "joinedTeam": false,
+        "usedAutoMining": true,
+        "completed": [
+          "USE_AUTO_MINING"
+        ]
+      },
+      "Fri May 30 2025": {
+        "mineCount": 11,
+        "joinedTeam": false,
+        "usedAutoMining": false,
+        "completed": [
+          "MINE_10_TIMES"
+        ]
+      }
+    },
+    "streakDays": 1,
+    "hasReceivedWelcomeBonus": true,
+    "dailyMining": {
+      "Thu May 29 2025": 1,
+      "Fri May 30 2025": 11
+    }
+  },
+  "100068382888605": {
+    "level": 1,
+    "experience": 20,
+    "totalMined": 4146,
+    "miningCount": 20,
+    "lastMined": 1748577243547,
+    "miningPower": 1,
+    "team": "team_1748446197080",
+    "autoMining": {
+      "active": true,
+      "startTime": 1748663133743,
+      "endTime": 1748707101603,
+      "rate": 118
+    },
+    "achievements": [],
+    "equipment": [],
+    "boosts": [],
+    "createdAt": 1748533844201,
+    "lastLogin": 1748572431054,
+    "dailyQuests": {
+      "Thu May 29 2025": {
+        "mineCount": 10,
+        "joinedTeam": true,
+        "usedAutoMining": true,
+        "completed": [
+          "USE_AUTO_MINING",
+          "JOIN_TEAM",
+          "MINE_10_TIMES"
+        ]
+      },
+      "Fri May 30 2025": {
+        "mineCount": 10,
+        "joinedTeam": true,
+        "usedAutoMining": true,
+        "completed": [
+          "USE_AUTO_MINING",
+          "MINE_10_TIMES",
+          "JOIN_TEAM"
+        ]
+      }
+    },
+    "streakDays": 1,
+    "hasReceivedWelcomeBonus": true,
+    "dailyMining": {
+      "Thu May 29 2025": 10,
+      "Fri May 30 2025": 10
+    },
+    "bankAccount": {
+      "bankName": "BIDV",
+      "accountNumber": "8874408863",
+      "accountName": "PHAM MINH DANG",
+      "linked": true,
+      "linkedAt": 1748534857208,
+      "securityHash": "100068382888605_1748534857208"
+    }
+  },
+  "100084220175466": {
+    "level": 1,
+    "experience": 1,
+    "totalMined": 1,
+    "miningCount": 1,
+    "lastMined": 1748533944960,
+    "miningPower": 1,
+    "team": null,
+    "autoMining": {
+      "active": false,
+      "startTime": 0,
+      "rate": 0
+    },
+    "achievements": [],
+    "equipment": [],
+    "boosts": [],
+    "createdAt": 1748533944940,
+    "lastLogin": 1748533944940,
+    "dailyQuests": {
+      "Thu May 29 2025": {
+        "mineCount": 1,
+        "joinedTeam": false,
+        "usedAutoMining": false,
+        "completed": []
+      }
+    },
+    "streakDays": 0,
+    "hasReceivedWelcomeBonus": true,
+    "dailyMining": {
+      "Thu May 29 2025": 1
+    }
+  },
+  "100066989437575": {
+    "level": 1,
+    "experience": 0,
+    "totalMined": 0,
+    "miningCount": 0,
+    "lastMined": 0,
+    "miningPower": 1,
+    "team": null,
+    "autoMining": {
+      "active": false,
+      "startTime": 0,
+      "rate": 0
+    },
+    "achievements": [],
+    "equipment": [],
+    "boosts": [],
+    "createdAt": 1748535401575,
+    "lastLogin": 1748535401575,
+    "dailyQuests": {},
+    "streakDays": 0,
+    "hasReceivedWelcomeBonus": true
+  },
+  "100088958761027": {
+    "level": 1,
+    "experience": 0,
+    "totalMined": 0,
+    "miningCount": 0,
+    "lastMined": 0,
+    "miningPower": 1,
+    "team": null,
+    "autoMining": {
+      "active": false,
+      "startTime": 0,
+      "rate": 0
+    },
+    "achievements": [],
+    "equipment": [],
+    "boosts": [],
+    "createdAt": 1748537335306,
+    "lastLogin": 1748537335306,
+    "dailyQuests": {},
+    "streakDays": 0,
+    "hasReceivedWelcomeBonus": true
+  },
+  "100043804933764": {
+    "level": 1,
+    "experience": 0,
+    "totalMined": 0,
+    "miningCount": 0,
+    "lastMined": 0,
+    "miningPower": 1,
+    "team": null,
+    "autoMining": {
+      "active": false,
+      "startTime": 0,
+      "rate": 0
+    },
+    "achievements": [],
+    "equipment": [],
+    "boosts": [],
+    "createdAt": 1748537611278,
+    "lastLogin": 1748537611278,
+    "dailyQuests": {},
+    "streakDays": 0,
+    "hasReceivedWelcomeBonus": true
+  },
+  "61576153095567": {
+    "level": 1,
+    "experience": 1,
+    "totalMined": 1,
+    "miningCount": 1,
+    "lastMined": 1748574026498,
+    "miningPower": 1,
+    "team": null,
+    "autoMining": {
+      "active": false,
+      "startTime": 0,
+      "rate": 0
+    },
+    "achievements": [],
+    "equipment": [],
+    "boosts": [],
+    "createdAt": 1748574026476,
+    "lastLogin": 1748574026476,
+    "dailyQuests": {
+      "Fri May 30 2025": {
+        "mineCount": 1,
+        "joinedTeam": false,
+        "usedAutoMining": false,
+        "completed": []
+      }
+    },
+    "streakDays": 0,
+    "hasReceivedWelcomeBonus": true,
+    "dailyMining": {
+      "Fri May 30 2025": 1
+    }
+  },
+  "100083634786367": {
+    "level": 1,
+    "experience": 0,
+    "totalMined": 0,
+    "miningCount": 0,
+    "lastMined": 0,
+    "miningPower": 1,
+    "team": null,
+    "autoMining": {
+      "active": false,
+      "startTime": 0,
+      "rate": 0
+    },
+    "achievements": [],
+    "equipment": [],
+    "boosts": [],
+    "createdAt": 1748574917925,
+    "lastLogin": 1748574917925,
+    "dailyQuests": {},
+    "streakDays": 0,
+    "hasReceivedWelcomeBonus": true
+  },
+  "61552517971174": {
+    "level": 1,
+    "experience": 1,
+    "totalMined": 1,
+    "miningCount": 1,
+    "lastMined": 1748575279230,
+    "miningPower": 1,
+    "team": null,
+    "autoMining": {
+      "active": false,
+      "startTime": 0,
+      "rate": 0
+    },
+    "achievements": [],
+    "equipment": [],
+    "boosts": [],
+    "createdAt": 1748575121096,
+    "lastLogin": 1748575121096,
+    "dailyQuests": {
+      "Fri May 30 2025": {
+        "mineCount": 1,
+        "joinedTeam": false,
+        "usedAutoMining": false,
+        "completed": []
+      }
+    },
+    "streakDays": 0,
+    "hasReceivedWelcomeBonus": true,
+    "dailyMining": {
+      "Fri May 30 2025": 1
+    }
+  },
+  "100024533820832": {
+    "level": 1,
+    "experience": 1,
+    "totalMined": 1,
+    "miningCount": 1,
+    "lastMined": 1748575280124,
+    "miningPower": 1,
+    "team": null,
+    "autoMining": {
+      "active": false,
+      "startTime": 0,
+      "rate": 0
+    },
+    "achievements": [],
+    "equipment": [],
+    "boosts": [],
+    "createdAt": 1748575251745,
+    "lastLogin": 1748575251745,
+    "dailyQuests": {
+      "Fri May 30 2025": {
+        "mineCount": 1,
+        "joinedTeam": false,
+        "usedAutoMining": false,
+        "completed": []
+      }
+    },
+    "streakDays": 0,
+    "hasReceivedWelcomeBonus": true,
+    "dailyMining": {
+      "Fri May 30 2025": 1
+    }
+  },
+  "100075844959590": {
+    "level": 1,
+    "experience": 0,
+    "totalMined": 0,
+    "miningCount": 0,
+    "lastMined": 0,
+    "miningPower": 1,
+    "team": null,
+    "autoMining": {
+      "active": false,
+      "startTime": 0,
+      "rate": 0
+    },
+    "achievements": [],
+    "equipment": [],
+    "boosts": [],
+    "createdAt": 1748579820954,
+    "lastLogin": 1748579820954,
+    "dailyQuests": {},
+    "streakDays": 0,
+    "hasReceivedWelcomeBonus": true
+  },
+  "61564648749098": {
+    "level": 1,
+    "experience": 1,
+    "totalMined": 1,
+    "miningCount": 1,
+    "lastMined": 1748580477448,
+    "miningPower": 1,
+    "team": null,
+    "autoMining": {
+      "active": false,
+      "startTime": 0,
+      "rate": 0
+    },
+    "achievements": [],
+    "equipment": [],
+    "boosts": [],
+    "createdAt": 1748580292569,
+    "lastLogin": 1748580292569,
+    "dailyQuests": {
+      "Fri May 30 2025": {
+        "mineCount": 1,
+        "joinedTeam": false,
+        "usedAutoMining": false,
+        "completed": []
+      }
+    },
+    "streakDays": 0,
+    "hasReceivedWelcomeBonus": true,
+    "dailyMining": {
+      "Fri May 30 2025": 1
+    }
+  },
+  "61573777512025": {
+    "level": 1,
+    "experience": 1,
+    "totalMined": 1,
+    "miningCount": 1,
+    "lastMined": 1748580429957,
+    "miningPower": 1,
+    "team": null,
+    "autoMining": {
+      "active": false,
+      "startTime": 0,
+      "rate": 0
+    },
+    "achievements": [],
+    "equipment": [],
+    "boosts": [],
+    "createdAt": 1748580402339,
+    "lastLogin": 1748580402339,
+    "dailyQuests": {
+      "Fri May 30 2025": {
+        "mineCount": 1,
+        "joinedTeam": false,
+        "usedAutoMining": false,
+        "completed": []
+      }
+    },
+    "streakDays": 0,
+    "hasReceivedWelcomeBonus": true,
+    "dailyMining": {
+      "Fri May 30 2025": 1
+    }
+  },
+  "61564482366941": {
+    "level": 1,
+    "experience": 0,
+    "totalMined": 0,
+    "miningCount": 0,
+    "lastMined": 0,
+    "miningPower": 1,
+    "team": null,
+    "autoMining": {
+      "active": false,
+      "startTime": 0,
+      "rate": 0
+    },
+    "achievements": [],
+    "equipment": [],
+    "boosts": [],
+    "createdAt": 1748612705002,
+    "lastLogin": 1748612705002,
+    "dailyQuests": {},
+    "streakDays": 0,
+    "hasReceivedWelcomeBonus": true
+  },
+  "61576844312562": {
+    "level": 1,
+    "experience": 2,
+    "totalMined": 2,
+    "miningCount": 2,
+    "lastMined": 1748627562979,
+    "miningPower": 1,
+    "team": null,
+    "autoMining": {
+      "active": false,
+      "startTime": 0,
+      "rate": 0
+    },
+    "achievements": [],
+    "equipment": [],
+    "boosts": [],
+    "createdAt": 1748627088576,
+    "lastLogin": 1748627088576,
+    "dailyQuests": {
+      "Sat May 31 2025": {
+        "mineCount": 2,
+        "joinedTeam": false,
+        "usedAutoMining": false,
+        "completed": []
+      }
+    },
+    "streakDays": 0,
+    "hasReceivedWelcomeBonus": true,
+    "dailyMining": {
+      "Sat May 31 2025": 2
+    }
+  },
+  "61557164642722": {
+    "level": 1,
+    "experience": 0,
+    "totalMined": 0,
+    "miningCount": 0,
+    "lastMined": 0,
+    "miningPower": 1,
+    "team": null,
+    "autoMining": {
+      "active": false,
+      "startTime": 0,
+      "rate": 0
+    },
+    "achievements": [],
+    "equipment": [],
+    "boosts": [],
+    "createdAt": 1748785932152,
+    "lastLogin": 1748785932152,
+    "dailyQuests": {},
+    "streakDays": 0,
+    "hasReceivedWelcomeBonus": true
   }
 }

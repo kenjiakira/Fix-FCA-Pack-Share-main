@@ -525,7 +525,7 @@ function processWithdrawal(userId, amount) {
         };
     }    // THÊM: Tính phí rút tiền với discount cho affiliate referee
     let withdrawalFeeRate = MINING_CONFIG.FEES.WITHDRAWAL_FEE;
-    
+
     // Kiểm tra affiliate referee discount
     const affiliateData = loadAffiliateData();
     const userAffiliate = affiliateData[userId];
@@ -533,7 +533,7 @@ function processWithdrawal(userId, amount) {
         // Giảm 10% phí rút tiền cho người được giới thiệu
         withdrawalFeeRate *= (1 - MINING_CONFIG.AFFILIATE.REFEREE_BONUS.WITHDRAWAL_FEE_DISCOUNT);
     }
-    
+
     const fee = Math.floor(amount * withdrawalFeeRate);
     const actualAmount = amount - fee;
 
@@ -819,7 +819,7 @@ function processReferral(newUserId, referralCode) {
 
     // Thêm vào danh sách referrals
     referrer.referrals.level1.push(newUserId);
-    referrer.milestoneProgress.referralCount++;
+    // REMOVED: referrer.milestoneProgress.referralCount++; // KHÔNG TĂNG NGAY
 
     // Nếu người giới thiệu cũng có người giới thiệu (level 2)
     if (referrer.referredBy && affiliateData[referrer.referredBy]) {
@@ -842,8 +842,7 @@ function processReferral(newUserId, referralCode) {
     affiliateData[referrerId] = referrer;
     saveAffiliateData(affiliateData);
 
-    // Kiểm tra milestone
-    checkAndRewardMilestones(referrerId);
+    // KHÔNG GỌI checkAndRewardMilestones Ở ĐÂY NỮA
 
     return {
         success: true,
@@ -851,7 +850,33 @@ function processReferral(newUserId, referralCode) {
         welcomeBonus: welcomeBonus
     };
 }
+function countActiveReferrals(userId, minDays, minMiningTimes) {
+    const affiliateData = loadAffiliateData();
+    const userAffiliate = affiliateData[userId];
 
+    if (!userAffiliate) return 0;
+
+    const allMiningData = loadMiningData();
+    let activeCount = 0;
+
+    // Chỉ đếm level 1 referrals
+    for (const referralId of userAffiliate.referrals.level1) {
+        const referralUser = allMiningData[referralId];
+
+        if (referralUser) {
+            const accountAge = Date.now() - referralUser.createdAt;
+            const daysActive = Math.floor(accountAge / (24 * 60 * 60 * 1000));
+            const miningCount = referralUser.miningCount || 0;
+
+            // Kiểm tra điều kiện hoạt động
+            if (daysActive >= minDays && miningCount >= minMiningTimes) {
+                activeCount++;
+            }
+        }
+    }
+
+    return activeCount;
+}
 // THÊM: Calculate affiliate mining bonus
 function getAffiliateRefereeBonus(userId) {
     const affiliateData = loadAffiliateData();
@@ -948,13 +973,34 @@ function checkAndRewardMilestones(userId) {
     const progress = userAffiliate.milestoneProgress;
     const achieved = progress.achievedMilestones;
 
-    // Check referral milestones
+    // Check referral milestones với điều kiện HOẠT ĐỘNG THỰC TẾ
     for (const [key, milestone] of Object.entries(milestones)) {
         if (key.startsWith('REFERRAL_') && !achieved.includes(key)) {
             const targetCount = parseInt(key.split('_')[1]);
-            if (progress.referralCount >= targetCount) {
+
+            // Kiểm tra số lượng referrals THỰC SỰ ACTIVE
+            let activeReferrals = 0;
+
+            if (targetCount === 5) {
+                activeReferrals = countActiveReferrals(userId, 5, 25); // 5 ngày, 25 lần mining
+            } else if (targetCount === 10) {
+                activeReferrals = countActiveReferrals(userId, 7, 35); // 7 ngày, 35 lần mining
+            } else if (targetCount === 25) {
+                activeReferrals = countActiveReferrals(userId, 10, 50); // 10 ngày, 50 lần mining
+            } else if (targetCount === 50) {
+                activeReferrals = countActiveReferrals(userId, 14, 70); // 14 ngày, 70 lần mining
+            }
+
+            console.log(`[MILESTONE DEBUG] User ${userId}, Target: ${targetCount}, Active: ${activeReferrals}`);
+
+            if (activeReferrals >= targetCount) {
                 updateMiningBalance(userId, milestone.reward);
                 achieved.push(key);
+
+                // Cập nhật progress count
+                progress.referralCount = Math.max(progress.referralCount, activeReferrals);
+
+                console.log(`[MILESTONE] User ${userId} achieved ${key} with ${activeReferrals} active referrals`);
             }
         }
 
@@ -969,7 +1015,185 @@ function checkAndRewardMilestones(userId) {
 
     saveAffiliateData(affiliateData);
 }
+function notifyMilestoneSystemUpdate() {
+    const affiliateData = loadAffiliateData();
+    const notificationMessage =
+        "📢 CẬP NHẬT HỆ THỐNG MILESTONE\n" +
+        "━━━━━━━━━━━━━━━━━━\n\n" +
+        "🔧 THAY ĐỔI QUAN TRỌNG:\n" +
+        "• Milestone giờ yêu cầu referrals THỰC SỰ HOẠT ĐỘNG\n" +
+        "• Các milestone cũ của bạn được GIỮ NGUYÊN\n" +
+        "• Điều kiện mới chỉ áp dụng từ hôm nay\n\n" +
 
+        "🎯 ĐIỀU KIỆN MỚI:\n" +
+        "• 5 refs: 5 ngày hoạt động + 25 lần mining\n" +
+        "• 10 refs: 7 ngày hoạt động + 35 lần mining\n" +
+        "• 25 refs: 10 ngày hoạt động + 50 lần mining\n" +
+        "• 50 refs: 14 ngày hoạt động + 70 lần mining\n\n" +
+
+        "✅ QUYỀN LỢI CỦA BẠN:\n" +
+        "• Milestone cũ được giữ nguyên\n" +
+        "• Tiền thưởng cũ không bị thu hồi\n" +
+        "• Hệ thống giờ công bằng hơn\n\n" +
+
+        "💡 Xem tiến độ mới: .mining milestones\n" +
+        "📊 Thống kê: .mining ref stats";
+
+    // Gửi thông báo cho tất cả users có affiliate
+    for (const userId of Object.keys(affiliateData)) {
+        if (affiliateData[userId].isActive) {
+            // Gửi với delay để tránh spam
+            setTimeout(() => {
+                try {
+                    api.sendMessage(notificationMessage, userId);
+                } catch (error) {
+                    console.log(`[MILESTONE] Cannot notify user ${userId}:`, error.message);
+                }
+            }, Math.random() * 10000); // Random delay 0-10s
+        }
+    }
+}
+function checkMilestoneOnMining(userId) {
+    const affiliateData = loadAffiliateData();
+    const userAffiliate = affiliateData[userId];
+
+    // Nếu user này có người giới thiệu, kiểm tra milestone cho người giới thiệu
+    if (userAffiliate && userAffiliate.referredBy) {
+        const referrerId = userAffiliate.referredBy;
+        checkAndRewardMilestones(referrerId);
+
+        // Kiểm tra cho level 2 referrer
+        const referrerData = affiliateData[referrerId];
+        if (referrerData && referrerData.referredBy) {
+            checkAndRewardMilestones(referrerData.referredBy);
+        }
+    }
+}
+function fixExistingMilestones() {
+    const affiliateData = loadAffiliateData();
+    const allMiningData = loadMiningData();
+    const fixLog = [];
+
+    console.log('[MILESTONE FIX] Starting fix for existing buggy milestones...');
+
+    for (const [userId, userAffiliate] of Object.entries(affiliateData)) {
+        if (!userAffiliate.isActive) continue;
+
+        const originalProgress = userAffiliate.milestoneProgress.referralCount;
+        const achievedMilestones = userAffiliate.milestoneProgress.achievedMilestones;
+
+        // Tính toán lại số referrals THỰC SỰ ACTIVE
+        let actualActiveReferrals = 0;
+
+        // Kiểm tra từng referral level 1
+        for (const referralId of userAffiliate.referrals.level1) {
+            const referralUser = allMiningData[referralId];
+
+            if (referralUser) {
+                const accountAge = Date.now() - referralUser.createdAt;
+                const daysActive = Math.floor(accountAge / (24 * 60 * 60 * 1000));
+                const miningCount = referralUser.miningCount || 0;
+
+                // Điều kiện tối thiểu: 3 ngày hoạt động + 15 lần mining
+                if (daysActive >= 3 && miningCount >= 15) {
+                    actualActiveReferrals++;
+                }
+            }
+        }
+
+        console.log(`[MILESTONE FIX] User ${userId}: Original ${originalProgress} -> Actual ${actualActiveReferrals}`);
+
+        // Nếu số thực tế khác số đã ghi nhận
+        if (originalProgress !== actualActiveReferrals) {
+            // Cập nhật lại progress
+            userAffiliate.milestoneProgress.referralCount = actualActiveReferrals;
+
+            // Kiểm tra lại các milestone đã đạt
+            const validMilestones = [];
+            const invalidMilestones = [];
+
+            for (const milestoneKey of achievedMilestones) {
+                if (milestoneKey.startsWith('REFERRAL_')) {
+                    const targetCount = parseInt(milestoneKey.split('_')[1]);
+
+                    if (actualActiveReferrals >= targetCount) {
+                        validMilestones.push(milestoneKey);
+                    } else {
+                        invalidMilestones.push(milestoneKey);
+
+                        // KHÔNG TRỪ TIỀN - chỉ ghi log
+                        const milestoneReward = MINING_CONFIG.AFFILIATE.MILESTONES[milestoneKey].reward;
+                        fixLog.push({
+                            userId: userId,
+                            milestone: milestoneKey,
+                            reward: milestoneReward,
+                            actualRefs: actualActiveReferrals,
+                            requiredRefs: targetCount,
+                            action: 'INVALID_BUT_KEPT'
+                        });
+                    }
+                } else {
+                    // VIP milestones giữ nguyên
+                    validMilestones.push(milestoneKey);
+                }
+            }
+
+            // Cập nhật lại danh sách milestone (GIỮ LẠI TẤT CẢ để không gây tranh cãi)
+            // userAffiliate.milestoneProgress.achievedMilestones = validMilestones;
+
+            console.log(`[MILESTONE FIX] User ${userId}: Kept all milestones for fairness`);
+        }
+    }
+
+    // Lưu dữ liệu đã fix
+    saveAffiliateData(affiliateData);
+
+    return fixLog;
+}
+
+// THÊM: Hàm thông báo và bù đắp cho user bị ảnh hưởng
+function compensateAffectedUsers() {
+    const affiliateData = loadAffiliateData();
+    const compensations = [];
+
+    for (const [userId, userAffiliate] of Object.entries(affiliateData)) {
+        if (!userAffiliate.isActive) continue;
+
+        const actualActiveReferrals = countActiveReferrals(userId, 3, 15); // Điều kiện nhẹ nhàng
+        const currentCount = userAffiliate.milestoneProgress.referralCount;
+
+        // Nếu user bị thiệt thòi (có referrals active nhưng chưa được ghi nhận)
+        if (actualActiveReferrals > currentCount) {
+            // Bù lại milestone đúng
+            userAffiliate.milestoneProgress.referralCount = actualActiveReferrals;
+
+            // Kiểm tra milestone nào chưa đạt nhưng đủ điều kiện
+            const milestones = MINING_CONFIG.AFFILIATE.MILESTONES;
+            const achieved = userAffiliate.milestoneProgress.achievedMilestones;
+
+            for (const [key, milestone] of Object.entries(milestones)) {
+                if (key.startsWith('REFERRAL_') && !achieved.includes(key)) {
+                    const targetCount = parseInt(key.split('_')[1]);
+
+                    if (actualActiveReferrals >= targetCount) {
+                        updateMiningBalance(userId, milestone.reward);
+                        achieved.push(key);
+
+                        compensations.push({
+                            userId: userId,
+                            milestone: key,
+                            reward: milestone.reward,
+                            refs: actualActiveReferrals
+                        });
+                    }
+                }
+            }
+        }
+    }
+
+    saveAffiliateData(affiliateData);
+    return compensations;
+}
 // THÊM: Process commission distribution
 function distributeAffiliateCommissions(userId, miningAmount) {
     const affiliateData = loadAffiliateData();
@@ -991,11 +1215,11 @@ function distributeAffiliateCommissions(userId, miningAmount) {
     console.log(`[AFFILIATE DEBUG] Level 1 referrer: ${level1ReferrerId}`);
     console.log(`[AFFILIATE DEBUG] Level 1 referrer exists:`, !!affiliateData[level1ReferrerId]);
     console.log(`[AFFILIATE DEBUG] Level 1 referrer is active:`, affiliateData[level1ReferrerId]?.isActive);
-    
+
     if (affiliateData[level1ReferrerId] && affiliateData[level1ReferrerId].isActive) {
         const commission1 = Math.floor(miningAmount * MINING_CONFIG.AFFILIATE.MINING_COMMISSION.LEVEL_1);
         console.log(`[AFFILIATE DEBUG] Level 1 commission calculation: ${miningAmount} * ${MINING_CONFIG.AFFILIATE.MINING_COMMISSION.LEVEL_1} = ${commission1}`);
-        
+
         if (commission1 > 0 && canReceiveCommission(level1ReferrerId, commission1)) {
             console.log(`[AFFILIATE DEBUG] Awarding Level 1 commission: ${commission1} to ${level1ReferrerId}`);
             updateMiningBalance(level1ReferrerId, commission1);
@@ -1011,7 +1235,7 @@ function distributeAffiliateCommissions(userId, miningAmount) {
             const level2ReferrerId = level1Referrer.referredBy;
             const commission2 = Math.floor(miningAmount * MINING_CONFIG.AFFILIATE.MINING_COMMISSION.LEVEL_2);
             console.log(`[AFFILIATE DEBUG] Level 2 commission calculation: ${miningAmount} * ${MINING_CONFIG.AFFILIATE.MINING_COMMISSION.LEVEL_2} = ${commission2}`);
-            
+
             if (commission2 > 0 && canReceiveCommission(level2ReferrerId, commission2)) {
                 console.log(`[AFFILIATE DEBUG] Awarding Level 2 commission: ${commission2} to ${level2ReferrerId}`);
                 updateMiningBalance(level2ReferrerId, commission2);
@@ -1025,7 +1249,7 @@ function distributeAffiliateCommissions(userId, miningAmount) {
                 const level3ReferrerId = level2Referrer.referredBy;
                 const commission3 = Math.floor(miningAmount * MINING_CONFIG.AFFILIATE.MINING_COMMISSION.LEVEL_3);
                 console.log(`[AFFILIATE DEBUG] Level 3 commission calculation: ${miningAmount} * ${MINING_CONFIG.AFFILIATE.MINING_COMMISSION.LEVEL_3} = ${commission3}`);
-                
+
                 if (commission3 > 0 && canReceiveCommission(level3ReferrerId, commission3)) {
                     console.log(`[AFFILIATE DEBUG] Awarding Level 3 commission: ${commission3} to ${level3ReferrerId}`);
                     updateMiningBalance(level3ReferrerId, commission3);
@@ -1084,7 +1308,7 @@ function processVipCommission(buyerUserId, packagePrice) {
 
     // LƯU LẠI AFFILIATE DATA
     affiliateData[referrerId] = referrer;
-    saveAffiliateData(affiliateData);    return {
+    saveAffiliateData(affiliateData); return {
         referrerId: referrerId,
         commission: commission
     };
@@ -1094,26 +1318,26 @@ function processVipCommission(buyerUserId, packagePrice) {
 function autoActivateAffiliateForActiveUsers() {
     const affiliateData = loadAffiliateData();
     let activated = 0;
-    
+
     for (const [userId, userAffiliate] of Object.entries(affiliateData)) {
         // Nếu user chưa kích hoạt nhưng đã có downline thì auto kích hoạt
-        if (!userAffiliate.isActive && 
-            (userAffiliate.referrals.level1.length > 0 || 
-             userAffiliate.referrals.level2.length > 0 || 
-             userAffiliate.referrals.level3.length > 0)) {
-            
+        if (!userAffiliate.isActive &&
+            (userAffiliate.referrals.level1.length > 0 ||
+                userAffiliate.referrals.level2.length > 0 ||
+                userAffiliate.referrals.level3.length > 0)) {
+
             userAffiliate.isActive = true;
             userAffiliate.activatedAt = Date.now();
             activated++;
             console.log(`[AFFILIATE] Auto-activated affiliate for user ${userId} (has ${userAffiliate.referrals.level1.length} referrals)`);
         }
     }
-    
+
     if (activated > 0) {
         saveAffiliateData(affiliateData);
         console.log(`[AFFILIATE] Auto-activated ${activated} affiliate accounts`);
     }
-    
+
     return activated;
 }
 
@@ -1235,23 +1459,239 @@ module.exports = {
                     );
                     break;
                 }
+                case "fix_milestones": {
+                    const adminIds = ['61573427362389'];
 
+                    if (!adminIds.includes(senderID)) {
+                        return api.sendMessage("❌ Lệnh không tồn tại!", threadID, messageID);
+                    }
+
+                    const action = target[1]?.toLowerCase();
+
+                    if (action === "analyze") {
+                        // Phân tích tình hình hiện tại
+                        const affiliateData = loadAffiliateData();
+                        const allMiningData = loadMiningData();
+                        let totalUsers = 0;
+                        let buggyUsers = 0;
+                        let validUsers = 0;
+
+                        for (const [userId, userAffiliate] of Object.entries(affiliateData)) {
+                            if (!userAffiliate.isActive) continue;
+                            totalUsers++;
+
+                            const reportedRefs = userAffiliate.milestoneProgress.referralCount;
+                            const actualRefs = countActiveReferrals(userId, 3, 15);
+
+                            if (reportedRefs > actualRefs) {
+                                buggyUsers++;
+                            } else {
+                                validUsers++;
+                            }
+                        }
+
+                        return api.sendMessage(
+                            "📊 PHÂN TÍCH MILESTONE HIỆN TẠI\n" +
+                            "━━━━━━━━━━━━━━━━━━\n\n" +
+                            `👥 Tổng users có affiliate: ${totalUsers}\n` +
+                            `❌ Users có milestone "bug": ${buggyUsers}\n` +
+                            `✅ Users milestone hợp lệ: ${validUsers}\n\n` +
+                            "🔧 LỆNH FIX:\n" +
+                            "• .mining fix_milestones run - Chạy fix (giữ lại milestone cũ)\n" +
+                            "• .mining fix_milestones compensate - Bù milestone cho người thiệt thòi\n" +
+                            "• .mining fix_milestones strict - Fix nghiêm ngặt (trừ tiền)\n\n" +
+                            "💡 Khuyến nghị: dùng 'run' để công bằng",
+                            threadID, messageID
+                        );
+
+                    } else if (action === "run") {
+                        // Chạy fix nhẹ nhàng (không trừ tiền)
+                        const fixLog = fixExistingMilestones();
+
+                        return api.sendMessage(
+                            "✅ ĐÃ FIX MILESTONE SYSTEM!\n\n" +
+                            `🔧 Đã xử lý ${fixLog.length} trường hợp bất thường\n` +
+                            "📋 CHÍNH SÁCH FIX:\n" +
+                            "• Giữ lại tất cả milestone cũ (công bằng)\n" +
+                            "• Cập nhật lại số referrals thực tế\n" +
+                            "• Từ nay áp dụng điều kiện mới\n\n" +
+                            "🎯 Từ nay milestone chỉ đạt khi:\n" +
+                            "• 5 refs: 5 ngày + 25 mining\n" +
+                            "• 10 refs: 7 ngày + 35 mining\n" +
+                            "• 25 refs: 10 ngày + 50 mining\n" +
+                            "• 50 refs: 14 ngày + 70 mining",
+                            threadID, messageID
+                        );
+
+                    } else if (action === "compensate") {
+                        // Bù đắp cho những người thiệt thòi
+                        const compensations = compensateAffectedUsers();
+
+                        let message = "💰 ĐÃ BÙ MILESTONE CHO USER THIỆT THÒI!\n\n";
+
+                        if (compensations.length === 0) {
+                            message += "✅ Không có user nào cần bù đắp";
+                        } else {
+                            message += `🎁 Đã bù cho ${compensations.length} trường hợp:\n\n`;
+
+                            for (const comp of compensations.slice(0, 10)) {
+                                message += `• User ${comp.userId}: ${comp.milestone} (+${comp.reward} coins)\n`;
+                            }
+
+                            if (compensations.length > 10) {
+                                message += `... và ${compensations.length - 10} trường hợp khác`;
+                            }
+                        }
+
+                        return api.sendMessage(message, threadID, messageID);
+
+                    } else if (action === "strict") {
+                        // Fix nghiêm ngặt - TRỪ TIỀN những milestone không hợp lệ
+                        return api.sendMessage(
+                            "⚠️ FIX NGHIÊM NGẶT - CẦN XÁC NHẬN\n\n" +
+                            "❌ Hành động này sẽ:\n" +
+                            "• Trừ tiền những milestone không hợp lệ\n" +
+                            "• Có thể gây tranh cãi từ users\n" +
+                            "• Không thể hoàn tác\n\n" +
+                            "💡 Khuyến nghị: Dùng fix nhẹ nhàng thay vì strict\n\n" +
+                            "🔄 Gõ: .mining fix_milestones strict_confirm để xác nhận",
+                            threadID, messageID
+                        );
+
+                    } else if (action === "strict_confirm") {
+                        // Thực hiện fix nghiêm ngặt
+                        const affiliateData = loadAffiliateData();
+                        let totalRevoked = 0;
+                        let totalMoney = 0;
+
+                        for (const [userId, userAffiliate] of Object.entries(affiliateData)) {
+                            if (!userAffiliate.isActive) continue;
+
+                            const actualActiveReferrals = countActiveReferrals(userId, 5, 25);
+                            const achievedMilestones = userAffiliate.milestoneProgress.achievedMilestones;
+                            const validMilestones = [];
+
+                            for (const milestoneKey of achievedMilestones) {
+                                if (milestoneKey.startsWith('REFERRAL_')) {
+                                    const targetCount = parseInt(milestoneKey.split('_')[1]);
+
+                                    if (actualActiveReferrals >= targetCount) {
+                                        validMilestones.push(milestoneKey);
+                                    } else {
+                                        // Thu hồi milestone
+                                        const milestoneReward = MINING_CONFIG.AFFILIATE.MILESTONES[milestoneKey].reward;
+                                        updateMiningBalance(userId, -milestoneReward);
+                                        totalRevoked++;
+                                        totalMoney += milestoneReward;
+
+                                        // Thông báo cho user
+                                        api.sendMessage(
+                                            "⚠️ THU HỒI MILESTONE DO FIX LỖI\n\n" +
+                                            `❌ Milestone ${milestoneKey} đã bị thu hồi\n` +
+                                            `💸 Đã trừ: ${milestoneReward.toLocaleString()} coins\n` +
+                                            `📊 Refs thực tế: ${actualActiveReferrals}/${targetCount}\n\n` +
+                                            "💡 Lý do: Milestone cũ không đủ điều kiện\n" +
+                                            "🎯 Tiếp tục hoạt động để đạt lại milestone với điều kiện mới",
+                                            userId
+                                        );
+                                    }
+                                } else {
+                                    validMilestones.push(milestoneKey);
+                                }
+                            }
+
+                            userAffiliate.milestoneProgress.achievedMilestones = validMilestones;
+                            userAffiliate.milestoneProgress.referralCount = actualActiveReferrals;
+                        }
+
+                        saveAffiliateData(affiliateData);
+
+                        return api.sendMessage(
+                            "💀 ĐÃ THỰC HIỆN FIX NGHIÊM NGẶT!\n\n" +
+                            `❌ Thu hồi: ${totalRevoked} milestones\n` +
+                            `💸 Tổng tiền thu: ${totalMoney.toLocaleString()} coins\n\n` +
+                            "📢 Tất cả users bị ảnh hưởng đã được thông báo\n" +
+                            "⚖️ Hệ thống giờ đã công bằng cho tất cả",
+                            threadID, messageID
+                        );
+
+                    } else {
+                        return api.sendMessage(
+                            "🔧 MILESTONE FIX SYSTEM\n" +
+                            "━━━━━━━━━━━━━━━━━━\n\n" +
+                            "📊 LỆNH:\n" +
+                            "• .mining fix_milestones analyze - Phân tích tình hình\n" +
+                            "• .mining fix_milestones run - Fix nhẹ nhàng (khuyến nghị)\n" +
+                            "• .mining fix_milestones compensate - Bù đắp user thiệt thòi\n" +
+                            "• .mining fix_milestones strict - Fix nghiêm ngặt\n\n" +
+                            "💡 Bắt đầu với 'analyze' để xem tình hình",
+                            threadID, messageID
+                        );
+                    }
+                    break;
+                }
                 case "mine":
                 case "đào": {
+                    // THÊM: Kiểm tra VIP trước khi cho phép mining
+                    const vipData = getUserVIP(senderID);
+                    const isVip = vipData && vipData.active && vipData.packageId === 3;
+
+                    if (!isVip) {
+                        return api.sendMessage(
+                            "🚫 MINING CHỈ DÀNH CHO VIP GOLD! 🚫\n" +
+                            "━━━━━━━━━━━━━━━━━━\n\n" +
+                            "❌ Bạn cần VIP Gold để sử dụng tính năng đào coin!\n\n" +
+                            "👑 VIP GOLD (49K/THÁNG) - ƯU ĐÃI:\n" +
+                            `• ${MINING_CONFIG.DAILY_MINING.VIP_LIMIT} lượt đào/ngày\n` +
+                            "• +80% coins khi đào\n" +
+                            "• +100% giới hạn rút tiền\n" +
+                            "• Giảm phí auto mining\n" +
+                            "• Ưu tiên hỗ trợ 24/7\n" +
+                            "• Tham gia affiliate system\n\n" +
+                            "💡 CÁCH MUA VIP:\n" +
+                            "• Gõ: .vip để xem chi tiết\n" +
+                            "• Liên hệ admin để thanh toán\n" +
+                            "• Kích hoạt ngay trong 5 phút\n\n" +
+                            "🎯 TÍNH NĂNG MIỄN PHÍ:\n" +
+                            "• .mining stats - Xem thống kê\n" +
+                            "• .mining help - Hướng dẫn\n" +
+                            "• .mining shop - Xem cửa hàng\n" +
+                            "• .mining leaderboard - Bảng xếp hạng\n\n" +
+                            "🔥 ĐẦU TƯ VIP GOLD = THU NHẬP X10!",
+                            threadID, messageID
+                        );
+                    }
+
+                    // Kiểm tra VIP còn hạn không
+                    if (vipData.daysLeft <= 0) {
+                        return api.sendMessage(
+                            "⏰ VIP GOLD ĐÃ HẾT HẠN! ⏰\n" +
+                            "━━━━━━━━━━━━━━━━━━\n\n" +
+                            "❌ VIP Gold của bạn đã hết hạn!\n" +
+                            "💎 Cần gia hạn để tiếp tục đào coin\n\n" +
+                            "🔄 GIA HẠN NGAY:\n" +
+                            "• Gõ: .vip để xem chi tiết\n" +
+                            "• Liên hệ admin để thanh toán\n" +
+                            "• Giá: 49,000 VND/tháng\n\n" +
+                            "⚡ Gia hạn sớm = không mất tiến độ!",
+                            threadID, messageID
+                        );
+                    }
+
                     // Áp dụng daily costs trước khi mining
                     const dailyCosts = applyDailyCosts(senderID);
                     let costMessage = "";
                     if (dailyCosts.totalCosts > 0) {
                         costMessage = `\n${dailyCosts.messages.join('\n')}`;
                     }
-
-                    // Kiểm tra daily login bonus
-                    const loginBonus = checkDailyLoginBonus(senderID);
+                    const loginResult = checkDailyLoginBonus(senderID);
                     let loginMessage = "";
-                    if (loginBonus.isNewDay) {
-                        loginMessage = `\n🎁 Daily Login: +${loginBonus.bonus} coins (Streak: ${loginBonus.streak} ngày)`;
+                    if (loginResult.isNewDay) {
+                        loginMessage = `\n📅 Daily login: +${loginResult.bonus} coins`;
+                        if (loginResult.streak > 1) {
+                            loginMessage += ` (Streak: ${loginResult.streak} ngày)`;
+                        }
                     }
-
                     const now = Date.now();
                     const timeSinceLastMine = now - user.lastMined;
 
@@ -1285,6 +1725,7 @@ module.exports = {
                     }
 
                     incrementDailyMining(senderID);
+                    checkMilestoneOnMining(senderID);
 
                     // Calculate offline earnings if applicable
                     let offlineMessage = "";
@@ -1373,6 +1814,17 @@ module.exports = {
 
                 case "auto": {
                     const subAction = target[1]?.toLowerCase();
+                    const vipData = getUserVIP(senderID);
+                    const isVip = vipData && vipData.active && vipData.packageId === 3;
+
+                    if (!isVip) {
+                        return api.sendMessage(
+                            "🚫 AUTO MINING CHỈ DÀNH CHO VIP GOLD!\n\n" +
+                            "❌ Tính năng auto mining yêu cầu VIP Gold\n" +
+                            "💡 Gõ: .vip để xem chi tiết và mua VIP",
+                            threadID, messageID
+                        );
+                    }
 
                     if (subAction === "start") {
                         const hours = parseInt(target[2]) || 1;
@@ -1442,11 +1894,71 @@ module.exports = {
                     }
                     break;
                 }
+                case "milestones": {
+                    const affiliateData = loadAffiliateData();
+                    const userAffiliate = initAffiliateUser(senderID);
+                    const milestones = MINING_CONFIG.AFFILIATE.MILESTONES;
+                    const achieved = userAffiliate.milestoneProgress.achievedMilestones;
 
+                    let message = "🏆 MILESTONE AFFILIATE 🏆\n";
+                    message += "━━━━━━━━━━━━━━━━━━\n\n";
+
+                    message += "📋 YÊU CẦU CHO MILESTONE:\n";
+                    message += "• 5 refs: 5 ngày hoạt động + 25 lần mining\n";
+                    message += "• 10 refs: 7 ngày hoạt động + 35 lần mining\n";
+                    message += "• 25 refs: 10 ngày hoạt động + 50 lần mining\n";
+                    message += "• 50 refs: 14 ngày hoạt động + 70 lần mining\n\n";
+
+                    for (const [key, milestone] of Object.entries(milestones)) {
+                        const isAchieved = achieved.includes(key);
+                        const icon = isAchieved ? "✅" : "⏳";
+
+                        if (key.startsWith('REFERRAL_')) {
+                            const targetCount = parseInt(key.split('_')[1]);
+                            let activeCount = 0;
+                            let requirement = "";
+
+                            if (targetCount === 5) {
+                                activeCount = countActiveReferrals(senderID, 5, 25);
+                                requirement = " (5 ngày + 25 mining)";
+                            } else if (targetCount === 10) {
+                                activeCount = countActiveReferrals(senderID, 7, 35);
+                                requirement = " (7 ngày + 35 mining)";
+                            } else if (targetCount === 25) {
+                                activeCount = countActiveReferrals(senderID, 10, 50);
+                                requirement = " (10 ngày + 50 mining)";
+                            } else if (targetCount === 50) {
+                                activeCount = countActiveReferrals(senderID, 14, 70);
+                                requirement = " (14 ngày + 70 mining)";
+                            }
+
+                            message += `${icon} ${targetCount} người giới thiệu ACTIVE${requirement}\n`;
+                            message += `   📊 Tiến độ: ${activeCount}/${targetCount}\n`;
+                            message += `   💰 Thưởng: ${milestone.reward.toLocaleString()} coins\n\n`;
+                        } else {
+                            message += `${icon} ${milestone.description}\n`;
+                            message += `   💰 Thưởng: ${milestone.reward.toLocaleString()} coins\n\n`;
+                        }
+                    }
+
+                    message += "⚠️ CHỈ TÍNH NGƯỜI GIỚI THIỆU THỰC SỰ HOẠT ĐỘNG!";
+
+                    return api.sendMessage(message, threadID, messageID);
+                }
                 case "team": {
                     const subAction = target[1]?.toLowerCase();
                     const teamData = loadTeamData();
+                    const vipData = getUserVIP(senderID);
+                    const isVip = vipData && vipData.active && vipData.packageId === 3;
 
+                    if (!isVip) {
+                        return api.sendMessage(
+                            "🚫 HỆ THỐNG TEAM CHỈ DÀNH CHO VIP GOLD!\n\n" +
+                            "❌ Tính năng team yêu cầu VIP Gold\n" +
+                            "💡 Gõ: .vip để xem chi tiết và mua VIP",
+                            threadID, messageID
+                        );
+                    }
                     if (subAction === "create") {
                         const teamName = target.slice(2).join(" ");
                         if (!teamName || teamName.length < 3) {
@@ -2012,6 +2524,18 @@ module.exports = {
                 case "rút":
                 case "rut": {
                     const amount = parseInt(target[1]);
+                    const vipData = getUserVIP(senderID);
+                    const isVip = vipData && vipData.active && vipData.packageId === 3;
+
+                    if (!isVip) {
+                        return api.sendMessage(
+                            "🚫 RÚT TIỀN CHỈ DÀNH CHO VIP GOLD!\n\n" +
+                            "❌ Tính năng rút tiền yêu cầu VIP Gold\n" +
+                            "💡 Gõ: .vip để xem chi tiết và mua VIP",
+                            threadID, messageID
+                        );
+                    }
+
 
                     if (!amount || amount <= 0) {
                         return api.sendMessage(
@@ -2095,7 +2619,7 @@ module.exports = {
                     // THÊM: Gửi thông báo tự động cho admin group
                     const adminGroupId = '6589198804475799';
                     try {
-                        const adminMessage = 
+                        const adminMessage =
                             "🚨 ĐƠN RÚT TIỀN MỚI 🚨\n" +
                             "━━━━━━━━━━━━━━━━━━\n\n" +
                             `🆔 Mã đơn: ${withdrawalOrder.orderId}\n` +
@@ -2500,7 +3024,18 @@ module.exports = {
                 case "affiliate":
                 case "ref": {
                     const subAction = target[1]?.toLowerCase();
+                    const vipData = getUserVIP(senderID);
+                    const isVip = vipData && vipData.active && vipData.packageId === 3;
 
+                    if (!isVip && target[1] !== "help") {
+                        return api.sendMessage(
+                            "🚫 HỆ THỐNG AFFILIATE CHỈ DÀNH CHO VIP GOLD!\n\n" +
+                            "❌ Tính năng affiliate yêu cầu VIP Gold\n" +
+                            "💡 Gõ: .vip để xem chi tiết và mua VIP\n" +
+                            "📚 Gõ: .mining ref help để xem hướng dẫn",
+                            threadID, messageID
+                        );
+                    }
                     if (subAction === "help") {
                         return api.sendMessage(
                             "📚 HƯỚNG DẪN CHI TIẾT HỆ THỐNG AFFILIATE 📚\n" +
@@ -2726,7 +3261,8 @@ module.exports = {
 
                         message += "💡 Hoàn thành milestone để nhận thưởng lớn!";
 
-                        return api.sendMessage(message, threadID, messageID);                    } else if (subAction === "leaderboard") {
+                        return api.sendMessage(message, threadID, messageID);
+                    } else if (subAction === "leaderboard") {
                         const affiliateData = loadAffiliateData();
                         const sortedAffiliates = Object.entries(affiliateData)
                             .filter(([userId, data]) => data.isActive)
@@ -2769,7 +3305,7 @@ module.exports = {
                         }
 
                         // Auto-activate for testing
-                        const activated = autoActivateAffiliateForActiveUsers();                        let debugInfo = "🔧 AFFILIATE DEBUG INFO 🔧\n";
+                        const activated = autoActivateAffiliateForActiveUsers(); let debugInfo = "🔧 AFFILIATE DEBUG INFO 🔧\n";
                         debugInfo += "━━━━━━━━━━━━━━━━━━\n\n";
                         debugInfo += `👤 User: ${testUserId}\n`;
                         debugInfo += `📝 Referral Code: ${testUser.referralCode}\n`;
@@ -2782,7 +3318,7 @@ module.exports = {
                         debugInfo += `📅 Monthly: ${testUser.monthlyCommissions}\n`;
                         debugInfo += `💎 VIP: ${testUser.vipCommissions}\n\n`;
                         debugInfo += `🔄 Auto-activated: ${activated} accounts\n\n`;
-                        
+
                         // Check if user has referrer and if referrer is active
                         if (testUser.referredBy) {
                             const referrer = affiliateData[testUser.referredBy];
@@ -2791,7 +3327,7 @@ module.exports = {
                             debugInfo += `  • Active: ${referrer?.isActive || false}\n`;
                             debugInfo += `  • Code: ${referrer?.referralCode || 'N/A'}\n\n`;
                         }
-                        
+
                         // Test mining calculation
                         const miningResult = calculateMining(testUserId, 60);
                         debugInfo += `⛏️ Mining Test (60s):\n`;
@@ -2799,7 +3335,7 @@ module.exports = {
                         debugInfo += `  • Level 1 (5%): ${Math.floor(miningResult.amount * 0.05)}\n`;
                         debugInfo += `  • Level 2 (2%): ${Math.floor(miningResult.amount * 0.02)}\n`;
                         debugInfo += `  • Level 3 (1%): ${Math.floor(miningResult.amount * 0.01)}\n\n`;
-                        
+
                         // Show recent commission history
                         if (testUser.commissionHistory.length > 0) {
                             debugInfo += "📈 Recent Commissions (Last 5):\n";
@@ -2851,47 +3387,64 @@ module.exports = {
                 default: {
                     const accountAge = Date.now() - user.createdAt;
                     const daysOld = Math.floor(accountAge / (24 * 60 * 60 * 1000));
-                    let newbieInfo = "";
+                    const vipData = getUserVIP(senderID);
+                    const isVip = vipData && vipData.active && vipData.packageId === 3;
 
-                    if (daysOld <= 10) {
-                        newbieInfo = `\n🆕 NEWBIE BONUS (${10 - daysOld} ngày còn lại):\n🔸 x${MINING_CONFIG.NEWBIE_BONUS.FIRST_WEEK_MULTIPLIER} coins khi đào!\n🔸 Daily login: +${MINING_CONFIG.NEWBIE_BONUS.DAILY_LOGIN_BONUS} coins\n`;
+                    let vipStatusInfo = "";
+                    if (isVip) {
+                        vipStatusInfo = `\n✅ VIP GOLD ACTIVE (${vipData.daysLeft} ngày còn lại)\n🎯 Bạn có thể đào coin không giới hạn!`;
+                    } else {
+                        vipStatusInfo = `\n❌ CHƯA CÓ VIP GOLD\n🚫 Cần VIP Gold để sử dụng tính năng đào coin!`;
                     }
 
                     return api.sendMessage(
-                        "⛏️ MMO MINING GAME ⛏️\n" +
+                        "⛏️ MMO MINING GAME - VIP EXCLUSIVE ⛏️\n" +
                         "━━━━━━━━━━━━━━━━━━\n\n" +
-                        "🎮 LỆNH CƠ BẢN:\n" +
-                        "• .mining mine - Đào coin\n" +
-                        "• .mining rút - Rút tiền\n" +
+                        "🚫 THÔNG BÁO QUAN TRỌNG:\n" +
+                        "• Mining hiện chỉ dành cho VIP Gold\n" +
+                        "• Đây là tính năng premium độc quyền\n" +
+                        "• Đầu tư VIP = Thu nhập ổn định\n" +
+                        vipStatusInfo + "\n\n" +
+
+                        "🎮 LỆNH CƠ BẢN (VIP GOLD):\n" +
+                        "• .mining mine - Đào coin (VIP Only)\n" +
+                        "• .mining auto - Auto mining (VIP Only)\n" +
+                        "• .mining team - Hệ thống team (VIP Only)\n" +
+                        "• .mining rút - Rút tiền (VIP Only)\n" +
+                        "• .mining ref - Hệ thống giới thiệu (VIP Only)\n\n" +
+
+                        "🎮 LỆNH MIỄN PHÍ:\n" +
                         "• .mining stats - Xem thống kê\n" +
                         "• .mining help - Hướng dẫn chi tiết\n" +
-                        "• .mining quests - Nhiệm vụ hàng ngày\n" +
-                        "• .mining bank - Liên kết ngân hàng\n" +
-                        "• .mining auto - Auto mining\n" +
-                        "• .mining team - Hệ thống team\n" +
                         "• .mining shop - Cửa hàng\n" +
                         "• .mining leaderboard - Bảng xếp hạng\n" +
-                        "• .mining ref - Hệ thống giới thiệu\n\n" +
-                        "🎁 HỆ THỐNG HẤP DẪN:\n" +
-                        `🔸 Tặng ngay: ${MINING_CONFIG.NEWBIE_BONUS.WELCOME_BONUS.toLocaleString()} coins\n` +
-                        `🔸 Miễn phí: ${MINING_CONFIG.DAILY_MINING.FREE_LIMIT} lượt đào/ngày\n` +
-                        `🔸 Đào thêm: ${MINING_CONFIG.DAILY_MINING.EXTRA_COST} coins/lần\n` +
-                        `🔸 Phí rút tiền: ${(MINING_CONFIG.FEES.WITHDRAWAL_FEE * 100)}%\n` +
-                        `🔸 Rút tối thiểu: ${MINING_CONFIG.WITHDRAWAL.MIN_AMOUNT.toLocaleString()} coins\n` +
-                        `🔸 Cooldown: chỉ ${MINING_CONFIG.COOLDOWN / 1000}s\n` +
-                        newbieInfo +
-                        "\n👑 ƯU ĐÃI VIP GOLD (49K/THÁNG):\n" +
-                        `🎯 ${MINING_CONFIG.DAILY_MINING.VIP_LIMIT} lượt đào/ngày\n` +
-                        "🎯 +80% coins khi đào\n" +
-                        "🎯 +100% giới hạn rút tiền\n" +
-                        "🎯 Giảm phí auto mining\n" +
-                        "🎯 Ưu tiên hỗ trợ 24/7\n\n" +
-                        "🎯 HỆ THỐNG GIỚI THIỆU:\n" +
-                        "• Kiếm hoa hồng từ người được mời\n" +
-                        "• 5% từ cấp 1, 2% cấp 2, 1% cấp 3\n" +
-                        "• 15% hoa hồng VIP Gold\n" +
-                        "• Milestone rewards hấp dẫn\n\n" +
-                        "⭐ Hệ thống hấp dẫn - ROI rõ ràng!",
+                        "• .mining bank - Liên kết ngân hàng\n\n" +
+
+                        "👑 VIP GOLD (49K/THÁNG) - QUYỀN LỢI:\n" +
+                        `🔸 ${MINING_CONFIG.DAILY_MINING.VIP_LIMIT} lượt đào/ngày\n` +
+                        "🔸 +80% coins khi đào\n" +
+                        "🔸 +100% giới hạn rút tiền\n" +
+                        "🔸 Auto mining 24/7\n" +
+                        "🔸 Hệ thống affiliate (kiếm hoa hồng)\n" +
+                        "🔸 Tham gia team (bonus mining)\n" +
+                        "🔸 Ưu tiên hỗ trợ 24/7\n" +
+                        "🔸 Rút tiền về ngân hàng\n\n" +
+
+                        "💰 THU NHẬP ƯỚC TÍNH:\n" +
+                        "• Mining cơ bản: 30-50k coins/ngày\n" +
+                        "• Auto mining: 24/7 thu nhập\n" +
+                        "• Hoa hồng affiliate: 5-20k coins/ngày\n" +
+                        "• Team bonus: +50% mining\n" +
+                        "• ROI: 3-5x/tháng\n\n" +
+
+                        "🚀 MUA VIP GOLD:\n" +
+                        "• Gõ: .vip để xem chi tiết\n" +
+                        "• Liên hệ admin để thanh toán\n" +
+                        "• Kích hoạt ngay trong 5 phút\n" +
+                        "• Thanh toán: Banking/Momo/Thẻ cào\n\n" +
+
+                        "🔥 ĐẦU TƯ 49K = THU NHẬP HÀNG TRIỆU!\n" +
+                        "💎 VIP Gold - Chìa khóa thành công tài chính!",
                         threadID, messageID
                     );
                 }

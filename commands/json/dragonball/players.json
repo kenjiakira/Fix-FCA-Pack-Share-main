@@ -283,9 +283,9 @@
     "planet": "EARTH",
     "stats": {
       "power": 100000000000,
-      "damage": 192902,
-      "ki": 61599,
-      "health": 591552,
+      "damage": 120564,
+      "ki": 36235,
+      "health": 328640,
       "exp": 33123914,
       "zeni": 1340693976,
       "inventory": {
@@ -300,7 +300,7 @@
       "level": 5,
       "currentKi": 31718,
       "maxHealth": 9859300,
-      "currentHealth": 591552
+      "currentHealth": 328640
     },
     "skills": [
       "KAME:DRAGON_PUNCH",
@@ -462,40 +462,7 @@
     },
     "campProgress": 14,
     "lastCampFight": 1743688829027,
-    "amulets": [
-      {
-        "id": "wisdom_amulet",
-        "name": "Bùa Trí Tuệ",
-        "effect": "exp_boost",
-        "boost": 2,
-        "emoji": "🧠",
-        "expireAt": 1743756448473
-      },
-      {
-        "id": "power_amulet",
-        "name": "Bùa Sức Mạnh",
-        "effect": "damage_boost",
-        "boost": 1.5,
-        "emoji": "💪",
-        "expireAt": 1743769486645
-      },
-      {
-        "id": "energy_amulet",
-        "name": "Bùa Năng Lượng",
-        "effect": "ki_boost",
-        "boost": 1.5,
-        "emoji": "⚡",
-        "expireAt": 1743769504493
-      },
-      {
-        "id": "defense_amulet",
-        "name": "Bùa Da Trâu",
-        "effect": "health_boost",
-        "boost": 1.5,
-        "emoji": "🛡️",
-        "expireAt": 1743769496646
-      }
-    ],
+    "amulets": [],
     "originalHealth": 23200,
     "lastBossFight": "2025-04-03T10:32:13.715Z",
     "originalKi": 36235,

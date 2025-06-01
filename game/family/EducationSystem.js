@@ -6,6 +6,7 @@ class EducationSystem {
     this.educationDataPath = path.join(
       __dirname,
       "..",
+      "..",
       "database",
       "json",
       "family",

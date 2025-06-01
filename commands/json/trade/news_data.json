@@ -1,6 +1,30 @@
 {
   "news": [
     {
+      "symbol": "COIN",
+      "headline": "Coinbase Global Inc. đáp ứng kỳ vọng của nhà phân tích trong báo cáo quý.",
+      "impact": "neutral",
+      "timestamp": 1748696024680
+    },
+    {
+      "symbol": "META",
+      "headline": "Meta Platforms Inc. tăng trưởng chậm lại ở thị trường trọng điểm.",
+      "impact": "bad",
+      "timestamp": 1748612429439
+    },
+    {
+      "symbol": "META",
+      "headline": "Meta Platforms Inc. tổ chức đại hội cổ đông hàng năm không có thông báo lớn.",
+      "impact": "neutral",
+      "timestamp": 1748499318963
+    },
+    {
+      "symbol": "NFLX",
+      "headline": "Netflix Inc. tổ chức đại hội cổ đông hàng năm không có thông báo lớn.",
+      "impact": "neutral",
+      "timestamp": 1748489159765
+    },
+    {
       "symbol": "PEP",
       "headline": "PepsiCo Inc. nâng cấp hệ thống nội bộ để cải thiện hiệu suất.",
       "impact": "neutral",

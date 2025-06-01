@@ -135,7 +135,7 @@ hasChildrenUnderSix(userID) {
 
 getFamilyIncomeLevel(userID) {
     try {
-        const jobPath = path.join(__dirname, '../database/json/family/job.json');
+        const jobPath = path.join(__dirname, '../../database/json/family/job.json');
         let totalIncome = 0;
         
         const jobData = JSON.parse(fs.readFileSync(jobPath));
@@ -434,7 +434,7 @@ confirmMarriage(proposerID, acceptorID) {
 
     getSharedVehicles(userID) {
         const family = this.getFamily(userID);
-        const garagePath = path.join(__dirname, '../database/json/family/garage.json');
+        const garagePath = path.join(__dirname, '../../database/json/family/garage.json');
         try {
             const garageData = JSON.parse(fs.readFileSync(garagePath, 'utf8'));
             let vehicles = {};
@@ -616,7 +616,7 @@ confirmMarriage(proposerID, acceptorID) {
     }
 
     getEducationInfo(userID) {
-        const educationPath = path.join(__dirname, '../database/json/family/familyeducation.json');
+        const educationPath = path.join(__dirname, '../../database/json/family/familyeducation.json');
         try {
             const eduData = JSON.parse(fs.readFileSync(educationPath));
             const education = eduData[userID] || { degrees: [] };

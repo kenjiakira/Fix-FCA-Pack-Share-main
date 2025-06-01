@@ -36,6 +36,14 @@
     ],
     "100076957299243": [
       {
+        "type": "sell",
+        "symbol": "AKI",
+        "shares": 20000000,
+        "price": 14.702498059832505,
+        "total": 291109461.5846836,
+        "timestamp": 1748696063463
+      },
+      {
         "type": "buy",
         "symbol": "AKI",
         "shares": 10000000,
@@ -155,6 +163,62 @@
       }
     ],
     "61550331471452": [
+      {
+        "type": "sell",
+        "symbol": "NFLX",
+        "shares": 202992929292929380,
+        "price": 998.6278607627705,
+        "total": 200687250782468730000,
+        "timestamp": 1748786222374
+      },
+      {
+        "type": "buy",
+        "symbol": "NFLX",
+        "shares": 202992929292929380,
+        "price": 1131.517474181347,
+        "total": 231986947096510330000,
+        "timestamp": 1748629809450
+      },
+      {
+        "type": "sell",
+        "symbol": "NFLX",
+        "shares": 2,
+        "price": 1179.6184647847197,
+        "total": 2335.644560273745,
+        "timestamp": 1748617957811
+      },
+      {
+        "type": "buy",
+        "symbol": "NFLX",
+        "shares": 2,
+        "price": 1160.069449952015,
+        "total": 2343.3402889030704,
+        "timestamp": 1748582782427
+      },
+      {
+        "type": "sell",
+        "symbol": "PEP",
+        "shares": 1,
+        "price": 198.2632027176059,
+        "total": 196.28057069042984,
+        "timestamp": 1748582210594
+      },
+      {
+        "type": "buy",
+        "symbol": "PEP",
+        "shares": 1,
+        "price": 207.8960175995693,
+        "total": 209.97497777556498,
+        "timestamp": 1748536882091
+      },
+      {
+        "type": "sell",
+        "symbol": "PEP",
+        "shares": 1991828189,
+        "price": 210.9056407025439,
+        "total": 415886922366.7284,
+        "timestamp": 1748497326550
+      },
       {
         "type": "buy",
         "symbol": "PEP",
