@@ -242,5 +242,21 @@
     "status": "pending",
     "createdAt": 1748624120791,
     "note": "Rút 23,000 coins (phí 3,105)"
+  },
+  "WD1748922460786D0NB40": {
+    "orderId": "WD1748922460786D0NB40",
+    "userId": "61550331471452",
+    "userName": "Văn Quyến",
+    "amount": 28000,
+    "actualAmount": 24220,
+    "fee": 3780,
+    "bankInfo": {
+      "bankName": "MBBANK",
+      "accountNumber": "0344219738",
+      "accountName": "NONG VAN QUYEN"
+    },
+    "status": "pending",
+    "createdAt": 1748922460786,
+    "note": "Rút 28,000 coins (phí 3,780)"
   }
 }

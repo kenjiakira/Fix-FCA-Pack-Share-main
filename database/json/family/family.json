@@ -225,7 +225,8 @@
         "birthDate": 1740751646336,
         "happiness": 0,
         "gender": "👦",
-        "nickname": "Yêu Hoàng Gia Long"
+        "nickname": "Yêu Hoàng Gia Long",
+        "age": 0
       },
       {
         "id": "1740848223110",
@@ -235,12 +236,13 @@
         "happiness": 0,
         "nickname": "Tí Hoàng Lan Anh",
         "isMarried": false,
-        "movedOut": false
+        "movedOut": false,
+        "age": 0
       }
     ],
     "home": null,
     "happiness": 0,
-    "lastChecked": 1748706062095,
+    "lastChecked": 1748921170616,
     "lastBaby": 1740751646337,
     "lastIntimate": 1740848160307,
     "isProposer": true,
@@ -547,7 +549,7 @@
       {
         "name": "triệu văn minh",
         "birthDate": 1739590228162,
-        "happiness": 40.351788090277786,
+        "happiness": 0,
         "gender": "👦",
         "nickname": "Angel triệu văn minh",
         "isMarried": true,
@@ -559,7 +561,7 @@
     ],
     "home": null,
     "happiness": 0,
-    "lastChecked": 1742534736331,
+    "lastChecked": 1748921213521,
     "lastBaby": 1739590228162,
     "lastIntimate": 1739590129049,
     "isProposer": true,
@@ -1848,7 +1850,7 @@
     ],
     "home": null,
     "happiness": 0,
-    "lastChecked": 1748706075395,
+    "lastChecked": 1748921180729,
     "lastBaby": 1740725177467,
     "lastIntimate": 1740725066622,
     "isProposer": false,

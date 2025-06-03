@@ -1,28 +1,13 @@
 {
   "codes": {
-    "RS3MYGHA9STZ": {
+    "N3FVZSA4ENWR": {
       "rewards": {
-        "coins": 826414,
-        "vip_points": 1
-      },
-      "description": "Giftcode Hiếm hàng ngày",
-      "createdAt": "2025-06-01T05:00:00.092Z",
-      "expiry": "2025-06-01T17:00:00.092Z",
-      "usedBy": [],
-      "type": "RARE",
-      "rarity": "Hiếm",
-      "color": "#3366FF",
-      "maxUses": 50,
-      "maxUsesPerUser": 3
-    },
-    "NYUGAU3IICTS": {
-      "rewards": {
-        "coins": 143025,
+        "coins": 54248,
         "vip_points": 1
       },
       "description": "Giftcode Thường hàng ngày",
-      "createdAt": "2025-06-01T05:00:00.108Z",
-      "expiry": "2025-06-02T05:00:00.108Z",
+      "createdAt": "2025-06-02T05:00:00.057Z",
+      "expiry": "2025-06-03T05:00:00.057Z",
       "usedBy": [],
       "type": "NORMAL",
       "rarity": "Thường",
@@ -34,6 +19,6 @@
   "settings": {
     "autoGiftcode": true,
     "dailyLimits": {},
-    "lastResetDate": "2025-06-01"
+    "lastResetDate": "2025-06-03"
   }
 }

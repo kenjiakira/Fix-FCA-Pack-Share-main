@@ -1,8 +1,7 @@
-const chatbot = require("../commands/chatbot");
+const chatbot = require("../commands/bot");
 
 const TRIGGER_KEYWORDS = [
-    "bot",
-    "ngân",
+    "ngân", 
     "con ngân"
 ];
 
@@ -13,21 +12,27 @@ const containsTriggerWord = (text) => {
 
 module.exports = {
     name: "botevnt",
-    version: "1.0",
+    version: "1.0", 
     author: "HNT",
     onEvents: async function({ api, event }) {
         const { threadID, messageID, body, senderID } = event;
         
         if (!body || event.type !== "message") return;
 
+        // Skip nếu tin nhắn bắt đầu bằng "bot" (để commands xử lý)
+        if (body.toLowerCase().trim().startsWith("bot")) return;
+
         if (containsTriggerWord(body)) {
             try {
-                const response = await chatbot.generateResponse(body, senderID, api, threadID); 
+                const response = await chatbot.generateResponse(body, senderID, threadID);
+                
+                chatbot.updateHistory(threadID, body, response, senderID);
+                
                 const sent = await api.sendMessage(response, threadID, messageID);
                 
                 if (sent) {
                     global.client.onReply.push({
-                        name: "chatbot",
+                        name: "bot",
                         messageID: sent.messageID,
                         author: senderID
                     });

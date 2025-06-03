@@ -641,7 +641,7 @@ confirmMarriage(proposerID, acceptorID) {
     }
 
     getJobInfo(userID) {
-        const jobPath = path.join(__dirname, '../database/json/family/job.json');
+        const jobPath = path.join(__dirname, '../../database/json/family/job.json');
         try {
             const jobData = JSON.parse(fs.readFileSync(jobPath));
             const job = jobData[userID];

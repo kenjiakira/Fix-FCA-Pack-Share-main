@@ -1,9 +1,37 @@
 {
   "global": [
     {
-      "timestamp": 1748797215232,
+      "timestamp": 1748832157488,
+      "prompt": "bot hả",
+      "response": "Ờ, đúng rồi. Có gì không bạn?",
+      "senderID": "61576125312586",
+      "senderName": "Người dùng 61576125312586"
+    },
+    {
+      "timestamp": 1748873036262,
       "prompt": "bot ơi",
-      "response": "Ờ, có mình đây. Có chuyện gì sao?",
+      "response": "Ờ, có gì không bạn?",
+      "senderID": "61573427362389",
+      "senderName": "User"
+    },
+    {
+      "timestamp": 1748873871752,
+      "prompt": ".load bot",
+      "response": "Ờ, có gì bạn muốn hỏi không?",
+      "senderID": "61573427362389",
+      "senderName": "User"
+    },
+    {
+      "timestamp": 1748873878930,
+      "prompt": "bot ơi",
+      "response": "Ờ, có vấn đề gì hả bạn?",
+      "senderID": "61573427362389",
+      "senderName": "User"
+    },
+    {
+      "timestamp": 1748873893408,
+      "prompt": ".load chatbot",
+      "response": "Chào bạn! Có gì muốn hỏi không?",
       "senderID": "61573427362389",
       "senderName": "User"
     }
@@ -11,15 +39,46 @@
   "threads": {
     "6589198804475799": [
       {
-        "timestamp": 1748797215232,
+        "timestamp": 1748832157488,
+        "prompt": "bot hả",
+        "response": "Ờ, đúng rồi. Có gì không bạn?",
+        "senderID": "61576125312586",
+        "senderName": "Người dùng 61576125312586"
+      },
+      {
+        "timestamp": 1748873036262,
         "prompt": "bot ơi",
-        "response": "Ờ, có mình đây. Có chuyện gì sao?",
+        "response": "Ờ, có gì không bạn?",
+        "senderID": "61573427362389",
+        "senderName": "User"
+      },
+      {
+        "timestamp": 1748873871752,
+        "prompt": ".load bot",
+        "response": "Ờ, có gì bạn muốn hỏi không?",
+        "senderID": "61573427362389",
+        "senderName": "User"
+      },
+      {
+        "timestamp": 1748873878930,
+        "prompt": "bot ơi",
+        "response": "Ờ, có vấn đề gì hả bạn?",
+        "senderID": "61573427362389",
+        "senderName": "User"
+      },
+      {
+        "timestamp": 1748873893408,
+        "prompt": ".load chatbot",
+        "response": "Chào bạn! Có gì muốn hỏi không?",
         "senderID": "61573427362389",
         "senderName": "User"
       }
     ]
   },
   "lastResponses": {
-    "bot ơi": "Ờ, có mình đây. Có chuyện gì sao?"
+    "bot hả": "Ờ, đúng rồi. Có gì không bạn?",
+    "bot ơi": "Ờ, có vấn đề gì hả bạn?",
+    ".load bot": "Ờ, có gì bạn muốn hỏi không?",
+    ".load chatbot": "Chào bạn! Có gì muốn hỏi không?"
   }
 }

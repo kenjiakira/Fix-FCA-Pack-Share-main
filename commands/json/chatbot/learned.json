@@ -1,7 +1,26 @@
 {
+  "bot hả": {
+    "responses": [
+      "Ờ, đúng rồi. Có gì không bạn?"
+    ],
+    "frequency": 1
+  },
   "bot ơi": {
     "responses": [
-      "Ờ, có mình đây. Có chuyện gì sao?"
+      "Ờ, có gì không bạn?",
+      "Ờ, có vấn đề gì hả bạn?"
+    ],
+    "frequency": 2
+  },
+  ".load bot": {
+    "responses": [
+      "Ờ, có gì bạn muốn hỏi không?"
+    ],
+    "frequency": 1
+  },
+  ".load chatbot": {
+    "responses": [
+      "Chào bạn! Có gì muốn hỏi không?"
     ],
     "frequency": 1
   }

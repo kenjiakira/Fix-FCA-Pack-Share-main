@@ -12,10 +12,10 @@
       "exp": 0,
       "expToNext": 100,
       "stats": {
-        "hunger": 100,
-        "mood": 100,
-        "energy": 100,
-        "health": 100
+        "hunger": 0,
+        "mood": 0,
+        "energy": 30,
+        "health": 50
       },
       "skills": [],
       "equipped": {
@@ -37,6 +37,6 @@
       }
     }
   ],
-  "lastUpdate": 1744222622566,
+  "lastUpdate": 1748921279608,
   "inventory": {}
 }

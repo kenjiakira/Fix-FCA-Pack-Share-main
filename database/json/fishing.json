@@ -8201,7 +8201,7 @@
   },
   "61558946907944": {
     "rod": "Cần jig Daiwa Saltiga SJ",
-    "rodDurability": 489,
+    "rodDurability": 487,
     "inventory": [
       "Cần trúc",
       "Cần Câu tay",
@@ -8232,7 +8232,7 @@
           "Cá Mương": 2,
           "Cá Trê Đen": 2,
           "Cá Thác Lác": 1,
-          "Cá Út": 3,
+          "Cá Út": 4,
           "Cá Đối": 4,
           "Cá Bống Tượng": 2,
           "Rương vàng": 1,
@@ -8252,7 +8252,7 @@
           "Cá Lóc Đồng": 4,
           "Cá Tra Sông": 5,
           "Cá Thu": 7,
-          "Cá Tai Tượng": 5,
+          "Cá Tai Tượng": 6,
           "Cá Trê Vàng": 3
         },
         "rare": {
@@ -8269,29 +8269,29 @@
         "cosmic": {}
       },
       "stats": {
-        "totalCaught": 119,
-        "totalValue": 3215056,
+        "totalCaught": 121,
+        "totalValue": 3477142,
         "bestCatch": {
           "name": "Kho báu thần thoại",
           "value": 712500
         }
       }
     },
-    "exp": 1274,
+    "exp": 1913,
     "level": 9,
-    "fishingStreak": 12,
+    "fishingStreak": 14,
     "stats": {
-      "totalExp": 17770,
+      "totalExp": 18409,
       "highestStreak": 31,
-      "totalFishes": 119
+      "totalFishes": 121
     },
     "activeBuffs": {},
-    "lastFished": 1748706652372,
+    "lastFished": 1748857984346,
     "userID": "61558946907944",
-    "energy": 63,
-    "lastEnergyUpdate": 1748706652373,
+    "energy": 80,
+    "lastEnergyUpdate": 1748857984346,
     "baits": {
-      "Mồi Thần Thoại": 29
+      "Mồi Thần Thoại": 27
     },
     "craftingMaterials": {}
   },
