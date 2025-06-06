@@ -1,24 +1,8 @@
 {
-  "codes": {
-    "N3FVZSA4ENWR": {
-      "rewards": {
-        "coins": 54248,
-        "vip_points": 1
-      },
-      "description": "Giftcode Thường hàng ngày",
-      "createdAt": "2025-06-02T05:00:00.057Z",
-      "expiry": "2025-06-03T05:00:00.057Z",
-      "usedBy": [],
-      "type": "NORMAL",
-      "rarity": "Thường",
-      "color": "#CCCCCC",
-      "maxUses": null,
-      "maxUsesPerUser": 5
-    }
-  },
+  "codes": {},
   "settings": {
     "autoGiftcode": true,
     "dailyLimits": {},
-    "lastResetDate": "2025-06-03"
+    "lastResetDate": "2025-06-06"
   }
 }
