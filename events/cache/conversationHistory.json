@@ -76,6 +76,34 @@
       "botResponse": "Câu chuyện của bạn nghe đầy cảm xúc và kịch tính quá, Ngọc Từ. Mình có thể cảm nhận được sự căng thẳng và cả những tình cảm sâu sắc giữa các nhân vật. Đôi khi, những khoảnh khắc như thế này làm cho câu chuyện thêm phần hấp dẫn và lôi cuốn. Mình tin rằng dù trải qua những thử thách nào, nếu có đủ niềm tin và yêu thương, mọi hiểu lầm cuối cùng sẽ được giải quyết một cách êm đẹp. Cảm giác được che chở và an toàn thực sự quý giá, phải không?",
       "senderID": "61573427362389",
       "userName": "Ngọc Từ"
+    },
+    {
+      "timestamp": 1749382118878,
+      "userMessage": "bot đâu",
+      "botResponse": "Ủa, có gì đó không ổn rồi 😅 Thử nói lại xem nào!",
+      "senderID": "61573427362389",
+      "userName": "Ngọc Từ"
+    },
+    {
+      "timestamp": 1749382130148,
+      "userMessage": "t có voice mới cho m đây",
+      "botResponse": "Ủa, có gì đó không ổn rồi 😅 Thử nói lại xem nào!",
+      "senderID": "61573427362389",
+      "userName": "Ngọc Từ"
+    },
+    {
+      "timestamp": 1749382379145,
+      "userMessage": "bot ơi",
+      "botResponse": "Có mình đây, Ngọc Từ 😊 Mình cảm thấy giọng điệu vừa rồi giống như một bộ phim tình cảm thú vị nhỉ. Nếu bạn có thêm gì muốn chia sẻ hay bất cứ điều gì khác, mình luôn sẵn sàng lắng nghe cùng bạn!",
+      "senderID": "61573427362389",
+      "userName": "Ngọc Từ"
+    },
+    {
+      "timestamp": 1749382442565,
+      "userMessage": "bot ưi",
+      "botResponse": "Ngân: Mình đây, Ngọc Từ 😊 Mình rất vui khi được nghe câu chuyện từ bạn. Nếu có bất cứ điều gì muốn chia sẻ thêm nữa, mình luôn sẵn sàng lắng nghe cùng bạn!",
+      "senderID": "61573427362389",
+      "userName": "Ngọc Từ"
     }
   ],
   "7804850272968007_61550676773989": [
@@ -85,6 +113,40 @@
       "botResponse": "Ôi, nghe có vẻ không thoải mái lắm nhỉ, Vx Chi Hao. Mình xin lỗi nếu có điều gì không phù hợp. Mình ở đây để lắng nghe và hỗ trợ nếu bạn cần. 😊",
       "senderID": "61550676773989",
       "userName": "Vx Chi Hao"
+    }
+  ],
+  "7804850272968007_61576844312562": [
+    {
+      "timestamp": 1749182638129,
+      "userMessage": "bot",
+      "botResponse": "Ủa, có gì đó không ổn rồi 😅 Thử nói lại xem nào!",
+      "senderID": "61576844312562",
+      "userName": "Hoang Nguyen"
+    }
+  ],
+  "6589198804475799_61566789515977": [
+    {
+      "timestamp": 1749382179520,
+      "userMessage": "bot ngu v",
+      "botResponse": "Ủa, có gì đó không ổn rồi 😅 Thử nói lại xem nào!",
+      "senderID": "61566789515977",
+      "userName": "Hoang Long"
+    }
+  ],
+  "6589198804475799_100028202556430": [
+    {
+      "timestamp": 1749382407419,
+      "userMessage": "bot ơi",
+      "botResponse": "Chào Thùy Linh! 😊 Có gì mình có thể giúp không?",
+      "senderID": "100028202556430",
+      "userName": "Thùy Linh"
+    },
+    {
+      "timestamp": 1749382447802,
+      "userMessage": "bot ưi",
+      "botResponse": "Có gì mình có thể giúp không, Thùy Linh? 😊",
+      "senderID": "100028202556430",
+      "userName": "Thùy Linh"
     }
   ]
 }

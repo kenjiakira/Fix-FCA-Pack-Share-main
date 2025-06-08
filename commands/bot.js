@@ -2,13 +2,18 @@ const path = require("path");
 const fs = require("fs-extra");
 const OpenAI = require("openai");
 
-// API Key for OpenAI
-const API_KEY = "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";
+require('dotenv').config();
 
-// Đường dẫn file lưu conversation history
+const API_KEY = process.env.OPENAI_API_KEY;
+
+if (!API_KEY) {
+  console.error("❌ OPENAI_API_KEY không tìm thấy trong file .env!");
+  console.error("🔧 Vui lòng tạo file .env và thêm: OPENAI_API_KEY=your_api_key_here");
+  process.exit(1);
+}
+
 const CONVERSATION_DATA_PATH = path.join(__dirname, "..", "events", "cache", "conversationHistory.json");
 
-// Load conversation history từ file
 const loadConversationHistory = () => {
   try {
     if (fs.existsSync(CONVERSATION_DATA_PATH)) {
@@ -23,10 +28,8 @@ const loadConversationHistory = () => {
   }
 };
 
-// Save conversation history vào file
 const saveConversationHistory = (history) => {
   try {
-    // Đảm bảo thư mục tồn tại
     const dir = path.dirname(CONVERSATION_DATA_PATH);
     if (!fs.existsSync(dir)) {
       fs.ensureDirSync(dir);
@@ -39,17 +42,14 @@ const saveConversationHistory = (history) => {
   }
 };
 
-// Simple conversation history - Load từ file khi khởi động
 let conversationHistory = loadConversationHistory();
 
-// Auto-save mỗi 30 giây
 setInterval(() => {
   if (Object.keys(conversationHistory).length > 0) {
     saveConversationHistory(conversationHistory);
   }
 }, 30000);
 
-// Get user name from rankData.json
 const getUserName = (senderID) => {
   try {
     const rankDataPath = path.join(__dirname, "..", "events", "cache", "rankData.json");
@@ -65,52 +65,44 @@ const getUserName = (senderID) => {
   }
 };
 
-// AI Agent for dynamic parameter adjustment
 const adjustAIParameters = (message, history, userEmotion) => {
   const text = message.toLowerCase();
   const historyLength = history.length;
   
-  // Phân tích độ phức tạp câu hỏi
   const isComplexQuestion = text.includes('giải thích') || text.includes('phân tích') || 
                            text.includes('so sánh') || text.includes('tại sao') ||
                            text.includes('như thế nào') || text.length > 100;
   
-  // Phân tích mức độ sáng tạo cần thiết
   const needsCreativity = text.includes('sáng tạo') || text.includes('ý tưởng') ||
                          text.includes('viết') || text.includes('tạo ra') ||
                          text.includes('nghĩ ra') || text.includes('câu chuyện');
   
-  // Phân tích mức độ lặp lại trong lịch sử
   const recentMessages = history.slice(-3);
   const hasRepetition = recentMessages.some(h => 
     h.userMessage.toLowerCase().includes(text.substring(0, 20)) ||
     text.includes(h.userMessage.toLowerCase().substring(0, 20))
   );
   
-  // Điều chỉnh temperature (0.1 - 2.0)
-  let temperature = 0.9; // default
+  let temperature = 0.9;
   if (needsCreativity) temperature = 1.5;
   else if (isComplexQuestion) temperature = 0.7;
   else if (userEmotion === 'buồn' || userEmotion === 'lo lắng') temperature = 0.6;
   else if (userEmotion === 'vui' || userEmotion === 'yêu thương') temperature = 1.2;
   
-  // Điều chỉnh max_tokens (tối đa 4096 cho gpt-4o)
-  let max_tokens = 4096; // tối đa
+  let max_tokens = 4096;
   if (text.length < 20 && !isComplexQuestion) max_tokens = 150;
   else if (isComplexQuestion || needsCreativity) max_tokens = 4096;
-  else if (userEmotion === 'mệt mỏi') max_tokens = 100; // ngắn gọn
-  
-  // Điều chỉnh presence_penalty (-2.0 to 2.0)
-  let presence_penalty = 0.6; // default
+  else if (userEmotion === 'mệt mỏi') max_tokens = 100; 
+
+  let presence_penalty = 0.6; 
   if (hasRepetition) presence_penalty = 1.5;
   else if (needsCreativity) presence_penalty = 0.8;
-  else if (historyLength > 10) presence_penalty = 1.0; // tránh lặp trong cuộc trò chuyện dài
+  else if (historyLength > 10) presence_penalty = 1.0; 
   
-  // Điều chỉnh frequency_penalty (-2.0 to 2.0)
-  let frequency_penalty = 0.3; // default
+  let frequency_penalty = 0.3; 
   if (hasRepetition) frequency_penalty = 1.2;
   else if (needsCreativity) frequency_penalty = 0.5;
-  else if (isComplexQuestion) frequency_penalty = 0.1; // cho phép lặp thuật ngữ kỹ thuật
+  else if (isComplexQuestion) frequency_penalty = 0.1; 
   
   return {
     temperature: Math.max(0.1, Math.min(2.0, temperature)),
@@ -120,13 +112,11 @@ const adjustAIParameters = (message, history, userEmotion) => {
   };
 };
 
-// AI Agent for advanced emotion detection and writing style adjustment
 const emotionWriterAgent = (message, history, userName) => {
   const text = message.toLowerCase();
   
-  // Phân tích cảm xúc nâng cao với điểm số
   const emotionAnalysis = {
-    // Cảm xúc tích cực
+  
     joy: {
       score: 0,
       keywords: ['vui', 'haha', 'hihi', 'hehe', 'hứng khởi', 'vui vẻ', '😂', '😄', '😊', '😍', '🥰', '🤗'],
@@ -143,7 +133,6 @@ const emotionWriterAgent = (message, history, userName) => {
       writing_style: 'energetic'
     },
     
-    // Cảm xúc tiêu cực
     sadness: {
       score: 0,
       keywords: ['buồn', 'khóc', 'tủi thân', 'cô đơn', 'chán nản', 'thất vọng', '😢', '😭', '😪', '💔'],
@@ -160,7 +149,6 @@ const emotionWriterAgent = (message, history, userName) => {
       writing_style: 'reassuring'
     },
     
-    // Cảm xúc trung tính
     tired: {
       score: 0,
       keywords: ['mệt', 'mệt mỏi', 'kiệt sức', 'stress', 'áp lực', 'chán', '😴', '😪', '🥱', '😫'],
@@ -178,7 +166,6 @@ const emotionWriterAgent = (message, history, userName) => {
     }
   };
   
-  // Tính điểm cảm xúc
   Object.keys(emotionAnalysis).forEach(emotion => {
     emotionAnalysis[emotion].keywords.forEach(keyword => {
       if (text.includes(keyword)) {
@@ -187,7 +174,6 @@ const emotionWriterAgent = (message, history, userName) => {
     });
   });
   
-  // Tìm cảm xúc chủ đạo
   let dominantEmotion = 'neutral';
   let maxScore = 0;
   
@@ -197,8 +183,7 @@ const emotionWriterAgent = (message, history, userName) => {
       dominantEmotion = emotion;
     }
   });
-  
-  // Phân tích ngữ cảnh từ lịch sử
+
   const contextAnalysis = {
     conversationTone: 'neutral',
     userMood: 'stable',
@@ -219,12 +204,10 @@ const emotionWriterAgent = (message, history, userName) => {
     if (positiveCount > negativeCount) contextAnalysis.conversationTone = 'positive';
     else if (negativeCount > positiveCount) contextAnalysis.conversationTone = 'negative';
     
-    // Phân tích mức độ thân thiết
     if (history.length > 10) contextAnalysis.relationshipLevel = 'close';
     else if (history.length > 5) contextAnalysis.relationshipLevel = 'familiar';
   }
   
-  // Tạo writing style instructions
   const writingStyleGuide = {
     enthusiastic: {
       tone: 'năng động, nhiệt tình',
@@ -297,7 +280,6 @@ const emotionWriterAgent = (message, history, userName) => {
   };
 };
 
-// Phân tích cảm xúc của tin nhắn
 const detectEmotion = (msg) => {
   const text = msg.toLowerCase();
   if (text.includes('buồn') || text.includes('khóc') || text.includes('😢') || text.includes('😭')) return 'buồn';
@@ -309,7 +291,6 @@ const detectEmotion = (msg) => {
   return 'bình thường';
 };
 
-// AI Pattern Recognition Agent - Phân tích cách nhắn tin của user
 const patternRecognitionAgent = (message, history, userName) => {
   const analysis = {
     messagingPatterns: {
@@ -331,15 +312,13 @@ const patternRecognitionAgent = (message, history, userName) => {
 
   if (history.length === 0) return analysis;
 
-  // Phân tích độ dài tin nhắn trung bình
   const lengths = history.map(h => h.userMessage.length);
   analysis.messagingPatterns.averageLength = Math.round(lengths.reduce((a, b) => a + b, 0) / lengths.length);
 
-  // Phân tích từ khóa thường dùng
   const allWords = history.map(h => h.userMessage.toLowerCase()).join(' ').split(' ');
   const wordCount = {};
   allWords.forEach(word => {
-    if (word.length > 2) { // Bỏ qua từ quá ngắn
+    if (word.length > 2) {
       wordCount[word] = (wordCount[word] || 0) + 1;
     }
   });
@@ -349,7 +328,6 @@ const patternRecognitionAgent = (message, history, userName) => {
     .slice(0, 10)
     .map(([word]) => word);
 
-  // Phân tích tần suất nhắn tin
   if (history.length > 10) {
     const recentMessages = history.slice(-10);
     const timeGaps = [];
@@ -363,7 +341,6 @@ const patternRecognitionAgent = (message, history, userName) => {
     else if (avgGap > 3600000) analysis.messagingPatterns.messageFrequency = 'slow'; // > 1 giờ
   }
 
-  // Phân tích xu hướng cảm xúc
   const recentEmotions = history.slice(-5).map(h => {
     const msg = h.userMessage.toLowerCase();
     if (msg.includes('vui') || msg.includes('haha') || msg.includes('😂')) return 'positive';
@@ -377,7 +354,6 @@ const patternRecognitionAgent = (message, history, userName) => {
   if (positiveCount > negativeCount) analysis.messagingPatterns.emotionTrend = 'positive';
   else if (negativeCount > positiveCount) analysis.messagingPatterns.emotionTrend = 'negative';
 
-  // Phân tích chủ đề yêu thích
   const topics = {
     'học tập': ['học', 'bài tập', 'thi', 'kiểm tra', 'lớp', 'thầy', 'cô'],
     'giải trí': ['game', 'phim', 'nhạc', 'youtube', 'tiktok', 'facebook'],
@@ -404,7 +380,6 @@ const patternRecognitionAgent = (message, history, userName) => {
     .slice(0, 3)
     .map(([topic]) => topic);
 
-  // Phân tích phong cách giao tiếp
   const currentMsg = message.toLowerCase();
   if (currentMsg.includes('ạ') || currentMsg.includes('dạ') || currentMsg.includes('em')) {
     analysis.messagingPatterns.communicationStyle = 'polite';
@@ -414,10 +389,8 @@ const patternRecognitionAgent = (message, history, userName) => {
     analysis.messagingPatterns.communicationStyle = 'detailed';
   }
 
-  // DỰ ĐOÁN tin nhắn tiếp theo
   const lastMessage = history[history.length - 1]?.userMessage.toLowerCase() || '';
   
-  // Dự đoán chủ đề
   if (lastMessage.includes('học') || lastMessage.includes('bài')) {
     analysis.predictions.nextMessageTopic = 'học tập';
   } else if (lastMessage.includes('game') || lastMessage.includes('chơi')) {
@@ -426,17 +399,14 @@ const patternRecognitionAgent = (message, history, userName) => {
     analysis.predictions.nextMessageTopic = analysis.messagingPatterns.topicPreference[0];
   }
 
-  // Dự đoán tâm trạng
   if (analysis.messagingPatterns.emotionTrend === 'positive') {
     analysis.predictions.nextMessageMood = 'vui vẻ';
   } else if (analysis.messagingPatterns.emotionTrend === 'negative') {
     analysis.predictions.nextMessageMood = 'buồn hoặc stress';
   }
 
-  // Dự đoán phong cách
   analysis.predictions.nextMessageStyle = analysis.messagingPatterns.communicationStyle;
 
-  // Tính độ tin cậy
   const historyLength = history.length;
   if (historyLength > 20) analysis.predictions.confidence = 0.8;
   else if (historyLength > 10) analysis.predictions.confidence = 0.6;
@@ -446,7 +416,6 @@ const patternRecognitionAgent = (message, history, userName) => {
   return analysis;
 };
 
-// AI Predictive Response Agent - Tạo phản hồi dự đoán
 const predictiveResponseAgent = (patternAnalysis, userName) => {
   const { messagingPatterns, predictions } = patternAnalysis;
   
@@ -470,7 +439,6 @@ const predictiveResponseAgent = (patternAnalysis, userName) => {
 💡 CÁCH PHẢN HỒI PHÙ HỢP:
 `;
 
-  // Gợi ý cách phản hồi dựa trên pattern
   if (messagingPatterns.communicationStyle === 'polite') {
     predictivePrompt += `- Dùng ngôn từ lịch sự, tôn trọng\n- Gọi "bạn" hoặc "${userName}"\n`;
   } else if (messagingPatterns.communicationStyle === 'casual') {
@@ -498,59 +466,50 @@ Hãy điều chỉnh tone phù hợp và có thể chủ động hỏi thăm ho�
   return predictivePrompt;
 };
 
-// AI Natural Conversation Agent - Kiểm soát tính tự nhiên
 const naturalConversationAgent = (message, history, emotionAnalysis, userName) => {
   const analysis = {
     emojiControl: {
-      maxEmojis: 1,
-      emojiFrequency: 'moderate', // low/moderate/high
-      shouldUseEmoji: true
+      maxEmojis: 0, 
+      emojiFrequency: 'none',
+      shouldUseEmoji: false 
     },
     questionControl: {
       maxQuestions: 1,
       shouldAskQuestion: false,
-      questionType: 'none' // follow-up/clarifying/caring/none
+      questionType: 'none'
     },
     responseStyle: {
-      enthusiasm: 'natural', // low/natural/high
-      helpfulness: 'subtle', // subtle/moderate/eager
-      genuineness: 'authentic' // authentic/polite/enthusiastic
+      enthusiasm: 'natural', 
+      helpfulness: 'subtle', 
+      genuineness: 'authentic'
     }
   };
 
   const historyLength = history.length;
   const recentMessages = history.slice(-3);
   
-  // Phân tích emoji usage trong lịch sử gần đây
   let recentEmojiCount = 0;
   recentMessages.forEach(h => {
     const emojiMatches = h.botResponse.match(/[\u{1F600}-\u{1F64F}]|[\u{1F300}-\u{1F5FF}]|[\u{1F680}-\u{1F6FF}]|[\u{1F1E0}-\u{1F1FF}]|[\u{2600}-\u{26FF}]|[\u{2700}-\u{27BF}]/gu);
     if (emojiMatches) recentEmojiCount += emojiMatches.length;
   });
 
-  // Điều chỉnh emoji usage
-  if (recentEmojiCount > 6) { // Quá nhiều emoji gần đây
-    analysis.emojiControl.maxEmojis = 0;
-    analysis.emojiControl.shouldUseEmoji = false;
-  } else if (recentEmojiCount > 3) {
-    analysis.emojiControl.maxEmojis = 1;
-    analysis.emojiControl.emojiFrequency = 'low';
-  }
+  
+  analysis.emojiControl.maxEmojis = 0;
+  analysis.emojiControl.shouldUseEmoji = false;
+  analysis.emojiControl.emojiFrequency = 'none';
 
-  // Phân tích câu hỏi trong lịch sử gần đây
   let recentQuestionCount = 0;
   recentMessages.forEach(h => {
     const questionMatches = h.botResponse.match(/\?/g);
     if (questionMatches) recentQuestionCount += questionMatches.length;
   });
 
-  // Điều chỉnh câu hỏi
-  if (recentQuestionCount > 4) { // Quá nhiều câu hỏi
+  if (recentQuestionCount > 4) {
     analysis.questionControl.shouldAskQuestion = false;
-  } else if (message.includes('?')) { // User vừa hỏi
-    analysis.questionControl.shouldAskQuestion = false; // Không hỏi lại ngay
+  } else if (message.includes('?')) {
+    analysis.questionControl.shouldAskQuestion = false; 
   } else {
-    // Chỉ hỏi khi thực sự cần thiết
     const needsClarification = message.length < 10 || message.includes('...') || message.includes('ừm');
     const isEmotional = emotionAnalysis.emotionScore > 3;
     
@@ -565,19 +524,17 @@ const naturalConversationAgent = (message, history, emotionAnalysis, userName) =
     }
   }
 
-  // Điều chỉnh mức độ nhiệt tình dựa trên relationship level
   if (emotionAnalysis.contextAnalysis.relationshipLevel === 'close') {
     analysis.responseStyle.enthusiasm = 'natural';
     analysis.responseStyle.helpfulness = 'moderate';
   } else if (emotionAnalysis.contextAnalysis.relationshipLevel === 'familiar') {
     analysis.responseStyle.enthusiasm = 'natural';
     analysis.responseStyle.helpfulness = 'subtle';
-  } else { // friendly
+  } else { 
     analysis.responseStyle.enthusiasm = 'low';
     analysis.responseStyle.helpfulness = 'subtle';
   }
 
-  // Kiểm soát tính giả tạo
   const currentMsg = message.toLowerCase();
   if (currentMsg.includes('ok') || currentMsg.includes('ừ') || currentMsg.includes('được')) {
     analysis.responseStyle.genuineness = 'authentic';
@@ -585,7 +542,6 @@ const naturalConversationAgent = (message, history, emotionAnalysis, userName) =
     analysis.emojiControl.shouldUseEmoji = false;
   }
 
-  // Phân tích tone của user
   const isUserCasual = currentMsg.includes('ạ') === false && currentMsg.length < 20;
   if (isUserCasual) {
     analysis.responseStyle.helpfulness = 'subtle';
@@ -595,20 +551,12 @@ const naturalConversationAgent = (message, history, emotionAnalysis, userName) =
   return analysis;
 };
 
-// Enhanced Style Guide với natural conversation control
 const createEnhancedStyleGuide = (emotionAnalysis, naturalAnalysis, userName) => {
   const baseStyle = emotionAnalysis.styleGuide;
   
-  // Emoji control
-  let emojiGuide = '';
-  if (!naturalAnalysis.emojiControl.shouldUseEmoji) {
-    emojiGuide = 'KHÔNG dùng emoji trong câu trả lời này';
-  } else {
-    const maxEmojis = naturalAnalysis.emojiControl.maxEmojis;
-    emojiGuide = `Chỉ dùng tối đa ${maxEmojis} emoji phù hợp, không lạm dụng`;
-  }
 
-  // Question control
+  let emojiGuide = 'TUYỆT ĐỐI KHÔNG dùng emoji trong câu trả lời';
+
   let questionGuide = '';
   if (!naturalAnalysis.questionControl.shouldAskQuestion) {
     questionGuide = 'KHÔNG hỏi thêm câu hỏi, chỉ phản hồi tự nhiên';
@@ -616,7 +564,6 @@ const createEnhancedStyleGuide = (emotionAnalysis, naturalAnalysis, userName) =>
     questionGuide = `Có thể hỏi 1 câu ${naturalAnalysis.questionControl.questionType} nếu cần thiết`;
   }
 
-  // Enthusiasm control
   let enthusiasmGuide = '';
   switch (naturalAnalysis.responseStyle.enthusiasm) {
     case 'low':
@@ -630,7 +577,6 @@ const createEnhancedStyleGuide = (emotionAnalysis, naturalAnalysis, userName) =>
       break;
   }
 
-  // Helpfulness control
   let helpfulnessGuide = '';
   switch (naturalAnalysis.responseStyle.helpfulness) {
     case 'subtle':
@@ -654,17 +600,14 @@ const createEnhancedStyleGuide = (emotionAnalysis, naturalAnalysis, userName) =>
   };
 };
 
-// GPT response generator
 const generateGPTResponse = async (message, senderID, threadID) => {
   try {
     const openai = new OpenAI({
       apiKey: API_KEY
     });
 
-    // Get user name
     const userName = getUserName(senderID);
 
-    // Get conversation context for this specific user in this thread
     const conversationKey = `${threadID}_${senderID}`;
     const history = conversationHistory[conversationKey] || [];
     const recentHistory = history.slice(-5).map(h => 
@@ -673,17 +616,13 @@ const generateGPTResponse = async (message, senderID, threadID) => {
 
     const userEmotion = detectEmotion(message);
     
-    // AI Agent tự động điều chỉnh tham số
     const aiParams = adjustAIParameters(message, history, userEmotion);
     
-    // AI Emotion Writer Agent
     const emotionAnalysis = emotionWriterAgent(message, history, userName);
     
-    // AI Pattern Recognition Agent
     const patternAnalysis = patternRecognitionAgent(message, history, userName);
     const predictivePrompt = predictiveResponseAgent(patternAnalysis, userName);
     
-    // AI Natural Conversation Agent - TÍNH NĂNG MỚI
     const naturalAnalysis = naturalConversationAgent(message, history, emotionAnalysis, userName);
     const enhancedStyleGuide = createEnhancedStyleGuide(emotionAnalysis, naturalAnalysis, userName);
     
@@ -803,7 +742,6 @@ VÀ ĐẢM BẢO TÍNH TỰ NHIÊN 100%!`;
   }
 };
 
-// Update conversation history
 const updateHistory = (threadID, userMessage, botResponse, senderID) => {
   const userName = getUserName(senderID);
   const conversationKey = `${threadID}_${senderID}`;
@@ -820,16 +758,14 @@ const updateHistory = (threadID, userMessage, botResponse, senderID) => {
     userName
   });
   
-  // Giới hạn 500 tin nhắn gần nhất cho mỗi user (thay vì 1000 để tiết kiệm dung lượng)
   if (conversationHistory[conversationKey].length > 500) {
     conversationHistory[conversationKey] = conversationHistory[conversationKey].slice(-500);
   }
   
-  // Lưu ngay sau khi update (debounced)
   clearTimeout(updateHistory.saveTimeout);
   updateHistory.saveTimeout = setTimeout(() => {
     saveConversationHistory(conversationHistory);
-  }, 5000); // Lưu sau 5 giây không có update nào
+  }, 5000);
 };
 
 module.exports = {
@@ -840,7 +776,7 @@ module.exports = {
   category: "AI", 
   nickName: ["bot", "simple"],
   info: "Simple chatbot with basic replies",
-  onPrefix: false, // Không cần prefix
+  onPrefix: false,
   cooldowns: 1,
 
   onReply: async function ({ event, api }) {
@@ -873,24 +809,21 @@ module.exports = {
     const { threadID, messageID, body, senderID } = event;
     
     try {
-      // Chỉ xử lý nếu tin nhắn BẮT ĐẦU bằng "bot"
       if (!body || !body.toLowerCase().trim().startsWith("bot")) {
         return;
       }
 
-      // NGĂN AI RESPONSE CHO CÁC COMMANDS
       const command = target && target[0] ? target[0].toLowerCase() : '';
       const isCommand = ['reset', 'pattern', 'stats', 'help'].includes(command);
 
       if (target && target[0]?.toLowerCase() === "reset") {
         const conversationKey = `${threadID}_${senderID}`;
         delete conversationHistory[conversationKey];
-        saveConversationHistory(conversationHistory); // Lưu ngay sau khi reset
+        saveConversationHistory(conversationHistory);
         const userName = getUserName(senderID);
         return api.sendMessage(`Đã reset lịch sử chat cho ${userName}!`, threadID, messageID);
       }
 
-      // COMMAND: bot stats - Phân tích chi tiết
       if (target && target[0]?.toLowerCase() === "stats") {
         const conversationKey = `${threadID}_${senderID}`;
         const history = conversationHistory[conversationKey] || [];
@@ -904,18 +837,15 @@ module.exports = {
         const emotionAnalysis = emotionWriterAgent(body, history, userName);
         const naturalAnalysis = naturalConversationAgent(body, history, emotionAnalysis, userName);
         
-        // Tính toán thống kê chi tiết
         const totalMessages = history.length;
         const totalChars = history.reduce((sum, h) => sum + h.userMessage.length, 0);
         const avgLength = Math.round(totalChars / totalMessages);
         
-        // Phân tích thời gian hoạt động
         const firstMessage = new Date(history[0].timestamp);
         const lastMessage = new Date(history[history.length - 1].timestamp);
         const daysDiff = Math.ceil((lastMessage - firstMessage) / (1000 * 60 * 60 * 24));
         const messagesPerDay = daysDiff > 0 ? Math.round(totalMessages / daysDiff) : totalMessages;
         
-        // Phân tích cảm xúc trong lịch sử
         const emotionStats = {
           positive: 0,
           negative: 0,
@@ -932,8 +862,7 @@ module.exports = {
             emotionStats.neutral++;
           }
         });
-        
-        // Phân tích thời gian trong ngày
+
         const hourStats = {};
         history.forEach(h => {
           const hour = new Date(h.timestamp).getHours();
@@ -943,7 +872,6 @@ module.exports = {
         const mostActiveHour = Object.entries(hourStats)
           .sort(([,a], [,b]) => b - a)[0];
         
-        // Phân tích độ dài tin nhắn
         const shortMessages = history.filter(h => h.userMessage.length < 20).length;
         const longMessages = history.filter(h => h.userMessage.length > 100).length;
         const mediumMessages = totalMessages - shortMessages - longMessages;
@@ -1003,7 +931,6 @@ ${patternAnalysis.messagingPatterns.commonWords.slice(0, 10).join(', ')}
         return api.sendMessage(reportMessage, threadID, messageID);
       }
 
-      // COMMAND: bot pattern - Phân tích pattern đơn giản
       if (target && target[0]?.toLowerCase() === "pattern") {
         const conversationKey = `${threadID}_${senderID}`;
         const history = conversationHistory[conversationKey] || [];
@@ -1037,7 +964,6 @@ ${patternAnalysis.messagingPatterns.commonWords.slice(0, 10).join(', ')}
         return api.sendMessage(reportMessage, threadID, messageID);
       }
 
-      // COMMAND: bot help
       if (target && target[0]?.toLowerCase() === "help") {
         const helpMessage = `🤖 HƯỚNG DẪN SỬ DỤNG NGÂN AI:
 
@@ -1057,12 +983,15 @@ ${patternAnalysis.messagingPatterns.commonWords.slice(0, 10).join(', ')}
 • Natural Conversation Agent - Kiểm soát tính tự nhiên
 • Predictive Response Agent - Dự đoán và phản hồi phù hợp
 
+⚠️ LƯU Ý:
+• AI không sử dụng emoji để đảm bảo tính chuyên nghiệp
+• Phản hồi tập trung vào nội dung và cảm xúc thông qua từ ngữ
+
 ✨ Ngân sẽ học cách bạn nói chuyện và phản hồi ngày càng phù hợp hơn!`;
 
         return api.sendMessage(helpMessage, threadID, messageID);
       }
 
-      // CHỈ KHI KHÔNG PHẢI COMMAND THÌ MỚI CHAT
       if (!isCommand) {
         const response = await generateGPTResponse(body, senderID, threadID);
         
@@ -1088,7 +1017,6 @@ ${patternAnalysis.messagingPatterns.commonWords.slice(0, 10).join(', ')}
   ad: async function () {
     console.log("Simple chatbot initialized successfully");
     
-    // Lưu conversation history khi bot shutdown
     process.on('SIGINT', () => {
       console.log('\n🔄 Bot đang shutdown, đang lưu conversation history...');
       saveConversationHistory(conversationHistory);
@@ -1102,9 +1030,8 @@ ${patternAnalysis.messagingPatterns.commonWords.slice(0, 10).join(', ')}
     });
   },
 
-  // Export the GPT response function for use in events
   generateResponse: generateGPTResponse,
   updateHistory: updateHistory,
-  saveConversationHistory: saveConversationHistory, // Export để có thể gọi từ bên ngoài
+  saveConversationHistory: saveConversationHistory, 
   loadConversationHistory: loadConversationHistory
 };
