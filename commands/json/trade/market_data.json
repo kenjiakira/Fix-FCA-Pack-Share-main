@@ -2,15 +2,11 @@
   "stocks": {
     "APPL": {
       "name": "Apple Inc.",
-      "price": 244.67042657348472,
+      "price": 251.55207985860145,
       "volatility": "medium",
       "sector": "Technology",
       "trend": "up",
       "history": [
-        {
-          "price": 199.89688095700723,
-          "timestamp": 1748313121812
-        },
         {
           "price": 209.42786540485812,
           "timestamp": 1748315388980
@@ -206,20 +202,20 @@
         {
           "price": 244.67042657348472,
           "timestamp": 1749186051905
+        },
+        {
+          "price": 251.55207985860145,
+          "timestamp": 1749385636472
         }
       ]
     },
     "GOOG": {
       "name": "Alphabet Inc.",
-      "price": 132.1163347207849,
+      "price": 135.70604591209502,
       "volatility": "medium",
       "sector": "Technology",
       "trend": "down",
       "history": [
-        {
-          "price": 181.8452985688137,
-          "timestamp": 1748313121812
-        },
         {
           "price": 178.75518851071226,
           "timestamp": 1748315388980
@@ -415,20 +411,20 @@
         {
           "price": 132.1163347207849,
           "timestamp": 1749186051905
+        },
+        {
+          "price": 135.70604591209502,
+          "timestamp": 1749385636472
         }
       ]
     },
     "MSFT": {
       "name": "Microsoft Corp.",
-      "price": 194.24497817183234,
+      "price": 191.61210686550672,
       "volatility": "low",
       "sector": "Technology",
       "trend": "stable",
       "history": [
-        {
-          "price": 327.95384017418166,
-          "timestamp": 1748313121812
-        },
         {
           "price": 319.7956320984967,
           "timestamp": 1748315388980
@@ -624,20 +620,20 @@
         {
           "price": 194.24497817183234,
           "timestamp": 1749186051905
+        },
+        {
+          "price": 191.61210686550672,
+          "timestamp": 1749385636472
         }
       ]
     },
     "TSLA": {
       "name": "Tesla Inc.",
-      "price": 478.6924744042926,
+      "price": 439.96383781243094,
       "volatility": "high",
       "sector": "Automotive",
-      "trend": "down",
+      "trend": "stable",
       "history": [
-        {
-          "price": 392.6018052201698,
-          "timestamp": 1748313121812
-        },
         {
           "price": 381.73923470579086,
           "timestamp": 1748315388980
@@ -833,20 +829,20 @@
         {
           "price": 478.6924744042926,
           "timestamp": 1749186051905
+        },
+        {
+          "price": 439.96383781243094,
+          "timestamp": 1749385636472
         }
       ]
     },
     "AMZN": {
       "name": "Amazon.com Inc.",
-      "price": 131.4402473018511,
+      "price": 136.9372144466973,
       "volatility": "medium",
       "sector": "Retail",
       "trend": "up",
       "history": [
-        {
-          "price": 190.25561535984554,
-          "timestamp": 1748313121812
-        },
         {
           "price": 180.00172531725926,
           "timestamp": 1748315388980
@@ -1042,20 +1038,20 @@
         {
           "price": 131.4402473018511,
           "timestamp": 1749186051905
+        },
+        {
+          "price": 136.9372144466973,
+          "timestamp": 1749385636472
         }
       ]
     },
     "META": {
       "name": "Meta Platforms Inc.",
-      "price": 423.9548433743364,
+      "price": 406.87290970810534,
       "volatility": "medium",
       "sector": "Technology",
-      "trend": "stable",
+      "trend": "up",
       "history": [
-        {
-          "price": 414.9971471833324,
-          "timestamp": 1748316648368
-        },
         {
           "price": 400.49821303435914,
           "timestamp": 1748321050323
@@ -1251,20 +1247,20 @@
         {
           "price": 423.9548433743364,
           "timestamp": 1749186051905
+        },
+        {
+          "price": 406.87290970810534,
+          "timestamp": 1749385636472
         }
       ]
     },
     "NFLX": {
       "name": "Netflix Inc.",
-      "price": 1008.9248463052252,
+      "price": 997.9418128562704,
       "volatility": "medium",
       "sector": "Entertainment",
       "trend": "up",
       "history": [
-        {
-          "price": 838.3551304349519,
-          "timestamp": 1748315388980
-        },
         {
           "price": 811.913415211015,
           "timestamp": 1748316648368
@@ -1460,20 +1456,20 @@
         {
           "price": 1008.9248463052252,
           "timestamp": 1749186051905
+        },
+        {
+          "price": 997.9418128562704,
+          "timestamp": 1749385636472
         }
       ]
     },
     "COIN": {
       "name": "Coinbase Global Inc.",
-      "price": 147.92064386483577,
+      "price": 155.0728219563689,
       "volatility": "high",
       "sector": "Finance",
       "trend": "stable",
       "history": [
-        {
-          "price": 188.88950806279507,
-          "timestamp": 1748315388980
-        },
         {
           "price": 177.86452668236743,
           "timestamp": 1748316648368
@@ -1669,24 +1665,20 @@
         {
           "price": 147.92064386483577,
           "timestamp": 1749186051905
+        },
+        {
+          "price": 155.0728219563689,
+          "timestamp": 1749385636472
         }
       ]
     },
     "PEP": {
       "name": "PepsiCo Inc.",
-      "price": 182.57839696002833,
+      "price": 166.29020167156318,
       "volatility": "low",
       "sector": "Consumer Goods",
       "trend": "down",
       "history": [
-        {
-          "price": 184.06215215676224,
-          "timestamp": 1748315388980
-        },
-        {
-          "price": 186.31716070046562,
-          "timestamp": 1748316648368
-        },
         {
           "price": 190.61103974465712,
           "timestamp": 1748321050323
@@ -1878,20 +1870,24 @@
         {
           "price": 182.57839696002833,
           "timestamp": 1749186051905
+        },
+        {
+          "price": 178.88588966562125,
+          "timestamp": 1749385636472
+        },
+        {
+          "price": 166.29020167156318,
+          "timestamp": 1749385636494
         }
       ]
     },
     "DIS": {
       "name": "Walt Disney Co.",
-      "price": 105.68066247727413,
+      "price": 106.1913250594547,
       "volatility": "medium",
       "sector": "Entertainment",
       "trend": "down",
       "history": [
-        {
-          "price": 99.1073485191067,
-          "timestamp": 1748313121812
-        },
         {
           "price": 95.26055033132081,
           "timestamp": 1748315388980
@@ -2087,20 +2083,20 @@
         {
           "price": 105.68066247727413,
           "timestamp": 1749186051905
+        },
+        {
+          "price": 106.1913250594547,
+          "timestamp": 1749385636472
         }
       ]
     },
     "AKI": {
       "name": "AKI Corporation",
-      "price": 9.898706415080788,
+      "price": 9.47019981762367,
       "volatility": "high",
       "sector": "Technology",
       "trend": "down",
       "history": [
-        {
-          "price": 13.806271282676084,
-          "timestamp": 1748315388980
-        },
         {
           "price": 14.169920731454784,
           "timestamp": 1748316648368
@@ -2296,20 +2292,20 @@
         {
           "price": 9.898706415080788,
           "timestamp": 1749186051905
+        },
+        {
+          "price": 9.47019981762367,
+          "timestamp": 1749385636472
         }
       ]
     },
     "HNT": {
       "name": "HNT Industries",
-      "price": 39.74753550785843,
+      "price": 42.62847394273341,
       "volatility": "high",
       "sector": "Innovation",
       "trend": "up",
       "history": [
-        {
-          "price": 39.505229792192054,
-          "timestamp": 1748316648368
-        },
         {
           "price": 42.79212386076949,
           "timestamp": 1748321050323
@@ -2505,9 +2501,13 @@
         {
           "price": 39.74753550785843,
           "timestamp": 1749186051905
+        },
+        {
+          "price": 42.62847394273341,
+          "timestamp": 1749385636472
         }
       ]
     }
   },
-  "lastUpdate": 1749186051905
+  "lastUpdate": 1749385636494
 }

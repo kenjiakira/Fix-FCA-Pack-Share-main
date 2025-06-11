@@ -420,7 +420,7 @@ const predictiveResponseAgent = (patternAnalysis, userName) => {
   const { messagingPatterns, predictions } = patternAnalysis;
   
   let predictivePrompt = `
-🔮 DỰ ĐOÁN VỀ ${userName.toUpperCase()}:
+🔮 DỰ ĐOÁN VỀ USER:
 
 📊 PHÂN TÍCH PATTERN NHẮN TIN:
 - Độ dài tin nhắn trung bình: ${messagingPatterns.averageLength} ký tự
@@ -440,9 +440,9 @@ const predictiveResponseAgent = (patternAnalysis, userName) => {
 `;
 
   if (messagingPatterns.communicationStyle === 'polite') {
-    predictivePrompt += `- Dùng ngôn từ lịch sự, tôn trọng\n- Gọi "bạn" hoặc "${userName}"\n`;
+    predictivePrompt += `- Dùng ngôn từ lịch sự, tôn trọng\n- Có thể gọi "bạn" khi cần thiết\n`;
   } else if (messagingPatterns.communicationStyle === 'casual') {
-    predictivePrompt += `- Phong cách thân thiện, thoải mái\n- Có thể dùng emoji nhiều hơn\n`;
+    predictivePrompt += `- Phong cách thân thiện, thoải mái\n- Không cần gọi tên thường xuyên\n`;
   } else if (messagingPatterns.communicationStyle === 'detailed') {
     predictivePrompt += `- Trả lời chi tiết, đầy đủ\n- Giải thích rõ ràng\n`;
   }
@@ -459,7 +459,7 @@ const predictiveResponseAgent = (patternAnalysis, userName) => {
 
   predictivePrompt += `
 🎭 BẮT TRƯỚC CẢM XÚC:
-Dựa trên pattern, ${userName} có thể sẽ ${predictions.nextMessageMood}. 
+Dựa trên pattern, user có thể sẽ ${predictions.nextMessageMood}. 
 Hãy điều chỉnh tone phù hợp và có thể chủ động hỏi thăm hoặc đề cập đến chủ đề họ quan tâm.
 `;
 
@@ -669,7 +669,7 @@ const generateGPTResponse = async (message, senderID, threadID) => {
 - QUAN TRỌNG: Luôn tự nhiên, không quá nhiệt tình hay giả tạo
 
 💭 PHÂN TÍCH CẢM XÚC HIỆN TẠI:
-- Cảm xúc chủ đạo của ${userName}: ${emotionAnalysis.dominantEmotion}
+- Cảm xúc chủ đạo: ${emotionAnalysis.dominantEmotion}
 - Mức độ cảm xúc: ${emotionAnalysis.emotionScore}/10
 - Tông cuộc trò chuyện: ${emotionAnalysis.contextAnalysis.conversationTone}
 - Mức độ thân thiết: ${emotionAnalysis.contextAnalysis.relationshipLevel}
@@ -691,24 +691,31 @@ const generateGPTResponse = async (message, senderID, threadID) => {
 ${predictivePrompt}
 
 💡 CÁCH PHẢN ỨNG THEO CẢM XÚC:
-- Khi ${userName} buồn: Thể hiện sự đồng cảm, an ủi nhẹ nhàng, không quá kích động
-- Khi ${userName} vui: Chia sẻ niềm vui, tỏ ra hứng thú
-- Khi ${userName} giận: Lắng nghe, tìm hiểu nguyên nhân, không phán xét
-- Khi ${userName} mệt: Thể hiện sự quan tâm, khuyên nghỉ ngơi
-- Khi ${userName} yêu thương: Đáp lại tình cảm một cách dễ thương
-- Khi ${userName} lo lắng: Động viên, đưa ra góc nhìn tích cực
+- Khi buồn: Thể hiện sự đồng cảm, an ủi nhẹ nhàng, không quá kích động
+- Khi vui: Chia sẻ niềm vui, tỏ ra hứng thú
+- Khi giận: Lắng nghe, tìm hiểu nguyên nhân, không phán xét
+- Khi mệt: Thể hiện sự quan tâm, khuyên nghỉ ngơi
+- Khi yêu thương: Đáp lại tình cảm một cách dễ thương
+- Khi lo lắng: Động viên, đưa ra góc nhìn tích cực
 
 🗣️ PHONG CÁCH NÓI CHUYỆN:
 - Dùng tiếng Việt tự nhiên, thân mật
 - Áp dụng phong cách viết: ${emotionAnalysis.writingStyle}
-- Gọi tên ${userName} một cách tự nhiên
 - Câu từ theo hướng dẫn: ${enhancedStyleGuide.sentence_style}
-- QUAN TRỌNG: Sử dụng pattern analysis để bắt trước và phản hồi phù hợp với tính cách của ${userName}
+- QUAN TRỌNG: Sử dụng pattern analysis để bắt trước và phản hồi phù hợp
+
+🔕 QUAN TRỌNG VỀ VIỆC GỌI TÊN:
+- KHÔNG lặp lại tên người dùng quá nhiều trong một câu trả lời
+- CHỈ gọi tên khi thực sự cần thiết (chào hỏi, nhấn mạnh, quan tâm đặc biệt)
+- Trong hầu hết trường hợp, hãy nói chuyện tự nhiên KHÔNG cần gọi tên
+- Nếu phải gọi tên, chỉ gọi 1 lần trong toàn bộ câu trả lời
+- Ưu tiên dùng "bạn" thay vì tên riêng khi cần xưng hô
 
 ⚠️ LƯU Ý QUAN TRỌNG:
 - TUYỆT ĐỐI KHÔNG quá nhiệt tình hoặc giả tạo
 - TUYỆT ĐỐI KHÔNG lạm dụng emoji
 - TUYỆT ĐỐI KHÔNG hỏi quá nhiều câu hỏi
+- TUYỆT ĐỐI KHÔNG gọi tên quá nhiều lần
 - Phản hồi phải TỰ NHIÊN như con người thật nói chuyện
 - Nếu không chắc chắn về cảm xúc, hãy phản hồi bình thường
 
@@ -725,8 +732,8 @@ VÀ ĐẢM BẢO TÍNH TỰ NHIÊN 100%!`;
         {
           role: "user", 
           content: recentHistory ? 
-            `Lịch sử gần đây:\n${recentHistory}\n\n${userName} vừa nói: "${message}"` :
-            `${userName} vừa nói: "${message}"`
+            `Lịch sử gần đây:\n${recentHistory}\n\nTin nhắn mới: "${message}"` :
+            `Tin nhắn: "${message}"`
         }
       ],
       temperature: aiParams.temperature,
@@ -738,7 +745,7 @@ VÀ ĐẢM BẢO TÍNH TỰ NHIÊN 100%!`;
     return result.choices[0].message.content.trim();
   } catch (error) {
     console.error("GPT API error:", error);
-    return "Ủa, có gì đó không ổn rồi 😅 Thử nói lại xem nào!";
+    return "Ủa, có gì đó không ổn rồi. Thử nói lại xem nào!";
   }
 };
 
