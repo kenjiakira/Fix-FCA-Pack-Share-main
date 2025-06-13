@@ -1,23 +1,23 @@
 {
   "61561277064921": {
     "level": 4,
-    "experience": 253,
-    "totalMined": 33421,
-    "miningCount": 217,
-    "lastMined": 1749473182272,
+    "experience": 255,
+    "totalMined": 37455,
+    "miningCount": 218,
+    "lastMined": 1749649342491,
     "miningPower": 1.3000000000000003,
     "team": "team_1748446197080",
     "autoMining": {
       "active": true,
-      "startTime": 1749473203520,
-      "endTime": 1749559603520,
+      "startTime": 1749649367486,
+      "endTime": 1749735767486,
       "rate": 168
     },
     "achievements": [],
     "equipment": [],
     "boosts": [],
     "createdAt": 1748444112388,
-    "lastLogin": 1749473182271,
+    "lastLogin": 1749649342488,
     "dailyQuests": {
       "Wed May 28 2025": {
         "mineCount": 39,
@@ -95,9 +95,17 @@
         "completed": [
           "USE_AUTO_MINING"
         ]
+      },
+      "Wed Jun 11 2025": {
+        "mineCount": 1,
+        "joinedTeam": false,
+        "usedAutoMining": true,
+        "completed": [
+          "USE_AUTO_MINING"
+        ]
       }
     },
-    "streakDays": 2,
+    "streakDays": 1,
     "hasReceivedWelcomeBonus": true,
     "dailyMining": {
       "Wed May 28 2025": 39,
@@ -107,7 +115,8 @@
       "Sun Jun 01 2025": 25,
       "Tue Jun 03 2025": 38,
       "Sun Jun 08 2025": 20,
-      "Mon Jun 09 2025": 1
+      "Mon Jun 09 2025": 1,
+      "Wed Jun 11 2025": 1
     },
     "bankAccount": {
       "bankName": "HDBANK",
@@ -132,9 +141,9 @@
     "miningPower": 1.1,
     "team": null,
     "autoMining": {
-      "active": false,
-      "startTime": 1749463826976,
-      "endTime": 1749468471495,
+      "active": true,
+      "startTime": 1749654586390,
+      "endTime": 1749740986390,
       "rate": 122
     },
     "achievements": [],
@@ -224,6 +233,14 @@
         "joinedTeam": false,
         "usedAutoMining": false,
         "completed": []
+      },
+      "Wed Jun 11 2025": {
+        "mineCount": 0,
+        "joinedTeam": false,
+        "usedAutoMining": true,
+        "completed": [
+          "USE_AUTO_MINING"
+        ]
       }
     },
     "streakDays": 3,
@@ -547,10 +564,10 @@
   },
   "61550331471452": {
     "level": 1,
-    "experience": 85,
-    "totalMined": 214,
-    "miningCount": 36,
-    "lastMined": 1749534067356,
+    "experience": 89,
+    "totalMined": 218,
+    "miningCount": 40,
+    "lastMined": 1749744596817,
     "miningPower": 1,
     "team": null,
     "autoMining": {
@@ -563,7 +580,7 @@
     "equipment": [],
     "boosts": [],
     "createdAt": 1748450432130,
-    "lastLogin": 1749534067354,
+    "lastLogin": 1749744596816,
     "dailyQuests": {
       "Thu May 29 2025": {
         "mineCount": 6,
@@ -632,9 +649,21 @@
         "joinedTeam": false,
         "usedAutoMining": false,
         "completed": []
+      },
+      "Wed Jun 11 2025": {
+        "mineCount": 3,
+        "joinedTeam": false,
+        "usedAutoMining": false,
+        "completed": []
+      },
+      "Thu Jun 12 2025": {
+        "mineCount": 1,
+        "joinedTeam": false,
+        "usedAutoMining": false,
+        "completed": []
       }
     },
-    "streakDays": 3,
+    "streakDays": 5,
     "hasReceivedWelcomeBonus": true,
     "dailyMining": {
       "Thu May 29 2025": 6,
@@ -647,7 +676,9 @@
       "Fri Jun 06 2025": 1,
       "Sun Jun 08 2025": 1,
       "Mon Jun 09 2025": 2,
-      "Tue Jun 10 2025": 1
+      "Tue Jun 10 2025": 1,
+      "Wed Jun 11 2025": 3,
+      "Thu Jun 12 2025": 1
     },
     "bankAccount": {
       "bankName": "MBBANK",

@@ -1,40 +1,8 @@
 {
-  "codes": {
-    "VG89UB7WQCJ2S": {
-      "rewards": {
-        "coins": 4357033,
-        "vip_points": 3,
-        "exp": 217
-      },
-      "description": "Quà tặng VIP Gold hàng tuần",
-      "createdAt": "2025-06-09T02:33:27.758Z",
-      "expiry": "2025-06-12T02:33:27.758Z",
-      "usedBy": [],
-      "type": "VIP_GOLD",
-      "rarity": "VIP Gold",
-      "color": "#FFD700",
-      "maxUses": 100,
-      "maxUsesPerUser": 1
-    },
-    "NGKUGXM0UX6Q": {
-      "rewards": {
-        "coins": 218681,
-        "vip_points": 1
-      },
-      "description": "Giftcode Thường hàng ngày",
-      "createdAt": "2025-06-10T05:00:00.036Z",
-      "expiry": "2025-06-11T05:00:00.036Z",
-      "usedBy": [],
-      "type": "NORMAL",
-      "rarity": "Thường",
-      "color": "#CCCCCC",
-      "maxUses": null,
-      "maxUsesPerUser": 5
-    }
-  },
+  "codes": {},
   "settings": {
     "autoGiftcode": true,
     "dailyLimits": {},
-    "lastResetDate": "2025-06-10"
+    "lastResetDate": "2025-06-13"
   }
 }

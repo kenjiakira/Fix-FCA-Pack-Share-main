@@ -1832,12 +1832,6 @@
   "100008297661441": [
     {
       "type": "out",
-      "amount": 1010000,
-      "timestamp": 1749401336980,
-      "description": "Chuyển 1000000 $ cho Bá Chủ Nam Kì"
-    },
-    {
-      "type": "out",
       "amount": 505000,
       "timestamp": 1749401513917,
       "description": "Chuyển 500000 $ cho Bá Chủ Nam Kì"
@@ -1859,6 +1853,12 @@
       "amount": 9090000,
       "timestamp": 1749536667736,
       "description": "Chuyển 9000000 $ cho Hieu Trongg"
+    },
+    {
+      "type": "out",
+      "amount": 909000,
+      "timestamp": 1749651609581,
+      "description": "Chuyển 900000 $ cho Bá Chủ Nam Kì"
     }
   ],
   "100053763274764": [
@@ -2131,6 +2131,12 @@
       "amount": 9000000,
       "timestamp": 1749478337275,
       "description": "Nhận 9000000 $ từ Anh Khoaa"
+    },
+    {
+      "type": "in",
+      "amount": 900000,
+      "timestamp": 1749651609581,
+      "description": "Nhận 900000 $ từ Anh Khoaa"
     }
   ],
   "61559151106106": [

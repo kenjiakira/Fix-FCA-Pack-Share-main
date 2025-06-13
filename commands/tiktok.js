@@ -9,13 +9,24 @@ if (!fs.existsSync(cacheDir)) {
 }
 
 function isValidTikTokUrl(url) {
-  // Match common TikTok URL formats including shortened ones:
+  // Match common TikTok URL formats including shortened ones and URLs with query parameters:
   // - https://www.tiktok.com/@username/video/1234567890
+  // - https://www.tiktok.com/@username/video/1234567890?is_from_webapp=1&sender_device=pc
   // - https://www.tiktok.com/@username/photo/1234567890
   // - https://vm.tiktok.com/XXXXXXXX/
   // - https://vt.tiktok.com/XXXXXXXX/
   // - https://m.tiktok.com/v/1234567890.html
-  return /^(https?:\/\/)?(www\.|vm\.|vt\.|m\.)?tiktok\.com\/([@\w]+\/(video|photo)\/\d+|v\/\d+|[A-Za-z0-9]+\/?$)/.test(url);
+  
+  // Strip any query parameters first for logging
+  const urlWithoutQuery = url.split('?')[0];
+  console.log("Validating TikTok URL:", url);
+  console.log("URL without query params:", urlWithoutQuery);
+  
+  // More permissive regex that should handle all TikTok URL formats
+  const isValid = /^(https?:\/\/)?(www\.|vm\.|vt\.|m\.)?tiktok\.com(\/[@\w.]+\/(?:video|photo)\/\d+|\/@[\w.]+\/video\/\d+|\/v\/\d+|\/.+)?/.test(url);
+  
+  console.log("TikTok URL validation result:", isValid);
+  return isValid;
 }
 
 /**
