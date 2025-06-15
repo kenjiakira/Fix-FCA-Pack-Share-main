@@ -2546,7 +2546,7 @@
   },
   "100008297661441": {
     "rod": "Cần jig Daiwa Saltiga SJ",
-    "rodDurability": 496,
+    "rodDurability": 495,
     "inventory": [
       "Cần trúc",
       "Cần Câu Daiwa",
@@ -2604,7 +2604,7 @@
           "Cá Tra Sông": 13,
           "Cá Lăng": 6,
           "Cá Hú": 5,
-          "Cá Tai Tượng": 11,
+          "Cá Tai Tượng": 12,
           "Cá Trê Trắng": 5,
           "Cá Sặc Rằn": 1,
           "Cá Trắm Cỏ": 12,
@@ -2643,29 +2643,29 @@
         }
       },
       "stats": {
-        "totalCaught": 327,
-        "totalValue": 37542394,
+        "totalCaught": 328,
+        "totalValue": 37764010,
         "bestCatch": {
           "name": "Thủy Quái Vũ Trụ",
           "value": 10687500
         }
       }
     },
-    "exp": 7483,
+    "exp": 7621,
     "level": 17,
-    "fishingStreak": 12,
+    "fishingStreak": 13,
     "stats": {
-      "totalExp": 94919,
+      "totalExp": 95057,
       "highestStreak": 229,
-      "totalFishes": 327
+      "totalFishes": 328
     },
     "activeBuffs": {},
-    "lastFished": 1749477700194,
+    "lastFished": 1749817499774,
     "userID": "100008297661441",
     "energy": 120,
-    "lastEnergyUpdate": 1749477700195,
+    "lastEnergyUpdate": 1749817499775,
     "baits": {
-      "Mồi Thần Thoại": 155
+      "Mồi Thần Thoại": 154
     },
     "craftingMaterials": {}
   },

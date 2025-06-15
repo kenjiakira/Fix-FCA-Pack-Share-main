@@ -242,6 +242,12 @@
         "description": "Chuyển 900,000 $ cho Bá Chủ Nam Kì",
         "amount": 900000,
         "timestamp": 1749651610905
+      },
+      {
+        "type": "out",
+        "description": "Chuyển 2,000,000 $ cho Hieu Trongg",
+        "amount": 2000000,
+        "timestamp": 1749817585129
       }
     ],
     "100083237157086": [
@@ -328,6 +334,12 @@
         "description": "Nhận 500,000,000 $ từ Thùy Linh",
         "amount": 500000000,
         "timestamp": 1749547900900
+      },
+      {
+        "type": "in",
+        "description": "Nhận 2,000,000 $ từ Anh Khoaa",
+        "amount": 2000000,
+        "timestamp": 1749817585191
       }
     ],
     "100065381078044": [
