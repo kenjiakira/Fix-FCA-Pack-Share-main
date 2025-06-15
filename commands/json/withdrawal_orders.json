@@ -258,5 +258,21 @@
     "status": "pending",
     "createdAt": 1748922460786,
     "note": "Rút 28,000 coins (phí 3,780)"
+  },
+  "WD1749385351552XNU5WU": {
+    "orderId": "WD1749385351552XNU5WU",
+    "userId": "61561277064921",
+    "userName": "Deaven Nguyenn",
+    "amount": 40000,
+    "actualAmount": 34600,
+    "fee": 5400,
+    "bankInfo": {
+      "bankName": "HDBANK",
+      "accountNumber": "9928668899",
+      "accountName": "NGUYEN QUOC GIA BAO"
+    },
+    "status": "pending",
+    "createdAt": 1749385351552,
+    "note": "Rút 40,000 coins (phí 5,400)"
   }
 }

@@ -1,8 +1,24 @@
 {
-  "codes": {},
+  "codes": {
+    "NN905T217I4H": {
+      "rewards": {
+        "coins": 477414,
+        "vip_points": 1
+      },
+      "description": "Giftcode Thường hàng ngày",
+      "createdAt": "2025-06-13T05:00:00.050Z",
+      "expiry": "2025-06-14T05:00:00.050Z",
+      "usedBy": [],
+      "type": "NORMAL",
+      "rarity": "Thường",
+      "color": "#CCCCCC",
+      "maxUses": null,
+      "maxUsesPerUser": 5
+    }
+  },
   "settings": {
     "autoGiftcode": true,
     "dailyLimits": {},
-    "lastResetDate": "2025-06-06"
+    "lastResetDate": "2025-06-13"
   }
 }

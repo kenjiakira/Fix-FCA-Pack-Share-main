@@ -112,10 +112,10 @@
         "endDate": 1742609195323
       }
     ],
-    "lastWorked": 1748857970962,
+    "lastWorked": 1749552632906,
     "lastQuit": 1742609195323,
-    "totalEarned": 11040000,
-    "workCount": 45,
+    "totalEarned": 12000000,
+    "workCount": 47,
     "lastEarnings": 432000
   },
   "100083237157086": {
@@ -268,10 +268,10 @@
       "performance": 100
     },
     "jobHistory": [],
-    "lastWorked": 1748705885489,
+    "lastWorked": 1749552464614,
     "lastQuit": 0,
-    "totalEarned": 22500000,
-    "workCount": 25,
+    "totalEarned": 24000000,
+    "workCount": 26,
     "lastEarnings": 1350000
   },
   "100076957299243": {
@@ -284,7 +284,7 @@
     "lastWorked": 1748926873381,
     "lastQuit": 0,
     "totalEarned": 54000000,
-    "workCount": 27,
+    "workCount": 28,
     "lastEarnings": 2700000
   },
   "100028202556430": {
@@ -317,7 +317,7 @@
     "lastWorked": 1748191457893,
     "lastQuit": 1742644476087,
     "totalEarned": 3156000,
-    "workCount": 7,
+    "workCount": 8,
     "lastEarnings": 648000
   },
   "61550807250827": {
@@ -634,5 +634,47 @@
     "totalEarned": 300000,
     "workCount": 1,
     "lastEarnings": 270000
+  },
+  "100084220175466": {
+    "currentJob": {
+      "id": "j1",
+      "startDate": 1749402013964,
+      "performance": 100
+    },
+    "jobHistory": [],
+    "lastWorked": 1749402014498,
+    "lastQuit": 0,
+    "totalEarned": 300000,
+    "workCount": 1,
+    "lastEarnings": 270000
+  },
+  "61552281914806": {
+    "currentJob": {
+      "id": "j1",
+      "startDate": 1749405988992,
+      "performance": 100
+    },
+    "jobHistory": [],
+    "lastWorked": 1749405989441,
+    "lastQuit": 0,
+    "totalEarned": 300000,
+    "workCount": 1,
+    "lastEarnings": 270000
+  },
+  "61559151106106": {
+    "currentJob": null,
+    "jobHistory": [],
+    "lastWorked": 0,
+    "lastQuit": 0,
+    "totalEarned": 0,
+    "workCount": 1
+  },
+  "100094586289940": {
+    "currentJob": null,
+    "jobHistory": [],
+    "lastWorked": 0,
+    "lastQuit": 0,
+    "totalEarned": 0,
+    "workCount": 1
   }
 }
