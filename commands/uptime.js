@@ -55,7 +55,6 @@ module.exports = {
         uptimeMessage += `▸ Thời gian hoạt động: ${systemUptime}\n`;
         uptimeMessage += `══════════════════\n`;
         uptimeMessage += `🔧 Tài Nguyên Hệ Thống\n`;
-        uptimeMessage += `▸ CPU: ${systemInfo.cpuUsage}% | ${systemInfo.cpuModel}\n`;
         uptimeMessage += `▸ Số nhân CPU: ${systemInfo.coreCount} | Tốc độ: ${systemInfo.cpuSpeed}MHz\n`;
         uptimeMessage += `▸ RAM đã dùng: ${systemInfo.usedMemory}/${systemInfo.totalMemory}GB (${systemInfo.memoryUsagePercent}%)\n`;
         uptimeMessage += `══════════════════\n`;
