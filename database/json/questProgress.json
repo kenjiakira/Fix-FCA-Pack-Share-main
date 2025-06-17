@@ -93,10 +93,10 @@
   },
   "61558946907944": {
     "progress": {
-      "chat_active": 43
+      "chat_active": 5
     },
     "completed": {},
-    "lastReset": "Sun Jun 15 2025",
+    "lastReset": "Mon Jun 16 2025",
     "lastRewardClaim": null
   },
   "100089981373051": {
@@ -168,7 +168,7 @@
   },
   "61573427362389": {
     "progress": {
-      "chat_active": 3
+      "chat_active": 22
     },
     "completed": {},
     "lastReset": "Mon Jun 16 2025",
@@ -296,11 +296,9 @@
     "lastRewardClaim": null
   },
   "100073671519864": {
-    "progress": {
-      "chat_active": 3
-    },
+    "progress": {},
     "completed": {},
-    "lastReset": "Sun Jun 15 2025",
+    "lastReset": "Mon Jun 16 2025",
     "lastRewardClaim": null
   },
   "100050445245297": {
@@ -395,10 +393,10 @@
   },
   "100083237157086": {
     "progress": {
-      "chat_active": 13
+      "chat_active": 4
     },
     "completed": {},
-    "lastReset": "Sun Jun 15 2025",
+    "lastReset": "Mon Jun 16 2025",
     "lastRewardClaim": null
   },
   "100085405731662": {
@@ -617,10 +615,10 @@
   },
   "100028202556430": {
     "progress": {
-      "chat_active": 8
+      "chat_active": 2
     },
     "completed": {},
-    "lastReset": "Sun Jun 15 2025",
+    "lastReset": "Mon Jun 16 2025",
     "lastRewardClaim": null
   },
   "61551867569651": {
@@ -1167,10 +1165,10 @@
   },
   "100063719077878": {
     "progress": {
-      "chat_active": 21
+      "chat_active": 5
     },
     "completed": {},
-    "lastReset": "Sun Jun 15 2025",
+    "lastReset": "Mon Jun 16 2025",
     "lastRewardClaim": null
   },
   "61550616981053": {
@@ -1325,10 +1323,10 @@
   },
   "100088600797175": {
     "progress": {
-      "chat_active": 8
+      "chat_active": 7
     },
     "completed": {},
-    "lastReset": "Fri May 30 2025",
+    "lastReset": "Mon Jun 16 2025",
     "lastRewardClaim": null
   },
   "100093241226856": {
@@ -1657,10 +1655,10 @@
   },
   "61550331471452": {
     "progress": {
-      "chat_active": 16
+      "chat_active": 3
     },
     "completed": {},
-    "lastReset": "Sun Jun 15 2025",
+    "lastReset": "Mon Jun 16 2025",
     "lastRewardClaim": null
   },
   "61551345282157": {
@@ -4572,7 +4570,7 @@
       "chat_active": 1
     },
     "completed": {},
-    "lastReset": "Mon Jun 09 2025",
+    "lastReset": "Mon Jun 16 2025",
     "lastRewardClaim": null
   },
   "100093559100531": {
@@ -6270,10 +6268,11 @@
   },
   "61550676773989": {
     "progress": {
-      "chat_active": 2
+      "chat_active": 2,
+      "play_games": 1
     },
     "completed": {},
-    "lastReset": "Sun Jun 15 2025",
+    "lastReset": "Mon Jun 16 2025",
     "lastRewardClaim": null
   },
   "100036821589482": {
@@ -6689,9 +6688,10 @@
   },
   "61559151106106": {
     "progress": {
-      "chat_active": 11,
+      "chat_active": 59,
       "daily_checkin": 1,
-      "play_games": 1
+      "play_games": 2,
+      "win_games": 1
     },
     "completed": {},
     "lastReset": "Mon Jun 16 2025",
@@ -6731,10 +6731,10 @@
   },
   "61576125312586": {
     "progress": {
-      "chat_active": 38
+      "chat_active": 1
     },
     "completed": {},
-    "lastReset": "Sun Jun 15 2025",
+    "lastReset": "Mon Jun 16 2025",
     "lastRewardClaim": null
   },
   "61574036931777": {
@@ -7156,7 +7156,9 @@
     "lastRewardClaim": null
   },
   "61570897412118": {
-    "progress": {},
+    "progress": {
+      "chat_active": 1
+    },
     "completed": {},
     "lastReset": "Mon Jun 16 2025",
     "lastRewardClaim": null
@@ -7171,10 +7173,10 @@
   },
   "100076881073732": {
     "progress": {
-      "chat_active": 4
+      "chat_active": 2
     },
     "completed": {},
-    "lastReset": "Fri Jun 13 2025",
+    "lastReset": "Mon Jun 16 2025",
     "lastRewardClaim": null
   },
   "100048371981959": {
@@ -7203,11 +7205,12 @@
   },
   "61551860184483": {
     "progress": {
-      "daily_checkin": 1,
+      "work": 1,
+      "win_games": 1,
       "play_games": 1
     },
     "completed": {},
-    "lastReset": "Sun Jun 15 2025",
+    "lastReset": "Mon Jun 16 2025",
     "lastRewardClaim": null
   },
   "61577146599685": {

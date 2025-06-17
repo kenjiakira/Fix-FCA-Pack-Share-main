@@ -1,5 +1,23 @@
 {
-  "codes": {},
+  "codes": {
+    "N81T8RJWYMPR": {
+      "rewards": {
+        "coins": 63252,
+        "vip_points": 1
+      },
+      "description": "Giftcode Thường hàng ngày",
+      "createdAt": "2025-06-16T05:00:00.030Z",
+      "expiry": "2025-06-17T05:00:00.030Z",
+      "usedBy": [
+        "61550676773989"
+      ],
+      "type": "NORMAL",
+      "rarity": "Thường",
+      "color": "#CCCCCC",
+      "maxUses": null,
+      "maxUsesPerUser": 5
+    }
+  },
   "settings": {
     "autoGiftcode": true,
     "dailyLimits": {},
