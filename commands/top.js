@@ -5,6 +5,7 @@ const { allBalances } = require("../utils/currencies");
 const axios = require("axios");
 const npcManager = require('../utils/npcManager');
 const vipService = require('../game/vip/vipService');
+const { getUserName } = require('../utils/userUtils');
 
 function formatNumber(number) {
   if (number === undefined || number === null) return "0";
@@ -155,9 +156,7 @@ module.exports = {
         const [userID, balance] = sortedBalances[i];
         const userName = this.anonymousUsers.has(userID)
           ? "Người dùng ẩn danh #" + userID.substring(0, 4)
-          : userData[userID]
-            ? userData[userID].name
-            : "Người dùng ẩn danh";
+          : getUserName(userID);
         const formattedBalance = formatNumber(balance)
           .toString()
           .replace(/\B(?=(\d{3})+(?!\d))/g, ",");
@@ -308,21 +307,21 @@ module.exports = {
           startY + rankOffsetY,
           30
         );
-        
+
         if (i < 3) {
-          const baseColor = i === 0 
+          const baseColor = i === 0
             ? [255, 215, 0]  // Gold
-            : i === 1 
+            : i === 1
               ? [192, 192, 192]  // Silver
               : [205, 127, 50];  // Bronze
-          
+
           circleGradient.addColorStop(0, `rgba(${baseColor[0]}, ${baseColor[1]}, ${baseColor[2]}, 1)`);
           circleGradient.addColorStop(1, `rgba(${baseColor[0]}, ${baseColor[1]}, ${baseColor[2]}, 0.7)`);
         } else {
           circleGradient.addColorStop(0, "rgba(60, 60, 60, 1)");
           circleGradient.addColorStop(1, "rgba(30, 30, 30, 0.7)");
         }
-        
+
         ctx.fillStyle = circleGradient;
         ctx.fill();
 
@@ -448,16 +447,16 @@ module.exports = {
 
         if (isVIP) {
           const packageInfo = userVipStatus[userID].packageInfo;
-        
+
           // Position VIP badge at the far right of the user row with better vertical centering
           const vipBadgeX = width - 130; // Same horizontal position (far right)
           const vipBadgeY = startY + -8; // Better vertical centering
           const vipBadgeWidth = 60; // Larger badge
           const vipBadgeHeight = 60; // Keep square dimensions
-        
+
           // Background for VIP label
           ctx.save();
-        
+
           // VIP badge background
           const vipBadgeGradient = ctx.createLinearGradient(
             vipBadgeX,
@@ -467,7 +466,7 @@ module.exports = {
           );
           vipBadgeGradient.addColorStop(0, '#FFD700');
           vipBadgeGradient.addColorStop(1, '#DAA520');
-        
+
           ctx.fillStyle = vipBadgeGradient;
           ctx.beginPath();
           roundedRect(
@@ -479,7 +478,7 @@ module.exports = {
             15 // Larger corner radius for the bigger badge
           );
           ctx.fill();
-        
+
           // Add a stronger glow effect to the badge
           ctx.shadowColor = 'rgba(255, 215, 0, 0.8)';
           ctx.shadowBlur = 20;
@@ -487,19 +486,19 @@ module.exports = {
           ctx.lineWidth = 2;
           ctx.stroke();
           ctx.shadowBlur = 0;
-        
+
           // VIP text or image
           try {
             // Check if we have an image URL or load default text
             const vipImage = packageInfo.badgeUrl || 'https://imgur.com/hvce4my.png'; // Default VIP badge if none provided
             const badge = await loadImage(vipImage);
-        
+
             // Draw the VIP badge image - precise positioning
             ctx.drawImage(
               badge,
               vipBadgeX + 5,
               vipBadgeY + 5,
-              vipBadgeWidth - 10, 
+              vipBadgeWidth - 10,
               vipBadgeHeight - 10
             );
           } catch (error) {
@@ -512,7 +511,7 @@ module.exports = {
             ctx.textBaseline = 'middle';
             ctx.fillText('VIP', vipBadgeX + vipBadgeWidth / 2, vipBadgeY + vipBadgeHeight / 2);
           }
-        
+
           ctx.restore();
         }
 
@@ -574,7 +573,7 @@ module.exports = {
         ctx.shadowBlur = isVIP ? 15 : 10;
         ctx.font = isVIP ? "bold 24px BeVietnamPro" : "22px Arial";
         ctx.fillStyle = moneyGradient;
-        
+
         // Position money further to the right to avoid avatar overlap
         // Money now starts at x=300 instead of x=220 to avoid overlapping avatar
         ctx.fillText(`${formattedBalance} $`, 300, startY + 50);
@@ -791,15 +790,10 @@ module.exports = {
         userData = {};
       }
 
-      // Then load balances and add NPCs
       allBalancesData = allBalances();
       const npcs = npcManager.getNPCs();
       npcs.forEach(npc => {
         allBalancesData[npc.id] = npc.balance;
-        userData[npc.id] = {
-          name: npc.name,
-          avatar: npc.avatar
-        };
       });
 
     } catch (error) {
@@ -858,26 +852,25 @@ module.exports = {
       "9️⃣",
       "🔟",
     ];
-    let userPosition = null;
+let userPosition = null;
 
-    sortedBalances.forEach((entry, index) => {
-      const userID = entry[0];
-      const balance = entry[1];
+  sortedBalances.forEach((entry, index) => {
+    const userID = entry[0];
+    const balance = entry[1];
 
-      const userName = this.anonymousUsers.has(userID)
-        ? "Người dùng ẩn danh #" + userID.substring(0, 4)
-        : userData[userID]
-          ? userData[userID].name
-          : "Người dùng ẩn danh";
-      const formattedBalance = formatNumber(balance);
+    const userName = this.anonymousUsers.has(userID)
+      ? "Người dùng ẩn danh #" + userID.substring(0, 4)
+      : getUserName(userID);
+    
+    const formattedBalance = formatNumber(balance);
 
-      textFallback += `${rankEmoji[index]} ${index + 1
-        }. ${userName}\n💰 ${formattedBalance} $\n\n`;
+    textFallback += `${rankEmoji[index]} ${index + 1
+      }. ${userName}\n💰 ${formattedBalance} $\n\n`;
 
-      if (userID === senderID) {
-        userPosition = index + 1;
-      }
-    });
+    if (userID === senderID) {
+      userPosition = index + 1;
+    }
+  });
 
     if (sortedBalances.length === 0) {
       textFallback = "❌ Chưa có người chơi nào trong hệ thống.";
@@ -895,7 +888,7 @@ module.exports = {
     try {
       const imagePath = await this.createTopImage(
         sortedBalances,
-        userData,
+        null,
         senderID,
         userAvatars
       );

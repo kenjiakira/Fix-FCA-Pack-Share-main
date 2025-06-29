@@ -1,7 +1,6 @@
 const fs = require('fs');
 const path = require('path');
-const yts = require('yt-search');
-const ytdl = require('@distube/ytdl-core');
+const { spawn } = require('child_process');
 
 module.exports = {
     name: "video",
@@ -14,10 +13,10 @@ module.exports = {
 
     onReply: async function({ api, event }) {
         const { threadID, messageID, senderID, body } = event;
-        if (!global.videoCache || !global.videoCache[threadID]) return;
+        if (!global.pyVideoCache || !global.pyVideoCache[threadID]) return;
         
         const input = body.toLowerCase().trim();
-        const { videos, searchMessageID } = global.videoCache[threadID];
+        const { videos, searchMessageID } = global.pyVideoCache[threadID];
         const choice = parseInt(input);
 
         if (isNaN(choice) || choice < 1 || choice > 6) {
@@ -26,42 +25,82 @@ module.exports = {
 
         const video = videos[choice - 1];
         const findingMessage = await api.sendMessage(`⏳ | Đang tải xuống: "${video.title}"...`, threadID, messageID);
-        const outputPath = path.resolve(__dirname, 'cache', `video_${Date.now()}.mp4`);
+        const outputPath = path.resolve(__dirname, 'cache', `pyvideo_${Date.now()}.%(ext)s`);
+        const finalPath = outputPath.replace('.%(ext)s', '.mp4');
 
         try {
-            const videoInfo = await ytdl.getInfo(video.url);
-            const likes = videoInfo.videoDetails.likes || 'Ẩn';
-            const views = videoInfo.videoDetails.viewCount || '0';
+            const pythonScript = path.resolve(__dirname, '..', 'python', 'video_downloader.py');
+            
+            const result = await new Promise((resolve, reject) => {
+                const python = spawn('python', [pythonScript, 'download', video.url, finalPath, '720p'], {
+                    stdio: ['pipe', 'pipe', 'pipe']
+                });
+                let output = '';
+                let error = '';
 
-            await new Promise((resolve, reject) => {
-                ytdl(video.url, {
-                    quality: '18',
-                    filter: format => format.container === 'mp4'
-                })
-                .pipe(fs.createWriteStream(outputPath))
-                .on('finish', resolve)
-                .on('error', reject);
+                python.stdout.on('data', (data) => {
+                    output += data.toString();
+                });
+
+                python.stderr.on('data', (data) => {
+                    error += data.toString();
+                });
+
+                python.on('close', (code) => {
+                    if (code === 0) {
+                        try {
+                            const lines = output.trim().split('\n');
+                            let jsonLine = '';
+                            
+                            for (let i = lines.length - 1; i >= 0; i--) {
+                                const line = lines[i].trim();
+                                if (line.startsWith('{') && line.endsWith('}')) {
+                                    jsonLine = line;
+                                    break;
+                                }
+                            }
+                            
+                            if (!jsonLine) {
+                                reject(new Error(`No valid JSON found in output: "${output}"`));
+                                return;
+                            }
+                            
+                            const parsed = JSON.parse(jsonLine);
+                            resolve(parsed);
+                        } catch (e) {
+                            reject(new Error(`Failed to parse Python output. Raw output: "${output}". Parse error: ${e.message}`));
+                        }
+                    } else {
+                        reject(new Error(`Python script failed with code ${code}. Error: ${error || 'Unknown error'}`));
+                    }
+                });
             });
 
-            const stats = fs.statSync(outputPath);
-            const fileSizeInMB = stats.size / (1024 * 1024);
+            if (!result.success) {
+                await api.editMessage(`❌ | Lỗi: ${result.error}`, findingMessage.messageID, threadID);
+                return;
+            }
 
-            if (fileSizeInMB > 25) {
-                fs.unlinkSync(outputPath);
-                await api.editMessage(`❌ | Video quá lớn (${fileSizeInMB.toFixed(2)}MB). Giới hạn là 25MB.`, findingMessage.messageID, threadID);
-            } else {
+            const { data } = result;
+            const views = data.view_count ? data.view_count.toLocaleString() : '0';
+            const likes = data.like_count ? data.like_count.toLocaleString() : 'Ẩn';
+
+            if (fs.existsSync(finalPath)) {
                 await api.sendMessage({
-                    body: `🎥 Video: ${video.title}\n⏱️ Thời lượng: ${video.duration}\n👍 Lượt thích: ${likes.toLocaleString()}\n👁️ Lượt xem: ${parseInt(views).toLocaleString()}`,
-                    attachment: fs.createReadStream(outputPath)
+                    body: `🎥 Video: ${data.title}\n⏱️ Thời lượng: ${data.duration}\n👤 Kênh: ${data.uploader}\n👍 Lượt thích: ${likes}\n👁️ Lượt xem: ${views}\n📁 Kích thước: ${data.file_size.toFixed(2)}MB`,
+                    attachment: fs.createReadStream(finalPath)
                 }, threadID, () => {
                     api.unsendMessage(findingMessage.messageID);
-                    api.unsendMessage(searchMessageID); 
-                    fs.unlinkSync(outputPath);
+                    api.unsendMessage(searchMessageID);
+                    if (fs.existsSync(finalPath)) fs.unlinkSync(finalPath);
                 });
+            } else {
+                await api.editMessage(`❌ | Không thể tải video`, findingMessage.messageID, threadID);
             }
-            delete global.videoCache[threadID];
+
+            delete global.pyVideoCache[threadID];
         } catch (error) {
-            if (fs.existsSync(outputPath)) fs.unlinkSync(outputPath);
+            if (fs.existsSync(finalPath)) fs.unlinkSync(finalPath);
             await api.editMessage(`❌ | Lỗi khi tải video: ${error.message}`, findingMessage.messageID, threadID);
         }
     },
@@ -76,23 +115,72 @@ module.exports = {
             const videoQuery = target.join(" ");
             const findingMessage = await api.sendMessage(`🔍 | Đang tìm "${videoQuery}". Vui lòng chờ...`, threadID);
 
-            const searchResults = await yts(videoQuery);
-            const videos = searchResults.videos.slice(0, 6);
+            const pythonScript = path.resolve(__dirname, '..', 'python', 'video_downloader.py');
+            
+            const result = await new Promise((resolve, reject) => {
+                const python = spawn('python', [pythonScript, 'search', videoQuery], {
+                    stdio: ['pipe', 'pipe', 'pipe']
+                });
+                let output = '';
+                let error = '';
 
+                python.stdout.on('data', (data) => {
+                    output += data.toString();
+                });
+
+                python.stderr.on('data', (data) => {
+                    error += data.toString();
+                });
+
+                python.on('close', (code) => {
+                    if (code === 0) {
+                        try {
+                            const lines = output.trim().split('\n');
+                            let jsonLine = '';
+                            
+                            for (let i = lines.length - 1; i >= 0; i--) {
+                                const line = lines[i].trim();
+                                if (line.startsWith('{') && line.endsWith('}')) {
+                                    jsonLine = line;
+                                    break;
+                                }
+                            }
+                            
+                            if (!jsonLine) {
+                                reject(new Error(`No valid JSON found in output: "${output}"`));
+                                return;
+                            }
+                            
+                            const parsed = JSON.parse(jsonLine);
+                            resolve(parsed);
+                        } catch (e) {
+                            reject(new Error(`Failed to parse Python output. Raw output: "${output}". Parse error: ${e.message}`));
+                        }
+                    } else {
+                        reject(new Error(`Python script failed with code ${code}. Error: ${error || 'Unknown error'}`));
+                    }
+                });
+            });
+
+            if (!result.success) {
+                return api.editMessage(`❌ | Lỗi tìm kiếm: ${result.error}`, findingMessage.messageID, threadID);
+            }
+
+            const videos = result.videos;
             if (!videos.length) {
                 return api.editMessage(`❌ | Không tìm thấy video: "${videoQuery}"`, findingMessage.messageID, threadID);
             }
 
-            const body = "🎥 Kết quả tìm kiếm:\n\n" + 
+            const body = "🎥 Kết quả tìm kiếm (Python):\n\n" + 
                 videos.map((video, index) => 
-                    `${index + 1}. ${video.title}\n└── 👤 ${video.author.name}\n└── ⏱️ ${video.duration.timestamp}\n\n`
+                    `${index + 1}. ${video.title}\n└── 👤 ${video.uploader}\n└── ⏱️ ${video.duration}\n└── 👁️ ${video.view_count.toLocaleString()} lượt xem\n\n`
                 ).join("") + 
                 "💡 Reply số từ 1-6 để chọn video";
 
             const msg = await api.sendMessage(body, threadID, messageID);
 
-            global.videoCache = global.videoCache || {};
-            global.videoCache[threadID] = {
+            global.pyVideoCache = global.pyVideoCache || {};
+            global.pyVideoCache[threadID] = {
                 videos,
                 searchMessageID: msg.messageID 
             };
@@ -102,6 +190,8 @@ module.exports = {
                 messageID: msg.messageID,
                 author: event.senderID
             });
+
+            api.unsendMessage(findingMessage.messageID);
 
         } catch (error) {
             await api.sendMessage(`❌ | Lỗi: ${error.message}`, threadID);
