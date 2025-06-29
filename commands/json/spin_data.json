@@ -2,25 +2,25 @@
   "users": {
     "100076957299243": {
       "spinsUsed": 3,
-      "lastSpin": 1749534547256,
+      "lastSpin": 1749994478855,
       "history": [
         {
-          "timestamp": 1749534523602,
-          "prizeId": 1,
-          "prizeName": "500 xu"
+          "timestamp": 1749994463513,
+          "prizeId": 10,
+          "prizeName": "200 EXP"
         },
         {
-          "timestamp": 1749534534609,
+          "timestamp": 1749994471292,
+          "prizeId": 9,
+          "prizeName": "100 EXP"
+        },
+        {
+          "timestamp": 1749994478855,
           "prizeId": 2,
           "prizeName": "1,000 xu"
-        },
-        {
-          "timestamp": 1749534547256,
-          "prizeId": 8,
-          "prizeName": "50 EXP"
         }
       ]
     }
   },
-  "lastReset": 1749534523453
+  "lastReset": 1749994462238
 }

@@ -8164,7 +8164,7 @@
   },
   "61560183967497": {
     "rod": "Cần trúc",
-    "rodDurability": 5,
+    "rodDurability": 4,
     "inventory": [
       "Cần trúc"
     ],
@@ -8173,7 +8173,7 @@
         "trash": {},
         "common": {
           "Cá Út": 1,
-          "Cá Đối": 1,
+          "Cá Đối": 2,
           "Cá Chép": 1,
           "Cá Rô Đồng": 1
         },
@@ -8186,25 +8186,29 @@
         "cosmic": {}
       },
       "stats": {
-        "totalCaught": 5,
-        "totalValue": 5967,
+        "totalCaught": 6,
+        "totalValue": 8415,
         "bestCatch": {
           "name": "Cá Quả",
           "value": 2880
         }
       }
     },
-    "exp": 160,
+    "exp": 212,
     "level": 1,
-    "fishingStreak": 5,
+    "fishingStreak": 6,
     "stats": {
-      "totalExp": 160,
-      "highestStreak": 5,
-      "totalFishes": 5
+      "totalExp": 212,
+      "highestStreak": 6,
+      "totalFishes": 6
     },
     "activeBuffs": {},
-    "lastFished": 1739959149805,
-    "userID": "61560183967497"
+    "lastFished": 1749992951731,
+    "userID": "61560183967497",
+    "energy": 40,
+    "lastEnergyUpdate": 1749992951731,
+    "baits": {},
+    "craftingMaterials": {}
   },
   "61558946907944": {
     "rod": "Cần jig Daiwa Saltiga SJ",

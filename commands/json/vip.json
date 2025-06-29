@@ -1,39 +1,5 @@
 {
   "users": {
-    "61550739941534": {
-      "packageId": 3,
-      "name": "VIP GOLD",
-      "expireTime": 1750077593561,
-      "benefits": {
-        "cooldownReduction": 30,
-        "dailyBonus": true,
-        "fishingCooldown": 120000,
-        "fishExpMultiplier": 4,
-        "rareBonus": 0.3,
-        "trashReduction": 0.6,
-        "stolenProtection": 1,
-        "stolenCooldown": 900000,
-        "fullPlatformAccess": true,
-        "dailyTransferLimit": 5000000000,
-        "gachaBonus": {
-          "limitedRateBonus": 0.15
-        },
-        "petBenefits": {
-          "statDecayReduction": 0.3,
-          "itemDiscounts": 0.15,
-          "expBonus": 0.3,
-          "exclusivePets": true,
-          "maxPets": 5
-        },
-        "packageId": 3,
-        "name": "VIP GOLD"
-      },
-      "purchaseInfo": {
-        "purchaseDate": 1746880793561,
-        "months": 1,
-        "voucherApplied": null
-      }
-    },
     "61558946907944": {
       "packageId": 3,
       "name": "VIP GOLD",
