@@ -1,4 +1,4 @@
-const { GoogleGenerativeAI } = require("@google/generative-ai");
+const OpenAI = require("openai");
 const config = require('../utils/api');
 const fs = require('fs');
 const path = require('path');
@@ -55,7 +55,7 @@ module.exports = {
 
     onLaunch: async function ({ api, event, target }) {
         const { threadID, messageID } = event;
-
+        
         if (!target[0]) {
             return api.sendMessage(
                 "🎓 Hướng dẫn sử dụng EXPLAIN:\n\n" +
@@ -72,13 +72,8 @@ module.exports = {
         const loadingMessage = await api.sendMessage("🎓 Đang tìm cách giải thích đơn giản...", threadID, messageID);
 
         try {
-            const genAI = new GoogleGenerativeAI(config.GEMINI.API_KEY);
-            const model = genAI.getGenerativeModel({ 
-                model: "gemini-1.5-flash",
-                generationConfig: {
-                    temperature: 0.7,
-                    maxOutputTokens: 1000,
-                }
+            const openai = new OpenAI({
+                apiKey: process.env.OPENAI_API_KEY
             });
 
             const usedExplanations = getUsedExplanations();
@@ -96,9 +91,24 @@ module.exports = {
               + CHỈ trả về nội dung giải thích
               + PHẢI HOÀN TOÀN MỚI${existingExplanation ? ', không được giống với giải thích đã có:\n' + existingExplanation.explanation : ''}`;
 
-            const result = await model.generateContent(prompt);
-            const explanation = result.response.text();
+            const result = await openai.chat.completions.create({
+                model: "gpt-4.1-mini",
+                messages: [
+                    {
+                        role: "system",
+                        content: "Bạn là một giáo viên giỏi về giải thích các khái niệm phức tạp một cách đơn giản."
+                    },
+                    {
+                        role: "user",
+                        content: prompt
+                    }
+                ],
+                temperature: 0.7,
+                max_tokens: 1000
+            });
 
+            const explanation = result.choices[0].message.content.trim();
+            
             saveNewExplanation(concept, explanation);
 
             const message = `🎓 GIẢI THÍCH: ${concept.toUpperCase()}\n` +
@@ -129,13 +139,8 @@ module.exports = {
         const { threadID } = event;
         
         try {
-            const genAI = new GoogleGenerativeAI(config.GEMINI.API_KEY);
-            const model = genAI.getGenerativeModel({ 
-                model: "gemini-1.5-flash",
-                generationConfig: {
-                    temperature: 0.7,
-                    maxOutputTokens: 1000,
-                }
+            const openai = new OpenAI({
+                apiKey: process.env.OPENAI_API_KEY
             });
 
             const usedExplanations = getUsedExplanations();
@@ -153,9 +158,24 @@ module.exports = {
               + CHỈ trả về nội dung giải thích
               + PHẢI HOÀN TOÀN MỚI${existingExplanation ? ', không được giống với giải thích đã có:\n' + existingExplanation.explanation : ''}`;
 
-            const result = await model.generateContent(prompt);
-            const explanation = result.response.text();
+            const result = await openai.chat.completions.create({
+                model: "gpt-4.1-mini",
+                messages: [
+                    {
+                        role: "system",
+                        content: "Bạn là một giáo viên giỏi về giải thích các khái niệm phức tạp một cách đơn giản."
+                    },
+                    {
+                        role: "user",
+                        content: prompt
+                    }
+                ],
+                temperature: 0.7,
+                max_tokens: 1000
+            });
 
+            const explanation = result.choices[0].message.content.trim();
+            
             // Lưu explanation mới
             saveNewExplanation(reaction.concept, explanation);
 
@@ -176,4 +196,4 @@ module.exports = {
             api.sendMessage("❌ Đã xảy ra lỗi khi giải thích mới: " + error.message, threadID);
         }
     }
-}; 
+};
