@@ -231,10 +231,10 @@ class BaiCaoGame {
         try {
             const gameStateCanvas = await createGameStateCanvas(this);
             
-            const tempFilePath = path.join(__dirname, `../temp/gamestate_${this.threadID}_${Date.now()}.png`);
+            const tempFilePath = path.join(__dirname, `./cache/gamestate_${this.threadID}_${Date.now()}.png`);
             
-            if (!fs.existsSync(path.join(__dirname, '../temp'))) {
-                fs.mkdirSync(path.join(__dirname, '../temp'), { recursive: true });
+            if (!fs.existsSync(path.join(__dirname, './cache'))) {
+                fs.mkdirSync(path.join(__dirname, './cache'), { recursive: true });
             }
             
             fs.writeFileSync(tempFilePath, gameStateCanvas);
@@ -308,10 +308,10 @@ class BaiCaoGame {
         try {
             const resultsCanvas = await createBaicaoCanvas(this, results);
             
-            const tempFilePath = path.join(__dirname, `../temp/results_${this.threadID}_${Date.now()}.png`);
+            const tempFilePath = path.join(__dirname, `./cache/results_${this.threadID}_${Date.now()}.png`);
             
-            if (!fs.existsSync(path.join(__dirname, '../temp'))) {
-                fs.mkdirSync(path.join(__dirname, '../temp'), { recursive: true });
+            if (!fs.existsSync(path.join(__dirname, './cache'))) {
+                fs.mkdirSync(path.join(__dirname, './cache'), { recursive: true });
             }
             
             fs.writeFileSync(tempFilePath, resultsCanvas);
@@ -377,10 +377,10 @@ class BaiCaoGame {
         try {
             const gameStateCanvas = await createGameStateCanvas(this);
             
-            const tempFilePath = path.join(__dirname, `../temp/gamestate_${this.threadID}_${Date.now()}.png`);
+            const tempFilePath = path.join(__dirname, `./cache/gamestate_${this.threadID}_${Date.now()}.png`);
             
-            if (!fs.existsSync(path.join(__dirname, '../temp'))) {
-                fs.mkdirSync(path.join(__dirname, '../temp'), { recursive: true });
+            if (!fs.existsSync(path.join(__dirname, './cache'))) {
+                fs.mkdirSync(path.join(__dirname, './cache'), { recursive: true });
             }
             
             fs.writeFileSync(tempFilePath, gameStateCanvas);
@@ -651,10 +651,10 @@ module.exports = {
                 try {
                     const cardCanvas = await createPlayerCardCanvas(canvasCardData);
                     
-                    const tempFilePath = path.join(__dirname, `../temp/cards_${senderID}_${Date.now()}.png`);
+                    const tempFilePath = path.join(__dirname, `./cache/cards_${senderID}_${Date.now()}.png`);
                     
-                    if (!fs.existsSync(path.join(__dirname, '../temp'))) {
-                        fs.mkdirSync(path.join(__dirname, '../temp'), { recursive: true });
+                    if (!fs.existsSync(path.join(__dirname, './cache'))) {
+                        fs.mkdirSync(path.join(__dirname, './cache'), { recursive: true });
                     }
                     
                     fs.writeFileSync(tempFilePath, cardCanvas);
@@ -719,10 +719,10 @@ module.exports = {
                     try {
                         const cardCanvas = await createPlayerCardCanvas(canvasCardData);
                         
-                        const tempFilePath = path.join(__dirname, `../temp/newcards_${senderID}_${Date.now()}.png`);
+                        const tempFilePath = path.join(__dirname, `./cache/newcards_${senderID}_${Date.now()}.png`);
                         
-                        if (!fs.existsSync(path.join(__dirname, '../temp'))) {
-                            fs.mkdirSync(path.join(__dirname, '../temp'), { recursive: true });
+                        if (!fs.existsSync(path.join(__dirname, './cache'))) {
+                            fs.mkdirSync(path.join(__dirname, './cache'), { recursive: true });
                         }
                         
                         fs.writeFileSync(tempFilePath, cardCanvas);

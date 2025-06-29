@@ -492,7 +492,7 @@ function drawLoanInfo(ctx, loan, x, y, width) {
  * Create a stream from buffer
  */
 async function bufferToReadStream(buffer) {
-    const tempDir = path.join(__dirname, '../temp');
+    const tempDir = path.join(__dirname, './cache');
     if (!fs.existsSync(tempDir)) {
         fs.mkdirSync(tempDir, { recursive: true });
     }

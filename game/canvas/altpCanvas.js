@@ -1084,7 +1084,7 @@ function wrapText(ctx, text, x, y, maxWidth, lineHeight, align = "left") {
  */
 async function canvasToStream(canvas, prefix = 'altp') {
     try {
-        const tempDir = path.join(__dirname, '../../temp');
+        const tempDir = path.join(__dirname, './cache');
         if (!fs.existsSync(tempDir)) {
             fs.mkdirSync(tempDir, { recursive: true });
         }

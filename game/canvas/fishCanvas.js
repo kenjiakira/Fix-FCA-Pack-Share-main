@@ -1569,7 +1569,7 @@ async function createFishResultImage(options) {
     ctx.fillText(`${Math.round(progress)}%`, width / 2, barY + barHeight / 2);
 
     const buffer = canvas.toBuffer("image/png");
-    const tempDir = path.join(__dirname, "../temp");
+    const tempDir = path.join(__dirname, "../cache");
     if (!fs.existsSync(tempDir)) {
       fs.mkdirSync(tempDir, { recursive: true });
     }
@@ -1926,7 +1926,7 @@ async function createCollectionImage(options) {
 
     // Save and return the image
     const buffer = canvas.toBuffer("image/png");
-    const tempDir = path.join(__dirname, "../temp");
+    const tempDir = path.join(__dirname, "../cache");
     if (!fs.existsSync(tempDir)) {
       fs.mkdirSync(tempDir, { recursive: true });
     }

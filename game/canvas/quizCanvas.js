@@ -632,7 +632,7 @@ function wrapText(ctx, text, x, y, maxWidth, lineHeight) {
 
 async function canvasToStream(canvas, prefix = 'quiz') {
     try {
-        const tempDir = path.join(__dirname, '../../temp');
+        const tempDir = path.join(__dirname, '../cache');
         if (!fs.existsSync(tempDir)) {
             fs.mkdirSync(tempDir, { recursive: true });
         }

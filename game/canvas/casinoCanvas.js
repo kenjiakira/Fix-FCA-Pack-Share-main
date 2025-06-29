@@ -142,7 +142,7 @@ function drawPlayerInfo(ctx, player, betAmount, choice, x, y, width) {
 }
 async function bufferToReadStream(buffer, gameType) {
 
-    const tempDir = path.join(__dirname, '../temp');
+    const tempDir = path.join(__dirname, './cache');
     if (!fs.existsSync(tempDir)) {
         fs.mkdirSync(tempDir, { recursive: true });
     }
@@ -269,7 +269,7 @@ async function createTaiXiuCanvas(data, showResult = false) {
             
             for (let i = 0; i < 3; i++) {
                 const diceValue = [dice1, dice2, dice3][i];
-                const diceImage = await loadCachedImage(path.join(__dirname, `../../commands/dice/dice${diceValue}.png`));
+                const diceImage = await loadCachedImage(path.join(__dirname, `../../assets/dice/dice${diceValue}.png`));
                 ctx.drawImage(diceImage, startX + (diceSize + diceMargin) * i, diceY, diceSize, diceSize);
             }
             

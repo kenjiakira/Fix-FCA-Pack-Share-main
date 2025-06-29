@@ -346,7 +346,7 @@ module.exports = {
                 ctx.fillText("Không có giao dịch gần đây", width / 2, transStartY + 120);
             }
             const buffer = canvas.toBuffer("image/png");
-            const tempDir = path.join(__dirname, "../temp");
+            const tempDir = path.join(__dirname, "./cache");
             if (!fs.existsSync(tempDir)) {
                 fs.mkdirSync(tempDir, { recursive: true });
             }

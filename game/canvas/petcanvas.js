@@ -582,7 +582,7 @@ const expProgress = (pet.exp / (100 * pet.level)) * expBarWidth;
 
     // Save and return the image
     const buffer = canvas.toBuffer("image/png");
-    const tempDir = path.join(__dirname, "../temp");
+    const tempDir = path.join(__dirname, "../cache");
     if (!fs.existsSync(tempDir)) {
       fs.mkdirSync(tempDir, { recursive: true });
     }

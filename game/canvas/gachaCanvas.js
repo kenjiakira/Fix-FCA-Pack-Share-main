@@ -405,7 +405,7 @@ async function createInventoryImage(options) {
     addEnhancedDecorativeElements(ctx, cardWidth, totalHeight);
 
     const buffer = canvas.toBuffer("image/png");
-    const tempDir = path.join(__dirname, "../temp");
+    const tempDir = path.join(__dirname, "../cache");
     if (!fs.existsSync(tempDir)) {
       fs.mkdirSync(tempDir, { recursive: true });
     }
@@ -2108,7 +2108,7 @@ async function createExpItemResultImage(options) {
 
     // Save the image
     const buffer = canvas.toBuffer("image/png");
-    const tempDir = path.join(__dirname, "../temp");
+    const tempDir = path.join(__dirname, "../cache");
     if (!fs.existsSync(tempDir)) {
       fs.mkdirSync(tempDir, { recursive: true });
     }
@@ -2941,7 +2941,7 @@ async function createStoneResultImage(options) {
     drawStoneShimmer(ctx, 10, 10, cardWidth - 20, cardHeight - 20, rarity);
 
     const buffer = canvas.toBuffer("image/png");
-    const tempDir = path.join(__dirname, "../temp");
+    const tempDir = path.join(__dirname, "../cache");
     if (!fs.existsSync(tempDir)) {
       fs.mkdirSync(tempDir, { recursive: true });
     }
@@ -5204,7 +5204,7 @@ async function createPullResultImage(options) {
     }
 
     const buffer = canvas.toBuffer("image/png");
-    const tempDir = path.join(__dirname, "../temp");
+    const tempDir = path.join(__dirname, "../cache");
     if (!fs.existsSync(tempDir)) {
       fs.mkdirSync(tempDir, { recursive: true });
     }
@@ -5617,7 +5617,7 @@ async function createStellaResultImage(options) {
 
     // Save the image
     const buffer = canvas.toBuffer("image/png");
-    const tempDir = path.join(__dirname, "../temp");
+    const tempDir = path.join(__dirname, "../cache");
     if (!fs.existsSync(tempDir)) {
       fs.mkdirSync(tempDir, { recursive: true });
     }
@@ -6188,7 +6188,7 @@ async function createPvPBattleImage(options) {
 
     // Save the image
     const buffer = canvas.toBuffer("image/png");
-    const tempDir = path.join(__dirname, "../temp");
+    const tempDir = path.join(__dirname, "../cache");
     if (!fs.existsSync(tempDir)) {
       fs.mkdirSync(tempDir, { recursive: true });
     }

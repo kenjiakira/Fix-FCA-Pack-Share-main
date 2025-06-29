@@ -166,7 +166,7 @@ async function createWorkResultImage(result, vipBenefits, senderID) {
 
     // Create output image
     const buffer = canvas.toBuffer("image/png");
-    const tempDir = path.join(__dirname, "../temp");
+    const tempDir = path.join(__dirname, "../cache");
     if (!fs.existsSync(tempDir)) {
       fs.mkdirSync(tempDir, { recursive: true });
     }
