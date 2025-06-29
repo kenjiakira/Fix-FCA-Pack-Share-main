@@ -2,7 +2,7 @@ const fs = require('fs');
 const path = require('path');
 const { createRankCard, calculateRequiredXp } = require('../game/canvas/rankCard');
 
-const userDataPath = path.join(__dirname, '..database/rankData.json');
+const userDataPath = path.join(__dirname, '../database/rankData.json');
 const messageQueue = [];
 
 function updateUserRank(userData) {
