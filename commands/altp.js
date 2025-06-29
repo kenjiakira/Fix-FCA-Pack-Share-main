@@ -1,7 +1,7 @@
-const { GoogleGenerativeAI } = require("@google/generative-ai");
 const path = require("path");
 const fs = require("fs-extra");
 const { updateBalance } = require('../utils/currencies');
+const { useGPT } = require('../utils/gptHook');
 const {
     createAltpCanvas,
     createAltpResultCanvas,
@@ -650,8 +650,6 @@ module.exports = {
         const difficulty = getDifficulty(level);
 
         try {
-            const genAI = new GoogleGenerativeAI(API_KEYS[0]);
-            const model = genAI.getGenerativeModel({ model: "gemini-1.5-flash" });
             const category = getRandomCategory();
 
             const prompt = `Tạo câu hỏi trắc nghiệm tiếng Việt ${difficulty === 3 ? 'khó' : difficulty === 2 ? 'trung bình' : 'dễ'}:
@@ -684,58 +682,47 @@ module.exports = {
             D: [giải thích 4, tối đa 25 từ]
             Correct: [chữ cái đáp án đúng]`;
 
-            let attempts = 0;
-            while (attempts < 3) {
-                try {
-                    console.log(`Đang tạo câu hỏi AI lần ${attempts + 1}...`);
-                    const result = await model.generateContent(prompt);
-                    // Fix: Add await when getting text from response
-                    const response = await result.response.text();
+            const response = await useGPT({
+                prompt,
+                type: "educational",
+                context: `AI là triệu phú - level ${level}, độ khó ${difficulty}, chủ đề ${category}`
+            });
 
-                    if (!response) {
-                        throw new Error("API trả về phản hồi trống");
-                    }
-
-                    const lines = response.split('\n').filter(line => line.trim() !== '');
-                    if (lines.length < 6) {
-                        throw new Error("Định dạng đầu ra không đúng");
-                    }
-
-                    const question = {
-                        id: Date.now().toString(36) + Math.random().toString(36).substr(2, 5),
-                        category: category,
-                        difficulty: difficulty,
-                        question: lines[0].replace(/^Q:/, '').trim(),
-                        options: {
-                            A: lines[1].replace(/^A:/, '').trim(),
-                            B: lines[2].replace(/^B:/, '').trim(),
-                            C: lines[3].replace(/^C:/, '').trim(),
-                            D: lines[4].replace(/^D:/, '').trim()
-                        },
-                        correct: lines[5].replace(/^Correct:/, '').trim()
-                    };
-
-                    const isValid =
-                        question.question &&
-                        question.options.A &&
-                        question.options.B &&
-                        question.options.C &&
-                        question.options.D &&
-                        ["A", "B", "C", "D"].includes(question.correct);
-
-                    if (isValid) {
-                        console.log("✅ Tạo câu hỏi AI thành công!");
-                        saveQuestion(question).catch(err => console.error("Lỗi lưu câu hỏi:", err));
-                        return shuffleAnswers(question);
-                    }
-                } catch (err) {
-                    console.error(`Lỗi lần ${attempts + 1}:`, err);
-                    attempts++;
-                }
+            const lines = response.split('\n').filter(line => line.trim() !== '');
+            if (lines.length < 6) {
+                throw new Error("Định dạng đầu ra không đúng");
             }
-            throw new Error(`Không thể tạo câu hỏi AI sau 3 lần thử (độ khó: ${difficulty}, chủ đề: ${category})`);
+
+            const question = {
+                id: Date.now().toString(36) + Math.random().toString(36).substr(2, 5),
+                category: category,
+                difficulty: difficulty,
+                question: lines[0].replace(/^Q:/, '').trim(),
+                options: {
+                    A: lines[1].replace(/^A:/, '').trim(),
+                    B: lines[2].replace(/^B:/, '').trim(),
+                    C: lines[3].replace(/^C:/, '').trim(),
+                    D: lines[4].replace(/^D:/, '').trim()
+                },
+                correct: lines[5].replace(/^Correct:/, '').trim()
+            };
+
+            const isValid =
+                question.question &&
+                question.options.A &&
+                question.options.B &&
+                question.options.C &&
+                question.options.D &&
+                ["A", "B", "C", "D"].includes(question.correct);
+
+            if (isValid) {
+                console.log("✅ Tạo câu hỏi AI thành công!");
+                saveQuestion(question).catch(err => console.error("Lỗi lưu câu hỏi:", err));
+                return shuffleAnswers(question);
+            }
+            
         } catch (apiError) {
-            console.error(`⚠️ Không thể dùng AI, chuyển sang dùng câu hỏi dự phòng... Lỗi:`, apiError);
+            console.error(`⚠️ Không thể dùng AI, chuyển sang dùng câu hỏi dự phong... Lỗi:`, apiError);
         }
 
         try {

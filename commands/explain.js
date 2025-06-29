@@ -1,47 +1,7 @@
-const OpenAI = require("openai");
-const config = require('../utils/api');
-const fs = require('fs');
+const { useGPTWithHistory } = require('../utils/gptHook');
 const path = require('path');
 
 const EXPLANATIONS_FILE = path.join(__dirname, './json/AI/used_explanations.json');
-
-function initializeExplanationsFile() {
-    if (!fs.existsSync(path.dirname(EXPLANATIONS_FILE))) {
-        fs.mkdirSync(path.dirname(EXPLANATIONS_FILE), { recursive: true });
-    }
-    if (!fs.existsSync(EXPLANATIONS_FILE)) {
-        fs.writeFileSync(EXPLANATIONS_FILE, JSON.stringify([], null, 2));
-    }
-}
-
-function getUsedExplanations() {
-    try {
-        initializeExplanationsFile();
-        return JSON.parse(fs.readFileSync(EXPLANATIONS_FILE, 'utf8'));
-    } catch (err) {
-        console.error('Lỗi đọc explanations:', err);
-        return [];
-    }
-}
-
-function saveNewExplanation(concept, explanation) {
-    try {
-        const usedExplanations = getUsedExplanations();
-        usedExplanations.push({
-            concept: concept,
-            explanation: explanation,
-            timestamp: Date.now()
-        });
-        
-        if (usedExplanations.length > 100) {
-            usedExplanations.splice(0, usedExplanations.length - 100);
-        }
-        
-        fs.writeFileSync(EXPLANATIONS_FILE, JSON.stringify(usedExplanations, null, 2));
-    } catch (err) {
-        console.error('Lỗi lưu explanation:', err);
-    }
-}
 
 module.exports = {
     name: "explain",
@@ -72,13 +32,6 @@ module.exports = {
         const loadingMessage = await api.sendMessage("🎓 Đang tìm cách giải thích đơn giản...", threadID, messageID);
 
         try {
-            const openai = new OpenAI({
-                apiKey: process.env.OPENAI_API_KEY
-            });
-
-            const usedExplanations = getUsedExplanations();
-            const existingExplanation = usedExplanations.find(e => e.concept.toLowerCase() === concept.toLowerCase());
-
             const prompt = `Hãy giải thích khái niệm "${concept}" bằng tiếng Việt theo yêu cầu sau:
             - Đối tượng: Người không chuyên
             - Yêu cầu:
@@ -89,27 +42,16 @@ module.exports = {
               + Có thể dùng ẩn dụ hoặc so sánh
               + KHÔNG được chú thích hay giải thích gì thêm
               + CHỈ trả về nội dung giải thích
-              + PHẢI HOÀN TOÀN MỚI${existingExplanation ? ', không được giống với giải thích đã có:\n' + existingExplanation.explanation : ''}`;
+              + PHẢI HOÀN TOÀN MỚI`;
 
-            const result = await openai.chat.completions.create({
-                model: "gpt-4.1-mini",
-                messages: [
-                    {
-                        role: "system",
-                        content: "Bạn là một giáo viên giỏi về giải thích các khái niệm phức tạp một cách đơn giản."
-                    },
-                    {
-                        role: "user",
-                        content: prompt
-                    }
-                ],
-                temperature: 0.7,
-                max_tokens: 1000
+            const explanation = await useGPTWithHistory({
+                prompt,
+                type: "educational",
+                provider: "auto",
+                historyFile: EXPLANATIONS_FILE,
+                maxHistory: 100,
+                context: `Đang giải thích khái niệm: ${concept}`
             });
-
-            const explanation = result.choices[0].message.content.trim();
-            
-            saveNewExplanation(concept, explanation);
 
             const message = `🎓 GIẢI THÍCH: ${concept.toUpperCase()}\n` +
                           `\n${explanation}\n` +
@@ -139,13 +81,6 @@ module.exports = {
         const { threadID } = event;
         
         try {
-            const openai = new OpenAI({
-                apiKey: process.env.OPENAI_API_KEY
-            });
-
-            const usedExplanations = getUsedExplanations();
-            const existingExplanation = usedExplanations.find(e => e.concept.toLowerCase() === reaction.concept.toLowerCase());
-
             const prompt = `Hãy giải thích khái niệm "${reaction.concept}" bằng tiếng Việt theo yêu cầu sau:
             - Đối tượng: Người không chuyên
             - Yêu cầu:
@@ -156,28 +91,16 @@ module.exports = {
               + Có thể dùng ẩn dụ hoặc so sánh
               + KHÔNG được chú thích hay giải thích gì thêm
               + CHỈ trả về nội dung giải thích
-              + PHẢI HOÀN TOÀN MỚI${existingExplanation ? ', không được giống với giải thích đã có:\n' + existingExplanation.explanation : ''}`;
+              + PHẢI HOÀN TOÀN MỚI`;
 
-            const result = await openai.chat.completions.create({
-                model: "gpt-4.1-mini",
-                messages: [
-                    {
-                        role: "system",
-                        content: "Bạn là một giáo viên giỏi về giải thích các khái niệm phức tạp một cách đơn giản."
-                    },
-                    {
-                        role: "user",
-                        content: prompt
-                    }
-                ],
-                temperature: 0.7,
-                max_tokens: 1000
+            const explanation = await useGPTWithHistory({
+                prompt,
+                type: "educational", 
+                provider: "auto",
+                historyFile: EXPLANATIONS_FILE,
+                maxHistory: 100,
+                context: `Đang giải thích khái niệm: ${reaction.concept}`
             });
-
-            const explanation = result.choices[0].message.content.trim();
-            
-            // Lưu explanation mới
-            saveNewExplanation(reaction.concept, explanation);
 
             const message = `🎓 GIẢI THÍCH: ${reaction.concept.toUpperCase()}\n` +
                           `\n${explanation}\n` +

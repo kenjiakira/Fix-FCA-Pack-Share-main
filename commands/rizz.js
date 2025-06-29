@@ -1,46 +1,7 @@
-const { GoogleGenerativeAI } = require("@google/generative-ai");
-const config = require('../utils/api');
-const fs = require('fs');
+const { useGPTWithHistory } = require('../utils/gptHook');
 const path = require('path');
 
 const RIZZ_FILE = path.join(__dirname, './json/AI/used_rizz.json');
-
-function initializeRizzFile() {
-    if (!fs.existsSync(path.dirname(RIZZ_FILE))) {
-        fs.mkdirSync(path.dirname(RIZZ_FILE), { recursive: true });
-    }
-    if (!fs.existsSync(RIZZ_FILE)) {
-        fs.writeFileSync(RIZZ_FILE, JSON.stringify([], null, 2));
-    }
-}
-
-function getUsedRizz() {
-    try {
-        initializeRizzFile();
-        return JSON.parse(fs.readFileSync(RIZZ_FILE, 'utf8'));
-    } catch (err) {
-        console.error('Lỗi đọc rizz:', err);
-        return [];
-    }
-}
-
-function saveNewRizz(rizz) {
-    try {
-        const usedRizz = getUsedRizz();
-        usedRizz.push({
-            rizz: rizz,
-            timestamp: Date.now()
-        });
-        
-        if (usedRizz.length > 100) {
-            usedRizz.splice(0, usedRizz.length - 100);
-        }
-        
-        fs.writeFileSync(RIZZ_FILE, JSON.stringify(usedRizz, null, 2));
-    } catch (err) {
-        console.error('Lỗi lưu rizz:', err);
-    }
-}
 
 const rizzStyles = {
     "ngọt ngào": {
@@ -48,7 +9,7 @@ const rizzStyles = {
         description: "phong cách lãng mạn, dịu dàng, ấm áp, chân thành, thể hiện tình cảm sâu sắc"
     },
     "hài hước": {
-        name: "Hài hước",
+        name: "Hài hước", 
         description: "phong cách vui vẻ, dí dỏm, duyên dáng, tạo không khí thoải mái"
     },
     "thơ mộng": {
@@ -84,20 +45,8 @@ module.exports = {
         const loadingMessage = await api.sendMessage("💘 Đang nghĩ câu tán tỉnh hay...", threadID, messageID);
 
         try {
-            const genAI = new GoogleGenerativeAI(config.GEMINI.API_KEY);
-            const model = genAI.getGenerativeModel({ 
-                model: "gemini-1.5-flash",
-                generationConfig: {
-                    temperature: 0.9,
-                    maxOutputTokens: 1000,
-                }
-            });
-
             const styles = Object.keys(rizzStyles);
             const randomStyle = styles[Math.floor(Math.random() * styles.length)];
-
-            const usedRizz = getUsedRizz();
-            const usedRizzText = usedRizz.map(r => r.rizz).join('\n');
 
             const prompt = `Hãy tạo một câu tán tỉnh bằng tiếng Việt theo yêu cầu sau:
             - Phong cách: ${rizzStyles[randomStyle].description}
@@ -109,13 +58,15 @@ module.exports = {
               + Phải thật sự hay và ấn tượng
               + KHÔNG được chú thích hay giải thích gì thêm
               + CHỈ trả về nội dung câu tán tỉnh
-              + PHẢI HOÀN TOÀN MỚI, không được trùng với các câu đã có:
-              ${usedRizzText}`;
+              + PHẢI HOÀN TOÀN MỚI, không được trùng với các câu đã có`;
 
-            const result = await model.generateContent(prompt);
-            const rizz = result.response.text();
-
-            saveNewRizz(rizz);
+            const rizz = await useGPTWithHistory({
+                prompt,
+                type: "creative",
+                provider: "auto",
+                historyFile: RIZZ_FILE,
+                maxHistory: 100
+            });
 
             const message = `💘 ${rizzStyles[randomStyle].name.toUpperCase()}\n` +
                           `\n${rizz}\n` +
@@ -144,20 +95,8 @@ module.exports = {
         const { threadID } = event;
         
         try {
-            const genAI = new GoogleGenerativeAI(config.GEMINI.API_KEY);
-            const model = genAI.getGenerativeModel({ 
-                model: "gemini-1.5-flash",
-                generationConfig: {
-                    temperature: 0.9,
-                    maxOutputTokens: 1000,
-                }
-            });
-
             const styles = Object.keys(rizzStyles);
             const randomStyle = styles[Math.floor(Math.random() * styles.length)];
-
-            const usedRizz = getUsedRizz();
-            const usedRizzText = usedRizz.map(r => r.rizz).join('\n');
 
             const prompt = `Hãy tạo một câu tán tỉnh bằng tiếng Việt theo yêu cầu sau:
             - Phong cách: ${rizzStyles[randomStyle].description}
@@ -169,14 +108,15 @@ module.exports = {
               + Phải thật sự hay và ấn tượng
               + KHÔNG được chú thích hay giải thích gì thêm
               + CHỈ trả về nội dung câu tán tỉnh
-              + PHẢI HOÀN TOÀN MỚI, không được trùng với các câu đã có:
-              ${usedRizzText}`;
+              + PHẢI HOÀN TOÀN MỚI, không được trùng với các câu đã có`;
 
-            const result = await model.generateContent(prompt);
-            const rizz = result.response.text();
-
-            // Lưu rizz mới
-            saveNewRizz(rizz);
+            const rizz = await useGPTWithHistory({
+                prompt,
+                type: "creative",
+                provider: "auto",
+                historyFile: RIZZ_FILE,
+                maxHistory: 100
+            });
 
             const message = `💘 ${rizzStyles[randomStyle].name.toUpperCase()}\n` +
                           `\n${rizz}\n` +
@@ -191,4 +131,4 @@ module.exports = {
             api.sendMessage("❌ Đã xảy ra lỗi khi tạo câu tán tỉnh mới: " + error.message, threadID);
         }
     }
-}; 
+};

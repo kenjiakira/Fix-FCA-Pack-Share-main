@@ -1,4 +1,4 @@
-const { GoogleGenerativeAI } = require("@google/generative-ai");
+const { useGPT } = require('../utils/gptHook');
 const path = require("path");
 const fs = require("fs");
 const { getBalance, updateBalance } = require('../utils/currencies');
@@ -52,9 +52,6 @@ function checkAnswer(userAnswer, correctAnswer, variations = []) {
 }
 
 async function generatePuzzle() {
-    const genAI = new GoogleGenerativeAI(API_KEYS[0]);
-    const model = genAI.getGenerativeModel({ model: "gemini-1.5-flash" });
-
     const categories = ["logic", "math"];
     const category = categories[Math.floor(Math.random() * categories.length)];
 
@@ -70,8 +67,11 @@ async function generatePuzzle() {
 }`;
 
     try {
-        const result = await model.generateContent(prompt);
-        const response = result.response.text().trim();
+        const response = await useGPT({
+            prompt,
+            type: "analytical",
+            context: `Tạo câu đố ${category}`
+        });
         
         let jsonStr = response;
         
@@ -104,7 +104,8 @@ async function generatePuzzle() {
             return {
                 question: "Một người có 5 quả táo, chia đều cho 2 người. Làm thế nào để công bằng?",
                 answer: "cắt đôi mỗi quả táo",
-                hint: "Không nhất thiết phải chia nguyên quả",
+                variations: ["chia đôi mỗi quả", "cắt làm đôi"],
+                hints: ["Không nhất thiết phải chia nguyên quả", "Có thể chia một quả thành nhiều phần", "Mỗi quả có thể được cắt"],
                 explanation: "Cắt đôi mỗi quả táo sẽ có 10 nửa quả, mỗi người nhận 5 nửa quả (2.5 quả)",
                 difficulty: 1,
                 category: "logic"

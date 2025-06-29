@@ -1,8 +1,8 @@
-const { GoogleGenerativeAI } = require("@google/generative-ai");
 const path = require("path");
 const fs = require("fs-extra");
 const { updateBalance } = require('../utils/currencies');
 const { createQuizCanvas, createQuizResultCanvas, canvasToStream } = require('../game/canvas/quizCanvas');
+const { useGPT } = require('../utils/gptHook');
 
 const API_KEYS = JSON.parse(fs.readFileSync(path.join(__dirname, "./json/chatbot/key.json"))).api_keys;
 const QUESTIONS_FILE = path.join(__dirname, './json/quiz/questions.json');
@@ -28,7 +28,6 @@ try {
     fs.writeJsonSync(QUESTIONS_FILE, []);
 }
 
-// Cập nhật cơ chế lưu question để sử dụng biến global questionsDB
 const saveQuestion = async (question) => {
     if (!question.difficulty) {
         question.difficulty = Math.floor(Math.random() * 3) + 1; // 1-3
@@ -134,8 +133,6 @@ const shuffleAnswers = (question) => {
 };
 
 const generateQuiz = async () => {
-    const genAI = new GoogleGenerativeAI(API_KEYS[0]);
-    const model = genAI.getGenerativeModel({ model: "gemini-1.5-flash" });
     const category = getRandomCategory();
 
     const prompt = `Tạo câu hỏi trắc nghiệm tiếng Việt:
@@ -176,74 +173,60 @@ const generateQuiz = async () => {
     D: [giải thích ngắn gọn 4, tối đa 25 từ]
     Correct: [chữ cái đáp án đúng]`;
 
-    let attempts = 0;
-    let question;
-    
-    while (attempts < 3) {
-        try {
-            const result = await model.generateContent(prompt);
-            const response = result.response.text();
-            
-            if (!response) {
-                console.error("API trả về phản hồi trống");
-                attempts++;
-                continue;
-            }
-            
-            const lines = response.split('\n').filter(line => line.trim() !== '');
-            
-            if (lines.length < 6) {
-                console.error(`Định dạng đầu ra không đúng: ${response}`);
-                attempts++;
-                continue;
-            }
-            
-            question = {
-                id: Date.now().toString(36) + Math.random().toString(36).substr(2, 5),
-                category: category,
-                question: lines[0].replace(/^Q:/, '').trim(),
-                options: {
-                    A: lines[1].replace(/^A:/, '').trim(),
-                    B: lines[2].replace(/^B:/, '').trim(),
-                    C: lines[3].replace(/^C:/, '').trim(),
-                    D: lines[4].replace(/^D:/, '').trim()
-                },
-                correct: lines[5].replace(/^Correct:/, '').trim()
-            };
+    try {
+        const response = await useGPT({
+            prompt,
+            type: "educational",
+            context: `Tạo câu hỏi trắc nghiệm chủ đề: ${category}`
+        });
 
-            const isValid = 
-                question.question && 
-                question.options.A && 
-                question.options.B && 
-                question.options.C && 
-                question.options.D &&
-                ["A", "B", "C", "D"].includes(question.correct) &&
-                !question.question.toLowerCase().startsWith('ai là') &&
-                !question.question.toLowerCase().startsWith('đâu là') &&
-                !question.question.toLowerCase().includes(' là gì');
-
-            if (isValid) {
-                question = shuffleAnswers(question);
-                const saved = await saveQuestion(question);
-                if (saved) {
-                    console.log("Đã lưu câu hỏi mới thành công");
-                    break;
-                }
-            } else {
-                console.error("Câu hỏi không hợp lệ:", question);
-            }
-        } catch (error) {
-            console.error("Lỗi khi tạo câu hỏi:", error);
+        const lines = response.split('\n').filter(line => line.trim() !== '');
+        
+        if (lines.length < 6) {
+            console.error(`Định dạng đầu ra không đúng: ${response}`);
+            return null;
         }
         
-        attempts++;
+        let question = {
+            id: Date.now().toString(36) + Math.random().toString(36).substr(2, 5),
+            category: category,
+            question: lines[0].replace(/^Q:/, '').trim(),
+            options: {
+                A: lines[1].replace(/^A:/, '').trim(),
+                B: lines[2].replace(/^B:/, '').trim(),
+                C: lines[3].replace(/^C:/, '').trim(),
+                D: lines[4].replace(/^D:/, '').trim()
+            },
+            correct: lines[5].replace(/^Correct:/, '').trim()
+        };
+
+        const isValid = 
+            question.question && 
+            question.options.A && 
+            question.options.B && 
+            question.options.C && 
+            question.options.D &&
+            ["A", "B", "C", "D"].includes(question.correct) &&
+            !question.question.toLowerCase().startsWith('ai là') &&
+            !question.question.toLowerCase().startsWith('đâu là') &&
+            !question.question.toLowerCase().includes(' là gì');
+
+        if (isValid) {
+            question = shuffleAnswers(question);
+            const saved = await saveQuestion(question);
+            if (saved) {
+                console.log("Đã lưu câu hỏi mới thành công");
+                return question;
+            }
+        } else {
+            console.error("Câu hỏi không hợp lệ:", question);
+        }
+    } catch (error) {
+        console.error("Lỗi khi tạo câu hỏi:", error);
+        throw error;
     }
 
-    if (attempts >= 3) {
-        throw new Error('Không thể tạo câu hỏi mới sau 3 lần thử');
-    }
-
-    return question;
+    return null;
 };
 
 module.exports = {
