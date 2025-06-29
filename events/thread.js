@@ -581,7 +581,7 @@ module.exports = {
       const threadID = event.threadID;
       const isRemoving = event.logMessageData.ADMIN_EVENT === "remove_admin";
       const targetID = event.logMessageData.TARGET_ID;
-      const authorID = event.author; // ID của người thực hiện hành động
+      const authorID = event.author;
       const authorName = await this.getUserName(api, authorID);
       const targetName = await this.getUserName(api, targetID);
       

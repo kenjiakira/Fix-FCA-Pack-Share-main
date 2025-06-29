@@ -3,7 +3,8 @@ const path = require("path");
 const fs = require("fs");
 const { getBalance, updateBalance, loadQuy, saveQuy, updateQuestProgress, readData } = require('../utils/currencies');
 const gameLogic = require('../utils/gameLogic');
-const getName = require('../utils/getName');
+const { getUserName } = require('../utils/userUtils'); 
+
 
 const HISTORY_FILE = path.join(__dirname, './json/tx_history.json');
 
@@ -253,7 +254,7 @@ module.exports = {
             
             const message = 
                 `『 TÀI XỈU NHANH - ${sessionId} 』\n\n` +
-                `👤 ${getName(senderID)}\n` +
+                `👤 ${getUserName(senderID)}\n` +
                 `💰 Cược: ${formatNumber(betAmount)} $ • Chọn: ${gameType.toUpperCase()}\n\n` +
                 `🎲 Kết quả: ${dice1} + ${dice2} + ${dice3} = ${total}\n` +
                 `➤ ${result.toUpperCase()} ${statusEmoji}\n\n` +

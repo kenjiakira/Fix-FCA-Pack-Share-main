@@ -19,7 +19,7 @@ const {
     readData 
 } = require('../utils/currencies');
 const gameLogic = require('../utils/gameLogic');
-const getName = require('../utils/getName');
+const { getUserName } = require('../utils/userUtils'); 
 
 const TX_HISTORY_FILE = path.join(__dirname, './json/tx_history.json');
 
@@ -409,7 +409,7 @@ module.exports = {
                 
                 // Create waiting canvas
                 const canvasData = {
-                    playerName: getName(senderID),
+                    playerName: getUserName(senderID),
                     betAmount: betAmount,
                     choice: gameType,
                     sessionId: sessionId,
@@ -429,7 +429,7 @@ module.exports = {
                 } catch (error) {
                     const waitingMsg = await api.sendMessage(
                         `『 TÀI XỈU - ${sessionId} 』\n\n` +
-                        `👤 Người chơi: ${getName(senderID)}\n` +
+                        `👤 Người chơi: ${getUserName(senderID)}\n` +
                         `💰 Đặt cược: ${formatNumber(betAmount)} $\n` +
                         `🎯 Lựa chọn: ${gameType.toUpperCase()}\n` +
                         `📌 Lịch sử:\n${getTxHistoryString(threadID)}\n` +
@@ -483,7 +483,7 @@ module.exports = {
                         
                         // Create result canvas
                         const resultData = {
-                            playerName: getName(senderID),
+                            playerName: getUserName(senderID),
                             betAmount: betAmount,
                             choice: gameType,
                             dice1, dice2, dice3,
@@ -541,7 +541,7 @@ module.exports = {
             
             else if (gameType === "chẵn" || gameType === "lẻ") {
                 const canvasData = {
-                    playerName: getName(senderID),
+                    playerName: getUserName(senderID),
                     betAmount: betAmount,
                     choice: gameType
                 };
@@ -598,7 +598,7 @@ module.exports = {
                         
                         // Create result canvas
                         const resultData = {
-                            playerName: getName(senderID),
+                            playerName: getUserName(senderID),
                             betAmount: betAmount,
                             choice: gameType,
                             pattern: pattern,
@@ -655,7 +655,7 @@ module.exports = {
                 };
                 
                 const canvasData = {
-                    playerName: getName(senderID),
+                    playerName: getUserName(senderID),
                     betAmount: betAmount,
                     choice: gameType,
                 };
@@ -706,7 +706,7 @@ module.exports = {
                         
                         // Create result canvas
                         const resultData = {
-                            playerName: getName(senderID),
+                            playerName: getUserName(senderID),
                             betAmount: betAmount,
                             choice: gameType,
                             results: results,
@@ -729,7 +729,7 @@ module.exports = {
                             
                             const message = 
                                 `『 BẦU CUA 』\n\n` +
-                                `👤 Người chơi: ${getName(senderID)}\n` +
+                                `👤 Người chơi: ${getUserName(senderID)}\n` +
                                 `💰 Đặt cược: ${formatNumber(betAmount)} $\n` +
                                 `🎯 Lựa chọn: ${choiceEmojis[gameType]} ${gameType.toUpperCase()}\n\n` +
                                 `🎲 Kết quả: ${results.map(r => choiceEmojis[r]).join(' ')}\n`;

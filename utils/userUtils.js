@@ -9,6 +9,9 @@ const path = require('path');
 function getUserName(userID) {
     const userDataPath = path.join(__dirname, '../database/rankData.json');
     try {
+        if (!fs.existsSync(userDataPath)) {
+            return "Người dùng";
+        }
         const userData = JSON.parse(fs.readFileSync(userDataPath, 'utf8'));
         return userData[userID]?.name || "Người dùng";
     } catch (error) {

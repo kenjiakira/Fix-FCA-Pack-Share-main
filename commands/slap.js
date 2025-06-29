@@ -1,6 +1,7 @@
 const axios = require('axios');
 const fs = require('fs');
 const path = require('path');
+const { getUserName } = require('../utils/userUtils');
 
 module.exports = {
   name: "slap",
@@ -29,7 +30,7 @@ module.exports = {
 
       if (event.type === 'message_reply') {
         targetID = event.messageReply.senderID;
-      } 
+      }
       else if (Object.keys(event.mentions).length > 0) {
         targetID = Object.keys(event.mentions)[0];
       }
@@ -41,26 +42,9 @@ module.exports = {
           event.threadID, event.messageID
         );
       }
-
-      const userDataPath = path.join(__dirname, '../events/cache/rankData.json');
-      let senderName, targetName;
-
-      try {
-        const userInfo = await api.getUserInfo([event.senderID, targetID]);
-        senderName = userInfo[event.senderID]?.name || "Người dùng";
-        targetName = userInfo[targetID]?.name || "Người ấy";
-      } catch (err) {
-        console.error("Error getting user info from API, trying userData.json");
-        try {
-          const userDataJson = JSON.parse(fs.readFileSync(userDataPath, 'utf8'));
-          senderName = userDataJson[event.senderID]?.name || "Người dùng";
-          targetName = userDataJson[targetID]?.name || "Người ấy";
-        } catch (jsonErr) {
-          console.error("Error reading from userData.json:", jsonErr);
-          senderName = "Người dùng";
-          targetName = "Người ấy";
-        }
-      }
+      
+      const senderName = getUserName(event.senderID) || "Người dùng";
+      const targetName = getUserName(targetID) || "Người ấy";
 
       const msg = `${senderName} đã tát ${targetName} `;
 
