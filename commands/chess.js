@@ -2,6 +2,7 @@ const fs = require('fs');
 const path = require('path');
 const { createCanvas, loadImage } = require('canvas');
 const { Chess } = require('chess.js');
+const { getUserName } = require('../utils/userUtils');
 
 module.exports = {
     name: "chess",
@@ -129,17 +130,6 @@ module.exports = {
     },
 
 
-    getUserName: function(userID) {
-        const userDataPath = path.join(__dirname, '../events/cache/rankData.json');
-        try {
-            const userData = JSON.parse(fs.readFileSync(userDataPath, 'utf8'));
-            return userData[userID]?.name || "Người dùng";
-        } catch (error) {
-            console.error("Error reading userData:", error);
-            return "Người dùng";
-        }
-    },
-
     onLaunch: async function({ api, event }) {
         const { threadID, senderID, messageID } = event;
 
@@ -183,8 +173,8 @@ module.exports = {
 
         this.activeGames.set(threadID, gameState);
 
-        const player1Name = this.getUserName(senderID);
-        const player2Name = this.getUserName(opponent);
+        const player1Name = getUserName(senderID);
+        const player2Name = getUserName(opponent);
 
         await this.loadPieceImages();
         
@@ -245,7 +235,7 @@ module.exports = {
 
             game.moves.push(move);
             game.currentTurn = game.players.find(p => p !== senderID);
-            const nextPlayerName = this.getUserName(game.currentTurn);
+            const nextPlayerName = getUserName(game.currentTurn);
 
             game.lastMoveTime = Date.now();
 
@@ -258,7 +248,7 @@ module.exports = {
             
             let status = "";
             if (game.chess.isCheckmate()) {
-                status = `⚡ Chiếu hết! ${this.getUserName(senderID)} thắng!`;
+                status = `⚡ Chiếu hết! ${getUserName(senderID)} thắng!`;
                 this.activeGames.delete(threadID);
             }
             else if (game.chess.isDraw()) {

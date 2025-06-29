@@ -42,7 +42,7 @@ module.exports = {
         );
       }
 
-      const userDataPath = path.join(__dirname, '../events/cache/userData.json');
+      const userDataPath = path.join(__dirname, '../events/cache/rankData.json');
       let senderName, targetName;
 
       try {

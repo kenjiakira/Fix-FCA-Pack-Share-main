@@ -1250,7 +1250,7 @@ module.exports = {
                 case "top":
                     try {
                         const topUsers = await getTopUsers(bankingData);
-                        const rankDataPath = path.join(__dirname, '../events/cache/rankData.json');
+                        const rankDataPath = path.join(__dirname, '../database/rankData.json');
                         let rankData = {};
 
                         try {

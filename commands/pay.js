@@ -6,7 +6,7 @@ const { createTransactionBill } = require('../game/canvas/transactionBill');
 const vipService = require('../game/vip/vipService'); 
 
 const transactionsPath = path.join(__dirname, '../commands/json/transactions.json');
-const userDataPath = path.join(__dirname, '../events/cache/userData.json');
+const userDataPath = path.join(__dirname, '../events/cache/rankData.json');
 
 let transactions = {};
 let userData = {};

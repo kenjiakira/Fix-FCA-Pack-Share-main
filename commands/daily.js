@@ -4,6 +4,7 @@ const fsSync = require("fs");
 const path = require("path");
 const { createCanvas, loadImage } = require("canvas");
 const axios = require("axios");
+const { getUserName } = require('../utils/userUtils');
 
 class DailyRewardManager {
   constructor() {
@@ -14,22 +15,7 @@ class DailyRewardManager {
   
   async getUserName(userId) {
     try {
-      const userDataPath = path.join(
-        __dirname,
-        "../events/cache/userData.json"
-      );
-
-      try {
-        const userData = JSON.parse(await fs.readFile(userDataPath, "utf8"));
-
-        if (userData[userId] && userData[userId].name) {
-          return userData[userId].name;
-        }
-      } catch (error) {
-        console.error("Error reading user data:", error);
-      }
-
-      return "Người dùng";
+      return getUserName(userId);
     } catch (error) {
       console.error("Error getting user name:", error);
       return "Người dùng";
@@ -72,6 +58,19 @@ class DailyRewardManager {
     const userClaim = this.claims[userId];
     if (!userClaim) return 1;
 
+    const lastClaim = userClaim.lastClaim;
+    const daysSinceLastClaim = Math.floor(
+      (currentTime - lastClaim) / (24 * 60 * 60 * 1000)
+    );
+
+    if (daysSinceLastClaim === 1) {
+      return (userClaim.streak || 0) + 1;
+    }
+    return 1;
+  }
+
+  calculateReward(streak) {
+    const baseAmount = randomInt(150, 610) * 100;
     const lastClaim = userClaim.lastClaim;
     const daysSinceLastClaim = Math.floor(
       (currentTime - lastClaim) / (24 * 60 * 60 * 1000)
@@ -169,7 +168,7 @@ class DailyRewardManager {
     try {
       const userDataPath = path.join(
         __dirname,
-        "../events/cache/userData.json"
+        "../events/cache/rankData.json"
       );
       let userData = {};
 

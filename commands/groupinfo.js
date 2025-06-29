@@ -112,7 +112,7 @@ Ví dụ:
 
                     const threadsDBPath = path.join(__dirname, "../database/threads.json");
                     const usersDBPath = path.join(__dirname, "../database/users.json");
-                    const userDataPath = path.join(__dirname, "../events/cache/userData.json");
+                    const userDataPath = path.join(__dirname, "../events/cache/rankData.json");
 
                     let threadsDB = {};
                     let usersDB = {};

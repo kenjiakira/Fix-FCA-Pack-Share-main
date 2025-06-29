@@ -1,13 +1,11 @@
 const fs = require('fs');
 const path = require('path');
-const axios = require('axios');
 const { createCanvas } = require('canvas');
 const {
     getBalance,
     updateBalance,
-    saveData
 } = require('../utils/currencies');
-const getName = require('../utils/getName');
+const { getUserName } = require('../utils/userUtils');
 const { createMarketOverviewCanvas } = require('../game/canvas/tradeMarketCanvas');
 const { createNewsCanvas } = require('../game/canvas/tradeNewsCanvas');
 const { createPortfolioCheckCanvas } = require('../game/canvas/tradeCheckCanvas');
@@ -379,7 +377,7 @@ function updateLeaderboard(userId, totalValue, totalProfit) {
     const leaderboard = loadLeaderboard();
     const userIndex = leaderboard.traders.findIndex(trader => trader.userId === userId);
 
-    const name = getName(userId) || `User ${userId}`;
+    const name = getUserName(userId) || `User ${userId}`; // Thay getName thành getUserName
 
     if (userIndex >= 0) {
         leaderboard.traders[userIndex] = {
@@ -398,7 +396,6 @@ function updateLeaderboard(userId, totalValue, totalProfit) {
             updatedAt: Date.now()
         });
     }
-
 
     leaderboard.traders.sort((a, b) => b.totalValue - a.totalValue);
 
@@ -1170,35 +1167,34 @@ module.exports = {
             switch (action) {
                 case "check": {
                     try {
-                     
                         const marketData = loadMarketData();
                         const tradeData = loadTradeData();
                         const userData = tradeData.users[senderID] || initializeUser(senderID);
-                        
-                        const userName = await getName(senderID);
-                        
+
+                        const userName = getUserName(senderID); // Thay await getName thành getUserName (bỏ await)
+
                         const canvasPath = await createPortfolioCheckCanvas(userData, marketData, userName);
-                        
+
                         const { portfolioLines, totalValue, totalProfit, cash, isEmpty } = formatPortfolio(senderID);
                         const { transactionLines, isEmpty: historyEmpty } = formatHistory(senderID, 3);
-                        
+
                         let message = "📊 DANH MỤC ĐẦU TƯ CỦA BẠN 📊\n━━━━━━━━━━━━━━━━━━\n\n";
-                        
+
                         if (isEmpty) {
                             message += "❌ Bạn chưa có cổ phiếu nào trong danh mục!\n\n";
                         } else {
                             message += portfolioLines.join("\n\n") + "\n\n";
                         }
-                        
+
                         message += `💵 Tiền mặt: ${formatCurrency(cash)}$\n`;
                         message += `💰 Tổng giá trị: ${formatCurrency(cash + totalValue)}$\n`;
                         message += `${totalProfit >= 0 ? "📈" : "📉"} Lợi nhuận: ${totalProfit >= 0 ? "+" : ""}${formatCurrency(totalProfit)}$\n\n`;
-                        
+
                         if (!historyEmpty) {
                             message += "📝 GIAO DỊCH GẦN ĐÂY\n";
                             message += transactionLines.join("\n");
                         }
-                        
+
                         return api.sendMessage(
                             {
                                 body: message,
@@ -1212,27 +1208,27 @@ module.exports = {
                         );
                     } catch (error) {
                         console.error('Error creating portfolio canvas:', error);
-                        
+
                         const { portfolioLines, totalValue, totalProfit, cash, isEmpty } = formatPortfolio(senderID);
                         const { transactionLines, isEmpty: historyEmpty } = formatHistory(senderID, 3);
-                        
+
                         let message = "📊 DANH MỤC ĐẦU TƯ CỦA BẠN 📊\n━━━━━━━━━━━━━━━━━━\n\n";
-                        
+
                         if (isEmpty) {
                             message += "❌ Bạn chưa có cổ phiếu nào trong danh mục!\n\n";
                         } else {
                             message += portfolioLines.join("\n\n") + "\n\n";
                         }
-                        
+
                         message += `💵 Tiền mặt: ${formatCurrency(cash)}$\n`;
                         message += `💰 Tổng giá trị: ${formatCurrency(cash + totalValue)}$\n`;
                         message += `${totalProfit >= 0 ? "📈" : "📉"} Lợi nhuận: ${totalProfit >= 0 ? "+" : ""}${formatCurrency(totalProfit)}$\n\n`;
-                        
+
                         if (!historyEmpty) {
                             message += "📝 GIAO DỊCH GẦN ĐÂY\n";
                             message += transactionLines.join("\n");
                         }
-                        
+
                         return api.sendMessage(message, threadID, messageID);
                     }
                 }
@@ -1325,7 +1321,7 @@ module.exports = {
                 }
 
                 case "news": {
-                  
+
                     try {
                         const newsData = loadNewsData();
                         const marketData = loadMarketData();

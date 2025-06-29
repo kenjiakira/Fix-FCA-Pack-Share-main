@@ -236,7 +236,7 @@ async function createPetImage(options) {
     
     const displayPower = pet.power || 10;
     // Load user data
-    const userData = JSON.parse(fs.readFileSync(path.join(__dirname, '../events/cache/userData.json')));
+    const userData = JSON.parse(fs.readFileSync(path.join(__dirname, '../events/cache/rankData.json')));
     const userInfo = userData[userId] || { name: userName };
     const displayName = userInfo.name || userName;
 

@@ -5568,7 +5568,7 @@ module.exports = {
 
         try {
 
-            const userData = JSON.parse(fs.readFileSync(path.join(__dirname, "../events/cache/userData.json")));
+            const userData = JSON.parse(fs.readFileSync(path.join(__dirname, "../events/cache/rankData.json")));
 
 
             let command = (target[0] || "").toLowerCase();

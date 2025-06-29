@@ -1,6 +1,7 @@
 const fs = require('fs');
 const path = require('path');
 const { createCanvas, loadImage, registerFont } = require('canvas');
+const { getUserName } = require('../utils/userUtils');
 
 module.exports = {
     name: "covay",
@@ -266,7 +267,6 @@ module.exports = {
         ctx.fillStyle = '#000000';
         
         points.forEach(point => {
-            const centerX = padding + point.x * this.cellSize;
             const centerY = padding + point.y * this.cellSize;
             
             ctx.beginPath();
@@ -647,17 +647,6 @@ module.exports = {
         
         return `${colChar}${rowNum}`;
     },
-    
-    getUserName: function (userID) {
-        const userDataPath = path.join(__dirname, '../events/cache/rankData.json');
-        try {
-            const userData = JSON.parse(fs.readFileSync(userDataPath, 'utf8'));
-            return userData[userID]?.name || "Người dùng";
-        } catch (error) {
-            console.error("Error reading userData:", error);
-            return "Người dùng";
-        }
-    },
 
     onLaunch: async function ({ api, event, target = [] }) {
         const { threadID, senderID, messageID } = event;
@@ -729,8 +718,8 @@ module.exports = {
         this.activeGames.set(threadID, gameState);
         
         // Tên người chơi
-        const blackPlayerName = this.getUserName(senderID);
-        const whitePlayerName = this.getUserName(opponent);
+        const blackPlayerName = getUserName(senderID);
+        const whitePlayerName = getUserName(opponent);
         
         // Vẽ bàn cờ
         const boardImage = await this.drawBoard(gameState);
@@ -797,8 +786,8 @@ module.exports = {
                 const finalBlackScore = scores.blackTerritory + scores.blackStones + game.capturedByBlack;
                 const finalWhiteScore = scores.whiteTerritory + scores.whiteStones + game.capturedByWhite;
                 
-                const blackPlayerName = this.getUserName(game.players.black);
-                const whitePlayerName = this.getUserName(game.players.white);
+                const blackPlayerName = getUserName(game.players.black);
+                const whitePlayerName = getUserName(game.players.white);
                 
                 const boardImage = await this.drawBoard(game);
                 
@@ -825,13 +814,13 @@ module.exports = {
             const nextPlayer = game.currentPlayer === 'black' ? 'white' : 'black';
             game.currentPlayer = nextPlayer;
             
-            const nextPlayerName = this.getUserName(game.players[nextPlayer]);
+            const nextPlayerName = getUserName(game.players[nextPlayer]);
             
             // Vẽ lại bàn cờ
             const boardImage = await this.drawBoard(game);
             
             await api.sendMessage({
-                body: `🎮 ${this.getUserName(senderID)} (${game.currentPlayer === 'white' ? 'Đen' : 'Trắng'}) đã bỏ lượt (pass)\n` +
+                body: `🎮 ${getUserName(senderID)} (${game.currentPlayer === 'white' ? 'Đen' : 'Trắng'}) đã bỏ lượt (pass)\n` +
                       `⏱️ Lượt tiếp theo: ${nextPlayerName} (${nextPlayer === 'black' ? 'Đen' : 'Trắng'})`,
                 attachment: fs.createReadStream(boardImage)
             }, threadID, (err, msg) => {
@@ -855,8 +844,8 @@ module.exports = {
             game.status = 'finished';
             
             const winner = game.currentPlayer === 'black' ? 'white' : 'black';
-            const winnerName = this.getUserName(game.players[winner]);
-            const loserName = this.getUserName(senderID);
+            const winnerName = getUserName(game.players[winner]);
+            const loserName = getUserName(senderID);
             
             const boardImage = await this.drawBoard(game);
             
@@ -927,8 +916,8 @@ module.exports = {
         game.currentPlayer = nextPlayer;
         
         // Tên người chơi
-        const currentPlayerName = this.getUserName(senderID);
-        const nextPlayerName = this.getUserName(game.players[nextPlayer]);
+        const currentPlayerName = getUserName(senderID);
+        const nextPlayerName = getUserName(game.players[nextPlayer]);
         
         // Tính thời gian chơi
         const gameTimeSeconds = Math.floor((Date.now() - game.startTime) / 1000);

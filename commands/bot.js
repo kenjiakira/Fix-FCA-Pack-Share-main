@@ -1,6 +1,7 @@
 const path = require("path");
 const fs = require("fs-extra");
 const OpenAI = require("openai");
+const { getUserName } = require('../utils/userUtils');
 
 require('dotenv').config();
 
@@ -52,12 +53,6 @@ setInterval(() => {
 
 const getUserName = (senderID) => {
   try {
-    const rankDataPath = path.join(__dirname, "..", "events", "cache", "rankData.json");
-    const rankData = fs.readJsonSync(rankDataPath);
-    
-    if (rankData[senderID] && rankData[senderID].name) {
-      return rankData[senderID].name;
-    }
     return `User ${senderID}`;
   } catch (error) {
     console.error("Error reading user name:", error);

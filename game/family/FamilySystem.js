@@ -103,7 +103,7 @@ class FamilySystem {
         if (family2.spouse) throw new Error("Người kia đã kết hôn!");
         if (userID1 === userID2) throw new Error("Không thể tự kết hôn với chính mình!");
 
-        const userData = JSON.parse(fs.readFileSync(path.join(__dirname, '../events/cache/userData.json'), 'utf8'));
+        const userData = JSON.parse(fs.readFileSync(path.join(__dirname, '../events/cache/rankData.json'), 'utf8'));
         const proposerName = userData[userID1]?.name || userID1;
 
         family1.spouse = userID2;
@@ -415,7 +415,7 @@ confirmMarriage(proposerID, acceptorID) {
             throw new Error("Một trong hai người đã kết hôn!");
         }
 
-        const userData = JSON.parse(fs.readFileSync(path.join(__dirname, '../events/cache/userData.json'), 'utf8'));
+        const userData = JSON.parse(fs.readFileSync(path.join(__dirname, '../events/cache/rankData.json'), 'utf8'));
         const proposerName = userData[proposerID]?.name || proposerID;
 
         proposer.spouse = acceptorID;
@@ -659,7 +659,7 @@ confirmMarriage(proposerID, acceptorID) {
     getUserName(userID) {
         if (!userID) return "Người dùng không xác định";
         
-        const userDataPath = path.join(__dirname, '../events/cache/userData.json');
+        const userDataPath = path.join(__dirname, '../events/cache/rankData.json');
         try {
             if (!fs.existsSync(userDataPath)) {
                 return userID.toString();

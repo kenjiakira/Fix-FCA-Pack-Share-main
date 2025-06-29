@@ -2101,7 +2101,7 @@ async function showPvPRanking(api, threadID, messageID) {
   const gachaData = loadGachaData();
   const players = [];
   
-  const userDataPath = path.join(__dirname, "../events/cache/userData.json");
+  const userDataPath = path.join(__dirname, "../events/cache/rankData.json");
   let userData = {};
   try {
     userData = JSON.parse(fs.readFileSync(userDataPath));
@@ -2753,7 +2753,7 @@ function createStone(stoneType) {
 
 async function getUserName(userId) {
   try {
-    const userDataPath = path.join(__dirname, "../events/cache/userData.json");
+    const userDataPath = path.join(__dirname, "../events/cache/rankData.json");
     let userData = {};
 
     try {
@@ -3137,7 +3137,7 @@ async function executePvpBattle(api, threadID, messageID, challengeData, targetT
   gachaData[target].pvpStats.lastBattle = Date.now();
   saveGachaData(gachaData);
 
-  const userDataPath = path.join(__dirname, "../events/cache/userData.json");
+  const userDataPath = path.join(__dirname, "../events/cache/rankData.json");
   let userData = {};
   try {
     userData = JSON.parse(fs.readFileSync(userDataPath));
@@ -3809,7 +3809,7 @@ function getRandomCharacter(rarity) {
 async function showRanking(api, threadID, messageID, type = "value") {
   try {
     const gachaData = loadGachaData();
-    const userDataPath = path.join(__dirname, "../events/cache/userData.json");
+    const userDataPath = path.join(__dirname, "../events/cache/rankData.json");
     let userData = {};
 
     try {
@@ -4904,7 +4904,7 @@ module.exports = {
     const { threadID, messageID, senderID } = event;
     const gachaData = loadGachaData();
 
-    const userDataPath = path.join(__dirname, "../events/cache/userData.json");
+    const userDataPath = path.join(__dirname, "../events/cache/rankData.json");
     let userName = "Unknown";
     try {
       const userData = JSON.parse(fs.readFileSync(userDataPath));

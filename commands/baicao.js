@@ -2,29 +2,17 @@ const { createBaicaoCanvas, createPlayerCardCanvas, createGameStateCanvas } = re
 const { getBalance, updateBalance } = require('../utils/currencies');
 const path = require('path');
 const fs = require('fs');
+const { getUserName } = require('../utils/userUtils');
 
 function formatNumber(number) {
     return number.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
 }
 function getUserNameFromData(userId) {
     try {
-        if (!global.userData) {
-            const userDataPath = path.join(__dirname, '../events/cache/userData.json');
-            if (fs.existsSync(userDataPath)) {
-                global.userData = JSON.parse(fs.readFileSync(userDataPath, 'utf8'));
-            } else {
-                global.userData = {};
-            }
-        }
-        
-        if (global.userData[userId] && global.userData[userId].name) {
-            return global.userData[userId].name;
-        }
-        
-        return getname(userId) || "Facebook User";
+        return getUserName(userId) || "Facebook User";
     } catch (error) {
         console.error('Error getting user name from userData:', error);
-        return getname(userId) || "Facebook User";
+        return getUserName(userId) || "Facebook User";
     }
 }
 const games = {};

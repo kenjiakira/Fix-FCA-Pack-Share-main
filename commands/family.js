@@ -10,7 +10,7 @@ const path = require("path");
 function formatNumber(number) {
   return number.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
 }
-
+const { getUserName } = require('../utils/userUtils');
 const familySystem = new FamilySystem();
 
 module.exports = {
@@ -1559,22 +1559,6 @@ case "tree": {
 
   onReply: async function ({ api, event }) {
     const { threadID, messageID, senderID, body } = event;
-
-    const getUserName = (userID) => {
-        if (!userID) return "Unknown User";
-        
-        const userDataPath = path.join(__dirname, "../events/cache/userData.json");
-        try {
-            if (!fs.existsSync(userDataPath)) {
-                return userID.toString();
-            }
-            const userData = JSON.parse(fs.readFileSync(userDataPath, "utf8"));
-            return userData && userData[userID] ? userData[userID].name || userID.toString() : userID.toString();
-        } catch (error) {
-            console.error("Error reading userData:", error);
-            return userID.toString();
-        }
-    };   
 
     const reply = global.client.onReply.find((r) => {
       if (r.messageID !== event.messageReply.messageID) return false;

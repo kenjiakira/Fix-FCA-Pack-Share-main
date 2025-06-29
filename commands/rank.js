@@ -1,31 +1,8 @@
 const fs = require('fs');
 const path = require('path');
 const { createRankCard } = require('../game/canvas/rankCard');
-
+const { getUserName } = require('../utils/userUtils');
 const userDataPath = path.join(__dirname, '../events/cache/rankData.json');
-
-async function getUserName(api, senderID) {
-    try {
-        const userDataPath = path.join(__dirname, '../events/cache/rankData.json');
-        if (fs.existsSync(userDataPath)) {
-            const userData = JSON.parse(fs.readFileSync(userDataPath, 'utf8'));
-            if (userData[senderID]?.name) {
-                return userData[senderID].name;
-            }
-        }
-        
-        try {
-            const userInfo = await api.getUserInfo(senderID);
-            return userInfo[senderID]?.name || "Người dùng";
-        } catch (apiError) {
-            console.error('Error getting name from API:', apiError);
-            return "Người dùng";
-        }
-    } catch (error) {
-        console.error('Error reading user data:', error);
-        return "Người dùng";
-    }
-}
 
 module.exports = {
     name: 'rank',
@@ -63,7 +40,7 @@ module.exports = {
 
             try {
                 const user = userData[senderID];
-                const name = await getUserName(api, senderID);
+                const name = getUserName(senderID); 
 
                 await createRankCard(
                     senderID,

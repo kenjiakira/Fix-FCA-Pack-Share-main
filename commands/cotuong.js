@@ -1,6 +1,7 @@
 const fs = require('fs');
 const path = require('path');
 const { createCanvas, loadImage } = require('canvas');
+const { getUserName } = require('../utils/userUtils');
 
 module.exports = {
     name: "cotuong",

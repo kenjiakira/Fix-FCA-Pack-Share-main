@@ -27,7 +27,7 @@ async function updateInviteQuest(inviterId) {
 
 function getRankDataName(userID) {
   try {
-    const rankDataPath = path.join(__dirname, './cache/rankData.json');
+    const rankDataPath = path.join(__dirname, '../database/rankData.json');
     if (fs.existsSync(rankDataPath)) {
       const rankData = JSON.parse(fs.readFileSync(rankDataPath, 'utf8'));
       if (rankData[userID] && rankData[userID].name) {
