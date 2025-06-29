@@ -17,17 +17,6 @@ module.exports = {
     }
 };
 ```
-Error creating fish result image: TypeError: parse color failed
-    at Object.createFishResultImage (d:\FIX-FCA-AKI-2.0\utils\fishCanvas.js:580:20)
-    at async Timeout._onTimeout (D:\FIX-FCA-AKI-2.0\commands\fish.js:638:39) {stack: 'TypeError: parse color failed
-    at Object.c…:\\FIX-FCA-AKI-2.0\\commands\\fish.js:638:39)', message: 'parse color failed'}
-
-fishCanvas.js:1404
-Error creating fish result image: TypeError: parse color failed
-    at Object.createFishResultImage (d:\FIX-FCA-AKI-2.0\utils\fishCanvas.js:580:20)
-    at async Timeout._onTimeout (D:\FIX-FCA-AKI-2.0\commands\fish.js:638:39) {stack: 'TypeError: parse color failed
-    at Object.c…:\\FIX-FCA-AKI-2.0\\commands\\fish.js:638:39)', message: 'parse color failed'}
-    
 ## Mô tả hàm
 
 ### `onLaunch`
