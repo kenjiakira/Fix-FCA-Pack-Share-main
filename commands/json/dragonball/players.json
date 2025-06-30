@@ -1968,5 +1968,206 @@
         "BEGINNER_1": 2
       }
     }
+  },
+  "100087899063135": {
+    "name": "Người chơi",
+    "planet": "SAIYAN",
+    "stats": {
+      "power": 2000,
+      "damage": 110,
+      "ki": 100,
+      "currentKi": 100,
+      "health": 1000,
+      "currentHealth": 1000,
+      "exp": 100,
+      "zeni": 1135,
+      "inventory": {
+        "items": [],
+        "equipped": []
+      },
+      "quests": {
+        "active": [],
+        "completed": [],
+        "progress": {}
+      }
+    },
+    "skills": [
+      "GOKU:ATOMIC"
+    ],
+    "masters": [],
+    "lastTrain": 1751263937000,
+    "created": 1751263927484,
+    "inventory": {
+      "dragonBalls": [],
+      "items": [
+        {
+          "id": "senzu",
+          "quantity": 3,
+          "type": "consumable"
+        },
+        {
+          "id": "battle_gloves",
+          "quantity": 1,
+          "type": "gloves",
+          "boost": 1.1
+        }
+      ]
+    },
+    "hasFused": false,
+    "location": {
+      "planet": "SAIYAN",
+      "locationId": "saiyan_training",
+      "name": "Khu Vực Huấn Luyện",
+      "lastTeleport": 0
+    },
+    "evolution": {
+      "name": "Saiyan thường",
+      "description": "Hình thái cơ bản",
+      "achievedAt": "2025-06-30T06:12:07.484Z",
+      "auraColor": "#FFFFFF"
+    },
+    "quests": {
+      "active": [
+        "BEGINNER_1"
+      ],
+      "completed": [],
+      "progress": {
+        "BEGINNER_1": 2
+      }
+    }
+  },
+  "61554901426430": {
+    "name": "Người chơi",
+    "planet": "SAIYAN",
+    "stats": {
+      "power": 1000,
+      "damage": 110,
+      "ki": 100,
+      "currentKi": 100,
+      "health": 1000,
+      "currentHealth": 1000,
+      "exp": 0,
+      "zeni": 1000,
+      "inventory": {
+        "items": [],
+        "equipped": []
+      },
+      "quests": {
+        "active": [],
+        "completed": [],
+        "progress": {}
+      }
+    },
+    "skills": [
+      "GOKU:ATOMIC"
+    ],
+    "masters": [],
+    "lastTrain": 0,
+    "created": 1751263939500,
+    "inventory": {
+      "dragonBalls": [],
+      "items": [
+        {
+          "id": "senzu",
+          "quantity": 3,
+          "type": "consumable"
+        },
+        {
+          "id": "battle_gloves",
+          "quantity": 1,
+          "type": "gloves",
+          "boost": 1.1
+        }
+      ]
+    },
+    "hasFused": false,
+    "location": {
+      "planet": "SAIYAN",
+      "locationId": "saiyan_training",
+      "name": "Khu Vực Huấn Luyện",
+      "lastTeleport": 0
+    },
+    "evolution": {
+      "name": "Saiyan thường",
+      "description": "Hình thái cơ bản",
+      "achievedAt": "2025-06-30T06:12:19.501Z",
+      "auraColor": "#FFFFFF"
+    },
+    "quests": {
+      "active": [
+        "BEGINNER_1"
+      ],
+      "completed": [],
+      "progress": {
+        "BEGINNER_1": 0
+      }
+    }
+  },
+  "61565143866197": {
+    "name": "Người chơi",
+    "planet": "EARTH",
+    "stats": {
+      "power": 2000,
+      "damage": 100,
+      "ki": 100,
+      "currentKi": 100,
+      "health": 1000,
+      "currentHealth": 1000,
+      "exp": 100,
+      "zeni": 2099,
+      "inventory": {
+        "items": [],
+        "equipped": []
+      },
+      "quests": {
+        "active": [],
+        "completed": [],
+        "progress": {}
+      }
+    },
+    "skills": [
+      "KAME:DRAGON_PUNCH"
+    ],
+    "masters": [],
+    "lastTrain": 1751263951630,
+    "created": 1751263940301,
+    "inventory": {
+      "dragonBalls": [],
+      "items": [
+        {
+          "id": "senzu",
+          "quantity": 3,
+          "type": "consumable"
+        },
+        {
+          "id": "armor",
+          "quantity": 1,
+          "type": "armor",
+          "boost": 1.1
+        }
+      ]
+    },
+    "hasFused": false,
+    "location": {
+      "planet": "EARTH",
+      "locationId": "kame_house",
+      "name": "Kame House",
+      "lastTeleport": 0
+    },
+    "evolution": {
+      "name": "Võ Sĩ Trần Trụi",
+      "description": "Con người bình thường chưa khai phá tiềm năng",
+      "achievedAt": "2025-06-30T06:12:31.631Z",
+      "auraColor": "#FFFFFF"
+    },
+    "quests": {
+      "active": [
+        "BEGINNER_1"
+      ],
+      "completed": [],
+      "progress": {
+        "BEGINNER_1": 2
+      }
+    }
   }
 }

@@ -232,6 +232,54 @@
       {
         "type": "buy",
         "symbol": "AKI",
+        "shares": 100000,
+        "price": 9.775369481889383,
+        "total": 987312.3176708277,
+        "timestamp": 1751265308216
+      },
+      {
+        "type": "buy",
+        "symbol": "GOOG",
+        "shares": 10000,
+        "price": 130.66858246897982,
+        "total": 1319752.6829366963,
+        "timestamp": 1751265301227
+      },
+      {
+        "type": "buy",
+        "symbol": "GOOG",
+        "shares": 10000,
+        "price": 130.66858246897982,
+        "total": 1319752.6829366963,
+        "timestamp": 1751265276568
+      },
+      {
+        "type": "buy",
+        "symbol": "AKI",
+        "shares": 100000,
+        "price": 9.775369481889383,
+        "total": 987312.3176708277,
+        "timestamp": 1751265260332
+      },
+      {
+        "type": "buy",
+        "symbol": "GOOG",
+        "shares": 10000,
+        "price": 130.66858246897982,
+        "total": 1319752.6829366963,
+        "timestamp": 1751265150557
+      },
+      {
+        "type": "buy",
+        "symbol": "GOOG",
+        "shares": 1000,
+        "price": 130.66858246897982,
+        "total": 131975.26829366962,
+        "timestamp": 1751265117646
+      },
+      {
+        "type": "buy",
+        "symbol": "AKI",
         "shares": 100,
         "price": 17.754079369112155,
         "total": 1793.1620162803276,

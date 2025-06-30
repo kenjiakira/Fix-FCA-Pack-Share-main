@@ -1,26 +1,80 @@
 {
   "users": {
-    "100076957299243": {
-      "spinsUsed": 3,
-      "lastSpin": 1749994478855,
+    "61566789515977": {
+      "spinsUsed": 1,
+      "lastSpin": 1751259810007,
       "history": [
         {
-          "timestamp": 1749994463513,
+          "timestamp": 1751259810007,
+          "prizeId": 1,
+          "prizeName": "500 xu"
+        }
+      ]
+    },
+    "61554901426430": {
+      "spinsUsed": 1,
+      "lastSpin": 1751259837813,
+      "history": [
+        {
+          "timestamp": 1751259837813,
+          "prizeId": 8,
+          "prizeName": "50 EXP"
+        }
+      ]
+    },
+    "61565143866197": {
+      "spinsUsed": 1,
+      "lastSpin": 1751259841832,
+      "history": [
+        {
+          "timestamp": 1751259841832,
+          "prizeId": 7,
+          "prizeName": "10 EXP"
+        }
+      ]
+    },
+    "100076957299243": {
+      "spinsUsed": 3,
+      "lastSpin": 1751264746704,
+      "history": [
+        {
+          "timestamp": 1751264734427,
+          "prizeId": 5,
+          "prizeName": "50,000 xu"
+        },
+        {
+          "timestamp": 1751264741525,
+          "prizeId": 4,
+          "prizeName": "10,000 xu"
+        },
+        {
+          "timestamp": 1751264746704,
+          "prizeId": 3,
+          "prizeName": "5,000 xu"
+        }
+      ]
+    },
+    "61561277064921": {
+      "spinsUsed": 3,
+      "lastSpin": 1751264804816,
+      "history": [
+        {
+          "timestamp": 1751264786236,
+          "prizeId": 4,
+          "prizeName": "10,000 xu"
+        },
+        {
+          "timestamp": 1751264796348,
           "prizeId": 10,
           "prizeName": "200 EXP"
         },
         {
-          "timestamp": 1749994471292,
-          "prizeId": 9,
-          "prizeName": "100 EXP"
-        },
-        {
-          "timestamp": 1749994478855,
-          "prizeId": 2,
-          "prizeName": "1,000 xu"
+          "timestamp": 1751264804816,
+          "prizeId": 1,
+          "prizeName": "500 xu"
         }
       ]
     }
   },
-  "lastReset": 1749994462238
+  "lastReset": 1751259809769
 }

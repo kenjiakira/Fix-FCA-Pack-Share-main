@@ -147,17 +147,22 @@
     "61561277064921": {
       "portfolio": {
         "AKI": {
-          "shares": 100,
-          "avgBuyPrice": 17.754079369112155,
-          "totalInvested": 1775.4079369112155
+          "shares": 200100,
+          "avgBuyPrice": 9.779356843152364,
+          "totalInvested": 1956849.304314788
+        },
+        "GOOG": {
+          "shares": 31000,
+          "avgBuyPrice": 130.66858246897982,
+          "totalInvested": 4050726.056538374
         }
       },
-      "cash": 4086665.8379837195,
-      "invested": 1775.4079369112155,
+      "cash": 129176.68232917227,
+      "invested": 6006777.489864441,
       "totalProfit": 0,
-      "tradeCount": 1,
+      "tradeCount": 7,
       "successTrades": 0,
-      "lastUpdated": 1748250092307,
+      "lastUpdated": 1751265308229,
       "createdAt": 1748250030380
     }
   }
