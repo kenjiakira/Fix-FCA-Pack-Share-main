@@ -1,4 +1,4 @@
-const { GoogleGenerativeAI } = require("@google/generative-ai");
+const { useGPTWithHistory } = require('../utils/gptHook');
 const config = require('../utils/api');
 const fs = require('fs');
 const path = require('path');
@@ -32,11 +32,11 @@ function saveNewDebate(topic, analysis) {
             analysis: analysis,
             timestamp: Date.now()
         });
-        
+
         if (usedDebates.length > 100) {
             usedDebates.splice(0, usedDebates.length - 100);
         }
-        
+
         fs.writeFileSync(DEBATES_FILE, JSON.stringify(usedDebates, null, 2));
     } catch (err) {
         console.error('Lỗi lưu debate:', err);
@@ -72,44 +72,43 @@ module.exports = {
         const loadingMessage = await api.sendMessage("⚖️ Đang phân tích vấn đề...", threadID, messageID);
 
         try {
-            const genAI = new GoogleGenerativeAI(config.GEMINI.API_KEY);
-            const model = genAI.getGenerativeModel({ 
-                model: "gemini-1.5-flash",
-                generationConfig: {
-                    temperature: 0.7,
-                    maxOutputTokens: 1000,
-                }
-            });
-
             const usedDebates = getUsedDebates();
-            const existingDebate = usedDebates.find(d => d.topic.toLowerCase() === topic.toLowerCase());
+            const usedContent = usedDebates
+                .filter(d => d.topic.toLowerCase() === topic.toLowerCase())
+                .map(d => d.analysis);
 
-            const prompt = `Hãy phân tích vấn đề "${topic}" bằng tiếng Việt một cách khách quan:
-            - Yêu cầu:
-              + Nêu ưu điểm và nhược điểm
-              + Dẫn chứng cụ thể, thực tế
-              + Đưa ra các góc nhìn khác nhau
-              + Không thiên vị
-              + Kết luận mở
-              + KHÔNG được chú thích hay giải thích gì thêm
-              + CHỈ trả về nội dung phân tích
-              + PHẢI HOÀN TOÀN MỚI${existingDebate ? ', không được giống với phân tích đã có:\n' + existingDebate.analysis : ''}`;
+            const prompt = `Hãy phân tích vấn đề "${topic}" một cách khách quan và đa chiều.
 
-            const result = await model.generateContent(prompt);
-            const analysis = result.response.text();
+Yêu cầu cụ thể:
+- Nêu rõ ưu điểm và nhược điểm
+- Dẫn chứng cụ thể, thực tế từ Việt Nam và thế giới
+- Đưa ra các góc nhìn khác nhau (kinh tế, xã hội, môi trường, công nghệ...)
+- Giữ thái độ trung lập, không thiên vị
+- Kết luận mở, khuyến khích suy nghĩ
+- CHỈ trả về nội dung phân tích, không có lời giới thiệu hay kết thúc
+- Nội dung phải hoàn toàn mới và khác biệt`;
+
+            const analysis = await useGPTWithHistory({
+                prompt: prompt,
+                systemPrompt: "Bạn là một chuyên gia phân tích vấn đề xã hội, có khả năng nhìn nhận vấn đề từ nhiều góc độ khác nhau một cách khách quan và cân bằng.",
+                type: "analytical",
+                usedContent: usedContent,
+                historyFile: DEBATES_FILE,
+                context: `Chủ đề phân tích: ${topic}`
+            });
 
             // Lưu debate mới
             saveNewDebate(topic, analysis);
 
             const message = `⚖️ PHÂN TÍCH: ${topic.toUpperCase()}\n` +
-                          `\n${analysis}\n` +
-                          `\n━━━━━━━━━━━━━━━━━━━\n` +
-                          `👍 Thả cảm xúc để xem phân tích khác`;
+                `\n${analysis}\n` +
+                `\n━━━━━━━━━━━━━━━━━━━\n` +
+                `👍 Thả cảm xúc để xem phân tích khác`;
 
             await api.sendMessage(message, threadID, (error, info) => {
                 if (!error) {
-                    global.client.callReact.push({ 
-                        messageID: info.messageID, 
+                    global.client.callReact.push({
+                        messageID: info.messageID,
                         name: this.name,
                         topic: topic
                     });
@@ -127,45 +126,43 @@ module.exports = {
     callReact: async function ({ reaction, api, event }) {
         if (reaction !== '👍') return;
         const { threadID } = event;
-        
+
         try {
-            const genAI = new GoogleGenerativeAI(config.GEMINI.API_KEY);
-            const model = genAI.getGenerativeModel({ 
-                model: "gemini-1.5-flash",
-                generationConfig: {
-                    temperature: 0.7,
-                    maxOutputTokens: 1000,
-                }
-            });
-
             const usedDebates = getUsedDebates();
-            const existingDebate = usedDebates.find(d => d.topic.toLowerCase() === reaction.topic.toLowerCase());
+            const usedContent = usedDebates
+                .filter(d => d.topic.toLowerCase() === reaction.topic.toLowerCase())
+                .map(d => d.analysis);
 
-            const prompt = `Hãy phân tích vấn đề "${reaction.topic}" bằng tiếng Việt một cách khách quan:
-            - Yêu cầu:
-              + Nêu ưu điểm và nhược điểm
-              + Dẫn chứng cụ thể, thực tế
-              + Đưa ra các góc nhìn khác nhau
-              + Không thiên vị
-              + Kết luận mở
-              + KHÔNG được chú thích hay giải thích gì thêm
-              + CHỈ trả về nội dung phân tích
-              + PHẢI HOÀN TOÀN MỚI${existingDebate ? ', không được giống với phân tích đã có:\n' + existingDebate.analysis : ''}`;
+            const prompt = `Hãy phân tích vấn đề "${reaction.topic}" từ một góc nhìn mới và khác biệt.
 
-            const result = await model.generateContent(prompt);
-            const analysis = result.response.text();
+Yêu cầu cụ thể:
+- Tập trung vào các khía cạnh chưa được đề cập
+- Đưa ra các ví dụ và dẫn chứng mới
+- Phân tích từ góc độ khác (văn hóa, tâm lý, lịch sử, tương lai...)
+- Giữ thái độ khách quan và cân bằng
+- CHỈ trả về nội dung phân tích mới
+- Nội dung phải hoàn toàn khác với các phân tích trước`;
+
+            const analysis = await useGPTWithHistory({
+                prompt: prompt,
+                systemPrompt: "Bạn là một chuyên gia phân tích đa ngành, có khả năng nhìn vấn đề từ những góc độ sáng tạo và độc đáo mà ít người nghĩ tới.",
+                type: "analytical",
+                usedContent: usedContent,
+                historyFile: DEBATES_FILE,
+                context: `Phân tích mới cho chủ đề: ${reaction.topic}`
+            });
 
             // Lưu debate mới
             saveNewDebate(reaction.topic, analysis);
 
             const message = `⚖️ PHÂN TÍCH: ${reaction.topic.toUpperCase()}\n` +
-                          `\n${analysis}\n` +
-                          `\n━━━━━━━━━━━━━━━━━━━\n` +
-                          `👍 Thả cảm xúc để xem phân tích khác`;
+                `\n${analysis}\n` +
+                `\n━━━━━━━━━━━━━━━━━━━\n` +
+                `👍 Thả cảm xúc để xem phân tích khác`;
 
             const sent = await api.sendMessage(message, threadID);
-            global.client.callReact.push({ 
-                messageID: sent.messageID, 
+            global.client.callReact.push({
+                messageID: sent.messageID,
                 name: this.name,
                 topic: reaction.topic
             });
@@ -175,4 +172,4 @@ module.exports = {
             api.sendMessage("❌ Đã xảy ra lỗi khi phân tích mới: " + error.message, threadID);
         }
     }
-}; 
+};

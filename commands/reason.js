@@ -1,6 +1,4 @@
 const { useGPT } = require("../utils/gptHook");
-const fs = require("fs-extra");
-const path = require("path");
 
 module.exports = {
   name: "reason",

@@ -1,5 +1,4 @@
-const { GoogleGenerativeAI } = require("@google/generative-ai");
-const config = require('../utils/api');
+const { useGPTWithHistory } = require('../utils/gptHook');
 const fs = require('fs');
 const path = require('path');
 
@@ -72,33 +71,25 @@ module.exports = {
         const loadingMessage = await api.sendMessage("💭 Đang tìm lời khuyên phù hợp...", threadID, messageID);
 
         try {
-            const genAI = new GoogleGenerativeAI(config.GEMINI.API_KEY);
-            const model = genAI.getGenerativeModel({
-                model: "gemini-1.5-flash",
-                generationConfig: {
-                    temperature: 0.7,
-                    maxOutputTokens: 1000,
-                }
+            const usedAdvices = getUsedAdvices();
+
+            const advice = await useGPTWithHistory({
+                prompt: `Hãy đưa ra lời khuyên cho vấn đề "${problem}"`,
+                systemPrompt: `Bạn là một chuyên gia tư vấn tâm lý có kinh nghiệm. Hãy:
+                - Thấu hiểu và đồng cảm với vấn đề
+                - Đưa ra nhiều giải pháp khả thi và thực tế
+                - Phân tích ưu nhược điểm mỗi giải pháp
+                - Động viên, khích lệ tinh thần
+                - Sử dụng ngôn ngữ ấm áp, dễ hiểu
+                - KHÔNG được chú thích hay giải thích gì thêm
+                - CHỈ trả về nội dung lời khuyên trực tiếp`,
+                type: "educational",
+                historyFile: ADVICES_FILE,
+                maxHistory: 100,
+                usedContent: usedAdvices.map(a => a.advice),
+                context: `Vấn đề cần tư vấn: ${problem}`
             });
 
-            const usedAdvices = getUsedAdvices();
-            const existingAdvice = usedAdvices.find(a => a.problem.toLowerCase() === problem.toLowerCase());
-
-            const prompt = `Hãy đưa ra lời khuyên cho vấn đề "${problem}" bằng tiếng Việt:
-            - Yêu cầu:
-              + Thấu hiểu và đồng cảm
-              + Đưa ra nhiều giải pháp khả thi
-              + Phân tích ưu nhược điểm mỗi giải pháp
-              + Lời khuyên thực tế, dễ thực hiện
-              + Động viên, khích lệ tinh thần
-              + KHÔNG được chú thích hay giải thích gì thêm
-              + CHỈ trả về nội dung lời khuyên
-              + PHẢI HOÀN TOÀN MỚI${existingAdvice ? ', không được giống với lời khuyên đã có:\n' + existingAdvice.advice : ''}`;
-
-            const result = await model.generateContent(prompt);
-            const advice = result.response.text();
-
-            // Lưu advice mới
             saveNewAdvice(problem, advice);
 
             const message = `💭 LỜI KHUYÊN: ${problem.toUpperCase()}\n` +
@@ -129,33 +120,26 @@ module.exports = {
         const { threadID } = event;
 
         try {
-            const genAI = new GoogleGenerativeAI(config.GEMINI.API_KEY);
-            const model = genAI.getGenerativeModel({
-                model: "gemini-1.5-flash",
-                generationConfig: {
-                    temperature: 0.7,
-                    maxOutputTokens: 1000,
-                }
+            const usedAdvices = getUsedAdvices();
+
+            const advice = await useGPTWithHistory({
+                prompt: `Hãy đưa ra lời khuyên MỚI và KHÁC BIỆT cho vấn đề "${reaction.problem}"`,
+                systemPrompt: `Bạn là một chuyên gia tư vấn tâm lý có kinh nghiệm. Hãy:
+                - Thấu hiểu và đồng cảm với vấn đề
+                - Đưa ra nhiều giải pháp khả thi và thực tế
+                - Phân tích ưu nhược điểm mỗi giải pháp
+                - Động viên, khích lệ tinh thần
+                - Sử dụng ngôn ngữ ấm áp, dễ hiểu
+                - KHÔNG được chú thích hay giải thích gì thêm
+                - CHỈ trả về nội dung lời khuyên trực tiếp
+                - PHẢI HOÀN TOÀN MỚI và khác với những lời khuyên đã có`,
+                type: "educational",
+                historyFile: ADVICES_FILE,
+                maxHistory: 100,
+                usedContent: usedAdvices.map(a => a.advice),
+                context: `Vấn đề cần tư vấn: ${reaction.problem}`
             });
 
-            const usedAdvices = getUsedAdvices();
-            const existingAdvice = usedAdvices.find(a => a.problem.toLowerCase() === reaction.problem.toLowerCase());
-
-            const prompt = `Hãy đưa ra lời khuyên cho vấn đề "${reaction.problem}" bằng tiếng Việt:
-            - Yêu cầu:
-              + Thấu hiểu và đồng cảm
-              + Đưa ra nhiều giải pháp khả thi
-              + Phân tích ưu nhược điểm mỗi giải pháp
-              + Lời khuyên thực tế, dễ thực hiện
-              + Động viên, khích lệ tinh thần
-              + KHÔNG được chú thích hay giải thích gì thêm
-              + CHỈ trả về nội dung lời khuyên
-              + PHẢI HOÀN TOÀN MỚI${existingAdvice ? ', không được giống với lời khuyên đã có:\n' + existingAdvice.advice : ''}`;
-
-            const result = await model.generateContent(prompt);
-            const advice = result.response.text();
-
-            // Lưu advice mới
             saveNewAdvice(reaction.problem, advice);
 
             const message = `💭 LỜI KHUYÊN: ${reaction.problem.toUpperCase()}\n` +
@@ -175,4 +159,4 @@ module.exports = {
             api.sendMessage("❌ Đã xảy ra lỗi khi tư vấn mới: " + error.message, threadID);
         }
     }
-}; 
+};

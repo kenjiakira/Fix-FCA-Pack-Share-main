@@ -10,7 +10,7 @@ module.exports = {
     name: "nsfw",
     Dev: "HNT",
     info: "Quản lý lệnh NSFW (18+)",
-    category: "Admin Commnands",
+    category: "Admin Commands",
     usages: "nsfw on: Bật lệnh NSFW trong nhóm\nnsfw off: Tắt lệnh NSFW trong nhóm\nnsfw block [uid]: (Admin) Chặn người dùng sử dụng lệnh NSFW\nnsfw unblock [uid]: (Admin) Bỏ chặn người dùng sử dụng lệnh NSFW\nnsfw status: Xem trạng thái NSFW của nhóm hiện tại",
     usedby: 1,
     onPrefix: true,

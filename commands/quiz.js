@@ -4,7 +4,6 @@ const { updateBalance } = require('../utils/currencies');
 const { createQuizCanvas, createQuizResultCanvas, canvasToStream } = require('../game/canvas/quizCanvas');
 const { useGPT } = require('../utils/gptHook');
 
-const API_KEYS = JSON.parse(fs.readFileSync(path.join(__dirname, "./json/chatbot/key.json"))).api_keys;
 const QUESTIONS_FILE = path.join(__dirname, './json/quiz/questions.json');
 const HISTORY_FILE = path.join(__dirname, './json/quiz/history.json');
 

@@ -6,13 +6,15 @@ const { Canvas, Image, ImageData, loadImage, createCanvas } = require('canvas');
 const faceapi = require('face-api.js');
 const { ZM_API } = require('../utils/api');
 
+require('dotenv').config();
+
 const UNSPLASH_ACCESS_KEY = 'USC-YIdoZxMRxblaePKXocUs6Up7EAbqDbInZ0z5r4U';
 const cacheDir = path.join(__dirname, 'cache');
 if (!fs.existsSync(cacheDir)) fs.mkdirSync(cacheDir);
 
 faceapi.env.monkeyPatch({ Canvas, Image, ImageData });
 
-const imgurClientId = '34dc774b8c0ddae'; // Sử dụng client ID giống như trong imgur.js
+const imgurClientId = process.env.IMGUR_CLIENT_ID;
 
 module.exports = {
   name: "image",

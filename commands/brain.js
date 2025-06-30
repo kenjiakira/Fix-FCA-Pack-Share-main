@@ -1,6 +1,3 @@
-const fs = require('fs');
-const path = require('path');
-
 const chess = require('./chess');
 const altp = require('./altp');
 const puzzle = require('./puzzle');
