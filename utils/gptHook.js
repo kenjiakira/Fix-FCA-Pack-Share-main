@@ -54,6 +54,7 @@ const DEFAULT_CONFIGS = {
  * @param {Object} options.config - Cấu hình tùy chỉnh (optional)
  * @param {Array} options.usedContent - Nội dung đã sử dụng để tránh lặp (optional)
  * @param {string} options.context - Context bổ sung (optional)
+ * @param {string} options.imageBase64 - Base64 image for vision (optional)
  * @returns {Promise<string>} Response từ GPT
  */
 const useGPT = async (options) => {
@@ -63,7 +64,8 @@ const useGPT = async (options) => {
         type = "conversational",
         config = {},
         usedContent = [],
-        context = ""
+        context = "",
+        imageBase64 = null
     } = options;
 
     if (!prompt) {
@@ -84,7 +86,7 @@ const useGPT = async (options) => {
     const fullSystemPrompt = buildSystemPrompt(systemPrompt, type, usedContent, context);
 
     try {
-        return await callGPT(prompt, fullSystemPrompt, finalConfig);
+        return await callGPT(prompt, fullSystemPrompt, finalConfig, imageBase64);
     } catch (error) {
         console.error(`Error with GPT:`, error);
         throw error;
@@ -137,23 +139,46 @@ const buildSystemPrompt = (customPrompt, type, usedContent, context) => {
 /**
  * Gọi GPT API
  */
-const callGPT = async (prompt, systemPrompt, config) => {
+const callGPT = async (prompt, systemPrompt, config, imageBase64 = null) => {
     const openai = new OpenAI({
         apiKey: GPT_API_KEY
     });
 
+  
+    const messages = [
+        {
+            role: "system",
+            content: systemPrompt
+        }
+    ];
+
+    if (imageBase64) {
+        messages.push({
+            role: "user",
+            content: [
+                {
+                    type: "text",
+                    text: prompt
+                },
+                {
+                    type: "image_url",
+                    image_url: {
+                        url: imageBase64,
+                        detail: "high"
+                    }
+                }
+            ]
+        });
+    } else {
+        messages.push({
+            role: "user",
+            content: prompt
+        });
+    }
+
     const result = await openai.chat.completions.create({
-        model: "gpt-4o-mini",
-        messages: [
-            {
-                role: "system",
-                content: systemPrompt
-            },
-            {
-                role: "user",
-                content: prompt
-            }
-        ],
+        model: "gpt-4.1-mini",
+        messages: messages,
         temperature: config.temperature,
         max_tokens: config.max_tokens,
         presence_penalty: config.presence_penalty,
