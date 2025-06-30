@@ -131599,5 +131599,18 @@
     "obtainedAt": 1748533636190,
     "value": 2500,
     "isFragment": true
+  },
+  "CHAR_151105010": {
+    "type": "character",
+    "name": "Noelle",
+    "obtainedAt": 1749534774550,
+    "value": 196,
+    "level": 1,
+    "exp": 0,
+    "stats": {
+      "atk": 93,
+      "def": 102,
+      "hp": 520
+    }
   }
 }
