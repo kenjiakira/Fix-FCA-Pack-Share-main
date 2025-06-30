@@ -1,4 +1,4 @@
-const { GoogleGenerativeAI } = require("@google/generative-ai");
+const { useGPTWithHistory } = require('../utils/gptHook');
 const config = require('../utils/api');
 const fs = require('fs');
 const path = require('path');
@@ -36,18 +36,18 @@ function saveNewContent(type, content, extras = {}) {
     try {
         const storage = JSON.parse(fs.readFileSync(STORAGE_FILE, 'utf8'));
         if (!storage[type]) storage[type] = [];
-        
+
         storage[type].push({
             content,
             ...extras,
             timestamp: Date.now()
         });
-        
+
         // Keep only last 100 entries
         if (storage[type].length > 100) {
             storage[type].splice(0, storage[type].length - 100);
         }
-        
+
         fs.writeFileSync(STORAGE_FILE, JSON.stringify(storage, null, 2));
     } catch (err) {
         console.error(`Lỗi lưu ${type}:`, err);
@@ -105,15 +105,6 @@ module.exports = {
         const loadingMessage = await api.sendMessage("⌛ Đang tạo nội dung...", threadID, messageID);
 
         try {
-            const genAI = new GoogleGenerativeAI(config.GEMINI.API_KEY);
-            const model = genAI.getGenerativeModel({ 
-                model: "gemini-1.5-flash",
-                generationConfig: {
-                    temperature: 0.9,
-                    maxOutputTokens: 1000,
-                }
-            });
-
             let prompt, result, message;
             const usedContent = getUsedContent(type + 's');
 
@@ -125,19 +116,27 @@ module.exports = {
                         return api.sendMessage("❌ Vui lòng chọn số từ 1-6 cho thể loại truyện!", threadID, messageID);
                     }
 
-                    prompt = `Hãy kể một câu chuyện ngắn bằng tiếng Việt:
-                    - Thể loại: ${storyTypes[storyType].description}
-                    - Độ dài 3-5 đoạn ngắn
-                    - Cốt truyện hấp dẫn, logic
-                    - Tình tiết bất ngờ
-                    - Kết thúc ấn tượng
-                    - PHẢI HOÀN TOÀN MỚI`;
+                    prompt = `Kể một câu chuyện ngắn thể loại ${storyTypes[storyType].description}.
 
-                    result = await model.generateContent(prompt);
-                    const story = result.response.text();
-                    saveNewContent('stories', story);
+Yêu cầu:
+- Độ dài 3-5 đoạn ngắn
+- Cốt truyện hấp dẫn, logic
+- Tình tiết bất ngờ
+- Kết thúc ấn tượng
+- CHỈ trả về nội dung câu chuyện
+- Phải hoàn toàn mới và độc đáo`;
 
-                    message = `📚 ${storyTypes[storyType].name.toUpperCase()}\n\n${story}`;
+                    result = await useGPTWithHistory({
+                        prompt: prompt,
+                        systemPrompt: "Bạn là một nhà văn tài năng, giỏi kể chuyện và tạo ra những câu chuyện hấp dẫn, cảm động.",
+                        type: "creative",
+                        usedContent: usedContent.map(item => item.content),
+                        historyFile: STORAGE_FILE,
+                        context: `Thể loại: ${storyTypes[storyType].name}`
+                    });
+
+                    saveNewContent('stories', result);
+                    message = `📚 ${storyTypes[storyType].name.toUpperCase()}\n\n${result}`;
                     break;
                 }
 
@@ -149,18 +148,26 @@ module.exports = {
                         return api.sendMessage("❌ Vui lòng chọn số từ 1-6 và nhập chủ đề cho bài thơ!", threadID, messageID);
                     }
 
-                    prompt = `Hãy sáng tác một bài thơ bằng tiếng Việt:
-                    - Thể loại: ${poemTypes[poemType].description}
-                    - Chủ đề: ${topic}
-                    - Độ dài 4-8 câu
-                    - Ý thơ sâu sắc, hình ảnh đẹp
-                    - PHẢI HOÀN TOÀN MỚI`;
+                    prompt = `Sáng tác một bài thơ ${poemTypes[poemType].description} về chủ đề "${topic}".
 
-                    result = await model.generateContent(prompt);
-                    const poem = result.response.text();
-                    saveNewContent('poems', poem, { topic });
+Yêu cầu:
+- Độ dài 4-8 câu
+- Ý thơ sâu sắc, hình ảnh đẹp
+- Tuân thủ thể thơ đã chọn
+- CHỈ trả về bài thơ
+- Phải hoàn toàn mới và sáng tạo`;
 
-                    message = `📝 ${poemTypes[poemType].name.toUpperCase()}\n💭 Chủ đề: ${topic}\n\n${poem}`;
+                    result = await useGPTWithHistory({
+                        prompt: prompt,
+                        systemPrompt: "Bạn là một nhà thơ tài ba, am hiểu các thể thơ Việt Nam và có khả năng sáng tác những bài thơ hay, ý nghĩa.",
+                        type: "creative",
+                        usedContent: usedContent.map(item => item.content),
+                        historyFile: STORAGE_FILE,
+                        context: `Thể thơ: ${poemTypes[poemType].name}, Chủ đề: ${topic}`
+                    });
+
+                    saveNewContent('poems', result, { topic });
+                    message = `📝 ${poemTypes[poemType].name.toUpperCase()}\n💭 Chủ đề: ${topic}\n\n${result}`;
                     break;
                 }
 
@@ -171,44 +178,74 @@ module.exports = {
                         return api.sendMessage("❌ Vui lòng nhập chủ đề cho câu nói hay!", threadID, messageID);
                     }
 
-                    prompt = `Hãy tạo một câu nói hay bằng tiếng Việt:
-                    - Chủ đề: ${topic}
-                    - Ngắn gọn, súc tích
-                    - Ý nghĩa sâu sắc
-                    - PHẢI HOÀN TOÀN MỚI`;
+                    prompt = `Tạo một câu nói hay về chủ đề "${topic}".
 
-                    result = await model.generateContent(prompt);
-                    const quote = result.response.text();
-                    saveNewContent('quotes', quote, { topic });
+Yêu cầu:
+- Ngắn gọn, súc tích
+- Ý nghĩa sâu sắc, truyền cảm hứng
+- Dễ hiểu và dễ nhớ
+- CHỈ trả về câu nói
+- Phải hoàn toàn mới và độc đáo`;
 
-                    message = `💫 CHỦ ĐỀ: ${topic.toUpperCase()}\n\n${quote}`;
+                    result = await useGPTWithHistory({
+                        prompt: prompt,
+                        systemPrompt: "Bạn là một triết gia, có khả năng tạo ra những câu nói hay, sâu sắc và truyền cảm hứng.",
+                        type: "educational",
+                        usedContent: usedContent.map(item => item.content),
+                        historyFile: STORAGE_FILE,
+                        context: `Chủ đề: ${topic}`
+                    });
+
+                    saveNewContent('quotes', result, { topic });
+                    message = `💫 CHỦ ĐỀ: ${topic.toUpperCase()}\n\n${result}`;
                     break;
                 }
 
                 case 'fact': {
-                    prompt = `Hãy chia sẻ một sự thật thú vị bằng tiếng Việt:
-                    - Chính xác, súc tích
-                    - Thú vị và bất ngờ
-                    - PHẢI HOÀN TOÀN MỚI`;
+                    prompt = `Chia sẻ một sự thật thú vị mà ít người biết.
 
-                    result = await model.generateContent(prompt);
-                    const fact = result.response.text();
-                    saveNewContent('facts', fact);
+Yêu cầu:
+- Chính xác và có thể kiểm chứng
+- Thú vị và bất ngờ
+- Súc tích, dễ hiểu
+- CHỈ trả về sự thật
+- Phải hoàn toàn mới`;
 
-                    message = `📚 SỰ THẬT THÚ VỊ 📚\n\n${fact}`;
+                    result = await useGPTWithHistory({
+                        prompt: prompt,
+                        systemPrompt: "Bạn là một người am hiểu rộng về khoa học, lịch sử và các lĩnh vực khác, có khả năng chia sẻ những kiến thức thú vị.",
+                        type: "educational",
+                        usedContent: usedContent.map(item => item.content),
+                        historyFile: STORAGE_FILE,
+                        context: "Sự thật thú vị"
+                    });
+
+                    saveNewContent('facts', result);
+                    message = `📚 SỰ THẬT THÚ VỊ 📚\n\n${result}`;
                     break;
                 }
 
                 case 'joke': {
-                    prompt = `Hãy kể một câu chuyện cười ngắn bằng tiếng Việt:
-                    - Hài hước, dễ hiểu
-                    - PHẢI HOÀN TOÀN MỚI`;
+                    prompt = `Kể một câu chuyện cười ngắn.
 
-                    result = await model.generateContent(prompt);
-                    const joke = result.response.text();
-                    saveNewContent('jokes', joke);
+Yêu cầu:
+- Hài hước, dễ hiểu
+- Phù hợp mọi lứa tuổi
+- Tạo tiếng cười tự nhiên
+- CHỈ trả về truyện cười
+- Phải hoàn toàn mới`;
 
-                    message = `😄 TRUYỆN CƯỜI 😄\n\n${joke}`;
+                    result = await useGPTWithHistory({
+                        prompt: prompt,
+                        systemPrompt: "Bạn là một nghệ sĩ hài tài năng, có khả năng tạo ra những câu chuyện cười hay và phù hợp.",
+                        type: "fun",
+                        usedContent: usedContent.map(item => item.content),
+                        historyFile: STORAGE_FILE,
+                        context: "Truyện cười"
+                    });
+
+                    saveNewContent('jokes', result);
+                    message = `😄 TRUYỆN CƯỜI 😄\n\n${result}`;
                     break;
                 }
 
@@ -221,7 +258,7 @@ module.exports = {
 
             api.unsendMessage(loadingMessage.messageID);
             const sent = await api.sendMessage(message, threadID);
-            global.client.callReact.push({ 
+            global.client.callReact.push({
                 messageID: sent.messageID,
                 name: this.name,
                 type: type,
@@ -238,8 +275,85 @@ module.exports = {
     callReact: async function ({ reaction, api, event }) {
         if (reaction !== '👍') return;
         const { threadID } = event;
-        
-        // Similar structure to onLaunch but using reaction.type and reaction.extraData
-        // to determine what kind of content to generate next
+
+        try {
+            const type = reaction.type;
+            const extraData = reaction.extraData || [];
+            const usedContent = getUsedContent(type + 's');
+
+            let prompt, result, message;
+
+            switch (type) {
+                case 'story': {
+                    const storyType = extraData[0];
+                    if (!storyTypes[storyType]) return;
+
+                    prompt = `Kể một câu chuyện ngắn khác thể loại ${storyTypes[storyType].description}.
+
+Yêu cầu:
+- Cốt truyện hoàn toàn mới
+- Góc nhìn và tình tiết khác biệt
+- CHỈ trả về câu chuyện
+- Phải độc đáo và sáng tạo`;
+
+                    result = await useGPTWithHistory({
+                        prompt: prompt,
+                        systemPrompt: "Bạn là một nhà văn sáng tạo, luôn tìm cách kể chuyện từ những góc độ mới lạ và thú vị.",
+                        type: "creative",
+                        usedContent: usedContent.map(item => item.content),
+                        historyFile: STORAGE_FILE,
+                        context: `Câu chuyện mới - ${storyTypes[storyType].name}`
+                    });
+
+                    saveNewContent('stories', result);
+                    message = `📚 ${storyTypes[storyType].name.toUpperCase()}\n\n${result}`;
+                    break;
+                }
+
+                case 'poem': {
+                    const poemType = extraData[0];
+                    const topic = extraData.slice(1).join(" ");
+                    if (!poemTypes[poemType] || !topic) return;
+
+                    prompt = `Sáng tác một bài thơ mới ${poemTypes[poemType].description} về "${topic}" với cách tiếp cận khác.
+
+Yêu cầu:
+- Góc nhìn mới về chủ đề
+- Hình ảnh và ẩn dụ khác biệt
+- CHỈ trả về bài thơ
+- Phải sáng tạo và độc đáo`;
+
+                    result = await useGPTWithHistory({
+                        prompt: prompt,
+                        systemPrompt: "Bạn là nhà thơ có tài năng đặc biệt trong việc nhìn vấn đề từ nhiều góc độ khác nhau.",
+                        type: "creative",
+                        usedContent: usedContent.map(item => item.content),
+                        historyFile: STORAGE_FILE,
+                        context: `Thơ mới - ${poemTypes[poemType].name}: ${topic}`
+                    });
+
+                    saveNewContent('poems', result, { topic });
+                    message = `📝 ${poemTypes[poemType].name.toUpperCase()}\n💭 Chủ đề: ${topic}\n\n${result}`;
+                    break;
+                }
+
+                default:
+                    return;
+            }
+
+            message += "\n\n━━━━━━━━━━━━━━━━━━━\n👍 Thả cảm xúc để xem tiếp";
+
+            const sent = await api.sendMessage(message, threadID);
+            global.client.callReact.push({
+                messageID: sent.messageID,
+                name: this.name,
+                type: type,
+                extraData: extraData
+            });
+
+        } catch (error) {
+            console.error("Funtext Reaction Error:", error);
+            api.sendMessage("❌ Đã xảy ra lỗi khi tạo nội dung mới: " + error.message, threadID);
+        }
     }
 };
