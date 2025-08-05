@@ -1,85 +1,107 @@
-const vipService = require('../game/vip/vipService');
+const { addVIP, removeVIP, checkVIP, listAllVIP } = require('../utils/vipUtils');
 
 module.exports = {
     name: "setvip",
     dev: "HNT",
-    category: "Admin Commands",
-    info: "Quản lý người dùng VIP",
+    category: "Admin",
+    info: "Quản lý VIP đơn giản (Admin)",
+    usages: [
+        ".setvip add [uid] [days] - Thêm VIP",
+        ".setvip remove [uid] - Xóa VIP", 
+        ".setvip check [uid] - Kiểm tra VIP",
+        ".setvip list - Danh sách VIP"
+    ],
+    cooldowns: 5,
     onPrefix: true,
-    usages: [],
-    cooldowns: 0,
-    usedby: 2,
-    hide: true,
 
-    onLaunch: async function({ api, event, target = [] }) {
-        const { threadID, messageID, mentions, messageReply } = event;
+    onLaunch: async function ({ api, event, target }) {
+        const { threadID, messageID, senderID } = event;
+        const cmd = target[0]?.toLowerCase();
         
-        if (!target[0]) {
-            return api.sendMessage(this.usages, threadID, messageID);
+        const fs = require('fs');
+        const path = require('path');
+        const adminConfig = JSON.parse(fs.readFileSync(path.join(__dirname, "..", "admin.json"), "utf8"));
+        const adminUIDs = adminConfig.adminUIDs || [];
+        
+        if (!adminUIDs.includes(senderID)) {
+            return api.sendMessage("❌ Bạn không có quyền sử dụng lệnh này!", threadID);
         }
 
-        let userID;
-        const action = target[0].toLowerCase();
-
-        if (Object.keys(mentions).length > 0) {
-            userID = Object.keys(mentions)[0];
-        } else if (messageReply) {
-            userID = messageReply.senderID;
-        } else if (target[1]) {
-            userID = target[1];
-        }
-
-        if (!userID) {
-            return api.sendMessage("❌ Vui lòng tag người dùng, reply tin nhắn hoặc nhập ID!", threadID, messageID);
-        }
-
-        switch (action) {
-            case "set": {
-                const packageId = 3;
-
-                const result = vipService.setVIP(userID, packageId, 1);
-                
-                if (!result.success) {
-                    return api.sendMessage(`❌ ${result.message}`, threadID, messageID);
-                }
-
-                const durationText = "37 ngày (30+7 bonus)";
-                return api.sendMessage(
-                    `✅ Đã set ${result.packageName} cho ID: ${userID}\n` +
-                    `⏳ Thời hạn: ${durationText}\n` +
-                    `📅 Hết hạn: ${new Date(result.expireTime).toLocaleString('vi-VN')}`,
-                    threadID, messageID
-                );
+        if (cmd === "add") {
+            const userID = target[1];
+            const days = parseInt(target[2]) || 30;
+            
+            if (!userID) {
+                return api.sendMessage("❌ Vui lòng nhập UID người dùng!", threadID);
             }
-
-            case "check": {
-                const result = vipService.checkVIP(userID);
-                
-                if (!result.success) {
-                    return api.sendMessage(`❌ ${result.message}`, threadID, messageID);
-                }
-
-                return api.sendMessage(
-                    `👑 Thông tin VIP của ID: ${userID}\n` +
-                    `📋 Gói: ${result.packageName}\n` +
-                    `⏳ Còn lại: ${result.daysLeft} ngày\n` +
-                    `📅 Hết hạn: ${new Date(result.expireTime).toLocaleString('vi-VN')}`,
-                    threadID, messageID
-                );
+            
+            if (days <= 0 || days > 365) {
+                return api.sendMessage("❌ Số ngày phải từ 1-365!", threadID);
             }
-
-            case "remove": {
-                const result = vipService.removeVIP(userID);
-                
-                if (!result.success) {
-                    return api.sendMessage(`❌ ${result.message}`, threadID, messageID);
-                }
-
-                return api.sendMessage(`✅ Đã xóa VIP của ID: ${userID}`, threadID, messageID);
-            }
-
-            default:
-                return api.sendMessage("❌ Lệnh không hợp lệ!\n" + this.usages, threadID, messageID);
+            
+            addVIP(userID, days, 'GOLD');
+            return api.sendMessage(`✅ Đã thêm VIP GOLD cho ${userID} trong ${days} ngày!`, threadID);
         }
+
+        if (cmd === "remove") {
+            const userID = target[1];
+            
+            if (!userID) {
+                return api.sendMessage("❌ Vui lòng nhập UID người dùng!", threadID);
+            }
+            
+            if (removeVIP(userID)) {
+                return api.sendMessage(`✅ Đã xóa VIP của ${userID}!`, threadID);
+            } else {
+                return api.sendMessage(`❌ ${userID} không có VIP!`, threadID);
+            }
+        }
+
+        if (cmd === "check") {
+            const userID = target[1] || senderID;
+            const vipStatus = checkVIP(userID);
+            
+            if (vipStatus.hasVIP) {
+                const message = `👑 THÔNG TIN VIP\n` +
+                    `━━━━━━━━━━━━━━\n` +
+                    `👤 UID: ${userID}\n` +
+                    `⏰ Còn lại: ${vipStatus.daysLeft} ngày\n` +
+                    `📅 Hết hạn: ${new Date(vipStatus.expireTime).toLocaleDateString('vi-VN')}\n` +
+                    `━━━━━━━━━━━━━━`;
+                return api.sendMessage(message, threadID);
+            } else {
+                return api.sendMessage(`❌ ${userID}: ${vipStatus.message}`, threadID);
+            }
+        }
+
+        if (cmd === "list") {
+            const vipUsers = listAllVIP();
+            
+            if (vipUsers.length === 0) {
+                return api.sendMessage("📋 Không có người dùng VIP nào!", threadID);
+            }
+            
+            let message = `📋 DANH SÁCH VIP (${vipUsers.length} người)\n━━━━━━━━━━━━━━\n\n`;
+            
+            vipUsers.forEach((user, index) => {
+                message += `${index + 1}. ${user.userID}\n`;
+                message += `   ⏰ ${user.daysLeft} ngày\n`;
+                message += `   📅 ${user.expireDate}\n\n`;
+            });
+            
+            return api.sendMessage(message, threadID);
+        }
+
+        
+        const helpMessage = `👑 QUẢN LÝ VIP (ADMIN)\n` +
+            `━━━━━━━━━━━━━━\n\n` +
+            `📋 LỆNH:\n` +
+            `• .setvip add [uid] [days] - Thêm VIP\n` +
+            `• .setvip remove [uid] - Xóa VIP\n` +
+            `• .setvip check [uid] - Kiểm tra VIP\n` +
+            `• .setvip list - Danh sách VIP\n\n` +
+            `💡 Ví dụ: .setvip add 1000123456789 30`;
+        
+        return api.sendMessage(helpMessage, threadID);
     }
 };
