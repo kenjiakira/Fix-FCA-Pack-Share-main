@@ -48,7 +48,7 @@ module.exports = {
             await updateBalance(senderID, earnings);
             await updateQuestProgress(senderID, "work");
             
-            workCooldowns.set(senderID, now + 3600000);
+            workCooldowns.set(senderID, now + 900000);
             
             const message = `💰 Bạn đã làm việc và kiếm được ${earnings.toLocaleString('vi-VN')} $!`;
             

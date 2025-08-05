@@ -1,6 +1,18 @@
 {
   "news": [
     {
+      "symbol": "NFLX",
+      "headline": "Netflix Inc. nâng cấp hệ thống nội bộ để cải thiện hiệu suất.",
+      "impact": "neutral",
+      "timestamp": 1751294056303
+    },
+    {
+      "symbol": "TSLA",
+      "headline": "Tesla Inc. ra mắt dòng sản phẩm mới nhận đánh giá tích cực.",
+      "impact": "good",
+      "timestamp": 1751276162949
+    },
+    {
       "symbol": "PEP",
       "headline": "PepsiCo Inc. tăng trưởng chậm lại ở thị trường trọng điểm.",
       "impact": "bad",

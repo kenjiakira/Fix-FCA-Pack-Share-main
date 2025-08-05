@@ -184,7 +184,7 @@ module.exports = {
     let messageObject = {
       body:
         `${content ? `${content}\n\n` : ""}` +
-        `👤 Người gửi: ${senderName}\n` +
+        `👤 Người gửi: Admin\n` +
         `💌 Reply tin nhắn này để phản hồi lại`,
       attachment: attachments,
     };
