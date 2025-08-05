@@ -151,7 +151,7 @@ module.exports = {
     name: "tx",
     dev: "HNT",
     category: "Games",
-    info: "Chơi Tài Xỉu tốc độ cao (không ảnh).",
+    info: "Chơi Tài Xỉu.",
     onPrefix: true,
     usages: "tx [tài/xỉu] [số tiền/allin]",
     cooldowns: 0,

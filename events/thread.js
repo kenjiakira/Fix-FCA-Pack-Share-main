@@ -555,13 +555,13 @@ module.exports = {
               adminIDs: [],
               messageCount: {},
               lastActivity: Date.now(),
-              name: threadInfo.name || `Nhóm ${threadID}`
+              name: threadInfo?.name || `Nhóm ${threadID}`
             };
           }
 
-          if (threadInfo.imageSrc) {
+          if (threadInfo && threadInfo.imageSrc) {
             threadsDB[threadID].avatarUrl = threadInfo.imageSrc;
-          } else if (threadInfo.thumbSrc) {
+          } else if (threadInfo && threadInfo.thumbSrc) {
             threadsDB[threadID].avatarUrl = threadInfo.thumbSrc;
           }
 
