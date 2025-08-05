@@ -51,15 +51,6 @@ setInterval(() => {
   }
 }, 30000);
 
-const getUserName = (senderID) => {
-  try {
-    return `User ${senderID}`;
-  } catch (error) {
-    console.error("Error reading user name:", error);
-    return `User ${senderID}`;
-  }
-};
-
 const adjustAIParameters = (message, history, userEmotion) => {
   const text = message.toLowerCase();
   const historyLength = history.length;
@@ -791,7 +782,7 @@ module.exports = {
       
       updateHistory(threadID, body, response, senderID);
       
-      const sent = await api.sendMessage(response, threadID, messageID);
+      const sent = await api.sendMessage(response, threadID, messFageID);
       
       if (sent) {
         global.client.onReply.push({
