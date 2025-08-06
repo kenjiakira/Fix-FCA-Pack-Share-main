@@ -53,6 +53,7 @@ module.exports = {
         uptimeMessage += `▸ Hệ điều hành: ${systemInfo.platform} ${systemInfo.arch}\n`;
         uptimeMessage += `▸ Tên máy chủ: ${systemInfo.hostname}\n`;
         uptimeMessage += `▸ Thời gian hoạt động: ${systemUptime}\n`;
+        uptimeMessage += `▸ CPU Model: ${systemInfo.cpuModel}\n`;
         uptimeMessage += `══════════════════\n`;
         uptimeMessage += `🔧 Tài Nguyên Hệ Thống\n`;
         uptimeMessage += `▸ Số nhân CPU: ${systemInfo.coreCount} | Tốc độ: ${systemInfo.cpuSpeed}MHz\n`;

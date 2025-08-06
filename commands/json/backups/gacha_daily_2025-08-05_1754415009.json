@@ -735,12 +735,15 @@
       "CHAR_782284241",
       "CHAR_405228705",
       "CHAR_723735979",
-      "CHAR_707461439"
+      "CHAR_707461439",
+      "EXP_WANDERERS_ADVICE_389967022",
+      "STONE_ELECTRO_562107470",
+      "CHAR_180237602"
     ],
-    "pullsSinceLastFiveStar": 3,
-    "pullsSinceLastFourStar": 3,
-    "totalPulls": 91,
-    "lastPull": 1743079188153,
+    "pullsSinceLastFiveStar": 0,
+    "pullsSinceLastFourStar": 0,
+    "totalPulls": 96,
+    "lastPull": 1751293964441,
     "pvpTeam": [
       "CHAR_266221097",
       "CHAR_656758808",
@@ -753,10 +756,11 @@
     },
     "stellaPity": {
       "Venti": 1,
-      "Furina": 1
+      "Furina": 1,
+      "Zhongli": 1
     },
-    "pullsSinceLastStone": 13,
-    "pullsSinceLastUniversalStone": 1
+    "pullsSinceLastStone": 2,
+    "pullsSinceLastUniversalStone": 2
   },
   "100008297661441": {
     "inventory": [
@@ -970,12 +974,13 @@
       "FRAGMENT_HYDRO_344354724",
       "FRAGMENT_DENDRO_125699906",
       "EXP_ADVENTURERS_EXPERIENCE_880876488",
-      "CHAR_405201054"
+      "CHAR_405201054",
+      "EXP_HEROS_WIT_777763396"
     ],
-    "pullsSinceLastFiveStar": 4,
-    "pullsSinceLastFourStar": 4,
-    "totalPulls": 1717,
-    "lastPull": 1748506439197,
+    "pullsSinceLastFiveStar": 5,
+    "pullsSinceLastFourStar": 5,
+    "totalPulls": 1719,
+    "lastPull": 1751264780328,
     "pvpTeam": [
       "CHAR_144510188",
       "CHAR_927098477",
@@ -1011,7 +1016,7 @@
       "Diluc": 1,
       "Klee": 1
     },
-    "pullsSinceLastStone": 10,
+    "pullsSinceLastStone": 11,
     "pullsSinceLastUniversalStone": 94
   },
   "100055074463541": {
@@ -2437,5 +2442,24 @@
     "stellaPity": {
       "albedo": 1
     }
+  },
+  "61560574466446": {
+    "inventory": [
+      "FRAGMENT_ANEMO_506751411",
+      "EXP_ADVENTURERS_EXPERIENCE_951983452"
+    ],
+    "pullsSinceLastFiveStar": 0,
+    "pullsSinceLastFourStar": 0,
+    "totalPulls": 2,
+    "lastPull": 1751293043285,
+    "pullsSinceLastStone": 0,
+    "pullsSinceLastUniversalStone": 1
+  },
+  "100080942144028": {
+    "inventory": [],
+    "pullsSinceLastFiveStar": 0,
+    "pullsSinceLastFourStar": 0,
+    "totalPulls": 0,
+    "lastPull": 0
   }
 }
