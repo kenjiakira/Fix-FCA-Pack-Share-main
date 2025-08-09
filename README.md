@@ -205,5 +205,5 @@ actions.reply(bold);
 - Hỗ trợ các sự kiện như phản hồi (`onReply`), thả reaction (`callReact`).
 - Hành động hỗ trợ: `reply`, `react`, `edit`, `kick`, `leave`, và nhiều hơn nữa.
 - Dễ dàng mở rộng với các tùy chỉnh toàn cục và bí danh (`nickName`).
-
+Được tạo bởi Kenji Akira
 Cảm ơn Kaguya Teams và cộng đồng phát triển Chatbot vì đã tạo nguồn cảm hứng!

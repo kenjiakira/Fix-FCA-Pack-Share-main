@@ -758,7 +758,7 @@ const updateHistory = (threadID, userMessage, botResponse, senderID) => {
   clearTimeout(updateHistory.saveTimeout);
   updateHistory.saveTimeout = setTimeout(() => {
     saveConversationHistory(conversationHistory);
-  }, 5000);
+  }, 10000);
 };
 
 module.exports = {
@@ -782,7 +782,7 @@ module.exports = {
       
       updateHistory(threadID, body, response, senderID);
       
-      const sent = await api.sendMessage(response, threadID, messFageID);
+      const sent = await api.sendMessage(response, threadID, messageID);
       
       if (sent) {
         global.client.onReply.push({

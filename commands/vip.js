@@ -21,6 +21,10 @@ module.exports = {
         const { threadID, messageID, senderID } = event;
         const cmd = target[0]?.toLowerCase();
 
+        const adminConfig = JSON.parse(fs.readFileSync(path.join(__dirname, "..", "admin.json"), "utf8"));
+        const adminUIDs = adminConfig.adminUIDs || [];
+        const isAdmin = adminUIDs.includes(senderID);
+
         if (cmd === "check") {
             const vipStatus = checkVIP(senderID);
             if (vipStatus.hasVIP) {
@@ -36,13 +40,8 @@ module.exports = {
             }
         }
 
-
         if (cmd === "add" || cmd === "remove" || cmd === "list") {
-        
-            const adminConfig = JSON.parse(fs.readFileSync(path.join(__dirname, "..", "admin.json"), "utf8"));
-            const adminUIDs = adminConfig.adminUIDs || [];
-            
-            if (!adminUIDs.includes(senderID)) {
+            if (!isAdmin) {
                 return api.sendMessage("❌ Bạn không có quyền sử dụng lệnh này!", threadID);
             }
 
@@ -96,7 +95,7 @@ module.exports = {
         }
 
         // VIP package info
-        if (cmd === "info") {
+        if (cmd === "gold") {
             const message = `👑 THÔNG TIN GÓI VIP GOLD\n` +
                 `━━━━━━━━━━━━━━\n\n` +
                 `💰 Giá: 49,000đ / 37 ngày\n` +
@@ -113,16 +112,20 @@ module.exports = {
             return api.sendMessage(message, threadID);
         }
 
-        // Default help message
-        const helpMessage = `👑 HỆ THỐNG VIP ĐƠN GIẢN\n` +
+
+        let helpMessage = `👑 HỆ THỐNG VIP\n` +
             `━━━━━━━━━━━━━━\n\n` +
             `📋 LỆNH:\n` +
             `• .vip check - Kiểm tra VIP\n` +
-            `• .vip info - Thông tin gói VIP\n` +
-            `• .vip add [uid] [days] - Thêm VIP (Admin)\n` +
-            `• .vip remove [uid] - Xóa VIP (Admin)\n` +
-            `• .vip list - Danh sách VIP (Admin)\n\n` +
-            `💡 Thanh toán: .qr vip gold`;
+            `• .vip gold - Thông tin gói VIP\n`;
+        
+        if (isAdmin) {
+            helpMessage += `• .vip add [uid] [days] - Thêm VIP (Admin)\n` +
+                `• .vip remove [uid] - Xóa VIP (Admin)\n` +
+                `• .vip list - Danh sách VIP (Admin)\n`;
+        }
+        
+        helpMessage += `\n💡 Thanh toán: .qr vip gold`;
         
         return api.sendMessage(helpMessage, threadID);
     }
