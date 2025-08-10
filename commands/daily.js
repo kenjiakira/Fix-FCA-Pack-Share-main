@@ -799,7 +799,7 @@ class DailyRewardManager {
       }
       
       // Create default avatar if it doesn't exist
-      const defaultAvatarPath = path.join(__dirname, "./cache/avatar.jpg");
+      const defaultAvatarPath = path.join(__dirname, "./cache/avatars/avatar.jpg");
       if (!fsSync.existsSync(defaultAvatarPath)) {
         try {
           console.log("⚠️ Default avatar not found, creating one...");
@@ -870,7 +870,7 @@ class DailyRewardManager {
       }
     } catch (error) {
       console.error(`Error in getAvatarPath for ${userId}:`, error.message);
-      const defaultAvatarPath = path.join(__dirname, "./cache/avatar.jpg");
+      const defaultAvatarPath = path.join(__dirname, "./cache/avatars/avatar.jpg");
       if (fsSync.existsSync(defaultAvatarPath)) {
         return defaultAvatarPath;
       }
