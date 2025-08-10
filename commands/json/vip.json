@@ -1,5 +1,11 @@
 {
   "users": {
+    "365": {
+      "type": "GOLD",
+      "expireTime": 1757409441229,
+      "addedDate": 1754817441229,
+      "days": 30
+    },
     "61573427362389": {
       "packageId": 3,
       "name": "VIP Gold",
@@ -68,6 +74,12 @@
       "type": "GOLD",
       "expireTime": 1786201769335,
       "addedDate": 1754665769335,
+      "days": 365
+    },
+    "100028202556430": {
+      "type": "GOLD",
+      "expireTime": 1786257082239,
+      "addedDate": 1754721082239,
       "days": 365
     }
   }

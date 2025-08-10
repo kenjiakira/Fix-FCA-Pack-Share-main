@@ -232,14 +232,14 @@ async function createCheckTTCanvas(memberStats, threadID, threadName, senderID, 
                     } catch (avatarError) {
                         console.error(`Error loading avatar for ${member.userID}:`, avatarError);
                         // Use default avatar if can't load
-                        const defaultAvatarPath = path.join(__dirname, '../../commands/cache/avatar.jpg');
+                        const defaultAvatarPath = path.join(__dirname, '../../commands/cache/avatars/avatar.jpg');
                         if (fs.existsSync(defaultAvatarPath)) {
                             avatar = await loadImage(defaultAvatarPath);
                         }
                     }
                 } else {
                     // Use default avatar if no avatar in userAvatars
-                    const defaultAvatarPath = path.join(__dirname, '../../commands/cache/avatar.jpg');
+                    const defaultAvatarPath = path.join(__dirname, '../../commands/cache/avatars/avatar.jpg');
                     if (fs.existsSync(defaultAvatarPath)) {
                         avatar = await loadImage(defaultAvatarPath);
                     }
@@ -416,7 +416,7 @@ async function getAvatarPath(userId) {
         }
 
         // Check if default avatar exists
-        const defaultAvatarPath = path.join(__dirname, '../../commands/cache/avatar.jpg');
+        const defaultAvatarPath = path.join(__dirname, '../../commands/cache/avatars/avatar.jpg');
         const defaultAvatarExists = fs.existsSync(defaultAvatarPath);
 
         // Try to get avatar from Facebook Graph API
@@ -446,7 +446,7 @@ async function getAvatarPath(userId) {
         console.error(`Error in getAvatarPath for ${userId}:`, error.message);
         
         // Always return default avatar if available
-        const defaultAvatarPath = path.join(__dirname, '../../commands/cache/avatar.jpg');
+        const defaultAvatarPath = path.join(__dirname, '../../commands/cache/avatars/avatar.jpg');
         if (fs.existsSync(defaultAvatarPath)) {
             return defaultAvatarPath;
         }

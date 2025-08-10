@@ -446,7 +446,7 @@ module.exports = {
         ctx.restore();
 
         if (isVIP) {
-          const packageInfo = userVipStatus[userID].packageInfo;
+          const packageInfo = userVipStatus[userID]?.packageInfo;
 
           // Position VIP badge at the far right of the user row with better vertical centering
           const vipBadgeX = width - 130; // Same horizontal position (far right)
@@ -490,7 +490,7 @@ module.exports = {
           // VIP text or image
           try {
             // Check if we have an image URL or load default text
-            const vipImage = packageInfo.badgeUrl || 'https://imgur.com/hvce4my.png'; // Default VIP badge if none provided
+            const vipImage = packageInfo?.badgeUrl || 'https://imgur.com/hvce4my.png'; // Default VIP badge if none provided
             const badge = await loadImage(vipImage);
 
             // Draw the VIP badge image - precise positioning
@@ -666,7 +666,7 @@ module.exports = {
         }
       }
 
-      const defaultAvatarPath = path.join(__dirname, "./cache/avatar.jpg");
+      const defaultAvatarPath = path.join(__dirname, "./cache/avatars/avatar.jpg");
 
       const avatarsDir = path.join(__dirname, "./cache");
       if (!fs.existsSync(avatarsDir)) {
@@ -748,7 +748,7 @@ module.exports = {
     } catch (error) {
       console.error(`Error in getAvatarPath for ${userId}:`, error.message);
       // Trả về avatar mặc định trong trường hợp lỗi
-      const defaultAvatarPath = path.join(__dirname, "./cache/avatar.jpg");
+      const defaultAvatarPath = path.join(__dirname, "./cache/avatars/avatar.jpg");
       if (fs.existsSync(defaultAvatarPath)) {
         return defaultAvatarPath;
       }

@@ -6,6 +6,7 @@ const { exec } = require("child_process");
 const { handleListenEvents } = require("./utils/listen");
 const portfinder = require('portfinder');
 const path = require('path');
+// const { initDatabase } = require('./utils/initDatabase');
 
 const config = JSON.parse(fs.readFileSync("./logins/hut-chat-api/config.json", "utf8"));
 
@@ -172,6 +173,16 @@ const reloadModules = () => {
             if (checkBotRunning()) {
                 process.exit(1);
             }
+        
+            // try {
+            //     // Khởi tạo MongoDB trước khi đăng nhập
+            //     console.log(boldText(gradient.morning("🚀 Đang khởi tạo MongoDB...")));
+            //     await initDatabase();
+            //     console.log(boldText(gradient.teen("✅ MongoDB đã sẵn sàng!")));
+            // } catch (dbError) {
+            //     console.error(boldText(gradient.passion("❌ Lỗi khởi tạo MongoDB:")), dbError);
+            //     console.log(boldText(gradient.cristal("⚠️ Bot sẽ tiếp tục chạy với JSON (fallback mode)")));
+            // }
         
             try {
                 currentPort = await portfinder.getPortPromise({
