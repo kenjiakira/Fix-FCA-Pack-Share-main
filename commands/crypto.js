@@ -2,6 +2,7 @@ const axios = require('axios');
 const { createCanvas } = require('canvas');
 const fs = require('fs-extra');
 const { Chart, LineController, LineElement, PointElement, LinearScale, Title, CategoryScale, Filler } = require('chart.js');
+const { CRYPTO } = require('../utils/api');
 
 Chart.register(LineController, LineElement, PointElement, LinearScale, Title, CategoryScale, Filler);
 
@@ -361,7 +362,7 @@ module.exports = {
             }
 
             // Fetch detailed crypto data
-            const detailResponse = await axios.get(`https://api.coingecko.com/api/v3/coins/${crypto.id}`, {
+            const detailResponse = await axios.get(`${CRYPTO.COINGECKO_BASE_URL}/coins/${crypto.id}`, {
                 params: {
                     localization: false,
                     tickers: false,
@@ -372,7 +373,7 @@ module.exports = {
             });
 
             // Fetch prices for all cryptos
-            const pricesResponse = await axios.get(`https://api.coingecko.com/api/v3/simple/price`, {
+            const pricesResponse = await axios.get(`${CRYPTO.COINGECKO_BASE_URL}/simple/price`, {
                 params: {
                     ids: this.CRYPTO_LIST.map(c => c.id).join(','),
                     vs_currencies: 'usd',
@@ -383,7 +384,7 @@ module.exports = {
             });
 
             // Get VND exchange rate
-            const exchangeRateResponse = await axios.get('https://openexchangerates.org/api/latest.json?app_id=61633cc8176742a4b1a470d0d93df6df');
+            const exchangeRateResponse = await axios.get(`${CRYPTO.EXCHANGE_RATE_BASE_URL}/latest.json?app_id=${CRYPTO.EXCHANGE_RATE_API_KEY}`);
             const exchangeRateVND = exchangeRateResponse.data.rates.VND || 0;
 
             if (exchangeRateVND === 0) {
@@ -407,7 +408,7 @@ module.exports = {
 
             // Fetch chart data
             const { days, label } = this.TIMEFRAMES[timeframe];
-            const chartResponse = await axios.get(`https://api.coingecko.com/api/v3/coins/${crypto.id}/market_chart`, {
+            const chartResponse = await axios.get(`${CRYPTO.COINGECKO_BASE_URL}/coins/${crypto.id}/market_chart`, {
                 params: { 
                     vs_currency: 'usd', 
                     days: days

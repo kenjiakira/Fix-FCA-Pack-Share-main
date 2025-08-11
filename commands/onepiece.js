@@ -1,4 +1,5 @@
 const axios = require('axios');
+const { ONEPIECE } = require('../utils/api');
 
 module.exports = {
     name: "onepiece",
@@ -37,7 +38,7 @@ module.exports = {
             switch (command) {
                 case "character": {
                     if (!query) throw new Error("Vui lòng nhập tên nhân vật!");
-                    const response = await axios.get(`https://api.api-onepiece.com/v2/characters/en/search/?name=${encodeURIComponent(query)}`);
+                    const response = await axios.get(`${ONEPIECE.BASE_URL}/characters/en/search/?name=${encodeURIComponent(query)}`);
                     
                     if (!response.data || response.data.length === 0) {
                         throw new Error("Không tìm thấy nhân vật!");
@@ -71,7 +72,7 @@ module.exports = {
                 }
 
                 case "random": {
-                    const response = await axios.get('https://api.api-onepiece.com/v2/characters/en');
+                    const response = await axios.get(`${ONEPIECE.BASE_URL}/characters/en`);
                     const characters = response.data;
                     const randomChar = characters[Math.floor(Math.random() * characters.length)];
 
@@ -95,7 +96,7 @@ module.exports = {
 
                 case "search": {
                     if (!query) throw new Error("Vui lòng nhập từ khóa tìm kiếm!");
-                    const response = await axios.get(`https://api.api-onepiece.com/v2/characters/en/search/?job=${encodeURIComponent(query)}`);
+                    const response = await axios.get(`${ONEPIECE.BASE_URL}/characters/en/search/?job=${encodeURIComponent(query)}`);
                     
                     if (!response.data || response.data.length === 0) {
                         throw new Error("Không tìm thấy kết quả!");

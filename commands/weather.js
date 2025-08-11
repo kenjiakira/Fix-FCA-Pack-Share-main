@@ -1,7 +1,5 @@
 const axios = require('axios');
-require('dotenv').config();
-
-const API_KEY = process.env.OPENWEATHER_API_KEY;
+const { WEATHER } = require('../utils/api');
 
 module.exports = {
     name: "weather",
@@ -28,7 +26,7 @@ module.exports = {
         const cityName = target.join(' ');
 
         try {
-            const weatherResponse = await axios.get(`https://api.openweathermap.org/data/2.5/weather?q=${cityName}&appid=${API_KEY}&units=metric&lang=vi`);
+            const weatherResponse = await axios.get(`${WEATHER.BASE_URL}/weather?q=${cityName}&appid=${WEATHER.API_KEY}&units=metric&lang=vi`);
             const weatherData = weatherResponse.data;
 
             if (weatherData.cod !== 200) {
@@ -82,7 +80,7 @@ function getBasicWeatherInfo(data) {
 
 async function getAQIData(lat, lon) {
     try {
-        const response = await axios.get(`http://api.openweathermap.org/data/2.5/air_pollution?lat=${lat}&lon=${lon}&appid=${API_KEY}`);
+        const response = await axios.get(`${WEATHER.AQI_URL}?lat=${lat}&lon=${lon}&appid=${WEATHER.API_KEY}`);
         const aqi = response.data.list[0].main.aqi;
         return `\n🌫️ Chất lượng không khí (AQI): ${getAQIDescription(aqi)}`;
     } catch (error) {
@@ -103,7 +101,7 @@ function getAQIDescription(aqi) {
 
 async function getForecastData(city) {
     try {
-        const response = await axios.get(`https://api.openweathermap.org/data/2.5/forecast?q=${city}&appid=${API_KEY}&units=metric&lang=vi`);
+        const response = await axios.get(`${WEATHER.BASE_URL}/forecast?q=${city}&appid=${WEATHER.API_KEY}&units=metric&lang=vi`);
         return formatForecast(response.data.list);
     } catch (error) {
         return '\n⚠️ Không thể lấy dự báo thời tiết';
@@ -112,7 +110,7 @@ async function getForecastData(city) {
 
 async function getWeatherAlerts(lat, lon) {
     try {
-        const response = await axios.get(`https://api.openweathermap.org/data/2.5/onecall?lat=${lat}&lon=${lon}&exclude=current,minutely,hourly,daily&appid=${API_KEY}`);
+        const response = await axios.get(`${WEATHER.BASE_URL}/onecall?lat=${lat}&lon=${lon}&exclude=current,minutely,hourly,daily&appid=${WEATHER.API_KEY}`);
         if (response.data.alerts && response.data.alerts.length > 0) {
             return `\n⚠️ CẢNH BÁO: ${response.data.alerts[0].event}`;
         }

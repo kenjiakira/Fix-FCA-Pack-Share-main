@@ -1,6 +1,7 @@
 const axios = require('axios');
 const stream = require('stream');
 const { promisify } = require('util');
+const { ROBLOX } = require('../utils/api');
 
 const getStreamFromURL = async (url) => {
     const response = await axios({
@@ -43,7 +44,7 @@ module.exports = {
     
         try {
             // Basic user info fetch
-            const userResponse = await axios.post('https://users.roblox.com/v1/usernames/users', {
+            const userResponse = await axios.post(ROBLOX.USERS_URL, {
                 usernames: [username],
                 excludeBannedUsers: false 
             }).catch(() => {
@@ -58,11 +59,11 @@ module.exports = {
             const { name, id, displayName } = userData;
 
             const [userDetail, badges, presence, inventory, groups] = await Promise.all([
-                axios.get(`https://users.roblox.com/v1/users/${id}`).then(r => r.data).catch(() => null),
-                axios.get(`https://accountinformation.roblox.com/v1/users/${id}/roblox-badges`).then(r => r.data).catch(() => []),
-                axios.get(`https://presence.roblox.com/v1/presence/users/${id}`).then(r => r.data).catch(() => null),
-                axios.get(`https://inventory.roblox.com/v2/users/${id}/inventory/count`).then(r => r.data).catch(() => null),
-                axios.get(`https://groups.roblox.com/v2/users/${id}/groups/roles`).then(r => r.data).catch(() => null)
+                axios.get(`${ROBLOX.USER_DETAIL_URL}/${id}`).then(r => r.data).catch(() => null),
+                axios.get(`${ROBLOX.BADGES_URL}/${id}/roblox-badges`).then(r => r.data).catch(() => []),
+                axios.get(`${ROBLOX.PRESENCE_URL}/${id}`).then(r => r.data).catch(() => null),
+                axios.get(`${ROBLOX.INVENTORY_URL}/${id}/inventory/count`).then(r => r.data).catch(() => null),
+                axios.get(`${ROBLOX.GROUPS_URL}/${id}/groups/roles`).then(r => r.data).catch(() => null)
             ]);
 
             let message = `📊 THÔNG TIN NGƯỜI DÙNG ROBLOX 📊\n\n`;
@@ -120,7 +121,7 @@ module.exports = {
             // Send avatar image
             try {
                 const avatarResponse = await axios.get(
-                    `https://thumbnails.roblox.com/v1/users/avatar-headshot?userIds=${id}&size=420x420&format=Png`
+                    `${ROBLOX.THUMBNAILS_URL}?userIds=${id}&size=420x420&format=Png`
                 );
                 
                 if (avatarResponse?.data?.data?.[0]?.imageUrl) {

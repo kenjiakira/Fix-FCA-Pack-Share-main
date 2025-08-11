@@ -1,4 +1,5 @@
 const axios = require('axios');
+const { HOLIDAY } = require('../utils/api');
 
 module.exports = {
   name: "holiday",
@@ -34,7 +35,7 @@ module.exports = {
       const countryCode = target[0].toUpperCase();
       const year = target[1];
 
-      const response = await axios.get(`https://date.nager.at/api/v3/PublicHolidays/${year}/${countryCode}`);
+      const response = await axios.get(`${HOLIDAY.BASE_URL}/PublicHolidays/${year}/${countryCode}`);
       
       if (response.data.length === 0) {
         return api.sendMessage(
