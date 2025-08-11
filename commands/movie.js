@@ -1,6 +1,7 @@
 const axios = require("axios");
 const fs = require("fs-extra");
 const translate = require("translate-google");
+const { MOVIE } = require('../utils/api');
 
 module.exports = {
   name: "movie",
@@ -13,10 +14,7 @@ module.exports = {
   cooldowns: 5,
   
   onLaunch: async function ({ actions, target }) {
-    const apiKey = "db4f9cfb";
-    const youtubeApiKey = "AIzaSyBkeljYcuoBOHfx523FH2AEENlciKnm3jM";
-    
-    if (!apiKey || !youtubeApiKey) {
+    if (!MOVIE.OMDB_API_KEY || !MOVIE.YOUTUBE_API_KEY) {
       return actions.reply("Thiếu API key. Vui lòng kiểm tra cấu hình.");
     }
 
@@ -26,12 +24,12 @@ module.exports = {
     }
 
     try {
-      const movieData = await getMovieInfo(title, apiKey);
+      const movieData = await getMovieInfo(title, MOVIE.OMDB_API_KEY);
       if (!movieData) return actions.reply("❌ Không tìm thấy thông tin phim.");
 
       const [translatedPlot, trailerUrl] = await Promise.all([
         translateToVietnamese(movieData.Plot),
-        getMovieTrailer(movieData.Title, youtubeApiKey)
+        getMovieTrailer(movieData.Title, MOVIE.YOUTUBE_API_KEY)
       ]);
 
       const posterPath = await downloadImage(movieData.Poster, "movie_poster.jpg");
@@ -72,7 +70,7 @@ module.exports = {
 
 async function getMovieInfo(title, apiKey) {
   try {
-    const response = await axios.get(`http://www.omdbapi.com/?t=${encodeURIComponent(title)}&apikey=${apiKey}`);
+    const response = await axios.get(`${MOVIE.OMDB_BASE_URL}/?t=${encodeURIComponent(title)}&apikey=${apiKey}`);
     return response.data.Response === "True" ? response.data : null;
   } catch (error) {
     console.error("OMDB API error:", error);
@@ -127,7 +125,7 @@ async function downloadTrailer(url) {
 }
 
 async function getMovieTrailer(movieTitle, apiKey) {
-  const searchUrl = `https://www.googleapis.com/youtube/v3/search?q=${encodeURIComponent(
+  const searchUrl = `${MOVIE.YOUTUBE_BASE_URL}/search?q=${encodeURIComponent(
     `${movieTitle} official trailer`
   )}&key=${apiKey}&maxResults=1&type=video`;
 

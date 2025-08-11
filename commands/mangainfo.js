@@ -2,6 +2,7 @@ const axios = require('axios');
 const fs = require('fs');
 const path = require('path');
 const translate = require('translate-google');
+const { MANGAINFO } = require('../utils/api');
 
 module.exports = {
     name: "mangainfo",
@@ -22,7 +23,7 @@ module.exports = {
         }
 
         try {
-            const response = await axios.get(`https://api.jikan.moe/v4/manga?q=${encodeURIComponent(query)}&sfw=true&limit=1`);
+            const response = await axios.get(`${MANGAINFO.BASE_URL}/manga?q=${encodeURIComponent(query)}&sfw=true&limit=1`);
             
             if (!response.data?.data?.[0]) {
                 return api.sendMessage("❌ Không tìm thấy manga này!", threadID, messageID);

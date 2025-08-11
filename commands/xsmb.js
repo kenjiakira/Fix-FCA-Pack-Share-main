@@ -1,4 +1,5 @@
 const axios = require('axios');
+const { XSMB } = require('../utils/api');
 
 module.exports = {
     name: "xsmb",
@@ -15,7 +16,7 @@ module.exports = {
         const loadingMsg = await api.sendMessage("⏳ Đang lấy kết quả xổ số...", threadID);
         
         try {
-            const response = await axios.get('https://api-xsmb-today.onrender.com/api/v1');
+            const response = await axios.get(XSMB.BASE_URL);
             const data = response.data;
 
             if (!data || !data.results) {
@@ -66,7 +67,7 @@ module.exports = {
             const delay = target - now;
             return setTimeout(async () => {
                 try {
-                    const response = await axios.get('https://api-xsmb-today.onrender.com/api/v1');
+                    const response = await axios.get(XSMB.BASE_URL);
                     const data = response.data;
                     if (!data || !data.results) throw new Error('Không thể lấy dữ liệu xổ số');
 

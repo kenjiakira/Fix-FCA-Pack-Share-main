@@ -1,5 +1,6 @@
 const axios = require('axios');
 const cheerio = require('cheerio');
+const { VNX } = require('../utils/api');
 
 module.exports = {
   name: "vnx",
@@ -12,12 +13,10 @@ module.exports = {
   cooldowns: 5,
 
   onLaunch: async function({ api, event, actions }) {
-    const source = 'https://vnexpress.net/tin-tuc-24h';
-
     try {
       const loadingMsg = await actions.reply("⏳ Đang tải tin tức từ VnExpress...");
       
-      const response = await axios.get(source);
+      const response = await axios.get(VNX.BASE_URL);
       const $ = cheerio.load(response.data);
 
       let news = [];

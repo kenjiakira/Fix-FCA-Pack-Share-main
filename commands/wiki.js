@@ -2,6 +2,7 @@ const axios = require('axios');
 const fs = require('fs-extra');
 const path = require('path');
 const { image } = require('image-downloader');
+const { WIKIPEDIA } = require('../utils/api');
 
 const cacheDir = path.resolve(__dirname, 'cache');
 if (!fs.existsSync(cacheDir)) {
@@ -58,7 +59,8 @@ module.exports = {
                     api.sendMessage("Không thể tìm thấy thông tin ngẫu nhiên từ Wikipedia vào lúc này.", event.threadID);
                 }
             } else {
-                const apiUrl = `https://${lang}.wikipedia.org/api/rest_v1/page/summary/${encodeURIComponent(searchTerm)}`;
+                const baseUrl = lang === 'en' ? WIKIPEDIA.EN_URL : WIKIPEDIA.VI_URL;
+                const apiUrl = `${baseUrl}/page/summary/${encodeURIComponent(searchTerm)}`;
                 for (let attempt = 1; attempt <= 3; attempt++) {
                     try {
                         const response = await axios.get(apiUrl);
@@ -113,7 +115,8 @@ function formatContent(content) {
 }
 
 async function fetchRandomWikiArticle(lang = 'vi', retries = 3) {
-    const apiUrl = `https://${lang}.wikipedia.org/api/rest_v1/page/random/summary`;
+    const baseUrl = lang === 'en' ? WIKIPEDIA.EN_URL : WIKIPEDIA.VI_URL;
+    const apiUrl = `${baseUrl}/page/random/summary`;
     for (let attempt = 1; attempt <= retries; attempt++) {
         try {
             const response = await axios.get(apiUrl);

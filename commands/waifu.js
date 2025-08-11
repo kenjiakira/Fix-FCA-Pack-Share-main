@@ -1,6 +1,7 @@
 const axios = require('axios');
 const fs = require('fs');
 const path = require('path');
+const { WAIFU } = require('../utils/api');
 
 module.exports = {
     name: "waifu",
@@ -49,7 +50,7 @@ module.exports = {
 
         try {
             const response = await axios.get(
-                `https://api.waifu.im/search?included_tags=${category}&is_nsfw=false`
+                `${WAIFU.BASE_URL}?included_tags=${category}&is_nsfw=false`
             );
 
             if (!response.data?.images?.[0]?.url) {

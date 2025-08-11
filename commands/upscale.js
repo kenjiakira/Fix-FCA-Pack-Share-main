@@ -3,13 +3,12 @@ const fs = require('fs');
 const path = require('path');
 const FormData = require('form-data');
 const sharp = require('sharp');
+const { UPSCALE } = require('../utils/api');
 
 const cacheDir = path.join(__dirname, 'cache');
 if (!fs.existsSync(cacheDir)) {
   fs.mkdirSync(cacheDir);
 }
-
-const API_KEY = '81877a1e333d6976ef9eb75df402046be41681edc4456176555b0f28f5f49eb0cb3e46a5c8a96ed2255714e02bbe7cd7';
 
 const getImageDimensions = async (imagePath) => {
   const image = sharp(imagePath);
@@ -24,10 +23,10 @@ const upscaleImageSync = async (imagePath, targetWidth, targetHeight) => {
   form.append('target_height', targetHeight.toString());
 
   try {
-    const response = await axios.post('https://clipdrop-api.co/image-upscaling/v1/upscale', form, {
+    const response = await axios.post(UPSCALE.BASE_URL, form, {
       headers: {
         ...form.getHeaders(),
-        'x-api-key': API_KEY,
+        'x-api-key': UPSCALE.API_KEY,
       },
       responseType: 'arraybuffer'
     });

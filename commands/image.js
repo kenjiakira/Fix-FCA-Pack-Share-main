@@ -4,17 +4,14 @@ const axios = require('axios');
 const FormData = require('form-data');
 const { Canvas, Image, ImageData, loadImage, createCanvas } = require('canvas');
 const faceapi = require('face-api.js');
-const { ZM_API } = require('../utils/api');
+const { ZM_API, IMAGE } = require('../utils/api');
 
 require('dotenv').config();
 
-const UNSPLASH_ACCESS_KEY = 'USC-YIdoZxMRxblaePKXocUs6Up7EAbqDbInZ0z5r4U';
 const cacheDir = path.join(__dirname, 'cache');
 if (!fs.existsSync(cacheDir)) fs.mkdirSync(cacheDir);
 
 faceapi.env.monkeyPatch({ Canvas, Image, ImageData });
-
-const imgurClientId = process.env.IMGUR_CLIENT_ID;
 
 module.exports = {
   name: "image",
@@ -75,7 +72,7 @@ module.exports = {
     const loadingMsg = await api.sendMessage("⏳ Đang tìm kiếm...", event.threadID);
     
     try {
-        const res = await axios.get(`https://ccexplorerapisjonell.vercel.app/api/pin?title=${keySearchs}&count=${numberSearch}`);
+        const res = await axios.get(`${IMAGE.PINTEREST_BASE_URL}?title=${keySearchs}&count=${numberSearch}`);
         const data = res.data.data;
 
         if (!data || data.length === 0) {
@@ -145,9 +142,9 @@ module.exports = {
     const loadingMsg = await api.sendMessage("⏳ Đang tải hình nền...", event.threadID);
 
     try {
-        const response = await axios.get('https://api.unsplash.com/photos/random', {
+        const response = await axios.get(`${IMAGE.UNSPLASH_BASE_URL}/photos/random`, {
             params: { count: 4, orientation: 'landscape', query: 'wallpaper' },
-            headers: { 'Authorization': `Client-ID ${UNSPLASH_ACCESS_KEY}` }
+            headers: { 'Authorization': `Client-ID ${IMAGE.UNSPLASH_ACCESS_KEY}` }
         });
 
         if (!response.data || response.data.length === 0) {
@@ -434,17 +431,6 @@ module.exports = {
 
   removeBackground: async function ({ api, event, messageReply }) {
     const { threadID, messageID } = event;
-    const KeyApi = [
-      "t4Jf1ju4zEpiWbKWXxoSANn4",
-      "CTWSe4CZ5AjNQgR8nvXKMZBd",
-      "PtwV35qUq557yQ7ZNX1vUXED",
-      "wGXThT64dV6qz3C6AhHuKAHV",
-      "82odzR95h1nRp97Qy7bSRV5M",
-      "4F1jQ7ZkPbkQ6wEQryokqTmo",
-      "sBssYDZ8qZZ4NraJhq7ySySR",
-      "NuZtiQ53S2F5CnaiYy4faMek",
-      "f8fujcR1G43C1RmaT4ZSXpwW"
-    ];
 
     const successMessage = `━━『 TÁCH NỀN ẢNH 』━━
 [🎯] → Tách nền ảnh thành công!
@@ -464,14 +450,20 @@ module.exports = {
       formData.append('size', 'auto');
       formData.append('image_file', fs.createReadStream(inputPath), path.basename(inputPath));
 
+      const apiKey = IMAGE.REMOVE_BG_API_KEYS[Math.floor(Math.random() * IMAGE.REMOVE_BG_API_KEYS.length)];
+      
+      if (!apiKey) {
+        throw new Error('Không có API key Remove.bg hợp lệ');
+      }
+
       const removeResponse = await axios({
         method: 'post',
-        url: 'https://api.remove.bg/v1.0/removebg',
+        url: IMAGE.REMOVE_BG_BASE_URL,
         data: formData,
         responseType: 'arraybuffer',
         headers: {
           ...formData.getHeaders(),
-          'X-Api-Key': KeyApi[Math.floor(Math.random() * KeyApi.length)],
+          'X-Api-Key': apiKey,
         },
         encoding: null
       });
@@ -557,10 +549,10 @@ module.exports = {
                 const form = new FormData();
                 form.append('image', fs.createReadStream(tempFilePath));
 
-                const imgurResponse = await axios.post('https://api.imgur.com/3/image', form, {
+                const imgurResponse = await axios.post(`${IMAGE.IMGUR_BASE_URL}/image`, form, {
                     headers: {
                         ...form.getHeaders(),
-                        Authorization: `Client-ID ${imgurClientId}`
+                        Authorization: `Client-ID ${IMAGE.IMGUR_CLIENT_ID}`
                     },
                     timeout: 30000
                 });
