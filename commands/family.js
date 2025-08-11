@@ -1754,7 +1754,7 @@ case "tree": {
                       type: "baby-naming",
                       spouseName: spouseName,
                       isSpouse: senderID
-                  });
+                  });getUserName
               } else {
                 return api.sendMessage(
                   `${randomMsg}\n\n` +

@@ -659,7 +659,7 @@ confirmMarriage(proposerID, acceptorID) {
     getUserName(userID) {
         if (!userID) return "Người dùng không xác định";
         
-        const userDataPath = path.join(__dirname, '../events/cache/rankData.json');
+        const userDataPath = path.join(__dirname, '../../events/cache/rankData.json');
         try {
             if (!fs.existsSync(userDataPath)) {
                 return userID.toString();

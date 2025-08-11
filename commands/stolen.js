@@ -75,9 +75,9 @@ module.exports = {
         victimVipBenefits.packageId === 3 ||
         victimVipBenefits.name === "VIP GOLD")
     ) {
-      console.log(
-        `[STOLEN DEBUG] Gold VIP protection activated for ${victimID}`
-      );
+      // console.log(
+      //   `[STOLEN DEBUG] Gold VIP protection activated for ${victimID}`
+      // );
 
       const penaltyPercent = Math.random() * 15 + 5;
       const thiefBalance = await getBalance(senderID);
@@ -110,9 +110,9 @@ module.exports = {
 
     if (victimVipBenefits && victimVipBenefits.stolenProtection > 0) {
       const protectionRoll = Math.random();
-      console.log(
-        `[STOLEN DEBUG] VIP protection roll for ${victimID}: ${protectionRoll} vs ${victimVipBenefits.stolenProtection}`
-      );
+      // console.log(
+      //   `[STOLEN DEBUG] VIP protection roll for ${victimID}: ${protectionRoll} vs ${victimVipBenefits.stolenProtection}`
+      // );
 
       if (protectionRoll < victimVipBenefits.stolenProtection) {
         const vipTierName =
