@@ -1,0 +1,83 @@
+[
+  {
+    "timestamp": 1754968577081,
+    "action": "update_display_config",
+    "userId": null,
+    "details": {
+      "config": {
+        "gold": {
+          "name": "VIP GOLD",
+          "price": "15000",
+          "description": "Gói VIP Gold cao cấp với nhiều quyền lợi đặc biệt",
+          "benefits": [
+            {
+              "id": "1",
+              "title": "Tải Video không giới hạn",
+              "description": "Tải tất cả Video từ tất cả nền tảng",
+              "order": 1
+            }
+          ],
+          "payment_command": ".qr vip gold",
+          "color": "gold",
+          "icon": "👑",
+          "active": true
+        }
+      }
+    },
+    "admin": "dashboard"
+  },
+  {
+    "timestamp": 1754969432270,
+    "action": "remove",
+    "userId": "100028202556430",
+    "details": {
+      "reason": "Admin removal"
+    },
+    "admin": "dashboard"
+  },
+  {
+    "timestamp": 1754969435709,
+    "action": "remove",
+    "userId": "100058320200877",
+    "details": {
+      "reason": "Admin removal"
+    },
+    "admin": "dashboard"
+  },
+  {
+    "timestamp": 1754969438177,
+    "action": "remove",
+    "userId": "61578902285608",
+    "details": {
+      "reason": "Admin removal"
+    },
+    "admin": "dashboard"
+  },
+  {
+    "timestamp": 1754969440949,
+    "action": "remove",
+    "userId": "61564913175287",
+    "details": {
+      "reason": "Admin removal"
+    },
+    "admin": "dashboard"
+  },
+  {
+    "timestamp": 1754969443506,
+    "action": "remove",
+    "userId": "61552281914806",
+    "details": {
+      "reason": "Admin removal"
+    },
+    "admin": "dashboard"
+  },
+  {
+    "timestamp": 1754969447575,
+    "action": "remove",
+    "userId": "100078984067946",
+    "details": {
+      "reason": "Admin removal"
+    },
+    "admin": "dashboard"
+  }
+]

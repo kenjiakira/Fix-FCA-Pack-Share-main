@@ -5,6 +5,7 @@ const { createReadStream, unlinkSync } = require('fs');
 const { verifyThreadAdmins } = require('../utils/logsub');
 
 module.exports = {
+    aliases: [],
   name: "admin",
   category: "Admin Commands",
   info: "Quản lý bot",

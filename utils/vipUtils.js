@@ -18,15 +18,41 @@ function saveVIPData(data) {
     fs.writeFileSync(VIP_FILE, JSON.stringify(data, null, 2));
 }
 
-function addVIP(userID, days = 30, type = 'GOLD') {
+function addVIP(userID, days = 30, type = 'GOLD', packageId = 3) {
     const data = loadVIPData();
     const expireTime = Date.now() + (days * 24 * 60 * 60 * 1000);
     
+    const fs = require('fs');
+    const path = require('path');
+    const VIP_CONFIG_PATH = path.join(__dirname, '..', 'commands', 'json', 'vip_config.json');
+    
+    let packageName = 'VIP Gold';
+    let benefits = {};
+    
+    try {
+        const config = JSON.parse(fs.readFileSync(VIP_CONFIG_PATH, 'utf8'));
+        const packageConfig = config.packages[packageId.toString()];
+        if (packageConfig) {
+            packageName = packageConfig.name;
+            benefits = packageConfig.benefits;
+        }
+    } catch (error) {
+        console.error('Error loading VIP config:', error);
+    }
+    
     data.users[userID] = {
+        packageId: packageId,
+        name: packageName,
         type: type,
         expireTime: expireTime,
         addedDate: Date.now(),
-        days: days
+        days: days,
+        benefits: benefits,
+        purchaseInfo: {
+            purchaseDate: Date.now(),
+            months: Math.ceil(days / 30),
+            voucherApplied: null
+        }
     };
     
     saveVIPData(data);
@@ -102,11 +128,12 @@ function getVIPBenefits(userID) {
         };
     }
     
-    return {
-        hasVIP: true,
-        type: vipStatus.type,
-        daysLeft: vipStatus.daysLeft,
-
+   
+    const fs = require('fs');
+    const path = require('path');
+    const VIP_CONFIG_PATH = path.join(__dirname, '..', 'commands', 'json', 'vip_config.json');
+    
+    let benefits = {
         fishingCooldown: 120000,
         fishExpMultiplier: 4, 
         rareBonus: 0.4, 
@@ -117,6 +144,23 @@ function getVIPBenefits(userID) {
         videoDownload: true,
         smsSpam: true,
         giftcodeVIP: true
+    };
+    
+    try {
+        const config = JSON.parse(fs.readFileSync(VIP_CONFIG_PATH, 'utf8'));
+        const packageConfig = config.packages["3"]; 
+        if (packageConfig && packageConfig.benefits) {
+            benefits = { ...benefits, ...packageConfig.benefits };
+        }
+    } catch (error) {
+        console.error('Error loading VIP config for benefits:', error);
+    }
+    
+    return {
+        hasVIP: true,
+        type: vipStatus.type,
+        daysLeft: vipStatus.daysLeft,
+        ...benefits
     };
 }
 

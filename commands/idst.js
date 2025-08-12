@@ -30,7 +30,7 @@ module.exports = {
                     sticker: stickerID
                 }, event.threadID);
             } catch (err) {
-                return api.sendMessage("❌ ID sticker không hợp lệ hoặc không tồn tại!", event.threadID);
+                return api.sendMessage("❌ IDs sticker không hợp lệ hoặc không tồn tại!", event.threadID);
             }
         } else {
             return api.sendMessage("ℹ️ Hướng dẫn sử dụng:\n- Reply một sticker để xem thông tin\n- Gửi ID sticker để bot gửi lại sticker đó", event.threadID);

@@ -1,0 +1,43 @@
+[
+  {
+    "id": "17550054582738lspehvt4",
+    "timestamp": 1755005458273,
+    "action": "ban",
+    "userId": "61573427362389",
+    "details": {
+      "reason": "Test\n",
+      "duration": null
+    },
+    "admin": "dashboard"
+  },
+  {
+    "id": "1755005495032wh9op3t7z",
+    "timestamp": 1755005495032,
+    "action": "unban",
+    "userId": "61573427362389",
+    "details": {},
+    "admin": "dashboard"
+  },
+  {
+    "id": "1755005513345hrq47fn1v",
+    "timestamp": 1755005513345,
+    "action": "ban",
+    "userId": "100068382888605",
+    "details": {
+      "reason": "Die",
+      "duration": null
+    },
+    "admin": "dashboard"
+  },
+  {
+    "id": "1755005516529g1euzcci2",
+    "timestamp": 1755005516529,
+    "action": "ban",
+    "userId": "100063719077878",
+    "details": {
+      "reason": "Die",
+      "duration": null
+    },
+    "admin": "dashboard"
+  }
+]

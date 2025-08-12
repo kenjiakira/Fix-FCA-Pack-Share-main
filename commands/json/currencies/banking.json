@@ -1,0 +1,189 @@
+{
+  "users": {
+    "61561277064921": {
+      "bankBalance": 0,
+      "lastInterest": 1754974846192,
+      "createdAt": 1754974846192,
+      "balanceHistory": [],
+      "penalties": [],
+      "creditScore": 13
+    },
+    "100044841742945": {
+      "bankBalance": 0,
+      "lastInterest": 1754995920520,
+      "createdAt": 1754995920520,
+      "balanceHistory": [],
+      "penalties": [],
+      "creditScore": 0
+    },
+    "100076957299243": {
+      "bankBalance": 0,
+      "lastInterest": 1754996265017,
+      "createdAt": 1754996265017,
+      "balanceHistory": [],
+      "penalties": [],
+      "creditScore": 0
+    }
+  },
+  "transactions": {
+    "100028202556430": [
+      {
+        "type": "out",
+        "description": "Chuyển 50,000,000 $ cho Con Chim",
+        "amount": 50000000,
+        "timestamp": 1754921244518
+      },
+      {
+        "type": "out",
+        "description": "Chuyển 500,000,000 $ cho Con Chim",
+        "amount": 500000000,
+        "timestamp": 1754921270773
+      },
+      {
+        "type": "out",
+        "description": "Chuyển 500,000,000 $ cho Con Chim",
+        "amount": 500000000,
+        "timestamp": 1754921291588
+      },
+      {
+        "type": "out",
+        "description": "Chuyển 500,000,000 $ cho Con Chim",
+        "amount": 500000000,
+        "timestamp": 1754921326310
+      },
+      {
+        "type": "out",
+        "description": "Chuyển 500,000,000 $ cho Con Chim",
+        "amount": 500000000,
+        "timestamp": 1754921418786
+      },
+      {
+        "type": "out",
+        "description": "Chuyển 500,000,000 $ cho Người nhận",
+        "amount": 500000000,
+        "timestamp": 1754921427956
+      },
+      {
+        "type": "out",
+        "description": "Chuyển 500,000,000 $ cho Con Chim",
+        "amount": 500000000,
+        "timestamp": 1754921514884
+      },
+      {
+        "type": "out",
+        "description": "Chuyển 500,000,000 $ cho Hoang Long",
+        "amount": 500000000,
+        "timestamp": 1754921644209
+      },
+      {
+        "type": "out",
+        "description": "Chuyển 500,000,000 $ cho Con Chim",
+        "amount": 500000000,
+        "timestamp": 1754921677936
+      },
+      {
+        "type": "out",
+        "description": "Chuyển 500,000,000 $ cho Con Chim",
+        "amount": 500000000,
+        "timestamp": 1754921728096
+      }
+    ],
+    "61552281914806": [
+      {
+        "type": "in",
+        "description": "Nhận 50,000,000 $ từ Thùy Linh",
+        "amount": 50000000,
+        "timestamp": 1754921223454
+      },
+      {
+        "type": "in",
+        "description": "Nhận 50,000,000 $ từ Thùy Linh",
+        "amount": 50000000,
+        "timestamp": 1754921237183
+      },
+      {
+        "type": "in",
+        "description": "Nhận 50,000,000 $ từ Thùy Linh",
+        "amount": 50000000,
+        "timestamp": 1754921244557
+      },
+      {
+        "type": "in",
+        "description": "Nhận 500,000,000 $ từ Thùy Linh",
+        "amount": 500000000,
+        "timestamp": 1754921270782
+      },
+      {
+        "type": "in",
+        "description": "Nhận 500,000,000 $ từ Thùy Linh",
+        "amount": 500000000,
+        "timestamp": 1754921291596
+      },
+      {
+        "type": "in",
+        "description": "Nhận 500,000,000 $ từ Thùy Linh",
+        "amount": 500000000,
+        "timestamp": 1754921326318
+      },
+      {
+        "type": "in",
+        "description": "Nhận 500,000,000 $ từ Thùy Linh",
+        "amount": 500000000,
+        "timestamp": 1754921418794
+      },
+      {
+        "type": "in",
+        "description": "Nhận 500,000,000 $ từ Thùy Linh",
+        "amount": 500000000,
+        "timestamp": 1754921514892
+      },
+      {
+        "type": "in",
+        "description": "Nhận 500,000,000 $ từ Thùy Linh",
+        "amount": 500000000,
+        "timestamp": 1754921677944
+      },
+      {
+        "type": "in",
+        "description": "Nhận 500,000,000 $ từ Thùy Linh",
+        "amount": 500000000,
+        "timestamp": 1754921728118
+      }
+    ],
+    "100068198850441": [
+      {
+        "type": "in",
+        "description": "Nhận 500,000,000 $ từ Thùy Linh",
+        "amount": 500000000,
+        "timestamp": 1754921427964
+      }
+    ],
+    "61566789515977": [
+      {
+        "type": "in",
+        "description": "Nhận 500,000,000 $ từ Thùy Linh",
+        "amount": 500000000,
+        "timestamp": 1754921644220
+      }
+    ],
+    "100044841742945": [
+      {
+        "type": "admin",
+        "description": "Admin edit",
+        "amount": -899000000,
+        "timestamp": 1754995920506
+      }
+    ],
+    "100076957299243": [
+      {
+        "type": "admin",
+        "description": "Admin edit",
+        "amount": -9925485,
+        "timestamp": 1754996265003
+      }
+    ]
+  },
+  "loans": {},
+  "blacklist": {},
+  "dailyLoans": {}
+}

@@ -49,6 +49,25 @@ const threadsDB = JSON.parse(fs.readFileSync("./database/threads.json", "utf8") 
 const usersDB = JSON.parse(fs.readFileSync("./database/users.json", "utf8") || "{}");
 const boldText = (text) => chalk.bold(text);
 global.fonts = fonts;
+
+function startDashboardServer() {
+    const { spawn } = require('child_process');
+    const dashboardProcess = spawn('node', ['dashboard-api/server.js'], {
+        cwd: __dirname,
+        stdio: 'inherit'
+    });
+    
+    dashboardProcess.on('error', (error) => {
+        console.error(boldText(gradient.passion('Failed to start Dashboard API server:')), error);
+    });
+    
+    console.log(boldText(gradient.cristal(`━━━━[ DASHBOARD API SERVER STARTED ]━━━━━━━`)));
+    console.log(boldText(gradient.cristal(`╔════════════════════`)));
+    console.log(boldText(gradient.cristal(`║ DASHBOARD API SERVER`)));
+    console.log(boldText(gradient.cristal(`║ Port: 3002`)));
+    console.log(boldText(gradient.cristal(`║ URL: http://localhost:3002/api`)));
+    console.log(boldText(gradient.cristal(`╚════════════════════`)));
+}
 const loadCommand = (commandName) => {
     try {
         delete require.cache[require.resolve(`./commands/${commandName}.js`)];
@@ -360,6 +379,7 @@ const reloadModules = () => {
                 console.log(boldText(gradient.cristal(`╚════════════════════`)));
                 console.log(boldText(gradient.cristal("BOT Made By CC PROJECTS And Kaguya And Kenji Akira")))
         
+                startDashboardServer();
                 
                 function printBotInfo() {
                     const messages = [

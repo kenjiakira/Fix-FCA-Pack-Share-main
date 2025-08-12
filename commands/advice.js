@@ -43,11 +43,12 @@ function saveNewAdvice(problem, advice) {
 }
 
 module.exports = {
+    aliases: [],
     name: "advice",
     usedby: 0,
     category: "AI",
     info: "Tư vấn và giải quyết vấn đề",
-    dev: "HNT",
+    dev: "Hoàng Ngọc Từ",
     onPrefix: true,
     usages: "advice [vấn đề]",
     cooldowns: 5,

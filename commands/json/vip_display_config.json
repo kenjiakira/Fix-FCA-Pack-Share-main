@@ -1,0 +1,19 @@
+{
+  "gold": {
+    "name": "VIP GOLD",
+    "price": "15000",
+    "description": "Gói VIP Gold cao cấp với nhiều quyền lợi đặc biệt",
+    "benefits": [
+      {
+        "id": "1",
+        "title": "Tải Video không giới hạn",
+        "description": "Tải tất cả Video từ tất cả nền tảng",
+        "order": 1
+      }
+    ],
+    "payment_command": ".qr vip gold",
+    "color": "gold",
+    "icon": "👑",
+    "active": true
+  }
+}

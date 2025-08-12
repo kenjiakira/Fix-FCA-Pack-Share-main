@@ -2,6 +2,27 @@ const { addVIP, removeVIP, checkVIP, listAllVIP } = require('../utils/vipUtils')
 const fs = require('fs');
 const path = require('path');
 
+const VIP_CONFIG_PATH = path.join(__dirname, 'json', 'vip_config.json');
+const VIP_DISPLAY_CONFIG_PATH = path.join(__dirname, 'json', 'vip_display_config.json');
+
+function loadVIPConfig() {
+    try {
+        return JSON.parse(fs.readFileSync(VIP_CONFIG_PATH, 'utf8'));
+    } catch (error) {
+        console.error('Error loading VIP config:', error);
+        return { packages: {}, settings: {} };
+    }
+}
+
+function loadVIPDisplayConfig() {
+    try {
+        return JSON.parse(fs.readFileSync(VIP_DISPLAY_CONFIG_PATH, 'utf8'));
+    } catch (error) {
+        console.error('Error loading VIP display config:', error);
+        return {};
+    }
+}
+
 module.exports = {
     name: "vip",
     dev: "HNT",
@@ -45,21 +66,24 @@ module.exports = {
                 return api.sendMessage("❌ Bạn không có quyền sử dụng lệnh này!", threadID);
             }
 
-            if (cmd === "add") {
-                const userID = target[1];
-                const days = parseInt(target[2]) || 30;
-                
-                if (!userID) {
-                    return api.sendMessage("❌ Vui lòng nhập UID người dùng!", threadID);
-                }
-                
-                if (days <= 0 || days > 365) {
-                    return api.sendMessage("❌ Số ngày phải từ 1-365!", threadID);
-                }
-                
-                addVIP(userID, days, 'GOLD');
-                return api.sendMessage(`✅ Đã thêm VIP GOLD cho ${userID} trong ${days} ngày!`, threadID);
+                    if (cmd === "add") {
+            const userID = target[1];
+            const days = parseInt(target[2]) || 30;
+            
+            if (!userID) {
+                return api.sendMessage("❌ Vui lòng nhập UID người dùng!", threadID);
             }
+            
+            if (days <= 0 || days > 365) {
+                return api.sendMessage("❌ Số ngày phải từ 1-365!", threadID);
+            }
+            
+            const config = loadVIPConfig();
+            const defaultPackage = config.settings?.defaultPackage || 3;
+            
+            addVIP(userID, days, 'GOLD', defaultPackage);
+            return api.sendMessage(`✅ Đã thêm VIP GOLD cho ${userID} trong ${days} ngày!`, threadID);
+        }
 
             if (cmd === "remove") {
                 const userID = target[1];
@@ -96,18 +120,26 @@ module.exports = {
 
         // VIP package info
         if (cmd === "gold") {
-            const message = `👑 THÔNG TIN GÓI VIP GOLD\n` +
+            const displayConfig = loadVIPDisplayConfig();
+            const packageInfo = displayConfig.gold;
+            
+            if (!packageInfo || !packageInfo.active) {
+                return api.sendMessage(`❌ Gói VIP GOLD hiện không khả dụng!`, threadID);
+            }
+            
+            let message = `${packageInfo.icon} THÔNG TIN GÓI ${packageInfo.name}\n` +
                 `━━━━━━━━━━━━━━\n\n` +
-                `💰 Giá: 49,000đ / 37 ngày\n` +
-                `⏰ Thời hạn: 30 ngày + 7 ngày bonus\n\n` +
-                `🎮 QUYỀN LỢI:\n` +
-                `• 🎣 Câu cá: +40% cá hiếm, x4 EXP\n` +
-                `• 💰 Tiền tệ: +60% quà hàng ngày\n` +
-                `• 🎴 Gacha: +15% tỉ lệ Limited\n` +
-                `• 🔐 Bảo vệ: Miễn nhiễm cướp\n` +
-                `• 📱 Tải video toàn bộ nền tảng\n` +
-                `• 🎁 Giftcode VIP độc quyền\n\n` +
-                `💳 Thanh toán: .qr vip gold`;
+                `💰 Giá: ${packageInfo.price}đ / tháng\n` +
+                `📝 ${packageInfo.description}\n\n` +
+                `🎮 QUYỀN LỢI:\n`;
+            
+            // Add benefits (sorted by order)
+            const sortedBenefits = packageInfo.benefits.sort((a, b) => a.order - b.order);
+            sortedBenefits.forEach(benefit => {
+                message += `• ${benefit.title}: ${benefit.description}\n`;
+            });
+            
+            message += `\n💳 Thanh toán: ${packageInfo.payment_command}`;
             
             return api.sendMessage(message, threadID);
         }
@@ -117,7 +149,7 @@ module.exports = {
             `━━━━━━━━━━━━━━\n\n` +
             `📋 LỆNH:\n` +
             `• .vip check - Kiểm tra VIP\n` +
-            `• .vip gold - Thông tin gói VIP\n`;
+            `• .vip gold - Thông tin gói VIP GOLD\n`;
         
         if (isAdmin) {
             helpMessage += `• .vip add [uid] [days] - Thêm VIP (Admin)\n` +
