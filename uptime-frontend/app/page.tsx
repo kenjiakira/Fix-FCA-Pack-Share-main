@@ -9,7 +9,7 @@ import UsersTab from '@/components/organisms/UsersTab'
 import AdminManagement from '@/components/AdminManagement'
 import VipManagementTab from '@/components/organisms/VipManagementTab'
 import CurrencyManagementTab from '@/components/organisms/CurrencyManagementTab'
-import SystemTab from '@/components/organisms/SystemTab'
+import { GroupManagementTab } from '@/components/organisms/GroupManagementTab'
 import SettingsTab from '@/components/organisms/SettingsTab'
 
 export default function Dashboard() {
@@ -36,12 +36,12 @@ export default function Dashboard() {
         return <AdminManagement />
       case 'vip':
         return <VipManagementTab />
-      case 'currencies':
-        return <CurrencyManagementTab />
-      case 'system':
-        return <SystemTab botStatus={botStatus} />
-      case 'settings':
-        return <SettingsTab />
+                case 'currencies':
+            return <CurrencyManagementTab />
+          case 'groups':
+            return <GroupManagementTab />
+          case 'settings':
+            return <SettingsTab />
       default:
         return <OverviewTab botStatus={botStatus} loading={loading} />
     }

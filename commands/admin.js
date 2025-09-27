@@ -12,7 +12,7 @@ module.exports = {
   dev: "Merged by HNT",
   usedby: 2,
   cooldowns: 10,
-  usages: "[subcommand]",
+  usages: "Hello",
   onPrefix: true,
 
   onLaunch: async function ({ api, event, target }) {

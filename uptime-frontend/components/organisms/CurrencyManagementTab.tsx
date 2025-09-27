@@ -468,7 +468,7 @@ export default function CurrencyManagementTab() {
                               )}
                             </div>
                             <span className="text-sm">
-                              #{index + 1} {user.name || user.userId}
+                              {index + 1}: {user.name || user.userId}
                             </span>
                           </div>
                           <Badge variant="secondary">
@@ -878,15 +878,7 @@ export default function CurrencyManagementTab() {
                         </DialogDescription>
                       </DialogHeader>
                       <div className="space-y-4">
-                        <div>
-                          <Label htmlFor="editWalletUserId">ID người dùng</Label>
-                          <Input
-                            id="editWalletUserId"
-                            value={editingUserId}
-                            onChange={(e) => setEditingUserId(e.target.value)}
-                            placeholder="Nhập ID người dùng"
-                          />
-                        </div>
+
                         <div>
                           <Label htmlFor="editWalletBalance">Số dư mới</Label>
                           <Input
@@ -1116,15 +1108,6 @@ export default function CurrencyManagementTab() {
             </DialogDescription>
           </DialogHeader>
           <div className="space-y-4">
-            <div>
-              <Label htmlFor="editUserId">ID người dùng</Label>
-              <Input
-                id="editUserId"
-                value={editingUserId}
-                onChange={(e) => setEditingUserId(e.target.value)}
-                placeholder="Nhập ID người dùng"
-              />
-            </div>
             <div className="grid grid-cols-2 gap-4">
               <div>
                 <Label htmlFor="editWalletBalance">Số dư ví</Label>

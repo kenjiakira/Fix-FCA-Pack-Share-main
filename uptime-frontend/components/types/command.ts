@@ -1,12 +1,12 @@
 export interface Command {
   name: string
-  description: string
-  category: string
+  description?: string
+  category?: string
   usage?: string
   aliases?: string[]
-  permissions: string
+  permissions?: string
   cooldown?: number
-  lastModified: string
+  lastModified?: string
   size?: number
   usageCount?: number
   successRate?: number
@@ -21,4 +21,6 @@ export interface Command {
   info?: string
   usages?: string
   cooldowns?: number
+  lastUsed?: string
+  fileSize?: string
 }

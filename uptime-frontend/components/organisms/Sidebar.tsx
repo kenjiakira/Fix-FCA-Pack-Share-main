@@ -2,14 +2,14 @@ import {
   Home, 
   Command, 
   Users, 
-  Monitor, 
   BarChart3, 
   Settings,
   Crown,
   X,
   ChevronRight,
   DollarSign,
-  Shield
+  Shield,
+  MessageSquare
 } from 'lucide-react'
 import SidebarItem from '@/components/molecules/SidebarItem'
 import { Button } from '@/components/ui/button'
@@ -50,6 +50,12 @@ const sidebarItems: SidebarItem[] = [
     description: 'Quản lý người dùng'
   },
   {
+    id: 'groups',
+    label: 'Quản lý nhóm',
+    icon: <MessageSquare className="h-5 w-5" />,
+    description: 'Quản lý nhóm và thành viên'
+  },
+  {
     id: 'admin',
     label: 'Admin Management',
     icon: <Shield className="h-5 w-5" />,
@@ -67,13 +73,6 @@ const sidebarItems: SidebarItem[] = [
     icon: <DollarSign className="h-5 w-5" />,
     description: 'Quản lý hệ thống tiền tệ',
   },
-  {
-    id: 'system',
-    label: 'Hệ thống',
-    icon: <Monitor className="h-5 w-5" />,
-    description: 'Thông tin hệ thống'
-  },
-
   {
     id: 'settings',
     label: 'Cài đặt',

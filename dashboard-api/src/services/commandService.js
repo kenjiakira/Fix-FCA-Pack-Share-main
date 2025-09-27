@@ -283,17 +283,14 @@ class CommandService {
         content = this.updateField(content, 'category', updateData.category);
       }
       
-      if (updateData.permissions) {
-        const permissionMap = {
-          'Tất cả người dùng': 0,
-          'Quản trị viên nhóm': 1,
-          'Admin bot': 2,
-          'Điều hành viên Bot': 3,
-          'Admin & Điều hành viên': 4,
-          'Admin, Quản trị viên & Điều hành viên': 5
-        };
-        const usedByValue = permissionMap[updateData.permissions] || 0;
-        content = this.updateField(content, 'usedby', usedByValue);
+      // Cập nhật usedby trực tiếp (không cần chuyển đổi permissions)
+      if (updateData.usedby !== undefined) {
+        content = this.updateField(content, 'usedby', updateData.usedby);
+      }
+      
+      // Cập nhật onPrefix trực tiếp
+      if (updateData.onPrefix !== undefined) {
+        content = this.updateOnPrefix(content, updateData.onPrefix);
       }
       
       if (updateData.cooldown !== undefined) {
@@ -463,6 +460,21 @@ class CommandService {
         if (moduleExportsPattern.test(content)) {
           return content.replace(moduleExportsPattern, `$1\n    hide: true,`);
         }
+      }
+    }
+    
+    return content;
+  }
+
+  updateOnPrefix(content, onPrefix) {
+    const onPrefixPattern = /onPrefix:\s*(true|false)/;
+    
+    if (onPrefixPattern.test(content)) {
+      return content.replace(onPrefixPattern, `onPrefix: ${onPrefix}`);
+    } else {
+      const moduleExportsPattern = /(module\.exports\s*=\s*\{)/;
+      if (moduleExportsPattern.test(content)) {
+        return content.replace(moduleExportsPattern, `$1\n    onPrefix: ${onPrefix},`);
       }
     }
     

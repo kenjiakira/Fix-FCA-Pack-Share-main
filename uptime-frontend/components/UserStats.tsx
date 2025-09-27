@@ -2,7 +2,7 @@
 
 import { useState, useEffect } from 'react'
 import { userService } from '@/src/services/api'
-import UserStatsTemplate from '@/components/templates/UserStatsTemplate'
+import UserStatsTemplate from '@/components/UserStatsTemplate'
 import UserStatsLoading from '@/components/organisms/UserStatsLoading'
 import UserStatsError from '@/components/organisms/UserStatsError'
 

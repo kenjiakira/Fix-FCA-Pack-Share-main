@@ -1,9 +1,12 @@
+import { useState } from 'react'
 import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle } from '@/components/ui/dialog'
 import { Label } from '@/components/ui/label'
 import { Badge } from '@/components/ui/badge'
 import { Button } from '@/components/ui/button'
 import { CommandBadge } from '@/components/atoms/CommandBadge'
-import { Code, Edit, Copy, Download, Eye, Clock, TrendingUp, AlertTriangle, CheckCircle } from 'lucide-react'
+import { PermissionBadge } from '@/components/atoms/PermissionBadge'
+import { Code, Edit, Copy, Download, Eye, Clock, TrendingUp, AlertTriangle, CheckCircle, Wrench } from 'lucide-react'
+import { CommandManagementDialog } from './CommandManagementDialog'
 
 import { Command } from '@/components/types/command'
 
@@ -13,6 +16,7 @@ interface CommandDetailDialogProps {
   onOpenChange: (open: boolean) => void
   onEdit?: (command: Command) => void
   onCopy?: (command: Command) => void
+  onCommandUpdated?: () => void
 }
 
 export function CommandDetailDialog({ 
@@ -20,7 +24,8 @@ export function CommandDetailDialog({
   open, 
   onOpenChange, 
   onEdit, 
-  onCopy 
+  onCopy,
+  onCommandUpdated
 }: CommandDetailDialogProps) {
   const formatDate = (dateString: string) => {
     return new Date(dateString).toLocaleString('vi-VN')
@@ -36,10 +41,13 @@ export function CommandDetailDialog({
     }
   }
 
+  const [managementDialogOpen, setManagementDialogOpen] = useState(false)
+
   if (!command) return null
 
   return (
-    <Dialog open={open} onOpenChange={onOpenChange}>
+    <>
+      <Dialog open={open} onOpenChange={onOpenChange}>
       <DialogContent className="max-w-4xl max-h-[90vh] overflow-y-auto bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-700 shadow-xl">
         <DialogHeader className="border-b border-slate-200 dark:border-slate-700 pb-4">
           <DialogTitle className="flex items-center space-x-3">
@@ -122,7 +130,7 @@ export function CommandDetailDialog({
               <div>
                 <Label className="text-sm font-semibold text-slate-700 dark:text-slate-300">Quyền hạn</Label>
                 <div className="mt-1">
-                  <CommandBadge type="permission" value={command.permissions} />
+                  <PermissionBadge usedby={command.usedby} />
                 </div>
               </div>
               
@@ -214,6 +222,15 @@ export function CommandDetailDialog({
               <span>Xuất file</span>
             </Button>
             
+            <Button
+              variant="outline"
+              onClick={() => setManagementDialogOpen(true)}
+              className="flex items-center space-x-2"
+            >
+              <Wrench className="h-4 w-4" />
+              <span>Quản lý</span>
+            </Button>
+            
             {onEdit && (
               <Button
                 onClick={() => onEdit(command)}
@@ -227,5 +244,13 @@ export function CommandDetailDialog({
         </div>
       </DialogContent>
     </Dialog>
+
+    <CommandManagementDialog
+      command={command}
+      open={managementDialogOpen}
+      onOpenChange={setManagementDialogOpen}
+      onCommandUpdated={onCommandUpdated}
+    />
+    </>
   )
 }

@@ -3,7 +3,8 @@ import { Button } from '@/components/ui/button'
 import { Badge } from '@/components/ui/badge'
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from '@/components/ui/dropdown-menu'
 import { CommandBadge } from '@/components/atoms/CommandBadge'
-import { MoreHorizontal, Eye, Edit, Copy, Play, Pause, Settings } from 'lucide-react'
+import { PermissionBadge } from '@/components/atoms/PermissionBadge'
+import { MoreHorizontal, Eye, Edit, Copy, Play, Pause, Settings, Wrench } from 'lucide-react'
 import { Command } from '@/components/types/command'
 
 interface CommandTableRowProps {
@@ -13,6 +14,7 @@ interface CommandTableRowProps {
   onDelete: (command: Command) => void
   onToggleStatus: (command: Command) => void
   onCopy: (command: Command) => void
+  onManage: (command: Command) => void
 }
 
 export function CommandTableRow({ 
@@ -21,7 +23,8 @@ export function CommandTableRow({
   onEdit, 
   onDelete, 
   onToggleStatus, 
-  onCopy 
+  onCopy,
+  onManage
 }: CommandTableRowProps) {
   const [isLoading, setIsLoading] = useState(false)
 
@@ -66,12 +69,7 @@ export function CommandTableRow({
       </td>
       
       <td className="px-4 py-3">
-        <Badge 
-          variant={command.permissions === 'Tất cả người dùng' ? 'default' : 'secondary'}
-          className="text-xs"
-        >
-          {command.permissions || 'Tất cả người dùng'}
-        </Badge>
+        <PermissionBadge usedby={command.usedby} className="text-xs" />
       </td>
       
       <td className="px-4 py-3">
@@ -87,8 +85,19 @@ export function CommandTableRow({
             size="sm"
             onClick={() => onViewDetails(command)}
             className="h-8 w-8 p-0"
+            title="Xem chi tiết"
           >
             <Eye className="h-4 w-4" />
+          </Button>
+          
+          <Button
+            variant="ghost"
+            size="sm"
+            onClick={() => onManage(command)}
+            className="h-8 w-8 p-0"
+            title="Quản lý lệnh"
+          >
+            <Wrench className="h-4 w-4" />
           </Button>
           
           <Button
@@ -97,6 +106,7 @@ export function CommandTableRow({
             onClick={handleToggleStatus}
             disabled={isLoading}
             className="h-8 w-8 p-0"
+            title={command.isActive !== false ? 'Tạm dừng' : 'Kích hoạt'}
           >
             {command.isActive !== false ? (
               <Pause className="h-4 w-4" />

@@ -6,6 +6,8 @@ import { CommandTableRow } from '@/components/molecules/CommandTableRow'
 import { CommandDetailDialog } from '@/components/molecules/CommandDetailDialog'
 import { CommandEditDialog } from '@/components/molecules/CommandEditDialog'
 import { CommandDeleteDialog } from '@/components/molecules/CommandDeleteDialog'
+import { CommandManagementDialog } from '@/components/molecules/CommandManagementDialog'
+import { CommandManagementTest } from '@/components/molecules/CommandManagementTest'
 import { Plus, Download, RefreshCw, Search, Filter } from 'lucide-react'
 import { toast } from '@/hooks/use-toast'
 import { commandService } from '@/src/services/api'
@@ -26,6 +28,7 @@ export function CommandListTab() {
   const [detailDialogOpen, setDetailDialogOpen] = useState(false)
   const [editDialogOpen, setEditDialogOpen] = useState(false)
   const [deleteDialogOpen, setDeleteDialogOpen] = useState(false)
+  const [managementDialogOpen, setManagementDialogOpen] = useState(false)
 
   useEffect(() => {
     loadCommands()
@@ -118,6 +121,11 @@ export function CommandListTab() {
   const handleDelete = (command: Command) => {
     setSelectedCommand(command)
     setDeleteDialogOpen(true)
+  }
+
+  const handleManage = (command: Command) => {
+    setSelectedCommand(command)
+    setManagementDialogOpen(true)
   }
 
   const handleToggleStatus = async (command: Command) => {
@@ -390,6 +398,7 @@ export function CommandListTab() {
                     onDelete={handleDelete}
                     onToggleStatus={handleToggleStatus}
                     onCopy={handleCopy}
+                    onManage={handleManage}
                   />
                 ))
               )}
@@ -405,6 +414,7 @@ export function CommandListTab() {
         onOpenChange={setDetailDialogOpen}
         onEdit={handleEdit}
         onCopy={handleCopy}
+        onCommandUpdated={loadCommands}
       />
       
       <CommandEditDialog
@@ -419,6 +429,13 @@ export function CommandListTab() {
         open={deleteDialogOpen}
         onOpenChange={setDeleteDialogOpen}
         onDelete={handleConfirmDelete}
+      />
+      
+      <CommandManagementDialog
+        command={selectedCommand}
+        open={managementDialogOpen}
+        onOpenChange={setManagementDialogOpen}
+        onCommandUpdated={loadCommands}
       />
     </div>
   )

@@ -1,2 +1,1 @@
-export { CommandDetailsTemplate } from './CommandDetailsTemplate'
-export { SystemInfoTemplate } from './SystemInfoTemplate'
+export { CommandDetailsTemplate } from '../CommandDetailsTemplate'

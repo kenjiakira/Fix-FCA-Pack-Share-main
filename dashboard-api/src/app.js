@@ -10,6 +10,7 @@ const vipController = require('./controllers/vipController');
 const currencyController = require('./controllers/currencyController');
 const userInfoController = require('./controllers/userInfoController');
 const adminController = require('./controllers/adminController');
+const groupController = require('./controllers/groupController');
 
 const app = express();
 const PORT = process.env.DASHBOARD_PORT || 3002;
@@ -27,6 +28,7 @@ app.use('/api/vip', vipController);
 app.use('/api/currencies', currencyController);
 app.use('/api/userinfo', userInfoController);
 app.use('/api/admin', adminController);
+app.use('/api/groups', groupController);
 
 app.get('/api/health', (req, res) => {
   res.json({ 

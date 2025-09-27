@@ -1,6 +1,6 @@
 'use client'
 
-import { CommandDetailsTemplate } from '@/components/templates/CommandDetailsTemplate'
+import { CommandDetailsTemplate } from '@/components/CommandDetailsTemplate'
 
 export default function CommandDetails() {
   return <CommandDetailsTemplate />

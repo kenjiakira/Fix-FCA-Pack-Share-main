@@ -23,6 +23,14 @@
       "balanceHistory": [],
       "penalties": [],
       "creditScore": 0
+    },
+    "100068198850441": {
+      "bankBalance": 0,
+      "lastInterest": 1755051139471,
+      "createdAt": 1755051139471,
+      "balanceHistory": [],
+      "penalties": [],
+      "creditScore": 0
     }
   },
   "transactions": {
@@ -156,6 +164,18 @@
         "description": "Nhận 500,000,000 $ từ Thùy Linh",
         "amount": 500000000,
         "timestamp": 1754921427964
+      },
+      {
+        "type": "admin",
+        "description": "Admin edit",
+        "amount": -499977787,
+        "timestamp": 1755051139456
+      },
+      {
+        "type": "admin",
+        "description": "Admin edit",
+        "amount": 0,
+        "timestamp": 1755051139504
       }
     ],
     "61566789515977": [

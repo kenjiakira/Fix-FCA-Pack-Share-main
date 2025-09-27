@@ -159,7 +159,7 @@ const loadEventCommands = () => {
                 eventCommands[eventCommand.name] = eventCommand;
                 console.log(boldText(gradient.pastel(`[ ${eventCommand.name} ] Successfully Deployed Event Command`)));
             } catch (error) {
-                if (error.code === "MODULE_NOT_FOUND") {
+                if (error.code === "MODULE_NOT_FOUND") {   
                     const missingModule = error.message.split("'")[1];
                     console.log(boldText(gradient.instagram(`[ ${file} ] Missing module: ${missingModule}. Installing...`)));
                     exec(`npm install ${missingModule}`, (err) => {

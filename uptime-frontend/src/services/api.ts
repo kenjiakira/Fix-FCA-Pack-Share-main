@@ -40,12 +40,7 @@ export const botStatusService = {
   healthCheck: () => apiClient.get('/health'),
 }
 
-export const systemService = {
-  getSystemInfo: () => apiClient.get('/system/info'),
-  getMemoryInfo: () => apiClient.get('/system/memory'),
-  getCpuInfo: () => apiClient.get('/system/cpu'),
-  getNetworkInfo: () => apiClient.get('/system/network'),
-}
+
 
 export const commandService = {
   getCommands: () => apiClient.get('/commands'),
