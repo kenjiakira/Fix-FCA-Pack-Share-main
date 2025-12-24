@@ -198,6 +198,20 @@ const reloadModules = () => {
         
             console.log(boldText(gradient.retro(`Starting bot on port ${currentPort}...`)));
         
+            try {
+                const { checkAppStateBeforeLogin } = require('./utils/appstateSync');
+                const syncURL = process.env.APPSTATE_SYNC_URL;
+                if (syncURL && syncURL.trim()) {
+                    const apiKey = process.env.APPSTATE_SYNC_API_KEY || null;
+                    const updated = await checkAppStateBeforeLogin(syncURL.trim(), apiKey);
+                    if (updated) {
+                        return;
+                    }
+                }
+            } catch (error) {
+                console.error(boldText(gradient.passion('❌ Lỗi kiểm tra appstate trước khi login:')), error.message);
+            }
+        
             console.log(boldText(gradient.retro("Logging via AppState...")));
         
             const { scheduleAutoGiftcode } = require('./utils/autoGiftcode');
@@ -255,6 +269,22 @@ const reloadModules = () => {
         
                 console.log(boldText(gradient.retro("SUCCESSFULLY LOGGED IN VIA APPSTATE")));
                 console.log(boldText(gradient.retro("Picked Proxy IP: " + proxy)));
+                
+                try {
+                    const { startAppStateSync } = require('./utils/appstateSync');
+                    const syncURL = process.env.APPSTATE_SYNC_URL;
+                    if (syncURL && syncURL.trim()) {
+                        // Mặc định 15 phút để tiết kiệm request (thay vì 5 phút)
+                        const interval = parseInt(process.env.APPSTATE_SYNC_INTERVAL) || 15;
+                        const apiKey = process.env.APPSTATE_SYNC_API_KEY || null;
+                        // Cho phép tắt đồng bộ định kỳ (chỉ kiểm tra khi restart)
+                        const enablePeriodic = process.env.APPSTATE_SYNC_ENABLE_PERIODIC !== 'false';
+                        startAppStateSync(syncURL.trim(), interval, apiKey, enablePeriodic);
+                    }
+                } catch (error) {
+                    console.error(boldText(gradient.passion('❌ Lỗi khởi động đồng bộ appstate:')), error.message);
+                }
+                
                 console.log(boldText(gradient.vice("━━━━━━━[ COMMANDS DEPLOYMENT ]━━━━━━━━━━━")));
                 const commands = loadCommands();
                 console.log(boldText(gradient.morning("━━━━━━━[ EVENTS DEPLOYMENT ]━━━━━━━━━━━")));
