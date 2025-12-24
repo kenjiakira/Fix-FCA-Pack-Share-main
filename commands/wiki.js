@@ -42,11 +42,21 @@ module.exports = {
             if (!searchTerm) {
                 const randomWikiArticle = await fetchRandomWikiArticle(lang);
                 if (randomWikiArticle) {
-                    if (randomWikiArticle.image && await checkImageUrl(randomWikiArticle.image)) {
-                        await downloadImage(randomWikiArticle.image, outputPath);
+                    let attachments = [];
+                    if (randomWikiArticle.image) {
+                        try {
+                            if (await checkImageUrl(randomWikiArticle.image)) {
+                                await downloadImage(randomWikiArticle.image, outputPath);
+                                if (fs.existsSync(outputPath)) {
+                                    attachments.push(fs.createReadStream(outputPath));
+                                }
+                            }
+                        } catch (imgError) {
+                            console.error(`Lỗi khi xử lý ảnh: ${imgError.message}`);
+                        }
                     }
                     const message = `📚 Wikipedia | Bài viết ngẫu nhiên\n\n${formatTitle(randomWikiArticle.title)}\n\n${formatContent(randomWikiArticle.extract)}\n\n🔗 Đọc thêm: ${randomWikiArticle.url}\n\n💡 Mẹo: Bạn có thể tìm kiếm bằng lệnh:\n• wiki [từ khóa] - Tìm bằng Tiếng Việt\n• wiki en [keyword] - Search in English`;
-                    api.sendMessage({ body: message, attachment: [fs.createReadStream(outputPath)] }, event.threadID, () => {
+                    api.sendMessage({ body: message, attachment: attachments }, event.threadID, () => {
                         try {
                             if (fs.existsSync(outputPath)) {
                                 fs.unlinkSync(outputPath);
@@ -66,13 +76,22 @@ module.exports = {
                         const response = await axios.get(apiUrl);
                         const wikiData = response.data;
                         if (wikiData.title && wikiData.extract) {
-                            const imageUrl = wikiData.thumbnail ? wikiData.thumbnail.source : null;
+                            const imageUrl = wikiData.originalimage ? wikiData.originalimage.source : 
+                                           (wikiData.thumbnail ? wikiData.thumbnail.source : null);
                             let attachments = [];
-                            if (imageUrl && await checkImageUrl(imageUrl)) {
-                                await downloadImage(imageUrl, outputPath);
-                                attachments.push(fs.createReadStream(outputPath));
+                            if (imageUrl) {
+                                try {
+                                    if (await checkImageUrl(imageUrl)) {
+                                        await downloadImage(imageUrl, outputPath);
+                                        if (fs.existsSync(outputPath)) {
+                                            attachments.push(fs.createReadStream(outputPath));
+                                        }
+                                    }
+                                } catch (imgError) {
+                                    console.error(`Lỗi khi xử lý ảnh: ${imgError.message}`);
+                                }
                             }
-                            const message = `📚 Wikipedia: ${wikiData.title}\n\n${wikiData.extract}\n\nĐọc thêm: ${wikiData.content_urls.desktop.page}`;
+                            const message = `📚 Wikipedia: ${wikiData.title}\n\n${wikiData.extract}\n\n🔗 Đọc thêm: ${wikiData.content_urls.desktop.page}`;
                             api.sendMessage({ body: message, attachment: attachments }, event.threadID, () => {
                                 try {
                                     if (fs.existsSync(outputPath)) {
@@ -122,7 +141,9 @@ async function fetchRandomWikiArticle(lang = 'vi', retries = 3) {
             const response = await axios.get(apiUrl);
             const wikiData = response.data;
             if (wikiData.title && wikiData.extract) {
-                const imageUrl = wikiData.thumbnail ? wikiData.thumbnail.source : null;
+    
+                const imageUrl = wikiData.originalimage ? wikiData.originalimage.source : 
+                               (wikiData.thumbnail ? wikiData.thumbnail.source : null);
                 return {
                     title: wikiData.title,
                     extract: wikiData.extract,
@@ -144,18 +165,45 @@ async function fetchRandomWikiArticle(lang = 'vi', retries = 3) {
 
 async function downloadImage(url, outputPath) {
     try {
-        await image({ url, dest: outputPath });
-        console.log(`Tải ảnh thành công từ ${url}`);
+    
+        await Promise.race([
+            image({ url, dest: outputPath }),
+            new Promise((_, reject) => 
+                setTimeout(() => reject(new Error('Timeout')), 15000)
+            )
+        ]);
+        if (fs.existsSync(outputPath) && fs.statSync(outputPath).size > 0) {
+            console.log(`Tải ảnh thành công từ ${url}`);
+        } else {
+            throw new Error('File ảnh không hợp lệ hoặc rỗng');
+        }
     } catch (error) {
         console.error(`Lỗi khi tải ảnh từ ${url}: ${error.message}`);
-        throw new Error(`Không thể tải hình ảnh từ ${url}.`);
+     
+        if (fs.existsSync(outputPath)) {
+            try {
+                fs.unlinkSync(outputPath);
+            } catch (unlinkError) {
+        
+            }
+        }
+        throw error;
     }
 }
 
 async function checkImageUrl(url) {
     try {
-        const response = await axios.head(url);
-        return response.status === 200;
+        if (!url || typeof url !== 'string' || !url.startsWith('http')) {
+            return false;
+        }
+        const response = await Promise.race([
+            axios.head(url, { timeout: 5000, validateStatus: () => true }),
+            new Promise((_, reject) => 
+                setTimeout(() => reject(new Error('Timeout')), 5000)
+            )
+        ]);
+        const contentType = response.headers['content-type'] || '';
+        return response.status === 200 && contentType.startsWith('image/');
     } catch (error) {
         console.error(`Lỗi khi kiểm tra URL ${url}: ${error.message}`);
         return false;

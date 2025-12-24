@@ -5,6 +5,8 @@
   "main": "index.js",
   "scripts": {
     "start": "node main.js",
+    "dev": "cross-env NODE_ENV=development node main.js",
+    "watch": "node main.js --watch",
     "test": "echo \"Error: no test specified\" && exit 1",
     "discord:start": "node discord/index.js",
     "discord:restart": "pm2 restart discord",

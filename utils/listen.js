@@ -7,7 +7,6 @@ const { actions } = require('./actions');
 const path = require("path");
 const { logChatRecord, notifyAdmins } = require('./logs');
 const getThreadParticipantIDs = require('./getParticipantIDs');
-const { isNSFWCommand, isNSFWAllowed, getNSFWResponseMessage } = require('./NSFW');
 
 async function getUserName(api, senderID) {
     try {
@@ -449,20 +448,6 @@ const handleListenEvents = (api, commands, eventCommands, threadsDB, usersDB) =>
                 }
 
                 try {
-                    if (isNSFWCommand(command)) {
-                        console.log(`NSFW check for command ${command.name} in thread ${threadID} by user ${senderID}`);
-                        const adminConfig = JSON.parse(fs.readFileSync('./admin.json', 'utf8'));
-                        const nsfwCheck = isNSFWAllowed(threadID, senderID, adminConfig);
-                        console.log(`NSFW check result for ${command.name}: ${JSON.stringify(nsfwCheck)}`);
-
-                        if (!nsfwCheck.allowed) {
-                            const responseMessage = getNSFWResponseMessage(nsfwCheck);
-                            console.log(`Blocking NSFW command ${command.name}: ${responseMessage}`);
-                            api.sendMessage(responseMessage, threadID, event.messageID);
-                            return;
-                        }
-                    }
-
                     if (command.VIP === true) {
                         const { getVIPBenefits } = require('./vipCheck');
                         const vipBenefits = getVIPBenefits(senderID);

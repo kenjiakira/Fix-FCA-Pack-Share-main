@@ -289,6 +289,15 @@ const reloadModules = () => {
                 const commands = loadCommands();
                 console.log(boldText(gradient.morning("━━━━━━━[ EVENTS DEPLOYMENT ]━━━━━━━━━━━")));
                 const eventCommands = loadEventCommands();
+                try {
+                    const { startWatcher } = require('./utils/watchCommands');
+                    const watcherInstance = startWatcher();
+                    if (watcherInstance) {
+                        global.autoReloadWatcher = watcherInstance;
+                    }
+                } catch (error) {
+                    console.error(boldText(gradient.passion('⚠️  Không thể khởi động auto-reload watcher:')), error.message);
+                }
                 
                 const adminConfig = {
                     botName: 'Aki Bot',
@@ -418,6 +427,9 @@ const reloadModules = () => {
         
         process.on('SIGINT', () => {
             console.log(boldText(gradient.cristal("\nGracefully shutting down...")));
+            if (global.autoReloadWatcher && global.autoReloadWatcher.stop) {
+                global.autoReloadWatcher.stop();
+            }
             cleanupBot();
             process.exit(0);
         });
