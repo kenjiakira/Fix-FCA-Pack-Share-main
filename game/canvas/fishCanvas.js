@@ -307,7 +307,7 @@ async function getAvatarPath(userId) {
     }
   } catch (error) {
     console.error(`Error in getAvatarPath for ${userId}:`, error.message);
-    const defaultAvatarPath = path.join(__dirname, "../../commands/cache/avatars/avatar.jpg");
+    const defaultAvatarPath = path.join(__dirname, "../../database/cache/avatars/avatar.jpg");
     if (fs.existsSync(defaultAvatarPath)) {
       return defaultAvatarPath;
     }
@@ -485,7 +485,7 @@ async function loadImageWithCache(imageUrl) {
     if (!imageUrl) return null;
 
     // Create cache directory if it doesn't exist
-    const imageCacheDir = path.join(__dirname, "../../commands/cache/fish_images");
+    const imageCacheDir = path.join(__dirname, "../../database/cache/fish_images");
     if (!fs.existsSync(imageCacheDir)) {
       fs.mkdirSync(imageCacheDir, { recursive: true });
     }

@@ -324,7 +324,7 @@ module.exports = {
         ctx.fillText('Created by ' + this.dev, width - 60, height - 25);
 
         const buffer = canvas.toBuffer('image/png', { quality: 1, progressive: true });
-        const path = './commands/cache/crypto_chart.png';
+        const path = '../database/cache/crypto_chart.png';
         await fs.writeFile(path, buffer);
         return path;
     },

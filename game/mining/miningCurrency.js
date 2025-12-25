@@ -1,7 +1,7 @@
 const fs = require('fs');
 const path = require('path');
 
-const MINING_CURRENCY_FILE = path.join(__dirname, '../../commands/json/mining_currency.json');
+const MINING_CURRENCY_FILE = path.join(__dirname, '../../database/json/mining_currency.json');
 
 // Initialize currency file
 if (!fs.existsSync(MINING_CURRENCY_FILE)) {

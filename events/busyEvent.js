@@ -7,7 +7,7 @@ module.exports = {
     author: "HNT",
     
     onStart: function() {
-        const busyPath = path.join(__dirname, '../commands/json/busy.json');
+        const busyPath = path.join(__dirname, '../database/json/busy.json');
         if (!fs.existsSync(path.dirname(busyPath))) {
             fs.mkdirSync(path.dirname(busyPath), { recursive: true });
         }
@@ -23,7 +23,7 @@ module.exports = {
         const { mentions, threadID, messageID, senderID, body, type } = event;
         
         try {
-            const busyPath = path.join(__dirname, '../commands/json/busy.json');
+            const busyPath = path.join(__dirname, '../database/json/busy.json');
             let busyData = JSON.parse(fs.readFileSync(busyPath, 'utf8'));
             
             if (type === "message" && body) {

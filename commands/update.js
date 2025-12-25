@@ -98,7 +98,7 @@ function addUpdate(type, title, description, adminOnly = false) {
 module.exports = {
     name: "update",
     dev: "HNT",
-    usedby: 0,
+    usedby: 2,
     category: "System",
     info: "Cập nhật hệ thống từ nguồn cập nhật",
     onPrefix: true,
@@ -169,19 +169,14 @@ module.exports = {
                                 stdio: 'pipe'
                             });
                             
-                            // Lấy file map từ project hiện tại để so sánh
                             const beforeFileMap = getFileMap(projectRoot, EXCLUDE_PATTERNS);
                             
-                            // Đồng bộ: copy file mới/thay đổi và xóa file đã bị xóa ở repo
                             const syncResult = syncDirectory(tempDir, projectRoot, EXCLUDE_PATTERNS);
                             
-                            // Lấy file map sau khi sync để so sánh
                             const afterFileMap = getFileMap(projectRoot, EXCLUDE_PATTERNS);
                             
-                            // So sánh để xác định file thêm/xóa/thay đổi
                             const { added, deleted, modified } = compareFiles(beforeFileMap, afterFileMap);
                             
-                            // Tự động nâng phiên bản
                             const versionBump = bumpVersion();
                             
                             fs.rmSync(tempDir, { recursive: true, force: true });
@@ -244,11 +239,7 @@ module.exports = {
                                     }
                                 }
                             }
-                            
-                            resultMsg += `\n✨ Hệ thống đã được cập nhật toàn diện!\n`;
-                            resultMsg += `📁 Bao gồm: commands, events, utils, game, assets, và tất cả thư mục khác\n`;
-                            resultMsg += `🔒 Đã giữ lại: appstate.json, admin.json, database, logins\n`;
-                            
+                          
                             const packagePath = path.join(projectRoot, 'package.json');
                             if (fs.existsSync(packagePath)) {
                                 resultMsg += `\n📦 Phát hiện package.json\n`;

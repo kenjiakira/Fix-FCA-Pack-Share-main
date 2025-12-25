@@ -220,7 +220,7 @@ async function createPhoneAFriendCanvas(friendResponse) {
     // Draw phone icon and header
     try {
         // Try to load phone icon
-        const phoneIcon = await loadImage(path.join(__dirname, '../../commands/cache/phone.png'));
+        const phoneIcon = await loadImage(path.join(__dirname, '../../database/cache/phone.png'));
         ctx.drawImage(phoneIcon, canvas.width / 2 - 50, 60, 100, 100);
     } catch (err) {
         // Draw fallback phone icon

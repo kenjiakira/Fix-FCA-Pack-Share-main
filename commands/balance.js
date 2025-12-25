@@ -394,7 +394,7 @@ module.exports = {
     
     async getAvatarPath(userId) {
         try {
-            const avatarsDir = path.join(__dirname, '../commands/cache/avatars');
+            const avatarsDir = path.join(__dirname, '../database/cache/avatars');
             if (!fs.existsSync(avatarsDir)) {
                 fs.mkdirSync(avatarsDir, { recursive: true });
             }
@@ -462,7 +462,7 @@ module.exports = {
             }
         } catch (error) {
             console.error(`Error in getAvatarPath for ${userId}:`, error.message);
-            const defaultAvatarPath = path.join(__dirname, '../commands/cache/avatars/avatar.jpg');
+            const defaultAvatarPath = path.join(__dirname, '../database/cache/avatars/avatar.jpg');
             if (fs.existsSync(defaultAvatarPath)) {
                 return defaultAvatarPath;
             }

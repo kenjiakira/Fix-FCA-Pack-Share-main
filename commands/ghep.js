@@ -827,7 +827,7 @@ module.exports = {
       drawCornerDecoration(50, 750, -Math.PI / 2);
       drawCornerDecoration(1150, 750, Math.PI);
 
-      const mergedPath = path.join(__dirname, '../commands/cache/avatar/merged.jpg');
+      const mergedPath = path.join(__dirname, '../database/cache/avatar/merged.jpg');
       const out = fs.createWriteStream(mergedPath);
       const stream = canvas.createJPEGStream({ quality: 0.95 });
       stream.pipe(out);
