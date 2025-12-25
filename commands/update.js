@@ -85,6 +85,87 @@ function addUpdate(type, title, description, adminOnly = false) {
     saveUpdates(data);
 }
 
+function getAllFiles(dir, excludePatterns = [], baseDir = null) {
+    const files = [];
+    if (!fs.existsSync(dir)) return files;
+    
+    if (!baseDir) baseDir = dir;
+    
+    try {
+        const entries = fs.readdirSync(dir, { withFileTypes: true });
+        
+        for (const entry of entries) {
+            const fullPath = path.join(dir, entry.name);
+            const relativePath = path.relative(baseDir, fullPath);
+            
+            if (excludePatterns.some(pattern => entry.name.includes(pattern) || fullPath.includes(pattern))) {
+                continue;
+            }
+            
+            if (entry.isDirectory()) {
+                files.push(...getAllFiles(fullPath, excludePatterns, baseDir));
+            } else {
+                files.push(relativePath.replace(/\\/g, '/'));
+            }
+        }
+    } catch (error) {
+        // Ignore permission errors
+    }
+    
+    return files;
+}
+
+function compareFiles(beforeFiles, afterFiles) {
+    const beforeSet = new Set(beforeFiles);
+    const afterSet = new Set(afterFiles);
+    
+    const added = afterFiles.filter(file => !beforeSet.has(file));
+    const deleted = beforeFiles.filter(file => !afterSet.has(file));
+    
+    return { added, deleted };
+}
+
+function incrementVersion(version) {
+    if (!version || version === 'N/A') {
+        return '1.0.0';
+    }
+    
+    const parts = version.split('.');
+    if (parts.length !== 3) {
+        return '1.0.0';
+    }
+    
+    let major = parseInt(parts[0]) || 0;
+    let minor = parseInt(parts[1]) || 0;
+    let patch = parseInt(parts[2]) || 0;
+    
+    // Tăng patch version (1.0.0 -> 1.0.1)
+    patch++;
+    
+    return `${major}.${minor}.${patch}`;
+}
+
+function bumpVersion() {
+    try {
+        const packagePath = path.join(__dirname, '../package.json');
+        if (!fs.existsSync(packagePath)) {
+            return null;
+        }
+        
+        const packageData = JSON.parse(fs.readFileSync(packagePath, 'utf8'));
+        const oldVersion = packageData.version || '1.0.0';
+        const newVersion = incrementVersion(oldVersion);
+        
+        packageData.version = newVersion;
+        fs.writeFileSync(packagePath, JSON.stringify(packageData, null, 2));
+        
+        return { oldVersion, newVersion };
+    } catch (error) {
+        console.error('Error bumping version:', error);
+        return null;
+    }
+}
+
 function copyDirectory(src, dest, excludePatterns = []) {
     try {
         if (!fs.existsSync(dest)) {
@@ -256,15 +337,56 @@ module.exports = {
                                 stdio: 'pipe'
                             });
                             
+                            const beforeFiles = getAllFiles(projectRoot, EXCLUDE_PATTERNS);
+                            
                             copyDirectory(tempDir, projectRoot, EXCLUDE_PATTERNS);
-                        
+                            
+                            const afterFiles = getAllFiles(projectRoot, EXCLUDE_PATTERNS);
+                            
+                            const { added, deleted } = compareFiles(beforeFiles, afterFiles);
+                            
+                            const versionBump = bumpVersion();
+                            
                             fs.rmSync(tempDir, { recursive: true, force: true });
                             
                             const versionInfo = getVersion();
                             let resultMsg = `✅ ĐÃ CẬP NHẬT TOÀN BỘ HỆ THỐNG THÀNH CÔNG!\n\n`;
-                            resultMsg += `📦 Phiên bản: v${versionInfo.version}\n`;
+                            
+                            if (versionBump) {
+                                resultMsg += `📦 Phiên bản: v${versionBump.oldVersion} → v${versionBump.newVersion}\n`;
+                            } else {
+                                resultMsg += `📦 Phiên bản: v${versionInfo.version}\n`;
+                            }
+                            
                             resultMsg += `🌿 Nhánh phát triển: ${targetBranch}\n`;
                             resultMsg += `🔗 Nguồn cập nhật: ${repoURL}\n`;
+                        
+                            if (added.length > 0 || deleted.length > 0) {
+                                resultMsg += `\n📊 THỐNG KÊ THAY ĐỔI:\n`;
+                                
+                                if (added.length > 0) {
+                                    resultMsg += `\n➕ Đã thêm ${added.length} file:\n`;
+                                    const displayAdded = added.slice(0, 20); // Giới hạn 20 file đầu tiên
+                                    displayAdded.forEach(file => {
+                                        resultMsg += `  • ${file}\n`;
+                                    });
+                                    if (added.length > 20) {
+                                        resultMsg += `  ... và ${added.length - 20} file khác\n`;
+                                    }
+                                }
+                                
+                                if (deleted.length > 0) {
+                                    resultMsg += `\n➖ Đã xóa ${deleted.length} file:\n`;
+                                    const displayDeleted = deleted.slice(0, 20); // Giới hạn 20 file đầu tiên
+                                    displayDeleted.forEach(file => {
+                                        resultMsg += `  • ${file}\n`;
+                                    });
+                                    if (deleted.length > 20) {
+                                        resultMsg += `  ... và ${deleted.length - 20} file khác\n`;
+                                    }
+                                }
+                            }
+                            
                             resultMsg += `\n✨ Hệ thống đã được cập nhật toàn diện!\n`;
                             resultMsg += `📁 Bao gồm: commands, events, utils, game, assets, và tất cả thư mục khác\n`;
                             resultMsg += `🔒 Đã giữ lại: appstate.json, admin.json, database, logins\n`;
