@@ -131612,5 +131612,159 @@
       "def": 102,
       "hp": 520
     }
+  },
+  "EXP_HEROS_WIT_777763396": {
+    "type": "EXP",
+    "name": "Heros Wit",
+    "expValue": 10000,
+    "description": "A detailed account of battles past Grants a large amount of EXP",
+    "image": "https://imgur.com/w9WpGB7.png",
+    "rarity": "4",
+    "value": 5000,
+    "obtainedAt": 1751264780330
+  },
+  "EXP_WANDERERS_ADVICE_389967022": {
+    "type": "EXP",
+    "name": "Wanderers Advice",
+    "expValue": 500,
+    "description": "Simple advice from a traveler Grants a small amount of EXP",
+    "image": "https://imgur.com/GSSFx9L.png",
+    "rarity": "2",
+    "value": 500,
+    "obtainedAt": 1751269914940
+  },
+  "CHAR_899156603": {
+    "type": "character",
+    "name": "Amber",
+    "obtainedAt": 1751292790736,
+    "value": 296,
+    "level": 1,
+    "exp": 0,
+    "stats": {
+      "atk": 97,
+      "def": 90,
+      "hp": 463
+    }
+  },
+  "FRAGMENT_ANEMO_506751411": {
+    "type": "fragment",
+    "stoneType": "ANEMO",
+    "name": "TurquoiseFragment",
+    "element": "Anemo",
+    "emoji": "🌪️",
+    "description": "Anemo evolution fragment",
+    "image": "https://imgur.com/tl1G3g6.png",
+    "obtainedAt": 1751292835682,
+    "value": 2500,
+    "isFragment": true
+  },
+  "STONE_ELECTRO_562107470": {
+    "type": "stone",
+    "stoneType": "ELECTRO",
+    "name": "VajradaAmethyst",
+    "element": "Electro",
+    "emoji": "⚡",
+    "description": "Ascension stone for Electro characters",
+    "image": "https://imgur.com/iJr7tkQ.png",
+    "obtainedAt": 1751292961979,
+    "value": 25000
+  },
+  "EXP_ADVENTURERS_EXPERIENCE_951983452": {
+    "type": "EXP",
+    "name": "Adventurers Experience",
+    "expValue": 2000,
+    "description": "A record of adventures and discoveries Grants a moderate amount of EXP",
+    "image": "https://imgur.com/LFkAr11.png",
+    "rarity": "3",
+    "value": 1500,
+    "obtainedAt": 1751293043285
+  },
+  "CHAR_168223452": {
+    "type": "character",
+    "name": "DanHeng",
+    "obtainedAt": 1751293257086,
+    "value": 461,
+    "level": 1,
+    "exp": 0,
+    "stats": {
+      "atk": 101,
+      "def": 94,
+      "hp": 499
+    }
+  },
+  "CHAR_180237602": {
+    "type": "character",
+    "name": "Zhongli",
+    "obtainedAt": 1751293964441,
+    "value": 1064913,
+    "level": 1,
+    "exp": 0,
+    "stats": {
+      "atk": 653,
+      "def": 611,
+      "hp": 2770
+    }
+  },
+  "CHAR_674394292": {
+    "type": "character",
+    "name": "Sigewinne",
+    "obtainedAt": 1754825913134,
+    "value": 594,
+    "level": 1,
+    "exp": 0,
+    "stats": {
+      "atk": 96,
+      "def": 102,
+      "hp": 540
+    }
+  },
+  "CHAR_512479495": {
+    "type": "character",
+    "name": "dehya",
+    "obtainedAt": 1754826063792,
+    "value": 755,
+    "level": 1,
+    "exp": 0,
+    "stats": {
+      "atk": 107,
+      "def": 92,
+      "hp": 454
+    }
+  },
+  "FRAGMENT_PYRO_491868556": {
+    "type": "fragment",
+    "stoneType": "PYRO",
+    "name": "AgateFragment",
+    "element": "Pyro",
+    "emoji": "🔥",
+    "description": "Pyro evolution fragment",
+    "image": "https://imgur.com/Ec9w0A3.png",
+    "obtainedAt": 1754826316518,
+    "value": 2500,
+    "isFragment": true
+  },
+  "STONE_CRYO_611465137": {
+    "type": "stone",
+    "stoneType": "CRYO",
+    "name": "ShivadaJade",
+    "element": "Cryo",
+    "emoji": "❄️",
+    "description": "Ascension stone for Cryo characters",
+    "image": "https://imgur.com/k7PooZ5.png",
+    "obtainedAt": 1754826383373,
+    "value": 25000
+  },
+  "CHAR_749303196": {
+    "type": "character",
+    "name": "Serval",
+    "obtainedAt": 1754826432389,
+    "value": 553,
+    "level": 1,
+    "exp": 0,
+    "stats": {
+      "atk": 98,
+      "def": 95,
+      "hp": 483
+    }
   }
 }
