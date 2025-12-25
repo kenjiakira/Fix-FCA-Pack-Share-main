@@ -2,7 +2,7 @@ const fs = require('fs');
 const path = require('path');
 const { createRankCard } = require('../game/canvas/rankCard');
 const { getUserName } = require('../utils/userUtils');
-const userDataPath = path.join(__dirname, '../events/cache/rankData.json');
+const userDataPath = path.join(__dirname, '../database/cache/rankData.json');
 
 module.exports = {
     name: 'rank',

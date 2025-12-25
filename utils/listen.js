@@ -15,7 +15,7 @@ async function getUserName(api, senderID) {
         }
 
         try {
-            const rankDataPath = path.join(__dirname, '../events/cache/rankData.json');
+            const rankDataPath = path.join(__dirname, '../database/cache/rankData.json');
             if (fs.existsSync(rankDataPath)) {
                 const rankData = JSON.parse(fs.readFileSync(rankDataPath, 'utf8'));
                 if (rankData[senderID] && rankData[senderID].name) {

@@ -22,7 +22,7 @@ function formatNumber(num, decimals = 0) {
  * Create a stream from buffer
  */
 async function bufferToStream(buffer) {
-  const tempDir = path.join(__dirname, '../cache');
+  const tempDir = path.join(__dirname, '../../database/cache');
   if (!fs.existsSync(tempDir)) {
     fs.mkdirSync(tempDir, { recursive: true });
   }

@@ -168,7 +168,7 @@ class DailyRewardManager {
     try {
       const userDataPath = path.join(
         __dirname,
-        "../events/cache/rankData.json"
+        "../database/cache/rankData.json"
       );
       let userData = {};
 

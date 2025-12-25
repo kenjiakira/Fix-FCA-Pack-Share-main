@@ -2100,7 +2100,7 @@ async function showPvPRanking(api, threadID, messageID) {
   const gachaData = loadGachaData();
   const players = [];
 
-  const userDataPath = path.join(__dirname, "../events/cache/rankData.json");
+  const userDataPath = path.join(__dirname, "../database/cache/rankData.json");
   let userData = {};
   try {
     userData = JSON.parse(fs.readFileSync(userDataPath));
@@ -3116,7 +3116,7 @@ async function executePvpBattle(api, threadID, messageID, challengeData, targetT
   gachaData[target].pvpStats.lastBattle = Date.now();
   saveGachaData(gachaData);
 
-  const userDataPath = path.join(__dirname, "../events/cache/rankData.json");
+  const userDataPath = path.join(__dirname, "../database/cache/rankData.json");
   let userData = {};
   try {
     userData = JSON.parse(fs.readFileSync(userDataPath));
@@ -4890,7 +4890,7 @@ module.exports = {
     const { threadID, messageID, senderID } = event;
     const gachaData = loadGachaData();
 
-    const userDataPath = path.join(__dirname, "../events/cache/rankData.json");
+    const userDataPath = path.join(__dirname, "../database/cache/rankData.json");
     let userName = "Unknown";
     try {
       const userData = JSON.parse(fs.readFileSync(userDataPath));
@@ -7964,7 +7964,7 @@ module.exports = {
             const action = target[2].toLowerCase();
             const eventType = target[3].toLowerCase();
 
-            // Đảm bảo có thuộc tính events
+            // Đảm bảo có thuộc tính database
             if (!gachaData.systemEvents) {
               gachaData.systemEvents = {};
             }

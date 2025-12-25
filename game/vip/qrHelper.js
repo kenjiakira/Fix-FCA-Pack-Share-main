@@ -13,7 +13,7 @@ try {
 
 class QRGenerator {
     constructor() {
-        this.tempDir = path.join(__dirname, '../cache');
+        this.tempDir = path.join(__dirname, '../../database/cache');
         
         // Tạo thư mục temp nếu chưa tồn tại
         if (!fs.existsSync(this.tempDir)) {
