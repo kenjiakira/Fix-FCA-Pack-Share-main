@@ -3,7 +3,6 @@ const path = require('path');
 const axios = require('axios');
 const https = require('https');
 const net = require('net');
-const fast = require('fast-speedtest-api');
 const cheerio = require('cheerio');
 
 module.exports = {
@@ -55,34 +54,69 @@ module.exports = {
         ];
 
         let currentMsg = await api.sendMessage(progressStages[0], event.threadID);
-        let stage = 0;
 
         try {
-            const downloadSpeedTest = new fast({
-                token: "YXNkZmFzZGxmbnNkYWZoYXNkZmhrYWxm",
-                verbose: false,
-                timeout: 10000,
-                https: true,
-            });
-
-            for (let i = 1; i < progressStages.length; i++) {
-                await api.editMessage(progressStages[i], currentMsg.messageID);
-            }
-
-            const downloadSpeed = await downloadSpeedTest.getSpeed();
-            const uploadSpeed = await downloadSpeedTest.getSpeed();
+            await api.editMessage(progressStages[1], currentMsg.messageID);
+            
+            // Test download speed
+            await api.editMessage(progressStages[2], currentMsg.messageID);
+            const downloadSpeed = await this.measureDownloadSpeed();
+            
+            // Test upload speed (simulated)
+            await api.editMessage(progressStages[3], currentMsg.messageID);
+            const uploadSpeed = await this.measureUploadSpeed();
+            
+            await api.editMessage(progressStages[4], currentMsg.messageID);
             const ping = await this.getPing();
             const isp = await this.getISP();
 
             const result = `🌐 Chi tiết tốc độ mạng:\n\n` +
-                `📥 Tốc độ tải xuống: ${(downloadSpeed / 1024 / 1024).toFixed(2)} Mbps\n` +
-                `📤 Tốc độ tải lên: ${(uploadSpeed / 1024 / 1024).toFixed(2)} Mbps\n` +
+                `📥 Tốc độ tải xuống: ${downloadSpeed.toFixed(2)} Mbps\n` +
+                `📤 Tốc độ tải lên: ${uploadSpeed.toFixed(2)} Mbps\n` +
                 `🏷️ Nhà mạng: ${isp}\n` +
                 `🔄 Ping: ${ping} ms`;
 
             await api.editMessage(result, currentMsg.messageID);
         } catch (error) {
             api.editMessage("❌ Lỗi kiểm tra tốc độ mạng!", currentMsg.messageID);
+        }
+    },
+
+    async measureDownloadSpeed() {
+        try {
+            const testUrl = 'https://speed.cloudflare.com/__down?bytes=10000000'; // 10MB test file
+            const startTime = Date.now();
+            const response = await axios.get(testUrl, {
+                responseType: 'arraybuffer',
+                timeout: 30000
+            });
+            const endTime = Date.now();
+            const duration = (endTime - startTime) / 1000; // seconds
+            const sizeInBytes = response.data.length;
+            const speedInMbps = (sizeInBytes * 8) / (duration * 1000000); // Convert to Mbps
+            return speedInMbps;
+        } catch (error) {
+            return 0;
+        }
+    },
+
+    async measureUploadSpeed() {
+        try {
+            // Simulate upload by sending data
+            const testData = Buffer.alloc(1000000); // 1MB test data
+            const testUrl = 'https://httpbin.org/post';
+            const startTime = Date.now();
+            await axios.post(testUrl, testData, {
+                timeout: 30000,
+                headers: { 'Content-Type': 'application/octet-stream' }
+            });
+            const endTime = Date.now();
+            const duration = (endTime - startTime) / 1000; // seconds
+            const sizeInBytes = testData.length;
+            const speedInMbps = (sizeInBytes * 8) / (duration * 1000000); // Convert to Mbps
+            return speedInMbps;
+        } catch (error) {
+            return 0;
         }
     },
 
