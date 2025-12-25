@@ -231,6 +231,12 @@ const reloadModules = () => {
                         quicklotto.onLoad({ api });
                         console.log('🎰 QuickLotto system initialized!');
                     }
+                    
+                    const autoping = require('./commands/autoping.js');
+                    if (autoping.onLoad) {
+                        autoping.onLoad({ api });
+                        console.log('🏓 AutoPing system initialized!');
+                    }
                 } catch (error) {
                     console.error('Failed to initialize systems:', error);
                 }
