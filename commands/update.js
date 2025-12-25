@@ -209,7 +209,7 @@ module.exports = {
             if (versionInfo.commitHash) {
                 msg += `🔖 Commit: ${versionInfo.commitHash}\n`;
             }
-            msg += `\n╰───────────────────────╯\n\n`;
+            msg += `\n╰────────────╯\n\n`;
             
             if (isAdmin) {
                 msg += `👑 ADMIN COMMANDS:\n`;
@@ -231,7 +231,7 @@ module.exports = {
                     let msg = "╭─「 THÔNG TIN PHIÊN BẢN 」─╮\n\n";
                     msg += `📦 Phiên bản: v${versionInfo.version}\n`;
                     
-                    msg += "\n╰───────────────────────╯";
+                    msg += "\n╰────────────╯";
                     
                     return api.sendMessage(msg, threadID, messageID);
                 }
@@ -322,7 +322,7 @@ module.exports = {
                 }
             }
         }
-            
+
         const versionInfo = getVersion();
         let msg = `╭─「 THÔNG TIN PHIÊN BẢN 」─╮\n\n`;
         msg += `📦 Phiên bản: v${versionInfo.version}\n`;
@@ -335,7 +335,7 @@ module.exports = {
         if (versionInfo.commitHash) {
             msg += `🔖 Commit: ${versionInfo.commitHash}\n`;
         }
-        msg += `\n╰───────────────────────╯`;
+        msg += `\n╰────────────╯`;
         
         return api.sendMessage(msg, threadID, messageID);
     }
