@@ -77,7 +77,7 @@ module.exports = {
       else {
         if (!isLocalMatch) {
           try {
-            const userDataPath = path.join(__dirname, '../database/cache/rankData.json');
+            const userDataPath = path.join(__dirname, '../database/rankData.json');
             let userData = {};
 
             if (fs.existsSync(userDataPath)) {
@@ -135,7 +135,7 @@ module.exports = {
         } else {
           const participants = await getThreadParticipantIDs(api, threadID);
           
-          const userDataPath = path.join(__dirname, '../database/cache/rankData.json');
+          const userDataPath = path.join(__dirname, '../database/rankData.json');
           let userData = {};
           try {
             if (fs.existsSync(userDataPath)) {
@@ -173,7 +173,7 @@ module.exports = {
       
       // Kiểm tra xem người được chọn có tên là "User" hay không
       try {
-        const userDataPath = path.join(__dirname, '../database/cache/rankData.json');
+        const userDataPath = path.join(__dirname, '../database/rankData.json');
         let userData = {};
         if (fs.existsSync(userDataPath)) {
           userData = JSON.parse(fs.readFileSync(userDataPath, 'utf8'));
@@ -323,7 +323,7 @@ module.exports = {
         partnerImg = createDefaultAvatar();
       }
 
-      const avatarCacheDir = path.join(__dirname, './cache/avatar');
+      const avatarCacheDir = path.join(__dirname, '../database/cache/avatar');
       if (!fs.existsSync(avatarCacheDir)) {
         fs.mkdirSync(avatarCacheDir, { recursive: true });
       }
@@ -334,7 +334,7 @@ module.exports = {
       fs.writeFileSync(pathUser, userImg);
       fs.writeFileSync(pathPartner, partnerImg);
 
-      const userDataPath = path.join(__dirname, '../database/cache/rankData.json');
+      const userDataPath = path.join(__dirname, '../database/rankData.json');
       let userName, partnerName;
 
       try {

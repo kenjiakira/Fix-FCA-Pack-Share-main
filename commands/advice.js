@@ -2,7 +2,7 @@ const { useGPTWithHistory } = require('../utils/gptHook');
 const fs = require('fs');
 const path = require('path');
 
-const ADVICES_FILE = path.join(__dirname, './json/used_advices.json');
+const ADVICES_FILE = path.join(__dirname, '../database/json/used_advices.json');
 
 function initializeAdvicesFile() {
     if (!fs.existsSync(path.dirname(ADVICES_FILE))) {

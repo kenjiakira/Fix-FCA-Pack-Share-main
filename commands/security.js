@@ -104,7 +104,7 @@ Tính năng anti:
     },
 
     onLoad: function () {
-        const antiDir = path.join(__dirname, "./json/anti");
+        const antiDir = path.join(__dirname, "../database/json/anti");
         if (!fs.existsSync(antiDir)) {
             fs.mkdirSync(antiDir, { recursive: true });
         }

@@ -15,7 +15,7 @@ const MAX_BACKUPS = 14;
 const { getVIPBenefits } = require("../game/vip/vipCheck");
 const { getUserName } = require('../utils/userUtils');
 
-const GACHA_DATA_FILE = path.join(__dirname, "./json/gacha/gacha.json");
+const GACHA_DATA_FILE = path.join(__dirname, "../database/json/gacha/gacha.json");
 const PULL_COST = 1000;
 const PULL_COOLDOWN = 45;
 
@@ -64,7 +64,7 @@ const PVP_REWARD_LOSE = 500;
 
 const CHARACTERS_DB_FILE = path.join(
   __dirname,
-  "./json/gacha/characters_db.json"
+  "../database/json/gacha/characters_db.json"
 );
 const STELLA_PITY_THRESHOLD = 3;
 const STELLA_PITY_BOOST_PER_FAIL = 20;
@@ -2100,7 +2100,7 @@ async function showPvPRanking(api, threadID, messageID) {
   const gachaData = loadGachaData();
   const players = [];
 
-  const userDataPath = path.join(__dirname, "../database/cache/rankData.json");
+  const userDataPath = path.join(__dirname, "../database/rankData.json");
   let userData = {};
   try {
     userData = JSON.parse(fs.readFileSync(userDataPath));
@@ -3116,7 +3116,7 @@ async function executePvpBattle(api, threadID, messageID, challengeData, targetT
   gachaData[target].pvpStats.lastBattle = Date.now();
   saveGachaData(gachaData);
 
-  const userDataPath = path.join(__dirname, "../database/cache/rankData.json");
+  const userDataPath = path.join(__dirname, "../database/rankData.json");
   let userData = {};
   try {
     userData = JSON.parse(fs.readFileSync(userDataPath));
@@ -4290,7 +4290,7 @@ function doPull(userData) {
 
 function createBackup(type = "daily") {
   try {
-    const backupDir = path.join(__dirname, "./json/backups");
+    const backupDir = path.join(__dirname, "../database/json/backups");
     if (!fs.existsSync(backupDir)) {
       fs.mkdirSync(backupDir, { recursive: true });
     }
@@ -4377,7 +4377,7 @@ function restoreFromBackup(backupId = null) {
     console.log("🔄 Bắt đầu quá trình phục hồi backup...");
     const startTime = Date.now();
     
-    const backupDir = path.join(__dirname, "./json/backups");
+    const backupDir = path.join(__dirname, "../database/json/backups");
     if (!fs.existsSync(backupDir)) {
       console.log("Không tìm thấy thư mục backup");
       return { success: false, reason: "no_backup_dir" };
@@ -4498,7 +4498,7 @@ function autoConvertFragments(userData) {
 }
 function listBackups() {
   try {
-    const backupDir = path.join(__dirname, "./json/backups");
+    const backupDir = path.join(__dirname, "../database/json/backups");
     if (!fs.existsSync(backupDir)) {
       return { success: false, reason: "no_backup_dir" };
     }
@@ -4890,7 +4890,7 @@ module.exports = {
     const { threadID, messageID, senderID } = event;
     const gachaData = loadGachaData();
 
-    const userDataPath = path.join(__dirname, "../database/cache/rankData.json");
+    const userDataPath = path.join(__dirname, "../database/rankData.json");
     let userName = "Unknown";
     try {
       const userData = JSON.parse(fs.readFileSync(userDataPath));

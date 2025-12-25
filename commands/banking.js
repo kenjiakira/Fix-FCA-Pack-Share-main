@@ -9,8 +9,8 @@ function formatNumber(number) {
 }
 
 const FILES = {
-    banking: path.join(__dirname, './json/currencies/banking.json'),
-    transactions: path.join(__dirname, './json/currencies/transactions.json')
+    banking: path.join(__dirname, '../database/json/currencies/banking.json'),
+    transactions: path.join(__dirname, '../database/json/currencies/transactions.json')
 };
 
 const LOAN_CONFIG = {

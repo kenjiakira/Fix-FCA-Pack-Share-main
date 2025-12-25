@@ -15,8 +15,8 @@ const MESSAGE_LIFETIME = 15000;
 const ANSWER_COOLDOWN = 10000;
 const QUESTION_TIME_LIMIT = 120000;
 
-const API_KEYS = JSON.parse(fs.readFileSync(path.join(__dirname, "./json/chatbot/key.json"))).api_keys;
-const QUESTIONS_FILE = path.join(__dirname, './json/quiz/questions.json');
+const API_KEYS = JSON.parse(fs.readFileSync(path.join(__dirname, '../database/json/chatbot/key.json'))).api_keys;
+const QUESTIONS_FILE = path.join(__dirname, '../database/json/quiz/questions.json');
 const usedQuestions = new Set();
 const gameStates = new Map();
 const lastAnswerTime = new Map();

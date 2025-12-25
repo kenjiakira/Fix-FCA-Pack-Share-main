@@ -6,7 +6,7 @@ const gameLogic = require('../utils/gameLogic');
 const { getUserName } = require('../utils/userUtils'); 
 
 
-const HISTORY_FILE = path.join(__dirname, './json/tx_history.json');
+const HISTORY_FILE = path.join(__dirname, '../database/json/tx_history.json');
 
 const gameHistory = {
     results: {},  

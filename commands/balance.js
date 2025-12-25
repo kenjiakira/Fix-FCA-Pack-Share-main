@@ -4,7 +4,7 @@ const { createCanvas, loadImage } = require('canvas');
 const axios = require('axios');
 
 const userDataFile = path.join(__dirname,'../database/rankData.json');
-const bankingDataPath = path.join(__dirname, './json/banking.json');
+const bankingDataPath = path.join(__dirname, '../database/json/banking.json');
 let userData = {};
 
 function formatNumber(number) {

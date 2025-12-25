@@ -4,9 +4,9 @@ const fs = require('fs');
 const path = require('path');
 const { getBalance, updateBalance } = require('../utils/currencies');
 
-const HISTORY_FILE = path.join(__dirname, './json/quicklotto_history.json');
-const SETTINGS_FILE = path.join(__dirname, './json/lotto_settings.json');
-const TICKETS_FILE = path.join(__dirname, './json/lotto_tickets.json');
+const HISTORY_FILE = path.join(__dirname, '../database/json/quicklotto_history.json');
+const SETTINGS_FILE = path.join(__dirname, '../database/json/lotto_settings.json');
+const TICKETS_FILE = path.join(__dirname, '../database/json/lotto_tickets.json');
 
 const SCHEDULE_INTERVAL = '*/10 * * * *';
 const SPECIAL_PRIZE_RATIO = 95; 
@@ -20,7 +20,7 @@ let ticketData = { tickets: {} };
 
 function loadSettings() {
     try {
-        const jsonDir = path.join(__dirname, './json');
+        const jsonDir = path.join(__dirname, '../database/json');
         if (!fs.existsSync(jsonDir)) {
             fs.mkdirSync(jsonDir, { recursive: true });
         }
@@ -103,7 +103,7 @@ function saveHistory(results) {
 }
 function loadHistory() {
     try {
-        const jsonDir = path.join(__dirname, './json');
+        const jsonDir = path.join(__dirname, '../database/json');
         if (!fs.existsSync(jsonDir)) {
             fs.mkdirSync(jsonDir, { recursive: true });
         }

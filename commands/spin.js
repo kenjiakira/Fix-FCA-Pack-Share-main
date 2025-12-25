@@ -159,7 +159,7 @@ module.exports = {
 
     async updateUserExp(userId, expAmount) {
         try {
-            const userDataPath = path.join(__dirname, "../database/cache/rankData.json");
+            const userDataPath = path.join(__dirname, "../database/rankData.json");
             let userData = {};
 
             try {
