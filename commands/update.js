@@ -286,16 +286,16 @@ module.exports = {
                                 threadID, messageID
                             );
                         }
-                        
+                    
                         try {
-                            execSync('git stash push -m "Auto-stash before update" -m "Phiên bản mới nhất"', {
+                            execSync('git stash push -m "Auto-stash before update"', {
                                 cwd: path.join(__dirname, '../'),
                                 stdio: 'ignore'
                             });
                         } catch (err) {
                         }
                         
-                        execSync('git fetch origin', {
+                        execSync('git fetch --all --prune --tags', {
                             cwd: path.join(__dirname, '../'),
                             encoding: 'utf8'
                         });
@@ -347,10 +347,27 @@ module.exports = {
                             }
                         }
                         
-                        const pullOutput = execSync(`git pull origin ${targetBranch}`, {
-                            cwd: path.join(__dirname, '../'),
-                            encoding: 'utf8'
-                        });
+                        let pullOutput = '';
+                        try {
+                            execSync(`git reset --hard origin/${targetBranch}`, {
+                                cwd: path.join(__dirname, '../'),
+                                encoding: 'utf8'
+                            });
+                            pullOutput = `Đã reset và đồng bộ hoàn toàn với origin/${targetBranch}`;
+                        } catch (err) {
+                            pullOutput = execSync(`git pull origin ${targetBranch} --no-edit`, {
+                                cwd: path.join(__dirname, '../'),
+                                encoding: 'utf8'
+                            });
+                        }
+                        
+                        try {
+                            execSync('git clean -fd', {
+                                cwd: path.join(__dirname, '../'),
+                                stdio: 'ignore'
+                            });
+                        } catch (err) {
+                        }
                         
                         let needInstall = false;
                         try {
@@ -366,23 +383,52 @@ module.exports = {
                         
                         const versionInfo = getVersion();
                         
-                        let resultMsg = `✅ Đã cập nhật code thành công!\n\n`;
-                        resultMsg += `📦 Phiên bản hiện tại: v${versionInfo.version}\n`;
-                        
-                        if (versionInfo.gitTag) {
-                            resultMsg += `🏷️ Git Tag: ${versionInfo.gitTag}\n`;
+                        let latestCommit = '';
+                        let commitMessage = '';
+                        try {
+                            latestCommit = execSync('git rev-parse --short HEAD', {
+                                cwd: path.join(__dirname, '../'),
+                                encoding: 'utf8'
+                            }).trim();
+                            commitMessage = execSync('git log -1 --pretty=format:"%s"', {
+                                cwd: path.join(__dirname, '../'),
+                                encoding: 'utf8'
+                            }).trim();
+                        } catch (err) {
                         }
                         
+                        let changedFilesCount = 0;
+                        try {
+                            const changedFiles = execSync('git diff --name-only HEAD@{1} HEAD', {
+                                cwd: path.join(__dirname, '../'),
+                                encoding: 'utf8'
+                            });
+                            changedFilesCount = changedFiles.trim().split('\n').filter(f => f.trim()).length;
+                        } catch (err) {
+                        }
+                        
+                        let resultMsg = `✅ ĐÃ CẬP NHẬT TOÀN BỘ HỆ THỐNG THÀNH CÔNG!\n\n`;
+                        resultMsg += `📦 Phiên bản: v${versionInfo.version}\n`;
                         resultMsg += `🌿 Nhánh: ${targetBranch}\n`;
+                        
+                        if (latestCommit) {
+                            resultMsg += `🔖 Commit mới nhất: ${latestCommit}\n`;
+                        }
+                        
+                        if (commitMessage) {
+                            resultMsg += `📝 Message: ${commitMessage.substring(0, 50)}${commitMessage.length > 50 ? '...' : ''}\n`;
+                        }
+                        
+                        if (changedFilesCount > 0) {
+                            resultMsg += `📊 Số file đã cập nhật: ${changedFilesCount}\n`;
+                        }
+                        
                         if (currentBranch !== targetBranch) {
-                            resultMsg += `🔄 Đã chuyển từ nhánh "${currentBranch}" sang "${targetBranch}"\n`;
+                            resultMsg += `🔄 Đã chuyển từ "${currentBranch}" → "${targetBranch}"\n`;
                         }
                         
-                        if (versionInfo.commitHash) {
-                            resultMsg += `🔖 Commit: ${versionInfo.commitHash}\n`;
-                        }
-                        
-                        resultMsg += `\n📥 Output:\n${pullOutput.substring(0, 300)}${pullOutput.length > 300 ? '...' : ''}\n`;
+                        resultMsg += `\n✨ Hệ thống đã được cập nhật toàn diện!\n`;
+                        resultMsg += `📁 Bao gồm: commands, events, utils, game, assets, và tất cả thư mục khác\n`;
                         
                         if (needInstall) {
                             resultMsg += `\n📦 Phát hiện thay đổi package.json\n`;
