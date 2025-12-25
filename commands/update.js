@@ -2,6 +2,15 @@ const fs = require('fs');
 const path = require('path');
 const { execSync } = require('child_process');
 const os = require('os');
+const {
+    getAllFiles,
+    getFileMap,
+    compareFiles,
+    compareFileLists,
+    bumpVersion,
+    getVersion,
+    copyDirectory
+} = require('../utils/update');
 
 const updatesPath = path.join(__dirname, '../database/json/updates.json');
 
@@ -85,184 +94,6 @@ function addUpdate(type, title, description, adminOnly = false) {
     saveUpdates(data);
 }
 
-function getAllFiles(dir, excludePatterns = [], baseDir = null) {
-    const files = [];
-    if (!fs.existsSync(dir)) return files;
-    
-    if (!baseDir) baseDir = dir;
-    
-    try {
-        const entries = fs.readdirSync(dir, { withFileTypes: true });
-        
-        for (const entry of entries) {
-            const fullPath = path.join(dir, entry.name);
-            const relativePath = path.relative(baseDir, fullPath);
-            
-            if (excludePatterns.some(pattern => entry.name.includes(pattern) || fullPath.includes(pattern))) {
-                continue;
-            }
-            
-            if (entry.isDirectory()) {
-                files.push(...getAllFiles(fullPath, excludePatterns, baseDir));
-            } else {
-                files.push(relativePath.replace(/\\/g, '/'));
-            }
-        }
-    } catch (error) {
-        // Ignore permission errors
-    }
-    
-    return files;
-}
-
-function compareFiles(beforeFiles, afterFiles) {
-    const beforeSet = new Set(beforeFiles);
-    const afterSet = new Set(afterFiles);
-    
-    const added = afterFiles.filter(file => !beforeSet.has(file));
-    const deleted = beforeFiles.filter(file => !afterSet.has(file));
-    
-    return { added, deleted };
-}
-
-function incrementVersion(version) {
-    if (!version || version === 'N/A') {
-        return '1.0.0';
-    }
-    
-    const parts = version.split('.');
-    if (parts.length !== 3) {
-        return '1.0.0';
-    }
-    
-    let major = parseInt(parts[0]) || 0;
-    let minor = parseInt(parts[1]) || 0;
-    let patch = parseInt(parts[2]) || 0;
-    
-    // Tăng patch version (1.0.0 -> 1.0.1)
-    patch++;
-    
-    return `${major}.${minor}.${patch}`;
-}
-
-function bumpVersion() {
-    try {
-        const packagePath = path.join(__dirname, '../package.json');
-        if (!fs.existsSync(packagePath)) {
-            return null;
-        }
-        
-        const packageData = JSON.parse(fs.readFileSync(packagePath, 'utf8'));
-        const oldVersion = packageData.version || '1.0.0';
-        const newVersion = incrementVersion(oldVersion);
-        
-        packageData.version = newVersion;
-        fs.writeFileSync(packagePath, JSON.stringify(packageData, null, 2));
-        
-        return { oldVersion, newVersion };
-    } catch (error) {
-        console.error('Error bumping version:', error);
-        return null;
-    }
-}
-
-function copyDirectory(src, dest, excludePatterns = []) {
-    try {
-        if (!fs.existsSync(dest)) {
-            fs.mkdirSync(dest, { recursive: true });
-        }
-
-        const entries = fs.readdirSync(src, { withFileTypes: true });
-
-        for (const entry of entries) {
-            const srcPath = path.join(src, entry.name);
-            const destPath = path.join(dest, entry.name);
-            
-            if (excludePatterns.some(pattern => entry.name.includes(pattern) || srcPath.includes(pattern))) {
-                continue;
-            }
-
-            if (entry.isDirectory()) {
-                copyDirectory(srcPath, destPath, excludePatterns);
-            } else {
-                fs.copyFileSync(srcPath, destPath);
-            }
-        }
-        return true;
-    } catch (error) {
-        throw new Error(`Lỗi khi copy thư mục: ${error.message}`);
-    }
-}
-
-function getVersion() {
-    try {
-        const packagePath = path.join(__dirname, '../package.json');
-        let version = 'N/A';
-        let gitTag = null;
-        let commitHash = null;
-        let branch = null;
-        
-        // Lấy version từ package.json
-        if (fs.existsSync(packagePath)) {
-            const packageData = JSON.parse(fs.readFileSync(packagePath, 'utf8'));
-            version = packageData.version || 'N/A';
-        }
-        
-        // Kiểm tra xem có phải Git repo không
-        const isGitRepo = fs.existsSync(path.join(__dirname, '../.git'));
-        if (isGitRepo) {
-            try {
-                // Lấy Git tag gần nhất (nếu có)
-                try {
-                    gitTag = execSync('git describe --tags --abbrev=0', {
-                        cwd: path.join(__dirname, '../'),
-                        encoding: 'utf8',
-                        stdio: ['ignore', 'pipe', 'ignore']
-                    }).trim();
-                } catch (err) {
-                    // Không có tag, bỏ qua
-                }
-                
-                // Lấy commit hash ngắn
-                try {
-                    commitHash = execSync('git rev-parse --short HEAD', {
-                        cwd: path.join(__dirname, '../'),
-                        encoding: 'utf8'
-                    }).trim();
-                } catch (err) {
-                    // Không thể lấy commit hash
-                }
-                
-                // Lấy branch hiện tại
-                try {
-                    branch = execSync('git rev-parse --abbrev-ref HEAD', {
-                        cwd: path.join(__dirname, '../'),
-                        encoding: 'utf8'
-                    }).trim();
-                } catch (err) {
-                    // Không thể lấy branch
-                }
-            } catch (err) {
-                // Git commands failed
-            }
-        }
-        
-        return {
-            version: version,
-            gitTag: gitTag,
-            commitHash: commitHash,
-            branch: branch
-        };
-    } catch (error) {
-        return {
-            version: 'N/A',
-            gitTag: null,
-            commitHash: null,
-            branch: null
-        };
-    }
-}
-
 module.exports = {
     name: "update",
     dev: "HNT",
@@ -337,13 +168,15 @@ module.exports = {
                                 stdio: 'pipe'
                             });
                             
-                            const beforeFiles = getAllFiles(projectRoot, EXCLUDE_PATTERNS);
+                            const beforeFileMap = getFileMap(projectRoot, EXCLUDE_PATTERNS);
+                            const beforeFiles = Array.from(beforeFileMap.keys());
                             
-                            copyDirectory(tempDir, projectRoot, EXCLUDE_PATTERNS);
+                            const copyResult = copyDirectory(tempDir, projectRoot, EXCLUDE_PATTERNS, true);
                             
-                            const afterFiles = getAllFiles(projectRoot, EXCLUDE_PATTERNS);
+                            const afterFileMap = getFileMap(projectRoot, EXCLUDE_PATTERNS);
+                            const afterFiles = Array.from(afterFileMap.keys());
                             
-                            const { added, deleted } = compareFiles(beforeFiles, afterFiles);
+                            const { added, deleted, modified } = compareFiles(beforeFileMap, afterFileMap);
                             
                             const versionBump = bumpVersion();
                             
@@ -360,29 +193,47 @@ module.exports = {
                             
                             resultMsg += `🌿 Nhánh phát triển: ${targetBranch}\n`;
                             resultMsg += `🔗 Nguồn cập nhật: ${repoURL}\n`;
-                        
-                            if (added.length > 0 || deleted.length > 0) {
-                                resultMsg += `\n📊 THỐNG KÊ THAY ĐỔI:\n`;
+                            
+                            resultMsg += `\n📊 THỐNG KÊ CẬP NHẬT:\n`;
+                            resultMsg += `  ✅ Đã copy: ${copyResult.copied.length} file\n`;
+                            resultMsg += `  ⏭️  Đã bỏ qua (không đổi): ${copyResult.skipped.length} file\n`;
+                            if (copyResult.errors.length > 0) {
+                                resultMsg += `  ⚠️  Lỗi: ${copyResult.errors.length} file\n`;
+                            }
+                            
+                            if (added.length > 0 || deleted.length > 0 || modified.length > 0) {
+                                resultMsg += `\n📋 CHI TIẾT THAY ĐỔI:\n`;
                                 
                                 if (added.length > 0) {
                                     resultMsg += `\n➕ Đã thêm ${added.length} file:\n`;
-                                    const displayAdded = added.slice(0, 20); // Giới hạn 20 file đầu tiên
+                                    const displayAdded = added.slice(0, 15);
                                     displayAdded.forEach(file => {
                                         resultMsg += `  • ${file}\n`;
                                     });
-                                    if (added.length > 20) {
-                                        resultMsg += `  ... và ${added.length - 20} file khác\n`;
+                                    if (added.length > 15) {
+                                        resultMsg += `  ... và ${added.length - 15} file khác\n`;
+                                    }
+                                }
+                                
+                                if (modified.length > 0) {
+                                    resultMsg += `\n🔄 Đã cập nhật ${modified.length} file:\n`;
+                                    const displayModified = modified.slice(0, 15);
+                                    displayModified.forEach(file => {
+                                        resultMsg += `  • ${file}\n`;
+                                    });
+                                    if (modified.length > 15) {
+                                        resultMsg += `  ... và ${modified.length - 15} file khác\n`;
                                     }
                                 }
                                 
                                 if (deleted.length > 0) {
                                     resultMsg += `\n➖ Đã xóa ${deleted.length} file:\n`;
-                                    const displayDeleted = deleted.slice(0, 20); // Giới hạn 20 file đầu tiên
+                                    const displayDeleted = deleted.slice(0, 15);
                                     displayDeleted.forEach(file => {
                                         resultMsg += `  • ${file}\n`;
                                     });
-                                    if (deleted.length > 20) {
-                                        resultMsg += `  ... và ${deleted.length - 20} file khác\n`;
+                                    if (deleted.length > 15) {
+                                        resultMsg += `  ... và ${deleted.length - 15} file khác\n`;
                                     }
                                 }
                             }
@@ -463,72 +314,3 @@ module.exports = {
         return api.sendMessage(msg, threadID, messageID);
     }
 };
-
-function showUpdates(api, threadID, userID, messageID, isAdmin) {
-    const data = loadUpdates();
-    const sevenDaysAgo = Date.now() - (7 * 24 * 60 * 60 * 1000);
-    
-    const recentUpdates = data.updates.filter(update => 
-        update.date >= sevenDaysAgo && (isAdmin || !update.adminOnly)
-    );
-    
-    if (recentUpdates.length === 0) {
-        return api.sendMessage(
-            "📢 Không có cập nhật nào trong 7 ngày qua!",
-            threadID, messageID
-        );
-    }
-    
-    const updatesByType = {};
-    recentUpdates.forEach(update => {
-        if (!updatesByType[update.type]) {
-            updatesByType[update.type] = [];
-        }
-        updatesByType[update.type].push(update);
-    });
-    
-    let msg = "╭─「 UPGRADE NOTES 」─╮\n\n";
-    
-    if (updatesByType['feature']) {
-        msg += "✨ TÍNH NĂNG MỚI:\n";
-        updatesByType['feature'].forEach(update => {
-            msg += `• ${update.title}: ${update.description}\n`;
-            msg += `  📅 ${new Date(update.date).toLocaleDateString()}\n`;
-        });
-        msg += "\n";
-    }
-    
-    if (updatesByType['improvement']) {
-        msg += "🔄 CẢI TIẾN:\n";
-        updatesByType['improvement'].forEach(update => {
-            msg += `• ${update.title}: ${update.description}\n`;
-            msg += `  📅 ${new Date(update.date).toLocaleDateString()}\n`;
-        });
-        msg += "\n";
-    }
-    
-    if (updatesByType['bugfix']) {
-        msg += "🛠️ SỬA LỖI:\n";
-        updatesByType['bugfix'].forEach(update => {
-            msg += `• ${update.title}: ${update.description}\n`;
-            msg += `  📅 ${new Date(update.date).toLocaleDateString()}\n`;
-        });
-        msg += "\n";
-    }
-    
-    Object.keys(updatesByType).forEach(type => {
-        if (!['feature', 'improvement', 'bugfix'].includes(type)) {
-            const emoji = type === 'security' ? '🔒' : '📝';
-            msg += `${emoji} ${type.toUpperCase()}:\n`;
-            updatesByType[type].forEach(update => {
-                msg += `• ${update.title}: ${update.description}\n`;
-                msg += `  📅 ${new Date(update.date).toLocaleDateString()}\n`;
-            });
-            msg += "\n";
-        }
-    });
-    
-    msg += "╰──────────────╯";
-    
-    return api.sendMessage(msg, threadID, messageID);
-}
