@@ -1,5 +1,6 @@
 const fs = require('fs');
 const path = require('path');
+const { execSync } = require('child_process');
 
 const updatesPath = path.join(__dirname, '../database/json/updates.json');
 
@@ -75,7 +76,7 @@ module.exports = {
     category: "System",
     info: "Hiển thị các cập nhật mới trong 7 ngày gần nhất",
     onPrefix: true,
-    usages: "update [add/list/del/view] [userID]",
+    usages: "update [add/list/del/view/pull] [userID]",
     cooldowns: 5,
 
     onLaunch: async ({ api, event, target }) => {
@@ -156,6 +157,91 @@ module.exports = {
                     }
                     
                     return showUpdates(api, threadID, userId, messageID, false);
+                }
+                
+                case "pull":
+                case "sync": {
+                    const loadingMsg = await api.sendMessage("⏳ Đang cập nhật code từ Git...", threadID);
+                    
+                    try {
+                        const isGitRepo = fs.existsSync(path.join(__dirname, '../.git'));
+                        if (!isGitRepo) {
+                            api.unsendMessage(loadingMsg.messageID);
+                            return api.sendMessage(
+                                "❌ Thư mục này chưa được khởi tạo Git!\n" +
+                                "💡 Vui lòng clone repo từ GitHub trước.",
+                                threadID, messageID
+                            );
+                        }
+                        
+                        let currentBranch;
+                        try {
+                            currentBranch = execSync('git rev-parse --abbrev-ref HEAD', {
+                                cwd: path.join(__dirname, '../'),
+                                encoding: 'utf8'
+                            }).trim();
+                        } catch (err) {
+                            api.unsendMessage(loadingMsg.messageID);
+                            return api.sendMessage(
+                                "❌ Không thể xác định branch hiện tại!",
+                                threadID, messageID
+                            );
+                        }
+                        
+                        try {
+                            execSync('git stash push -m "Auto-stash before update"', {
+                                cwd: path.join(__dirname, '../'),
+                                stdio: 'ignore'
+                            });
+                        } catch (err) {
+                        }
+                        
+                        execSync('git fetch origin', {
+                            cwd: path.join(__dirname, '../'),
+                            encoding: 'utf8'
+                        });
+                        
+                        const pullOutput = execSync(`git pull origin ${currentBranch}`, {
+                            cwd: path.join(__dirname, '../'),
+                            encoding: 'utf8'
+                        });
+                        
+                        let needInstall = false;
+                        try {
+                            const changedFiles = execSync('git diff HEAD@{1} HEAD --name-only', {
+                                cwd: path.join(__dirname, '../'),
+                                encoding: 'utf8'
+                            });
+                            if (changedFiles.includes('package.json')) {
+                                needInstall = true;
+                            }
+                        } catch (err) {
+            
+                        }
+                        
+                        let resultMsg = `✅ Đã cập nhật code thành công!\n\n`;
+                        resultMsg += `🌿 Branch: ${currentBranch}\n`;
+                        resultMsg += `📥 Output:\n${pullOutput.substring(0, 500)}${pullOutput.length > 500 ? '...' : ''}\n`;
+                        
+                        if (needInstall) {
+                            resultMsg += `\n📦 Phát hiện thay đổi package.json\n`;
+                            resultMsg += `💡 Vui lòng chạy 'npm install' để cài đặt dependencies mới`;
+                        }
+                        
+                        api.unsendMessage(loadingMsg.messageID);
+                        return api.sendMessage(resultMsg, threadID, messageID);
+                        
+                    } catch (err) {
+                        api.unsendMessage(loadingMsg.messageID);
+                        return api.sendMessage(
+                            `❌ Lỗi khi cập nhật code:\n${err.message}\n\n` +
+                            `💡 Kiểm tra lại:\n` +
+                            `1. Kết nối mạng\n` +
+                            `2. Quyền truy cập Git\n` +
+                            `3. Có conflict cần giải quyết`,
+                            threadID, messageID
+                        );
+                    }
                 }
             }
         }
@@ -244,6 +330,7 @@ function showUpdates(api, threadID, userID, messageID, isAdmin) {
         msg += "• update del [id]\n";
         msg += "• update list\n";
         msg += "• update view [userID]\n";
+        msg += "• update pull - Cập nhật code từ Git\n";
         msg += "\nLoại: feature, bugfix, improvement, security";
     }
     
