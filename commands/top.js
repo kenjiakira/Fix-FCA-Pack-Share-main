@@ -783,7 +783,7 @@ module.exports = {
     try {
       // Load userData first
       try {
-        const rawData = fs.readFileSync("./events/cache/rankData.json");
+        const rawData = fs.readFileSync("./database/cache/rankData.json");
         userData = JSON.parse(rawData);
       } catch (error) {
         console.error("Lỗi khi đọc userData.json:", error);

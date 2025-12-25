@@ -3,7 +3,7 @@ const moment = require('moment-timezone');
 const path = require('path');
 
 const adminConfig = JSON.parse(fs.readFileSync('admin.json', 'utf8'));
-const FEEDBACK_LOG_DIR = './commands/json/feedback';
+const FEEDBACK_LOG_DIR = '../database/json/feedback';
 const FEEDBACK_STATUS = {
     PENDING: 'pending',
     REPLIED: 'replied',

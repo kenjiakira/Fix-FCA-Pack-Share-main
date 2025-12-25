@@ -38,7 +38,7 @@ module.exports = {
         }
       }
 
-      const cacheDir = path.join(__dirname, "cache/avatars");
+      const cacheDir = path.join(__dirname, "../database/cache/avatars");
       await fs.ensureDir(cacheDir);
       
       const avatarPath = path.join(cacheDir, `${uid}.jpg`);

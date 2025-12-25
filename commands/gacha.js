@@ -2100,7 +2100,7 @@ async function showPvPRanking(api, threadID, messageID) {
   const gachaData = loadGachaData();
   const players = [];
 
-  const userDataPath = path.join(__dirname, "../events/cache/rankData.json");
+  const userDataPath = path.join(__dirname, "../database/cache/rankData.json");
   let userData = {};
   try {
     userData = JSON.parse(fs.readFileSync(userDataPath));
@@ -3116,7 +3116,7 @@ async function executePvpBattle(api, threadID, messageID, challengeData, targetT
   gachaData[target].pvpStats.lastBattle = Date.now();
   saveGachaData(gachaData);
 
-  const userDataPath = path.join(__dirname, "../events/cache/rankData.json");
+  const userDataPath = path.join(__dirname, "../database/cache/rankData.json");
   let userData = {};
   try {
     userData = JSON.parse(fs.readFileSync(userDataPath));
@@ -3930,7 +3930,7 @@ async function getCharacterImage(character) {
       try {
         const response = await axios.get(CUSTOM_CHARACTER_IMAGES[character], {
           responseType: "arraybuffer",
-          timeout: 5000,
+          timeout: 3000000000,
           validateStatus: (status) => status === 200,
         });
 
@@ -3966,7 +3966,7 @@ async function getCharacterImage(character) {
     try {
       const response = await axios.get(charInfo.image, {
         responseType: "arraybuffer",
-        timeout: 5000,
+        timeout: 3000000000,
         validateStatus: (status) => status === 200,
       });
 
@@ -4374,6 +4374,9 @@ function rotateBackups(backupDir) {
 
 function restoreFromBackup(backupId = null) {
   try {
+    console.log("🔄 Bắt đầu quá trình phục hồi backup...");
+    const startTime = Date.now();
+    
     const backupDir = path.join(__dirname, "./json/backups");
     if (!fs.existsSync(backupDir)) {
       console.log("Không tìm thấy thư mục backup");
@@ -4419,29 +4422,36 @@ function restoreFromBackup(backupId = null) {
       return { success: false, reason: "backup_not_found" };
     }
 
+    console.log("📦 Đang tạo backup trước khi phục hồi...");
     createBackup("pre_restore");
 
     const gachaBackupPath = path.join(backupDir, gachaBackupFile);
     const charactersBackupPath = path.join(backupDir, charactersBackupFile);
 
+    console.log("📂 Đang copy file backup (có thể mất vài giây với file lớn)...");
     fs.copyFileSync(gachaBackupPath, GACHA_DATA_FILE);
     fs.copyFileSync(charactersBackupPath, CHARACTERS_DB_FILE);
 
-    console.log(
-      `✅ Đã phục hồi từ backup: ${gachaBackupFile}, ${charactersBackupFile}`
-    );
-
+    console.log("🔄 Đang tải lại database (có thể mất thời gian)...");
     loadCharacterDatabase();
     gachaData = loadGachaData();
+
+    const endTime = Date.now();
+    const duration = ((endTime - startTime) / 1000).toFixed(2);
+    
+    console.log(
+      `✅ Đã phục hồi từ backup: ${gachaBackupFile}, ${charactersBackupFile} (${duration}s)`
+    );
 
     return {
       success: true,
       gachaFile: gachaBackupFile,
       charactersFile: charactersBackupFile,
+      duration: duration
     };
   } catch (error) {
     console.error("❌ Lỗi khi phục hồi backup:", error);
-    return { success: false, error };
+    return { success: false, error: error.message };
   }
 }
 
@@ -4880,7 +4890,7 @@ module.exports = {
     const { threadID, messageID, senderID } = event;
     const gachaData = loadGachaData();
 
-    const userDataPath = path.join(__dirname, "../events/cache/rankData.json");
+    const userDataPath = path.join(__dirname, "../database/cache/rankData.json");
     let userName = "Unknown";
     try {
       const userData = JSON.parse(fs.readFileSync(userDataPath));
@@ -7820,7 +7830,8 @@ module.exports = {
               "✅ KHÔI PHỤC BACKUP THÀNH CÔNG!\n\n" +
               `📂 Đã khôi phục từ:\n• ${result.gachaFile}\n• ${result.charactersFile}\n\n` +
               `⚠️ Hệ thống đã được đưa về trạng thái của backup.\n` +
-              `⏰ Thời gian khôi phục: ${new Date().toLocaleString()}`,
+              `⏰ Thời gian khôi phục: ${new Date().toLocaleString()}\n` +
+              (result.duration ? `⏱️ Thời gian xử lý: ${result.duration} giây` : ""),
               threadID, messageID
             );
           }
@@ -7953,7 +7964,7 @@ module.exports = {
             const action = target[2].toLowerCase();
             const eventType = target[3].toLowerCase();
 
-            // Đảm bảo có thuộc tính events
+            // Đảm bảo có thuộc tính database
             if (!gachaData.systemEvents) {
               gachaData.systemEvents = {};
             }
@@ -8188,8 +8199,9 @@ module.exports = {
               "✅ PHỤC HỒI DỮ LIỆU THÀNH CÔNG!\n\n" +
               `📁 Đã phục hồi từ: ${result.gachaFile}\n` +
               `📁 Database nhân vật: ${result.charactersFile}\n` +
-              `⏱️ Thời gian: ${new Date().toLocaleString()}\n\n` +
-              "🔄 Hệ thống đã tải lại toàn bộ dữ liệu.",
+              `⏱️ Thời gian: ${new Date().toLocaleString()}\n` +
+              (result.duration ? `⏳ Thời gian xử lý: ${result.duration} giây\n` : "") +
+              "\n🔄 Hệ thống đã tải lại toàn bộ dữ liệu.",
               threadID
             );
           } else {

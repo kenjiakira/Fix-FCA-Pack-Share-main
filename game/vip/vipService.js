@@ -4,7 +4,7 @@ const { VIP_PACKAGES, defaultBenefits, getBenefitsForPackage, GROUP_PACKAGES } =
 
 class VipService {
     constructor() {
-        this.vipDataPath = path.join(__dirname, '../../commands/json/vip.json');
+        this.vipDataPath = path.join(__dirname, '../../database/json/vip.json');
         this.cache = null;
         this.lastCacheTime = 0;
         this.cacheLifespan = 5 * 60 * 1000;
@@ -294,7 +294,7 @@ class VipService {
             if (result.success) {
                 try {
                     // Import mining module functions for affiliate processing
-                    const miningModule = require('../../commands/mining');
+                    const miningModule = require('../../database/mining');
                     if (miningModule.processVipCommission) {
                         const affiliateResult = miningModule.processVipCommission(userId, priceInfo.finalPrice);
                         
@@ -317,7 +317,7 @@ class VipService {
     
     validateVoucher(userId, voucherCode) {
         try {
-            const voucherPath = path.join(__dirname, '../commands/json/voucher.json');
+            const voucherPath = path.join(__dirname, '../database/json/voucher.json');
             
             if (!fs.existsSync(voucherPath)) {
                 return { success: false, message: "Voucher system not available" };
@@ -352,7 +352,7 @@ class VipService {
     
     markVoucherAsUsed(userId, voucherCode) {
         try {
-            const voucherPath = path.join(__dirname, '../commands/json/voucher.json');
+            const voucherPath = path.join(__dirname, '../database/json/voucher.json');
             const voucherData = JSON.parse(fs.readFileSync(voucherPath, 'utf8'));
             
             if (!voucherData.users || !voucherData.users[userId]) return false;

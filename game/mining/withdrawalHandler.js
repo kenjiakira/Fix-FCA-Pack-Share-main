@@ -3,7 +3,7 @@ const path = require('path');
 const { getMiningBalance, updateMiningBalance } = require('./miningCurrency');
 const { getBalance, updateBalance } = require('../../utils/currencies');
 
-const WITHDRAWAL_LOG_FILE = path.join(__dirname, '../../commands/json/mining_withdrawals.json');
+const WITHDRAWAL_LOG_FILE = path.join(__dirname, '../../database/json/mining_withdrawals.json');
 
 // Initialize withdrawal log
 if (!fs.existsSync(WITHDRAWAL_LOG_FILE)) {

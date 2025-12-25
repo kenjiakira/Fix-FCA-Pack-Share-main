@@ -1,9 +1,36 @@
 const fs = require('fs');
 const path = require('path');
+const { execSync } = require('child_process');
+const os = require('os');
+const {
+    getAllFiles,
+    getFileMap,
+    compareFiles,
+    compareFileLists,
+    bumpVersion,
+    getVersion,
+    copyDirectory,
+    syncDirectory
+} = require('../utils/update');
 
 const updatesPath = path.join(__dirname, '../database/json/updates.json');
 
 const adminPath = path.join(__dirname, '../admin.json');
+
+const DEFAULT_GIT_URL = 'https://github.com/kenjiakira/Fix-FCA-Pack-Share-main.git';
+
+const EXCLUDE_PATTERNS = [
+    'node_modules',
+    '.git',
+    'appstate.json',
+    'admin.json',
+    'package-lock.json',
+    '.env',
+    '.appstate-last-check.json',
+    'database',
+    'logins',
+    'fonts'
+];
 
 function loadAdminData() {
     try {
@@ -71,11 +98,11 @@ function addUpdate(type, title, description, adminOnly = false) {
 module.exports = {
     name: "update",
     dev: "HNT",
-    usedby: 0,
+    usedby: 2,
     category: "System",
-    info: "Hiển thị các cập nhật mới trong 7 ngày gần nhất",
+    info: "Cập nhật hệ thống từ nguồn cập nhật",
     onPrefix: true,
-    usages: "update [add/list/del/view] [userID]",
+    usages: "update [pull/sync/version] [branch] [gitURL]",
     cooldowns: 5,
 
     onLaunch: async ({ api, event, target }) => {
@@ -84,168 +111,204 @@ module.exports = {
         const isAdmin = Array.isArray(adminData.adminUIDs) && adminData.adminUIDs.includes(senderID);
         
         if (!target[0]) {
-            return showUpdates(api, threadID, senderID, messageID, isAdmin);
+            const versionInfo = getVersion();
+            let msg = `╭─「 THÔNG TIN PHIÊN BẢN 」─╮\n\n`;
+            msg += `📦 Phiên bản: v${versionInfo.version}\n`;
+            if (versionInfo.gitTag) {
+                msg += `🏷️ Git Tag: ${versionInfo.gitTag}\n`;
+            }
+            if (versionInfo.branch) {
+                msg += `🌿 Nhánh: ${versionInfo.branch}\n`;
+            }
+            if (versionInfo.commitHash) {
+                msg += `🔖 Commit: ${versionInfo.commitHash}\n`;
+            }
+            msg += `\n╰────────────╯\n\n`;
+            
+            if (isAdmin) {
+                msg += `👑 ADMIN COMMANDS:\n`;
+                msg += `• update pull [branch] [gitURL] - Cập nhật hệ thống\n`;
+                msg += `• update version - Xem phiên bản hiện tại\n`;
+            }
+            
+            return api.sendMessage(msg, threadID, messageID);
         }
 
         const command = target[0].toLowerCase();
 
         if (isAdmin) {
             switch (command) {
-                case "add": {
-                    const type = target[1];
-                    const title = target[2] || "Cập nhật mới";
-                    const description = target.slice(3).join(" ");
-                    const adminOnly = false;
+                case "version":
+                case "v":
+                case "ver": {
+                    const versionInfo = getVersion();
+                    let msg = "╭─「 THÔNG TIN PHIÊN BẢN 」─╮\n\n";
+                    msg += `📦 Phiên bản: v${versionInfo.version}\n`;
                     
-                    if (!type || !title) {
-                        return api.sendMessage(
-                            "⚠️ Thiếu thông tin! Sử dụng:\n" +
-                            "update add loại tiêu_đề\n\n" +
-                            "Loại: feature, bugfix, improvement, security\n" +
-                            "Ví dụ:\n" +
-                            "update add feature \"Thêm tính năng mới\"",
-                            threadID, messageID
-                        );
-                    }
-                    
-                    addUpdate(type, title, description || title, adminOnly);
-                    return api.sendMessage("✅ Đã thêm cập nhật mới!", threadID, messageID);
-                }
-                
-                case "del": {
-                    const updateId = target[1];
-                    if (!updateId) {
-                        return api.sendMessage("⚠️ Vui lòng cung cấp ID cập nhật cần xóa!", threadID, messageID);
-                    }
-                    
-                    const data = loadUpdates();
-                    const updateIndex = data.updates.findIndex(update => update.id === updateId);
-                    
-                    if (updateIndex === -1) {
-                        return api.sendMessage(`❌ Không tìm thấy cập nhật với ID: ${updateId}`, threadID, messageID);
-                    }
-                    
-                    data.updates.splice(updateIndex, 1);
-                    data.lastModified = Date.now();
-                    saveUpdates(data);
-                    
-                    return api.sendMessage("✅ Đã xóa cập nhật!", threadID, messageID);
-                }
-                
-                case "list": {
-                    const data = loadUpdates();
-                    if (data.updates.length === 0) {
-                        return api.sendMessage("❌ Chưa có cập nhật nào được thêm vào!", threadID, messageID);
-                    }
-                    
-                    let msg = "📋 Danh sách tất cả cập nhật:\n\n";
-                    data.updates.forEach((update, index) => {
-                        msg += `${index + 1}. [${update.id}] ${update.title}\n`;
-                        msg += `📅 ${new Date(update.date).toLocaleDateString()}\n`;
-                        msg += `🔒 Admin: ${update.adminOnly ? "Có" : "Không"}\n`;
-                        msg += `ℹ️ ${update.description.substring(0, 50)}${update.description.length > 50 ? "..." : ""}\n\n`;
-                    });
+                    msg += "\n╰────────────╯";
                     
                     return api.sendMessage(msg, threadID, messageID);
                 }
                 
-                case "view": {
-                    const userId = target[1];
-                    if (!userId) {
-                        return api.sendMessage("⚠️ Vui lòng cung cấp ID người dùng!", threadID, messageID);
-                    }
+                case "pull":
+                case "sync": {
+                    const targetBranch = target[1] || 'dev';
+                    const gitURL = target[2] || null;
+                    const loadingMsg = await api.sendMessage(`⏳ Đang cập nhật bản mới nhất...`, threadID);
                     
-                    return showUpdates(api, threadID, userId, messageID, false);
+                    try {
+                        const adminData = loadAdminData();
+                        const repoURL = gitURL || adminData.gitURL || DEFAULT_GIT_URL;
+                        
+                        const projectRoot = path.join(__dirname, '../');
+                        const tempDir = path.join(os.tmpdir(), `fca-update-${Date.now()}`);
+                        
+                        try {
+                            execSync(`git clone -b ${targetBranch} --depth 1 ${repoURL} "${tempDir}"`, {
+                                encoding: 'utf8',
+                                stdio: 'pipe'
+                            });
+                            
+                            const beforeFileMap = getFileMap(projectRoot, EXCLUDE_PATTERNS);
+                            
+                            const syncResult = syncDirectory(tempDir, projectRoot, EXCLUDE_PATTERNS);
+                            
+                            const afterFileMap = getFileMap(projectRoot, EXCLUDE_PATTERNS);
+                            
+                            const { added, deleted, modified } = compareFiles(beforeFileMap, afterFileMap);
+                            
+                            const versionBump = bumpVersion();
+                            
+                            fs.rmSync(tempDir, { recursive: true, force: true });
+                            
+                            const versionInfo = getVersion();
+                            let resultMsg = `✅ ĐÃ CẬP NHẬT TOÀN BỘ HỆ THỐNG THÀNH CÔNG!\n\n`;
+                            
+                            if (versionBump) {
+                                resultMsg += `📦 Phiên bản: v${versionBump.oldVersion} → v${versionBump.newVersion}\n`;
+                            } else {
+                                resultMsg += `📦 Phiên bản: v${versionInfo.version}\n`;
+                            }
+                            
+                            resultMsg += `🌿 Nhánh phát triển: ${targetBranch}\n`;
+                            resultMsg += `🔗 Nguồn cập nhật: ${repoURL}\n`;
+                            
+                            resultMsg += `\n📊 THỐNG KÊ CẬP NHẬT:\n`;
+                            resultMsg += `  ✅ Đã copy: ${syncResult.copied.length} file\n`;
+                            resultMsg += `  ⏭️  Đã bỏ qua (không đổi): ${syncResult.skipped.length} file\n`;
+                            resultMsg += `  🗑️  Đã xóa: ${syncResult.deleted.length} file\n`;
+                            if (syncResult.errors.length > 0) {
+                                resultMsg += `  ⚠️  Lỗi: ${syncResult.errors.length} file\n`;
+                            }
+                            
+                            // Hiển thị chi tiết file đã copy (file mới + file đã thay đổi)
+                            const totalChanges = syncResult.copied.length + syncResult.deleted.length;
+                            if (totalChanges > 0) {
+                                resultMsg += `\n📋 CHI TIẾT THAY ĐỔI:\n`;
+                                
+                                if (added.length > 0) {
+                                    resultMsg += `\n➕ File mới (${added.length}):\n`;
+                                    const displayAdded = added.slice(0, 15);
+                                    displayAdded.forEach(file => {
+                                        resultMsg += `  • ${file}\n`;
+                                    });
+                                    if (added.length > 15) {
+                                        resultMsg += `  ... và ${added.length - 15} file khác\n`;
+                                    }
+                                }
+                                
+                                if (modified.length > 0) {
+                                    resultMsg += `\n🔄 File đã cập nhật (${modified.length}):\n`;
+                                    const displayModified = modified.slice(0, 15);
+                                    displayModified.forEach(file => {
+                                        resultMsg += `  • ${file}\n`;
+                                    });
+                                    if (modified.length > 15) {
+                                        resultMsg += `  ... và ${modified.length - 15} file khác\n`;
+                                    }
+                                }
+                                
+                                if (syncResult.deleted.length > 0) {
+                                    resultMsg += `\n➖ File đã xóa từ repo (${syncResult.deleted.length}):\n`;
+                                    const displayDeleted = syncResult.deleted.slice(0, 15);
+                                    displayDeleted.forEach(file => {
+                                        resultMsg += `  • ${file}\n`;
+                                    });
+                                    if (syncResult.deleted.length > 15) {
+                                        resultMsg += `  ... và ${syncResult.deleted.length - 15} file khác\n`;
+                                    }
+                                }
+                            }
+                          
+                            const packagePath = path.join(projectRoot, 'package.json');
+                            if (fs.existsSync(packagePath)) {
+                                resultMsg += `\n📦 Phát hiện package.json\n`;
+                                resultMsg += `💡 Vui lòng chạy 'npm install' để cài đặt dependencies mới`;
+                            }
+                            
+                            api.unsendMessage(loadingMsg.messageID);
+                            return api.sendMessage(resultMsg, threadID, messageID);
+                            
+                        } catch (err) {
+                
+                            try {
+                                if (fs.existsSync(tempDir)) {
+                                    fs.rmSync(tempDir, { recursive: true, force: true });
+                                }
+                            } catch (cleanupErr) {}
+                            
+                            api.unsendMessage(loadingMsg.messageID);
+                            return api.sendMessage(
+                                `❌ Lỗi khi tải xuống từ nguồn cập nhật:\n${err.message}\n\n` +
+                                `💡 Kiểm tra lại:\n` +
+                                `1. Địa chỉ nguồn cập nhật có đúng không: ${repoURL}\n` +
+                                `2. Phiên bản "${targetBranch}" có tồn tại không\n` +
+                                `3. Kết nối mạng\n` +
+                                `4. Hệ thống quản lý phiên bản đã được cài đặt chưa`,
+                                threadID, messageID
+                            );
+                        }
+                        
+                    } catch (err) {
+                        api.unsendMessage(loadingMsg.messageID);
+                        return api.sendMessage(
+                            `❌ Lỗi khi cập nhật hệ thống:\n${err.message}\n\n` +
+                            `💡 Kiểm tra lại:\n` +
+                            `1. Kết nối mạng\n` +
+                            `2. Địa chỉ nguồn cập nhật có đúng không\n` +
+                            `3. Phiên bản "${targetBranch}" có tồn tại không\n` +
+                            `4. Hệ thống quản lý phiên bản đã được cài đặt chưa`,
+                            threadID, messageID
+                        );
+                    }
+                }
+                
+                default: {
+                    return api.sendMessage(
+                        "⚠️ Lệnh không hợp lệ!\n\n" +
+                        "👑 ADMIN COMMANDS:\n" +
+                        "• update pull [branch] [gitURL] - Cập nhật hệ thống\n" +
+                        "• update version - Xem phiên bản hiện tại",
+                        threadID, messageID
+                    );
                 }
             }
         }
+
+        const versionInfo = getVersion();
+        let msg = `╭─「 THÔNG TIN PHIÊN BẢN 」─╮\n\n`;
+        msg += `📦 Phiên bản: v${versionInfo.version}\n`;
+        if (versionInfo.gitTag) {
+            msg += `🏷️ Git Tag: ${versionInfo.gitTag}\n`;
+        }
+        if (versionInfo.branch) {
+            msg += `🌿 Nhánh: ${versionInfo.branch}\n`;
+        }
+        if (versionInfo.commitHash) {
+            msg += `🔖 Commit: ${versionInfo.commitHash}\n`;
+        }
+        msg += `\n╰────────────╯`;
         
-        // Show the updates for both admin and users 
-        // if they don't use any special command or use an invalid command
-        return showUpdates(api, threadID, senderID, messageID, isAdmin);
+        return api.sendMessage(msg, threadID, messageID);
     }
 };
-
-// Function to show updates
-function showUpdates(api, threadID, userID, messageID, isAdmin) {
-    const data = loadUpdates();
-    const sevenDaysAgo = Date.now() - (7 * 24 * 60 * 60 * 1000);
-    
-    // Filter updates from the last 7 days
-    // If admin, show all updates from the last 7 days
-    // If user, only show non-admin updates from the last 7 days
-    const recentUpdates = data.updates.filter(update => 
-        update.date >= sevenDaysAgo && (isAdmin || !update.adminOnly)
-    );
-    
-    if (recentUpdates.length === 0) {
-        return api.sendMessage(
-            "📢 Không có cập nhật nào trong 7 ngày qua!" +
-            (isAdmin ? "\n\nBạn có thể thêm cập nhật mới bằng lệnh:\nupdate add [loại] [tiêu đề] [mô tả]" : ""),
-            threadID, messageID
-        );
-    }
-    
-    // Group updates by type
-    const updatesByType = {};
-    recentUpdates.forEach(update => {
-        if (!updatesByType[update.type]) {
-            updatesByType[update.type] = [];
-        }
-        updatesByType[update.type].push(update);
-    });
-    
-    let msg = "╭─「 UPGRADE NOTES 」─╮\n\n";
-    
-    if (updatesByType['feature']) {
-        msg += "✨ TÍNH NĂNG MỚI:\n";
-        updatesByType['feature'].forEach(update => {
-            msg += `• ${update.title}: ${update.description}\n`;
-            msg += `  📅 ${new Date(update.date).toLocaleDateString()}\n`;
-        });
-        msg += "\n";
-    }
-    
-    if (updatesByType['improvement']) {
-        msg += "🔄 CẢI TIẾN:\n";
-        updatesByType['improvement'].forEach(update => {
-            msg += `• ${update.title}: ${update.description}\n`;
-            msg += `  📅 ${new Date(update.date).toLocaleDateString()}\n`;
-        });
-        msg += "\n";
-    }
-    
-    if (updatesByType['bugfix']) {
-        msg += "🛠️ SỬA LỖI:\n";
-        updatesByType['bugfix'].forEach(update => {
-            msg += `• ${update.title}: ${update.description}\n`;
-            msg += `  📅 ${new Date(update.date).toLocaleDateString()}\n`;
-        });
-        msg += "\n";
-    }
-    
-    Object.keys(updatesByType).forEach(type => {
-        if (!['feature', 'improvement', 'bugfix'].includes(type)) {
-            const emoji = type === 'security' ? '🔒' : '📝';
-            msg += `${emoji} ${type.toUpperCase()}:\n`;
-            updatesByType[type].forEach(update => {
-                msg += `• ${update.title}: ${update.description}\n`;
-                msg += `  📅 ${new Date(update.date).toLocaleDateString()}\n`;
-            });
-            msg += "\n";
-        }
-    });
-    
-    msg += "╰──────────────╯";
-    
-    if (isAdmin) {
-        msg += "\n\n👑 ADMIN COMMANDS:\n";
-        msg += "• update add loại tiêu_đề mô_tả\n";
-        msg += "• update del [id]\n";
-        msg += "• update list\n";
-        msg += "• update view [userID]\n";
-        msg += "\nLoại: feature, bugfix, improvement, security";
-    }
-    
-    return api.sendMessage(msg, threadID, messageID);
-}

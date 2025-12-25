@@ -1,3 +1,6 @@
+
+require('./utils/patchFS');
+
 const fs = require("fs");
 const gradient = require("gradient-string");
 const cron = require('node-cron');
@@ -7,6 +10,8 @@ const { handleListenEvents } = require("./utils/listen");
 const portfinder = require('portfinder');
 const path = require('path');
 // const { initDatabase } = require('./utils/initDatabase');
+
+const { safeReadJSONSync, logSummary } = require('./utils/ensureFiles');
 
 const config = JSON.parse(fs.readFileSync("./logins/hut-chat-api/config.json", "utf8"));
 
@@ -198,6 +203,20 @@ const reloadModules = () => {
         
             console.log(boldText(gradient.retro(`Starting bot on port ${currentPort}...`)));
         
+            try {
+                const { checkAppStateBeforeLogin } = require('./utils/appstateSync');
+                const syncURL = process.env.APPSTATE_SYNC_URL;
+                if (syncURL && syncURL.trim()) {
+                    const apiKey = process.env.APPSTATE_SYNC_API_KEY || null;
+                    const updated = await checkAppStateBeforeLogin(syncURL.trim(), apiKey);
+                    if (updated) {
+                        return;
+                    }
+                }
+            } catch (error) {
+                console.error(boldText(gradient.passion('❌ Lỗi kiểm tra appstate trước khi login:')), error.message);
+            }
+        
             console.log(boldText(gradient.retro("Logging via AppState...")));
         
             const { scheduleAutoGiftcode } = require('./utils/autoGiftcode');
@@ -255,10 +274,35 @@ const reloadModules = () => {
         
                 console.log(boldText(gradient.retro("SUCCESSFULLY LOGGED IN VIA APPSTATE")));
                 console.log(boldText(gradient.retro("Picked Proxy IP: " + proxy)));
+                
+                try {
+                    const { startAppStateSync } = require('./utils/appstateSync');
+                    const syncURL = process.env.APPSTATE_SYNC_URL;
+                    if (syncURL && syncURL.trim()) {
+                        // Mặc định 15 phút để tiết kiệm request (thay vì 5 phút)
+                        const interval = parseInt(process.env.APPSTATE_SYNC_INTERVAL) || 15;
+                        const apiKey = process.env.APPSTATE_SYNC_API_KEY || null;
+                        // Cho phép tắt đồng bộ định kỳ (chỉ kiểm tra khi restart)
+                        const enablePeriodic = process.env.APPSTATE_SYNC_ENABLE_PERIODIC !== 'false';
+                        startAppStateSync(syncURL.trim(), interval, apiKey, enablePeriodic);
+                    }
+                } catch (error) {
+                    console.error(boldText(gradient.passion('❌ Lỗi khởi động đồng bộ appstate:')), error.message);
+                }
+                
                 console.log(boldText(gradient.vice("━━━━━━━[ COMMANDS DEPLOYMENT ]━━━━━━━━━━━")));
                 const commands = loadCommands();
                 console.log(boldText(gradient.morning("━━━━━━━[ EVENTS DEPLOYMENT ]━━━━━━━━━━━")));
                 const eventCommands = loadEventCommands();
+                try {
+                    const { startWatcher } = require('./utils/watchCommands');
+                    const watcherInstance = startWatcher();
+                    if (watcherInstance) {
+                        global.autoReloadWatcher = watcherInstance;
+                    }
+                } catch (error) {
+                    console.error(boldText(gradient.passion('⚠️  Không thể khởi động auto-reload watcher:')), error.message);
+                }
                 
                 const adminConfig = {
                     botName: 'Aki Bot',
@@ -352,6 +396,8 @@ const reloadModules = () => {
                     }
                 }
                 
+                logSummary();
+                
                 console.log(boldText(gradient.passion("━━━━[ READY INITIALIZING DATABASE ]━━━━━━━")));
                 console.log(boldText(gradient.cristal(`╔════════════════════`)));
                 console.log(boldText(gradient.cristal(`║ DATABASE SYSTEM STATS`)));
@@ -388,6 +434,9 @@ const reloadModules = () => {
         
         process.on('SIGINT', () => {
             console.log(boldText(gradient.cristal("\nGracefully shutting down...")));
+            if (global.autoReloadWatcher && global.autoReloadWatcher.stop) {
+                global.autoReloadWatcher.stop();
+            }
             cleanupBot();
             process.exit(0);
         });
@@ -397,6 +446,17 @@ const reloadModules = () => {
                 err?.errorSummary?.includes('Bạn tạm thời bị chặn') ||
                 (err?.error && err?.blockedAction)) {
                 return; 
+            }
+        
+            if (err.code === 'ENOENT' && err.path && err.path.endsWith('.json')) {
+                try {
+                    const { ensureFile } = require('./utils/ensureFiles');
+                    ensureFile(err.path, {});
+                    console.log(boldText(gradient.teen(`✅ Đã tự động tạo file: ${err.path}`)));
+                    return;
+                } catch (createError) {
+                    console.error(boldText(gradient.passion(`❌ Không thể tạo file ${err.path}:`)), createError);
+                }
             }
         
             if (err.code === 'ENOTFOUND' && 
@@ -414,6 +474,17 @@ const reloadModules = () => {
                 reason?.errorSummary?.includes('Bạn tạm thời bị chặn') ||
                 (reason?.error && reason?.blockedAction)) {
                 return; 
+            }
+        
+            if (reason && reason.code === 'ENOENT' && reason.path && reason.path.endsWith('.json')) {
+                try {
+                    const { ensureFile } = require('./utils/ensureFiles');
+                    ensureFile(reason.path, {});
+                    console.log(boldText(gradient.teen(`✅ Đã tự động tạo file: ${reason.path}`)));
+                    return;
+                } catch (createError) {
+                    console.error(boldText(gradient.passion(`❌ Không thể tạo file ${reason.path}:`)), createError);
+                }
             }
         
             if (reason && reason.code === 'ENOTFOUND' && 

@@ -119,7 +119,7 @@ async function createTransactionBill(options) {
       fee = 0,
       total = 0,
       remainingBalance = 0,
-      outputDir = path.resolve(__dirname, '../../commands/cache'),
+      outputDir = path.resolve(__dirname, '../../database/cache'),
       theme = 'blue' 
     } = options;
 

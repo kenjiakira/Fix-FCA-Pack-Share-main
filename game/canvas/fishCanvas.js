@@ -307,7 +307,7 @@ async function getAvatarPath(userId) {
     }
   } catch (error) {
     console.error(`Error in getAvatarPath for ${userId}:`, error.message);
-    const defaultAvatarPath = path.join(__dirname, "../../commands/cache/avatars/avatar.jpg");
+    const defaultAvatarPath = path.join(__dirname, "../../database/cache/avatars/avatar.jpg");
     if (fs.existsSync(defaultAvatarPath)) {
       return defaultAvatarPath;
     }
@@ -485,7 +485,7 @@ async function loadImageWithCache(imageUrl) {
     if (!imageUrl) return null;
 
     // Create cache directory if it doesn't exist
-    const imageCacheDir = path.join(__dirname, "../../commands/cache/fish_images");
+    const imageCacheDir = path.join(__dirname, "../../database/cache/fish_images");
     if (!fs.existsSync(imageCacheDir)) {
       fs.mkdirSync(imageCacheDir, { recursive: true });
     }
@@ -1569,7 +1569,7 @@ async function createFishResultImage(options) {
     ctx.fillText(`${Math.round(progress)}%`, width / 2, barY + barHeight / 2);
 
     const buffer = canvas.toBuffer("image/png");
-    const tempDir = path.join(__dirname, "../cache");
+    const tempDir = path.join(__dirname, "../../database/cache");
     if (!fs.existsSync(tempDir)) {
       fs.mkdirSync(tempDir, { recursive: true });
     }
@@ -1926,7 +1926,7 @@ async function createCollectionImage(options) {
 
     // Save and return the image
     const buffer = canvas.toBuffer("image/png");
-    const tempDir = path.join(__dirname, "../cache");
+    const tempDir = path.join(__dirname, "../../database/cache");
     if (!fs.existsSync(tempDir)) {
       fs.mkdirSync(tempDir, { recursive: true });
     }

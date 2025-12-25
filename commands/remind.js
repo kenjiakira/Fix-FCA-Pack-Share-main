@@ -1,7 +1,7 @@
 const moment = require('moment-timezone');
 const fs = require('fs');
 
-const remindersFile = './commands/json/reminders.json';
+const remindersFile = './database/json/reminders.json';
 
 function loadReminders() {
     if (fs.existsSync(remindersFile)) {

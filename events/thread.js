@@ -218,7 +218,7 @@ module.exports = {
     const { threadID, author, logMessageType, logMessageData } = event;
 
     if (event.type === "message") {
-      const antispamPath = path.join(__dirname, '../commands/json/antispam.json');
+      const antispamPath = path.join(__dirname, '../database/json/antispam.json');
       if (!fs.existsSync(antispamPath)) return;
 
       let antispamData = JSON.parse(fs.readFileSync(antispamPath));
@@ -272,8 +272,8 @@ module.exports = {
     }
 
     if (event.type === "message" && event.mentions) {
-      const antitagPath = path.join(__dirname, '../commands/json/antitag.json');
-      const antiadmintagPath = path.join(__dirname, '../commands/json/anti/antiadmintag.json');
+      const antitagPath = path.join(__dirname, '../database/json/antitag.json');
+      const antiadmintagPath = path.join(__dirname, '../database/json/anti/antiadmintag.json');
 
       // Check for admin mentions first
       if (fs.existsSync(antiadmintagPath)) {
@@ -413,7 +413,7 @@ module.exports = {
       }
     }
     if (logMessageType === "log:unsubscribe") {
-      const antioutPath = path.join(__dirname, '../commands/json/antiout.json');
+      const antioutPath = path.join(__dirname, '../database/json/antiout.json');
       if (!fs.existsSync(antioutPath)) return;
 
       const antioutData = JSON.parse(fs.readFileSync(antioutPath));
@@ -488,7 +488,7 @@ module.exports = {
     }
 
     if (logMessageType === "log:subscribe") {
-      const antimemPath = path.join(__dirname, '../commands/json/antijoin.json');
+      const antimemPath = path.join(__dirname, '../database/json/antijoin.json');
       if (!fs.existsSync(antimemPath)) return;
 
       const antimemData = JSON.parse(fs.readFileSync(antimemPath));

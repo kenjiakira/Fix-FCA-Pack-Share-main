@@ -7,7 +7,6 @@ const { actions } = require('./actions');
 const path = require("path");
 const { logChatRecord, notifyAdmins } = require('./logs');
 const getThreadParticipantIDs = require('./getParticipantIDs');
-const { isNSFWCommand, isNSFWAllowed, getNSFWResponseMessage } = require('./NSFW');
 
 async function getUserName(api, senderID) {
     try {
@@ -16,7 +15,7 @@ async function getUserName(api, senderID) {
         }
 
         try {
-            const rankDataPath = path.join(__dirname, '../events/cache/rankData.json');
+            const rankDataPath = path.join(__dirname, '../database/cache/rankData.json');
             if (fs.existsSync(rankDataPath)) {
                 const rankData = JSON.parse(fs.readFileSync(rankDataPath, 'utf8'));
                 if (rankData[senderID] && rankData[senderID].name) {
@@ -201,9 +200,9 @@ function getThreadPrefix(threadID) {
     return global.cc.prefix;
 }
 
-const handleListenEvents = (api, commands, eventCommands, threadsDB, usersDB) => {
+const handleListenEvents = (api, database, eventCommands, threadsDB, usersDB) => {
 
-    const taxDataPath = path.join(__dirname, '../commands/json/tax.json');
+    const taxDataPath = path.join(__dirname, '../database/json/tax.json');
     let taxData = { lastCollection: {} };
 
     if (fs.existsSync(taxDataPath)) {
@@ -221,7 +220,7 @@ const handleListenEvents = (api, commands, eventCommands, threadsDB, usersDB) =>
 
         if (event.type === "message" || event.type === "message_reply") {
             try {
-                const bannedUsers = JSON.parse(fs.readFileSync(path.join(__dirname, '../commands/json/banned.json')));
+                const bannedUsers = JSON.parse(fs.readFileSync(path.join(__dirname, '../database/json/banned.json')));
                 if (bannedUsers[event.senderID]) {
                     if (event.body?.startsWith(getThreadPrefix(event.threadID))) {
                         api.sendMessage("⚠️ Bạn đã bị cấm sử dụng bot!", event.threadID, event.messageID);
@@ -414,9 +413,9 @@ const handleListenEvents = (api, commands, eventCommands, threadsDB, usersDB) =>
                 }
             }
 
-            const allCommands = Object.keys(commands).concat(Object.values(commands).flatMap(cmd => cmd.aliases || []));
+            const allCommands = Object.keys(database).concat(Object.values(database).flatMap(cmd => cmd.aliases || []));
             if (isPrefixed) {
-                const notfoundCommand = commands['notfound'];
+                const notfoundCommand = database['notfound'];
                 if (notfoundCommand) {
                     if (commandName === '') {
                         return notfoundCommand.handleNotFound({
@@ -440,7 +439,7 @@ const handleListenEvents = (api, commands, eventCommands, threadsDB, usersDB) =>
                 }
             }
 
-            const command = commands[commandName] || Object.values(commands).find(cmd => cmd.nickName && cmd.nickName.includes(commandName));
+            const command = database[commandName] || Object.values(database).find(cmd => cmd.nickName && cmd.nickName.includes(commandName));
 
             if (command) {
                 if (!command.onLaunch) {
@@ -449,20 +448,6 @@ const handleListenEvents = (api, commands, eventCommands, threadsDB, usersDB) =>
                 }
 
                 try {
-                    if (isNSFWCommand(command)) {
-                        console.log(`NSFW check for command ${command.name} in thread ${threadID} by user ${senderID}`);
-                        const adminConfig = JSON.parse(fs.readFileSync('./admin.json', 'utf8'));
-                        const nsfwCheck = isNSFWAllowed(threadID, senderID, adminConfig);
-                        console.log(`NSFW check result for ${command.name}: ${JSON.stringify(nsfwCheck)}`);
-
-                        if (!nsfwCheck.allowed) {
-                            const responseMessage = getNSFWResponseMessage(nsfwCheck);
-                            console.log(`Blocking NSFW command ${command.name}: ${responseMessage}`);
-                            api.sendMessage(responseMessage, threadID, event.messageID);
-                            return;
-                        }
-                    }
-
                     if (command.VIP === true) {
                         const { getVIPBenefits } = require('./vipCheck');
                         const vipBenefits = getVIPBenefits(senderID);
@@ -479,7 +464,7 @@ const handleListenEvents = (api, commands, eventCommands, threadsDB, usersDB) =>
                         }
                     }
 
-                    const adminOnlyPath = path.join(__dirname, '../commands/json/adminonly.json');
+                    const adminOnlyPath = path.join(__dirname, '../database/json/adminonly.json');
                     if (fs.existsSync(adminOnlyPath)) {
                         const adminOnlyData = JSON.parse(fs.readFileSync(adminOnlyPath));
 
@@ -587,8 +572,8 @@ const handleListenEvents = (api, commands, eventCommands, threadsDB, usersDB) =>
                 }
             }
             //noPrefix
-            Object.keys(commands).forEach(async (commandName) => {
-                const targetFunc = commands[commandName]?.noPrefix;
+            Object.keys(database).forEach(async (commandName) => {
+                const targetFunc = database[commandName]?.noPrefix;
                 if (typeof targetFunc === "function") {
                     try {
                         await targetFunc({ 'api': api, 'event': event, 'actions': cmdActions, 'target': event.body });
@@ -603,7 +588,7 @@ const handleListenEvents = (api, commands, eventCommands, threadsDB, usersDB) =>
         if (event.type === 'message_reply') {
             const repliedMessage = global.client.handleReply.find(msg => msg.messageID === event.messageReply.messageID);
             if (repliedMessage) {
-                const command = commands[repliedMessage.name];
+                const command = database[repliedMessage.name];
                 if (command && typeof command.onReply === 'function') {
                     try {
                         await command.onReply({ 'reply': event.messageReply, 'api': api, 'event': event, 'actions': actions });
@@ -618,7 +603,7 @@ const handleListenEvents = (api, commands, eventCommands, threadsDB, usersDB) =>
         if (event.type === 'message_reaction') {
             const reactedMessage = global.client.callReact.find(msg => msg.messageID === event.messageID);
             if (reactedMessage) {
-                const command = commands[reactedMessage.name];
+                const command = database[reactedMessage.name];
                 if (command && typeof command.callReact === 'function') {
                     try {
                         await command.callReact({ 'reaction': event.reaction, 'api': api, 'event': event, 'actions': actions });
@@ -630,7 +615,7 @@ const handleListenEvents = (api, commands, eventCommands, threadsDB, usersDB) =>
             if (event.type === 'message_reaction') {
                 // Handle role reactions
                 try {
-                    const rolesFile = path.join(__dirname, '../commands/json/roles.json');
+                    const rolesFile = path.join(__dirname, '../database/json/roles.json');
                     const roles = JSON.parse(fs.readFileSync(rolesFile));
 
                     const reactedMessage = global.client.callReact.find(
@@ -653,7 +638,7 @@ const handleListenEvents = (api, commands, eventCommands, threadsDB, usersDB) =>
                         }
 
                         // Handle regular command reactions
-                        const command = commands[reactedMessage.name];
+                        const command = database[reactedMessage.name];
                         if (command && typeof command.callReact === 'function') {
                             try {
                                 await command.callReact({

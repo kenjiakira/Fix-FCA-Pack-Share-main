@@ -232,14 +232,14 @@ async function createCheckTTCanvas(memberStats, threadID, threadName, senderID, 
                     } catch (avatarError) {
                         console.error(`Error loading avatar for ${member.userID}:`, avatarError);
                         // Use default avatar if can't load
-                        const defaultAvatarPath = path.join(__dirname, '../../commands/cache/avatars/avatar.jpg');
+                        const defaultAvatarPath = path.join(__dirname, '../../database/cache/avatars/avatar.jpg');
                         if (fs.existsSync(defaultAvatarPath)) {
                             avatar = await loadImage(defaultAvatarPath);
                         }
                     }
                 } else {
                     // Use default avatar if no avatar in userAvatars
-                    const defaultAvatarPath = path.join(__dirname, '../../commands/cache/avatars/avatar.jpg');
+                    const defaultAvatarPath = path.join(__dirname, '../../database/cache/avatars/avatar.jpg');
                     if (fs.existsSync(defaultAvatarPath)) {
                         avatar = await loadImage(defaultAvatarPath);
                     }
@@ -375,7 +375,7 @@ async function createCheckTTCanvas(memberStats, threadID, threadName, senderID, 
 
         // Save and return image
         const buffer = canvas.toBuffer("image/png");
-        const tempDir = path.join(__dirname, "../cache");
+        const tempDir = path.join(__dirname, "../../database/cache");
         if (!fs.existsSync(tempDir)) {
             fs.mkdirSync(tempDir, { recursive: true });
         }
@@ -397,7 +397,7 @@ async function createCheckTTCanvas(memberStats, threadID, threadName, senderID, 
  */
 async function getAvatarPath(userId) {
     try {
-        const cacheDir = path.join(__dirname, "../../commands/cache/avatars");
+        const cacheDir = path.join(__dirname, "../../database/cache/avatars");
         if (!fs.existsSync(cacheDir)) {
             fs.mkdirSync(cacheDir, { recursive: true });
         }
@@ -416,7 +416,7 @@ async function getAvatarPath(userId) {
         }
 
         // Check if default avatar exists
-        const defaultAvatarPath = path.join(__dirname, '../../commands/cache/avatars/avatar.jpg');
+        const defaultAvatarPath = path.join(__dirname, '../../database/cache/avatars/avatar.jpg');
         const defaultAvatarExists = fs.existsSync(defaultAvatarPath);
 
         // Try to get avatar from Facebook Graph API
@@ -446,7 +446,7 @@ async function getAvatarPath(userId) {
         console.error(`Error in getAvatarPath for ${userId}:`, error.message);
         
         // Always return default avatar if available
-        const defaultAvatarPath = path.join(__dirname, '../../commands/cache/avatars/avatar.jpg');
+        const defaultAvatarPath = path.join(__dirname, '../../database/cache/avatars/avatar.jpg');
         if (fs.existsSync(defaultAvatarPath)) {
             return defaultAvatarPath;
         }

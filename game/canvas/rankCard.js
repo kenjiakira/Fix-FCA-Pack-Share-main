@@ -233,7 +233,7 @@ async function drawAvatar(ctx, senderID, level) {
     // Kiểm tra VIP status
     let isVIP = false;
     let vipLevel = 0;
-    const vipJsonPath = path.join(__dirname, '../../commands/json/vip.json');
+    const vipJsonPath = path.join(__dirname, '../../database/json/vip.json');
     try {
         const vipData = JSON.parse(fs.readFileSync(vipJsonPath, 'utf8'));
         const userVIP = vipData.users[senderID];
