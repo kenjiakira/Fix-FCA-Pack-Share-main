@@ -6,9 +6,12 @@ const getThreadParticipantIDs = require("../utils/getParticipantIDs");
 const nicknameConfigPath = path.join(__dirname, "../database/json/setname/nicknames.json");
 const setnameStatusPath = path.join(__dirname, "../database/json/setname/setnameStatus.json");
 
-// Create config files if they don't exist
 [nicknameConfigPath, setnameStatusPath].forEach(filePath => {
     if (!fs.existsSync(filePath)) {
+        const dir = path.dirname(filePath);
+        if (!fs.existsSync(dir)) {
+            fs.mkdirSync(dir, { recursive: true });
+        }
         fs.writeFileSync(filePath, JSON.stringify({}, null, 2));
     }
 });

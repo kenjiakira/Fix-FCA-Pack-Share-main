@@ -1,3 +1,6 @@
+
+require('./utils/patchFS');
+
 const fs = require("fs");
 const gradient = require("gradient-string");
 const cron = require('node-cron');
@@ -7,6 +10,8 @@ const { handleListenEvents } = require("./utils/listen");
 const portfinder = require('portfinder');
 const path = require('path');
 // const { initDatabase } = require('./utils/initDatabase');
+
+const { safeReadJSONSync, logSummary } = require('./utils/ensureFiles');
 
 const config = JSON.parse(fs.readFileSync("./logins/hut-chat-api/config.json", "utf8"));
 
@@ -391,6 +396,8 @@ const reloadModules = () => {
                     }
                 }
                 
+                logSummary();
+                
                 console.log(boldText(gradient.passion("━━━━[ READY INITIALIZING DATABASE ]━━━━━━━")));
                 console.log(boldText(gradient.cristal(`╔════════════════════`)));
                 console.log(boldText(gradient.cristal(`║ DATABASE SYSTEM STATS`)));
@@ -441,6 +448,17 @@ const reloadModules = () => {
                 return; 
             }
         
+            if (err.code === 'ENOENT' && err.path && err.path.endsWith('.json')) {
+                try {
+                    const { ensureFile } = require('./utils/ensureFiles');
+                    ensureFile(err.path, {});
+                    console.log(boldText(gradient.teen(`✅ Đã tự động tạo file: ${err.path}`)));
+                    return;
+                } catch (createError) {
+                    console.error(boldText(gradient.passion(`❌ Không thể tạo file ${err.path}:`)), createError);
+                }
+            }
+        
             if (err.code === 'ENOTFOUND' && 
                 err.syscall === 'getaddrinfo' && 
                 err.hostname === 'www.facebook.com') {
@@ -456,6 +474,17 @@ const reloadModules = () => {
                 reason?.errorSummary?.includes('Bạn tạm thời bị chặn') ||
                 (reason?.error && reason?.blockedAction)) {
                 return; 
+            }
+        
+            if (reason && reason.code === 'ENOENT' && reason.path && reason.path.endsWith('.json')) {
+                try {
+                    const { ensureFile } = require('./utils/ensureFiles');
+                    ensureFile(reason.path, {});
+                    console.log(boldText(gradient.teen(`✅ Đã tự động tạo file: ${reason.path}`)));
+                    return;
+                } catch (createError) {
+                    console.error(boldText(gradient.passion(`❌ Không thể tạo file ${reason.path}:`)), createError);
+                }
             }
         
             if (reason && reason.code === 'ENOTFOUND' && 
