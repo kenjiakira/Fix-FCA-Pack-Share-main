@@ -69,6 +69,75 @@ function addUpdate(type, title, description, adminOnly = false) {
     saveUpdates(data);
 }
 
+function getVersion() {
+    try {
+        const packagePath = path.join(__dirname, '../package.json');
+        let version = 'N/A';
+        let gitTag = null;
+        let commitHash = null;
+        let branch = null;
+        
+        // Lấy version từ package.json
+        if (fs.existsSync(packagePath)) {
+            const packageData = JSON.parse(fs.readFileSync(packagePath, 'utf8'));
+            version = packageData.version || 'N/A';
+        }
+        
+        // Kiểm tra xem có phải Git repo không
+        const isGitRepo = fs.existsSync(path.join(__dirname, '../.git'));
+        if (isGitRepo) {
+            try {
+                // Lấy Git tag gần nhất (nếu có)
+                try {
+                    gitTag = execSync('git describe --tags --abbrev=0', {
+                        cwd: path.join(__dirname, '../'),
+                        encoding: 'utf8',
+                        stdio: ['ignore', 'pipe', 'ignore']
+                    }).trim();
+                } catch (err) {
+                    // Không có tag, bỏ qua
+                }
+                
+                // Lấy commit hash ngắn
+                try {
+                    commitHash = execSync('git rev-parse --short HEAD', {
+                        cwd: path.join(__dirname, '../'),
+                        encoding: 'utf8'
+                    }).trim();
+                } catch (err) {
+                    // Không thể lấy commit hash
+                }
+                
+                // Lấy branch hiện tại
+                try {
+                    branch = execSync('git rev-parse --abbrev-ref HEAD', {
+                        cwd: path.join(__dirname, '../'),
+                        encoding: 'utf8'
+                    }).trim();
+                } catch (err) {
+                    // Không thể lấy branch
+                }
+            } catch (err) {
+                // Git commands failed
+            }
+        }
+        
+        return {
+            version: version,
+            gitTag: gitTag,
+            commitHash: commitHash,
+            branch: branch
+        };
+    } catch (error) {
+        return {
+            version: 'N/A',
+            gitTag: null,
+            commitHash: null,
+            branch: null
+        };
+    }
+}
+
 module.exports = {
     name: "update",
     dev: "HNT",
@@ -76,7 +145,7 @@ module.exports = {
     category: "System",
     info: "Hiển thị các cập nhật mới trong 7 ngày gần nhất",
     onPrefix: true,
-    usages: "update [add/list/del/view/pull] [userID]",
+    usages: "update [add/list/del/view/pull/version] [branch/userID]",
     cooldowns: 5,
 
     onLaunch: async ({ api, event, target }) => {
@@ -85,6 +154,23 @@ module.exports = {
         const isAdmin = Array.isArray(adminData.adminUIDs) && adminData.adminUIDs.includes(senderID);
         
         if (!target[0]) {
+            // Nếu không có command, hiển thị version và updates
+            const versionInfo = getVersion();
+            let msg = `╭─「 THÔNG TIN PHIÊN BẢN 」─╮\n\n`;
+            msg += `📦 Phiên bản: v${versionInfo.version}\n`;
+            if (versionInfo.gitTag) {
+                msg += `🏷️ Git Tag: ${versionInfo.gitTag}\n`;
+            }
+            if (versionInfo.branch) {
+                msg += `🌿 Nhánh: ${versionInfo.branch}\n`;
+            }
+            if (versionInfo.commitHash) {
+                msg += `🔖 Commit: ${versionInfo.commitHash}\n`;
+            }
+            msg += `\n╰───────────────────────╯\n\n`;
+            
+            // Gửi version trước, sau đó hiển thị updates
+            await api.sendMessage(msg, threadID);
             return showUpdates(api, threadID, senderID, messageID, isAdmin);
         }
 
@@ -159,17 +245,30 @@ module.exports = {
                     return showUpdates(api, threadID, userId, messageID, false);
                 }
                 
+                case "version":
+                case "v":
+                case "ver": {
+                    const versionInfo = getVersion();
+                    let msg = "╭─「 THÔNG TIN PHIÊN BẢN 」─╮\n\n";
+                    msg += `📦 Phiên bản: v${versionInfo.version}\n`;
+                    
+                    msg += "\n╰───────────────────────╯";
+                    
+                    return api.sendMessage(msg, threadID, messageID);
+                }
+                
                 case "pull":
                 case "sync": {
-                    const loadingMsg = await api.sendMessage("⏳ Đang cập nhật code từ Git...", threadID);
+                    const targetBranch = target[1] || 'dev';
+                    const loadingMsg = await api.sendMessage(`⏳ Đang cập nhật bản mới nhất"...`, threadID);
                     
                     try {
                         const isGitRepo = fs.existsSync(path.join(__dirname, '../.git'));
                         if (!isGitRepo) {
                             api.unsendMessage(loadingMsg.messageID);
                             return api.sendMessage(
-                                "❌ Thư mục này chưa được khởi tạo Git!\n" +
-                                "💡 Vui lòng clone repo từ GitHub trước.",
+                                "❌ Thư mục này không xác định được!\n" +
+                                "💡 Vui lòng kiểm tra đúng phiên bản đang sử dụng.",
                                 threadID, messageID
                             );
                         }
@@ -183,13 +282,13 @@ module.exports = {
                         } catch (err) {
                             api.unsendMessage(loadingMsg.messageID);
                             return api.sendMessage(
-                                "❌ Không thể xác định branch hiện tại!",
+                                "❌ Không thể xác định phiên bản hiện tại!",
                                 threadID, messageID
                             );
                         }
                         
                         try {
-                            execSync('git stash push -m "Auto-stash before update"', {
+                            execSync('git stash push -m "Auto-stash before update" -m "Phiên bản mới nhất"', {
                                 cwd: path.join(__dirname, '../'),
                                 stdio: 'ignore'
                             });
@@ -201,7 +300,54 @@ module.exports = {
                             encoding: 'utf8'
                         });
                         
-                        const pullOutput = execSync(`git pull origin ${currentBranch}`, {
+                        let branchExists = false;
+                        try {
+                            execSync(`git ls-remote --heads origin ${targetBranch}`, {
+                                cwd: path.join(__dirname, '../'),
+                                stdio: 'ignore'
+                            });
+                            branchExists = true;
+                        } catch (err) {
+                            branchExists = false;
+                        }
+                        
+                        if (!branchExists) {
+                            api.unsendMessage(loadingMsg.messageID);
+                            return api.sendMessage(
+                                `❌ Phiên bản "${targetBranch}" không tồn tại trên remote!\n\n`,
+                                threadID, messageID
+                            );
+                        }
+                        
+                        let checkoutOutput = '';
+                        if (currentBranch !== targetBranch) {
+                            try {
+
+                                try {
+                                    execSync(`git rev-parse --verify ${targetBranch}`, {
+                                        cwd: path.join(__dirname, '../'),
+                                        stdio: 'ignore'
+                                    });
+                                    checkoutOutput = execSync(`git checkout ${targetBranch}`, {
+                                        cwd: path.join(__dirname, '../'),
+                                        encoding: 'utf8'
+                                    });
+                                } catch (err) {
+                                    checkoutOutput = execSync(`git checkout -b ${targetBranch} origin/${targetBranch}`, {
+                                        cwd: path.join(__dirname, '../'),
+                                        encoding: 'utf8'
+                                    });
+                                }
+                            } catch (err) {
+                                api.unsendMessage(loadingMsg.messageID);
+                                return api.sendMessage(
+                                    `❌ Không thể chuyển sang nhánh "${targetBranch}":\n${err.message}`,    
+                                    threadID, messageID
+                                );
+                            }
+                        }
+                        
+                        const pullOutput = execSync(`git pull origin ${targetBranch}`, {
                             cwd: path.join(__dirname, '../'),
                             encoding: 'utf8'
                         });
@@ -216,12 +362,27 @@ module.exports = {
                                 needInstall = true;
                             }
                         } catch (err) {
-            
                         }
                         
+                        const versionInfo = getVersion();
+                        
                         let resultMsg = `✅ Đã cập nhật code thành công!\n\n`;
-                        resultMsg += `🌿 Branch: ${currentBranch}\n`;
-                        resultMsg += `📥 Output:\n${pullOutput.substring(0, 500)}${pullOutput.length > 500 ? '...' : ''}\n`;
+                        resultMsg += `📦 Phiên bản hiện tại: v${versionInfo.version}\n`;
+                        
+                        if (versionInfo.gitTag) {
+                            resultMsg += `🏷️ Git Tag: ${versionInfo.gitTag}\n`;
+                        }
+                        
+                        resultMsg += `🌿 Nhánh: ${targetBranch}\n`;
+                        if (currentBranch !== targetBranch) {
+                            resultMsg += `🔄 Đã chuyển từ nhánh "${currentBranch}" sang "${targetBranch}"\n`;
+                        }
+                        
+                        if (versionInfo.commitHash) {
+                            resultMsg += `🔖 Commit: ${versionInfo.commitHash}\n`;
+                        }
+                        
+                        resultMsg += `\n📥 Output:\n${pullOutput.substring(0, 300)}${pullOutput.length > 300 ? '...' : ''}\n`;
                         
                         if (needInstall) {
                             resultMsg += `\n📦 Phát hiện thay đổi package.json\n`;
@@ -238,7 +399,8 @@ module.exports = {
                             `💡 Kiểm tra lại:\n` +
                             `1. Kết nối mạng\n` +
                             `2. Quyền truy cập Git\n` +
-                            `3. Có conflict cần giải quyết`,
+                            `3. Nhánh "${targetBranch}" có tồn tại không\n` +
+                            `4. Có conflict cần giải quyết`,
                             threadID, messageID
                         );
                     }
@@ -246,20 +408,14 @@ module.exports = {
             }
         }
         
-        // Show the updates for both admin and users 
-        // if they don't use any special command or use an invalid command
         return showUpdates(api, threadID, senderID, messageID, isAdmin);
     }
 };
 
-// Function to show updates
 function showUpdates(api, threadID, userID, messageID, isAdmin) {
     const data = loadUpdates();
     const sevenDaysAgo = Date.now() - (7 * 24 * 60 * 60 * 1000);
     
-    // Filter updates from the last 7 days
-    // If admin, show all updates from the last 7 days
-    // If user, only show non-admin updates from the last 7 days
     const recentUpdates = data.updates.filter(update => 
         update.date >= sevenDaysAgo && (isAdmin || !update.adminOnly)
     );
@@ -272,7 +428,6 @@ function showUpdates(api, threadID, userID, messageID, isAdmin) {
         );
     }
     
-    // Group updates by type
     const updatesByType = {};
     recentUpdates.forEach(update => {
         if (!updatesByType[update.type]) {
@@ -330,7 +485,8 @@ function showUpdates(api, threadID, userID, messageID, isAdmin) {
         msg += "• update del [id]\n";
         msg += "• update list\n";
         msg += "• update view [userID]\n";
-        msg += "• update pull - Cập nhật code từ Git\n";
+        msg += "• update pull [branch] - Cập nhật code từ Git (mặc định: dev)\n";
+        msg += "• update version - Xem phiên bản hiện tại\n";
         msg += "\nLoại: feature, bugfix, improvement, security";
     }
     
