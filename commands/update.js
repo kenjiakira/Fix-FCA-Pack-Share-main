@@ -9,7 +9,8 @@ const {
     compareFileLists,
     bumpVersion,
     getVersion,
-    copyDirectory
+    copyDirectory,
+    syncDirectory
 } = require('../utils/update');
 
 const updatesPath = path.join(__dirname, '../database/json/updates.json');
@@ -168,16 +169,19 @@ module.exports = {
                                 stdio: 'pipe'
                             });
                             
+                            // Lấy file map từ project hiện tại để so sánh
                             const beforeFileMap = getFileMap(projectRoot, EXCLUDE_PATTERNS);
-                            const beforeFiles = Array.from(beforeFileMap.keys());
                             
-                            const copyResult = copyDirectory(tempDir, projectRoot, EXCLUDE_PATTERNS, true);
+                            // Đồng bộ: copy file mới/thay đổi và xóa file đã bị xóa ở repo
+                            const syncResult = syncDirectory(tempDir, projectRoot, EXCLUDE_PATTERNS);
                             
+                            // Lấy file map sau khi sync để so sánh
                             const afterFileMap = getFileMap(projectRoot, EXCLUDE_PATTERNS);
-                            const afterFiles = Array.from(afterFileMap.keys());
                             
+                            // So sánh để xác định file thêm/xóa/thay đổi
                             const { added, deleted, modified } = compareFiles(beforeFileMap, afterFileMap);
                             
+                            // Tự động nâng phiên bản
                             const versionBump = bumpVersion();
                             
                             fs.rmSync(tempDir, { recursive: true, force: true });
@@ -195,17 +199,20 @@ module.exports = {
                             resultMsg += `🔗 Nguồn cập nhật: ${repoURL}\n`;
                             
                             resultMsg += `\n📊 THỐNG KÊ CẬP NHẬT:\n`;
-                            resultMsg += `  ✅ Đã copy: ${copyResult.copied.length} file\n`;
-                            resultMsg += `  ⏭️  Đã bỏ qua (không đổi): ${copyResult.skipped.length} file\n`;
-                            if (copyResult.errors.length > 0) {
-                                resultMsg += `  ⚠️  Lỗi: ${copyResult.errors.length} file\n`;
+                            resultMsg += `  ✅ Đã copy: ${syncResult.copied.length} file\n`;
+                            resultMsg += `  ⏭️  Đã bỏ qua (không đổi): ${syncResult.skipped.length} file\n`;
+                            resultMsg += `  🗑️  Đã xóa: ${syncResult.deleted.length} file\n`;
+                            if (syncResult.errors.length > 0) {
+                                resultMsg += `  ⚠️  Lỗi: ${syncResult.errors.length} file\n`;
                             }
                             
-                            if (added.length > 0 || deleted.length > 0 || modified.length > 0) {
+                            // Hiển thị chi tiết file đã copy (file mới + file đã thay đổi)
+                            const totalChanges = syncResult.copied.length + syncResult.deleted.length;
+                            if (totalChanges > 0) {
                                 resultMsg += `\n📋 CHI TIẾT THAY ĐỔI:\n`;
                                 
                                 if (added.length > 0) {
-                                    resultMsg += `\n➕ Đã thêm ${added.length} file:\n`;
+                                    resultMsg += `\n➕ File mới (${added.length}):\n`;
                                     const displayAdded = added.slice(0, 15);
                                     displayAdded.forEach(file => {
                                         resultMsg += `  • ${file}\n`;
@@ -216,7 +223,7 @@ module.exports = {
                                 }
                                 
                                 if (modified.length > 0) {
-                                    resultMsg += `\n🔄 Đã cập nhật ${modified.length} file:\n`;
+                                    resultMsg += `\n🔄 File đã cập nhật (${modified.length}):\n`;
                                     const displayModified = modified.slice(0, 15);
                                     displayModified.forEach(file => {
                                         resultMsg += `  • ${file}\n`;
@@ -226,14 +233,14 @@ module.exports = {
                                     }
                                 }
                                 
-                                if (deleted.length > 0) {
-                                    resultMsg += `\n➖ Đã xóa ${deleted.length} file:\n`;
-                                    const displayDeleted = deleted.slice(0, 15);
+                                if (syncResult.deleted.length > 0) {
+                                    resultMsg += `\n➖ File đã xóa từ repo (${syncResult.deleted.length}):\n`;
+                                    const displayDeleted = syncResult.deleted.slice(0, 15);
                                     displayDeleted.forEach(file => {
                                         resultMsg += `  • ${file}\n`;
                                     });
-                                    if (deleted.length > 15) {
-                                        resultMsg += `  ... và ${deleted.length - 15} file khác\n`;
+                                    if (syncResult.deleted.length > 15) {
+                                        resultMsg += `  ... và ${syncResult.deleted.length - 15} file khác\n`;
                                     }
                                 }
                             }
