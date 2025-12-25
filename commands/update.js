@@ -1,10 +1,25 @@
 const fs = require('fs');
 const path = require('path');
 const { execSync } = require('child_process');
+const os = require('os');
 
 const updatesPath = path.join(__dirname, '../database/json/updates.json');
 
 const adminPath = path.join(__dirname, '../admin.json');
+
+const DEFAULT_GIT_URL = 'https://github.com/kenjiakira/Fix-FCA-Pack-Share-main.git';
+
+const EXCLUDE_PATTERNS = [
+    'node_modules',
+    '.git',
+    'appstate.json',
+    'admin.json',
+    'package-lock.json',
+    '.env',
+    '.appstate-last-check.json',
+    'database',
+    'logins'
+];
 
 function loadAdminData() {
     try {
@@ -67,6 +82,34 @@ function addUpdate(type, title, description, adminOnly = false) {
     
     data.lastModified = Date.now();
     saveUpdates(data);
+}
+
+function copyDirectory(src, dest, excludePatterns = []) {
+    try {
+        if (!fs.existsSync(dest)) {
+            fs.mkdirSync(dest, { recursive: true });
+        }
+
+        const entries = fs.readdirSync(src, { withFileTypes: true });
+
+        for (const entry of entries) {
+            const srcPath = path.join(src, entry.name);
+            const destPath = path.join(dest, entry.name);
+            
+            if (excludePatterns.some(pattern => entry.name.includes(pattern) || srcPath.includes(pattern))) {
+                continue;
+            }
+
+            if (entry.isDirectory()) {
+                copyDirectory(srcPath, destPath, excludePatterns);
+            } else {
+                fs.copyFileSync(srcPath, destPath);
+            }
+        }
+        return true;
+    } catch (error) {
+        throw new Error(`Lỗi khi copy thư mục: ${error.message}`);
+    }
 }
 
 function getVersion() {
@@ -143,9 +186,9 @@ module.exports = {
     dev: "HNT",
     usedby: 0,
     category: "System",
-    info: "Hiển thị các cập nhật mới trong 7 ngày gần nhất",
+    info: "Cập nhật hệ thống từ nguồn cập nhật",
     onPrefix: true,
-    usages: "update [add/list/del/view/pull/version] [branch/userID]",
+    usages: "update [pull/sync/version] [branch] [gitURL]",
     cooldowns: 5,
 
     onLaunch: async ({ api, event, target }) => {
@@ -154,7 +197,6 @@ module.exports = {
         const isAdmin = Array.isArray(adminData.adminUIDs) && adminData.adminUIDs.includes(senderID);
         
         if (!target[0]) {
-            // Nếu không có command, hiển thị version và updates
             const versionInfo = getVersion();
             let msg = `╭─「 THÔNG TIN PHIÊN BẢN 」─╮\n\n`;
             msg += `📦 Phiên bản: v${versionInfo.version}\n`;
@@ -169,82 +211,19 @@ module.exports = {
             }
             msg += `\n╰───────────────────────╯\n\n`;
             
-            // Gửi version trước, sau đó hiển thị updates
-            await api.sendMessage(msg, threadID);
-            return showUpdates(api, threadID, senderID, messageID, isAdmin);
+            if (isAdmin) {
+                msg += `👑 ADMIN COMMANDS:\n`;
+                msg += `• update pull [branch] [gitURL] - Cập nhật hệ thống\n`;
+                msg += `• update version - Xem phiên bản hiện tại\n`;
+            }
+            
+            return api.sendMessage(msg, threadID, messageID);
         }
 
         const command = target[0].toLowerCase();
 
         if (isAdmin) {
             switch (command) {
-                case "add": {
-                    const type = target[1];
-                    const title = target[2] || "Cập nhật mới";
-                    const description = target.slice(3).join(" ");
-                    const adminOnly = false;
-                    
-                    if (!type || !title) {
-                        return api.sendMessage(
-                            "⚠️ Thiếu thông tin! Sử dụng:\n" +
-                            "update add loại tiêu_đề\n\n" +
-                            "Loại: feature, bugfix, improvement, security\n" +
-                            "Ví dụ:\n" +
-                            "update add feature \"Thêm tính năng mới\"",
-                            threadID, messageID
-                        );
-                    }
-                    
-                    addUpdate(type, title, description || title, adminOnly);
-                    return api.sendMessage("✅ Đã thêm cập nhật mới!", threadID, messageID);
-                }
-                
-                case "del": {
-                    const updateId = target[1];
-                    if (!updateId) {
-                        return api.sendMessage("⚠️ Vui lòng cung cấp ID cập nhật cần xóa!", threadID, messageID);
-                    }
-                    
-                    const data = loadUpdates();
-                    const updateIndex = data.updates.findIndex(update => update.id === updateId);
-                    
-                    if (updateIndex === -1) {
-                        return api.sendMessage(`❌ Không tìm thấy cập nhật với ID: ${updateId}`, threadID, messageID);
-                    }
-                    
-                    data.updates.splice(updateIndex, 1);
-                    data.lastModified = Date.now();
-                    saveUpdates(data);
-                    
-                    return api.sendMessage("✅ Đã xóa cập nhật!", threadID, messageID);
-                }
-                
-                case "list": {
-                    const data = loadUpdates();
-                    if (data.updates.length === 0) {
-                        return api.sendMessage("❌ Chưa có cập nhật nào được thêm vào!", threadID, messageID);
-                    }
-                    
-                    let msg = "📋 Danh sách tất cả cập nhật:\n\n";
-                    data.updates.forEach((update, index) => {
-                        msg += `${index + 1}. [${update.id}] ${update.title}\n`;
-                        msg += `📅 ${new Date(update.date).toLocaleDateString()}\n`;
-                        msg += `🔒 Admin: ${update.adminOnly ? "Có" : "Không"}\n`;
-                        msg += `ℹ️ ${update.description.substring(0, 50)}${update.description.length > 50 ? "..." : ""}\n\n`;
-                    });
-                    
-                    return api.sendMessage(msg, threadID, messageID);
-                }
-                
-                case "view": {
-                    const userId = target[1];
-                    if (!userId) {
-                        return api.sendMessage("⚠️ Vui lòng cung cấp ID người dùng!", threadID, messageID);
-                    }
-                    
-                    return showUpdates(api, threadID, userId, messageID, false);
-                }
-                
                 case "version":
                 case "v":
                 case "ver": {
@@ -260,201 +239,105 @@ module.exports = {
                 case "pull":
                 case "sync": {
                     const targetBranch = target[1] || 'dev';
-                    const loadingMsg = await api.sendMessage(`⏳ Đang cập nhật bản mới nhất"...`, threadID);
+                    const gitURL = target[2] || null;
+                    const loadingMsg = await api.sendMessage(`⏳ Đang cập nhật bản mới nhất...`, threadID);
                     
                     try {
-                        const isGitRepo = fs.existsSync(path.join(__dirname, '../.git'));
-                        if (!isGitRepo) {
-                            api.unsendMessage(loadingMsg.messageID);
-                            return api.sendMessage(
-                                "❌ Thư mục này không xác định được!\n" +
-                                "💡 Vui lòng kiểm tra đúng phiên bản đang sử dụng.",
-                                threadID, messageID
-                            );
-                        }
+                        const adminData = loadAdminData();
+                        const repoURL = gitURL || adminData.gitURL || DEFAULT_GIT_URL;
                         
-                        let currentBranch;
+                        const projectRoot = path.join(__dirname, '../');
+                        const tempDir = path.join(os.tmpdir(), `fca-update-${Date.now()}`);
+                        
                         try {
-                            currentBranch = execSync('git rev-parse --abbrev-ref HEAD', {
-                                cwd: path.join(__dirname, '../'),
-                                encoding: 'utf8'
-                            }).trim();
-                        } catch (err) {
-                            api.unsendMessage(loadingMsg.messageID);
-                            return api.sendMessage(
-                                "❌ Không thể xác định phiên bản hiện tại!",
-                                threadID, messageID
-                            );
-                        }
-                    
-                        try {
-                            execSync('git stash push -m "Auto-stash before update"', {
-                                cwd: path.join(__dirname, '../'),
-                                stdio: 'ignore'
+                            execSync(`git clone -b ${targetBranch} --depth 1 ${repoURL} "${tempDir}"`, {
+                                encoding: 'utf8',
+                                stdio: 'pipe'
                             });
-                        } catch (err) {
-                        }
+                            
+                            copyDirectory(tempDir, projectRoot, EXCLUDE_PATTERNS);
                         
-                        execSync('git fetch --all --prune --tags', {
-                            cwd: path.join(__dirname, '../'),
-                            encoding: 'utf8'
-                        });
-                        
-                        let branchExists = false;
-                        try {
-                            execSync(`git ls-remote --heads origin ${targetBranch}`, {
-                                cwd: path.join(__dirname, '../'),
-                                stdio: 'ignore'
-                            });
-                            branchExists = true;
-                        } catch (err) {
-                            branchExists = false;
-                        }
-                        
-                        if (!branchExists) {
+                            fs.rmSync(tempDir, { recursive: true, force: true });
+                            
+                            const versionInfo = getVersion();
+                            let resultMsg = `✅ ĐÃ CẬP NHẬT TOÀN BỘ HỆ THỐNG THÀNH CÔNG!\n\n`;
+                            resultMsg += `📦 Phiên bản: v${versionInfo.version}\n`;
+                            resultMsg += `🌿 Nhánh phát triển: ${targetBranch}\n`;
+                            resultMsg += `🔗 Nguồn cập nhật: ${repoURL}\n`;
+                            resultMsg += `\n✨ Hệ thống đã được cập nhật toàn diện!\n`;
+                            resultMsg += `📁 Bao gồm: commands, events, utils, game, assets, và tất cả thư mục khác\n`;
+                            resultMsg += `🔒 Đã giữ lại: appstate.json, admin.json, database, logins\n`;
+                            
+                            const packagePath = path.join(projectRoot, 'package.json');
+                            if (fs.existsSync(packagePath)) {
+                                resultMsg += `\n📦 Phát hiện package.json\n`;
+                                resultMsg += `💡 Vui lòng chạy 'npm install' để cài đặt dependencies mới`;
+                            }
+                            
                             api.unsendMessage(loadingMsg.messageID);
-                            return api.sendMessage(
-                                `❌ Phiên bản "${targetBranch}" không tồn tại trên remote!\n\n`,
-                                threadID, messageID
-                            );
-                        }
-                        
-                        let checkoutOutput = '';
-                        if (currentBranch !== targetBranch) {
+                            return api.sendMessage(resultMsg, threadID, messageID);
+                            
+                        } catch (err) {
+                
                             try {
-
-                                try {
-                                    execSync(`git rev-parse --verify ${targetBranch}`, {
-                                        cwd: path.join(__dirname, '../'),
-                                        stdio: 'ignore'
-                                    });
-                                    checkoutOutput = execSync(`git checkout ${targetBranch}`, {
-                                        cwd: path.join(__dirname, '../'),
-                                        encoding: 'utf8'
-                                    });
-                                } catch (err) {
-                                    checkoutOutput = execSync(`git checkout -b ${targetBranch} origin/${targetBranch}`, {
-                                        cwd: path.join(__dirname, '../'),
-                                        encoding: 'utf8'
-                                    });
+                                if (fs.existsSync(tempDir)) {
+                                    fs.rmSync(tempDir, { recursive: true, force: true });
                                 }
-                            } catch (err) {
-                                api.unsendMessage(loadingMsg.messageID);
-                                return api.sendMessage(
-                                    `❌ Không thể chuyển sang nhánh "${targetBranch}":\n${err.message}`,    
-                                    threadID, messageID
-                                );
-                            }
+                            } catch (cleanupErr) {}
+                            
+                            api.unsendMessage(loadingMsg.messageID);
+                            return api.sendMessage(
+                                `❌ Lỗi khi tải xuống từ nguồn cập nhật:\n${err.message}\n\n` +
+                                `💡 Kiểm tra lại:\n` +
+                                `1. Địa chỉ nguồn cập nhật có đúng không: ${repoURL}\n` +
+                                `2. Phiên bản "${targetBranch}" có tồn tại không\n` +
+                                `3. Kết nối mạng\n` +
+                                `4. Hệ thống quản lý phiên bản đã được cài đặt chưa`,
+                                threadID, messageID
+                            );
                         }
-                        
-                        let pullOutput = '';
-                        try {
-                            execSync(`git reset --hard origin/${targetBranch}`, {
-                                cwd: path.join(__dirname, '../'),
-                                encoding: 'utf8'
-                            });
-                            pullOutput = `Đã reset và đồng bộ hoàn toàn với origin/${targetBranch}`;
-                        } catch (err) {
-                            pullOutput = execSync(`git pull origin ${targetBranch} --no-edit`, {
-                                cwd: path.join(__dirname, '../'),
-                                encoding: 'utf8'
-                            });
-                        }
-                        
-                        try {
-                            execSync('git clean -fd', {
-                                cwd: path.join(__dirname, '../'),
-                                stdio: 'ignore'
-                            });
-                        } catch (err) {
-                        }
-                        
-                        let needInstall = false;
-                        try {
-                            const changedFiles = execSync('git diff HEAD@{1} HEAD --name-only', {
-                                cwd: path.join(__dirname, '../'),
-                                encoding: 'utf8'
-                            });
-                            if (changedFiles.includes('package.json')) {
-                                needInstall = true;
-                            }
-                        } catch (err) {
-                        }
-                        
-                        const versionInfo = getVersion();
-                        
-                        let latestCommit = '';
-                        let commitMessage = '';
-                        try {
-                            latestCommit = execSync('git rev-parse --short HEAD', {
-                                cwd: path.join(__dirname, '../'),
-                                encoding: 'utf8'
-                            }).trim();
-                            commitMessage = execSync('git log -1 --pretty=format:"%s"', {
-                                cwd: path.join(__dirname, '../'),
-                                encoding: 'utf8'
-                            }).trim();
-                        } catch (err) {
-                        }
-                        
-                        let changedFilesCount = 0;
-                        try {
-                            const changedFiles = execSync('git diff --name-only HEAD@{1} HEAD', {
-                                cwd: path.join(__dirname, '../'),
-                                encoding: 'utf8'
-                            });
-                            changedFilesCount = changedFiles.trim().split('\n').filter(f => f.trim()).length;
-                        } catch (err) {
-                        }
-                        
-                        let resultMsg = `✅ ĐÃ CẬP NHẬT TOÀN BỘ HỆ THỐNG THÀNH CÔNG!\n\n`;
-                        resultMsg += `📦 Phiên bản: v${versionInfo.version}\n`;
-                        resultMsg += `🌿 Nhánh: ${targetBranch}\n`;
-                        
-                        if (latestCommit) {
-                            resultMsg += `🔖 Commit mới nhất: ${latestCommit}\n`;
-                        }
-                        
-                        if (commitMessage) {
-                            resultMsg += `📝 Message: ${commitMessage.substring(0, 50)}${commitMessage.length > 50 ? '...' : ''}\n`;
-                        }
-                        
-                        if (changedFilesCount > 0) {
-                            resultMsg += `📊 Số file đã cập nhật: ${changedFilesCount}\n`;
-                        }
-                        
-                        if (currentBranch !== targetBranch) {
-                            resultMsg += `🔄 Đã chuyển từ "${currentBranch}" → "${targetBranch}"\n`;
-                        }
-                        
-                        resultMsg += `\n✨ Hệ thống đã được cập nhật toàn diện!\n`;
-                        resultMsg += `📁 Bao gồm: commands, events, utils, game, assets, và tất cả thư mục khác\n`;
-                        
-                        if (needInstall) {
-                            resultMsg += `\n📦 Phát hiện thay đổi package.json\n`;
-                            resultMsg += `💡 Vui lòng chạy 'npm install' để cài đặt dependencies mới`;
-                        }
-                        
-                        api.unsendMessage(loadingMsg.messageID);
-                        return api.sendMessage(resultMsg, threadID, messageID);
                         
                     } catch (err) {
                         api.unsendMessage(loadingMsg.messageID);
                         return api.sendMessage(
-                            `❌ Lỗi khi cập nhật code:\n${err.message}\n\n` +
+                            `❌ Lỗi khi cập nhật hệ thống:\n${err.message}\n\n` +
                             `💡 Kiểm tra lại:\n` +
                             `1. Kết nối mạng\n` +
-                            `2. Quyền truy cập Git\n` +
-                            `3. Nhánh "${targetBranch}" có tồn tại không\n` +
-                            `4. Có conflict cần giải quyết`,
+                            `2. Địa chỉ nguồn cập nhật có đúng không\n` +
+                            `3. Phiên bản "${targetBranch}" có tồn tại không\n` +
+                            `4. Hệ thống quản lý phiên bản đã được cài đặt chưa`,
                             threadID, messageID
                         );
                     }
                 }
+                
+                default: {
+                    return api.sendMessage(
+                        "⚠️ Lệnh không hợp lệ!\n\n" +
+                        "👑 ADMIN COMMANDS:\n" +
+                        "• update pull [branch] [gitURL] - Cập nhật hệ thống\n" +
+                        "• update version - Xem phiên bản hiện tại",
+                        threadID, messageID
+                    );
+                }
             }
         }
+            
+        const versionInfo = getVersion();
+        let msg = `╭─「 THÔNG TIN PHIÊN BẢN 」─╮\n\n`;
+        msg += `📦 Phiên bản: v${versionInfo.version}\n`;
+        if (versionInfo.gitTag) {
+            msg += `🏷️ Git Tag: ${versionInfo.gitTag}\n`;
+        }
+        if (versionInfo.branch) {
+            msg += `🌿 Nhánh: ${versionInfo.branch}\n`;
+        }
+        if (versionInfo.commitHash) {
+            msg += `🔖 Commit: ${versionInfo.commitHash}\n`;
+        }
+        msg += `\n╰───────────────────────╯`;
         
-        return showUpdates(api, threadID, senderID, messageID, isAdmin);
+        return api.sendMessage(msg, threadID, messageID);
     }
 };
 
@@ -468,8 +351,7 @@ function showUpdates(api, threadID, userID, messageID, isAdmin) {
     
     if (recentUpdates.length === 0) {
         return api.sendMessage(
-            "📢 Không có cập nhật nào trong 7 ngày qua!" +
-            (isAdmin ? "\n\nBạn có thể thêm cập nhật mới bằng lệnh:\nupdate add [loại] [tiêu đề] [mô tả]" : ""),
+            "📢 Không có cập nhật nào trong 7 ngày qua!",
             threadID, messageID
         );
     }
@@ -524,17 +406,6 @@ function showUpdates(api, threadID, userID, messageID, isAdmin) {
     });
     
     msg += "╰──────────────╯";
-    
-    if (isAdmin) {
-        msg += "\n\n👑 ADMIN COMMANDS:\n";
-        msg += "• update add loại tiêu_đề mô_tả\n";
-        msg += "• update del [id]\n";
-        msg += "• update list\n";
-        msg += "• update view [userID]\n";
-        msg += "• update pull [branch] - Cập nhật code từ Git (mặc định: dev)\n";
-        msg += "• update version - Xem phiên bản hiện tại\n";
-        msg += "\nLoại: feature, bugfix, improvement, security";
-    }
     
     return api.sendMessage(msg, threadID, messageID);
 }
