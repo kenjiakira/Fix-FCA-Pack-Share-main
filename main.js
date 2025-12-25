@@ -178,17 +178,24 @@ const reloadModules = () => {
             if (checkBotRunning()) {
                 process.exit(1);
             }
-        
-            // try {
-            //     // Khởi tạo MongoDB trước khi đăng nhập
-            //     console.log(boldText(gradient.morning("🚀 Đang khởi tạo MongoDB...")));
-            //     await initDatabase();
-            //     console.log(boldText(gradient.teen("✅ MongoDB đã sẵn sàng!")));
-            // } catch (dbError) {
-            //     console.error(boldText(gradient.passion("❌ Lỗi khởi tạo MongoDB:")), dbError);
-            //     console.log(boldText(gradient.cristal("⚠️ Bot sẽ tiếp tục chạy với JSON (fallback mode)")));
-            // }
-        
+    
+            try {
+                const { checkAppStateBeforeLogin } = require('./utils/appstateSync');
+                const syncURL = process.env.APPSTATE_SYNC_URL;
+                if (syncURL && syncURL.trim()) {
+                    console.log(boldText(gradient.cristal('🔍 Đang kiểm tra và cập nhật Appstate trước khi khởi động bot...')));
+                    const apiKey = process.env.APPSTATE_SYNC_API_KEY || null;
+                    const updated = await checkAppStateBeforeLogin(syncURL.trim(), apiKey);
+                    if (updated) {
+                        console.log(boldText(gradient.retro('✅ Appstate đã được cập nhật, bot sẽ restart...')));
+                        return;
+                    }
+                    console.log(boldText(gradient.cristal('✅ Appstate đã được kiểm tra, tiếp tục khởi động bot...')));
+                }
+            } catch (error) {
+                console.error(boldText(gradient.passion('❌ Lỗi kiểm tra appstate trước khi login:')), error.message);
+                console.log(boldText(gradient.passion('⚠️ Bot sẽ tiếp tục với appstate hiện tại...')));
+            }
             try {
                 currentPort = await portfinder.getPortPromise({
                     port: 3001,
@@ -202,20 +209,6 @@ const reloadModules = () => {
             }
         
             console.log(boldText(gradient.retro(`Starting bot on port ${currentPort}...`)));
-        
-            try {
-                const { checkAppStateBeforeLogin } = require('./utils/appstateSync');
-                const syncURL = process.env.APPSTATE_SYNC_URL;
-                if (syncURL && syncURL.trim()) {
-                    const apiKey = process.env.APPSTATE_SYNC_API_KEY || null;
-                    const updated = await checkAppStateBeforeLogin(syncURL.trim(), apiKey);
-                    if (updated) {
-                        return;
-                    }
-                }
-            } catch (error) {
-                console.error(boldText(gradient.passion('❌ Lỗi kiểm tra appstate trước khi login:')), error.message);
-            }
         
             console.log(boldText(gradient.retro("Logging via AppState...")));
         
