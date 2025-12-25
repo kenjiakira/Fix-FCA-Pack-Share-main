@@ -1,10 +1,10 @@
 {
   "name": "fca-aki",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "",
   "main": "index.js",
   "scripts": {
-    "start": "node main.js",
+    "start": "node index.js",
     "dev": "cross-env NODE_ENV=development node main.js",
     "watch": "node main.js --watch",
     "test": "echo \"Error: no test specified\" && exit 1",

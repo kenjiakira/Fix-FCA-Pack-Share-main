@@ -81,14 +81,11 @@ const patterns = {
 };
 
 function requiresVIP(platform) {
-    return !['facebook', 'tiktok'].includes(platform);
+    return false; // Bỏ VIP cho tất cả platform
 }
 
 async function checkVIPAccess(userId, platform) {
-    if (!requiresVIP(platform)) return true;
-
-    const benefits = vipService.getVIPBenefits(userId);
-    return benefits.packageId === 3; // Only VIP Gold can access
+    return true; // Luôn cho phép truy cập
 }
 
 module.exports = {
@@ -111,18 +108,6 @@ module.exports = {
             for (const [platform, pattern] of Object.entries(patterns)) {
                 if (pattern.test(url)) {
                     if (platform === 'douyin' && !url.includes('douyin.com')) continue;
-
-                    if (requiresVIP(platform)) {
-                        const hasAccess = await checkVIPAccess(event.senderID, platform);
-                        if (!hasAccess) {
-                            api.sendMessage(
-                                "⚠️ Bạn cần có VIP GOLD để tải nội dung từ nền tảng này.\n" +
-                                "💎 Gõ '.vip gold' để xem thông tin nâng cấp VIP GOLD.",
-                                event.threadID
-                            );
-                            return;
-                        }
-                    }
 
                     let handler;
 

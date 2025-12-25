@@ -15,31 +15,6 @@ const { safeReadJSONSync, logSummary } = require('./utils/ensureFiles');
 
 const config = JSON.parse(fs.readFileSync("./logins/hut-chat-api/config.json", "utf8"));
 
-const BOT_LOCK_FILE = path.join(__dirname, 'bot.running');
-
-const checkBotRunning = () => {
-    try {
-        if (fs.existsSync(BOT_LOCK_FILE)) {
-            console.error(boldText(gradient.passion("Bot đang chạy ở một cửa sổ khác!")));
-            return true;
-        }
-        fs.writeFileSync(BOT_LOCK_FILE, String(process.pid));
-        return false;
-    } catch (err) {
-        return false;
-    }
-};
-
-const cleanupBot = () => {
-    try {
-        if (fs.existsSync(BOT_LOCK_FILE)) {
-            fs.unlinkSync(BOT_LOCK_FILE);
-        }
-    } catch (err) {
-       
-    }
-};
-
 const proxyList = fs.readFileSync("./utils/prox.txt", "utf-8").split("\n").filter(Boolean);
 const fonts = require('./utils/fonts');
 function getRandomProxy() {
@@ -175,10 +150,6 @@ const reloadModules = () => {
     try {
         
         const startBot = async () => {
-            if (checkBotRunning()) {
-                process.exit(1);
-            }
-    
             try {
                 const { checkAppStateBeforeLogin } = require('./utils/appstateSync');
                 const syncURL = process.env.APPSTATE_SYNC_URL;
@@ -204,7 +175,6 @@ const reloadModules = () => {
                 });
             } catch (err) {
                 console.error(boldText(gradient.passion("No available ports found!")));
-                cleanupBot();
                 process.exit(1);
             }
         
@@ -422,7 +392,7 @@ const reloadModules = () => {
         };
         
         process.on('exit', () => {
-            cleanupBot();
+            // Cleanup if needed
         });
         
         process.on('SIGINT', () => {
@@ -430,7 +400,6 @@ const reloadModules = () => {
             if (global.autoReloadWatcher && global.autoReloadWatcher.stop) {
                 global.autoReloadWatcher.stop();
             }
-            cleanupBot();
             process.exit(0);
         });
         
@@ -492,7 +461,6 @@ const reloadModules = () => {
         
         startBot().catch(async (err) => {
             console.error(boldText(gradient.passion("Failed to start bot:")), err);
-            cleanupBot();
             process.exit(1);
         });
     } catch (error) {
