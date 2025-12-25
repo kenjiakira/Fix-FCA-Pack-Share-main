@@ -18,7 +18,8 @@ const EXCLUDE_PATTERNS = [
     '.env',
     '.appstate-last-check.json',
     'database',
-    'logins'
+    'logins',
+    'fonts'
 ];
 
 function loadAdminData() {
