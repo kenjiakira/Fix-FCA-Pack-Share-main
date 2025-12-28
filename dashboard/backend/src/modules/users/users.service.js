@@ -2,6 +2,7 @@ const database = require('../../config/database');
 const { getBalance } = require('../../../../../utils/currencies');
 const { getUserName } = require('../../../../../utils/userUtils');
 const vipService = require('../../../../../game/vip/vipService');
+const avatarsService = require('../avatars/avatars.service');
 
 class UsersService {
     async findAll(pagination) {
@@ -19,6 +20,7 @@ class UsersService {
                 name: user.name || getUserName(uid) || 'N/A',
                 gender: user.gender || 'N/A',
                 balance,
+                avatarUrl: avatarsService.getAvatarUrl(uid),
                 vip: vip ? {
                     name: vip.name,
                     packageId: vip.packageId,
@@ -48,6 +50,7 @@ class UsersService {
             name: user.name || getUserName(uid) || 'N/A',
             gender: user.gender || 'N/A',
             balance: currencies?.balance?.[uid] || 0,
+            avatarUrl: avatarsService.getAvatarUrl(uid),
             vip: vipData.users?.[uid] || null
         };
     }

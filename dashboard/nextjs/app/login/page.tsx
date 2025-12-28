@@ -24,6 +24,9 @@ export default function LoginPage() {
       const result = await api.auth.login(username, password);
       if (result.success && result.data?.token) {
         setToken(result.data.token);
+        if (result.data?.username) {
+          localStorage.setItem('cms_username', result.data.username);
+        }
         router.push('/');
       } else {
         setError(result.message || 'Đăng nhập thất bại');

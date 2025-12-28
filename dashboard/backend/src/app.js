@@ -15,6 +15,7 @@ const threadsRoutes = require('./modules/threads/threads.routes');
 const economyRoutes = require('./modules/economy/economy.routes');
 const systemRoutes = require('./modules/system/system.routes');
 const appStateRoutes = require('./modules/appstate/appstate.routes');
+const avatarsRoutes = require('./modules/avatars/avatars.routes');
 
 // Middleware
 const AuthMiddleware = require('./common/middleware/auth.middleware');
@@ -45,9 +46,6 @@ class App {
         this.app.use(cookieParser());
 
         this.app.use(Logger.requestLogger);
-
-        // Authentication middleware (before routes)
-        this.app.use(AuthMiddleware.authenticate);
     }
 
     setupRoutes() {
@@ -58,6 +56,12 @@ class App {
 
         // Auth Routes (no auth required)
         this.app.use('/api/auth', authRoutes);
+
+        // Avatar Routes (no auth required for static files) - MUST be before auth middleware
+        this.app.use('/api/avatars', avatarsRoutes);
+
+        // Authentication middleware (after public routes)
+        this.app.use(AuthMiddleware.authenticate);
 
         // API Routes (require auth)
         this.app.use('/api/overview', overviewRoutes);

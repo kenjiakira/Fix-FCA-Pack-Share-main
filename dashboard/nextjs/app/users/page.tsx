@@ -3,7 +3,7 @@
 import { useState, useEffect } from 'react';
 import DashboardLayout from '@/components/DashboardLayout';
 import { api } from '@/lib/api';
-import { formatNumber } from '@/lib/utils';
+import { getAvatarUrl } from '@/lib/utils';
 import { Button, Input, Table, TableHeader, TableBody, TableRow, TableHead, TableCell, Badge } from '@/components/ui';
 import { Search, Edit, Eye, ChevronLeft, ChevronRight } from 'lucide-react';
 
@@ -12,6 +12,7 @@ interface User {
   name?: string;
   balance?: number;
   vip?: { name: string };
+  avatarUrl?: string;
 }
 
 export default function UsersPage() {
@@ -29,7 +30,7 @@ export default function UsersPage() {
     setLoading(true);
     const result = await api.users.list(page, 20);
     if (result.success) {
-      setUsers(result.data || []);
+      setUsers((result.data as User[]) || []);
       setTotalPages(result.pagination?.totalPages || 1);
     }
     setLoading(false);
@@ -90,9 +91,9 @@ export default function UsersPage() {
           <Table className="table-fixed w-full">
             <TableHeader className="sticky top-0 z-[5] bg-slate-50">
               <TableRow>
+                <TableHead className="w-[5%]">Avatar</TableHead>
                 <TableHead className="w-[25%] md:w-[30%]">UID</TableHead>
                 <TableHead className="w-[20%] md:w-[20%] hidden sm:table-cell">Tên</TableHead>
-                <TableHead className="w-[20%] md:w-[15%]">Số dư</TableHead>
                 <TableHead className="w-[15%] md:w-[15%]">VIP</TableHead>
                 <TableHead className="w-[20%] md:w-[20%] text-center">Thao tác</TableHead>
               </TableRow>
@@ -113,14 +114,38 @@ export default function UsersPage() {
               ) : (
                 filteredUsers.map((user) => (
                   <TableRow key={user.uid}>
+                    <TableCell className="px-2 md:px-4">
+                      {(() => {
+                        const avatarUrl = getAvatarUrl(user.uid);
+                        return avatarUrl ? (
+                          <img
+                            src={avatarUrl}
+                            alt={user.name || user.uid}
+                            className="w-8 h-8 md:w-10 md:h-10 rounded-full object-cover border border-slate-200"
+                            onError={(e) => {
+                              const target = e.target as HTMLImageElement;
+                              target.style.display = 'none';
+                              const parent = target.parentElement;
+                              if (parent) {
+                                const fallback = document.createElement('div');
+                                fallback.className = 'w-8 h-8 md:w-10 md:h-10 rounded-full bg-primary/10 flex items-center justify-center text-primary text-xs font-semibold';
+                                fallback.textContent = (user.name || user.uid).substring(0, 2).toUpperCase();
+                                parent.appendChild(fallback);
+                              }
+                            }}
+                          />
+                        ) : (
+                          <div className="w-8 h-8 md:w-10 md:h-10 rounded-full bg-primary/10 flex items-center justify-center text-primary text-xs font-semibold">
+                            {(user.name || user.uid).substring(0, 2).toUpperCase()}
+                          </div>
+                        );
+                      })()}
+                    </TableCell>
                     <TableCell className="font-mono text-xs md:text-sm truncate px-2 md:px-4" title={user.uid}>
                       {user.uid}
                     </TableCell>
                     <TableCell className="text-xs md:text-sm truncate px-2 md:px-4 hidden sm:table-cell" title={user.name || 'N/A'}>
                       {user.name || 'N/A'}
-                    </TableCell>
-                    <TableCell className="text-xs md:text-sm whitespace-nowrap px-2 md:px-4">
-                      {formatNumber(user.balance || 0)}
                     </TableCell>
                     <TableCell className="px-2 md:px-4">
                       {user.vip ? (

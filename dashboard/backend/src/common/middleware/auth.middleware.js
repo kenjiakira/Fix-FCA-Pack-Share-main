@@ -5,6 +5,7 @@ class AuthMiddleware {
         // Skip auth for API login/verify endpoints
         if (req.path.startsWith('/api/auth/login') ||
             req.path.startsWith('/api/auth/verify') ||
+            req.path.startsWith('/api/avatars/') ||
             req.path === '/api/health') {
             return next();
         }
