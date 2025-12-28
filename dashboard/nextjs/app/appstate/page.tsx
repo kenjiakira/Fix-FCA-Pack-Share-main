@@ -91,29 +91,29 @@ export default function AppStatePage() {
   return (
     <DashboardLayout title="Quản lý AppState">
       {success && (
-        <div className="mb-4 p-4 bg-green-50 border border-green-200 rounded-lg flex items-center gap-2">
-          <CheckCircle2 className="w-5 h-5 text-green-600" />
-          <p className="text-green-700">{success}</p>
+        <div className="mb-4 p-3 md:p-4 bg-green-50 border border-green-200 rounded-lg flex items-start sm:items-center gap-2">
+          <CheckCircle2 className="w-5 h-5 text-green-600 shrink-0 mt-0.5 sm:mt-0" />
+          <p className="text-sm md:text-base text-green-700 break-words">{success}</p>
         </div>
       )}
 
       {error && (
-        <div className="mb-4 p-4 bg-red-50 border border-red-200 rounded-lg flex items-center gap-2">
-          <AlertTriangle className="w-5 h-5 text-red-600" />
-          <p className="text-red-700">{error}</p>
+        <div className="mb-4 p-3 md:p-4 bg-red-50 border border-red-200 rounded-lg flex items-start sm:items-center gap-2">
+          <AlertTriangle className="w-5 h-5 text-red-600 shrink-0 mt-0.5 sm:mt-0" />
+          <p className="text-sm md:text-base text-red-700 break-words">{error}</p>
         </div>
       )}
 
-      <div className="bg-white border border-slate-200 rounded-lg p-6">
-        <div className="text-center py-12">
-          <Upload className="w-16 h-16 text-slate-400 mx-auto mb-4" />
-          <h2 className="text-xl font-semibold text-slate-900 mb-2">Cập nhật AppState</h2>
-          <p className="text-slate-600 mb-6">
+      <div className="bg-white border border-slate-200 rounded-lg p-4 md:p-6">
+        <div className="text-center py-8 md:py-12">
+          <Upload className="w-12 h-12 md:w-16 md:h-16 text-slate-400 mx-auto mb-3 md:mb-4" />
+          <h2 className="text-lg md:text-xl font-semibold text-slate-900 mb-2">Cập nhật AppState</h2>
+          <p className="text-sm md:text-base text-slate-600 mb-4 md:mb-6 px-2">
             Tải lên file appstate.json mới hoặc dán nội dung JSON để cập nhật lên JSONBin.io
           </p>
           <Button
             onClick={() => setShowModal(true)}
-            className="bg-gradient-to-r from-blue-500 to-blue-600 hover:from-blue-600 hover:to-blue-700 text-white"
+            className="bg-gradient-to-r from-blue-500 to-blue-600 hover:from-blue-600 hover:to-blue-700 text-white text-sm md:text-base"
           >
             <Upload className="w-4 h-4 mr-2" />
             Tải lên AppState
@@ -122,9 +122,9 @@ export default function AppStatePage() {
       </div>
 
       <Dialog open={showModal} onOpenChange={setShowModal}>
-        <DialogContent className="sm:max-w-3xl max-h-[90vh] overflow-y-auto">
+        <DialogContent className="sm:max-w-3xl max-h-[90vh] overflow-y-auto mx-4">
           <DialogHeader>
-            <DialogTitle className="flex items-center gap-2">
+            <DialogTitle className="flex items-center gap-2 text-base md:text-lg">
               <Upload className="w-5 h-5 text-blue-500" />
               Cập nhật AppState
             </DialogTitle>
@@ -132,13 +132,13 @@ export default function AppStatePage() {
 
           <div className="space-y-4">
             <div className="space-y-2">
-              <Label htmlFor="file-upload">Chọn file JSON</Label>
+              <Label htmlFor="file-upload" className="text-sm md:text-base">Chọn file JSON</Label>
               <Input
                 id="file-upload"
                 type="file"
                 accept=".json"
                 onChange={handleFileUpload}
-                className="cursor-pointer"
+                className="cursor-pointer text-xs md:text-sm"
               />
               <p className="text-xs text-slate-500">
                 Hoặc dán nội dung JSON vào ô bên dưới
@@ -146,7 +146,7 @@ export default function AppStatePage() {
             </div>
 
             <div className="space-y-2">
-              <Label htmlFor="json-content">Nội dung JSON *</Label>
+              <Label htmlFor="json-content" className="text-sm md:text-base">Nội dung JSON *</Label>
               <textarea
                 id="json-content"
                 value={jsonContent}
@@ -155,12 +155,12 @@ export default function AppStatePage() {
                   setError(null);
                 }}
                 placeholder="Dán nội dung appstate.json vào đây..."
-                className="w-full h-64 p-3 border border-slate-300 rounded-md font-mono text-sm focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                className="w-full h-48 md:h-64 p-3 border border-slate-300 rounded-md font-mono text-xs md:text-sm focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
               />
             </div>
           </div>
 
-          <DialogFooter className="gap-2">
+          <DialogFooter className="gap-2 flex-col sm:flex-row">
             <Button
               type="button"
               variant="outline"
@@ -169,6 +169,7 @@ export default function AppStatePage() {
                 setJsonContent('');
                 setError(null);
               }}
+              className="w-full sm:w-auto text-sm md:text-base"
             >
               Hủy
             </Button>
@@ -176,7 +177,7 @@ export default function AppStatePage() {
               type="button"
               onClick={handleSave}
               disabled={uploading || !jsonContent.trim()}
-              className="bg-gradient-to-r from-blue-500 to-blue-600 hover:from-blue-600 hover:to-blue-700 text-white"
+              className="bg-gradient-to-r from-blue-500 to-blue-600 hover:from-blue-600 hover:to-blue-700 text-white w-full sm:w-auto text-sm md:text-base"
             >
               {uploading ? (
                 <>

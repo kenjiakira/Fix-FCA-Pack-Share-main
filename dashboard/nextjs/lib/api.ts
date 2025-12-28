@@ -79,7 +79,26 @@ export const api = {
       apiRequest(`/threads?page=${page}&limit=${limit}`),
     get: (threadID: string) => apiRequest(`/threads/${threadID}`),
   },
-  economy: () => apiRequest('/economy'),
+  economy: {
+    get: () => apiRequest('/economy'),
+    updateBalance: (uid: string, amount: number, operation: 'set' | 'add' | 'subtract' = 'set') =>
+      apiRequest('/economy/balance', {
+        method: 'POST',
+        body: JSON.stringify({ uid, amount, operation }),
+      }),
+    transfer: (fromUid: string, toUid: string, amount: number) =>
+      apiRequest('/economy/transfer', {
+        method: 'POST',
+        body: JSON.stringify({ fromUid, toUid, amount }),
+      }),
+    getUserBalance: (uid: string) => apiRequest(`/economy/balance/${uid}`),
+    updateQuy: (amount: number, operation: 'set' | 'add' | 'subtract' = 'set') =>
+      apiRequest('/economy/quy', {
+        method: 'POST',
+        body: JSON.stringify({ amount, operation }),
+      }),
+    getQuy: () => apiRequest('/economy/quy'),
+  },
   system: {
     status: () => apiRequest('/system/status'),
     info: () => apiRequest('/system/info'),

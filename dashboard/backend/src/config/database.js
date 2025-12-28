@@ -43,8 +43,127 @@ class DatabaseService {
     }
 
     getCurrencies() {
-        const { readData } = require('../../../../utils/currencies');
-        return readData();
+        return this.loadJSONFile('database/currencies.json', { balance: {} });
+    }
+
+    saveCurrencies(data) {
+        try {
+            this.saveJSONFile('database/currencies.json', data);
+            this.saveJSONFile('database/currencies.json.backup', data);
+            console.log('[Database] Saved currencies.json and currencies.json.backup');
+            return true;
+        } catch (error) {
+            console.error('[Database] Error saving currencies:', error);
+            throw error;
+        }
+    }
+
+    updateBalance(uid, amount, operation = 'set') {
+        try {
+            const currencies = this.getCurrencies();
+            if (!currencies.balance) {
+                currencies.balance = {};
+            }
+
+            const currentBalance = currencies.balance[uid] || 0;
+            let newBalance;
+
+            switch (operation) {
+                case 'set':
+                    newBalance = amount;
+                    break;
+                case 'add':
+                    newBalance = currentBalance + amount;
+                    break;
+                case 'subtract':
+                    newBalance = Math.max(0, currentBalance - amount);
+                    break;
+                default:
+                    newBalance = amount;
+            }
+
+            currencies.balance[uid] = newBalance;
+            this.saveCurrencies(currencies);
+            
+            return { success: true, oldBalance: currentBalance, newBalance };
+        } catch (error) {
+            console.error('[Database] Error updating balance:', error);
+            throw error;
+        }
+    }
+
+    transferBalance(fromUid, toUid, amount) {
+        try {
+            const currencies = this.getCurrencies();
+            if (!currencies.balance) {
+                currencies.balance = {};
+            }
+
+            const fromBalance = currencies.balance[fromUid] || 0;
+            const toBalance = currencies.balance[toUid] || 0;
+
+            if (fromBalance < amount) {
+                return { success: false, message: 'Số dư không đủ' };
+            }
+
+            currencies.balance[fromUid] = fromBalance - amount;
+            currencies.balance[toUid] = toBalance + amount;
+            this.saveCurrencies(currencies);
+
+            return { 
+                success: true, 
+                fromBalance: currencies.balance[fromUid],
+                toBalance: currencies.balance[toUid]
+            };
+        } catch (error) {
+            console.error('[Database] Error transferring balance:', error);
+            throw error;
+        }
+    }
+
+    getQuy() {
+        return this.loadJSONFile('database/json/quy.json', { quy: 0 });
+    }
+
+    saveQuy(quy) {
+        try {
+            const data = { quy: Number(quy) || 0 };
+            this.saveJSONFile('database/json/quy.json', data);
+            this.saveJSONFile('database/json/quy.json.backup', data);
+            console.log('[Database] Saved quy.json and quy.json.backup');
+            return true;
+        } catch (error) {
+            console.error('[Database] Error saving quy:', error);
+            throw error;
+        }
+    }
+
+    updateQuy(amount, operation = 'set') {
+        try {
+            const quyData = this.getQuy();
+            const currentQuy = quyData.quy || 0;
+            let newQuy;
+
+            switch (operation) {
+                case 'set':
+                    newQuy = amount;
+                    break;
+                case 'add':
+                    newQuy = currentQuy + amount;
+                    break;
+                case 'subtract':
+                    newQuy = Math.max(0, currentQuy - amount);
+                    break;
+                default:
+                    newQuy = amount;
+            }
+
+            this.saveQuy(newQuy);
+            return { success: true, oldQuy: currentQuy, newQuy };
+        } catch (error) {
+            console.error('[Database] Error updating quy:', error);
+            throw error;
+        }
     }
 }
 

@@ -84,7 +84,7 @@ export default function VIPPage() {
   return (
     <DashboardLayout title="Quản lý VIP Gold">
       {/* Stats Cards */}
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-6">
+      <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 md:gap-4 mb-4 md:mb-6">
         <div className="bg-gradient-to-br from-yellow-50 to-amber-50 border border-yellow-200 rounded-lg p-4">
           <div className="flex items-center justify-between">
             <div>
@@ -121,15 +121,15 @@ export default function VIPPage() {
       </div>
 
       {/* Action Buttons */}
-      <div className="flex gap-3 mb-5">
+      <div className="flex flex-col sm:flex-row gap-2 md:gap-3 mb-4 md:mb-5">
         <Button 
           onClick={() => setShowModal(true)}
-          className="bg-gradient-to-r from-yellow-500 to-amber-500 hover:from-yellow-600 hover:to-amber-600 text-white shadow-md"
+          className="bg-gradient-to-r from-yellow-500 to-amber-500 hover:from-yellow-600 hover:to-amber-600 text-white shadow-md text-sm md:text-base"
         >
           <Plus className="w-4 h-4 mr-2" />
           Thêm VIP Gold
         </Button>
-        <Button variant="secondary" onClick={loadVIPList}>
+        <Button variant="secondary" onClick={loadVIPList} className="text-sm md:text-base">
           <RefreshCw className={`w-4 h-4 mr-2 ${loading ? 'animate-spin' : ''}`} />
           Làm mới
         </Button>
@@ -137,36 +137,43 @@ export default function VIPPage() {
 
       {/* Table */}
       <div className="bg-white border border-slate-200 rounded-lg overflow-hidden shadow-sm">
-        <Table>
-          <TableHeader>
-            <TableRow className="bg-gradient-to-r from-yellow-50 to-amber-50">
-              <TableHead className="font-semibold text-slate-700">
-                <User className="w-4 h-4 inline mr-2" />
-                User ID
+        <div className="overflow-x-auto">
+          <Table className="table-fixed w-full">
+          <TableHeader className="sticky top-0 z-[5] bg-gradient-to-r from-yellow-50 to-amber-50">
+            <TableRow>
+              <TableHead className="font-semibold text-slate-700 w-[25%] md:w-[30%]">
+                <span className="hidden md:inline"><User className="w-4 h-4 inline mr-2" /></span>
+                <span className="md:hidden">ID</span>
+                <span className="hidden md:inline">User ID</span>
               </TableHead>
-              <TableHead className="font-semibold text-slate-700">Tên</TableHead>
-              <TableHead className="font-semibold text-slate-700">
-                <Crown className="w-4 h-4 inline mr-2" />
-                Gói VIP
+              <TableHead className="font-semibold text-slate-700 w-[20%] md:w-[20%] hidden sm:table-cell">Tên</TableHead>
+              <TableHead className="font-semibold text-slate-700 w-[20%] md:w-[15%]">
+                <span className="hidden md:inline"><Crown className="w-4 h-4 inline mr-2" /></span>
+                <span className="md:hidden">VIP</span>
+                <span className="hidden md:inline">Gói VIP</span>
               </TableHead>
-              <TableHead className="font-semibold text-slate-700">
-                <Calendar className="w-4 h-4 inline mr-2" />
-                Hết hạn
+              <TableHead className="font-semibold text-slate-700 w-[20%] md:w-[20%]">
+                <span className="hidden md:inline"><Calendar className="w-4 h-4 inline mr-2" /></span>
+                <span className="md:hidden">Hết hạn</span>
+                <span className="hidden md:inline">Hết hạn</span>
               </TableHead>
-              <TableHead className="font-semibold text-slate-700 text-center">Thao tác</TableHead>
+              <TableHead className="font-semibold text-slate-700 text-center w-[15%] md:w-[15%]">
+                <span className="hidden sm:inline">Thao tác</span>
+                <span className="sm:hidden">TT</span>
+              </TableHead>
             </TableRow>
           </TableHeader>
           <TableBody>
             {loading ? (
               <TableRow>
-                <TableCell colSpan={5} className="text-center py-12 text-slate-500">
+                <TableCell colSpan={5} className="text-center py-12 text-slate-500 px-2 md:px-4">
                   <RefreshCw className="w-6 h-6 animate-spin mx-auto mb-2" />
                   <p>Đang tải dữ liệu...</p>
                 </TableCell>
               </TableRow>
             ) : vipUsers.length === 0 ? (
               <TableRow>
-                <TableCell colSpan={5} className="text-center py-12 text-slate-500">
+                <TableCell colSpan={5} className="text-center py-12 text-slate-500 px-2 md:px-4">
                   <Crown className="w-12 h-12 mx-auto mb-3 text-slate-300" />
                   <p className="text-lg font-medium">Chưa có người dùng VIP Gold</p>
                   <p className="text-sm mt-1">Nhấn "Thêm VIP Gold" để bắt đầu</p>
@@ -182,42 +189,48 @@ export default function VIPPage() {
                     key={user.userId}
                     className={`hover:bg-slate-50 transition-colors ${isExpired ? 'opacity-60' : ''}`}
                   >
-                    <TableCell className="font-mono text-sm">{user.userId}</TableCell>
-                    <TableCell className="font-medium">{user.name || <span className="text-slate-400">N/A</span>}</TableCell>
-                    <TableCell>
+                    <TableCell className="font-mono text-xs md:text-sm truncate px-2 md:px-4" title={user.userId}>
+                      {user.userId}
+                    </TableCell>
+                    <TableCell className="font-medium text-xs md:text-sm truncate px-2 md:px-4 hidden sm:table-cell" title={user.name || 'N/A'}>
+                      {user.name || <span className="text-slate-400">N/A</span>}
+                    </TableCell>
+                    <TableCell className="px-2 md:px-4">
                       <Badge 
-                        className="bg-gradient-to-r from-yellow-500 to-amber-500 text-white border-0 shadow-sm"
+                        className="bg-gradient-to-r from-yellow-500 to-amber-500 text-white border-0 shadow-sm text-xs whitespace-nowrap"
                       >
-                        <Crown className="w-3 h-3 mr-1" />
+                        <Crown className="w-3 h-3 mr-1 hidden md:inline" />
                         {user.packageName || 'VIP Gold'}
                       </Badge>
                     </TableCell>
-                    <TableCell>
-                      <div className="flex flex-col">
-                        <span className={`font-medium ${isExpired ? 'text-red-600' : 'text-slate-700'}`}>
+                    <TableCell className="px-2 md:px-4">
+                      <div className="flex flex-col min-w-0">
+                        <span className={`font-medium text-xs md:text-sm truncate ${isExpired ? 'text-red-600' : 'text-slate-700'}`}>
                           {formatDate(expireDate)}
                         </span>
                         {!isExpired && (
-                          <span className="text-xs text-slate-500 mt-0.5">
+                          <span className="text-xs text-slate-500 mt-0.5 whitespace-nowrap">
                             Còn {daysLeft} ngày
                           </span>
                         )}
                         {isExpired && (
-                          <span className="text-xs text-red-500 mt-0.5">
+                          <span className="text-xs text-red-500 mt-0.5 whitespace-nowrap">
                             Đã hết hạn
                           </span>
                         )}
                       </div>
                     </TableCell>
-                    <TableCell className="text-center">
-                      <Button
-                        variant="danger"
-                        size="icon"
-                        onClick={() => handleRemoveVIP(user.userId)}
-                        className="hover:bg-red-600"
-                      >
-                        <Trash2 className="w-4 h-4" />
-                      </Button>
+                    <TableCell className="text-center px-2 md:px-4">
+                      <div className="flex justify-center">
+                        <Button
+                          variant="danger"
+                          size="icon"
+                          onClick={() => handleRemoveVIP(user.userId)}
+                          className="hover:bg-red-600 h-7 w-7 md:h-9 md:w-9 shrink-0"
+                        >
+                          <Trash2 className="w-3 h-3 md:w-4 md:h-4" />
+                        </Button>
+                      </div>
                     </TableCell>
                   </TableRow>
                 );
@@ -225,6 +238,7 @@ export default function VIPPage() {
             )}
           </TableBody>
         </Table>
+        </div>
       </div>
 
       <Dialog open={showModal} onOpenChange={setShowModal}>
