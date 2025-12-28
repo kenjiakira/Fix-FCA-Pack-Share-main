@@ -115,7 +115,7 @@ module.exports = {
             const videoQuery = target.join(" ");
             const findingMessage = await api.sendMessage(`🔍 | Đang tìm "${videoQuery}". Vui lòng chờ...`, threadID);
 
-            const pythonScript = path.resolve(__dirname, '..', 'python', 'video_downloader.py');
+            const pythonScript = path.resolve(__dirname, '../python/video_downloader.py');
             
             const result = await new Promise((resolve, reject) => {
                 const python = spawn('python', [pythonScript, 'search', videoQuery], {

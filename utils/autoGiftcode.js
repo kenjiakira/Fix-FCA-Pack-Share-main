@@ -2,10 +2,10 @@ const fs = require('fs');
 const path = require('path');
 const schedule = require('node-schedule');
 
-const GIFTCODES_PATH = path.join(__dirname, '..', 'database', 'json', 'giftcodes.json');
-const EVENTS_PATH = path.join(__dirname, '..', 'database', 'json', 'events.json');
-const VIP_LOGS_PATH = path.join(__dirname, '..', 'database', 'json', 'vip_logs.json');
-const VIP_GIFT_PATH = path.join(__dirname, '..', 'database', 'json', 'vip_gifts.json');
+const GIFTCODES_PATH = path.join(__dirname, '../database/json/giftcodes.json');
+const EVENTS_PATH = path.join(__dirname, '../database/json/events.json');
+const VIP_LOGS_PATH = path.join(__dirname, '../database/json/vip_logs.json');
+const VIP_GIFT_PATH = path.join(__dirname, '../database/json/vip_gifts.json');
 
 // Danh sách các sự kiện đặc biệt
 const SPECIAL_EVENTS = [

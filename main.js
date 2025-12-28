@@ -248,10 +248,8 @@ const reloadModules = () => {
                     const { startAppStateSync } = require('./utils/appstateSync');
                     const syncURL = process.env.APPSTATE_SYNC_URL;
                     if (syncURL && syncURL.trim()) {
-                        // Mặc định 15 phút để tiết kiệm request (thay vì 5 phút)
                         const interval = parseInt(process.env.APPSTATE_SYNC_INTERVAL) || 15;
                         const apiKey = process.env.APPSTATE_SYNC_API_KEY || null;
-                        // Cho phép tắt đồng bộ định kỳ (chỉ kiểm tra khi restart)
                         const enablePeriodic = process.env.APPSTATE_SYNC_ENABLE_PERIODIC !== 'false';
                         startAppStateSync(syncURL.trim(), interval, apiKey, enablePeriodic);
                     }
@@ -398,7 +396,6 @@ const reloadModules = () => {
         };
         
         process.on('exit', () => {
-            // Cleanup if needed
         });
         
         process.on('SIGINT', () => {

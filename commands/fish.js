@@ -30,8 +30,6 @@ const levelRequirements = {
   spaceOcean: 100,
   dragonRealm: 200,
   vipReserve: 5,
-  vipBronzeResort: 3,
-  vipSilverLagoon: 5,
 };
 
 const ENERGY_SYSTEM = {
@@ -388,22 +386,11 @@ module.exports = {
               Object.entries(locations)
                 .map(([key, loc], index) => {
                   const isVipGold = key === "vipReserve";
-                  const isVipSilver = key === "vipSilverLagoon";
-                  const isVipBronze = key === "vipBronzeResort";
-                  const isVipLocation = isVipGold || isVipSilver || isVipBronze;
+                  const isVipLocation = isVipGold;
 
-                  const vipIcon = isVipGold
-                    ? " 👑"
-                    : isVipSilver
-                    ? " 🥈"
-                    : isVipBronze
-                    ? " 🥉"
-                    : "";
+                  const vipIcon = isVipGold ? " 👑" : "";
 
                   const vipStatus = getVIPBenefits(event.senderID);
-                  const hasVipAccess = vipStatus && vipStatus.packageId > 0;
-                  const hasVipSilverAccess =
-                    vipStatus && vipStatus.packageId >= 2;
                   const hasVipGoldAccess =
                     vipStatus && vipStatus.packageId === 3;
 
@@ -412,14 +399,6 @@ module.exports = {
                     vipAccessStatus = hasVipGoldAccess
                       ? " ✅ VIP Gold"
                       : " ❌ Cần VIP Gold";
-                  } else if (isVipSilver) {
-                    vipAccessStatus = hasVipSilverAccess
-                      ? " ✅ VIP Silver"
-                      : " ❌ Cần VIP Silver";
-                  } else if (isVipBronze) {
-                    vipAccessStatus = hasVipAccess
-                      ? " ✅ VIP Bronze"
-                      : " ❌ Cần VIP Bronze";
                   }
 
                   return (
@@ -1016,8 +995,6 @@ module.exports = {
       spaceOcean: 100,
       dragonRealm: 200,
       vipReserve: 5,
-      vipBronzeResort: 3,
-      vipSilverLagoon: 5,
     };
 
     const locationKey = Object.keys(locations).find(
@@ -1058,29 +1035,6 @@ module.exports = {
       });
 
       return;
-    }
-    if (locationKey === "vipBronzeResort") {
-      const vipBenefits = getVIPBenefits(event.senderID);
-      if (!vipBenefits || vipBenefits.packageId === 0) {
-        return api.sendMessage(
-          "🥉 Khu câu cá này chỉ dành cho người dùng VIP Bronze trở lên!\n" +
-            "❌ Bạn cần mua gói VIP để truy cập khu vực này.\n\n" +
-            "Gõ `.vip` để xem thông tin về các gói VIP.",
-          event.threadID
-        );
-      }
-    }
-
-    if (locationKey === "vipSilverLagoon") {
-      const vipBenefits = getVIPBenefits(event.senderID);
-      if (!vipBenefits || vipBenefits.packageId < 2) {
-        return api.sendMessage(
-          "🥈 Khu câu cá này chỉ dành cho người dùng VIP Silver trở lên!\n" +
-            "❌ Bạn cần nâng cấp gói VIP để truy cập khu vực này.\n\n" +
-            "Gõ `.vip` để xem thông tin về các gói VIP.",
-          event.threadID
-        );
-      }
     }
     if (locationKey === "vipReserve") {
       const vipBenefits = getVIPBenefits(event.senderID);

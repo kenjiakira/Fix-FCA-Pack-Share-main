@@ -31,7 +31,7 @@ class Downloader {
         });
 
         const ext = media.extension || (media.type === 'video' ? 'mp4' : 'jpg');
-        const tempPath = path.join(__dirname, '..', 'commands', 'cache', `${prefix}_${Date.now()}.${ext}`);
+        const tempPath = path.join(__dirname, '../database/cache', `${prefix}_${Date.now()}.${ext}`);
 
         if (!fs.existsSync(path.dirname(tempPath))) {
             fs.mkdirSync(path.dirname(tempPath), { recursive: true });

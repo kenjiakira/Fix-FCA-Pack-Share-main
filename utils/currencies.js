@@ -3,11 +3,11 @@ const path = require('path');
 const { spawn } = require('child_process');
 
 global.balance = global.balance || {};
-const dataFile = path.join(__dirname, '..', 'database', 'currencies.json');
-const quyFilePath  = path.join(__dirname, '..', 'commands', 'json', 'quy.json');
+const dataFile = path.join(__dirname, '../database/json/currencies.json');
+const quyFilePath  = path.join(__dirname, '../database/json/quy.json');
 global.userQuests = global.userQuests || {};
-const questsFile = path.join(__dirname, '..', 'database', 'quests.json');
-const questProgressFile = path.join(__dirname, '..', 'database', 'json' , 'questProgress.json');
+const questsFile = path.join(__dirname, '../database/json/quests.json');
+const questProgressFile = path.join(__dirname, '../database/json/questProgress.json');
 const currenciesPath = path.join(__dirname, '../database/json/currencies.json');
 
 async function loadData() {

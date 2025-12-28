@@ -8,6 +8,7 @@ const boldText = (text) => chalk.bold(text);
 console.error(boldText(gradient.cristal("Starting....")));
 
 const DISCORD_LOCK_FILE = path.join(__dirname, 'discord.lock');
+const BOT_LOCK_FILE = path.join(__dirname, 'bot.lock');
 
 function checkDiscordLock() {
     if (fs.existsSync(DISCORD_LOCK_FILE)) {
@@ -23,21 +24,26 @@ function checkDiscordLock() {
     return false;
 }
 
-function startBotProcess(script, label) {
+function startBotProcess(script, label, command = null) {
     console.log(boldText(gradient.cristal(`Starting ${label}...`)));
     
     if (label === 'Discord Bot' && checkDiscordLock()) {
         return;
     }
 
-    const child = spawn("node", ["--trace-warnings", "--async-stack-traces", script], {
-        cwd: __dirname,
+    const cmd = command || ["node", "--trace-warnings", "--async-stack-traces", script];
+    const child = spawn(cmd[0], cmd.slice(1), {
+        cwd: command ? path.join(__dirname, script) : __dirname,
         stdio: "inherit",
         shell: true
     });
 
     if (label === 'Discord Bot') {
         fs.writeFileSync(DISCORD_LOCK_FILE, child.pid.toString());
+    }
+    
+    if (label === 'Messenger Bot') {
+        fs.writeFileSync(BOT_LOCK_FILE, child.pid.toString());
     }
 
     child.on("close", (codeExit) => {
@@ -47,8 +53,13 @@ function startBotProcess(script, label) {
                 fs.unlinkSync(DISCORD_LOCK_FILE);
             } catch(e) {}
         }
+        if (label === 'Messenger Bot') {
+            try {
+                fs.unlinkSync(BOT_LOCK_FILE);
+            } catch(e) {}
+        }
         if (codeExit !== 0) {
-            setTimeout(() => startBotProcess(script, label), 3000);
+            setTimeout(() => startBotProcess(script, label, command), 3000);
         }
     });
 
@@ -59,6 +70,11 @@ function startBotProcess(script, label) {
                 fs.unlinkSync(DISCORD_LOCK_FILE);
             } catch(e) {}
         }
+        if (label === 'Messenger Bot') {
+            try {
+                fs.unlinkSync(BOT_LOCK_FILE);
+            } catch(e) {}
+        }
     });
 
     return child;
@@ -66,9 +82,19 @@ function startBotProcess(script, label) {
 
 startBotProcess("main.js", "Messenger Bot");
 
+const dashboardBackendProcess = startBotProcess("dashboard/backend/server.js", "Dashboard Backend API");
+const nextjsProcess = startBotProcess("dashboard/nextjs", "Next.js Frontend", ["npm", "run", "dev"]);
+
 process.on('SIGINT', () => {
     try {
         fs.unlinkSync(DISCORD_LOCK_FILE);
+        fs.unlinkSync(BOT_LOCK_FILE);
+        if (dashboardBackendProcess) {
+            dashboardBackendProcess.kill();
+        }
+        if (nextjsProcess) {
+            nextjsProcess.kill();
+        }
     } catch(e) {}
     process.exit();
 });

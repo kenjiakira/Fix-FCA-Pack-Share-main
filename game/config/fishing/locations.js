@@ -106,7 +106,7 @@ module.exports = {
     vipReserve: {
         name: "Khu VIP VÀNG",
         cost: 150000,
-        description: "Khu vực câu cá độc quyền dành riêng cho người dùng VIP",
+        description: "Khu vực câu cá độc quyền dành riêng cho người dùng VIP Gold",
         fish: {
             trash: 0,           
             common: 20,          
@@ -115,32 +115,6 @@ module.exports = {
             legendary: 0.02,     
             mythical: 0.1,      
             cosmic: 0.001         
-        }
-    },
-    vipBronzeResort: {
-        name: "Khu Nghỉ Dưỡng",
-        cost: 50000,
-        fish: {
-            trash: 3,           
-            common: 42,          
-            uncommon: 54.9,       
-            rare: 0.09,          
-            legendary: 0.01,     
-            mythical: 0.0,      
-            cosmic: 0.0         
-        }
-    },
-    vipSilverLagoon: {
-        name: "Hồ Bạc",
-        cost: 100000,
-        fish: {
-            trash: 2,           
-            common: 30,          
-            uncommon: 67.9,       
-            rare: 0.09,          
-            legendary: 0.01,     
-            mythical: 0.0,      
-            cosmic: 0.0         
         }
     }
 };

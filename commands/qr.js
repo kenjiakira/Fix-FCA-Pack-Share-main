@@ -6,7 +6,7 @@ const { VIP_PACKAGES } = require('../game/vip/vipConfig');
 
 function getUserNameFromRankData(uid) {
     try {
-        const rankDataPath = path.join(__dirname, '..', 'events', 'cache', 'rankData.json');
+        const rankDataPath = path.join(__dirname, '../database/rankData.json');
         if (fs.existsSync(rankDataPath)) {
             const rankData = JSON.parse(fs.readFileSync(rankDataPath, 'utf8'));
             if (rankData[uid] && rankData[uid].name) {
@@ -46,185 +46,9 @@ module.exports = {
 
         const packageType = target[1]?.toLowerCase();
 
-        try {   
-            if (packageType === "group") {
-                const groupPackageType = target[2]?.toLowerCase();
-                if (!groupPackageType || !["bronze", "silver", "gold"].includes(groupPackageType)) {
-                    return api.sendMessage("❌ Loại gói không hợp lệ. Vui lòng chọn bronze, silver hoặc gold", threadID);
-                }
-
-                const memberCount = parseInt(target[3]);
-                if (isNaN(memberCount) || memberCount < 3) {
-                    return api.sendMessage("❌ Cần ít nhất 3 thành viên cho gói nhóm. Vui lòng nhập số người hợp lệ.", threadID);
-                }
-
-                const months = target[4] ? parseInt(target[4]) : 1;
-                if (![1, 3, 6, 12].includes(months)) {
-                    return api.sendMessage("❌ Thời hạn không hợp lệ. Chọn 1, 3, 6 hoặc 12 tháng.", threadID);
-                }
-
-                // Calculate group price
-                const priceInfo = vipService.calculateGroupVipPrice(groupPackageType, memberCount, months);
-                if (!priceInfo.success) {
-                    return api.sendMessage(`❌ ${priceInfo.message}`, threadID);
-                }
-
-                const pkg = VIP_PACKAGES[groupPackageType.toUpperCase()];
-                const amountToPay = priceInfo.totalGroupPrice;
-                const paymentCode = `GROUP_${groupPackageType.toUpperCase()}${months > 1 ? months : ''}_${senderID}_${memberCount}`;
-
-                // Tạo mã QR với thiết kế đẹp - sử dụng API VietQR trực tiếp
-                const qrPath = await qrHelper.generateQR({
-                    bankName: BANK_CONFIG.bankName,
-                    bankNumber: BANK_CONFIG.bankNumber,
-                    accountName: BANK_CONFIG.accountName,
-                    amount: amountToPay,
-                    content: paymentCode,
-                    packageName: pkg.name,
-                    packageIcon: pkg.icon,
-                    isGroup: true
-                });
-
-                if (!qrPath) {
-                    return api.sendMessage("❌ Có lỗi khi tạo mã QR. Vui lòng thử lại sau.", threadID);
-                }
-
-                // Gửi thông tin gói nhóm
-                const messageText = `${pkg.icon} THANH TOÁN GÓI NHÓM ${pkg.name} ${pkg.stars}\n` +
-                    `━━━━━━━━━━━━━━━━━━━━\n\n` +
-                    `👥 Số thành viên: ${memberCount} người\n` +
-                    `⏳ Thời hạn: ${months > 1 ? pkg.longTermOptions[months].duration : pkg.duration}\n` +
-                    `💰 Giảm giá: ${priceInfo.discount}%/người\n` +
-                    `💵 Tổng chi phí: ${amountToPay.toLocaleString('vi-VN')}đ\n\n` +
-                    `📝 NỘI DUNG THANH TOÁN:\n` +
-                    `${paymentCode}\n\n` +
-                    `⚠️ LƯU Ý:\n` +
-                    `- Gửi danh sách UID sau khi thanh toán\n` +
-                    `- Hệ thống sẽ tự động kích hoạt sau khi nhận được tiền`;
-
-                api.sendMessage({
-                    body: messageText,
-                    attachment: fs.createReadStream(qrPath)
-                }, threadID, () => {
-                    setTimeout(() => {
-                        api.sendMessage(
-                            "👨‍👩‍👧‍👦 Sau khi thanh toán, vui lòng gửi tin nhắn theo mẫu:\n\n" +
-                            `Danh sách UID cho GROUP_${pkg.name}\n` +
-                            "1. [UID_1]\n2. [UID_2]\n3. [UID_3]\n...và các ID khác",
-                            threadID
-                        );
-                        
-                        fs.unlink(qrPath, (err) => {
-                            if (err) console.error("Không thể xóa file QR:", err);
-                        });
-                    }, 1000);
-                });
-                
-                return;
-            }
-            // Handle family package
-            if (packageType === "family") {
-                const months = target[2] ? parseInt(target[2]) : 1;
-                const bronzeUserID = target[3];
-
-                if (![1, 3, 6, 12].includes(months)) {
-                    return api.sendMessage("❌ Thời hạn không hợp lệ. Chọn 1, 3, 6 hoặc 12 tháng.", threadID);
-                }
-
-                if (!bronzeUserID || isNaN(bronzeUserID)) {
-                    return api.sendMessage("❌ Vui lòng nhập UID hợp lệ của người sẽ nhận gói BRONZE miễn phí.", threadID);
-                }
-
-                // Kiểm tra UID người nhận Bronze có tồn tại không
-                try {
-                    let bronzeUserName, senderName;
-                    
-                    try {
-                        const userInfo = await api.getUserInfo(bronzeUserID);
-                        if (userInfo && userInfo[bronzeUserID]) {
-                            bronzeUserName = userInfo[bronzeUserID].name || "Người dùng";
-                        } else {
-                            bronzeUserName = getUserNameFromRankData(bronzeUserID);
-                        }
-                    } catch (error) {
-                        console.error("Error getting bronze user info:", error);
-                        bronzeUserName = getUserNameFromRankData(bronzeUserID);
-                    }
-                    
-                    try {
-                        const senderInfo = await api.getUserInfo(senderID);
-                        if (senderInfo && senderInfo[senderID]) {
-                            senderName = senderInfo[senderID].name || "Người dùng";
-                        } else {
-                            senderName = getUserNameFromRankData(senderID);
-                        }
-                    } catch (error) {
-                        console.error("Error getting sender info:", error);
-                        senderName = getUserNameFromRankData(senderID);
-                    }
-                    
-                    // Calculate gold price
-                    const goldPriceInfo = vipService.calculateVipPrice('gold', months);
-                    if (!goldPriceInfo.success) {
-                        return api.sendMessage(`❌ ${goldPriceInfo.message}`, threadID);
-                    }
-
-                    const goldPkg = VIP_PACKAGES.GOLD;
-                    const bronzePkg = VIP_PACKAGES.BRONZE;
-                    const amountToPay = goldPriceInfo.finalPrice;
-                    const paymentCode = `FAMILY_${months > 1 ? months : ''}_${senderID}_${bronzeUserID}`;
-
-                    // Tạo mã QR với thiết kế đẹp - sử dụng API VietQR trực tiếp
-                    const qrPath = await qrHelper.generateQR({
-                        bankName: BANK_CONFIG.bankName,
-                        bankNumber: BANK_CONFIG.bankNumber,
-                        accountName: BANK_CONFIG.accountName,
-                        amount: amountToPay,
-                        content: paymentCode,
-                        packageName: "GÓI GIA ĐÌNH",
-                        isFamily: true
-                    });
-
-                    if (!qrPath) {
-                        return api.sendMessage("❌ Có lỗi khi tạo mã QR. Vui lòng thử lại sau.", threadID);
-                    }
-
-                    // Gửi thông tin gói gia đình
-                    const messageText = `👨‍👩‍👧‍👦 THANH TOÁN GÓI GIA ĐÌNH\n` +
-                        `━━━━━━━━━━━━━━━━━━━━\n\n` +
-                        `🎁 Mua 1 gói GOLD VIP, tặng 1 gói BRONZE VIP miễn phí\n\n` +
-                        `📦 CHI TIẾT GÓI:\n` +
-                        `👑 1x ${goldPkg.name} (${months > 1 ? goldPkg.longTermOptions[months].duration : goldPkg.duration})\n` +
-                        `   → Người nhận: ${senderName}\n` +
-                        `🥉 1x ${bronzePkg.name} MIỄN PHÍ (${bronzePkg.duration})\n` +
-                        `   → Người nhận: ${bronzeUserName}\n\n` +
-                        `💵 Số tiền thanh toán: ${amountToPay.toLocaleString('vi-VN')}đ\n\n` +
-                        `📝 NỘI DUNG THANH TOÁN:\n` +
-                        `${paymentCode}\n\n` +
-                        `⚠️ LƯU Ý:\n` +
-                        `- Hệ thống sẽ tự động kích hoạt cho cả hai tài khoản\n` +
-                        `- Không thay đổi nội dung chuyển khoản`;
-
-                    api.sendMessage({
-                        body: messageText,
-                        attachment: fs.createReadStream(qrPath)
-                    }, threadID, () => {
-                        // Xóa file QR sau khi đã gửi
-                        fs.unlink(qrPath, (err) => {
-                            if (err) console.error("Không thể xóa file QR:", err);
-                        });
-                    });
-                    
-                    return;
-                } catch (error) {
-                    console.error("Lỗi kiểm tra UID:", error);
-                    return api.sendMessage("❌ Có lỗi xảy ra khi kiểm tra UID. Vui lòng thử lại sau.", threadID);
-                }
-            }
-
-            // Handle individual VIP purchase
-            if (!packageType || !["bronze", "silver", "gold"].includes(packageType)) {
-                return api.sendMessage("❌ Loại gói không hợp lệ. Vui lòng chọn bronze, silver hoặc gold", threadID);
+        try {
+            if (!packageType || packageType !== "gold") {
+                return api.sendMessage("❌ Loại gói không hợp lệ. Chỉ có gói VIP Gold. Sử dụng: .qr vip gold", threadID);
             }
 
             const months = target[2] ? parseInt(target[2]) : 1;
@@ -232,10 +56,8 @@ module.exports = {
                 return api.sendMessage("❌ Thời hạn không hợp lệ. Chọn 1, 3, 6 hoặc 12 tháng.", threadID);
             }
 
-            // Kiểm tra nếu người dùng có voucher
             const { bestVoucher } = this.checkVouchers(senderID);
             
-            // Tính giá với voucher nếu có
             const priceInfo = vipService.calculateVipPrice(packageType, months, bestVoucher);
             if (!priceInfo.success) {
                 return api.sendMessage(`❌ ${priceInfo.message}`, threadID);
@@ -245,13 +67,11 @@ module.exports = {
             const amountToPay = priceInfo.finalPrice;
             let paymentCode = `VIP_${packageType.toUpperCase()}${months > 1 ? months : ''}_${senderID}`;
             
-            // Thêm mã voucher vào nội dung nếu có
             if (bestVoucher) {
                 paymentCode = `VIP_${packageType.toUpperCase()}${months > 1 ? months : ''}_${senderID}_VOUCHER_${bestVoucher.code}`;
                 this.markVoucherAsUsed(senderID, bestVoucher.code);
             }
 
-            // Tạo mã QR với thiết kế đẹp - sử dụng API VietQR trực tiếp
             const qrPath = await qrHelper.generateQR({
                 bankName: BANK_CONFIG.bankName,
                 bankNumber: BANK_CONFIG.bankNumber,
@@ -266,7 +86,6 @@ module.exports = {
                 return api.sendMessage("❌ Có lỗi khi tạo mã QR. Vui lòng thử lại sau.", threadID);
             }
 
-            // Tạo thông tin giảm giá phù hợp
             let discountInfo = "";
             if (months > 1 && priceInfo.totalDiscount > 0) {
                 const originalPrice = priceInfo.originalPrice * months;
@@ -284,8 +103,17 @@ module.exports = {
                 discountInfo += `💸 Tiết kiệm: ${voucherDiscountAmount.toLocaleString('vi-VN')}đ\n`;
             }
 
-            // Gửi thông tin gói VIP
-            const messageText = `${pkg.icon} THANH TOÁN ${pkg.name} ${pkg.stars}\n`;
+            const messageText = `👑 THANH TOÁN ${pkg.name}\n` +
+                `━━━━━━━━━━━━━━━━━━━━\n\n` +
+                `💰 Giá: ${amountToPay.toLocaleString('vi-VN')}đ\n` +
+                `⏰ Thời hạn: ${months} tháng\n` +
+                (discountInfo ? `\n${discountInfo}\n` : '') +
+                `📝 NỘI DUNG THANH TOÁN:\n` +
+                `${paymentCode}\n\n` +
+                `⚠️ LƯU Ý:\n` +
+                `- Không thay đổi nội dung chuyển khoản\n` +
+                `- Hệ thống sẽ tự động kích hoạt sau khi nhận được tiền`;
+            
             api.sendMessage({
                 body: messageText,
                 attachment: fs.createReadStream(qrPath)
