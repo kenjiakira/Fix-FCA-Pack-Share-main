@@ -232,13 +232,11 @@ async function createPlaceholderFishImages() {
  */
 async function getAvatarPath(userId) {
   try {
-    // Ensure avatars directory exists
-    const avatarsDir = path.join(__dirname, "./cache/avatars");
+    const avatarsDir = path.join(__dirname, "../../database/cache/avatars");
     if (!fs.existsSync(avatarsDir)) {
       fs.mkdirSync(avatarsDir, { recursive: true });
     }
-
-    // Check for default avatar and create if needed
+      
     const defaultAvatarPath = path.join(avatarsDir, "avatar.jpg");
     if (!fs.existsSync(defaultAvatarPath)) {
       try {
@@ -270,7 +268,7 @@ async function getAvatarPath(userId) {
     }
 
     // Check cache
-    const cacheDir = path.join(__dirname, "./cache/avatars");
+    const cacheDir = path.join(__dirname, "../../database/cache/avatars");
     if (!fs.existsSync(cacheDir)) {
       fs.mkdirSync(cacheDir, { recursive: true });
     }

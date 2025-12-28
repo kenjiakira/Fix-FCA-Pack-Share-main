@@ -30,8 +30,8 @@ try {
 const TRANSFER_LIMITS = {
     MIN_AMOUNT: 10000,
     MAX_AMOUNT_PER_TRANSFER: 500000000, 
-    FREE_MAX_DAILY_AMOUNT: 50000000, // 50 million for free users
-    VIP_MAX_DAILY_AMOUNT: 5000000000, // 5 billion for VIP users
+    FREE_MAX_DAILY_AMOUNT: 50000000, 
+    VIP_MAX_DAILY_AMOUNT: 5000000000,
 };
 
 const TRANSFER_FEES = [
@@ -104,7 +104,6 @@ module.exports = {
             return api.sendMessage(`Số tiền chuyển tối đa mỗi lần là ${TRANSFER_LIMITS.MAX_AMOUNT_PER_TRANSFER.toLocaleString()} $.`, threadID, messageID);
         }
 
-        // Get user's daily transfer limit based on VIP status
         const userDailyLimit = getUserDailyLimit(senderID);
         
         dailyTransfers[senderID] = dailyTransfers[senderID] || 0;
@@ -190,7 +189,6 @@ module.exports = {
             console.error("Lỗi cập nhật lịch sử giao dịch:", err);
         }
 
-        // Display remaining daily limit 
         const remainingDailyLimit = userDailyLimit - dailyTransfers[senderID];
         const isVip = userDailyLimit === TRANSFER_LIMITS.VIP_MAX_DAILY_AMOUNT;
         const vipStatusText = isVip ? "👑 VIP" : "⭐ Free";

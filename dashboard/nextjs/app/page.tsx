@@ -8,16 +8,14 @@ import { usePolling } from '@/hooks/usePolling';
 import { 
   Users, 
   MessageSquare, 
-  Gem, 
+  Gem,
   DollarSign, 
   TrendingUp,
   Server,
   Code,
   Zap,
   Activity,
-  Award,
   Wallet,
-  BarChart3,
   HardDrive
 } from 'lucide-react';
 import Link from 'next/link';
@@ -68,29 +66,21 @@ export default function OverviewPage() {
       icon: Users, 
       label: 'Tổng người dùng', 
       value: data.totalUsers || 0,
-      color: 'text-blue-600',
-      bgColor: 'bg-blue-50'
     },
     { 
       icon: MessageSquare, 
       label: 'Tổng nhóm', 
       value: data.totalThreads || 0,
-      color: 'text-green-600',
-      bgColor: 'bg-green-50'
     },
     { 
       icon: Gem, 
       label: 'Người dùng VIP', 
       value: data.totalVIP || 0,
-      color: 'text-yellow-600',
-      bgColor: 'bg-yellow-50'
     },
     { 
       icon: DollarSign, 
       label: 'Tổng số dư', 
       value: formatNumber(data.totalBalance || 0),
-      color: 'text-emerald-600',
-      bgColor: 'bg-emerald-50'
     },
   ];
 
@@ -99,15 +89,11 @@ export default function OverviewPage() {
       icon: Wallet,
       label: 'Quỹ hệ thống',
       value: formatNumber(data.quy || 0),
-      color: 'text-purple-600',
-      bgColor: 'bg-purple-50'
     },
     {
       icon: TrendingUp,
       label: 'Tổng lưu thông',
       value: formatNumber((data.totalBalance || 0) + (data.quy || 0)),
-      color: 'text-indigo-600',
-      bgColor: 'bg-indigo-50'
     },
   ];
 
@@ -117,32 +103,24 @@ export default function OverviewPage() {
       label: 'Lệnh',
       value: data.system?.commands || 0,
       link: '/system',
-      color: 'text-slate-600',
-      bgColor: 'bg-slate-50'
     },
     {
       icon: Zap,
       label: 'Sự kiện',
       value: data.system?.events || 0,
       link: '/system',
-      color: 'text-orange-600',
-      bgColor: 'bg-orange-50'
     },
     {
       icon: Activity,
       label: 'Uptime',
       value: data.system?.uptime ? formatUptime(data.system.uptime) : '--',
       link: '/system',
-      color: 'text-cyan-600',
-      bgColor: 'bg-cyan-50'
     },
     {
       icon: HardDrive,
       label: 'Bộ nhớ',
       value: data.system?.memory ? `${data.system.memory.used}MB / ${data.system.memory.total}MB` : '--',
       link: '/system',
-      color: 'text-pink-600',
-      bgColor: 'bg-pink-50'
     },
   ];
 
@@ -160,21 +138,19 @@ export default function OverviewPage() {
     <DashboardLayout title="Tổng quan">
       <div className="space-y-6">
         {/* Main Statistics */}
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 md:gap-5">
+        <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
           {mainStats.map((stat, index) => {
             const Icon = stat.icon;
             return (
               <div
                 key={index}
-                className="bg-white border border-slate-200 rounded-lg p-5 md:p-6 hover:shadow-md transition-shadow"
+                className="bg-white border border-slate-200 rounded-lg p-4"
               >
-                <div className="flex items-center justify-between mb-4">
-                  <div className={`p-3 rounded-lg ${stat.bgColor}`}>
-                    <Icon className={`w-6 h-6 ${stat.color}`} />
-                  </div>
+                <div className="flex items-center gap-3 mb-2">
+                  <Icon className="w-5 h-5 text-slate-600" />
+                  <h3 className="text-xs text-slate-500 font-medium">{stat.label}</h3>
                 </div>
-                <h3 className="text-xs md:text-sm text-slate-500 font-medium mb-1">{stat.label}</h3>
-                <p className="text-2xl md:text-3xl font-bold text-slate-800">{stat.value}</p>
+                <p className="text-2xl font-semibold text-slate-900">{stat.value}</p>
               </div>
             );
           })}
@@ -184,36 +160,33 @@ export default function OverviewPage() {
           {/* Economy Section */}
           <div className="lg:col-span-2 space-y-6">
             {/* Economy Stats */}
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+            <div className="grid grid-cols-2 gap-4">
               {economyStats.map((stat, index) => {
                 const Icon = stat.icon;
                 return (
                   <div
                     key={index}
-                    className="bg-white border border-slate-200 rounded-lg p-5 hover:shadow-md transition-shadow"
+                    className="bg-white border border-slate-200 rounded-lg p-4"
                   >
-                    <div className="flex items-center gap-3 mb-3">
-                      <div className={`p-2.5 rounded-lg ${stat.bgColor}`}>
-                        <Icon className={`w-5 h-5 ${stat.color}`} />
-                      </div>
+                    <div className="flex items-center gap-2 mb-2">
+                      <Icon className="w-4 h-4 text-slate-600" />
                       <h3 className="text-sm text-slate-500 font-medium">{stat.label}</h3>
                     </div>
-                    <p className="text-xl md:text-2xl font-bold text-slate-800">{stat.value}</p>
+                    <p className="text-xl font-semibold text-slate-900">{stat.value}</p>
                   </div>
                 );
               })}
             </div>
 
             {/* Top Users */}
-            <div className="bg-white border border-slate-200 rounded-lg p-5 md:p-6">
+            <div className="bg-white border border-slate-200 rounded-lg p-5">
               <div className="flex items-center justify-between mb-4">
-                <h2 className="text-lg font-semibold text-slate-800 flex items-center gap-2">
-                  <Award className="w-5 h-5 text-yellow-600" />
+                <h2 className="text-lg font-semibold text-slate-900">
                   Top người dùng giàu nhất
                 </h2>
                 <Link 
                   href="/users" 
-                  className="text-sm text-primary hover:underline"
+                  className="text-sm text-slate-600 hover:text-slate-900"
                 >
                   Xem tất cả
                 </Link>
@@ -265,25 +238,22 @@ export default function OverviewPage() {
             </div>
           </div>
 
-          {/* System Info */}
-          <div className="space-y-6">
-            <div className="bg-white border border-slate-200 rounded-lg p-5 md:p-6">
-              <h2 className="text-lg font-semibold text-slate-800 flex items-center gap-2 mb-4">
-                <Server className="w-5 h-5 text-slate-600" />
+            {/* System Info */}
+            <div className="space-y-6">
+            <div className="bg-white border border-slate-200 rounded-lg p-5">
+              <h2 className="text-lg font-semibold text-slate-900 mb-4">
                 Thông tin hệ thống
               </h2>
-              <div className="space-y-4">
+              <div className="space-y-2">
                 {systemStats.map((stat, index) => {
                   const Icon = stat.icon;
                   const content = (
-                    <div className="flex items-center justify-between p-3 rounded-lg hover:bg-slate-50 transition-colors">
+                    <div className="flex items-center justify-between p-3 rounded-lg hover:bg-slate-50">
                       <div className="flex items-center gap-3">
-                        <div className={`p-2 rounded-lg ${stat.bgColor}`}>
-                          <Icon className={`w-4 h-4 ${stat.color}`} />
-                        </div>
-                        <span className="text-sm font-medium text-slate-700">{stat.label}</span>
+                        <Icon className="w-4 h-4 text-slate-600" />
+                        <span className="text-sm text-slate-700">{stat.label}</span>
                       </div>
-                      <span className="text-sm font-semibold text-slate-800">{stat.value}</span>
+                      <span className="text-sm font-medium text-slate-900">{stat.value}</span>
                     </div>
                   );
                   
@@ -312,21 +282,17 @@ export default function OverviewPage() {
 
             {/* VIP Distribution */}
             {data.vipDistribution && Object.keys(data.vipDistribution).length > 0 && (
-              <div className="bg-white border border-slate-200 rounded-lg p-5 md:p-6">
-                <h2 className="text-lg font-semibold text-slate-800 flex items-center gap-2 mb-4">
-                  <BarChart3 className="w-5 h-5 text-yellow-600" />
+              <div className="bg-white border border-slate-200 rounded-lg p-5">
+                <h2 className="text-lg font-semibold text-slate-900 mb-4">
                   Phân bổ VIP
                 </h2>
-                <div className="space-y-3">
+                <div className="space-y-2">
                   {Object.entries(data.vipDistribution).map(([packageId, count]) => (
-                    <div key={packageId} className="flex items-center justify-between p-3 rounded-lg bg-yellow-50">
-                      <div className="flex items-center gap-2">
-                        <Gem className="w-4 h-4 text-yellow-600" />
-                        <span className="text-sm font-medium text-slate-700">
-                          Gói {packageId === '3' ? 'Gold' : `#${packageId}`}
-                        </span>
-                      </div>
-                      <span className="text-sm font-semibold text-slate-800">{count} người</span>
+                    <div key={packageId} className="flex items-center justify-between p-3 rounded-lg border border-slate-200">
+                      <span className="text-sm text-slate-700">
+                        Gói {packageId === '3' ? 'Gold' : `#${packageId}`}
+                      </span>
+                      <span className="text-sm font-medium text-slate-900">{count} người</span>
                     </div>
                   ))}
                 </div>

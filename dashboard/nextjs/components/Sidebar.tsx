@@ -19,7 +19,8 @@ import {
   FileJson,
   ChevronDown,
   LogOut,
-  HelpCircle
+  HelpCircle,
+  Shield
 } from 'lucide-react';
 
 interface SidebarProps {
@@ -48,6 +49,7 @@ export default function Sidebar({ isOpen, onClose }: SidebarProps) {
   ];
 
   const otherItems = [
+    { href: '/permissions', icon: Shield, text: 'Quyền' },
     { href: '/system', icon: Settings, text: 'Hệ thống' },
   ];
 

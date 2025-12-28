@@ -24,11 +24,11 @@ module.exports = {
       const isVIP = vipService.checkVIP(senderID).success;
 
       if (!isVIP) {
-        const fullInfoLimitPath = path.join(__dirname, './cache/ghepFullInfo.json');
+        const fullInfoLimitPath = path.join(__dirname, '../database/cache/ghepFullInfo.json');
         let fullInfoData = {};
         
-        if (!fs.existsSync(path.join(__dirname, './cache'))) {
-          fs.mkdirSync(path.join(__dirname, './cache'), { recursive: true });
+        if (!fs.existsSync(path.join(__dirname, '../database/cache'))) {
+          fs.mkdirSync(path.join(__dirname, '../database/cache'), { recursive: true });
         }
         
         if (fs.existsSync(fullInfoLimitPath)) {
@@ -323,7 +323,7 @@ module.exports = {
         partnerImg = createDefaultAvatar();
       }
 
-      const avatarCacheDir = path.join(__dirname, '../database/cache/avatar');
+      const avatarCacheDir = path.join(__dirname, '../database/cache/avatars');
       if (!fs.existsSync(avatarCacheDir)) {
         fs.mkdirSync(avatarCacheDir, { recursive: true });
       }
@@ -857,7 +857,7 @@ module.exports = {
           `🔮 ${futures[Math.floor(Math.random() * futures.length)]}`;
       } else if (showFullInfo) {
         // Người dùng free còn lượt xem - hiển thị như VIP
-        const fullInfoLimitPath = path.join(__dirname, './cache/ghepFullInfo.json');
+        const fullInfoLimitPath = path.join(__dirname, '../database/cache/ghepFullInfo.json');
         let fullInfoData = JSON.parse(fs.readFileSync(fullInfoLimitPath, 'utf8'));
         const remainingViews = 5 - fullInfoData[senderID].count;
         

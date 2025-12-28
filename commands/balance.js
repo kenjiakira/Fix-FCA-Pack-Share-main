@@ -426,7 +426,7 @@ module.exports = {
                 }
             }
             
-            const cacheDir = path.join(__dirname, "./cache/avatars");
+            const cacheDir = path.join(__dirname, "../database/cache/avatars");
             if (!fs.existsSync(cacheDir)) {
                 fs.mkdirSync(cacheDir, { recursive: true });
             }

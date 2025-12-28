@@ -3,13 +3,8 @@ const fs = require("fs");
 const path = require("path");
 const moment = require("moment-timezone");
 const adminConfig = JSON.parse(
-  fs.readFileSync(path.join(__dirname, "..", "admin.json"), "utf8")
+  fs.readFileSync(path.join(__dirname, "../admin.json"), "utf8")
 );
-
-const jsonDir = path.join(__dirname, "json");
-if (!fs.existsSync(jsonDir)) {
-  fs.mkdirSync(jsonDir, { recursive: true });
-}
 
 module.exports = {
   name: "noti",
@@ -126,7 +121,7 @@ module.exports = {
 
     let attachments = [];
 
-    const tmpFolderPath = path.join(__dirname, "cache");
+    const tmpFolderPath = path.join(__dirname, "../database/cache");
     if (!fs.existsSync(tmpFolderPath)) {
       fs.mkdirSync(tmpFolderPath);
     }

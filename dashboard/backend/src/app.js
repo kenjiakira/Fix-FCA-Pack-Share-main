@@ -16,6 +16,7 @@ const economyRoutes = require('./modules/economy/economy.routes');
 const systemRoutes = require('./modules/system/system.routes');
 const appStateRoutes = require('./modules/appstate/appstate.routes');
 const avatarsRoutes = require('./modules/avatars/avatars.routes');
+const permissionsRoutes = require('./modules/permissions/permissions.routes');
 
 // Middleware
 const AuthMiddleware = require('./common/middleware/auth.middleware');
@@ -71,6 +72,7 @@ class App {
         this.app.use('/api/economy', economyRoutes);
         this.app.use('/api/system', systemRoutes);
         this.app.use('/api/appstate', appStateRoutes);
+        this.app.use('/api/permissions', permissionsRoutes);
 
         // Health check
         this.app.get('/api/health', (req, res) => {

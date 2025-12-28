@@ -1,4 +1,3 @@
-const { createBaicaoCanvas, createPlayerCardCanvas, createGameStateCanvas } = require('../game/canvas/baicaoCanvas');
 const { getBalance, updateBalance } = require('../utils/currencies');
 const path = require('path');
 const fs = require('fs');
@@ -228,49 +227,15 @@ class BaiCaoGame {
         this.shuffleDeck();
         this.dealCards();
         
-        try {
-            const gameStateCanvas = await createGameStateCanvas(this);
-            
-            const tempFilePath = path.join(__dirname, `../database/cache/gamestate_${this.threadID}_${Date.now()}.png`);
-            
-            if (!fs.existsSync(path.join(__dirname, '../database/cache'))) {
-                fs.mkdirSync(path.join(__dirname, '../database/cache'), { recursive: true });
-            }
-            
-            fs.writeFileSync(tempFilePath, gameStateCanvas);
-            
-            await api.sendMessage(
-                {
-                    body: "🎲 CHIA BÀI THÀNH CÔNG 🎲\n\n" +
-                          "👉 Sử dụng:\n" +
-                          "• .baicao xem => Xem bài của bạn\n" +
-                          "• .baicao đổi => Đổi bài (1 lần)\n" +
-                          "• .baicao ready => Sẵn sàng\n\n" +
-                          "⏳ Thời gian: 60 giây",
-                    attachment: fs.createReadStream(tempFilePath)
-                },
-                this.threadID,
-                () => {
-                    try {
-                        fs.unlinkSync(tempFilePath);
-                    } catch (e) {
-                        console.error("Error removing temp file:", e);
-                    }
-                }
-            );
-        } catch (err) {
-            console.error("Error generating game state canvas:", err);
-            
-            let message = "🎲 CHIA BÀI THÀNH CÔNG 🎲\n";
-            message += "━━━━━━━━━━━━━━━━━━\n\n";
-            message += "👉 Sử dụng:\n";
-            message += "• .baicao xem => Xem bài của bạn\n";
-            message += "• .baicao đổi => Đổi bài (1 lần)\n";
-            message += "• .baicao ready => Sẵn sàng\n\n";
-            message += "⏳ Thời gian: 60 giây";
-            
-            await api.sendMessage(message, this.threadID);
-        }
+        let message = "🎲 CHIA BÀI THÀNH CÔNG 🎲\n";
+        message += "━━━━━━━━━━━━━━━━━━\n\n";
+        message += "👉 Sử dụng:\n";
+        message += "• .baicao xem => Xem bài của bạn\n";
+        message += "• .baicao đổi => Đổi bài (1 lần)\n";
+        message += "• .baicao ready => Sẵn sàng\n\n";
+        message += "⏳ Thời gian: 60 giây";
+        
+        await api.sendMessage(message, this.threadID);
     
         this.handleAIDecisions(api);
     
@@ -305,57 +270,26 @@ class BaiCaoGame {
             await updateBalance(winner.playerID, winAmount);
         }
         
-        try {
-            const resultsCanvas = await createBaicaoCanvas(this, results);
-            
-            const tempFilePath = path.join(__dirname, `../database/cache/results_${this.threadID}_${Date.now()}.png`);
-            
-            if (!fs.existsSync(path.join(__dirname, '../database/cache'))) {
-                fs.mkdirSync(path.join(__dirname, '../database/cache'), { recursive: true });
-            }
-            
-            fs.writeFileSync(tempFilePath, resultsCanvas);
-            
-            await api.sendMessage(
-                {
-                    body: "🎮 KẾT QUẢ BÀI CÀO 🎮\n\n" +
-                          "• .baicao next - Chơi tiếp\n" +
-                          "• .baicao leave - Rời bàn",
-                    attachment: fs.createReadStream(tempFilePath)
-                },
-                this.threadID, 
-                () => {
-                    try {
-                        fs.unlinkSync(tempFilePath);
-                    } catch (e) {
-                        console.error("Error removing temp file:", e);
-                    }
-                }
-            );
-        } catch (err) {
-            console.error("Error generating results canvas:", err);
-            
-            let message = "🎮 KẾT QUẢ BÀI CÀO 🎮\n";
-            message += "━━━━━━━━━━━━━━━━━━\n\n";
-    
-            results.forEach((result, index) => {
-                message += `${index + 1}. ${result.name}${result.isAI ? ' 🤖' : ''}\n`;
-                message += `├─ Bài: ${result.cards}\n`;
-                message += `└─ Điểm: ${result.point}\n`;
-            });
-    
-            message += "\n💰 THƯỞNG:\n";
-            message += `✨ Người thắng: ${winner.name}${winner.isAI ? ' 🤖' : ''}\n`;
-            message += `💵 Tiền thắng: ${formatNumber(winAmount)}$\n`;
-            message += `💰 Tổng cược: ${formatNumber(totalPool)}$\n`;
-            message += `📌 Phí: ${formatNumber(totalPool - winAmount)}$`;
-    
-            message += "\n\n📋 LƯỢT CHƠI MỚI:\n";
-            message += "• .baicao next - Chơi tiếp\n";
-            message += "• .baicao leave - Rời bàn";
-    
-            await api.sendMessage(message, this.threadID);
-        }
+        let message = "🎮 KẾT QUẢ BÀI CÀO 🎮\n";
+        message += "━━━━━━━━━━━━━━━━━━\n\n";
+
+        results.forEach((result, index) => {
+            message += `${index + 1}. ${result.name}${result.isAI ? ' 🤖' : ''}\n`;
+            message += `├─ Bài: ${result.cards}\n`;
+            message += `└─ Điểm: ${result.point}\n`;
+        });
+
+        message += "\n💰 THƯỞNG:\n";
+        message += `✨ Người thắng: ${winner.name}${winner.isAI ? ' 🤖' : ''}\n`;
+        message += `💵 Tiền thắng: ${formatNumber(winAmount)}$\n`;
+        message += `💰 Tổng cược: ${formatNumber(totalPool)}$\n`;
+        message += `📌 Phí: ${formatNumber(totalPool - winAmount)}$`;
+
+        message += "\n\n📋 LƯỢT CHƠI MỚI:\n";
+        message += "• .baicao next - Chơi tiếp\n";
+        message += "• .baicao leave - Rời bàn";
+        
+        await api.sendMessage(message, this.threadID);
     
         this.state = "waiting_next";
         this.roundCount++;
@@ -374,57 +308,19 @@ class BaiCaoGame {
         this.shuffleDeck();
         this.dealCards();
         
-        try {
-            const gameStateCanvas = await createGameStateCanvas(this);
-            
-            const tempFilePath = path.join(__dirname, `../database/cache/gamestate_${this.threadID}_${Date.now()}.png`);
-            
-            if (!fs.existsSync(path.join(__dirname, '../database/cache'))) {
-                fs.mkdirSync(path.join(__dirname, '../database/cache'), { recursive: true });
-            }
-            
-            fs.writeFileSync(tempFilePath, gameStateCanvas);
-            
-            await api.sendMessage(
-                {
-                    body: `🎲 VÒNG MỚI BẮT ĐẦU 🎲\n\n` +
-                          `📌 Vòng: ${this.roundCount}\n` +
-                          `👥 Người chơi: ${this.players.size}\n` +
-                          `🤖 AI: ${this.aiPlayers}\n` +
-                          `💰 Cược: ${formatNumber(this.betAmount)}$\n\n` +
-                          "👉 Sử dụng:\n" +
-                          "• .baicao xem => Xem bài của bạn\n" +
-                          "• .baicao đổi => Đổi bài (1 lần)\n" +
-                          "• .baicao ready => Sẵn sàng\n\n" +
-                          "⏳ Thời gian: 60 giây",
-                    attachment: fs.createReadStream(tempFilePath)
-                },
-                this.threadID,
-                () => {
-                    try {
-                        fs.unlinkSync(tempFilePath);
-                    } catch (e) {
-                        console.error("Error removing temp file:", e);
-                    }
-                }
-            );
-        } catch (err) {
-            console.error("Error generating game state canvas:", err);
-            
-            let message = "🎲 VÒNG MỚI BẮT ĐẦU 🎲\n";
-            message += "━━━━━━━━━━━━━━━━━━\n\n";
-            message += `📌 Vòng: ${this.roundCount}\n`;
-            message += `👥 Người chơi: ${this.players.size}\n`;
-            message += `🤖 AI: ${this.aiPlayers}\n`;
-            message += `💰 Cược: ${formatNumber(this.betAmount)}$\n\n`;
-            message += "👉 Sử dụng:\n";
-            message += "• .baicao xem => Xem bài của bạn\n";
-            message += "• .baicao đổi => Đổi bài (1 lần)\n";
-            message += "• .baicao ready => Sẵn sàng\n\n";
-            message += "⏳ Thời gian: 60 giây";
-            
-            await api.sendMessage(message, this.threadID);
-        }
+        let message = "🎲 VÒNG MỚI BẮT ĐẦU 🎲\n";
+        message += "━━━━━━━━━━━━━━━━━━\n\n";
+        message += `📌 Vòng: ${this.roundCount}\n`;
+        message += `👥 Người chơi: ${this.players.size}\n`;
+        message += `🤖 AI: ${this.aiPlayers}\n`;
+        message += `💰 Cược: ${formatNumber(this.betAmount)}$\n\n`;
+        message += "👉 Sử dụng:\n";
+        message += "• .baicao xem => Xem bài của bạn\n";
+        message += "• .baicao đổi => Đổi bài (1 lần)\n";
+        message += "• .baicao ready => Sẵn sàng\n\n";
+        message += "⏳ Thời gian: 60 giây";
+        
+        await api.sendMessage(message, this.threadID);
     
         this.handleAIDecisions(api);
     
@@ -642,49 +538,13 @@ module.exports = {
             
                 const player = game.players.get(senderID);
                 
-                const canvasCardData = {
-                    name: player.name,
-                    point: player.point,
-                    cards: player.cards
-                };
-                
-                try {
-                    const cardCanvas = await createPlayerCardCanvas(canvasCardData);
-                    
-                    const tempFilePath = path.join(__dirname, `./cache/cards_${senderID}_${Date.now()}.png`);
-                    
-                    if (!fs.existsSync(path.join(__dirname, './cache'))) {
-                        fs.mkdirSync(path.join(__dirname, './cache'), { recursive: true });
-                    }
-                    
-                    fs.writeFileSync(tempFilePath, cardCanvas);
-                    
-                    return api.sendMessage(
-                        {
-                            body: `🃏 BÀI CỦA BẠN 🃏\n${player.hasChanged ? '(Đã đổi bài)' : ''}`,
-                            attachment: fs.createReadStream(tempFilePath)
-                        },
-                        threadID, 
-                        () => {
-                            try {
-                                fs.unlinkSync(tempFilePath);
-                            } catch (e) {
-                                console.error("Error removing temp file:", e);
-                            }
-                        },
-                        messageID
-                    );
-                } catch (err) {
-                    console.error("Error generating card canvas:", err);
-                    
-                    return api.sendMessage(
-                        "🃏 BÀI CỦA BẠN 🃏\n" +
-                        "━━━━━━━━━━━━━━━━━━\n\n" +
-                        `Bài: ${game.getPlayerCards(senderID)}\n` +
-                        `Điểm: ${player.point}`,
-                        threadID, messageID
-                    );
-                }
+                return api.sendMessage(
+                    "🃏 BÀI CỦA BẠN 🃏\n" +
+                    "━━━━━━━━━━━━━━━━━━\n\n" +
+                    `Bài: ${game.getPlayerCards(senderID)}\n` +
+                    `Điểm: ${player.point}${player.hasChanged ? '\n(Đã đổi bài)' : ''}`,
+                    threadID, messageID
+                );
             }
 
             case "đổi":
@@ -710,49 +570,13 @@ module.exports = {
                     player.point = game.calculatePoints(player.cards);
                     player.hasChanged = true;
                 
-                    const canvasCardData = {
-                        name: player.name,
-                        point: player.point,
-                        cards: player.cards
-                    };
-                    
-                    try {
-                        const cardCanvas = await createPlayerCardCanvas(canvasCardData);
-                        
-                        const tempFilePath = path.join(__dirname, `./cache/newcards_${senderID}_${Date.now()}.png`);
-                        
-                        if (!fs.existsSync(path.join(__dirname, './cache'))) {
-                            fs.mkdirSync(path.join(__dirname, './cache'), { recursive: true });
-                        }
-                        
-                        fs.writeFileSync(tempFilePath, cardCanvas);
-                        
-                        return api.sendMessage(
-                            {
-                                body: "🔄 ĐỔI BÀI THÀNH CÔNG 🔄",
-                                attachment: fs.createReadStream(tempFilePath)
-                            },
-                            threadID, 
-                            () => {
-                                try {
-                                    fs.unlinkSync(tempFilePath);
-                                } catch (e) {
-                                    console.error("Error removing temp file:", e);
-                                }
-                            },
-                            messageID
-                        );
-                    } catch (err) {
-                        console.error("Error generating card canvas:", err);
-                        
-                        return api.sendMessage(
-                            "🔄 ĐỔI BÀI THÀNH CÔNG 🔄\n" +
-                            "━━━━━━━━━━━━━━━━━━\n\n" +
-                            `Bài mới: ${game.getPlayerCards(senderID)}\n` +
-                            `Điểm: ${player.point}`,
-                            threadID, messageID
-                        );
-                    }
+                    return api.sendMessage(
+                        "🔄 ĐỔI BÀI THÀNH CÔNG 🔄\n" +
+                        "━━━━━━━━━━━━━━━━━━\n\n" +
+                        `Bài mới: ${game.getPlayerCards(senderID)}\n` +
+                        `Điểm: ${player.point}`,
+                        threadID, messageID
+                    );
                 }
 
                 case "ready": {

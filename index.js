@@ -8,7 +8,6 @@ const boldText = (text) => chalk.bold(text);
 console.error(boldText(gradient.cristal("Starting....")));
 
 const DISCORD_LOCK_FILE = path.join(__dirname, 'discord.lock');
-const BOT_LOCK_FILE = path.join(__dirname, 'bot.lock');
 
 function checkDiscordLock() {
     if (fs.existsSync(DISCORD_LOCK_FILE)) {
@@ -41,21 +40,12 @@ function startBotProcess(script, label, command = null) {
     if (label === 'Discord Bot') {
         fs.writeFileSync(DISCORD_LOCK_FILE, child.pid.toString());
     }
-    
-    if (label === 'Messenger Bot') {
-        fs.writeFileSync(BOT_LOCK_FILE, child.pid.toString());
-    }
 
     child.on("close", (codeExit) => {
         console.log(`${label} exited with code: ${codeExit}`);
         if (label === 'Discord Bot') {
             try {
                 fs.unlinkSync(DISCORD_LOCK_FILE);
-            } catch(e) {}
-        }
-        if (label === 'Messenger Bot') {
-            try {
-                fs.unlinkSync(BOT_LOCK_FILE);
             } catch(e) {}
         }
         if (codeExit !== 0) {
@@ -68,11 +58,6 @@ function startBotProcess(script, label, command = null) {
         if (label === 'Discord Bot') {
             try {
                 fs.unlinkSync(DISCORD_LOCK_FILE);
-            } catch(e) {}
-        }
-        if (label === 'Messenger Bot') {
-            try {
-                fs.unlinkSync(BOT_LOCK_FILE);
             } catch(e) {}
         }
     });
@@ -88,7 +73,6 @@ const nextjsProcess = startBotProcess("dashboard/nextjs", "Next.js Frontend", ["
 process.on('SIGINT', () => {
     try {
         fs.unlinkSync(DISCORD_LOCK_FILE);
-        fs.unlinkSync(BOT_LOCK_FILE);
         if (dashboardBackendProcess) {
             dashboardBackendProcess.kill();
         }

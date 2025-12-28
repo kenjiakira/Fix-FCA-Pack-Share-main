@@ -8,7 +8,7 @@ const { getUserName } = require('../utils/userUtils');
 
 class DailyRewardManager {
   constructor() {
-    this.filepath = path.join(__dirname, "json","currencies", "userClaims.json");
+    this.filepath = path.join(__dirname, "../database/json/currencies/userClaims.json");
     this.claims = {};
     this.loaded = false;
   }
@@ -140,7 +140,7 @@ class DailyRewardManager {
 
   async getVipBonus(userId) {
     try {
-      const vipDataPath = path.join(__dirname, "json", "vip.json");
+      const vipDataPath = path.join(__dirname, "../database/json/vip.json");
       const vipData = JSON.parse(await fs.readFile(vipDataPath, "utf8"));
       const userData = vipData.users?.[userId];
 
@@ -793,13 +793,13 @@ class DailyRewardManager {
    */
   async getAvatarPath(userId) {
     try {
-      const avatarsDir = path.join(__dirname, "./cache");
+      const avatarsDir = path.join(__dirname, "../database/cache");
       if (!fsSync.existsSync(avatarsDir)) {
         fsSync.mkdirSync(avatarsDir, { recursive: true });
       }
       
       // Create default avatar if it doesn't exist
-      const defaultAvatarPath = path.join(__dirname, "./cache/avatars/avatar.jpg");
+      const defaultAvatarPath = path.join(__dirname, "../database/cache/avatars/avatar.jpg");
       if (!fsSync.existsSync(defaultAvatarPath)) {
         try {
           console.log("⚠️ Default avatar not found, creating one...");
@@ -826,7 +826,7 @@ class DailyRewardManager {
         }
       }
       
-      const cacheDir = path.join(__dirname, "./cache/avatars");
+      const cacheDir = path.join(__dirname, "../database/cache/avatars");
       if (!fsSync.existsSync(cacheDir)) {
         fsSync.mkdirSync(cacheDir, { recursive: true });
       }
@@ -870,7 +870,7 @@ class DailyRewardManager {
       }
     } catch (error) {
       console.error(`Error in getAvatarPath for ${userId}:`, error.message);
-      const defaultAvatarPath = path.join(__dirname, "./cache/avatars/avatar.jpg");
+      const defaultAvatarPath = path.join(__dirname, "../database/cache/avatars/avatar.jpg");
       if (fsSync.existsSync(defaultAvatarPath)) {
         return defaultAvatarPath;
       }

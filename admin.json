@@ -2,20 +2,13 @@
   "prefix": ".",
   "adminUIDs": [
     "61573427362389",
-    "100092325757607",
-    "100056955484415"
+    "100092325757607"
   ],
   "moderatorUIDs": [
-    "100028202556430",
-    ""
+    "100028202556430"
   ],
-  "supportUIDs": [
-    "",
-    ""
-  ],
-  "feedbackGroupID": [
-    ""
-  ],
+  "supportUIDs": [],
+  "feedbackGroupID": [],
   "botName": "Áp pồ meo meo",
   "ownerName": "Kenji Akira",
   "facebookLink": "61573427362389",

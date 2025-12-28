@@ -110,5 +110,19 @@ export const api = {
         body: JSON.stringify({ content }),
       }),
   },
+  permissions: {
+    get: () => apiRequest('/permissions'),
+    getConfig: () => apiRequest('/permissions/config'),
+    add: (role: string, uid: string) =>
+      apiRequest('/permissions/add', {
+        method: 'POST',
+        body: JSON.stringify({ role, uid }),
+      }),
+    remove: (role: string, uid: string) =>
+      apiRequest('/permissions/remove', {
+        method: 'POST',
+        body: JSON.stringify({ role, uid }),
+      }),
+  },
 };
 
