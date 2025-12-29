@@ -29,7 +29,8 @@ const EXCLUDE_PATTERNS = [
     '.appstate-last-check.json',
     'database',
     'logins',
-    'fonts'
+    'fonts',
+    'etc'
 ];
 
 function loadAdminData() {

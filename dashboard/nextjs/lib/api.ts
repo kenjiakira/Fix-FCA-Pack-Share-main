@@ -44,10 +44,15 @@ export async function apiRequest<T>(
   }
 }
 
+interface LoginResponse {
+  token: string;
+  username?: string;
+}
+
 export const api = {
   auth: {
     login: (username: string, password: string) =>
-      apiRequest('/auth/login', {
+      apiRequest<LoginResponse>('/auth/login', {
         method: 'POST',
         body: JSON.stringify({ username, password }),
       }),
