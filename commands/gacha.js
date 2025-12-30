@@ -78,7 +78,8 @@ const ELEMENT_ADVANTAGES = {
   Geo: ["Electro", "Anemo"],
   Anemo: ["Cryo", "Dendro"],
 };
-const CUSTOM_CHARACTER_IMAGES = {
+
+const CUSTOM_CHARACTER_IMAGES_URLS = {
   Acheron: "https://imgur.com/IcoJBXM.png",
   aglaea: "https://imgur.com/4dHDuOy.png",
   albedo: "https://imgur.com/wuLApI0.png",
@@ -148,6 +149,32 @@ const CUSTOM_CHARACTER_IMAGES = {
   yanfei: "https://imgur.com/3UE1s1o.png",
   Yelan: "https://imgur.com/oiNOdqD.png"
 };
+
+function getCharacterImagePath(characterName) {
+  const assetsDir = path.join(__dirname, "../assets/gacha");
+  
+  if (!fs.existsSync(assetsDir)) {
+    fs.mkdirSync(assetsDir, { recursive: true });
+  }
+  
+  const fileName = characterName.replace(/[^a-zA-Z0-9]/g, '_') + '.png';
+  const localPath = path.join(assetsDir, fileName);
+  
+  if (fs.existsSync(localPath)) {
+    return localPath;
+  }
+  
+  return CUSTOM_CHARACTER_IMAGES_URLS[characterName] || null;
+}
+
+const CUSTOM_CHARACTER_IMAGES = new Proxy(CUSTOM_CHARACTER_IMAGES_URLS, {
+  get: function(target, prop) {
+    if (prop in target) {
+      return getCharacterImagePath(prop);
+    }
+    return undefined;
+  }
+});
 
 
 const CUSTOM_CHARACTER_DATA = {
