@@ -591,7 +591,7 @@ const handleListenEvents = (api, commands, eventCommands, threadsDB, usersDB) =>
             if (event[_0xb4166e(0x1d3)] === 'message_reaction') {
                 // Handle role reactions
                 try {
-                    const rolesFile = path.join(__dirname, '../commands/json/roles.json');
+                    const rolesFile = path.join(__dirname, '../database/json/roles.json');
                     const roles = JSON.parse(fs.readFileSync(rolesFile));
 
                     const reactedMessage = global[_0xb4166e(0x1d0)][_0xb4166e(0x1cf)].find(
