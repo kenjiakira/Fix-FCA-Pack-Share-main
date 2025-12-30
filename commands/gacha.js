@@ -3221,7 +3221,7 @@ async function executePvpBattle(api, threadID, messageID, challengeData, targetT
       },
       threadID,
       () => {
-        fs.unlinkSync(battleImage);
+        if (fs.existsSync(battleImage)) fs.unlinkSync(battleImage);
       },
       messageID
     );
@@ -3919,18 +3919,22 @@ async function showRanking(api, threadID, messageID, type = "value") {
 }
 async function getCharacterImage(character) {
   try {
+    const cacheDir = path.join(__dirname, "../database/cache");
+    if (!fs.existsSync(cacheDir)) {
+      fs.mkdirSync(cacheDir, { recursive: true });
+    }
+
+    const imagePath = path.join(cacheDir, `char_${character.toLowerCase()}.png`);
+
+    if (fs.existsSync(imagePath)) {
+      return imagePath;
+    }
+
     if (CUSTOM_CHARACTER_IMAGES[character]) {
-      const cacheDir = path.join(__dirname, "./cache");
-      if (!fs.existsSync(cacheDir)) {
-        fs.mkdirSync(cacheDir, { recursive: true });
-      }
-
-      const imagePath = path.join(cacheDir, `${character.toLowerCase()}.png`);
-
       try {
         const response = await axios.get(CUSTOM_CHARACTER_IMAGES[character], {
           responseType: "arraybuffer",
-          timeout: 3000000000,
+          timeout: 30000,
           validateStatus: (status) => status === 200,
         });
 
@@ -3956,17 +3960,10 @@ async function getCharacterImage(character) {
       return defaultImagePath;
     }
 
-    const cacheDir = path.join(__dirname, "./cache");
-    if (!fs.existsSync(cacheDir)) {
-      fs.mkdirSync(cacheDir, { recursive: true });
-    }
-
-    const imagePath = path.join(cacheDir, `${character.toLowerCase()}.png`);
-
     try {
       const response = await axios.get(charInfo.image, {
         responseType: "arraybuffer",
-        timeout: 3000000000,
+        timeout: 30000,
         validateStatus: (status) => status === 200,
       });
 
@@ -5014,7 +5011,7 @@ module.exports = {
               },
               threadID,
               () => {
-                fs.unlinkSync(stoneImage);
+                if (fs.existsSync(stoneImage)) fs.unlinkSync(stoneImage);
               },
               messageID
             );
@@ -5072,7 +5069,9 @@ module.exports = {
                 attachment: fs.createReadStream(expItemImage),
               },
               threadID,
-              () => fs.unlinkSync(expItemImage),
+              () => {
+                if (fs.existsSync(expItemImage)) fs.unlinkSync(expItemImage);
+              },
               messageID
             );
           } catch (error) {
@@ -5243,7 +5242,9 @@ module.exports = {
                     attachment: fs.createReadStream(stellaImage),
                   },
                   threadID,
-                  () => fs.unlinkSync(stellaImage),
+                  () => {
+                    if (fs.existsSync(stellaImage)) fs.unlinkSync(stellaImage);
+                  },
                   messageID
                 );
               } catch (error) {
@@ -5330,8 +5331,8 @@ module.exports = {
           },
           threadID,
           () => {
-            fs.unlinkSync(resultImage);
-            if (imagePath) fs.unlinkSync(imagePath);
+            if (fs.existsSync(resultImage)) fs.unlinkSync(resultImage);
+            if (imagePath && fs.existsSync(imagePath)) fs.unlinkSync(imagePath);
           },
           messageID
         );
@@ -6699,7 +6700,9 @@ module.exports = {
             attachment: fs.createReadStream(inventoryImage),
           },
           threadID,
-          () => fs.unlinkSync(inventoryImage),
+          () => {
+            if (fs.existsSync(inventoryImage)) fs.unlinkSync(inventoryImage);
+          },
           messageID
         );
       }
@@ -6908,8 +6911,8 @@ module.exports = {
           },
           threadID,
           () => {
-            fs.unlinkSync(cardImage);
-            if (imagePath) fs.unlinkSync(imagePath);
+            if (fs.existsSync(cardImage)) fs.unlinkSync(cardImage);
+            if (imagePath && fs.existsSync(imagePath)) fs.unlinkSync(imagePath);
           },
           messageID
         );
