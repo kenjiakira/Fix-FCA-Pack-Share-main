@@ -156,13 +156,13 @@ function parseColor(color, fallback = "#ffffff") {
 }
 
 const defaultFishImagePaths = {
-  trash: path.join(__dirname, "./fishing/trash.jpg"),
-  common: path.join(__dirname, "./fishing/common.jpg"),
-  uncommon: path.join(__dirname, "./fishing/uncommon.jpg"),
-  rare: path.join(__dirname, "./fishing/rare.jpg"),
-  legendary: path.join(__dirname, "./fishing/legendary.jpg"),
-  mythical: path.join(__dirname, "./fishing/mythical.jpg"),
-  cosmic: path.join(__dirname, "./fishing/cosmic.jpg"),
+  trash: path.join(__dirname, "../../database/fishing/trash.jpg"),
+  common: path.join(__dirname, "../../database/fishing/common.jpg"),
+  uncommon: path.join(__dirname, "../../database/fishing/uncommon.jpg"),
+  rare: path.join(__dirname, "../../database/fishing/rare.jpg"),
+  legendary: path.join(__dirname, "../../database/fishing/legendary.jpg"),
+  mythical: path.join(__dirname, "../../database/fishing/mythical.jpg"),
+  cosmic: path.join(__dirname, "../../database/fishing/cosmic.jpg"),
 };
 
 try {
@@ -183,7 +183,7 @@ try {
   console.log("Could not load custom fonts, using system defaults");
 }
 
-const assetsDir = path.join(__dirname, "../game/fishing");
+const assetsDir = path.join(__dirname, "../../database/fishing");
 if (!fs.existsSync(assetsDir)) {
   fs.mkdirSync(assetsDir, { recursive: true });
 }
@@ -192,12 +192,10 @@ if (!fs.existsSync(assetsDir)) {
  * Create placeholder fish images if they don't exist
  */
 async function createPlaceholderFishImages() {
-  // Ensure the fishing assets directory exists
   if (!fs.existsSync(assetsDir)) {
     fs.mkdirSync(assetsDir, { recursive: true });
   }
 
-  // Create placeholder images for each rarity if they don't exist
   for (const [rarity, imagePath] of Object.entries(defaultFishImagePaths)) {
     if (!fs.existsSync(imagePath)) {
       const imageDir = path.dirname(imagePath);
@@ -208,7 +206,6 @@ async function createPlaceholderFishImages() {
       const canvas = createCanvas(200, 200);
       const ctx = canvas.getContext("2d");
 
-      // Fill with gradient based on rarity
       const gradient = ctx.createLinearGradient(0, 0, 200, 200);
       const colors = rarityColors[rarity]?.gradient || ["#cccccc", "#aaaaaa"];
       gradient.addColorStop(0, colors[0]);
@@ -216,14 +213,12 @@ async function createPlaceholderFishImages() {
       ctx.fillStyle = gradient;
       ctx.fillRect(0, 0, 200, 200);
 
-      // Draw fish icon
       ctx.font = "120px Arial";
       ctx.fillStyle = "#ffffff";
       ctx.textAlign = "center";
       ctx.textBaseline = "middle";
       ctx.fillText(fishIcons[rarity] || fishIcons.default, 100, 100);
 
-      // Save the image
       const buffer = canvas.toBuffer("image/png");
       fs.writeFileSync(imagePath, buffer);
     }
