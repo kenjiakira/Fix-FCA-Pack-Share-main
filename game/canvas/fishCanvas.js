@@ -200,6 +200,11 @@ async function createPlaceholderFishImages() {
   // Create placeholder images for each rarity if they don't exist
   for (const [rarity, imagePath] of Object.entries(defaultFishImagePaths)) {
     if (!fs.existsSync(imagePath)) {
+      const imageDir = path.dirname(imagePath);
+      if (!fs.existsSync(imageDir)) {
+        fs.mkdirSync(imageDir, { recursive: true });
+      }
+
       const canvas = createCanvas(200, 200);
       const ctx = canvas.getContext("2d");
 
