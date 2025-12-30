@@ -30,7 +30,8 @@ const EXCLUDE_PATTERNS = [
     'database',
     'logins',
     'fonts',
-    'etc'
+    'etc',
+    'dashboard'
 ];
 
 function loadAdminData() {
