@@ -237,6 +237,14 @@ const reloadModules = () => {
                         autoping.onLoad({ api });
                         console.log('🏓 AutoPing system initialized!');
                     }
+                    
+                    try {
+                        const { startAutoRestart } = require('./utils/autoRestart');
+                        startAutoRestart(api);
+                        console.log('🔄 Auto Restart system initialized!');
+                    } catch (error) {
+                        console.error('Failed to initialize Auto Restart:', error);
+                    }
                 } catch (error) {
                     console.error('Failed to initialize systems:', error);
                 }
@@ -286,6 +294,25 @@ const reloadModules = () => {
                 console.log(boldText(gradient.cristal('ADMINBOT: ' + adminConfig.botUID)));
                 console.log(boldText(gradient.cristal('OWNER: ' + adminConfig.ownerName + '\n╰───────────⟡')));
                 
+                // Kiểm tra auto restart
+                if (fs.existsSync('./database/autoRestart.json')) {
+                    try {
+                        const autoRestartData = JSON.parse(fs.readFileSync('./database/autoRestart.json', 'utf8'));
+                        if (autoRestartData.type === 'auto') {
+                            const restartTime = new Date(autoRestartData.timestamp).toLocaleString('vi-VN');
+                            console.log(boldText(gradient.atlas(`🔄 Bot đã được tự động restart lúc ${restartTime}`)));
+                            console.log(boldText(gradient.atlas(`📝 Lý do: ${autoRestartData.message || 'Auto restart sau 3h30'}`)));
+                            try {
+                                fs.unlinkSync('./database/autoRestart.json');
+                            } catch (err) {
+                                console.error(boldText(gradient.passion('Error deleting autoRestart.json:', err)));
+                            }
+                        }
+                    } catch (error) {
+                        console.error(boldText(gradient.passion('Error processing autoRestart.json:', error)));
+                    }
+                }
+
                 if (fs.existsSync('./database/threadID.json')) {
                     try {
                         const data = JSON.parse(fs.readFileSync('./database/threadID.json', 'utf8'));
