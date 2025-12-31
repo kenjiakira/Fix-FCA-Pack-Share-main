@@ -7,7 +7,7 @@ module.exports = {
     usedby: 2,
     category: "Admin Commands",
     info: "Khởi động lại bot và quản lý auto restart",
-    onPrefix: false,
+    onPrefix: true,
     hide: true,
     nickName: ["reboot", "rs"],
     cooldowns: 20,
@@ -15,7 +15,38 @@ module.exports = {
     onLaunch: async function ({ api, event, target = [] }) {
         const threadID = event.threadID;
         const messageID = event.messageID;
-        const command = target[0]?.toLowerCase() || "restart";
+        const command = target[0]?.toLowerCase();
+
+        if (!command) {
+            const autoRestartInfo = getAutoRestartInfo();
+            let autoRestartStatus = "❌ ĐANG TẮT";
+            let autoRestartDetails = "";
+            
+            if (autoRestartInfo.enabled) {
+                const { hours, minutes, seconds } = autoRestartInfo.timeRemaining;
+                const nextRestartTime = autoRestartInfo.nextRestart.toLocaleString('vi-VN');
+                autoRestartStatus = "✅ ĐANG BẬT";
+                autoRestartDetails = `⏳ Còn lại: ${hours}h ${minutes}m ${seconds}s\n📅 Restart tiếp: ${nextRestartTime}`;
+            }
+
+            return api.sendMessage(
+                `🔄 RESTART COMMANDS\n` +
+                `━━━━━━━━━━━━━━━━━━\n` +
+                `📋 Các lệnh khả dụng:\n\n` +
+                `🔹 Restart ngay:\n` +
+                `   .restart now → Khởi động lại bot ngay lập tức\n` +
+                `   .restart confirm → Xác nhận restart bot\n\n` +
+                `🔹 Auto Restart:\n` +
+                `   Trạng thái: ${autoRestartStatus}\n` +
+                `${autoRestartDetails ? autoRestartDetails + '\n' : ''}` +
+                `   .restart auto status → Xem chi tiết auto restart\n` +
+                `   .restart auto enable → Bật auto restart (mỗi 3h30)\n` +
+                `   .restart auto disable → Tắt auto restart\n\n` +
+                `💡 Mặc định: Bot sẽ tự động restart mỗi 3 giờ 30 phút`,
+                threadID,
+                messageID
+            );
+        }
 
         switch (command) {
             case "auto":
@@ -103,9 +134,9 @@ module.exports = {
                 }
                 break;
 
-            case "restart":
-            default:
-                // Restart ngay lập tức
+            case "now":
+            case "confirm":
+            case "yes":
                 console.log(`Khởi động lại lệnh từ thread ${threadID}`);
 
                 try {
@@ -136,6 +167,17 @@ module.exports = {
                     }, 100);
                 });
                 break;
+
+            default:
+                return api.sendMessage(
+                    `❌ Lệnh không hợp lệ!\n\n` +
+                    `💡 Sử dụng:\n` +
+                    `.restart → Xem menu\n` +
+                    `.restart now → Restart ngay\n` +
+                    `.restart auto status → Xem auto restart`,
+                    threadID,
+                    messageID
+                );
         }
     }
 };
