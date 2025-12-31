@@ -10,7 +10,7 @@ const { createMarketOverviewCanvas } = require('../game/canvas/tradeMarketCanvas
 const { createNewsCanvas } = require('../game/canvas/tradeNewsCanvas');
 const { createPortfolioCheckCanvas } = require('../game/canvas/tradeCheckCanvas');
 
-const DATA_DIR = path.join(__dirname, 'json', 'trade');
+const DATA_DIR = path.join(__dirname, '../database/json/trade');
 const TRADE_DATA_FILE = path.join(DATA_DIR, 'trade_data.json');
 const MARKET_DATA_FILE = path.join(DATA_DIR, 'market_data.json');
 const NEWS_DATA_FILE = path.join(DATA_DIR, 'news_data.json');

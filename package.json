@@ -69,6 +69,7 @@
     "streamifier": "^0.1.1",
     "translate-google": "^1.5.0",
     "util": "^0.12.5",
-    "validator": "^13.12.0"
+    "validator": "^13.12.0",
+    "ws3-fca": "^2.0.1"
   }
 }

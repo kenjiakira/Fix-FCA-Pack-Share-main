@@ -226,12 +226,6 @@ const reloadModules = () => {
                     scheduleAutoGiftcode(api);
                     console.log('📦 Auto Giftcode system initialized!');
                     
-                    const quicklotto = require('./commands/lotto.js');
-                    if (quicklotto.onLoad) {
-                        quicklotto.onLoad({ api });
-                        console.log('🎰 QuickLotto system initialized!');
-                    }
-                    
                     const autoping = require('./commands/autoping.js');
                     if (autoping.onLoad) {
                         autoping.onLoad({ api });
