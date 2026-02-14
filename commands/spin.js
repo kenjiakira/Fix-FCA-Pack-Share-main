@@ -538,7 +538,7 @@ module.exports = {
             api.sendMessage(
                 {
                     body: `🎡 KẾT QUẢ VÒNG QUAY MAY MẮN\n` +
-                          `⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯\n\n` +
+                          `⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯\n\n` +
                           `${rewardMessage}\n\n` +
                           `⏳ Lượt quay còn lại: ${remainingAfterSpin}`,
                     attachment: fs.createReadStream(wheelImage)

@@ -4,7 +4,7 @@ const { updateBalance, updateQuestProgress } = require('../utils/currencies');
 const { createUserData } = require('../utils/userData');
 const { getVIPBenefits } = require('../game/vip/vipCheck');
 const { getUserName } = require('../utils/userUtils');
-const { applyWorkTax, getWorkTaxRate, addToTaxFund } = require('../utils/tax');
+const { applyWorkTax, getWorkTaxRate, addToTaxFund, isTaxExempt } = require('../utils/tax');
 
 const WORK_DATA_PATH = path.join(__dirname, '../database/json/work_data.json');
 
@@ -204,7 +204,7 @@ module.exports = {
 
         const vipPayBonus = vipBenefits?.packageId === 3 ? CONFIG.VIP_PAY_BONUS : 0;
         const grossPay = Math.floor(payWithLevel * (1 + vipPayBonus));
-        const { netPay: finalPay, taxAmount } = applyWorkTax(grossPay);
+        const { netPay: finalPay, taxAmount } = applyWorkTax(grossPay, senderID);
 
         if (finalPay > 0) {
             updateBalance(senderID, finalPay);
@@ -229,6 +229,7 @@ module.exports = {
                 message += `💵 Thực nhận: ${finalPay.toLocaleString('vi-VN')} $\n`;
             } else {
                 message += `💰 Kiếm được: ${finalPay.toLocaleString('vi-VN')} $\n`;
+                if (grossPay > 0 && isTaxExempt(senderID)) message += `🏛️ Miễn thuế\n`;
             }
             if (level > 1) message += `📈 Bonus cấp ${level}: +${Math.floor((levelBonus - 1) * 100)}%\n`;
             if (vipPayBonus > 0) message += `👑 Bonus VIP: +${Math.floor(vipPayBonus * 100)}%\n`;

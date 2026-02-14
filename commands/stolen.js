@@ -162,10 +162,8 @@ module.exports = {
       cooldowns.set(cooldownKey, currentTime);
 
       if (isSuccessful) {
-        const stolenPercent = Math.random() * 15 + 5;
-        const maxStealable = Math.min(victimBalance * 0.2, 2000);
+        const stolenPercent = Math.random() * 9 + 1;
         let stolenAmount = Math.floor(victimBalance * (stolenPercent / 100));
-        stolenAmount = Math.min(stolenAmount, maxStealable);
         stolenAmount = Math.max(stolenAmount, 100);
 
         await updateBalance(senderID, stolenAmount);
@@ -199,12 +197,8 @@ module.exports = {
         const balanceLine = `\n💰 Bạn: ${formatNumber(thiefBalanceAfter)} $ | ${victimName}: ${formatNumber(victimBalanceAfter)} $`;
         return api.sendMessage(randomSuccess + balanceLine, threadID, messageID);
       } else {
-        const baseStealAmount = Math.min(victimBalance * 0.2, 2000);
-        const maxPenalty = Math.min(baseStealAmount * 1.5, 1000);
-
-        const penaltyPercent = Math.random() * 10 + 5;
-        let penalty = Math.floor(thiefBalance * (penaltyPercent / 100));
-        penalty = Math.min(penalty, maxPenalty);
+        const penaltyPercent = Math.random() * 9 + 1;
+        let penalty = Math.floor(victimBalance * (penaltyPercent / 100));
         if (penalty <= 0) penalty = MIN_PENALTY_WHEN_ZERO;
 
         await updateBalance(senderID, -penalty);

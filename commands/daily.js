@@ -5,6 +5,8 @@ const path = require("path");
 const { createCanvas, loadImage } = require("canvas");
 const axios = require("axios");
 const { getUserName } = require('../utils/userUtils');
+const { updateBalance } = require('../utils/currencies');
+const { applyWorkTax, addToTaxFund } = require('../utils/tax');
 
 class DailyRewardManager {
   constructor() {
@@ -937,13 +939,18 @@ module.exports = {
       const vipInfo = await dailyManager.getVipBonus(senderID);
 
       const totalAmount = amount + (vipInfo.bonus || 0);
+      const { netPay, taxAmount } = applyWorkTax(totalAmount, senderID);
 
-      global.balance[senderID] = (global.balance[senderID] || 0) + totalAmount;
+      if (netPay > 0) {
+        updateBalance(senderID, netPay);
+      }
+      if (taxAmount > 0) {
+        addToTaxFund(taxAmount);
+      }
       await dailyManager.updateClaim(senderID, now);
       await dailyManager.updateUserExp(senderID, expAmount);
-      await require("../utils/currencies").saveData();
 
-      const currentBalance = global.balance[senderID] || 0;
+      const currentBalance = require("../utils/currencies").getBalance(senderID) || 0;
       let userName = await dailyManager.getUserName(senderID);
       
       if (userName === "Người dùng" && event.senderName) {
@@ -954,14 +961,13 @@ module.exports = {
         userId: senderID,
         userName,
         streak,
-        reward: amount,
+        reward: netPay,
         expReward: expAmount,
         dayBonus,
         vipInfo,
         currentBalance,
       });
 
-      // Cập nhật nhiệm vụ điểm danh
       await updateDailyCheckin(senderID);
 
       return api.sendMessage(

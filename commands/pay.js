@@ -2,7 +2,8 @@ const { updateBalance, getBalance, saveData } = require('../utils/currencies');
 const fs = require('fs');
 const path = require('path');
 const { updateTransaction } = require('./banking'); 
-const vipService = require('../game/vip/vipService'); 
+const vipService = require('../game/vip/vipService');
+const { addToTaxFund, getWorkTaxRate } = require('../utils/tax'); 
 
 const transactionsPath = path.join(__dirname, '../database/json/transactions.json');
 const userDataPath = path.join(__dirname, '../database/rankData.json');
@@ -33,13 +34,6 @@ const TRANSFER_LIMITS = {
     VIP_MAX_DAILY_AMOUNT: 5000000000,
 };
 
-const TRANSFER_FEES = [
-    { threshold: 100, fee: 0.03 },
-    { threshold: 1000, fee: 0.025 }, 
-    { threshold: 10000, fee: 0.03 }, 
-    { threshold: Infinity, fee: 0.01 }
-];
-
 let dailyTransfers = {};
 
 setInterval(() => {
@@ -50,12 +44,8 @@ setInterval(() => {
 }, 60000);
 
 function calculateFee(amount) {
-    for (const tier of TRANSFER_FEES) {
-        if (amount <= tier.threshold) {
-            return Math.ceil(amount * tier.fee);
-        }
-    }
-    return Math.ceil(amount * TRANSFER_FEES[TRANSFER_FEES.length - 1].fee);
+    const rate = getWorkTaxRate() / 100;
+    return Math.ceil(amount * rate);
 }
 
 function getUserDailyLimit(userId) {
@@ -122,12 +112,19 @@ module.exports = {
 
         const senderBalance = getBalance(senderID);
         if (totalAmount > senderBalance) {
-            return api.sendMessage("Số dư không đủ để thực hiện giao dịch này!", threadID, messageID);
+            return api.sendMessage(
+                `❌ Số dư không đủ để thực hiện giao dịch này!\n` +
+                `• Số dư hiện tại: ${senderBalance.toLocaleString()} $\n` +
+                `• Cần có: ${totalAmount.toLocaleString()} $ (bao gồm phí)`,
+                threadID,
+                messageID
+            );
         }
 
         updateBalance(senderID, -totalAmount);
         updateBalance(recipientID, transferAmount);
         dailyTransfers[senderID] += transferAmount;
+        if (fee > 0) addToTaxFund(fee);
 
         let senderName = "Người gửi";
         let recipientName = "Người nhận";
@@ -181,17 +178,19 @@ module.exports = {
         const remainingDailyLimit = userDailyLimit - dailyTransfers[senderID];
         const isVip = userDailyLimit === TRANSFER_LIMITS.VIP_MAX_DAILY_AMOUNT;
         const vipStatusText = isVip ? "👑 VIP" : "⭐ Free";
-        
-        const message = `✅ Chuyển tiền thành công!\n\n` +
-            `📤 Người gửi: ${senderName}\n` +
-            `📥 Người nhận: ${recipientName}\n` +
-            `💰 Số tiền: ${transferAmount.toLocaleString()} $\n` +
-            `💸 Phí giao dịch: ${fee.toLocaleString()} $\n` +
-            `💵 Tổng chi: ${totalAmount.toLocaleString()} $\n` +
-            `💳 Số dư còn lại: ${senderNewBalance.toLocaleString()} $\n` +
-            `📊 Hạn mức còn lại hôm nay: ${remainingDailyLimit.toLocaleString()} $\n` +
-            `🏆 Trạng thái: ${vipStatusText}`;
-        
+
+        const message = 
+            `🎉 [GIAO DỊCH CHUYỂN TIỀN THÀNH CÔNG]\n\n` +
+            `🔹 Người gửi:\n    • Tên: ${senderName}\n` +
+            `🔸 Người nhận:\n    • Tên: ${recipientName}\n\n` +
+            `💰 Số tiền chuyển: ${transferAmount.toLocaleString()} $\n` +
+            `💸 Phí giao dịch (thuế): ${fee.toLocaleString()} $\n` +
+            `💵 Tổng tiền trừ: ${totalAmount.toLocaleString()} $\n` +
+            `💳 Số dư sau giao dịch: ${senderNewBalance.toLocaleString()} $\n\n` +
+            `📊 Giới hạn/hạn mức chuyển còn lại hôm nay: ${remainingDailyLimit.toLocaleString()} $\n` +
+            `🏆 Quyền lợi hiện tại: ${vipStatusText}\n\n` +
+            `🌟 Xin cảm ơn bạn đã sử dụng dịch vụ chuyển tiền!`;
+
         api.sendMessage(message, threadID, messageID);
 
         saveData();

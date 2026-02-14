@@ -1,23 +1,12 @@
 const fs = require('fs');
 const path = require('path');
-const { getBalance, updateBalance, loadQuests, getUserQuests, canClaimRewards, setRewardClaimed } = require('../utils/currencies');
-const { 
-  createGiftcode, 
-  loadGiftcodes, 
-  sendGiftcodeAnnouncement, 
-  createAutoGiftcode, 
-  checkDailyLimit, 
-  updateDailyLimit,
-  GIFTCODE_TYPES,
-  REWARD_TYPES,
-  addVIPPoints,
-  getVIPProgress,
-  createVIPGiftcode,
-  getAvailableVIPGifts,
-  markVIPGiftSent,
-  sendVIPGiftAnnouncement 
+const { getBalance, updateBalance } = require('../utils/currencies');
+const {
+  createGiftcode, loadGiftcodes, sendGiftcodeAnnouncement,
+  checkDailyLimit, updateDailyLimit, GIFTCODE_TYPES, REWARD_TYPES,
+  addVIPPoints, getVIPProgress, createVIPGiftcode,
+  getAvailableVIPGifts, markVIPGiftSent, sendVIPGiftAnnouncement
 } = require('../utils/autoGiftcode');
-const { updateStreak, getStreak } = require('../utils/streakSystem');
 const { getVIPBenefits } = require('../game/vip/vipCheck');
 
 function formatNumber(number) {
@@ -30,8 +19,8 @@ module.exports = {
   onPrefix: true,
   usedby: 0,
   category: "Tài Chính",
-  info: "Hệ thống phần thưởng (Nhiệm vụ & Giftcode)",
-  usages: "[quest/redeem/create/list/stats/vip] [code/options]",
+  info: "Hệ thống phần thưởng (Giftcode)",
+  usages: "[redeem/create/list/stats/vip] [code/options]",
   cooldowns: 5,
 
   onLaunch: async function({ api, event, target }) {
@@ -39,37 +28,21 @@ module.exports = {
     const cmd = target[0]?.toLowerCase();
     const isAdmin = global.cc.adminBot.includes(senderID);
     
-    if (!cmd || !['quest', 'redeem', 'create', 'list', 'stats', 'vip'].includes(cmd)) {
+    if (!cmd || !['redeem', 'create', 'list', 'stats', 'vip'].includes(cmd)) {
       return api.sendMessage(
-        "🎁 HƯỚNG DẪN SỬ DỤNG REWARDS\n━━━━━━━━━━━━━━━━━━\n\n" +
-        "1️⃣ Nhiệm vụ hằng ngày:\n→ .rewards quest\n" +
-        "💡 Hoàn thành để nhận xu và phần thưởng\n\n" +
-        "2️⃣ Đổi giftcode:\n→ .rewards redeem <code>\n" +
-        "💡 Nhập mã code để nhận quà\n\n" +
-        "3️⃣ Thống kê giftcode:\n→ .rewards stats\n" +
-        "💡 Xem thống kê gift code của bạn\n\n" +
-        "4️⃣ Tiến trình VIP Gold:\n→ .rewards vip\n" +
-        "💡 Xem tiến trình tích điểm VIP Gold\n" +
-        "5️⃣ Quà tặng VIP:\n→ .rewards vip gift\n" +
-        "💡 Nhận quà đặc quyền cho VIP Gold\n" +
-        (isAdmin ? 
-        "\n👑 Lệnh Admin:\n→ .rewards create <loại> <số xu> <mô tả>\n→ .rewards list\n→ .rewards vip create\n" : "") +
-        "\n📌 Thông tin quan trọng:\n" +
-        "• ⏰ Nhiệm vụ reset lúc 0h\n" +
-        "• 🎁 Giftcode phát hàng ngày lúc 12h\n" +
-        "• 🔥 Duy trì chuỗi để nhận thêm thưởng\n" +
-        "• 💎 Mỗi loại giftcode có giới hạn sử dụng khác nhau\n" +
-        "• 👑 Tích đủ 90 điểm trong 30 ngày liên tiếp sẽ nhận VIP Gold",
+        "🎁 REWARDS\n━━━━━━━━━━━━━━━━━━\n\n" +
+        "• .rewards redeem - Đổi tất cả giftcode chưa dùng\n" +
+        "• .rewards stats - Thống kê của bạn\n" +
+        "• .rewards vip - Tiến trình VIP Gold\n" +
+        "• .rewards vip gift - Quà VIP Gold\n" +
+        (isAdmin ? "\n👑 Admin: .rewards create/list/vip create\n" : ""),
         threadID, messageID
       );
     }
 
     switch(cmd) {
-      case 'quest':
-        await this.handleQuests({ api, event });
-        break;
       case 'redeem':
-        await this.handleRedeem({ api, event, code: target[1] });
+        await this.handleRedeem({ api, event });
         break;
       case 'create':
         if (!isAdmin) return api.sendMessage("❌ Chỉ admin mới có thể sử dụng lệnh này!", threadID, messageID);
@@ -95,240 +68,67 @@ module.exports = {
     }
   },
 
-  handleQuests: async function({ api, event }) {
+  handleRedeem: async function({ api, event }) {
     const { threadID, messageID, senderID } = event;
-    const quests = await loadQuests();
-    const userQuests = getUserQuests(senderID);
-    const vipBenefits = getVIPBenefits(senderID);
-    const streak = getStreak(senderID);
-
-    const completedQuests = Object.entries(quests.dailyQuests)
-      .filter(([questId, quest]) => {
-        const progress = userQuests.progress[questId] || 0;
-        return progress >= quest.target && !userQuests.completed[questId];
-      });
-
-    if (completedQuests.length > 0) {
-      let totalReward = completedQuests.reduce((sum, [_, quest]) => sum + quest.reward, 0);
-      let bonusAmount = 0;
-      
-      if (vipBenefits && vipBenefits.packageId > 0) {
-        const vipBonus = {
-          1: 0.2, 
-          2: 0.5,
-          3: 1.0
-        }[vipBenefits.packageId] || 0;
-
-        bonusAmount = Math.floor(totalReward * vipBonus);
-        totalReward += bonusAmount;
-      }
-
-      completedQuests.forEach(([questId]) => userQuests.completed[questId] = true);
-      updateBalance(senderID, totalReward);
-      setRewardClaimed(senderID);
-
-      return api.sendMessage(
-        `🎉 Chúc mừng! Bạn đã nhận được ${formatNumber(totalReward)} $!\n` +
-        `${bonusAmount > 0 ? `👑 Thưởng VIP +${Math.round(bonusAmount/(totalReward-bonusAmount)*100)}%: ${formatNumber(bonusAmount)} $\n` : ''}` +
-        `📝 Đã hoàn thành ${completedQuests.length} nhiệm vụ.\n` +
-        `⭐ Tiếp tục cố gắng nhé!`,
-        threadID, messageID
-      );
-    }
-
-    let message = "📋 NHIỆM VỤ HÀNG NGÀY\n━━━━━━━━━━━━━━━━━━\n\n";
-    
-    if (vipBenefits && vipBenefits.packageId > 0) {
-      message += `👑 Đặc quyền VIP ${vipBenefits.packageId}:\n`;
-      message += `• ⬆️ Thưởng nhiệm vụ +${vipBenefits.packageId === 3 ? '100' : 
-                  vipBenefits.packageId === 2 ? '50' : '20'}%\n`;
-      message += `• 🚀 Tích lũy nhanh hơn ${vipBenefits.packageId * 20}%\n\n`;
-    }
-
-    message += `🔥 Chuỗi hoàn thành: ${streak.current} ngày\n`;
-    if (streak.current > 0) {
-      const nextMilestone = [3,7,14,30].find(x => x > streak.current) || 30;
-      message += `⭐ Mốc thưởng tiếp theo: ${nextMilestone} ngày\n`;
-      message += `💰 Phần thưởng: ${formatNumber(quests.streakRewards[nextMilestone])} $\n\n`;
-    }
-
-    let totalCompleted = 0;
-    let totalQuests = Object.keys(quests.dailyQuests).length;
-
-    for (const [questId, quest] of Object.entries(quests.dailyQuests)) {
-      const progress = userQuests.progress[questId] || 0;
-      const vipProgress = (vipBenefits && vipBenefits.packageId > 0) ? 
-                          Math.floor(progress * (1 + vipBenefits.packageId * 0.2)) : 
-                          progress;
-      
-      if (userQuests.completed[questId]) totalCompleted++;
-      
-      const status = userQuests.completed[questId] ? "✅" : vipProgress >= quest.target ? "⭐" : "▪️";
-      message += `${status} ${quest.name}\n`;
-      message += `👉 ${quest.description}\n`;
-      message += `🎯 Tiến độ: ${vipProgress}/${quest.target}\n`;
-      message += `💰 Phần thưởng: ${formatNumber(quest.reward)} $`;
-      
-      if (vipBenefits && vipBenefits.packageId > 0) {
-        const vipBonus = vipBenefits.packageId === 3 ? 1 : 
-                         vipBenefits.packageId === 2 ? 0.5 : 0.2;
-        message += ` (+${formatNumber(Math.floor(quest.reward * vipBonus))} $ VIP)`;
-      }
-      
-      message += `\n\n`;
-    }
-
-    if (totalCompleted === totalQuests) {
-      const streakReward = await updateStreak(senderID);
-      if (streakReward > 0) {
-        message += `\n🎊 PHẦN THƯỞNG CHUỖI ĐẶC BIỆT 🎊\n`;
-        message += `💰 +${formatNumber(streakReward)} $ cho ${streak.current} ngày liên tiếp!\n`;
-        updateBalance(senderID, streakReward);
-      }
-    }
-
-    if (totalCompleted === totalQuests && canClaimRewards(senderID) === false) {
-      return api.sendMessage(
-        "⏰ Hôm nay bạn đã nhận thưởng tất cả nhiệm vụ rồi!\n" +
-        (vipBenefits ? "👑 Ngày mai nhận thêm thưởng VIP nhé!\n" : "") +
-        "Vui lòng quay lại vào ngày mai!",
-        threadID, messageID
-      );
-    }
-
-    api.sendMessage(message, threadID, messageID);
-  },
-
-  handleRedeem: async function({ api, event, code }) {
-    const { threadID, messageID, senderID } = event;
-
-    if (!code) {
-      return api.sendMessage("❌ Vui lòng nhập mã code!", threadID, messageID);
-    }
-
     const giftcodeData = loadGiftcodes();
-    const giftcode = giftcodeData.codes[code.toUpperCase()];
+    const now = new Date();
+    const typeOrder = ['LEGENDARY', 'SPECIAL', 'EPIC', 'EVENT', 'RARE', 'NORMAL', 'VIP_GOLD'];
 
-    if (!giftcode) {
-      return api.sendMessage("❌ Code không tồn tại hoặc đã hết hạn!", threadID, messageID);
+    const available = Object.entries(giftcodeData.codes || {})
+      .filter(([code, g]) => {
+        if (!g || g.usedBy?.includes(senderID)) return false;
+        if (g.maxUses && g.usedBy?.length >= g.maxUses) return false;
+        if (new Date(g.expiry) < now) return false;
+        return true;
+      })
+      .sort((a, b) => typeOrder.indexOf(b[1].type || 'NORMAL') - typeOrder.indexOf(a[1].type || 'NORMAL'));
+
+    if (available.length === 0) {
+      return api.sendMessage("❌ Không có giftcode nào để đổi!", threadID, messageID);
     }
 
-    if (giftcode.usedBy.includes(senderID)) {
-      return api.sendMessage("❌ Bạn đã sử dụng code này rồi!", threadID, messageID);
-    }
+    let totalCoins = 0, totalVip = 0, totalExp = 0;
 
-    if (giftcode.maxUses && giftcode.usedBy.length >= giftcode.maxUses) {
-      return api.sendMessage("❌ Code đã đạt giới hạn số lần sử dụng!", threadID, messageID);
-    }
+    for (const [code, g] of available) {
+      const type = GIFTCODE_TYPES[g.type] ? g.type : 'NORMAL';
+      const limit = checkDailyLimit(senderID, type);
+      if (!limit.canUse) continue;
 
-    const expiryDate = new Date(giftcode.expiry);
-    if (expiryDate < new Date()) {
-      return api.sendMessage("❌ Code đã hết hạn sử dụng!", threadID, messageID);
-    }
-    
-    // Kiểm tra giới hạn sử dụng giftcode theo loại
-    if (giftcode.type) {
-      const dailyLimit = checkDailyLimit(senderID, giftcode.type);
-      if (!dailyLimit.canUse) {
-        return api.sendMessage(
-          `❌ Bạn đã sử dụng tối đa ${dailyLimit.limit} mã loại ${giftcode.rarity} trong ngày hôm nay!\n` +
-          `⏰ Vui lòng quay lại vào ngày mai.`,
-          threadID, messageID
-        );
+      g.usedBy = g.usedBy || [];
+      g.usedBy.push(senderID);
+      updateDailyLimit(senderID, type);
+
+      if (g.rewards) {
+        if (g.rewards.coins) { totalCoins += g.rewards.coins; updateBalance(senderID, g.rewards.coins); }
+        if (g.rewards.vip_points) totalVip += g.rewards.vip_points;
+        if (g.rewards.exp) { totalExp += g.rewards.exp; try { require('../utils/userExperience').addExperience(senderID, g.rewards.exp); } catch (_) {} }
+      } else if (typeof g.reward === 'number') {
+        totalCoins += g.reward; totalVip += 1;
+        updateBalance(senderID, g.reward);
       }
-      
-      // Cập nhật giới hạn sử dụng
-      updateDailyLimit(senderID, giftcode.type);
     }
 
-    giftcode.usedBy.push(senderID);
+    if (totalCoins === 0 && totalVip === 0 && totalExp === 0) {
+      return api.sendMessage("❌ Đã đạt giới hạn đổi giftcode hôm nay. Quay lại ngày mai!", threadID, messageID);
+    }
+
     fs.writeFileSync(path.join(__dirname, '../database/json/giftcodes.json'), JSON.stringify(giftcodeData, null, 2));
 
-    // Xử lý phần thưởng
-    let rewardMessage = "";
-    let vipPoints = 0;
-    
-    if (giftcode.rewards) {
-      // Xử lý phần thưởng mới (đa dạng)
-      if (giftcode.rewards.coins) {
-        updateBalance(senderID, giftcode.rewards.coins);
-        rewardMessage += `💰 ${formatNumber(giftcode.rewards.coins)} Xu\n`;
-      }
-      
-      if (giftcode.rewards.vip_points) {
-        vipPoints = giftcode.rewards.vip_points;
-        rewardMessage += `👑 ${giftcode.rewards.vip_points} Điểm tích VIP Gold\n`;
-      }
-      
-      if (giftcode.rewards.exp) {
-        // Thêm EXP nếu có hàm xử lý
-        try {
-          const { addExperience } = require('../utils/userExperience');
-          addExperience(senderID, giftcode.rewards.exp);
-          rewardMessage += `⭐ ${giftcode.rewards.exp} EXP\n`;
-        } catch (error) {
-          console.error('Error adding EXP:', error);
-        }
-      }
-    } else if (typeof giftcode.reward === 'number') {
-      // Xử lý phần thưởng cũ (chỉ có xu)
-      updateBalance(senderID, giftcode.reward);
-      rewardMessage = `💰 ${formatNumber(giftcode.reward)} Xu\n`;
-      
-      // Thêm 1 điểm VIP cho giftcode loại cũ
-      vipPoints = 1;
-      rewardMessage += `👑 1 Điểm tích VIP Gold\n`;
-    }
-    
-    // Cập nhật điểm VIP Gold
-    if (vipPoints > 0) {
-      const vipResult = addVIPPoints(senderID, vipPoints);
-      
-      // Kiểm tra xem user đã đạt VIP Gold chưa
+    if (totalVip > 0) {
+      const vipResult = addVIPPoints(senderID, totalVip);
       if (vipResult.vipGoldAwarded) {
-        try {
-          // Cấp VIP Gold nếu có hàm xử lý
-          const { addVIPGold } = require('../game/vip/vipSystem');
-          addVIPGold(senderID);
-          
-          // Thông báo đạt VIP Gold
-          setTimeout(() => {
-            api.sendMessage(
-              "🌟 CHÚC MỪNG - ĐẠT VIP GOLD 🌟\n" +
-              "━━━━━━━━━━━━━━━━━━\n\n" +
-              `👤 User ID: ${senderID}\n` +
-              "👑 Bạn đã đạt đủ điều kiện để nhận VIP Gold!\n" +
-              "✅ Đã tích lũy đủ 90 điểm\n" +
-              "✅ Đã duy trì chuỗi 30 ngày liên tiếp\n\n" +
-              "🎁 VIP Gold đã được kích hoạt cho tài khoản của bạn\n" +
-              "💎 Tận hưởng những đặc quyền VIP Gold nhé!",
-              threadID
-            );
-          }, 2000);
-        } catch (error) {
-          console.error('Error adding VIP Gold:', error);
-        }
+        try { require('../game/vip/vipSystem').addVIPGold(senderID); } catch (_) {}
+        setTimeout(() => api.sendMessage("🌟 CHÚC MỪNG ĐẠT VIP GOLD! 🌟", threadID), 1500);
       }
     }
 
-    // Thêm hiệu ứng đặc biệt cho các loại giftcode hiếm
-    let specialEffect = "";
-    if (giftcode.type === 'LEGENDARY' || giftcode.type === 'SPECIAL') {
-      specialEffect = "\n✨✨✨✨✨✨✨✨✨✨\n";
-    } else if (giftcode.type === 'EPIC' || giftcode.type === 'EVENT') {
-      specialEffect = "\n✨✨✨✨✨\n";
-    }
+    let msg = "🎉 ĐÃ ĐỔI GIFTCODE\n\n";
+    if (totalCoins) msg += `💰 +${formatNumber(totalCoins)} Xu\n`;
+    if (totalVip) msg += `👑 +${totalVip} điểm VIP\n`;
+    if (totalExp) msg += `⭐ +${totalExp} EXP\n`;
+    msg += `\n💰 Số dư: ${formatNumber(getBalance(senderID))} Xu`;
 
-    return api.sendMessage(
-      `${specialEffect}🎉 ĐỔI CODE THÀNH CÔNG! 🎉${specialEffect}\n\n` +
-      `📝 Mã code: ${code.toUpperCase()}\n` +
-      `💝 Quà tặng:\n${rewardMessage}` +
-      `🏆 Độ hiếm: ${giftcode.rarity}\n` +
-      `📜 Mô tả: ${giftcode.description}\n` +
-      `👥 Số người đã dùng: ${giftcode.usedBy.length}${giftcode.maxUses ? `/${giftcode.maxUses}` : ''}\n\n` +
-      `💰 Số dư hiện tại: ${formatNumber(getBalance(senderID))} Xu`,
-      threadID, messageID
-    );
+    return api.sendMessage(msg, threadID, messageID);
   },
 
   handleCreate: async function({ api, event, target }) {
@@ -656,8 +456,7 @@ module.exports = {
       "━━━━━━━━━━━━━━━━━━\n\n" +
       `🎁 Chúc mừng! Bạn đã nhận được quà VIP Gold.\n` +
       `📝 Gift code: ${latestGift.code}\n\n` +
-      `💡 Hãy sử dụng lệnh sau đây để mở quà:\n` +
-      `.rewards redeem ${latestGift.code}\n\n` +
+      `💡 Gõ .rewards redeem để nhận quà\n\n` +
       `✨ Đặc quyền này chỉ dành cho người dùng VIP Gold.\n` +
       `📆 Quà VIP Gold sẽ được phát hàng tuần!`,
       threadID, messageID

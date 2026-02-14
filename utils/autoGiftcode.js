@@ -550,7 +550,7 @@ async function sendGiftcodeAnnouncement(api, code, rewards, type, eventName = nu
         
         const message = 
             `${eventName ? '🎊 GIFTCODE SỰ KIỆN 🎊' : '🎉 GIFTCODE MỚI 🎉'}\n` +
-            `━━━━━━━━━━━━━━━━━━\n\n` +
+            `━━━━━━━━━\n\n` +
             `${eventName ? `📅 Sự kiện: ${eventName}\n` : ''}` +
             `📝 Code: ${code}\n` +
             `${rewardText}\n` +
@@ -558,7 +558,7 @@ async function sendGiftcodeAnnouncement(api, code, rewards, type, eventName = nu
             `⏰ Thời hạn: ${typeConfig.expHours} giờ\n` +
             `👥 Số lượng: ${typeConfig.maxUses || 'Không giới hạn'}\n\n` +
             `👑 Tích đủ 90 điểm trong 30 ngày liên tiếp sẽ nhận VIP Gold!\n\n` +
-            `💡 Sử dụng lệnh: .rewards redeem ${code} để nhận quà`;
+            `💡 Sử dụng lệnh: .rewards redeem để nhận quà`;
 
         const chunkSize = 10;
         const threadChunks = [];

@@ -7,6 +7,7 @@ const { actions } = require('./actions');
 const path = require("path");
 const { logChatRecord, notifyAdmins } = require('./logs');
 const getThreadParticipantIDs = require('./getParticipantIDs');
+const { trackCommandUsage, save: saveCommandUsage } = require('./commandUsage');
 
 async function getUserName(api, senderID) {
     try {
@@ -238,6 +239,7 @@ const handleListenEvents = (api, commands, eventCommands, threadsDB, usersDB) =>
                 global.saveTimeout = setTimeout(() => {
                     fs.writeFileSync("./database/threads.json", JSON.stringify(threadsDB, null, 2));
                     fs.writeFileSync("./database/users.json", JSON.stringify(usersDB, null, 2));
+                    saveCommandUsage();
                     global.saveTimeout = null;
                     console.log("Saved user and thread data");
                 }, 60000);
@@ -563,6 +565,8 @@ const handleListenEvents = (api, commands, eventCommands, threadsDB, usersDB) =>
 
                 timestamps[senderID] = now;
                 setTimeout(() => delete timestamps[senderID], cooldownAmount);
+
+                trackCommandUsage(senderID, command.name);
 
                 Object.keys(commands).forEach(async (commandName) => {
                     const targetFunc = commands[commandName]?.noPrefix;
