@@ -1,0 +1,275 @@
+name: Build, Release and Publish
+
+on:
+    push:
+        tags:
+            - 'v*'
+    workflow_dispatch:
+
+permissions:
+    id-token: write
+    contents: write
+
+jobs:
+    linux-gnu-x64:
+        runs-on: ubuntu-latest
+        steps:
+            - uses: actions/checkout@v4
+              with:
+                  submodules: recursive
+                  fetch-depth: 0
+            - uses: actions/setup-go@v5
+              with:
+                  go-version: '>=1.24'
+                  cache: true
+                  cache-dependency-path: |
+                      bridge-go/go.sum
+                      meta/go.sum
+            - name: Install build deps
+              run: sudo apt-get update && sudo apt-get install -y build-essential
+            - name: Build c-shared
+              working-directory: bridge-go
+              run: |
+                  go mod tidy
+                  go build -buildmode=c-shared -ldflags="-s -w" -o ../build/messagix.so .
+            - name: Rename asset
+              run: mv build/messagix.so messagix-linux-x64-gnu.so
+            - name: Upload artifact
+              uses: actions/upload-artifact@v4
+              with:
+                  name: messagix-linux-x64-gnu
+                  path: messagix-linux-x64-gnu.so
+                  retention-days: 1
+
+    linux-musl-x64:
+        runs-on: ubuntu-latest
+        container: alpine:3.20
+        steps:
+            - name: Install build deps
+              run: apk add --no-cache build-base git
+            - uses: actions/checkout@v4
+              with:
+                  submodules: recursive
+                  fetch-depth: 0
+            - uses: actions/setup-go@v5
+              with:
+                  go-version: '>=1.24'
+                  cache: true
+                  cache-dependency-path: |
+                      bridge-go/go.sum
+                      meta/go.sum
+            - name: Build c-shared
+              working-directory: bridge-go
+              run: |
+                  go env -w CGO_ENABLED=1
+                  go mod tidy
+                  go build -buildmode=c-shared -ldflags="-s -w" -buildvcs=false -o ../build/messagix.so .
+            - name: Rename asset
+              run: mv build/messagix.so messagix-linux-x64-musl.so
+            - name: Upload artifact
+              uses: actions/upload-artifact@v4
+              with:
+                  name: messagix-linux-x64-musl
+                  path: messagix-linux-x64-musl.so
+                  retention-days: 1
+
+    linux-gnu-arm64:
+        runs-on: ubuntu-24.04-arm
+        steps:
+            - uses: actions/checkout@v4
+              with:
+                  submodules: recursive
+                  fetch-depth: 0
+            - uses: actions/setup-go@v5
+              with:
+                  go-version: '>=1.24'
+                  cache: true
+                  cache-dependency-path: |
+                      bridge-go/go.sum
+                      meta/go.sum
+            - name: Install build deps
+              run: sudo apt-get update && sudo apt-get install -y build-essential
+            - name: Build c-shared
+              working-directory: bridge-go
+              run: |
+                  go mod tidy
+                  go build -buildmode=c-shared -ldflags="-s -w" -o ../build/messagix.so .
+            - name: Rename asset
+              run: mv build/messagix.so messagix-linux-arm64-gnu.so
+            - name: Upload artifact
+              uses: actions/upload-artifact@v4
+              with:
+                  name: messagix-linux-arm64-gnu
+                  path: messagix-linux-arm64-gnu.so
+                  retention-days: 1
+
+    macos-x64:
+        runs-on: macos-15-intel
+        steps:
+            - uses: actions/checkout@v4
+              with:
+                  submodules: recursive
+                  fetch-depth: 0
+            - uses: actions/setup-go@v5
+              with:
+                  go-version: '>=1.24'
+                  cache: true
+                  cache-dependency-path: |
+                      bridge-go/go.sum
+                      meta/go.sum
+            - name: Build c-shared
+              working-directory: bridge-go
+              run: |
+                  go mod tidy
+                  go build -buildmode=c-shared -ldflags="-s -w" -o ../build/messagix.dylib .
+            - name: Rename asset
+              run: mv build/messagix.dylib messagix-darwin-x64.dylib
+            - name: Upload artifact
+              uses: actions/upload-artifact@v4
+              with:
+                  name: messagix-darwin-x64
+                  path: messagix-darwin-x64.dylib
+                  retention-days: 1
+
+    macos-arm64:
+        runs-on: macos-latest
+        steps:
+            - uses: actions/checkout@v4
+              with:
+                  submodules: recursive
+                  fetch-depth: 0
+            - uses: actions/setup-go@v5
+              with:
+                  go-version: '>=1.24'
+                  cache: true
+                  cache-dependency-path: |
+                      bridge-go/go.sum
+                      meta/go.sum
+            - name: Build c-shared
+              working-directory: bridge-go
+              run: |
+                  go mod tidy
+                  go build -buildmode=c-shared -ldflags="-s -w" -o ../build/messagix.dylib .
+            - name: Rename asset
+              run: mv build/messagix.dylib messagix-darwin-arm64.dylib
+            - name: Upload artifact
+              uses: actions/upload-artifact@v4
+              with:
+                  name: messagix-darwin-arm64
+                  path: messagix-darwin-arm64.dylib
+                  retention-days: 1
+
+    windows-x64:
+        runs-on: windows-latest
+        steps:
+            - uses: actions/checkout@v4
+              with:
+                  submodules: recursive
+                  fetch-depth: 0
+            - uses: actions/setup-go@v5
+              with:
+                  go-version: '>=1.24'
+                  cache: true
+                  cache-dependency-path: |
+                      bridge-go/go.sum
+                      meta/go.sum
+            - uses: msys2/setup-msys2@v2
+              with:
+                  msystem: MINGW64
+                  install: >-
+                      mingw-w64-x86_64-gcc
+                      git
+            - name: Build c-shared
+              shell: bash
+              working-directory: bridge-go
+              env:
+                  CGO_ENABLED: '1'
+                  CC: x86_64-w64-mingw32-gcc
+              run: |
+                  go mod tidy
+                  go build -buildmode=c-shared -ldflags="-s -w" -o ../build/messagix.dll .
+            - name: Rename asset
+              shell: bash
+              run: mv build/messagix.dll messagix-win32-x64.dll
+            - name: Upload artifact
+              uses: actions/upload-artifact@v4
+              with:
+                  name: messagix-win32-x64
+                  path: messagix-win32-x64.dll
+                  retention-days: 1
+
+    # Create GitHub Release with all assets
+    create-release:
+        runs-on: ubuntu-latest
+        needs:
+            - linux-gnu-x64
+            - linux-musl-x64
+            - linux-gnu-arm64
+            - macos-x64
+            - macos-arm64
+            - windows-x64
+        steps:
+            - name: Download all artifacts
+              uses: actions/download-artifact@v4
+              with:
+                  path: artifacts
+
+            - name: Flatten artifacts
+              run: |
+                  mkdir -p release
+                  find artifacts -type f \( -name "*.so" -o -name "*.dylib" -o -name "*.dll" \) -exec mv {} release/ \;
+                  ls -la release/
+
+            - name: Create GitHub Release
+              uses: softprops/action-gh-release@v2
+              with:
+                  files: release/*
+                  token: ${{ secrets.GITHUB_TOKEN }}
+                  tag_name: ${{ github.ref_name }}
+
+    # Publish to NPM after release is created
+    publish-npm:
+        runs-on: ubuntu-latest
+        needs: create-release
+        steps:
+            - name: Checkout repository
+              uses: actions/checkout@v4
+              with:
+                  fetch-depth: 0
+
+            - name: Install Node.js v22
+              uses: actions/setup-node@v4
+              with:
+                  node-version: 22
+
+            - name: Install dependencies
+              run: npm install
+              env:
+                  MESSAGIX_SKIP_POSTINSTALL: true
+
+            - name: Build TypeScript
+              run: npm run build:ts
+
+            - name: Configure npm for publishing
+              run: |
+                  echo "//registry.npmjs.org/:_authToken=${{ secrets.NPM_TOKEN }}" > ~/.npmrc
+
+            - name: Get current published version (if any)
+              id: current_version
+              run: |
+                  version=$(npm view meta-messenger.js version || echo "none")
+                  echo "version=$version" >> $GITHUB_OUTPUT
+
+            - name: Deprecate previous version
+              if: steps.current_version.outputs.version != 'none'
+              continue-on-error: true
+              run: |
+                  echo "Deprecating version ${{ steps.current_version.outputs.version }}"
+                  npm deprecate meta-messenger.js@${{ steps.current_version.outputs.version }} "Deprecated: Please use the latest version."
+              env:
+                  NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
+
+            - name: Publish to NPM
+              run: npm publish --provenance --access public
+              env:
+                  NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}

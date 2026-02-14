@@ -13,7 +13,17 @@ const path = require('path');
 
 const { safeReadJSONSync, logSummary } = require('./utils/ensureFiles');
 
-const config = JSON.parse(fs.readFileSync("./logins/hut-chat-api/config.json", "utf8"));
+const adminConfig = JSON.parse(fs.readFileSync("admin.json", "utf8"));
+const fcaName = adminConfig.FCA || "hut-chat-api";
+const configPath = path.join(__dirname, "logins", fcaName, "config.json");
+let config = { APPSTATE_PATH: "./appstate.json" };
+try {
+    if (fs.existsSync(configPath)) {
+        config = { ...config, ...JSON.parse(fs.readFileSync(configPath, "utf8")) };
+    }
+} catch (e) {
+    console.warn("Could not load FCA config from", configPath, e.message);
+}
 
 const proxyList = fs.readFileSync("./utils/prox.txt", "utf-8").split("\n").filter(Boolean);
 const fonts = require('./utils/fonts');
@@ -22,8 +32,7 @@ function getRandomProxy() {
     return proxyList[randomIndex];
 }
 proxy = getRandomProxy();
-const adminConfig = JSON.parse(fs.readFileSync("admin.json", "utf8"));
-const login = require(`./logins/${adminConfig.FCA}/index.js`);
+const login = require(path.join(__dirname, "logins", fcaName, "index.js"));
 const prefix = adminConfig.prefix;
 const threadsDB = JSON.parse(fs.readFileSync("./database/threads.json", "utf8") || "{}");
 const usersDB = JSON.parse(fs.readFileSync("./database/users.json", "utf8") || "{}");

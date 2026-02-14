@@ -1,0 +1,68 @@
+{
+  "name": "meta-messenger.js",
+  "version": "1.1.2",
+  "description": "Unofficial Meta Messenger Chat API for NodeJS",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "type": "module",
+  "scripts": {
+    "test": "tsc --noEmit && npm run lint && npm run format",
+    "build:go": "node scripts/build-go.mjs",
+    "build:ts": "tsup",
+    "build": "npm run build:go && npm run build:ts",
+    "postinstall": "node scripts/postinstall.mjs",
+    "lint:fix": "eslint . --fix",
+    "lint": "eslint .",
+    "format:fix": "prettier --write --list-different .",
+    "format": "prettier --check .",
+    "fix": "npm run lint:fix && npm run format:fix"
+  },
+  "publishConfig": {
+    "access": "public"
+  },
+  "keywords": [
+    "facebook",
+    "chat",
+    "api",
+    "messenger",
+    "e2ee",
+    "bot"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/yumi-team/meta-messenger.js.git"
+  },
+  "author": "aiko-chan-ai",
+  "bugs": {
+    "url": "https://github.com/yumi-team/meta-messenger.js/issues"
+  },
+  "files": [
+    "dist",
+    "scripts"
+  ],
+  "homepage": "https://github.com/yumi-team/meta-messenger.js",
+  "license": "AGPL-3.0-or-later",
+  "dependencies": {
+    "yumi-json-bigint": "^1.0.0",
+    "koffi": "^2.15.1",
+    "undici": "^7.20.0"
+  },
+  "devDependencies": {
+    "@types/node": "^25.1.0",
+    "@typescript-eslint/eslint-plugin": "^7.15.0",
+    "@typescript-eslint/parser": "^7.15.0",
+    "esbuild-plugin-version-injector": "^1.1.0",
+    "eslint": "^8.57.0",
+    "eslint-plugin-path-alias": "^2.1.0",
+    "eslint-plugin-simple-header": "^1.0.2",
+    "eslint-plugin-simple-import-sort": "^12.1.1",
+    "eslint-plugin-unused-imports": "^4.0.0",
+    "prettier": "^3.8.1",
+    "tsup": "^8.5.1",
+    "tsx": "^4.21.0",
+    "typescript": "^5.9.3"
+  },
+  "engines": {
+    "node": ">=22.12.0"
+  }
+}
