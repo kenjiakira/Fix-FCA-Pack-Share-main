@@ -652,35 +652,41 @@ module.exports = {
         try {
             const category = getRandomCategory();
 
-            const prompt = `Tạo câu hỏi trắc nghiệm tiếng Việt ${difficulty === 3 ? 'khó' : difficulty === 2 ? 'trung bình' : 'dễ'}:
+            const prompt = `Tạo câu hỏi trắc nghiệm tiếng Việt cho game Ai Là Triệu Phú.
 
             Chủ đề: ${category}
-            Độ khó: ${difficulty}/3
+            Độ khó: ${difficulty}/3 (${difficulty === 1 ? 'dễ - câu 1-5' : difficulty === 2 ? 'trung bình - câu 6-10' : 'SIÊU KHÓ - câu 11 trở lên'})
             
-            QUY TẮC:
-            1. KHÔNG được dùng các từ:
-               - "Ai là...", "Cái nào là...", "Đâu là...", "... là gì?"
-               
-            2. Phải dùng một trong các dạng câu sau:
-               - "Tại sao [hiện tượng] lại [kết quả]?"
-               - "Điều gì sẽ xảy ra nếu [điều kiện]?"
-               - "Làm thế nào [nguyên nhân] dẫn đến [kết quả]?"
-               - "So sánh sự khác biệt giữa [A] và [B]"
-               - "Giải thích cơ chế/quy trình của [hiện tượng]"
+            QUY TẮC BẮT BUỘC:
+            1. KHÔNG dùng: "Ai là...", "Cái nào là...", "Đâu là...", "... là gì?"
+            2. BỐN ĐÁP ÁN A, B, C, D PHẢI KHÁC NHAU HOÀN TOÀN:
+               - Mỗi đáp án là một ý tưởng/khái niệm/con số RÕ RÀNG, CỤ THỂ
+               - CẤM đáp án gần giống nhau, chỉ khác 1-2 từ
+               - CẤM đáp án dạng "X", "Y", "Z" chung chung - phải viết rõ nội dung
+               - Ví dụ SAI: A: Năm 1945 | B: Năm 1946 | C: Năm 1947 (quá giống)
+               - Ví dụ ĐÚNG: A: Chiến tranh thế giới 2 | B: Cách mạng công nghiệp | C: Phát minh điện | D: Thành lập Liên Hợp Quốc
             
-            3. Độ phức tạp tăng dần theo level:
-               Level ${difficulty}/3:
-               ${difficulty === 1 ? '- Kiến thức cơ bản, phổ thông\n- Câu hỏi và đáp án đơn giản, dễ hiểu' :
-                    difficulty === 2 ? '- Kiến thức chuyên sâu hơn\n- Cần phân tích, suy luận' :
-                        '- Kiến thức nâng cao\n- Đòi hỏi tư duy phản biện, liên kết nhiều lĩnh vực'}
+            3. Độ khó theo level:
+               ${difficulty === 1 ? `LEVEL 1 (DỄ - câu 1-5):
+               - Kiến thức cơ bản, ai cũng biết
+               - Câu hỏi trực tiếp, đáp án rõ ràng phân biệt` :
+                    difficulty === 2 ? `LEVEL 2 (TRUNG BÌNH - câu 6-10):
+               - Kiến thức chuyên sâu hơn
+               - Cần suy luận, loại trừ đáp án sai` :
+                        `LEVEL 3 (SIÊU KHÓ - câu 11+):
+               - Kiến thức HỌC THUẬT, CHUYÊN NGÀNH, ÍT NGƯỜI BIẾT
+               - Chi tiết cụ thể: tên riêng, năm chính xác, thuật ngữ chuyên môn
+               - Đòi hỏi tư duy phản biện, liên kết ĐA LĨNH VỰC
+               - Các đáp án sai phải "có vẻ đúng" để gây nhiễu, nhưng vẫn PHÂN BIỆT RÕ
+               - Câu hỏi kiểu: cơ chế sâu, so sánh tinh tế, ngoại lệ, chi tiết ít biết`}
 
-            Định dạng:
-            Q: [câu hỏi, tối đa 30 từ]
-            A: [giải thích 1, tối đa 25 từ]
-            B: [giải thích 2, tối đa 25 từ]
-            C: [giải thích 3, tối đa 25 từ]
-            D: [giải thích 4, tối đa 25 từ]
-            Correct: [chữ cái đáp án đúng]`;
+            ĐỊNH DẠNG ĐẦU RA (bắt buộc):
+            Q: [câu hỏi, tối đa 35 từ]
+            A: [đáp án CỤ THỂ, tối đa 25 từ]
+            B: [đáp án CỤ THỂ, tối đa 25 từ]
+            C: [đáp án CỤ THỂ, tối đa 25 từ]
+            D: [đáp án CỤ THỂ, tối đa 25 từ]
+            Correct: [A hoặc B hoặc C hoặc D]`;
 
             const response = await useGPT({
                 prompt,

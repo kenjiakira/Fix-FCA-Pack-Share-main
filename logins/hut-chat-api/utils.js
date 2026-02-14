@@ -725,30 +725,105 @@ function formatAttachment(attachments, attachmentIds, attachmentMap, shareMap) {
 		: [];
 }
 
+var DEBUG_MENTION_DELTA = false;
+
 function formatDeltaMessage(m) {
 	const md = m.delta.messageMetadata;
+	const body = m.delta.body || "";
 
-	const mdata =
-		m.delta.data === undefined
-			? []
-			: m.delta.data.prng === undefined
+	let mentions = {};
+	try {
+		const mdata =
+			m.delta.data === undefined
 				? []
-				: JSON.parse(m.delta.data.prng);
-	const m_id = mdata.map(u => u.i);
-	const m_offset = mdata.map(u => u.o);
-	const m_length = mdata.map(u => u.l);
-	const mentions = {};
-	for (let i = 0; i < m_id.length; i++) {
-		mentions[m_id[i]] = m.delta.body.substring(
-			m_offset[i],
-			m_offset[i] + m_length[i]
-		);
+				: m.delta.data.prng === undefined
+					? []
+					: JSON.parse(m.delta.data.prng);
+		const m_id = mdata.map(u => u.i);
+		const m_offset = mdata.map(u => u.o);
+		const m_length = mdata.map(u => u.l);
+		for (let i = 0; i < m_id.length; i++) {
+			mentions[m_id[i]] = body.substring(
+				m_offset[i],
+				m_offset[i] + m_length[i]
+			);
+		}
+	} catch (e) { }
+
+	if (Object.keys(mentions).length === 0 && body.includes("@")) {
+		const re = /@(\d+)/g;
+		let match;
+		while ((match = re.exec(body)) !== null) {
+			const id = match[1];
+			if (!mentions[id]) mentions[id] = "@" + id;
+		}
+	}
+
+	if (Object.keys(mentions).length === 0 && body.includes("@")) {
+		const delta = m.delta;
+		const data = delta.data;
+		if (data && typeof data === "object" && !Array.isArray(data)) {
+			if (typeof data.profile_xmd === "string") {
+				try {
+					const arr = JSON.parse(data.profile_xmd);
+					if (Array.isArray(arr)) for (const x of arr) { if (x && (x.id != null || x.i != null)) mentions[String(x.id != null ? x.id : x.i)] = "@" + (x.id != null ? x.id : x.i); }
+				} catch (e) { }
+			}
+			if (data.mention_ids && Array.isArray(data.mention_ids)) {
+				for (const id of data.mention_ids) mentions[String(id)] = "@" + id;
+			}
+			if (data.mentioned_fbids && Array.isArray(data.mentioned_fbids)) {
+				for (const id of data.mentioned_fbids) mentions[String(id)] = "@" + id;
+			}
+		}
+		const meta = delta.messageMetadata;
+		if (meta && meta.mentionedFbids && Array.isArray(meta.mentionedFbids)) {
+			for (const id of meta.mentionedFbids) mentions[String(id)] = "@" + id;
+		}
+		if (meta && meta.mentionIds && Array.isArray(meta.mentionIds)) {
+			for (const id of meta.mentionIds) mentions[String(id)] = "@" + id;
+		}
+		// Facebook LightSpeed: messageMetadata.data.data.Gb.asMap.data["0"] = { asMap: { data: { id: { asLong }, offset: { asLong }, length: { asLong } } } }
+		if (Object.keys(mentions).length === 0 && meta && meta.data && meta.data.data && meta.data.data.Gb && meta.data.data.Gb.asMap && meta.data.data.Gb.asMap.data) {
+			const gbData = meta.data.data.Gb.asMap.data;
+			const gbDataObj = typeof gbData === "object" && gbData !== null && !Array.isArray(gbData) ? gbData : {};
+			for (const key of Object.keys(gbDataObj)) {
+				const item = gbDataObj[key];
+				if (!item || !item.asMap || !item.asMap.data) continue;
+				const d = item.asMap.data;
+				const idVal = d.id && (d.id.asLong != null ? d.id.asLong : d.id);
+				const offsetVal = d.offset && (d.offset.asLong != null ? d.offset.asLong : d.offset);
+				const lengthVal = d.length && (d.length.asLong != null ? d.length.asLong : d.length);
+				if (idVal == null) continue;
+				const id = String(idVal);
+				const off = parseInt(offsetVal, 10) || 0;
+				const len = parseInt(lengthVal, 10) || 0;
+				mentions[id] = body.substring(off, off + len) || ("@" + id);
+			}
+		}
+	}
+
+	if (DEBUG_MENTION_DELTA && body.includes("@")) {
+		try {
+			const logDelta = {
+				body: body.slice(0, 120),
+				dataKeys: m.delta.data ? Object.keys(m.delta.data) : [],
+				data: m.delta.data,
+				messageMetadataKeys: md ? Object.keys(md) : [],
+				messageMetadata: md,
+				deltaKeys: Object.keys(m.delta),
+				mentionsResult: mentions
+			};
+			console.log("[hut-chat-api MENTION DEBUG] delta:", JSON.stringify(logDelta, null, 2));
+		} catch (e) {
+			console.log("[hut-chat-api MENTION DEBUG] log err:", e.message);
+		}
 	}
 
 	return {
 		type: "message",
 		senderID: formatID(md.actorFbId.toString()),
-		body: m.delta.body || "",
+		body: body,
 		threadID: formatID(
 			(md.threadKey.threadFbId || md.threadKey.otherUserFbId).toString()
 		),
@@ -757,7 +832,7 @@ function formatDeltaMessage(m) {
 		mentions: mentions,
 		timestamp: md.timestamp,
 		isGroup: !!md.threadKey.threadFbId,
-    participantIDs: m.delta.participants
+		participantIDs: m.delta.participants
 	};
 }
 
