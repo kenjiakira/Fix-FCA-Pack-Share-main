@@ -192,15 +192,22 @@ module.exports = {
                     let finalBalance = getBalance(senderID);
                     let winAmount = 0;
                     
+                    let quyAdded = 0;
+                    let quyCurrent = 0;
+
                     if (gameType === result) {
                         const rewardInfo = calculateReward(betAmount, 2);
                         updateBalance(senderID, rewardInfo.finalReward);
-                        saveQuy(loadQuy() + rewardInfo.fee);
+                        quyAdded = rewardInfo.fee;
+                        quyCurrent = loadQuy() + quyAdded;
+                        saveQuy(quyCurrent);
                         
                         winAmount = rewardInfo.finalReward;
                         finalBalance = getBalance(senderID);
                         
                         updateQuestProgress(senderID, "win_games");
+                    } else {
+                        quyCurrent = loadQuy();
                     }
                     
                     updateQuestProgress(senderID, "play_games");
@@ -215,8 +222,10 @@ module.exports = {
                     
                     if (gameType === result) {
                         message += `\n🎉 Thắng: ${formatNumber(winAmount)} $\n`;
+                        message += `📥 Hũ +${formatNumber(quyAdded)} $ | 🏦 Hũ hiện tại: ${formatNumber(quyCurrent)} $\n`;
                     } else {
                         message += `\n💔 Thua: ${formatNumber(betAmount)} $\n`;
+                        message += `🏦 Hũ hiện tại: ${formatNumber(quyCurrent)} $\n`;
                     }
                     
                     message += `💰 Số dư: ${formatNumber(finalBalance)} $`;
