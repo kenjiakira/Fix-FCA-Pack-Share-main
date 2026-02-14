@@ -3,7 +3,7 @@ const fs = require('fs');
 const path = require('path');
 const { createCanvas, loadImage } = require('canvas');
 const getThreadParticipantIDs = require('../utils/getParticipantIDs');
-const vipService = require('../game/vip/vipService'); // Add VIP service import
+const vipService = require('../game/vip/vipService'); 
 let userImg, partnerImg;
 
 module.exports = {
@@ -827,7 +827,7 @@ module.exports = {
       drawCornerDecoration(50, 750, -Math.PI / 2);
       drawCornerDecoration(1150, 750, Math.PI);
 
-      const mergedPath = path.join(__dirname, '../database/cache/avatar/merged.jpg');
+      const mergedPath = path.join(__dirname, '../database/cache/avatars/merged.jpg');
       const out = fs.createWriteStream(mergedPath);
       const stream = canvas.createJPEGStream({ quality: 0.95 });
       stream.pipe(out);
