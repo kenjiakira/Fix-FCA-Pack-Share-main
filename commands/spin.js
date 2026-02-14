@@ -38,7 +38,7 @@ module.exports = {
     },
 
     async initSpinData() {
-        const spinDataPath = path.join(__dirname, 'json/spin_data.json');
+        const spinDataPath = path.join(__dirname, '../database/json/spin_data.json');
         
         if (!fs.existsSync(path.dirname(spinDataPath))) {
             fs.mkdirSync(path.dirname(spinDataPath), { recursive: true });
@@ -57,7 +57,7 @@ module.exports = {
     },
 
     async checkAndResetDailySpins() {
-        const spinDataPath = path.join(__dirname, 'json/spin_data.json');
+        const spinDataPath = path.join(__dirname, '../database/json/spin_data.json');
         const spinData = JSON.parse(fs.readFileSync(spinDataPath, 'utf8'));
         
         const now = Date.now();
@@ -77,7 +77,7 @@ module.exports = {
     },
 
     getUserData(userId) {
-        const spinDataPath = path.join(__dirname, 'json/spin_data.json');
+        const spinDataPath = path.join(__dirname, '../database/json/spin_data.json');
         const spinData = JSON.parse(fs.readFileSync(spinDataPath, 'utf8'));
         
         if (!spinData.users[userId]) {
@@ -93,7 +93,7 @@ module.exports = {
     },
 
     updateUserData(userId, userData) {
-        const spinDataPath = path.join(__dirname, 'json/spin_data.json');
+        const spinDataPath = path.join(__dirname, '../database/json/spin_data.json');
         const spinData = JSON.parse(fs.readFileSync(spinDataPath, 'utf8'));
         
         spinData.users[userId] = userData;
@@ -210,7 +210,7 @@ module.exports = {
 
     async drawSpinWheel(selectedPrize) {
         try {
-            const cacheDir = path.join(__dirname, 'cache');
+            const cacheDir = path.join(__dirname, '../database/cache');
             if (!fs.existsSync(cacheDir)) {
                 fs.mkdirSync(cacheDir, { recursive: true });
             }

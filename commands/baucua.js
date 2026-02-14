@@ -5,11 +5,19 @@ const {
     saveQuy, 
     updateQuestProgress
 } = require('../utils/currencies');
-const gameLogic = require('../utils/gameLogic');
 const { getUserName } = require('../utils/userUtils'); 
 
 function formatNumber(number) {
     return number.toLocaleString('vi-VN');  
+}
+
+function calculateReward(winAmount, multiplier = 1) {
+    const rawReward = winAmount * multiplier;
+    let feeRate = 0.02;
+    if (winAmount >= 1000000) feeRate = 0.04;
+    if (winAmount >= 10000000) feeRate = 0.06;
+    const fee = Math.ceil(rawReward * feeRate);
+    return { rawReward, fee, finalReward: rawReward - fee };
 }
 
 module.exports = {
@@ -97,25 +105,13 @@ module.exports = {
                     
                     if (matches > 0) {
                         winAmount = betAmount * matches;
-                        const rewardInfo = gameLogic.calculateReward(winAmount, 1);
+                        const rewardInfo = calculateReward(winAmount, 1);
                         updateBalance(senderID, rewardInfo.finalReward);
                         saveQuy(loadQuy() + rewardInfo.fee);
                         winAmount = rewardInfo.finalReward;
                         finalBalance = getBalance(senderID);
                         
-                        gameLogic.updatePlayerStats(senderID, {
-                            won: true, 
-                            betAmount, 
-                            winAmount: rewardInfo.finalReward,
-                            gameType: 'baucua'
-                        });
                         updateQuestProgress(senderID, "win_games");
-                    } else {
-                        gameLogic.updatePlayerStats(senderID, {
-                            won: false,
-                            betAmount,
-                            gameType: 'baucua'
-                        });
                     }
                     
                     updateQuestProgress(senderID, "play_games");

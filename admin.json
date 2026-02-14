@@ -1,5 +1,5 @@
 {
-  "prefix": "/",
+  "prefix": ".",
   "adminUIDs": [
     "61573427362389",
     "100092325757607",
@@ -18,8 +18,8 @@
   "appstate": "./appstate.json",
   "restart": true,
   "restartTime": 50,
-  "FCA": "ws3-fca-wrapper",
-  "mtnMode": true,
+  "FCA": "hut-chat-api",  
+  "mtnMode": false,
   "customCommands": {
     "getchar": {
       "enabled": true,

@@ -2,7 +2,6 @@ const { updateBalance, getBalance, saveData } = require('../utils/currencies');
 const fs = require('fs');
 const path = require('path');
 const { updateTransaction } = require('./banking'); 
-const { createTransactionBill } = require('../game/canvas/transactionBill');
 const vipService = require('../game/vip/vipService'); 
 
 const transactionsPath = path.join(__dirname, '../database/json/transactions.json');
@@ -172,16 +171,6 @@ module.exports = {
 
         const senderNewBalance = getBalance(senderID);
 
-        const billPath = await createTransactionBill({
-            senderName,
-            recipientName,
-            amount: transferAmount,
-            fee,
-            total: totalAmount,
-            remainingBalance: senderNewBalance,
-            theme: 'blue'
-        });
-
         try {
             await updateTransaction(senderID, 'out', `Chuyển ${transferAmount.toLocaleString()} $ cho ${recipientName}`, transferAmount);
             await updateTransaction(recipientID, 'in', `Nhận ${transferAmount.toLocaleString()} $ từ ${senderName}`, transferAmount);
@@ -193,15 +182,17 @@ module.exports = {
         const isVip = userDailyLimit === TRANSFER_LIMITS.VIP_MAX_DAILY_AMOUNT;
         const vipStatusText = isVip ? "👑 VIP" : "⭐ Free";
         
-        api.sendMessage(
-            { 
-                body: `✅ Chuyển tiền thành công!\n💰 Hạn mức còn lại hôm nay: ${remainingDailyLimit.toLocaleString()} $\n🏆 Trạng thái: ${vipStatusText}`,
-                attachment: fs.createReadStream(billPath) 
-            },
-            threadID,
-            () => fs.unlinkSync(billPath),
-            messageID
-        );
+        const message = `✅ Chuyển tiền thành công!\n\n` +
+            `📤 Người gửi: ${senderName}\n` +
+            `📥 Người nhận: ${recipientName}\n` +
+            `💰 Số tiền: ${transferAmount.toLocaleString()} $\n` +
+            `💸 Phí giao dịch: ${fee.toLocaleString()} $\n` +
+            `💵 Tổng chi: ${totalAmount.toLocaleString()} $\n` +
+            `💳 Số dư còn lại: ${senderNewBalance.toLocaleString()} $\n` +
+            `📊 Hạn mức còn lại hôm nay: ${remainingDailyLimit.toLocaleString()} $\n` +
+            `🏆 Trạng thái: ${vipStatusText}`;
+        
+        api.sendMessage(message, threadID, messageID);
 
         saveData();
     }

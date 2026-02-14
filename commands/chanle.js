@@ -1,15 +1,43 @@
+const { randomInt } = require('crypto');
 const { 
     getBalance, 
     updateBalance, 
-    loadQuy, 
-    saveQuy, 
     updateQuestProgress
 } = require('../utils/currencies');
-const gameLogic = require('../utils/gameLogic');
 const { getUserName } = require('../utils/userUtils'); 
+
+const CHANLE_ICONS = { WHITE: "⚪", RED: "🔴" };
+const CHANLE_PATTERNS = {
+    "chẵn": [
+        [CHANLE_ICONS.WHITE, CHANLE_ICONS.WHITE, CHANLE_ICONS.RED, CHANLE_ICONS.RED],
+        [CHANLE_ICONS.WHITE, CHANLE_ICONS.WHITE, CHANLE_ICONS.WHITE, CHANLE_ICONS.WHITE]
+    ],
+    "lẻ": [
+        [CHANLE_ICONS.WHITE, CHANLE_ICONS.RED, CHANLE_ICONS.RED, CHANLE_ICONS.RED],
+        [CHANLE_ICONS.WHITE, CHANLE_ICONS.WHITE, CHANLE_ICONS.WHITE, CHANLE_ICONS.RED],
+        [CHANLE_ICONS.RED, CHANLE_ICONS.RED, CHANLE_ICONS.RED, CHANLE_ICONS.RED]
+    ]
+};
 
 function formatNumber(number) {
     return number.toLocaleString('vi-VN');  
+}
+
+function calculateReward(betAmount, multiplier = 1) {
+    const rawReward = betAmount * multiplier;
+    let feeRate = 0.02;
+    if (betAmount >= 1000000) feeRate = 0.04;
+    if (betAmount >= 10000000) feeRate = 0.06;
+    const fee = Math.ceil(rawReward * feeRate);
+    return { rawReward, fee, finalReward: rawReward - fee };
+}
+
+function generateChanLeResult() {
+    const result = Math.random() < 0.5 ? "chẵn" : "lẻ";
+    const patternPool = CHANLE_PATTERNS[result];
+    const pattern = patternPool[randomInt(0, patternPool.length)];
+    const isSpecial = pattern.every(c => c === CHANLE_ICONS.WHITE) || pattern.every(c => c === CHANLE_ICONS.RED);
+    return { pattern, result, isSpecial };
 }
 
 module.exports = {
@@ -76,37 +104,20 @@ module.exports = {
             
             setTimeout(async () => {
                 try {
-                    const { pattern, result, isSpecial } = gameLogic.generateChanLeResult(senderID, gameType, {
-                        isAllIn: betType === 'allin',
-                        balance: balance,
-                        betAmount: betAmount
-                    });
+                    const { pattern, result, isSpecial } = generateChanLeResult();
                     
                     let finalBalance = getBalance(senderID);
                     let winAmount = 0;
                     
                     if (gameType === result) {
                         const multiplier = isSpecial ? 4 : 2;
-                        const rewardInfo = gameLogic.calculateReward(betAmount, multiplier);
+                        const rewardInfo = calculateReward(betAmount, multiplier);
                         
                         updateBalance(senderID, rewardInfo.finalReward);
                         winAmount = rewardInfo.finalReward;
                         finalBalance = getBalance(senderID);
                         
-                        gameLogic.updatePlayerStats(senderID, {
-                            won: true,
-                            betAmount,
-                            winAmount: rewardInfo.finalReward,
-                            gameType: 'chanle'
-                        });
-                        
                         updateQuestProgress(senderID, "win_games");
-                    } else {
-                        gameLogic.updatePlayerStats(senderID, {
-                            won: false,
-                            betAmount,
-                            gameType: 'chanle'
-                        });
                     }
                     
                     updateQuestProgress(senderID, "play_games");

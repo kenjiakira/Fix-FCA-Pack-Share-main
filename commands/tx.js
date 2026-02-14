@@ -6,11 +6,18 @@ const {
     updateBalance, 
     loadQuy, 
     saveQuy, 
-    updateQuestProgress, 
-    readData 
+    updateQuestProgress
 } = require('../utils/currencies');
-const gameLogic = require('../utils/gameLogic');
-const { getUserName } = require('../utils/userUtils'); 
+const { getUserName } = require('../utils/userUtils');
+
+function calculateReward(betAmount, multiplier = 1) {
+    const rawReward = betAmount * multiplier;
+    let feeRate = 0.02;
+    if (betAmount >= 1000000) feeRate = 0.04;
+    if (betAmount >= 10000000) feeRate = 0.06;
+    const fee = Math.ceil(rawReward * feeRate);
+    return { rawReward, fee, finalReward: rawReward - fee };
+} 
 
 const TX_HISTORY_FILE = path.join(__dirname, '../database/json/tx_history.json');
 
@@ -75,45 +82,12 @@ function formatNumber(number) {
     return number.toLocaleString('vi-VN');  
 }
 
-function generateDiceResults(senderID, playerChoice, betType, balance) {
-    const stats = gameLogic.playerStats[senderID] || {};
-    const dailyStats = gameLogic.getDailyStats(senderID);
-    const pattern = gameLogic.analyzePlayerPattern(senderID);
-    
-    const isDailyLimitReached = dailyStats.winAmount >= gameLogic.DAILY_WIN_LIMIT;
-    
-    const winChance = gameLogic.calculateWinChance(senderID, {
-        isAllIn: betType === 'allin',
-        balance: balance,
-        gameType: 'tx',
-        betType: isDailyLimitReached ? 'restricted' : betType,
-        pattern: pattern
-    });
-
-    let shouldWin = Math.random() < winChance;
-     
-    if (isDailyLimitReached) shouldWin = Math.random() < 0.15;
-    if (pattern.isExploiting) shouldWin = Math.random() < 0.25;
-
-    let dice1, dice2, dice3, total, result;
-    
-    do {
-        dice1 = randomInt(1, 7);
-        dice2 = randomInt(1, 7);
-        dice3 = randomInt(1, 7);
-        total = dice1 + dice2 + dice3;
-        
-        result = total >= 11 ? "tài" : "xỉu";
-
-        if (total === 3 || total === 18) {
-            if ((total === 18 && playerChoice === "tài") || 
-                (total === 3 && playerChoice === "xỉu")) {
-                break;
-            }
-            continue;
-        }
-    } while ((shouldWin && result !== playerChoice) || (!shouldWin && result === playerChoice));
-
+function generateDiceResults() {
+    const dice1 = randomInt(1, 7);
+    const dice2 = randomInt(1, 7);
+    const dice3 = randomInt(1, 7);
+    const total = dice1 + dice2 + dice3;
+    const result = total >= 11 ? "tài" : "xỉu";
     return { dice1, dice2, dice3, total, result };
 }
 
@@ -127,40 +101,12 @@ function handleJackpot(total, choice, senderID) {
 
     if (!isValidJackpot) return null;
 
-    const eligibleUsers = Object.keys(readData().balance)
-        .filter(userId => getBalance(userId) > 0);
-    
-    let jackpotResult = {
-        message: `\n🎉 JACKPOT! Tổng ${total} điểm!`,
-        distributedAmount: 0
+    updateBalance(senderID, quy);
+    saveQuy(0);
+
+    return {
+        message: `\n🎉 JACKPOT! Tổng ${total} điểm!\n🏆 Bạn nhận được toàn bộ quỹ: ${formatNumber(quy)} $!`
     };
-
-    const winnerShare = Math.floor(quy * 0.5);
-    if (winnerShare > 0) {
-        updateBalance(senderID, winnerShare);
-        jackpotResult.distributedAmount += winnerShare;
-        jackpotResult.message += `\n🏆 Bạn nhận được ${formatNumber(winnerShare)} $ (50% quỹ)!`;
-
-        if (eligibleUsers.length > 1) {
-            const shareAmount = Math.floor((quy - winnerShare) / (eligibleUsers.length - 1));
-            if (shareAmount > 0) {
-                eligibleUsers.forEach(userId => {
-                    if (userId !== senderID) {
-                        updateBalance(userId, shareAmount);
-                        jackpotResult.distributedAmount += shareAmount;
-                    }
-                });
-                jackpotResult.message += `\n💸 ${formatNumber(quy - winnerShare)} $ chia đều cho ${eligibleUsers.length - 1} người.`;
-                jackpotResult.message += `\n💰 Mỗi người nhận: ${formatNumber(shareAmount)} $.`;
-            }
-        }
-
-        if (jackpotResult.distributedAmount > 0) {
-            saveQuy(quy - jackpotResult.distributedAmount);
-        }
-    }
-
-    return jackpotResult;
 }
 
 module.exports = {
@@ -230,12 +176,7 @@ module.exports = {
             
             setTimeout(async () => {
                 try {
-                    const { dice1, dice2, dice3, total, result } = generateDiceResults(
-                        senderID, 
-                        gameType, 
-                        betType, 
-                        balance
-                    );
+                    const { dice1, dice2, dice3, total, result } = generateDiceResults();
                     
                     updateTxHistory(threadID, result);
                     
@@ -252,17 +193,14 @@ module.exports = {
                     let winAmount = 0;
                     
                     if (gameType === result) {
-                        const rewardInfo = gameLogic.calculateReward(betAmount, 2);
+                        const rewardInfo = calculateReward(betAmount, 2);
                         updateBalance(senderID, rewardInfo.finalReward);
                         saveQuy(loadQuy() + rewardInfo.fee);
                         
                         winAmount = rewardInfo.finalReward;
                         finalBalance = getBalance(senderID);
                         
-                        gameLogic.updatePlayerStats(senderID, {won: true, betAmount, winAmount, gameType: 'tx'});
                         updateQuestProgress(senderID, "win_games");
-                    } else {
-                        gameLogic.updatePlayerStats(senderID, {won: false, betAmount, gameType: 'tx'});
                     }
                     
                     updateQuestProgress(senderID, "play_games");

@@ -292,10 +292,10 @@ async function handleYouTube(url, api, event) {
         const stats = fs.statSync(filePath);
         const fileSizeInMB = stats.size / (1024 * 1024);
 
-        if (fileSizeInMB > 25) {
+        if (fileSizeInMB > 45) {
             fs.unlinkSync(filePath);
             await processingMsg.remove();
-            return api.sendMessage(`❌ Video quá lớn (${fileSizeInMB.toFixed(2)}MB). Giới hạn là 25MB.`, event.threadID);
+            return api.sendMessage(`❌ Video quá lớn (${fileSizeInMB.toFixed(2)}MB). Giới hạn là 45MB.`, event.threadID);
         }
 
         await processingMsg.remove();
