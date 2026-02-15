@@ -123,7 +123,7 @@ module.exports = {
     name: "work",
     dev: "HNT",
     category: "Games",
-    info: "Làm việc kiếm tiền (v2) - nhiều nghề, sự kiện ngẫu nhiên",
+    info: "Làm việc kiếm tiền",
     onPrefix: true,
     usages: "work - Làm việc | work check - Xem lượt còn lại",
     cooldowns: 0,

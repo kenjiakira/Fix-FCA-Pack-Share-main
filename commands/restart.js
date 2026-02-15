@@ -149,7 +149,7 @@ module.exports = {
                     console.error("Lỗi lưu threadID:", err);
                 }
 
-                const sendPromise = api.sendMessage("🔃 Đang khởi động lại\n━━━━━━━━━━━━━━━━━━\nBot đang khởi động lại...", threadID).catch(err => {
+                const sendPromise = api.sendMessage("🔃 Đang khởi động lại\n━━━━━━━━━━\nBot đang khởi động lại...", threadID).catch(err => {
                     console.error("Lỗi gửi tin nhắn:", err);
                 });
 

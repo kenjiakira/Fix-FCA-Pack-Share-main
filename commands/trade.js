@@ -5,6 +5,7 @@ const {
     getBalance,
     updateBalance,
 } = require('../utils/currencies');
+const { applyWorkTax, addToTaxFund } = require('../utils/tax');
 const { getUserName } = require('../utils/userUtils');
 const { createMarketOverviewCanvas } = require('../game/canvas/tradeMarketCanvas');
 const { createNewsCanvas } = require('../game/canvas/tradeNewsCanvas');
@@ -650,6 +651,9 @@ function buyStock(userId, symbol, shares, vipLevel = 0) {
     const feeAmount = subtotal * fee;
     const total = subtotal + feeAmount;
 
+    const buyTaxResult = applyWorkTax(total, userId);
+    const buyTaxAmount = buyTaxResult.taxAmount;
+    if (buyTaxAmount > 0) addToTaxFund(buyTaxAmount);
 
     const balance = getBalance(userId);
     if (balance < total) {
@@ -696,9 +700,10 @@ function buyStock(userId, symbol, shares, vipLevel = 0) {
 
     updateUserStats(userId);
 
+    const buyTaxMsg = buyTaxAmount > 0 ? `\n🏛️ Thuế (mua vào): ${formatCurrency(buyTaxAmount)}$ → quỹ thuế` : '';
     return {
         success: true,
-        message: `✅ Mua thành công ${shares} cổ phiếu ${symbol}!\n💰 Tổng: -${formatCurrency(total)}$\n💸 Phí giao dịch: ${formatCurrency(feeAmount)}$ (${fee * 100}%)`
+        message: `✅ Mua thành công ${shares} cổ phiếu ${symbol}!\n💰 Tổng: -${formatCurrency(total)}$\n💸 Phí giao dịch: ${formatCurrency(feeAmount)}$ (${fee * 100}%)${buyTaxMsg}`
     };
 }
 
@@ -738,6 +743,10 @@ function sellStock(userId, symbol, shares, vipLevel = 0) {
     const profitPerShare = price - avgBuyPrice;
     const profit = profitPerShare * shares;
 
+    const taxResult = profit > 0 ? applyWorkTax(profit, userId) : { netPay: 0, taxAmount: 0 };
+    const taxAmount = taxResult.taxAmount;
+    if (taxAmount > 0) addToTaxFund(taxAmount);
+    const amountToUser = total - taxAmount;
 
     userData.portfolio[symbol].shares -= shares;
     if (userData.portfolio[symbol].shares === 0) {
@@ -749,16 +758,16 @@ function sellStock(userId, symbol, shares, vipLevel = 0) {
     }
 
 
-    userData.cash = (userData.cash || 0) + total;
+    userData.cash = (userData.cash || 0) + amountToUser;
     userData.totalProfit = (userData.totalProfit || 0) + profit;
     userData.tradeCount++;
     if (profit > 0) userData.successTrades = (userData.successTrades || 0) + 1;
 
     saveTradeData(tradeData);
-    updateBalance(userId, total);
+    updateBalance(userId, amountToUser);
 
 
-    recordTransaction(userId, "sell", symbol, shares, price, total);
+    recordTransaction(userId, "sell", symbol, shares, price, amountToUser);
 
 
     updateUserStats(userId);
@@ -766,10 +775,11 @@ function sellStock(userId, symbol, shares, vipLevel = 0) {
     const profitMsg = profit >= 0
         ? `📈 Lợi nhuận: +${formatCurrency(profit)}$`
         : `📉 Lỗ: ${formatCurrency(profit)}$`;
+    const taxMsg = taxAmount > 0 ? `\n🏛️ Thuế (lợi nhuận): -${formatCurrency(taxAmount)}$` : '';
 
     return {
         success: true,
-        message: `✅ Bán thành công ${shares} cổ phiếu ${symbol}!\n💰 Nhận được: +${formatCurrency(total)}$\n💸 Phí giao dịch: ${formatCurrency(feeAmount)}$ (${fee * 100}%)\n${profitMsg}`
+        message: `✅ Bán thành công ${shares} cổ phiếu ${symbol}!\n💰 Nhận được: +${formatCurrency(amountToUser)}$\n💸 Phí giao dịch: ${formatCurrency(feeAmount)}$ (${fee * 100}%)${taxMsg}\n${profitMsg}`
     };
 }
 

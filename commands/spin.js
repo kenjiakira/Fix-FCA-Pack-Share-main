@@ -3,6 +3,7 @@ const path = require('path');
 const { createCanvas, loadImage } = require('canvas');
 const vipService = require('../game/vip/vipService');
 const { randomInt } = require('crypto');
+const { applyWorkTax, getWorkTaxRate, addToTaxFund, isTaxExempt } = require('../utils/tax');
 
 module.exports = {
     name: "spin",
@@ -17,19 +18,18 @@ module.exports = {
     ],
     cooldowns: 5,
 
-    // Định nghĩa các phần thưởng có thể nhận được
+    // Định nghĩa các phần thưởng có thể nhận được (chỉ tiền + VIP, có thuế)
     prizes: [
-        { id: 1, name: "500 xu", type: "money", value: 500, color: "#FFD700", chance: 30 },
-        { id: 2, name: "1,000 xu", type: "money", value: 1000, color: "#FFA500", chance: 25 },
-        { id: 3, name: "5,000 xu", type: "money", value: 5000, color: "#FF4500", chance: 15 },
-        { id: 4, name: "10,000 xu", type: "money", value: 10000, color: "#FF0000", chance: 10 },
-        { id: 5, name: "50,000 xu", type: "money", value: 50000, color: "#8B0000", chance: 4 },
-        { id: 6, name: "100,000 xu", type: "money", value: 100000, color: "#800080", chance: 2 },
-        { id: 7, name: "10 EXP", type: "exp", value: 10, color: "#00FF00", chance: 30 },
-        { id: 8, name: "50 EXP", type: "exp", value: 50, color: "#32CD32", chance: 20 },
-        { id: 9, name: "100 EXP", type: "exp", value: 100, color: "#008000", chance: 15 },
-        { id: 10, name: "200 EXP", type: "exp", value: 200, color: "#006400", chance: 5 },
-        { id: 11, name: "VIP GOLD", type: "vip", value: { packageId: 3, days: 30 }, color: "#FFD700", chance: 0.5, special: true }
+        { id: 1, name: "2,000 xu", type: "money", value: 2000, color: "#FFD700", chance: 28 },
+        { id: 2, name: "5,000 xu", type: "money", value: 5000, color: "#FFA500", chance: 24 },
+        { id: 3, name: "15,000 xu", type: "money", value: 15000, color: "#FF4500", chance: 18 },
+        { id: 4, name: "30,000 xu", type: "money", value: 30000, color: "#FF0000", chance: 12 },
+        { id: 5, name: "80,000 xu", type: "money", value: 80000, color: "#8B0000", chance: 8 },
+        { id: 6, name: "150,000 xu", type: "money", value: 150000, color: "#800080", chance: 5 },
+        { id: 7, name: "300,000 xu", type: "money", value: 300000, color: "#4B0082", chance: 3 },
+        { id: 8, name: "500,000 xu", type: "money", value: 500000, color: "#2E8B57", chance: 1.2 },
+        { id: 9, name: "1,000,000 xu", type: "money", value: 1000000, color: "#006400", chance: 0.3 },
+        { id: 10, name: "VIP GOLD", type: "vip", value: { packageId: 3, days: 30 }, color: "#FFD700", chance: 0.5, special: true }
     ],
 
     spinLimits: {
@@ -135,52 +135,30 @@ module.exports = {
     async applyReward(userId, prize) {
         try {
             switch (prize.type) {
-                case "money":
-                    global.balance[userId] = (global.balance[userId] || 0) + prize.value;
+                case "money": {
+                    const gross = prize.value;
+                    const { netPay, taxAmount } = applyWorkTax(gross, userId);
+                    if (taxAmount > 0) addToTaxFund(taxAmount);
+                    global.balance[userId] = (global.balance[userId] || 0) + netPay;
                     await require("../utils/currencies").saveData();
-                    return `💰 Bạn đã nhận được ${prize.value.toLocaleString('vi-VN')} xu!`;
-                
-                case "exp":
-                    await this.updateUserExp(userId, prize.value);
-                    return `✨ Bạn đã nhận được ${prize.value} EXP!`;
-                
+                    let msg = `💰 Bạn đã nhận được ${netPay.toLocaleString('vi-VN')} xu`;
+                    if (taxAmount > 0) {
+                        msg += ` (sau thuế ${getWorkTaxRate()}%: -${taxAmount.toLocaleString('vi-VN')} xu)`;
+                    } else if (isTaxExempt(userId)) {
+                        msg += ` (miễn thuế)`;
+                    }
+                    return msg + '!';
+                }
                 case "vip":
                     const vipResult = await this.applyVipReward(userId, prize.value);
                     return vipResult;
-                
+
                 default:
                     return "❓ Phần thưởng không xác định!";
             }
         } catch (error) {
             console.error("Lỗi khi áp dụng phần thưởng:", error);
             return "❌ Đã xảy ra lỗi khi áp dụng phần thưởng!";
-        }
-    },
-
-    async updateUserExp(userId, expAmount) {
-        try {
-            const userDataPath = path.join(__dirname, "../database/rankData.json");
-            let userData = {};
-
-            try {
-                userData = JSON.parse(fs.readFileSync(userDataPath, "utf8"));
-            } catch (error) {
-                console.error("Error reading user data:", error);
-            }
-
-            if (!userData[userId]) {
-                userData[userId] = {
-                    exp: 0,
-                    level: 1,
-                };
-            }
-
-            userData[userId].exp = (userData[userId].exp || 0) + expAmount;
-            fs.writeFileSync(userDataPath, JSON.stringify(userData, null, 2));
-            return true;
-        } catch (error) {
-            console.error("Error updating user EXP:", error);
-            return false;
         }
     },
 

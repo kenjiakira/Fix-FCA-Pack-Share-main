@@ -160,6 +160,8 @@ async function handleTikTok(url, api, event) {
 
         processingMsg = await sendProcessingMessage(api, threadID, "⏳ Đang xử lý video TikTok, vui lòng đợi...");
 
+        const resolvedUrl = await resolveTikTokShortUrl(url);
+
         const response = await axios.post(TIKTOK_API.BASE_URL,
             { url: resolvedUrl },
             {

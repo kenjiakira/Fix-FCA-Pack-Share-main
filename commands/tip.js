@@ -5,9 +5,11 @@ const { updateTransaction } = require('./banking');
 const { getUserName } = require('../utils/userUtils');
 
 const transactionsPath = path.join(__dirname, '../database/json/transactions.json');
+const tipDailyPath = path.join(__dirname, '../database/json/tipDaily.json');
 const userDataPath = path.join(__dirname, '../database/rankData.json');
 
 let transactions = {};
+let tipDaily = {};
 let userData = {};
 
 try {
@@ -26,10 +28,37 @@ try {
     console.error("Error loading userData:", error);
 }
 
+try {
+    if (fs.existsSync(tipDailyPath)) {
+        tipDaily = JSON.parse(fs.readFileSync(tipDailyPath, 'utf8'));
+    }
+} catch (error) {
+    console.error("Error loading tipDaily:", error);
+}
+
 const TIP_LIMITS = {
     MIN_AMOUNT: 100,
     MAX_AMOUNT: 5000000,
+    DAILY_LIMIT: 5000000,
 };
+
+const TODAY = () => new Date().toISOString().slice(0, 10);
+
+function getDailyTipUsed(userId) {
+    const uid = String(userId);
+    const rec = tipDaily[uid];
+    if (!rec || rec.date !== TODAY()) return 0;
+    return rec.amount || 0;
+}
+
+function addDailyTipUsed(userId, amount) {
+    const uid = String(userId);
+    if (!tipDaily[uid] || tipDaily[uid].date !== TODAY()) {
+        tipDaily[uid] = { date: TODAY(), amount: 0 };
+    }
+    tipDaily[uid].amount += amount;
+    fs.writeFileSync(tipDailyPath, JSON.stringify(tipDaily, null, 2));
+}
 
 function getReplyRecipientId(event) {
     if (
@@ -62,7 +91,8 @@ module.exports = {
                 "『 BO TIỀN (TIP) 』\n\n" +
                 "⚜️ Hướng dẫn:\n" +
                 "➤ .tip [số tiền] (reply tin nhắn người nhận)\n\n" +
-                `📌 Số tiền: ${TIP_LIMITS.MIN_AMOUNT.toLocaleString()} - ${TIP_LIMITS.MAX_AMOUNT.toLocaleString()} $\n` +
+                `📌 Số tiền/lần: ${TIP_LIMITS.MIN_AMOUNT.toLocaleString()} - ${TIP_LIMITS.MAX_AMOUNT.toLocaleString()} $\n` +
+                `📌 Tối đa 1 ngày: ${TIP_LIMITS.DAILY_LIMIT.toLocaleString()} $\n` +
                 "💡 Không tính phí giao dịch!",
                 threadID,
                 messageID
@@ -104,6 +134,16 @@ module.exports = {
             );
         }
 
+        const dailyUsed = getDailyTipUsed(senderID);
+        const dailyRemaining = TIP_LIMITS.DAILY_LIMIT - dailyUsed;
+        if (tipAmount > dailyRemaining) {
+            return api.sendMessage(
+                `❌ Bạn đã dùng ${dailyUsed.toLocaleString()} $ tip trong ngày. Còn tối đa ${dailyRemaining.toLocaleString()} $ (giới hạn ${TIP_LIMITS.DAILY_LIMIT.toLocaleString()} $/ngày).`,
+                threadID,
+                messageID
+            );
+        }
+
         const senderBalance = getBalance(senderID);
         if (tipAmount > senderBalance) {
             return api.sendMessage(
@@ -115,6 +155,7 @@ module.exports = {
 
         updateBalance(senderID, -tipAmount);
         updateBalance(recipientID, tipAmount);
+        addDailyTipUsed(senderID, tipAmount);
 
         let senderName = userData[senderID]?.name || getUserName(senderID) || "Bạn";
         let recipientName = userData[recipientID]?.name || getUserName(recipientID) || "Người nhận";

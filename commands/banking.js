@@ -818,7 +818,7 @@ module.exports = {
 
                         return api.sendMessage(
                             "🏦 THÔNG TIN TÀI KHOẢN 🏦\n" +
-                            "━━━━━━━━━━━━━━━━━━\n" +
+                            "━━━━━━━━━━\n" +
                             `💰 Số dư ví: ${formatNumber(walletBalance)} $\n` +
                             `🏦 Số dư ngân hàng: ${formatNumber(bankBalance)} $\n` +
                             `💵 Tổng tài sản: ${formatNumber(walletBalance + bankBalance)} $\n` +
@@ -1188,7 +1188,7 @@ module.exports = {
                         }
 
                         let message = "🏆 BẢNG XẾP HẠNG NGÂN HÀNG 🏆\n" +
-                            "━━━━━━━━━━━━━━━━━━━━━━━━\n\n";
+                            "━━━━━━━━━━━━━━\n\n";
 
                         topUsers.forEach((user, index) => {
                             const medal = index === 0 ? "🥇" : index === 1 ? "🥈" : index === 2 ? "🥉" : `${index + 1}.`;

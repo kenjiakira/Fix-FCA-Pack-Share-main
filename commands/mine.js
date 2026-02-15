@@ -15,15 +15,14 @@ const CONFIG = {
 };
 
 const RIGS = [
-    { id: '1', name: 'Máy cũ', price: 80000, income: 800, emoji: '🖥️' },
-    { id: '2', name: 'Máy thường', price: 400000, income: 3500, emoji: '💻' },
-    { id: '3', name: 'Máy tốt', price: 1500000, income: 15000, emoji: '🖥️' },
-    { id: '4', name: 'Máy xịn', price: 8000000, income: 80000, emoji: '⚙️' },
-    { id: '5', name: 'Máy pro', price: 35000000, income: 350000, emoji: '🚀' },
+    { id: '1', name: 'Máy cũ', price: 80000, incomeBtc: 0.002, emoji: '🖥️' },
+    { id: '2', name: 'Máy thường', price: 400000, incomeBtc: 0.01, emoji: '💻' },
+    { id: '3', name: 'Máy tốt', price: 1500000, incomeBtc: 0.04, emoji: '🖥️' },
+    { id: '4', name: 'Máy xịn', price: 8000000, incomeBtc: 0.2, emoji: '⚙️' },
+    { id: '5', name: 'Máy pro', price: 35000000, incomeBtc: 0.8, emoji: '🚀' },
 ];
 
-const MARKET_MULTIPLIER_MIN = 0.5;
-const MARKET_MULTIPLIER_MAX = 1.5;
+const FALLBACK_BTC_USD = 97000; 
 
 function loadMineData() {
     try {
@@ -48,7 +47,7 @@ function saveMineData(data) {
     }
 }
 
-async function getBtcPriceMultiplier() {
+async function getBtcPrice() {
     try {
         const res = await axios.get(`${CRYPTO.COINGECKO_BASE_URL}/simple/price`, {
             params: {
@@ -59,18 +58,14 @@ async function getBtcPriceMultiplier() {
             timeout: 5000
         });
         const btc = res.data?.bitcoin;
-        if (!btc?.usd) return { multiplier: 1, changePercent: 0, price: 0 };
-
-        const price = btc.usd;
-        const change24h = btc.usd_24h_change || 0;
-        const multiplier = Math.max(
-            MARKET_MULTIPLIER_MIN,
-            Math.min(MARKET_MULTIPLIER_MAX, 1 + change24h / 100)
-        );
-        return { multiplier, changePercent: change24h, price };
+        if (!btc?.usd) return { price: FALLBACK_BTC_USD, changePercent: 0 };
+        return {
+            price: btc.usd,
+            changePercent: btc.usd_24h_change ?? 0
+        };
     } catch (e) {
         console.error('Mine: Error fetching BTC price:', e?.message);
-        return { multiplier: 1, changePercent: 0, price: 0 };
+        return { price: FALLBACK_BTC_USD, changePercent: 0 };
     }
 }
 
@@ -81,11 +76,11 @@ function getUserRigs(data, userId) {
     return data.users[userId];
 }
 
-function getTotalIncome(rigs) {
+function getTotalBtcMined(rigs) {
     let total = 0;
     for (const [rigId, count] of Object.entries(rigs)) {
         const rig = RIGS.find(r => r.id === rigId);
-        if (rig && count > 0) total += rig.income * count;
+        if (rig && count > 0 && rig.incomeBtc) total += rig.incomeBtc * count;
     }
     return total;
 }
@@ -102,6 +97,13 @@ function formatDuration(ms) {
 
 function formatNum(n) {
     return (n || 0).toLocaleString('vi-VN');
+}
+
+function formatBtc(btc) {
+    if (btc >= 1) return btc % 1 === 0 ? btc.toFixed(0) : btc.toFixed(2);
+    if (btc >= 0.01) return btc.toFixed(2);
+    if (btc >= 0.0001) return btc.toFixed(4);
+    return btc.toFixed(6);
 }
 
 module.exports = {
@@ -133,7 +135,7 @@ module.exports = {
             for (const rig of RIGS) {
                 const owned = myRigs[rig.id] || 0;
                 msg += `${rig.emoji} ${rig.id}. ${rig.name}\n`;
-                msg += `   💵 Giá: ${formatNum(rig.price)}$ | Thu: ${formatNum(rig.income)}$/lần\n`;
+                msg += `   💵 Giá: ${formatNum(rig.price)}$ | Thu: ${formatBtc(rig.incomeBtc)} BC/lần (quy đổi theo giá thị trường)\n`;
                 msg += `   📦 Đã có: ${owned}/${CONFIG.MAX_RIGS_PER_TYPE}\n\n`;
             }
             msg += `➤ Mua: .mine buy [số]`;
@@ -169,9 +171,10 @@ module.exports = {
             user.rigs[rig.id] = count;
             updateBalance(senderID, -rig.price);
             saveMineData(data);
+            const totalBtc = getTotalBtcMined(user.rigs);
             return api.sendMessage(
                 `✅ Đã mua 1 ${rig.name} (${formatNum(rig.price)}$)\n` +
-                `📦 Tổng: ${count} ${rig.name} | Thu nhập: ${formatNum(rig.income * count)}$/lần`,
+                `📦 Tổng: ${count} ${rig.name} | Thu: ${formatBtc(totalBtc)} BC/lần (quy đổi theo giá BTC)`,
                 threadID,
                 messageID
             );
@@ -179,7 +182,7 @@ module.exports = {
 
         if (cmd === 'info') {
             const rigs = user.rigs || {};
-            const totalIncome = getTotalIncome(rigs);
+            const totalBtc = getTotalBtcMined(rigs);
             let msg = `『 ĐÀO BITCOIN - INFO 』\n\n`;
             msg += `👤 ${getUserName(senderID)}\n\n`;
             if (Object.keys(rigs).length === 0) {
@@ -187,24 +190,24 @@ module.exports = {
             } else {
                 for (const [rigId, count] of Object.entries(rigs)) {
                     const rig = RIGS.find(r => r.id === rigId);
-                    if (rig && count > 0) {
-                        msg += `${rig.emoji} ${rig.name} x${count} → ${formatNum(rig.income * count)}$/lần\n`;
+                    if (rig && count > 0 && rig.incomeBtc) {
+                        msg += `${rig.emoji} ${rig.name} x${count} → ${formatBtc(rig.incomeBtc * count)} BC/lần\n`;
                     }
                 }
-                msg += `\n💰 Tổng thu nhập/lần: ${formatNum(totalIncome)}$\n`;
+                msg += `\n💰 Tổng đào/lần: ${formatBtc(totalBtc)} BC (quy đổi sang $ theo giá thị trường)\n`;
             }
             const nextMine = user.lastMine + CONFIG.COOLDOWN_MS;
             const now = Date.now();
-            if (now < nextMine && totalIncome > 0) {
+            if (now < nextMine && totalBtc > 0) {
                 msg += `\n⏳ Đào tiếp sau: ${formatDuration(nextMine - now)}`;
-            } else if (totalIncome > 0) {
+            } else if (totalBtc > 0) {
                 msg += `\n✅ Sẵn sàng đào! Gõ .mine`;
             }
             return api.sendMessage(msg, threadID, messageID);
         }
 
-        const totalIncome = getTotalIncome(user.rigs || {});
-        if (totalIncome <= 0) {
+        const totalBtc = getTotalBtcMined(user.rigs || {});
+        if (totalBtc <= 0) {
             return api.sendMessage(
                 '❌ Bạn chưa có máy đào! Gõ .mine shop để mua máy.',
                 threadID,
@@ -222,8 +225,9 @@ module.exports = {
             );
         }
 
-        const { multiplier, changePercent, price } = await getBtcPriceMultiplier();
-        const grossPay = Math.floor(totalIncome * multiplier);
+        const { price: btcPriceUsd, changePercent } = await getBtcPrice();
+        const usdValue = totalBtc * btcPriceUsd;
+        const grossPay = Math.floor(usdValue);
 
         const { netPay: finalPay, taxAmount } = applyWorkTax(grossPay, senderID);
 
@@ -237,13 +241,11 @@ module.exports = {
         user.lastMine = now;
         saveMineData(data);
 
+        const sign = changePercent >= 0 ? '+' : '';
         let msg = `『 ĐÀO BITCOIN 』\n\n`;
-        msg += `⛏️ Thu nhập cơ bản: ${formatNum(totalIncome)}$\n`;
-        if (Math.abs(changePercent) >= 0.01) {
-            const sign = changePercent >= 0 ? '+' : '';
-            msg += `📈 Thị trường BTC ${sign}${changePercent.toFixed(1)}% → x${multiplier.toFixed(2)}\n`;
-        }
-        msg += `💰 Tổng gộp: ${formatNum(grossPay)}$\n`;
+        msg += `⛏️ Đào được: ${formatBtc(totalBtc)} BC\n`;
+        msg += `📈 Giá BTC: ${formatNum(Math.round(btcPriceUsd))}$ (24h ${sign}${(changePercent ?? 0).toFixed(1)}%)\n`;
+        msg += `💰 Quy đổi: ${formatNum(grossPay)}$\n`;
         if (taxAmount > 0) {
             msg += `📉 Thuế (${getWorkTaxRate()}%): -${formatNum(taxAmount)}$\n`;
             msg += `💵 Thực nhận: ${formatNum(finalPay)}$\n`;

@@ -9,6 +9,7 @@ const {
     updateQuestProgress
 } = require('../utils/currencies');
 const { getUserName } = require('../utils/userUtils');
+const { getOutcome: getBookmakerOutcome, recordOutcome: recordBookmakerOutcome } = require('../utils/bookmaker');
 
 function calculateReward(betAmount, multiplier = 1) {
     const rawReward = betAmount * multiplier;
@@ -176,7 +177,9 @@ module.exports = {
             
             setTimeout(async () => {
                 try {
-                    const { dice1, dice2, dice3, total, result } = generateDiceResults();
+                    const quyBefore = loadQuy();
+                    const rigged = getBookmakerOutcome(betAmount, gameType, quyBefore, threadID);
+                    const { dice1, dice2, dice3, total, result } = rigged || generateDiceResults();
                     
                     updateTxHistory(threadID, result);
                     
@@ -210,6 +213,7 @@ module.exports = {
                         quyCurrent = loadQuy();
                     }
                     
+                    recordBookmakerOutcome(threadID, gameType === result);
                     updateQuestProgress(senderID, "play_games");
                     
                     let message = 
