@@ -107,7 +107,7 @@ module.exports = {
                 `• 📱 Tải video toàn bộ nền tảng\n` +
                 `• 🎁 Giftcode VIP độc quyền\n\n` +
                 `🌱 CÁCH NHẬN VIP (KHÔNG MUA):\n` +
-                `• 🎁 Tích điểm: Đổi giftcode (.rewards redeem), tích đủ 90 điểm trong 30 ngày liên tiếp → .rewards vip\n` +
+                `• 🎁 Tích điểm: Đổi giftcode (.rewards redeem), tích đủ 90 điểm → .rewards vip\n` +
                 `• 🎡 Vòng quay: .spin mỗi ngày, có cơ hội trúng VIP GOLD 30 ngày\n` +
                 `• 🎊 Sự kiện: Theo dõi giftcode sự kiện (Lễ, Tết...) thường có điểm VIP\n` +
                 `• 👑 Admin có thể tặng: .vip add [uid] [số ngày]`;

@@ -253,7 +253,7 @@ module.exports = {
             message += `😷 Không kiếm được gì hôm nay.\n`;
         }
 
-        if (vipPointsAdded > 0) message += `\n👑 Điểm VIP: +${vipPointsAdded} (tích 90 điểm + 30 ngày liên tiếp → VIP Gold, xem: .rewards vip)`;
+        if (vipPointsAdded > 0) message += `\n👑 Điểm VIP: +${vipPointsAdded} (tích đủ 90 điểm → VIP Gold, xem: .rewards vip)`;
         message += `\n📋 Lượt còn lại: ${dailyLimit - user.dailyCount}/${dailyLimit}`;
         const nextIn = formatDuration(baseCooldown);
         message += `\n⏳ Làm tiếp sau: ${nextIn}`;

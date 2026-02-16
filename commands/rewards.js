@@ -381,17 +381,13 @@ module.exports = {
     // Tạo thông báo
     let message = "👑 TIẾN TRÌNH VIP GOLD\n━━━━━━━━━━━━━━━━━━\n\n";
     
-    // Thông tin điểm và chuỗi ngày
+    // Thông tin điểm
     message += `👤 User ID: ${senderID}\n`;
     message += `💰 Điểm tích lũy: ${vipProgress.points}/90 (${vipProgress.progress}%)\n`;
-    message += `📆 Chuỗi ngày: ${vipProgress.streak}/30 (${vipProgress.streakProgress}%)\n`;
     
-    // Hiển thị tiến độ dưới dạng thanh
+    // Hiển thị tiến độ điểm
     const pointsBar = createProgressBar(vipProgress.progress);
-    const streakBar = createProgressBar(vipProgress.streakProgress);
-    
     message += `\n📊 Tiến độ điểm:\n${pointsBar}\n`;
-    message += `📊 Tiến độ chuỗi ngày:\n${streakBar}\n`;
     
     // Thông tin trạng thái VIP Gold
     if (vipProgress.vipGoldAwarded) {
@@ -399,18 +395,12 @@ module.exports = {
       message += "🎖️ Tận hưởng các đặc quyền VIP Gold nhé!";
     } else {
       message += "\n⏳ Chưa đạt VIP Gold\n";
-      
-      // Tính số điểm cần thêm
       const neededPoints = Math.max(0, 90 - vipProgress.points);
-      const neededDays = Math.max(0, 30 - vipProgress.streak);
-      
-      message += `👉 Cần thêm ${neededPoints} điểm\n`;
-      message += `👉 Cần duy trì thêm ${neededDays} ngày liên tiếp\n\n`;
-      
+      message += `👉 Cần thêm ${neededPoints} điểm\n\n`;
       message += "💡 Cách tăng điểm:\n";
-      message += "• Đổi giftcode hàng ngày\n";
-      message += "• Giftcode càng hiếm, điểm càng cao\n";
-      message += "• Duy trì chuỗi bằng cách đổi ít nhất 1 gift code mỗi ngày";
+      message += "• Đổi giftcode (.rewards redeem)\n";
+      message += "• Làm việc (.work), nhận daily (.daily)\n";
+      message += "• Giftcode càng hiếm, điểm càng cao";
     }
     
     if (vipProgress.lastUpdated) {

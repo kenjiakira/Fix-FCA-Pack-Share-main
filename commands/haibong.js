@@ -5,7 +5,10 @@ const { createUserData } = require('../utils/userData');
 const { getVIPBenefits } = require('../game/vip/vipCheck');
 const { getUserName } = require('../utils/userUtils');
 const { applyWorkTax, getWorkTaxRate, addToTaxFund, isTaxExempt } = require('../utils/tax');
+const { addVIPPoints } = require('../utils/autoGiftcode');
+const vipService = require('../game/vip/vipService');
 
+const HAIBONG_VIP_POINTS = 1;
 const HAIBONG_DATA_PATH = path.join(__dirname, '../database/json/haibong_data.json');
 
 const CONFIG = {
@@ -185,6 +188,18 @@ module.exports = {
         }
         updateQuestProgress(senderID, "work");
 
+        let vipPointsAdded = 0;
+        if (evt.multiplier > 0) {
+            const vipResult = addVIPPoints(senderID, HAIBONG_VIP_POINTS);
+            vipPointsAdded = HAIBONG_VIP_POINTS;
+            if (vipResult.vipGoldAwarded) {
+                try {
+                    const setResult = vipService.setVIP(senderID, 3, 1);
+                    if (setResult.success) setTimeout(() => api.sendMessage("🌟 CHÚC MỪNG ĐẠT VIP GOLD! 🌟\nBạn đã được tặng 37 ngày VIP Gold!", threadID), 1500);
+                } catch (_) {}
+            }
+        }
+
         user.lastWork = now;
         saveHaibongData(data);
 
@@ -207,6 +222,7 @@ module.exports = {
             message += `😷 Hôm nay không hái được gì.\n`;
         }
 
+        if (vipPointsAdded > 0) message += `\n👑 Điểm VIP: +${vipPointsAdded} (tích đủ 90 điểm → VIP Gold, xem: .rewards vip)`;
         const nextIn = formatDuration(baseCooldown);
         message += `\n⏳ Hái tiếp sau: ${nextIn}`;
 

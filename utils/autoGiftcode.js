@@ -188,18 +188,15 @@ function createGiftcode(reward, description, expiryHours = 24, type = 'NORMAL', 
             rewardsObject = generateRandomRewards(type);
         } else {
             rewardsObject[rewardType] = reward;
-            // Đảm bảo mỗi giftcode đều có điểm VIP
             rewardsObject.vip_points = typeConfig.vipPoints || 1;
         }
     } else if (typeof reward === 'object') {
         rewardsObject = reward;
-        // Đảm bảo có điểm VIP nếu chưa có
         if (!rewardsObject.vip_points) {
             rewardsObject.vip_points = typeConfig.vipPoints || 1;
         }
     }
     
-    // Thêm phần thưởng bonus nếu có
     if (bonusRewards) {
         for (const [key, value] of Object.entries(bonusRewards)) {
             if (!rewardsObject[key]) {
@@ -281,7 +278,6 @@ function loadGiftcodes() {
             parsed.settings.dailyLimits = {};
         }
         
-        // Reset giới hạn hàng ngày nếu là ngày mới
         const currentDate = new Date().toISOString().split('T')[0];
         if (!parsed.settings.lastResetDate || parsed.settings.lastResetDate !== currentDate) {
             parsed.settings.lastResetDate = currentDate;
@@ -340,7 +336,6 @@ function updateDailyLimit(userId, type) {
     saveGiftcodes(giftcodeData);
 }
 
-// Hệ thống tích điểm VIP Gold
 function loadVIPLogs() {
     ensureDirectoryExists(VIP_LOGS_PATH);
     
@@ -371,7 +366,6 @@ function saveVIPLogs(data) {
     fs.writeFileSync(VIP_LOGS_PATH, JSON.stringify(data, null, 2));
 }
 
-// Thêm điểm tích lũy VIP Gold cho người dùng
 function addVIPPoints(userId, points) {
     const vipLogs = loadVIPLogs();
     
@@ -387,22 +381,18 @@ function addVIPPoints(userId, points) {
     
     const user = vipLogs.users[userId];
     
-    // Kiểm tra xem đã nhận điểm hôm nay chưa
     const today = new Date().toISOString().split('T')[0];
     const lastUpdated = user.lastUpdated ? new Date(user.lastUpdated).toISOString().split('T')[0] : null;
     
     if (lastUpdated !== today) {
-        // Ngày mới, cập nhật streak
         if (lastUpdated) {
             const lastDate = new Date(lastUpdated);
             const yesterday = new Date();
             yesterday.setDate(yesterday.getDate() - 1);
             
             if (lastDate.toISOString().split('T')[0] === yesterday.toISOString().split('T')[0]) {
-                // Liên tiếp từ hôm qua
                 user.streak++;
             } else {
-                // Không liên tiếp, reset streak
                 user.streak = 1;
             }
         } else {
@@ -410,14 +400,11 @@ function addVIPPoints(userId, points) {
         }
     }
     
-    // Thêm điểm
     user.points += points;
     user.lastUpdated = new Date().toISOString();
     
-    // Kiểm tra xem đã đủ điểm để nhận VIP Gold chưa
-    if (user.points >= 90 && user.streak >= 30 && !user.vipGoldAwarded) {
+    if (user.points >= 90 && !user.vipGoldAwarded) {
         user.vipGoldAwarded = true;
-        // Ghi lại lịch sử nhận VIP Gold
         user.history.push({
             action: 'Awarded VIP Gold',
             date: new Date().toISOString(),
@@ -426,7 +413,6 @@ function addVIPPoints(userId, points) {
         });
     }
     
-    // Ghi lại lịch sử tích điểm
     user.history.push({
         action: 'Added points',
         date: new Date().toISOString(),
@@ -439,7 +425,6 @@ function addVIPPoints(userId, points) {
     return user;
 }
 
-// Lấy thông tin tích điểm VIP của người dùng
 function getVIPProgress(userId) {
     const vipLogs = loadVIPLogs();
     
@@ -585,7 +570,6 @@ async function sendGiftcodeAnnouncement(api, code, rewards, type, eventName = nu
                     await new Promise(resolve => setTimeout(resolve, 5000));
 
                 } catch (err) {
-                    // Skip failed messages silently
                     continue;
                 }
             }
@@ -850,11 +834,9 @@ function scheduleAutoGiftcode(api) {
         const giftInfo = createAutoGiftcode(type);
         await sendGiftcodeAnnouncement(api, giftInfo.code, giftInfo.rewards, type);
     });
-
-    // Dọn dẹp giftcode hết hạn mỗi giờ
+    
     schedule.scheduleJob('0 * * * *', cleanExpiredCodes);
     
-    // Schedule VIP gifts
     scheduleVIPGifts(api);
 }
 
