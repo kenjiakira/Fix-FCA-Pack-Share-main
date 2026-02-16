@@ -8,6 +8,7 @@ const {
   getAvailableVIPGifts, markVIPGiftSent, sendVIPGiftAnnouncement
 } = require('../utils/autoGiftcode');
 const { getVIPBenefits } = require('../game/vip/vipCheck');
+const vipService = require('../game/vip/vipService');
 
 function formatNumber(number) {
   return number.toLocaleString('vi-VN');
@@ -117,8 +118,10 @@ module.exports = {
     if (totalVip > 0) {
       const vipResult = addVIPPoints(senderID, totalVip);
       if (vipResult.vipGoldAwarded) {
-        try { require('../game/vip/vipSystem').addVIPGold(senderID); } catch (_) {}
-        setTimeout(() => api.sendMessage("🌟 CHÚC MỪNG ĐẠT VIP GOLD! 🌟", threadID), 1500);
+        try {
+          const setResult = vipService.setVIP(senderID, 3, 1);
+          if (setResult.success) setTimeout(() => api.sendMessage("🌟 CHÚC MỪNG ĐẠT VIP GOLD! 🌟\nBạn đã được tặng 37 ngày VIP Gold!", threadID), 1500);
+        } catch (_) {}
       }
     }
 

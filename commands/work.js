@@ -5,6 +5,10 @@ const { createUserData } = require('../utils/userData');
 const { getVIPBenefits } = require('../game/vip/vipCheck');
 const { getUserName } = require('../utils/userUtils');
 const { applyWorkTax, getWorkTaxRate, addToTaxFund, isTaxExempt } = require('../utils/tax');
+const { addVIPPoints } = require('../utils/autoGiftcode');
+const vipService = require('../game/vip/vipService');
+
+const WORK_VIP_POINTS = 1;
 
 const WORK_DATA_PATH = path.join(__dirname, '../database/json/work_data.json');
 
@@ -214,6 +218,18 @@ module.exports = {
         }
         updateQuestProgress(senderID, "work");
 
+        let vipPointsAdded = 0;
+        if (evt.multiplier > 0) {
+            const vipResult = addVIPPoints(senderID, WORK_VIP_POINTS);
+            vipPointsAdded = WORK_VIP_POINTS;
+            if (vipResult.vipGoldAwarded) {
+                try {
+                    const setResult = vipService.setVIP(senderID, 3, 1);
+                    if (setResult.success) setTimeout(() => api.sendMessage("🌟 CHÚC MỪNG ĐẠT VIP GOLD! 🌟\nBạn đã được tặng 37 ngày VIP Gold!", threadID), 1500);
+                } catch (_) {}
+            }
+        }
+
         user.lastWork = now;
         user.dailyCount = (user.dailyCount || 0) + 1;
         saveWorkData(data);
@@ -237,6 +253,7 @@ module.exports = {
             message += `😷 Không kiếm được gì hôm nay.\n`;
         }
 
+        if (vipPointsAdded > 0) message += `\n👑 Điểm VIP: +${vipPointsAdded} (tích 90 điểm + 30 ngày liên tiếp → VIP Gold, xem: .rewards vip)`;
         message += `\n📋 Lượt còn lại: ${dailyLimit - user.dailyCount}/${dailyLimit}`;
         const nextIn = formatDuration(baseCooldown);
         message += `\n⏳ Làm tiếp sau: ${nextIn}`;
