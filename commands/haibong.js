@@ -10,8 +10,6 @@ const HAIBONG_DATA_PATH = path.join(__dirname, '../database/json/haibong_data.js
 
 const CONFIG = {
     BASE_COOLDOWN_MS: 30 * 60 * 1000,
-    DAILY_LIMIT: 12,
-    VIP_DAILY_LIMIT: 18,
     VIP_COOLDOWN_REDUCTION: 0.25,
     VIP_PAY_BONUS: 0.3,
 };
@@ -127,29 +125,24 @@ module.exports = {
 
         const vipBenefits = getVIPBenefits(senderID);
         const cooldownReduction = vipBenefits?.packageId === 3 ? CONFIG.VIP_COOLDOWN_REDUCTION : 0;
-        const dailyLimit = vipBenefits?.packageId === 3 ? CONFIG.VIP_DAILY_LIMIT : CONFIG.DAILY_LIMIT;
         const baseCooldown = Math.floor(CONFIG.BASE_COOLDOWN_MS * (1 - cooldownReduction));
 
         const { data, user } = getUserHaibongData(senderID);
 
         if (cmd === 'check') {
-            const remaining = dailyLimit - user.dailyCount;
             const nextWork = user.lastWork + baseCooldown;
             const now = Date.now();
 
             let msg = `『 HÁI BÔNG - CHECK 』\n\n`;
             msg += `👤 ${getUserName(senderID)}\n`;
             msg += `🌸 Công việc: Hái bông\n`;
-            msg += `📋 Lượt hái bông còn lại hôm nay: ${remaining}/${dailyLimit}\n`;
-            if (remaining <= 0) {
-                msg += `⏰ Đã hết lượt hái bông, quay lại vào ngày mai!\n`;
-            } else if (now < nextWork) {
+            if (now < nextWork) {
                 msg += `⏳ Cooldown: còn ${formatDuration(nextWork - now)}\n`;
             } else {
                 msg += `✅ Sẵn sàng hái bông! Gõ .haibong để bắt đầu.\n`;
             }
             if (vipBenefits?.packageId === 3) {
-                msg += `\n👑 VIP: Giảm cooldown, tăng lượt/ngày!`;
+                msg += `\n👑 VIP: Giảm cooldown!`;
             }
 
             return api.sendMessage(msg, threadID, messageID);
@@ -157,15 +150,6 @@ module.exports = {
 
         const now = Date.now();
         const nextWork = user.lastWork + baseCooldown;
-
-        if (user.dailyCount >= dailyLimit) {
-            return api.sendMessage(
-                `⏰ Bạn đã dùng hết ${dailyLimit} lượt hái bông hôm nay!\n` +
-                `💡 Quay lại vào ngày mai. (VIP: tối đa ${CONFIG.VIP_DAILY_LIMIT} lượt/ngày)`,
-                threadID,
-                messageID
-            );
-        }
 
         if (now < nextWork) {
             return api.sendMessage(
@@ -202,7 +186,6 @@ module.exports = {
         updateQuestProgress(senderID, "work");
 
         user.lastWork = now;
-        user.dailyCount = (user.dailyCount || 0) + 1;
         saveHaibongData(data);
 
         let message = `『 HÁI BÔNG 』\n\n`;
@@ -224,7 +207,6 @@ module.exports = {
             message += `😷 Hôm nay không hái được gì.\n`;
         }
 
-        message += `\n📋 Lượt còn lại: ${dailyLimit - user.dailyCount}/${dailyLimit}`;
         const nextIn = formatDuration(baseCooldown);
         message += `\n⏳ Hái tiếp sau: ${nextIn}`;
 

@@ -322,7 +322,7 @@ const reloadModules = () => {
                         if (data.threadID) {
                             const sendMessage = () => new Promise((resolve, reject) => {
                                 api.sendMessage(
-                                    '✅ Restarted Thành Công\n━━━━━━━━━━━━━━━━━━\nBot đã Restart Xong.', 
+                                    '✅ Restarted Thành Công\n━━━━━━━━━\nBot đã Restart Xong.', 
                                     data.threadID,
                                     (error, info) => {
                                         if (error) reject(error);

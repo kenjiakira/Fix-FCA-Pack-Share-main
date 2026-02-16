@@ -1,12 +1,5 @@
-/**
- * Nhà cái – thuật toán FOMO (không dùng JSON).
- * Theo lịch sử ván: nhà thắng liên tiếp → giảm can thiệp (cho 1 thắng để tạo FOMO);
- * người thắng / cược lớn / quỹ thấp → tăng can thiệp để bảo vệ quỹ.
- */
-
 const { randomInt } = require("crypto");
 
-// Lịch sử theo thread: [playerWin?, ...] (true = người thắng, false = nhà thắng)
 const HISTORY_LEN = 12;
 const fomoHistory = new Map();
 
@@ -21,7 +14,6 @@ function pushOutcome(threadID, playerWon) {
     if (h.length > HISTORY_LEN) h.shift();
 }
 
-/** Số lần nhà thắng liên tiếp gần nhất */
 function houseStreak(threadID) {
     const h = getHistory(threadID);
     let s = 0;
@@ -29,7 +21,6 @@ function houseStreak(threadID) {
     return s;
 }
 
-/** Số lần người thắng liên tiếp gần nhất */
 function playerStreak(threadID) {
     const h = getHistory(threadID);
     let s = 0;
@@ -37,9 +28,28 @@ function playerStreak(threadID) {
     return s;
 }
 
-// Bộ xỉu (tổng 4–10) và tài (11–17) hợp lệ
 const XIU_SETS = [[1,1,2],[1,1,3],[1,2,2],[1,2,3],[1,3,3],[2,2,2],[1,1,4],[1,2,4],[2,2,3],[1,3,4],[2,3,3],[1,1,5],[1,2,5],[1,3,5],[2,2,4],[1,4,4],[2,3,4],[3,3,3],[2,2,5],[1,4,5],[2,3,5],[3,3,4],[1,1,6],[1,2,6],[1,3,6],[2,2,6],[1,4,6],[2,3,6],[3,4,4]];
 const TAI_SETS = [[3,4,4],[2,4,5],[3,3,5],[1,4,6],[2,4,6],[3,4,5],[4,4,4],[1,5,6],[2,5,5],[3,5,5],[4,4,5],[1,6,6],[2,5,6],[3,5,6],[4,5,5],[5,5,5],[2,6,6],[3,6,6],[4,5,6],[4,6,6],[5,5,6],[5,6,6],[6,6,6]];
+
+const CHANLE_ICONS = { W: "⚪", R: "🔴" };
+const CHANLE_PATTERNS = {
+    "chẵn": [
+        [CHANLE_ICONS.W, CHANLE_ICONS.W, CHANLE_ICONS.R, CHANLE_ICONS.R],
+        [CHANLE_ICONS.W, CHANLE_ICONS.W, CHANLE_ICONS.W, CHANLE_ICONS.W]
+    ],
+    "lẻ": [
+        [CHANLE_ICONS.W, CHANLE_ICONS.R, CHANLE_ICONS.R, CHANLE_ICONS.R],
+        [CHANLE_ICONS.W, CHANLE_ICONS.W, CHANLE_ICONS.W, CHANLE_ICONS.R],
+        [CHANLE_ICONS.R, CHANLE_ICONS.R, CHANLE_ICONS.R, CHANLE_ICONS.R]
+    ]
+};
+function generateLosingChanLe(playerChoice) {
+    const result = playerChoice === "chẵn" ? "lẻ" : "chẵn";
+    const patternPool = CHANLE_PATTERNS[result];
+    const pattern = pick(patternPool);
+    const isSpecial = pattern.every(c => c === CHANLE_ICONS.W) || pattern.every(c => c === CHANLE_ICONS.R);
+    return { pattern, result, isSpecial };
+}
 
 function pick(arr) {
     return arr[randomInt(0, arr.length)];
@@ -59,12 +69,6 @@ function generateLosingDice(playerChoice) {
     return { dice1: a, dice2: b, dice3: c, total: a + b + c, result: "tài" };
 }
 
-/**
- * Thuật toán FOMO: xác suất can thiệp từ quỹ, cược, và lịch sử thread.
- * - Quỹ thấp / tiền thắng lớn so quỹ → tăng can thiệp.
- * - Nhà thắng nhiều ván liên tiếp → giảm can thiệp (cho 1 thắng, tạo FOMO).
- * - Người thắng gần đây → tăng can thiệp (thu hồi).
- */
 function getRigChance(betAmount, quy, threadID) {
     const payout = betAmount * 2;
     const effectiveQuy = Math.max(quy, 5000);
@@ -89,9 +93,6 @@ function getRigChance(betAmount, quy, threadID) {
     return Math.min(0.92, Math.max(0, chance));
 }
 
-/**
- * Trả về kết quả ván (có thể can thiệp). Gọi recordOutcome(threadID, playerWon) sau khi xử lý xong ván.
- */
 function getOutcome(betAmount, playerChoice, quy, threadID) {
     const rigChance = getRigChance(betAmount, quy, threadID || "");
     const rig = Math.random() < rigChance;
@@ -103,13 +104,23 @@ function getOutcome(betAmount, playerChoice, quy, threadID) {
     return null;
 }
 
-/** Ghi nhận kết quả ván để FOMO cập nhật lịch sử (gọi từ tx.js sau khi trả thưởng). */
+function getOutcomeChanLe(betAmount, playerChoice, quy, threadID) {
+    const rigChance = getRigChance(betAmount, quy, threadID || "");
+    const rig = Math.random() < rigChance;
+    if (rig) {
+        const o = generateLosingChanLe(playerChoice);
+        return { ...o, rigged: true };
+    }
+    return null;
+}
+
 function recordOutcome(threadID, playerWon) {
     if (threadID != null) pushOutcome(String(threadID), !!playerWon);
 }
 
 module.exports = {
     getOutcome,
+    getOutcomeChanLe,
     recordOutcome,
     getRigChance,
     houseStreak,
