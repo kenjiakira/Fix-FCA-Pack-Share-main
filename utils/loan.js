@@ -6,7 +6,7 @@ const LOAN_CONFIG = {
     maxLoanRatio: 0.3,
     baseInterestRate: 0.02,
     maxLoanDuration: 5,
-    minimumBalanceAge: 14,
+    minimumBalanceAge: 2,
     penaltyRate: 0.05,
     collateralRatio: 0.5,
     creditScoreThresholds: {
@@ -49,12 +49,12 @@ const LOAN_APPROVAL = {
         review: {
             maxAmount: 200000,
             minCreditScore: 60,
-            waitTime: 4 * 60 * 60 * 1000
+            waitTime: 10 * 60 * 1000
         },
         committee: {
             maxAmount: Infinity,
             minCreditScore: 50,
-            waitTime: 12 * 60 * 60 * 1000
+            waitTime: 10 * 60 * 1000
         }
     }
 };
@@ -104,6 +104,15 @@ async function processLoanRequest(userId, amount, bankingData, userData, bankBal
             success: false,
             message: `❌ Số tiền vay tối thiểu là ${formatNumber(LOAN_CONFIG.minAmount)} $!`
         };
+    }
+
+    let pendingApproved = false;
+    const pending = bankingData.loanRequests && bankingData.loanRequests[userId];
+    if (pending && pending.status === 'pending' && Date.now() >= pending.processingTime) {
+        amount = pending.amount;
+        delete bankingData.loanRequests[userId];
+        saveBankingData(bankingData);
+        pendingApproved = true;
     }
 
     const loanHistory = bankingData.loans[userId]?.history || [];
@@ -181,9 +190,8 @@ async function processLoanRequest(userId, amount, bankingData, userData, bankBal
         approvalLevel = "committee";
     }
 
-    if (approvalLevel !== "automatic" && vipLevel !== 3) {
+    if (!pendingApproved && approvalLevel !== "automatic" && vipLevel !== 3) {
         const waitTime = LOAN_APPROVAL.levels[approvalLevel].waitTime;
-        const waitHours = Math.ceil(waitTime / (60 * 60 * 1000));
 
         if (!bankingData.loanRequests) bankingData.loanRequests = {};
         bankingData.loanRequests[userId] = {
@@ -197,7 +205,7 @@ async function processLoanRequest(userId, amount, bankingData, userData, bankBal
 
         return {
             success: false,
-            message: `🕒 YÊU CẦU VAY ĐANG CHỜ PHÊ DUYỆT\n━━━━━━━━━━━━━━━━━━\n💰 Số tiền yêu cầu: ${formatNumber(amount)} $\n⏳ Thời gian chờ: Khoảng ${waitHours} giờ\n📋 Cấp độ phê duyệt: ${approvalLevel === "review" ? "Xét duyệt" : "Ủy ban"}\n\n📌 Lưu ý:\n• Yêu cầu của bạn đang được xem xét\n• Bạn sẽ nhận được thông báo khi có kết quả\n• Nâng cấp lên VIP Gold để được vay tức thì`
+            message: `🕒 YÊU CẦU VAY ĐANG CHỜ PHÊ DUYỆT\n━━━━━━━━━━━━━\n💰 Số tiền yêu cầu: ${formatNumber(amount)} $\n⏳ Yêu cầu của bạn sẽ được duyệt tự động trong ít phút nữa.\n📋 Cấp độ: ${approvalLevel === "review" ? "Xét duyệt" : "Ủy ban"}\n\n📌 Lưu ý:\n• Sau khoảng 10 phút, gõ lại .loan [số tiền] để nhận tiền vay\n• Nâng cấp VIP Gold để được vay tức thì`
         };
     }
 

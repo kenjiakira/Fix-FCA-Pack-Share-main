@@ -63,7 +63,8 @@ module.exports = {
     
         if (Object.keys(mentions).length > 0) {
             userID = Object.keys(mentions)[0];
-            amount = target[2];
+            amount = target[1];
+            reason = target.slice(2).join(' ');
         } else if (messageReply) {
             userID = messageReply.senderID;
             amount = target[1]; 
@@ -74,6 +75,7 @@ module.exports = {
             }
             userID = target[1];
             amount = target[2];
+            reason = target.slice(3).join(' ');
         }
     
         if (!userID) {
