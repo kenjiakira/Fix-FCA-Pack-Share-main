@@ -4,7 +4,7 @@ const fs = require('fs');
 const path = require('path');
 
 // Storage setup
-const STORAGE_FILE = path.join(__dirname, './json/AI/funtext_history.json');
+const STORAGE_FILE = path.join(__dirname, '../database/json/AI/funtext_history.json');
 
 function initializeStorage() {
     if (!fs.existsSync(path.dirname(STORAGE_FILE))) {

@@ -43,7 +43,7 @@ module.exports = {
         if (!commandName) {
             const message = [
                 "❓ BẠN MUỐN DÙNG LỆNH GÌ?",
-                "━━━━━━━━━━━━━━━━━━",
+                "━━━━━━━━",
                 "",
                 `📌 Gõ ${prefix}help để xem danh sách lệnh`,
                 `💡 Ví dụ: ${prefix}help, ${prefix}coin`
@@ -55,7 +55,7 @@ module.exports = {
         const similarCommands = this.findSimilarCommands(commandName, allCommands);
         const messages = [
             "❌ LỆNH KHÔNG TỒN TẠI",
-            "━━━━━━━━━━━━━━━━━━",
+            "━━━━━━━━",
             "",
             `🔍 Bạn đang tìm: ${prefix}${commandName}`
         ];

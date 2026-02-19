@@ -3,9 +3,9 @@ const path = require("path");
 const fs = require("fs");
 const { getBalance, updateBalance } = require('../utils/currencies');
 
-const API_KEYS = JSON.parse(fs.readFileSync(path.join(__dirname, "./json/chatbot/key.json"))).api_keys;
-const PUZZLES_FILE = path.join(__dirname, './json/puzzle/puzzles.json');
-const HISTORY_FILE = path.join(__dirname, './json/puzzle/history.json');
+const API_KEYS = JSON.parse(fs.readFileSync(path.join(__dirname, "../database/json/chatbot/key.json"))).api_keys;
+const PUZZLES_FILE = path.join(__dirname, '../database/json/puzzle/puzzles.json');
+const HISTORY_FILE = path.join(__dirname, '../database/json/puzzle/history.json');
 
 function ensureDirectoryExists(filePath) {
     const dirname = path.dirname(filePath);

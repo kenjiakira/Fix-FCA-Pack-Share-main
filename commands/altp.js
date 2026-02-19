@@ -1,6 +1,7 @@
 const path = require("path");
 const fs = require("fs-extra");
 const { updateBalance } = require('../utils/currencies');
+const { applyWorkTax, addToTaxFund } = require('../utils/tax');
 const { useGPT } = require('../utils/gptHook');
 const {
     createAltpCanvas,
@@ -14,12 +15,14 @@ const {
 const MESSAGE_LIFETIME = 15000;
 const ANSWER_COOLDOWN = 10000;
 const QUESTION_TIME_LIMIT = 120000;
+const COOLDOWN_AFTER_GAME_MS = 30 * 60 * 1000;
 
-const API_KEYS = JSON.parse(fs.readFileSync(path.join(__dirname, "./json/chatbot/key.json"))).api_keys;
-const QUESTIONS_FILE = path.join(__dirname, './json/quiz/questions.json');
+const API_KEYS = JSON.parse(fs.readFileSync(path.join(__dirname, '../database/json/chatbot/key.json'))).api_keys;
+const QUESTIONS_FILE = path.join(__dirname, '../database/json/quiz/questions.json');
 const usedQuestions = new Set();
 const gameStates = new Map();
 const lastAnswerTime = new Map();
+const lastAltpGameEnd = new Map();
 const MONEY_LADDER = [
 
     0, 200, 400, 600, 1000, 2000,
@@ -32,6 +35,14 @@ const LIFELINES = {
     "AUDIENCE": "Hỏi ý kiến khán giả",
     "CALL": "Gọi điện thoại cho người thân"
 };
+
+function payAltpWinnings(userId, grossAmount) {
+    if (grossAmount <= 0) return { net: 0, tax: 0 };
+    const { netPay, taxAmount } = applyWorkTax(grossAmount, userId);
+    if (taxAmount > 0) addToTaxFund(taxAmount);
+    updateBalance(userId, netPay);
+    return { net: netPay, tax: taxAmount };
+}
 
 function simulateAudienceHelp(correctAnswer) {
     const results = { A: 0, B: 0, C: 0, D: 0 };
@@ -196,7 +207,10 @@ module.exports = {
             if (gameStates.has(threadID)) {
                 const state = gameStates.get(threadID);
                 const moneyWon = state.level > 0 ? MONEY_LADDER[state.level - 1] : 0;
-                api.sendMessage(`Game over! Bạn đã dừng cuộc chơi với ${moneyWon}$`, threadID);
+                const { net, tax } = payAltpWinnings(state.player, moneyWon);
+                const taxText = tax > 0 ? ` (sau thuế: ${net.toLocaleString()}$)` : '';
+                api.sendMessage(`Game over! Bạn đã dừng cuộc chơi với ${moneyWon.toLocaleString()}$${taxText}`, threadID);
+                lastAltpGameEnd.set(threadID, Date.now());
                 gameStates.delete(threadID);
             }
             return;
@@ -205,26 +219,35 @@ module.exports = {
         if (gameStates.has(threadID)) {
             return api.sendMessage("⚠️ Đã có người đang chơi trong nhóm này!", threadID);
         }
+
+        const lastEnd = lastAltpGameEnd.get(threadID);
+        if (lastEnd && Date.now() - lastEnd < COOLDOWN_AFTER_GAME_MS) {
+            const waitSec = Math.ceil((COOLDOWN_AFTER_GAME_MS - (Date.now() - lastEnd)) / 1000);
+            return api.sendMessage(
+                `⏳ Nhóm vừa kết thúc một lượt chơi. Vui lòng đợi ${Math.ceil(waitSec / 60)} phút ${waitSec % 60 > 0 ? waitSec % 60 + ' giây' : ''} nữa mới chơi lại.`,
+                threadID,
+                messageID
+            );
+        }
         if (!global.altpTimeoutChecker) {
             global.altpTimeoutChecker = setInterval(() => {
                 const now = Date.now();
 
-                gameStates.forEach((state, threadID) => {
+                gameStates.forEach((state, tid) => {
                     if (state.questionTime && now - state.questionTime > QUESTION_TIME_LIMIT) {
 
                         const moneyWon = state.level > 0 ? MONEY_LADDER[state.level - 1] : 0;
+                        const { net, tax } = payAltpWinnings(state.player, moneyWon);
+                        const taxText = tax > 0 ? ` (sau thuế: ${net.toLocaleString()}$)` : '';
 
                         api.sendMessage(
                             `⏰ Hết thời gian! Người chơi không trả lời trong 2 phút.\n` +
-                            `💰 Kết thúc trò chơi với ${moneyWon}$`,
-                            threadID
+                            `💰 Kết thúc trò chơi với ${moneyWon.toLocaleString()}$${taxText}`,
+                            tid
                         );
 
-                        if (moneyWon > 0 && state.player) {
-                            updateBalance(state.player, moneyWon);
-                        }
-
-                        gameStates.delete(threadID);
+                        lastAltpGameEnd.set(tid, now);
+                        gameStates.delete(tid);
                     }
                 });
             }, 5000);
@@ -284,7 +307,6 @@ module.exports = {
             }, threadID);
         } catch (err) {
             console.error("Canvas error:", err);
-            // Fallback to text message
             sent = await api.sendMessage(welcome, threadID);
         }
 
@@ -324,14 +346,14 @@ module.exports = {
             try {
                 const question = await this.getQuestion(gameState.level);
                 gameState.currentQuestion = question;
-                gameState.questionTime = Date.now(); // Add this line to track question time
+                gameState.questionTime = Date.now(); 
 
                 try {
                     const questionCanvas = await createAltpCanvas({
                         type: 'question',
                         gameState: gameState,
                         question: question,
-                        timeLeft: 120 // Start with full time
+                        timeLeft: 120 
                     });
 
                     const questionAttachment = await canvasToStream(questionCanvas, 'altp_question');
@@ -343,33 +365,30 @@ module.exports = {
 
                     gameState.lastMessage = questionMessage.messageID;
 
-                    // Use questionMessage instead of sent
                     global.client.onReply.push({
                         name: this.name,
-                        messageID: questionMessage.messageID, // Fixed: use questionMessage instead of sent
+                        messageID: questionMessage.messageID,
                         author: senderID,
                         gameData: gameState
                     });
 
                 } catch (err) {
                     console.error("Canvas error:", err);
-                    // Fallback to text
                     const fallbackMessage = await api.sendMessage(
                         this.formatQuestion(question, gameState),
                         threadID
                     );
                     gameState.lastMessage = fallbackMessage.messageID;
 
-                    // Use fallbackMessage instead of sent
                     global.client.onReply.push({
                         name: this.name,
-                        messageID: fallbackMessage.messageID, // Fixed: use fallbackMessage instead of sent
+                        messageID: fallbackMessage.messageID,
                         author: senderID,
                         gameData: gameState
                     });
                 }
 
-                return; // Add return to stop further execution
+                return; 
             } catch (err) {
                 const errorMsg = await api.sendMessage(
                     "❌ Lỗi khi lấy câu hỏi, vui lòng thử lại!",
@@ -429,16 +448,16 @@ module.exports = {
         if (["A", "B", "C", "D"].includes(answer)) {
             if (gameState.questionTime && Date.now() - gameState.questionTime > QUESTION_TIME_LIMIT) {
                 const moneyWon = gameState.level > 0 ? MONEY_LADDER[gameState.level - 1] : 0;
+                const { net, tax } = payAltpWinnings(senderID, moneyWon);
+                const taxText = tax > 0 ? ` (sau thuế: ${net.toLocaleString()}$)` : '';
                 const timeoutMsg = await api.sendMessage(
                     `⏰ Hết thời gian! Bạn đã trả lời quá 2 phút cho phép.\n` +
-                    `💰 Bạn ra về với ${moneyWon}$`,
+                    `💰 Bạn ra về với ${moneyWon.toLocaleString()}$${taxText}`,
                     threadID
                 );
                 setTimeout(() => api.unsendMessage(timeoutMsg.messageID), MESSAGE_LIFETIME * 2);
 
-                if (moneyWon > 0) {
-                    updateBalance(senderID, moneyWon);
-                }
+                lastAltpGameEnd.set(threadID, Date.now());
                 gameStates.delete(threadID);
                 return;
             }
@@ -446,14 +465,17 @@ module.exports = {
                 gameState.level++;
 
                 if (gameState.level === MONEY_LADDER.length) {
+                    const jackpot = MONEY_LADDER[gameState.level - 1];
+                    const { net, tax } = payAltpWinnings(senderID, jackpot);
+                    const taxLine = tax > 0 ? `\n📋 Thuế: -${tax.toLocaleString()}$ → Nhận: ${net.toLocaleString()}$` : '';
                     await api.sendMessage(
                         `🎉 CHÚC MỪNG! BẠN ĐÃ TRỞ THÀNH TRIỆU PHÚ!\n` +
-                        `💰 Phần thưởng: ${MONEY_LADDER[gameState.level - 1]}$\n` +
+                        `💰 Phần thưởng: ${jackpot.toLocaleString()}$${taxLine}\n` +
                         `🏆 Bạn đã chinh phục thành công tất cả ${MONEY_LADDER.length - 1} câu hỏi!`,
                         threadID
                     );
 
-                    updateBalance(senderID, MONEY_LADDER[gameState.level - 1]);
+                    lastAltpGameEnd.set(threadID, Date.now());
                     gameStates.delete(threadID);
                     return;
                 }
@@ -463,20 +485,17 @@ module.exports = {
                         api.unsendMessage(gameState.lastMessage);
                     }
             
-                    // Lưu lại câu hỏi hiện tại trước khi lấy câu hỏi mới
                     const currentQuestion = { ...gameState.currentQuestion };
                     
-                    // Chuẩn bị câu hỏi mới cho vòng tiếp theo
                     const nextQuestion = await this.getQuestion(gameState.level);
                     gameState.questionTime = Date.now();
             
                     try {
-                        // Tạo canvas kết quả cho câu hỏi VỪA TRẢ LỜI
                         const resultCanvas = await createAltpResultCanvas({
                             isCorrect: true,
-                            question: currentQuestion,  // Sử dụng câu hỏi đã lưu
+                            question: currentQuestion,  
                             answer: answer,
-                            level: gameState.level - 1, // Mức độ của câu hỏi vừa trả lời
+                            level: gameState.level - 1, 
                             prizeMoney: MONEY_LADDER[gameState.level - 1],
                             isMilestone: [5, 10, 15].includes(gameState.level - 1)
                         });
@@ -490,16 +509,14 @@ module.exports = {
                         const resultDisplayTime = 8000; 
                         setTimeout(() => api.unsendMessage(correctMessage.messageID), resultDisplayTime);
             
-                        // Chỉ cập nhật gameState.currentQuestion sau khi đã hiển thị kết quả
                         gameState.currentQuestion = nextQuestion;
             
-                        // Tạo câu hỏi mới sau khi đã hiển thị kết quả
                         setTimeout(async () => {
                             try {
                                 const questionCanvas = await createAltpCanvas({
                                     type: 'question',
                                     gameState: gameState,
-                                    question: nextQuestion, // Sử dụng câu hỏi mới
+                                    question: nextQuestion, 
                                     timeLeft: 120
                                 });
 
@@ -652,35 +669,41 @@ module.exports = {
         try {
             const category = getRandomCategory();
 
-            const prompt = `Tạo câu hỏi trắc nghiệm tiếng Việt ${difficulty === 3 ? 'khó' : difficulty === 2 ? 'trung bình' : 'dễ'}:
+            const prompt = `Tạo câu hỏi trắc nghiệm tiếng Việt cho game Ai Là Triệu Phú.
 
             Chủ đề: ${category}
-            Độ khó: ${difficulty}/3
+            Độ khó: ${difficulty}/3 (${difficulty === 1 ? 'dễ - câu 1-5' : difficulty === 2 ? 'trung bình - câu 6-10' : 'SIÊU KHÓ - câu 11 trở lên'})
             
-            QUY TẮC:
-            1. KHÔNG được dùng các từ:
-               - "Ai là...", "Cái nào là...", "Đâu là...", "... là gì?"
-               
-            2. Phải dùng một trong các dạng câu sau:
-               - "Tại sao [hiện tượng] lại [kết quả]?"
-               - "Điều gì sẽ xảy ra nếu [điều kiện]?"
-               - "Làm thế nào [nguyên nhân] dẫn đến [kết quả]?"
-               - "So sánh sự khác biệt giữa [A] và [B]"
-               - "Giải thích cơ chế/quy trình của [hiện tượng]"
+            QUY TẮC BẮT BUỘC:
+            1. KHÔNG dùng: "Ai là...", "Cái nào là...", "Đâu là...", "... là gì?"
+            2. BỐN ĐÁP ÁN A, B, C, D PHẢI KHÁC NHAU HOÀN TOÀN:
+               - Mỗi đáp án là một ý tưởng/khái niệm/con số RÕ RÀNG, CỤ THỂ
+               - CẤM đáp án gần giống nhau, chỉ khác 1-2 từ
+               - CẤM đáp án dạng "X", "Y", "Z" chung chung - phải viết rõ nội dung
+               - Ví dụ SAI: A: Năm 1945 | B: Năm 1946 | C: Năm 1947 (quá giống)
+               - Ví dụ ĐÚNG: A: Chiến tranh thế giới 2 | B: Cách mạng công nghiệp | C: Phát minh điện | D: Thành lập Liên Hợp Quốc
             
-            3. Độ phức tạp tăng dần theo level:
-               Level ${difficulty}/3:
-               ${difficulty === 1 ? '- Kiến thức cơ bản, phổ thông\n- Câu hỏi và đáp án đơn giản, dễ hiểu' :
-                    difficulty === 2 ? '- Kiến thức chuyên sâu hơn\n- Cần phân tích, suy luận' :
-                        '- Kiến thức nâng cao\n- Đòi hỏi tư duy phản biện, liên kết nhiều lĩnh vực'}
+            3. Độ khó theo level:
+               ${difficulty === 1 ? `LEVEL 1 (DỄ - câu 1-5):
+               - Kiến thức cơ bản, ai cũng biết
+               - Câu hỏi trực tiếp, đáp án rõ ràng phân biệt` :
+                    difficulty === 2 ? `LEVEL 2 (TRUNG BÌNH - câu 6-10):
+               - Kiến thức chuyên sâu hơn
+               - Cần suy luận, loại trừ đáp án sai` :
+                        `LEVEL 3 (SIÊU KHÓ - câu 11+):
+               - Kiến thức HỌC THUẬT, CHUYÊN NGÀNH, ÍT NGƯỜI BIẾT
+               - Chi tiết cụ thể: tên riêng, năm chính xác, thuật ngữ chuyên môn
+               - Đòi hỏi tư duy phản biện, liên kết ĐA LĨNH VỰC
+               - Các đáp án sai phải "có vẻ đúng" để gây nhiễu, nhưng vẫn PHÂN BIỆT RÕ
+               - Câu hỏi kiểu: cơ chế sâu, so sánh tinh tế, ngoại lệ, chi tiết ít biết`}
 
-            Định dạng:
-            Q: [câu hỏi, tối đa 30 từ]
-            A: [giải thích 1, tối đa 25 từ]
-            B: [giải thích 2, tối đa 25 từ]
-            C: [giải thích 3, tối đa 25 từ]
-            D: [giải thích 4, tối đa 25 từ]
-            Correct: [chữ cái đáp án đúng]`;
+            ĐỊNH DẠNG ĐẦU RA (bắt buộc):
+            Q: [câu hỏi, tối đa 35 từ]
+            A: [đáp án CỤ THỂ, tối đa 25 từ]
+            B: [đáp án CỤ THỂ, tối đa 25 từ]
+            C: [đáp án CỤ THỂ, tối đa 25 từ]
+            D: [đáp án CỤ THỂ, tối đa 25 từ]
+            Correct: [A hoặc B hoặc C hoặc D]`;
 
             const response = await useGPT({
                 prompt,

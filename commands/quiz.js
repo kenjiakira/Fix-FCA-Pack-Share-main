@@ -4,8 +4,8 @@ const { updateBalance } = require('../utils/currencies');
 const { createQuizCanvas, createQuizResultCanvas, canvasToStream } = require('../game/canvas/quizCanvas');
 const { useGPT } = require('../utils/gptHook');
 
-const QUESTIONS_FILE = path.join(__dirname, './json/quiz/questions.json');
-const HISTORY_FILE = path.join(__dirname, './json/quiz/history.json');
+const QUESTIONS_FILE = path.join(__dirname, '../database/json/quiz/questions.json');
+const HISTORY_FILE = path.join(__dirname, '../database/json/quiz/history.json');
 
 fs.ensureDirSync(path.dirname(QUESTIONS_FILE));
 fs.ensureDirSync(path.dirname(HISTORY_FILE));

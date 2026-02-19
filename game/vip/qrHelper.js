@@ -84,20 +84,8 @@ class QRGenerator {
                 gradient.addColorStop(0, '#11998e');
                 gradient.addColorStop(1, '#38ef7d');
             } else {
-                // Gradient màu dựa trên tên gói
-                if (packageName?.toLowerCase().includes('bronze')) {
-                    gradient.addColorStop(0, '#b8751e');
-                    gradient.addColorStop(1, '#ffc87c');
-                } else if (packageName?.toLowerCase().includes('silver')) {
-                    gradient.addColorStop(0, '#757F9A');
-                    gradient.addColorStop(1, '#D7DDE8');
-                } else if (packageName?.toLowerCase().includes('gold')) {
-                    gradient.addColorStop(0, '#FFD700');
-                    gradient.addColorStop(1, '#FFA500');
-                } else {
-                    gradient.addColorStop(0, '#4e54c8');
-                    gradient.addColorStop(1, '#8f94fb');
-                }
+                gradient.addColorStop(0, '#FFD700');
+                gradient.addColorStop(1, '#FFA500');
             }
 
             // Vẽ header với gradient

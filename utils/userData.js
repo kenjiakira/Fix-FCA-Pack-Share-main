@@ -2,7 +2,7 @@ const { writeFileSync, existsSync, readFileSync } = require('fs');
 const path = require('path');
 
 async function createUserData(userID) {
-    const userDataPath = path.join(__dirname, '..', 'database', 'users.json');
+    const userDataPath = path.join(__dirname, '../database/users.json');
     
     try {
         let userData = {};

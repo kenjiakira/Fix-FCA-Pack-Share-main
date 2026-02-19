@@ -90,7 +90,7 @@ async function createRankImage(data) {
             players[i], i + 1, rankColor, isCurrentUser);
     }
     
-    const outputPath = path.join(__dirname, `./cache/rank_${Date.now()}.png`);
+    const outputPath = path.join(__dirname, `../../database/cache/rank_${Date.now()}.png`);
     const buffer = canvas.toBuffer('image/png');
     fs.writeFileSync(outputPath, buffer);
     

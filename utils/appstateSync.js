@@ -28,8 +28,6 @@ async function fetchAppStateFromURL(url, apiKey = null) {
             console.log(boldText(gradient.passion('⚠️ Không có API key, có thể cần cho private bin')));
         }
         
-        console.log(boldText(gradient.cristal(`📥 Đang tải từ URL: ${url}`)));
-        
         const response = await axios.get(url, {
             timeout: 30000,
             headers: headers,
@@ -166,16 +164,24 @@ async function checkAndUpdateAppState(syncURL, apiKey = null, shouldRestart = fa
         
         const validatedContent = validateAppState(content);
         
-        const currentHash = getContentHash(validatedContent);
-        const lastHash = lastContentHash || loadLastCheck();
+        let currentFileHash = null;
+        if (fs.existsSync(APPSTATE_PATH)) {
+            try {
+                const currentFileContent = JSON.parse(fs.readFileSync(APPSTATE_PATH, 'utf8'));
+                currentFileHash = getContentHash(currentFileContent);
+            } catch (error) {
+                currentFileHash = null;
+            }
+        }
         
-        if (currentHash === lastHash) {
+        const newContentHash = getContentHash(validatedContent);
+        
+        if (currentFileHash && currentFileHash === newContentHash) {
             console.log(boldText(gradient.cristal('✅ Appstate không có thay đổi')));
             return false;
         }
         
         console.log(boldText(gradient.retro('📥 Phát hiện appstate mới, đang cập nhật...')));
-        
         saveAppState(validatedContent);
         
         console.log(boldText(gradient.retro('✅ Đã cập nhật appstate.json thành công!')));
@@ -218,8 +224,6 @@ function startAppStateSync(syncURL, intervalMinutes = 5, apiKey = null) {
     console.log(boldText(gradient.cristal('🔄 Khởi động đồng bộ appstate từ URL...')));
     console.log(boldText(gradient.cristal(`📎 URL: ${syncURL}`)));
     console.log(boldText(gradient.cristal(`⏱️  Chu kỳ kiểm tra: ${intervalMinutes} phút`)));
-
-    lastContentHash = loadLastCheck();
     
     checkAndUpdateAppState(syncURL, apiKey, false).catch(err => {
         console.error(boldText(gradient.passion('❌ Lỗi kiểm tra lần đầu:')), err.message);

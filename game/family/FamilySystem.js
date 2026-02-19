@@ -1,8 +1,6 @@
 const fs = require('fs');
 const path = require('path');
 const HomeSystem = require('./HomeSystem');
-const EducationSystem = require('./EducationSystem');
-const ChildJobSystem = require('./ChildJobSystem');
 const TravelSystem = require('./TravelSystem');
 
 class FamilySystem {
@@ -12,16 +10,9 @@ class FamilySystem {
         }
         FamilySystem.instance = this;
         this.homeSystem = new HomeSystem();
-        this.educationSystem = new EducationSystem();
-        this.childJobSystem = new ChildJobSystem();
         this.travelSystem = new TravelSystem();
-        this.childJobSystem.familySystem = this; 
-        this.healthDecayInterval = 24 * 60 * 60 * 1000; 
-        this.healthDecayAmount = 5;
         this.path = path.join(__dirname, '../../database/json/family/family.json');
         this.data = this.loadData();
-        this.startHealthMonitoring();
-        this.startInsuranceMonitoring();
     }
     static getInstance() {
         if (!FamilySystem.instance) {
@@ -103,7 +94,7 @@ class FamilySystem {
         if (family2.spouse) throw new Error("Người kia đã kết hôn!");
         if (userID1 === userID2) throw new Error("Không thể tự kết hôn với chính mình!");
 
-        const userData = JSON.parse(fs.readFileSync(path.join(__dirname, '../database/cache/rankData.json'), 'utf8'));
+        const userData = JSON.parse(fs.readFileSync(path.join(__dirname, '../../database/rankData.json'), 'utf8'));
         const proposerName = userData[userID1]?.name || userID1;
 
         family1.spouse = userID2;
@@ -148,15 +139,6 @@ getFamilyIncomeLevel(userID) {
         }
         
         const family = this.getFamily(userID);
-        
-        if (family.children && family.children.length > 0) {
-            family.children.forEach(child => {
-                const childJobInfo = this.childJobSystem.getChildJobInfo(child.id);
-                if (childJobInfo) {
-                    totalIncome += childJobInfo.baseIncome || 0;
-                }
-            });
-        }
         
         if (family.spouse) {
             const spouseJob = jobData[family.spouse];
@@ -297,116 +279,6 @@ getMarriageInfo(userID) {
     };
 }
 
-async arrangeMarriage(childIndex1, parentId1, targetChildIndex, targetParentId) {
-    const family1 = this.getFamily(parentId1);
-    const family2 = this.getFamily(targetParentId);
-
-    if (!family1.children?.[childIndex1] || !family2.children?.[targetChildIndex]) {
-        throw new Error("❌ Không tìm thấy thông tin của một trong hai đứa con!");
-    }
-
-    const child1 = family1.children[childIndex1];
-    const child2 = family2.children[targetChildIndex];
-
-    if (child1.isMarried) {
-        throw new Error(`❌ ${child1.name} đã kết hôn rồi!`);
-    }
-    if (child2.isMarried) {
-        throw new Error(`❌ ${child2.name} đã kết hôn rồi!`);
-    }
-
-    const getMarriageAge = (birthDate) => {
-        const hours = Math.floor((Date.now() - birthDate) / (1000 * 60 * 60));
-        return Math.floor(hours / 12);
-    };
-
-    const age1 = getMarriageAge(child1.birthDate);
-    const age2 = getMarriageAge(child2.birthDate);
-
-    const minMarriageAge = {
-        "👦": 20, 
-        "👧": 18 
-    };
-
-    if (age1 < minMarriageAge[child1.gender]) {
-        throw new Error(
-            `❌ ${child1.name} chưa đủ tuổi kết hôn! ` +
-            `(${age1}/${minMarriageAge[child1.gender]} tuổi)`
-        );
-    }
-
-    if (age2 < minMarriageAge[child2.gender]) {
-        throw new Error(
-            `❌ ${child2.name} chưa đủ tuổi kết hôn! ` +
-            `(${age2}/${minMarriageAge[child2.gender]} tuổi)`
-        );
-    }
-
-    if (child1.gender === child2.gender) {
-        throw new Error("❌ Gay à !");
-    }
-
-    return {
-        child1: {
-            name: child1.name,
-            gender: child1.gender,
-            age: age1,
-            parent: parentId1
-        },
-        child2: {
-            name: child2.name,
-            gender: child2.gender,
-            age: age2,
-            parent: targetParentId
-        }
-    };
-}
-
-canWorkByAge(birthDate) {
-    const hours = Math.floor((Date.now() - birthDate) / (1000 * 60 * 60));
-    const age = Math.floor(hours / 12);
-    return age >= 13; 
-}
-
-async confirmChildMarriage(childIndex1, parentId1, targetChildIndex, targetParentId) {
-    const marriage = await this.arrangeMarriage(childIndex1, parentId1, targetChildIndex, targetParentId);
-    const family1 = this.getFamily(parentId1);
-    const family2 = this.getFamily(targetParentId);
-
-    const child1 = family1.children[childIndex1];
-    const child2 = family2.children[targetChildIndex];
-
-    child1.isMarried = true;
-    child1.spouseName = child2.name;
-    child1.spouseParentId = targetParentId;
-    child1.marriageDate = Date.now();
-    child1.movedOut = true;
-
-    child2.isMarried = true;
-    child2.spouseName = child1.name;
-    child2.spouseParentId = parentId1;
-    child2.marriageDate = Date.now();
-    child2.movedOut = true;
-
-    this.saveData();
-
-    return {
-        success: true,
-        couple: {
-            spouse1: {
-                name: child1.name,
-                gender: child1.gender,
-                parentName: this.getUserName(parentId1)
-            },
-            spouse2: {
-                name: child2.name,
-                gender: child2.gender,
-                parentName: this.getUserName(targetParentId)
-            }
-        }
-    };
-}
-
 confirmMarriage(proposerID, acceptorID) {
         const proposer = this.getFamily(proposerID);
         const acceptor = this.getFamily(acceptorID);
@@ -415,7 +287,7 @@ confirmMarriage(proposerID, acceptorID) {
             throw new Error("Một trong hai người đã kết hôn!");
         }
 
-        const userData = JSON.parse(fs.readFileSync(path.join(__dirname, '../database/cache/rankData.json'), 'utf8'));
+        const userData = JSON.parse(fs.readFileSync(path.join(__dirname, '../../database/rankData.json'), 'utf8'));
         const proposerName = userData[proposerID]?.name || proposerID;
 
         proposer.spouse = acceptorID;
@@ -514,8 +386,6 @@ confirmMarriage(proposerID, acceptorID) {
             };
 
             family.children.push(child);
-
-            this.childJobSystem.registerChild(child);
 
             this.saveData();
 
@@ -659,7 +529,7 @@ confirmMarriage(proposerID, acceptorID) {
     getUserName(userID) {
         if (!userID) return "Người dùng không xác định";
         
-        const userDataPath = path.join(__dirname, '../../database/cache/rankData.json');
+        const userDataPath = path.join(__dirname, '../../database/rankData.json');
         try {
             if (!fs.existsSync(userDataPath)) {
                 return userID.toString();
@@ -731,30 +601,6 @@ confirmMarriage(proposerID, acceptorID) {
         });
     }
     
-    sendChildToTemple(userID, childIndex) {
-        const family = this.getFamily(userID);
-        if (!family.children || !family.children[childIndex]) {
-            throw new Error("Không tìm thấy con!");
-        }
-
-        const child = family.children[childIndex];
-        
-        family.children.splice(childIndex, 1);
-        
-        if (family.spouse) {
-            const spouseFamily = this.getFamily(family.spouse);
-            if (spouseFamily.children) {
-                spouseFamily.children.splice(childIndex, 1);
-            }
-        }
-
-        this.saveData();
-        return {
-            name: child.name,
-            gender: child.gender
-        };
-    }
-
     useContraceptive(userID) {
         const family = this.getFamily(userID);
         const { COOLDOWNS } = require('../config/family/familyConfig');
@@ -772,124 +618,6 @@ confirmMarriage(proposerID, acceptorID) {
 
     getAllFamilies() {
         return this.data;
-    }
-
-    startHealthMonitoring() {
-        setInterval(() => {
-            for (const [userId, family] of Object.entries(this.data)) {
-                if (!family.health) family.health = 100;
-                family.health = Math.max(0, family.health - this.healthDecayAmount);
-            }
-            this.saveData();
-        }, this.healthDecayInterval);
-    }
-
-    startInsuranceMonitoring() {
-        setInterval(() => {
-            const now = Date.now();
-            for (const [userId, family] of Object.entries(this.data)) {
-                if (family.insurance && family.insurance.active && now > family.insurance.expiresAt) {
-                    family.insurance.active = false;
-                    family.insurance.discount = 0;
-                }
-            }
-            this.saveData();
-        }, 60 * 60 * 1000);
-    }
-
-    activateInsurance(userID, insuranceType, duration, discount) {
-        const family = this.getFamily(userID);
-        const expiresAt = Date.now() + (duration * 24 * 60 * 60 * 1000);
-        
-        if (!family.insurances) {
-            family.insurances = {};
-        }
-
-        family.insurances[insuranceType] = {
-            active: true,
-            expiresAt: expiresAt,
-            discount: discount
-        };
-
-        if (insuranceType === 'health') {
-            family.insurance = family.insurances[insuranceType];
-        }
-        
-        this.saveData();
-        return family.insurances[insuranceType];
-    }
-
-    hasActiveInsurance(userID, type = 'health') {
-        const family = this.getFamily(userID);
-        if (!family.insurances || !family.insurances[type]) return false;
-        
-        const now = Date.now();
-        if (family.insurances[type].expiresAt < now) {
-            family.insurances[type].active = false;
-            this.saveData();
-            return false;
-        }
-        
-        return family.insurances[type].active;
-    }
-
-    getInsuranceDiscount(userID, type = 'health') {
-        const family = this.getFamily(userID);
-        if (!this.hasActiveInsurance(userID, type)) return 0;
-        return family.insurances[type]?.discount || 0;
-    }
-
-    getVehicleInsuranceInfo(userID) {
-        const family = this.getFamily(userID);
-        if (!family.insurances) return {};
-
-        return {
-            car: family.insurances.car || null,
-            bike: family.insurances.bike || null
-        };
-    }
-
-    getInsuranceStatus(userID) {
-        const family = this.getFamily(userID);
-        if (!family.insurances) return {};
-
-        const now = Date.now();
-        const status = {};
-
-        for (const [type, insurance] of Object.entries(family.insurances)) {
-            if (insurance.active && insurance.expiresAt > now) {
-                const daysLeft = Math.ceil((insurance.expiresAt - now) / (24 * 60 * 60 * 1000));
-                status[type] = {
-                    active: true,
-                    discount: insurance.discount,
-                    daysLeft: daysLeft
-                };
-            }
-        }
-
-        return status;
-    }
-
-    getHealth(userId) {
-        const family = this.getFamily(userId);
-        if (!family.health) family.health = 100;
-        return Math.round(family.health);
-    }
-
-    increaseHealth(userId, amount) {
-        const family = this.getFamily(userId);
-        if (!family.health) family.health = 100;
-        family.health = Math.min(100, family.health + amount);
-        this.saveData();
-        return Math.round(family.health);
-    }
-
-    decreaseHealth(userId, amount) {
-        const family = this.getFamily(userId);
-        if (!family.health) family.health = 100;
-        family.health = Math.max(0, family.health - amount);
-        this.saveData();
-        return Math.round(family.health);
     }
 
     getHomeInfo(userID) {

@@ -3,7 +3,7 @@ const fs = require('fs');
 const path = require('path');
 const { createCanvas, loadImage } = require('canvas');
 const getThreadParticipantIDs = require('../utils/getParticipantIDs');
-const vipService = require('../game/vip/vipService'); // Add VIP service import
+const vipService = require('../game/vip/vipService'); 
 let userImg, partnerImg;
 
 module.exports = {
@@ -24,11 +24,11 @@ module.exports = {
       const isVIP = vipService.checkVIP(senderID).success;
 
       if (!isVIP) {
-        const fullInfoLimitPath = path.join(__dirname, './cache/ghepFullInfo.json');
+        const fullInfoLimitPath = path.join(__dirname, '../database/cache/ghepFullInfo.json');
         let fullInfoData = {};
         
-        if (!fs.existsSync(path.join(__dirname, './cache'))) {
-          fs.mkdirSync(path.join(__dirname, './cache'), { recursive: true });
+        if (!fs.existsSync(path.join(__dirname, '../database/cache'))) {
+          fs.mkdirSync(path.join(__dirname, '../database/cache'), { recursive: true });
         }
         
         if (fs.existsSync(fullInfoLimitPath)) {
@@ -77,7 +77,7 @@ module.exports = {
       else {
         if (!isLocalMatch) {
           try {
-            const userDataPath = path.join(__dirname, '../database/cache/rankData.json');
+            const userDataPath = path.join(__dirname, '../database/rankData.json');
             let userData = {};
 
             if (fs.existsSync(userDataPath)) {
@@ -135,7 +135,7 @@ module.exports = {
         } else {
           const participants = await getThreadParticipantIDs(api, threadID);
           
-          const userDataPath = path.join(__dirname, '../database/cache/rankData.json');
+          const userDataPath = path.join(__dirname, '../database/rankData.json');
           let userData = {};
           try {
             if (fs.existsSync(userDataPath)) {
@@ -173,7 +173,7 @@ module.exports = {
       
       // Kiểm tra xem người được chọn có tên là "User" hay không
       try {
-        const userDataPath = path.join(__dirname, '../database/cache/rankData.json');
+        const userDataPath = path.join(__dirname, '../database/rankData.json');
         let userData = {};
         if (fs.existsSync(userDataPath)) {
           userData = JSON.parse(fs.readFileSync(userDataPath, 'utf8'));
@@ -323,7 +323,7 @@ module.exports = {
         partnerImg = createDefaultAvatar();
       }
 
-      const avatarCacheDir = path.join(__dirname, './cache/avatar');
+      const avatarCacheDir = path.join(__dirname, '../database/cache/avatars');
       if (!fs.existsSync(avatarCacheDir)) {
         fs.mkdirSync(avatarCacheDir, { recursive: true });
       }
@@ -334,7 +334,7 @@ module.exports = {
       fs.writeFileSync(pathUser, userImg);
       fs.writeFileSync(pathPartner, partnerImg);
 
-      const userDataPath = path.join(__dirname, '../database/cache/rankData.json');
+      const userDataPath = path.join(__dirname, '../database/rankData.json');
       let userName, partnerName;
 
       try {
@@ -827,7 +827,7 @@ module.exports = {
       drawCornerDecoration(50, 750, -Math.PI / 2);
       drawCornerDecoration(1150, 750, Math.PI);
 
-      const mergedPath = path.join(__dirname, '../database/cache/avatar/merged.jpg');
+      const mergedPath = path.join(__dirname, '../database/cache/avatars/merged.jpg');
       const out = fs.createWriteStream(mergedPath);
       const stream = canvas.createJPEGStream({ quality: 0.95 });
       stream.pipe(out);
@@ -857,7 +857,7 @@ module.exports = {
           `🔮 ${futures[Math.floor(Math.random() * futures.length)]}`;
       } else if (showFullInfo) {
         // Người dùng free còn lượt xem - hiển thị như VIP
-        const fullInfoLimitPath = path.join(__dirname, './cache/ghepFullInfo.json');
+        const fullInfoLimitPath = path.join(__dirname, '../database/cache/ghepFullInfo.json');
         let fullInfoData = JSON.parse(fs.readFileSync(fullInfoLimitPath, 'utf8'));
         const remainingViews = 5 - fullInfoData[senderID].count;
         

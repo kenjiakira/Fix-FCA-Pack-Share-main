@@ -1,7 +1,7 @@
 const fs = require('fs');
 const path = require('path');
 
-const VIP_FILE = path.join(__dirname, '..', 'commands', 'json', 'vip.json');
+const VIP_FILE = path.join(__dirname, '../database/json/vip.json');
 
 function loadVIPData() {
     try {
@@ -57,12 +57,24 @@ function checkVIP(userID) {
     }
     
     const daysLeft = Math.ceil((user.expireTime - Date.now()) / (24 * 60 * 60 * 1000));
+    
+    let vipType = user.type;
+    if (!vipType) {
+        if (user.name) {
+            vipType = user.name.replace('VIP ', '');
+        } else if (user.packageId === 3) {
+            vipType = 'GOLD';
+        } else {
+            vipType = 'GOLD';
+        }
+    }
+    
     return {
         hasVIP: true,
-        type: user.type,
+        type: vipType,
         daysLeft: daysLeft,
         expireTime: user.expireTime,
-        message: `VIP ${user.type} - Còn ${daysLeft} ngày`
+        message: `VIP ${vipType} - Còn ${daysLeft} ngày`
     };
 }
 

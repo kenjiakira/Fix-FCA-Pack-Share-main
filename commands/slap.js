@@ -48,7 +48,7 @@ module.exports = {
 
       const msg = `${senderName} đã tát ${targetName} `;
 
-      const imgPath = path.join(__dirname, 'cache/slap.gif');
+      const imgPath = path.join(__dirname, '../database/cache/slap.gif');
       const response = await axios.get(randomGif, { responseType: 'arraybuffer' });
       fs.writeFileSync(imgPath, response.data);
 

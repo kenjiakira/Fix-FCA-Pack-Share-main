@@ -13,32 +13,17 @@ const path = require('path');
 
 const { safeReadJSONSync, logSummary } = require('./utils/ensureFiles');
 
-const config = JSON.parse(fs.readFileSync("./logins/hut-chat-api/config.json", "utf8"));
-
-const BOT_LOCK_FILE = path.join(__dirname, 'bot.running');
-
-const checkBotRunning = () => {
-    try {
-        if (fs.existsSync(BOT_LOCK_FILE)) {
-            console.error(boldText(gradient.passion("Bot đang chạy ở một cửa sổ khác!")));
-            return true;
-        }
-        fs.writeFileSync(BOT_LOCK_FILE, String(process.pid));
-        return false;
-    } catch (err) {
-        return false;
+const adminConfig = JSON.parse(fs.readFileSync("admin.json", "utf8"));
+const fcaName = adminConfig.FCA || "hut-chat-api";
+const configPath = path.join(__dirname, "logins", fcaName, "config.json");
+let config = { APPSTATE_PATH: "./appstate.json" };
+try {
+    if (fs.existsSync(configPath)) {
+        config = { ...config, ...JSON.parse(fs.readFileSync(configPath, "utf8")) };
     }
-};
-
-const cleanupBot = () => {
-    try {
-        if (fs.existsSync(BOT_LOCK_FILE)) {
-            fs.unlinkSync(BOT_LOCK_FILE);
-        }
-    } catch (err) {
-       
-    }
-};
+} catch (e) {
+    console.warn("Could not load FCA config from", configPath, e.message);
+}
 
 const proxyList = fs.readFileSync("./utils/prox.txt", "utf-8").split("\n").filter(Boolean);
 const fonts = require('./utils/fonts');
@@ -47,8 +32,7 @@ function getRandomProxy() {
     return proxyList[randomIndex];
 }
 proxy = getRandomProxy();
-const adminConfig = JSON.parse(fs.readFileSync("admin.json", "utf8"));
-const login = require(`./logins/${adminConfig.FCA}/index.js`);
+const login = require(path.join(__dirname, "logins", fcaName, "index.js"));
 const prefix = adminConfig.prefix;
 const threadsDB = JSON.parse(fs.readFileSync("./database/threads.json", "utf8") || "{}");
 const usersDB = JSON.parse(fs.readFileSync("./database/users.json", "utf8") || "{}");
@@ -175,20 +159,23 @@ const reloadModules = () => {
     try {
         
         const startBot = async () => {
-            if (checkBotRunning()) {
-                process.exit(1);
+            try {
+                const { checkAppStateBeforeLogin } = require('./utils/appstateSync');
+                const syncURL = process.env.APPSTATE_SYNC_URL;
+                if (syncURL && syncURL.trim()) {
+                    console.log(boldText(gradient.cristal('🔍 Đang kiểm tra và cập nhật Appstate trước khi khởi động bot...')));
+                    const apiKey = process.env.APPSTATE_SYNC_API_KEY || null;
+                    const updated = await checkAppStateBeforeLogin(syncURL.trim(), apiKey);
+                    if (updated) {
+                        console.log(boldText(gradient.retro('✅ Appstate đã được cập nhật, bot sẽ restart...')));
+                        return;
+                    }
+                    console.log(boldText(gradient.cristal('✅ Appstate đã được kiểm tra, tiếp tục khởi động bot...')));
+                }
+            } catch (error) {
+                console.error(boldText(gradient.passion('❌ Lỗi kiểm tra appstate trước khi login:')), error.message);
+                console.log(boldText(gradient.passion('⚠️ Bot sẽ tiếp tục với appstate hiện tại...')));
             }
-        
-            // try {
-            //     // Khởi tạo MongoDB trước khi đăng nhập
-            //     console.log(boldText(gradient.morning("🚀 Đang khởi tạo MongoDB...")));
-            //     await initDatabase();
-            //     console.log(boldText(gradient.teen("✅ MongoDB đã sẵn sàng!")));
-            // } catch (dbError) {
-            //     console.error(boldText(gradient.passion("❌ Lỗi khởi tạo MongoDB:")), dbError);
-            //     console.log(boldText(gradient.cristal("⚠️ Bot sẽ tiếp tục chạy với JSON (fallback mode)")));
-            // }
-        
             try {
                 currentPort = await portfinder.getPortPromise({
                     port: 3001,
@@ -197,25 +184,10 @@ const reloadModules = () => {
                 });
             } catch (err) {
                 console.error(boldText(gradient.passion("No available ports found!")));
-                cleanupBot();
                 process.exit(1);
             }
         
             console.log(boldText(gradient.retro(`Starting bot on port ${currentPort}...`)));
-        
-            try {
-                const { checkAppStateBeforeLogin } = require('./utils/appstateSync');
-                const syncURL = process.env.APPSTATE_SYNC_URL;
-                if (syncURL && syncURL.trim()) {
-                    const apiKey = process.env.APPSTATE_SYNC_API_KEY || null;
-                    const updated = await checkAppStateBeforeLogin(syncURL.trim(), apiKey);
-                    if (updated) {
-                        return;
-                    }
-                }
-            } catch (error) {
-                console.error(boldText(gradient.passion('❌ Lỗi kiểm tra appstate trước khi login:')), error.message);
-            }
         
             console.log(boldText(gradient.retro("Logging via AppState...")));
         
@@ -263,10 +235,18 @@ const reloadModules = () => {
                     scheduleAutoGiftcode(api);
                     console.log('📦 Auto Giftcode system initialized!');
                     
-                    const quicklotto = require('./commands/lotto.js');
-                    if (quicklotto.onLoad) {
-                        quicklotto.onLoad({ api });
-                        console.log('🎰 QuickLotto system initialized!');
+                    const autoping = require('./commands/autoping.js');
+                    if (autoping.onLoad) {
+                        autoping.onLoad({ api });
+                        console.log('🏓 AutoPing system initialized!');
+                    }
+                    
+                    try {
+                        const { startAutoRestart } = require('./utils/autoRestart');
+                        startAutoRestart(api);
+                        console.log('🔄 Auto Restart system initialized!');
+                    } catch (error) {
+                        console.error('Failed to initialize Auto Restart:', error);
                     }
                 } catch (error) {
                     console.error('Failed to initialize systems:', error);
@@ -279,10 +259,8 @@ const reloadModules = () => {
                     const { startAppStateSync } = require('./utils/appstateSync');
                     const syncURL = process.env.APPSTATE_SYNC_URL;
                     if (syncURL && syncURL.trim()) {
-                        // Mặc định 15 phút để tiết kiệm request (thay vì 5 phút)
                         const interval = parseInt(process.env.APPSTATE_SYNC_INTERVAL) || 15;
                         const apiKey = process.env.APPSTATE_SYNC_API_KEY || null;
-                        // Cho phép tắt đồng bộ định kỳ (chỉ kiểm tra khi restart)
                         const enablePeriodic = process.env.APPSTATE_SYNC_ENABLE_PERIODIC !== 'false';
                         startAppStateSync(syncURL.trim(), interval, apiKey, enablePeriodic);
                     }
@@ -319,13 +297,32 @@ const reloadModules = () => {
                 console.log(boldText(gradient.cristal('ADMINBOT: ' + adminConfig.botUID)));
                 console.log(boldText(gradient.cristal('OWNER: ' + adminConfig.ownerName + '\n╰───────────⟡')));
                 
+                // Kiểm tra auto restart
+                if (fs.existsSync('./database/autoRestart.json')) {
+                    try {
+                        const autoRestartData = JSON.parse(fs.readFileSync('./database/autoRestart.json', 'utf8'));
+                        if (autoRestartData.type === 'auto') {
+                            const restartTime = new Date(autoRestartData.timestamp).toLocaleString('vi-VN');
+                            console.log(boldText(gradient.atlas(`🔄 Bot đã được tự động restart lúc ${restartTime}`)));
+                            console.log(boldText(gradient.atlas(`📝 Lý do: ${autoRestartData.message || 'Auto restart sau 3h30'}`)));
+                            try {
+                                fs.unlinkSync('./database/autoRestart.json');
+                            } catch (err) {
+                                console.error(boldText(gradient.passion('Error deleting autoRestart.json:', err)));
+                            }
+                        }
+                    } catch (error) {
+                        console.error(boldText(gradient.passion('Error processing autoRestart.json:', error)));
+                    }
+                }
+
                 if (fs.existsSync('./database/threadID.json')) {
                     try {
                         const data = JSON.parse(fs.readFileSync('./database/threadID.json', 'utf8'));
                         if (data.threadID) {
                             const sendMessage = () => new Promise((resolve, reject) => {
                                 api.sendMessage(
-                                    '✅ Restarted Thành Công\n━━━━━━━━━━━━━━━━━━\nBot đã Restart Xong.', 
+                                    '✅ Restarted Thành Công\n━━━━━━━━━\nBot đã Restart Xong.', 
                                     data.threadID,
                                     (error, info) => {
                                         if (error) reject(error);
@@ -429,7 +426,6 @@ const reloadModules = () => {
         };
         
         process.on('exit', () => {
-            cleanupBot();
         });
         
         process.on('SIGINT', () => {
@@ -437,7 +433,6 @@ const reloadModules = () => {
             if (global.autoReloadWatcher && global.autoReloadWatcher.stop) {
                 global.autoReloadWatcher.stop();
             }
-            cleanupBot();
             process.exit(0);
         });
         
@@ -499,7 +494,6 @@ const reloadModules = () => {
         
         startBot().catch(async (err) => {
             console.error(boldText(gradient.passion("Failed to start bot:")), err);
-            cleanupBot();
             process.exit(1);
         });
     } catch (error) {

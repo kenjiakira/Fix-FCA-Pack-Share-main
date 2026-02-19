@@ -98,8 +98,7 @@ module.exports = {
         if (cmd === "gold") {
             const message = `👑 THÔNG TIN GÓI VIP GOLD\n` +
                 `━━━━━━━━━━━━━━\n\n` +
-                `💰 Giá: 49,000đ / 37 ngày\n` +
-                `⏰ Thời hạn: 30 ngày + 7 ngày bonus\n\n` +
+                `⏰ Thời hạn: 30 ngày + 7 ngày bonus (37 ngày)\n\n` +
                 `🎮 QUYỀN LỢI:\n` +
                 `• 🎣 Câu cá: +40% cá hiếm, x4 EXP\n` +
                 `• 💰 Tiền tệ: +60% quà hàng ngày\n` +
@@ -107,7 +106,11 @@ module.exports = {
                 `• 🔐 Bảo vệ: Miễn nhiễm cướp\n` +
                 `• 📱 Tải video toàn bộ nền tảng\n` +
                 `• 🎁 Giftcode VIP độc quyền\n\n` +
-                `💳 Thanh toán: .qr vip gold`;
+                `🌱 CÁCH NHẬN VIP (KHÔNG MUA):\n` +
+                `• 🎁 Tích điểm: Đổi giftcode (.rewards redeem), tích đủ 90 điểm → .rewards vip\n` +
+                `• 🎡 Vòng quay: .spin mỗi ngày, có cơ hội trúng VIP GOLD 30 ngày\n` +
+                `• 🎊 Sự kiện: Theo dõi giftcode sự kiện (Lễ, Tết...) thường có điểm VIP\n` +
+                `• 👑 Admin có thể tặng: .vip add [uid] [số ngày]`;
             
             return api.sendMessage(message, threadID);
         }
@@ -117,7 +120,7 @@ module.exports = {
             `━━━━━━━━━━━━━━\n\n` +
             `📋 LỆNH:\n` +
             `• .vip check - Kiểm tra VIP\n` +
-            `• .vip gold - Thông tin gói VIP\n`;
+            `• .vip gold - Thông tin gói VIP & cách nhận VIP\n`;
         
         if (isAdmin) {
             helpMessage += `• .vip add [uid] [days] - Thêm VIP (Admin)\n` +
@@ -125,7 +128,7 @@ module.exports = {
                 `• .vip list - Danh sách VIP (Admin)\n`;
         }
         
-        helpMessage += `\n💡 Thanh toán: .qr vip gold`;
+        helpMessage += `\n💡 Gõ .vip gold để xem cách farm VIP (tích điểm, vòng quay, sự kiện).`;
         
         return api.sendMessage(helpMessage, threadID);
     }

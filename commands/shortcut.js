@@ -2,7 +2,7 @@ const fs = require('fs');
 const path = require('path');
 const axios = require('axios');
 
-const shortcutDataPath = path.join(__dirname, './json/shortcuts.json');
+const shortcutDataPath = path.join(__dirname, '../database/json/shortcuts.json');
 let shortcuts = {};
 
 const loadShortcuts = () => {

@@ -1,7 +1,7 @@
 const { useGPTWithHistory } = require('../utils/gptHook');
 const path = require('path');
 
-const RIZZ_FILE = path.join(__dirname, './json/AI/used_rizz.json');
+const RIZZ_FILE = path.join(__dirname, '../database/json/AI/used_rizz.json');
 
 const rizzStyles = {
     "ngọt ngào": {

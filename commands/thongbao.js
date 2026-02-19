@@ -82,18 +82,19 @@ module.exports = {
             const welcomeMsg = settings[threadID]?.welcomeMessage ? "✅" : "❌";
             const leaveMsg = settings[threadID]?.leaveMessage ? "✅" : "❌";
 
+            const threadSettings = settings[threadID] || {};
             for (const [key, value] of Object.entries(features)) {
                 let status = "──";
                 if (key === 'sub') status = subStatus ? "ON ✅" : "OFF ❌";
                 else if (key === 'config') status = `Welcome: ${welcomeMsg} | Leave: ${leaveMsg}`;
                 else if (key === 'rank') status = rankStatus ? "ON ✅" : "OFF ❌";
-                else if (key === 'admin' || key === 'avatar' || key === 'name' || key === 'nick') status = settings[threadID][`thongbao_${key}`] !== false ? "ON ✅" : "OFF ❌";
+                else if (key === 'admin' || key === 'avatar' || key === 'name' || key === 'nick' || key === 'greet') status = threadSettings[`thongbao_${key}`] !== false ? "ON ✅" : "OFF ❌";
 
                 msg += `${value.icon} ${key.toUpperCase()}: ${value.desc}\n`;
                 msg += `↬ Chi tiết: ${value.detail}\n`;
                 msg += `↬ Cách dùng: ${value.usage}\n`;
                 msg += `↬ Trạng thái: ${status}\n`;
-                msg += "──────────────────\n";
+                msg += "───────────\n";
             }
 
             msg += "\n💡 Biến có sẵn cho tin nhắn:\n";

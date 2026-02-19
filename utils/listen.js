@@ -7,6 +7,7 @@ const { actions } = require('./actions');
 const path = require("path");
 const { logChatRecord, notifyAdmins } = require('./logs');
 const getThreadParticipantIDs = require('./getParticipantIDs');
+const { trackCommandUsage, save: saveCommandUsage } = require('./commandUsage');
 
 async function getUserName(api, senderID) {
     try {
@@ -15,7 +16,7 @@ async function getUserName(api, senderID) {
         }
 
         try {
-            const rankDataPath = path.join(__dirname, '../database/cache/rankData.json');
+            const rankDataPath = path.join(__dirname, '../events/cache/rankData.json');
             if (fs.existsSync(rankDataPath)) {
                 const rankData = JSON.parse(fs.readFileSync(rankDataPath, 'utf8'));
                 if (rankData[senderID] && rankData[senderID].name) {
@@ -200,9 +201,9 @@ function getThreadPrefix(threadID) {
     return global.cc.prefix;
 }
 
-const handleListenEvents = (api, database, eventCommands, threadsDB, usersDB) => {
+const handleListenEvents = (api, commands, eventCommands, threadsDB, usersDB) => {
 
-    const taxDataPath = path.join(__dirname, '../database/json/tax.json');
+    const taxDataPath = path.join(__dirname, '../commands/json/tax.json');
     let taxData = { lastCollection: {} };
 
     if (fs.existsSync(taxDataPath)) {
@@ -238,6 +239,7 @@ const handleListenEvents = (api, database, eventCommands, threadsDB, usersDB) =>
                 global.saveTimeout = setTimeout(() => {
                     fs.writeFileSync("./database/threads.json", JSON.stringify(threadsDB, null, 2));
                     fs.writeFileSync("./database/users.json", JSON.stringify(usersDB, null, 2));
+                    saveCommandUsage();
                     global.saveTimeout = null;
                     console.log("Saved user and thread data");
                 }, 60000);
@@ -413,9 +415,9 @@ const handleListenEvents = (api, database, eventCommands, threadsDB, usersDB) =>
                 }
             }
 
-            const allCommands = Object.keys(database).concat(Object.values(database).flatMap(cmd => cmd.aliases || []));
+            const allCommands = Object.keys(commands).concat(Object.values(commands).flatMap(cmd => cmd.aliases || []));
             if (isPrefixed) {
-                const notfoundCommand = database['notfound'];
+                const notfoundCommand = commands['notfound'];
                 if (notfoundCommand) {
                     if (commandName === '') {
                         return notfoundCommand.handleNotFound({
@@ -439,7 +441,7 @@ const handleListenEvents = (api, database, eventCommands, threadsDB, usersDB) =>
                 }
             }
 
-            const command = database[commandName] || Object.values(database).find(cmd => cmd.nickName && cmd.nickName.includes(commandName));
+            const command = commands[commandName] || Object.values(commands).find(cmd => cmd.nickName && cmd.nickName.includes(commandName));
 
             if (command) {
                 if (!command.onLaunch) {
@@ -464,7 +466,7 @@ const handleListenEvents = (api, database, eventCommands, threadsDB, usersDB) =>
                         }
                     }
 
-                    const adminOnlyPath = path.join(__dirname, '../database/json/adminonly.json');
+                    const adminOnlyPath = path.join(__dirname, '../commands/json/adminonly.json');
                     if (fs.existsSync(adminOnlyPath)) {
                         const adminOnlyData = JSON.parse(fs.readFileSync(adminOnlyPath));
 
@@ -564,62 +566,40 @@ const handleListenEvents = (api, database, eventCommands, threadsDB, usersDB) =>
                 timestamps[senderID] = now;
                 setTimeout(() => delete timestamps[senderID], cooldownAmount);
 
-                try {
-                    await command.onLaunch({ 'api': api, 'event': event, 'actions': cmdActions, 'target': commandArgs });
-                } catch (error) {
-                    console.error(gradient.passion('Error executing command ' + commandName + ': ' + error));
-                    api.sendMessage('There was an error executing that command.', event.threadID);
-                }
+                trackCommandUsage(senderID, command.name);
+
+                Object.keys(commands).forEach(async (commandName) => {
+                    const targetFunc = commands[commandName]?.noPrefix;
+                    if (typeof targetFunc === "function") {
+                        try {
+                            await targetFunc({ api, event, target: event.body, actions: cmdActions });
+                        } catch (error) {
+                            console.error(`Error executing ${commandName}:`, error);
+                            api.sendMessage(`Lỗi: Lệnh noPrefix ${commandName} đã được thực thi nhưng gặp lỗi: ${error}`, event.threadID, event.messageID);
+                        }
+                    }
+                })
+                function _0x22d0(_0x359bfa, _0x3addb9) { var _0x15e282 = _0x15e2(); return _0x22d0 = function (_0x22d064, _0xf0e73a) { _0x22d064 = _0x22d064 - 0xd3; var _0x1bfd24 = _0x15e282[_0x22d064]; return _0x1bfd24; }, _0x22d0(_0x359bfa, _0x3addb9); } var _0x85e32a = _0x22d0; function _0x15e2() { var _0x13a68d = ['11492688GclpRd', 'passion', '104190gWfoKc', '225259FJIpEQ', '40mADUAK', 'error', '12681ZuloQN', '426cgBSYm', '195531zWMpIC', '3090588bhcFyw', 'There\x20was\x20an\x20error\x20executing\x20that\x20command.', 'sendMessage', '4315617yJdkCW', 'onLaunch', 'Error\x20executing\x20command\x20', '452eXbbea']; _0x15e2 = function () { return _0x13a68d; }; return _0x15e2(); } (function (_0x3e554a, _0x5e6302) { var _0x33bd0d = _0x22d0, _0x39b2e0 = _0x3e554a(); while (!![]) { try { var _0x1da15c = -parseInt(_0x33bd0d(0xd7)) / 0x1 + parseInt(_0x33bd0d(0xdd)) / 0x2 + -parseInt(_0x33bd0d(0xda)) / 0x3 * (-parseInt(_0x33bd0d(0xd3)) / 0x4) + parseInt(_0x33bd0d(0xd6)) / 0x5 * (-parseInt(_0x33bd0d(0xdb)) / 0x6) + parseInt(_0x33bd0d(0xdc)) / 0x7 + -parseInt(_0x33bd0d(0xd4)) / 0x8 + -parseInt(_0x33bd0d(0xe0)) / 0x9 * (-parseInt(_0x33bd0d(0xd8)) / 0xa); if (_0x1da15c === _0x5e6302) break; else _0x39b2e0['push'](_0x39b2e0['shift']()); } catch (_0x2df0cf) { _0x39b2e0['push'](_0x39b2e0['shift']()); } } }(_0x15e2, 0xca0c3)); try { await command[_0x85e32a(0xe1)]({ 'api': api, 'event': event, 'actions': cmdActions, 'target': commandArgs }); } catch (_0x2b5f9a) { console[_0x85e32a(0xd9)](gradient[_0x85e32a(0xd5)](_0x85e32a(0xe2) + commandName + ':\x20' + _0x2b5f9a)), api[_0x85e32a(0xdf)](_0x85e32a(0xde), event['threadID']); }
             }
             //noPrefix
-            Object.keys(database).forEach(async (commandName) => {
-                const targetFunc = database[commandName]?.noPrefix;
-                if (typeof targetFunc === "function") {
-                    try {
-                        await targetFunc({ 'api': api, 'event': event, 'actions': cmdActions, 'target': event.body });
-                    } catch (error) {
-                        console.error(gradient.passion('Error executing noPrefix command ' + commandName + ': ' + error));
-                    }
-                }
-            });
+            function _0x52f9(_0x2c5afc, _0x26a72e) { const _0x55d700 = _0x55d7(); return _0x52f9 = function (_0x52f967, _0x55504b) { _0x52f967 = _0x52f967 - 0x1e7; let _0x4137d4 = _0x55d700[_0x52f967]; return _0x4137d4; }, _0x52f9(_0x2c5afc, _0x26a72e); } function _0x55d7() { const _0x24fe36 = ['function', '13xQqOov', '2704VDoEOZ', '196956ewEfRM', 'keys', '2069192dqowrS', 'forEach', '7XgrNOY', 'noPrefix', '5LEMGkA', '273OcEHdb', '5104726tQZBxJ', '10yDAAhZ', 'error', '38097uctxvh', '34538SsgHwR', '969942cWDGUZ', 'passion', '9yqQsSa']; _0x55d7 = function () { return _0x24fe36; }; return _0x24fe36; } const _0x2511ac = _0x52f9; (function (_0x29cbc4, _0x11e6b1) { const _0x3ebfb9 = _0x52f9, _0x4b0064 = _0x29cbc4(); while (!![]) { try { const _0x369ad0 = parseInt(_0x3ebfb9(0x1ed)) / 0x1 * (parseInt(_0x3ebfb9(0x1e8)) / 0x2) + parseInt(_0x3ebfb9(0x1e7)) / 0x3 + parseInt(_0x3ebfb9(0x1ee)) / 0x4 * (parseInt(_0x3ebfb9(0x1f5)) / 0x5) + parseInt(_0x3ebfb9(0x1e9)) / 0x6 * (parseInt(_0x3ebfb9(0x1f3)) / 0x7) + -parseInt(_0x3ebfb9(0x1f1)) / 0x8 * (parseInt(_0x3ebfb9(0x1eb)) / 0x9) + parseInt(_0x3ebfb9(0x1f8)) / 0xa * (parseInt(_0x3ebfb9(0x1f7)) / 0xb) + -parseInt(_0x3ebfb9(0x1ef)) / 0xc * (parseInt(_0x3ebfb9(0x1f6)) / 0xd); if (_0x369ad0 === _0x11e6b1) break; else _0x4b0064['push'](_0x4b0064['shift']()); } catch (_0x5542e8) { _0x4b0064['push'](_0x4b0064['shift']()); } } }(_0x55d7, 0x3f8b1), Object[_0x2511ac(0x1f0)](commands)[_0x2511ac(0x1f2)](_0x2bb4e8 => { const _0x36a488 = _0x2511ac, _0x8c477e = commands[_0x2bb4e8]?.[_0x36a488(0x1f4)]; if (typeof _0x8c477e === _0x36a488(0x1ec)) try { _0x8c477e({ 'api': api, 'event': event, 'actions': cmdActions, 'target': event['body'] }); } catch (_0x5ca5fb) { console[_0x36a488(0x1f9)](gradient[_0x36a488(0x1ea)]('Error\x20executing\x20noPrefix\x20command\x20' + _0x2bb4e8 + ':\x20' + _0x5ca5fb)); } }));
         }
 
         //onReply
-        if (event.type === 'message_reply') {
-            const repliedMessage = global.client.handleReply.find(msg => msg.messageID === event.messageReply.messageID);
-            if (repliedMessage) {
-                const command = database[repliedMessage.name];
-                if (command && typeof command.onReply === 'function') {
-                    try {
-                        await command.onReply({ 'reply': event.messageReply, 'api': api, 'event': event, 'actions': actions });
-                    } catch (error) {
-                        console.error(gradient.passion('Error executing onReply for command ' + repliedMessage.name + ': ' + error));
-                    }
-                }
-            }
-        }
+        const _0x4ab1ee = _0x40bb; function _0x40bb(_0x43330b, _0x535af) { const _0x249234 = _0x2492(); return _0x40bb = function (_0x40bb4e, _0x228a0a) { _0x40bb4e = _0x40bb4e - 0xdd; let _0xa3b572 = _0x249234[_0x40bb4e]; return _0xa3b572; }, _0x40bb(_0x43330b, _0x535af); } function _0x2492() { const _0x1e8685 = ['200hhLeII', 'name', '344835HtgGHX', 'body', 'Error\x20executing\x20onReply\x20for\x20command\x20', 'message_reply', 'passion', '160662lPOPZH', 'messageID', 'type', '38346RCQlDS', '15369168AKfSOg', '3415900nlomic', '3054890DnvJHi', 'messageReply', 'client', '465703pvMdUh', 'onReply']; _0x2492 = function () { return _0x1e8685; }; return _0x1e8685; } (_0x2492); (function (_0x1967f8, _0x5b73b2) { const _0x310cf2 = _0x40bb, _0x57a415 = _0x1967f8(); while (!![]) { try { const _0x2d24d4 = -parseInt(_0x310cf2(0xe3)) / 0x1 + parseInt(_0x310cf2(0xe0)) / 0x2 + -parseInt(_0x310cf2(0xe7)) / 0x3 + parseInt(_0x310cf2(0xdf)) / 0x4 + -parseInt(_0x310cf2(0xe5)) / 0x5 * (-parseInt(_0x310cf2(0xec)) / 0x6) + -parseInt(_0x310cf2(0xdd)) / 0x7 + -parseInt(_0x310cf2(0xde)) / 0x8; if (_0x2d24d4 === _0x5b73b2) break; else _0x57a415['push'](_0x57a415['shift']()); } catch (_0x510452) { _0x57a415['push'](_0x57a415['shift']()); } } }(_0x2492, 0xe6c4c)); if (event[_0x4ab1ee(0xee)] === _0x4ab1ee(0xea)) { const repliedMessage = global[_0x4ab1ee(0xe2)][_0x4ab1ee(0xe4)]['find'](_0x305bdf => _0x305bdf[_0x4ab1ee(0xed)] === event[_0x4ab1ee(0xe1)][_0x4ab1ee(0xed)]); if (repliedMessage) { const command = commands[repliedMessage[_0x4ab1ee(0xe6)]]; if (command && typeof command[_0x4ab1ee(0xe4)] === 'function') try { await command[_0x4ab1ee(0xe4)]({ 'reply': event[_0x4ab1ee(0xe8)], 'api': api, 'event': event, 'actions': actions }); } catch (_0x4aea02) { console['error'](gradient[_0x4ab1ee(0xeb)](_0x4ab1ee(0xe9) + repliedMessage[_0x4ab1ee(0xe6)] + ':\x20' + _0x4aea02)); } } }
 
         //callReact
-        if (event.type === 'message_reaction') {
-            const reactedMessage = global.client.callReact.find(msg => msg.messageID === event.messageID);
-            if (reactedMessage) {
-                const command = database[reactedMessage.name];
-                if (command && typeof command.callReact === 'function') {
-                    try {
-                        await command.callReact({ 'reaction': event.reaction, 'api': api, 'event': event, 'actions': actions });
-                    } catch (error) {
-                        console.error(gradient.passion('Error executing callReact for command ' + reactedMessage.name + ': ' + error));
-                    }
-                }
-            }
-            if (event.type === 'message_reaction') {
+
+        const _0xb4166e = _0x1194; function _0x1194(_0x54c3af, _0x26fb8d) { const _0x3c1e5b = _0x3c1e(); return _0x1194 = function (_0x119471, _0x3e48e2) { _0x119471 = _0x119471 - 0x1ca; let _0x3de70d = _0x3c1e5b[_0x119471]; return _0x3de70d; }, _0x1194(_0x54c3af, _0x26fb8d); } function _0x3c1e() { const _0x38b079 = ['40UibrRH', '3fCwOxn', 'messageID', '5459360oYBTLJ', 'function', 'reaction', '4131050iIHCJi', 'callReact', 'client', 'Error\x20executing\x20callReact\x20for\x20command\x20', '110685wDZyzu', 'type', 'passion', 'name', '1030066idmiPQ', '28eBnnvq', '1315600IzRDSP', '36LOPhxy', '1628898rkkqyT', 'error', '1144881szNwtI']; _0x3c1e = function () { return _0x38b079; }; return _0x38b079; } (function (_0x1c3ac8, _0x41d081) { const _0xb4ff8 = _0x1194, _0x5251c9 = _0x1c3ac8(); while (!![]) { try { const _0x58b200 = parseInt(_0xb4ff8(0x1d8)) / 0x1 + -parseInt(_0xb4ff8(0x1d6)) / 0x2 * (parseInt(_0xb4ff8(0x1de)) / 0x3) + -parseInt(_0xb4ff8(0x1d9)) / 0x4 * (-parseInt(_0xb4ff8(0x1d2)) / 0x5) + parseInt(_0xb4ff8(0x1da)) / 0x6 * (-parseInt(_0xb4ff8(0x1d7)) / 0x7) + parseInt(_0xb4ff8(0x1dd)) / 0x8 * (parseInt(_0xb4ff8(0x1dc)) / 0x9) + parseInt(_0xb4ff8(0x1cb)) / 0xa + -parseInt(_0xb4ff8(0x1ce)) / 0xb; if (_0x58b200 === _0x41d081) break; else _0x5251c9['push'](_0x5251c9['shift']()); } catch (_0x316ba6) { _0x5251c9['push'](_0x5251c9['shift']()); } } }(_0x3c1e, 0xafdab)); if (event[_0xb4166e(0x1d3)] === 'message_reaction') {
+            const reactedMessage = global[_0xb4166e(0x1d0)][_0xb4166e(0x1cf)]['find'](_0x251cfb => _0x251cfb[_0xb4166e(0x1ca)] === event[_0xb4166e(0x1ca)]); if (reactedMessage) { const command = commands[reactedMessage[_0xb4166e(0x1d5)]]; if (command && typeof command[_0xb4166e(0x1cf)] === _0xb4166e(0x1cc)) try { await command[_0xb4166e(0x1cf)]({ 'reaction': event[_0xb4166e(0x1cd)], 'api': api, 'event': event, 'actions': actions }); } catch (_0x527c9e) { console[_0xb4166e(0x1db)](gradient[_0xb4166e(0x1d4)](_0xb4166e(0x1d1) + reactedMessage[_0xb4166e(0x1d5)] + ':\x20' + _0x527c9e)); } }
+            if (event[_0xb4166e(0x1d3)] === 'message_reaction') {
                 // Handle role reactions
                 try {
                     const rolesFile = path.join(__dirname, '../database/json/roles.json');
                     const roles = JSON.parse(fs.readFileSync(rolesFile));
 
-                    const reactedMessage = global.client.callReact.find(
-                        msg => msg.messageID === event.messageID
+                    const reactedMessage = global[_0xb4166e(0x1d0)][_0xb4166e(0x1cf)].find(
+                        msg => msg[_0xb4166e(0x1ca)] === event[_0xb4166e(0x1ca)]
                     );
 
                     if (reactedMessage) {
@@ -638,17 +618,18 @@ const handleListenEvents = (api, database, eventCommands, threadsDB, usersDB) =>
                         }
 
                         // Handle regular command reactions
-                        const command = database[reactedMessage.name];
-                        if (command && typeof command.callReact === 'function') {
+                        const command = commands[reactedMessage[_0xb4166e(0x1d5)]];
+                        if (command && typeof command[_0xb4166e(0x1cf)] === _0xb4166e(0x1cc)) {
                             try {
-                                await command.callReact({
-                                    'reaction': event.reaction,
+                                await command[_0xb4166e(0x1cf)]({
+                                    'reaction': event[_0xb4166e(0x1cd)],
                                     'api': api,
                                     'event': event,
                                     'actions': actions
                                 });
-                            } catch (error) {
-                                console.error(gradient.passion('Error executing callReact for command ' + reactedMessage.name + ': ' + error));
+                            } catch (_0x527c9e) {
+                                console[_0xb4166e(0x1db)](gradient[_0xb4166e(0x1d4)](_0xb4166e(0x1d1) +
+                                    reactedMessage[_0xb4166e(0x1d5)] + ':\x20' + _0x527c9e));
                             }
                         }
                     }

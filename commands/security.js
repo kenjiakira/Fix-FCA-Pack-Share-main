@@ -2,18 +2,16 @@ const fs = require("fs");
 const path = require("path");
 const axios = require("axios");
 
-// Create required directories
-const jsonDir = path.join(__dirname, "json");
-const antiDir = path.join(jsonDir, "anti");
+const jsonDir = path.join(__dirname, "../database/json");
+const antiDir = path.join(__dirname, "../database/json/anti");
 [jsonDir, antiDir].forEach(dir => {
     if (!fs.existsSync(dir)) {
         fs.mkdirSync(dir, { recursive: true });
     }
 });
 
-// Initialize files
-const BANWORDS_FILE = path.join(jsonDir, 'banwords.json');
-const WARNINGS_FILE = path.join(jsonDir, 'warnings.json');
+const BANWORDS_FILE = path.join(__dirname, '../database/json/banwords.json');
+const WARNINGS_FILE = path.join(__dirname, '../database/json/warnings.json');
 [BANWORDS_FILE, WARNINGS_FILE].forEach(file => {
     if (!fs.existsSync(file)) {
         fs.writeFileSync(file, JSON.stringify({}, null, 2));
@@ -104,7 +102,6 @@ Tính năng anti:
     },
 
     onLoad: function () {
-        const antiDir = path.join(__dirname, "./json/anti");
         if (!fs.existsSync(antiDir)) {
             fs.mkdirSync(antiDir, { recursive: true });
         }
@@ -124,7 +121,7 @@ Tính năng anti:
         const { threadID, messageID, senderID } = event;
 
         try {
-            const threadsDB = JSON.parse(fs.readFileSync("./database/threads.json", "utf8")) || {};
+            const threadsDB = JSON.parse(fs.readFileSync("../database/threads.json", "utf8")) || {};
             const adminConfig = JSON.parse(fs.readFileSync("./admin.json", "utf8"));
             const isAdminBot = adminConfig.adminUIDs.includes(senderID);
             const isGroupAdmin = threadsDB[threadID]?.adminIDs?.some(

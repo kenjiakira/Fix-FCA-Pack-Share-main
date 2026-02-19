@@ -16,7 +16,7 @@ module.exports = {
     ],
 
     onLoad: function() {
-        const jsonPath = path.join(__dirname, 'json', 'adminonly.json');
+        const jsonPath = path.join(__dirname, '../database/json', 'adminonly.json');
         const defaultData = {
             threads: {},
             enable: true
@@ -43,6 +43,13 @@ module.exports = {
         try {
             let adminConfig = JSON.parse(fs.readFileSync(adminConfigPath));
             let adminOnlyData = JSON.parse(fs.readFileSync(adminOnlyPath));
+
+            if (!adminOnlyData.threads) {
+                adminOnlyData.threads = {};
+            }
+            if (adminConfig.mtnMode === undefined) {
+                adminConfig.mtnMode = false;
+            }
 
             const mode = target[0]?.toLowerCase();
             const action = target[1]?.toLowerCase();

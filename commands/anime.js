@@ -92,7 +92,7 @@ module.exports = {
             const imgPath = path.join(
                 cacheDir,
                 `wall_${Date.now()}.${randomImage.split(".").pop()}`
-            );
+            );  
     
             fs.writeFileSync(imgPath, imgResponse.data);
     
@@ -194,7 +194,7 @@ module.exports = {
                 () => fs.unlinkSync(imgPath),
                 event.messageID
             );
-
+            
         } catch (error) {
             console.error("Animechar Error:", error);
             return api.sendMessage("❌ Đã có lỗi xảy ra, vui lòng thử lại sau!", event.threadID, event.messageID);

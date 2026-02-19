@@ -1170,7 +1170,7 @@ module.exports = {
     // Lấy tên người dùng
     async getUserName(api, userId) {
         try {
-            const userDataPath = path.join(__dirname, '../database/cache/rankData.json');
+            const userDataPath = path.join(__dirname, '.../database/rankData.json');
             if (fs.existsSync(userDataPath)) {
                 const userData = JSON.parse(fs.readFileSync(userDataPath, 'utf8'));
                 if (userData[userId]?.name) {

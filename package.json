@@ -1,16 +1,21 @@
 {
   "name": "fca-aki",
-  "version": "1.0.0",
+  "version": "1.0.2",
   "description": "",
   "main": "index.js",
   "scripts": {
-    "start": "node main.js",
+    "start": "node index.js",
     "dev": "cross-env NODE_ENV=development node main.js",
     "watch": "node main.js --watch",
     "test": "echo \"Error: no test specified\" && exit 1",
     "discord:start": "node discord/index.js",
     "discord:restart": "pm2 restart discord",
-    "discord:stop": "pm2 stop discord"
+    "discord:stop": "pm2 stop discord",
+    "dashboard:backend": "cd dashboard/backend && node server.js",
+    "dashboard:nextjs": "cd dashboard/nextjs && npm run dev",
+    "dashboard:dev": "concurrently \"npm run dashboard:backend\" \"npm run dashboard:nextjs\"",
+    "dashboard:build": "cd dashboard/nextjs && npm run build",
+    "dashboard:start": "cd dashboard/nextjs && npm start"
   },
   "keywords": [],
   "author": "",
@@ -27,6 +32,7 @@
     "chart.js": "^4.4.1",
     "cheerio": "^1.0.0-rc.12",
     "chess.js": "^1.1.0",
+    "cookie-parser": "^1.4.7",
     "dotenv": "^16.6.1",
     "express": "^4.18.2",
     "face-api.js": "^0.22.2",
@@ -39,7 +45,9 @@
     "https": "^1.0.0",
     "image-downloader": "^4.3.0",
     "ip": "^2.0.1",
+    "jsonwebtoken": "^9.0.3",
     "mal-scraper": "^2.13.2",
+    "meta-messenger.js": "^1.1.2",
     "moment": "^2.30.1",
     "moment-timezone": "^0.5.45",
     "node-cron": "^3.0.3",
@@ -62,6 +70,7 @@
     "streamifier": "^0.1.1",
     "translate-google": "^1.5.0",
     "util": "^0.12.5",
-    "validator": "^13.12.0"
+    "validator": "^13.12.0",
+    "ws3-fca": "^2.0.1"
   }
 }

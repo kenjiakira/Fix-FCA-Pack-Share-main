@@ -45,7 +45,7 @@ module.exports = {
 
       const msg = `${senderName} đã hôn ${targetName} 🤗`;
 
-      const imgPath = path.join(__dirname, 'cache/kiss.gif');
+      const imgPath = path.join(__dirname, '../database/cache/kiss.gif');
       const response = await axios.get(randomGif, { responseType: 'arraybuffer' });
       fs.writeFileSync(imgPath, response.data);
 

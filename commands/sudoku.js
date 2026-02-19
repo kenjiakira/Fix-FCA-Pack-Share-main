@@ -384,7 +384,7 @@ module.exports = {
 
     // Lấy thông tin người dùng
     getUserName: function (userID) {
-        const userDataPath = path.join(__dirname, '../database/cache/rankData.json');
+        const userDataPath = path.join(__dirname, '../database/rankData.json');
         try {
             const userData = JSON.parse(fs.readFileSync(userDataPath, 'utf8'));
             return userData[userID]?.name || "Người dùng";

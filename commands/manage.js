@@ -1,17 +1,9 @@
 const fs = require('fs');
 const path = require('path');
-const axios = require('axios');
-const moment = require('moment-timezone');
 
-const WARNS_DIR = path.join(__dirname, 'json');
-const WARNS_FILE = path.join(WARNS_DIR, 'warns.json');
-const BANNED_FILE = path.join(WARNS_DIR, 'banned.json');
-const AUTOSEEN_FILE = path.join(WARNS_DIR, 'autoseen.json');
-const ADMIN_CONFIG = JSON.parse(fs.readFileSync(path.join(__dirname, '..', 'admin.json'), 'utf8'));
-
-if (!fs.existsSync(WARNS_DIR)) {
-    fs.mkdirSync(WARNS_DIR, { recursive: true });
-}
+const WARNS_FILE = path.join(__dirname, '../database/json/warns.json');
+const BANNED_FILE = path.join(__dirname, '../database/json/banned.json');
+const AUTOSEEN_FILE = path.join(__dirname, '../database/json/autoseen.json');
 
 for (const file of [WARNS_FILE, BANNED_FILE, AUTOSEEN_FILE]) {
     if (!fs.existsSync(file)) {
