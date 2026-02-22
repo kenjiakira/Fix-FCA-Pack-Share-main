@@ -64,7 +64,15 @@ FIX-FCA-AKI-2.0 is an advanced Facebook Chatbot built with Node.js, featuring a 
 - **User Management**: Kick, ban, warn, and manage users
 - **Group Management**: Control group settings and permissions
 - **System Monitoring**: Real-time bot status and performance metrics
-- **Backup System**: Automatic data backup and restoration
+- **Command Management**: Load, reload commands without restart
+- **Custom Commands**: Tạo/sửa lệnh trực tiếp qua bot
+
+### 📊 Dashboard
+- Web Dashboard (Next.js + Express backend)
+- Quản lý bot qua giao diện web
+
+### 💬 Discord Bot
+- Hỗ trợ chạy song song Discord Bot
 
 ### 🎨 Visual Features
 - **Canvas Graphics**: Rich visual elements using Canvas API
@@ -91,14 +99,24 @@ npm install
 ```
 
 ### Step 3: Configuration
-1. Copy `config.example.json` to `config.json`
-2. Edit `config.json` with your settings:
+1. Tạo/chỉnh sửa file `admin.json` trong thư mục gốc dự án:
 ```json
 {
   "prefix": ".",
   "adminUIDs": ["your-facebook-uid"],
+  "moderatorUIDs": [],
+  "supportUIDs": [],
+  "feedbackGroupID": [],
   "botName": "Your Bot Name",
-  "ownerName": "Your Name"
+  "ownerName": "Your Name",
+  "facebookLink": "your-facebook-uid",
+  "resend": false,
+  "notilogs": true,
+  "appstate": "./appstate.json",
+  "restart": true,
+  "restartTime": 50,
+  "FCA": "hut-chat-api",
+  "mtnMode": false
 }
 ```
 
@@ -120,23 +138,33 @@ npm start
 npm start
 ```
 
+### Available Scripts
+| Script | Description |
+|--------|-------|
+| `npm start` | Start Messenger Bot |
+| `npm run dev` | Run in development mode |
+| `npm run watch` | Run with auto-reload on command changes |
+| `npm run discord:start` | Start Discord Bot |
+| `npm run dashboard:dev` | Run Dashboard (backend + Next.js) |
+| `npm run dashboard:build` | Build Dashboard |
+
 ## Configuration
 
-### Main Configuration (`config.json`)
-```json
-{
-  "prefix": ".",
-  "adminUIDs": ["1000123456789"],
-  "botName": "AKI Bot",
-  "ownerName": "Admin",
-  "autoRestart": true,
-  "logLevel": "info",
-  "database": {
-    "type": "json",
-    "path": "./data/"
-  }
-}
-```
+### Main Configuration (`admin.json`)
+| Thuộc tính | Mô tả |
+|------------|-------|
+| `prefix` | Tiền tố lệnh (mặc định: `.`) |
+| `adminUIDs` | Danh sách UID admin |
+| `moderatorUIDs` | Danh sách UID moderator |
+| `supportUIDs` | Danh sách UID support |
+| `feedbackGroupID` | ID nhóm feedback |
+| `botName` | Tên bot |
+| `ownerName` | Tên chủ sở hữu |
+| `facebookLink` | UID Facebook của admin |
+| `appstate` | Đường dẫn file appstate |
+| `FCA` | Loại FCA API (trong `logins/`): `hut-chat-api`, `meta-messenger`, `ws3-fca` |
+| `restart` | Tự động restart khi lỗi |
+| `restartTime` | Thời gian chờ trước khi restart (giây) |
 
 ### VIP Configuration (`game/vip/vipConfig.js`)
 ```javascript
@@ -168,8 +196,14 @@ const VIP_PACKAGES = {
 # Daily reward
 .daily
 
-# Help menu
+# Help menu (xem theo danh mục)
 .help
+
+# Xem tất cả lệnh
+.help all
+
+# Tìm lệnh cụ thể
+.help <tên lệnh>
 ```
 
 ### Admin Commands
@@ -207,15 +241,27 @@ const VIP_PACKAGES = {
 | `.balance` | Check your balance | `.balance` |
 | `.daily` | Get daily reward | `.daily` |
 | `.work` | Work for money | `.work` |
-| `.transfer` | Transfer money | `.transfer [uid] [amount]` |
+| `.pay` | Pay/transfer money | `.pay [uid] [amount]` |
+| `.banking` | Banking system | `.banking` |
+| `.loan` | Loan system | `.loan` |
+| `.trade` | Stock trading | `.trade` |
+| `.tip` | Tip another user | `.tip [uid] [amount]` |
+| `.stolen` | Steal money (risky) | `.stolen [uid]` |
 
 ### Gaming Commands
 | Command | Description | Usage |
 |---------|-------------|-------|
 | `.fish` | Go fishing | `.fish` |
-| `.mine` | Mine resources | `.mine` |
-| `.casino` | Play casino games | `.casino` |
+| `.mine` | Mine BTC/resources | `.mine` |
+| `.baucua` | Play Bầu Cua | `.baucua` |
+| `.xoano` | Play Xổ Số | `.xoano` |
+| `.chanle` | Play Chẵn Lẻ | `.chanle` |
+| `.spin` | Spin the wheel | `.spin` |
 | `.gacha` | Open gacha | `.gacha` |
+| `.pokemon` | Pokemon system | `.pokemon` |
+| `.guess` | Guessing game | `.guess` |
+| `.chess` | Play chess | `.chess` |
+| `.sudoku` | Play Sudoku | `.sudoku` |
 
 ### Admin Commands
 | Command | Description | Usage |
@@ -239,7 +285,10 @@ module.exports = {
     onPrefix: true,
     
     onLaunch: async function ({ api, event, target, actions }) {
-        // Command logic here
+        // Command logic - target = ["command", "arg1", "arg2"]
+        const { threadID, messageID, senderID } = event;
+        const prefix = global.cc.prefix;
+        // ...
     }
 };
 ```
@@ -263,16 +312,16 @@ module.exports = {
 }
 ```
 
-### Currency System
+### Global Objects
 ```javascript
-// Add balance
-global.currencies.addBalance(userID, amount);
+// Bot config
+global.cc.prefix        // Tiền tố lệnh
+global.cc.adminBot      // Danh sách admin UID
+global.cc.developer     // Tên developer
+global.cc.botName       // Tên bot
 
-// Subtract balance
-global.currencies.subtractBalance(userID, amount);
-
-// Get balance
-const balance = global.currencies.getBalance(userID);
+// Load/Reload command
+global.cc.reloadCommand("commandName");
 ```
 
 ## Contributing
@@ -327,7 +376,15 @@ FIX-FCA-AKI-2.0 là một Facebook Chatbot tiên tiến được xây dựng b�
 - **Quản lý người dùng**: Kick, ban, cảnh cáo và quản lý người dùng
 - **Quản lý nhóm**: Kiểm soát cài đặt và quyền nhóm
 - **Giám sát hệ thống**: Trạng thái bot thời gian thực và chỉ số hiệu suất
-- **Hệ thống sao lưu**: Sao lưu và khôi phục dữ liệu tự động
+- **Quản lý lệnh**: Load, reload lệnh không cần restart
+- **Lệnh tùy chỉnh**: Tạo/sửa lệnh trực tiếp qua bot
+
+### 📊 Dashboard
+- Web Dashboard (Next.js + Express backend)
+- Quản lý bot qua giao diện web
+
+### 💬 Discord Bot
+- Hỗ trợ chạy song song Discord Bot
 
 ### 🎨 Tính năng Trực quan
 - **Đồ họa Canvas**: Các phần tử trực quan phong phú sử dụng Canvas API
@@ -354,14 +411,24 @@ npm install
 ```
 
 ### Bước 3: Cấu hình
-1. Sao chép `config.example.json` thành `config.json`
-2. Chỉnh sửa `config.json` với cài đặt của bạn:
+1. Tạo/chỉnh sửa file `admin.json` trong thư mục gốc dự án:
 ```json
 {
   "prefix": ".",
   "adminUIDs": ["your-facebook-uid"],
+  "moderatorUIDs": [],
+  "supportUIDs": [],
+  "feedbackGroupID": [],
   "botName": "Tên Bot Của Bạn",
-  "ownerName": "Tên Của Bạn"
+  "ownerName": "Tên Của Bạn",
+  "facebookLink": "your-facebook-uid",
+  "resend": false,
+  "notilogs": true,
+  "appstate": "./appstate.json",
+  "restart": true,
+  "restartTime": 50,
+  "FCA": "hut-chat-api",
+  "mtnMode": false
 }
 ```
 
@@ -383,23 +450,31 @@ npm start
 npm start
 ```
 
+### Scripts khả dụng
+| Script | Mô tả |
+|--------|-------|
+| `npm start` | Khởi động Messenger Bot |
+| `npm run dev` | Chạy ở chế độ development |
+| `npm run watch` | Chạy với auto-reload khi sửa lệnh |
+| `npm run discord:start` | Khởi động Discord Bot |
+| `npm run dashboard:dev` | Chạy Dashboard (backend + Next.js) |
+| `npm run dashboard:build` | Build Dashboard |
+
 ## Cấu hình
 
-### Cấu hình chính (`config.json`)
-```json
-{
-  "prefix": ".",
-  "adminUIDs": ["1000123456789"],
-  "botName": "AKI Bot",
-  "ownerName": "Admin",
-  "autoRestart": true,
-  "logLevel": "info",
-  "database": {
-    "type": "json",
-    "path": "./data/"
-  }
-}
-```
+### Cấu hình chính (`admin.json`)
+| Thuộc tính | Mô tả |
+|------------|-------|
+| `prefix` | Tiền tố lệnh (mặc định: `.`) |
+| `adminUIDs` | Danh sách UID admin |
+| `moderatorUIDs` | Danh sách UID moderator |
+| `supportUIDs` | Danh sách UID support |
+| `feedbackGroupID` | ID nhóm feedback |
+| `botName` | Tên bot |
+| `ownerName` | Tên chủ sở hữu |
+| `appstate` | Đường dẫn file appstate |
+| `FCA` | Loại FCA API (trong `logins/`): `hut-chat-api`, `meta-messenger`, `ws3-fca` |
+| `restart` | Tự động restart khi lỗi |
 
 ### Cấu hình VIP (`game/vip/vipConfig.js`)
 ```javascript
@@ -431,8 +506,14 @@ const VIP_PACKAGES = {
 # Phần thưởng hàng ngày
 .daily
 
-# Menu trợ giúp
+# Menu trợ giúp (xem theo danh mục)
 .help
+
+# Xem tất cả lệnh
+.help all
+
+# Tìm lệnh cụ thể
+.help <tên lệnh>
 ```
 
 ### Lệnh Admin
@@ -470,15 +551,26 @@ const VIP_PACKAGES = {
 | `.balance` | Kiểm tra số dư | `.balance` |
 | `.daily` | Nhận phần thưởng hàng ngày | `.daily` |
 | `.work` | Làm việc kiếm tiền | `.work` |
-| `.transfer` | Chuyển tiền | `.transfer [uid] [số tiền]` |
+| `.pay` | Chuyển tiền | `.pay [uid] [số tiền]` |
+| `.banking` | Hệ thống ngân hàng | `.banking` |
+| `.loan` | Vay tiền | `.loan` |
+| `.trade` | Giao dịch chứng khoán | `.trade` |
+| `.tip` | Tip người khác | `.tip [uid] [số tiền]` |
+| `.stolen` | Cướp tiền (rủi ro) | `.stolen [uid]` |
 
 ### Lệnh Game
 | Lệnh | Mô tả | Cách dùng |
 |------|-------|-----------|
 | `.fish` | Đi câu cá | `.fish` |
-| `.mine` | Đào tài nguyên | `.mine` |
-| `.casino` | Chơi casino | `.casino` |
+| `.mine` | Đào mỏ BTC | `.mine` |
+| `.baucua` | Chơi Bầu Cua | `.baucua` |
+| `.xoano` | Chơi Xổ Số | `.xoano` |
+| `.chanle` | Chơi Chẵn Lẻ | `.chanle` |
+| `.spin` | Quay số may mắn | `.spin` |
 | `.gacha` | Mở gacha | `.gacha` |
+| `.pokemon` | Hệ thống Pokemon | `.pokemon` |
+| `.guess` | Đoán số | `.guess` |
+| `.chess` | Cờ vua | `.chess` |
 
 ### Lệnh Admin
 | Lệnh | Mô tả | Cách dùng |
@@ -502,7 +594,10 @@ module.exports = {
     onPrefix: true,
     
     onLaunch: async function ({ api, event, target, actions }) {
-        // Logic lệnh ở đây
+        // target = ["lệnh", "arg1", "arg2"]
+        const { threadID, messageID, senderID } = event;
+        const prefix = global.cc.prefix;
+        // ...
     }
 };
 ```
@@ -526,16 +621,16 @@ module.exports = {
 }
 ```
 
-### Hệ thống Tiền tệ
+### Global Objects
 ```javascript
-// Thêm số dư
-global.currencies.addBalance(userID, amount);
+// Bot config
+global.cc.prefix        // Tiền tố lệnh
+global.cc.adminBot      // Danh sách admin UID
+global.cc.developer     // Tên developer
+global.cc.botName       // Tên bot
 
-// Trừ số dư
-global.currencies.subtractBalance(userID, amount);
-
-// Lấy số dư
-const balance = global.currencies.getBalance(userID);
+// Load/Reload lệnh
+global.cc.reloadCommand("commandName");
 ```
 
 ## Đóng góp
@@ -559,7 +654,7 @@ Dự án này được cấp phép theo MIT License - xem file [LICENSE](LICENSE
 ---
 
 ## 📞 Hỗ trợ / Support
-)
+
 - **Facebook**: [Follow us on Facebook](https://www.facebook.com/amfinethankiu.and.u)
 - **Email**: kenjiakira2006@gmail.com
 

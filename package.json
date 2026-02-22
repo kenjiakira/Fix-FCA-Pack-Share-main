@@ -7,15 +7,7 @@
     "start": "node index.js",
     "dev": "cross-env NODE_ENV=development node main.js",
     "watch": "node main.js --watch",
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "discord:start": "node discord/index.js",
-    "discord:restart": "pm2 restart discord",
-    "discord:stop": "pm2 stop discord",
-    "dashboard:backend": "cd dashboard/backend && node server.js",
-    "dashboard:nextjs": "cd dashboard/nextjs && npm run dev",
-    "dashboard:dev": "concurrently \"npm run dashboard:backend\" \"npm run dashboard:nextjs\"",
-    "dashboard:build": "cd dashboard/nextjs && npm run build",
-    "dashboard:start": "cd dashboard/nextjs && npm start"
+    "test": "echo \"Error: no test specified\" && exit 1"
   },
   "keywords": [],
   "author": "",

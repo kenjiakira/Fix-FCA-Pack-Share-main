@@ -2,8 +2,8 @@ const fs = require('fs');
 const path = require('path');
 const { getBalance, updateBalance } = require('../utils/currencies');
 const {
-  createGiftcode, loadGiftcodes, sendGiftcodeAnnouncement,
-  checkDailyLimit, updateDailyLimit, GIFTCODE_TYPES, REWARD_TYPES,
+  loadGiftcodes,
+  checkDailyLimit, updateDailyLimit, GIFTCODE_TYPES,
   addVIPPoints, getVIPProgress, createVIPGiftcode,
   getAvailableVIPGifts, markVIPGiftSent, sendVIPGiftAnnouncement
 } = require('../utils/autoGiftcode');
@@ -21,7 +21,7 @@ module.exports = {
   usedby: 0,
   category: "Tài Chính",
   info: "Hệ thống phần thưởng (Giftcode)",
-  usages: "[redeem/create/list/stats/vip] [code/options]",
+  usages: "[redeem/list/stats/vip] [code/options]",
   cooldowns: 5,
 
   onLaunch: async function({ api, event, target }) {
@@ -29,14 +29,14 @@ module.exports = {
     const cmd = target[0]?.toLowerCase();
     const isAdmin = global.cc.adminBot.includes(senderID);
     
-    if (!cmd || !['redeem', 'create', 'list', 'stats', 'vip'].includes(cmd)) {
+    if (!cmd || !['redeem', 'list', 'stats', 'vip'].includes(cmd)) {
       return api.sendMessage(
         "🎁 REWARDS\n━━━━━━━━━━━━━━━━━━\n\n" +
         "• .rewards redeem - Đổi tất cả giftcode chưa dùng\n" +
         "• .rewards stats - Thống kê của bạn\n" +
         "• .rewards vip - Tiến trình VIP Gold\n" +
         "• .rewards vip gift - Quà VIP Gold\n" +
-        (isAdmin ? "\n👑 Admin: .rewards create/list/vip create\n" : ""),
+        (isAdmin ? "\n👑 Admin: .rewards list/vip create | .giftcode create\n" : ""),
         threadID, messageID
       );
     }
@@ -44,10 +44,6 @@ module.exports = {
     switch(cmd) {
       case 'redeem':
         await this.handleRedeem({ api, event });
-        break;
-      case 'create':
-        if (!isAdmin) return api.sendMessage("❌ Chỉ admin mới có thể sử dụng lệnh này!", threadID, messageID);
-        await this.handleCreate({ api, event, target });
         break;
       case 'list':
         if (!isAdmin) return api.sendMessage("❌ Chỉ admin mới có thể sử dụng lệnh này!", threadID, messageID);
@@ -132,71 +128,6 @@ module.exports = {
     msg += `\n💰 Số dư: ${formatNumber(getBalance(senderID))} Xu`;
 
     return api.sendMessage(msg, threadID, messageID);
-  },
-
-  handleCreate: async function({ api, event, target }) {
-    const { threadID, messageID } = event;
-    
-    if (target.length < 3) {
-      return api.sendMessage(
-        "❌ Vui lòng nhập đúng cú pháp:\n" +
-        ".rewards create <loại> <số xu> <mô tả>\n\n" +
-        "Loại giftcode:\n" +
-        "- normal: Giftcode thường\n" +
-        "- rare: Giftcode hiếm\n" +
-        "- epic: Giftcode epic\n" +
-        "- legendary: Giftcode huyền thoại\n" +
-        "- event: Giftcode sự kiện\n" +
-        "- special: Giftcode đặc biệt\n\n" +
-        "Ví dụ: .rewards create epic 5000000 Quà tặng đặc biệt",
-        threadID, messageID
-      );
-    }
-    
-    const typeInput = target[1].toUpperCase();
-    const validTypes = Object.keys(GIFTCODE_TYPES);
-    const type = validTypes.includes(typeInput) ? typeInput : 'NORMAL';
-    
-    const rewardInput = parseInt(target[2]);
-    if (isNaN(rewardInput) || rewardInput <= 0) {
-      return api.sendMessage("❌ Số xu phải là một số dương!", threadID, messageID);
-    }
-    
-    const description = target.slice(3).join(" ") || `Giftcode ${GIFTCODE_TYPES[type].rarity}`;
-
-    // Tạo phần thưởng ngẫu nhiên dựa trên loại
-    const typeConfig = GIFTCODE_TYPES[type];
-    let rewards = { 
-      coins: rewardInput,
-      vip_points: typeConfig.vipPoints || 1
-    };
-    
-    // Thêm phần thưởng bonus nếu có
-    if (typeConfig.bonusRewards) {
-      for (const [rewardType, rewardConfig] of Object.entries(typeConfig.bonusRewards)) {
-        if (rewardType === 'vip_points' || rewardType === 'exp') {
-          rewards[rewardType] = Math.floor(Math.random() * (rewardConfig.max - rewardConfig.min + 1)) + rewardConfig.min;
-        }
-      }
-    }
-
-    const code = createGiftcode(rewards, description, typeConfig.expHours, type, REWARD_TYPES.MIXED);
-    await sendGiftcodeAnnouncement(api, code, rewards, type);
-    
-    let rewardText = `💰 ${formatNumber(rewards.coins)} Xu`;
-    if (rewards.vip_points) rewardText += `\n👑 ${rewards.vip_points} Điểm tích VIP Gold`;
-    if (rewards.exp) rewardText += `\n⭐ ${rewards.exp} EXP`;
-    
-    return api.sendMessage(
-      "✅ Tạo giftcode thành công!\n\n" +
-      `📝 Code: ${code}\n` +
-      `💝 Phần thưởng:\n${rewardText}\n` +
-      `📜 Mô tả: ${description}\n` +
-      `⏰ Thời hạn: ${typeConfig.expHours} giờ\n` +
-      `👥 Giới hạn: ${typeConfig.maxUses || 'Không giới hạn'} người dùng\n` +
-      "📢 Đã thông báo tới tất cả các nhóm",
-      threadID, messageID
-    );
   },
 
   handleList: async function({ api, event }) {

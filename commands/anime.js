@@ -64,7 +64,7 @@ module.exports = {
         }
     
         const query = keywords.join(" ");
-        const cacheDir = path.join(__dirname, "cache");
+        const cacheDir = path.join(__dirname, "../database/cache");
         if (!fs.existsSync(cacheDir)) {
             fs.mkdirSync(cacheDir, { recursive: true });
         }
@@ -120,7 +120,7 @@ module.exports = {
             return await actions.reply("❎ Vui lòng nhập tên anime cần tìm (ít nhất 2 ký tự)");
         }
 
-        const cachePath = path.join(__dirname, 'cache');
+        const cachePath = path.join(__dirname, '../database/cache');
         if (!fs.existsSync(cachePath)) {
             fs.mkdirSync(cachePath, { recursive: true });
         }
@@ -175,7 +175,7 @@ module.exports = {
             const about = await translate(char.about || "Không có thông tin", { from: 'en', to: 'vi' });
 
             const imgResponse = await axios.get(char.images.jpg.image_url, { responseType: 'arraybuffer' });
-            const imgPath = path.join(__dirname, 'cache', `char_${Date.now()}.jpg`);
+            const imgPath = path.join(__dirname, '../database/cache', `char_${Date.now()}.jpg`);
             fs.writeFileSync(imgPath, imgResponse.data);
 
             const msg = `👤 THÔNG TIN NHÂN VẬT\n\n` +
@@ -254,7 +254,7 @@ module.exports = {
             });
             const imgPath = path.join(
                 __dirname,
-                "cache",
+                "../database/cache",
                 `anime_${Date.now()}.${response.data.url.split(".").pop()}`
             );
 
