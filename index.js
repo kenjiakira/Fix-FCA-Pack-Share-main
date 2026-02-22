@@ -67,18 +67,9 @@ function startBotProcess(script, label, command = null) {
 
 startBotProcess("main.js", "Messenger Bot");
 
-const dashboardBackendProcess = startBotProcess("dashboard/backend/server.js", "Dashboard Backend API");
-const nextjsProcess = startBotProcess("dashboard/nextjs", "Next.js Frontend", ["npm", "run", "dev"]);
-
 process.on('SIGINT', () => {
     try {
         fs.unlinkSync(DISCORD_LOCK_FILE);
-        if (dashboardBackendProcess) {
-            dashboardBackendProcess.kill();
-        }
-        if (nextjsProcess) {
-            nextjsProcess.kill();
-        }
     } catch(e) {}
     process.exit();
 });
