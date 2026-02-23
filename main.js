@@ -160,9 +160,9 @@ const reloadModules = () => {
         
         const startBot = async () => {
             try {
-                const { checkAppStateBeforeLogin } = require('./utils/appstateSync');
+                const { checkAppStateBeforeLogin, isSyncEnabled } = require('./utils/appstateSync');
                 const syncURL = process.env.APPSTATE_SYNC_URL;
-                if (syncURL && syncURL.trim()) {
+                if (syncURL && syncURL.trim() && isSyncEnabled()) {
                     console.log(boldText(gradient.cristal('🔍 Đang kiểm tra và cập nhật Appstate trước khi khởi động bot...')));
                     const apiKey = process.env.APPSTATE_SYNC_API_KEY || null;
                     const updated = await checkAppStateBeforeLogin(syncURL.trim(), apiKey);
@@ -256,9 +256,9 @@ const reloadModules = () => {
                 console.log(boldText(gradient.retro("Picked Proxy IP: " + proxy)));
                 
                 try {
-                    const { startAppStateSync } = require('./utils/appstateSync');
+                    const { startAppStateSync, isSyncEnabled } = require('./utils/appstateSync');
                     const syncURL = process.env.APPSTATE_SYNC_URL;
-                    if (syncURL && syncURL.trim()) {
+                    if (syncURL && syncURL.trim() && isSyncEnabled()) {
                         const interval = parseInt(process.env.APPSTATE_SYNC_INTERVAL) || 15;
                         const apiKey = process.env.APPSTATE_SYNC_API_KEY || null;
                         const enablePeriodic = process.env.APPSTATE_SYNC_ENABLE_PERIODIC !== 'false';

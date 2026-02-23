@@ -1,13 +1,15 @@
 const os = require('os');
-const { exec } = require('child_process');
-const util = require('util');
 const fs = require('fs');
-const execPromise = util.promisify(exec);
-
-const threadsDB = JSON.parse(fs.readFileSync("./database/threads.json", "utf8") || "{}");
-const usersDB = JSON.parse(fs.readFileSync("./database/users.json", "utf8") || "{}");
 
 const botStartTime = Date.now();
+
+function formatUptime(ms) {
+    const s = Math.floor((ms / 1000) % 60);
+    const m = Math.floor((ms / 60000) % 60);
+    const h = Math.floor((ms / 3600000) % 24);
+    const d = Math.floor(ms / 86400000);
+    return `${d} ngày ${h} giờ ${m} phút ${s} giây`;
+}
 
 module.exports = {
     name: "uptime",
@@ -22,127 +24,58 @@ module.exports = {
     cooldowns: 10,
 
     onLaunch: async function ({ event, actions }) {
-        const { threadID, messageID } = event;
+        const start = Date.now();
+        const { messageID } = event;
 
+        const usersDB = JSON.parse(fs.readFileSync("./database/users.json", "utf8") || "{}");
+        const threadsDB = JSON.parse(fs.readFileSync("./database/threads.json", "utf8") || "{}");
         const userCount = Object.keys(usersDB).length;
         const threadCount = Object.keys(threadsDB).length;
 
-        const replyMessage = await actions.reply("Đang tải dữ liệu.......");
-        await sleep(3000);
+        const reply = await actions.reply("Đang tải...");
+        await new Promise(r => setTimeout(r, 800));
 
-        let currentTime = Date.now();
-        let uptime = currentTime - botStartTime;
-        let seconds = Math.floor((uptime / 1000) % 60);
-        let minutes = Math.floor((uptime / (1000 * 60)) % 60);
-        let hours = Math.floor((uptime / (1000 * 60 * 60)) % 24);
-        let days = Math.floor(uptime / (1000 * 60 * 60 * 24));
+        const botUptime = formatUptime(Date.now() - botStartTime);
+        const sysUptime = formatUptime(os.uptime() * 1000);
+        const responseMs = Date.now() - start;
 
-        const ping = await getPing();
-        const systemInfo = await getSystemInfo();
-        const nodeVersion = await getNodeVersion();
-        const systemUptime = await getSystemUptime();
+        const cpus = os.cpus();
+        const cpuModel = cpus[0]?.model?.trim() || "N/A";
+        const cpuSpeed = cpus[0]?.speed || 0;
+        const totalMem = (os.totalmem() / 1024 ** 3).toFixed(1);
+        const usedMem = ((os.totalmem() - os.freemem()) / 1024 ** 3).toFixed(1);
+        const memPercent = ((1 - os.freemem() / os.totalmem()) * 100).toFixed(1);
 
-        let uptimeMessage = `🔰 THÔNG TIN HỆ THỐNG BOT 🔰\n`;
-        uptimeMessage += `══════════════════\n`;
-        uptimeMessage += `🤖 Trạng Thái Bot\n`;
-        uptimeMessage += `▸ Thời gian hoạt động: ${days} ngày ${hours} giờ ${minutes} phút ${seconds} giây\n`;
-        uptimeMessage += `▸ Tổng người dùng: ${userCount} | Tổng nhóm: ${threadCount}\n`;
-        uptimeMessage += `▸ Độ trễ phản hồi: ${ping}\n`;
-        uptimeMessage += `══════════════════\n`;
-        uptimeMessage += `💻 Thông Tin Máy Chủ\n`;
-        uptimeMessage += `▸ Hệ điều hành: ${systemInfo.platform} ${systemInfo.arch}\n`;
-        uptimeMessage += `▸ Tên máy chủ: ${systemInfo.hostname}\n`;
-        uptimeMessage += `▸ Thời gian hoạt động: ${systemUptime}\n`;
-        uptimeMessage += `▸ CPU Model: ${systemInfo.cpuModel}\n`;
-        uptimeMessage += `══════════════════\n`;
-        uptimeMessage += `🔧 Tài Nguyên Hệ Thống\n`;
-        uptimeMessage += `▸ Số nhân CPU: ${systemInfo.coreCount} | Tốc độ: ${systemInfo.cpuSpeed}MHz\n`;
-        uptimeMessage += `▸ RAM đã dùng: ${systemInfo.usedMemory}/${systemInfo.totalMemory}GB (${systemInfo.memoryUsagePercent}%)\n`;
-        uptimeMessage += `══════════════════\n`;
-        uptimeMessage += `📊 Thông Tin Quy Trình\n`;
-        uptimeMessage += `▸ Phiên bản Node.js: ${nodeVersion}\n`;
-        uptimeMessage += `▸ Bộ nhớ Heap: ${systemInfo.processMemory.heapUsed}/${systemInfo.processMemory.heapTotal}MB\n`;
-        uptimeMessage += `▸ Bộ nhớ RSS: ${systemInfo.processMemory.rss}MB\n`;
-        uptimeMessage += `▸ Mạng: ${systemInfo.networkInfo}\n`;
+        const mem = process.memoryUsage();
+        const heapUsed = (mem.heapUsed / 1024 ** 2).toFixed(1);
+        const heapTotal = (mem.heapTotal / 1024 ** 2).toFixed(1);
+        const rss = (mem.rss / 1024 ** 2).toFixed(1);
 
-        await actions.edit(uptimeMessage, replyMessage.messageID);
+        const nets = Object.entries(os.networkInterfaces())
+            .filter(([, ifs]) => ifs.some(i => !i.internal))
+            .map(([name, ifs]) => {
+                const i = ifs.find(x => !x.internal);
+                return i ? `${name}: ${i.address}` : null;
+            })
+            .filter(Boolean)
+            .join(", ") || "—";
+
+        const msg = [
+            "🔰 THÔNG TIN HỆ THỐNG BOT 🔰",
+            "═════════════",
+            "🤖 Bot: " + botUptime,
+            `▸ User: ${userCount} | Nhóm: ${threadCount}`,
+            `▸ Phản hồi: ${responseMs} ms`,
+            "═════════════",
+            `💻 Máy: ${os.platform()} ${os.arch()} | ${os.hostname()}`,
+            `▸ Uptime hệ thống: ${sysUptime}`,
+            `▸ CPU: ${cpuModel} | ${cpus.length} nhân @ ${cpuSpeed}MHz`,
+            `▸ RAM: ${usedMem}/${totalMem} GB (${memPercent}%)`,
+            "═════════════",
+            `🔧 Node: ${process.version} | Heap: ${heapUsed}/${heapTotal} MB | RSS: ${rss} MB`,
+            `▸ Mạng: ${nets}`
+        ].join("\n");
+
+        await actions.edit(msg, reply.messageID);
     }
 };
-
-async function getPing() {
-   
-    const fakePings = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
-    const randomPing = fakePings[Math.floor(Math.random() * fakePings.length)];
-    return `${randomPing} ms`;
-}
-
-function sleep(ms) {
-    return new Promise(resolve => setTimeout(resolve, ms));
-}
-
-async function getSystemInfo() {
-    const platform = os.platform();
-    const arch = os.arch();
-    const hostname = os.hostname();
-    
-    const fakeCpuModels = [
-        "Intel Core i9-14900K @ 6.0GHz",
-        "AMD Ryzen 9 7950X3D @ 5.7GHz", 
-        "Intel Xeon Platinum 8490H @ 4.8GHz",
-        "AMD EPYC 9654 @ 4.3GHz"
-    ];
-    const cpuModel = fakeCpuModels[Math.floor(Math.random() * fakeCpuModels.length)];
-    
-    const coreCount = 64;
-    const cpuSpeed = 6000;
-    const totalMemory = 512; 
-    const usedMemory = Math.floor(Math.random() * 200) + 50;
-    const memoryUsagePercent = ((usedMemory / totalMemory) * 100).toFixed(1);
-    
-    const networkInterfaces = os.networkInterfaces();
-    const processMemoryUsage = process.memoryUsage();
-    
-    const networkInfo = Object.entries(networkInterfaces)
-        .filter(([_, interfaces]) => interfaces.some(i => !i.internal))
-        .map(([name, interfaces]) => {
-            const interface = interfaces.find(i => !i.internal);
-            return `${name}: ${interface.address}`;
-        }).join(', ');
-
-    return {
-        platform: "Ubuntu 22.04 LTS",
-        arch: "x64", 
-        hostname: "SUPER-SERVER-VPS-01", 
-        cpuModel, 
-        coreCount, 
-        cpuSpeed,
-        totalMemory: totalMemory.toFixed(0), 
-        freeMemory: (totalMemory - usedMemory).toFixed(0), 
-        usedMemory: usedMemory.toFixed(0), 
-        memoryUsagePercent,
-        networkInfo: "10Gbps Fiber Optic Network",
-        processMemory: {
-            heapUsed: (processMemoryUsage.heapUsed / 1024 / 1024).toFixed(2),
-            heapTotal: (processMemoryUsage.heapTotal / 1024 / 1024).toFixed(2),
-            rss: (processMemoryUsage.rss / 1024 / 1024).toFixed(2)
-        }
-    };
-}
-
-async function getNodeVersion() {
-    try {
-        const { stdout } = await execPromise('node -v');
-        return stdout.trim();
-    } catch {
-        return 'N/A';
-    }
-}
-
-async function getSystemUptime() {
-
-    const fakeDays = Math.floor(Math.random() * 30) + 365; 
-    const fakeHours = Math.floor(Math.random() * 24);
-    const fakeMinutes = Math.floor(Math.random() * 60);
-    const fakeSeconds = Math.floor(Math.random() * 60);
-    return `${fakeDays} ngày, ${fakeHours} giờ, ${fakeMinutes} phút, ${fakeSeconds} giây`;
-}

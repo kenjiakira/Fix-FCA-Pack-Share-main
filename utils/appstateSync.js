@@ -7,9 +7,39 @@ const gradient = require('gradient-string');
 
 const APPSTATE_PATH = path.join(__dirname, '..', 'appstate.json');
 const LAST_CHECK_FILE = path.join(__dirname, '..', '.appstate-last-check.json');
+const SYNC_CONFIG_PATH = path.join(__dirname, '..', 'database', 'json', 'appstateSync.json');
 
 let checkInterval = null;
 let lastContentHash = null;
+
+function ensureSyncConfigDir() {
+    const dir = path.dirname(SYNC_CONFIG_PATH);
+    if (!fs.existsSync(dir)) {
+        fs.mkdirSync(dir, { recursive: true });
+    }
+}
+
+function loadSyncConfig() {
+    try {
+        ensureSyncConfigDir();
+        if (fs.existsSync(SYNC_CONFIG_PATH)) {
+            const data = JSON.parse(fs.readFileSync(SYNC_CONFIG_PATH, 'utf8'));
+            return { enabled: data.enabled !== false, fromFile: true };
+        }
+    } catch (e) {
+        // ignore
+    }
+    return { enabled: null, fromFile: false };
+}
+
+function saveSyncConfig(config) {
+    try {
+        ensureSyncConfigDir();
+        fs.writeFileSync(SYNC_CONFIG_PATH, JSON.stringify({ enabled: config.enabled }, null, 2), 'utf8');
+    } catch (e) {
+        console.error(boldText(gradient.passion('❌ Không thể lưu cấu hình appstateSync:')), e.message);
+    }
+}
 
 function boldText(text) {
     return chalk.bold(text);
@@ -202,7 +232,7 @@ async function checkAndUpdateAppState(syncURL, apiKey = null, shouldRestart = fa
 }
 
 async function checkAppStateBeforeLogin(syncURL, apiKey = null) {
-    if (!syncURL) {
+    if (!syncURL || !isSyncEnabled()) {
         return false;
     }
 
@@ -216,8 +246,36 @@ async function checkAppStateBeforeLogin(syncURL, apiKey = null) {
     }
 }
 
-function startAppStateSync(syncURL, intervalMinutes = 5, apiKey = null) {
-    if (!syncURL) {
+function isSyncEnabled() {
+    const config = loadSyncConfig();
+    if (config.fromFile) {
+        return config.enabled === true;
+    }
+    const v = (process.env.APPSTATE_SYNC_ENABLED || 'true').toString().toLowerCase();
+    return v !== 'false' && v !== '0' && v !== 'off' && v !== 'no';
+}
+
+function setSyncEnabled(enabled) {
+    saveSyncConfig({ enabled: !!enabled });
+    if (!enabled) {
+        stopAppStateSync();
+    }
+}
+
+function stopAppStateSync() {
+    if (checkInterval) {
+        clearInterval(checkInterval);
+        checkInterval = null;
+        console.log(boldText(gradient.passion('⏸️ Đã dừng đồng bộ appstate định kỳ.')));
+    }
+}
+
+function startAppStateSync(syncURL, intervalMinutes = 5, apiKey = null, enablePeriodic = true) {
+    const enabled = isSyncEnabled();
+    if (!syncURL || !enabled) {
+        if (syncURL && !enabled) {
+            console.log(boldText(gradient.passion('⏸️ Appstate sync đã tắt (APPSTATE_SYNC_ENABLED=false)')));
+        }
         return;
     }
 
@@ -228,26 +286,32 @@ function startAppStateSync(syncURL, intervalMinutes = 5, apiKey = null) {
     checkAndUpdateAppState(syncURL, apiKey, false).catch(err => {
         console.error(boldText(gradient.passion('❌ Lỗi kiểm tra lần đầu:')), err.message);
     });
-    
-    const intervalMs = intervalMinutes * 60 * 1000;
-    checkInterval = setInterval(async () => {
-        try {
-            const updated = await checkAndUpdateAppState(syncURL, apiKey, true);
-            if (updated) {
-                console.log(boldText(gradient.retro('🔄 Bot sẽ tự động restart sau 2 giây...')));
+
+    if (enablePeriodic) {
+        const intervalMs = intervalMinutes * 60 * 1000;
+        checkInterval = setInterval(async () => {
+            try {
+                const updated = await checkAndUpdateAppState(syncURL, apiKey, true);
+                if (updated) {
+                    console.log(boldText(gradient.retro('🔄 Bot sẽ tự động restart sau 2 giây...')));
+                }
+            } catch (err) {
+                console.error(boldText(gradient.passion('❌ Lỗi kiểm tra định kỳ:')), err.message);
             }
-        } catch (err) {
-            console.error(boldText(gradient.passion('❌ Lỗi kiểm tra định kỳ:')), err.message);
-        }
-    }, intervalMs);
-    
-    console.log(boldText(gradient.cristal(`✅ Đã bật đồng bộ appstate (tự động kiểm tra mỗi ${intervalMinutes} phút)`)));
-    console.log(boldText(gradient.retro('🔄 Tự động restart khi phát hiện appstate mới')));
+        }, intervalMs);
+        console.log(boldText(gradient.cristal(`✅ Đã bật đồng bộ appstate (tự động kiểm tra mỗi ${intervalMinutes} phút)`)));
+        console.log(boldText(gradient.retro('🔄 Tự động restart khi phát hiện appstate mới')));
+    } else {
+        console.log(boldText(gradient.cristal('✅ Đã chạy kiểm tra appstate một lần (đồng bộ định kỳ đã tắt)')));
+    }
 }
 
 module.exports = {
     startAppStateSync,
     checkAndUpdateAppState,
-    checkAppStateBeforeLogin
+    checkAppStateBeforeLogin,
+    isSyncEnabled,
+    setSyncEnabled,
+    stopAppStateSync
 };
 
