@@ -20,6 +20,8 @@ const fishCanvas = require("../game/canvas/fishCanvas");
 const { recipes, craftingMaterials } = require("../game/config/fishing/crafting");
 const baits = require("../game/config/fishing/baits");
 
+if (!global.fishAutoLoops) global.fishAutoLoops = {};
+
 const levelRequirements = {
   pond: 1,
   river: 3,
@@ -45,6 +47,31 @@ const ENERGY_SYSTEM = {
 function formatNumber(number) {
   if (number === undefined || number === null) return "0";
   return number.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+}
+
+function getBestLocation(senderID, playerData) {
+  const balance = getBalance(senderID);
+  const vipBenefits = getVIPBenefits(senderID);
+  const hasVipGold = vipBenefits && vipBenefits.packageId === 3;
+  const locationKeys = [
+    "vipReserve",
+    "dragonRealm",
+    "spaceOcean",
+    "atlantis",
+    "abyss",
+    "deepSea",
+    "ocean",
+    "river",
+    "pond",
+  ];
+  for (const key of locationKeys) {
+    const loc = locations[key];
+    if (!loc) continue;
+    if (playerData.level < levelRequirements[key]) continue;
+    if (key === "vipReserve" && !hasVipGold) continue;
+    if (balance >= loc.cost) return { key, location: loc };
+  }
+  return null;
 }
 
 const messages = {
@@ -103,15 +130,107 @@ module.exports = {
   dev: "HNT",
   category: "Games",
   info: "Câu cá kiếm xu",
-  usages: "fish",
+  usages: "fish | fish auto | fish stop",
   usedby: 0,
   cooldowns: 0,
   onPrefix: true,
 
   lastFished: {},
 
-  onLaunch: async function ({ api, event }) {
+  onLaunch: async function ({ api, event, target = [] }) {
     const { threadID, messageID, senderID } = event;
+    const arg = (target[0] || "").toLowerCase();
+
+    if (arg === "stop") {
+      if (global.fishAutoLoops[senderID]) {
+        clearInterval(global.fishAutoLoops[senderID]);
+        delete global.fishAutoLoops[senderID];
+        return api.sendMessage(
+          "✅ Đã tắt chế độ câu tự động!",
+          threadID,
+          messageID
+        );
+      }
+      return api.sendMessage(
+        "❌ Bạn chưa bật chế độ câu tự động, gõ `.fish auto` để bật.",
+        threadID,
+        messageID
+      );
+    }
+
+    if (arg === "auto") {
+      if (global.fishAutoLoops[senderID]) {
+        clearInterval(global.fishAutoLoops[senderID]);
+        delete global.fishAutoLoops[senderID];
+        return api.sendMessage(
+          "✅ Đã tắt chế độ câu tự động!",
+          threadID,
+          messageID
+        );
+      }
+
+      let playerData = updateEnergy(this.loadPlayerData(senderID));
+      const best = getBestLocation(senderID, playerData);
+      if (!best) {
+        return api.sendMessage(
+          "❌ Không tìm được địa điểm phù hợp!\n" +
+            "• Kiểm tra cấp độ và số dư.\n" +
+            "• Khu VIP cần VIP Gold.",
+          threadID,
+          messageID
+        );
+      }
+
+      const vipBenefits = getVIPBenefits(senderID);
+      const COOLDOWN = vipBenefits?.fishingCooldown || 180000;
+
+      const runAutoFish = async () => {
+        if (!global.fishAutoLoops[senderID]) return;
+        let pData = updateEnergy(this.loadPlayerData(senderID));
+        const bestLoc = getBestLocation(senderID, pData);
+        if (!bestLoc) {
+          clearInterval(global.fishAutoLoops[senderID]);
+          delete global.fishAutoLoops[senderID];
+          api.sendMessage(
+            "⏹️ Dừng auto: không đủ điều kiện (cấp/số dư).",
+            threadID
+          );
+          return;
+        }
+        const allData = this.loadAllPlayers();
+        if (
+          allData[senderID]?.lastFished &&
+          Date.now() - allData[senderID].lastFished < COOLDOWN
+        )
+          return;
+        if (pData.energy < ENERGY_SYSTEM.minEnergyToFish) {
+          clearInterval(global.fishAutoLoops[senderID]);
+          delete global.fishAutoLoops[senderID];
+          api.sendMessage(
+            "⏹️ Dừng auto: hết năng lượng. Dùng `.fish` → 9 để phục hồi.",
+            threadID
+          );
+          return;
+        }
+        const ev = { ...event, senderID };
+        await this.handleFishing(api, ev, bestLoc.location, pData);
+      };
+
+      global.fishAutoLoops[senderID] = setInterval(
+        () => runAutoFish.call(this),
+        COOLDOWN
+      );
+      await runAutoFish.call(this);
+      return api.sendMessage(
+        `🤖 Đã bật câu tự động!\n` +
+          `📍 Địa điểm: ${best.location.name}\n` +
+          `⏱️ Mỗi ${Math.ceil(COOLDOWN / 20000)} phút câu 1 lần\n` +
+          `⏹️ Gõ \`.fish stop\` để dừng`,
+        threadID,
+        messageID
+      );
+    }
+
     let playerData = this.loadPlayerData(senderID);
 
     playerData = updateEnergy(playerData);
@@ -155,7 +274,9 @@ module.exports = {
       "7. Xếp hạng\n" +
       "8. Hướng dẫn\n" +
       "9. Phục hồi năng lượng\n\n" +
-      "Reply tin nhắn với số để chọn!";
+      "Reply tin nhắn với số để chọn!\n\n" +
+      "🤖 \`.fish auto\` - Câu tự động (chọn địa điểm xịn nhất)\n" +
+      "⏹️ \`.fish stop\` - Tắt câu tự động";
 
     const msg = await api.sendMessage(menu, threadID, messageID);
 
@@ -361,7 +482,7 @@ module.exports = {
               const minutesToFull = Math.ceil(
                 (ENERGY_SYSTEM.regenTime *
                   (ENERGY_SYSTEM.minEnergyToFish - playerData.energy)) /
-                  60000
+                  20000
               );
 
               return api.sendMessage(
@@ -967,7 +1088,7 @@ module.exports = {
         : "⭐"
       : "";
 
-    const cooldownMinutes = Math.ceil(COOLDOWN / 60000);
+    const cooldownMinutes = Math.ceil(COOLDOWN / 20000);
 
     if (
       allData[event.senderID].lastFished &&

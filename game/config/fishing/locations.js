@@ -6,10 +6,10 @@ module.exports = {
             trash: 8,
             common: 48,
             uncommon: 28,
-            rare: 12,
-            legendary: 3,
-            mythical: 0.8,
-            cosmic: 0.2
+            rare: 24,         // x2
+            legendary: 6,     // x2
+            mythical: 1.6,    // x2
+            cosmic: 0.4       // x2
         }
     },
     river: {
@@ -19,10 +19,10 @@ module.exports = {
             trash: 5,
             common: 42,
             uncommon: 32,
-            rare: 14,
-            legendary: 4,
-            mythical: 2,
-            cosmic: 0.5
+            rare: 28,         // x2
+            legendary: 8,     // x2
+            mythical: 4,      // x2
+            cosmic: 1         // x2
         }
     },
     ocean: {
@@ -32,10 +32,10 @@ module.exports = {
             trash: 3,
             common: 36,
             uncommon: 36,
-            rare: 16,
-            legendary: 5,
-            mythical: 3,
-            cosmic: 1
+            rare: 32,         // x2
+            legendary: 10,    // x2
+            mythical: 6,      // x2
+            cosmic: 2         // x2
         }
     },
     deepSea: {
@@ -45,10 +45,10 @@ module.exports = {
             trash: 2,
             common: 28,
             uncommon: 42,
-            rare: 18,
-            legendary: 6,
-            mythical: 3.5,
-            cosmic: 0.5
+            rare: 36,         // x2
+            legendary: 12,    // x2
+            mythical: 7,      // x2
+            cosmic: 1         // x2
         }
     },
     abyss: {
@@ -58,10 +58,10 @@ module.exports = {
             trash: 1,
             common: 20,
             uncommon: 48,
-            rare: 20,
-            legendary: 7,
-            mythical: 3.5,
-            cosmic: 0.5
+            rare: 40,         // x2
+            legendary: 14,    // x2
+            mythical: 7,      // x2
+            cosmic: 1         // x2
         }
     },
     atlantis: {
@@ -71,10 +71,10 @@ module.exports = {
             trash: 0,
             common: 14,
             uncommon: 52,
-            rare: 22,
-            legendary: 8,
-            mythical: 3.5,
-            cosmic: 0.5
+            rare: 44,         // x2
+            legendary: 16,    // x2
+            mythical: 7,      // x2
+            cosmic: 1         // x2
         }
     },
    spaceOcean: {
@@ -84,10 +84,10 @@ module.exports = {
             trash: 0,
             common: 10,
             uncommon: 55,
-            rare: 22,
-            legendary: 8,
-            mythical: 4,
-            cosmic: 1
+            rare: 44,         // x2
+            legendary: 16,    // x2
+            mythical: 8,      // x2
+            cosmic: 2         // x2
         }
     },
     dragonRealm: {
@@ -97,10 +97,10 @@ module.exports = {
             trash: 0,
             common: 8,
             uncommon: 52,
-            rare: 24,
-            legendary: 10,
-            mythical: 4.5,
-            cosmic: 1.5
+            rare: 48,         // x2
+            legendary: 20,    // x2
+            mythical: 9,      // x2
+            cosmic: 3         // x2
         }
     },
     vipReserve: {
@@ -111,11 +111,10 @@ module.exports = {
             trash: 0,
             common: 8,
             uncommon: 52,
-            rare: 24,
-            legendary: 10,
-            mythical: 4.5,
-            cosmic: 1.5
+            rare: 48,         // x2
+            legendary: 20,    // x2
+            mythical: 9,      // x2
+            cosmic: 3         // x2
         }
     }
 };
-
