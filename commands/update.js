@@ -2,18 +2,7 @@ const fs = require('fs');
 const path = require('path');
 const { execSync } = require('child_process');
 const os = require('os');
-const {
-    getAllFiles,
-    getFileMap,
-    compareFiles,
-    compareFileLists,
-    bumpVersion,
-    getVersion,
-    copyDirectory,
-    syncDirectory
-} = require('../utils/update');
-
-const updatesPath = path.join(__dirname, '../database/json/updates.json');
+const { bumpVersion, getVersion, syncDirectory } = require('../utils/update');
 
 const adminPath = path.join(__dirname, '../admin.json');
 
@@ -37,63 +26,17 @@ function loadAdminData() {
     try {
         if (fs.existsSync(adminPath)) {
             return JSON.parse(fs.readFileSync(adminPath, 'utf8'));
-        } else {
-            console.error('Admin file not found');
-            return { adminUIDs: [] };
         }
+        return { adminUIDs: [] };
     } catch (error) {
         console.error('Error loading admin data:', error);
         return { adminUIDs: [] };
     }
 }
 
-function loadUpdates() {
-    try {
-        if (fs.existsSync(updatesPath)) {
-            return JSON.parse(fs.readFileSync(updatesPath, 'utf8'));
-        } else {
-            const defaultData = {
-                lastModified: Date.now(),
-                updates: []
-            };
-            fs.mkdirSync(path.dirname(updatesPath), { recursive: true });
-            fs.writeFileSync(updatesPath, JSON.stringify(defaultData, null, 2));
-            return defaultData;
-        }
-    } catch (error) {
-        console.error('Error loading updates:', error);
-        return {
-            lastModified: Date.now(),
-            updates: []
-        };
-    }
-}
-
-function saveUpdates(data) {
-    try {
-        fs.mkdirSync(path.dirname(updatesPath), { recursive: true });
-        fs.writeFileSync(updatesPath, JSON.stringify(data, null, 2));
-        return true;
-    } catch (error) {
-        console.error('Error saving updates:', error);
-        return false;
-    }
-}
-
-function addUpdate(type, title, description, adminOnly = false) {
-    const data = loadUpdates();
-    
-    data.updates.unshift({
-        id: Date.now().toString(),
-        type: type, 
-        title: title,
-        description: description,
-        date: Date.now(),
-        adminOnly: adminOnly
-    });
-    
-    data.lastModified = Date.now();
-    saveUpdates(data);
+function resolveRepoURL(adminData, overrideURL) {
+    if (overrideURL) return overrideURL;
+    return adminData.gitURL || DEFAULT_GIT_URL;
 }
 
 module.exports = {
@@ -101,215 +44,106 @@ module.exports = {
     dev: "HNT",
     usedby: 2,
     category: "System",
-    info: "Cập nhật hệ thống từ nguồn cập nhật",
+    info: "Remote URL và đồng bộ Git",
     onPrefix: true,
-    usages: "update [pull/sync/version] [branch] [gitURL]",
+    usages: "update [remote|sync] — remote: xem URL; sync: đồng bộ [branch] [gitURL]",
     cooldowns: 5,
 
     onLaunch: async ({ api, event, target }) => {
         const { threadID, senderID, messageID } = event;
         const adminData = loadAdminData();
         const isAdmin = Array.isArray(adminData.adminUIDs) && adminData.adminUIDs.includes(senderID);
-        
+
         if (!target[0]) {
-            const versionInfo = getVersion();
-            let msg = `╭─「 THÔNG TIN PHIÊN BẢN 」─╮\n\n`;
-            msg += `📦 Phiên bản: v${versionInfo.version}\n`;
-            if (versionInfo.gitTag) {
-                msg += `🏷️ Git Tag: ${versionInfo.gitTag}\n`;
-            }
-            if (versionInfo.branch) {
-                msg += `🌿 Nhánh: ${versionInfo.branch}\n`;
-            }
-            if (versionInfo.commitHash) {
-                msg += `🔖 Commit: ${versionInfo.commitHash}\n`;
-            }
-            msg += `\n╰────────────╯\n\n`;
-            
+            const v = getVersion();
+            let msg = `📦 v${v.version}`;
             if (isAdmin) {
-                msg += `👑 ADMIN COMMANDS:\n`;
-                msg += `• update pull [branch] [gitURL] - Cập nhật hệ thống\n`;
-                msg += `• update version - Xem phiên bản hiện tại\n`;
+                msg += '\n\nAdmin:\n• update remote — URL mặc định / đang dùng\n• update sync [branch] [gitURL] — đồng bộ (mặc định branch dev)';
             }
-            
             return api.sendMessage(msg, threadID, messageID);
         }
 
-        const command = target[0].toLowerCase();
+        const cmd = target[0].toLowerCase();
 
-        if (isAdmin) {
-            switch (command) {
-                case "version":
-                case "v":
-                case "ver": {
-                    const versionInfo = getVersion();
-                    let msg = "╭─「 THÔNG TIN PHIÊN BẢN 」─╮\n\n";
-                    msg += `📦 Phiên bản: v${versionInfo.version}\n`;
-                    
-                    msg += "\n╰────────────╯";
-                    
-                    return api.sendMessage(msg, threadID, messageID);
-                }
-                
-                case "pull":
-                case "sync": {
-                    const targetBranch = target[1] || 'dev';
-                    const gitURL = target[2] || null;
-                    const loadingMsg = await api.sendMessage(`⏳ Đang cập nhật bản mới nhất...`, threadID);
-                    
-                    try {
-                        const adminData = loadAdminData();
-                        const repoURL = gitURL || adminData.gitURL || DEFAULT_GIT_URL;
-                        
-                        const projectRoot = path.join(__dirname, '../');
-                        const tempDir = path.join(os.tmpdir(), `fca-update-${Date.now()}`);
-                        
-                        try {
-                            execSync(`git clone -b ${targetBranch} --depth 1 ${repoURL} "${tempDir}"`, {
-                                encoding: 'utf8',
-                                stdio: 'pipe'
-                            });
-                            
-                            const beforeFileMap = getFileMap(projectRoot, EXCLUDE_PATTERNS);
-                            
-                            const syncResult = syncDirectory(tempDir, projectRoot, EXCLUDE_PATTERNS);
-                            
-                            const afterFileMap = getFileMap(projectRoot, EXCLUDE_PATTERNS);
-                            
-                            const { added, deleted, modified } = compareFiles(beforeFileMap, afterFileMap);
-                            
-                            const versionBump = bumpVersion();
-                            
-                            fs.rmSync(tempDir, { recursive: true, force: true });
-                            
-                            const versionInfo = getVersion();
-                            let resultMsg = `✅ ĐÃ CẬP NHẬT TOÀN BỘ HỆ THỐNG THÀNH CÔNG!\n\n`;
-                            
-                            if (versionBump) {
-                                resultMsg += `📦 Phiên bản: v${versionBump.oldVersion} → v${versionBump.newVersion}\n`;
-                            } else {
-                                resultMsg += `📦 Phiên bản: v${versionInfo.version}\n`;
-                            }
-                            
-                            resultMsg += `🌿 Nhánh phát triển: ${targetBranch}\n`;
-                            resultMsg += `🔗 Nguồn cập nhật: ${repoURL}\n`;
-                            
-                            resultMsg += `\n📊 THỐNG KÊ CẬP NHẬT:\n`;
-                            resultMsg += `  ✅ Đã copy: ${syncResult.copied.length} file\n`;
-                            resultMsg += `  ⏭️  Đã bỏ qua (không đổi): ${syncResult.skipped.length} file\n`;
-                            resultMsg += `  🗑️  Đã xóa: ${syncResult.deleted.length} file\n`;
-                            if (syncResult.errors.length > 0) {
-                                resultMsg += `  ⚠️  Lỗi: ${syncResult.errors.length} file\n`;
-                            }
-                            
-                            // Hiển thị chi tiết file đã copy (file mới + file đã thay đổi)
-                            const totalChanges = syncResult.copied.length + syncResult.deleted.length;
-                            if (totalChanges > 0) {
-                                resultMsg += `\n📋 CHI TIẾT THAY ĐỔI:\n`;
-                                
-                                if (added.length > 0) {
-                                    resultMsg += `\n➕ File mới (${added.length}):\n`;
-                                    const displayAdded = added.slice(0, 15);
-                                    displayAdded.forEach(file => {
-                                        resultMsg += `  • ${file}\n`;
-                                    });
-                                    if (added.length > 15) {
-                                        resultMsg += `  ... và ${added.length - 15} file khác\n`;
-                                    }
-                                }
-                                
-                                if (modified.length > 0) {
-                                    resultMsg += `\n🔄 File đã cập nhật (${modified.length}):\n`;
-                                    const displayModified = modified.slice(0, 15);
-                                    displayModified.forEach(file => {
-                                        resultMsg += `  • ${file}\n`;
-                                    });
-                                    if (modified.length > 15) {
-                                        resultMsg += `  ... và ${modified.length - 15} file khác\n`;
-                                    }
-                                }
-                                
-                                if (syncResult.deleted.length > 0) {
-                                    resultMsg += `\n➖ File đã xóa từ repo (${syncResult.deleted.length}):\n`;
-                                    const displayDeleted = syncResult.deleted.slice(0, 15);
-                                    displayDeleted.forEach(file => {
-                                        resultMsg += `  • ${file}\n`;
-                                    });
-                                    if (syncResult.deleted.length > 15) {
-                                        resultMsg += `  ... và ${syncResult.deleted.length - 15} file khác\n`;
-                                    }
-                                }
-                            }
-                          
-                            const packagePath = path.join(projectRoot, 'package.json');
-                            if (fs.existsSync(packagePath)) {
-                                resultMsg += `\n📦 Phát hiện package.json\n`;
-                                resultMsg += `💡 Vui lòng chạy 'npm install' để cài đặt dependencies mới`;
-                            }
-                            
-                            api.unsendMessage(loadingMsg.messageID);
-                            return api.sendMessage(resultMsg, threadID, messageID);
-                            
-                        } catch (err) {
-                
-                            try {
-                                if (fs.existsSync(tempDir)) {
-                                    fs.rmSync(tempDir, { recursive: true, force: true });
-                                }
-                            } catch (cleanupErr) {}
-                            
-                            api.unsendMessage(loadingMsg.messageID);
-                            return api.sendMessage(
-                                `❌ Lỗi khi tải xuống từ nguồn cập nhật:\n${err.message}\n\n` +
-                                `💡 Kiểm tra lại:\n` +
-                                `1. Địa chỉ nguồn cập nhật có đúng không: ${repoURL}\n` +
-                                `2. Phiên bản "${targetBranch}" có tồn tại không\n` +
-                                `3. Kết nối mạng\n` +
-                                `4. Hệ thống quản lý phiên bản đã được cài đặt chưa`,
-                                threadID, messageID
-                            );
-                        }
-                        
-                    } catch (err) {
-                        api.unsendMessage(loadingMsg.messageID);
-                        return api.sendMessage(
-                            `❌ Lỗi khi cập nhật hệ thống:\n${err.message}\n\n` +
-                            `💡 Kiểm tra lại:\n` +
-                            `1. Kết nối mạng\n` +
-                            `2. Địa chỉ nguồn cập nhật có đúng không\n` +
-                            `3. Phiên bản "${targetBranch}" có tồn tại không\n` +
-                            `4. Hệ thống quản lý phiên bản đã được cài đặt chưa`,
-                            threadID, messageID
-                        );
-                    }
-                }
-                
-                default: {
-                    return api.sendMessage(
-                        "⚠️ Lệnh không hợp lệ!\n\n" +
-                        "👑 ADMIN COMMANDS:\n" +
-                        "• update pull [branch] [gitURL] - Cập nhật hệ thống\n" +
-                        "• update version - Xem phiên bản hiện tại",
-                        threadID, messageID
-                    );
-                }
+        if (cmd === 'remote') {
+            if (!isAdmin) {
+                return api.sendMessage('Chỉ admin mới dùng được lệnh này.', threadID, messageID);
             }
+            const fromAdmin = adminData.gitURL;
+            const effective = resolveRepoURL(adminData, null);
+            let msg = '🔗 Remote (sync)\n\n';
+            msg += `📌 Mặc định trong code:\n${DEFAULT_GIT_URL}\n`;
+            if (fromAdmin) {
+                msg += `\n📝 admin.json (gitURL):\n${fromAdmin}\n`;
+            } else {
+                msg += '\n📝 admin.json: (chưa set gitURL)\n';
+            }
+            msg += `\n✅ URL thực tế khi sync: ${effective}`;
+            return api.sendMessage(msg, threadID, messageID);
         }
 
-        const versionInfo = getVersion();
-        let msg = `╭─「 THÔNG TIN PHIÊN BẢN 」─╮\n\n`;
-        msg += `📦 Phiên bản: v${versionInfo.version}\n`;
-        if (versionInfo.gitTag) {
-            msg += `🏷️ Git Tag: ${versionInfo.gitTag}\n`;
+        if (cmd !== 'sync') {
+            return api.sendMessage(
+                isAdmin
+                    ? 'Dùng: update remote | update sync [branch] [gitURL]'
+                    : 'Không có quyền.',
+                threadID,
+                messageID
+            );
         }
-        if (versionInfo.branch) {
-            msg += `🌿 Nhánh: ${versionInfo.branch}\n`;
+
+        if (!isAdmin) {
+            return api.sendMessage('Chỉ admin mới dùng được lệnh này.', threadID, messageID);
         }
-        if (versionInfo.commitHash) {
-            msg += `🔖 Commit: ${versionInfo.commitHash}\n`;
+
+        const targetBranch = target[1] || 'dev';
+        const gitURL = target[2] || null;
+        const repoURL = resolveRepoURL(adminData, gitURL);
+        const projectRoot = path.join(__dirname, '../');
+        const tempDir = path.join(os.tmpdir(), `fca-update-${Date.now()}`);
+
+        const loadingMsg = await api.sendMessage('⏳ Đang đồng bộ từ remote...', threadID);
+
+        try {
+            execSync(`git clone -b ${targetBranch} --depth 1 ${repoURL} "${tempDir}"`, {
+                encoding: 'utf8',
+                stdio: 'pipe'
+            });
+
+            const syncResult = syncDirectory(tempDir, projectRoot, EXCLUDE_PATTERNS);
+            const versionBump = bumpVersion();
+
+            fs.rmSync(tempDir, { recursive: true, force: true });
+
+            const versionInfo = getVersion();
+            let resultMsg = '✅ Đồng bộ xong.\n';
+            if (versionBump) {
+                resultMsg += `📦 v${versionBump.oldVersion} → v${versionBump.newVersion}\n`;
+            } else {
+                resultMsg += `📦 v${versionInfo.version}\n`;
+            }
+            resultMsg += `🌿 ${targetBranch} | ${repoURL}\n`;
+            resultMsg += `📊 copy ${syncResult.copied.length} | bỏ qua ${syncResult.skipped.length} | xóa ${syncResult.deleted.length}`;
+            if (syncResult.errors.length > 0) {
+                resultMsg += ` | ⚠️ lỗi ${syncResult.errors.length}`;
+            }
+
+            api.unsendMessage(loadingMsg.messageID);
+            return api.sendMessage(resultMsg, threadID, messageID);
+        } catch (err) {
+            try {
+                if (fs.existsSync(tempDir)) {
+                    fs.rmSync(tempDir, { recursive: true, force: true });
+                }
+            } catch (_) {}
+
+            api.unsendMessage(loadingMsg.messageID);
+            return api.sendMessage(
+                `❌ Lỗi: ${err.message}\n\n` +
+                    `Kiểm tra URL, nhánh "${targetBranch}", mạng, và đã cài git.`,
+                threadID,
+                messageID
+            );
         }
-        msg += `\n╰────────────╯`;
-        
-        return api.sendMessage(msg, threadID, messageID);
     }
 };
