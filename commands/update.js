@@ -19,7 +19,8 @@ const EXCLUDE_PATTERNS = [
     'database',
     'fonts',
     'etc',
-    'dashboard'
+    'dashboard',
+    'assets',
 ];
 
 function loadAdminData() {
