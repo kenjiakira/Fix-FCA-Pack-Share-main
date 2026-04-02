@@ -151,7 +151,7 @@
   };
 
   function getCharacterImagePath(characterName) {
-    const assetsDir = path.join(__dirname, "../assets/gacha");
+    const assetsDir = path.join(__dirname, "../database/images/gacha");
     
     if (!fs.existsSync(assetsDir)) {
       fs.mkdirSync(assetsDir, { recursive: true });
@@ -3945,14 +3945,12 @@
   }
   async function getCharacterImage(character) {
     try {
-      // Chỉ sử dụng ảnh từ assets/gacha, không tải từ ngoài
-      const assetsDir = path.join(__dirname, "../assets/gacha");
+      const assetsDir = path.join(__dirname, "../database/images/gacha");
       
       if (!fs.existsSync(assetsDir)) {
         fs.mkdirSync(assetsDir, { recursive: true });
       }
       
-      // Thử nhiều cách đặt tên file
       const possibleNames = [
         character + '.png',
         character.replace(/[^a-zA-Z0-9]/g, '_') + '.png',
@@ -3970,7 +3968,7 @@
       // Nếu không tìm thấy, trả về ảnh mặc định
       const defaultImagePath = path.join(
         __dirname,
-        "../assets/default_character.png"
+        "../database/images/gacha/default_character.png"
       );
       
       return defaultImagePath;
@@ -3978,7 +3976,7 @@
       console.error(`Error getting image for ${character}:`, error);
       const defaultImagePath = path.join(
         __dirname,
-        "../assets/default_character.png"
+        "../database/images/gacha/default_character.png"
       );
       return defaultImagePath;
     }
@@ -5338,7 +5336,7 @@
             () => {
               if (fs.existsSync(resultImage)) fs.unlinkSync(resultImage);
               if (imagePath && fs.existsSync(imagePath)) {
-                const assetsDir = path.normalize(path.join(__dirname, "../assets/gacha"));
+                const assetsDir = path.normalize(path.join(__dirname, "../database/images/gacha"));
                 const normalizedImagePath = path.normalize(imagePath);
                 const isInAssets = normalizedImagePath.startsWith(assetsDir);
                 if (!isInAssets) {
@@ -6924,9 +6922,8 @@
             threadID,
             () => {
               if (fs.existsSync(cardImage)) fs.unlinkSync(cardImage);
-              // Chỉ xóa file tạm, không xóa file trong assets/gacha
               if (imagePath && fs.existsSync(imagePath)) {
-                const assetsDir = path.normalize(path.join(__dirname, "../assets/gacha"));
+                const assetsDir = path.normalize(path.join(__dirname, "../database/images/gacha"));
                 const normalizedImagePath = path.normalize(imagePath);
                 const isInAssets = normalizedImagePath.startsWith(assetsDir);
                 if (!isInAssets) {
@@ -6938,7 +6935,6 @@
           );
         }
         case "stats": {
-          // Hiển thị thống kê PVP
           if (!userData.pvpStats) {
             return api.sendMessage(
               "📊 THỐNG KÊ PVP 📊\n\n" +
@@ -6954,10 +6950,8 @@
           const total = wins + losses;
           const winRate = total > 0 ? ((wins / total) * 100).toFixed(1) : 0;
 
-          // Tính hạng PVP sử dụng hàm mới
           const rankInfo = calculatePvPRank(wins);
 
-          // Tính sức mạnh đội hình
           const teamPower = userData.pvpTeam
             ? calculateTeamPower(userData.pvpTeam)
             : 0;

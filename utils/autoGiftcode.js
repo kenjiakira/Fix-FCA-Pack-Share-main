@@ -1,6 +1,6 @@
 const fs = require('fs');
 const path = require('path');
-const schedule = require('node-schedule');
+const { scheduleCron } = require('./scheduler');
 
 const GIFTCODES_PATH = path.join(__dirname, '../database/json/giftcodes.json');
 const EVENTS_PATH = path.join(__dirname, '../database/json/events.json');
@@ -768,7 +768,7 @@ async function sendVIPGiftAnnouncement(api, code, rewards, vipLevel = 'GOLD') {
     }
 }
 function scheduleVIPGifts(api) {
-    schedule.scheduleJob('0 8 * * 1', async () => {
+    scheduleCron('0 8 * * 1', async () => {
         try {
             console.log('[AUTO VIP GIFT] Creating weekly VIP Gold gift...');
             const giftInfo = createVIPGiftcode('GOLD', 'Quà tặng VIP Gold hàng tuần');
@@ -802,7 +802,7 @@ function scheduleVIPGifts(api) {
 }
 
 function scheduleAutoGiftcode(api) {
-    schedule.scheduleJob('0 0 * * *', async () => {
+    scheduleCron('0 0 * * *', async () => {
         const specialEvents = checkForSpecialEvents();
         
         for (const event of specialEvents) {
@@ -811,31 +811,31 @@ function scheduleAutoGiftcode(api) {
         }
     });
 
-    schedule.scheduleJob('0 12 * * *', async () => {
+    scheduleCron('0 12 * * *', async () => {
         const type = 'NORMAL';
         const giftInfo = createAutoGiftcode(type);
         await sendGiftcodeAnnouncement(api, giftInfo.code, giftInfo.rewards, type);
     });
 
-    schedule.scheduleJob('0 12 * * 0', async () => {
+    scheduleCron('0 12 * * 0', async () => {
         const type = 'RARE';
         const giftInfo = createAutoGiftcode(type);
         await sendGiftcodeAnnouncement(api, giftInfo.code, giftInfo.rewards, type);
     });
     
-    schedule.scheduleJob('0 12 15 * *', async () => {
+    scheduleCron('0 12 15 * *', async () => {
         const type = 'EPIC';
         const giftInfo = createAutoGiftcode(type);
         await sendGiftcodeAnnouncement(api, giftInfo.code, giftInfo.rewards, type);
     });
 
-    schedule.scheduleJob('0 12 1 * *', async () => {
+    scheduleCron('0 12 1 * *', async () => {
         const type = 'LEGENDARY';
         const giftInfo = createAutoGiftcode(type);
         await sendGiftcodeAnnouncement(api, giftInfo.code, giftInfo.rewards, type);
     });
     
-    schedule.scheduleJob('0 * * * *', cleanExpiredCodes);
+    scheduleCron('0 * * * *', cleanExpiredCodes);
     
     scheduleVIPGifts(api);
 }

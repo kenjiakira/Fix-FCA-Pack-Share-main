@@ -1,12 +1,12 @@
 const axios = require('axios');
 const cheerio = require('cheerio');
-const schedule = require('node-schedule');
+const { scheduleCron } = require('../utils/scheduler');
 const fs = require('fs');
 const path = require('path');
 const { WEATHER, VNX } = require('../utils/api');
 
 const SETTINGS_FILE = path.join(__dirname, '../database/json/news_settings.json');
-const SCHEDULE_INTERVAL = '*/1 * * * *'; 
+const SCHEDULE_INTERVAL = '0 0,6,12,18 * * *';
 
 let newsJob = null;
 
@@ -127,9 +127,9 @@ async function sendAutoNewsToEnabledThreads(api) {
 }
 
 function startNewsSchedule(api) {
-    if (newsJob) newsJob.cancel();
-    newsJob = schedule.scheduleJob(SCHEDULE_INTERVAL, () => sendAutoNewsToEnabledThreads(api));
-    console.log('✅ Weather/VNX auto-news schedule started (mỗi 6 tiếng)');
+    if (newsJob) newsJob.stop();
+    newsJob = scheduleCron(SCHEDULE_INTERVAL, () => sendAutoNewsToEnabledThreads(api));
+    console.log('✅ Weather/VNX auto-news schedule started (0h, 6h, 12h, 18h mỗi ngày)');
 }
 
 // --- Weather helpers ---

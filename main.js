@@ -1,9 +1,9 @@
 
 require('./utils/patchFS');
+require('./utils/polyfillWebGlobals');
 
 const fs = require("fs");
 const gradient = require("gradient-string");
-const cron = require('node-cron');
 const chalk = require("chalk");
 const { exec } = require("child_process");
 const { handleListenEvents } = require("./utils/listen");

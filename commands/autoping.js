@@ -1,4 +1,4 @@
-const schedule = require('node-schedule');
+const { scheduleCron } = require('../utils/scheduler');
 const fs = require('fs');
 const path = require('path');
 
@@ -83,12 +83,12 @@ async function sendPingNotification(api) {
 
 function startPingSchedule(api) {
     if (pingJob) {
-        pingJob.cancel();
+        pingJob.stop();
     }
     
     apiInstance = api;
     
-    pingJob = schedule.scheduleJob(SCHEDULE_INTERVAL, async function () {
+    pingJob = scheduleCron(SCHEDULE_INTERVAL, async function () {
         await sendPingNotification(api);
     });
     

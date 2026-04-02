@@ -9,6 +9,7 @@
 
 const fs = require('fs');
 const path = require('path');
+require('./polyfillWebGlobals');
 const chalk = require('chalk');
 const gradient = require('gradient-string');
 

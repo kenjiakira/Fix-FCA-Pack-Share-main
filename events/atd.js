@@ -1,13 +1,11 @@
+require('../utils/polyfillWebGlobals');
 const axios = require('axios');
 const fs = require('fs');
 const path = require('path');
 const ytdl = require('@distube/ytdl-core');
-const simpleYT = require('simple-youtube-api');
 const getFBInfo = require('@xaviabot/fb-downloader');
-const { ZM_API, YOUTUBE, TIKTOK_API } = require('../utils/api');
+const { ZM_API, TIKTOK_API } = require('../utils/api');
 const Downloader = require('../utils/downloader');
-const vipService = require('../game/vip/vipService');
-const { pro } = require('./thread');
 
 const cacheDir = path.join(__dirname, 'cache');
 if (!fs.existsSync(cacheDir)) fs.mkdirSync(cacheDir);
@@ -233,8 +231,9 @@ async function handleTikTok(url, api, event) {
 }
 
 async function handleYouTube(url, api, event) {
+    let processingMsg = null;
     try {
-        const processingMsg = await sendProcessingMessage(api, event.threadID, "⏳ Đang tải video từ YouTube...");
+        processingMsg = await sendProcessingMessage(api, event.threadID, "⏳ Đang tải video từ YouTube...");
 
         const videoInfo = await ytdl.getInfo(url);
         const title = videoInfo.videoDetails.title;
@@ -277,7 +276,8 @@ async function handleYouTube(url, api, event) {
 
     } catch (error) {
         console.error('YouTube error:', error);
-        api.sendMessage('❌ Lỗi khi tải video từ YouTube: ' + error.message, event.threadID);
+        if (processingMsg) await processingMsg.remove();
+        api.sendMessage('❌ Lỗi khi tải video từ YouTube: ' + (error.message || error), event.threadID);
     }
 }
 
@@ -303,9 +303,9 @@ async function sendProcessingMessage(api, threadID, message = "⏳ Đang xử l�
     }
 }
 async function handleDouyin(url, api, event) {
-    let loadingMsg = null;
+    let processingMsg = null;
     try {
-        const processingMsg = await sendProcessingMessage(api, event.threadID, "⏳ Đang tải video từ Douyin...");
+        processingMsg = await sendProcessingMessage(api, event.threadID, "⏳ Đang tải video từ Douyin...");
 
         const cleanUrl = url.split('?')[0];
 
@@ -343,21 +343,19 @@ async function handleDouyin(url, api, event) {
             attachment: mediaDownloads.map(m => fs.createReadStream(m.path))
         }, event.threadID, () => {
             mediaDownloads.forEach(m => fs.unlinkSync(m.path));
-            console.error('Instagram error:', error);
-            if (loadingMsg) api.unsendMessage(loadingMsg.messageID);
         });
 
     } catch (error) {
         console.error('Douyin error:', error);
-        await processingMsg.remove();
+        if (processingMsg) await processingMsg.remove();
         api.sendMessage('❌ Đã xảy ra lỗi khi tải nội dung từ Douyin.', event.threadID);
     }
 }
 
 async function handleInstagram(url, api, event) {
-    let loadingMsg = null;
+    let processingMsg = null;
     try {
-        const processingMsg = await sendProcessingMessage(api, event.threadID, "⏳ Đang tải video từ IG...");
+        processingMsg = await sendProcessingMessage(api, event.threadID, "⏳ Đang tải video từ IG...");
 
         const data = await Downloader.getMediaInfo(url);
         const mediaDownloads = [];
@@ -384,12 +382,11 @@ async function handleInstagram(url, api, event) {
             attachment: mediaDownloads.map(d => fs.createReadStream(d.path))
         }, event.threadID, () => {
             mediaDownloads.forEach(d => fs.unlinkSync(d.path));
-            if (loadingMsg) api.unsendMessage(loadingMsg.messageID);
         });
 
     } catch (error) {
         console.error('Instagram error:', error);
-        await processingMsg.remove();
+        if (processingMsg) await processingMsg.remove();
         api.sendMessage('❌ Lỗi khi tải nội dung từ Instagram', event.threadID);
     }
 }
@@ -480,6 +477,9 @@ async function handleThreads(url, api, event) {
                 body: `=== 𝗧𝗵𝗿𝗲𝗮𝗱𝘀 ===\n\n👤 Author: ${data.author}\n💬 Content: ${data.title}`,
                 attachment: downloads.map(d => fs.createReadStream(d.path))
             }, event.threadID, () => downloads.forEach(d => fs.unlinkSync(d.path)));
+        } else {
+            await processingMsg.remove();
+            await api.sendMessage('❌ Không tìm thấy video/hình trong bài Threads này.', event.threadID);
         }
     } catch (error) {
         console.error('Threads error:', error);
@@ -524,8 +524,7 @@ async function handlePinterest(url, api, event) {
 
     } catch (error) {
         console.error('Pinterest error:', error);
-        if (processingMsg) 
-        await processingMsg.remove();
+        if (processingMsg) await processingMsg.remove();
         api.sendMessage('❌ Đã xảy ra lỗi khi tải nội dung từ Pinterest.', event.threadID);
     }
 }

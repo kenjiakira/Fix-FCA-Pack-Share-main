@@ -65,13 +65,29 @@ class Downloader {
         return downloads;
     }
 
+
     static sortMediaByQuality(medias) {
         if (!Array.isArray(medias)) return [];
-        return medias.sort((a, b) => {
-            const qualityOrder = ['hd_no_watermark', 'no_watermark', 'hd', 'HD', 'sd', 'SD'];
-            const aQuality = qualityOrder.indexOf(a.quality);
-            const bQuality = qualityOrder.indexOf(b.quality);
-            return (bQuality === -1 ? Infinity : bQuality) - (aQuality === -1 ? Infinity : aQuality);
+        const qualityOrder = [
+            'hd_no_watermark',
+            'no_watermark',
+            'without_watermark',
+            'hd_without_watermark',
+            'origin',
+            'hd',
+            'HD',
+            'sd',
+            'SD',
+            'watermark',
+            'play_wm',
+            'wm'
+        ];
+        return [...medias].sort((a, b) => {
+            const ar = qualityOrder.indexOf(a.quality);
+            const br = qualityOrder.indexOf(b.quality);
+            const av = ar === -1 ? 999 : ar;
+            const bv = br === -1 ? 999 : br;
+            return av - bv;
         });
     }
 }

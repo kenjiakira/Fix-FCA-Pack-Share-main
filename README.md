@@ -1,34 +1,19 @@
-# 🤖 FIX-FCA-AKI-2.0 - Advanced Facebook Chatbot
+# FIX-FCA-AKI-2.0 (Vanilla)
 
 [![Node.js](https://img.shields.io/badge/Node.js-18+-green.svg)](https://nodejs.org/)
 [![License](https://img.shields.io/badge/License-MIT-blue.svg)](LICENSE)
-[![Version](https://img.shields.io/badge/Version-2.0-orange.svg)]()
+[![Version](https://img.shields.io/badge/npm-1.0.4-orange.svg)]()
+
+Bot Messenger Facebook (Node.js), nhánh **vanilla**: lõi bot + lệnh, không kèm Dashboard web hay Discord trong repo này.
+
+**Package npm:** `fca-aki` · **Phiên bản:** `1.0.4` (theo `package.json`)
 
 ---
 
-## 📋 Table of Contents / Mục lục
+## Mục lục
 
 - [English](#english)
-  - [Overview](#overview)
-  - [Features](#features)
-  - [Installation](#installation)
-  - [Configuration](#configuration)
-  - [Usage](#usage)
-  - [Commands](#commands)
-  - [API Documentation](#api-documentation)
-  - [Contributing](#contributing)
-  - [License](#license)
-
 - [Tiếng Việt](#tiếng-việt)
-  - [Tổng quan](#tổng-quan)
-  - [Tính năng](#tính-năng)
-  - [Cài đặt](#cài-đặt)
-  - [Cấu hình](#cấu-hình)
-  - [Sử dụng](#sử-dụng)
-  - [Lệnh](#lệnh)
-  - [Tài liệu API](#tài-liệu-api)
-  - [Đóng góp](#đóng-góp)
-  - [Giấy phép](#giấy-phép)
 
 ---
 
@@ -36,70 +21,35 @@
 
 ## Overview
 
-FIX-FCA-AKI-2.0 is an advanced Facebook Chatbot built with Node.js, featuring a comprehensive gaming system, VIP management, economy system, and extensive command library. This bot provides a rich interactive experience for Facebook groups and pages.
+FIX-FCA-AKI-2.0 (vanilla) is a Facebook Messenger bot powered by Node.js. It includes games, economy, VIP helpers, Canvas-based images, and a command system loaded from `commands/`. Login uses Facebook **appstate** (cookie JSON) and a pluggable FCA layer under `logins/<FCA>/`.
 
-## Features
+## What this branch includes
 
-### 🎮 Gaming System
-- **Fishing Game**: Complete fishing system with different fish types, baits, and rewards
-- **Mining Game**: Mining simulation with different tools and resources
-- **Casino Games**: Various casino games including slots, dice, and card games
-- **Gacha System**: Character collection system with different rarities
-- **Pokemon System**: Pokemon collection and battle system
-- **Family System**: Virtual family management with jobs and education
+- **Messenger bot only** — `npm start` runs `index.js`, which starts `main.js`.
+- **FCA backends** in `logins/`: e.g. `hut-chat-api`, `meta-messenger`, `meta-messenger-fca`, `ws3-fca-wrapper` (value of `FCA` in `admin.json` must match the folder name).
+- **No** bundled Next.js dashboard or `npm run discord:*` scripts in this package (see `package.json`).
 
-### 💎 VIP System
-- **Multiple VIP Tiers**: Bronze, Silver, and Gold packages
-- **Exclusive Benefits**: Special bonuses, reduced cooldowns, and unique features
-- **VIP Management**: Admin tools for managing VIP users
-- **Custom Badges**: Special VIP badges and visual indicators
+## Prerequisites
 
-### 💰 Economy System
-- **Multi-Currency**: Support for different types of currencies
-- **Transaction History**: Complete transaction logging
-- **Banking System**: Deposit, withdrawal, and loan features
-- **Trading System**: Market-based trading with real-time prices
-
-### 🛠️ Admin Tools
-- **User Management**: Kick, ban, warn, and manage users
-- **Group Management**: Control group settings and permissions
-- **System Monitoring**: Real-time bot status and performance metrics
-- **Command Management**: Load, reload commands without restart
-- **Custom Commands**: Tạo/sửa lệnh trực tiếp qua bot
-
-### 📊 Dashboard
-- Web Dashboard (Next.js + Express backend)
-- Quản lý bot qua giao diện web
-
-### 💬 Discord Bot
-- Hỗ trợ chạy song song Discord Bot
-
-### 🎨 Visual Features
-- **Canvas Graphics**: Rich visual elements using Canvas API
-- **Custom Fonts**: Multiple font options for different styles
-- **Image Generation**: Dynamic image creation for games and stats
-- **Responsive Design**: Optimized for different screen sizes
+- Node.js 18+
+- npm
+- Facebook account used for the bot session
+- `utils/prox.txt` — list of proxies (one `host:port` per line). `main.js` reads this file for proxy rotation.
 
 ## Installation
 
-### Prerequisites
-- Node.js 18+ 
-- npm or yarn
-- Facebook account with admin privileges
-
-### Step 1: Clone Repository
 ```bash
-git clone https://github.com/your-username/FIX-FCA-AKI-2.0.git
+git clone <your-repo-url> FIX-FCA-AKI-2.0
 cd FIX-FCA-AKI-2.0
-```
-
-### Step 2: Install Dependencies
-```bash
 npm install
 ```
 
-### Step 3: Configuration
-1. Tạo/chỉnh sửa file `admin.json` trong thư mục gốc dự án:
+## Configuration
+
+### `admin.json` (project root)
+
+Create or edit `admin.json`. Example shape:
+
 ```json
 {
   "prefix": ".",
@@ -116,231 +66,66 @@ npm install
   "restart": true,
   "restartTime": 50,
   "FCA": "hut-chat-api",
-  "mtnMode": false
+  "mtnMode": false,
+  "gitURL": "optional-override-for-update-command",
+  "customCommands": {}
 }
 ```
 
-### Step 4: Facebook Login
-1. **Download Extension**: Download this Chrome extension: [Facebook Appstate Extractor](https://chrome-stats.com/d/nlgehefndkobdignlfhapfpggielmdph/download)
-2. **Go to Facebook**: Open your Facebook account in Chrome
-3. **Open Extension**: Click on the extension icon in your browser
-4. **Copy JSON Code**: Copy the generated JSON code from the extension
-5. **Create appstate.json**: 
-   - Create a new file named `appstate.json` in the project root
-   - Paste the copied JSON code into the file
-6. **Start the bot**:
-```bash
-npm start
-```
+| Key | Description |
+|-----|-------------|
+| `prefix` | Command prefix |
+| `adminUIDs` / `moderatorUIDs` / `supportUIDs` | Facebook user IDs |
+| `appstate` | Path to appstate JSON |
+| `FCA` | Subfolder name under `logins/` (must exist) |
+| `restart` / `restartTime` | Auto-restart behavior |
+| `gitURL` | Optional; used by the `update` command (see `commands/update.js`) |
+| `customCommands` | Optional; custom command flags (see your `admin.json`) |
 
-### Step 5: Start Bot
-```bash
-npm start
-```
+Optional per-FCA settings: `logins/<FCA>/config.json` (e.g. `APPSTATE_PATH`).
 
-### Available Scripts
+### Facebook session (`appstate.json`)
+
+1. Use a trusted method/extension to export Messenger cookies as JSON (appstate).
+2. Save as `appstate.json` in the project root (or path set in `admin.json` / FCA config).
+
+See also `appstate.example.json` if present.
+
+## Scripts
+
 | Script | Description |
-|--------|-------|
-| `npm start` | Start Messenger Bot |
-| `npm run dev` | Run in development mode |
-| `npm run watch` | Run with auto-reload on command changes |
-| `npm run discord:start` | Start Discord Bot |
-| `npm run dashboard:dev` | Run Dashboard (backend + Next.js) |
-| `npm run dashboard:build` | Build Dashboard |
-
-## Configuration
-
-### Main Configuration (`admin.json`)
-| Thuộc tính | Mô tả |
-|------------|-------|
-| `prefix` | Tiền tố lệnh (mặc định: `.`) |
-| `adminUIDs` | Danh sách UID admin |
-| `moderatorUIDs` | Danh sách UID moderator |
-| `supportUIDs` | Danh sách UID support |
-| `feedbackGroupID` | ID nhóm feedback |
-| `botName` | Tên bot |
-| `ownerName` | Tên chủ sở hữu |
-| `facebookLink` | UID Facebook của admin |
-| `appstate` | Đường dẫn file appstate |
-| `FCA` | Loại FCA API (trong `logins/`): `hut-chat-api`, `meta-messenger`, `ws3-fca` |
-| `restart` | Tự động restart khi lỗi |
-| `restartTime` | Thời gian chờ trước khi restart (giây) |
-
-### VIP Configuration (`game/vip/vipConfig.js`)
-```javascript
-const VIP_PACKAGES = {
-  GOLD: {
-    id: 3,
-    name: "VIP Gold",
-    price: { original: "59,000", sale: "49,000" },
-    benefits: {
-      miningBonus: 0.8,
-      stolenProtection: 1.0,
-      withdrawalBonusLimit: 2.0
-    }
-  }
-  // ... more packages
-};
-```
+|--------|-------------|
+| `npm start` | `node index.js` → starts Messenger (`main.js`) |
+| `npm run dev` | `NODE_ENV=development node main.js` |
+| `npm run watch` | `node main.js --watch` (reload commands on change) |
 
 ## Usage
 
-### Basic Commands
-```bash
-# Check bot status
-.ping
+- Start: `npm start`
+- Discover commands: use your configured prefix + `help` (e.g. `.help`, `.help all`).
+- Economy / games / admin commands live under `commands/` — names match command modules.
 
-# View balance
-.balance
+## Command module shape
 
-# Daily reward
-.daily
-
-# Help menu (xem theo danh mục)
-.help
-
-# Xem tất cả lệnh
-.help all
-
-# Tìm lệnh cụ thể
-.help <tên lệnh>
-```
-
-### Admin Commands
-```bash
-# Add VIP to user
-.setvip add [uid] [days]
-
-# Remove VIP
-.setvip remove [uid]
-
-# Check VIP status
-.setvip check [uid]
-```
-
-### Gaming Commands
-```bash
-# Start fishing
-.fish
-
-# Go mining
-.mine
-
-# Play casino
-.casino
-
-# Open gacha
-.gacha
-```
-
-## Commands
-
-### Economy Commands
-| Command | Description | Usage |
-|---------|-------------|-------|
-| `.balance` | Check your balance | `.balance` |
-| `.daily` | Get daily reward | `.daily` |
-| `.work` | Work for money | `.work` |
-| `.pay` | Pay/transfer money | `.pay [uid] [amount]` |
-| `.banking` | Banking system | `.banking` |
-| `.loan` | Loan system | `.loan` |
-| `.trade` | Stock trading | `.trade` |
-| `.tip` | Tip another user | `.tip [uid] [amount]` |
-| `.stolen` | Steal money (risky) | `.stolen [uid]` |
-
-### Gaming Commands
-| Command | Description | Usage |
-|---------|-------------|-------|
-| `.fish` | Go fishing | `.fish` |
-| `.mine` | Mine BTC/resources | `.mine` |
-| `.baucua` | Play Bầu Cua | `.baucua` |
-| `.xoano` | Play Xổ Số | `.xoano` |
-| `.chanle` | Play Chẵn Lẻ | `.chanle` |
-| `.spin` | Spin the wheel | `.spin` |
-| `.gacha` | Open gacha | `.gacha` |
-| `.pokemon` | Pokemon system | `.pokemon` |
-| `.guess` | Guessing game | `.guess` |
-| `.chess` | Play chess | `.chess` |
-| `.sudoku` | Play Sudoku | `.sudoku` |
-
-### Admin Commands
-| Command | Description | Usage |
-|---------|-------------|-------|
-| `.setvip` | Manage VIP users | `.setvip add/remove/check` |
-| `.kick` | Kick user from group | `.kick [uid]` |
-| `.ban` | Ban user | `.ban [uid]` |
-| `.warn` | Warn user | `.warn [uid]` |
-
-## API Documentation
-
-### Command Structure
 ```javascript
 module.exports = {
-    name: "command_name",
-    info: "Command description",
-    dev: "Developer name",
-    category: "Category",
-    usages: ["Usage 1", "Usage 2"],
-    cooldowns: 5,
-    onPrefix: true,
-    
-    onLaunch: async function ({ api, event, target, actions }) {
-        // Command logic - target = ["command", "arg1", "arg2"]
-        const { threadID, messageID, senderID } = event;
-        const prefix = global.cc.prefix;
-        // ...
-    }
+  name: "command_name",
+  info: "Description",
+  dev: "Author",
+  category: "Category",
+  usages: ["usage 1"],
+  cooldowns: 5,
+  onPrefix: true,
+  onLaunch: async function ({ api, event, target, actions }) {
+    const { threadID, messageID, senderID } = event;
+    // ...
+  }
 };
 ```
 
-### Event Parameters
-```javascript
-{
-    api: Facebook API object,
-    event: {
-        threadID: "Group/Page ID",
-        senderID: "User ID",
-        messageID: "Message ID",
-        messageReply: "Reply data if any"
-    },
-    target: ["command", "arg1", "arg2"],
-    actions: {
-        reply: "Reply function",
-        react: "React function",
-        edit: "Edit function"
-    }
-}
-```
-
-### Global Objects
-```javascript
-// Bot config
-global.cc.prefix        // Tiền tố lệnh
-global.cc.adminBot      // Danh sách admin UID
-global.cc.developer     // Tên developer
-global.cc.botName       // Tên bot
-
-// Load/Reload command
-global.cc.reloadCommand("commandName");
-```
-
-## Contributing
-
-1. Fork the repository
-2. Create a feature branch (`git checkout -b feature/AmazingFeature`)
-3. Commit your changes (`git commit -m 'Add some AmazingFeature'`)
-4. Push to the branch (`git push origin feature/AmazingFeature`)
-5. Open a Pull Request
-
-### Code Style
-- Use meaningful variable names
-- Add comments for complex logic
-- Follow existing code structure
-- Test your changes thoroughly
-
 ## License
 
-This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
+MIT — see [LICENSE](LICENSE).
 
 ---
 
@@ -348,323 +133,69 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 
 ## Tổng quan
 
-FIX-FCA-AKI-2.0 là một Facebook Chatbot tiên tiến được xây dựng bằng Node.js, có hệ thống game toàn diện, quản lý VIP, hệ thống kinh tế và thư viện lệnh phong phú. Bot này cung cấp trải nghiệm tương tác phong phú cho các nhóm và trang Facebook.
+**FIX-FCA-AKI-2.0 (vanilla)** là bot Facebook Messenger chạy bằng Node.js: game, kinh tế, VIP, ảnh Canvas, hệ thống lệnh trong `commands/`. Đăng nhập bằng file **appstate** và lớp FCA trong `logins/<FCA>/`.
 
-## Tính năng
+## Nhánh vanilla có gì
 
-### 🎮 Hệ thống Game
-- **Game Câu cá**: Hệ thống câu cá hoàn chỉnh với nhiều loại cá, mồi và phần thưởng
-- **Game Đào mỏ**: Mô phỏng đào mỏ với các công cụ và tài nguyên khác nhau
-- **Game Casino**: Nhiều trò chơi casino bao gồm slots, xúc xắc và bài
-- **Hệ thống Gacha**: Hệ thống sưu tầm nhân vật với các độ hiếm khác nhau
-- **Hệ thống Pokemon**: Sưu tầm và chiến đấu Pokemon
-- **Hệ thống Gia đình**: Quản lý gia đình ảo với công việc và giáo dục
+- **Chỉ bot Messenger** — `npm start` chạy `index.js`, khởi động `main.js`.
+- **Nhiều backend FCA** trong `logins/`: ví dụ `hut-chat-api`, `meta-messenger`, `meta-messenger-fca`, `ws3-fca-wrapper` — giá trị `FCA` trong `admin.json` phải **trùng tên thư mục**.
+- **Không** gói sẵn Dashboard Next.js và **không** có script Discord trong `package.json` của bản vanilla này.
 
-### 💎 Hệ thống VIP
-- **Nhiều cấp VIP**: Gói Bronze, Silver và Gold
-- **Quyền lợi độc quyền**: Bonus đặc biệt, giảm thời gian chờ và tính năng độc đáo
-- **Quản lý VIP**: Công cụ admin để quản lý người dùng VIP
-- **Huy hiệu tùy chỉnh**: Huy hiệu VIP đặc biệt và chỉ báo trực quan
+## Yêu cầu
 
-### 💰 Hệ thống Kinh tế
-- **Đa tiền tệ**: Hỗ trợ nhiều loại tiền tệ khác nhau
-- **Lịch sử giao dịch**: Ghi log giao dịch hoàn chỉnh
-- **Hệ thống Ngân hàng**: Tính năng gửi, rút và vay tiền
-- **Hệ thống Giao dịch**: Giao dịch dựa trên thị trường với giá thời gian thực
-
-### 🛠️ Công cụ Admin
-- **Quản lý người dùng**: Kick, ban, cảnh cáo và quản lý người dùng
-- **Quản lý nhóm**: Kiểm soát cài đặt và quyền nhóm
-- **Giám sát hệ thống**: Trạng thái bot thời gian thực và chỉ số hiệu suất
-- **Quản lý lệnh**: Load, reload lệnh không cần restart
-- **Lệnh tùy chỉnh**: Tạo/sửa lệnh trực tiếp qua bot
-
-### 📊 Dashboard
-- Web Dashboard (Next.js + Express backend)
-- Quản lý bot qua giao diện web
-
-### 💬 Discord Bot
-- Hỗ trợ chạy song song Discord Bot
-
-### 🎨 Tính năng Trực quan
-- **Đồ họa Canvas**: Các phần tử trực quan phong phú sử dụng Canvas API
-- **Font tùy chỉnh**: Nhiều tùy chọn font cho các kiểu khác nhau
-- **Tạo hình ảnh**: Tạo hình ảnh động cho game và thống kê
-- **Thiết kế đáp ứng**: Tối ưu cho các kích thước màn hình khác nhau
+- Node.js 18+
+- npm
+- Tài khoản Facebook dùng cho phiên bot
+- File `utils/prox.txt` — mỗi dòng một proxy `host:port` (bot đọc file này khi chạy).
 
 ## Cài đặt
 
-### Yêu cầu hệ thống
-- Node.js 18+
-- npm hoặc yarn
-- Tài khoản Facebook với quyền admin
-
-### Bước 1: Clone Repository
 ```bash
-git clone https://github.com/your-username/FIX-FCA-AKI-2.0.git
+git clone <url-repo-của-bạn> FIX-FCA-AKI-2.0
 cd FIX-FCA-AKI-2.0
-```
-
-### Bước 2: Cài đặt Dependencies
-```bash
 npm install
 ```
 
-### Bước 3: Cấu hình
-1. Tạo/chỉnh sửa file `admin.json` trong thư mục gốc dự án:
-```json
-{
-  "prefix": ".",
-  "adminUIDs": ["your-facebook-uid"],
-  "moderatorUIDs": [],
-  "supportUIDs": [],
-  "feedbackGroupID": [],
-  "botName": "Tên Bot Của Bạn",
-  "ownerName": "Tên Của Bạn",
-  "facebookLink": "your-facebook-uid",
-  "resend": false,
-  "notilogs": true,
-  "appstate": "./appstate.json",
-  "restart": true,
-  "restartTime": 50,
-  "FCA": "hut-chat-api",
-  "mtnMode": false
-}
-```
-
-### Bước 4: Đăng nhập Facebook
-1. **Tải Extension**: Tải extension Chrome này: [Facebook Appstate Extractor](https://chrome-stats.com/d/nlgehefndkobdignlfhapfpggielmdph/download)
-2. **Vào Facebook**: Mở tài khoản Facebook của bạn trong Chrome
-3. **Mở Extension**: Nhấp vào biểu tượng extension trong trình duyệt
-4. **Sao chép mã JSON**: Sao chép mã JSON được tạo từ extension
-5. **Tạo file appstate.json**:
-   - Tạo file mới tên `appstate.json` trong thư mục gốc dự án
-   - Dán mã JSON đã sao chép vào file
-6. **Khởi động bot**:
-```bash
-npm start
-```
-
-### Bước 5: Khởi động Bot
-```bash
-npm start
-```
-
-### Scripts khả dụng
-| Script | Mô tả |
-|--------|-------|
-| `npm start` | Khởi động Messenger Bot |
-| `npm run dev` | Chạy ở chế độ development |
-| `npm run watch` | Chạy với auto-reload khi sửa lệnh |
-| `npm run discord:start` | Khởi động Discord Bot |
-| `npm run dashboard:dev` | Chạy Dashboard (backend + Next.js) |
-| `npm run dashboard:build` | Build Dashboard |
-
 ## Cấu hình
 
-### Cấu hình chính (`admin.json`)
-| Thuộc tính | Mô tả |
-|------------|-------|
-| `prefix` | Tiền tố lệnh (mặc định: `.`) |
-| `adminUIDs` | Danh sách UID admin |
-| `moderatorUIDs` | Danh sách UID moderator |
-| `supportUIDs` | Danh sách UID support |
-| `feedbackGroupID` | ID nhóm feedback |
-| `botName` | Tên bot |
-| `ownerName` | Tên chủ sở hữu |
-| `appstate` | Đường dẫn file appstate |
-| `FCA` | Loại FCA API (trong `logins/`): `hut-chat-api`, `meta-messenger`, `ws3-fca` |
-| `restart` | Tự động restart khi lỗi |
+### `admin.json`
 
-### Cấu hình VIP (`game/vip/vipConfig.js`)
-```javascript
-const VIP_PACKAGES = {
-  GOLD: {
-    id: 3,
-    name: "VIP Gold",
-    price: { original: "59,000", sale: "49,000" },
-    benefits: {
-      miningBonus: 0.8,
-      stolenProtection: 1.0,
-      withdrawalBonusLimit: 2.0
-    }
-  }
-  // ... thêm các gói khác
-};
-```
+Tạo/sửa `admin.json` ở thư mục gốc. Ví dụ cấu trúc (xem phần English để biết bảng giải thích từng khóa).
+
+Tùy chọn: `logins/<FCA>/config.json` cho từng backend (ví dụ đường dẫn appstate).
+
+### Phiên Facebook (`appstate.json`)
+
+Xuất cookie/appstate hợp lệ, lưu `appstate.json` ở gốc dự án (hoặc đúng đường dẫn trong cấu hình).
+
+## Scripts
+
+| Lệnh | Mô tả |
+|------|--------|
+| `npm start` | `node index.js` → chạy Messenger (`main.js`) |
+| `npm run dev` | Chạy `main.js` với `NODE_ENV=development` |
+| `npm run watch` | `main.js --watch` — đổi file lệnh thì tải lại |
 
 ## Sử dụng
 
-### Lệnh cơ bản
-```bash
-# Kiểm tra trạng thái bot
-.ping
-
-# Xem số dư
-.balance
-
-# Phần thưởng hàng ngày
-.daily
-
-# Menu trợ giúp (xem theo danh mục)
-.help
-
-# Xem tất cả lệnh
-.help all
-
-# Tìm lệnh cụ thể
-.help <tên lệnh>
-```
-
-### Lệnh Admin
-```bash
-# Thêm VIP cho người dùng
-.setvip add [uid] [days]
-
-# Xóa VIP
-.setvip remove [uid]
-
-# Kiểm tra trạng thái VIP
-.setvip check [uid]
-```
-
-### Lệnh Game
-```bash
-# Bắt đầu câu cá
-.fish
-
-# Đi đào mỏ
-.mine
-
-# Chơi casino
-.casino
-
-# Mở gacha
-.gacha
-```
-
-## Lệnh
-
-### Lệnh Kinh tế
-| Lệnh | Mô tả | Cách dùng |
-|------|-------|-----------|
-| `.balance` | Kiểm tra số dư | `.balance` |
-| `.daily` | Nhận phần thưởng hàng ngày | `.daily` |
-| `.work` | Làm việc kiếm tiền | `.work` |
-| `.pay` | Chuyển tiền | `.pay [uid] [số tiền]` |
-| `.banking` | Hệ thống ngân hàng | `.banking` |
-| `.loan` | Vay tiền | `.loan` |
-| `.trade` | Giao dịch chứng khoán | `.trade` |
-| `.tip` | Tip người khác | `.tip [uid] [số tiền]` |
-| `.stolen` | Cướp tiền (rủi ro) | `.stolen [uid]` |
-
-### Lệnh Game
-| Lệnh | Mô tả | Cách dùng |
-|------|-------|-----------|
-| `.fish` | Đi câu cá | `.fish` |
-| `.mine` | Đào mỏ BTC | `.mine` |
-| `.baucua` | Chơi Bầu Cua | `.baucua` |
-| `.xoano` | Chơi Xổ Số | `.xoano` |
-| `.chanle` | Chơi Chẵn Lẻ | `.chanle` |
-| `.spin` | Quay số may mắn | `.spin` |
-| `.gacha` | Mở gacha | `.gacha` |
-| `.pokemon` | Hệ thống Pokemon | `.pokemon` |
-| `.guess` | Đoán số | `.guess` |
-| `.chess` | Cờ vua | `.chess` |
-
-### Lệnh Admin
-| Lệnh | Mô tả | Cách dùng |
-|------|-------|-----------|
-| `.setvip` | Quản lý người dùng VIP | `.setvip add/remove/check` |
-| `.kick` | Kick người dùng khỏi nhóm | `.kick [uid]` |
-| `.ban` | Cấm người dùng | `.ban [uid]` |
-| `.warn` | Cảnh cáo người dùng | `.warn [uid]` |
-
-## Tài liệu API
-
-### Cấu trúc Lệnh
-```javascript
-module.exports = {
-    name: "tên_lệnh",
-    info: "Mô tả lệnh",
-    dev: "Tên nhà phát triển",
-    category: "Danh mục",
-    usages: ["Cách dùng 1", "Cách dùng 2"],
-    cooldowns: 5,
-    onPrefix: true,
-    
-    onLaunch: async function ({ api, event, target, actions }) {
-        // target = ["lệnh", "arg1", "arg2"]
-        const { threadID, messageID, senderID } = event;
-        const prefix = global.cc.prefix;
-        // ...
-    }
-};
-```
-
-### Tham số Sự kiện
-```javascript
-{
-    api: Đối tượng Facebook API,
-    event: {
-        threadID: "ID Nhóm/Trang",
-        senderID: "ID Người dùng",
-        messageID: "ID Tin nhắn",
-        messageReply: "Dữ liệu reply nếu có"
-    },
-    target: ["lệnh", "tham số1", "tham số2"],
-    actions: {
-        reply: "Hàm reply",
-        react: "Hàm react",
-        edit: "Hàm edit"
-    }
-}
-```
-
-### Global Objects
-```javascript
-// Bot config
-global.cc.prefix        // Tiền tố lệnh
-global.cc.adminBot      // Danh sách admin UID
-global.cc.developer     // Tên developer
-global.cc.botName       // Tên bot
-
-// Load/Reload lệnh
-global.cc.reloadCommand("commandName");
-```
-
-## Đóng góp
-
-1. Fork repository
-2. Tạo nhánh tính năng (`git checkout -b feature/TínhNăngMới`)
-3. Commit thay đổi (`git commit -m 'Thêm tính năng mới'`)
-4. Push lên nhánh (`git push origin feature/TínhNăngMới`)
-5. Mở Pull Request
-
-### Quy tắc Code
-- Sử dụng tên biến có ý nghĩa
-- Thêm comment cho logic phức tạp
-- Tuân theo cấu trúc code hiện có
-- Kiểm tra kỹ lưỡng các thay đổi
+- Chạy bot: `npm start`
+- Xem lệnh: prefix + `help` (ví dụ `.help`, `.help all`)
 
 ## Giấy phép
 
-Dự án này được cấp phép theo MIT License - xem file [LICENSE](LICENSE) để biết chi tiết.
+MIT — xem [LICENSE](LICENSE).
 
 ---
 
-## 📞 Hỗ trợ / Support
+## Hỗ trợ
 
-- **Facebook**: [Follow us on Facebook](https://www.facebook.com/amfinethankiu.and.u)
-- **Email**: kenjiakira2006@gmail.com
+- **Facebook:** [Kenji Akira](https://www.facebook.com/amfinethankiu.and.u)
+- **Email:** kenjiakira2006@gmail.com
 
-## 🙏 Cảm ơn / Acknowledgments
+## Cảm ơn
 
-- **Kaguya Teams** - Nguồn cảm hứng ban đầu
-- **Cộng đồng Chatbot** - Hỗ trợ và đóng góp
-- **Tất cả người dùng** - Phản hồi và đề xuất
+- Cộng đồng chatbot và các thư viện FCA / Messenger tương ứng.
 
 ---
 
-**Được phát triển bởi Kenji Akira**  
-**Developed by Kenji Akira**
+**Phát triển bởi Kenji Akira**
